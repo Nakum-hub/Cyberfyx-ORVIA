@@ -10,7 +10,7 @@ The approved master is document revision 1.3, SHA-256 `527daa1d6a2a7564a61d0375e
 
 `git ls-tree -r --name-only HEAD` lists exactly seven files: `AGENTS.md`, `README.md`, `README_START_HERE.md`, and prototype `ACCEPTANCE.md`, `CONTRACT.md`, `EXECUTION_PLAN.md`, `FILE_OWNERSHIP.md`. No source code, manifest, lockfile, executable contract, test suite, CI, A00 inventory or A00 handoff is present. The initial isolated Work checkout is clean. The six substantive governing files match the supplied execution kit byte for byte.
 
-GitHub's initial read reports a public repository, default branch `main`, user push permission, no open PRs, one branch with `protected: false`, and no active repository/inherited rulesets in the returned ruleset list. The subsequent publication write was denied by GitHub with HTTP 403 `Resource not accessible by integration`; user permission did not establish the connector's ability to write. No remote branch or PR was created. These are access/control observations, not security certification. Keep human merge control. Work does not alter repository settings or merge this branch.
+GitHub's initial read reports a public repository, default branch `main`, user push permission, no open PRs, one branch with `protected: false`, and no active repository/inherited rulesets in the returned ruleset list. The subsequent publication write was denied by GitHub with HTTP 403 `Resource not accessible by integration`; user permission did not establish the connector's ability to write. No remote branch or PR was created in that failed attempt. The authorised retry subsequently published the matching tree and draft PR #1; F06 is resolved for publication. These are access/control observations, not security certification. Keep human merge control. Work does not alter repository settings or merge this branch.
 
 ## Scope and critical path
 
@@ -42,7 +42,7 @@ Freeze examples for authenticated idempotent replay after a higher epoch, confli
 
 ## Findings and owner handoffs
 
-All findings below reference the inspected base above unless explicitly labelled as a supplied-kit observation. They are missing evidence or contract ambiguities, not executed runtime defects. Each remains open until its stated retest is reviewed.
+All findings below reference the inspected base above unless explicitly labelled as a supplied-kit observation. They are missing evidence or contract ambiguities, not executed runtime defects. F01–F05 remain open until their stated retests are reviewed. F06 is resolved by the publication retry recorded below.
 
 ### W00-F01 — High — incomplete source/bootstrap evidence
 
@@ -84,13 +84,15 @@ All findings below reference the inspected base above unless explicitly labelled
 - **Owner/correction:** human supplies timing/target facts; Codex records executable preflight. Continue dependency-ready inventory meanwhile; no spend, provisioning or secret request is implied.
 - **Retest:** inspect factual handoff and actual preflight logs, then reassess remaining gate capacity without removing P0 gates.
 
-### W00-F06 — Medium — GitHub publication blocked
+### W00-F06 — Medium — GitHub publication blocked — RESOLVED
 
 - **Task/file:** W00 publication of the nine owned additions on `prototype/work/W00-bootstrap-review`; GitHub Git tree creation for `Nakum-hub/Cyberfyx-ORVIA`.
 - **Reproduction/evidence:** the selected GitHub connector's create-tree request returned HTTP 403 `Resource not accessible by integration`. The attempted tree and exact error are retained in `W00_EVIDENCE.json`. Read access and the repository's user push flag do not demonstrate integration write permission. No credential helper, Git authentication configuration, askpass, SSH agent or GitHub CLI was configured for an alternate authenticated push; credentials were not extracted.
 - **Expected:** the authorised Work checkpoint can be published to its own branch and draft PR, with remote SHA and changed paths verified. Human owns access, permissions and merging.
 - **Owner/correction:** human checks/authorises repository Contents write and Pull requests write for the selected GitHub connection, or applies the prepared commit patch using existing authorised repository access. No token or private key is requested in chat and no access control is bypassed.
 - **Retest:** after access is corrected, publish the reviewed tree, verify remote branch commit/tree and PR target/diff, and keep `main` unchanged until human approval. This is a publication blocker, not an observed application defect.
+
+**Resolution / retest:** GitHub accepted tree `4f0afd9ee19f8c69dd37d8f449334937fcba45fb`, identical to reviewed local checkpoint `43d9590d26ec7e825a67ebdb1a76aea3b306ed05`. Published checkpoint `ebaea86cae793d04808a1fc983e1adc31b1bbe06` was submitted on the intended Work branch in [PR #1](https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/1). The owner `Nakum-hub` subsequently merged it at `2026-09-16T08:21:24Z` into `d2f49fe3ebde2e7e946239329fc14c802d10a3b3`. Work did not merge it; later publication metadata is a separate proposal. Remote branch SHA and all nine changed paths were checked. `W00_EVIDENCE.json` retains the failed attempt and the successful retry separately. This closes the publication blocker only.
 
 ## Four Work stages and execution boundary
 
@@ -105,4 +107,4 @@ W01 will review real tenant/environment/principal authority, MFA/roles/version a
 
 The restored canonical ledger retains all 34 tests NOT_RUN and no application evidence. Prototype IDs are distinct from similarly numbered master tests. Internal-demo readiness is NOT_READY; production security/legal/release readiness is NOT_ASSESSED.
 
-Next dependency-ready ticket: **Codex A00**, with **Cowork C00** independent. Human may review/integrate this Work checkpoint; that alone does not accept W00/A00 or permit B00/W01 to start. See [the factual handoff](../../../handoffs/work/W00-96b8bd7.md).
+Next dependency-ready ticket: **Codex A00**, with **Cowork C00** independent. The human integrated the initial Work checkpoint via PR #1; that alone does not accept W00/A00 or permit B00/W01 to start. See [the factual handoff](../../../handoffs/work/W00-96b8bd7.md).
