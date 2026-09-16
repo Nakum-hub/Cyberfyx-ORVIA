@@ -5,6 +5,23 @@
 
 The A01 review below is retained as the historical 0.2.1 checkpoint. Its pending-A02 and next-start wording is superseded by the linked A02 review of contract 0.3.0. A03 continuation is reported, not accepted; no full acceptance result has been promoted.
 
+## Advance Work completion checkpoint — 2026-09-16
+
+The human requested completion of Work's W01–W03 preparation while Codex continues A03–A07, followed by one consolidated implementation review. The available W01 source/evidence review and the closure instructions below are complete. **W01 acceptance remains BLOCKED** until A02 is corrected and retested. Preparation does not change the dependency graph, authorize integration or promote a test result. See [the delivery record](W01_W03_PREPARATION.json), [consolidated intake](WORK_REVIEW_QUEUE.md), [W02](INTEGRATION_AND_SECURITY.md) and [W03](FINAL_GATE_REPORT.md).
+
+| W01 closure check | Current evidence / exact remaining check | Owner / retest |
+|---|---|---|
+| Server authority and isolation (T03–T05) | A01 accepted at `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`; its 87 producer assertions and Work subset checks are retained below. Recheck changed authority paths on the corrected candidate; extend jobs/export/machine scope with W02 rather than claiming A01 exercised absent endpoints. | Codex A02/A06; Claude Code B01/B02 for browser binding; Work reviews exact artifacts. |
+| Exact, distinct publication approval (T05–T06) | A02 binds reviewer, session, policy/version/digest and one-use proof. **MEDIUM W01-A02-F01 is OPEN**: current expiry must be enforced at consumption after relevant lock waits. | Codex A02; actual HTTP/PostgreSQL fresh, expired, lock-wait expiry, one-use and wrong-binding controls. |
+| Own affirmative grant and withdrawal (T07–T08) | Review of scoped interaction/notice checks and atomic state/event/outbox/receipt is complete at `a5b6ff7`. A source review cannot establish rollback or runtime freshness. Withdrawal must not require accepting a replacement notice. | Codex A02; inject pre-commit failure, verify no accepted response/effect; refresh after successful commit; repeat cross-principal denials. |
+| Replay, ordering and late waits (T08–T10) | Preserve authorized identical replay of the original committed response before new-operation freshness checks. New requests that expire during aggregate/interaction locks or a later publication wait must have no committed business effects. | Codex A02; F01 regression, concurrent epochs, key conflict, new interaction and later-generation controls. A03/A06 cover stale target execution in W02. |
+| Receipt truth and API/UI binding (T04, T08–T09) | Immutable POST receipt must remain distinct from GET current consent/propagation; ACCEPTED is not target completion. Generated 0.3.0 interfaces and the four A02 additions are candidates, not approved fixes. | Codex supplies versioned schema/diff and UI handoff; Claude Code consumes shared clients and verifies ambiguous sessions, expired interaction, stale epoch, safe retry and refresh behavior. |
+| Evidence and decision | Existing A01/A02 reports retain exact source or dirty-snapshot identity, failures and limits. Require the corrected implementation SHA, human integration SHA, generated-contract report, raw F01 test results and applicable regression evidence. | Work checks source/artifact hashes, records each finding's retest outcome, accepts or returns a bounded correction. Human merges. |
+
+The full severity, task/files, reproduction, expected behavior, owner and retest for F01 remain in [W01_A02_REVIEW.md](W01_A02_REVIEW.md) and [W01_A02_EVIDENCE.json](W01_A02_EVIDENCE.json). The SQL control remains NOT_RUN. There is no additional A01 repair request and no new defect inferred from later code that has not arrived. All T01–T34 full scenarios remain NOT_RUN.
+
+Close W01 only after A02 acceptance and an explicit F01 retest decision; then review A03 and proceed through W02 in dependency order within the consolidated submission. The [W01 preparation handoff](../../../handoffs/work/W01-preparation-a5b6ff7.md) records this deliverable separately from ticket acceptance.
+
 ## Decision and exact candidate
 
 Work accepts the bounded A01 authentication/bootstrap/scoped-persistence increment at `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`. No blocking A01 defect was found in this review. There is no A01 repair request. A02 is the next Codex ticket after the human integrates this review record. This decision does not complete W01, the full application acceptance scenarios, internal-demo readiness or the master's production security/legal gates.

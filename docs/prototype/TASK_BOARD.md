@@ -1,6 +1,6 @@
 # Task board — generated from tracking/tasks.json
 
-Status counts: BLOCKED: 3; COMPLETED: 3; NOT_STARTED: 17.
+Status counts: BLOCKED: 5; COMPLETED: 3; NOT_STARTED: 15.
 
 | ID | Owner | Priority | Status | Task | Start after | Accept after | Tests |
 |---|---|---|---|---|---|---|---|
@@ -20,13 +20,13 @@ Status counts: BLOCKED: 3; COMPLETED: 3; NOT_STARTED: 17.
 | C01 | cowork | P0 | NOT_STARTED | Capability truthfulness and operator runbook | C00 | A00, B00 | Review deliverable |
 | A06 | codex | P0 | NOT_STARTED | Regression runner, recovery and security checks | A04, A05 | Own evidence | T03, T08, T09, T10, T11, T12, T14, T15, T16, T17, T18, T19, T20, T22, T23, T24, T25, T26, T27, T28 |
 | B04 | code | P0 | NOT_STARTED | Test Lab and integrated browser acceptance | B03 | A04, A05, A06 | T14, T23, T24, T26, T27, T29 |
-| W02 | work | P0 | NOT_STARTED | Cross-system correctness and security review | W01, A03 | A04, A05, A06, B04 | T11, T12, T14, T17, T18, T20, T24, T25, T26 |
+| W02 | work | P0 | BLOCKED | Cross-system correctness and security review | W01, A03 | A04, A05, A06, B04 | T11, T12, T14, T17, T18, T20, T24, T25, T26 |
 | A08 | codex | P1 | NOT_STARTED | One explicitly promoted optional backend slice | A06 | W02 | T31, T32, T33, T34 |
 | B05 | code | P1 | NOT_STARTED | UI for the selected optional slice | B04 | A08 | T31, T32, T33, T34 |
 | A07 | codex | P0 | NOT_STARTED | Package and rerun frozen candidate | A06 | W02 | T01, T28, T30 |
 | B06 | code | P0 | NOT_STARTED | Final UI fixes and candidate browser regression | B04 | A07 | T29, T30 |
 | C02 | cowork | P0 | NOT_STARTED | Prepare evidence-backed presentation handover | C01 | A07, B06 | T30 |
-| W03 | work | P0 | NOT_STARTED | Final acceptance decision and state consolidation | W02 | A07, B06, C02 | T30 |
+| W03 | work | P0 | BLOCKED | Final acceptance decision and state consolidation | W02 | A07, B06, C02 | T30 |
 
 ## W00 — Adopt scope and review bootstrap proposal
 
@@ -114,9 +114,9 @@ Own choices/notice/history and grant/withdraw receipt with real persisted status
 
 Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.
 
-**Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`; `docs/reviews/work/W01_A01_CODEX_NEXT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A01-50cb4da/**`; `docs/reviews/work/repro/W01-A01-source-audit.py`; `handoffs/work/W01-A01-50cb4da.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`; `docs/prototype/CONTRACT.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_CODEX_FIX.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A02-a5b6ff7/**`; `docs/reviews/work/repro/W01-A02-source-audit.py`; `docs/reviews/work/repro/W01-A02-F01-expiry.sql`; `handoffs/work/W01-A02-a5b6ff7.md`
+**Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`; `docs/reviews/work/W01_A01_CODEX_NEXT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A01-50cb4da/**`; `docs/reviews/work/repro/W01-A01-source-audit.py`; `handoffs/work/W01-A01-50cb4da.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`; `docs/prototype/CONTRACT.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_CODEX_FIX.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A02-a5b6ff7/**`; `docs/reviews/work/repro/W01-A02-source-audit.py`; `docs/reviews/work/repro/W01-A02-F01-expiry.sql`; `handoffs/work/W01-A02-a5b6ff7.md`; `handoffs/work/W01-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `docs/reviews/work/WORK_REVIEW_QUEUE.md`; `docs/reviews/work/repro/W01-W03-document-check.py`; `docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**`
 
-**Evidence:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`
+**Evidence:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`; `handoffs/work/W01-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`
 
 ## A03 — Durable workflow and restricted CRM execution
 
@@ -190,13 +190,13 @@ Run actual allowed scenarios and display assertions; exercise complete UI and ne
 
 ## W02 — Cross-system correctness and security review
 
-**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** BLOCKED · **Accepted commit:** None recorded
 
 Read exact commit/results, challenge unknown/verified/recovery/egress claims, triage blockers and route fixes to owners.
 
-**Planned files:** `docs/reviews/work/INTEGRATION_AND_SECURITY.md`; `CURRENT_STATE.md`
+**Planned files:** `docs/reviews/work/INTEGRATION_AND_SECURITY.md`; `CURRENT_STATE.md`; `handoffs/work/W02-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `docs/reviews/work/WORK_REVIEW_QUEUE.md`; `docs/reviews/work/repro/W01-W03-document-check.py`; `docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`
 
-**Evidence:** None recorded
+**Evidence:** `docs/reviews/work/INTEGRATION_AND_SECURITY.md`; `handoffs/work/W02-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`
 
 ## A08 — One explicitly promoted optional backend slice
 
@@ -250,10 +250,10 @@ Assemble actual test/result links, limitations and recording index; optional web
 
 ## W03 — Final acceptance decision and state consolidation
 
-**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** BLOCKED · **Accepted commit:** None recorded
 
 Confirm exact candidate, all mandatory evidence, source/contract versions and limitations; recommend READY/PARTIAL/NOT_READY; human signs.
 
-**Planned files:** `docs/reviews/work/FINAL_GATE_REPORT.md`; `CURRENT_STATE.md`
+**Planned files:** `docs/reviews/work/FINAL_GATE_REPORT.md`; `CURRENT_STATE.md`; `handoffs/work/W03-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `docs/reviews/work/WORK_REVIEW_QUEUE.md`; `docs/reviews/work/repro/W01-W03-document-check.py`; `docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`
 
-**Evidence:** None recorded
+**Evidence:** `docs/reviews/work/FINAL_GATE_REPORT.md`; `handoffs/work/W03-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`
