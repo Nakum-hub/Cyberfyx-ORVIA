@@ -30,19 +30,26 @@ export async function changeConsent(c: Context, purposeId: string, kind: 'grant'
   await c.tx.query(`INSERT INTO app.consent_aggregates(tenant_id,legal_entity_id,environment_id,principal_id,purpose_id) VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING`,[...scope,c.actor.principal_id,purposeId]);
   const aggregate=requireOne((await c.tx.query(`SELECT * FROM app.consent_aggregates WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5 FOR UPDATE`,[...scope,c.actor.principal_id,purposeId])).rows);
   if(Number(aggregate.epoch)!==value.expected_epoch)throw new AccessError(409,'EPOCH_CONFLICT');
-  const interaction=(await c.tx.query(`SELECT * FROM app.consent_interactions WHERE ${predicate} AND id=$4 AND principal_id=$5 AND purpose_id=$6 AND actor_id=$7 AND used_at IS NULL AND expires_at>now() FOR UPDATE`,[...scope,value.interaction_id,c.actor.principal_id,purposeId,c.actor.actor_id])).rows[0];
+  const interaction=(await c.tx.query(`SELECT * FROM app.consent_interactions WHERE ${predicate} AND id=$4 AND principal_id=$5 AND purpose_id=$6 AND actor_id=$7 AND used_at IS NULL FOR UPDATE`,[...scope,value.interaction_id,c.actor.principal_id,purposeId,c.actor.actor_id])).rows[0];
   if(!interaction||Number(interaction.expected_epoch)!==value.expected_epoch)throw new AccessError(409,'EPOCH_CONFLICT');
   // Coordinate with publication without granting a principal UPDATE authority on
   // policy rows (PostgreSQL row-locking reads also require UPDATE RLS access).
   await c.tx.query('SELECT pg_advisory_xact_lock_shared(hashtextextended($1,0))',[JSON.stringify([...scope,'publication',purposeId])]);
   const policy=requireOne((await c.tx.query(`SELECT version_id,notice_version_id FROM app.policy_versions WHERE ${predicate} AND purpose_id=$4 AND status='PUBLISHED'`,[...scope,purposeId])).rows);
   if(kind==='grant'&&('notice_version_id' in value)&&(value.notice_version_id!==policy.notice_version_id||value.notice_version_id!==interaction.notice_version_id))throw new AccessError(409,'EPOCH_CONFLICT');
+  // The aggregate, interaction and shared publication locks are now held. This
+  // guarded, single-use update is the freshness boundary, before business writes.
+  // The outer authorized idempotency replay returns before reaching this path.
+  const consumed=await c.tx.query(`WITH consumption AS MATERIALIZED (SELECT clock_timestamp() AS at)
+    UPDATE app.consent_interactions SET used_at=consumption.at FROM consumption
+    WHERE ${predicate} AND id=$4 AND principal_id=$5 AND purpose_id=$6 AND actor_id=$7
+    AND expected_epoch=$8 AND used_at IS NULL AND expires_at>consumption.at RETURNING used_at`,[...scope,value.interaction_id,c.actor.principal_id,purposeId,c.actor.actor_id,value.expected_epoch]);
+  if(consumed.rowCount!==1)throw new AccessError(409,'EPOCH_CONFLICT');
   const epoch=Number(aggregate.epoch)+1;const state=kind==='grant'?'GRANTED':'WITHDRAWN';
   const eventId=randomUUID();const receiptId=randomUUID();const workflowId=kind==='withdraw'?randomUUID():null;
-  const acceptedAt=new Date().toISOString();const noticeVersion=kind==='grant'?policy.notice_version_id:aggregate.notice_version_id;
+  const acceptedAt=consumed.rows[0].used_at.toISOString();const noticeVersion=kind==='grant'?policy.notice_version_id:aggregate.notice_version_id;
   const receipt=S.Receipt.parse({receipt_id:receiptId,event_id:eventId,purpose_id:purposeId,consent_status:state,consent_epoch:epoch,accepted_at:acceptedAt,workflow_id:workflowId,propagation_status:workflowId?'ACCEPTED':'NOT_REQUIRED'});
   await c.tx.query(`UPDATE app.consent_aggregates SET epoch=$6,state=$7,notice_version_id=$8,updated_at=$9 WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5`,[...scope,c.actor.principal_id,purposeId,epoch,state,noticeVersion,acceptedAt]);
-  await c.tx.query(`UPDATE app.consent_interactions SET used_at=now() WHERE ${predicate} AND id=$4`,[...scope,value.interaction_id]);
   await c.tx.query('INSERT INTO app.consent_events VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)',[...scope,eventId,c.actor.principal_id,purposeId,c.actor.actor_id,epoch,state,value.interaction_id,noticeVersion,policy.version_id,receiptId,receipt,acceptedAt]);
   if(workflowId) {
     await c.tx.query(`INSERT INTO app.workflows VALUES($1,$2,$3,$4,$5,$6,$7,'ACCEPTED',$8,$8)`,[...scope,workflowId,eventId,c.actor.principal_id,purposeId,acceptedAt]);

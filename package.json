@@ -14,6 +14,7 @@
     "test:f07": "node handoffs/codex/repro/W00-F07/provider-receipt.mjs",
     "test:auth": "tsx tests/security/auth.test.ts",
     "test:consent": "tsx tests/integration/consent/consent.test.ts",
+    "test:expiry": "tsx tests/integration/consent/expiry.test.ts",
     "test:workflows": "tsx tests/integration/workflows/workflow.test.ts",
     "machine:init": "tsx scripts/machine-init.ts",
     "worker": "tsx apps/worker/src/main.ts",
