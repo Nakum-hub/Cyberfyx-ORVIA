@@ -60,7 +60,16 @@ export async function publishPolicy(c: Context, id: string, input: unknown, sess
   const value=S.PolicyPublish.parse(input);const row=await publicationCandidate(c,id,value);const scope=scopeValues(c.actor);
   // Serialize publication for this purpose, including concurrent distinct drafts.
   await c.tx.query(`SELECT id FROM app.purpose_versions WHERE ${predicate} AND id=$4 FOR UPDATE`,[...scope,row.purpose_id]);
-  const proof=await c.tx.query(`UPDATE app.publication_proofs SET used_at=now() WHERE ${predicate} AND id=$4 AND actor_id=$5 AND session_id=$6 AND policy_id=$7 AND version_id=$8 AND digest=$9 AND used_at IS NULL AND expires_at>now() RETURNING id`,[...scope,value.reauthentication_id,c.actor.actor_id,sessionId,id,value.version_id,value.digest]);
+  await c.tx.query(`SELECT id FROM app.policy_versions WHERE ${predicate} AND purpose_id=$4 AND status='PUBLISHED' FOR UPDATE`,[...scope,row.purpose_id]);
+  await c.tx.query(`SELECT id FROM app.notice_versions WHERE ${predicate} AND version_id=$4 FOR UPDATE`,[...scope,row.notice_version_id]);
+  const binding=[...scope,value.reauthentication_id,c.actor.actor_id,sessionId,id,value.version_id,value.digest];
+  // Lock first, then consume with one advancing database-clock reading. Neither
+  // transaction time nor a predicate evaluated before a row-lock wait is fresh.
+  await c.tx.query(`SELECT id FROM app.publication_proofs WHERE ${predicate} AND id=$4 AND actor_id=$5 AND session_id=$6 AND policy_id=$7 AND version_id=$8 AND digest=$9 FOR UPDATE`,binding);
+  const proof=await c.tx.query(`WITH consumption AS MATERIALIZED (SELECT clock_timestamp() AS at)
+    UPDATE app.publication_proofs SET used_at=consumption.at FROM consumption
+    WHERE ${predicate} AND id=$4 AND actor_id=$5 AND session_id=$6 AND policy_id=$7 AND version_id=$8 AND digest=$9
+    AND used_at IS NULL AND expires_at>consumption.at RETURNING id`,binding);
   if(proof.rowCount!==1)throw new AccessError(403,'FORBIDDEN');
   await c.tx.query('INSERT INTO app.policy_approvals VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,now())',[...scope,randomUUID(),value.version_id,row.author_id,c.actor.actor_id,value.digest,value.reauthentication_id]);
   await c.tx.query(`UPDATE app.policy_versions SET status='SUPERSEDED' WHERE ${predicate} AND purpose_id=$4 AND status='PUBLISHED'`,[...scope,row.purpose_id]);
