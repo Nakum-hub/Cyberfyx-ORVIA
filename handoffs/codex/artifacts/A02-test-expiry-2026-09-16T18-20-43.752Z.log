@@ -1,0 +1,87 @@
+$ tsx tests/integration/consent/expiry.test.ts "--observe-original"
+PASS publication/fresh: HTTP status
+PASS publication: committed replay after expiry status
+PASS publication: committed replay response
+PASS publication: replay preserves business rows
+PASS publication: replay still requires authentication
+PASS publication/expired: HTTP status
+PASS publication/expired: proof remains unused
+PASS publication/expired: all business rows unchanged
+PASS publication/expired: no approval or success idempotency
+PASS publication/expired: policy remains draft
+PASS publication/publication: actual transaction and wait began before expiry
+FAIL publication/publication: HTTP status
+FAIL publication/publication: proof remains unused
+FAIL publication/publication: all business rows unchanged
+FAIL publication/publication: no approval or success idempotency
+FAIL publication/publication: policy remains draft
+PASS publication/purpose: actual transaction and wait began before expiry
+FAIL publication/purpose: HTTP status
+FAIL publication/purpose: proof remains unused
+FAIL publication/purpose: all business rows unchanged
+FAIL publication/purpose: no approval or success idempotency
+FAIL publication/purpose: policy remains draft
+PASS publication/policy: actual transaction and wait began before expiry
+FAIL publication/policy: HTTP status
+FAIL publication/policy: proof remains unused
+FAIL publication/policy: all business rows unchanged
+FAIL publication/policy: no approval or success idempotency
+FAIL publication/policy: policy remains draft
+PASS publication/proof: actual transaction and wait began before expiry
+FAIL publication/proof: HTTP status
+FAIL publication/proof: proof remains unused
+FAIL publication/proof: all business rows unchanged
+FAIL publication/proof: no approval or success idempotency
+FAIL publication/proof: policy remains draft
+PASS publication/idempotency: actual transaction and wait began before expiry
+FAIL publication/idempotency: HTTP status
+FAIL publication/idempotency: proof remains unused
+FAIL publication/idempotency: all business rows unchanged
+FAIL publication/idempotency: no approval or success idempotency
+FAIL publication/idempotency: policy remains draft
+PASS grant/fresh: HTTP status
+PASS grant: committed replay after expiry status
+PASS grant: committed replay response
+PASS grant: replay preserves business rows
+PASS grant: new key cannot reuse consumed interaction
+PASS grant/expired: HTTP status
+PASS grant/expired: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS grant/consent-boundary: actual transaction and wait began before expiry
+FAIL grant/consent-boundary: HTTP status
+FAIL grant/consent-boundary: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS grant/aggregate: actual transaction and wait began before expiry
+FAIL grant/aggregate: HTTP status
+FAIL grant/aggregate: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS grant/interaction: actual transaction and wait began before expiry
+FAIL grant/interaction: HTTP status
+FAIL grant/interaction: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS grant/publication: actual transaction and wait began before expiry
+FAIL grant/publication: HTTP status
+FAIL grant/publication: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS grant/idempotency: actual transaction and wait began before expiry
+FAIL grant/idempotency: HTTP status
+FAIL grant/idempotency: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS withdraw/fresh: HTTP status
+PASS withdraw: committed replay after expiry status
+PASS withdraw: committed replay response
+PASS withdraw: replay preserves business rows
+PASS withdraw: new key cannot reuse consumed interaction
+PASS withdraw/expired: HTTP status
+PASS withdraw/expired: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS withdraw/consent-boundary: actual transaction and wait began before expiry
+FAIL withdraw/consent-boundary: HTTP status
+FAIL withdraw/consent-boundary: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS withdraw/aggregate: actual transaction and wait began before expiry
+FAIL withdraw/aggregate: HTTP status
+FAIL withdraw/aggregate: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS withdraw/interaction: actual transaction and wait began before expiry
+FAIL withdraw/interaction: HTTP status
+FAIL withdraw/interaction: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS withdraw/publication: actual transaction and wait began before expiry
+FAIL withdraw/publication: HTTP status
+FAIL withdraw/publication: aggregate interaction event receipt workflow outbox idempotency unchanged
+PASS withdraw/idempotency: actual transaction and wait began before expiry
+FAIL withdraw/idempotency: HTTP status
+FAIL withdraw/idempotency: aggregate interaction event receipt workflow outbox idempotency unchanged
+Artifact: handoffs/codex/artifacts/A02-expiry-integration-1789582903161-930474c2-a63c-480c-8156-a59de6b65e74.json
+[ELIFECYCLE] Command failed with exit code 1.

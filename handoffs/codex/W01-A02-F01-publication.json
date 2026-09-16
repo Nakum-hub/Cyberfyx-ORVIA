@@ -1,0 +1,382 @@
+{
+  "finding": "W01-A02-F01",
+  "base_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+  "implementation_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+  "review_source_commit": "3ce16c508ab4cfec520a04d0959e1365830e2cd5",
+  "implementation_files": [
+    "docs/engineering/A02-CONTRACT-CHANGE.md",
+    "handoffs/codex/W01-A02-F01-start.md",
+    "package.json",
+    "packages/domain/src/configuration.ts",
+    "packages/domain/src/consent.ts",
+    "scripts/record.mjs",
+    "tests/integration/consent/expiry.test.ts"
+  ],
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "contract_version": "0.3.0",
+  "profile": "codex-a00",
+  "fixture_id": "aster-birch-v1",
+  "build_id": "88ch0tZ8JQbVMFO6fT4PX",
+  "exact_source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+  "original": {
+    "runtime_base": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+    "assertions_passed": 39,
+    "assertions_failed": 45,
+    "confirmed_lock_waits": 15,
+    "interpretation": "Executed regression detection on original runtime, not an ordinary passing suite. Work had source-reviewed only."
+  },
+  "corrected": {
+    "expiry_assertions": 87,
+    "confirmed_lock_waits": 15,
+    "consent_assertions": 49,
+    "auth_assertions": 87,
+    "unit_tests": 11,
+    "acceptance": "PENDING_WORK_REVIEW"
+  },
+  "preserved_A04_stash": "d2e91110b767ce8be9978e0c72b4446933c92395",
+  "commands": [
+    {
+      "artifact": "handoffs/codex/artifacts/A02-build-2026-09-16T18-19-24.241Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "21f44463060e8a029897b75417de24894fc084c4c7f13b502843a17f051d0a63",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-build-2026-09-16T18-24-18.817Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T18-24-41.110Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T18-28-05.400Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-install-2026-09-16T18-18-42.525Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "cf702353d5d0a5036c1d1dbc90bba0edfa9b8aff8d8de3afb87ae44d2ad59d66",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-lint-2026-09-16T18-22-53.141Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "f771678ac60c29bbc88415ecc1469d5f1334ad65446a9262b010550d42bf78e8",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-lint-2026-09-16T18-26-05.471Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-test-2026-09-16T18-24-41.454Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T18-27-33.843Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T18-26-49.938Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:consent"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-test-expiry-2026-09-16T18-20-43.752Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:expiry",
+        "--observe-original"
+      ],
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "21f44463060e8a029897b75417de24894fc084c4c7f13b502843a17f051d0a63",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-test-expiry-2026-09-16T18-25-01.960Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:expiry"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-18-23.593Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "cf702353d5d0a5036c1d1dbc90bba0edfa9b8aff8d8de3afb87ae44d2ad59d66",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-19-34.794Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "21f44463060e8a029897b75417de24894fc084c4c7f13b502843a17f051d0a63",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-25-13.300Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "2c85b3b4d16e09f83b41822500010022b371b72c",
+      "source_tree_sha256": "6550bda2abe9909e2e4a9c197df73a5f6f3a5f38bd829fd48ce25cb138477d74",
+      "dirty": false
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "handoffs/codex/artifacts/A02-auth-security-1789583270977-fd405078-e2e5-4849-8771-4b345a1412c7.json",
+      "sha256": "9b4decdfbc946d0385c7ced0b918950d0818d1fab576debc747336b77621f305"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T18-19-24.241Z.json",
+      "sha256": "af54333bb791ce8b7b0f7964cd3140dd4707b02da049f0932a7a9c24e7de794c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T18-19-24.241Z.log",
+      "sha256": "aaaa85b6f151496bdda714f7d55326ace9189e9bb1e8579f60e3e3d292f69e0f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T18-24-18.817Z.json",
+      "sha256": "bf7cdccd72fafccd30d4b5c26cb0f031e0a7578d14f758500e4dd2c43431d42c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T18-24-18.817Z.log",
+      "sha256": "10867074837e4c4e0a4d302aeb97408a4d79142c57a96c2840bf5e44096928ed"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-consent-integration-1789583235868-98fbbfd6-342a-4240-8bb6-3347ce27c3ea.json",
+      "sha256": "7e4993bfd655cabb8d9cc39b53bb2d8d9fffb590cce517f478fb985f40e1747c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T18-24-41.110Z.json",
+      "sha256": "8d70b64eca678e9e2c1cffdb414ec9489bf56348aef17a73bd3b6a2d873f7a62"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T18-24-41.110Z.log",
+      "sha256": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-expiry-integration-1789582903161-930474c2-a63c-480c-8156-a59de6b65e74.json",
+      "sha256": "55b88e840274ae092bcf7f3f23d96ebba8624a0b4d2657a73c3672ba920b7885"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-expiry-integration-1789583160207-e7457c5f-267b-4b68-9090-6c6742d4aaa8.json",
+      "sha256": "56b16b8ad39183a4c7e87e7c53e49e48b32e563fd6f69e80adc7c91e837f2b24"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T18-28-05.400Z.json",
+      "sha256": "1b149a75c47b4ad12df725ca78bd5bfbe3215906bd12a95edc31789b51cec9af"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T18-28-05.400Z.log",
+      "sha256": "62965c18465b7d84155967096445b620b0d4601cd956e3a0cf0cf53af21521f8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-install-2026-09-16T18-18-42.525Z.json",
+      "sha256": "a0fec30f2bef5f1f977c07f6920777f06b6c7ed51ce91f8b814f0eccf90fb91e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-install-2026-09-16T18-18-42.525Z.log",
+      "sha256": "2d8cf93af7c8b9ab11141312aa1adfb4ed1aaf9ee2d8b8a29464825391821bd5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T18-22-53.141Z.json",
+      "sha256": "205fe8d85391f6a880e51d2dab751c07a67f03d5c973aa15e39ee49accd7c154"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T18-22-53.141Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T18-26-05.471Z.json",
+      "sha256": "79f6661c37aff8f4a88598ea53ebcb313dc040938d4b3f7c0979eedc941e5bc5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T18-26-05.471Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-2026-09-16T18-24-41.454Z.json",
+      "sha256": "853ed5b97330fb6367146a79d029c9087b5db84e62c5b567810b03a99aa8e65c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-2026-09-16T18-24-41.454Z.log",
+      "sha256": "0546adf99c4a6c6793f09281fd01539b04e3b2b6137a01fa8b9621960f3085ce"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T18-27-33.843Z.json",
+      "sha256": "65857d71aed8b6e51cc56c7562dc76454b40154bd1f84332947aec095d2377f6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T18-27-33.843Z.log",
+      "sha256": "8dd3dd3445ede89477329ada77e686cfabe7e7ee9e395d7c0076c5920f319b90"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T18-26-49.938Z.json",
+      "sha256": "18a05bd62dfcd208d727ed422e9bc6f53f6e491615700adb3dda1eb13b3e1345"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T18-26-49.938Z.log",
+      "sha256": "8529e6a3aee348b171e5fbe7a50cc401d760e1b870109c6245305449a584427c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-expiry-2026-09-16T18-20-43.752Z.json",
+      "sha256": "1891317d2a4df94f3df85bc24dc62c7687fe39026574bca3063fb5a6457350b8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-expiry-2026-09-16T18-20-43.752Z.log",
+      "sha256": "387e139e00983d1a60d5149963a4a69cdcd37d29dea50240423d783db3e7a663"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-expiry-2026-09-16T18-25-01.960Z.json",
+      "sha256": "22d6be56e96d1a92170c497af341232ea052c33fcc6469ed20c1b615bb4aca37"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-expiry-2026-09-16T18-25-01.960Z.log",
+      "sha256": "5f5d2fabbf6b29581e49d699c359c0c1e7ff0cd3b55ff6cdbc91470d5f5eb2ea"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-18-23.593Z.json",
+      "sha256": "fa79b69724c1a990526d67ba9a250128814e0a65986e6fc67dce1621edbf0b7b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-18-23.593Z.log",
+      "sha256": "8629dc8dd252be276e396b3230d234c381aad60bd939118226e5b39509904ff3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-19-34.794Z.json",
+      "sha256": "4b55e58b27f94bae7e4fcd6b1eb28729f715e7ef243ea717a2f0b536e82dc80c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-19-34.794Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-25-13.300Z.json",
+      "sha256": "fb2792b6c0f96fa392415eb57defd1f62757adfe2c32177041a5352d67eee51e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T18-25-13.300Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    }
+  ],
+  "limitations": [
+    "The synthetic database retains already-applied A04 migration 0007; no migration rewrite/reset was performed. A04 runtime source was stashed throughout verification.",
+    "Existing A03 workflow source is preserved; this bounded correction did not rerun its Temporal workflow suite.",
+    "No browser, TLS, network egress, fresh-install, frozen-candidate or full-prototype acceptance claim.",
+    "Original run predates the build_id field added to the regression report; its original build command and exact source hashes are retained.",
+    "Git publication SHA and PR URL are recorded by the subsequent publication handoff."
+  ]
+}
