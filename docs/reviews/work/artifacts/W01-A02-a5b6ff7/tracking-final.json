@@ -1,0 +1,53 @@
+{
+  "task_id": "W01",
+  "kind": "WORK_TRACKING_CHECK",
+  "coverage": "DOCUMENT_ONLY",
+  "source_commit": "325f22439a2b1043df688e3b2c08df9ed96f0a78",
+  "equivalent_published_review_commit": "b3c582f86c78ca565562b95aa692a8b84f672770",
+  "source_dirty": true,
+  "reviewed_implementation_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+  "reviewed_integration_commit": "a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b",
+  "contract_version": "0.3.0",
+  "command": [
+    "/workspace/scratch/6107f9291043/w00-a00-review-tools/node_modules/node/bin/node",
+    "scripts/validate-tracking.ts"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a01-review",
+  "started_at": "2026-09-16T16:01:38.496014+00:00",
+  "finished_at": "2026-09-16T16:01:38.584183+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "artifact_path": "docs/reviews/work/artifacts/W01-A02-a5b6ff7/tracking-final.log",
+  "log_sha256": "8d99682ce48b3ea351884bed8b18a182d589e24d953b19ce455e4e768e5cc9f6",
+  "input_files": [
+    {
+      "path": "tracking/tasks.json",
+      "sha256": "df0d4f514d6723958235f0a0072fc362b8d8a9bff97a49e1179a3eba6b234334"
+    },
+    {
+      "path": "tracking/acceptance.json",
+      "sha256": "fb784e320f1e3664dafe2b73381d8f6a472954fdb6d1a6452c87fe52fdbeb663"
+    },
+    {
+      "path": "docs/prototype/TASK_BOARD.md",
+      "sha256": "d30abbf30de5144d1e9128295f2b94b8164ea67cf5d76058b0eed0aba1e207bc"
+    },
+    {
+      "path": "docs/prototype/ACCEPTANCE.md",
+      "sha256": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320"
+    },
+    {
+      "path": "CURRENT_STATE.md",
+      "sha256": "93a69d866fbdee467de6d27760073940b0bd3a0a9e1f579b02b5539181bd249e"
+    },
+    {
+      "path": "scripts/tracking.ts",
+      "sha256": "bbf82797d2a5f120540a4e9ee1cb8f3025660ad58b395867350e3d7f866e1430"
+    },
+    {
+      "path": "scripts/validate-tracking.ts",
+      "sha256": "b566d36482f7a658b8aabfcdb629df8867633ab74779b3b6f4a774c21858780a"
+    }
+  ],
+  "limitation": "Validation of listed modified Work ledger/views; not an application scenario or claim these contents existed at the reviewed implementation commit."
+}

@@ -1,0 +1,609 @@
+{
+  "kind": "SOURCE_PROVENANCE_AUDIT",
+  "coverage": "DOCUMENT_ONLY",
+  "result": "PASS",
+  "base_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+  "implementation_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+  "submission_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+  "integration_commit": "004fe3dc43e3a278caeb9c4e4983e7e58a825b9f",
+  "inspected_commit": "a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b",
+  "submission_tree_matches_integration": true,
+  "contract_version": "0.3.0",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "lockfile_unchanged": true,
+  "generated_artifacts_verified": 7,
+  "seed_matches": true,
+  "command_exit_counts": {
+    "0": 19,
+    "1": 3
+  },
+  "reports": [
+    {
+      "path": "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 139,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 139,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-31-26.001Z.json",
+      "source_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+      "dirty": false,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [],
+      "exact_implementation_report": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 138,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "package.json",
+        "packages/contracts/generated/contract-seed.proposed.json",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "scripts/record.mjs",
+        "tracking/contract_seed.json"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 1,
+      "source_files": 138,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "package.json",
+        "packages/contracts/generated/contract-seed.proposed.json",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "scripts/record.mjs",
+        "tracking/contract_seed.json"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 139,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 1,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 139,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 139,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 139,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 1,
+      "source_files": 140,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+      "source_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+      "dirty": false,
+      "exit_code": 0,
+      "source_files": 141,
+      "mismatches_vs_inspected": [],
+      "exact_implementation_report": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 137,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "package.json",
+        "packages/contracts/generated/contract-seed.proposed.json",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "scripts/record.mjs",
+        "tracking/contract_seed.json"
+      ],
+      "exact_implementation_report": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.json",
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true,
+      "exit_code": 0,
+      "source_files": 139,
+      "mismatches_vs_inspected": [
+        "apps/web/src/server/http.ts",
+        "packages/contracts/generated/manifest.json",
+        "packages/contracts/generated/openapi.json",
+        "packages/contracts/src/generate.ts",
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/testing/src/http-fixture.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "exact_implementation_report": false
+    }
+  ],
+  "artifact_hashes": [
+    {
+      "path": "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.json",
+      "sha256": "ec8c19b38f374cb0228269cff0a1feecad6ae108ea04bfe60dd46a492692502b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.log",
+      "sha256": "d6a9dc23ae154de535d4139865c8c7a1cb5daf038ad499fc0c5b0d6456ee4e58"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-auth-security-1789572592713-f6cd3c7b-9205-4a35-a412-cf87a935afa3.json",
+      "sha256": "f09ba712c373b2b914db3ef6e5124b69e39e9d2c607e1f46c94dbe9c70d2189f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.json",
+      "sha256": "160f198553ce4939c3156c278ad4ef2e9aa0823e2fc713a951f9248dfffeeafb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.log",
+      "sha256": "fb9d4996f025b1d90eaaa61f24f12af4374fa5c6ded82ee36b7e6058e4890995"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.json",
+      "sha256": "734b8971dca403b9434ea4619a21fd269321e634c718e38bf5174a0da2af9f2e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.log",
+      "sha256": "b2eddd5087e98052e45db93d949ed82d1ff69e8c4213093a8cc43ef142b719c0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-consent-integration-1789572325451-4f42c9e7-bac5-4573-9937-8c4f83af0e8a.json",
+      "sha256": "132bc076adfcc0d0b5e72ae3b7ebfcded0db3788d454c97d03a4435f3497a1fa"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-consent-integration-1789572519422-7e463c76-9aa8-43fd-9934-b52b7dd1da08.json",
+      "sha256": "4fc58f1716b219277d210135f2a7d90997b14d4be707f1456f35084c963fa6a9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json",
+      "sha256": "b2a9b362bfb1304634df01973ec1f6ee15de70b149c34538332c4430774451f7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.json",
+      "sha256": "0388140c35f01ad289196e22e0ac24781c3df3969ecfd0391bf1b004742d190a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.log",
+      "sha256": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-31-26.001Z.json",
+      "sha256": "62846199ba909a100842759db364c434ba034fe65c23897003714b599a556ab5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-31-26.001Z.log",
+      "sha256": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.json",
+      "sha256": "921c37b7c38fc4e1e48d340a041c44731b60f5686f3c423100e0672dfbcd9539"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.log",
+      "sha256": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.json",
+      "sha256": "6402087393fc581c62461be6b282356b8f00b3c11d3605a21c974961ceaf4b07"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.log",
+      "sha256": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.json",
+      "sha256": "a49b8a9726490f1460cbf4a71df83882966d7b05b20627abcad1e2b51214b51a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.log",
+      "sha256": "dbcf856274b40de798acd633ad0d08911e51721a63eed0dd25c6f0bc7385e25c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.json",
+      "sha256": "c0ae23306c3da36de171e3c6eacfc9ff038c3f29fffadd930ac56f9a52a0d9bc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.log",
+      "sha256": "60d430a6a3d3e7b7d90631d6b06347da2632319bece0aa21a272a3eef1fb3f2c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.json",
+      "sha256": "31d8ab73ac3528b0ef1977e332fa15c1f14d2094ce9d8bd61270f61f9176e55b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.log",
+      "sha256": "231d55c843bb492eaa0ecbb3bad8f302c5b7dcb1efab9f72f9180018645e0953"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.json",
+      "sha256": "0d814071a51317cebd945efee05c7d87246eafbd5a58e08c0a498c12b24a166f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.log",
+      "sha256": "4fe237b04e8280b9ac29d0afd85dcc2aea6a0ad005a458feb59b17235c27b1b5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.json",
+      "sha256": "2c0c8a24a9378f730fdd5a6d1ec2d44c74587e67ca0515c34b6a8ea6f8ca2023"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.log",
+      "sha256": "e35e0a5fa1cfd991e48ab78cba1470f79d01c0d70fa0aa99e5d03b2df6a5ae21"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.json",
+      "sha256": "df3e5792d293330d3894b7daa6d43eb022250ccd08607e57c6ccfd1bf873553f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.json",
+      "sha256": "f525a1c8f862db8e671e7cf6b6ef2a0816cb1e26571ebee84f627bf5f3323471"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-migration-1789572174558-53565bcf-e6fe-4e22-aebe-9939e9d91b44.json",
+      "sha256": "9bfc2754f9c0a50a41602481d20ccdcc33883b6fe7fc4a042554c94fadc69936"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-migration-1789572462897-e3831a7b-cdb5-49e0-8fac-f0d73e0f9b36.json",
+      "sha256": "1f24001a51617ea508b801fe0f0c539b2a6db0a4303e272313b3845b20fdaeee"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.json",
+      "sha256": "95319ad8946312df450af0fcb6d5be50b3894b5a31b91d09c7ce77ad02b383c9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.log",
+      "sha256": "fc1acdf052639da6524e260e3b87ae90c58d4c3d2889abe53ee6f594c9fec251"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.json",
+      "sha256": "8c1a167ef5c6524154488ca34ad570e41a654b0a04d54795b51243b11bdd930f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.log",
+      "sha256": "9a397efd59d320617a49af768f14ab22c91edea2fd236ab459ae150da52a3125"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.json",
+      "sha256": "41cd32cb4a621dcdf853753c31f9d22e1f51c205267fc9ad926a816961ec9e12"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.log",
+      "sha256": "7a1031cfcde23b1044170d573f64f977a379787bc3bec476b5285ad01f0fead2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.json",
+      "sha256": "83027469678848a5bca4be5487593124c15beb4c90d5cde4107e287d8d21934a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.log",
+      "sha256": "734945b9f92b262eb03fe486da8f31fcf1a2c0a0bfa309d482d782c7fcf80f1b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.json",
+      "sha256": "5b63e576001667942574242e34f09b11edb3ee0f4b730463a5bcded6145fb419"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.log",
+      "sha256": "55e0503e520b7356752141c472ff0c1bdcb58fef66782fa6a5d032926c21179b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+      "sha256": "86473b924fc5b8d13b4ec2d18da43f5521f3796a37f7f52a05920af1726e5afc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.log",
+      "sha256": "aa8341ea8084384f866a1321ff460722d7018946e366b0e8d825036c8c569eef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.json",
+      "sha256": "de7cd034b2924252544e4ba5b34336261b048e4fa7969f99405eb32538a39e8b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.log",
+      "sha256": "67c9abf28bc8443ebd8719e306f86a2ef66a94f84f3220d9d432a38c07774cdf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.json",
+      "sha256": "b225f6276600f9f1525c5335afddcd57b1e84536580f087eb3a3c0db8606a9f8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    }
+  ],
+  "producer_assertions_reviewed": {
+    "consent": {
+      "report": "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json",
+      "log": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.log",
+      "assertions": 49,
+      "rerun_by_work": false
+    },
+    "auth": {
+      "report": "handoffs/codex/artifacts/A02-auth-security-1789572592713-f6cd3c7b-9205-4a35-a412-cf87a935afa3.json",
+      "log": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.log",
+      "assertions": 87,
+      "rerun_by_work": false
+    }
+  },
+  "integration_to_inspected_delta": [
+    "docs/demo/CLAIMS_REGISTER.md",
+    "docs/demo/LEADERSHIP_HANDOVER.md",
+    "docs/demo/demo_steps.json",
+    "docs/prototype/RELEASE_CHECKLIST.md",
+    "docs/reviews/cowork/DELIVERY_STATUS.json",
+    "docs/reviews/cowork/GENERATED_MANIFEST.json",
+    "docs/reviews/cowork/tools/pack.css",
+    "docs/reviews/cowork/tools/tests/fixtures/README.md",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_artifact.txt",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_record.json",
+    "handoffs/cowork/C00-C02_r3_2026-09-16.md",
+    "handoffs/cowork/C00_r2_2026-09-16.md",
+    "handoffs/cowork/C01_2026-09-16.md",
+    "handoffs/cowork/C02_2026-09-16.md",
+    "handoffs/cowork/TO_CLAUDE_CODE_r3_2026-09-16.md",
+    "handoffs/cowork/TO_CODEX_r3_2026-09-16.md",
+    "handoffs/cowork/TO_WORK_r3_2026-09-16.md"
+  ],
+  "limitations": [
+    "Only the final contract and 49-check consent reports are exact committed-source executions. Earlier build/auth/unit/lint/hygiene reports retain their actual dirty source snapshots and mismatches.",
+    "This audit does not execute HTTP/PostgreSQL/MFA/OPA behavior or the W01-A02-F01 reproduction."
+  ]
+}

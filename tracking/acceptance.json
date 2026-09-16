@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "plan_version": "1.0",
-  "note": "Acceptance definitions, not execution evidence. Only tests for the selected P1 slice become additional readiness gates. W00/A00 foundation accepted at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe, contract 0.2.1. Linked bootstrap subsets and pure-domain F07 retests are partial evidence only. All full application scenarios remain NOT_RUN; task completion does not promote test results.",
+  "note": "Acceptance definitions, not execution evidence. Only tests for the selected P1 slice become additional readiness gates. W00/A00 foundation accepted at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe, contract 0.2.1. Linked bootstrap subsets and pure-domain F07 retests are partial evidence only. All full application scenarios remain NOT_RUN; task completion does not promote test results. A01 accepted at 50cb4daeded9253c4f7cca4f742cb212c10aa5b7 after Work review 10f8e11830c43a875bfc29d05f650c9f0d853c33. T02/T03/T04/T05/T27 links cover A01 subsets only; all full scenarios remain NOT_RUN and W01 still requires A02. A02 0.3.0 candidate reviewed at a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b by Work b3c582f86c78ca565562b95aa692a8b84f672770. A02/W01 acceptance is blocked on medium source finding W01-A02-F01; runtime reproduction is NOT_RUN, not a full-scenario FAIL. Linked 49-check consent and earlier 87-check auth evidence remain partial. A03 coding is reported under the human continuation; its acceptance is blocked by A02, not recorded as completed.",
   "tests": [
     {
       "id": "T01",
@@ -12,7 +12,7 @@
         "A00",
         "A07"
       ],
-      "source": "M1 §§84–86, 163, 194",
+      "source": "M1 \u00a7\u00a784\u201386, 163, 194",
       "status": "NOT_RUN",
       "evidence": [
         "handoffs/codex/A00-e5cdef3.md",
@@ -28,9 +28,13 @@
         "A01",
         "B01"
       ],
-      "source": "M1 §§6–7, 84, 109",
+      "source": "M1 \u00a7\u00a76\u20137, 84, 109",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json"
+      ]
     },
     {
       "id": "T03",
@@ -41,9 +45,16 @@
         "A01",
         "A06"
       ],
-      "source": "M1 §§7, 35–36, 127",
+      "source": "M1 \u00a7\u00a77, 35\u201336, 127",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T04",
@@ -54,9 +65,16 @@
         "A01",
         "B02"
       ],
-      "source": "M1 §§7, 20, 31",
+      "source": "M1 \u00a7\u00a77, 20, 31",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T05",
@@ -68,9 +86,16 @@
         "A02",
         "B01"
       ],
-      "source": "M1 §§7, 14, 26",
+      "source": "M1 \u00a7\u00a77, 14, 26",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T06",
@@ -81,9 +106,13 @@
         "A02",
         "B01"
       ],
-      "source": "M1 §§8, 13–19, 191",
+      "source": "M1 \u00a7\u00a78, 13\u201319, 191",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T07",
@@ -94,9 +123,13 @@
         "A02",
         "B02"
       ],
-      "source": "M1 §§16–20",
+      "source": "M1 \u00a7\u00a716\u201320",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T08",
@@ -108,9 +141,13 @@
         "A06",
         "B02"
       ],
-      "source": "M1 §§17–18, 99",
+      "source": "M1 \u00a7\u00a717\u201318, 99",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T09",
@@ -121,9 +158,13 @@
         "A02",
         "A06"
       ],
-      "source": "M1 §§16–18, 99",
+      "source": "M1 \u00a7\u00a716\u201318, 99",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T10",
@@ -135,9 +176,13 @@
         "A03",
         "A06"
       ],
-      "source": "M1 §§17–18, 191",
+      "source": "M1 \u00a7\u00a717\u201318, 191",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T11",
@@ -148,7 +193,7 @@
         "A03",
         "A06"
       ],
-      "source": "M1 §§24–25, 99, 191",
+      "source": "M1 \u00a7\u00a724\u201325, 99, 191",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -161,7 +206,7 @@
         "A03",
         "A06"
       ],
-      "source": "M1 §§27–30, 128",
+      "source": "M1 \u00a7\u00a727\u201330, 128",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -175,7 +220,7 @@
         "A05",
         "B03"
       ],
-      "source": "M1 §§27–28, 44–45",
+      "source": "M1 \u00a7\u00a727\u201328, 44\u201345",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -189,7 +234,7 @@
         "A06",
         "B04"
       ],
-      "source": "M1 §§18, 40–43, 191",
+      "source": "M1 \u00a7\u00a718, 40\u201343, 191",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -202,7 +247,7 @@
         "A04",
         "A06"
       ],
-      "source": "M1 §§9, 13, 191",
+      "source": "M1 \u00a7\u00a79, 13, 191",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -215,7 +260,7 @@
         "A04",
         "A06"
       ],
-      "source": "M1 §§13, 40–43",
+      "source": "M1 \u00a7\u00a713, 40\u201343",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -229,7 +274,7 @@
         "A06",
         "B03"
       ],
-      "source": "M1 §§24–25, 44, 191",
+      "source": "M1 \u00a7\u00a724\u201325, 44, 191",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -242,7 +287,7 @@
         "A05",
         "A06"
       ],
-      "source": "M1 §§28, 44–45, 169",
+      "source": "M1 \u00a7\u00a728, 44\u201345, 169",
       "status": "NOT_RUN",
       "evidence": [
         "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.json",
@@ -260,7 +305,7 @@
         "A06",
         "B03"
       ],
-      "source": "M1 §§48, 174–175, 192",
+      "source": "M1 \u00a7\u00a748, 174\u2013175, 192",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -274,7 +319,7 @@
         "A06",
         "B03"
       ],
-      "source": "M1 §§28, 48–49, 191",
+      "source": "M1 \u00a7\u00a728, 48\u201349, 191",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -287,7 +332,7 @@
         "A05",
         "B03"
       ],
-      "source": "M1 §§44–49, 104, 185",
+      "source": "M1 \u00a7\u00a744\u201349, 104, 185",
       "status": "NOT_RUN",
       "evidence": [
         "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.json",
@@ -305,7 +350,7 @@
         "A06",
         "B03"
       ],
-      "source": "M1 §§31, 45–47, 133",
+      "source": "M1 \u00a7\u00a731, 45\u201347, 133",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -318,7 +363,7 @@
         "A06",
         "B04"
       ],
-      "source": "M1 §§57–61, 193",
+      "source": "M1 \u00a7\u00a757\u201361, 193",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -331,7 +376,7 @@
         "A06",
         "B04"
       ],
-      "source": "M1 §§59, 191, 193",
+      "source": "M1 \u00a7\u00a759, 191, 193",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -343,7 +388,7 @@
       "implementation_tasks": [
         "A06"
       ],
-      "source": "M1 §§91–92, 129, 191",
+      "source": "M1 \u00a7\u00a791\u201392, 129, 191",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -356,7 +401,7 @@
         "A06",
         "B04"
       ],
-      "source": "M1 §§31, 88, 116, 217",
+      "source": "M1 \u00a7\u00a731, 88, 116, 217",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -370,9 +415,16 @@
         "A06",
         "B04"
       ],
-      "source": "M1 §§37, 109, 123, 126, 163",
+      "source": "M1 \u00a7\u00a737, 109, 123, 126, 163",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T28",
@@ -384,7 +436,7 @@
         "A06",
         "A07"
       ],
-      "source": "M1 §§122, 128, 178–179",
+      "source": "M1 \u00a7\u00a7122, 128, 178\u2013179",
       "status": "NOT_RUN",
       "evidence": [
         "handoffs/codex/A00-e5cdef3.md",
@@ -403,7 +455,7 @@
         "B04",
         "B06"
       ],
-      "source": "M1 §§102–109, 184, 191",
+      "source": "M1 \u00a7\u00a7102\u2013109, 184, 191",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -418,7 +470,7 @@
         "W03",
         "C02"
       ],
-      "source": "M1 §§120, 145–146, 168–169, 191–194",
+      "source": "M1 \u00a7\u00a7120, 145\u2013146, 168\u2013169, 191\u2013194",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -431,7 +483,7 @@
         "A08",
         "B05"
       ],
-      "source": "M1 §§20–23",
+      "source": "M1 \u00a7\u00a720\u201323",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -444,7 +496,7 @@
         "A08",
         "B05"
       ],
-      "source": "M1 §§50–51, 214",
+      "source": "M1 \u00a7\u00a750\u201351, 214",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -457,7 +509,7 @@
         "A08",
         "B05"
       ],
-      "source": "M1 §§76–81, 94, 160",
+      "source": "M1 \u00a7\u00a776\u201381, 94, 160",
       "status": "NOT_RUN",
       "evidence": []
     },
@@ -470,7 +522,7 @@
         "A08",
         "B05"
       ],
-      "source": "M1 §§63–66, 217 V1 checks",
+      "source": "M1 \u00a7\u00a763\u201366, 217 V1 checks",
       "status": "NOT_RUN",
       "evidence": []
     }
