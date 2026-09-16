@@ -1,0 +1,1300 @@
+{
+  "task_id": "A01",
+  "status": "IN_REVIEW",
+  "base_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+  "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+  "branch": "prototype/codex/A01-auth",
+  "recorded_at": "2026-09-16T14:33:38.839Z",
+  "contract_version": "0.2.1",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "contract_manifest_sha256": "1b35c19d50c99608188afb6308404afd62aa35607d6283c388015e65e871a6b2",
+  "lockfile_sha256": "af56b3157c308cb1cd75d7230085c7bfff82a242f551256879366be8b8a20a58",
+  "build_id": "7lbFfFolBo_kmvKFWs1mW",
+  "profile": "codex-a00",
+  "fixture_id": "aster-birch-v1",
+  "committed_source_bytes_verified": true,
+  "source_snapshot_sha256": "e1500ae5b0651535df5d452d1ca9408c16cc05c7386aad782892a55549a3b99b",
+  "changed_files": [
+    ".gitattributes",
+    "apps/web/src/app/api/auth/principal/[...all]/route.ts",
+    "apps/web/src/app/api/auth/staff/[...all]/route.ts",
+    "apps/web/src/app/api/v1/admin/principals/route.ts",
+    "apps/web/src/app/api/v1/session/route.ts",
+    "apps/web/src/server/http.ts",
+    "apps/web/src/server/runtime.ts",
+    "docs/engineering/A01-AUTH-AND-SCOPE.md",
+    "handoffs/codex/A01-UI-e1fa052.md",
+    "handoffs/codex/A01-e1fa052.md",
+    "handoffs/codex/A01-start-e1fa052.md",
+    "handoffs/codex/artifacts/A01-auth-bootstrap-2026-09-16T13-54-24.978Z.json",
+    "handoffs/codex/artifacts/A01-auth-bootstrap-2026-09-16T13-54-24.978Z.log",
+    "handoffs/codex/artifacts/A01-auth-init-2026-09-16T13-51-41.776Z.json",
+    "handoffs/codex/artifacts/A01-auth-init-2026-09-16T13-51-41.776Z.log",
+    "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-05-13.467Z.json",
+    "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-05-13.467Z.log",
+    "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-14-27.223Z.json",
+    "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-14-27.223Z.log",
+    "handoffs/codex/artifacts/A01-auth-security-1789567132431-5f0fd981-f650-4d5e-849a-0dc60e237134.json",
+    "handoffs/codex/artifacts/A01-auth-security-1789567358009-3d4f74b9-14df-49ff-a665-80413dc5b1f4.json",
+    "handoffs/codex/artifacts/A01-auth-security-1789567820530-6fcf3f92-8f1d-491b-8305-e2d5e2d70bd7.json",
+    "handoffs/codex/artifacts/A01-auth-security-1789568372933-d00cdb92-9e49-4671-8eae-d830ecc922a5.json",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T13-56-36.666Z.json",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T13-56-36.666Z.log",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-00-18.530Z.json",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-00-18.530Z.log",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-06-16.912Z.json",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-06-16.912Z.log",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-08-27.122Z.json",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-08-27.122Z.log",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-14-36.533Z.json",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-14-36.533Z.log",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-16-32.381Z.json",
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-16-32.381Z.log",
+    "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-09-37.817Z.json",
+    "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-09-37.817Z.log",
+    "handoffs/codex/artifacts/A01-contracts-generate-2026-09-16T14-05-23.762Z.json",
+    "handoffs/codex/artifacts/A01-contracts-generate-2026-09-16T14-05-23.762Z.log",
+    "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T13-47-35.616Z.json",
+    "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T13-47-35.616Z.log",
+    "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-01-13.129Z.json",
+    "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-01-13.129Z.log",
+    "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-13-38.334Z.json",
+    "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-13-38.334Z.log",
+    "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-22-39.914Z.json",
+    "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-22-39.914Z.log",
+    "handoffs/codex/artifacts/A01-lint-2026-09-16T13-55-49.475Z.json",
+    "handoffs/codex/artifacts/A01-lint-2026-09-16T13-55-49.475Z.log",
+    "handoffs/codex/artifacts/A01-lint-2026-09-16T14-17-43.780Z.json",
+    "handoffs/codex/artifacts/A01-lint-2026-09-16T14-17-43.780Z.log",
+    "handoffs/codex/artifacts/A01-lint-2026-09-16T14-21-28.178Z.json",
+    "handoffs/codex/artifacts/A01-lint-2026-09-16T14-21-28.178Z.log",
+    "handoffs/codex/artifacts/A01-migration-1789566472167-88abcd93-c3f0-445f-ba84-c2c88dd03ba2.json",
+    "handoffs/codex/artifacts/A01-migration-1789567276654-71ffcbb0-7e3a-4e2a-adf7-31a33c029468.json",
+    "handoffs/codex/artifacts/A01-migration-1789568022220-594eb6aa-c768-4ca3-a29b-639002b1c055.json",
+    "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-23-27.234Z.json",
+    "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-23-27.234Z.log",
+    "handoffs/codex/artifacts/A01-preflight-services-1789568625369-8831e217-66a7-4ac5-a0c9-613a14618fb2.json",
+    "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T13-55-16.975Z.json",
+    "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T13-55-16.975Z.log",
+    "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T14-08-40.949Z.json",
+    "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T14-08-40.949Z.log",
+    "handoffs/codex/artifacts/A01-test-2026-09-16T14-09-37.946Z.json",
+    "handoffs/codex/artifacts/A01-test-2026-09-16T14-09-37.946Z.log",
+    "handoffs/codex/artifacts/A01-test-2026-09-16T14-11-08.387Z.json",
+    "handoffs/codex/artifacts/A01-test-2026-09-16T14-11-08.387Z.log",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T13-58-41.466Z.json",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T13-58-41.466Z.log",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-02-22.630Z.json",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-02-22.630Z.log",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-10-01.587Z.json",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-10-01.587Z.log",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-19-10.926Z.json",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-19-10.926Z.log",
+    "handoffs/codex/artifacts/A01-tracking-check-2026-09-16T14-17-43.981Z.json",
+    "handoffs/codex/artifacts/A01-tracking-check-2026-09-16T14-17-43.981Z.log",
+    "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-46-49.150Z.json",
+    "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-46-49.150Z.log",
+    "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-55-49.468Z.json",
+    "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-55-49.468Z.log",
+    "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-21-28.193Z.json",
+    "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-21-28.193Z.log",
+    "handoffs/codex/artifacts/A01-web-integration-1789568613302-25b713a3-03bf-4e0b-acf0-a26759b736b0.json",
+    "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-23-25.217Z.json",
+    "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-23-25.217Z.log",
+    "package.json",
+    "packages/auth/src/bootstrap-password.ts",
+    "packages/auth/src/config.ts",
+    "packages/auth/src/server.ts",
+    "packages/authz/src/index.ts",
+    "packages/contracts/generated/contract-seed.proposed.json",
+    "packages/contracts/generated/interfaces.json",
+    "packages/contracts/generated/manifest.json",
+    "packages/contracts/generated/openapi.json",
+    "packages/contracts/src/generate.ts",
+    "packages/contracts/src/index.ts",
+    "packages/db/migrations/0001_auth_scope.sql",
+    "packages/db/migrations/0002_idempotency_key_bound.sql",
+    "packages/db/migrations/0003_request_audit.sql",
+    "packages/db/src/auth-schema.ts",
+    "packages/db/src/runtime.ts",
+    "packages/testing/src/evidence.ts",
+    "policy/admin/authorization.rego",
+    "scripts/auth-bootstrap.ts",
+    "scripts/auth-init.ts",
+    "scripts/local-hygiene.mjs",
+    "scripts/local-private.ts",
+    "scripts/migrate.ts",
+    "scripts/record.mjs",
+    "scripts/web.ts",
+    "tests/security/auth.test.ts",
+    "tests/unit/tracking.test.ts",
+    "tracking/contract_seed.json"
+  ],
+  "commands": [
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-bootstrap-2026-09-16T13-54-24.978Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "auth:bootstrap",
+        "confirm:codex-a00"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:54:24.978Z",
+      "finished_at": "2026-09-16T13:54:36.116Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-auth-bootstrap-2026-09-16T13-54-24.978Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T13-51-41.776Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "auth:init",
+        "confirm:codex-a00"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:51:41.776Z",
+      "finished_at": "2026-09-16T13:51:45.740Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-auth-init-2026-09-16T13-51-41.776Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-05-13.467Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "auth:init",
+        "confirm:codex-a00"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:05:13.467Z",
+      "finished_at": "2026-09-16T14:05:19.928Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-05-13.467Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-14-27.223Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "auth:init",
+        "confirm:codex-a00"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:14:27.223Z",
+      "finished_at": "2026-09-16T14:14:31.988Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-14-27.223Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T13-56-36.666Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:56:36.666Z",
+      "finished_at": "2026-09-16T13:57:51.088Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-build-2026-09-16T13-56-36.666Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-00-18.530Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:00:18.530Z",
+      "finished_at": "2026-09-16T14:01:41.422Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-build-2026-09-16T14-00-18.530Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-06-16.912Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:06:16.912Z",
+      "finished_at": "2026-09-16T14:07:29.962Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-build-2026-09-16T14-06-16.912Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-08-27.122Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:08:27.122Z",
+      "finished_at": "2026-09-16T14:08:40.998Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-build-2026-09-16T14-08-27.122Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-14-36.533Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:14:36.533Z",
+      "finished_at": "2026-09-16T14:15:38.370Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-build-2026-09-16T14-14-36.533Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-16-32.381Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:16:32.381Z",
+      "finished_at": "2026-09-16T14:17:01.788Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-build-2026-09-16T14-16-32.381Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-27-24.195Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:27:24.195Z",
+      "finished_at": "2026-09-16T14:28:14.687Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-build-2026-09-16T14-27-24.195Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-09-37.817Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:09:37.817Z",
+      "finished_at": "2026-09-16T14:09:41.253Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-09-37.817Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-27-35.327Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:27:35.327Z",
+      "finished_at": "2026-09-16T14:28:07.160Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-27-35.327Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-generate-2026-09-16T14-05-23.762Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:05:23.762Z",
+      "finished_at": "2026-09-16T14:05:40.799Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-contracts-generate-2026-09-16T14-05-23.762Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T13-47-35.616Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:47:35.616Z",
+      "finished_at": "2026-09-16T13:47:52.453Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T13-47-35.616Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-01-13.129Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:01:13.129Z",
+      "finished_at": "2026-09-16T14:01:16.857Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-01-13.129Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-13-38.334Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:13:38.334Z",
+      "finished_at": "2026-09-16T14:13:42.334Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-13-38.334Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-31-04.034Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:31:04.034Z",
+      "finished_at": "2026-09-16T14:31:07.606Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-31-04.034Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-22-39.914Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:22:39.914Z",
+      "finished_at": "2026-09-16T14:22:43.559Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-22-39.914Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-29-56.612Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:29:56.612Z",
+      "finished_at": "2026-09-16T14:30:04.052Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-29-56.612Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T13-55-49.475Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:55:49.475Z",
+      "finished_at": "2026-09-16T13:56:49.943Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-lint-2026-09-16T13-55-49.475Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-17-43.780Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:17:43.780Z",
+      "finished_at": "2026-09-16T14:18:29.400Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-lint-2026-09-16T14-17-43.780Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-21-28.178Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:21:28.178Z",
+      "finished_at": "2026-09-16T14:21:41.246Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-lint-2026-09-16T14-21-28.178Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-28-34.861Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:28:34.861Z",
+      "finished_at": "2026-09-16T14:28:41.766Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-lint-2026-09-16T14-28-34.861Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-23-27.234Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "preflight"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:23:27.234Z",
+      "finished_at": "2026-09-16T14:23:45.506Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-23-27.234Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-32-32.598Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "preflight"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:32:32.598Z",
+      "finished_at": "2026-09-16T14:32:41.543Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-32-32.598Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T13-55-16.975Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "seed:auth",
+        "confirm:codex-a00"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:55:16.975Z",
+      "finished_at": "2026-09-16T13:55:23.139Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T13-55-16.975Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T14-08-40.949Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "seed:auth",
+        "confirm:codex-a00"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:08:40.949Z",
+      "finished_at": "2026-09-16T14:08:43.510Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T14-08-40.949Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-09-37.946Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:09:37.946Z",
+      "finished_at": "2026-09-16T14:09:39.762Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-2026-09-16T14-09-37.946Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-11-08.387Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:11:08.387Z",
+      "finished_at": "2026-09-16T14:11:12.038Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-2026-09-16T14-11-08.387Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-27-36.321Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:27:36.321Z",
+      "finished_at": "2026-09-16T14:27:40.595Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-2026-09-16T14-27-36.321Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T13-58-41.466Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:58:41.466Z",
+      "finished_at": "2026-09-16T13:58:52.573Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T13-58-41.466Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-02-22.630Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:02:22.630Z",
+      "finished_at": "2026-09-16T14:02:38.188Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-02-22.630Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-10-01.587Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:10:01.587Z",
+      "finished_at": "2026-09-16T14:10:20.690Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-10-01.587Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-19-10.926Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:19:10.926Z",
+      "finished_at": "2026-09-16T14:19:33.029Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-19-10.926Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:29:46.339Z",
+      "finished_at": "2026-09-16T14:31:06.373Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-tracking-check-2026-09-16T14-17-43.981Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "tracking:check"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:17:43.981Z",
+      "finished_at": "2026-09-16T14:17:44.633Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-tracking-check-2026-09-16T14-17-43.981Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-46-49.150Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:46:49.150Z",
+      "finished_at": "2026-09-16T13:48:10.028Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-46-49.150Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-55-49.468Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T13:55:49.468Z",
+      "finished_at": "2026-09-16T13:56:58.061Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-55-49.468Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-21-28.193Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:21:28.193Z",
+      "finished_at": "2026-09-16T14:22:05.200Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-21-28.193Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-28-34.862Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:28:34.862Z",
+      "finished_at": "2026-09-16T14:28:49.384Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-28-34.862Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-23-25.217Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "web:smoke"
+      ],
+      "source_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+      "dirty": true,
+      "started_at": "2026-09-16T14:23:25.217Z",
+      "finished_at": "2026-09-16T14:23:33.430Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-23-25.217Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-32-30.670Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "web:smoke"
+      ],
+      "source_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+      "dirty": false,
+      "started_at": "2026-09-16T14:32:30.670Z",
+      "finished_at": "2026-09-16T14:32:33.344Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_logs": [
+        "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-32-30.670Z.log"
+      ]
+    }
+  ],
+  "exact_commit_reports": [
+    "handoffs/codex/artifacts/A01-build-2026-09-16T14-27-24.195Z.json",
+    "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-27-35.327Z.json",
+    "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-31-04.034Z.json",
+    "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-29-56.612Z.json",
+    "handoffs/codex/artifacts/A01-lint-2026-09-16T14-28-34.861Z.json",
+    "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-32-32.598Z.json",
+    "handoffs/codex/artifacts/A01-test-2026-09-16T14-27-36.321Z.json",
+    "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+    "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-28-34.862Z.json",
+    "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-32-30.670Z.json"
+  ],
+  "security": {
+    "path": "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+    "assertions": 87,
+    "result": "PASS"
+  },
+  "unit_tests": {
+    "passed": 11,
+    "failed": 0
+  },
+  "artifacts": [
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-bootstrap-2026-09-16T13-54-24.978Z.json",
+      "sha256": "0577fe26c94f5db3af45f7c5821b832921976640143de72d09aaafa3360d7823"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-bootstrap-2026-09-16T13-54-24.978Z.log",
+      "sha256": "31f239137b10d26d049d179097254a32f7ee0bac1ad06bb32d32ae9b31e48ac2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T13-51-41.776Z.json",
+      "sha256": "f98b587eccbcd9e7ad03cfbe1b365c3042ff72f9d88727ce5c6dfb73d47cbc68"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T13-51-41.776Z.log",
+      "sha256": "d6a9dc23ae154de535d4139865c8c7a1cb5daf038ad499fc0c5b0d6456ee4e58"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-05-13.467Z.json",
+      "sha256": "f84b331ffa27248aa76ba7a9e4cbdf270260861b60cde747cd08408f3e452c85"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-05-13.467Z.log",
+      "sha256": "d6a9dc23ae154de535d4139865c8c7a1cb5daf038ad499fc0c5b0d6456ee4e58"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-14-27.223Z.json",
+      "sha256": "41905c5dcacfd59d6c55269c403af2890b3fb308b796612e059c21c92560b34d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-init-2026-09-16T14-14-27.223Z.log",
+      "sha256": "d6a9dc23ae154de535d4139865c8c7a1cb5daf038ad499fc0c5b0d6456ee4e58"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-security-1789567132431-5f0fd981-f650-4d5e-849a-0dc60e237134.json",
+      "sha256": "2a8f836c55b780b063d52afaa0947ad834315cb42efc94c481fa8728889a986b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-security-1789567358009-3d4f74b9-14df-49ff-a665-80413dc5b1f4.json",
+      "sha256": "86067e4027a2cd10dbfd3d7e910853a606a906abc30b819e144b351b7758ba03"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-security-1789567820530-6fcf3f92-8f1d-491b-8305-e2d5e2d70bd7.json",
+      "sha256": "4a5e4e1386ce5980eba44b03163f0cde51efa5a808b4cb796a1f21de0418ab04"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-security-1789568372933-d00cdb92-9e49-4671-8eae-d830ecc922a5.json",
+      "sha256": "e103a59208a6a5d5f62d1b17f29b349a0a01fbcdb20e2792be28b7deee9afb79"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+      "sha256": "40284a2351333549ca0343a3d580ddd9729859c43d4ddad9df82d8ef55ce89ad"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T13-56-36.666Z.json",
+      "sha256": "c2b9517debc0a8f73e1176aff4ccf2bb1c36a438cc8c504942c8b728c018a111"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T13-56-36.666Z.log",
+      "sha256": "d1925b7bc7f9a0eab8b04de9413c31c8218aa3e7c04715a3ba6f3eb105a7cd09"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-00-18.530Z.json",
+      "sha256": "58e28c73d88942f0255e89a563c3b2398ea47fdb8811bc99473d869da73cb2a7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-00-18.530Z.log",
+      "sha256": "80dd022e2e163cf4a29b739333d3ab94c515967955d45d49c7837eed91d9b812"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-06-16.912Z.json",
+      "sha256": "2c23962900e8bf4377ea3b69955ea59711ba1b717c2a0d5b7d04cfc4a4e32f67"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-06-16.912Z.log",
+      "sha256": "52da646e3019a1ec3eacc70b548f8b8f974dce68dfadb787c3ae098680b84db8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-08-27.122Z.json",
+      "sha256": "a6dadbe5c65ee91f5414ea7a85619384c29ba0b1eb2b6354ddc7578e79ecb7dc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-08-27.122Z.log",
+      "sha256": "27e883d5aee504ee1f701de5393611ad6785ba3d8ca17cce7cb994d6d2925079"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-14-36.533Z.json",
+      "sha256": "c852fef986be90d665b6f2b4c5372235d61b806e5187c66dcc1ced7f33ecbf28"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-14-36.533Z.log",
+      "sha256": "2496dc4fa5c193aa84726d034623f8d32d17d052ba4d86653b0b72d22bfdab13"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-16-32.381Z.json",
+      "sha256": "0e76ddccddab86d9b5601193a8cbe3adc3b4b8bc599744807620ca510b4d66f8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-16-32.381Z.log",
+      "sha256": "acfeeee7915bd10cc38a751e3b07dc5e6557341e74a2b8bd1e76ea6b3d31e306"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-27-24.195Z.json",
+      "sha256": "18ee94db39622212727b010e4f708c3dc1828df4e352d909778162bd01ab5679"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-build-2026-09-16T14-27-24.195Z.log",
+      "sha256": "036653084eb3cfbf8bfe63345b9ec068becae85e2ba6fdcba55042e3f3699ae8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-09-37.817Z.json",
+      "sha256": "67b4ef374a866e4a681493649517a61f26d0a10d7b8ac3fa9633ec6036cf6da2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-09-37.817Z.log",
+      "sha256": "95b9eba4935ccf163808db477644ecdf7ab82a809ee9581d0050c05959927116"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-27-35.327Z.json",
+      "sha256": "ce83bffdcff536a37be6812fa5b3bf72633e0e6c04afc3ce878a63e6bd4257c3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-27-35.327Z.log",
+      "sha256": "95b9eba4935ccf163808db477644ecdf7ab82a809ee9581d0050c05959927116"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-generate-2026-09-16T14-05-23.762Z.json",
+      "sha256": "96058ef2f75763eafffb5eb63171ef64460a72d46ca7b4e208eab52c6eda5ef1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-contracts-generate-2026-09-16T14-05-23.762Z.log",
+      "sha256": "9e2fad594273df19eab18c381422b58bf6a49e6fd1f034f595467ecf719d31b3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T13-47-35.616Z.json",
+      "sha256": "3dfb249840c7017369f70ce16dc91d0588a74dc6ff1e166b67f77f86494bc5d8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T13-47-35.616Z.log",
+      "sha256": "ab7b2fa2f0d6e547ff5221892b3947e9572a2e361eb9979076aa4583bc82aa11"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-01-13.129Z.json",
+      "sha256": "fed806ae7c9b583e69df7ff710697ac16dad192da4024d60e736cc15a6740966"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-01-13.129Z.log",
+      "sha256": "c6cdec867972feec5abfb0de35b25c70a7aa7ba45aadc559c6ecc8777a9d84f7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-13-38.334Z.json",
+      "sha256": "bd08e543ceff09f90f2d0aadfdfb678f1ae5c6cd6179365d5a5c7d108ea31a14"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-13-38.334Z.log",
+      "sha256": "d4b9d42c5d09948b038c753401713c333e17d79766dec83e3ba0b8eff383db80"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-31-04.034Z.json",
+      "sha256": "2f46199fe20b4c3888e252a17823f32cc93cd7dc6a48b4c81c16234445ce5350"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-31-04.034Z.log",
+      "sha256": "c41bb40743d4aa07f8a55a22e5da07fd5ac242d26573e928167851b92411126b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-22-39.914Z.json",
+      "sha256": "fc48d88912e852aac44b3c9cc70fef3df16d16abfdd898e47c2cf01880b45856"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-22-39.914Z.log",
+      "sha256": "6233327f0d4aeb4c3f462e539d5978cdad02db24602a12035ee24244651e4fab"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-29-56.612Z.json",
+      "sha256": "9490927f6d3c374a2c0eace691b76df1ecf04ecf7d8f0866d69b59f6979a21be"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-29-56.612Z.log",
+      "sha256": "0ae75db46de958b389fcfe9f4f881022193f44d2460c94ad5aec48270ad1d69b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T13-55-49.475Z.json",
+      "sha256": "a1ba0210ddec9dc3a527f1e1c101ece8685f997a551bb29eca5313eda74c2dd5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T13-55-49.475Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-17-43.780Z.json",
+      "sha256": "60fbdfa19a79a90e48013c6f62e71e06b4503ebe8437eaac3d3ea73b4629c087"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-17-43.780Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-21-28.178Z.json",
+      "sha256": "cd5ca8fdb6e48358e63cbe709a24a6bc20411a79046bdc2c089e550c8ac22797"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-21-28.178Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-28-34.861Z.json",
+      "sha256": "1d1f757fbac8ac59efdf7516ec4c4fbd94f1a1b3d92f23dc62e110e9f4353773"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-lint-2026-09-16T14-28-34.861Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-migration-1789566472167-88abcd93-c3f0-445f-ba84-c2c88dd03ba2.json",
+      "sha256": "def804becb7cb750c119ff0c7e10669d1dd8c4584df0e7940cd68b53cfb7d434"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-migration-1789567276654-71ffcbb0-7e3a-4e2a-adf7-31a33c029468.json",
+      "sha256": "8f4a3e68c216e690015dbe9b8d1b00387a32ba64ed9e9bbb4cd7436c8581787c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-migration-1789568022220-594eb6aa-c768-4ca3-a29b-639002b1c055.json",
+      "sha256": "e0db924c17bd1e6367490b584b750cdd57cba6dd39b89b998488df2181d121ae"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-migration-1789569067496-f04274a2-a586-4857-a629-b48fcd205752.json",
+      "sha256": "54ecf0a7a4d8984a719a4dbbc60515faf452a54abff7f9ea8cc7b6f478ececb5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-23-27.234Z.json",
+      "sha256": "0105629dcbcf1a43d0d40197ef7a54964c252337dbdbc105c2126eb470b6be44"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-23-27.234Z.log",
+      "sha256": "33c7652443d20310910423026b7c25f892dc01aba70c7c73215a8f7b162dfea9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-32-32.598Z.json",
+      "sha256": "7c867ce0ed4f0c56c616db75d0be0e5da669e7cf81bc75bd5a6db2d9080ce29b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-32-32.598Z.log",
+      "sha256": "7fe6d7e279544f38b8969069201e185ed2743e73b7dbdb17067757972c8531ae"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-services-1789568625369-8831e217-66a7-4ac5-a0c9-613a14618fb2.json",
+      "sha256": "bd4b5fcfedfb9799c5f499636f26802e10a598d3f45056ddff0cba970014519b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-preflight-services-1789569161470-a13bb12e-ccb8-4991-a276-9d570946a67f.json",
+      "sha256": "eb17afa8d9bdf0891e34afd828d080d3264395c4a39e991ff2e4ec2261c36438"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T13-55-16.975Z.json",
+      "sha256": "a7cd14602d921fafd7cc75bd6bc9e1195f3fb25f33d4d7dca186547ba3ca07d0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T13-55-16.975Z.log",
+      "sha256": "177a47894d3058e98a166f2f37e5274392d0f4136a71ec895ae7c309b285594a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T14-08-40.949Z.json",
+      "sha256": "2b916ecb867452110e62e30202a228014991072d7e6787315fb083922e4cc6da"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-seed-auth-2026-09-16T14-08-40.949Z.log",
+      "sha256": "177a47894d3058e98a166f2f37e5274392d0f4136a71ec895ae7c309b285594a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-09-37.946Z.json",
+      "sha256": "2188e541ce47ea39b9d043883bd9d35de9b76bf718da446bc52c8b01f6412088"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-09-37.946Z.log",
+      "sha256": "d5782ef5b06c5baec085115c71db3a9f6b79c9d3dbc3723cf9c6017db7c75c5c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-11-08.387Z.json",
+      "sha256": "c9840a5b74d12124d4cb6755331cb9b02bdb87f493b8cbc9ceb049cbe3327832"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-11-08.387Z.log",
+      "sha256": "eef3ccd8bb17a36539e089fabc683bacbfc6366460374a4f2f70d0dc8013d968"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-27-36.321Z.json",
+      "sha256": "aabd94a35526d11f8da557e94fbeefd7e220dfe497889c6e1f197ee20a3004a1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-2026-09-16T14-27-36.321Z.log",
+      "sha256": "313f9819af968a71e6c8129c51127a305589d6468edf2ee03c5f84f56bcbd523"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T13-58-41.466Z.json",
+      "sha256": "f19a5c61fecabfac9f9bdc38cf14b1ef33e6cb6bf1c92dcb40beb8fe703055ff"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T13-58-41.466Z.log",
+      "sha256": "4d238d753e662f23d0216438229fe35e2621e642a8967196d15947afce3bfe61"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-02-22.630Z.json",
+      "sha256": "01991fa6ade27ee503ce0adbfae5bfa95bd39a9abea3a1ff965597dd6d90e890"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-02-22.630Z.log",
+      "sha256": "51e98da8cede295e8745e012d0137ed7b0b771cca4d2313e303344e82f2a657e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-10-01.587Z.json",
+      "sha256": "827f98075e92bdfb8d180ec8c58d64072b52d6ce8e8aea5076c49dc634d85cd0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-10-01.587Z.log",
+      "sha256": "3b718536c28af80d3498d80032053dae4b6f2bd78757b8446e719368d9c8b30b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-19-10.926Z.json",
+      "sha256": "ddb8759a64006a7492f7a41a64a5c23db531ac6fd4e7cba6c711628392c61dba"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-19-10.926Z.log",
+      "sha256": "c4455f4dbc5fad0ee8258b1730613f9bb15505cdc384094644430d1ae6969ac0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+      "sha256": "1873cb132a7a29d4658d0eb9106e87e3fb834e0a207b9523ae85027017579588"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.log",
+      "sha256": "c15647384212812c249a2c27d1acef7e19b5ba91f783f43c3dce4905af2a3c98"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-tracking-check-2026-09-16T14-17-43.981Z.json",
+      "sha256": "07342e687f819cff56c82c635d5727978c8f6e006bd3c874b721e6e5e70d3628"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-tracking-check-2026-09-16T14-17-43.981Z.log",
+      "sha256": "9c94213bb186407f82d2edf859d23031d45c2c2adee7d392e5d1033b07845689"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-46-49.150Z.json",
+      "sha256": "0f93a2d5718e0d344d55b44ffd001b1e609b615000020f9bee551fb2eeb700a1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-46-49.150Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-55-49.468Z.json",
+      "sha256": "72c6b83bcc2eb616034d3bd8a2d317abdc13d8a9a5ddfab9393902283fadc24b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T13-55-49.468Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-21-28.193Z.json",
+      "sha256": "be370fa0e15f7a05346d140fc414240ea3139b186ae557e210e577d26d87bfda"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-21-28.193Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-28-34.862Z.json",
+      "sha256": "bc65b3c3aacaa9ab69f336c8b50bdda80263e6fb36825dc5b5c7618f485b0a23"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-28-34.862Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-integration-1789568613302-25b713a3-03bf-4e0b-acf0-a26759b736b0.json",
+      "sha256": "39a1161e2aba4fbbc06a6dfd3d9364f0449cc210222ebbf0fe7ddd8571acf60a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-integration-1789569153229-7d3b581b-f416-4331-9b2f-c24ead2d618c.json",
+      "sha256": "73a07859f621a7d5173895ac7af29411484022aa155f9926c4d32295de170a32"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-23-25.217Z.json",
+      "sha256": "976decfed255a7c82d0681fdb36ab784a38ef076be181b6bea58b783c676ce69"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-23-25.217Z.log",
+      "sha256": "9dc6851b56c1337b8585c303986011908598b62bb007c03808f8aa017f5a2e93"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-32-30.670Z.json",
+      "sha256": "ace3fbc200c3f5899c415b8ca6b255bb84547550450319acc88e63cd589c40a7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-32-30.670Z.log",
+      "sha256": "36d905b119d2ebae27ef67d0ee7888ce2dd7aaed5700b3aca52e8962d770725e"
+    }
+  ],
+  "application_listening_at_capture": false,
+  "next_dependency": "Work A01 review/accepted ledger and human integration before A02; W01 completion still requires both A01 and A02. A02-A07 not implemented by this submission.",
+  "limitations": [
+    "A01 API/database scope only; no full application acceptance promoted.",
+    "HTTP loopback development; TLS, runtime egress, full reset/recovery, browser and rehearsal gates remain.",
+    "Dependency advisory audit NOT_RUN; earlier public metadata upload approval block remains.",
+    "Bootstrap pre-auth identity stores use disjoint role grants; business tables use scoped RLS.",
+    "No UI, production release, customer records or public deployment."
+  ]
+}
