@@ -1,0 +1,2456 @@
+{
+  "document": "ORVIA prototype evidence index",
+  "schema": "cowork.evidence_index/2",
+  "owner_lane": "Cowork",
+  "status": "DRAFT_FOR_REVIEW",
+  "revision": "c00-c02-r3",
+  "documentation_base_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+  "history_note": "r2 (base 96b8bd7) used schema v1 with one source inspection. r3 keeps that inspection as EV-SRC-001 and the e5cdef3 inspection made at 09:09Z (during an interrupted r3 attempt) as EV-SRC-002, both HISTORICAL, and adds EV-SRC-003 at e839b1a. Per-test evidence lives in records lists so real results can be indexed without overwriting history.",
+  "current_source_inspection_id": "EV-SRC-003",
+  "frozen_candidate": {
+    "status": "NOT_IDENTIFIED",
+    "commit": null,
+    "build_id": null,
+    "contract_version": null,
+    "profile": null,
+    "source": null
+  },
+  "rules": [
+    "This index points to evidence and records Cowork's review of it. It never sets canonical results; Work records those in tracking/acceptance.json.",
+    "Machine-produced artifacts stay unchanged at their artifact_paths; Cowork commentary lives only in review fields.",
+    "Null or an empty list means the fact is not available. Never fill it from expectation.",
+    "Record observed_result values: PASS, FAIL, ERROR, SKIPPED, RUNNING, copied from the artifact. A FAIL or ERROR is a result, not a readiness signal.",
+    "Record review_status values: REPORTED_NOT_INSPECTED, INSPECTED, INSPECTED_WITH_FINDINGS.",
+    "run_role distinguishes NORMAL runs from EXPECTED_DETECTION (a deliberately broken test-only fixture that must be detected) and HEALTHY_RERUN; an expected detection is never converted to PASS.",
+    "Evidence exists, evidence inspected, observed PASS and Work acceptance are four different facts.",
+    "Document-tool test fixtures never appear in this file."
+  ],
+  "record_schema": {
+    "required": [
+      "record_id",
+      "test_id",
+      "task_id",
+      "producing_lane",
+      "run_role",
+      "command",
+      "exit_code",
+      "started_at",
+      "finished_at",
+      "code_under_test_commit",
+      "build_id",
+      "contract_version",
+      "profile",
+      "fixture_id",
+      "observed_result",
+      "artifact_paths",
+      "artifact_sha256",
+      "source_handoff",
+      "review_status",
+      "reviewed_by",
+      "reviewed_at",
+      "limitations"
+    ],
+    "run_role": [
+      "NORMAL",
+      "EXPECTED_DETECTION",
+      "HEALTHY_RERUN"
+    ],
+    "observed_result": [
+      "PASS",
+      "FAIL",
+      "ERROR",
+      "SKIPPED",
+      "RUNNING"
+    ],
+    "review_status": [
+      "REPORTED_NOT_INSPECTED",
+      "INSPECTED",
+      "INSPECTED_WITH_FINDINGS"
+    ]
+  },
+  "source_inspections": [
+    {
+      "evidence_id": "EV-SRC-001",
+      "kind": "source_inspection",
+      "performed_by": "Cowork",
+      "performed_at": "2026-09-16T08:17:00Z",
+      "command": "git clone https://github.com/Nakum-hub/Cyberfyx-ORVIA.git; git log; git ls-files; sha256sum",
+      "exit_code": 0,
+      "commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+      "branches": [
+        "main"
+      ],
+      "observed": {
+        "tracked_files": {
+          "AGENTS.md": "b88cef4f546ed8679a15adfdfbe70c3824c50426710f5ad21e509a8cc0dbd8de",
+          "README.md": "ed23dedc5ef8c64dd8368c2c2793f6f087dbf7ca3d303eca75f3974e3c217bd6",
+          "README_START_HERE.md": "134511be8ce6f905b34fe90f9154b08dfe43dae6123c9d96a0e754c362b5a669",
+          "docs/prototype/ACCEPTANCE.md": "18d90fccd7210da5af660a83872b9f5b3f3d93de8b06ddf0cc54f847dd2659f3",
+          "docs/prototype/CONTRACT.md": "5c1a2b15d5ab9531889b8c6664348d5087f9ccee69bcdf8cfd07e05784db9794",
+          "docs/prototype/EXECUTION_PLAN.md": "cf066c65c5cf59bfddd2fb64ae6e09d8c2228feafd46f4e95fadb4b3997598c5",
+          "docs/prototype/FILE_OWNERSHIP.md": "fd9874b47f4ae901448383e45878ad47906190d79e466d2053328c98dac57544"
+        },
+        "application_code_present": false,
+        "docs_source_master_present": false,
+        "tracking_directory_present": false,
+        "current_state_present": false,
+        "handoffs_present": false
+      },
+      "review_status": "INSPECTED",
+      "limitations": "Inspection of the public main branch only. Other branches, forks or local checkouts were not visible to this session. Not an application test.",
+      "status": "HISTORICAL",
+      "superseded_by": "EV-SRC-002"
+    },
+    {
+      "evidence_id": "EV-SRC-002",
+      "kind": "source_inspection",
+      "status": "HISTORICAL",
+      "performed_by": "Cowork",
+      "performed_at": "2026-09-16T09:09:02Z",
+      "access_scope": "Anonymous HTTPS read through the session proxy (git fetch/ls-remote/ls-tree) and one public web page read for visibility. No GitHub API or write access in this session (API returned HTTP 403 'GitHub access to this repository is not enabled for this session').",
+      "command": "git fetch origin; git ls-remote origin; git log 96b8bd7..origin/main; git ls-tree -r --name-only origin/main; git show origin/main:<file> | sha256sum",
+      "exit_code": 0,
+      "commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "branches": [
+        "main"
+      ],
+      "remote_refs": {
+        "refs/heads/main": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "refs/pull/1/head": "ebaea86cae793d04808a1fc983e1adc31b1bbe06",
+        "refs/pull/2/head": "e09c23a7e1e38cb04d95fdfbdb805608560d1dce"
+      },
+      "repository_visibility": {
+        "value": "PUBLIC",
+        "method": "github.com repository page shows the 'Public' label (web fetch, 2026-09-16)",
+        "consistent_with": "CURRENT_STATE.md @ e5cdef3 ('Public repository')"
+      },
+      "observed": {
+        "tracked_files": {
+          "AGENTS.md": "b88cef4f546ed8679a15adfdfbe70c3824c50426710f5ad21e509a8cc0dbd8de",
+          "CURRENT_STATE.md": "aee49d7494e43262774064c20bc788896a4fcdb7b306dee8afb56f4282bc6603",
+          "README.md": "ed23dedc5ef8c64dd8368c2c2793f6f087dbf7ca3d303eca75f3974e3c217bd6",
+          "README_START_HERE.md": "134511be8ce6f905b34fe90f9154b08dfe43dae6123c9d96a0e754c362b5a669",
+          "docs/decisions/ADR-001-prototype-profile.md": "d86ac9527f93e92d275946a249f67aa44953b7b01ead0ab32c8cd1de955571e5",
+          "docs/prototype/ACCEPTANCE.md": "18d90fccd7210da5af660a83872b9f5b3f3d93de8b06ddf0cc54f847dd2659f3",
+          "docs/prototype/CONTRACT.md": "5c1a2b15d5ab9531889b8c6664348d5087f9ccee69bcdf8cfd07e05784db9794",
+          "docs/prototype/EXECUTION_PLAN.md": "cf066c65c5cf59bfddd2fb64ae6e09d8c2228feafd46f4e95fadb4b3997598c5",
+          "docs/prototype/FILE_OWNERSHIP.md": "fd9874b47f4ae901448383e45878ad47906190d79e466d2053328c98dac57544",
+          "docs/prototype/SOURCE_ALIGNMENT.md": "25af30e77cfb4769ba8c31032214ac7d7e10aedffb834c592eeede7ee87df328",
+          "docs/prototype/TASK_BOARD.md": "37640e2856a502d628a9aa0b5d9c7b751c28186a076acea1edd381413c2ac2e7",
+          "docs/reviews/work/W00_EVIDENCE.json": "99c222a86328c973a73c7f3984a5171bfbc5cc32dbb24151c2aac5ad9c81a47e",
+          "docs/reviews/work/W00_SCOPE_AND_CONTRACT.md": "75237729b5b6565715ec4bc6eac42454fb83194c58a72217f60f980c5033cea5",
+          "handoffs/work/W00-96b8bd7.md": "655dc094d74a76f8471034c2d7925ddf7368816dde2dbfe4f84b8103fd737723",
+          "tracking/acceptance.json": "9d0d05edab346a43a5c28eac1cab0417e2decde1ff50edcb89d0d8fc1777cca1",
+          "tracking/tasks.json": "a018a710678257adbae37df228173a22f56e554cb50c3568a82f17fc30e90e15"
+        },
+        "tracked_file_count": 16,
+        "application_code_present": false,
+        "docs_source_master_present": false,
+        "tracking_directory_present": true,
+        "tracking_capabilities_present": false,
+        "current_state_present": true,
+        "work_handoffs_present": true,
+        "codex_handoffs_present": false,
+        "claude_code_handoffs_present": false,
+        "packages_contracts_present": false
+      },
+      "review_status": "INSPECTED",
+      "limitations": "Main branch, remote refs and PR head refs only. Other forks, unpushed branches and local checkouts are not visible. The approved master and ORVIA_Prototype_Execution_Kit_v1.zip were not available to this Cowork session, so their hashes were not recomputed by Cowork; Work records a verified reference in CURRENT_STATE.md and SOURCE_ALIGNMENT.md. Not an application test.",
+      "superseded_by": "EV-SRC-003"
+    },
+    {
+      "evidence_id": "EV-SRC-003",
+      "kind": "source_inspection",
+      "status": "CURRENT",
+      "performed_by": "Cowork",
+      "performed_at": "2026-09-16T09:44:21Z",
+      "access_scope": "Anonymous HTTPS read through the session proxy (git fetch, ls-remote, ls-tree, show). GitHub API returned HTTP 403 'GitHub access to this repository is not enabled for this session'. A push dry-run returned HTTP 403 from the git proxy ('not in this session's authorized repository set'). One public web page read showed the 'Public' label.",
+      "command": "git fetch origin --prune; git ls-remote origin; git ls-tree -r --name-only origin/main; git show origin/main:<file> | sha256sum",
+      "exit_code": 0,
+      "commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+      "branches": [
+        "main"
+      ],
+      "remote_refs": {
+        "HEAD": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "refs/heads/main": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "refs/pull/1/head": "ebaea86cae793d04808a1fc983e1adc31b1bbe06",
+        "refs/pull/2/head": "e09c23a7e1e38cb04d95fdfbdb805608560d1dce",
+        "refs/pull/3/head": "4e3494db5502af821c7706cd831ace38b02e82c4"
+      },
+      "repository_visibility": {
+        "value": "PUBLIC",
+        "method": "github.com repository page 'Public' label (web fetch 2026-09-16 ~09:45Z)",
+        "consistent_with": "CURRENT_STATE.md @ e839b1a ('Public repository')"
+      },
+      "observed": {
+        "tracked_file_count": 209,
+        "tracked_files_excluding_codex_artifacts": {
+          ".env.example": "6ab337cf21592e3974d6d91a027877bc124364404f4ffc694b68e78aaf92a427",
+          ".gitattributes": "a3f1489ea0163a1370a1de50202cb3ca5491ae24f28817cf3e5caff6eabc9ccd",
+          ".gitignore": "6e26b483ab39246c8008d86187740325c928d73c76285adc8762b98a0ea83ece",
+          ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
+          ".npmrc": "ea3543c81ea419933e1b9ada116b4fdf04e82dd5550872a1065c6aea20fd2d8c",
+          "AGENTS.md": "b88cef4f546ed8679a15adfdfbe70c3824c50426710f5ad21e509a8cc0dbd8de",
+          "CURRENT_STATE.md": "aee49d7494e43262774064c20bc788896a4fcdb7b306dee8afb56f4282bc6603",
+          "README.md": "ed23dedc5ef8c64dd8368c2c2793f6f087dbf7ca3d303eca75f3974e3c217bd6",
+          "README_START_HERE.md": "134511be8ce6f905b34fe90f9154b08dfe43dae6123c9d96a0e754c362b5a669",
+          "apps/web/next-env.d.ts": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+          "apps/web/next.config.ts": "2aa4b1fdf563d9c53e757f6312f627b4c72a48379c7ccb0798326ca5b78d53ad",
+          "apps/web/package.json": "57bbc4f7c584016888ccc354de034a684e474950e980cf1a89b707a58037aaec",
+          "apps/web/src/app/healthz/route.ts": "4f7dbb8d85c4be4705b481d70363921893ea26e18f31a782ec79eb22801d2ec9",
+          "apps/web/src/app/layout.tsx": "a59407a10c49e11236d7e941c9ea65f159049f629659348a7a8181d190043e2b",
+          "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e",
+          "apps/web/tsconfig.json": "1696e493315e2529180a43cd1d8bd65c380df71ea4095c068c0ec22996a86509",
+          "apps/worker/package.json": "f962f55f579738c7065e01548866a3d727570275ee8dc07ed23251598987d0b1",
+          "apps/worker/src/probe-client.ts": "f9eccace0f2882ed07eaccb2abf24f7fdc62bf39204355ebe2cf75c26548412e",
+          "apps/worker/src/probe-worker.ts": "ecffaeb0502c6cc7aa7d7aeedd1dbdb31d124b8dea2e88b9b15004844746faf7",
+          "apps/worker/src/probe-workflows.ts": "1ab835739317411647271c26d233bccc251ebdd5e0f4157ab524d82e28ddceeb",
+          "docs/decisions/ADR-001-prototype-profile.md": "d86ac9527f93e92d275946a249f67aa44953b7b01ead0ab32c8cd1de955571e5",
+          "docs/engineering/A00-CONTRACT-PROPOSAL.md": "77098be40ff8498a2e3f9ef2a8781ec2104debd39f0ab25b1022daf40e4571c6",
+          "docs/engineering/A00-LOCAL-DEVELOPMENT.md": "38d93d2b23edd2accdd92db4b5b87137120ab044555fd717c9ef736182d38f30",
+          "docs/engineering/A00-dependency-research.md": "eca44bc8ef8181780a47ab2513e65b118b52b737434a0de8bb811dde57cbf972",
+          "docs/engineering/REPOSITORY_INVENTORY.md": "40df5a11c8f8f26a101b9c3669a5c289585129fb4591e7b28b650062afa200fe",
+          "docs/prototype/ACCEPTANCE.md": "18d90fccd7210da5af660a83872b9f5b3f3d93de8b06ddf0cc54f847dd2659f3",
+          "docs/prototype/CONTRACT.md": "5c1a2b15d5ab9531889b8c6664348d5087f9ccee69bcdf8cfd07e05784db9794",
+          "docs/prototype/EXECUTION_PLAN.md": "cf066c65c5cf59bfddd2fb64ae6e09d8c2228feafd46f4e95fadb4b3997598c5",
+          "docs/prototype/FILE_OWNERSHIP.md": "fd9874b47f4ae901448383e45878ad47906190d79e466d2053328c98dac57544",
+          "docs/prototype/SOURCE_ALIGNMENT.md": "25af30e77cfb4769ba8c31032214ac7d7e10aedffb834c592eeede7ee87df328",
+          "docs/prototype/TASK_BOARD.md": "37640e2856a502d628a9aa0b5d9c7b751c28186a076acea1edd381413c2ac2e7",
+          "docs/reviews/work/W00_EVIDENCE.json": "99c222a86328c973a73c7f3984a5171bfbc5cc32dbb24151c2aac5ad9c81a47e",
+          "docs/reviews/work/W00_SCOPE_AND_CONTRACT.md": "75237729b5b6565715ec4bc6eac42454fb83194c58a72217f60f980c5033cea5",
+          "eslint.config.mjs": "b7ce76ad2e1696b765e9d65c6520a139bf80d0766cf7adf76b01eaa37c100486",
+          "handoffs/codex/A00-changed-files.json": "b7209c7a5decea654415a8f06e75b6412c9cfb71d4b6bea2160664349ced8147",
+          "handoffs/codex/A00-command-index.json": "55ae96f1454988da484e91098aabb38accf866d86f5895116db107593e96547d",
+          "handoffs/codex/A00-e5cdef3.md": "5cf5dd9516593dca902bed94941841f6402de3b343ab2b20abed4cfea6e64fb3",
+          "handoffs/codex/A00-publication.json": "f6a0ab3a2886e51d9321d6057ae10dd12833b9be9ba479a4770204f7771d5d8b",
+          "handoffs/codex/generated/ACCEPTANCE.md": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320",
+          "handoffs/codex/generated/TASK_BOARD.md": "d0aac36c0a065d5ee7ddf187b3ba542a999d8bfb4a3be6670f3084a49dc0eb54",
+          "handoffs/work/W00-96b8bd7.md": "655dc094d74a76f8471034c2d7925ddf7368816dde2dbfe4f84b8103fd737723",
+          "infrastructure/compose.yaml": "8f21a3acd759ff4648f12fecaf384681ea4878157a0012d63f97f49f64c8f9b7",
+          "infrastructure/loopback.mjs": "ee8affcf18a8ae577b16bcce8744d65af600e37989adb8fdf18fd53639abb448",
+          "infrastructure/toolchain.lock.json": "53fe683a17d7ea1df48c0618e97418092787217fbcb02757555134ea47aa85f5",
+          "package.json": "07e6eefa036f88608d6d09b11848893d688d7868a1cd3b01e5c60394988bd4bb",
+          "packages/auth/package.json": "190cd7ac90db5ca1d3875ce361d5105ccddf24275beeab8bec0edf908f05698f",
+          "packages/auth/src/client.ts": "d33c4a4f07800b576719748f04e9b1eb0cce013749e7e809ce0f642d9128fd89",
+          "packages/contracts/fixtures/command-vector.json": "9bcfbb002bf6dc8dda9a40637cdd993fab3d6fac97467072966f88e9b5727009",
+          "packages/contracts/generated/client-types.d.ts": "bdc57f1c6103fa85f05b92054065902f4e33c72b48e8a685f116f5a5ac3ff036",
+          "packages/contracts/generated/contract-seed.proposed.json": "b538f2ec1e99a965d18646da36becbfa4676517271620bc8989f3fea52497098",
+          "packages/contracts/generated/endpoint-types.ts": "3d42ac6b98c1b23ed01df05159a628a69285f9eb7504671bcfad0e38508670e4",
+          "packages/contracts/generated/examples.json": "7c9cfccd6699343e917189a535492982ab842e5bd15804d3d45664355c1a873f",
+          "packages/contracts/generated/interfaces.json": "0c04679b31495703f738074ac59f3e2226dc6fb8f2e60f4940bb9f71a55c0504",
+          "packages/contracts/generated/manifest.json": "a04804ec7c807cc327668ad71e0bb47d609250381f615885d7c0c5daaafe0e58",
+          "packages/contracts/generated/openapi.json": "d940285830fb21fbac03401fbada1b694e56e8fa3ccfe23467f64d2b5958097d",
+          "packages/contracts/generated/signature-vector.json": "9bcfbb002bf6dc8dda9a40637cdd993fab3d6fac97467072966f88e9b5727009",
+          "packages/contracts/package.json": "d13665467ebe65447d75fbeed1f9da2e3cbfa21845c4c70cf6df37a209084ab1",
+          "packages/contracts/src/client.ts": "9ba572bf3764430434b641bd4162db2bb857d5564183772d4ec62c974f340a46",
+          "packages/contracts/src/crypto.ts": "9e18cfa407b70e54f1d9f9cb49fd169323b36edf025ab106e4d81605fbd5387c",
+          "packages/contracts/src/examples.ts": "b0192113082c228074aef57f2ae17e5c2d7fccfb25eb10531dabc95a774577e2",
+          "packages/contracts/src/generate.ts": "3ad5ec6aca95408a3769e07d2f86d12d21243c8f93f4964ed6c1fa3382afe915",
+          "packages/contracts/src/index.ts": "c791f346beef0237505dea97008ffb0fd51319c7b2ebe99895bd3c84e277c538",
+          "packages/db/migrations/0000_bootstrap.sql": "7073084c35b2e1c466fbb2c80567082200460bc9154f03f83e1c260a8d1f452d",
+          "packages/db/package.json": "b426da0385756a562cca13693ca5dc90808c30efc7e746cecf34f6a429739500",
+          "packages/db/src/index.ts": "5db679f21dc5a89e8711c9d24d5dcf98937c0f880339a735738d98f1fff5ebdb",
+          "packages/domain/package.json": "635f1575a51f296133a60ed865c6eb9286e2890ae1f15b0da3adc116be24538f",
+          "packages/domain/src/completion.ts": "b0d5eb972847687644d2472ab7c49828863390d1cd9c86f7d29dc4aeff30b915",
+          "packages/testing/package.json": "91e8ac8b30b6b89f52b0f1cec1211dea2150aed33d6a82c70e41394432e43594",
+          "packages/testing/src/config.ts": "0058594d0ffde318a316d163c56a663295f1f3ad20df4fe383402b6433b16877",
+          "packages/testing/src/evidence.ts": "8fe4542cd4d7e0458461cb39dfca80bbaadd49b4a95cca9f897f7c33f6e806eb",
+          "packages/testing/src/reset.ts": "31d24918c3da3e25b5368200e7c96af6f5b73bc9ac5c3e09fef4b5eed53fc2bc",
+          "pnpm-lock.yaml": "af56b3157c308cb1cd75d7230085c7bfff82a242f551256879366be8b8a20a58",
+          "pnpm-workspace.yaml": "b936f1216e0183ffb6993cfd0f0c0e4a97985f418b7318950c2a85379ec629c1",
+          "policy/bootstrap.rego": "6fc9e363e9a14af929185da4cde58b0fd2066fe0f9542db89a1e51db8d2005d4",
+          "scripts/bootstrap-tools.ps1": "70f71335b0947d065829857ac5a4b690dddc139983f9c27f69d54d2140c421a7",
+          "scripts/create-contract-vector.ts": "891f180a748abd80c6a775b13fbd37e63bd65142b10527d4915e002615c32d78",
+          "scripts/dev.ps1": "c61c2b9613da37c09003666f7c073b533dea95f4ad22fd33bc0e98c5cce34f23",
+          "scripts/handoff-index.mjs": "bc9466b23471679e05fef47c37b6fc59a038696b281813609c7a88955e3852eb",
+          "scripts/local-hygiene.mjs": "b70280436e766cb3850947071b79239223d44a8ae67ff5d5df78c7349556cb7f",
+          "scripts/migrate.ts": "53b999586db621308729578bf7bcf6889295e74451c93abb26ffa747dc82c806",
+          "scripts/preflight.ts": "6f1d32510d68044bf86235231095b2ed53879706472abc3cc4ce5c580b8a1c25",
+          "scripts/profile-init.mjs": "28d003a1eadcdc03fc34320843a878ab44ab436318f131ae86b1cff91c2dc7c0",
+          "scripts/record.mjs": "8a23831d75b2c2f89011457224d61bf44a22065dac5bdcb9e2f18857cdbdb0e3",
+          "scripts/reset-bootstrap.ts": "b017824d5368479eff0dd52bbd37471f86c17457f6ed5bd67abc5b64539226fa",
+          "scripts/resolve-toolchain.mjs": "6cb512b74db1d74d372de1839f9d853681f1573888143e4dd4a3337e1a304480",
+          "scripts/services.ts": "bf6935efd84c03179968ae794e5b5f441df7ae67666eab0e05e7f9d2030f5fda",
+          "scripts/tracking.ts": "bbf82797d2a5f120540a4e9ee1cb8f3025660ad58b395867350e3d7f866e1430",
+          "scripts/validate-tracking.ts": "b566d36482f7a658b8aabfcdb629df8867633ab74779b3b6f4a774c21858780a",
+          "scripts/web.ts": "580006e264691e7a82f429672e6dd3b171ae888c047d4b32160da17bf013afd0",
+          "tests/integration/bootstrap.test.ts": "9cf6f51d5280d8decc0928ed8d3c0c2e0c3c0e481ab106ced5a061f2b2da921d",
+          "tests/integration/web.test.ts": "2fb33ea8df88c7b2cabdeac47959fe5f447a5ffb23d888db5943044ae01d414e",
+          "tests/unit/contracts.test.ts": "82a5fcfd5f53bd464accb6dbb7ba95dc4d2bc4b1646cdde17e7d9cab88d7ae74",
+          "tests/unit/tracking.test.ts": "e1e5461dff241764351eca07827e319c0367d34c12270fab68e989247e52cb58",
+          "tracking/acceptance.json": "9d0d05edab346a43a5c28eac1cab0417e2decde1ff50edcb89d0d8fc1777cca1",
+          "tracking/tasks.json": "a018a710678257adbae37df228173a22f56e554cb50c3568a82f17fc30e90e15",
+          "tsconfig.json": "f358b266e3f1582483f6ef97aa7e8ae15b2581db97aa6b07295b1dcc1480378d"
+        },
+        "codex_artifact_file_count": 113,
+        "application_code_present": true,
+        "application_scope_note": "A00 bootstrap only: apps/web has layout.tsx, page.tsx (minimal foundation text) and /healthz; no workspace or Privacy Centre screens; business endpoints are contract-only (CONTRACT_ONLY_PENDING_TICKET).",
+        "workspace_or_privacy_screens_present": false,
+        "executable_contract_version": "0.2.0",
+        "executable_contract_review_status": "PENDING_W00 (handoffs/codex/A00-publication.json)",
+        "docs_source_master_present": false,
+        "tracking_capabilities_present": false,
+        "tracking_contract_seed_present": false,
+        "handoffs_template_present": false,
+        "current_state_present": true,
+        "current_state_changed_since_e5cdef3": false,
+        "canonical_task_status": {
+          "W00": "BLOCKED",
+          "A00": "NOT_STARTED",
+          "C00": "NOT_STARTED",
+          "B00": "NOT_STARTED",
+          "C01": "NOT_STARTED",
+          "C02": "NOT_STARTED"
+        },
+        "cowork_owned_paths_present_on_main": [],
+        "merged_prs_observed": [
+          "#1 Work W00",
+          "#2 Work W00 publication evidence",
+          "#3 Codex A00 bootstrap (merge commit e839b1a)"
+        ]
+      },
+      "review_status": "INSPECTED",
+      "limitations": "Public main branch and PR head refs only. No GitHub API, so branch protection, PR state and other forks were not inspected. The A00 merge is a human integration fact; Work's acceptance of A00/W00 is not recorded in tracking/tasks.json or CURRENT_STATE.md at this commit. Not an application test."
+    },
+    {
+      "evidence_id": "EV-SRC-004",
+      "kind": "approved_master_verification",
+      "status": "CURRENT",
+      "performed_by": "Cowork",
+      "performed_at": "2026-09-16T09:50:30Z",
+      "access_scope": "Read-only copy staged from the human's computer (C:\\Cyberfyx-projects, folder access approved in this session). Not committed; not published.",
+      "command": "sha256sum ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md",
+      "exit_code": 0,
+      "commit": null,
+      "observed": {
+        "bytes": 850752,
+        "sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+        "expected_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+        "document_revision": "1.3",
+        "module_inventory": {
+          "total_modules": 33,
+          "version_1_module_ids": "1-18, 26-33 (26 modules)",
+          "deferred_v2_module_ids": "19-25 (7 custom-AI modules)",
+          "source": "master section 'RELEASE ASSIGNMENT WITHOUT MODULE REMOVAL' and the preceding module list"
+        },
+        "repository_copy_present": false
+      },
+      "review_status": "INSPECTED",
+      "limitations": "Verifies the reference bytes only. The human-controlled repository copy under docs/source/ is still absent. The module inventory facts are for cross-checking the genuine tracking/capabilities.json when it is supplied; they are not a replacement register."
+    }
+  ],
+  "document_checks_ref": "docs/reviews/cowork/VALIDATION.md (document checks only; not application tests)",
+  "test_evidence": [
+    {
+      "test_id": "T01",
+      "priority": "P0",
+      "scenario": "Clean local start",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A00",
+        "A07"
+      ],
+      "journeys": [
+        "J00"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Human"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T02",
+      "priority": "P0",
+      "scenario": "Protected bootstrap and authentication",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A01",
+        "B01"
+      ],
+      "journeys": [
+        "J01"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T03",
+      "priority": "P0",
+      "scenario": "Tenant and environment isolation",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A01",
+        "A06"
+      ],
+      "journeys": [
+        "J02"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T04",
+      "priority": "P0",
+      "scenario": "Principal and staff separation",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A01",
+        "B02"
+      ],
+      "journeys": [
+        "J03"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T05",
+      "priority": "P0",
+      "scenario": "Least privilege and approval",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A01",
+        "A02",
+        "B01"
+      ],
+      "journeys": [
+        "J04"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T06",
+      "priority": "P0",
+      "scenario": "Persisted configuration and relationships",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A02",
+        "B01"
+      ],
+      "journeys": [
+        "J05"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T07",
+      "priority": "P0",
+      "scenario": "Grant and own receipt",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A02",
+        "B02"
+      ],
+      "journeys": [
+        "J06"
+      ],
+      "producing_lanes": [
+        "Claude Code",
+        "Codex"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T08",
+      "priority": "P0",
+      "scenario": "Atomic withdrawal acceptance",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A02",
+        "A06",
+        "B02"
+      ],
+      "journeys": [
+        "J07"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T09",
+      "priority": "P0",
+      "scenario": "Idempotency and concurrent epochs",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A02",
+        "A06"
+      ],
+      "journeys": [
+        "J07"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T10",
+      "priority": "P0",
+      "scenario": "Replay and fresh re-consent safety",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A02",
+        "A03",
+        "A06"
+      ],
+      "journeys": [
+        "J14"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T11",
+      "priority": "P0",
+      "scenario": "Outbox and worker recovery",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A03",
+        "A06"
+      ],
+      "journeys": [
+        "J18"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Human"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T12",
+      "priority": "P0",
+      "scenario": "Restricted signed commands",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A03",
+        "A06"
+      ],
+      "journeys": [
+        "J08"
+      ],
+      "producing_lanes": [
+        "Codex"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T13",
+      "priority": "P0",
+      "scenario": "Actual CRM mutation and readback",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A03",
+        "A05",
+        "B03"
+      ],
+      "journeys": [
+        "J08"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T14",
+      "priority": "P0",
+      "scenario": "Current send-admission enforcement",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A04",
+        "A06",
+        "B04"
+      ],
+      "journeys": [
+        "J09"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T15",
+      "priority": "P0",
+      "scenario": "Independent service purpose",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A04",
+        "A06"
+      ],
+      "journeys": [
+        "J06",
+        "J09"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T16",
+      "priority": "P0",
+      "scenario": "Degraded policy safety",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A04",
+        "A06"
+      ],
+      "journeys": [
+        "J09"
+      ],
+      "producing_lanes": [
+        "Codex"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T17",
+      "priority": "P0",
+      "scenario": "Applied but response lost",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "journeys": [
+        "J10"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T18",
+      "priority": "P0",
+      "scenario": "Acknowledgement without effect",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A05",
+        "A06"
+      ],
+      "journeys": [
+        "J11"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T19",
+      "priority": "P0",
+      "scenario": "Known failure and bounded retry",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "journeys": [
+        "J12"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T20",
+      "priority": "P0",
+      "scenario": "Manual and missing capability",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "journeys": [
+        "J13"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T21",
+      "priority": "P0",
+      "scenario": "Truthful evidence and dashboard",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A05",
+        "B03"
+      ],
+      "journeys": [
+        "J15",
+        "J16"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T22",
+      "priority": "P0",
+      "scenario": "Local export protection",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "journeys": [
+        "J02",
+        "J16"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T23",
+      "priority": "P0",
+      "scenario": "Healthy regression run",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A06",
+        "B04"
+      ],
+      "journeys": [
+        "J17"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T24",
+      "priority": "P0",
+      "scenario": "Broken fixture detection and repair",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A06",
+        "B04"
+      ],
+      "journeys": [
+        "J17"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T25",
+      "priority": "P0",
+      "scenario": "Quarantined target restore",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A06"
+      ],
+      "journeys": [
+        "J19"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Human"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T26",
+      "priority": "P0",
+      "scenario": "No runtime vendor/model egress",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A06",
+        "B04"
+      ],
+      "journeys": [
+        "J20"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Human",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T27",
+      "priority": "P0",
+      "scenario": "Input/session and secret hygiene",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A01",
+        "A06",
+        "B04"
+      ],
+      "journeys": [
+        "J21"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T28",
+      "priority": "P0",
+      "scenario": "Reset and fault isolation",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A00",
+        "A06",
+        "A07"
+      ],
+      "journeys": [
+        "J22"
+      ],
+      "producing_lanes": [
+        "Codex",
+        "Human"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T29",
+      "priority": "P0",
+      "scenario": "Integrated browser flow and error states",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B06"
+      ],
+      "journeys": [
+        "J21"
+      ],
+      "producing_lanes": [
+        "Claude Code"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T30",
+      "priority": "P0",
+      "scenario": "Frozen-candidate repeatability and claims",
+      "gate": true,
+      "mandatory_for_internal_demo": true,
+      "implementation_tasks": [
+        "A07",
+        "B06",
+        "W03",
+        "C02"
+      ],
+      "journeys": [
+        "J00",
+        "J23"
+      ],
+      "producing_lanes": [
+        "Human",
+        "Cowork (review)"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T31",
+      "priority": "P1",
+      "scenario": "Rights case coordination",
+      "gate": false,
+      "mandatory_for_internal_demo": false,
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "journeys": [
+        "J24"
+      ],
+      "producing_lanes": [
+        "TBD"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T32",
+      "priority": "P1",
+      "scenario": "Retention/hold review coordination",
+      "gate": false,
+      "mandatory_for_internal_demo": false,
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "journeys": [
+        "J25"
+      ],
+      "producing_lanes": [
+        "TBD"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T33",
+      "priority": "P1",
+      "scenario": "Development licence import",
+      "gate": false,
+      "mandatory_for_internal_demo": false,
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "journeys": [
+        "J26"
+      ],
+      "producing_lanes": [
+        "TBD"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    },
+    {
+      "test_id": "T34",
+      "priority": "P1",
+      "scenario": "Deterministic help",
+      "gate": false,
+      "mandatory_for_internal_demo": false,
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "journeys": [
+        "J27"
+      ],
+      "producing_lanes": [
+        "TBD"
+      ],
+      "canonical_status": {
+        "value": "NOT_RUN",
+        "source": "tracking/acceptance.json",
+        "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+        "owner": "Work"
+      },
+      "records": []
+    }
+  ],
+  "media": [],
+  "rehearsals": [],
+  "media_schema": {
+    "required": [
+      "media_id",
+      "kind",
+      "path",
+      "sha256",
+      "producer",
+      "live_or_recorded",
+      "code_under_test_commit",
+      "build_id",
+      "profile",
+      "captured_at",
+      "shows",
+      "does_not_show"
+    ],
+    "kind": [
+      "SCREENSHOT",
+      "RECORDING",
+      "BROWSER_TRACE"
+    ],
+    "live_or_recorded": [
+      "RECORDED"
+    ]
+  },
+  "rehearsal_schema": {
+    "required": [
+      "rehearsal_id",
+      "code_under_test_commit",
+      "build_id",
+      "profile",
+      "started_at",
+      "finished_at",
+      "log_path",
+      "issues",
+      "performed_by"
+    ]
+  },
+  "summary": {
+    "p0_total": 30,
+    "p0_with_records": 0,
+    "p0_with_inspected_pass_on_candidate": 0,
+    "p1_selected": 0,
+    "records": 0,
+    "screenshots": 0,
+    "recordings": 0,
+    "browser_traces": 0,
+    "rehearsals_completed": 0,
+    "engineering_reports": 51,
+    "engineering_reports_nonzero_exit": 14
+  },
+  "engineering_reports": {
+    "source_handoff": "handoffs/codex/A00-e5cdef3.md",
+    "command_index": "handoffs/codex/A00-command-index.json",
+    "scope": "A00 bootstrap subset (T01/T28 at bootstrap depth only, per the Codex handoff). Not application acceptance; canonical T01–T34 remain as recorded by Work.",
+    "not_run": [
+      {
+        "command": [
+          "node",
+          "scripts/record.mjs",
+          "audit",
+          "--json"
+        ],
+        "reason": "Automatic approval review rejected private lockfile metadata egress to public advisory service. No process exit code; not executed."
+      }
+    ],
+    "review_status": "INSPECTED_FOR_CONSISTENCY_ONLY",
+    "reviewed_by": "Cowork",
+    "reviewed_at": "2026-09-16T09:50:00Z",
+    "limitations": "Cowork did not re-execute any command. Failed attempts are retained as reported. Consistency check covers artifact presence and exit codes only.",
+    "records": [
+      {
+        "report_id": "ENG-A00-001",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install",
+        "exit_code": 1,
+        "started_at": "2026-09-16T08:48:11.769Z",
+        "finished_at": "2026-09-16T08:49:08.863Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "c82566d634cec09af651e8a2d7024ee29451dd4a6ebe85458ef166731c562d77",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-48-11.769Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-48-11.769Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-48-11.769Z.json": "e21913f0b1e5b22d94176beb646eda870cc1ae4418f9844dd906d5a85f2ce1d7",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-48-11.769Z.log": "e4566a6d8a1a0297bd83e0969d9bd5ad7d0218f21d2b1e6c60aafb528dc318eb"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-002",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:generate",
+        "exit_code": 1,
+        "started_at": "2026-09-16T08:51:59.656Z",
+        "finished_at": "2026-09-16T08:52:19.681Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "d5b68407b76de6d51a98a9c688e18e1746c67fa45924181761c090cbfa4a3978",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-51-59.656Z.json",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-51-59.656Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-51-59.656Z.json": "01de5e43ffc14372dcd63ff3fabeff1752b17859a6da5c237791bcd40965614e",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-51-59.656Z.log": "103ee8471bdbd73ae0df1348b91af28565cd99c9dba21299c93d7d4d35a155af"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-003",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install --frozen-lockfile",
+        "exit_code": 0,
+        "started_at": "2026-09-16T08:56:41.219Z",
+        "finished_at": "2026-09-16T08:56:46.745Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "2ee163c28d4ee170daa81385a8c85c9c028732b021351de152f665ae0341b826",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-56-41.219Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-56-41.219Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-56-41.219Z.json": "3a6fae9a04ae8bdbe670a05008d3f02f400029dab6b8418205c96ad5e1b02b1e",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T08-56-41.219Z.log": "d66d6d8afbd00a63777cdb221338482c4e019a30ccfaeba256a0aa69e0b80e79"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-004",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs services pull",
+        "exit_code": 0,
+        "started_at": "2026-09-16T08:56:57.848Z",
+        "finished_at": "2026-09-16T08:58:32.620Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "2ee163c28d4ee170daa81385a8c85c9c028732b021351de152f665ae0341b826",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-services-2026-09-16T08-56-57.848Z.json",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T08-56-57.848Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-services-2026-09-16T08-56-57.848Z.json": "ce9f1f09692c0c614c95dd232b2e563813cca0df4ac7101b6db601d6537eee34",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T08-56-57.848Z.log": "f96f1d8987436c5fee4588b33b51b74f83d0496a95ee62a9f212137fd3b81eb6"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-005",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:generate",
+        "exit_code": 1,
+        "started_at": "2026-09-16T08:57:13.202Z",
+        "finished_at": "2026-09-16T08:57:21.886Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "2ee163c28d4ee170daa81385a8c85c9c028732b021351de152f665ae0341b826",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-57-13.202Z.json",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-57-13.202Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-57-13.202Z.json": "3587bb0af2dce5600a5a0085e1c420d0380749384a4e857431ebd8301eb13fef",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-57-13.202Z.log": "c31b76af4ead8f88e158c881c07a3839b4a7682cabd4f4b6af149c5ade1e8d54"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-006",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:generate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:00:09.163Z",
+        "finished_at": "2026-09-16T09:00:13.779Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "dba269f4333378de9c6ad3e6fffedec218e1317c0b6e92ca500d2f55c03d8351",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-00-09.163Z.json",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-00-09.163Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-00-09.163Z.json": "a4695a001d67e7ded7a83e45f0b1d3bb17502eea85445e474931219227c4c492",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-00-09.163Z.log": "368fdf5bbe29068c30565ce4b8e18c2fc495e35c1ab579c1ef9559dbe256a78c"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-007",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs services up",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:00:40.494Z",
+        "finished_at": "2026-09-16T09:00:46.417Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "40d4741892866d85665cfa4c0ac3c061b1ed6a13223b138f36a9e40f65430db3",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-00-40.494Z.json",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-00-40.494Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-00-40.494Z.json": "0d55526c6dd42d16dc10105770f2afcf267cea4bcbd6fd792b68a85766a45145",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-00-40.494Z.log": "bff5cd6922956933ab6e6514e997be035e7c723d57ea468ed64cb6218e2ae612"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-008",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 2,
+        "started_at": "2026-09-16T09:00:49.666Z",
+        "finished_at": "2026-09-16T09:01:49.611Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "40d4741892866d85665cfa4c0ac3c061b1ed6a13223b138f36a9e40f65430db3",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-00-49.666Z.json",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-00-49.666Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-00-49.666Z.json": "fd5f79f1b604a59daa5c2bfd6bb174c8c87a4494b9665eafc6b13c27c4dd656a",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-00-49.666Z.log": "6942298592642dc0e16c3153bb4a0893e9c31f8677ebeeb93cb4da2fe8a3a4e0"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-009",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:02:29.439Z",
+        "finished_at": "2026-09-16T09:02:40.658Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "83d031769f0724d9f127975c33fe479186fc8796f517f6647e5b5926ebeb16f6",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-02-29.439Z.json",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-02-29.439Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-02-29.439Z.json": "f20c57a78f9363c12c6a3e36c346366320024f863ab5245bf66c46f2f5456d4d",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-02-29.439Z.log": "dbcf856274b40de798acd633ad0d08911e51721a63eed0dd25c6f0bc7385e25c"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-010",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs preflight",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:04:06.934Z",
+        "finished_at": "2026-09-16T09:04:27.321Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "4ec74b4ea90f206b753788985c5aa10c00a48eae3697494841f7302a3be7ef3d",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-04-06.934Z.json",
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-04-06.934Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-04-06.934Z.json": "2f3814b258420f6899b88457d1edcadcac9d0ef1bdeaf0a3239fca04d48d3789",
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-04-06.934Z.log": "0cd20dbd6940c4c18c51254a6c08555ca7dd99e98cd73fa917e4ec6aa4d619c9"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-011",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:04:37.855Z",
+        "finished_at": "2026-09-16T09:04:57.441Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "4ec74b4ea90f206b753788985c5aa10c00a48eae3697494841f7302a3be7ef3d",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-04-37.855Z.json",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-04-37.855Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-04-37.855Z.json": "dccd3d0f1ca9422ad8d633acce09015ca734031b5ea04690a7a2a220cc179e48",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-04-37.855Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-012",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs services up",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:05:36.293Z",
+        "finished_at": "2026-09-16T09:05:42.208Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "cd8a9acd005a82173cdfd05753b1dd0ed5eca05b397631820e3704c7c13f4581",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-05-36.293Z.json",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-05-36.293Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-05-36.293Z.json": "021d04c3ca0b15320876c2930773fb58209669f153b92370ef161a377567721c",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-05-36.293Z.log": "9b1ea296471394bfef042ba844241f2e0387d17c3fe77bf3962f3d82ec5a776a"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-013",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:05:49.195Z",
+        "finished_at": "2026-09-16T09:05:53.206Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "cd8a9acd005a82173cdfd05753b1dd0ed5eca05b397631820e3704c7c13f4581",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-05-49.195Z.json",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-05-49.195Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-05-49.195Z.json": "62dd2a2d19609021623b4672048308254f06ae4ddc3aed3b93ecb4b951e3b9a8",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-05-49.195Z.log": "dbcf856274b40de798acd633ad0d08911e51721a63eed0dd25c6f0bc7385e25c"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-014",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs tracking:check --propose-views",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:07:05.024Z",
+        "finished_at": "2026-09-16T09:07:07.359Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "cd8a9acd005a82173cdfd05753b1dd0ed5eca05b397631820e3704c7c13f4581",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-07-05.024Z.json",
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-07-05.024Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-07-05.024Z.json": "27c9d28c61bd104bc49cf2715dcf199367c99155b824465a6d147acd8af83dcb",
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-07-05.024Z.log": "96f249795e876281c3707c3c16602fa931b9d4a130e96254c99a092ed4edfe67"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-015",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs services pull",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:07:54.483Z",
+        "finished_at": "2026-09-16T09:08:14.453Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "2618f1221eb6d67dd0fd06dd9580dc1b4c8da7499ec1317a7821ad7fa4f6fed8",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-07-54.483Z.json",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-07-54.483Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-07-54.483Z.json": "6af65b0a9d7d513a26a812d7f651f187d12f4e428d9285e1224d95d7e106a524",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-07-54.483Z.log": "f7b9f83305fe979a4806da91aba0883c3d577acbd02e8efe432e3c095b396cc1"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-016",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:09:51.082Z",
+        "finished_at": "2026-09-16T09:09:54.671Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-09-51.082Z.json",
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-09-51.082Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-09-51.082Z.json": "e7d3d6fbd712fd79b6588d562b228bbf39bef2eba71e69364b71be745e53c989",
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-09-51.082Z.log": "748a421a8edac29fd9444c5c0fd7940aa25360819f906be20298b4ad1c3c0b8f"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-017",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:09:51.401Z",
+        "finished_at": "2026-09-16T09:10:32.691Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-09-51.401Z.json",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-09-51.401Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-09-51.401Z.json": "c4aaed96ec6b5e634698fcee1a5a3e4b6594483b5245b13da4111917b6ab56e8",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-09-51.401Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-018",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs services up",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:10:18.623Z",
+        "finished_at": "2026-09-16T09:10:26.581Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-10-18.623Z.json",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-10-18.623Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-10-18.623Z.json": "396851166068b9b5c2312cc16c07333d484e3bbd095c2ca90db9ac6cce02c426",
+          "handoffs/codex/artifacts/A00-services-2026-09-16T09-10-18.623Z.log": "601c1cd95930e06d451dd8a4be417867ab6aa2b30bc6767178e836791df41c1a"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-019",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:10:32.417Z",
+        "finished_at": "2026-09-16T09:10:37.290Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-10-32.417Z.json",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-10-32.417Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-10-32.417Z.json": "3e4c52929c4749ac08eeba188c7e70b151bd8d26cf47b87c4647b6817213356a",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-10-32.417Z.log": "c95eec744be147731c989d4042759e4cb302e16f45d4ebaf199b00a8dfecfbb6"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-020",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs preflight",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:11:04.960Z",
+        "finished_at": "2026-09-16T09:11:10.070Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-11-04.960Z.json",
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-11-04.960Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-11-04.960Z.json": "34de1f0afb761cb417d67db1c650669c9ed1b3a5cf74de8ce1e0fca5622a4d99",
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-11-04.960Z.log": "aa7f5ac25b1d83a7efa42abe6132f565637ec766fadf56d1bd4e8bf400364211"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-021",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs services:smoke",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:11:17.322Z",
+        "finished_at": "2026-09-16T09:12:32.899Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-services-smoke-2026-09-16T09-11-17.322Z.json",
+          "handoffs/codex/artifacts/A00-services-smoke-2026-09-16T09-11-17.322Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-services-smoke-2026-09-16T09-11-17.322Z.json": "be87cbe1acf683e8d80e5afb100dcb36b6b4215481296bed84f5fb3d86f3b906",
+          "handoffs/codex/artifacts/A00-services-smoke-2026-09-16T09-11-17.322Z.log": "f1e8236efecad195adce62928a2b96ee85b71e702fe1cec61195ad6ea8e86288"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-022",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:11:30.433Z",
+        "finished_at": "2026-09-16T09:11:55.447Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-11-30.433Z.json",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-11-30.433Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-11-30.433Z.json": "fba5846f040672482191d9f6292be9eba5e50017765096a6a4bee752ba62581c",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-11-30.433Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-023",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:13:00.383Z",
+        "finished_at": "2026-09-16T09:14:14.148Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-13-00.383Z.json",
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-13-00.383Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-13-00.383Z.json": "69041d9326b6014c28a73e092fac9f5feb6a9f70414757cfd9a7340fbe055425",
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-13-00.383Z.log": "3f5afaa696423e859b4c5efaed264ce635243d5e631e2451bdc1226cf5a63111"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-024",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs reset:bootstrap codex-a00 codex-a00-bootstrap-only",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:13:58.143Z",
+        "finished_at": "2026-09-16T09:14:01.912Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-reset-bootstrap-2026-09-16T09-13-58.143Z.json",
+          "handoffs/codex/artifacts/A00-reset-bootstrap-2026-09-16T09-13-58.143Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-reset-bootstrap-2026-09-16T09-13-58.143Z.json": "7045b7d257fd545111aec161b10f8861eb6d9e50f0b3241970cb1e7f3e4da1d7",
+          "handoffs/codex/artifacts/A00-reset-bootstrap-2026-09-16T09-13-58.143Z.log": "a2d1925fd3e6c72ebd20dcb3bbc03b5cec020b190f8c6e3aec433694b5dda51e"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-025",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:15:15.784Z",
+        "finished_at": "2026-09-16T09:16:00.652Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "dfb7b651de1e0b33206bffd610bb7ca6241b53a43c7f10261505252729bdb4f2",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-15-15.784Z.json",
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-15-15.784Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-15-15.784Z.json": "39a47c1fc231e6d45d8c3c2bb1505e42cc15ab24f6a9afee0d40cb3bee90733f",
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-15-15.784Z.log": "49d04c9b7c5820ffaadc28fea4a0fa3da174eb6b0cdca873692a5e9f985edac4"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-026",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:17:21.161Z",
+        "finished_at": "2026-09-16T09:17:23.448Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "a9a9c27f728ca9474fb44d46d72c4b63b8d697d5236dc2ed1f30dee6b8d611f4",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-17-21.161Z.json",
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-17-21.161Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-17-21.161Z.json": "f0da248b3ec728b580f56f5f239b4270e6286c0628bca5ecc70a26d34a6448d1",
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-17-21.161Z.log": "3bc009647bc4ea94e33a2d0c8168883263e463183fdb2f32ea030fb5f39bc137"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-027",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs tracking:check --propose-views",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:17:21.300Z",
+        "finished_at": "2026-09-16T09:17:22.651Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "a9a9c27f728ca9474fb44d46d72c4b63b8d697d5236dc2ed1f30dee6b8d611f4",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-17-21.300Z.json",
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-17-21.300Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-17-21.300Z.json": "952e255ee121a79d0ae088bc011d185ae1bb805acf6bd4b68957dc41b42d1dbb",
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-17-21.300Z.log": "96f249795e876281c3707c3c16602fa931b9d4a130e96254c99a092ed4edfe67"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-028",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs web:smoke",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:17:54.770Z",
+        "finished_at": "2026-09-16T09:17:57.311Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "a9a9c27f728ca9474fb44d46d72c4b63b8d697d5236dc2ed1f30dee6b8d611f4",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-17-54.770Z.json",
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-17-54.770Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-17-54.770Z.json": "c9e281dbacb955560833e50ef28a36749d542b83ea7208900b032badcb5e50c5",
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-17-54.770Z.log": "bc69e757d382f655afaa2157ed490fa4ef1ada6f2a75f0f8afb622818a9197b6"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-029",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:generate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:19:50.913Z",
+        "finished_at": "2026-09-16T09:20:15.208Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "210f58b2275e4f6912533f325b5a7c28ae4377711271725db1da28b632c6f318",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-19-50.913Z.json",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-19-50.913Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-19-50.913Z.json": "84f6051ae0e82e942192914e4f08304d0d3f1203593cc1c2933f05628294bd8f",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-19-50.913Z.log": "5ac9571a2b6abc793404f30c379b245031b5b7c3df621163f3ee86c4c8cabbfd"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-030",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 2,
+        "started_at": "2026-09-16T09:19:51.419Z",
+        "finished_at": "2026-09-16T09:20:17.111Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "210f58b2275e4f6912533f325b5a7c28ae4377711271725db1da28b632c6f318",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-19-51.419Z.json",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-19-51.419Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-19-51.419Z.json": "8834706e18971560eaa5bb3c8372f8e3249b838a4c5378e9670df6e260d88273",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-19-51.419Z.log": "f06da155254c79f592f080d9a8b420b4b49628c2b0f3c5ce5dcac5a1f4676ddc"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-031",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:19:51.882Z",
+        "finished_at": "2026-09-16T09:20:16.573Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "210f58b2275e4f6912533f325b5a7c28ae4377711271725db1da28b632c6f318",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-19-51.882Z.json",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-19-51.882Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-19-51.882Z.json": "df7be5c9ab7306a9bea4aaca67a1af9c9c36b209d5f80d1d45d5e087873f6e2e",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-19-51.882Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-032",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:generate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:27:31.542Z",
+        "finished_at": "2026-09-16T09:27:38.465Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "f3047afec2b18c98d77d26aa605901205bed78189f2c0eadce1b8368e7fb6db1",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-27-31.542Z.json",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-27-31.542Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-27-31.542Z.json": "693af62dc519ac4e8c0aa506a4f44b1a1f40005ab673386d227885f0a8ee9e40",
+          "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-27-31.542Z.log": "5ac9571a2b6abc793404f30c379b245031b5b7c3df621163f3ee86c4c8cabbfd"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-033",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install --frozen-lockfile --offline",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:27:39.639Z",
+        "finished_at": "2026-09-16T09:27:39.998Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-27-39.639Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-27-39.639Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-27-39.639Z.json": "2251671c0f25ba0afbe6626537661d9742e0beb1199344d35d72e6b87f6c7476",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-27-39.639Z.log": "8629dc8dd252be276e396b3230d234c381aad60bd939118226e5b39509904ff3"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-034",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install --frozen-lockfile --offline",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:28:32.077Z",
+        "finished_at": "2026-09-16T09:28:36.073Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-28-32.077Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-28-32.077Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-28-32.077Z.json": "e01f0a0170f4a9962255851972e2414f6ec0d3797097fde19851599f8543e5d2",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-28-32.077Z.log": "c35cd243cd286fd7067fb4ba5e80899ace8ed6b542895970edb0f92bd998eab9"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-035",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:check",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:29:04.665Z",
+        "finished_at": "2026-09-16T09:29:05.377Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-29-04.665Z.json",
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-29-04.665Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-29-04.665Z.json": "1c493805efc5200b21d8ca8d91f3bfefdcf8713be0aecda66de70101dcb01abb",
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-29-04.665Z.log": "387b540a572ecfdfc7dd5d40c3a5dd90ee156db9c7a40e014670cd6d9f108e35"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-036",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install --frozen-lockfile --offline",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:29:30.482Z",
+        "finished_at": "2026-09-16T09:29:32.218Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-29-30.482Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-29-30.482Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-29-30.482Z.json": "cdc52c8770ce1abbf673144c6ea9e1c09cd5d52dd9d529f863fc4357b8f78c50",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-29-30.482Z.log": "2ad037fb4c178984b9b610f17a6b884f27fc87abed93ad6488a36e86b6630559"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-037",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install --frozen-lockfile --offline",
+        "exit_code": 1,
+        "started_at": "2026-09-16T09:30:18.319Z",
+        "finished_at": "2026-09-16T09:30:23.127Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-30-18.319Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-30-18.319Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-30-18.319Z.json": "863b4529f82fc7776a52730fe1bb805b8709ccdf0a4bc6820c0bc730aee3397d",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-30-18.319Z.log": "8a6389dfdd1218c47fd215fc7895ed716701c069e810ddae4e88f70959eb6f4f"
+        },
+        "reported_result": "FAIL",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-038",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install --frozen-lockfile --offline",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:31:38.793Z",
+        "finished_at": "2026-09-16T09:31:44.610Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-31-38.793Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-31-38.793Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-31-38.793Z.json": "e77773f54cc8ac50147e464a79963578265e802d0fda3271f7cd675ef2dbf42e",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-31-38.793Z.log": "52112cce93a809b82a8aaa1cbe666a696a6f90d9c20ce3402dcd5cc3cd5e03a4"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-039",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs install --frozen-lockfile --offline",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:32:03.135Z",
+        "finished_at": "2026-09-16T09:32:03.390Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-32-03.135Z.json",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-32-03.135Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-32-03.135Z.json": "4b018179a238b81dfc97457decbc989ff3cb8f6aad17cc743ed9369d40fd02a8",
+          "handoffs/codex/artifacts/A00-install-2026-09-16T09-32-03.135Z.log": "e2e170706ae96de692d92ef428ed55d2c002a481bae3e1876cc4dd0df2f7e9c1"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-040",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:32:22.400Z",
+        "finished_at": "2026-09-16T09:33:08.585Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-32-22.400Z.json",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-32-22.400Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-32-22.400Z.json": "e7905cb5488bf63eed145f48fd473023a3567a3dd22a8594a46196478b477d04",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-32-22.400Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-041",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:32:22.400Z",
+        "finished_at": "2026-09-16T09:32:28.369Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-32-22.400Z.json",
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-32-22.400Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-32-22.400Z.json": "3408cba397f78b651964d4f8b0d33ad7af672f86ffa7ec9571afccbb0c408506",
+          "handoffs/codex/artifacts/A00-test-2026-09-16T09-32-22.400Z.log": "b0ad425e8423c21027197c1627e59c9ded6071810403997c8c7c29802b4477e1"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-042",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:32:22.400Z",
+        "finished_at": "2026-09-16T09:33:09.126Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-32-22.400Z.json",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-32-22.400Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-32-22.400Z.json": "a95ceb3348e7cbe6d89813d95feefcff17572dfd08fa9fdd7118f3a39114cf8f",
+          "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-32-22.400Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-043",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:32:22.612Z",
+        "finished_at": "2026-09-16T09:32:39.406Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-32-22.612Z.json",
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-32-22.612Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-32-22.612Z.json": "1740cccb96346961718db6208131ec53691344296217a7cc298cde2ba9928015",
+          "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-32-22.612Z.log": "ab8f4049771a81e4152185399f2f8eb259854dc7cbe3da8338e7cc136064d5ac"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-044",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:33:08.070Z",
+        "finished_at": "2026-09-16T09:33:40.383Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "f148b763e2a3adcef9f8aeac837559df41d245016caf3abb1a23357875e91529",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-33-08.070Z.json",
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-33-08.070Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-33-08.070Z.json": "43da9a33874f1e886a224ccfedd23f98f0fd98fe5260ac92cbf75e6aff8a549f",
+          "handoffs/codex/artifacts/A00-build-2026-09-16T09-33-08.070Z.log": "33197c12364d175b5fdc257eac70888829cffdac0c46e66e879736988f0b0807"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-045",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs hygiene:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:34:16.348Z",
+        "finished_at": "2026-09-16T09:34:17.780Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-34-16.348Z.json",
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-34-16.348Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-34-16.348Z.json": "6d1b781761655aca0f139bda0532b9b153a659284bebcd2ce333c0a0c5541cc6",
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-34-16.348Z.log": "ff732f7e002d370fd72b311a2b37c1ccf381adb150dd4356cfa2ca4aaa96cf32"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-046",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs tracking:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:34:18.929Z",
+        "finished_at": "2026-09-16T09:34:19.435Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-34-18.929Z.json",
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-34-18.929Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-34-18.929Z.json": "989db1018baa49791e6303474be63c1ac929227beec0df830c6f37dd37ba9960",
+          "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-34-18.929Z.log": "9c94213bb186407f82d2edf859d23031d45c2c2adee7d392e5d1033b07845689"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-047",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:34:38.945Z",
+        "finished_at": "2026-09-16T09:34:45.058Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-34-38.945Z.json",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-34-38.945Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-34-38.945Z.json": "6d72d07e3adb1f342259324b0f4800eaa7054b9f80b274278e525bd7b7e1c352",
+          "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-34-38.945Z.log": "236fd451a59f98d8a35973f2a6c83bdb33a3814fb386612ee69ad5f25f9c87a1"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-048",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs web:smoke",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:34:49.402Z",
+        "finished_at": "2026-09-16T09:34:51.096Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-34-49.402Z.json",
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-34-49.402Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-34-49.402Z.json": "87e6c383be5c0fa61191c721be6d40724ba2a2e9cb25e6d581e5f946889c6118",
+          "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-34-49.402Z.log": "3c686a028816be626cde28a945d14ed6fdaed13ea899755e95eef2ef03161dc3"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-049",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs preflight",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:35:24.554Z",
+        "finished_at": "2026-09-16T09:35:35.623Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-35-24.554Z.json",
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-35-24.554Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-35-24.554Z.json": "54ce9d79b97eeab12214d6d1ebb09736eb1f0a0699c774d9c0274adf80c9c0bb",
+          "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-35-24.554Z.log": "7b74be03626c492752d305cfe3251425920b41fac6556d24b95aec77450a2b77"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-050",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:35:35.666Z",
+        "finished_at": "2026-09-16T09:35:39.658Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-35-35.666Z.json",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-35-35.666Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-35-35.666Z.json": "62ebfb08feb5a2c9a0635141dd89aeb4de91c5fd89a1e10e08903245ebd9d007",
+          "handoffs/codex/artifacts/A00-lint-2026-09-16T09-35-35.666Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      },
+      {
+        "report_id": "ENG-A00-051",
+        "task_id": "A00",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs hygiene:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T09:36:12.997Z",
+        "finished_at": "2026-09-16T09:36:13.549Z",
+        "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+        "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+        "profile": "codex-a00",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-36-12.997Z.json",
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-36-12.997Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-36-12.997Z.json": "c6d4ba94f6e27aa33ae37568d6ab032eaa65bedd4c73ab369bd5a5f9a7318c7a",
+          "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-36-12.997Z.log": "43550a6714c1e5a5987cd5d103ce5acbd6b09568404c24c2e745e39652425ad7"
+        },
+        "reported_result": "PASS",
+        "cowork_check": "Artifact present at e839b1a; its exit_code equals the command index.",
+        "counts_as_acceptance": false
+      }
+    ]
+  }
+}
