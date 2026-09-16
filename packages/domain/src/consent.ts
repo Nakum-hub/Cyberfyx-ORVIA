@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import * as S from '../../contracts/src/index.ts';
 import { AccessError } from '../../authz/src/index.ts';
-import { audit, predicate, scopeValues, requireOne, type Context, type Page } from './transaction.ts';
+import { audit, predicate, scopeValues, requireOne, lockConsent, type Context, type Page } from './transaction.ts';
 
 export async function ownChoices(c: Context, page: Page) {
   const scope=scopeValues(c.actor);
@@ -24,6 +24,7 @@ export async function changeConsent(c: Context, purposeId: string, kind: 'grant'
   const value=kind==='grant'?S.Grant.parse(input):S.Withdraw.parse(input);const scope=scopeValues(c.actor);
   const purpose=requireOne((await c.tx.query(`SELECT code FROM app.purpose_versions WHERE ${predicate} AND id=$4`,[...scope,purposeId])).rows);
   if(purpose.code!=='promotional_marketing')throw new AccessError(400,'VALIDATION_ERROR');
+  await lockConsent(c.tx,c.actor.scope,c.actor.principal_id!,purposeId);
   // All current-consent decisions (including later send admission) use this same
   // aggregate row lock. INSERT handles the absent initial row under concurrency.
   await c.tx.query(`INSERT INTO app.consent_aggregates(tenant_id,legal_entity_id,environment_id,principal_id,purpose_id) VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING`,[...scope,c.actor.principal_id,purposeId]);
@@ -54,8 +55,9 @@ export async function ownReceipt(c: Context, id: string) {
   const event=requireOne((await c.tx.query(`SELECT receipt,purpose_id FROM app.consent_events WHERE ${predicate} AND receipt_id=$4 AND principal_id=$5`,[...scope,id,c.actor.principal_id])).rows);
   const receipt=S.Receipt.parse(event.receipt);
   const aggregate=requireOne((await c.tx.query(`SELECT epoch,state FROM app.consent_aggregates WHERE ${predicate} AND purpose_id=$4 AND principal_id=$5`,[...scope,event.purpose_id,c.actor.principal_id])).rows);
-  const workflow=receipt.workflow_id?requireOne((await c.tx.query(`SELECT state FROM app.workflows WHERE ${predicate} AND id=$4 AND principal_id=$5`,[...scope,receipt.workflow_id,c.actor.principal_id])).rows):null;
-  return S.ReceiptView.parse({receipt,current:{consent_status:aggregate.state,consent_epoch:Number(aggregate.epoch),propagation_status:workflow?.state??'NOT_REQUIRED',as_of:new Date().toISOString()}});
+  const workflow=receipt.workflow_id?requireOne((await c.tx.query(`SELECT state,updated_at FROM app.workflows WHERE ${predicate} AND id=$4 AND principal_id=$5`,[...scope,receipt.workflow_id,c.actor.principal_id])).rows):null;
+  const stale=workflow&&(Number(aggregate.epoch)!==receipt.consent_epoch||(workflow.state==='COMPLETED'&&Date.now()-workflow.updated_at.getTime()>=300000));
+  return S.ReceiptView.parse({receipt,current:{consent_status:aggregate.state,consent_epoch:Number(aggregate.epoch),propagation_status:stale?'NEEDS_ATTENTION':workflow?.state??'NOT_REQUIRED',as_of:new Date().toISOString()}});
 }
 export async function ownHistory(c: Context, purpose: string, page: Page) {
   requireOne((await c.tx.query(`SELECT id FROM app.purpose_versions WHERE ${predicate} AND id=$4`,[...scopeValues(c.actor),purpose])).rows);

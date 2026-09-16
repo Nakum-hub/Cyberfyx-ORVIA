@@ -34,13 +34,13 @@ export class HttpFixture {
     }
     throw new Error('Readiness timeout');
   }
-  async stop() {if(this.child&&this.child.exitCode===null){const closed=once(this.child,'close');this.child.kill();await closed;}}
+  async stop() {if(this.child&&this.child.exitCode===null&&this.child.signalCode===null){const closed=once(this.child,'close');this.child.kill();await closed;}}
   browser() {
     const cookies=new Map<string,string>();const origin=this.config.origin;
     return {
       headers:()=>({cookie:[...cookies].map(([k,v])=>`${k}=${v}`).join('; ')}),
       async call(path: string, body?: unknown, extra: Record<string,string>={}) {
-        const response=await fetch(origin+path,{method:body===undefined?'GET':'POST',headers:{cookie:[...cookies].map(([k,v])=>`${k}=${v}`).join('; '),origin,'content-type':'application/json',...extra},...(body===undefined?{}:{body:JSON.stringify(body)})});
+        const response=await fetch(origin+path,{method:body===undefined?'GET':'POST',signal:AbortSignal.timeout(20000),headers:{cookie:[...cookies].map(([k,v])=>`${k}=${v}`).join('; '),origin,'content-type':'application/json',...extra},...(body===undefined?{}:{body:JSON.stringify(body)})});
         for(const cookie of response.headers.getSetCookie()){const value=cookie.split(';')[0]!;const at=value.indexOf('=');cookies.set(value.slice(0,at),value.slice(at+1));}
         return response;
       },

@@ -14,6 +14,14 @@ if(existsSync('.local/profiles'))for(const name of readdirSync('.local/profiles'
       credentials.push(user.password);if(user.totp_uri){credentials.push(user.totp_uri);credentials.push(new URL(user.totp_uri).searchParams.get('secret'));}
     }
   }
+  for(const folder of ['worker','agent','observer','machine-auth','sender']) {
+    const directory=join('.local/profiles',name,folder);
+    if(!existsSync(directory))continue;
+    for(const file of readdirSync(directory)) {
+      if(file.endsWith('-password')||file.endsWith('-key.pem'))credentials.push(readFileSync(join(directory,file),'utf8').trim());
+      if(file==='enrollment.json')for(const identity of JSON.parse(readFileSync(join(directory,file),'utf8')).identities??[]){if(identity.token)credentials.push(identity.token);}
+    }
+  }
 }
 const findings=[];
 const assets='apps/web/.next/static';

@@ -1,0 +1,7 @@
+$ tsx tests/integration/workflows/workflow.test.ts
+PASS protected machine setup completed
+{ name: 'ZodError', code: 'UNCLASSIFIED' }
+
+
+Artifact: handoffs/codex/artifacts/A03-workflow-integration-1789574251868-3ab192ae-cdd7-4fc1-a3ca-906ebe40e433.json
+[ELIFECYCLE] Command failed with exit code 1.

@@ -1,0 +1,2 @@
+$ tsx scripts/machine-init.ts "confirm:codex-a00"
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
