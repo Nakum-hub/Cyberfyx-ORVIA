@@ -1,0 +1,10 @@
+$ node scripts/local-hygiene.mjs
+{
+  "kind": "LOCAL_HYGIENE_CHECK",
+  "files_examined": 227,
+  "generated_credentials_compared": 1,
+  "findings": [],
+  "limitations": [
+    "Pattern and exact-value checks only; not a comprehensive security scan or advisory audit."
+  ]
+}
