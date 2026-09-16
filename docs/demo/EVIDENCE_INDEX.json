@@ -3,10 +3,10 @@
   "schema": "cowork.evidence_index/2",
   "owner_lane": "Work",
   "status": "DRAFT_FOR_REVIEW",
-  "revision": "c00-c02-r4",
-  "documentation_base_commit": "2432a008539450725129d19ff5fc6c2eee488031",
-  "history_note": "r2 (base 96b8bd7) used schema v1 with one source inspection. r3 keeps that inspection as EV-SRC-001 and the e5cdef3 inspection made at 09:09Z (during an interrupted r3 attempt) as EV-SRC-002, both HISTORICAL, and adds EV-SRC-003 at e839b1a. Per-test evidence lives in records lists so real results can be indexed without overwriting history.",
-  "current_source_inspection_id": "EV-SRC-006",
+  "revision": "c00-c02-r4-completion",
+  "documentation_base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "history_note": "r2 (base 96b8bd7) used schema v1 with one source inspection. r3 keeps that inspection as EV-SRC-001 and the e5cdef3 inspection made at 09:09Z (during an interrupted r3 attempt) as EV-SRC-002, both HISTORICAL, and adds EV-SRC-003 at e839b1a. Per-test evidence lives in records lists so real results can be indexed without overwriting history. Work continuation after PR18 merge and PR19 A05 preserves EV-SRC-006 and all former reports; EV-SRC-007 is the current source observation.",
+  "current_source_inspection_id": "EV-SRC-007",
   "frozen_candidate": {
     "status": "NOT_IDENTIFIED",
     "commit": null,
@@ -557,7 +557,7 @@
     {
       "evidence_id": "EV-SRC-006",
       "kind": "source_inspection",
-      "status": "CURRENT",
+      "status": "HISTORICAL",
       "performed_by": "GPT Work, successor to Cowork",
       "performed_at": "2026-09-16T19:35:38Z",
       "commit": "2432a008539450725129d19ff5fc6c2eee488031",
@@ -748,6 +748,209 @@
               "apps/web/src/app/page.tsx"
             ],
             "scope": "All tracked app UI route files at 2432a008539450725129d19ff5fc6c2eee488031 inspected; only foundation page and layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          }
+        }
+      },
+      "review_status": "INSPECTED",
+      "limitations": "Source and supplied report inspection only; no runtime/application/browser/rehearsal rerun. Capability register is recovered in this delivery, absent at the inspected base."
+    },
+    {
+      "evidence_id": "EV-SRC-007",
+      "kind": "source_inspection",
+      "status": "CURRENT",
+      "performed_by": "GPT Work, successor to Cowork",
+      "performed_at": "2026-09-16T20:12:06Z",
+      "commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+      "command": "git fetch/read source at PR19 main; inspect every A05 wrapper and child artifact; SHA-256 and raw assertion/result consistency checks",
+      "exit_code": 0,
+      "observed": {
+        "tracked_file_count": 832,
+        "application_code_present": true,
+        "docs_source_master_present": true,
+        "tracking_capabilities_present": true,
+        "executable_contract_version": "0.4.0",
+        "executable_contract_review_status": "PENDING_WORK_REVIEW; accepted baseline 0.2.1; signed command 0.3.0",
+        "application_scope_note": "Accepted A00/A01 plus supplied A02–A05 producer sources/reports. A05 supplies reconciliation, manual attestation, actual simulator, scoped evidence/export, counts/failure projections and connector catalogue. Only foundation UI routes exist; no workspace/privacy screens, A07 candidate or B06 browser evidence. Source/producer inspection does not accept these implementations.",
+        "screens": {
+          "W-SIGNIN": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-OVERVIEW": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-ATTENTION": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-WORKFLOWS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-WORKFLOW-DETAIL": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-PURPOSES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-NOTICES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-POLICIES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-SYSTEMS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-PRINCIPALS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-EVIDENCE": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-TESTLAB": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-CAPABILITIES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-SIGNIN": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-CHOICES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-GRANT": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-RECEIPT": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-RECEIPTS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
             "source_sha256": {
               "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
             }
@@ -1699,13 +1902,13 @@
     "rehearsals_completed": 0,
     "rehearsals_completed_with_issues": 0,
     "rehearsals_candidate_qualifying": 0,
-    "engineering_reports": 174,
-    "engineering_reports_nonzero_exit": 32
+    "engineering_reports": 221,
+    "engineering_reports_nonzero_exit": 39
   },
   "engineering_reports": {
     "source_handoff": "handoffs/codex/A00-e5cdef3.md",
     "command_index": "handoffs/codex/A00-command-index.json plus producer command records in handoffs/codex/artifacts",
-    "scope": "Supplied A00–A04 and W01 correction command reports; source/byte/content inspection only.",
+    "scope": "Supplied A00–A05 and W01 correction command reports; source/byte/content inspection only.",
     "not_run": [
       {
         "command": [
@@ -1718,9 +1921,9 @@
       }
     ],
     "review_status": "INSPECTED_FOR_CONSISTENCY_ONLY",
-    "reviewed_by": "Cowork",
-    "reviewed_at": "2026-09-16T09:50:00Z",
-    "limitations": "174 original command reports with 32 non-zero exits retained; full scenario/candidate/browser acceptance remains absent. A04 assertion FAIL/PASS artifacts are linked to original producing commands, not relabelled.",
+    "reviewed_by": "GPT Work, successor to Cowork",
+    "reviewed_at": "2026-09-16T20:12:06Z",
+    "limitations": "221 original command reports with 39 non-zero exits retained. Full scenario/candidate/browser acceptance remains absent. A05 raw assertion artifacts are linked through their original command logs; earlier source/build identities, partial/interrupted runs and setup failures are preserved. No A05 command was rerun by Work.",
     "records": [
       {
         "report_id": "ENG-A00-001",
@@ -6671,6 +6874,1633 @@
         "availability": "VERIFIED_LOCAL",
         "availability_observed_at": "2026-09-16T19:35:38Z",
         "inspection_note": "Work r4 inspected original report and log metadata/hashes after PR #17 merge. Actual dirty/source identity and failures retained; no application rerun or acceptance."
+      },
+      {
+        "report_id": "ENG-C-A05-build-2026-09-16T19-08-03.942Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:08:03.942Z",
+        "finished_at": "2026-09-16T19:08:55.565Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "9b522d6f8a56275a2a18150a3608cc26d8f12c2e0b8a2ac348342423bb0e5426",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-08-03.942Z.json",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-08-03.942Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-08-03.942Z.json": "d2894f196193c8cc96b928cf8f711f2687cd151fb11dbf07a070f3eef9425a5f",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-08-03.942Z.log": "1e08c6103c290e8bfec2d861fe0f0988abe2c2b5ba980255da516521e67cbf10"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-build-2026-09-16T19-08-03.942Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-build-2026-09-16T19-16-51.184Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:16:51.184Z",
+        "finished_at": "2026-09-16T19:17:08.027Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "e29a5ddc04c4f5dfe4d81343b7d7a8dd5449ad0b11e35a869f7417cb7746e45a",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-16-51.184Z.json",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-16-51.184Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-16-51.184Z.json": "0149bacd8e55b4e316a448d3139d398c2fd195e38cac4621e59202fdac6575e7",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-16-51.184Z.log": "468d188bd2a52b5e54f76251ab1f705af5a87dc14dc6d6466e1dc5afacf513d4"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-build-2026-09-16T19-16-51.184Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-build-2026-09-16T19-28-03.017Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:28:03.017Z",
+        "finished_at": "2026-09-16T19:28:40.520Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "6eabbfb26de8aea5be65d8a5e363f917c85201f38915848c08af3b731035c75d",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-28-03.017Z.json",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-28-03.017Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-28-03.017Z.json": "913b202c0dd45b6276ddb05b6835afca4d8d254a604fb94bc66574768c4a55d5",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-28-03.017Z.log": "7bf0d2e5c8b1d4fbed68b8099cdf7ccda9fd6f58544c580244e96efd775bf5eb"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-build-2026-09-16T19-28-03.017Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-build-2026-09-16T19-35-27.148Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:35:27.148Z",
+        "finished_at": "2026-09-16T19:35:53.203Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "2201b49772bf0116183dd73fc9986c4d15ba351950cec5462643b1f732807bbd",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-35-27.148Z.json",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-35-27.148Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-35-27.148Z.json": "d288c7047e4e4fb9c04a0f9e69cd41c738e578079b3b4c4b58da975718cd7f7b",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-35-27.148Z.log": "2a6d0c3e450293b219dd93b89413052d2e68d59f17f525246ac12af11321f6f1"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-build-2026-09-16T19-35-27.148Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-build-2026-09-16T19-39-12.802Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs build",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:39:12.802Z",
+        "finished_at": "2026-09-16T19:39:49.396Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "b74a8911b6cb4c4dcb193f933d3ef613c0220fcf3dd60df2af4a0fd965c465e9",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-39-12.802Z.json",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-39-12.802Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-39-12.802Z.json": "c1420a893f5fa24da4cbe406465671bf74b98ba4146ef7eaa573140d125ee195",
+          "handoffs/codex/artifacts/A05-build-2026-09-16T19-39-12.802Z.log": "c4d89d86034feaa66c638360367201b01370fff09287583066060d6b26ab856c"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-build-2026-09-16T19-39-12.802Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-contracts-check-2026-09-16T19-28-28.430Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:28:28.430Z",
+        "finished_at": "2026-09-16T19:28:44.204Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "6eabbfb26de8aea5be65d8a5e363f917c85201f38915848c08af3b731035c75d",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-28-28.430Z.json",
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-28-28.430Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-28-28.430Z.json": "131c134556925c62364480800420f033df0480b2c5af9b9a649cbbb23bcd037e",
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-28-28.430Z.log": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-28-28.430Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-contracts-check-2026-09-16T19-39-45.129Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:39:45.129Z",
+        "finished_at": "2026-09-16T19:39:58.202Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "b74a8911b6cb4c4dcb193f933d3ef613c0220fcf3dd60df2af4a0fd965c465e9",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-39-45.129Z.json",
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-39-45.129Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-39-45.129Z.json": "04bb184d0eee9d64e86a2cca66bc63d16ef52c805c277afb0bec25feda90bb9d",
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-39-45.129Z.log": "a69b381373fa6838448766297f9b0b3112a32cba093003c65dce0d39c74dd81d"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-39-45.129Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-contracts-check-2026-09-16T19-50-19.872Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:50:19.872Z",
+        "finished_at": "2026-09-16T19:50:26.467Z",
+        "source_commit": "d94f525e19d6eaab0999b838a3ac9debef9860a9",
+        "source_tree_sha256": "aa37fca065012f6ace50abb4491086f4ff2d4cfe90e761d71b884314e7819bda",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": false,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-50-19.872Z.json",
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-50-19.872Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-50-19.872Z.json": "1911ec0f5b1a75405e50eec6aca8156dabb43565ad28996125c7b18eb46c9454",
+          "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-50-19.872Z.log": "a69b381373fa6838448766297f9b0b3112a32cba093003c65dce0d39c74dd81d"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-50-19.872Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-contracts-generate-2026-09-16T19-07-47.735Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:generate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:07:47.735Z",
+        "finished_at": "2026-09-16T19:07:56.129Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "08b62bcdccc83c257ec25edc624fa743dc09054a909fa87db4adfb79396a6a05",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-07-47.735Z.json",
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-07-47.735Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-07-47.735Z.json": "1ebc2c344b5db1460d84d28ebcb00644ecdb4e4c086dc979bb6db4aaa1dd72ee",
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-07-47.735Z.log": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-07-47.735Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-contracts-generate-2026-09-16T19-35-05.998Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs contracts:generate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:35:05.998Z",
+        "finished_at": "2026-09-16T19:35:26.497Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "eef5122566d0efa9cdbf854db25a70d5db1d55544e299bdff9230558430828ac",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-35-05.998Z.json",
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-35-05.998Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-35-05.998Z.json": "9959831a8e9fd5e98cec50e46b9a4d8ec6cdff6a19b41fd35ae6640b7cfb443f",
+          "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-35-05.998Z.log": "260933d8e287048f8de46d0cd58552aabd8ddc7adedc05d6fa4d78c0e4a9f028"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-35-05.998Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-db-migrate-2026-09-16T18-55-57.136Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T18:55:57.136Z",
+        "finished_at": "2026-09-16T18:56:01.282Z",
+        "source_commit": "9fee18dcccd7f9b4e4861ada7b0974b2e3551c55",
+        "source_tree_sha256": "ecc205f68d790540bedd4049d816511165484743c1a527180bf7842a9fa75307",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T18-55-57.136Z.json",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T18-55-57.136Z.log",
+          "handoffs/codex/artifacts/A05-migration-1789584961132-1b2e47aa-986c-48c6-a546-fc83c24db8bf.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T18-55-57.136Z.json": "bdbffde5fa51394b776271984c8186d2650cf3f22e376a8bbcd2a7b3c72f077c",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T18-55-57.136Z.log": "f67484cf66b3d3765794c7f4cece2f2872f00c1b7f2762d3313dab49dbebe9cb",
+          "handoffs/codex/artifacts/A05-migration-1789584961132-1b2e47aa-986c-48c6-a546-fc83c24db8bf.json": "4d2e7cd26c3d8a4c4914b2d91b09237e344c9645d6b3b3fccd01050e5b3a45b6"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T18-55-57.136Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-migration-1789584961132-1b2e47aa-986c-48c6-a546-fc83c24db8bf.json",
+            "sha256": "4d2e7cd26c3d8a4c4914b2d91b09237e344c9645d6b3b3fccd01050e5b3a45b6",
+            "result": "APPLIED",
+            "build_id": null,
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-db-migrate-2026-09-16T19-05-07.488Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:05:07.488Z",
+        "finished_at": "2026-09-16T19:05:12.827Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "947f4a3058f79105bea83c540d22e7be3b1097a1fbc0c3727c7d0246e783b849",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-05-07.488Z.json",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-05-07.488Z.log",
+          "handoffs/codex/artifacts/A05-migration-1789585512707-8daadc41-840c-43e5-9e41-f37148791ceb.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-05-07.488Z.json": "37964cf5809f56546d66ab827f8470459294cdcefdecdeb897a4dc9557d6aee1",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-05-07.488Z.log": "dd1b14d4ed7b646978cf472f2f1d44f1b519db1bc307e41ac1bae7f058040b0a",
+          "handoffs/codex/artifacts/A05-migration-1789585512707-8daadc41-840c-43e5-9e41-f37148791ceb.json": "9f1090935fe9e7337f72b4e7246019a5f34452d31d3d4dce8a1df8c6f6deda46"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-05-07.488Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-migration-1789585512707-8daadc41-840c-43e5-9e41-f37148791ceb.json",
+            "sha256": "9f1090935fe9e7337f72b4e7246019a5f34452d31d3d4dce8a1df8c6f6deda46",
+            "result": "APPLIED",
+            "build_id": null,
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-db-migrate-2026-09-16T19-12-29.213Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:12:29.213Z",
+        "finished_at": "2026-09-16T19:12:30.757Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "1c709e45c6659b5da82af304a1c5600ab9a9dfe530a0427cc433b6633f90a04a",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-12-29.213Z.json",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-12-29.213Z.log",
+          "handoffs/codex/artifacts/A05-migration-1789585950673-2f3c08f5-4243-4c32-a6dc-d62249bcf60b.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-12-29.213Z.json": "3e7c05f4b18b5e5072c8f3542dfb1075365ef2b06add7a7b7170e942422a517a",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-12-29.213Z.log": "196b5e5a580084f9f014c9eca7e2c20611040b8be7470fa0310308b964ffd1cc",
+          "handoffs/codex/artifacts/A05-migration-1789585950673-2f3c08f5-4243-4c32-a6dc-d62249bcf60b.json": "a89be0fb0b81e5b8e5e30d7133170876511804a540f7834e3adc38d149084663"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-12-29.213Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-migration-1789585950673-2f3c08f5-4243-4c32-a6dc-d62249bcf60b.json",
+            "sha256": "a89be0fb0b81e5b8e5e30d7133170876511804a540f7834e3adc38d149084663",
+            "result": "APPLIED",
+            "build_id": null,
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-db-migrate-2026-09-16T19-16-43.629Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:16:43.629Z",
+        "finished_at": "2026-09-16T19:16:46.613Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "e29a5ddc04c4f5dfe4d81343b7d7a8dd5449ad0b11e35a869f7417cb7746e45a",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-16-43.629Z.json",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-16-43.629Z.log",
+          "handoffs/codex/artifacts/A05-migration-1789586206458-5d3b50e5-39ee-4d32-865a-6c060fbf98a9.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-16-43.629Z.json": "261f03450cc4f180808d2b8ced7e66ae2e167ff4708ca844b269c39728ffe383",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-16-43.629Z.log": "5c0d3ecf963ec0c35807bcaa6a5819a8706d94d8e26b2aa68d6a541561790e89",
+          "handoffs/codex/artifacts/A05-migration-1789586206458-5d3b50e5-39ee-4d32-865a-6c060fbf98a9.json": "9243e5408458e36d1c16713387ee0b7cd4ec88d6bc7fef9c231fa08c1bcd9130"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-16-43.629Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-migration-1789586206458-5d3b50e5-39ee-4d32-865a-6c060fbf98a9.json",
+            "sha256": "9243e5408458e36d1c16713387ee0b7cd4ec88d6bc7fef9c231fa08c1bcd9130",
+            "result": "APPLIED",
+            "build_id": null,
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-db-migrate-2026-09-16T19-39-09.519Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs db:migrate",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:39:09.519Z",
+        "finished_at": "2026-09-16T19:39:12.312Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "b74a8911b6cb4c4dcb193f933d3ef613c0220fcf3dd60df2af4a0fd965c465e9",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-39-09.519Z.json",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-39-09.519Z.log",
+          "handoffs/codex/artifacts/A05-migration-1789587552153-bed33507-3df2-4eaa-8cb5-595cf9e5d303.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-39-09.519Z.json": "55bf9fcae7bc3c7c5efe5b93562891877c953de206e0a3807076b410b4b610e2",
+          "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-39-09.519Z.log": "15b6bd28c4c0c90bf110c2bd2e2e27524265612bff0e0ad19fdf79e11841c538",
+          "handoffs/codex/artifacts/A05-migration-1789587552153-bed33507-3df2-4eaa-8cb5-595cf9e5d303.json": "49cbf86aaa646310c7bfa284c2f1872055cb9e4792d805c2e3fcad64822867e2"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-39-09.519Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-migration-1789587552153-bed33507-3df2-4eaa-8cb5-595cf9e5d303.json",
+            "sha256": "49cbf86aaa646310c7bfa284c2f1872055cb9e4792d805c2e3fcad64822867e2",
+            "result": "APPLIED",
+            "build_id": null,
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-hygiene-check-2026-09-16T19-42-18.328Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs hygiene:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:42:18.328Z",
+        "finished_at": "2026-09-16T19:42:27.323Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "0d6c07392c8ff7d9e733ad1e5afd7ccf846d32c8a3522d397a205e198b256ab7",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-42-18.328Z.json",
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-42-18.328Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-42-18.328Z.json": "b72e509ba45296f4abea2cf98c9e4536022d49c6651c8819336865fe52c6f0d6",
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-42-18.328Z.log": "286be41de17f018d3e2077cd9ac4806d3c4557484b3d532514e6877702d4bd41"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-42-18.328Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-hygiene-check-2026-09-16T19-50-18.098Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs hygiene:check",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:50:18.098Z",
+        "finished_at": "2026-09-16T19:50:19.330Z",
+        "source_commit": "d94f525e19d6eaab0999b838a3ac9debef9860a9",
+        "source_tree_sha256": "aa37fca065012f6ace50abb4491086f4ff2d4cfe90e761d71b884314e7819bda",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": false,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-50-18.098Z.json",
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-50-18.098Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-50-18.098Z.json": "23380456165f1ff4c686f8b445d01abde77f027924e2bfa733c87d92c221e96a",
+          "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-50-18.098Z.log": "397dd3d1f237398dacd0f8f0a8eaedbd3b73356778065a0144a20d265aac7b22"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-50-18.098Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-lint-2026-09-16T19-08-42.470Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:08:42.470Z",
+        "finished_at": "2026-09-16T19:09:18.117Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "9b522d6f8a56275a2a18150a3608cc26d8f12c2e0b8a2ac348342423bb0e5426",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-08-42.470Z.json",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-08-42.470Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-08-42.470Z.json": "65413a0e24f43bcab61facdaec27a3a46f855b9724e737d85b573d39de464fbb",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-08-42.470Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-lint-2026-09-16T19-08-42.470Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-lint-2026-09-16T19-19-39.069Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:19:39.069Z",
+        "finished_at": "2026-09-16T19:19:48.111Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "d483e98f5431564a7c8d36baccf343c32c904a7ace8c68853582497296d9ab80",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-19-39.069Z.json",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-19-39.069Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-19-39.069Z.json": "392926051795933596c845fdaf0c0dc78b1861e7d6f48560e0f3e0c18af0d8dd",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-19-39.069Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-lint-2026-09-16T19-19-39.069Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-lint-2026-09-16T19-28-44.551Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:28:44.551Z",
+        "finished_at": "2026-09-16T19:28:50.426Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "6eabbfb26de8aea5be65d8a5e363f917c85201f38915848c08af3b731035c75d",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-28-44.551Z.json",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-28-44.551Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-28-44.551Z.json": "d94aeeec61f41a9f0e2b5ac7cced3c9383e1b833359201afb3d5c7a8892b9a08",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-28-44.551Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-lint-2026-09-16T19-28-44.551Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-lint-2026-09-16T19-36-09.312Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:36:09.312Z",
+        "finished_at": "2026-09-16T19:36:19.039Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "9c68ef3c61b77236fdd0fb89e8660d2177ed6b8134eb269d008eebc9764c3893",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-36-09.312Z.json",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-36-09.312Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-36-09.312Z.json": "7f3e4b7f9f550d2d803b2d3f5d97eeef5b9fd10dcc776b1040426a581ec3a3eb",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-36-09.312Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-lint-2026-09-16T19-36-09.312Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-lint-2026-09-16T19-39-58.545Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:39:58.545Z",
+        "finished_at": "2026-09-16T19:40:05.080Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "b74a8911b6cb4c4dcb193f933d3ef613c0220fcf3dd60df2af4a0fd965c465e9",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-39-58.545Z.json",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-39-58.545Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-39-58.545Z.json": "37da240f47a98b60f9c7d30d4cff84e414ffd06ac0b6e5ceca294663497cba18",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-39-58.545Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-lint-2026-09-16T19-39-58.545Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-lint-2026-09-16T19-48-05.195Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs lint",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:48:05.195Z",
+        "finished_at": "2026-09-16T19:49:29.440Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "3572d2838d783e771cdc224da88a59b9354e6fd6d2ffa0fbb14b71bbf590b1de",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-48-05.195Z.json",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-48-05.195Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-48-05.195Z.json": "0db6debece2a47e7bda8a8c6ba570a6e7032bab089eb525200bb9e7eebecc97a",
+          "handoffs/codex/artifacts/A05-lint-2026-09-16T19-48-05.195Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-lint-2026-09-16T19-48-05.195Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-roles-init-2026-09-16T19-33-03.831Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs roles:init confirm:codex-a00",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:33:03.831Z",
+        "finished_at": "2026-09-16T19:33:06.663Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "fbd0b1d7573639b9f8303b08e54af7d6e1dfff33d9d8500c7a26e89ef2de79aa",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-roles-init-2026-09-16T19-33-03.831Z.json",
+          "handoffs/codex/artifacts/A05-roles-init-2026-09-16T19-33-03.831Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-roles-init-2026-09-16T19-33-03.831Z.json": "f5971dd13a8113cafb4ecf4d1ca976c0413643e84482ee88349e86eeaae8dfe3",
+          "handoffs/codex/artifacts/A05-roles-init-2026-09-16T19-33-03.831Z.log": "b9c8125c3b8456de5a2d433cd0212b6ad91867db1b1eef976f63ecca67698729"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-roles-init-2026-09-16T19-33-03.831Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-test-2026-09-16T19-28-26.166Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:28:26.166Z",
+        "finished_at": "2026-09-16T19:28:27.969Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "6eabbfb26de8aea5be65d8a5e363f917c85201f38915848c08af3b731035c75d",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-28-26.166Z.json",
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-28-26.166Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-28-26.166Z.json": "ab366c98fbe358476d337161bc3dc09211370a4e30e45c2fe490027405a3e85d",
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-28-26.166Z.log": "3865762ab8b0bc8edf4c89c7a744ad68108b35e97ea63a888073bb83703f54b5"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-2026-09-16T19-28-26.166Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-test-2026-09-16T19-36-19.704Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:36:19.704Z",
+        "finished_at": "2026-09-16T19:36:22.000Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "9c68ef3c61b77236fdd0fb89e8660d2177ed6b8134eb269d008eebc9764c3893",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-36-19.704Z.json",
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-36-19.704Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-36-19.704Z.json": "fe038fa32c7cd47b575bb5f8eb884ed4b1a8efe3aebb0fed677e639db514f02c",
+          "handoffs/codex/artifacts/A05-test-2026-09-16T19-36-19.704Z.log": "698d813d54f56f02eaf3faee0cb77238908c2ad7f10d2bc4115f028f1e3a0b16"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-2026-09-16T19-36-19.704Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-test-auth-2026-09-16T19-33-07.079Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:auth",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:33:07.079Z",
+        "finished_at": "2026-09-16T19:33:32.883Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "fbd0b1d7573639b9f8303b08e54af7d6e1dfff33d9d8500c7a26e89ef2de79aa",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-auth-2026-09-16T19-33-07.079Z.json",
+          "handoffs/codex/artifacts/A05-test-auth-2026-09-16T19-33-07.079Z.log",
+          "handoffs/codex/artifacts/A05-auth-security-1789587212695-4edfcef2-5dcb-44d0-826b-eb40836d44c1.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-auth-2026-09-16T19-33-07.079Z.json": "2adf33b2e96563c3096eaeb712292fd610fdad15caeae7a702f11f14773d7932",
+          "handoffs/codex/artifacts/A05-test-auth-2026-09-16T19-33-07.079Z.log": "18c8298f56b12813ceae0c4a5014d12c1e4dedae9f4bf3febc957a137d6930cc",
+          "handoffs/codex/artifacts/A05-auth-security-1789587212695-4edfcef2-5dcb-44d0-826b-eb40836d44c1.json": "546cf0d446f84872f61c103c7c470d10347071476906478da222a1ad247be561"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-auth-2026-09-16T19-33-07.079Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-auth-security-1789587212695-4edfcef2-5dcb-44d0-826b-eb40836d44c1.json",
+            "sha256": "546cf0d446f84872f61c103c7c470d10347071476906478da222a1ad247be561",
+            "result": "PASS",
+            "build_id": "b438yM6PlIpiKWd7NzWaQ",
+            "assertion_count": 87
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-consent-2026-09-16T19-36-43.010Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:consent",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:36:43.010Z",
+        "finished_at": "2026-09-16T19:37:23.633Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "9c68ef3c61b77236fdd0fb89e8660d2177ed6b8134eb269d008eebc9764c3893",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-consent-2026-09-16T19-36-43.010Z.json",
+          "handoffs/codex/artifacts/A05-test-consent-2026-09-16T19-36-43.010Z.log",
+          "handoffs/codex/artifacts/A05-consent-integration-1789587443480-4fdc73ea-e587-4f7a-a243-8822e62a3f9e.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-consent-2026-09-16T19-36-43.010Z.json": "3d3314bcbd60d3f8489ec9f338aa133d46602209254b78e2497d078108a4f001",
+          "handoffs/codex/artifacts/A05-test-consent-2026-09-16T19-36-43.010Z.log": "05d59f51a10a05803999ef127a9349bb26cbdef1cb34d0798156025458948f4f",
+          "handoffs/codex/artifacts/A05-consent-integration-1789587443480-4fdc73ea-e587-4f7a-a243-8822e62a3f9e.json": "caab9f57d2fe4f077bf722dd57a04c5db697fdb2019ddf8bbc4f00475efafe20"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-consent-2026-09-16T19-36-43.010Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-consent-integration-1789587443480-4fdc73ea-e587-4f7a-a243-8822e62a3f9e.json",
+            "sha256": "caab9f57d2fe4f077bf722dd57a04c5db697fdb2019ddf8bbc4f00475efafe20",
+            "result": "PASS",
+            "build_id": null,
+            "assertion_count": 50
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-enforcement-2026-09-16T19-45-37.935Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:enforcement",
+        "exit_code": 1,
+        "started_at": "2026-09-16T19:45:37.935Z",
+        "finished_at": "2026-09-16T19:45:57.662Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "0d6c07392c8ff7d9e733ad1e5afd7ccf846d32c8a3522d397a205e198b256ab7",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-45-37.935Z.json",
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-45-37.935Z.log",
+          "handoffs/codex/artifacts/A05-send-enforcement-1789587957535-3af40250-8fdd-4f4c-854b-2592479884ba.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-45-37.935Z.json": "ac6d62bfb5b46a1c1963393eea4dfd860786f3b00c6f03f4e74c000c2900f528",
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-45-37.935Z.log": "c9461cadb8039ec24a958594a198783aa9db924eae96bc0a7406131de16bb524",
+          "handoffs/codex/artifacts/A05-send-enforcement-1789587957535-3af40250-8fdd-4f4c-854b-2592479884ba.json": "57f99c57663fc6e6b528d28f4a1ed3b4c50b17e12cbb74b1e704659360c036a6"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-45-37.935Z.json",
+        "reported_result": "FAIL",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-send-enforcement-1789587957535-3af40250-8fdd-4f4c-854b-2592479884ba.json",
+            "sha256": "57f99c57663fc6e6b528d28f4a1ed3b4c50b17e12cbb74b1e704659360c036a6",
+            "result": "FAIL",
+            "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-enforcement-2026-09-16T19-46-57.983Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:enforcement",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:46:57.983Z",
+        "finished_at": "2026-09-16T19:47:24.867Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "3572d2838d783e771cdc224da88a59b9354e6fd6d2ffa0fbb14b71bbf590b1de",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-46-57.983Z.json",
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-46-57.983Z.log",
+          "handoffs/codex/artifacts/A05-send-enforcement-1789588044769-1a53f93c-0d58-4036-856f-bf60aff7365d.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-46-57.983Z.json": "a2745be839ae3ba2b51bc1117401bb41a79ec75784958513b9de557aa3524b4b",
+          "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-46-57.983Z.log": "a59301d7045ab67fe48cc46099525b607388097f513a7e190cda4159b2e917b4",
+          "handoffs/codex/artifacts/A05-send-enforcement-1789588044769-1a53f93c-0d58-4036-856f-bf60aff7365d.json": "de012b9cf9dec9fa9723a5caa2b1701187c40417512a4d3f6399833199e1b01b"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-46-57.983Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-send-enforcement-1789588044769-1a53f93c-0d58-4036-856f-bf60aff7365d.json",
+            "sha256": "de012b9cf9dec9fa9723a5caa2b1701187c40417512a4d3f6399833199e1b01b",
+            "result": "PASS",
+            "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+            "assertion_count": 46
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-evidence-2026-09-16T19-09-38.155Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:evidence",
+        "exit_code": 1,
+        "started_at": "2026-09-16T19:09:38.155Z",
+        "finished_at": "2026-09-16T19:11:41.918Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "9b522d6f8a56275a2a18150a3608cc26d8f12c2e0b8a2ac348342423bb0e5426",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-09-38.155Z.json",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-09-38.155Z.log",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789585901738-789cbb88-736b-4d9e-838c-1e88c7203be2.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-09-38.155Z.json": "1c4c87c55e904600f003b07c529ec87f1c273f9f240dc92341e1ff2e08d3d588",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-09-38.155Z.log": "d519187629ebee33764772efd2869bdbf1223fd404b29428484ae45b6a327402",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789585901738-789cbb88-736b-4d9e-838c-1e88c7203be2.json": "93b9fc60e5712fc9c2cdc57fad3ce2ecfc43858d35ebec69ab300dd9469b6af0"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-09-38.155Z.json",
+        "reported_result": "FAIL",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-evidence-integration-1789585901738-789cbb88-736b-4d9e-838c-1e88c7203be2.json",
+            "sha256": "93b9fc60e5712fc9c2cdc57fad3ce2ecfc43858d35ebec69ab300dd9469b6af0",
+            "result": "FAIL",
+            "build_id": "AjOEU72APulYQZRgZPSI8",
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-evidence-2026-09-16T19-12-35.077Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:evidence",
+        "exit_code": 1,
+        "started_at": "2026-09-16T19:12:35.077Z",
+        "finished_at": "2026-09-16T19:12:56.917Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "1c709e45c6659b5da82af304a1c5600ab9a9dfe530a0427cc433b6633f90a04a",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-12-35.077Z.json",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-12-35.077Z.log",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789585976562-9be90815-7ae5-4d03-8dd5-283196e49cde.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-12-35.077Z.json": "649ae6a0c06516ff155e0070612d9f09eb1fe195bc2ac737f07f2b4b24bbe7a1",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-12-35.077Z.log": "a383c33b9cb144b7ef530d04068d29a50107e0b2b4146c4425aa29c7bf0875db",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789585976562-9be90815-7ae5-4d03-8dd5-283196e49cde.json": "8bc78626489e3bcf8a2f523e9a2b700b21d9e98f248b43c17c18d72e49aef8d0"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-12-35.077Z.json",
+        "reported_result": "FAIL",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-evidence-integration-1789585976562-9be90815-7ae5-4d03-8dd5-283196e49cde.json",
+            "sha256": "8bc78626489e3bcf8a2f523e9a2b700b21d9e98f248b43c17c18d72e49aef8d0",
+            "result": "FAIL",
+            "build_id": "AjOEU72APulYQZRgZPSI8",
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-evidence-2026-09-16T19-13-58.235Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:evidence",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:13:58.235Z",
+        "finished_at": "2026-09-16T19:15:23.083Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "60d1524508ec79ddbd0bd63f1d3df1fd2805d8564ed50c3d46005b9d89fb12d2",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-13-58.235Z.json",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-13-58.235Z.log",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789586122766-f89245ed-d3cf-44fa-903f-b40cab8bdafd.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-13-58.235Z.json": "2af5fcb255b20640c20161af4aec30274459241d6c82e3956da95a4c579f773d",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-13-58.235Z.log": "ed7aaf7a29869c0023a04ef4b06de60ec7de541e1b90985bc35360a3f5c29893",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789586122766-f89245ed-d3cf-44fa-903f-b40cab8bdafd.json": "35984dd62543a0d0e5db5505b911975935cad75fc2ea1d52845746a4a1198192"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-13-58.235Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-evidence-integration-1789586122766-f89245ed-d3cf-44fa-903f-b40cab8bdafd.json",
+            "sha256": "35984dd62543a0d0e5db5505b911975935cad75fc2ea1d52845746a4a1198192",
+            "result": "PASS",
+            "build_id": "AjOEU72APulYQZRgZPSI8",
+            "assertion_count": 56
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-evidence-2026-09-16T19-18-18.303Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:evidence",
+        "exit_code": 1,
+        "started_at": "2026-09-16T19:18:18.303Z",
+        "finished_at": "2026-09-16T19:18:46.892Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "d483e98f5431564a7c8d36baccf343c32c904a7ace8c68853582497296d9ab80",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-18-18.303Z.json",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-18-18.303Z.log",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789586326750-b9be676c-1839-41f6-b04a-bbd51bc89263.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-18-18.303Z.json": "2c265e2cc6b227a2b044c387a8a929aabdb2de01c1dd19ead26ec685a8191655",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-18-18.303Z.log": "a89dd7633af395bcd4130d4568226c17896bc33c5be1c6cfdc4bf277fea4f578",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789586326750-b9be676c-1839-41f6-b04a-bbd51bc89263.json": "1e71c39ebbd88bf25ff103af01394b06bd4419e91c6fc495b1ccefcbdef16e09"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-18-18.303Z.json",
+        "reported_result": "FAIL",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-evidence-integration-1789586326750-b9be676c-1839-41f6-b04a-bbd51bc89263.json",
+            "sha256": "1e71c39ebbd88bf25ff103af01394b06bd4419e91c6fc495b1ccefcbdef16e09",
+            "result": "FAIL",
+            "build_id": "-NggQ-LVUFgEhwblPgEbh",
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-evidence-2026-09-16T19-20-44.035Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:evidence",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:20:44.035Z",
+        "finished_at": "2026-09-16T19:22:26.814Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "79267eda1c2a9a01cb383088bfff61b29a9e91ecd69eba2334a13c15b2198933",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-20-44.035Z.json",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-20-44.035Z.log",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789586546654-da392078-8d9d-4e2d-8226-e9ed57eaea45.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-20-44.035Z.json": "6b1d9e8f8155e89b847c83ec970eecb0764af69dfa540ddecf67b5276e5a8ed4",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-20-44.035Z.log": "8d3fc97b2cf4fb01c3928b6c276e40500edb6121c83ff17cbdcf411055832ebb",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789586546654-da392078-8d9d-4e2d-8226-e9ed57eaea45.json": "cc5f256cf7b4dd4717e1c51a35537fb7387beab33b1df09fa8771d3ec78a39e0"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-20-44.035Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-evidence-integration-1789586546654-da392078-8d9d-4e2d-8226-e9ed57eaea45.json",
+            "sha256": "cc5f256cf7b4dd4717e1c51a35537fb7387beab33b1df09fa8771d3ec78a39e0",
+            "result": "PASS",
+            "build_id": "-NggQ-LVUFgEhwblPgEbh",
+            "assertion_count": 60
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-evidence-2026-09-16T19-29-15.158Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:evidence",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:29:15.158Z",
+        "finished_at": "2026-09-16T19:30:23.124Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "6eabbfb26de8aea5be65d8a5e363f917c85201f38915848c08af3b731035c75d",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-29-15.158Z.json",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-29-15.158Z.log",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789587023044-3902a5c3-2f5b-4088-92a0-8332af7a95b3.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-29-15.158Z.json": "5d651793d2a6acde9844a536492200eceebc7397356154f05e89332210472ab6",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-29-15.158Z.log": "1cd32dc2d1b029a0338153f1c9a89d3e8f22e989393fae8085ffc272bdb8fb9f",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789587023044-3902a5c3-2f5b-4088-92a0-8332af7a95b3.json": "0a04201e19620894c10247163f45b31f37e6bc674e7255fda6c8266408a6a7b4"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-29-15.158Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-evidence-integration-1789587023044-3902a5c3-2f5b-4088-92a0-8332af7a95b3.json",
+            "sha256": "0a04201e19620894c10247163f45b31f37e6bc674e7255fda6c8266408a6a7b4",
+            "result": "PASS",
+            "build_id": "b438yM6PlIpiKWd7NzWaQ",
+            "assertion_count": 61
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-evidence-2026-09-16T19-42-45.348Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:evidence",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:42:45.348Z",
+        "finished_at": "2026-09-16T19:45:16.395Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "0d6c07392c8ff7d9e733ad1e5afd7ccf846d32c8a3522d397a205e198b256ab7",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-42-45.348Z.json",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-42-45.348Z.log",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789587916158-d22b2447-4862-41b6-900a-777f74fe931c.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-42-45.348Z.json": "72269ba317d1a0b599130aa7bea4cea7db249f7c9593064ee751a7ff6c6cca6a",
+          "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-42-45.348Z.log": "169c4c1825a2e52b2753417089eda5a318a24b4cad92b3b881bf1f3c35176d82",
+          "handoffs/codex/artifacts/A05-evidence-integration-1789587916158-d22b2447-4862-41b6-900a-777f74fe931c.json": "dd7868e9928ef77cb0335101896cc304370b982813585d3b91ac92a536c6544b"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-42-45.348Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-evidence-integration-1789587916158-d22b2447-4862-41b6-900a-777f74fe931c.json",
+            "sha256": "dd7868e9928ef77cb0335101896cc304370b982813585d3b91ac92a536c6544b",
+            "result": "PASS",
+            "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+            "assertion_count": 63
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-expiry-2026-09-16T19-37-24.452Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:expiry",
+        "exit_code": 1,
+        "started_at": "2026-09-16T19:37:24.452Z",
+        "finished_at": "2026-09-16T19:37:36.856Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "7603ea73f831a48e12b5ff0cd80976457fb21068ee988377833ed038b46070d0",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-37-24.452Z.json",
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-37-24.452Z.log",
+          "handoffs/codex/artifacts/A05-expiry-integration-1789587456782-ffd26a58-e379-4e06-8809-9a361affc60b.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-37-24.452Z.json": "840066a261d773b0d6824236f4d5159159ac33f918b8bfe764320fe7e99ddb60",
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-37-24.452Z.log": "33591ac5ee445eaaf841586e69dd9dfd3433fddf5de37820ef3dbbaef884d255",
+          "handoffs/codex/artifacts/A05-expiry-integration-1789587456782-ffd26a58-e379-4e06-8809-9a361affc60b.json": "1de376cdee0ec3aa6f9801d8998576effad3703fa4b9a932993c0a137ca7b961"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-37-24.452Z.json",
+        "reported_result": "FAIL",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-expiry-integration-1789587456782-ffd26a58-e379-4e06-8809-9a361affc60b.json",
+            "sha256": "1de376cdee0ec3aa6f9801d8998576effad3703fa4b9a932993c0a137ca7b961",
+            "result": "FAIL",
+            "build_id": "4aj5vmijel13HPC8hHnyi",
+            "assertion_count": 17
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-expiry-2026-09-16T19-40-29.936Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:expiry",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:40:29.936Z",
+        "finished_at": "2026-09-16T19:41:53.380Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "954050eff2c092738cf2679a66c4ae672ab40506c063ca2ec0a23edf6f284224",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-40-29.936Z.json",
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-40-29.936Z.log",
+          "handoffs/codex/artifacts/A05-expiry-integration-1789587713035-a93a36be-d2e4-4e5f-baef-dbac1f6ab350.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-40-29.936Z.json": "401a190cff84f25f1197c67b7d6d382739e412d6df07577d8c7e2df8d8f8ad36",
+          "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-40-29.936Z.log": "f8816105372b7433c14b26eb2750e5cbec82766cafd3164e8cc65a96b973a6b9",
+          "handoffs/codex/artifacts/A05-expiry-integration-1789587713035-a93a36be-d2e4-4e5f-baef-dbac1f6ab350.json": "17b56614f4c020b4f254a9227d1b1367654b64e5df9a843edcb150fb9f36d355"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-40-29.936Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-expiry-integration-1789587713035-a93a36be-d2e4-4e5f-baef-dbac1f6ab350.json",
+            "sha256": "17b56614f4c020b4f254a9227d1b1367654b64e5df9a843edcb150fb9f36d355",
+            "result": "PASS",
+            "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+            "assertion_count": 87
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-workflows-2026-09-16T19-30-23.662Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:workflows",
+        "exit_code": 1,
+        "started_at": "2026-09-16T19:30:23.662Z",
+        "finished_at": "2026-09-16T19:30:27.805Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "2c4828778e579721d41d6cdd1b928494207e07e09fbbe9b23495ac79b65dc4a6",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-30-23.662Z.json",
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-30-23.662Z.log",
+          "handoffs/codex/artifacts/A05-workflow-integration-1789587027698-5cb5ac0e-8f43-4ac3-95ae-1204ace79194.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-30-23.662Z.json": "ea6eacdf43f7b8e484e5df2c47549e95a8efe6990c1e81d97e1d91dc3c3d14a8",
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-30-23.662Z.log": "b3643a3b3728e33f3ea67cea51dfae27d5573bf1e32e1adeae115b108841041b",
+          "handoffs/codex/artifacts/A05-workflow-integration-1789587027698-5cb5ac0e-8f43-4ac3-95ae-1204ace79194.json": "3f64bb8ba646025454859a6d4eefbd829c1863e24a16fa1c3845f9f0a8c2f790"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-30-23.662Z.json",
+        "reported_result": "FAIL",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-workflow-integration-1789587027698-5cb5ac0e-8f43-4ac3-95ae-1204ace79194.json",
+            "sha256": "3f64bb8ba646025454859a6d4eefbd829c1863e24a16fa1c3845f9f0a8c2f790",
+            "result": "FAIL",
+            "build_id": null,
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-workflows-2026-09-16T19-31-11.475Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:workflows",
+        "exit_code": 1,
+        "started_at": "2026-09-16T19:31:11.475Z",
+        "finished_at": "2026-09-16T19:31:16.688Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "feee85e17f7661d0a4dc5194576bf5450820576fa9b4476e1b726bbb958ccb3a",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-11.475Z.json",
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-11.475Z.log",
+          "handoffs/codex/artifacts/A05-workflow-integration-1789587076546-cd27df0a-9d57-479c-94cf-de0020d3c55b.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-11.475Z.json": "704934682bf6a0df33687fe18767fc1ee3d1dbb39a5bba630cd5615ee82e5083",
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-11.475Z.log": "02b10ee25a8f050819b201c9a83c78631d93a7aef9a8778be7b355fe561f7fa4",
+          "handoffs/codex/artifacts/A05-workflow-integration-1789587076546-cd27df0a-9d57-479c-94cf-de0020d3c55b.json": "d35754faa2b9320c4cdaa6f7f9665046d27a663f7b8cadfaefff81cf7da11918"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-11.475Z.json",
+        "reported_result": "FAIL",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-workflow-integration-1789587076546-cd27df0a-9d57-479c-94cf-de0020d3c55b.json",
+            "sha256": "d35754faa2b9320c4cdaa6f7f9665046d27a663f7b8cadfaefff81cf7da11918",
+            "result": "FAIL",
+            "build_id": null,
+            "assertion_count": 0
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-test-workflows-2026-09-16T19-31-54.528Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs test:workflows",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:31:54.528Z",
+        "finished_at": "2026-09-16T19:32:27.927Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "fbd0b1d7573639b9f8303b08e54af7d6e1dfff33d9d8500c7a26e89ef2de79aa",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-54.528Z.json",
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-54.528Z.log",
+          "handoffs/codex/artifacts/A05-workflow-integration-1789587147791-3f12c8a7-fa62-4ab5-a925-a7119e3cacc5.json"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-54.528Z.json": "7548087bee6489918cef94a8c4eb6dfe1a28beec57c4f971b6ecca2184c68ef0",
+          "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-54.528Z.log": "7392f581de4ffb1975733305117996a0cb10a24ddaa33e83d96363076c5846df",
+          "handoffs/codex/artifacts/A05-workflow-integration-1789587147791-3f12c8a7-fa62-4ab5-a925-a7119e3cacc5.json": "05e445847c8de7e522551e2415b106e28604e854b7d7ddb849a9e02198dcb519"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-54.528Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": [
+          {
+            "path": "handoffs/codex/artifacts/A05-workflow-integration-1789587147791-3f12c8a7-fa62-4ab5-a925-a7119e3cacc5.json",
+            "sha256": "05e445847c8de7e522551e2415b106e28604e854b7d7ddb849a9e02198dcb519",
+            "result": "PASS",
+            "build_id": null,
+            "assertion_count": 32
+          }
+        ]
+      },
+      {
+        "report_id": "ENG-C-A05-typecheck-2026-09-16T19-00-05.068Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:00:05.068Z",
+        "finished_at": "2026-09-16T19:00:30.778Z",
+        "source_commit": "9fee18dcccd7f9b4e4861ada7b0974b2e3551c55",
+        "source_tree_sha256": "537c0e27a7e273901583f3954659b433b9ba5ba22610d3ca5bbaf738fd777a82",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-00-05.068Z.json",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-00-05.068Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-00-05.068Z.json": "a6d3d007f74499e1eb84a8c89277699585cbd68536e51662e9fabc322ed0cf2b",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-00-05.068Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-00-05.068Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-typecheck-2026-09-16T19-18-31.803Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:18:31.803Z",
+        "finished_at": "2026-09-16T19:19:08.607Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "d483e98f5431564a7c8d36baccf343c32c904a7ace8c68853582497296d9ab80",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-18-31.803Z.json",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-18-31.803Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-18-31.803Z.json": "723c5a112bf5493e24752d62a25460d8c4eabf5deeb7754725940588d4829e15",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-18-31.803Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-18-31.803Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-typecheck-2026-09-16T19-31-18.478Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:31:18.478Z",
+        "finished_at": "2026-09-16T19:31:44.948Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "feee85e17f7661d0a4dc5194576bf5450820576fa9b4476e1b726bbb958ccb3a",
+        "profile": "codex-a00",
+        "contract_version": "0.3.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-31-18.478Z.json",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-31-18.478Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-31-18.478Z.json": "ddda8f1420e46215c3bd62021f3929247120e8261e0b31259ec9e0900c1d415e",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-31-18.478Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-31-18.478Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-typecheck-2026-09-16T19-40-05.631Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:40:05.631Z",
+        "finished_at": "2026-09-16T19:40:30.072Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "b74a8911b6cb4c4dcb193f933d3ef613c0220fcf3dd60df2af4a0fd965c465e9",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-40-05.631Z.json",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-40-05.631Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-40-05.631Z.json": "ea7d7d626fd8eae9199f75754c580d1f9d21eac6fa39c539230f3eb629b49706",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-40-05.631Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-40-05.631Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      },
+      {
+        "report_id": "ENG-C-A05-typecheck-2026-09-16T19-47-47.169Z",
+        "task_id": "A05",
+        "producing_lane": "Codex",
+        "command": "node scripts/record.mjs typecheck",
+        "exit_code": 0,
+        "started_at": "2026-09-16T19:47:47.169Z",
+        "finished_at": "2026-09-16T19:48:04.387Z",
+        "source_commit": "e1d80916a3e53b210d2fd90aebba7eaf098fdfee",
+        "source_tree_sha256": "3572d2838d783e771cdc224da88a59b9354e6fd6d2ffa0fbb14b71bbf590b1de",
+        "profile": "codex-a00",
+        "contract_version": "0.4.0",
+        "fixture_id": "aster-birch-v1",
+        "dirty": true,
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-47-47.169Z.json",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-47-47.169Z.log"
+        ],
+        "artifact_sha256": {
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-47-47.169Z.json": "3b4f7140d3535e6fdef60e9e27be748fa15b78104a4d230c7c2f4f76cdab25bc",
+          "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-47-47.169Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+        },
+        "report_path": "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-47-47.169Z.json",
+        "reported_result": "PASS",
+        "counts_as_acceptance": false,
+        "availability": "VERIFIED_LOCAL",
+        "availability_observed_at": "2026-09-16T20:12:06Z",
+        "inspection_note": "Work inspected complete original producer report/log and linked raw assertion artifacts at the PR19 main source. Original source/build/dirty identities and unsuccessful runs are retained; not a Work runtime rerun or full scenario acceptance.",
+        "assertion_artifacts": []
+      }
+    ],
+    "review_history": [
+      {
+        "reviewed_by": "Cowork",
+        "reviewed_at": "2026-09-16T09:50:00Z",
+        "scope": "Supplied A00–A04 and W01 correction command reports; source/byte/content inspection only."
       }
     ]
   }

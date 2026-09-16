@@ -1,20 +1,20 @@
 {
   "document": "Work successor generated-output manifest",
-  "as_of": "2026-09-16T19:35:38Z",
+  "as_of": "2026-09-16T20:12:06Z",
   "generator": "docs/reviews/cowork/tools/build_pack.py",
   "inputs": {
-    "docs/ux/UI_COPY.json": "2912dd11b8c5d1184857bb82571763723e58429b5d3707ec69fd9ae715defe01",
-    "docs/demo/demo_steps.json": "30cf6a7b4e772dd03da3a552ef3c6b70c414be930f036fdd9a4b87024f6df7c0",
-    "docs/demo/EVIDENCE_INDEX.json": "83b4aee83a384d71487faf033472fbeb8285059b482e430119a8545eb61b5e20",
-    "docs/reviews/cowork/DELIVERY_STATUS.json": "71142c1fa454c7d9c53d85927865171bf3963be12b81923b78c315b18471151d",
-    "docs/reviews/cowork/FINDINGS.csv": "c6e67e6668c66214df36feb7ef93a59a7c53b02225a8e7d49c1a728527f658dc",
-    "docs/demo/CLAIMS_REGISTER.md": "78859a4a98102aa0e0b2275e1ce33fa0e59a183e889c7de91f225f0335d02e3e",
+    "docs/ux/UI_COPY.json": "e0cc6490abdc94c7dba0977115203422c20126641aef6b9e06d9310f2ecadb2d",
+    "docs/demo/demo_steps.json": "3be29fa2e6abe51327cf0c1e0ab86d60745d866cb8ba3deb77254ea9ca562999",
+    "docs/demo/EVIDENCE_INDEX.json": "9dd4fdce004bab6a18d82982133ba8a9d9ac75ddcde4c1f068bed8b58ea29d16",
+    "docs/reviews/cowork/DELIVERY_STATUS.json": "055bf06d9e47db3cb554962f63ad2fc93c514b8c0173eed11c4711a82b7f2c76",
+    "docs/reviews/cowork/FINDINGS.csv": "d29b8e0bc847e32916331da099605dbbd5ba257880fd080066a1a0b951abcaad",
+    "docs/demo/CLAIMS_REGISTER.md": "8e57888c8d10c89e14c7a0458ac4d76f830bde46258352dbc3c8e614b87be522",
     "docs/reviews/cowork/tools/pack.css": "028544e23927ec1f9882db32a7ddd216d343c4cab5bf09c7aa6de3475ed77e9b",
-    "docs/reviews/cowork/tools/build_pack.py": "bdc1cc34d90f3601dde35625a22d7769f696ce713f947f8f3a7bf1ff312511b0",
-    "docs/reviews/cowork/tools/evidence_rules.py": "a2d1f21b28e76bc565e1ea3ae0b08850fccc7c8362a85bea2621cd53176b170f",
-    "docs/reviews/cowork/tools/validate_docs.py": "4ad48e3e4b1f0339f698d26608054637a67897887028a6d144e2d5f58f28db32",
+    "docs/reviews/cowork/tools/build_pack.py": "19ce96606177906430797625aff9216a0e43380711a029be5952f697a50311be",
+    "docs/reviews/cowork/tools/evidence_rules.py": "21a5e12a6839406ac8db0dfbdcf58cb583792917b7b55d9817f866e05e0b8c6f",
+    "docs/reviews/cowork/tools/validate_docs.py": "0a7ff2bb2a65eea3539fab05da683219ba8aa0eee76635aae00f503f74e99ddb",
     "AGENTS.md": "dba1483a35a4a4d74efcf49f0d2754ca473709d85d54c5b3330ee7bee36c2eea",
-    "CURRENT_STATE.md": "d3766119cfdd326b8266d606b3dae71d7a852b3b728917071e63ccf9cdef9674",
+    "CURRENT_STATE.md": "225b5445706cefc98dd49099645cb3b5fa72dcdfdc71a78c690c03790e82c7c1",
     "docs/prototype/EXECUTION_PLAN.md": "be3581b2fa1cefe5a759ce551f1999d419f982f165ff56fdf777c12a6b909bd5",
     "docs/prototype/CONTRACT.md": "05bbc913fc8efac83c8b8f8e1173f9dd7b9e5acc8f823bc3fac1cf49a6bd64cc",
     "docs/prototype/ACCEPTANCE.md": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320",
@@ -23,15 +23,16 @@
     "tracking/tasks.json": "4e3da53ea5d55470ebc34f493eed504af8c7ac09bb739c9d5402cea841b7f6d6",
     "tracking/acceptance.json": "477949910fb48fa750a74124aed751911401802310b7e2c0dcf75716f1f801be",
     "tracking/capabilities.json": "34ba16bbebdad5c21a4851341ef011be3518176ad6836f1521b5ae130b347669",
-    "packages/contracts/src/index.ts": "55a33e4039987d567a6c06b2464c90b2d46e10225760e855b452e5e92cdae566",
-    "docs/ux/ACCEPTANCE_JOURNEYS.md": "1281a6d9e2ad9d240e909fa50f29493b06781010f199e6e5f4143b81ced7d4f0",
-    "docs/runbooks/OPERATOR.md": "ef0af3cb86e716ac30e9b0db4535f677bc98eeb3c81d32ba9ff9e69709b32f90",
-    "docs/prototype/RELEASE_CHECKLIST.md": "fdb1f131f72725e7fdc0e0d9311c7f620733fde1ac5dd108ba68a4cc5244cf83"
+    "packages/contracts/src/index.ts": "83f05e999e9215a79c46e9ccc236f2db459b31f0df652cb8691824b909adb6f1",
+    "docs/ux/ACCEPTANCE_JOURNEYS.md": "44c077a7691aec02f1dc8c8b22b09b4cca838e296d0c553578a50b00fba8f8ae",
+    "docs/runbooks/OPERATOR.md": "5a29a0a6dc4fbdf213dc6369500e93c1c8b8e41162883bf4a370e566a4b9874e",
+    "docs/prototype/RELEASE_CHECKLIST.md": "d5e6b4ad06b9818457bce0d3ef127986982e92a43dc31c33d63b3724b0d354d6",
+    "docs/reviews/work/C00-copy-source-review.md": "c6430a6119a4f7d3d6511bbd5ae202933ac6d13a2fca84ec878ff5eb6962f727"
   },
   "outputs": {
-    "docs/prototype/UX_BRIEF.md": "9a24921da92f52153c2fb010d3d599c82ba6feb08a097785c1235f8cbb770909",
-    "docs/prototype/DEMO_SCRIPT.md": "5e87e0d657d0ba285ba0cae74a86baf99ece9d68a05c1e216daab4a8de256c2f",
-    "docs/demo/LEADERSHIP_HANDOVER.md": "342e27b4572ade1dd7fd25a0f2f6fee913e1a400acec91cc422fe5c16bfc828e",
-    "docs/demo/index.html": "2f44cb61aa4bb3f0a409c59210c726af32497a3415c560e6c57e76c9e7562be0"
+    "docs/prototype/UX_BRIEF.md": "cc57e213612220e43bc4d0d7f3a51205aa6eb4fa81f4b5c4210649bddbf1f96b",
+    "docs/prototype/DEMO_SCRIPT.md": "00bf92f95eedf02f76a3dc40dfbb98fa9f3d008fb04dae8cdf092b301dfc8a4f",
+    "docs/demo/LEADERSHIP_HANDOVER.md": "5aad4e4587c3019369997ea07fa7a926b260b5c9817b378654995377913b3cfe",
+    "docs/demo/index.html": "4c1f4a5f5c84c3244f5b32e82e1ede2515b9a8491cc4ecdbca111cfb54fa8d44"
   }
 }

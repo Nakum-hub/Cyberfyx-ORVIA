@@ -34,7 +34,8 @@ INPUTS = ["docs/ux/UI_COPY.json", "docs/demo/demo_steps.json", "docs/demo/EVIDEN
 CONTEXT_SOURCES = ["AGENTS.md", "CURRENT_STATE.md", "docs/prototype/EXECUTION_PLAN.md", "docs/prototype/CONTRACT.md",
                    "docs/prototype/ACCEPTANCE.md", "docs/prototype/FILE_OWNERSHIP.md", "docs/decisions/ADR-001-prototype-profile.md",
                    "tracking/tasks.json", "tracking/acceptance.json", "tracking/capabilities.json", "packages/contracts/src/index.ts",
-                   "docs/ux/ACCEPTANCE_JOURNEYS.md", "docs/runbooks/OPERATOR.md", "docs/prototype/RELEASE_CHECKLIST.md"]
+                   "docs/ux/ACCEPTANCE_JOURNEYS.md", "docs/runbooks/OPERATOR.md", "docs/prototype/RELEASE_CHECKLIST.md",
+                   "docs/reviews/work/C00-copy-source-review.md"]
 
 AXES = [("Consent", "consent", ["NOT_GIVEN", "GRANTED", "WITHDRAWN"], "design 0.1.0"),
         ("Workflow", "workflow", ["ACCEPTED", "RUNNING", "NEEDS_ATTENTION", "COMPLETED"], "design 0.1.0"),

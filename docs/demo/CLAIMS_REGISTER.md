@@ -1,6 +1,6 @@
 # ORVIA prototype: claims register
 
-**Owner:** GPT Work, successor to Cowork (C01) · **Status:** REVISED_FOR_REVIEW · **Revision:** c01-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
+**Owner:** GPT Work, successor to Cowork (C01) · **Status:** REVISED_FOR_REVIEW · **Revision:** c01-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
 
 ## Rule
 
@@ -12,7 +12,7 @@
 
 ## Current state
 
-**No full-demo claim is `EVIDENCED`.** At `2432a008539450725129d19ff5fc6c2eee488031`, A00/A01 are accepted increments; A02/A03 and PR #16 correction plus PR #17 A04 are supplied for consolidated review. Auth/configuration/consent/workflow/agent/send-admission sources and engineering reports exist. They are not a frozen candidate or full acceptance.
+**No full-demo claim is `EVIDENCED`.** At `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`, A00/A01 are accepted increments; A02/A03 and PR #16 correction plus PR #17 A04 are supplied for consolidated review. Auth/configuration/consent/workflow/agent/send-admission sources and engineering reports exist. They are not a frozen candidate or full acceptance.
 
 The index preserves 174 original command reports, including 32 non-zero exits, and A04's initial failed assertion report plus corrected 46-assertion PASS at their actual dirty-source/build identities. Work inspected the bytes/provenance and retained limitations; no application rerun is implied. No current workspace/Privacy Centre browser evidence, candidate media or qualifying rehearsal is supplied. Every full-demo claim below remains NOT_EVIDENCED; the narrower source/engineering facts can be described with those limits.
 
@@ -76,7 +76,7 @@ For expected-detection runs (T24), the record must carry the recorded FAIL of th
 For each claim, before it is presented:
 
 1. Confirm that `EVIDENCE_INDEX.json` has entries for **every** listed test ID, all with:
-   - `commit` equal to the frozen candidate;
+   - exact commit/build/contract/profile/fixture/scenario identity equal to the frozen candidate;
    - `observed_result` taken from the artifact;
    - `review_status` of `INSPECTED`.
 2. Confirm that the stated limitation is present in the script or on screen.
@@ -88,7 +88,7 @@ If any test is missing, failed or errored, remove the claim or restate it truthf
 
 The canonical register is restored byte-for-byte from the verified v1 kit (SHA-256 `34ba16bbebdad5c21a4851341ef011be3518176ad6836f1521b5ae130b347669`). Schema, 33 IDs/names, target depth and V1/V2 assignments are preserved. Its NOT_INSPECTED implementation values concern whole-module status; the narrower source/report observations below do not promote them. All module integration/full-scenario test and acceptance claims remain unqualified unless a row explicitly cites an already accepted increment. F-029 records the original-register versus binary API mapping gap.
 
-All source paths below refer to inspected base `2432a008539450725129d19ff5fc6c2eee488031`. Engineering reports in EVIDENCE_INDEX preserve actual tested/dirty identities. Source presence is neither full implementation nor candidate test evidence.
+All source paths below refer to inspected base `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`. Engineering reports in EVIDENCE_INDEX preserve actual tested/dirty identities. Source presence is neither full implementation nor candidate test evidence.
 
 | ID | Original name | Target / depth | Actual source or document mapping | Limit / remaining gate |
 |---|---|---|---|---|
@@ -97,9 +97,9 @@ All source paths below refer to inspected base `2432a008539450725129d19ff5fc6c2e
 | M03 | Privacy Control Graph | V1 / LIGHT | packages/domain/src/configuration.ts controlMap | Declared relationships; A02 review and wider discovery absent |
 | M04 | Policy Engine | V1 / CORE | policy/admin/authorization.rego; configuration.ts; processing.ts; policy/processing | Admin plus A04 OPA processing/send source and reports present; consolidated acceptance/full candidate T14–T16 pending |
 | M05 | Workflow Engine | V1 / CORE | apps/worker/src/withdrawal-workflows.ts; domain/workflow.ts | A03 source/reports; final candidate/recovery/reconciliation gates pending |
-| M06 | Connector Framework | V1 / SANDBOX | apps/agent/src/execute.ts; packages/connectors/src/target-db.ts | Synthetic CRM subset; simulator/real vendor scope unqualified |
+| M06 | Connector Framework | V1 / SANDBOX | apps/agent/src/execute.ts; packages/connectors/src/target-db.ts | Synthetic CRM and A05 HTTP simulator sources/reports; no real-vendor integration claimed |
 | M07 | Verification Engine | V1 / SANDBOX | packages/domain/src/workflow.ts observer; completion.ts | Scoped-read source; full observation/fault/coverage gates pending |
-| M08 | Evidence Engine | V1 / CORE | consent receipts and workflow/audit source | Full evidence view/export A05/B03 absent |
+| M08 | Evidence Engine | V1 / CORE | packages/domain/src/evidence.ts; consent/workflow/audit sources | A05 scoped evidence/API export source and inspected reports; B03/browser/final candidate absent |
 | M09 | Privacy Test Engine | V1 / SANDBOX | tests/integration/consent and workflows | Producer test subsets, no deployed Test Lab/healthy-broken-healthy qualification |
 | M10 | Notification Engine | V1 / LIGHT | UX brief attention/status specification | In-app notification implementation not demonstrated |
 | M11 | Consent Management | V1 / CORE | packages/domain/src/consent.ts; A02 correction reports | Present; consolidated acceptance and browser recovery pending |
@@ -109,7 +109,7 @@ All source paths below refer to inspected base `2432a008539450725129d19ff5fc6c2e
 | M15 | Retention Management | V1 / COORDINATION_OPTIONAL | No implementation inspected in this bounded delivery | Retained V1 programme; outside selected P0 depth |
 | M16 | Processor/Vendor Management | V1 / LIGHT | configuration systems/mappings; legacy contract | Declared sandbox targets; not a vendor-risk suite |
 | M17 | Privacy Incident Explorer | V1 / ROADMAP | No implementation inspected in this bounded delivery | Retained V1 programme; outside selected P0 depth |
-| M18 | Coverage and Failure Center | V1 / CORE | UX brief unknown/manual/unverified states | Failure Centre UI/complete data projections absent |
+| M18 | Coverage and Failure Center | V1 / CORE | packages/domain/src/evidence.ts; UX unknown/manual/unverified states | A05 failure/count/read-check projections and reports present; UI, T21 final parity and candidate acceptance pending |
 | M19 | AI Privacy Copilot | V2 / ROADMAP | DEFERRED_V2 under approved master | No model/runtime/training/embeddings work promoted into V1 |
 | M20 | AI Discovery | V2 / ROADMAP | DEFERRED_V2 under approved master | No model/runtime/training/embeddings work promoted into V1 |
 | M21 | AI Policy Builder | V2 / ROADMAP | DEFERRED_V2 under approved master | No model/runtime/training/embeddings work promoted into V1 |
@@ -125,3 +125,5 @@ All source paths below refer to inspected base `2432a008539450725129d19ff5fc6c2e
 | M31 | Updates | V1 / MANIFEST_ONLY | packages/contracts/generated/manifest.json; producer build records | Contract/build metadata; no A07 release/update trust qualification |
 | M32 | Monitoring | V1 / LIGHT | healthz; scripts/preflight.ts; workflow source | Local liveness/probe subset; no full monitoring UI |
 | M33 | Audit Administration | V1 / LIGHT | packages/domain/src/transaction.ts; local request/audit records | Audit subset; scoped evidence export/full admin review pending |
+
+A05 continuation: the configured-connector catalogue is not the module register. Programme rows retain their original unknown/partial status; source presence and engineering subsets are cited separately. Original A05 report identities and all nonzero exits are preserved in EVIDENCE_INDEX and `artifacts/c-completion/source-intake.json`. No claim is promoted to EVIDENCED without its complete qualifying candidate evidence.

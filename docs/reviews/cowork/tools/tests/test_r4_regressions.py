@@ -21,6 +21,60 @@ class R4Tests(legacy.DocToolCase):
         self.set_candidate('d0c0000000000000000000000000000000000000')
         return self.jload(EV)['frozen_candidate']
 
+    def test_uncertain_write_reload_regression_and_positive(self):
+        # DOCUMENT-TOOL TEST DATA: reproduce the inherited r4 wording only here.
+        original = self.jload(COPY)
+        self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+        old = {
+            'error.staff.503': 'A required service is unavailable — reload to check before trying again.',
+            'error.staff.network_change': "Reload to check, then retry the same request if it still isn't there.",
+            'error.portal.503': 'Refresh the page and try again.',
+        }
+        for ident, text in old.items():
+            with self.subTest(copy_id=ident):
+                bad = copy.deepcopy(original)
+                next(e for e in bad['entries'] if e['id'] == ident)['text'] = text
+                self.assertIn(ident + ': uncertain write must not instruct page reload', rules.copy_safety_errors(self.root, bad))
+
+    def test_loaded_latest_requires_actual_conflict_and_scoped_read(self):
+        original = self.jload(COPY)
+        self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+        for key in ('response_error_code', 'authenticated_current_choice_read', 'same_principal_and_scope'):
+            bad = copy.deepcopy(original)
+            entry = next(e for e in bad['entries'] if e['id'] == 'recovery.portal.resolved_conflict')
+            del entry['display_guard'][key]
+            self.assertIn('recovery.portal.resolved_conflict: loaded-current claim lacks conflict/read/scope guard', rules.copy_safety_errors(self.root, bad))
+
+    def test_withdrawal_detail_cannot_describe_a_grant(self):
+        original = self.jload(COPY)
+        self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+        bad = copy.deepcopy(original)
+        next(e for e in bad['entries'] if e['id'] == 'state.workflow.ACCEPTED.detail')['display_guard']['receipt_consent_status'] = 'GRANTED'
+        self.assertIn('withdrawal detail lacks receipt/workflow trigger guard', rules.copy_safety_errors(self.root, bad))
+
+    def test_reason_catalogue_rejects_unknown_unsafe_and_stale_bindings(self):
+        original = self.jload(COPY)
+        self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+        for kind in ('decision', 'command', 'reconciliation'):
+            for field, value in (('source_sha256', 'f' * 64), ('code', 'INVENTED_DISPLAY_AUTHORITY'), ('required_state', None), ('copy_id', 'absent.copy')):
+                bad = copy.deepcopy(original)
+                bad['reason_mappings'][kind]['records'][0][field] = value
+                self.assertTrue(rules.copy_safety_errors(self.root, bad), (kind, field))
+            bad = copy.deepcopy(original)
+            bad['reason_mappings'][kind]['fallback_copy_id'] = None
+            self.assertIn(kind + ': safe unknown-code fallback missing', rules.copy_safety_errors(self.root, bad))
+
+    def test_overview_does_not_sum_mixed_units_or_ignore_source_change(self):
+        original = self.jload(COPY)
+        self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+        for changes in ({'may_sum_cards': True}, {'source_predicate_sha256': 'f' * 64}):
+            bad = copy.deepcopy(original)
+            bad['overview_bindings'].update(changes)
+            self.assertTrue(rules.copy_safety_errors(self.root, bad))
+        bad = copy.deepcopy(original)
+        bad['overview_bindings']['count_units']['unverified'] = 'WORKFLOWS'
+        self.assertIn('overview mixes count units or permits an unsupported total', rules.copy_safety_errors(self.root, bad))
+
     def put(self, path, value):
         f=self.root/path;f.parent.mkdir(parents=True,exist_ok=True)
         f.write_text(json.dumps(value,indent=2)+'\n')

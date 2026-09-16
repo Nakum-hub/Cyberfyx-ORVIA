@@ -2,9 +2,9 @@
   "document": "ORVIA prototype demo steps",
   "owner_lane": "Work",
   "status": "REVISED_FOR_REVIEW",
-  "base_commit": "2432a008539450725129d19ff5fc6c2eee488031",
+  "base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
   "application_available": false,
-  "note": "Machine-readable form of the DEMO_SCRIPT.md step table. At e839b1a only the A00 foundation page and /healthz exist, so every screen_status is MISSING. Placeholders in {braces} are runtime values from the server. All tests listed are mandatory P0 evidence even when a step's live presentation is optional.",
+  "note": "Source at PR19 main includes A00–A05 APIs/workers/evidence and only foundation UI. All designed screen steps remain unavailable as application journeys. Placeholders are actual server values, not invented fixtures. All listed tests remain mandatory P0 even when narration is optional.",
   "steps": [
     {
       "step": 1,
@@ -238,6 +238,6 @@
       "limitation": "Target-only synthetic restore; not control-plane backup recovery or enterprise disaster recovery."
     }
   ],
-  "revision": "c00-c02-r4",
-  "documentation_base_commit": "2432a008539450725129d19ff5fc6c2eee488031"
+  "revision": "c00-c02-r4-completion",
+  "documentation_base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
 }

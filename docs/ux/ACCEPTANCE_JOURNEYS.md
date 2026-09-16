@@ -1,12 +1,12 @@
 # ORVIA prototype: acceptance journeys
 
-**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
+**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
 
 ## Status
 
 These journeys define what a browser test, integration test or operator must do and observe. They are not evidence.
 
-**Results in this file.** The *Result* column copies the canonical status recorded by Work in `tracking/acceptance.json` at the documentation base. At the r4 base every full scenario remains NOT_RUN. A00/A01 are accepted increments; A02/A03/A04 and PR #16 correction reports are available for review. No full-scenario candidate acceptance or application browser run is supplied.
+**Results in this file.** The *Result* column copies the canonical status recorded by Work in `tracking/acceptance.json` at the documentation base. At the r4 base every full scenario remains NOT_RUN. A00/A01 are accepted increments; A02/A03/A04/A05 and PR #16 correction reports are available for review. No full-scenario candidate acceptance or application browser run is supplied.
 
 **Updating results.** When real results exist, Work updates this column only from Work's canonical record and indexes the underlying artifacts in `docs/demo/EVIDENCE_INDEX.json`. A FAIL or ERROR is kept as recorded. Evidence existing, evidence inspected, an observed PASS and Work's acceptance are four different facts.
 
@@ -20,7 +20,7 @@ These journeys define what a browser test, integration test or operator must do 
 - **Fixtures:** from `docs/prototype/DEMO_SCRIPT.md` §1.
 - **Routes and fields:**
   - Use accepted 0.2.1 semantics and the current generated client; the UX_BRIEF r4 table distinguishes present producer source from pending acceptance.
-  - Executable 0.3.0 additions remain pending consolidated Work review; old r3 pending-W00 wording is superseded.
+  - Executable 0.3.0 additions and 0.4.0 transport changes remain pending consolidated Work review; old r3 pending-W00 wording is superseded.
   - UI paths are Codex's decision.
 
 ## Executors
@@ -270,7 +270,7 @@ Each journey lists:
   3. Read the notice.
   4. Select `grant.button`.
 - **See:**
-  - Separate cards for each purpose. The service card shows `choices.service_card.note`, subject to the F-017 decision.
+  - One card per returned marketing purpose. No unsupported service card; inspect the independent order-service condition in the staff decision journey.
   - `grant.notice_meta` showing the server's notice version.
   - On the receipt: `receipt.accepted.grant` and `receipt.label.epoch` with the server's epoch.
   - Back on choices: `state.consent.GRANTED.portal`.
@@ -291,7 +291,7 @@ Each journey lists:
   3. While the original request holder survives, select `recovery.portal.retry_same` after authorised recovery: same Idempotency-Key, exact payload, `notice_version_id`, `interaction_id` and `expected_epoch`. Separately reload the full document: until the accepted durable recovery mechanism exists, assert an honest unavailable-recovery state, no fabricated key/epoch and no assertion of rollback (UX_BRIEF C00-R4-RECOVERY).
   4. **True:**
      - If the first request committed, the original receipt is returned and `recovery.portal.resolved_saved` is shown.
-     - If a different change intervened, `EPOCH_CONFLICT` leads to `recovery.portal.resolved_conflict`, which appears only after a successful reload.
+     - If replay returns EPOCH_CONFLICT, fetch the latest choice in-app under the same principal/scope before showing `recovery.portal.resolved_conflict`. Do not assume another window caused it: the interaction may have expired or the notice may have changed.
   5. **Status:** F-024 (client retention, B02; replay, A02).
 - **Evidence:**
   - Playwright trace
@@ -312,7 +312,7 @@ Each journey lists:
   7. (CX) Send an identical retry with the same key.
   8. (CX) Reuse the same key with a different body.
   9. (CX) Inject a pre-commit failure.
-  10. (CC-E2E) Drop the response after submit, reload the page, then select `recovery.portal.retry_same`.
+  10. (CC-E2E) Drop the response after submit. With the original in-memory request retained, check current data in-app, then explicitly select `recovery.portal.retry_same`. Separately exercise full reload/context loss: the recovery action must be unavailable until an accepted recovery mechanism restores the exact request.
 - **See:**
   - Step 3: `choices.saving` with the button disabled.
   - Step 4:
@@ -320,13 +320,13 @@ Each journey lists:
     - `receipt.proves`
     - `receipt.progress.heading`, as a separate block
   - Step 5: `state.consent.WITHDRAWN.portal`.
-  - Step 6: `error.portal.409_epoch` with `error.portal.409_epoch.action`. `error.portal.409_epoch.reloaded` appears only after the reload succeeds.
+  - Step 6: `error.portal.409_epoch` with `error.portal.409_epoch.action`. `error.portal.409_epoch.reloaded` appears only after a successful authenticated current-choice read in the same scope.
   - Step 8 in the browser, if exercised: `error.portal.409_idempotency`.
   - Step 10:
-    - `error.portal.network_change`, then the `recovery.portal.*` panel, which survives the reload.
-    - The retry reuses the same Idempotency-Key, `interaction_id` and `expected_epoch`.
+    - `error.portal.network_change`, then the `recovery.portal.*` panel while the original request holder survives. Full reload may lose it; do not claim survival without the implemented and tested recovery mechanism.
+    - Any offered retry reuses the same Idempotency-Key, exact payload, `interaction_id` and `expected_epoch`; an unchanged read does not settle the request.
     - The original receipt is shown (`recovery.portal.resolved_saved`) or the conflict is handled.
-    - A new withdrawal is offered only after that.
+    - A new withdrawal is offered only after a matching recovered receipt or a handled conflict plus successful current-state read, never merely because a read looked unchanged.
 - **True:**
   - The 202 receipt exists only after commit.
   - The status is `WITHDRAWN` at the next epoch.
@@ -744,3 +744,19 @@ Actor, preconditions, steps, expected facts, test IDs and required artifacts rem
 | J24–J27 | Four unpromoted P1 definitions | “These remain outside this demo's selected scope.” | No invented implementation or promotion. |
 
 CC-E2E is retained as the historical executor code for compatibility; its current owner is Codex. C00 documents have no B00 acceptance dependency. Codex's consumer cross-check is review, not a requirement that UI implementation be complete before C00 can be accepted.
+
+## C00 completion assertions for the existing journeys
+
+These additions refine existing journeys, not new task or scenario IDs. All results remain NOT_RUN until their producing application tests are supplied.
+
+| Existing journey | Exact additional action and expected fact | Required evidence / honest fallback |
+|---|---|---|
+| J01/J03 | Use the accepted native clients. Exercise enrollment before business authority, enrolled challenge, invalid native MFA, sign-out and dual-domain denial in separate profiles. Labels are Work-owned; no generic API-envelope parser for native auth. | B01 browser assertions against the native protocol and session API. If missing: “Sign-in is specified; this browser flow has not been verified.” |
+| J06/J07/J14 | On a lost write reply retain the original request. In-app current-choice check must not replace it. An unchanged read stays unconfirmed. EPOCH_CONFLICT can be expiry/notice/epoch, so show neutral text; loaded-latest text requires a successful scoped read. Full reload/context loss does not manufacture recovery. | T08/T09/B02 negative and positive controls; key/payload/epoch identity, saved replay receipt, expired interaction and pending context loss. |
+| J09 | Bind each returned reason to its matching decision using UI_COPY.reason_mappings. Test both marketing and independent synthetic order reasons, unknown code and code/state mismatch. Preview never claims a send/no-send result. | T15/T16 and B03/B04; fallback uses the recorded decision without inventing authority. |
+| J10/J11/J12/J13 | Show command reasons separately from observation. APPLIED with ACK_WITHOUT_EFFECT is still only acknowledged. Reconciliation updates its own record, not the uncertain attempt. Assigned manual statement leaves observation unchanged. | A05 raw reports may support inspected engineering subsets; T17–T20 and B03 still need final candidate/browser qualification. |
+| J15 | Compare each of the eight API counts to its source predicate and unit. Include absent/stale/unsatisfied/unavailable observation and stale scope. Follow failures cursors through an empty intermediate page; preserve focus. Suppress unsupported count cards. | T21 API/database parity plus B03 browser evidence. On missing counts show unavailable, not zero. |
+| J16 | Read and export the exact workflow via the implemented GET routes; verify scope, no-store/attachment, actor audit and integrity limit. Export tests array is empty until A06 supplies actual results. | T22 export bytes/hash and denial evidence. An evidence export alone does not prove a passed acceptance scenario. |
+| J23 | Show the genuine 33-module register and the separate configured-connector catalogue with their own scopes. A connector implementation flag cannot advance a module, test or release gate. | F-029 mapping tests and B03/B06 candidate evidence; if missing display the documentation register honestly, not invented application rows. |
+
+A05 provides protected simulator and fixed-member assignment commands in OPERATOR.md. They are operator fixture setup in an approved isolated profile, never browser-controlled canned outcomes. A06/A07 still supply guarded reset, recovery, target restore, clean seed and the packaged rehearsal context.

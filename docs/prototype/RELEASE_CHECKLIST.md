@@ -1,6 +1,6 @@
 # ORVIA prototype: internal-demo release checklist
 
-**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
+**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
 
 **Internal-demo readiness: NOT_READY.** Source: `CURRENT_STATE.md` at the r4 inspected revision; exact source hash is in DELIVERY_STATUS.json; Work owns this value.
 **Production security/legal/supply-chain/full recovery: NOT_ASSESSED.** This prototype is not a production candidate.
@@ -9,7 +9,7 @@
 
 This checklist describes the evidence required. It records no application result, because no final candidate, full-scenario acceptance or qualifying rehearsal is supplied. Engineering subset runs do exist and are indexed.
 
-A00–A04 and the merged PR #16 correction supply engineering subsets. Work inspected 174 command reports and hashes. Retain the original run identity and failures; none satisfies a final-candidate item by itself.
+A00–A05 and the merged PR #16 correction supply engineering subsets. Work inspected 221 command reports and hashes. Retain the original run identity and failures; none satisfies a final-candidate item by itself.
 
 **All T01–T30 are mandatory.** No item may be skipped because a demo step is optional to narrate live.
 
@@ -49,7 +49,7 @@ A00–A04 and the merged PR #16 correction supply engineering subsets. Work insp
 |---|---|---|---|---|
 | A1 | The frozen candidate commit is recorded on the integration branch | Commit hash in CURRENT_STATE.md | Human / Work | MISSING |
 | A2 | The build manifest matches the commit and the exact lockfile | Manifest file, lockfile hash | Codex (A07) | MISSING |
-| A3 | The contract version is recorded, and generated artifacts match it | `packages/contracts` version, generation log | Codex | ACCEPTED BASELINE 0.2.1; present executable 0.3.0 and A02–A04 report intake await consolidated review; candidate match MISSING |
+| A3 | The contract version is recorded, and generated artifacts match it | `packages/contracts` version, generation log | Codex | ACCEPTED BASELINE 0.2.1; present executable transport 0.4.0 (signed command 0.3.0) and A02–A05 report intake await consolidated review; candidate match MISSING |
 | A4 | The on-screen build ID equals the manifest | Screenshot + manifest (J00) | Codex / Human | MISSING |
 | A5 | Development checksums or signatures are labelled as development-only | Manifest note | Codex | MISSING |
 | A6 | The approved master (rev 1.3) is present, with its SHA-256 recorded | Hash comparison (F-001) | Human | DOCUMENT SOURCE VERIFIED: repository bytes match approved master hash; no application gate implied |
