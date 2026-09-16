@@ -1,5 +1,7 @@
 # W01 — authority and consent review
 
+**Latest intake, not acceptance:** A03 was human-merged in PR #11 at 16:26:17 UTC while this package was being published: implementation `034100943f2c2f2b8e8934921501093746962b9b`, publication `397cb370bedaf45c3f62409e88fb891f7cd3b23e`, main `8a45911be8f86f7a35bfe1153bd40f968f4aecac`. Manifest metadata still says contract 0.3.0/PENDING_WORK_REVIEW. Only commit/path/publication metadata was inspected; A03 implementation and producer results remain queued for the requested consolidated review. This does not close A02 F01 or any Work gate.
+
 **Current checkpoint:** A01 accepted; A02/W01 acceptance BLOCKED by the medium freshness finding in [W01_A02_REVIEW.md](W01_A02_REVIEW.md). Use the [A02 correction prompt](W01_A02_CODEX_FIX.md).
 **Date:** 2026-09-16. **Reviewer:** Work. **Profile:** CUSTOMER_LOCAL_SYNTHETIC.
 
