@@ -149,9 +149,14 @@
         "T05",
         "T27"
       ],
-      "status": "NOT_STARTED",
-      "commit": null,
-      "evidence": []
+      "status": "COMPLETED",
+      "commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "evidence": [
+        "handoffs/codex/A01-publication.json",
+        "docs/reviews/work/AUTH_AND_CONSENT.md",
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/work/W01-A01-50cb4da.md"
+      ]
     },
     {
       "id": "B01",
@@ -249,7 +254,17 @@
       ],
       "planned_paths": [
         "docs/reviews/work/AUTH_AND_CONSENT.md",
-        "CURRENT_STATE.md"
+        "CURRENT_STATE.md",
+        "docs/reviews/work/W01_A01_CODEX_NEXT.md",
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "docs/reviews/work/artifacts/W01-A01-50cb4da/**",
+        "docs/reviews/work/repro/W01-A01-source-audit.py",
+        "handoffs/work/W01-A01-50cb4da.md",
+        "tracking/tasks.json",
+        "tracking/acceptance.json",
+        "docs/prototype/TASK_BOARD.md",
+        "docs/prototype/ACCEPTANCE.md",
+        "docs/prototype/CONTRACT.md"
       ],
       "deliverable": "Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.",
       "test_ids": [
@@ -259,9 +274,13 @@
         "T08",
         "T09"
       ],
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/AUTH_AND_CONSENT.md",
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/work/W01-A01-50cb4da.md"
+      ]
     },
     {
       "id": "A03",

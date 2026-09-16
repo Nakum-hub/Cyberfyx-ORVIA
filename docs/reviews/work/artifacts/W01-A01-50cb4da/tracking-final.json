@@ -1,0 +1,53 @@
+{
+  "task_id": "W01",
+  "kind": "WORK_TRACKING_CHECK",
+  "candidate_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+  "implementation_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+  "contract_version": "0.2.1",
+  "command": [
+    "/workspace/scratch/6107f9291043/w00-a00-review-tools/node_modules/node/bin/node",
+    "scripts/validate-tracking.ts"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a01-review",
+  "started_at": "2026-09-16T15:40:20.825753+00:00",
+  "finished_at": "2026-09-16T15:40:20.932108+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "artifact_path": "docs/reviews/work/artifacts/W01-A01-50cb4da/tracking-final.log",
+  "log_sha256": "8d99682ce48b3ea351884bed8b18a182d589e24d953b19ce455e4e768e5cc9f6",
+  "limitation": "Canonical JSON and generated-view validation on the listed modified Work inputs; not an application test or a claim that these ledger contents existed at the accepted implementation commit.",
+  "coverage": "DOCUMENT_ONLY",
+  "source_commit": "0f14f3fadedd763eb6b108665d5e05af0a040680",
+  "equivalent_published_review_commit": "10f8e11830c43a875bfc29d05f650c9f0d853c33",
+  "source_dirty": true,
+  "input_files": [
+    {
+      "path": "tracking/tasks.json",
+      "sha256": "1eaf0fb24d122c721fc8ba66c8b20bfedf90ee19884309d1ad3936ac0474f965"
+    },
+    {
+      "path": "tracking/acceptance.json",
+      "sha256": "59073a608ee3807e8ff31c074f1e08caa05876099c3605272432f330a57a6a48"
+    },
+    {
+      "path": "docs/prototype/TASK_BOARD.md",
+      "sha256": "2ccba1f90548ecc70997f9a9340087618a5f614988cb4a4eb0a0325ef588c0ce"
+    },
+    {
+      "path": "docs/prototype/ACCEPTANCE.md",
+      "sha256": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320"
+    },
+    {
+      "path": "CURRENT_STATE.md",
+      "sha256": "dca271228acb1e0b480fac124b5451a0ac75d03dc731fcbc52cc9c27a765890c"
+    },
+    {
+      "path": "scripts/tracking.ts",
+      "sha256": "bbf82797d2a5f120540a4e9ee1cb8f3025660ad58b395867350e3d7f866e1430"
+    },
+    {
+      "path": "scripts/validate-tracking.ts",
+      "sha256": "b566d36482f7a658b8aabfcdb629df8867633ab74779b3b6f4a774c21858780a"
+    }
+  ]
+}

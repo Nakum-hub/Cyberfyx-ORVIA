@@ -1,6 +1,6 @@
 # Task board — generated from tracking/tasks.json
 
-Status counts: COMPLETED: 2; NOT_STARTED: 21.
+Status counts: COMPLETED: 3; IN_PROGRESS: 1; NOT_STARTED: 19.
 
 | ID | Owner | Priority | Status | Task | Start after | Accept after | Tests |
 |---|---|---|---|---|---|---|---|
@@ -8,11 +8,11 @@ Status counts: COMPLETED: 2; NOT_STARTED: 21.
 | A00 | codex | P0 | COMPLETED | Inspect repository and create shared executable scaffold | Immediately | W00 | T01, T28 |
 | C00 | cowork | P0 | NOT_STARTED | Prepare UX and leadership scenario | Immediately | Own evidence | Review deliverable |
 | B00 | code | P0 | NOT_STARTED | Build UI shell from shared scaffold | A00 | C00 | Review deliverable |
-| A01 | codex | P0 | NOT_STARTED | Auth, bootstrap, scoped relational persistence | A00 | Own evidence | T02, T03, T04, T05, T27 |
+| A01 | codex | P0 | COMPLETED | Auth, bootstrap, scoped relational persistence | A00 | Own evidence | T02, T03, T04, T05, T27 |
 | B01 | code | P0 | NOT_STARTED | Real login and configuration screens | B00 | A01, A02 | T02, T05, T06, T29 |
 | A02 | codex | P0 | NOT_STARTED | Versioned configuration and transactional consent | A01 | Own evidence | T06, T07, T08, T09, T10 |
 | B02 | code | P0 | NOT_STARTED | Principal consent journey | B00 | A02 | T04, T07, T08, T29 |
-| W01 | work | P0 | NOT_STARTED | Review authority and consent contracts | A00 | A01, A02 | T03, T04, T05, T08, T09 |
+| W01 | work | P0 | IN_PROGRESS | Review authority and consent contracts | A00 | A01, A02 | T03, T04, T05, T08, T09 |
 | A03 | codex | P0 | NOT_STARTED | Durable workflow and restricted CRM execution | A02 | Own evidence | T10, T11, T12, T13 |
 | A04 | codex | P0 | NOT_STARTED | Policy enforcement and synthetic send admission | A03 | Own evidence | T14, T15, T16 |
 | A05 | codex | P0 | NOT_STARTED | Uncertain effects, observations and local evidence | A03 | Own evidence | T13, T17, T18, T19, T20, T21, T22 |
@@ -70,13 +70,13 @@ One reusable shell, status primitives, accessible loading/error/empty states; no
 
 ## A01 — Auth, bootstrap, scoped relational persistence
 
-**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** COMPLETED · **Accepted commit:** 50cb4daeded9253c4f7cca4f742cb212c10aa5b7
 
 Protected organisation bootstrap; staff/principal sessions, MFA and capabilities; tenant DB context and negative tests.
 
 **Planned files:** `packages/auth/**`; `packages/authz/**`; `packages/db/**`; `apps/web/src/app/api/**`; `policy/admin/**`; `tests/security/**`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/A01-publication.json`; `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`
 
 ## B01 — Real login and configuration screens
 
@@ -110,13 +110,13 @@ Own choices/notice/history and grant/withdraw receipt with real persisted status
 
 ## W01 — Review authority and consent contracts
 
-**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** IN_PROGRESS · **Accepted commit:** None recorded
 
 Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.
 
-**Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`
+**Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`; `docs/reviews/work/W01_A01_CODEX_NEXT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A01-50cb4da/**`; `docs/reviews/work/repro/W01-A01-source-audit.py`; `handoffs/work/W01-A01-50cb4da.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`; `docs/prototype/CONTRACT.md`
 
-**Evidence:** None recorded
+**Evidence:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`
 
 ## A03 — Durable workflow and restricted CRM execution
 

@@ -1,32 +1,29 @@
 # ORVIA — current execution state
 
-**Writer:** Work · **Checkpoint:** W00 acceptance / A00 retest · **Date:** 2026-09-16
+**Writer:** Work · **Checkpoint:** W01 / A01 acceptance · **Date:** 2026-09-16
 
 | Field | Current evidence / decision |
 |---|---|
-| Reviewed integration | main at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe; human merged PR #5 at 13:06:04 UTC |
-| Source / contract | Approved master revision 1.3 committed under docs/source; SHA-256 527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6 verified in Git and checkout. Plan 1.0; executable contract 0.2.1 accepted |
-| Implementation identity | Correction 732f4f50142e9b6bbe37187b07da04e3341b9621; submission aa831cdfc2051599ab812e20287664c34f30a15c; submission and integration trees identical |
-| Accepted tasks | W00 review: 425f079bc74e897d8ee97fa56faeea50e42ac46f. A00 implementation: 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe. Canonical ledger: both COMPLETED |
-| Work publication | prototype/work/W00-a00-retest; separate tracking commit records the exact reviewed commit. Prior PR #4 was closed unmerged; this acceptance supersedes its gate disposition |
-| Profile / scope | CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal; existing stack preserved; custom AI DEFERRED_V2; no P1 promoted |
-| Owners | Work: decisions/reviews/trackers/views/state/common template. Codex: executable schemas/dependencies/core/infra/tests/seed. Claude Code: UI/browser. Cowork: UX/capability/demo/runbooks. Human: source originals/access/system approvals/merges/release |
-| Effective UI transfer | A00 layout.tsx and page.tsx transfer to Claude Code/B00 on accepted base once human integrates shared record; Codex retains health/API/server/auth/configuration/manifests |
-| Independent executed results | Pinned offline install; F07 four-control retest; 11 unit tests; typecheck/lint; generated drift (8 artifacts, 37 routes, 7 errors); master/manifest/provenance checks PASS at 58ceddc |
-| Producer evidence | Original service/start/reset/build evidence remains bootstrap-only; correction's six post-commit reports match integrated source bytes. Prior failures retained. Work did not rerun services/PowerShell/build/browser/egress/recovery |
-| Full application results | T01–T34 all NOT_RUN: 30 P0 and 4 unpromoted P1. Partial bootstrap/domain evidence linked without result promotion |
-| Findings | F01 source/scaffold and F07 completion defect CLOSED. F02/F03/F04 CLOSED at A00 depth; real runtime/security tests remain future gates. F06 publication previously CLOSED |
-| Remaining facts | F05 actual R0/meeting deadline still unknown, nonblocking; Windows runtime inventory exists. C00 has no submitted artifact in this inspected repository; needed for B00 acceptance |
-| Isolation / later gates | UI ui-b00 and rehearsal separate from codex-a00; no Work service profile. Actual auth/scoping, consent races, current boundary, retry/observation, reset/recovery, egress/TLS remain implementation/testing tasks |
-| Readiness | A00 foundation ACCEPTED. Full internal demo NOT_READY; production security/legal/release NOT_ASSESSED |
-| Next ready tickets | Codex A01 and Claude Code B00 after human integrates this ledger; Cowork C00 independent. Work W01 is next, with acceptance after actual A01/A02 evidence |
-| Next merge | Human reviews/merges the Work acceptance/tracking PR. Implementation already integrated in PR #5. No Work merge, deployment or release |
+| Reviewed source / integration | main `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`; human merged A01 PR #8 at 14:39:03 UTC. Implementation `3be3fd09c358ac851b97a381f9a856f8f0a92177`; publication `2686474a56ed774780e84179ac60457943dc075d`; submitted and integrated trees identical |
+| Source / contract | Master document revision 1.3, SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`, verified in Git and checkout. Plan 1.0; semantic contract 0.2.1 accepted and unchanged. Codex-generated seed/acceptance labels now populated |
+| Work review commit | `10f8e11830c43a875bfc29d05f650c9f0d853c33`; branch `prototype/work/W01-a01-review`. A separate ledger commit records this exact review identity. Human integration is pending for this record |
+| Accepted tasks | W00 review `425f079bc74e897d8ee97fa56faeea50e42ac46f`; A00 implementation `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`; A01 implementation `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`. All three COMPLETED. W01 IN_PROGRESS pending A02 |
+| Live A01 scope | Protected synthetic bootstrap; real separate staff/principal sessions and privileged MFA; scoped RLS/admin OPA; health, session and principal directory list/create. Directory creation does not provision a login. All other business routes remain ticket-gated |
+| Owners | Work: decisions/reviews/trackers/views/state/common template and semantic docs. Codex: executable schemas/dependencies/core/infra/tests/seed. Claude Code: UI/browser and transferred layout/page. Cowork: UX/capability/demo/runbooks. Human: source originals/access/system approvals/merges/release |
+| Independent executed results | Pinned cached install; 11 unit tests; typecheck/lint; contract drift and accepted seed PASS. Work provenance audit verified ten final producer reports × 131 source files and all 99 artifact hashes against the merged A01 bytes |
+| Producer execution reviewed | A01 87/87 real HTTP/database/MFA/RLS/restart/OPA-outage assertions and 11/11 units; build/migration/preflight/smoke/hygiene PASS on `3be3fd0`, build `7lbFfFolBo_kmvKFWs1mW`, codex-a00. Three prior command failures retained. Work did not rerun the service suite, build or browser; Docker/PowerShell unavailable here |
+| Acceptance scenarios | All T01–T34 remain NOT_RUN: 30 P0 and four unpromoted P1. T02/T03/T04/T05/T27 now link partial A01 evidence; earlier bootstrap/domain evidence remains. No full-scenario promotion from partial tests or documents |
+| Findings / gates | No blocking A01 finding; no A01 repair requested. W00's closed findings remain closed at their accepted depth. A02 exact approval/consent/replay/transaction tests are next. Browser, future job/export/machine scope, tested rate-limit/lockout, TLS/egress/reset/recovery, frozen full suite and two rehearsals remain gates. Dependency advisory audit remains NOT_RUN under the retained producer approval block |
+| Other submissions / facts | Cowork PR #7 is an unmerged draft, head `736d1cebcd47a9286b922ff1ab065f9976042f74`, observed but not accepted/reviewed in this A01 checkpoint. C00 acceptance is still needed for B00 acceptance. No B00 or A02 submission in the inspected main. Exact R0/meeting deadline unknown and nonblocking; no restarted 36-hour budget |
+| Profile / isolation | CUSTOMER_LOCAL_SYNTHETIC, customer-local operations, custom AI DEFERRED_V2, no P1 promoted. codex-a00, ui-b00 and rehearsal remain isolated. Work created no service/profile. Loopback HTTP is development transport; bootstrap reset refuses the new business schema |
+| Readiness | A01 foundation ACCEPTED; W01 not complete. Full internal demo NOT_READY; production security/legal/release NOT_ASSESSED |
+| Next merge / ticket | Human reviews/merges this Work acceptance/tracking branch; A01 implementation already merged. Codex then starts A02 only from the accepted integration. Work continues W01; Claude Code B00 and Cowork C00 retain their own dependencies. No agent merge, deployment or release |
 
 | Work ticket | Status | Evidence / remaining dependency |
 |---|---|---|
-| W00 | COMPLETED | [Acceptance review](docs/reviews/work/W00_A00_ACCEPTANCE.md), exact reports and [handoff](handoffs/work/W00-58ceddc.md) |
-| W01 | NOT_STARTED; eligible to start | Review actual A01/A02 authority/consent work as supplied; acceptance requires both |
+| W00 | COMPLETED | [A00 acceptance](docs/reviews/work/W00_A00_ACCEPTANCE.md), exact evidence and prior handoff; no profile redesign |
+| W01 | IN_PROGRESS | [Authority review](docs/reviews/work/AUTH_AND_CONSENT.md), [A01 checkpoint handoff](handoffs/work/W01-A01-50cb4da.md); completion still requires A02 |
 | W02 | NOT_STARTED | Start W01/A03; accept A04/A05/A06/B04 with integrated failure/security/recovery evidence |
-| W03 | NOT_STARTED | Start W02; accept A07/B06/C02 with exact frozen candidate, required tests and two rehearsals |
+| W03 | NOT_STARTED | Start W02; accept A07/B06/C02 with exact frozen candidate, full required tests and two rehearsals |
 
-Work alone consolidates this state. Other lanes submit factual handoffs. Preserve the original task graph, separate source/review commits and failures/retests. A01 → A02 → A03 → A04/A05 → A06 → A07 remains gated; A07 acceptance requires W02. B00 acceptance needs C00. Generated views derive from canonical JSON. Human retains integration/release authority; no deadline reset, recurring scheduling or automatic orchestration is authorised.
+Work alone consolidates this state. Other lanes submit factual handoffs. Canonical JSON preserves the existing task graph and generated views. A02 → A03 → A04/A05 → A06 → A07 remains gated; A07 acceptance requires W02. [Codex next-ticket prompt](docs/reviews/work/W01_A01_CODEX_NEXT.md) requests A02, with no A01 repair or unbounded implementation. Human retains integration/release authority; no recurring scheduling or automatic orchestration is authorised.
