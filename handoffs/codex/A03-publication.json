@@ -1,0 +1,368 @@
+{
+  "task": "A03",
+  "base": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+  "implementation_commit": "034100943f2c2f2b8e8934921501093746962b9b",
+  "contract_version": "0.3.0",
+  "review_status": "PENDING_CONSOLIDATED_WORK_REVIEW",
+  "profile": "codex-a00",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "changed_files": [
+    "apps/agent/src/execute.ts",
+    "apps/agent/src/main.ts",
+    "apps/demo-targets/migrations/0001_target.sql",
+    "apps/web/src/app/api/v1/[...segments]/route.ts",
+    "apps/web/src/server/business.ts",
+    "apps/web/src/server/machine.ts",
+    "apps/worker/src/main.ts",
+    "apps/worker/src/withdrawal-worker.ts",
+    "apps/worker/src/withdrawal-workflows.ts",
+    "docs/engineering/A03-WORKFLOW-AND-AGENT.md",
+    "handoffs/codex/A03-start-2e01b7a.md",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-52-17.276Z.json",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-52-17.276Z.log",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-58-28.294Z.json",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-58-28.294Z.log",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T16-05-43.765Z.json",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T16-05-43.765Z.log",
+    "handoffs/codex/artifacts/A03-consent-integration-1789575063290-4aa4af4c-4fbb-45cd-a9a4-961bc7dc905e.json",
+    "handoffs/codex/artifacts/A03-contracts-generate-2026-09-16T16-09-18.502Z.json",
+    "handoffs/codex/artifacts/A03-contracts-generate-2026-09-16T16-09-18.502Z.log",
+    "handoffs/codex/artifacts/A03-db-migrate-2026-09-16T15-51-44.234Z.json",
+    "handoffs/codex/artifacts/A03-db-migrate-2026-09-16T15-51-44.234Z.log",
+    "handoffs/codex/artifacts/A03-hygiene-check-2026-09-16T16-07-14.208Z.json",
+    "handoffs/codex/artifacts/A03-hygiene-check-2026-09-16T16-07-14.208Z.log",
+    "handoffs/codex/artifacts/A03-install-2026-09-16T15-48-57.693Z.json",
+    "handoffs/codex/artifacts/A03-install-2026-09-16T15-48-57.693Z.log",
+    "handoffs/codex/artifacts/A03-lint-2026-09-16T16-06-22.793Z.json",
+    "handoffs/codex/artifacts/A03-lint-2026-09-16T16-06-22.793Z.log",
+    "handoffs/codex/artifacts/A03-machine-init-2026-09-16T15-52-13.133Z.json",
+    "handoffs/codex/artifacts/A03-machine-init-2026-09-16T15-52-13.133Z.log",
+    "handoffs/codex/artifacts/A03-migration-1789573907683-feb09b01-f9df-4e7a-a91e-ea66283d9054.json",
+    "handoffs/codex/artifacts/A03-test-2026-09-16T16-10-16.162Z.json",
+    "handoffs/codex/artifacts/A03-test-2026-09-16T16-10-16.162Z.log",
+    "handoffs/codex/artifacts/A03-test-consent-2026-09-16T16-10-40.855Z.json",
+    "handoffs/codex/artifacts/A03-test-consent-2026-09-16T16-10-40.855Z.log",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-56-48.880Z.json",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-56-48.880Z.log",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-59-39.162Z.json",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-59-39.162Z.log",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-02-48.893Z.json",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-02-48.893Z.log",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-07-14.188Z.json",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-07-14.188Z.log",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-44-29.944Z.json",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-44-29.944Z.log",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-47-37.795Z.json",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-47-37.795Z.log",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-49-21.372Z.json",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-49-21.372Z.log",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-55-56.892Z.json",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-55-56.892Z.log",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T16-10-36.821Z.json",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T16-10-36.821Z.log",
+    "handoffs/codex/artifacts/A03-workflow-integration-1789574251868-3ab192ae-cdd7-4fc1-a3ca-906ebe40e433.json",
+    "handoffs/codex/artifacts/A03-workflow-integration-1789574608288-b7cafa78-d49c-4f3b-ab89-0604309dbeb8.json",
+    "handoffs/codex/artifacts/A03-workflow-integration-1789574865814-9eda83b4-fffb-4d8a-a1c3-6028345b616a.json",
+    "package.json",
+    "packages/auth/package.json",
+    "packages/auth/src/machine-profile.ts",
+    "packages/auth/src/machine.ts",
+    "packages/connectors/src/target-db.ts",
+    "packages/contracts/generated/manifest.json",
+    "packages/contracts/generated/openapi.json",
+    "packages/contracts/src/generate.ts",
+    "packages/db/migrations/0006_machine_workflow.sql",
+    "packages/db/src/runtime.ts",
+    "packages/domain/src/consent.ts",
+    "packages/domain/src/transaction.ts",
+    "packages/domain/src/workflow.ts",
+    "packages/testing/src/http-fixture.ts",
+    "packages/testing/src/scenario.ts",
+    "pnpm-lock.yaml",
+    "scripts/local-hygiene.mjs",
+    "scripts/machine-init.ts",
+    "scripts/record.mjs",
+    "tests/integration/workflows/workflow.test.ts"
+  ],
+  "commands": [
+    {
+      "path": "handoffs/codex/artifacts/A03-build-2026-09-16T15-52-17.276Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-build-2026-09-16T15-58-28.294Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-build-2026-09-16T16-05-43.765Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-contracts-generate-2026-09-16T16-09-18.502Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-db-migrate-2026-09-16T15-51-44.234Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-hygiene-check-2026-09-16T16-07-14.208Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-install-2026-09-16T15-48-57.693Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-lint-2026-09-16T16-06-22.793Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-machine-init-2026-09-16T15-52-13.133Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "machine:init",
+        "confirm:codex-a00"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-test-2026-09-16T16-10-16.162Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-test-consent-2026-09-16T16-10-40.855Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:consent"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-56-48.880Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:workflows"
+      ],
+      "exit_code": 1,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-59-39.162Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:workflows"
+      ],
+      "exit_code": 4294967295,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-02-48.893Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:workflows"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-07-14.188Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:workflows"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-44-29.944Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 2,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-47-37.795Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 2,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-49-21.372Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-55-56.892Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 2,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A03-typecheck-2026-09-16T16-10-36.821Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "source_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+      "dirty": true
+    }
+  ],
+  "artifacts": {
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-52-17.276Z.json": "7417e063ee63463848fbe465071b17ed1843e7e6aca312179b44822dce2e3a27",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-52-17.276Z.log": "520c6b163740cfc3a04d3c8399bd2100d4a42aa0fb1640f2c335353c273718ad",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-58-28.294Z.json": "6e8f6576d5e4e15abbd341e428e24581721ce470f17c01a1172100048885f137",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T15-58-28.294Z.log": "50fa825ee9e52af3c52c68f27b62224e2e3e262e3de52c1ea5582d4a05927ca3",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T16-05-43.765Z.json": "ad666f9408941d49b92a3c6e25d3c58de6302f434900e9a9f2ea2b9f4def8f7c",
+    "handoffs/codex/artifacts/A03-build-2026-09-16T16-05-43.765Z.log": "2f28104bf620da84e3cb2845e216b754e4e77761d78be90459253c187a49945b",
+    "handoffs/codex/artifacts/A03-consent-integration-1789575063290-4aa4af4c-4fbb-45cd-a9a4-961bc7dc905e.json": "ed9c6cf0dc3eb565ac13adb27c6cd9f5986d4465f4ea583780d6ba11804cfcb1",
+    "handoffs/codex/artifacts/A03-contracts-generate-2026-09-16T16-09-18.502Z.json": "0246a0914bff98c677606d7df81c9ce521b81e21a6d048b5b12eee0c8fe13cf7",
+    "handoffs/codex/artifacts/A03-contracts-generate-2026-09-16T16-09-18.502Z.log": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150",
+    "handoffs/codex/artifacts/A03-db-migrate-2026-09-16T15-51-44.234Z.json": "af10eb3f8cb66c7a0b3c98d5dd2c7fefdabf2850a13c744e30dea8813397f82f",
+    "handoffs/codex/artifacts/A03-db-migrate-2026-09-16T15-51-44.234Z.log": "4374fd650fd1e07defad317a804c9e5435d77fc169b86005021766f80bcd1a19",
+    "handoffs/codex/artifacts/A03-hygiene-check-2026-09-16T16-07-14.208Z.json": "3687ebfcfa95d7a55a4872ec2e91e1043116fd9a59dcd609ca4a191b4ccbfee4",
+    "handoffs/codex/artifacts/A03-hygiene-check-2026-09-16T16-07-14.208Z.log": "3de279ae5667015a09ca40e055f2af7ff3fe741318184af967dc3e65a8a3c6ea",
+    "handoffs/codex/artifacts/A03-install-2026-09-16T15-48-57.693Z.json": "5f42f1d777531308f33e5c0148b61885332516d59660e0b0ebae5d3a4e38b247",
+    "handoffs/codex/artifacts/A03-install-2026-09-16T15-48-57.693Z.log": "74bb8934b585b5b6613192eb6a64cfe747e6e6d94fc0d61747d6c064365fcc94",
+    "handoffs/codex/artifacts/A03-lint-2026-09-16T16-06-22.793Z.json": "f756d6fc9f29c54dd4ca0aece51ba2c97b53d9cc1149546ce36e653ba6bb2ae6",
+    "handoffs/codex/artifacts/A03-lint-2026-09-16T16-06-22.793Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A03-machine-init-2026-09-16T15-52-13.133Z.json": "ce8fbaabbbeb7e09269adf6c6483572212d6fd99c10c905a42a09b1dc054541a",
+    "handoffs/codex/artifacts/A03-machine-init-2026-09-16T15-52-13.133Z.log": "4c9427c936272e3bf800ca1e3cb630f7071471258da16a7e0836c6db182f0a8b",
+    "handoffs/codex/artifacts/A03-migration-1789573907683-feb09b01-f9df-4e7a-a91e-ea66283d9054.json": "176901b515cdb49cf5a4f67ec38149b6b5b9b2ec0c3f03bdaa99c423bf3e7964",
+    "handoffs/codex/artifacts/A03-test-2026-09-16T16-10-16.162Z.json": "41027310ef584d524c4a5887ce47a24eeda677278b19b50d4adc163cd1d52b3f",
+    "handoffs/codex/artifacts/A03-test-2026-09-16T16-10-16.162Z.log": "b2d9e506001c7fb575893a3b7fe255e0ed35fcf91658691668b6e01a25eea882",
+    "handoffs/codex/artifacts/A03-test-consent-2026-09-16T16-10-40.855Z.json": "55d0ff6733d8dfdb4696a4b66bb56c5aa3baaf1ac9bd4ac2835dab98c695dcec",
+    "handoffs/codex/artifacts/A03-test-consent-2026-09-16T16-10-40.855Z.log": "8cd7233fab6704da340908dd8ca7865fdf438efcef14b19007a6cf51c732e094",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-56-48.880Z.json": "8eda79ab8350d4846424eba57f048dc177a95263f18d6e5bb4f036ebefda5eae",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-56-48.880Z.log": "4582e8564401a4af0d8ccf677b7047652c34d694922d33b190cc8462435d3431",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-59-39.162Z.json": "5edbef76d54e10c2434b0387fe160d65f87961cfb4b70464962c9544b35518d4",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T15-59-39.162Z.log": "f3a54ca6482c264fb6384d6a966984c246b278c612031e88b56b16e5ccbb13f1",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-02-48.893Z.json": "32eb4edcfbb4bdef9ebe2cb16559884d471bb88b73622d2166cffb7a0be7c205",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-02-48.893Z.log": "10da3a9abccbfd7d54b7ca61c6ddb291a67fd3b327079c3317e23d12c53bcd2f",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-07-14.188Z.json": "129a2b5fe822a5ad0e6d586a2ef67f3311bd56bff2af85f61847748fce129b4b",
+    "handoffs/codex/artifacts/A03-test-workflows-2026-09-16T16-07-14.188Z.log": "c37fa394a687621027f660e78036273434b1bf1d385defa1748fc4a5fa778c85",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-44-29.944Z.json": "e1d8c046287b82aa3d85060851417d0c2b3ba11c2bf6df918d79c53f22244a73",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-44-29.944Z.log": "8bf0b7ceeea1ced651ce0c369e5cf14083976a689331542784b2aa66be42abec",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-47-37.795Z.json": "6b0bfb28b1fbb350b16ea182b3347c819e6c070577dd8fb3e073774349dd21d3",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-47-37.795Z.log": "2ef47c316aec59dd44daf401e0656bef750ce5bb1f730f934f13ea1606e4f8de",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-49-21.372Z.json": "5d23118afbbe9e75dae2c6caad9ad24ff540052ab546bf12decc80103241a007",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-49-21.372Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-55-56.892Z.json": "e5b3b053aec6cc1df2cafa47782cc8f35d4b0266a12697f48c9fd77e44311d55",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T15-55-56.892Z.log": "d62313d3a9e273f578e852b582f3136bf79b5a8202c70a89134948687275dc86",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T16-10-36.821Z.json": "f71df9ca88bfac400fbb5f94df45aabed40ff2d5c58736b61511b7d45b7df5f0",
+    "handoffs/codex/artifacts/A03-typecheck-2026-09-16T16-10-36.821Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "handoffs/codex/artifacts/A03-workflow-integration-1789574251868-3ab192ae-cdd7-4fc1-a3ca-906ebe40e433.json": "f449d72d48ce1bca16c95e7a774e087ab2a8e5c8fe7b62defb7d9c915816a514",
+    "handoffs/codex/artifacts/A03-workflow-integration-1789574608288-b7cafa78-d49c-4f3b-ab89-0604309dbeb8.json": "ba84f6fb7d238dbfffafa4cb4ca06fc7c9e2847d0ae868b6df4dadfd8b397545",
+    "handoffs/codex/artifacts/A03-workflow-integration-1789574865814-9eda83b4-fffb-4d8a-a1c3-6028345b616a.json": "2ab19ec49827d05ad42a421aeaf1cfde93dc27baa41e06ff03d508815a979b44"
+  },
+  "results": {
+    "workflow_assertions": 32,
+    "consent_assertions": 49,
+    "unit_tests": 11
+  },
+  "limitations": [
+    "Live tests ran before this commit; each wrapper records the actual source hashes and dirty status. Final candidate reruns remain A07.",
+    "Further adversarial generation/approval/schema fixtures remain A06; current suite covers actual stale generation rejection, epoch change and stable command replay.",
+    "No sender/simulator/egress/TLS/browser/release qualification."
+  ]
+}
