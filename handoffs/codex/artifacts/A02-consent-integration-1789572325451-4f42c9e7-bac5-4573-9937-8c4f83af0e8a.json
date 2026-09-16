@@ -1,0 +1,110 @@
+{
+  "task_id": "A02",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-16T15:25:25.451Z",
+  "test_ids": [
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10"
+  ],
+  "contract_version": "0.3.0",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "name": "principal cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "cross-environment configuration rejected",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "create persisted purpose",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create immutable notice version",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create scoped system",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "author policy draft",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "draft purpose hidden in own portal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "unauthorized author publication denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "authorized reviewer cannot approve own version",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication requires actual proof",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "wrong digest denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "reauthentication rejects wrong TOTP",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "real MFA creates exact publication proof",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "different reviewer publishes exact version",
+      "result": "FAIL",
+      "expected": 200,
+      "actual": 503
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "T10 outbox transaction only; durable worker recovery belongs to A03. Browser acceptance remains Claude Code owned."
+  ]
+}

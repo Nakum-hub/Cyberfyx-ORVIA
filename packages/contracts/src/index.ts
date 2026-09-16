@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-/** W00 accepted at 425f079; human-integrated acceptance at e1fa052. */
-export const CONTRACT_VERSION = '0.2.1' as const;
+/** A02 additions pending consolidated Work review; accepted baseline was 0.2.1. */
+export const CONTRACT_VERSION = '0.3.0' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
 export const AUTH = {
   staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff' },
@@ -61,6 +61,10 @@ export const Notice = NoticeCreate.extend({ id: Id, version_id: Id, content_dige
 export const PolicyCreate = z.strictObject({ purpose_id: Id, notice_version_id: Id, condition: z.enum(['AFFIRMATIVE_MARKETING_CONSENT', 'APPROVED_SYNTHETIC_ORDER_SERVICE']), system_ids: z.array(Id).min(1).max(3), required_observation: z.boolean() });
 export const Policy = PolicyCreate.extend({ id: Id, version_id: Id, digest: Digest, author_id: Id, status: z.enum(['DRAFT', 'PUBLISHED', 'SUPERSEDED']), published_at: Time.nullable() });
 export const PolicyPublish = z.strictObject({ version_id: Id, digest: Digest, reauthentication_id: Id });
+export const PolicyReauthenticate = z.strictObject({ version_id: Id, digest: Digest, code: z.string().regex(/^[0-9]{6}$/) });
+export const PublicationProof = z.strictObject({ reauthentication_id: Id, version_id: Id, digest: Digest, expires_at: Time });
+export const MappingCreate = z.strictObject({ principal_id: Id, purpose_id: Id, system_id: Id });
+export const TargetMapping = MappingCreate.extend({ id: Id, target_subject_reference: z.string().regex(/^syn_[a-z0-9_]{1,80}$/), target_generation: Epoch });
 export const SystemCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, name: z.string().min(1).max(120), connector: z.enum(['SYNTHETIC_CRM', 'ORVIA_REST_SIMULATOR', 'LEGACY_MANUAL']) });
 export const System = SystemCreate.extend({ id: Id, capability_version: Version, supports_restrict: z.boolean(), supports_read: z.boolean(), checked_at: Time.nullable() });
 export const PrincipalCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, display_name: z.string().min(1).max(100), email: z.email().regex(/@(?:aster|birch)\.example$/) });
@@ -123,7 +127,8 @@ export const PurposePath = z.strictObject({ purpose_id: Id });
 export const WorkflowPath = z.strictObject({ workflow_id: Id });
 export const PollRequest = z.strictObject({ installation_id: Id, environment_id: Id, maximum_commands: z.number().int().min(1).max(10) });
 
-export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, PolicyCreate, Policy, PolicyPublish, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+  ReceiptList: page(Receipt), MappingList: page(TargetMapping),
   PurposeList: page(Purpose), NoticeList: page(Notice), PolicyList: page(Policy), SystemList: page(System), PrincipalList: page(Principal), ConsentList: page(ConsentChoice), WorkflowList: page(WorkflowSummary), FailureList: page(Obligation), CapabilityList: page(CapabilityRecord), CommandList: z.strictObject({commands:z.array(SignedCommand).max(10), poll_after_ms:z.literal(2000)}), Health: z.strictObject({status:z.literal('alive')}) };
 export type SchemaName = keyof typeof schemas;
 export type RouteDefinition = { id: string; method: 'get'|'post'; path:string; authority:'PUBLIC'|'STAFF'|'PRINCIPAL'|'STAFF_OR_PRINCIPAL'|'MACHINE'; request?:SchemaName; response:SchemaName; status:200|201|202; params?:SchemaName; paginated?:boolean; idempotency?:boolean; capability?:z.infer<typeof Capability> };
@@ -137,9 +142,13 @@ export const routes: RouteDefinition[] = [
     return [{id:`list_${resource}`,method:'get',path:`/api/v1/admin/${resource}`,authority:'STAFF',response:`${name}List`,status:200,paginated:true,capability:read}, {id:`create_${resource}`,method:'post',path:`/api/v1/admin/${resource}`,authority:'STAFF',request:`${name}Create`,response:name,status:201,idempotency:true,capability:write}] as RouteDefinition[];
   }),
   {id:'publish_policy',method:'post',path:'/api/v1/admin/policies/{id}/publish',authority:'STAFF',capability:'policy.publish',params:'IdPath',request:'PolicyPublish',response:'Policy',status:200,idempotency:true},
+  {id:'reauthenticate_policy',method:'post',path:'/api/v1/admin/policies/{id}/reauthenticate',authority:'STAFF',capability:'policy.publish',params:'IdPath',request:'PolicyReauthenticate',response:'PublicationProof',status:201},
+  {id:'create_mapping',method:'post',path:'/api/v1/admin/target-mappings',authority:'STAFF',capability:'configuration.write',request:'MappingCreate',response:'TargetMapping',status:201,idempotency:true},
+  {id:'list_mappings',method:'get',path:'/api/v1/admin/target-mappings',authority:'STAFF',capability:'configuration.read',response:'MappingList',status:200,paginated:true},
   {id:'control_map',method:'get',path:'/api/v1/admin/control-map',authority:'STAFF',capability:'configuration.read',response:'ControlMap',status:200},
   {id:'check_system',method:'post',path:'/api/v1/admin/systems/{id}/check',authority:'STAFF',capability:'systems.check',params:'IdPath',response:'System',status:200},
   {id:'own_consents',method:'get',path:'/api/v1/portal/me/consents',authority:'PRINCIPAL',capability:'consent.own.read',response:'ConsentList',status:200,paginated:true},
+  {id:'own_history',method:'get',path:'/api/v1/portal/me/consents/{purpose_id}/history',authority:'PRINCIPAL',capability:'consent.own.read',params:'PurposePath',response:'ReceiptList',status:200,paginated:true},
   {id:'grant',method:'post',path:'/api/v1/portal/me/consents/{purpose_id}/grant',authority:'PRINCIPAL',capability:'consent.own.write',params:'PurposePath',request:'Grant',response:'Receipt',status:202,idempotency:true},
   {id:'withdraw',method:'post',path:'/api/v1/portal/me/consents/{purpose_id}/withdraw',authority:'PRINCIPAL',capability:'consent.own.write',params:'PurposePath',request:'Withdraw',response:'Receipt',status:202,idempotency:true},
   {id:'own_receipt',method:'get',path:'/api/v1/portal/me/receipts/{id}',authority:'PRINCIPAL',capability:'receipt.own.read',params:'IdPath',response:'ReceiptView',status:200},

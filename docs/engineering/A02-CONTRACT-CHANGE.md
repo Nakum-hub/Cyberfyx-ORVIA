@@ -1,0 +1,19 @@
+# A02 producer change — contract 0.3.0
+
+Change ID: A02-C01. Producer: Codex. Consumers: Claude Code B01/B02, Work W01. Review status: PENDING_WORK_REVIEW under the human's consolidated-review instruction. Accepted baseline remains 0.2.1. No UI ownership changes.
+
+The accepted publish request already requires `reauthentication_id`, but had no issuance route. `POST /api/v1/admin/policies/{id}/reauthenticate` now accepts `{version_id,digest,code}` where `code` is a six-digit current TOTP verified by Better Auth. An authenticated, MFA-complete reviewer with `policy.publish` must differ from the author. The response is `{reauthentication_id,version_id,digest,expires_at}`. It expires after 120 seconds, is bound to the actual session and exact policy, and is consumed once at publication. Never persist/log the input code in the UI. A successful reauthentication does not itself publish.
+
+Publication remains `POST /api/v1/admin/policies/{id}/publish` with `{version_id,digest,reauthentication_id}` and `Idempotency-Key`. Identical authorized publication replay returns the original result even after the proof was consumed. New requests require a current proof. Wrong version/digest returns 409; self-approval or absent/expired/foreign proof returns 403. The published digest covers immutable configuration, including version, author, condition and exact system IDs.
+
+`POST /api/v1/admin/target-mappings` accepts `{principal_id,purpose_id,system_id}` and `Idempotency-Key`; it generates a scoped synthetic resource ID and `syn_` subject reference. It accepts no URL, SQL, credentials or caller-selected target identifier. `GET /api/v1/admin/target-mappings` returns the paginated mapping list. The control map reports declarations with observations null until real target checks exist.
+
+`GET /api/v1/portal/me/consents/{purpose_id}/history` returns paginated immutable receipts. `GET /api/v1/portal/me/consents` issues a new, ten-minute, own-principal interaction bound to the epoch and presented notice. Preserve it for one grant/withdraw request; refresh after an epoch conflict. Grant requires the exact currently published notice and `affirmative:true`. Withdrawal requires no new notice acceptance. Idempotent receipt replay is resolved before current-epoch validation, after authentication. Receipts retain their accepted state; GET receipt adds a separately refreshed `current` object.
+
+Four routes were added; existing route names and 0.2.1 receipt shapes remain. Canonical Zod schemas, OpenAPI, generated client types, 41 request/response examples, error examples, signature vector and generated seed are updated together. The command schema version also becomes 0.3.0; no runtime agent was shipped under 0.2.1. Old-version signed envelopes remain rejected.
+
+Migration 0004 adds scoped relational configuration, mappings, one-use approval proofs, approval records, interactions, aggregates/events, workflows and outbox. Only the existing synthetic profile is migrated during development. Runtime uses its nonsuperuser/non-BYPASSRLS role, explicit scope predicates and FORCE RLS. Business and transport audits are local. No dependency versions change.
+
+UI sequence: author creates purpose → notice → system(s) → policy; separate reviewer signs in with MFA → reauthenticate exact policy → publish; operator creates explicit principal/system mapping. Principal signs in separately → fetch own choices → grant/withdraw with one new idempotency key → retain receipt → refresh receipt/history. System execution and send admission are later increments; A02 acceptance alone does not prove propagation.
+
+Generated examples are labelled synthetic contract fixtures, not runtime response fallbacks. Tests and final commit references belong in the A02 handoff after execution.

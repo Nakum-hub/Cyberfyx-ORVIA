@@ -1,0 +1,2 @@
+$ tsx packages/contracts/src/generate.ts --check
+Checked 8 artifacts and canonical seed; 41 route examples and 7 error examples validated; contract 0.3.0.

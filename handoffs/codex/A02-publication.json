@@ -1,0 +1,394 @@
+{
+  "task": "A02",
+  "base": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+  "implementation_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+  "contract_version": "0.3.0",
+  "review_status": "PENDING_CONSOLIDATED_WORK_REVIEW",
+  "profile": "codex-a00",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "changed_files": [
+    "apps/web/src/app/api/v1/[...segments]/route.ts",
+    "apps/web/src/server/business.ts",
+    "apps/web/src/server/http.ts",
+    "docs/engineering/A02-CONTRACT-CHANGE.md",
+    "handoffs/codex/A02-A07-continuation.md",
+    "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.json",
+    "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.log",
+    "handoffs/codex/artifacts/A02-auth-security-1789572592713-f6cd3c7b-9205-4a35-a412-cf87a935afa3.json",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.json",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.log",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.json",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.log",
+    "handoffs/codex/artifacts/A02-consent-integration-1789572325451-4f42c9e7-bac5-4573-9937-8c4f83af0e8a.json",
+    "handoffs/codex/artifacts/A02-consent-integration-1789572519422-7e463c76-9aa8-43fd-9934-b52b7dd1da08.json",
+    "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.json",
+    "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.log",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.json",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.log",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.json",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.log",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.json",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.log",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.json",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.log",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.json",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.log",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.json",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.log",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.json",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.log",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.json",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.log",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.json",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.log",
+    "handoffs/codex/artifacts/A02-migration-1789572174558-53565bcf-e6fe-4e22-aebe-9939e9d91b44.json",
+    "handoffs/codex/artifacts/A02-migration-1789572462897-e3831a7b-cdb5-49e0-8fac-f0d73e0f9b36.json",
+    "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.json",
+    "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.log",
+    "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.json",
+    "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.log",
+    "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.json",
+    "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.log",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.json",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.log",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.json",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.log",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.json",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.log",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.json",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.log",
+    "package.json",
+    "packages/authz/src/index.ts",
+    "packages/contracts/fixtures/command-vector.json",
+    "packages/contracts/generated/client-types.d.ts",
+    "packages/contracts/generated/contract-seed.proposed.json",
+    "packages/contracts/generated/endpoint-types.ts",
+    "packages/contracts/generated/examples.json",
+    "packages/contracts/generated/interfaces.json",
+    "packages/contracts/generated/manifest.json",
+    "packages/contracts/generated/openapi.json",
+    "packages/contracts/generated/signature-vector.json",
+    "packages/contracts/package.json",
+    "packages/contracts/src/examples.ts",
+    "packages/contracts/src/generate.ts",
+    "packages/contracts/src/index.ts",
+    "packages/db/migrations/0004_configuration_consent.sql",
+    "packages/db/migrations/0005_publication_trigger.sql",
+    "packages/domain/src/configuration.ts",
+    "packages/domain/src/consent.ts",
+    "packages/domain/src/transaction.ts",
+    "packages/testing/src/http-fixture.ts",
+    "scripts/auth-init.ts",
+    "scripts/record.mjs",
+    "tests/integration/consent/consent.test.ts",
+    "tracking/contract_seed.json"
+  ],
+  "commands": [
+    {
+      "path": "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "auth:init",
+        "confirm:codex-a00"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-31-26.001Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+      "dirty": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "exit_code": 1,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 1,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "up"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:consent"
+      ],
+      "exit_code": 1,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:consent"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:consent"
+      ],
+      "exit_code": 0,
+      "source_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+      "dirty": false
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    },
+    {
+      "path": "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "dirty": true
+    }
+  ],
+  "artifacts": {
+    "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.json": "ec8c19b38f374cb0228269cff0a1feecad6ae108ea04bfe60dd46a492692502b",
+    "handoffs/codex/artifacts/A02-auth-init-2026-09-16T15-23-16.686Z.log": "d6a9dc23ae154de535d4139865c8c7a1cb5daf038ad499fc0c5b0d6456ee4e58",
+    "handoffs/codex/artifacts/A02-auth-security-1789572592713-f6cd3c7b-9205-4a35-a412-cf87a935afa3.json": "f09ba712c373b2b914db3ef6e5124b69e39e9d2c607e1f46c94dbe9c70d2189f",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.json": "160f198553ce4939c3156c278ad4ef2e9aa0823e2fc713a951f9248dfffeeafb",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-23-20.785Z.log": "fb9d4996f025b1d90eaaa61f24f12af4374fa5c6ded82ee36b7e6058e4890995",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.json": "734b8971dca403b9434ea4619a21fd269321e634c718e38bf5174a0da2af9f2e",
+    "handoffs/codex/artifacts/A02-build-2026-09-16T15-27-44.763Z.log": "b2eddd5087e98052e45db93d949ed82d1ff69e8c4213093a8cc43ef142b719c0",
+    "handoffs/codex/artifacts/A02-consent-integration-1789572325451-4f42c9e7-bac5-4573-9937-8c4f83af0e8a.json": "132bc076adfcc0d0b5e72ae3b7ebfcded0db3788d454c97d03a4435f3497a1fa",
+    "handoffs/codex/artifacts/A02-consent-integration-1789572519422-7e463c76-9aa8-43fd-9934-b52b7dd1da08.json": "4fc58f1716b219277d210135f2a7d90997b14d4be707f1456f35084c963fa6a9",
+    "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json": "b2a9b362bfb1304634df01973ec1f6ee15de70b149c34538332c4430774451f7",
+    "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.json": "0388140c35f01ad289196e22e0ac24781c3df3969ecfd0391bf1b004742d190a",
+    "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-28-12.395Z.log": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6",
+    "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-31-26.001Z.json": "62846199ba909a100842759db364c434ba034fe65c23897003714b599a556ab5",
+    "handoffs/codex/artifacts/A02-contracts-check-2026-09-16T15-31-26.001Z.log": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.json": "921c37b7c38fc4e1e48d340a041c44731b60f5686f3c423100e0672dfbcd9539",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-19-03.373Z.log": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.json": "6402087393fc581c62461be6b282356b8f00b3c11d3605a21c974961ceaf4b07",
+    "handoffs/codex/artifacts/A02-contracts-generate-2026-09-16T15-30-28.309Z.log": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.json": "a49b8a9726490f1460cbf4a71df83882966d7b05b20627abcad1e2b51214b51a",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-18-40.594Z.log": "dbcf856274b40de798acd633ad0d08911e51721a63eed0dd25c6f0bc7385e25c",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.json": "c0ae23306c3da36de171e3c6eacfc9ff038c3f29fffadd930ac56f9a52a0d9bc",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-22-52.570Z.log": "60d430a6a3d3e7b7d90631d6b06347da2632319bece0aa21a272a3eef1fb3f2c",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.json": "31d8ab73ac3528b0ef1977e332fa15c1f14d2094ce9d8bd61270f61f9176e55b",
+    "handoffs/codex/artifacts/A02-db-migrate-2026-09-16T15-27-41.072Z.log": "231d55c843bb492eaa0ecbb3bad8f302c5b7dcb1efab9f72f9180018645e0953",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.json": "0d814071a51317cebd945efee05c7d87246eafbd5a58e08c0a498c12b24a166f",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-00.529Z.log": "4fe237b04e8280b9ac29d0afd85dcc2aea6a0ad005a458feb59b17235c27b1b5",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.json": "2c0c8a24a9378f730fdd5a6d1ec2d44c74587e67ca0515c34b6a8ea6f8ca2023",
+    "handoffs/codex/artifacts/A02-hygiene-check-2026-09-16T15-29-23.989Z.log": "e35e0a5fa1cfd991e48ab78cba1470f79d01c0d70fa0aa99e5d03b2df6a5ae21",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.json": "df3e5792d293330d3894b7daa6d43eb022250ccd08607e57c6ccfd1bf873553f",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-22-24.170Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.json": "f525a1c8f862db8e671e7cf6b6ef2a0816cb1e26571ebee84f627bf5f3323471",
+    "handoffs/codex/artifacts/A02-lint-2026-09-16T15-28-40.946Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A02-migration-1789572174558-53565bcf-e6fe-4e22-aebe-9939e9d91b44.json": "9bfc2754f9c0a50a41602481d20ccdcc33883b6fe7fc4a042554c94fadc69936",
+    "handoffs/codex/artifacts/A02-migration-1789572462897-e3831a7b-cdb5-49e0-8fac-f0d73e0f9b36.json": "1f24001a51617ea508b801fe0f0c539b2a6db0a4303e272313b3845b20fdaeee",
+    "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.json": "95319ad8946312df450af0fcb6d5be50b3894b5a31b91d09c7ce77ad02b383c9",
+    "handoffs/codex/artifacts/A02-services-2026-09-16T15-22-15.863Z.log": "fc1acdf052639da6524e260e3b87ae90c58d4c3d2889abe53ee6f594c9fec251",
+    "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.json": "8c1a167ef5c6524154488ca34ad570e41a654b0a04d54795b51243b11bdd930f",
+    "handoffs/codex/artifacts/A02-test-2026-09-16T15-24-17.196Z.log": "9a397efd59d320617a49af768f14ab22c91edea2fd236ab459ae150da52a3125",
+    "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.json": "41cd32cb4a621dcdf853753c31f9d22e1f51c205267fc9ad926a816961ec9e12",
+    "handoffs/codex/artifacts/A02-test-auth-2026-09-16T15-29-26.081Z.log": "7a1031cfcde23b1044170d573f64f977a379787bc3bec476b5285ad01f0fead2",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.json": "83027469678848a5bca4be5487593124c15beb4c90d5cde4107e287d8d21934a",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-25-13.396Z.log": "734945b9f92b262eb03fe486da8f31fcf1a2c0a0bfa309d482d782c7fcf80f1b",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.json": "5b63e576001667942574242e34f09b11edb3ee0f4b730463a5bcded6145fb419",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-28-29.763Z.log": "55e0503e520b7356752141c472ff0c1bdcb58fef66782fa6a5d032926c21179b",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json": "86473b924fc5b8d13b4ec2d18da43f5521f3796a37f7f52a05920af1726e5afc",
+    "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.log": "aa8341ea8084384f866a1321ff460722d7018946e366b0e8d825036c8c569eef",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.json": "de7cd034b2924252544e4ba5b34336261b048e4fa7969f99405eb32538a39e8b",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-17-22.399Z.log": "67c9abf28bc8443ebd8719e306f86a2ef66a94f84f3220d9d432a38c07774cdf",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.json": "b225f6276600f9f1525c5335afddcd57b1e84536580f087eb3a3c0db8606a9f8",
+    "handoffs/codex/artifacts/A02-typecheck-2026-09-16T15-21-54.203Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+  },
+  "results": {
+    "consent_assertions": 49,
+    "auth_assertions": 87,
+    "unit_tests": 11
+  },
+  "limitations": [
+    "T06-T10 backend subset; browser and stale-target-generation acceptance remain later owned work.",
+    "Earlier failed migration (Docker stopped), trigger regression and sandbox-limited hygiene attempts retained with their actual results.",
+    "No propagation, send-enforcement, recovery, egress or release claim."
+  ]
+}

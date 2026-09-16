@@ -14,9 +14,13 @@ export interface EndpointMap {
   list_principals: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrincipalList> };
   create_principals: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PrincipalCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Principal> };
   publish_policy: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyPublish>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Policy> };
+  reauthenticate_policy: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyReauthenticate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PublicationProof> };
+  create_mapping: { request: import('zod').infer<typeof import('../src/index.ts').schemas.MappingCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.TargetMapping> };
+  list_mappings: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.MappingList> };
   control_map: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlMap> };
   check_system: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.System> };
   own_consents: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentList> };
+  own_history: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ReceiptList> };
   grant: { request: import('zod').infer<typeof import('../src/index.ts').schemas.Grant>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Receipt> };
   withdraw: { request: import('zod').infer<typeof import('../src/index.ts').schemas.Withdraw>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Receipt> };
   own_receipt: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ReceiptView> };

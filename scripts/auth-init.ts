@@ -40,6 +40,8 @@ try {
     await tx.query('GRANT SELECT ON app.organisations,app.legal_entities,app.environments,app.principal_references,app.audit_events,app.idempotency_records TO orvia_app');
     await tx.query('GRANT INSERT ON app.principal_references,app.audit_events,app.idempotency_records TO orvia_app');
     await tx.query('GRANT INSERT ON app.request_audit TO orvia_app');
+    await tx.query('GRANT SELECT,INSERT ON app.purpose_versions,app.notice_versions,app.policy_versions,app.policy_systems,app.systems,app.target_mappings,app.publication_proofs,app.policy_approvals,app.consent_aggregates,app.consent_interactions,app.consent_events,app.workflows,app.outbox_events TO orvia_app');
+    await tx.query('GRANT UPDATE ON app.purpose_versions,app.notice_versions,app.policy_versions,app.publication_proofs,app.consent_aggregates,app.consent_interactions TO orvia_app');
     await tx.query('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA app TO orvia_app');
     for (const [schema, role] of [['staff_auth', 'orvia_staff_auth'], ['principal_auth', 'orvia_principal_auth']]) {
       await tx.query(`GRANT USAGE ON SCHEMA ${schema} TO ${role}`);

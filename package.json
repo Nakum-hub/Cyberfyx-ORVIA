@@ -13,6 +13,7 @@
     "test": "tsx --test tests/unit/*.test.ts",
     "test:f07": "node handoffs/codex/repro/W00-F07/provider-receipt.mjs",
     "test:auth": "tsx tests/security/auth.test.ts",
+    "test:consent": "tsx tests/integration/consent/consent.test.ts",
     "auth:init": "tsx scripts/auth-init.ts",
     "auth:bootstrap": "tsx scripts/auth-bootstrap.ts owner",
     "seed:auth": "tsx scripts/auth-bootstrap.ts fixtures",

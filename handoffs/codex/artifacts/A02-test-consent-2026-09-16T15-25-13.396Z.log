@@ -1,0 +1,18 @@
+$ tsx tests/integration/consent/consent.test.ts
+PASS principal cannot author configuration
+PASS auditor cannot author configuration
+PASS cross-environment configuration rejected
+PASS create persisted purpose
+PASS create immutable notice version
+PASS create scoped system
+PASS author policy draft
+PASS draft purpose hidden in own portal
+PASS unauthorized author publication denied
+PASS authorized reviewer cannot approve own version
+PASS publication requires actual proof
+PASS wrong digest denied
+PASS reauthentication rejects wrong TOTP
+PASS real MFA creates exact publication proof
+{ name: 'Error', code: 'UNCLASSIFIED' }
+Artifact: handoffs/codex/artifacts/A02-consent-integration-1789572325451-4f42c9e7-bac5-4573-9937-8c4f83af0e8a.json
+[ELIFECYCLE] Command failed with exit code 1.

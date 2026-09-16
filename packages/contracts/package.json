@@ -1,5 +1,5 @@
 {
-  "name": "@orvia/contracts", "version": "0.2.1", "private": true, "type": "module",
+  "name": "@orvia/contracts", "version": "0.3.0", "private": true, "type": "module",
   "exports": { ".": "./src/index.ts", "./client": "./src/client.ts", "./crypto": "./src/crypto.ts", "./generated": "./generated/client-types.d.ts" },
   "dependencies": { "zod": "4.6.5" }
 }
