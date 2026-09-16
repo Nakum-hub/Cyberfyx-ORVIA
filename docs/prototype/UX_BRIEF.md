@@ -1,13 +1,13 @@
 # ORVIA prototype: UX brief
 
-**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
+**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
 
 **Revision history:**
 
 - c00-r2 was written against `96b8bd7` (planning documents only).
 - c00-r3 refreshes this brief against `e839b1a` and the verified master. It keeps the r2 screen design.
 
-**What this brief is.** A UX and copy handoff. It is not evidence that any screen exists: at the inspected base, workspace/Privacy Centre UI routes remain absent; A00–A04 API/auth/consent/worker/agent sources and reports exist separately. Journeys and evidence requirements are in [`docs/ux/ACCEPTANCE_JOURNEYS.md`](../ux/ACCEPTANCE_JOURNEYS.md).
+**What this brief is.** A UX and copy handoff. It is not evidence that any screen exists: at the inspected base, workspace/Privacy Centre UI routes remain absent; A00–A05 API/auth/consent/worker/agent sources and reports exist separately. Journeys and evidence requirements are in [`docs/ux/ACCEPTANCE_JOURNEYS.md`](../ux/ACCEPTANCE_JOURNEYS.md).
 
 **Exact text lives in [`docs/ux/UI_COPY.json`](../ux/UI_COPY.json).**
 
@@ -19,7 +19,7 @@
 
 ### Inputs read at the r4 base
 
-Current AGENTS/state/ownership, execution plan, accepted CONTRACT 0.2.1, canonical tasks/acceptance, W00/A01 acceptance and A02/A03/A04/correction handoffs were inspected. The executable 0.3.0 manifest is PENDING_WORK_REVIEW. The merged PR #16 correction is present; this document pass does not accept it.
+Current AGENTS/state/ownership, execution plan, accepted CONTRACT 0.2.1, canonical tasks/acceptance, W00/A01 acceptance and A02/A03/A04/A05/correction handoffs were inspected. The executable 0.4.0 transport manifest is PENDING_WORK_REVIEW; signed commands remain 0.3.0. The merged PR #16 correction is present; this document pass does not accept it.
 
 The repository master revision 1.3 was independently rehashed (850752 bytes, SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`). The genuine v1 kit and 33-module register were recovered and verified. Their older UX/demo/checklist scaffold does not replace the useful r3 work. See `docs/reviews/cowork/artifacts/r4/source-intake.json`.
 
@@ -30,7 +30,7 @@ This replaces the r2 rule "the stricter wording wins", which is withdrawn.
 1. **Product and security scope** come from the approved master's current numbered sections. Historical appendices and older kits do not override them.
 2. **Demo depth and prototype adaptations** come from the execution plan and the decisions Work has recorded (ADR-001, W00 review). These apply only within their stated scope.
 3. **Field and enum bindings** come from the executable contract **once Work has accepted it**.
-   - Accepted 0.2.1 governs its exact fields. The four added 0.3.0 routes and implementation review remain pending; presence is not approval.
+   - Accepted 0.2.1 governs its exact fields. The 0.3.0 route additions, 0.4.0 transport changes and implementation review remain pending; presence is not approval.
    - An accepted executable contract governs implemented bindings. It does not silently override an approved product or security requirement.
 4. **Work successor documents** apply these sources. They do not add requirements, enums or endpoints.
 5. **Conflicts require a scoped Work decision.** The item stays UNRESOLVED in `UI_COPY.json` with a finding in `docs/reviews/cowork/FINDINGS.csv`, and it is routed:
@@ -134,7 +134,7 @@ This replaces the r2 rule "the stricter wording wins", which is withdrawn.
 
 ## 4. Screen specifications
 
-Each spec covers the same fields: actor, goal, prerequisite, visible information, labels and actions, permitted behaviour, destination and acceptance evidence. **Implementation status for all: NOT_IMPLEMENTED at `2432a008539450725129d19ff5fc6c2eee488031`** (scoped source inspection EV-SRC-006; not inferred from missing tests).
+Each spec covers the same fields: actor, goal, prerequisite, visible information, labels and actions, permitted behaviour, destination and acceptance evidence. **Implementation status for all: NOT_IMPLEMENTED at `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`** (scoped source inspection EV-SRC-007; not inferred from missing tests).
 
 ### W-SIGNIN — staff sign-in and MFA
 
@@ -148,7 +148,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Behaviour | Uses the auth library's mounted routes (CONTRACT §8). Failure text is generic (`signin.staff.failed`). No "demo login as…" shortcut, default password or role switcher. |
 | Destination | W-OVERVIEW |
 | Evidence | J01 (T02) |
-| Unresolved | Auth-library labels and error mapping (F-023); MFA enrolment route and build metadata (F-011). Accepted A01 implements `/api/auth/staff` and `/api/auth/principal`; B01 consumer mapping remains open. |
+| Unresolved | Visible labels and native protocol binding are specified and accepted as Work display decisions in `docs/reviews/work/C00-copy-source-review.md`. Use `staffAuthClient.signIn.email`, then enrollment (`twoFactor.enable`, `twoFactor.verifyTotp`) or the enrolled challenge indicated by `twoFactorRedirect`. A successful library session alone does not grant business authority. B01 implements/tests these flows (F-023/F-011). |
 
 ### W-OVERVIEW — core dashboard
 
@@ -158,12 +158,12 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Goal | See, at a glance, what is unresolved and which build this is |
 | Prerequisite | Staff session |
 | Visible | `overview.heading`, `overview.subheading`; cards `overview.card.*` with server counts; `overview.build_panel` |
-| Actions | Each card links to a filtered W-WORKFLOWS or W-ATTENTION list. `global.action.retry` on a failed card. |
+| Actions | Each card links to W-WORKFLOWS or W-ATTENTION. Do not invent a server filter parameter; label any loaded-page filtering with its limited scope. `global.action.retry` on a failed card. |
 | Behaviour | Counts come from `GET /api/v1/admin/overview`. Loading shows `global.loading.count`; failure shows `global.count.unavailable`. No totals are calculated in the browser. |
 | Destination | W-ATTENTION, W-WORKFLOWS, W-TESTLAB (latest run) |
 | Empty | `overview.empty` |
 | Evidence | J00, J15 (T01, T21, T30) |
-| Unresolved | Accepted 0.2.1 defines `Overview.counts` = accepted, running, needs_attention, completed, effect_unknown, manual_required, failed, unverified. Cards for unverifiable, not-satisfied and stale have no proposed count and stay unbound; `overview.card.unverified` needs a definition (F-007). Build metadata: F-011. |
+| Unresolved | Accepted 0.2.1 defines `Overview.counts` = accepted, running, needs_attention, completed, effect_unknown, manual_required, failed, unverified. Work defines `unverified` as obligations requiring a current scoped observation that do not satisfy the completion predicate, including stale scope or stale/unavailable reads. First four cards count workflows; remaining four count obligations and may overlap. Show the unit, no sum/percentage. Unknown/failed/manual counts are execution-state counts, including obligations completed by a separate criterion; do not describe them as an outstanding-work total. Suppress the unsupported unverifiable/not-satisfied/stale cards. A05 source exists; T21 count parity and B03 remain open (F-007). The development-unqualified build value is not a frozen candidate (F-011). |
 
 ### W-ATTENTION — unresolved obligations
 
@@ -174,7 +174,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Prerequisite | Staff session |
 | Visible | `attention.heading`, `attention.subheading`, columns `attention.col.*`; status badges from §5 |
 | Actions | Row → W-WORKFLOW-DETAIL (anchored to the action) |
-| Behaviour | Data from `GET /api/v1/admin/failures`. Sorted by oldest first. Nothing leaves the list unless the server resolves it. |
+| Behaviour | Data from `GET /api/v1/admin/failures`. Use the server cursor order, not an unsupported oldest-first promise. Continue while next_cursor is non-null even if a page is empty; it is a filtered obligations scan. Only a current server response changes a row. Retain selection/focus during refresh. FailureList supplies obligations without owner/system/workflow navigation fields: associate only exact obligation IDs with authorized loaded workflow detail, or show unavailable detail and no guessed link. F-007 tracks any additional versioned producer projection needed. |
 | Empty | `attention.empty`. The scope caveat is always shown. |
 | Evidence | J12, J13, J15 (T19, T20, T21) |
 
@@ -185,8 +185,8 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Actor | All staff roles |
 | Goal | Find a workflow by status, purpose or time |
 | Visible | `workflows.heading`, columns `workflows.col.*`, workflow badges |
-| Actions | Status filter; row → W-WORKFLOW-DETAIL |
-| Behaviour | Server pagination (`GET /api/v1/admin/workflows`). The unresolved count comes from the server. |
+| Actions | Labelled filter of the loaded page only, unless a reviewed server filter is added; row → W-WORKFLOW-DETAIL |
+| Behaviour | Server pagination (`GET /api/v1/admin/workflows`). No per-workflow unresolved count is supplied; display the state and actual obligation rows, not a fabricated total. |
 | Empty | `workflows.empty` |
 | Evidence | J08, J15 |
 
@@ -199,7 +199,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Prerequisite | Workflow exists in the caller's scope; otherwise `error.staff.404` |
 | Visible | `workflow.heading` + workflow badge + `state.workflow.*.detail` (+ `.summary` or `.scope`). Summary labels `workflow.summary.*` (principal shown as an opaque reference only). `workflow.explainer`. Actions table `workflow.col.*`. Timeline with `workflow.timeline.filter.*`. |
 | Actions | `reconcile.button` on `EFFECT_UNKNOWN` rows (with `reconcile.dialog.*`). `attest.button` on `MANUAL_REQUIRED` rows, for the assignee only. |
-| Behaviour | Reconcile calls `POST /admin/actions/{id}/reconcile`, whose accepted 0.2.1 response is 202 `AcceptedOperation` (endpoint implementation remains A05). While waiting for that response, show the transient `reconcile.pending`. Afterwards, show the durable reconciliation record from the workflow (`state.reconciliation.*`) and the resulting observation, if any. The uncertain attempt remains `Outcome unknown` in history. Attest calls `POST /admin/manual-tasks/{id}/attest` (statement plus at least one evidence reference in the accepted 0.2.1 shape). The attestation appears as `attest.record_line` + `attest.record_note`, and the Observation cell does not change. Optional polling (Accepted 0.2.1 defines 2 s, backing off to 30 s) updates a polite live region and never moves focus. Writes are never retried automatically. |
+| Behaviour | Reconcile calls `POST /admin/actions/{id}/reconcile`, whose accepted 0.2.1 response is 202 `AcceptedOperation` (A05 producer source exists; acceptance and B03 tests remain). While waiting for that response, show the transient `reconcile.pending`. Afterwards, show the durable reconciliation record from the workflow (`state.reconciliation.*`) and the resulting observation, if any. The uncertain attempt remains `Outcome unknown` in history. Attest calls `POST /admin/manual-tasks/{id}/attest` (statement plus at least one evidence reference in the accepted 0.2.1 shape). The attestation appears as `attest.record_line` + `attest.record_note`, and the Observation cell does not change. Optional polling (Accepted 0.2.1 defines 2 s, backing off to 30 s) updates a polite live region and never moves focus. Writes are never retried automatically. |
 | Destination | W-EVIDENCE for this workflow |
 | Evidence | J07–J14, J18 (T08–T20, T11) |
 | Reconciliation | ADR-001 requires a durable, typed reconciliation attempt. Accepted 0.2.1 defines a separate `Reconciliation` record (`PENDING → RECONCILING → RESOLVED \| INCONCLUSIVE \| FAILED`), while the uncertain attempt stays `EFFECT_UNKNOWN`. Show that record with `state.reconciliation.*`. `reconcile.pending` is only transient button text and never replaces the durable record. Work introduces no API enum values. |
@@ -220,7 +220,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Actor | ORG_ADMIN or ORG_SUPER_ADMIN create; AUDITOR and MEMBER read-only (`permission.read_only_auditor` / `permission.view_only_member`) |
 | Goal | Define `promotional_marketing` and `order_service_demo` separately; write the notice a person reads |
 | Visible | `purposes.*`, `notices.*`; version and publication state per row |
-| Actions | `purposes.create`, `purposes.save`, `notices.create`, `notices.save`. `notices.publish` is **unresolved** (the contract has no notice publish route; F-017). |
+| Actions | `purposes.create`, `purposes.save`, `notices.create`, `notices.save`. Suppress `notices.publish`: distinct-reviewer publication of the exact policy publishes its referenced notice. No separate notice action is designed (F-017 consumer check). |
 | Behaviour | Published versions show `purposes.published_fixed` / `notices.grant_link_note` and no edit control. Validation errors are shown inline (`error.staff.400`). |
 | Evidence | J05 (T06) |
 
@@ -288,7 +288,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Actor | All staff roles |
 | Goal | See every programme module with target release/depth separate from implementation and test status |
 | Visible | Columns `capabilities.col.*`; badges `capabilities.deferred_v2` (the seven learned-AI modules only) and `capabilities.v1_programme` |
-| Behaviour | Intended API: `GET /api/v1/admin/capabilities` (not implemented at this base). Genuine `tracking/capabilities.json` restored. Codex must preserve 33 module IDs/names, V1/V2 and depth while mapping the original register to the API; unknown/partial values must not become binary completion. Until that mapping exists, show `capabilities.unavailable` for an unavailable API result (F-029). |
+| Behaviour | The programme section uses the genuine 33-module register with its original IDs/names, V1/V2, depth and implementation/test status. A separate runtime connector section consumes the implemented `GET /api/v1/admin/capabilities`; this endpoint does not return module rows. Codex supplies the compatible register consumer/import (F-029). Missing register data displays `capabilities.unavailable`, never fabricated rows or binary module completion. |
 | Evidence | J23 (T30) |
 
 ### P-SIGNIN — Privacy Centre sign-in
@@ -309,7 +309,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Goal | See and change each purpose choice separately |
 | Visible | `choices.heading`, `choices.intro`; one card per purpose returned by `GET /portal/me/consents`, showing its `state.consent.*.portal` line and the notice version |
 | Actions | `NOT_GIVEN` → `choices.review_and_agree` (to P-GRANT). `GRANTED` → `choices.withdraw.explainer` shown above `choices.withdraw.button`. `WITHDRAWN` → `choices.agree_again` (to P-GRANT; a new interaction). |
-| Behaviour | Withdraw sends `expected_epoch`, `interaction_id` and an `Idempotency-Key` created once for this logical request. Work specifies exact-request recovery with the safe retention/reload rules below; implementation remains F-024. While waiting, show `choices.saving` with the button disabled, which blocks double submission.<br>**Outcomes:**<br>• Timeout or network loss: `error.portal.network_change`, then the `recovery.portal.*` panel. **Retry the same request** re-sends the identical key and payload, and **Check my current choice** reloads.<br>• The retry returns the original receipt: show `recovery.portal.resolved_saved`.<br>• `EPOCH_CONFLICT`: show `error.portal.409_epoch` with its action. Only after the reload succeeds, show `error.portal.409_epoch.reloaded`.<br>• `IDEMPOTENCY_CONFLICT`: `error.portal.409_idempotency`.<br>A new choice (new key, current epoch) is offered only after one of these outcomes. **Never** show "nothing changed" after a timeout or a generic 503. The browser never retries a write automatically (accepted 0.2.1 semantics). Client retention and recovery are unimplemented (F-024). The service card shows `choices.service_card.note` and has no marketing-linked control (F-017). |
+| Behaviour | Withdraw sends `expected_epoch`, `interaction_id` and an `Idempotency-Key` created once for this logical request. Work specifies exact-request recovery with the safe retention/reload rules below; implementation remains F-024. While waiting, show `choices.saving` with the button disabled, which blocks double submission.<br>**Outcomes:**<br>• Timeout or network loss: `error.portal.network_change`, then the `recovery.portal.*` panel. **Retry the same request** re-sends the identical key and payload, and **Check my current choice** fetches current data in-app while retaining the original pending request. A full page reload is not recovery.<br>• The retry returns the original receipt: show `recovery.portal.resolved_saved`.<br>• `EPOCH_CONFLICT`: show `error.portal.409_epoch` with its action. Only after the authenticated same-principal current-choice read succeeds, show `error.portal.409_epoch.reloaded`.<br>• `IDEMPOTENCY_CONFLICT`: `error.portal.409_idempotency`.<br>A new choice (new key, current epoch) is offered only after a matching original receipt or a handled epoch conflict plus successful authenticated current-choice read. An idempotency mismatch or unchanged read alone does not authorize a new request. **Never** show "nothing changed" after a timeout or a generic 503. The browser never retries a write automatically (accepted 0.2.1 semantics). Client retention and recovery are unimplemented (F-024). The producer returns only promotional_marketing choices. Suppress the optional service card; order_service_demo is shown in the separate staff decision demonstration (F-017). |
 | Destination | P-RECEIPT |
 | Empty | `choices.empty` |
 | Evidence | J06, J07, J14 (T07–T10, T15) |
@@ -343,7 +343,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 |---|---|
 | Actor | Data principal |
 | Visible | `receipts.heading`, columns `receipts.col.*` |
-| Behaviour | **Blocked on the contract**: no list route exists (F-016). Until one is added, show only receipts reachable by ID from the current session, or omit the nav item. |
+| Behaviour | Use the implemented purpose-scoped history route `/api/v1/portal/me/consents/{purpose_id}/history` (introduced in 0.3.0, current 0.4.0 review pending). Retain P-RECEIPTS and the selected own purpose. Page until next_cursor is null; each row opens its own immutable receipt and separate current projection. No cross-principal selector or global receipt endpoint (F-016/B02). |
 | Empty | `receipts.empty` |
 | Evidence | J07 |
 
@@ -370,7 +370,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 
 | Stored value | Badge | Detail | Copy IDs | Binding |
 |---|---|---|---|---|
-| `ACCEPTED` | ○ Accepted | Withdrawal recorded. Downstream actions are still being checked. | `state.workflow.ACCEPTED.label`, `state.workflow.ACCEPTED.detail` | UNRESOLVED F-013 |
+| `ACCEPTED` | ○ Accepted | Withdrawal recorded. Downstream actions are still being checked. | `state.workflow.ACCEPTED.label`, `state.workflow.ACCEPTED.detail` | historical design 0.1.0; consumer unverified |
 | `RUNNING` | ◐ In progress | Planned actions are being carried out and checked. | `state.workflow.RUNNING.label`, `state.workflow.RUNNING.detail` | historical design 0.1.0; consumer unverified |
 | `NEEDS_ATTENTION` | ! Needs attention | Required actions remain unresolved. | `state.workflow.NEEDS_ATTENTION.label`, `state.workflow.NEEDS_ATTENTION.detail` | historical design 0.1.0; consumer unverified |
 | `COMPLETED` | ✓ Completed | Every required obligation in this workflow's declared scope met its approved completion criterion. | `state.workflow.COMPLETED.label`, `state.workflow.COMPLETED.detail` | historical design 0.1.0; consumer unverified |
@@ -383,7 +383,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | `RUNNING` | ◐ Sending | The local agent is sending the approved operation. | `state.action.RUNNING.label`, `state.action.RUNNING.detail` | historical design 0.1.0; consumer unverified |
 | `ACKNOWLEDGED` | ↩ Acknowledged | Command acknowledged. Outcome not yet independently observed. | `state.action.ACKNOWLEDGED.label`, `state.action.ACKNOWLEDGED.detail` | historical design 0.1.0; consumer unverified |
 | `EFFECT_UNKNOWN` | ? Outcome unknown | Outcome unknown. Reconciliation is required. | `state.action.EFFECT_UNKNOWN.label`, `state.action.EFFECT_UNKNOWN.detail` | historical design 0.1.0; consumer unverified |
-| `FAILED` | ✕ Failed | The system reported a known failure ({failure_reason}). A timeout on its own is shown as Outcome unknown. | `state.action.FAILED.label`, `state.action.FAILED.detail` | UNRESOLVED F-009 |
+| `FAILED` | ✕ Failed | The system reported a known failure ({failure_reason}). A timeout on its own is shown as Outcome unknown. | `state.action.FAILED.label`, `state.action.FAILED.detail` | historical design 0.1.0; consumer unverified |
 | `MANUAL_REQUIRED` | ✎ Manual action required | Manual action required. Automated outcome not verified. | `state.action.MANUAL_REQUIRED.label`, `state.action.MANUAL_REQUIRED.detail` | historical design 0.1.0; consumer unverified |
 | `SKIPPED` | – Not applicable | Skipped: {skip_reason}. | `state.action.SKIPPED.label`, `state.action.SKIPPED.detail` | historical design 0.1.0; consumer unverified |
 
@@ -412,7 +412,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | Stored value | Badge | Detail | Copy IDs | Binding |
 |---|---|---|---|---|
 | `ALLOW` | ✓ Allowed | The current authority and published policy permit this use for this purpose. | `state.decision.ALLOW.label`, `state.decision.ALLOW.detail` | historical design 0.1.0; consumer unverified |
-| `BLOCK` | ✕ Blocked | The current authority doesn't permit this use for this purpose: {decision_reason}. | `state.decision.BLOCK.label`, `state.decision.BLOCK.detail` | UNRESOLVED F-025 |
+| `BLOCK` | ✕ Blocked | The current authority doesn't permit this use for this purpose: {decision_reason}. | `state.decision.BLOCK.label`, `state.decision.BLOCK.detail` | historical design 0.1.0; consumer unverified |
 | `INDETERMINATE` | ? Decision unavailable | ORVIA could not determine whether this use is permitted. This result does not authorise processing. | `state.decision.INDETERMINATE.label`, `state.decision.INDETERMINATE.detail` | historical design 0.1.0; consumer unverified |
 
 ### Test result
@@ -443,7 +443,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | `state.workflow.COMPLETED.manual_note` | Includes {manual_count} obligations closed by an attributed manual statement. ORVIA did not independently observe those systems. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `state.workflow.NEEDS_ATTENTION.summary` | {unknown_count} outcome unknown · {failed_count} failed · {manual_count} manual action required · {unverified_count} not independently observed | UNRESOLVED F-007 |
 | `state.action.SKIPPED.missing_reason` | Skipped, but no reason was recorded. Treat this as unresolved. | historical design 0.1.0; consumer unverified |
-| `state.decision.ALLOW.basis` | Checked: {authority_summary} · policy {policy_version} · evaluated {evaluated_at} | UNRESOLVED F-025 |
+| `state.decision.ALLOW.basis` | Basis: {authority_summary} · policy {policy_version} · evaluated {evaluated_at} | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `state.coverage.automated_observable.label` | Automated and observable | UNRESOLVED F-008 |
 | `state.coverage.automated_observable.detail` | Operations: {operation_list}. Read method: {method}. | historical design 0.1.0; consumer unverified |
 | `state.coverage.automated_unobservable.label` | Automated, cannot be observed | UNRESOLVED F-008 |
@@ -457,6 +457,27 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | `state.observation.method.SCOPED_READ` | scoped read | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `state.observation.method.PROVIDER_RECEIPT` | provider receipt | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `state.observation.method.NONE` | no observation method | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.CURRENT_MARKETING_AUTHORITY` | Current marketing authority and published policy permit this scoped use. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.EXPLICIT_SYNTHETIC_ORDER_CONDITION` | The separate approved synthetic order-service condition permits this scoped use. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.CONDITIONS_NOT_SATISFIED` | The required conditions for this purpose are not satisfied. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.SERVICE_CONDITION_EXPIRED` | The synthetic order-service condition expired before the decision was completed. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.TARGET_OBSERVATION_UNAVAILABLE` | The target state could not be read. This result does not authorise processing. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.POLICY_UNAVAILABLE` | The policy service was unavailable. This result does not authorise processing. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.POLICY_RESULT_MISSING` | The policy service returned no decision. This result does not authorise processing. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.POLICY_RESULT_INVALID` | The policy response could not be validated. This result does not authorise processing. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.decision.UNKNOWN` | No reviewed explanation is available for this decision. Read its recorded result; this explanation grants no authority. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.APPLIED` | The target acknowledged the command. Check the separate observation for its effect. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.POLICY_NOT_APPROVED` | The command did not have a matching approved policy. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.STALE_EPOCH` | The command refers to an older consent state. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.STALE_GENERATION` | The command refers to a different target generation. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.PROVIDER_UNAVAILABLE` | The synthetic provider reported that it was unavailable. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.PROVIDER_DENIED` | The synthetic provider rejected this command. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.PROVIDER_RESPONSE_UNKNOWN` | The command response could not be confirmed. Reconciliation is required. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.command.UNKNOWN` | No reviewed explanation is available for this command result. Keep its recorded action status and separate observation. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.reconciliation.READ_UNAVAILABLE` | The independent read was unavailable. The earlier command remains uncertain. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.reconciliation.STALE_SCOPE` | The earlier scope is no longer current. This read does not settle the current obligation. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.reconciliation.DESIRED_STATE_NOT_OBSERVED` | The independent read did not show the required state. No new effect attempt is authorised. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `reason.reconciliation.UNKNOWN` | No reviewed explanation is available for this reconciliation result. Keep the recorded result and original uncertain attempt. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 
 <!-- END GENERATED: status-copy -->
 
@@ -474,20 +495,20 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | `error.staff.403` | STAFF | FORBIDDEN | You don't have permission to do this. Your role: {role_label}. Ask an organisation admin if you need access. | historical design 0.1.0; consumer unverified |
 | `error.staff.404` | STAFF | NOT_FOUND_OR_INACCESSIBLE | Not found. It doesn't exist, or it isn't available to your account. | historical design 0.1.0; consumer unverified |
 | `error.staff.409_version` | STAFF | VERSION_CONFLICT | This changed after you opened it. Reload to see the latest version, then try again. | historical design 0.1.0; consumer unverified |
-| `error.staff.409_idempotency` | STAFF | IDEMPOTENCY_CONFLICT | This request reference was already used for a different change. Reload and try again. | historical design 0.1.0; consumer unverified |
+| `error.staff.409_idempotency` | STAFF | IDEMPOTENCY_CONFLICT | This request reference does not match the original change. Keep the original request and check its status; do not submit it with a new reference. | historical design 0.1.0; consumer unverified |
 | `error.staff.429` | STAFF | RATE_LIMITED | Too many requests. Wait a moment, then try again. | historical design 0.1.0; consumer unverified |
-| `error.staff.503` | STAFF | SERVICE_UNAVAILABLE | A required service isn't available. If you were saving a change, it may or may not have been saved — reload to check before trying again. | UNRESOLVED F-024 |
+| `error.staff.503` | STAFF | SERVICE_UNAVAILABLE | A required service isn't available. A change you submitted may have been saved. Keep this page open and check its status before using Retry the same request. | UNRESOLVED F-024 |
 | `error.staff.network_read` | STAFF | NETWORK_ERROR | Couldn't reach ORVIA. Check that the local services are running, then retry. | historical design 0.1.0; consumer unverified |
-| `error.staff.network_change` | STAFF | OUTCOME_UNCONFIRMED | We couldn't confirm whether this change was saved. Don't start it again yet. Reload to check, then retry the same request if it still isn't there. | UNRESOLVED F-024 |
+| `error.staff.network_change` | STAFF | OUTCOME_UNCONFIRMED | We couldn't confirm whether this change was saved. Keep this page open. Check its status without starting a new change, then use Retry the same request when available. | UNRESOLVED F-024 |
 | `error.portal.400` | PRINCIPAL | VALIDATION_ERROR | Something in the request wasn't accepted. Reload the page and try again. | historical design 0.1.0; consumer unverified |
 | `error.portal.401` | PRINCIPAL | UNAUTHENTICATED | Please sign in again. Your session has ended. | historical design 0.1.0; consumer unverified |
 | `error.portal.403_404` | PRINCIPAL | NOT_FOUND_OR_INACCESSIBLE | This page isn't available. Go to Your choices. | historical design 0.1.0; consumer unverified |
-| `error.portal.409_epoch` | PRINCIPAL | VERSION_CONFLICT | Your choice changed in another window or device. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `error.portal.409_epoch` | PRINCIPAL | VERSION_CONFLICT | This request is no longer current. Load your latest choice before making a new choice. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `error.portal.409_epoch.action` | PRINCIPAL | VERSION_CONFLICT | Load my latest choice | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `error.portal.409_epoch.reloaded` | PRINCIPAL | RELOAD_SUCCEEDED | We've loaded your latest choice. Check it before making a new choice. | UNRESOLVED F-024 |
-| `error.portal.409_idempotency` | PRINCIPAL | IDEMPOTENCY_CONFLICT | This request doesn't match the one you started. Load your latest choice, then make your choice again. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `error.portal.409_idempotency` | PRINCIPAL | IDEMPOTENCY_CONFLICT | This request doesn't match the one you started. Don't submit it as a new request. Keep this page open and check the original request. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `error.portal.429` | PRINCIPAL | RATE_LIMITED | Please wait a moment and try again. | historical design 0.1.0; consumer unverified |
-| `error.portal.503` | PRINCIPAL | SERVICE_UNAVAILABLE | The Privacy Centre can't finish this right now. Your choice may not have been saved. Check your current choice before trying again. | UNRESOLVED F-024 |
+| `error.portal.503` | PRINCIPAL | SERVICE_UNAVAILABLE | The Privacy Centre couldn't confirm whether your choice was saved. Keep this page open and use Check my current choice. Don't make a new choice while this request is unconfirmed. | UNRESOLVED F-024 |
 | `error.portal.503_not_saved` | PRINCIPAL | NOT_SAVED | We couldn't save your choice. Your previous choice is unchanged. | CONDITIONAL — do not display (F-024) |
 | `error.portal.network_change` | PRINCIPAL | OUTCOME_UNCONFIRMED | We couldn't confirm whether your choice was saved. Don't make a new choice yet — first check what happened. | UNRESOLVED F-024 |
 | `permission.read_only_auditor` | STAFF | FORBIDDEN | Read-only access. Your role can view this page but not change anything. | historical design 0.1.0; consumer unverified |
@@ -498,8 +519,8 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | `permission.staff_in_portal` | STAFF | FORBIDDEN | Sign in with a Privacy Centre account. Staff accounts can't manage a person's choices. | historical design 0.1.0; consumer unverified |
 | `permission.both_sessions` | ALL | FORBIDDEN | You're signed in to both the workspace and the Privacy Centre in this browser profile. Sign out of one using its sign-out action, or use an independent browser profile. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `permission.action.go_to_choices` | PRINCIPAL |  | Go to your choices | historical design 0.1.0; consumer unverified |
-| `permission.action.setup_mfa` | STAFF |  | Set up MFA | UNRESOLVED F-011 |
-| `overview.empty` | STAFF | EMPTY | No workflows yet. A workflow starts when a person withdraws consent for a purpose that is mapped to systems. | historical design 0.1.0; consumer unverified |
+| `permission.action.setup_mfa` | STAFF |  | Set up MFA | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `overview.empty` | STAFF | EMPTY | No workflows yet. A workflow starts when a withdrawal is recorded. | historical design 0.1.0; consumer unverified |
 | `attention.empty` | STAFF | EMPTY | Nothing needs attention in this scope. This covers systems mapped in ORVIA only. | historical design 0.1.0; consumer unverified |
 | `workflows.empty` | STAFF | EMPTY | No workflows yet. They appear after a person changes a consent choice that needs system updates. | historical design 0.1.0; consumer unverified |
 | `purposes.empty` | STAFF | EMPTY | No purposes yet. Create a purpose to describe why personal data is used. | historical design 0.1.0; consumer unverified |
@@ -514,18 +535,18 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | `choices.empty` | PRINCIPAL | EMPTY | There are no choices for you to manage right now. | historical design 0.1.0; consumer unverified |
 | `receipts.empty` | PRINCIPAL | EMPTY | No receipts yet. You get one each time you make or change a choice. | UNRESOLVED F-016 |
 | `recovery.portal.heading` | PRINCIPAL | OUTCOME_UNCONFIRMED | Your last request is unconfirmed | UNRESOLVED F-024 |
-| `recovery.portal.body` | PRINCIPAL | OUTCOME_UNCONFIRMED | You asked to {requested_change} at {requested_at}. We don't yet know whether it was saved. Retrying the same request is safe: if it was already saved, you'll get the original receipt. | UNRESOLVED F-024 |
+| `recovery.portal.body` | PRINCIPAL | OUTCOME_UNCONFIRMED | You asked to {requested_change} at {requested_at}. We don't yet know whether it was saved. When the original request is available, Retry the same request uses its unchanged details. If it was saved, an authorised replay returns its original receipt. | UNRESOLVED F-024 |
 | `recovery.portal.retry_same` | PRINCIPAL | OUTCOME_UNCONFIRMED | Retry the same request | UNRESOLVED F-024 |
 | `recovery.portal.check` | PRINCIPAL | OUTCOME_UNCONFIRMED | Check my current choice | UNRESOLVED F-024 |
 | `recovery.portal.new_choice_note` | PRINCIPAL | OUTCOME_UNCONFIRMED | A new choice is a separate request. You can make one after this request is settled. | UNRESOLVED F-024 |
 | `recovery.portal.resolved_saved` | PRINCIPAL | RECOVERED_ORIGINAL_RECEIPT | Your earlier request was saved. Here is its receipt. | UNRESOLVED F-024 |
-| `recovery.portal.resolved_conflict` | PRINCIPAL | VERSION_CONFLICT | Your choice changed before this request could be applied. We've loaded your latest choice. | UNRESOLVED F-024 |
+| `recovery.portal.resolved_conflict` | PRINCIPAL | VERSION_CONFLICT | This request could not be applied with its original details. We've loaded your latest choice. Check it before making a new choice. | UNRESOLVED F-024 |
 | `recovery.staff.retry_same` | STAFF | OUTCOME_UNCONFIRMED | Retry the same request | UNRESOLVED F-024 |
 | `error.retry.NEVER` | ALL | NEVER | This can't be retried. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
-| `error.retry.REAUTHENTICATE` | ALL | REAUTHENTICATE | Sign in again, then retry. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
-| `error.retry.REFRESH` | ALL | REFRESH | Reload the page, then try again. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `error.retry.REAUTHENTICATE` | ALL | REAUTHENTICATE | Sign in again as the same account. Keep any unconfirmed request unchanged. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `error.retry.REFRESH` | ALL | REFRESH | Load the current details. Keep any unconfirmed request unchanged; a status check does not prove it was not saved. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `error.retry.SAME_IDEMPOTENCY_KEY` | ALL | SAME_IDEMPOTENCY_KEY | Retry the same request. Don't start a new one. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
-| `error.retry.AFTER_DELAY` | ALL | AFTER_DELAY | Wait a moment, then try again. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
+| `error.retry.AFTER_DELAY` | ALL | AFTER_DELAY | Wait before retrying. For an unconfirmed change, use only the same request when offered. | accepted 0.2.1; consumer NOT_IMPLEMENTED |
 | `error.staff.409_generation` | STAFF | STALE_GENERATION | The target record changed since this action was planned. ORVIA won't apply the old action. | UNRESOLVED F-009 |
 | `error.any.unsupported_version` | ALL | UNSUPPORTED_VERSION | This page is out of date. Reload to continue. | UNRESOLVED F-009 |
 <!-- END GENERATED: state-copy -->
@@ -540,7 +561,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 - **Staff vs principal errors.**
   - Cross-tenant and cross-principal access use the same not-found copy, so nothing reveals that a resource exists (F-014 records the accepted scoped 404 / capability-denial 403 distinction).
   - Principals get one message for 403 and 404.
-- **Service unavailable.** `error.*.503` uses outcome-unconfirmed wording because a generic 503 cannot prove that nothing was saved. `error.portal.503_not_saved` is **conditional and must not be displayed** until an accepted contract gives an explicit no-commit signal and tests prove it (F-024). Follow the response's `retry` hint (`error.retry.*`) where the accepted contract provides one.
+- **Service unavailable.** `error.*.503` uses outcome-unconfirmed wording because a generic 503 cannot prove that nothing was saved. `error.portal.503_not_saved` is **conditional and must not be displayed** until an accepted contract gives an explicit no-commit signal and tests prove it (F-024). Follow the response's `retry` hint (`error.retry.*`) subject to the outstanding-request rule. It cannot authorize a full reload, fresh key or changed payload/epoch for an unconfirmed write.
 - **Mocked UI state tests.** Browser tests that mock these states are useful but are reported separately from integrated-flow results (J21).
 
 ## 7. Focus, keyboard and reading order
@@ -567,25 +588,25 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 |---|---|
 | F-029 | Genuine register restored; original-to-API capability mapping remains open |
 | F-006 | Resolved semantic binding; B02 consumer evidence remains F-019 |
-| F-007 | Overview counts and the meaning of `unverified` |
+| F-007 | Work count definition settled; A05 predicate and mixed units documented; T21/B03 parity remains. |
 | F-008 | Reconciliation record (accepted 0.2.1); quarantine, stale-event, retry-permitted and coverage-loss representations |
-| F-009 | Skip and failure reason text |
+| F-009 | Source-backed reason catalogue delivered; exact-envelope error conditions and B03 tests remain. |
 | F-010 | Expected fault detection and scenarios (accepted 0.2.1) |
 | F-011 | Build metadata and MFA enrolment |
 | F-012 | Resolved semantic binding; consumer evidence remains F-019 |
-| F-013 | Attested manual completion criterion |
+| F-013 | Manual criterion accepted; withdrawal-only detail guard specified; T20/B03 remain. |
 | F-014 | Resolved: scoped inaccessible resources use 404; capability denial uses 403. Consumer tests remain F-019. |
 | F-016 | Own-principal history/receipt endpoints present in executable 0.3.0; review and B02 consumer tests remain. |
 | F-017 | Notice publish route, lifecycle values, service purpose in the portal |
 | F-018 | Send-admission view |
-| F-023 | Sign-in and MFA labels (auth library) |
+| F-023 | Labels/native protocol specified; B01 mapping and browser tests remain. |
 | F-024 | Uncertain-write recovery and no-commit assurance |
-| F-025 | Purpose-specific decision explanation |
+| F-025 | Source-backed purpose-specific reason catalogue delivered; T15/T16/B03/B04 remain. |
 | F-026 | Resolved: supported sign-out or independent browser profile; B01 tests remain F-019 |
 
 ## r4 implementation binding and recovery decisions
 
-**Authorship:** Work C00 semantic/UX handoff, self-reviewed. These decisions apply the accepted 0.2.1 semantics and identify candidate 0.3.0 dependencies; they do not accept new application implementation. Codex must cross-check producer/consumer binding; the human accepts C00. C00 does not wait for completed B00.
+**Authorship:** Work C00 semantic/UX handoff, self-reviewed. These decisions apply the accepted 0.2.1 semantics and identify current 0.4.0 transport and 0.3.0 route/signed-command dependencies; they do not accept new application implementation. Codex must cross-check producer/consumer binding; the human accepts C00. C00 does not wait for completed B00.
 
 | Screen/action | Exact producer interface | Present source / approval / remaining consumer |
 |---|---|---|
@@ -595,14 +616,16 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 | W-PRINCIPALS / mapped controls | `GET/POST /api/v1/admin/principals`; `GET/POST /api/v1/admin/target-mappings`; `GET /api/v1/admin/control-map` | Directory accepted A01; mapping addition pending 0.3.0 acceptance. Directory creation does not create a login. |
 | P-CHOICES / P-GRANT | `GET /api/v1/portal/me/consents`; `POST /api/v1/portal/me/consents/{purpose_id}/grant` or `/withdraw` | A02 present, acceptance pending; B02 absent. Grant includes exact notice, interaction, epoch and affirmative action. Withdrawal does not require new notice acceptance. |
 | P-RECEIPT / P-RECEIPTS | `GET /api/v1/portal/me/receipts/{id}`; `GET /api/v1/portal/me/consents/{purpose_id}/history` | Receipt/current separation accepted 0.2.1; history is a 0.3.0 candidate addition. Preserve P-RECEIPTS ID; scope history to the selected own purpose, not an invented global list. |
-| W-WORKFLOWS / detail | `GET /api/v1/admin/workflows`, `/workflows/{id}` | A03 source present, review pending. B03 absent. Reconcile/manual mutation remains A05. |
-| W-OVERVIEW / W-ATTENTION / W-EVIDENCE / W-TESTLAB / W-CAPABILITIES | Generated overview/evidence/test/capability routes | Contract presence only at inspected base. Codex A04–A06/B03–B04 implement; no success fallback. Actual send admission is shown through test assertions/evidence, never inferred from policy preview. |
+| W-WORKFLOWS / detail | `GET /api/v1/admin/workflows`, `/workflows/{id}` | A03 source present, review pending. B03 absent. A05 reconciliation and manual attestation producer source exists; implementation review and B03 tests remain. |
+| W-OVERVIEW / W-ATTENTION / W-EVIDENCE | `GET /api/v1/admin/overview`, `/failures`, `/evidence/{workflow_id}`, `/evidence/{workflow_id}/export` | A05 producers present; B03 and acceptance pending. Export is audited, scoped, attachment/no-store; tests are currently an empty array. |
+| W-CAPABILITIES | Genuine `tracking/capabilities.json`; separate `GET /api/v1/admin/capabilities` connector catalogue | Work specifies two labelled sections. Preserve all 33 module rows and V1/V2/depth/unknown statuses; never turn connector IMPLEMENTED into whole-module completion. F-029 consumer/import pending. |
+| W-TESTLAB | Generated test routes (A06 pending) | No test producer/UI exists. Actual send/no-send is shown through real assertions/evidence, never policy preview. |
 
 **C00-R4-RECOVERY:** While a logical request is outstanding, a dedicated same-tab in-memory request holder retains the original Idempotency-Key and exact payload, including expected_epoch, interaction_id and grant notice/affirmative fields. Retry is explicit, after authority is re-established for the same principal/scope, and sends that unchanged request. Reading current choice does not replace the payload/epoch or prove rollback. Do not put passwords, cookies, session tokens, MFA material or business records in browser persistence.
 
 Full document reload/tab loss clears memory. Until Codex provides an accepted customer-local, authenticated pending-request recovery mechanism with scoped access/expiry and tests, the UI must say the prior outcome is unconfirmed and must not silently invent a fresh key, refresh the epoch for a retry, or offer a guaranteed recovery button when the original request is unavailable. Receipt/history can show positively identified acceptance; an unchanged read cannot establish non-commit. Codex B01/B02 plus A02 own this precise F-024 gap. This is a specified safe mechanism and limit, not a claim that reload recovery is implemented. No new API path is invented here.
 
-For the accepted receipt recovered by authorised same-request replay, show the original receipt. A confirmed conflict plus successful reload may display the refreshed choice and permit an explicitly new logical action. Keep `error.portal.503_not_saved` suppressed until an explicit accepted no-commit guarantee and tests exist.
+For the accepted receipt recovered by authorised same-request replay, show the original receipt. A confirmed EPOCH_CONFLICT plus successful authenticated in-app current-choice read may display the refreshed choice and permit an explicitly new logical action. Keep `error.portal.503_not_saved` suppressed until an explicit accepted no-commit guarantee and tests exist.
 
 **C00-R4-AUTH:** Dual active domains return 403 under accepted A01. Offer the library-supported sign-out flow or an independent browser profile/context. A normal new window shares cookies and is not isolation. Reauthentication never changes the request identity. Native auth errors must be mapped explicitly by B01 without rendering raw error objects.
 
@@ -611,3 +634,13 @@ For the accepted receipt recovered by authorised same-request replay, show the o
 Keyboard/focus requirements above remain normative: semantic controls, visible focus, focus to the error summary/invalid field after a rejected submit, stable focus during polling, labelled status updates, and keyboard-visible UTC timestamps. Mobile layouts scroll wide tables inside their container, not the whole page. B06 supplies actual application checks; document preview is separate.
 
 A04 intake at PR #17: `POST /api/v1/admin/policy/evaluate` now has supplied staff-preview source; `POST /api/v1/machine/simulator/send` has supplied SENDER-only source and engineering reports. Neither grants browser send authority. The staff preview cannot establish an actual send/no-send result. Full UI and candidate acceptance remain pending.
+
+## C00 completed display bindings at the A05 source
+
+The scoped decision and critical-copy self-review are in `docs/reviews/work/C00-copy-source-review.md`. UI_COPY contains the machine-readable code-to-text catalogue, exact source hashes, conditional display guards and overview count units. These are implementation inputs, not a second API model. Codex consumes the generated contract and these display rules.
+
+For decision explanations, use the allowlisted reason text only when its required state equals the returned decision. An unknown code or a state mismatch uses the neutral fallback; never turn a code into authority. Marketing authority and the separate synthetic order condition are different explanations. In a preview, the result describes an evaluation; it never proves an actual send or absence of a send row. Show nullable policy/epoch as unavailable, not a made-up version or zero.
+
+For action reasons, APPLIED remains an acknowledgement, including the deliberately acknowledged-without-effect fixture. A separate current observation establishes the effect. For reconciliation, keep READ_UNAVAILABLE, STALE_SCOPE and DESIRED_STATE_NOT_OBSERVED distinct and leave the original uncertain attempt visible. No read result authorizes a fresh effect retry.
+
+A05 system checks report actual mapped-resource read availability and a declared restrict capability; the latter is not a mutation test. Do not relabel unreadable as quarantined. The unknown/failed/manual overview cards count recorded execution states even after a distinct completion criterion is met. They are not outstanding-work counters. A05 failures pagination can contain an empty page with a continuing cursor; the empty-state message is permitted only after all pages are exhausted. W-CAPABILITIES displays the 33-module register separately from configured connector status.

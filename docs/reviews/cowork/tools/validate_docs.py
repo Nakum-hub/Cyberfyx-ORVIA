@@ -151,6 +151,8 @@ def validate(root, mode="current"):
         R.check("No state value outside the design contract or the cited executable proposal", not invented, invented)
         approval_problems = rules.approval_errors(root, copy)
         R.check("All accepted bindings have exact source-backed scoped approval", not approval_problems, approval_problems)
+        copy_problems = rules.copy_safety_errors(root, copy)
+        R.check("Copy recovery, reason mappings and count units match their source guards", not copy_problems, copy_problems)
         secretish = re.compile(r"(password\s*[:=]|api[_-]?key|secret\s*[:=]|BEGIN [A-Z ]*PRIVATE KEY|@(?!aster\.example|birch\.example)[a-z0-9-]+\.(com|net|in|org|io))", re.I)
         R.check("UI_COPY contains no credentials or real email addresses", not secretish.search(json.dumps(copy)))
         assigned = {"state.workflow.ACCEPTED.detail": "Withdrawal recorded. Downstream actions are still being checked.",

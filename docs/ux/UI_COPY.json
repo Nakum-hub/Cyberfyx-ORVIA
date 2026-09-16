@@ -7,8 +7,8 @@
     "Human (acceptance)"
   ],
   "prepared_at": "2026-09-16T19:12:37Z",
-  "base_commit": "2432a008539450725129d19ff5fc6c2eee488031",
-  "contract_reference": "Accepted semantics 0.2.1 at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe; executable 0.3.0 candidate pending consolidated Work review. Consumer implementation/tests are separate fields.",
+  "base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "contract_reference": "Accepted semantic baseline 0.2.1; executable transport 0.4.0 and signed command 0.3.0 pending consolidated Work review. Source-backed Work display decisions are scoped in docs/reviews/work/C00-copy-source-review.md. Consumer implementation/tests remain separate.",
   "rules": [
     "Stored enum values come from the contract; this file supplies display text only. Work adds no canonical enum values.",
     "Placeholders in {braces} are filled only from server responses; never hardcode fixture values.",
@@ -18,7 +18,8 @@
     "No credentials or personal data. Audience PRINCIPAL text must not reveal connector, command or other-tenant detail.",
     "Every status badge is rendered with text plus a non-colour cue.",
     "ACCEPTED_CONTRACT records semantic acceptance of the named version and scoped field only; consumer_binding and consumer_test_status do not advance automatically.",
-    "Work specified original-request retention; document-tool implementation is not application implementation. See UX_BRIEF recovery decision and F-024."
+    "Work specified original-request retention; document-tool implementation is not application implementation. See UX_BRIEF recovery decision and F-024.",
+    "Display guards and suppressed controls are normative. The reason catalogue is display-only and must never determine authority, retry permission or observation state. Overview cards have different units and may overlap."
   ],
   "entries": [
     {
@@ -852,7 +853,7 @@
       "element": "error",
       "semantic_state": "IDEMPOTENCY_CONFLICT",
       "audience": "STAFF",
-      "text": "This request reference was already used for a different change. Reload and try again.",
+      "text": "This request reference does not match the original change. Keep the original request and check its status; do not submit it with a new reference.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 common responses",
       "binding_status": "CONTRACT_DESIGN_0.1.0",
@@ -861,7 +862,8 @@
       "contract_proposal_ref": null,
       "error_code": "IDEMPOTENCY_CONFLICT",
       "consumer_binding": "NOT_IMPLEMENTED",
-      "consumer_test_status": "NOT_RUN"
+      "consumer_test_status": "NOT_RUN",
+      "recovery_rule": "SAME_TAB_ORIGINAL_REQUEST; investigate key/payload mismatch; never silently create a fresh key"
     },
     {
       "id": "error.staff.429",
@@ -886,7 +888,7 @@
       "element": "error",
       "semantic_state": "SERVICE_UNAVAILABLE",
       "audience": "STAFF",
-      "text": "A required service isn't available. If you were saving a change, it may or may not have been saved — reload to check before trying again.",
+      "text": "A required service isn't available. A change you submitted may have been saved. Keep this page open and check its status before using Retry the same request.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 common responses",
       "binding_status": "UNRESOLVED",
@@ -896,7 +898,8 @@
       "error_code": "SERVICE_UNAVAILABLE",
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "0.2.0 ErrorResponse has no component name and no explicit no-commit signal, so this copy never says nothing changed. Follow the response's retry hint."
+      "prior_unresolved_binding_r3": "0.2.0 ErrorResponse has no component name and no explicit no-commit signal, so this copy never says nothing changed. Follow the response's retry hint.",
+      "recovery_rule": "SAME_TAB_ORIGINAL_REQUEST; check in app; no page reload, new key, changed payload/epoch, or rollback inference"
     },
     {
       "id": "error.staff.network_read",
@@ -921,7 +924,7 @@
       "element": "error",
       "semantic_state": "OUTCOME_UNCONFIRMED",
       "audience": "STAFF",
-      "text": "We couldn't confirm whether this change was saved. Don't start it again yet. Reload to check, then retry the same request if it still isn't there.",
+      "text": "We couldn't confirm whether this change was saved. Keep this page open. Check its status without starting a new change, then use Retry the same request when available.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 common responses",
       "binding_status": "UNRESOLVED",
@@ -931,7 +934,8 @@
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Retry of the same request needs the original Idempotency-Key and payload; client retention is a Claude Code decision (B01) and replay is A02. A single reload that shows no change does not by itself prove the request failed."
+      "prior_unresolved_binding_r3": "Retry of the same request needs the original Idempotency-Key and payload; client retention is a Claude Code decision (B01) and replay is A02. A single reload that shows no change does not by itself prove the request failed.",
+      "recovery_rule": "SAME_TAB_ORIGINAL_REQUEST; check in app; no page reload, new key, changed payload/epoch, or rollback inference"
     },
     {
       "id": "error.portal.400",
@@ -990,7 +994,7 @@
       "element": "error",
       "semantic_state": "VERSION_CONFLICT",
       "audience": "PRINCIPAL",
-      "text": "Your choice changed in another window or device.",
+      "text": "This request is no longer current. Load your latest choice before making a new choice.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §4, §8",
       "binding_status": "ACCEPTED_CONTRACT",
@@ -1046,7 +1050,12 @@
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Show only after the reload request actually succeeds; never together with the conflict message before reload."
+      "prior_unresolved_binding_r3": "Show only after the reload request actually succeeds; never together with the conflict message before reload.",
+      "display_guard": {
+        "response_error_code": "EPOCH_CONFLICT",
+        "authenticated_current_choice_read": "SUCCEEDED",
+        "same_principal_and_scope": true
+      }
     },
     {
       "id": "error.portal.409_idempotency",
@@ -1054,7 +1063,7 @@
       "element": "error",
       "semantic_state": "IDEMPOTENCY_CONFLICT",
       "audience": "PRINCIPAL",
-      "text": "This request doesn't match the one you started. Load your latest choice, then make your choice again.",
+      "text": "This request doesn't match the one you started. Don't submit it as a new request. Keep this page open and check the original request.",
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse",
       "binding_status": "ACCEPTED_CONTRACT",
@@ -1094,7 +1103,7 @@
       "element": "error",
       "semantic_state": "SERVICE_UNAVAILABLE",
       "audience": "PRINCIPAL",
-      "text": "The Privacy Centre can't finish this right now. Your choice may not have been saved. Check your current choice before trying again.",
+      "text": "The Privacy Centre couldn't confirm whether your choice was saved. Keep this page open and use Check my current choice. Don't make a new choice while this request is unconfirmed.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §4, §8",
       "binding_status": "UNRESOLVED",
@@ -1104,7 +1113,8 @@
       "error_code": "SERVICE_UNAVAILABLE",
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "No accepted no-commit guarantee exists; conservative outcome-unconfirmed wording is used. See error.portal.503_not_saved for the conditional variant."
+      "prior_unresolved_binding_r3": "No accepted no-commit guarantee exists; conservative outcome-unconfirmed wording is used. See error.portal.503_not_saved for the conditional variant.",
+      "recovery_rule": "SAME_TAB_ORIGINAL_REQUEST; check in app; no page reload, new key, changed payload/epoch, or rollback inference"
     },
     {
       "id": "error.portal.503_not_saved",
@@ -1140,7 +1150,8 @@
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Client must keep the original request (Idempotency-Key, exact payload, expected_epoch) across timeout and reload and offer recovery.portal.*; not implemented (B02/A02)."
+      "prior_unresolved_binding_r3": "Client must keep the original request (Idempotency-Key, exact payload, expected_epoch) across timeout and reload and offer recovery.portal.*; not implemented (B02/A02).",
+      "recovery_rule": "SAME_TAB_ORIGINAL_REQUEST; check in app; no page reload, new key, changed payload/epoch, or rollback inference"
     },
     {
       "id": "permission.read_only_auditor",
@@ -1293,14 +1304,20 @@
       "text": "Set up MFA",
       "placeholders": [],
       "source_ref": "docs/prototype/UX_BRIEF.md",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Accepted A01 uses staffAuthClient.twoFactor.enable then verifyTotp; no business authority until MFA proof. B01 consumer binding/browser checks remain F-011.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-011",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "MFA enrolment route is provided by the auth library; path not yet known."
+      "prior_unresolved_binding_r3": "MFA enrolment route is provided by the auth library; path not yet known.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "state.consent.NOT_GIVEN.label",
@@ -1455,14 +1472,25 @@
       "text": "Withdrawal recorded. Downstream actions are still being checked.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §3",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Wording assumes a withdrawal-triggered workflow; Work to confirm whether grant or other triggers create workflows.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-013",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Wording assumes a withdrawal-triggered workflow; Work to confirm whether grant or other triggers create workflows."
+      "prior_unresolved_binding_r3": "Wording assumes a withdrawal-triggered workflow; Work to confirm whether grant or other triggers create workflows.",
+      "display_guard": {
+        "receipt_consent_status": "WITHDRAWN",
+        "receipt_workflow_id_matches": true,
+        "workflow_state": "ACCEPTED"
+      },
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "consent_status: z.enum(['GRANTED', 'WITHDRAWN'])"
+      }
     },
     {
       "id": "state.workflow.RUNNING.label",
@@ -1625,13 +1653,14 @@
       ],
       "source_ref": "docs/prototype/CONTRACT.md §7",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Per-workflow counts must be derived from obligations by an agreed rule; 'unverified' is not yet defined.",
+      "unresolved_binding": "SUPPRESSED: no per-workflow numeric unresolved-count field; use state.workflow.NEEDS_ATTENTION.detail and actual obligation rows. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-007",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) Overview.counts / Workflow.obligations",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Per-workflow counts must be derived from obligations by an agreed rule; 'unverified' is not yet defined."
+      "prior_unresolved_binding_r3": "Per-workflow counts must be derived from obligations by an agreed rule; 'unverified' is not yet defined.",
+      "display_rule": "SUPPRESSED: no per-workflow numeric unresolved-count field; use state.workflow.NEEDS_ATTENTION.detail and actual obligation rows."
     },
     {
       "id": "state.action.PENDING.label",
@@ -1797,14 +1826,20 @@
         "failure_reason"
       ],
       "source_ref": "docs/prototype/CONTRACT.md §3",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "reason_code is a code, not display text; a reviewed mapping is needed.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-009",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) CommandReceipt.reason_code",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "reason_code is a code, not display text; a reviewed mapping is needed."
+      "prior_unresolved_binding_r3": "reason_code is a code, not display text; a reviewed mapping is needed.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
     },
     {
       "id": "state.action.MANUAL_REQUIRED.label",
@@ -2142,21 +2177,27 @@
       "element": "detail",
       "semantic_state": "ALLOW",
       "audience": "STAFF",
-      "text": "Checked: {authority_summary} · policy {policy_version} · evaluated {evaluated_at}",
+      "text": "Basis: {authority_summary} · policy {policy_version} · evaluated {evaluated_at}",
       "placeholders": [
         "authority_summary",
         "evaluated_at",
         "policy_version"
       ],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) Decision",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "authority_summary must come from reviewed reason codes for the evaluated purpose (marketing: current consent epoch; order service: its own approved condition). No code-to-text mapping exists.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-025",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) Decision",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "authority_summary must come from reviewed reason codes for the evaluated purpose (marketing: current consent epoch; order service: its own approved condition). No code-to-text mapping exists."
+      "prior_unresolved_binding_r3": "authority_summary must come from reviewed reason codes for the evaluated purpose (marketing: current consent epoch; order service: its own approved condition). No code-to-text mapping exists.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
     },
     {
       "id": "state.decision.BLOCK.label",
@@ -2186,14 +2227,20 @@
         "decision_reason"
       ],
       "source_ref": "docs/prototype/CONTRACT.md §5",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "decision_reason needs a reviewed mapping from accepted 0.2.1 / current 0.3.0 candidate reason_codes.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-025",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) Decision.reason_codes",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "decision_reason needs a reviewed mapping from 0.2.0 reason_codes."
+      "prior_unresolved_binding_r3": "decision_reason needs a reviewed mapping from 0.2.0 reason_codes.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
     },
     {
       "id": "state.decision.INDETERMINATE.label",
@@ -2624,14 +2671,20 @@
       "text": "Sign in to the ORVIA workspace",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "signin.staff.button",
@@ -2642,14 +2695,20 @@
       "text": "Sign in",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "signin.staff.mfa.heading",
@@ -2660,14 +2719,20 @@
       "text": "Enter your authentication code",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "signin.staff.mfa.field",
@@ -2678,14 +2743,20 @@
       "text": "Authentication code",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "signin.staff.mfa.button",
@@ -2696,14 +2767,20 @@
       "text": "Verify",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "signin.staff.failed",
@@ -2714,14 +2791,20 @@
       "text": "Sign-in failed. Check your details and try again.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "overview.heading",
@@ -2780,7 +2863,7 @@
       "element": "card_label",
       "semantic_state": null,
       "audience": "STAFF",
-      "text": "Outcome unknown",
+      "text": "Obligations with uncertain command outcomes",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §7, §8 GET /api/v1/admin/overview",
       "binding_status": "CONTRACT_DESIGN_0.1.0",
@@ -2797,7 +2880,7 @@
       "element": "card_label",
       "semantic_state": null,
       "audience": "STAFF",
-      "text": "Failed",
+      "text": "Obligations with failed command results",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §7, §8 GET /api/v1/admin/overview",
       "binding_status": "CONTRACT_DESIGN_0.1.0",
@@ -2814,7 +2897,7 @@
       "element": "card_label",
       "semantic_state": null,
       "audience": "STAFF",
-      "text": "Manual action required",
+      "text": "Obligations marked for manual completion",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §7, §8 GET /api/v1/admin/overview",
       "binding_status": "CONTRACT_DESIGN_0.1.0",
@@ -2831,17 +2914,23 @@
       "element": "card_label",
       "semantic_state": null,
       "audience": "STAFF",
-      "text": "Not independently observed",
+      "text": "Obligations without current verification",
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) Overview.counts.unverified",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "'unverified' is not defined in accepted 0.2.1 / current 0.3.0 candidate; Codex/Work must state which observation states it counts.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-007",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) Overview.counts.unverified",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "'unverified' is not defined in 0.2.0; Codex/Work must state which observation states it counts."
+      "prior_unresolved_binding_r3": "'unverified' is not defined in 0.2.0; Codex/Work must state which observation states it counts.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "unverified: Epoch"
+      }
     },
     {
       "id": "overview.card.unverifiable",
@@ -2853,13 +2942,14 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §7, §8 GET /api/v1/admin/overview",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Not in accepted 0.2.1 / current 0.3.0 candidate Overview.counts; show only if the accepted contract adds this count.",
+      "unresolved_binding": "SUPPRESSED: no matching overview count field; inspect obligation observation rows. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-007",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Not in 0.2.0 Overview.counts; show only if the accepted contract adds this count."
+      "prior_unresolved_binding_r3": "Not in 0.2.0 Overview.counts; show only if the accepted contract adds this count.",
+      "display_rule": "SUPPRESSED: no matching overview count field; inspect obligation observation rows."
     },
     {
       "id": "overview.card.not_satisfied",
@@ -2871,13 +2961,14 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §7, §8 GET /api/v1/admin/overview",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Not in accepted 0.2.1 / current 0.3.0 candidate Overview.counts; show only if the accepted contract adds this count.",
+      "unresolved_binding": "SUPPRESSED: no matching overview count field; inspect obligation observation rows. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-007",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Not in 0.2.0 Overview.counts; show only if the accepted contract adds this count."
+      "prior_unresolved_binding_r3": "Not in 0.2.0 Overview.counts; show only if the accepted contract adds this count.",
+      "display_rule": "SUPPRESSED: no matching overview count field; inspect obligation observation rows."
     },
     {
       "id": "overview.card.stale",
@@ -2889,13 +2980,14 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §7, §8 GET /api/v1/admin/overview",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Not in accepted 0.2.1 / current 0.3.0 candidate Overview.counts; show only if the accepted contract adds this count.",
+      "unresolved_binding": "SUPPRESSED: no matching overview count field; inspect obligation observation rows. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-007",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Not in 0.2.0 Overview.counts; show only if the accepted contract adds this count."
+      "prior_unresolved_binding_r3": "Not in 0.2.0 Overview.counts; show only if the accepted contract adds this count.",
+      "display_rule": "SUPPRESSED: no matching overview count field; inspect obligation observation rows."
     },
     {
       "id": "overview.card.latest_run",
@@ -2964,7 +3056,7 @@
       "element": "empty",
       "semantic_state": null,
       "audience": "STAFF",
-      "text": "No workflows yet. A workflow starts when a person withdraws consent for a purpose that is mapped to systems.",
+      "text": "No workflows yet. A workflow starts when a withdrawal is recorded.",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §7, §8 GET /api/v1/admin/overview",
       "binding_status": "CONTRACT_DESIGN_0.1.0",
@@ -3930,13 +4022,14 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §6",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "accepted 0.2.1 / current 0.3.0 candidate has no 'retry permitted' representation; retries need current authority, generation and a new plan/decision where scope changed.",
+      "unresolved_binding": "SUPPRESSED: A05 has no authorisation signal for a new effect attempt; reconciliation reads only. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-008",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "0.2.0 has no 'retry permitted' representation; retries need current authority, generation and a new plan/decision where scope changed."
+      "prior_unresolved_binding_r3": "0.2.0 has no 'retry permitted' representation; retries need current authority, generation and a new plan/decision where scope changed.",
+      "display_rule": "SUPPRESSED: A05 has no authorisation signal for a new effect attempt; reconciliation reads only."
     },
     {
       "id": "attest.button",
@@ -4488,13 +4581,14 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "The contract lists no notice publish route; how a notice version becomes published is not frozen.",
+      "unresolved_binding": "SUPPRESSED: notice publishes with the exact policy through its distinct reviewer; no standalone notice-publish route. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-017",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "The contract lists no notice publish route; how a notice version becomes published is not frozen."
+      "prior_unresolved_binding_r3": "The contract lists no notice publish route; how a notice version becomes published is not frozen.",
+      "display_rule": "SUPPRESSED: notice publishes with the exact policy through its distinct reviewer; no standalone notice-publish route."
     },
     {
       "id": "policies.heading",
@@ -5016,13 +5110,14 @@
       "placeholders": [],
       "source_ref": "docs/prototype/EXECUTION_PLAN.md §3 step 11",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Representation of a quarantined restored target is not in the contract; no enum is introduced here.",
+      "unresolved_binding": "SUPPRESSED until A06 supplies the accepted quarantine projection and target-only restore evidence; do not infer quarantine from missing read access. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-008",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Representation of a quarantined restored target is not in the contract; no enum is introduced here."
+      "prior_unresolved_binding_r3": "Representation of a quarantined restored target is not in the contract; no enum is introduced here.",
+      "display_rule": "SUPPRESSED until A06 supplies the accepted quarantine projection and target-only restore evidence; do not infer quarantine from missing read access."
     },
     {
       "id": "principals.heading",
@@ -5594,7 +5689,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5612,7 +5707,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5630,7 +5725,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5648,7 +5743,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5666,7 +5761,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5684,7 +5779,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5702,7 +5797,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5720,7 +5815,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) CapabilityRecord.target_release",
       "error_code": null,
@@ -5738,7 +5833,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) CapabilityRecord.target_release",
       "error_code": null,
@@ -5756,7 +5851,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 GET /api/v1/admin/capabilities",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -5775,14 +5870,20 @@
         "organisation_name"
       ],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "signin.portal.button",
@@ -5793,14 +5894,20 @@
       "text": "Sign in",
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8 (auth-library routes)",
-      "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A01 auth semantics and mounts are accepted at 0.2.1; Codex B01 must map native Better Auth errors/challenge/enrolment to this copy and supply actual browser evidence. No versioned API envelope assumption.",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
       "finding_ref": "F-023",
       "contract_proposal_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Auth mount",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01."
+      "prior_unresolved_binding_r3": "Auth integration (Better Auth) is mounted by contract only; A01 not implemented. Library-controlled labels and error codes (e.g. INVALID_EMAIL_OR_PASSWORD) must be mapped by Claude Code after A01.",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/auth/src/client.ts",
+        "quote": "staffAuthClient"
+      }
     },
     {
       "id": "choices.heading",
@@ -5955,13 +6062,14 @@
       ],
       "source_ref": "docs/prototype/EXECUTION_PLAN.md §3 step 2",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Whether order_service_demo is returned by the portal consents route at all is not frozen.",
+      "unresolved_binding": "SUPPRESSED: ownChoices returns only promotional_marketing. Show order_service_demo only in the separate staff decision demonstration. Codex implements the supported consumer or supplies the exact versioned missing representation and browser evidence; see the linked finding.",
       "finding_ref": "F-017",
       "contract_proposal_ref": null,
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Whether order_service_demo is returned by the portal consents route at all is not frozen."
+      "prior_unresolved_binding_r3": "Whether order_service_demo is returned by the portal consents route at all is not frozen.",
+      "display_rule": "SUPPRESSED: ownChoices returns only promotional_marketing. Show order_service_demo only in the separate staff decision demonstration."
     },
     {
       "id": "grant.heading",
@@ -6393,7 +6501,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A02 0.3.0 supplies own-purpose receipt history at GET /api/v1/portal/me/consents/{purpose_id}/history. C00 specifies a purpose-scoped history view; exact 0.3.0 acceptance and B02 consumer/browser evidence remain F-016.",
+      "unresolved_binding": "Purpose-scoped own history exists in source at GET /api/v1/portal/me/consents/{purpose_id}/history. Preserve selected-purpose context and continue until next_cursor is null. Later contract acceptance and B02 browser binding remain pending.",
       "finding_ref": "F-016",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -6411,7 +6519,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A02 0.3.0 supplies own-purpose receipt history at GET /api/v1/portal/me/consents/{purpose_id}/history. C00 specifies a purpose-scoped history view; exact 0.3.0 acceptance and B02 consumer/browser evidence remain F-016.",
+      "unresolved_binding": "Purpose-scoped own history exists in source at GET /api/v1/portal/me/consents/{purpose_id}/history. Preserve selected-purpose context and continue until next_cursor is null. Later contract acceptance and B02 browser binding remain pending.",
       "finding_ref": "F-016",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -6429,7 +6537,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A02 0.3.0 supplies own-purpose receipt history at GET /api/v1/portal/me/consents/{purpose_id}/history. C00 specifies a purpose-scoped history view; exact 0.3.0 acceptance and B02 consumer/browser evidence remain F-016.",
+      "unresolved_binding": "Purpose-scoped own history exists in source at GET /api/v1/portal/me/consents/{purpose_id}/history. Preserve selected-purpose context and continue until next_cursor is null. Later contract acceptance and B02 browser binding remain pending.",
       "finding_ref": "F-016",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -6447,7 +6555,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A02 0.3.0 supplies own-purpose receipt history at GET /api/v1/portal/me/consents/{purpose_id}/history. C00 specifies a purpose-scoped history view; exact 0.3.0 acceptance and B02 consumer/browser evidence remain F-016.",
+      "unresolved_binding": "Purpose-scoped own history exists in source at GET /api/v1/portal/me/consents/{purpose_id}/history. Preserve selected-purpose context and continue until next_cursor is null. Later contract acceptance and B02 browser binding remain pending.",
       "finding_ref": "F-016",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -6465,7 +6573,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §8",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "A02 0.3.0 supplies own-purpose receipt history at GET /api/v1/portal/me/consents/{purpose_id}/history. C00 specifies a purpose-scoped history view; exact 0.3.0 acceptance and B02 consumer/browser evidence remain F-016.",
+      "unresolved_binding": "Purpose-scoped own history exists in source at GET /api/v1/portal/me/consents/{purpose_id}/history. Preserve selected-purpose context and continue until next_cursor is null. Later contract acceptance and B02 browser binding remain pending.",
       "finding_ref": "F-016",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -6497,7 +6605,7 @@
       "element": "body",
       "semantic_state": "OUTCOME_UNCONFIRMED",
       "audience": "PRINCIPAL",
-      "text": "You asked to {requested_change} at {requested_at}. We don't yet know whether it was saved. Retrying the same request is safe: if it was already saved, you'll get the original receipt.",
+      "text": "You asked to {requested_change} at {requested_at}. We don't yet know whether it was saved. When the original request is available, Retry the same request uses its unchanged details. If it was saved, an authorised replay returns its original receipt.",
       "placeholders": [
         "requested_at",
         "requested_change"
@@ -6510,7 +6618,8 @@
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Requires client retention of the original request (Idempotency-Key, exact payload including expected_epoch, interaction_id and, for grant, notice_version_id) across timeout and reload; no request-status lookup exists in 0.2.0. Implementation: Claude Code (B02) with Codex replay guarantee (A02)."
+      "prior_unresolved_binding_r3": "Requires client retention of the original request (Idempotency-Key, exact payload including expected_epoch, interaction_id and, for grant, notice_version_id) across timeout and reload; no request-status lookup exists in 0.2.0. Implementation: Claude Code (B02) with Codex replay guarantee (A02).",
+      "recovery_rule": "SAME_TAB_ORIGINAL_REQUEST; check in app; no page reload, new key, changed payload/epoch, or rollback inference"
     },
     {
       "id": "recovery.portal.retry_same",
@@ -6582,7 +6691,11 @@
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Requires client retention of the original request (Idempotency-Key, exact payload including expected_epoch, interaction_id and, for grant, notice_version_id) across timeout and reload; no request-status lookup exists in 0.2.0. Implementation: Claude Code (B02) with Codex replay guarantee (A02)."
+      "prior_unresolved_binding_r3": "Requires client retention of the original request (Idempotency-Key, exact payload including expected_epoch, interaction_id and, for grant, notice_version_id) across timeout and reload; no request-status lookup exists in 0.2.0. Implementation: Claude Code (B02) with Codex replay guarantee (A02).",
+      "display_guard": {
+        "authorised_replay": "MATCHING_ORIGINAL_RECEIPT",
+        "same_principal_and_scope": true
+      }
     },
     {
       "id": "recovery.portal.resolved_conflict",
@@ -6590,7 +6703,7 @@
       "element": "status_line",
       "semantic_state": "VERSION_CONFLICT",
       "audience": "PRINCIPAL",
-      "text": "Your choice changed before this request could be applied. We've loaded your latest choice.",
+      "text": "This request could not be applied with its original details. We've loaded your latest choice. Check it before making a new choice.",
       "placeholders": [],
       "source_ref": "docs/engineering/A00-CONTRACT-PROPOSAL.md (0.2.0, PENDING_W00) §Receipt, transaction and retry",
       "binding_status": "UNRESOLVED",
@@ -6600,7 +6713,12 @@
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
-      "prior_unresolved_binding_r3": "Requires client retention of the original request (Idempotency-Key, exact payload including expected_epoch, interaction_id and, for grant, notice_version_id) across timeout and reload; no request-status lookup exists in 0.2.0. Implementation: Claude Code (B02) with Codex replay guarantee (A02). Show only after the conflict response and a successful reload."
+      "prior_unresolved_binding_r3": "Requires client retention of the original request (Idempotency-Key, exact payload including expected_epoch, interaction_id and, for grant, notice_version_id) across timeout and reload; no request-status lookup exists in 0.2.0. Implementation: Claude Code (B02) with Codex replay guarantee (A02). Show only after the conflict response and a successful reload.",
+      "display_guard": {
+        "response_error_code": "EPOCH_CONFLICT",
+        "authenticated_current_choice_read": "SUCCEEDED",
+        "same_principal_and_scope": true
+      }
     },
     {
       "id": "recovery.staff.retry_same",
@@ -6651,7 +6769,7 @@
       "element": "helper",
       "semantic_state": "REAUTHENTICATE",
       "audience": "ALL",
-      "text": "Sign in again, then retry.",
+      "text": "Sign in again as the same account. Keep any unconfirmed request unchanged.",
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse.retry",
       "binding_status": "ACCEPTED_CONTRACT",
@@ -6676,7 +6794,7 @@
       "element": "helper",
       "semantic_state": "REFRESH",
       "audience": "ALL",
-      "text": "Reload the page, then try again.",
+      "text": "Load the current details. Keep any unconfirmed request unchanged; a status check does not prove it was not saved.",
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse.retry",
       "binding_status": "ACCEPTED_CONTRACT",
@@ -6726,7 +6844,7 @@
       "element": "helper",
       "semantic_state": "AFTER_DELAY",
       "audience": "ALL",
-      "text": "Wait a moment, then try again.",
+      "text": "Wait before retrying. For an unconfirmed change, use only the same request when offered.",
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse.retry",
       "binding_status": "ACCEPTED_CONTRACT",
@@ -6755,7 +6873,7 @@
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Accepted envelope exists; exact producer error-code/HTTP/retry mapping requires Codex cross-check. Do not infer a generation/version outcome from an unrelated error.",
+      "unresolved_binding": "Conditional: render only for the exact accepted API error code; never infer it from a CommandReceipt reason code. Generated current envelope uses VALIDATION_ERROR for unsupported transport; Codex supplies exact producer mapping and negative/positive consumer tests.",
       "finding_ref": "F-009",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse",
       "error_code": "STALE_GENERATION",
@@ -6780,7 +6898,7 @@
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Accepted envelope exists; exact producer error-code/HTTP/retry mapping requires Codex cross-check. Do not infer a generation/version outcome from an unrelated error.",
+      "unresolved_binding": "Conditional: render only for the exact accepted API error code; never infer it from a CommandReceipt reason code. Generated current envelope uses VALIDATION_ERROR for unsupported transport; Codex supplies exact producer mapping and negative/positive consumer tests.",
       "finding_ref": "F-009",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) ErrorResponse",
       "error_code": "UNSUPPORTED_VERSION",
@@ -7111,7 +7229,7 @@
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) CapabilityRecord",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) CapabilityRecord",
       "error_code": null,
@@ -7129,19 +7247,574 @@
       "placeholders": [],
       "source_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) CapabilityRecord",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "Original register is restored. Codex must map original module_id/target_product/target_depth/status fields to CapabilityRecord without treating NOT_INSPECTED as NOT_IMPLEMENTED or partial source presence as whole-module completion; consumer mapping/retest remains F-029.",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
       "finding_ref": "F-029",
       "contract_proposal_ref": "packages/contracts/src/index.ts (0.2.0, PENDING_W00) CapabilityRecord",
       "error_code": null,
       "consumer_binding": "NOT_IMPLEMENTED",
       "consumer_test_status": "NOT_RUN",
       "prior_unresolved_binding_r3": "Proposed in contract 0.2.0; binding stays open until Work accepts the proposal (contract_review_status PENDING_W00). 'Built' is never shown without the separate test status."
+    },
+    {
+      "id": "reason.decision.CURRENT_MARKETING_AUTHORITY",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "Current marketing authority and published policy permit this scoped use.",
+      "placeholders": [],
+      "source_ref": "policy/processing/decision.rego",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.EXPLICIT_SYNTHETIC_ORDER_CONDITION",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The separate approved synthetic order-service condition permits this scoped use.",
+      "placeholders": [],
+      "source_ref": "policy/processing/decision.rego",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.CONDITIONS_NOT_SATISFIED",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The required conditions for this purpose are not satisfied.",
+      "placeholders": [],
+      "source_ref": "policy/processing/decision.rego",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.SERVICE_CONDITION_EXPIRED",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The synthetic order-service condition expired before the decision was completed.",
+      "placeholders": [],
+      "source_ref": "packages/domain/src/processing.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.TARGET_OBSERVATION_UNAVAILABLE",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The target state could not be read. This result does not authorise processing.",
+      "placeholders": [],
+      "source_ref": "packages/domain/src/processing.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.POLICY_UNAVAILABLE",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The policy service was unavailable. This result does not authorise processing.",
+      "placeholders": [],
+      "source_ref": "packages/policy-sdk/src/index.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.POLICY_RESULT_MISSING",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The policy service returned no decision. This result does not authorise processing.",
+      "placeholders": [],
+      "source_ref": "packages/policy-sdk/src/index.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.POLICY_RESULT_INVALID",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The policy response could not be validated. This result does not authorise processing.",
+      "placeholders": [],
+      "source_ref": "packages/policy-sdk/src/index.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.decision.UNKNOWN",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "No reviewed explanation is available for this decision. Read its recorded result; this explanation grants no authority.",
+      "placeholders": [],
+      "source_ref": "docs/reviews/work/C00-copy-source-review.md",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_codes:"
+      }
+    },
+    {
+      "id": "reason.command.APPLIED",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The target acknowledged the command. Check the separate observation for its effect.",
+      "placeholders": [],
+      "source_ref": "apps/agent/src/execute.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.command.POLICY_NOT_APPROVED",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The command did not have a matching approved policy.",
+      "placeholders": [],
+      "source_ref": "apps/agent/src/execute.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.command.STALE_EPOCH",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The command refers to an older consent state.",
+      "placeholders": [],
+      "source_ref": "apps/agent/src/execute.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.command.STALE_GENERATION",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The command refers to a different target generation.",
+      "placeholders": [],
+      "source_ref": "apps/agent/src/execute.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.command.PROVIDER_UNAVAILABLE",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The synthetic provider reported that it was unavailable.",
+      "placeholders": [],
+      "source_ref": "packages/connectors/src/simulator.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.command.PROVIDER_DENIED",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The synthetic provider rejected this command.",
+      "placeholders": [],
+      "source_ref": "packages/connectors/src/simulator.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.command.PROVIDER_RESPONSE_UNKNOWN",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The command response could not be confirmed. Reconciliation is required.",
+      "placeholders": [],
+      "source_ref": "packages/connectors/src/simulator.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.command.UNKNOWN",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "No reviewed explanation is available for this command result. Keep its recorded action status and separate observation.",
+      "placeholders": [],
+      "source_ref": "docs/reviews/work/C00-copy-source-review.md",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.reconciliation.READ_UNAVAILABLE",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The independent read was unavailable. The earlier command remains uncertain.",
+      "placeholders": [],
+      "source_ref": "packages/domain/src/evidence.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.reconciliation.STALE_SCOPE",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The earlier scope is no longer current. This read does not settle the current obligation.",
+      "placeholders": [],
+      "source_ref": "packages/domain/src/evidence.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.reconciliation.DESIRED_STATE_NOT_OBSERVED",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "The independent read did not show the required state. No new effect attempt is authorised.",
+      "placeholders": [],
+      "source_ref": "packages/domain/src/evidence.ts",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "reason.reconciliation.UNKNOWN",
+      "screen": "STATUS",
+      "element": "detail",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "No reviewed explanation is available for this reconciliation result. Keep the recorded result and original uncertain attempt.",
+      "placeholders": [],
+      "source_ref": "docs/reviews/work/C00-copy-source-review.md",
+      "binding_status": "ACCEPTED_CONTRACT",
+      "unresolved_binding": null,
+      "finding_ref": null,
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "binding_version": "0.2.1",
+      "approval_ref": "C00-WORK-DISPLAY-0.2.1",
+      "accepted_field_ref": {
+        "path": "packages/contracts/src/index.ts",
+        "quote": "reason_code:"
+      }
+    },
+    {
+      "id": "capabilities.implementation.NOT_INSPECTED",
+      "screen": "W-CAPABILITIES",
+      "element": "column",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "Not inspected",
+      "placeholders": [],
+      "source_ref": "tracking/capabilities.json; docs/reviews/work/C00-copy-source-review.md",
+      "binding_status": "UNRESOLVED",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
+      "finding_ref": "F-029",
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "prior_unresolved_binding_r3": "Register schema and status vocabulary are defined by tracking/capabilities.json, which is absent from the repository."
+    },
+    {
+      "id": "capabilities.profile.NOT_VERIFIED",
+      "screen": "W-CAPABILITIES",
+      "element": "column",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "Profile not verified",
+      "placeholders": [],
+      "source_ref": "tracking/capabilities.json; docs/reviews/work/C00-copy-source-review.md",
+      "binding_status": "UNRESOLVED",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
+      "finding_ref": "F-029",
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "prior_unresolved_binding_r3": "Register schema and status vocabulary are defined by tracking/capabilities.json, which is absent from the repository."
+    },
+    {
+      "id": "capabilities.section.modules",
+      "screen": "W-CAPABILITIES",
+      "element": "column",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "Product programme — 33 modules",
+      "placeholders": [],
+      "source_ref": "tracking/capabilities.json; docs/reviews/work/C00-copy-source-review.md",
+      "binding_status": "UNRESOLVED",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
+      "finding_ref": "F-029",
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "prior_unresolved_binding_r3": "Register schema and status vocabulary are defined by tracking/capabilities.json, which is absent from the repository."
+    },
+    {
+      "id": "capabilities.section.connectors",
+      "screen": "W-CAPABILITIES",
+      "element": "column",
+      "semantic_state": null,
+      "audience": "STAFF",
+      "text": "Configured connectors in this environment",
+      "placeholders": [],
+      "source_ref": "tracking/capabilities.json; docs/reviews/work/C00-copy-source-review.md",
+      "binding_status": "UNRESOLVED",
+      "unresolved_binding": "Work display decision is settled: genuine 33-module register and runtime connector catalogue are separate sections. Codex must supply the compatible register consumer/import plus B03 browser tests; the A05 capabilities endpoint alone cannot populate module rows.",
+      "finding_ref": "F-029",
+      "contract_proposal_ref": null,
+      "error_code": null,
+      "consumer_binding": "NOT_IMPLEMENTED",
+      "consumer_test_status": "NOT_RUN",
+      "prior_unresolved_binding_r3": "Register schema and status vocabulary are defined by tracking/capabilities.json, which is absent from the repository."
     }
   ],
-  "revision": "c00-r4",
+  "revision": "c00-r4-completion",
   "status": "REVISED_FOR_REVIEW",
   "accepted_contract_version": "0.2.1",
-  "executable_contract_version": "0.3.0",
+  "executable_contract_version": "0.4.0",
   "contract_approvals": [
     {
       "id": "W00-A00-0.2.1",
@@ -7206,6 +7879,242 @@
         "state.reconciliation.FAILED.label",
         "state.reconciliation.FAILED.detail"
       ]
+    },
+    {
+      "id": "C00-WORK-DISPLAY-0.2.1",
+      "version": "0.2.1",
+      "accepted_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
+      "decision_path": "docs/reviews/work/C00-copy-source-review.md",
+      "decision_sha256": "c6430a6119a4f7d3d6511bbd5ae202933ac6d13a2fca84ec878ff5eb6962f727",
+      "quoted_text": "Work accepts the display bindings listed below to the already accepted contract **0.2.1**",
+      "copy_ids": [
+        "permission.action.setup_mfa",
+        "state.workflow.ACCEPTED.detail",
+        "overview.card.unverified",
+        "state.action.FAILED.detail",
+        "state.decision.ALLOW.basis",
+        "state.decision.BLOCK.detail",
+        "signin.staff.heading",
+        "signin.staff.button",
+        "signin.staff.mfa.heading",
+        "signin.staff.mfa.field",
+        "signin.staff.mfa.button",
+        "signin.staff.failed",
+        "signin.portal.heading",
+        "signin.portal.button",
+        "reason.decision.CURRENT_MARKETING_AUTHORITY",
+        "reason.decision.EXPLICIT_SYNTHETIC_ORDER_CONDITION",
+        "reason.decision.CONDITIONS_NOT_SATISFIED",
+        "reason.decision.SERVICE_CONDITION_EXPIRED",
+        "reason.decision.TARGET_OBSERVATION_UNAVAILABLE",
+        "reason.decision.POLICY_UNAVAILABLE",
+        "reason.decision.POLICY_RESULT_MISSING",
+        "reason.decision.POLICY_RESULT_INVALID",
+        "reason.decision.UNKNOWN",
+        "reason.command.APPLIED",
+        "reason.command.POLICY_NOT_APPROVED",
+        "reason.command.STALE_EPOCH",
+        "reason.command.STALE_GENERATION",
+        "reason.command.PROVIDER_UNAVAILABLE",
+        "reason.command.PROVIDER_DENIED",
+        "reason.command.PROVIDER_RESPONSE_UNKNOWN",
+        "reason.command.UNKNOWN",
+        "reason.reconciliation.READ_UNAVAILABLE",
+        "reason.reconciliation.STALE_SCOPE",
+        "reason.reconciliation.DESIRED_STATE_NOT_OBSERVED",
+        "reason.reconciliation.UNKNOWN"
+      ],
+      "review_kind": "WORK_AUTHORED_SEMANTIC_DECISION_AND_SELF_REVIEW",
+      "application_acceptance": false
     }
-  ]
+  ],
+  "reason_mappings": {
+    "decision": {
+      "match": "exact code AND recorded state; incompatible or unknown uses fallback",
+      "fallback_copy_id": "reason.decision.UNKNOWN",
+      "unknown_code_policy": "NO_AUTHORITY_NO_RETRY_NO_OBSERVATION_INFERENCE",
+      "records": [
+        {
+          "code": "CURRENT_MARKETING_AUTHORITY",
+          "copy_id": "reason.decision.CURRENT_MARKETING_AUTHORITY",
+          "required_state": "ALLOW",
+          "source_path": "policy/processing/decision.rego",
+          "source_sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "EXPLICIT_SYNTHETIC_ORDER_CONDITION",
+          "copy_id": "reason.decision.EXPLICIT_SYNTHETIC_ORDER_CONDITION",
+          "required_state": "ALLOW",
+          "source_path": "policy/processing/decision.rego",
+          "source_sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "CONDITIONS_NOT_SATISFIED",
+          "copy_id": "reason.decision.CONDITIONS_NOT_SATISFIED",
+          "required_state": "BLOCK",
+          "source_path": "policy/processing/decision.rego",
+          "source_sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "SERVICE_CONDITION_EXPIRED",
+          "copy_id": "reason.decision.SERVICE_CONDITION_EXPIRED",
+          "required_state": "BLOCK",
+          "source_path": "packages/domain/src/processing.ts",
+          "source_sha256": "2106e9bb8e209977802ad00ad402adb0943eb0fe1e43a099eb34b92b2d8b847a",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "TARGET_OBSERVATION_UNAVAILABLE",
+          "copy_id": "reason.decision.TARGET_OBSERVATION_UNAVAILABLE",
+          "required_state": "INDETERMINATE",
+          "source_path": "packages/domain/src/processing.ts",
+          "source_sha256": "2106e9bb8e209977802ad00ad402adb0943eb0fe1e43a099eb34b92b2d8b847a",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "POLICY_UNAVAILABLE",
+          "copy_id": "reason.decision.POLICY_UNAVAILABLE",
+          "required_state": "INDETERMINATE",
+          "source_path": "packages/policy-sdk/src/index.ts",
+          "source_sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "POLICY_RESULT_MISSING",
+          "copy_id": "reason.decision.POLICY_RESULT_MISSING",
+          "required_state": "INDETERMINATE",
+          "source_path": "packages/policy-sdk/src/index.ts",
+          "source_sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "POLICY_RESULT_INVALID",
+          "copy_id": "reason.decision.POLICY_RESULT_INVALID",
+          "required_state": "INDETERMINATE",
+          "source_path": "packages/policy-sdk/src/index.ts",
+          "source_sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        }
+      ]
+    },
+    "command": {
+      "match": "exact code AND recorded state; incompatible or unknown uses fallback",
+      "fallback_copy_id": "reason.command.UNKNOWN",
+      "unknown_code_policy": "NO_AUTHORITY_NO_RETRY_NO_OBSERVATION_INFERENCE",
+      "records": [
+        {
+          "code": "APPLIED",
+          "copy_id": "reason.command.APPLIED",
+          "required_state": "ACKNOWLEDGED",
+          "source_path": "apps/agent/src/execute.ts",
+          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "POLICY_NOT_APPROVED",
+          "copy_id": "reason.command.POLICY_NOT_APPROVED",
+          "required_state": "FAILED",
+          "source_path": "apps/agent/src/execute.ts",
+          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "STALE_EPOCH",
+          "copy_id": "reason.command.STALE_EPOCH",
+          "required_state": "FAILED",
+          "source_path": "apps/agent/src/execute.ts",
+          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "STALE_GENERATION",
+          "copy_id": "reason.command.STALE_GENERATION",
+          "required_state": "FAILED",
+          "source_path": "apps/agent/src/execute.ts",
+          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "PROVIDER_UNAVAILABLE",
+          "copy_id": "reason.command.PROVIDER_UNAVAILABLE",
+          "required_state": "FAILED",
+          "source_path": "packages/connectors/src/simulator.ts",
+          "source_sha256": "9a84ff76ecd58757754c452f6dcbd50c644ac6f695ae1f1e38c5a880059ce00a",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "PROVIDER_DENIED",
+          "copy_id": "reason.command.PROVIDER_DENIED",
+          "required_state": "FAILED",
+          "source_path": "packages/connectors/src/simulator.ts",
+          "source_sha256": "9a84ff76ecd58757754c452f6dcbd50c644ac6f695ae1f1e38c5a880059ce00a",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "PROVIDER_RESPONSE_UNKNOWN",
+          "copy_id": "reason.command.PROVIDER_RESPONSE_UNKNOWN",
+          "required_state": "EFFECT_UNKNOWN",
+          "source_path": "packages/connectors/src/simulator.ts",
+          "source_sha256": "9a84ff76ecd58757754c452f6dcbd50c644ac6f695ae1f1e38c5a880059ce00a",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        }
+      ]
+    },
+    "reconciliation": {
+      "match": "exact code AND recorded state; incompatible or unknown uses fallback",
+      "fallback_copy_id": "reason.reconciliation.UNKNOWN",
+      "unknown_code_policy": "NO_AUTHORITY_NO_RETRY_NO_OBSERVATION_INFERENCE",
+      "records": [
+        {
+          "code": "READ_UNAVAILABLE",
+          "copy_id": "reason.reconciliation.READ_UNAVAILABLE",
+          "required_state": "INCONCLUSIVE",
+          "source_path": "packages/domain/src/evidence.ts",
+          "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "STALE_SCOPE",
+          "copy_id": "reason.reconciliation.STALE_SCOPE",
+          "required_state": "INCONCLUSIVE",
+          "source_path": "packages/domain/src/evidence.ts",
+          "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        },
+        {
+          "code": "DESIRED_STATE_NOT_OBSERVED",
+          "copy_id": "reason.reconciliation.DESIRED_STATE_NOT_OBSERVED",
+          "required_state": "INCONCLUSIVE",
+          "source_path": "packages/domain/src/evidence.ts",
+          "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
+          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+        }
+      ]
+    }
+  },
+  "overview_bindings": {
+    "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+    "source_path": "packages/domain/src/evidence.ts",
+    "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
+    "count_units": {
+      "accepted": "WORKFLOWS",
+      "running": "WORKFLOWS",
+      "needs_attention": "WORKFLOWS",
+      "completed": "WORKFLOWS",
+      "effect_unknown": "OBLIGATIONS",
+      "manual_required": "OBLIGATIONS",
+      "failed": "OBLIGATIONS",
+      "unverified": "OBLIGATIONS"
+    },
+    "may_sum_cards": false,
+    "unverified_predicate": "completion_criterion == CURRENT_SCOPED_OBSERVATION and not obligationSatisfied at evaluation time",
+    "source_predicate_path": "packages/domain/src/completion.ts",
+    "source_predicate_sha256": "c5b3622b545de10fd8887b2d8e5488c7d7d9d35360f151e5e98082cb62b98682",
+    "consumer_test_status": "NOT_RUN",
+    "execution_counts_are_unresolved_counts": false,
+    "execution_count_limit": "Execution-state counts retain manual/failed/unknown states even when a separate completion criterion is satisfied; do not label them outstanding work or link to a supposedly matching failures count."
+  }
 }

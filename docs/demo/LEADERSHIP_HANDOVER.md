@@ -1,6 +1,6 @@
 # ORVIA prototype: leadership handover
 
-**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN (blocked on A07 candidate and B06 browser results) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
+**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN (blocked on A07 candidate and B06 browser results) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
 
 ## How to use this document
 
@@ -11,17 +11,17 @@ Where a statement depends on evidence, it is written as the claim to be made **o
 ## Readiness at a glance (generated)
 
 <!-- BEGIN GENERATED: handover-readiness -->
-As of 2026-09-16T19:35:38Z (DELIVERY_STATUS.json).
+As of 2026-09-16T20:12:06Z (DELIVERY_STATUS.json).
 
 | Question | Answer |
 |---|---|
-| Documentation base | `2432a00` (current source inspection EV-SRC-006, 2026-09-16T19:35:38Z) |
-| Application at that base | Accepted A00/A01; A02/A03, merged PR #16 expiry correction and newly merged PR #17 A04 scoped send/preview sources and reports are present for consolidated review. Workspace/Privacy Centre UI routes and candidate browser evidence are absent at this inspected base. No full application scenario is accepted here. |
-| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `2432a00`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
+| Documentation base | `1e23bbe` (current source inspection EV-SRC-007, 2026-09-16T20:12:06Z) |
+| Application at that base | Accepted A00/A01 plus supplied A02–A05 producer sources/reports. A05 supplies reconciliation, manual attestation, actual simulator, scoped evidence/export, counts/failure projections and connector catalogue. Only foundation UI routes exist; no workspace/privacy screens, A07 candidate or B06 browser evidence. Source/producer inspection does not accept these implementations. |
+| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `1e23bbe`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
 | Production readiness | **NOT_ASSESSED**. Source: `CURRENT_STATE.md`, quoted: “Production security/legal/supply-chain/full recovery NOT_ASSESSED”. |
 | Frozen candidate | NOT_IDENTIFIED |
 | P0 scenarios with an inspected PASS on the candidate | 0 of 30 (records indexed: 0) |
-| Engineering reports indexed (not acceptance) | 174 (32 with non-zero exit, retained) |
+| Engineering reports indexed (not acceptance) | 221 (39 with non-zero exit, retained) |
 | Presentation deadline | See F-015 in FINDINGS.csv |
 <!-- END GENERATED: handover-readiness -->
 
@@ -91,7 +91,7 @@ These are stated even after the evidence exists.
 Answers are written to stay true today. Update the evidence references when artifacts exist.
 
 **What actually ran?**
-Work inspected 174 supplied A00–A04/correction engineering command reports and their referenced bytes; original failures and dirty-source identities remain. Accepted increments are A00/A01. A02/A03/A04 and the merged PR #16 correction are implementation/report inputs awaiting consolidated acceptance. Work executed document tools and canonical tracking checks in this session; it did not execute application services or scenarios.
+Work inspected 221 supplied A00–A05/correction engineering command reports and their referenced bytes; original failures and dirty-source identities remain. Accepted increments are A00/A01. A02/A03/A04/A05 and the merged PR #16 correction are implementation/report inputs awaiting consolidated acceptance. Work executed document tools and canonical tracking checks in this session; it did not execute application services or scenarios.
 
 **What remains incomplete?**
 - The 30 P0 full-scenario candidate gates are still NOT_RUN; partial producer assertions do not close them.

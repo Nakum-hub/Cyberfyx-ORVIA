@@ -96,7 +96,10 @@ class DocToolCase(unittest.TestCase):
     # ---- copy traceability
     def test_unresolved_copy_without_finding_fails(self):
         d = self.jload(COPY)
-        e = next(x for x in d["entries"] if x["id"] == "signin.staff.heading")
+        # A specific label can legitimately become accepted after a real decision.
+        # Exercise the unresolved lifecycle, not an obsolete permanent label state.
+        e = next(x for x in d["entries"] if x["binding_status"] == "UNRESOLVED")
+        self.assertTrue(e["finding_ref"])
         e["finding_ref"] = None
         self.jsave(COPY, d)
         self.assertIn("Every UNRESOLVED entry names a finding", self.failed())

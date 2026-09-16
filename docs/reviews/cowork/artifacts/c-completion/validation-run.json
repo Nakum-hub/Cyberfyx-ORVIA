@@ -1,0 +1,155 @@
+{
+  "scope": "DOCUMENT_TOOL_AND_TRACKING_VALIDATION_ONLY",
+  "inspected_application_base": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "documentation_parent_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "working_tree_dirty": true,
+  "environment": {
+    "python": "3.12.14",
+    "node": "v24.19.0",
+    "platform": "Linux"
+  },
+  "source_input_sha256": "d0c0054cc2ae67e848215043c549d7a81f1d68fd09bcad6ae7f9a46d6a019f9b",
+  "source_files": {
+    "AGENTS.md": "dba1483a35a4a4d74efcf49f0d2754ca473709d85d54c5b3330ee7bee36c2eea",
+    "CURRENT_STATE.md": "225b5445706cefc98dd49099645cb3b5fa72dcdfdc71a78c690c03790e82c7c1",
+    "docs/demo/CLAIMS_REGISTER.md": "8e57888c8d10c89e14c7a0458ac4d76f830bde46258352dbc3c8e614b87be522",
+    "docs/demo/EVIDENCE_INDEX.json": "9dd4fdce004bab6a18d82982133ba8a9d9ac75ddcde4c1f068bed8b58ea29d16",
+    "docs/demo/LEADERSHIP_HANDOVER.md": "5aad4e4587c3019369997ea07fa7a926b260b5c9817b378654995377913b3cfe",
+    "docs/demo/demo_steps.json": "3be29fa2e6abe51327cf0c1e0ab86d60745d866cb8ba3deb77254ea9ca562999",
+    "docs/demo/index.html": "4c1f4a5f5c84c3244f5b32e82e1ede2515b9a8491cc4ecdbca111cfb54fa8d44",
+    "docs/prototype/ACCEPTANCE.md": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320",
+    "docs/prototype/CONTRACT.md": "05bbc913fc8efac83c8b8f8e1173f9dd7b9e5acc8f823bc3fac1cf49a6bd64cc",
+    "docs/prototype/DEMO_SCRIPT.md": "00bf92f95eedf02f76a3dc40dfbb98fa9f3d008fb04dae8cdf092b301dfc8a4f",
+    "docs/prototype/EXECUTION_PLAN.md": "be3581b2fa1cefe5a759ce551f1999d419f982f165ff56fdf777c12a6b909bd5",
+    "docs/prototype/FILE_OWNERSHIP.md": "29f570adb5bbcdea7eee054874ab4771d82461edd398cae11930885db6e6005c",
+    "docs/prototype/RELEASE_CHECKLIST.md": "d5e6b4ad06b9818457bce0d3ef127986982e92a43dc31c33d63b3724b0d354d6",
+    "docs/prototype/SOURCE_ALIGNMENT.md": "57910743e4a328259280a84161fbe0040ea5459fe0c7302876e6ff6c31a58d40",
+    "docs/prototype/TASK_BOARD.md": "a12569636b0d3629c4d96f225e1fdf5bdeeb7e88f1d4f5f9368f29730093cc1f",
+    "docs/prototype/UX_BRIEF.md": "cc57e213612220e43bc4d0d7f3a51205aa6eb4fa81f4b5c4210649bddbf1f96b",
+    "docs/reviews/cowork/DELIVERY_STATUS.json": "055bf06d9e47db3cb554962f63ad2fc93c514b8c0173eed11c4711a82b7f2c76",
+    "docs/reviews/cowork/FINDINGS.csv": "d29b8e0bc847e32916331da099605dbbd5ba257880fd080066a1a0b951abcaad",
+    "docs/reviews/cowork/tools/README.md": "7a5be857f7a4421454794861693abf491a49ed918f107b3a81b1f07743ba6787",
+    "docs/reviews/cowork/tools/build_pack.py": "19ce96606177906430797625aff9216a0e43380711a029be5952f697a50311be",
+    "docs/reviews/cowork/tools/evidence_rules.py": "21a5e12a6839406ac8db0dfbdcf58cb583792917b7b55d9817f866e05e0b8c6f",
+    "docs/reviews/cowork/tools/pack.css": "028544e23927ec1f9882db32a7ddd216d343c4cab5bf09c7aa6de3475ed77e9b",
+    "docs/reviews/cowork/tools/tests/fixtures/README.md": "3b3856ac7da06c2890f8390329de1518f3dc31bbcb4ade4147c621a4117d461e",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_artifact.txt": "5714820808e95a4ae24a7676f5c981f78f30439db49e1251d324ebf4a3c08f60",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_record.json": "ef539eb0367bf00d3b4f023f6e39f0b5386f90e2523744c0825c01c79953565a",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_report.json": "7dfb44c945ce4f73a758cf63f97549157fd758710b59660999b6cf9d2b6d11e7",
+    "docs/reviews/cowork/tools/tests/reproduce_r3.py": "a18571414c6a406c1435cfd5687d32953ba35e13beea2e5ea99910aa78c5cfae",
+    "docs/reviews/cowork/tools/tests/test_document_tools.py": "6cd6dd9f75543dbbb574562570060a3aa86eeb81008875fdd7c0a4dc2ab65f4b",
+    "docs/reviews/cowork/tools/tests/test_r4_regressions.py": "a63b5b13117afbfc7b308315d7e0765b31adb3970dbeac6ff3093fff26fb2f42",
+    "docs/reviews/cowork/tools/validate_docs.py": "0a7ff2bb2a65eea3539fab05da683219ba8aa0eee76635aae00f503f74e99ddb",
+    "docs/reviews/work/C00-copy-source-review.md": "c6430a6119a4f7d3d6511bbd5ae202933ac6d13a2fca84ec878ff5eb6962f727",
+    "docs/runbooks/OPERATOR.md": "5a29a0a6dc4fbdf213dc6369500e93c1c8b8e41162883bf4a370e566a4b9874e",
+    "docs/ux/ACCEPTANCE_JOURNEYS.md": "44c077a7691aec02f1dc8c8b22b09b4cca838e296d0c553578a50b00fba8f8ae",
+    "docs/ux/UI_COPY.json": "e0cc6490abdc94c7dba0977115203422c20126641aef6b9e06d9310f2ecadb2d",
+    "tracking/acceptance.json": "477949910fb48fa750a74124aed751911401802310b7e2c0dcf75716f1f801be",
+    "tracking/capabilities.json": "34ba16bbebdad5c21a4851341ef011be3518176ad6836f1521b5ae130b347669",
+    "tracking/tasks.json": "4e3da53ea5d55470ebc34f493eed504af8c7ac09bb739c9d5402cea841b7f6d6"
+  },
+  "runs": [
+    {
+      "id": "build-check",
+      "command": [
+        "python3",
+        "-B",
+        "docs/reviews/cowork/tools/build_pack.py",
+        "--check"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T20:17:23.364Z",
+      "finished_at": "2026-09-16T20:17:23.436Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/c-completion/build-check.txt",
+      "sha256": "83306ee66399f5d941db62075eeab2c945590d5316fa6694f9261094c9efebe1"
+    },
+    {
+      "id": "current-validation",
+      "command": [
+        "python3",
+        "-B",
+        "docs/reviews/cowork/tools/validate_docs.py",
+        "--mode",
+        "current",
+        "--json"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T20:17:23.437Z",
+      "finished_at": "2026-09-16T20:17:23.669Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/c-completion/current-validation.txt",
+      "sha256": "b38b61554b6afb902da64a1c1e469c8a1e59259d047a610616b42d82e12a0b82"
+    },
+    {
+      "id": "regressions",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "docs/reviews/cowork/tools/tests",
+        "-v"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T20:17:23.669Z",
+      "finished_at": "2026-09-16T20:17:36.125Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/c-completion/regressions.txt",
+      "sha256": "75e858db119a8a32b1ad6a6c853bcbe4a5566130cb28986656c887f9b1e3a9a7"
+    },
+    {
+      "id": "tracking",
+      "command": [
+        "node",
+        "scripts/validate-tracking.ts"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T20:17:36.126Z",
+      "finished_at": "2026-09-16T20:17:36.230Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/c-completion/tracking.txt",
+      "sha256": "8d99682ce48b3ea351884bed8b18a182d589e24d953b19ce455e4e768e5cc9f6"
+    },
+    {
+      "id": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T20:17:36.232Z",
+      "finished_at": "2026-09-16T20:17:36.248Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/c-completion/diff-check.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limitations": [
+    "Work self-review; no independent approval.",
+    "No application service/browser/security/recovery/egress/rehearsal execution.",
+    "Earlier browser policy refusal remains applicable; static checks are not render QA.",
+    "52 unittest methods include paired negative/positive subcases; expected STALE output belongs to isolated negative tests.",
+    "Node v24.19.0 is used only for dependency-free tracking validation, not qualification of the application pinned runtime."
+  ],
+  "earlier_attempt": {
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "docs/reviews/cowork/tools/tests",
+      "-v"
+    ],
+    "exit_code": 1,
+    "result": "51/52 passed; stale test selected a now legitimately accepted sign-in label instead of an unresolved entry. Fixture now selects an actual unresolved entry and preserves the original missing-finding rejection. No production requirement weakened.",
+    "log_path": "docs/reviews/cowork/artifacts/c-completion/regressions-first-attempt.txt",
+    "log_sha256": "11488fa061b3dc16c4564ea4b0e6eb3a83557d48117d1234d51b861aa75c6ecb",
+    "source_identity_limit": "Initial dirty source snapshot and start time were not separately hashed/captured; this failed attempt is historical, never the final validation."
+  }
+}

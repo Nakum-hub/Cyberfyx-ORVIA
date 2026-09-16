@@ -231,6 +231,58 @@ def approval_errors(root, copy):
     return errors
 
 
+def copy_safety_errors(root, copy):
+    """Check Work's display contract, never infer application implementation."""
+    errors = []
+    entries = {e['id']: e for e in copy.get('entries', [])}
+    for ident in ('error.staff.503', 'error.staff.network_change', 'error.portal.503'):
+        entry = entries.get(ident, {})
+        if re.search(r'\b(?:reload|refresh)\b', entry.get('text', ''), re.I):
+            errors.append(ident + ': uncertain write must not instruct page reload')
+        if 'SAME_TAB_ORIGINAL_REQUEST' not in entry.get('recovery_rule', ''):
+            errors.append(ident + ': original-request recovery rule missing')
+    for ident in ('error.portal.409_epoch.reloaded', 'recovery.portal.resolved_conflict'):
+        guard = entries.get(ident, {}).get('display_guard', {})
+        if guard != {'response_error_code': 'EPOCH_CONFLICT',
+                     'authenticated_current_choice_read': 'SUCCEEDED', 'same_principal_and_scope': True}:
+            errors.append(ident + ': loaded-current claim lacks conflict/read/scope guard')
+    if entries.get('state.workflow.ACCEPTED.detail', {}).get('display_guard') != {
+            'receipt_consent_status': 'WITHDRAWN', 'receipt_workflow_id_matches': True,
+            'workflow_state': 'ACCEPTED'}:
+        errors.append('withdrawal detail lacks receipt/workflow trigger guard')
+    for kind in ('decision', 'command', 'reconciliation'):
+        mapping = copy.get('reason_mappings', {}).get(kind, {})
+        if mapping.get('fallback_copy_id') not in entries or mapping.get('unknown_code_policy') != 'NO_AUTHORITY_NO_RETRY_NO_OBSERVATION_INFERENCE':
+            errors.append(kind + ': safe unknown-code fallback missing')
+        seen = set()
+        for row in mapping.get('records', []):
+            code = row.get('code')
+            if code in seen or row.get('copy_id') not in entries or not row.get('required_state'):
+                errors.append(kind + ': duplicate/unbound reason or absent state guard')
+            seen.add(code)
+            try:
+                data = local_file(root, row.get('source_path')).read_bytes()
+                if hashlib.sha256(data).hexdigest() != row.get('source_sha256') or not isinstance(code, str) or code not in data.decode():
+                    errors.append(kind + ': reason source/hash mismatch')
+                if not HEX40.fullmatch(str(row.get('source_commit', ''))):
+                    errors.append(kind + ': reason source revision missing')
+            except (ValueError, OSError, TypeError) as err:
+                errors.append(kind + ': ' + str(err))
+        if not seen: errors.append(kind + ': source-backed reason catalogue missing')
+    overview = copy.get('overview_bindings', {})
+    expected = {**{k: 'WORKFLOWS' for k in ('accepted', 'running', 'needs_attention', 'completed')},
+                **{k: 'OBLIGATIONS' for k in ('effect_unknown', 'manual_required', 'failed', 'unverified')}}
+    if overview.get('count_units') != expected or overview.get('may_sum_cards') is not False:
+        errors.append('overview mixes count units or permits an unsupported total')
+    for path_key, hash_key in (('source_path', 'source_sha256'), ('source_predicate_path', 'source_predicate_sha256')):
+        try:
+            if hashlib.sha256(local_file(root, overview.get(path_key)).read_bytes()).hexdigest() != overview.get(hash_key):
+                errors.append('overview source predicate changed; display definition needs review')
+        except (ValueError, OSError, TypeError) as err:
+            errors.append('overview: ' + str(err))
+    return errors
+
+
 def screen_errors(root, screens, ev):
     errors = []
     inspections = {s['evidence_id']: s for s in ev.get('source_inspections', [])}

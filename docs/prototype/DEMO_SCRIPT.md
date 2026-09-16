@@ -1,6 +1,6 @@
 # ORVIA prototype: demo script
 
-**Owner:** GPT Work, successor to Cowork (C00, finalised in C02) · **Status:** REVISED_FOR_REVIEW (C02: prepared, not frozen) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
+**Owner:** GPT Work, successor to Cowork (C00, finalised in C02) · **Status:** REVISED_FOR_REVIEW (C02: prepared, not frozen) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
 
 **Live demo readiness: NOT_READY.** Source: current `CURRENT_STATE.md`; exact revision/hash/time are in DELIVERY_STATUS.json. This presentation does not independently establish readiness.
 
@@ -320,4 +320,4 @@ The exact claim wording is in [`docs/demo/CLAIMS_REGISTER.md`](../demo/CLAIMS_RE
 
 ## r4 current-source boundary
 
-The named organisations/principals and the twelve steps are the agreed synthetic scenario, not a claim that a complete seed command exists. A01 seeds identities; A02 test helpers construct business fixtures; A07 still owes a supported full-demo seed. All steps retain evidence requirements and honest fallbacks. Accepted semantics are 0.2.1; executable 0.3.0 and merged expiry correction await consolidated review. No runtime command, fault, reset or restore was run by Work for this document delivery.
+The named organisations/principals and the twelve steps are the agreed synthetic scenario, not a claim that a complete seed command exists. A01 seeds identities; A02 test helpers construct business fixtures; A07 still owes a supported full-demo seed. All steps retain evidence requirements and honest fallbacks. Accepted semantics are 0.2.1; executable transport 0.4.0 (signed command 0.3.0) and merged expiry correction await consolidated review. No runtime command, fault, reset or restore was run by Work for this document delivery.
