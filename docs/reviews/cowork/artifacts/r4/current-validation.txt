@@ -1,0 +1,492 @@
+{
+  "mode": "current",
+  "passed": 97,
+  "total": 97,
+  "checks": [
+    {
+      "check": "JSON parses: docs/ux/UI_COPY.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "JSON parses: docs/demo/demo_steps.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "JSON parses: docs/demo/EVIDENCE_INDEX.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "JSON parses: docs/reviews/cowork/DELIVERY_STATUS.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "JSON parses: tracking/tasks.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "JSON parses: tracking/acceptance.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "FINDINGS.csv has the required columns",
+      "ok": true,
+      "detail": "['finding_id', 'severity', 'ticket', 'affected', 'source_or_reproduction', 'expected', 'observed', 'responsible_lane', 'acceptance_condition', 'evidence_to_close', 'status', 'raised_at', 'last_observed_base', 'linked', 'history']"
+    },
+    {
+      "check": "Every finding row is complete",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Finding severities valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Finding statuses valid",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Finding IDs unique",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Finding history is preserved (dated entries)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Required fields present: UI_COPY.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "UI_COPY entries have all fields",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "UI_COPY ids unique",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "UI_COPY placeholders match text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "UI_COPY binding_status values valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "UNRESOLVED entries state the open decision",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Every UNRESOLVED entry names a finding",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Every copy finding_ref exists in FINDINGS.csv",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "UNRESOLVED entries point to open findings",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Every CONTRACT \u00a73 state has a label",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "No state value outside the design contract or the cited executable proposal",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "All accepted bindings have exact source-backed scoped approval",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "UI_COPY contains no credentials or real email addresses",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Assigned state wording present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "OBSERVED_SATISFIED detail carries scope and timestamp",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "STALE detail requires recheck",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ALLOW copy is purpose-specific and does not require consent universally",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "No unconditional 'nothing changed' assurance in error copy",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Conditional no-commit copy is marked do-not-display",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "'Loaded your latest choice' is gated on a successful reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Recovery copy retries the same request",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Reconcile pending text is marked transient",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Manual completion note exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: LOADING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: VALIDATION_ERROR",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: UNAUTHENTICATED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: FORBIDDEN",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: NOT_FOUND_OR_INACCESSIBLE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: VERSION_CONFLICT",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: SERVICE_UNAVAILABLE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: OUTCOME_UNCONFIRMED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen-state copy exists: IDEMPOTENCY_CONFLICT",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Empty-state copy exists for every specified screen",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Successful-acceptance copy exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "All copy IDs referenced in Markdown exist",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "tracking/acceptance.json has 34 scenarios",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Canonical results use allowed values",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Every T01\u2013T34 appears in the journey summary",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Journey summary rows parse",
+      "ok": true,
+      "detail": "28"
+    },
+    {
+      "check": "Journey results match Work's canonical status",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "No P0 test is described as optional",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Required fields present: DELIVERY_STATUS.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "canonical_readiness quotation appears in its source file",
+      "ok": true,
+      "detail": "CURRENT_STATE.md"
+    },
+    {
+      "check": "canonical_readiness value and source revision agree",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "production_readiness quotation appears in its source file",
+      "ok": true,
+      "detail": "CURRENT_STATE.md"
+    },
+    {
+      "check": "production_readiness value and source revision agree",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Ticket canonical status matches tracking/tasks.json",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Cowork proposed statuses use allowed values",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Cowork never proposes accepted/complete for its own tickets",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen implementation values valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Required fields present: EVIDENCE_INDEX.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "EVIDENCE_INDEX covers each canonical test once",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "EVIDENCE_INDEX canonical status matches tracking/acceptance.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Exactly one CURRENT repository inspection, matching current_source_inspection_id",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Historical inspections are preserved",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "DELIVERY_STATUS and EVIDENCE_INDEX name the same current inspection and base",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Candidate identity is complete or explicitly unidentified",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Candidate identities agree across status and evidence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Screen implementation and browser claims have scoped evidence",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Evidence records are complete, provenance-backed and hash-matched",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Media and rehearsal entries are complete",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "EVIDENCE_INDEX summary equals counts derived from its records",
+      "ok": true,
+      "detail": "{}"
+    },
+    {
+      "check": "Engineering reports never count as acceptance and match their artifacts",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "No document-tool test fixture data in the real evidence index",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Claims register rows present",
+      "ok": true,
+      "detail": "22"
+    },
+    {
+      "check": "Claim statuses valid",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Every EVIDENCED claim is supported by candidate-matched inspected evidence",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "No unsupported readiness claim in owned prose",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Every referenced finding ID exists",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Relative Markdown links resolve",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "Required fields present: demo_steps.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Demo has the 12 assigned steps",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Every demo step has all required fields",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Demo steps reference only known tests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Step 8 has no server-says-otherwise escape clause",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Generated sections, pack and manifest are current (build_pack --check)",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "No Cowork-owned file is ignored by .gitignore",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HTML pack exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "HTML internal anchors resolve",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HTML loads no external resources",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HTML has no forms, inputs, iframes or buttons",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "HTML has no storage, network or analytics calls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "HTML labels itself as documentation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "HTML has a restrictive CSP",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "HTML declares dark and light tokens",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

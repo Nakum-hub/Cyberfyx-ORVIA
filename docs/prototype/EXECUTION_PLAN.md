@@ -95,17 +95,17 @@ The website is distribution/marketing, not ORVIA's customer processing plane. In
 
 **Codex:** core engineering lead. Own bootstrap, canonical schemas, all manifests/lockfile changes, persistence/auth/policy/consent, durable workflows, agent/connectors, evidence, deterministic tests and local package scripts.
 
-**Cowork:** UX, documentation and demonstration lead. Own the UX brief/copy, scenario preparation, capability truthfulness, operator instructions, leadership narrative and review of actual evidence. It does not fabricate runtime measurements or repair backend code.
+**Work (former Cowork responsibilities, human-authorised r4 transfer):** UX, documentation and demonstration lead. Own the UX brief/copy, scenario preparation, capability truthfulness, operator instructions, leadership narrative and review of actual evidence. It does not fabricate runtime measurements or repair backend code.
 
-**Claude Code:** product interface and browser-test lead. Own workspace/Privacy Centre pages, shared UI, generated-client use, loading/error/permission states and end-to-end browser tests. It must use the same actual backend.
+**Codex (transferred B IDs):** product interface and browser-test lead. Own workspace/Privacy Centre pages, shared UI, generated-client use, loading/error/permission states and end-to-end browser tests. It must use the same actual backend.
 
-**Human:** authorises access/uploads, owns secrets and system approvals, reviews/merges changes, resolves choices, runs or supervises commands, rehearses and signs off. Four subscriptions/sessions are not four autonomous employees and do not guarantee fourfold throughput.
+**Human:** authorises access/uploads, owns secrets and system approvals, reviews/merges changes, resolves choices, runs or supervises commands, rehearses and signs off. Only Work and Codex remain active AI execution owners; historical time budgets and acceptance meanings are unchanged.
 
 ## 6. Remaining-time budget
 
 The windows below are work-allocation budgets, not a promise of completion. The exact meeting time is not known. If less time is actually available, cut P1 and packaging polish, not access controls or evidence correctness.
 
-| Window from R0 | Backend / UI objective | Work / Cowork / human gate |
+| Window from R0 | Backend / UI objective | Work / human gate |
 |---|---|---|
 | R0–R1 | A00 inventory, real service preflight, shared scaffold/contracts; UI reads frozen brief | W00 scope/authority check; C00 demo/UX script. Accept one base commit before parallel code |
 | R1–R4 | A01 auth/DB/scoping; B00/B01 shell and genuine login | G1: persisted authenticated action; cross-tenant/principal denial. If broken, stop breadth |

@@ -7,7 +7,7 @@ here is ORVIA acceptance evidence, and no fixture is ever written into the real 
 Run from the repository root:
     python3 -m unittest discover -s docs/reviews/cowork/tools/tests -v
 """
-import copy, csv, io, json, re, shutil, sys, tempfile, unittest
+import copy, csv, hashlib, io, json, re, shutil, sys, tempfile, unittest
 from pathlib import Path
 
 TOOLS = Path(__file__).resolve().parents[1]
@@ -38,6 +38,9 @@ class DocToolCase(unittest.TestCase):
         (self.root / rel).write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     def rebuild(self):
+        ev = self.jload(EV)
+        ev['summary'] = build_pack.summary_counts(ev, self.root)
+        self.jsave(EV, ev)
         for p, c in build_pack.build(self.root).items():
             (self.root / p).write_text(c, encoding="utf-8")
 
@@ -48,9 +51,16 @@ class DocToolCase(unittest.TestCase):
         ev = self.jload(EV)
         rec = json.loads((FIXTURES / "synthetic_record.json").read_text(encoding="utf-8"))
         rec.update(over)
+        raw = self.jload(rec['report_path'])
+        for key in ('code_under_test_commit','build_id','contract_version','profile','fixture_id','scenario_scope','command','started_at','finished_at','exit_code','observed_result','run_role'):
+            raw[key] = rec[key]
+        raw['test_ids'] = [rec['test_id']]
+        raw['assertions'][0]['result'] = 'FAIL' if rec['observed_result']=='FAIL' else 'PASS'
+        self.jsave(rec['report_path'],raw)
+        rec['artifact_sha256'][rec['report_path']] = hashlib.sha256((self.root/rec['report_path']).read_bytes()).hexdigest()
         test = next(t for t in ev["test_evidence"] if t["test_id"] == rec["test_id"])
         test["records"].append(rec)
-        ev["summary"] = build_pack.summary_counts(ev)
+        ev["summary"] = build_pack.summary_counts(ev, self.root)
         self.jsave(EV, ev)
         return ev
 
@@ -58,9 +68,12 @@ class DocToolCase(unittest.TestCase):
         ev = self.jload(EV)
         ev["frozen_candidate"] = {"status": "IDENTIFIED", "commit": commit, "build_id": "doc-tool-fixture",
                                   "contract_version": "0.0.0-fixture", "profile": "doc-tool-fixture",
-                                  "source": "DOCUMENT-TOOL TEST DATA"}
-        ev["summary"] = build_pack.summary_counts(ev)
+                                  "source": "DOCUMENT-TOOL TEST DATA", "fixture_id":"doc-tool-fixture", "scenario_scope":"DOCUMENT_FIXTURE_SCOPE"}
+        ev["summary"] = build_pack.summary_counts(ev, self.root)
         self.jsave(EV, ev)
+        st=self.jload('docs/reviews/cowork/DELIVERY_STATUS.json')
+        st['candidate']=ev['frozen_candidate'].copy()
+        self.jsave('docs/reviews/cowork/DELIVERY_STATUS.json',st)
 
     def set_claim_status(self, claim_id, status):
         p = self.root / "docs/demo/CLAIMS_REGISTER.md"
@@ -76,7 +89,8 @@ class DocToolCase(unittest.TestCase):
     def test_repository_copy_passes_current_mode(self):
         self.assertEqual(self.failed(), {})
 
-    def test_repository_copy_passes_historical_mode(self):
+    def test_explicit_no_evidence_snapshot_passes_historical_mode(self):
+        (self.root/'HISTORICAL_FIXTURE.txt').write_text('Deliberately preserved no-application-evidence document-test snapshot; never the current checkout.')
         self.assertEqual(self.failed("historical-no-evidence"), {})
 
     # ---- copy traceability
@@ -106,7 +120,7 @@ class DocToolCase(unittest.TestCase):
         e = next(x for x in d["entries"] if x["id"] == "state.reconciliation.RECONCILING.label")
         e["binding_status"], e["unresolved_binding"] = "CONTRACT_DESIGN_0.1.0", None
         self.jsave(COPY, d)
-        self.assertIn("Proposal-bound values stay UNRESOLVED until accepted", self.failed())
+        self.assertIn("All accepted bindings have exact source-backed scoped approval", self.failed())
 
     def test_invented_state_value_fails(self):
         d = self.jload(COPY)
@@ -169,7 +183,7 @@ class DocToolCase(unittest.TestCase):
     def test_incomplete_media_entry_fails(self):
         ev = self.jload(EV)
         ev["media"].append({"media_id": "DOCTOOL-M1", "kind": "SCREENSHOT", "path": "missing.png"})
-        ev["summary"] = build_pack.summary_counts(ev)
+        ev["summary"] = build_pack.summary_counts(ev, self.root)
         self.jsave(EV, ev)
         self.assertIn("Media and rehearsal entries are complete", self.failed("fixture"))
 

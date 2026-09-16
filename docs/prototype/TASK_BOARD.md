@@ -1,12 +1,12 @@
 # Task board — generated from tracking/tasks.json
 
-Status counts: BLOCKED: 5; COMPLETED: 3; NOT_STARTED: 15.
+Status counts: BLOCKED: 7; COMPLETED: 3; IN_REVIEW: 1; NOT_STARTED: 12.
 
 | ID | Owner | Priority | Status | Task | Start after | Accept after | Tests |
 |---|---|---|---|---|---|---|---|
 | W00 | work | P0 | COMPLETED | Adopt scope and review bootstrap proposal | Immediately | Own evidence | Review deliverable |
 | A00 | codex | P0 | COMPLETED | Inspect repository and create shared executable scaffold | Immediately | W00 | T01, T28 |
-| C00 | work | P0 | NOT_STARTED | Prepare UX and leadership scenario | Immediately | Own evidence | Review deliverable |
+| C00 | work | P0 | IN_REVIEW | Prepare UX and leadership scenario | Immediately | Own evidence | Review deliverable |
 | B00 | codex | P0 | NOT_STARTED | Build UI shell from shared scaffold | A00 | C00 | Review deliverable |
 | A01 | codex | P0 | COMPLETED | Auth, bootstrap, scoped relational persistence | A00 | Own evidence | T02, T03, T04, T05, T27 |
 | B01 | codex | P0 | NOT_STARTED | Real login and configuration screens | B00 | A01, A02 | T02, T05, T06, T29 |
@@ -17,7 +17,7 @@ Status counts: BLOCKED: 5; COMPLETED: 3; NOT_STARTED: 15.
 | A04 | codex | P0 | NOT_STARTED | Policy enforcement and synthetic send admission | A03 | Own evidence | T14, T15, T16 |
 | A05 | codex | P0 | NOT_STARTED | Uncertain effects, observations and local evidence | A03 | Own evidence | T13, T17, T18, T19, T20, T21, T22 |
 | B03 | codex | P0 | NOT_STARTED | Live workflow, failures, dashboard and evidence | B01, B02 | A03, A05 | T13, T17, T19, T20, T21, T22, T29 |
-| C01 | work | P0 | NOT_STARTED | Capability truthfulness and operator runbook | C00 | A00, B00 | Review deliverable |
+| C01 | work | P0 | BLOCKED | Capability truthfulness and operator runbook | C00 | A00, B00 | Review deliverable |
 | A06 | codex | P0 | NOT_STARTED | Regression runner, recovery and security checks | A04, A05 | Own evidence | T03, T08, T09, T10, T11, T12, T14, T15, T16, T17, T18, T19, T20, T22, T23, T24, T25, T26, T27, T28 |
 | B04 | codex | P0 | NOT_STARTED | Test Lab and integrated browser acceptance | B03 | A04, A05, A06 | T14, T23, T24, T26, T27, T29 |
 | W02 | work | P0 | BLOCKED | Cross-system correctness and security review | W01, A03 | A04, A05, A06, B04 | T11, T12, T14, T17, T18, T20, T24, T25, T26 |
@@ -25,7 +25,7 @@ Status counts: BLOCKED: 5; COMPLETED: 3; NOT_STARTED: 15.
 | B05 | codex | P1 | NOT_STARTED | UI for the selected optional slice | B04 | A08 | T31, T32, T33, T34 |
 | A07 | codex | P0 | NOT_STARTED | Package and rerun frozen candidate | A06 | W02 | T01, T28, T30 |
 | B06 | codex | P0 | NOT_STARTED | Final UI fixes and candidate browser regression | B04 | A07 | T29, T30 |
-| C02 | work | P0 | NOT_STARTED | Prepare evidence-backed presentation handover | C01 | A07, B06 | T30 |
+| C02 | work | P0 | BLOCKED | Prepare evidence-backed presentation handover | C01 | A07, B06 | T30 |
 | W03 | work | P0 | BLOCKED | Final acceptance decision and state consolidation | W02 | A07, B06, C02 | T30 |
 
 ## W00 — Adopt scope and review bootstrap proposal
@@ -50,13 +50,13 @@ Preserve existing code; pin versions; start actual services; freeze exact schema
 
 ## C00 — Prepare UX and leadership scenario
 
-**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** IN_REVIEW · **Accepted commit:** None recorded
 
 Define readable screens, state copy and synthetic scenario without waiting for backend; do not redesign shared contracts.
 
 **Planned files:** `docs/prototype/UX_BRIEF.md`; `docs/prototype/DEMO_SCRIPT.md`; `docs/ux/ACCEPTANCE_JOURNEYS.md`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/work/C00-C02-r4-delivery.md`
 
 ## B00 — Build UI shell from shared scaffold
 
@@ -160,13 +160,13 @@ Stateful timeline/table/details, real outcome counts, unresolved obligations and
 
 ## C01 — Capability truthfulness and operator runbook
 
-**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** BLOCKED · **Accepted commit:** None recorded
 
 Map full module vision to actual tested depth; record real setup commands only from engineering handoffs; prepare truthful question/answer notes.
 
 **Planned files:** `tracking/capabilities.json`; `docs/runbooks/OPERATOR.md`; `docs/demo/CLAIMS_REGISTER.md`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/work/C00-C02-r4-delivery.md`
 
 ## A06 — Regression runner, recovery and security checks
 
@@ -240,13 +240,13 @@ Fix only accepted issues after freeze; rerun candidate browser tests, capture ac
 
 ## C02 — Prepare evidence-backed presentation handover
 
-**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** BLOCKED · **Accepted commit:** None recorded
 
 Assemble actual test/result links, limitations and recording index; optional website explanatory copy last; no automatic publishing.
 
 **Planned files:** `docs/prototype/DEMO_SCRIPT.md`; `docs/prototype/RELEASE_CHECKLIST.md`; `docs/demo/LEADERSHIP_HANDOVER.md`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/work/C00-C02-r4-delivery.md`
 
 ## W03 — Final acceptance decision and state consolidation
 

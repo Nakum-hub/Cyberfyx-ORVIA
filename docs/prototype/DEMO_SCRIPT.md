@@ -1,8 +1,8 @@
 # ORVIA prototype: demo script
 
-**Owner:** Cowork (C00, finalised in C02) · **Status:** REVISED_FOR_REVIEW (C02: prepared, not frozen) · **Revision:** c02-r2, 16 Sep 2026 IST · **Documentation base:** `e839b1a` (r1 was written against `96b8bd7`)
+**Owner:** GPT Work, successor to Cowork (C00, finalised in C02) · **Status:** REVISED_FOR_REVIEW (C02: prepared, not frozen) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
 
-**Live demo readiness: NOT_READY.** Source: `CURRENT_STATE.md` at `e839b1a`. That readiness state is Work's to change, not Cowork's.
+**Live demo readiness: NOT_READY.** Source: current `CURRENT_STATE.md`; exact revision/hash/time are in DELIVERY_STATUS.json. This presentation does not independently establish readiness.
 
 At the documentation base, the application has only the A00 foundation page and `/healthz`. Every step below is therefore a **specification of what must be shown**; none of it describes something that has been shown. Every screen status is `MISSING` and every evidence item is `MISSING` until real artifacts are indexed in [`docs/demo/EVIDENCE_INDEX.json`](../demo/EVIDENCE_INDEX.json).
 
@@ -45,10 +45,12 @@ Staff credentials are generated per installation and held by the human operator.
 
 **Engineering names from A00** (`docs/engineering/A00-LOCAL-DEVELOPMENT.md`):
 
-| Item | Name | State at `e839b1a` |
+| Item | Name | State at the r4 inspected base |
 |---|---|---|
-| Seed | `aster-birch-v1` | Name frozen for A01/A02; no business seeder exists yet |
+| Seed | `aster-birch-v1` | Identity fixtures supplied; full planned business-scenario seeder still A07 |
 | Profiles | `codex-a00`, `ui-b00`, `rehearsal` | The demo uses the separate `rehearsal` profile |
+
+The following names/emails are **scenario specifications, not existing login credentials**. Current `seed:auth` uses generated local identities (`alice`, `bob`, `birch_principal`) and protected random credentials; A07 must map these to the agreed display scenario or supply an explicit mapping. A04 `seed:orders` creates dynamic expiring synthetic order references, not the display labels below. Do not type the illustrative emails into a current login or claim the complete scenario is seeded.
 
 ### Principals (all adults)
 
@@ -73,7 +75,7 @@ Staff credentials are generated per installation and held by the human operator.
 | Aster CRM (synthetic) | Separate synthetic CRM database | Remove from audience "Autumn offers (synthetic)"; read membership and generation | Automated and observable |
 | Aster Messaging Simulator | Local REST provider simulator | Restrict, read, receipt; faults `HEALTHY`, `UNAVAILABLE`, `APPLY_THEN_TIMEOUT`, `ACK_WITHOUT_EFFECT` | Automated and observable |
 | Aster Loyalty Ledger (no API) | Declared legacy target, explicitly unsupported | None | Manual only |
-| Aster Send Gateway (simulator) | Local send-admission boundary, reached through the private machine send interface. **Not a configured system** in 0.2.0. | Current-authority decision at admission | Explained as the enforcement point; not shown as a system row (F-018) |
+| Aster Send Gateway (simulator) | Local send-admission boundary, reached through the private machine send interface. **Not a configured system** in the accepted 0.2.1 shape. | Current-authority decision at admission | Explained as the enforcement point; not shown as a system row (F-018) |
 
 ### Queued attempts
 
@@ -87,7 +89,7 @@ Staff credentials are generated per installation and held by the human operator.
 
 - [ ] **Candidate matches.** The candidate commit and build ID are recorded, and the on-screen build chip equals the build manifest (RELEASE_CHECKLIST G5).
 - [ ] **Profile is ready.**
-  - The `rehearsal` profile has been reset with the Codex-supplied, human-approved procedure. At `e839b1a`, only the A00 bootstrap-only reset exists; a full application reset is A06/A07.
+  - The `rehearsal` profile has been reset with the Codex-supplied, human-approved procedure. At the current base, only the bootstrap-only reset exists and refuses business migrations; a full application reset is A06/A07.
   - Evidence was exported **before** the reset.
 - [ ] **Browser profiles are separate.** Karan (workspace, MFA done), Asha (Privacy Centre), Meera (auditor), Bo (Birch).
 - [ ] **Fault modes are set** only through the documented private-profile procedure (not yet supplied; F-020).
@@ -121,7 +123,7 @@ The target is 15 minutes live plus questions. The timings are guidance; they are
 | Field | Content |
 |---|---|
 | Actor | Human operator (seed); presenter |
-| Precondition | Frozen candidate started in the 'rehearsal' profile (A00 profile name) and seeded with fixture 'aster-birch-v1' by Codex tooling (seed not yet implemented at e839b1a); principals Asha Demo, Ravi Demo (Aster) and Bela Demo (Birch) exist. |
+| Precondition | Frozen candidate started in the 'rehearsal' profile (A00 profile name) and seeded with fixture 'aster-birch-v1' by Codex tooling (identity seed exists; complete planned business-scenario seed remains A07); principals Asha Demo, Ravi Demo (Aster) and Bela Demo (Birch) exist. |
 | Screen / action | W-OVERVIEW (Aster) and W-PRINCIPALS — **MISSING** · Show the Aster workspace header (organisation, environment, build) and the demo principals list. |
 | Expected observable fact | Header shows Aster Demo scope and the server build ID; principals list shows only Aster principals. |
 | Evidence needed (mandatory tests) | T01, T03, T04: Clean-start transcript and build manifest (A07); isolation test output (A01/A06); screenshot of header with build ID (B06). — **MISSING** |
@@ -214,7 +216,7 @@ The target is 15 minutes live plus questions. The timings are guidance; they are
 | Actor | System; Sam Member (Demo) as assignee |
 | Precondition | Legacy ledger declared with no supported operations and mapped to marketing. |
 | Screen / action | W-ATTENTION, W-WORKFLOW-DETAIL (attest dialog) — **MISSING** · Show the manual row; Sam records a manual action. |
-| Expected observable fact | Row shows 'Manual action required' and 'Cannot be observed'. The manual record is labelled as a person's statement, and the observation stays unchanged. While required manual work or required observations are unresolved under the approved criteria, the workflow is shown as Needs attention. If Work's accepted criterion lets an attested manual obligation complete, the workflow must still state that those systems were not independently observed. |
+| Expected observable fact | Row shows 'Manual action required' and 'Cannot be observed'. The manual record is labelled as a person's statement, and the observation stays unchanged. While required manual work or required observations are unresolved under the approved criteria, the workflow is shown as Needs attention. Where the accepted declared criterion permits attributed manual completion, the workflow must still state that those systems were not independently observed. |
 | Evidence needed (mandatory tests) | T20, T21: T20 record including attestation type and coverage change on permission removal. — **MISSING** |
 | Presenter words | “This system has no API, so ORVIA assigns a person. Sam's record is kept as his statement, not as something ORVIA observed.” |
 | Honest fallback | If the screen shows the workflow as completed or observed while required manual work is unresolved, stop the step and record it as a finding against the approved criteria; do not explain it away. |
@@ -256,7 +258,7 @@ The target is 15 minutes live plus questions. The timings are guidance; they are
 | Expected observable fact | Each run records assertion-level results from real policy, boundary and target interaction. The broken run's record carries expected_fault_detection and its assertion shows the actual violation; its recorded result is not converted to PASS. |
 | Evidence needed (mandatory tests) | T23, T24: Three run records with build and fixture references; code review confirming the result is not derived from the selector. — **MISSING** |
 | Presenter words | “The broken fixture really does send after withdrawal, and the test catches it by looking at what was sent. Then we restore the healthy one and run it again.” |
-| Honest fallback | If a run ends in ERROR, say it proves nothing either way and show the recorded runs from rehearsal, labelled as such. |
+| Honest fallback | If a run ends in ERROR, say the run is incomplete, retain its assertions and failures, and do not claim a complete pass. Use prerecorded material only if a real indexed recording matches the exact candidate/profile/time; otherwise state that evidence is unavailable. |
 | Limitation to state | Covers the synthetic scenario only. |
 
 ### Step 12. Recovery: worker restart and quarantined target-only restore
@@ -296,7 +298,7 @@ The target is 15 minutes live plus questions. The timings are guidance; they are
 - **File name:** `ORVIA_rec_step{NN}_{build_id}_{YYYYMMDD-HHMM}IST.{ext}`
 - **Which recordings are valid.** A recording may be used only if all of these hold:
   - its build matches the frozen candidate;
-  - it was captured by the human or by a Claude Code browser trace;
+  - it was captured by the human or by a Codex browser trace;
   - it is listed in `EVIDENCE_INDEX.json` with what it shows and what it does not show.
 
   An older recording does not validate a newer build.
@@ -315,3 +317,7 @@ The exact claim wording is in [`docs/demo/CLAIMS_REGISTER.md`](../demo/CLAIMS_RE
 | Integrates with Salesforce/HubSpot | Synthetic local CRM |
 | AI | Rule-based, no model |
 | Production-ready | Internal prototype on synthetic data |
+
+## r4 current-source boundary
+
+The named organisations/principals and the twelve steps are the agreed synthetic scenario, not a claim that a complete seed command exists. A01 seeds identities; A02 test helpers construct business fixtures; A07 still owes a supported full-demo seed. All steps retain evidence requirements and honest fallbacks. Accepted semantics are 0.2.1; executable 0.3.0 and merged expiry correction await consolidated review. No runtime command, fault, reset or restore was run by Work for this document delivery.

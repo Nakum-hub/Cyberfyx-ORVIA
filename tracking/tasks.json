@@ -97,9 +97,11 @@
       ],
       "deliverable": "Define readable screens, state copy and synthetic scenario without waiting for backend; do not redesign shared contracts.",
       "test_ids": [],
-      "status": "NOT_STARTED",
+      "status": "IN_REVIEW",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "B00",
@@ -441,9 +443,11 @@
       ],
       "deliverable": "Map full module vision to actual tested depth; record real setup commands only from engineering handoffs; prepare truthful question/answer notes.",
       "test_ids": [],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "A06",
@@ -695,9 +699,11 @@
       "test_ids": [
         "T30"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "W03",

@@ -1,3 +1,25 @@
+# Work r4 validation — current delivery
+
+**Inspected main:** `2432a008539450725129d19ff5fc6c2eee488031` (PR #17); initial intake `0a2671640223087626d8e422396efb1363981ed9` (PR #15). **Executor/reviewer:** GPT Work, self-review. Historical Cowork records below retain their original scope.
+
+| Executed check | Actual result | Record |
+|---|---|---|
+| Inherited r3 defect reproduction | Positive control 92/92; isolated misleading states reproduced; full individual outcomes retained | `artifacts/r4/r3-defect-reproduction.json` |
+| Current document validator | 97/97 checks passed, exit 0 | `artifacts/r4/current-validation.txt` |
+| Paired regression suite | 47 tests passed, exit 0; negative/positive subcases included | `artifacts/r4/regressions.txt` |
+| Deterministic generation and hash manifest | All five generated outputs current, exit 0 | `artifacts/r4/build-check.txt`, `GENERATED_MANIFEST.json` |
+| Canonical tracking | 23 tasks, 34 acceptance definitions and generated views validated, exit 0; no result promotion | `artifacts/r4/tracking.txt` |
+| Diff whitespace | Exit 0 | `artifacts/r4/diff-check.txt` |
+| Source/evidence intake | Genuine master/kit hashes verified; exact 33-module register restored; all 29 inherited r3 files retained; 174 original engineering command reports with 32 non-zero exits retained and required artifacts/hash/content checked | `artifacts/r4/source-intake.json`, `inherited-r3-inventory.json`, `main-refresh.json`; EVIDENCE_INDEX |
+
+`artifacts/r4/validation-run.json` records exact commands, environment, times, exit codes, input identity and output hashes. The final suite ran after PR #17 intake. Node v24.19.0 was used only for dependency-free tracking validation, not to qualify the application's pinned Node24.21.0 runtime. Python 3.12.14 ran the document tools. The expected STALE messages at the end of the unittest log are deliberate isolated negative-test output, not stale delivered files.
+
+**Not run:** authorized browser navigation to the local offline pack was refused by browser security policy. No render/screenshot, keyboard/focus, mobile/desktop overflow, console or runtime-request verification is claimed. Static HTML/CSP/resource/anchor checks passed; they are not a browser run. Exact refusal is retained in `artifacts/r4/offline-browser.json`; no workaround was used.
+
+No new ORVIA application, application browser, security, recovery, egress or rehearsal tests ran. Engineering artifacts were inspected at original source/dirty/build identities, not rerun. A04's initial FAIL and corrected 46-assertion PASS remain supporting producer evidence. All 34 canonical acceptance scenarios remain NOT_RUN, candidate NOT_IDENTIFIED, qualifying rehearsals zero, human release unsigned. Document completion, consumer implementation, test execution, review, GitHub publication/merge and readiness remain separate.
+
+---
+
 # Cowork document validation record
 
 **Scope:** documents only. **These checks are not ORVIA application tests** and prove nothing about runtime behaviour.

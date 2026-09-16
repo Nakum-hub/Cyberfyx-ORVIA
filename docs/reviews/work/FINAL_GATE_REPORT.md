@@ -1,5 +1,7 @@
 # W03 — final gate report
 
+> r4 current-routing note (Work, 2026-09-16): former Cowork duties now belong to Work; unfinished Claude Code/B-task UI and browser duties now belong to Codex. Historical observations below retain their original dates and authorship. Current main includes PR #16's A02 expiry correction, awaiting consolidated review; see CURRENT_STATE.md and `handoffs/work/C00-C02-r4-delivery.md`.
+
 **Latest intake, not acceptance:** A03 was human-merged in PR #11 at 16:26:17 UTC while this package was being published: implementation `034100943f2c2f2b8e8934921501093746962b9b`, publication `397cb370bedaf45c3f62409e88fb891f7cd3b23e`, main `8a45911be8f86f7a35bfe1153bd40f968f4aecac`. Manifest metadata still says contract 0.3.0/PENDING_WORK_REVIEW. Only commit/path/publication metadata was inspected; A03 implementation and producer results remain queued for the requested consolidated review. This does not close A02 F01 or any Work gate.
 
 **Integration update:** Work PR #10 was human-merged to `4eb346f0974bb38abcc541744cc57bdf87428f1a` during preparation; its tree exactly matches `33aa63a630619d170e1709b8cea2b30a78b6b78f`. This package is based on that integration. The earlier application snapshot remains the last runtime reviewed.

@@ -36,7 +36,7 @@ git worktree add -b prototype/ui ../orvia-ui
 git worktree add -b prototype/docs ../orvia-docs
 ```
 
-Work may review the human integration checkout read-only and provide patches for owned docs. Work uses one isolated docs checkout and can use an isolated output folder; the former Cowork lane could use a docs worktree or an isolated output folder, depending on actual authorised tool access. Do not require unsupported automatic syncing. Use small commits per ticket and integrate one at a time.
+Work may review the human integration checkout read-only and provide patches for owned docs. Work uses one isolated docs checkout and an isolated output folder when needed. The former Cowork lane is no longer active. Do not require unsupported automatic syncing. Use small commits per ticket and integrate one at a time.
 
 **A Git worktree does not isolate running services.** Give each executable lane a distinct Compose project name, app port, database namespace/volume, Temporal namespace/state and artifact directory. Never let a UI test reset the backend integration database. Keep one separately identified rehearsal profile with the frozen candidate. Do not share active `.env` secrets through chat or Git.
 

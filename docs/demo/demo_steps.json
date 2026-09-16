@@ -1,8 +1,8 @@
 {
   "document": "ORVIA prototype demo steps",
-  "owner_lane": "Cowork",
+  "owner_lane": "Work",
   "status": "REVISED_FOR_REVIEW",
-  "base_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+  "base_commit": "2432a008539450725129d19ff5fc6c2eee488031",
   "application_available": false,
   "note": "Machine-readable form of the DEMO_SCRIPT.md step table. At e839b1a only the A00 foundation page and /healthz exist, so every screen_status is MISSING. Placeholders in {braces} are runtime values from the server. All tests listed are mandatory P0 evidence even when a step's live presentation is optional.",
   "steps": [
@@ -10,7 +10,7 @@
       "step": 1,
       "title": "Two separate organisations and people",
       "actor": "Human operator (seed); presenter",
-      "precondition": "Frozen candidate started in the 'rehearsal' profile (A00 profile name) and seeded with fixture 'aster-birch-v1' by Codex tooling (seed not yet implemented at e839b1a); principals Asha Demo, Ravi Demo (Aster) and Bela Demo (Birch) exist.",
+      "precondition": "Frozen candidate started in the 'rehearsal' profile (A00 profile name) and seeded with fixture 'aster-birch-v1' by Codex tooling (identity seed exists; complete planned business-scenario seed remains A07); principals Asha Demo, Ravi Demo (Aster) and Bela Demo (Birch) exist.",
       "screen": "W-OVERVIEW (Aster) and W-PRINCIPALS",
       "screen_status": "MISSING",
       "action": "Show the Aster workspace header (organisation, environment, build) and the demo principals list.",
@@ -151,7 +151,7 @@
       "screen": "W-ATTENTION, W-WORKFLOW-DETAIL (attest dialog)",
       "screen_status": "MISSING",
       "action": "Show the manual row; Sam records a manual action.",
-      "expected_fact": "Row shows 'Manual action required' and 'Cannot be observed'. The manual record is labelled as a person's statement, and the observation stays unchanged. While required manual work or required observations are unresolved under the approved criteria, the workflow is shown as Needs attention. If Work's accepted criterion lets an attested manual obligation complete, the workflow must still state that those systems were not independently observed.",
+      "expected_fact": "Row shows 'Manual action required' and 'Cannot be observed'. The manual record is labelled as a person's statement, and the observation stays unchanged. While required manual work or required observations are unresolved under the approved criteria, the workflow is shown as Needs attention. Where the accepted declared criterion permits attributed manual completion, the workflow must still state that those systems were not independently observed.",
       "tests": [
         "T20",
         "T21"
@@ -215,7 +215,7 @@
       "evidence_needed": "Three run records with build and fixture references; code review confirming the result is not derived from the selector.",
       "evidence_status": "MISSING",
       "presenter_words": "The broken fixture really does send after withdrawal, and the test catches it by looking at what was sent. Then we restore the healthy one and run it again.",
-      "fallback": "If a run ends in ERROR, say it proves nothing either way and show the recorded runs from rehearsal, labelled as such.",
+      "fallback": "If a run ends in ERROR, say the run is incomplete, retain its assertions and failures, and do not claim a complete pass. Use prerecorded material only if a real indexed recording matches the exact candidate/profile/time; otherwise state that evidence is unavailable.",
       "limitation": "Covers the synthetic scenario only."
     },
     {
@@ -238,5 +238,6 @@
       "limitation": "Target-only synthetic restore; not control-plane backup recovery or enterprise disaster recovery."
     }
   ],
-  "revision": "c00-c02-r3"
+  "revision": "c00-c02-r4",
+  "documentation_base_commit": "2432a008539450725129d19ff5fc6c2eee488031"
 }
