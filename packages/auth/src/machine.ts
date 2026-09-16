@@ -10,9 +10,9 @@ import { AccessError } from '../../authz/src/index.ts';
 
 export const MachineIdentity=z.strictObject({id:Id,kind:z.enum(['AGENT','WORKER','SENDER']),scope:Scope,installation_id:Id,expires_at:Time});
 export type MachineIdentity=z.infer<typeof MachineIdentity>;
-export const serviceRoles=['orvia_worker','orvia_agent_control','orvia_machine_auth','orvia_target_agent','orvia_target_observer'] as const;
+export const serviceRoles=['orvia_worker','orvia_agent_control','orvia_machine_auth','orvia_target_agent','orvia_target_observer','orvia_sender'] as const;
 export type ServiceRole=typeof serviceRoles[number];
-const owners: Record<ServiceRole,string>={orvia_worker:'worker',orvia_agent_control:'agent',orvia_machine_auth:'machine-auth',orvia_target_agent:'agent',orvia_target_observer:'observer'};
+const owners: Record<ServiceRole,string>={orvia_worker:'worker',orvia_agent_control:'agent',orvia_machine_auth:'machine-auth',orvia_target_agent:'agent',orvia_target_observer:'observer',orvia_sender:'sender'};
 export function servicePool(config: RuntimeConfig, role: ServiceRole) {
   const password=readFileSync(resolve(config.directory,owners[role],role+'-password'),'utf8').trim();
   if(!/^[a-f0-9]{64}$/.test(password))throw new Error('Invalid service credential');

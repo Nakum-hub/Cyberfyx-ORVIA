@@ -1,0 +1,11 @@
+# A04 — current synthetic send admission
+
+`POST /api/v1/machine/simulator/send` requires a separately enrolled SENDER identity, an allowlisted system, canonical SendRequest and Idempotency-Key. Human cookies and AGENT tokens cannot confer sender authority. `POST /api/v1/admin/policy/evaluate` is a scoped staff preview; it cannot authorize a send.
+
+An attempt is scoped to actor, tenant/legal entity/environment and its immutable digest. Its stable committed result can be replayed without another send. New attempts hold the same consent boundary used by withdrawal and agent mutation, then a shared publication lock. The transaction reads current policy/notice, epoch, exact target mapping/generation, independent target state and unresolved withdrawal obligations. Only a current OPA ALLOW inserts one synthetic send row, with the decision/attempt/audit in the same transaction. The commit under that lock is the admission boundary. Withdrawal committed first therefore blocks a queued/new marketing attempt; already admitted external effects are not recallable.
+
+Order service requires its separate approved purpose and an exact active synthetic order condition. `seed:orders confirm:codex-a00` creates local, expiring conditions only for already-approved mapped policies. The condition deadline is rechecked using the database clock after evaluation; machine authority is revalidated before commit. This fixture is not a legal exemption. No real messaging transport exists.
+
+The sender queue is PostgreSQL-backed. A crash after admission but before queue completion retries the same attempt; committed admission is stable. An OPA timeout, missing result, malformed result or unavailable independent target read is INDETERMINATE with no send. A decided blocked/indeterminate attempt remains immutable; a later attempt needs a new identity and another current evaluation.
+
+`test:enforcement` exercises real Next HTTP, PostgreSQL and OPA, including module removal/replacement and stop/start with restoration. Named synthetic fixture setup only; no customer data, arbitrary destination, bypass switch or reset. Broken-sender detection, target restoration and runtime egress qualification remain A06. Contract 0.3.0 shapes remain unchanged; generated implementation metadata identifies preview/send as implemented pending Work review.

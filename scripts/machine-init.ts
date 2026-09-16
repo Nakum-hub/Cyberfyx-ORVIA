@@ -6,12 +6,12 @@ import { connectDatabase } from '../packages/db/src/index.ts';
 import { privateDirectory,writePrivateJson } from './local-private.ts';
 import { safeError } from '../packages/testing/src/evidence.ts';
 import { serviceRoles,MachineIdentity } from '../packages/auth/src/machine.ts';
-import { WorkerEnrollment,AgentEnrollment,type WorkerEnrollmentConfig,type AgentEnrollmentConfig } from '../packages/auth/src/machine-profile.ts';
+import { WorkerEnrollment,AgentEnrollment,SenderEnrollment,type WorkerEnrollmentConfig,type AgentEnrollmentConfig,type SenderEnrollmentConfig } from '../packages/auth/src/machine-profile.ts';
 import type { AuthFixture } from './auth-bootstrap.ts';
 
 const profile=loadProfile();
 if(process.argv[2]!==`confirm:${profile.profile}`)throw new Error('Named synthetic profile confirmation required');
-const owners={orvia_worker:'worker',orvia_agent_control:'agent',orvia_machine_auth:'machine-auth',orvia_target_agent:'agent',orvia_target_observer:'observer'} as const;
+const owners={orvia_worker:'worker',orvia_agent_control:'agent',orvia_machine_auth:'machine-auth',orvia_target_agent:'agent',orvia_target_observer:'observer',orvia_sender:'sender'} as const;
 for(const folder of ['worker','agent','observer','machine-auth','sender'])privateDirectory(resolve(profile.directory,folder));
 for(const role of serviceRoles){const path=resolve(profile.directory,owners[role],role+'-password');if(!existsSync(path))writeFileSync(path,randomBytes(32).toString('hex'),{flag:'wx',mode:0o600});}
 const signingPath=resolve(profile.directory,'worker/signing-key.pem');
@@ -20,6 +20,8 @@ const publicKey=createPublicKey(readFileSync(signingPath)).export({type:'spki',f
 const workerPath=resolve(profile.directory,'worker/enrollment.json');const agentPath=resolve(profile.directory,'agent/enrollment.json');
 const worker: WorkerEnrollmentConfig=existsSync(workerPath)?WorkerEnrollment.parse(JSON.parse(readFileSync(workerPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:randomUUID(),identities:[]};
 const agent: AgentEnrollmentConfig=existsSync(agentPath)?AgentEnrollment.parse(JSON.parse(readFileSync(agentPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:worker.signing_key_id,public_key:publicKey,identities:[]};
+const senderPath=resolve(profile.directory,'sender/enrollment.json');
+const sender: SenderEnrollmentConfig=existsSync(senderPath)?SenderEnrollment.parse(JSON.parse(readFileSync(senderPath,'utf8'))):{installation_id:profile.installation_id,identities:[]};
 if(worker.installation_id!==profile.installation_id||agent.installation_id!==profile.installation_id||agent.public_key!==publicKey||agent.signing_key_id!==worker.signing_key_id)throw new Error('Existing enrollment does not match installation/key');
 const fixture=JSON.parse(readFileSync(resolve(profile.directory,'auth/bootstrap.json'),'utf8')) as AuthFixture;
 const scopes=[...new Map(Object.values(fixture.users).map(user=>[JSON.stringify(user.scope),user.scope])).values()];
@@ -35,11 +37,16 @@ try {
    const secret=readFileSync(resolve(profile.directory,owners[role],role+'-password'),'utf8').trim();if(!/^[a-f0-9]{64}$/.test(secret))throw new Error('Invalid local secret');
    if(!existing.rowCount)await tx.query(`CREATE ROLE ${role} LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOBYPASSRLS PASSWORD '${secret}'`);
   }
-  await tx.query('GRANT USAGE ON SCHEMA machine_auth TO orvia_machine_auth,orvia_worker,orvia_agent_control');
+  await tx.query('GRANT USAGE ON SCHEMA machine_auth TO orvia_machine_auth,orvia_worker,orvia_agent_control,orvia_app,orvia_sender');
+  await tx.query('GRANT SELECT ON machine_auth.sender_systems TO orvia_app,orvia_sender');
   await tx.query('GRANT SELECT ON machine_auth.identities TO orvia_machine_auth');
-  await tx.query('GRANT SELECT(id,kind,installation_id,tenant_id,legal_entity_id,environment_id,active,expires_at) ON machine_auth.identities TO orvia_worker,orvia_agent_control');
-  await tx.query('GRANT USAGE ON SCHEMA app TO orvia_worker,orvia_agent_control,orvia_machine_auth');
-  await tx.query('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA app TO orvia_worker,orvia_agent_control,orvia_app,orvia_machine_auth');
+  await tx.query('GRANT SELECT(id,kind,installation_id,tenant_id,legal_entity_id,environment_id,active,expires_at) ON machine_auth.identities TO orvia_worker,orvia_agent_control,orvia_sender');
+  await tx.query('GRANT USAGE ON SCHEMA app TO orvia_worker,orvia_agent_control,orvia_machine_auth,orvia_sender');
+  await tx.query('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA app TO orvia_worker,orvia_agent_control,orvia_app,orvia_machine_auth,orvia_sender');
+  await tx.query('GRANT SELECT ON app.service_conditions,app.processing_decisions,app.send_records,app.send_attempts TO orvia_app');
+  await tx.query('GRANT INSERT ON app.processing_decisions,app.send_records,app.send_attempts TO orvia_app');
+  await tx.query('GRANT SELECT,INSERT,UPDATE ON app.send_queue TO orvia_sender');
+  await tx.query('GRANT INSERT ON app.audit_events TO orvia_sender');
   await tx.query('GRANT SELECT ON app.purpose_versions,app.notice_versions,app.policy_versions,app.policy_systems,app.policy_approvals,app.systems,app.target_mappings,app.consent_aggregates,app.consent_events,app.workflows,app.outbox_events,app.action_plans,app.agent_commands,app.command_receipts,app.observations,app.obligations TO orvia_worker');
   await tx.query('GRANT INSERT ON app.action_plans,app.agent_commands,app.observations,app.obligations,app.audit_events TO orvia_worker');
   await tx.query('GRANT UPDATE ON app.action_plans,app.workflows,app.outbox_events TO orvia_worker');
@@ -53,14 +60,19 @@ try {
    const agentIdentity=MachineIdentity.parse({id:existingAgent?.id??randomUUID(),kind:'AGENT',scope,installation_id:profile.installation_id,expires_at});
    const existingWorker=worker.identities.find(i=>JSON.stringify(i.scope)===JSON.stringify(scope));
    const workerIdentity=MachineIdentity.parse({id:existingWorker?.id??randomUUID(),kind:'WORKER',scope,installation_id:profile.installation_id,expires_at});
+   const existingSender=sender.identities.find(i=>JSON.stringify(i.scope)===JSON.stringify(scope));
+   const senderIdentity=MachineIdentity.parse({id:existingSender?.id??randomUUID(),kind:'SENDER',scope,installation_id:profile.installation_id,expires_at});
+   const senderToken=randomBytes(32).toString('hex');
    const token=randomBytes(32).toString('hex');
    const systems=(await tx.query('SELECT id,connector FROM app.systems WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3',[scope.tenant_id,scope.legal_entity_id,scope.environment_id])).rows;
    agent.identities=agent.identities.filter(i=>i.id!==agentIdentity.id);agent.identities.push({...agentIdentity,token,systems});
    worker.identities=worker.identities.filter(i=>i.id!==workerIdentity.id);worker.identities.push({...workerIdentity,agent_id:agentIdentity.id});
-   for(const i of [agentIdentity,workerIdentity])await tx.query(`INSERT INTO machine_auth.identities(id,installation_id,tenant_id,legal_entity_id,environment_id,kind,token_digest,expires_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)
-    ON CONFLICT(id) DO UPDATE SET token_digest=EXCLUDED.token_digest,expires_at=EXCLUDED.expires_at`,[i.id,i.installation_id,scope.tenant_id,scope.legal_entity_id,scope.environment_id,i.kind,i.kind==='AGENT'?createHash('sha256').update(token).digest('hex'):null,expires_at]);
+   sender.identities=sender.identities.filter(i=>i.id!==senderIdentity.id);sender.identities.push({...senderIdentity,token:senderToken});
+   for(const i of [agentIdentity,workerIdentity,senderIdentity])await tx.query(`INSERT INTO machine_auth.identities(id,installation_id,tenant_id,legal_entity_id,environment_id,kind,token_digest,expires_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8)
+    ON CONFLICT(id) DO UPDATE SET token_digest=EXCLUDED.token_digest,expires_at=EXCLUDED.expires_at`,[i.id,i.installation_id,scope.tenant_id,scope.legal_entity_id,scope.environment_id,i.kind,i.kind==='WORKER'?null:createHash('sha256').update(i.kind==='AGENT'?token:senderToken).digest('hex'),expires_at]);
+   for(const system of systems.filter(s=>s.connector!=='LEGACY_MANUAL'))await tx.query('INSERT INTO machine_auth.sender_systems VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING',[senderIdentity.id,scope.tenant_id,scope.legal_entity_id,scope.environment_id,system.id]);
   }
-  writePrivateJson(workerPath,worker);writePrivateJson(agentPath,agent);
+  writePrivateJson(workerPath,worker);writePrivateJson(agentPath,agent);writePrivateJson(senderPath,sender);
   await tx.query('COMMIT');
  }catch(error){await tx.query('ROLLBACK');throw error;}finally{tx.release();}
  const database=profile.database+'_targets';
