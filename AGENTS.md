@@ -23,13 +23,13 @@ The master wins on product/security scope. This plan selects demo depth; it does
 
 ## One writer and one ticket
 
-Codex owns contracts, all dependency manifests/lockfiles, migrations, API/server/domain/worker/agent/connector code and infrastructure. Claude Code owns UI and browser tests, excluding API/server files. Work owns architecture decisions, task definitions, state consolidation and review documents. Cowork owns UX/copy/capability inventory/demo/runbook documents. See exact paths in FILE_OWNERSHIP.
+Codex owns all application engineering, contracts, dependency manifests/lockfiles, migrations, API/server/domain/worker/agent/connector code, infrastructure, UI/component/browser tests and unfinished B tasks. Work owns architecture decisions, task definitions, state consolidation, review documents and the transferred former-Cowork UX/copy/capability/demo/runbook/document-tool paths and C00–C02 delivery. Human-authorised transfer is recorded in `handoffs/work/C00-C02-r4-owner-transfer.md`; historical authorship and acceptance gates are preserved. See exact paths in FILE_OWNERSHIP.
 
 Never edit another lane's files to fix a finding. Create a handoff/change request with path, reproduction and acceptance condition. The human may explicitly reassign a bounded path; record the transfer before editing. No parallel writes to the same worktree, database, ports, runtime volume or result file.
 
 ## Contract discipline
 
-Before the A00 bootstrap commit, CONTRACT.md and contract_seed.json are the design input. At A00, Codex creates canonical executable schemas in packages/contracts and generated OpenAPI/types/examples. Work reviews the match; Claude Code consumes them. Future semantic changes update the version and dependent tests in one coordinated change. Do not hand-maintain a second UI DTO model or invent an endpoint.
+Before the A00 bootstrap commit, CONTRACT.md and contract_seed.json are the design input. At A00, Codex creates canonical executable schemas in packages/contracts and generated OpenAPI/types/examples. Work reviews the match; Codex implements the consumers. Future semantic changes update the version and dependent tests in one coordinated change. Do not hand-maintain a second UI DTO model or invent an endpoint.
 
 ## Evidence and handoff
 

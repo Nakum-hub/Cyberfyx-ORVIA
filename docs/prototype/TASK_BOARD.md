@@ -6,26 +6,26 @@ Status counts: BLOCKED: 5; COMPLETED: 3; NOT_STARTED: 15.
 |---|---|---|---|---|---|---|---|
 | W00 | work | P0 | COMPLETED | Adopt scope and review bootstrap proposal | Immediately | Own evidence | Review deliverable |
 | A00 | codex | P0 | COMPLETED | Inspect repository and create shared executable scaffold | Immediately | W00 | T01, T28 |
-| C00 | cowork | P0 | NOT_STARTED | Prepare UX and leadership scenario | Immediately | Own evidence | Review deliverable |
-| B00 | code | P0 | NOT_STARTED | Build UI shell from shared scaffold | A00 | C00 | Review deliverable |
+| C00 | work | P0 | NOT_STARTED | Prepare UX and leadership scenario | Immediately | Own evidence | Review deliverable |
+| B00 | codex | P0 | NOT_STARTED | Build UI shell from shared scaffold | A00 | C00 | Review deliverable |
 | A01 | codex | P0 | COMPLETED | Auth, bootstrap, scoped relational persistence | A00 | Own evidence | T02, T03, T04, T05, T27 |
-| B01 | code | P0 | NOT_STARTED | Real login and configuration screens | B00 | A01, A02 | T02, T05, T06, T29 |
+| B01 | codex | P0 | NOT_STARTED | Real login and configuration screens | B00 | A01, A02 | T02, T05, T06, T29 |
 | A02 | codex | P0 | BLOCKED | Versioned configuration and transactional consent | A01 | Own evidence | T06, T07, T08, T09, T10 |
-| B02 | code | P0 | NOT_STARTED | Principal consent journey | B00 | A02 | T04, T07, T08, T29 |
+| B02 | codex | P0 | NOT_STARTED | Principal consent journey | B00 | A02 | T04, T07, T08, T29 |
 | W01 | work | P0 | BLOCKED | Review authority and consent contracts | A00 | A01, A02 | T03, T04, T05, T08, T09 |
 | A03 | codex | P0 | BLOCKED | Durable workflow and restricted CRM execution | A02 | Own evidence | T10, T11, T12, T13 |
 | A04 | codex | P0 | NOT_STARTED | Policy enforcement and synthetic send admission | A03 | Own evidence | T14, T15, T16 |
 | A05 | codex | P0 | NOT_STARTED | Uncertain effects, observations and local evidence | A03 | Own evidence | T13, T17, T18, T19, T20, T21, T22 |
-| B03 | code | P0 | NOT_STARTED | Live workflow, failures, dashboard and evidence | B01, B02 | A03, A05 | T13, T17, T19, T20, T21, T22, T29 |
-| C01 | cowork | P0 | NOT_STARTED | Capability truthfulness and operator runbook | C00 | A00, B00 | Review deliverable |
+| B03 | codex | P0 | NOT_STARTED | Live workflow, failures, dashboard and evidence | B01, B02 | A03, A05 | T13, T17, T19, T20, T21, T22, T29 |
+| C01 | work | P0 | NOT_STARTED | Capability truthfulness and operator runbook | C00 | A00, B00 | Review deliverable |
 | A06 | codex | P0 | NOT_STARTED | Regression runner, recovery and security checks | A04, A05 | Own evidence | T03, T08, T09, T10, T11, T12, T14, T15, T16, T17, T18, T19, T20, T22, T23, T24, T25, T26, T27, T28 |
-| B04 | code | P0 | NOT_STARTED | Test Lab and integrated browser acceptance | B03 | A04, A05, A06 | T14, T23, T24, T26, T27, T29 |
+| B04 | codex | P0 | NOT_STARTED | Test Lab and integrated browser acceptance | B03 | A04, A05, A06 | T14, T23, T24, T26, T27, T29 |
 | W02 | work | P0 | BLOCKED | Cross-system correctness and security review | W01, A03 | A04, A05, A06, B04 | T11, T12, T14, T17, T18, T20, T24, T25, T26 |
 | A08 | codex | P1 | NOT_STARTED | One explicitly promoted optional backend slice | A06 | W02 | T31, T32, T33, T34 |
-| B05 | code | P1 | NOT_STARTED | UI for the selected optional slice | B04 | A08 | T31, T32, T33, T34 |
+| B05 | codex | P1 | NOT_STARTED | UI for the selected optional slice | B04 | A08 | T31, T32, T33, T34 |
 | A07 | codex | P0 | NOT_STARTED | Package and rerun frozen candidate | A06 | W02 | T01, T28, T30 |
-| B06 | code | P0 | NOT_STARTED | Final UI fixes and candidate browser regression | B04 | A07 | T29, T30 |
-| C02 | cowork | P0 | NOT_STARTED | Prepare evidence-backed presentation handover | C01 | A07, B06 | T30 |
+| B06 | codex | P0 | NOT_STARTED | Final UI fixes and candidate browser regression | B04 | A07 | T29, T30 |
+| C02 | work | P0 | NOT_STARTED | Prepare evidence-backed presentation handover | C01 | A07, B06 | T30 |
 | W03 | work | P0 | BLOCKED | Final acceptance decision and state consolidation | W02 | A07, B06, C02 | T30 |
 
 ## W00 — Adopt scope and review bootstrap proposal
@@ -50,7 +50,7 @@ Preserve existing code; pin versions; start actual services; freeze exact schema
 
 ## C00 — Prepare UX and leadership scenario
 
-**Owner:** cowork · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Define readable screens, state copy and synthetic scenario without waiting for backend; do not redesign shared contracts.
 
@@ -60,7 +60,7 @@ Define readable screens, state copy and synthetic scenario without waiting for b
 
 ## B00 — Build UI shell from shared scaffold
 
-**Owner:** code · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 One reusable shell, status primitives, accessible loading/error/empty states; no second backend.
 
@@ -80,7 +80,7 @@ Protected organisation bootstrap; staff/principal sessions, MFA and capabilities
 
 ## B01 — Real login and configuration screens
 
-**Owner:** code · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Bind login/configuration forms and current identity to generated client; published states and permission denials real.
 
@@ -100,7 +100,7 @@ Purpose/notice/policy approval, principal/system mapping, consent aggregate/even
 
 ## B02 — Principal consent journey
 
-**Owner:** code · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Own choices/notice/history and grant/withdraw receipt with real persisted status and safe duplicate handling.
 
@@ -150,7 +150,7 @@ REST fault/reconciliation, known failure/manual task, truthful aggregate status,
 
 ## B03 — Live workflow, failures, dashboard and evidence
 
-**Owner:** code · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Stateful timeline/table/details, real outcome counts, unresolved obligations and local export.
 
@@ -160,7 +160,7 @@ Stateful timeline/table/details, real outcome counts, unresolved obligations and
 
 ## C01 — Capability truthfulness and operator runbook
 
-**Owner:** cowork · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Map full module vision to actual tested depth; record real setup commands only from engineering handoffs; prepare truthful question/answer notes.
 
@@ -180,7 +180,7 @@ Allowlisted real assertions, broken-fixture detection, worker recovery, target q
 
 ## B04 — Test Lab and integrated browser acceptance
 
-**Owner:** code · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Run actual allowed scenarios and display assertions; exercise complete UI and negative states; browser traffic evidence and regressions.
 
@@ -210,7 +210,7 @@ Only after core-green human promotion: choose one rights/retention/licence/help 
 
 ## B05 — UI for the selected optional slice
 
-**Owner:** code · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Bind only the promoted tested slice; do not create empty fake modules. Only its matching P1 test is required.
 
@@ -230,7 +230,7 @@ Record locked build/profile, real clean-start/bootstrap/seed/reset commands, pac
 
 ## B06 — Final UI fixes and candidate browser regression
 
-**Owner:** code · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Fix only accepted issues after freeze; rerun candidate browser tests, capture actual screenshots and rehearsal artifacts.
 
@@ -240,7 +240,7 @@ Fix only accepted issues after freeze; rerun candidate browser tests, capture ac
 
 ## C02 — Prepare evidence-backed presentation handover
 
-**Owner:** cowork · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** NOT_STARTED · **Accepted commit:** None recorded
 
 Assemble actual test/result links, limitations and recording index; optional website explanatory copy last; no automatic publishing.
 
