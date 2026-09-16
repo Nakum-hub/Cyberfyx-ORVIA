@@ -346,7 +346,8 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "edges": []
+        "edges": [],
+        "next_cursor": null
       }
     },
     {

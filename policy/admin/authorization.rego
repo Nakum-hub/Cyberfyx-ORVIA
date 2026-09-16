@@ -24,4 +24,10 @@ authorize if {
   input.mfa_verified == true
   input.capability in {"policy.publish", "tests.run"}
 }
-# MEMBER is intentionally denied here until A03 supplies an exact assignment.
+# Database restrictive policies and resource checks require an exact assignment.
+authorize if {
+ input.actor_domain == "STAFF"
+ input.role == "MEMBER"
+ input.mfa_verified == true
+ input.capability in {"workflow.read", "action.reconcile", "manual.attest"}
+}

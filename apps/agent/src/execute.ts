@@ -17,7 +17,8 @@ export async function executeCommand(value: unknown, enrollment: Enrollment, ide
  verifyCommand(command,createPublicKey(enrollment.public_key),trusted);
  if(identity.kind!=='AGENT'||Date.parse(identity.expires_at)<=Date.now())throw new Error('Expired agent enrollment');
  const system=identity.systems.find(s=>s.id===scope.system_id);
- if(!system||system.connector!=='SYNTHETIC_CRM'||scope.operation!=='CRM_REMOVE_MARKETING_MEMBERSHIP'||p.binding.capability!=='restrict_exact_synthetic_subject'||p.binding.capability_version!=='1.0.0'||p.binding.operation_budget.maximum_records!==1)throw new Error('Agent capability not enrolled');
+ const operation=system?.connector==='SYNTHETIC_CRM'?'CRM_REMOVE_MARKETING_MEMBERSHIP':system?.connector==='ORVIA_REST_SIMULATOR'?'SIMULATOR_RESTRICT':null;
+ if(!system||!operation||scope.operation!==operation||p.binding.capability!=='restrict_exact_synthetic_subject'||p.binding.capability_version!=='1.0.0'||p.binding.operation_budget.maximum_records!==1)throw new Error('Agent capability not enrolled');
  const actor=machineAuthority(identity);const commandDigest=digest(command);
  return scopedTransaction(control,actor,async c=>{
   await lockConsent(c,actor.scope,scope.principal_reference_id,scope.purpose_id);
@@ -28,6 +29,8 @@ export async function executeCommand(value: unknown, enrollment: Enrollment, ide
    verifyCommand(command,createPublicKey(enrollment.public_key),{...trusted,now:new Date()});
    const targetRow=(await tx.query(`SELECT * FROM marketing_memberships WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND resource_id=$4 AND principal_id=$5 AND purpose_id=$6 AND system_id=$7 AND subject_reference=$8 FOR UPDATE`,[scope.tenant_id,scope.legal_entity_id,scope.environment_id,scope.resource_id,scope.principal_reference_id,scope.purpose_id,scope.system_id,scope.target_subject_reference])).rows[0];
    if(!targetRow||targetRow.connector!==system.connector)throw new Error('Target is not enrolled');
+   const mode=system.connector==='ORVIA_REST_SIMULATOR'?(await tx.query('SELECT mode FROM simulator_controls WHERE resource_id=$1',[scope.resource_id])).rows[0]?.mode??'HEALTHY':'HEALTHY';
+   if(mode==='UNAVAILABLE')throw new Error('Synthetic provider unavailable before effect');
    const binding=(await c.query(`SELECT m.target_generation,a.epoch,a.state,p.status FROM app.target_mappings m
      JOIN app.consent_aggregates a ON(a.tenant_id=m.tenant_id AND a.legal_entity_id=m.legal_entity_id AND a.environment_id=m.environment_id AND a.principal_id=m.principal_id AND a.purpose_id=m.purpose_id)
      JOIN app.policy_versions p ON(p.tenant_id=m.tenant_id AND p.legal_entity_id=m.legal_entity_id AND p.environment_id=m.environment_id AND p.purpose_id=m.purpose_id AND p.version_id=$9)
@@ -38,7 +41,7 @@ export async function executeCommand(value: unknown, enrollment: Enrollment, ide
    else if(Number(binding.epoch)!==scope.consent_epoch||binding.state!=='WITHDRAWN')reason='STALE_EPOCH';
    else if(Number(binding.target_generation)!==scope.target_generation||Number(targetRow.generation)!==scope.target_generation)reason='STALE_GENERATION';
    else if(Number(targetRow.last_applied_epoch)>scope.consent_epoch)reason='STALE_EPOCH';
-   if(reason==='APPLIED') {
+   if(reason==='APPLIED'&&mode!=='ACK_WITHOUT_EFFECT') {
     verifyCommand(command,createPublicKey(enrollment.public_key),{...trusted,now:new Date()});
     if(Date.parse(identity.expires_at)<=Date.now())throw new Error('Agent authority expired before mutation');
     const updated=await tx.query(`UPDATE marketing_memberships SET marketing_restricted=true,last_applied_epoch=$2,changed_at=now() WHERE resource_id=$1 AND generation=$3 RETURNING resource_id`,[scope.resource_id,scope.consent_epoch,scope.target_generation]);

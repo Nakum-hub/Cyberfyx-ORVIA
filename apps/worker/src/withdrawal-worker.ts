@@ -12,6 +12,7 @@ import { scopedTransaction } from '../../../packages/db/src/runtime.ts';
 import { prepareWorkflow,actionReceipt,observeAction,finishWorkflow } from '../../../packages/domain/src/workflow.ts';
 import { predicate,scopeValues,audit,type Context } from '../../../packages/domain/src/transaction.ts';
 import { connectTemporal } from './probe-client.ts';
+import { reconcile } from '../../../packages/domain/src/evidence.ts';
 
 export function workflowActivities() {
  const config=runtimeConfig();const enrollment=workerEnrollment(config);
@@ -23,7 +24,8 @@ export function workflowActivities() {
  }
  const activities={
   prepare:(id: string,workflow: string)=>scoped(id,c=>prepareWorkflow(c,workflow,{key,key_id:enrollment.signing_key_id,installation_id:enrollment.installation_id,agent_id:identityFor(id).agent_id})),
-  receipt:(id: string,action: string)=>scoped(id,async c=>!!await actionReceipt(c,action)),
+  receipt:(id: string,action: string)=>scoped(id,async c=>(await actionReceipt(c,action))?.execution_state??null),
+  reconcile:(id:string,operation:string)=>scoped(id,c=>reconcile(c,operation,observer)),
   observe:(id: string,action: string)=>scoped(id,c=>observeAction(c,action,observer)),
   commandExpired:(id: string,action: string)=>scoped(id,async c=>{
    await c.tx.query(`UPDATE app.action_plans SET execution_state='EFFECT_UNKNOWN' WHERE ${predicate} AND id=$4 AND execution_state='PENDING'`,[...scopeValues(c.actor),action]);
@@ -53,6 +55,12 @@ export async function dispatchOutbox(runtime: ReturnType<typeof workflowActiviti
     if(afterStart)await afterStart(workflowId,event.event_id);
     await c.tx.query(`UPDATE app.outbox_events SET dispatched_at=now() WHERE ${predicate} AND id=$4`,[...scopeValues(c.actor),event.id]);
     await audit(c,'outbox.dispatched',event.id);count++;
+   }
+   const reconciliations=await c.tx.query(`SELECT id FROM app.reconciliations WHERE ${predicate} AND dispatched_at IS NULL ORDER BY created_at,id LIMIT 20 FOR UPDATE SKIP LOCKED`,scopeValues(c.actor));
+   for(const row of reconciliations.rows) {
+    const workflowId=`orvia-reconcile:${identity.scope.tenant_id}:${identity.scope.environment_id}:${row.id}`;
+    try{await temporal.client.workflow.start('reconciliationWorkflow',{workflowId,taskQueue:'orvia-withdrawals-v1',args:[identity.id,row.id],workflowIdReusePolicy:WorkflowIdReusePolicy.REJECT_DUPLICATE});}catch(error){if(!(error instanceof WorkflowExecutionAlreadyStartedError))throw error;}
+    await c.tx.query(`UPDATE app.reconciliations SET dispatched_at=clock_timestamp() WHERE ${predicate} AND id=$4`,[...scopeValues(c.actor),row.id]);await audit(c,'reconciliation.dispatched',row.id);count++;
    }
   });
  }finally{await temporal.connection.close();}

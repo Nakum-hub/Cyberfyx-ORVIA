@@ -10,9 +10,12 @@ import { runtime } from './runtime.ts';
 import { SendRequest } from '../../../../packages/contracts/src/index.ts';
 import { admitSend } from '../../../../packages/domain/src/processing.ts';
 import { safeRoute } from './http.ts';
+import { simulatorRoute } from './simulator.ts';
 let identityPool: ReturnType<typeof servicePool>|undefined;
 let observerPool: ReturnType<typeof servicePool>|undefined;
-export function machineRoute(request: Request) {return safeRoute(async requestId=>{
+export function machineRoute(request: Request) {
+ if(/^\/api\/v1\/machine\/simulator\/(resources|receipts)\//.test(new URL(request.url).pathname))return simulatorRoute(request);
+ return safeRoute(async requestId=>{
  const r=runtime();
  if(request.method!=='POST')throw new AccessError(404,'NOT_FOUND');
  if(request.headers.has('origin'))throw new AccessError(403,'FORBIDDEN');

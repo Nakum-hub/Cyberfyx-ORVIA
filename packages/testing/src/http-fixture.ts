@@ -56,7 +56,8 @@ export class HttpFixture {
         user.totp_uri=(await response.json()).totpURI;
         const fixture=JSON.parse(readFileSync(this.journal,'utf8')) as AuthFixture;fixture.users[name]=user;writePrivateJson(this.journal,fixture);
       }
-      if((await browser.call(base+'/two-factor/verify-totp',{code:authenticatorCode(user.totp_uri!),trustDevice:false})).status!==200)throw new Error(`Synthetic ${name} MFA failed`);
+      const verified=await browser.call(base+'/two-factor/verify-totp',{code:authenticatorCode(user.totp_uri!),trustDevice:false});
+      if(verified.status!==200){const result=await verified.json();const code=typeof result.code==='string'&&/^[A-Z_]+$/.test(result.code)?result.code:'UNKNOWN';throw new Error(`Synthetic ${name} MFA failed (${verified.status}, ${code})`);}
     }
     return browser;
   }

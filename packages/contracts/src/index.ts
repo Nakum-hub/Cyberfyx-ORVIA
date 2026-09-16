@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
 /** A02 additions pending consolidated Work review; accepted baseline was 0.2.1. */
-export const CONTRACT_VERSION = '0.3.0' as const;
+export const CONTRACT_VERSION = '0.4.0' as const;
+// Transport pagination does not change the signed command wire format.
+export const COMMAND_SCHEMA_VERSION = '0.3.0' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
 export const AUTH = {
   staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff' },
@@ -78,7 +80,7 @@ export const Approval = z.discriminatedUnion('result', [
 ]);
 export const PlanBinding = z.strictObject({ workflow_id: Id, action_id: Id, scope: CommandScope, capability: z.literal('restrict_exact_synthetic_subject'), capability_version: Version, operation_budget: z.strictObject({ maximum_records: z.literal(1), maximum_attempts: z.number().int().min(1).max(3) }) });
 export const CommandPayload = z.strictObject({
-  schema_version: z.literal(CONTRACT_VERSION), command_id: Id, installation_id: Id,
+  schema_version: z.literal(COMMAND_SCHEMA_VERSION), command_id: Id, installation_id: Id,
   signing_key_id: Id, binding: PlanBinding, scope_digest: Digest, plan_digest: Digest,
   approval: Approval, approval_digest: Digest, issued_at: Time, expires_at: Time,
   nonce: z.string().regex(/^[A-Za-z0-9_-]{32,128}$/),
@@ -121,7 +123,7 @@ export const TestRun = z.strictObject({ id: Id, request: TestRunCreate, state: T
 export const CapabilityRecord = z.strictObject({ code: z.string().max(100), target_release: z.enum(['V1', 'DEFERRED_V2']), implementation_status: z.enum(['NOT_IMPLEMENTED', 'IMPLEMENTED']), test_status: TestState, supported_profile: z.literal(PROFILE), limitations: z.array(SafeText).max(16) });
 export const Overview = z.strictObject({ scope: Scope, build_id: z.string().max(100), contract_version: Version, profile: z.literal(PROFILE), as_of: Time, counts: z.strictObject({ accepted: Epoch, running: Epoch, needs_attention: Epoch, completed: Epoch, effect_unknown: Epoch, manual_required: Epoch, failed: Epoch, unverified: Epoch }) });
 export const Evidence = z.strictObject({ workflow: Workflow, receipts: z.array(Receipt).max(100), policy_version_ids: z.array(Id).max(100), notice_version_ids: z.array(Id).max(100), tests: z.array(TestRun).max(100), exported_at: Time, coverage_limits: z.array(SafeText).max(100), integrity_digest: Digest, integrity_limit: z.literal('Digest detects change relative to a trusted reference; it does not prove external effects or prevent privileged rewriting.') });
-export const ControlMap = z.strictObject({ edges: z.array(z.strictObject({ purpose_id: Id, system_id: Id, resource_id: Id, capability_version: Version, declared_restrict: z.boolean(), observed_restrict: z.boolean().nullable(), as_of: Time.nullable() })).max(100) });
+export const ControlMap = z.strictObject({ edges: z.array(z.strictObject({ purpose_id: Id, system_id: Id, resource_id: Id, capability_version: Version, declared_restrict: z.boolean(), observed_restrict: z.boolean().nullable(), as_of: Time.nullable() })).max(100), next_cursor: z.string().max(200).nullable() });
 export const IdPath = z.strictObject({ id: Id });
 export const PurposePath = z.strictObject({ purpose_id: Id });
 export const WorkflowPath = z.strictObject({ workflow_id: Id });
@@ -145,7 +147,7 @@ export const routes: RouteDefinition[] = [
   {id:'reauthenticate_policy',method:'post',path:'/api/v1/admin/policies/{id}/reauthenticate',authority:'STAFF',capability:'policy.publish',params:'IdPath',request:'PolicyReauthenticate',response:'PublicationProof',status:201},
   {id:'create_mapping',method:'post',path:'/api/v1/admin/target-mappings',authority:'STAFF',capability:'configuration.write',request:'MappingCreate',response:'TargetMapping',status:201,idempotency:true},
   {id:'list_mappings',method:'get',path:'/api/v1/admin/target-mappings',authority:'STAFF',capability:'configuration.read',response:'MappingList',status:200,paginated:true},
-  {id:'control_map',method:'get',path:'/api/v1/admin/control-map',authority:'STAFF',capability:'configuration.read',response:'ControlMap',status:200},
+  {id:'control_map',method:'get',path:'/api/v1/admin/control-map',authority:'STAFF',capability:'configuration.read',response:'ControlMap',status:200,paginated:true},
   {id:'check_system',method:'post',path:'/api/v1/admin/systems/{id}/check',authority:'STAFF',capability:'systems.check',params:'IdPath',response:'System',status:200},
   {id:'own_consents',method:'get',path:'/api/v1/portal/me/consents',authority:'PRINCIPAL',capability:'consent.own.read',response:'ConsentList',status:200,paginated:true},
   {id:'own_history',method:'get',path:'/api/v1/portal/me/consents/{purpose_id}/history',authority:'PRINCIPAL',capability:'consent.own.read',params:'PurposePath',response:'ReceiptList',status:200,paginated:true},

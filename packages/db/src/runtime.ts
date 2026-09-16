@@ -25,6 +25,7 @@ export async function scopedTransaction<T>(pool: pg.Pool, authority: Authority, 
       set_config('orvia.actor_domain',$5,true), set_config('orvia.principal_id',$6,true), set_config('orvia.capabilities',$7,true)`,
     [authority.scope.tenant_id, authority.scope.legal_entity_id, authority.scope.environment_id, authority.actor_id,
       authority.actor_domain, authority.principal_id ?? '', authority.capabilities.join(',')]);
+    await tx.query("SELECT set_config('orvia.role',$1,true)",[authority.role]);
     if(authority.actor_domain==='MACHINE'&&role.rows[0].name!=='orvia_app') {
       const identity=await tx.query('SELECT kind FROM machine_auth.identities WHERE id=$1 AND active AND expires_at>now()',[authority.actor_id]);
       if(identity.rowCount!==1||identity.rows[0].kind!==authority.role)throw new Error('Inactive machine authority');

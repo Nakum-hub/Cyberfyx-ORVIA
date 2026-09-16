@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { HttpFixture } from '../../../packages/testing/src/http-fixture.ts';
@@ -18,13 +19,14 @@ if(config.profile!=='codex-a00')throw new Error('Only isolated codex-a00 permitt
 let sender:ReturnType<typeof servicePool>|undefined;
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed: '+name);}}
-const setup=(script:string)=>execFileSync(process.execPath,['--import','tsx',script,'confirm:codex-a00'],{windowsHide:true,encoding:'utf8',timeout:60000});
-const docker=(command:string)=>execFileSync('docker',[command,'orvia-codex-a00-opa-1'],{windowsHide:true,encoding:'utf8',timeout:30000});
+const run=promisify(execFile);
+const setup=(script:string)=>run(process.execPath,['--import','tsx',script,'confirm:codex-a00'],{windowsHide:true,encoding:'utf8',timeout:60000});
+const docker=(command:string)=>run('docker',[command,'orvia-codex-a00-opa-1'],{windowsHide:true,encoding:'utf8',timeout:30000});
 const opa=`http://127.0.0.1:${config.opa_port}`;
 try {
- docker('restart');await h.start();
+ await docker('restart');await h.start();
  const marketing=await createMarketingScenario(h);const order=await createMarketingScenario(h,'SYNTHETIC_CRM','order_service_demo');
- await marketing.change('grant');setup('scripts/machine-init.ts');setup('scripts/seed-orders.ts');
+ await marketing.change('grant');await setup('scripts/machine-init.ts');await setup('scripts/seed-orders.ts');
  const identity=senderEnrollment(config).identities.find(i=>i.scope.environment_id===marketing.scope.environment_id)!;
  const foreign=senderEnrollment(config).identities.find(i=>i.scope.tenant_id!==marketing.scope.tenant_id)!;
  const agent=agentEnrollment(config).identities.find(i=>i.scope.environment_id===marketing.scope.environment_id)!;
@@ -76,9 +78,9 @@ try {
   check('install malformed decision fixture',(await fetch(url,{method:'PUT',body:'package orvia.processing\nimport rego.v1\ndecision := {"decision":"ALLOW"}\n',headers:{'content-type':'text/plain'}})).status,200);
   const malformed=fresh();check('malformed OPA result is indeterminate',(await result(malformed)).decision,'INDETERMINATE');check('malformed OPA creates no send',await count(malformed.attempt_id),0);
  }finally{check('restore processing policy',(await fetch(url,{method:'PUT',body:original,headers:{'content-type':'text/plain'}})).status,200);}
- try{docker('stop');const outage=fresh();check('OPA outage is indeterminate',(await result(outage)).decision,'INDETERMINATE');check('OPA outage creates no send',await count(outage.attempt_id),0);}
- finally{docker('start');}
+ try{await docker('stop');const outage=fresh();check('OPA outage is indeterminate',(await result(outage)).decision,'INDETERMINATE');check('OPA outage creates no send',await count(outage.attempt_id),0);}
+ finally{await docker('start');}
  let recovered=false;for(let i=0;i<60;i++){try{if((await fetch(opa+'/health')).ok){recovered=true;break;}}catch{/* actual readiness */}await new Promise(r=>setTimeout(r,100));}
  check('OPA recovered',recovered,true);check('recovered policy still blocks withdrawal',(await result(fresh())).decision,'BLOCK');
-}catch(error){console.error(safeError(error));console.error(h.diagnostics);process.exitCode=1;}
+}catch(error){console.error({...safeError(error),message:error instanceof Error&&/^(Synthetic|Assertion|Actual)/.test(error.message)?error.message:undefined,cause:safeError(error instanceof Error?error.cause:undefined),sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(h.diagnostics);process.exitCode=1;}
 finally{await h.stop();await db.end();await sender?.end();writeEvidence('send-enforcement',{test_ids:['T14','T15','T16'],profile:config.profile,contract_version:CONTRACT_VERSION,build_id:readFileSync('apps/web/.next/BUILD_ID','utf8').trim(),assertions,result:process.exitCode?'FAIL':'PASS',limitations:['Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06.']});}

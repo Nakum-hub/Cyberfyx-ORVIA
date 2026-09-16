@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.3.0",
-    "description": "Contract 0.3.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.4.0",
+    "description": "Contract 0.4.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -493,7 +493,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "overview.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/purposes": {
@@ -3074,7 +3074,26 @@
             "staffSession": []
           }
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Typed contract response; endpoint implementation is ticket-gated.",
@@ -3084,7 +3103,8 @@
                   "$ref": "#/components/schemas/ControlMap"
                 },
                 "example": {
-                  "edges": []
+                  "edges": [],
+                  "next_cursor": null
                 }
               }
             }
@@ -3391,7 +3411,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "systems.check",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/portal/me/consents": {
@@ -4851,7 +4871,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "action.reconcile",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/manual-tasks/{id}/attest": {
@@ -5029,7 +5049,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "manual.attest",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -5221,7 +5241,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "workflow.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/evidence/{workflow_id}": {
@@ -5403,7 +5423,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "evidence.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/evidence/{workflow_id}/export": {
@@ -5585,7 +5605,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "evidence.export",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/policy/evaluate": {
@@ -6310,7 +6330,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "capabilities.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/machine/commands/poll": {
@@ -7048,7 +7068,7 @@
           }
         },
         "x-orvia-authority": "MACHINE",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -7274,7 +7294,7 @@
           }
         },
         "x-orvia-authority": "MACHINE",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     },
     "/api/v1/machine/simulator/receipts/{id}": {
@@ -7444,7 +7464,7 @@
           }
         },
         "x-orvia-authority": "MACHINE",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A05_PENDING_REVIEW"
       }
     }
   },
@@ -13014,10 +13034,22 @@
               ],
               "additionalProperties": false
             }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
-          "edges"
+          "edges",
+          "next_cursor"
         ],
         "additionalProperties": false
       },

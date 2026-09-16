@@ -81,7 +81,7 @@ try {
     const draftResponse=await author.call('/api/v1/admin/policies',{purpose_id:purpose.id,notice_version_id:notice.version_id,condition:'AFFIRMATIVE_MARKETING_CONSENT',system_ids:[system.id],required_observation:true},{'idempotency-key':randomUUID()});
     if(draftResponse.status!==201)throw new Error('Draft setup failed');const draft=S.Policy.parse(await draftResponse.json());
     const proofResponse=await owner.call(`/api/v1/admin/policies/${draft.id}/reauthenticate`,{version_id:draft.version_id,digest:draft.digest,code:authenticatorCode(harness.users.owner!.totp_uri!)});
-    if(proofResponse.status!==201)throw new Error('Proof setup failed');const proof=S.PublicationProof.parse(await proofResponse.json());
+    if(proofResponse.status!==201)throw new Error(`Proof setup failed: HTTP ${proofResponse.status}`);const proof=S.PublicationProof.parse(await proofResponse.json());
     const request={browser:owner,path:`/api/v1/admin/policies/${draft.id}/publish`,input:{version_id:draft.version_id,digest:draft.digest,reauthentication_id:proof.reauthentication_id},key:randomUUID()};
     if(mode==='expired')await expire('publication_proofs',proof.reauthentication_id,-1000);
     const before=await policySnapshot(proof.reauthentication_id,request.key);
@@ -146,7 +146,7 @@ try {
       } else check(`${kind}/${mode}: aggregate interaction event receipt workflow outbox idempotency unchanged`,await consentSnapshot(current.interaction_id,request.key),before);
     }
   }
-} catch(error) {console.error(safeError(error));console.error(harness.diagnostics);process.exitCode=1;}
+} catch(error) {console.error({...safeError(error),message:error instanceof Error&&/^(Proof setup|Draft setup|Synthetic|Expected database|Test deadline|Consent setup)/.test(error.message)?error.message:undefined,sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(harness.diagnostics);process.exitCode=1;}
 finally {
   await harness.stop();await db.end();
   writeEvidence('expiry-integration',{finding:'W01-A02-F01',phase:process.argv.includes('--observe-original')?'ORIGINAL_SOURCE_REGRESSION_OBSERVATION':'CORRECTED_RETEST',profile:profile.profile,contract_version:S.CONTRACT_VERSION,build_id:readFileSync('apps/web/.next/BUILD_ID','utf8').trim(),assertions,waits,result:process.exitCode?'FAIL':'PASS',limitations:['Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance.']});
