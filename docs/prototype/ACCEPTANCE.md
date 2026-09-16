@@ -1,10 +1,8 @@
 # Application acceptance — generated from tracking/acceptance.json
 
-**30 mandatory P0 scenarios; 4 optional P1 scenarios. All NOT_RUN.** These are scenario definitions, not a measured number of automated assertions or proof that tests exist.
+Definitions and recorded result states; evidence requires independent review.
 
-When a P1 slice is selected, only its matching case becomes an additional gate; do not claim the unselected P1 tests passed. Test implementations must make real assertions, not assert that a stub returns a desired status.
-
-| ID | Priority | Scenario | Expected evidence | Initial result |
+| ID | Priority | Scenario | Expected evidence | Result |
 |---|---|---|---|---|
 | T01 | P0 | Clean local start | Fresh isolated profile with documented prerequisites reaches healthy application and persistent services; no hidden model/provider credentials. | NOT_RUN |
 | T02 | P0 | Protected bootstrap and authentication | Create organisation and unique local owner; real login/MFA/logout/revocation work; no default-password or role-switch bypass. | NOT_RUN |
@@ -40,7 +38,3 @@ When a P1 slice is selected, only its matching case becomes an additional gate; 
 | T32 | P1 | Retention/hold review coordination | Typed review case has allowed transitions/permissions and hold reason; no destructive operation or fabricated deletion result. | NOT_RUN |
 | T33 | P1 | Development licence import | Local verifier accepts valid development fixture, rejects altered/wrong-profile signature; clearly not production commerce or signing; restrictions persist on expiry. | NOT_RUN |
 | T34 | P1 | Deterministic help | Reviewed rule/runbook points to authorised actual records, labels non-model behaviour; no inference/API/egress and absence does not break core. | NOT_RUN |
-
-## Evidence schema
-
-For every execution record: test_id, command, exit_code, started_at/finished_at, commit/build_id, contract_version, environment/profile, fixture_id, result, artifact_paths and limitations. Use actual execution artifacts. Work reviews consolidated results, but does not turn another lane's assertion into independent security certification.

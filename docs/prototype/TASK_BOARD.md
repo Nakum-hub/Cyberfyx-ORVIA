@@ -1,13 +1,11 @@
 # Task board — generated from tracking/tasks.json
 
-**W00 repository checkpoint; human integration pending.** Status counts: BLOCKED: 1; NOT_STARTED: 22.
-
-One ticket at a time per coding lane. Start dependencies differ from acceptance dependencies. An unaccepted A00 proposal can be reviewed by W00; A00 acceptance still requires W00. P1 requires explicit core-green promotion. No task is marked complete by this document review.
+Status counts: COMPLETED: 2; NOT_STARTED: 21.
 
 | ID | Owner | Priority | Status | Task | Start after | Accept after | Tests |
 |---|---|---|---|---|---|---|---|
-| W00 | work | P0 | BLOCKED | Adopt scope and review bootstrap proposal | Immediately | Own evidence | Review deliverable |
-| A00 | codex | P0 | NOT_STARTED | Inspect repository and create shared executable scaffold | Immediately | W00 | T01, T28 |
+| W00 | work | P0 | COMPLETED | Adopt scope and review bootstrap proposal | Immediately | Own evidence | Review deliverable |
+| A00 | codex | P0 | COMPLETED | Inspect repository and create shared executable scaffold | Immediately | W00 | T01, T28 |
 | C00 | cowork | P0 | NOT_STARTED | Prepare UX and leadership scenario | Immediately | Own evidence | Review deliverable |
 | B00 | code | P0 | NOT_STARTED | Build UI shell from shared scaffold | A00 | C00 | Review deliverable |
 | A01 | codex | P0 | NOT_STARTED | Auth, bootstrap, scoped relational persistence | A00 | Own evidence | T02, T03, T04, T05, T27 |
@@ -32,23 +30,23 @@ One ticket at a time per coding lane. Start dependencies differ from acceptance 
 
 ## W00 — Adopt scope and review bootstrap proposal
 
-**Owner:** work · **Status:** BLOCKED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** COMPLETED · **Accepted commit:** 425f079bc74e897d8ee97fa56faeea50e42ac46f
 
 Confirm current source/deadline/access facts; review one selected architecture and contract; record what remains unknown.
 
-**Planned files:** `docs/decisions/ADR-001-prototype-profile.md`; `docs/reviews/work/W00_SCOPE_AND_CONTRACT.md`; `docs/reviews/work/W00_EVIDENCE.json`; `docs/prototype/SOURCE_ALIGNMENT.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `CURRENT_STATE.md`; `handoffs/work/W00-96b8bd7.md`
+**Planned files:** `docs/decisions/ADR-001-prototype-profile.md`; `docs/reviews/work/W00_SCOPE_AND_CONTRACT.md`; `docs/reviews/work/W00_EVIDENCE.json`; `docs/prototype/SOURCE_ALIGNMENT.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `CURRENT_STATE.md`; `handoffs/work/W00-96b8bd7.md`; `docs/reviews/work/W00_A00_ACCEPTANCE.md`; `docs/reviews/work/artifacts/W00-A00-58ceddc/**`; `docs/reviews/work/repro/W00-A00-source-audit.py`; `docs/prototype/CONTRACT.md`; `docs/prototype/FILE_OWNERSHIP.md`; `docs/prototype/ACCEPTANCE.md`; `handoffs/TEMPLATE.md`; `handoffs/work/W00-58ceddc.md`
 
-**Evidence:** `docs/decisions/ADR-001-prototype-profile.md`; `docs/reviews/work/W00_SCOPE_AND_CONTRACT.md`; `docs/reviews/work/W00_EVIDENCE.json`; `handoffs/work/W00-96b8bd7.md`
+**Evidence:** `docs/decisions/ADR-001-prototype-profile.md`; `docs/reviews/work/W00_SCOPE_AND_CONTRACT.md`; `docs/reviews/work/W00_EVIDENCE.json`; `handoffs/work/W00-96b8bd7.md`; `docs/reviews/work/W00_A00_ACCEPTANCE.md`; `docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json`; `docs/reviews/work/artifacts/W00-A00-58ceddc/source-audit.json`; `handoffs/work/W00-58ceddc.md`
 
 ## A00 — Inspect repository and create shared executable scaffold
 
-**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** COMPLETED · **Accepted commit:** 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe
 
 Preserve existing code; pin versions; start actual services; freeze exact schemas, auth/private interfaces and client generation; hand off base commit and UI file transfer.
 
 **Planned files:** `package.json`; `pnpm-lock.yaml`; `packages/contracts/**`; `infrastructure/**`; `scripts/**`; `docs/engineering/REPOSITORY_INVENTORY.md`
 
-**Evidence:** None recorded.
+**Evidence:** `handoffs/codex/A00-e5cdef3.md`; `handoffs/codex/A00-publication.json`; `handoffs/codex/A00-command-index.json`; `docs/engineering/REPOSITORY_INVENTORY.md`; `docs/engineering/A00-CONTRACT-PROPOSAL.md`; `handoffs/codex/A00-F07-e839b1a.md`; `handoffs/codex/A00-F07-results.json`; `docs/reviews/work/W00_A00_ACCEPTANCE.md`; `docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json`; `docs/reviews/work/artifacts/W00-A00-58ceddc/unit.json`; `docs/reviews/work/artifacts/W00-A00-58ceddc/source-audit.json`
 
 ## C00 — Prepare UX and leadership scenario
 
@@ -58,7 +56,7 @@ Define readable screens, state copy and synthetic scenario without waiting for b
 
 **Planned files:** `docs/prototype/UX_BRIEF.md`; `docs/prototype/DEMO_SCRIPT.md`; `docs/ux/ACCEPTANCE_JOURNEYS.md`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## B00 — Build UI shell from shared scaffold
 
@@ -68,7 +66,7 @@ One reusable shell, status primitives, accessible loading/error/empty states; no
 
 **Planned files:** `apps/web/src/app/layout.tsx`; `apps/web/src/app/workspace/**`; `apps/web/src/app/privacy/**`; `packages/ui/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A01 — Auth, bootstrap, scoped relational persistence
 
@@ -78,7 +76,7 @@ Protected organisation bootstrap; staff/principal sessions, MFA and capabilities
 
 **Planned files:** `packages/auth/**`; `packages/authz/**`; `packages/db/**`; `apps/web/src/app/api/**`; `policy/admin/**`; `tests/security/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## B01 — Real login and configuration screens
 
@@ -88,7 +86,7 @@ Bind login/configuration forms and current identity to generated client; publish
 
 **Planned files:** `apps/web/src/app/workspace/**`; `tests/e2e/auth.spec.ts`; `tests/e2e/configuration.spec.ts`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A02 — Versioned configuration and transactional consent
 
@@ -98,7 +96,7 @@ Purpose/notice/policy approval, principal/system mapping, consent aggregate/even
 
 **Planned files:** `packages/domain/**`; `packages/db/migrations/**`; `apps/web/src/app/api/**`; `policy/processing/**`; `tests/integration/consent/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## B02 — Principal consent journey
 
@@ -108,7 +106,7 @@ Own choices/notice/history and grant/withdraw receipt with real persisted status
 
 **Planned files:** `apps/web/src/app/privacy/**`; `tests/e2e/consent.spec.ts`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## W01 — Review authority and consent contracts
 
@@ -118,7 +116,7 @@ Review server scope, transaction/replay guarantees, role checks and API/UI compa
 
 **Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A03 — Durable workflow and restricted CRM execution
 
@@ -128,7 +126,7 @@ Stable workflow and command identities; signed scopes; real CRM remove/read adap
 
 **Planned files:** `apps/worker/**`; `apps/agent/**`; `packages/connectors/**`; `packages/db/**`; `tests/integration/workflows/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A04 — Policy enforcement and synthetic send admission
 
@@ -138,7 +136,7 @@ Current-epoch send boundary, independent service fixture and fail-closed/queue d
 
 **Planned files:** `packages/policy-sdk/**`; `packages/authz/**`; `policy/processing/**`; `apps/demo-targets/**`; `tests/integration/enforcement/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A05 — Uncertain effects, observations and local evidence
 
@@ -148,7 +146,7 @@ REST fault/reconciliation, known failure/manual task, truthful aggregate status,
 
 **Planned files:** `packages/domain/**`; `packages/connectors/**`; `apps/demo-targets/**`; `apps/web/src/app/api/**`; `tests/integration/evidence/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## B03 — Live workflow, failures, dashboard and evidence
 
@@ -158,7 +156,7 @@ Stateful timeline/table/details, real outcome counts, unresolved obligations and
 
 **Planned files:** `apps/web/src/app/workspace/**`; `packages/ui/**`; `tests/e2e/workflow.spec.ts`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## C01 — Capability truthfulness and operator runbook
 
@@ -168,7 +166,7 @@ Map full module vision to actual tested depth; record real setup commands only f
 
 **Planned files:** `tracking/capabilities.json`; `docs/runbooks/OPERATOR.md`; `docs/demo/CLAIMS_REGISTER.md`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A06 — Regression runner, recovery and security checks
 
@@ -178,7 +176,7 @@ Allowlisted real assertions, broken-fixture detection, worker recovery, target q
 
 **Planned files:** `packages/testing/**`; `tests/fault-fixtures/**`; `tests/integration/**`; `tests/security/**`; `tests/recovery/**`; `apps/web/src/app/api/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## B04 — Test Lab and integrated browser acceptance
 
@@ -188,7 +186,7 @@ Run actual allowed scenarios and display assertions; exercise complete UI and ne
 
 **Planned files:** `apps/web/src/app/workspace/**`; `tests/e2e/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## W02 — Cross-system correctness and security review
 
@@ -198,7 +196,7 @@ Read exact commit/results, challenge unknown/verified/recovery/egress claims, tr
 
 **Planned files:** `docs/reviews/work/INTEGRATION_AND_SECURITY.md`; `CURRENT_STATE.md`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A08 — One explicitly promoted optional backend slice
 
@@ -208,7 +206,7 @@ Only after core-green human promotion: choose one rights/retention/licence/help 
 
 **Planned files:** `packages/domain/**`; `apps/web/src/app/api/**`; `tests/integration/optional/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## B05 — UI for the selected optional slice
 
@@ -218,7 +216,7 @@ Bind only the promoted tested slice; do not create empty fake modules. Only its 
 
 **Planned files:** `apps/web/src/app/workspace/**`; `apps/web/src/app/privacy/**`; `tests/e2e/optional.spec.ts`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## A07 — Package and rerun frozen candidate
 
@@ -228,7 +226,7 @@ Record locked build/profile, real clean-start/bootstrap/seed/reset commands, pac
 
 **Planned files:** `scripts/**`; `infrastructure/**`; `artifacts/release-manifest.json`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## B06 — Final UI fixes and candidate browser regression
 
@@ -238,7 +236,7 @@ Fix only accepted issues after freeze; rerun candidate browser tests, capture ac
 
 **Planned files:** `apps/web/src/app/workspace/**`; `apps/web/src/app/privacy/**`; `packages/ui/**`; `tests/e2e/**`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## C02 — Prepare evidence-backed presentation handover
 
@@ -248,7 +246,7 @@ Assemble actual test/result links, limitations and recording index; optional web
 
 **Planned files:** `docs/prototype/DEMO_SCRIPT.md`; `docs/prototype/RELEASE_CHECKLIST.md`; `docs/demo/LEADERSHIP_HANDOVER.md`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
 
 ## W03 — Final acceptance decision and state consolidation
 
@@ -258,4 +256,4 @@ Confirm exact candidate, all mandatory evidence, source/contract versions and li
 
 **Planned files:** `docs/reviews/work/FINAL_GATE_REPORT.md`; `CURRENT_STATE.md`
 
-**Evidence:** None recorded.
+**Evidence:** None recorded
