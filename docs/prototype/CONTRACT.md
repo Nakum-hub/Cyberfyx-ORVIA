@@ -1,9 +1,9 @@
-# Shared prototype contract — design version 0.1.0
+# Shared prototype contract — accepted version 0.2.1
 
-**Status:** Ready design input; NOT yet generated, adopted or tested in a runtime repository.
+**Status:** Work accepts executable version 0.2.1 at `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`; see [acceptance review](../reviews/work/W00_A00_ACCEPTANCE.md). This freezes interfaces/semantics, not completed business endpoints or full application acceptance.
 **Schema writer:** Codex. **Semantic reviewer:** Work. **Consumer:** Claude Code.
 
-A00 turns the approved design into executable Zod schemas and generated OpenAPI/client types/examples in `packages/contracts/`. Do not independently implement incompatible interfaces in two lanes. The seed route index is not an implemented API or a full OpenAPI document.
+A00 supplies canonical executable Zod schemas and generated OpenAPI/client types/examples in `packages/contracts/`. Consume those exact artifacts and [the coordinated producer proposal](../engineering/A00-CONTRACT-PROPOSAL.md). Do not maintain duplicate UI DTOs or invent endpoints. Producer-generated PENDING_W00 labels describe submission state; the exact acceptance above governs this version. Codex owns metadata refresh and the accepted seed; future semantic changes require coordinated versioning and retest.
 
 ## 1. Names, scope and identity
 
@@ -25,7 +25,7 @@ Relational groups, not a generic JSON document/table editor:
 - workflows, action_plans, actions, approvals, agent_commands/receipts and manual_tasks.
 - observations, evidence_records, audit_events, test_runs/test_case_results and capability_records.
 
-Each customer-owned row has an explicit scope strategy. Required uniqueness: `(tenant_id, legal_entity_id, principal_id, purpose_id)` aggregate; scoped idempotency key/request digest; stable workflow/event ID; per-action command identity; immutable published version IDs. Use composite tenant foreign keys where relevant. Schema indexes and migrations are owned by Codex.
+Each customer-owned row has an explicit scope strategy. Required uniqueness: `(tenant_id, legal_entity_id, principal_reference_id, purpose_id)` aggregate; scoped idempotency key/request digest; stable workflow/event ID; per-action command identity; immutable published version IDs. Use composite tenant foreign keys where relevant. Schema indexes and migrations are owned by Codex.
 
 ## 3. Separate states; do not collapse uncertainty
 
@@ -34,21 +34,24 @@ Each customer-owned row has an explicit scope strategy. Required uniqueness: `(t
 | Consent | `NOT_GIVEN`, `GRANTED`, `WITHDRAWN` |
 | Workflow | `ACCEPTED`, `RUNNING`, `NEEDS_ATTENTION`, `COMPLETED` |
 | Action execution | `PENDING`, `RUNNING`, `ACKNOWLEDGED`, `EFFECT_UNKNOWN`, `FAILED`, `MANUAL_REQUIRED`, `SKIPPED` |
+| Reconciliation | `PENDING`, `RECONCILING`, `RESOLVED`, `INCONCLUSIVE`, `FAILED` |
 | Observation | `NOT_CHECKED`, `OBSERVED_SATISFIED`, `OBSERVED_NOT_SATISFIED`, `UNVERIFIABLE`, `STALE` |
 | Processing decision | `ALLOW`, `BLOCK`, `INDETERMINATE` |
 | Test result | `NOT_RUN`, `RUNNING`, `PASS`, `FAIL`, `ERROR`, `SKIPPED` |
 
-`ACKNOWLEDGED` means the target acknowledged a command, not that a separate observation proved the desired effect. `EFFECT_UNKNOWN` remains unknown until supported reconciliation supplies evidence. `FAILED` means a known failed operation, not merely a network timeout. An unimplemented connector is not a success. `SKIPPED` requires an explicit non-applicability reason and must not conceal a required obligation.
+`ACKNOWLEDGED` means the target acknowledged a command, not that a separate observation proved the desired effect. A historical `EFFECT_UNKNOWN` attempt remains retained; supported reconciliation adds separate evidence and never fabricates an ACK. `FAILED` means a known failed operation, not merely a network timeout. An unimplemented connector is not a success. `SKIPPED` requires an explicit non-applicability reason and must not conceal a required obligation.
 
-A workflow is COMPLETED only when every required scoped obligation meets its declared completion criterion. A required manual, unknown, failed or unmet observation keeps NEEDS_ATTENTION. Manual attestation can close an administrative task but never silently becomes an automated observation; retain the attestation type and evidence limits. An observed fact may later become STALE.
+A workflow is COMPLETED only when every scoped obligation meets its declared criterion; empty or unresolved sets remain NEEDS_ATTENTION. CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in current scope; provider receipts and ACKs cannot satisfy it. ATTRIBUTED_MANUAL_ATTESTATION is a distinct administrative criterion and cannot substitute for independent observation. Non-required omissions need a reason. A later supported read can satisfy an obligation while its historical attempt remains EFFECT_UNKNOWN. Observations can become STALE. A03/A05 must derive current scope and enforce exact action/resource/generation references server-side; the helper does not establish these references itself.
+
+Reconciliation is a separate record linked to the uncertain attempt: PENDING → RECONCILING → RESOLVED/INCONCLUSIVE/FAILED. State-consistent start/end times, observation references for resolution and reasons for unresolved terminal outcomes are required. A retry creates another record rather than rewriting historical execution.
 
 ## 4. Consent and receipt semantics
 
 Grant and withdrawal require the person's authenticated scope, a supported purpose, valid interaction/notice context and an `Idempotency-Key` header. Grant supplies `notice_version_id`; withdrawal must not force acceptance of a new notice. Both use `expected_epoch` to prevent stale updates.
 
-Within one database transaction: re-check auth/scope, claim scoped idempotency key and normalized request digest, lock the aggregate, check epoch, write new state/epoch/event and outbox record, save the stable response. A duplicate identical request returns the original logical receipt; conflicting reuse or stale expected epoch returns 409. Re-authorise access before replaying a stored response. Do not use client timestamps for ordering.
+Authenticate and authorise the own-principal operation before idempotency replay. Resolve supported purpose/interaction; compare the scoped key and normalized digest before checking a new operation's expected epoch. An identical authorised retry returns its original response even after later epochs; conflicting key reuse is IDEMPOTENCY_CONFLICT and a stale new operation is EPOCH_CONFLICT. Aggregate lock, state/event/outbox, receipt and idempotency response commit in one transaction. Do not use client timestamps for ordering.
 
-The receipt exposes `receipt_id`, `event_id`, `purpose_id`, `consent_status`, `consent_epoch`, `accepted_at`, `workflow_id` when propagation is required, and `propagation_status`. A 202 acceptance response does not claim downstream completion. A refreshed page must show persisted state.
+The receipt exposes `receipt_id`, `event_id`, `purpose_id`, `consent_status`, `consent_epoch`, `accepted_at`, `workflow_id` when propagation is required, and `propagation_status`. A 202 acceptance response does not claim downstream completion. POST Receipt is immutable: propagation_status is ACCEPTED with a workflow ID or NOT_REQUIRED with null. GET returns ReceiptView `{receipt,current}`. The receipt stays unchanged; current consent state/epoch describe the aggregate, while current propagation status describes the original receipt's workflow at as_of. A refreshed page shows persisted state without implying the old workflow controls a newer generation.
 
 An old grant event cannot reduce the epoch or create a new grant. Fresh re-consent requires a new authenticated interaction at a higher epoch. Before an old worker mutates a target, re-evaluate current consent/scope/generation so stale cleanup cannot affect newly authorised records.
 
@@ -64,7 +67,7 @@ A preview evaluation has no authority to send. At actual simulated admission, re
 
 Outbox dispatch starts a stable workflow identity derived from the accepted event and scope. Duplicate dispatch attaches to the existing logical workflow. Persist Temporal development state; process restart must not discard accepted requests. Retry only classified safe operations; bounded backoff and attempts are explicit, with manual escalation rather than infinite loops.
 
-Every action plan binds target/resource, exact subject mapping, purpose, policy version, triggering epoch, target generation, operation, capability version and scope digest. The agent independently validates a locally signed envelope containing installation, tenant, environment, command/action IDs, operation, scope digest, epoch/generation, expiry, nonce and operation budget. The agent rejects wrong scope, expiry, unauthorised operation and altered signature. Replayed known command IDs return their prior outcome or reconciliation, never duplicate effects. Scope changes require a new reviewed plan.
+Every action plan binds target/resource, exact subject mapping, purpose, policy version, triggering epoch, target generation, operation, capability version and scope digest. The agent independently validates the locally Ed25519-signed CommandPayload: schema/command/installation/signing-key identity, PlanBinding (workflow/action, tenant/legal entity/environment, exact subject/resource/purpose/policy, capability/version, epoch/generation and operation budget), complete scope/plan/approval digests, issued/expiry times and nonce. Approval is an independent reviewer decision or explicit authorised NOT_REQUIRED_BY_POLICY for the allowlisted synthetic non-destructive restriction. ORVIA-CJSON-1 canonicalization and digest rules are defined by the shared crypto module/proposal. Limits are one record, at most three attempts and a positive lifetime of at most five minutes; a valid signature alone is not current authority or replay protection. The agent rejects wrong scope, expiry, unauthorised operation and altered signature. Replayed known command IDs return their prior outcome or reconciliation, never duplicate effects. Scope changes require a new reviewed plan.
 
 For the synthetic CRM, enforce generation/epoch comparison at the target mutation itself, not only in an earlier planner check. Reject a stale command against a newer record generation. A new grant must not allow processing through an unresolved older suppression state without re-evaluating/reconciling it. Record the precise ordering protocol and test it; do not claim the same atomicity for real third-party APIs that lack it.
 
@@ -84,7 +87,7 @@ Dashboard cards use actual persisted counts by state, including unknown/manual/f
 
 ## 8. HTTP interface shape
 
-All routes below are **to be implemented**. A00 supplies exact request/response schemas and example errors before UI binding. Auth-library login/MFA/logout routes use its documented integration and are separately mounted for staff/principal scope; do not invent home-grown password endpoints.
+Only GET `/healthz` is implemented at A00. All business routes below remain **contract-only pending their assigned tickets**; accepted schemas/examples are not runtime response fallbacks. Auth-library login/MFA/logout routes use its documented integration and are separately mounted for staff/principal scope; do not invent home-grown password endpoints.
 
 Common responses: 400 validation; 401 unauthenticated; 403 denied capability; 404 missing or inaccessible scoped resource (avoid enumeration); 409 version/idempotency conflict; 429 bounded request limit; 503 required service unavailable. Return `error.code`, safe `error.message`, field errors where appropriate and `request_id`; no raw stack traces, secrets or request bodies. Validate unknown fields and input sizes. Use CSRF/session protections appropriate to the auth library and deny unapproved origins.
 
@@ -117,7 +120,7 @@ Common responses: 400 validation; 401 unauthenticated; 403 denied capability; 40
 | GET `/api/v1/admin/test-runs/{id}` | Actual assertions, result artifacts and observed fixture/build scope |
 | GET `/api/v1/admin/capabilities` | Target release/depth separate from actual implementation/test status |
 
-Agent polling/receipt and sandbox send endpoints are **private machine interfaces**, not public portal routes. Codex freezes their exact typed schemas in A00 before A03/A04 implementation. The sandbox sender must exercise the actual processing decision/enforcement adapter. Browser test orchestration cannot supply a desired test result.
+Agent polling/receipt and sandbox send endpoints are **private machine interfaces**, not public portal routes. A00 has frozen their typed schemas in the canonical routes and generated OpenAPI for A03/A04. Staff auth uses `/api/auth/staff` / `orvia.staff`, principal auth `/api/auth/principal` / `orvia.principal`; machine credentials use neither human cookie authority. `/api/v1/session` rejects ambiguity when both human domains are active. Consume shared auth clients; A01 implements independent keys/sessions, MFA, disabled public signup and exact local-origin enforcement. The sandbox sender must exercise the actual processing decision/enforcement adapter. Browser test orchestration cannot supply a desired test result.
 
 ## 9. Fault/reset and P1 boundaries
 

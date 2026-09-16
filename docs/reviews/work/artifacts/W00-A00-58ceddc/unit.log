@@ -1,0 +1,19 @@
+✔ W00-F07: provider-only evidence cannot complete an independent-observation obligation (2.973236ms)
+✔ W00-F07 controls: only a fresh, satisfied independent read in current scope completes (1.154769ms)
+✔ W00-F07: provider receipts remain valid reconciliation evidence and manual work stays distinct (2.872535ms)
+✔ canonical digest is order-independent for objects and strict for unsupported values (1.126336ms)
+✔ signed envelope rejects altered bindings, signature, trust and expiry (10.481422ms)
+✔ portal-safe immutable acceptance and refreshed current status remain distinct (2.440564ms)
+✔ ACK and manual work do not fabricate automated observation; unknown history is retained (2.799475ms)
+✔ browser transport enforces request validation, parses errors, and never retries writes (4.568448ms)
+✔ current and legitimately progressed/BLOCKED tracking remain valid (8.292336ms)
+✔ application PASS cannot be manufactured from a document or bootstrap subset (4.858095ms)
+✔ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (5.91117ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 558.918609

@@ -278,7 +278,7 @@
       "started_at": "2026-09-16T07:48:16.221487+00:00",
       "finished_at": "2026-09-16T07:48:16.224308+00:00",
       "exit_code": 2,
-      "stdout": "CURRENT_STATE.md:3: trailing whitespace.\n+**Writer:** Work \u00b7 **Checkpoint:** W00/repo-r2 \u00b7 **Date:** 2026-09-16  \ndocs/decisions/ADR-001-prototype-profile.md:3: trailing whitespace.\n+**Ticket:** W00 \u00b7 **Revision:** repo-r2 \u00b7 **Date:** 2026-09-16  \ndocs/decisions/ADR-001-prototype-profile.md:4: trailing whitespace.\n+**Decision owner:** Work \u00b7 **Integration/release owner:** human  \ndocs/reviews/work/W00_SCOPE_AND_CONTRACT.md:3: trailing whitespace.\n+**Review:** repo-r2, 2026-09-16 \u00b7 **Base inspected:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`  \nhandoffs/work/W00-96b8bd7.md:3: trailing whitespace.\n+**Base commit:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`  \nhandoffs/work/W00-96b8bd7.md:4: trailing whitespace.\n+**New commit:** the commit introducing this checkpoint on `prototype/work/W00-bootstrap-review`; exact publication SHA is recorded by the GitHub PR, separately from the inspected base.  \nhandoffs/work/W00-96b8bd7.md:5: trailing whitespace.\n+**Source master / hash verified:** Product V1, document revision 1.3, SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`; supplied reference verified, repository source copy absent.  \nhandoffs/work/W00-96b8bd7.md:6: trailing whitespace.\n+**Contract version:** design 0.1.0; executable contract not frozen.  \n",
+      "stdout": "CURRENT_STATE.md:3: trailing whitespace.\n+**Writer:** Work · **Checkpoint:** W00/repo-r2 · **Date:** 2026-09-16  \ndocs/decisions/ADR-001-prototype-profile.md:3: trailing whitespace.\n+**Ticket:** W00 · **Revision:** repo-r2 · **Date:** 2026-09-16  \ndocs/decisions/ADR-001-prototype-profile.md:4: trailing whitespace.\n+**Decision owner:** Work · **Integration/release owner:** human  \ndocs/reviews/work/W00_SCOPE_AND_CONTRACT.md:3: trailing whitespace.\n+**Review:** repo-r2, 2026-09-16 · **Base inspected:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`  \nhandoffs/work/W00-96b8bd7.md:3: trailing whitespace.\n+**Base commit:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`  \nhandoffs/work/W00-96b8bd7.md:4: trailing whitespace.\n+**New commit:** the commit introducing this checkpoint on `prototype/work/W00-bootstrap-review`; exact publication SHA is recorded by the GitHub PR, separately from the inspected base.  \nhandoffs/work/W00-96b8bd7.md:5: trailing whitespace.\n+**Source master / hash verified:** Product V1, document revision 1.3, SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`; supplied reference verified, repository source copy absent.  \nhandoffs/work/W00-96b8bd7.md:6: trailing whitespace.\n+**Contract version:** design 0.1.0; executable contract not frozen.  \n",
       "stderr": "",
       "result": "FAIL",
       "inspected_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
@@ -515,5 +515,27 @@
     "exit_code": 0,
     "result": "PASS",
     "limitations": "No application results; this is a separate follow-up after owner integration."
+  },
+  "a00_acceptance_r4": {
+    "source_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
+    "fix_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+    "submission_head": "aa831cdfc2051599ab812e20287664c34f30a15c",
+    "contract_version": "0.2.1",
+    "decision": "ACCEPTED_A00_FOUNDATION",
+    "review": "docs/reviews/work/W00_A00_ACCEPTANCE.md",
+    "handoff": "handoffs/work/W00-58ceddc.md",
+    "reports": [
+      "docs/reviews/work/artifacts/W00-A00-58ceddc/install.json",
+      "docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json",
+      "docs/reviews/work/artifacts/W00-A00-58ceddc/unit.json",
+      "docs/reviews/work/artifacts/W00-A00-58ceddc/contracts.json",
+      "docs/reviews/work/artifacts/W00-A00-58ceddc/typecheck.json",
+      "docs/reviews/work/artifacts/W00-A00-58ceddc/lint.json",
+      "docs/reviews/work/artifacts/W00-A00-58ceddc/source-audit.json"
+    ],
+    "retained_pre_fix_report": "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.json",
+    "closed_previous_work_pr": 4,
+    "integrated_correction_pr": 5,
+    "application_test_results_promoted": false
   }
 }
