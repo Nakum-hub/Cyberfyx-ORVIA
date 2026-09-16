@@ -1,0 +1,25 @@
+{
+  "task_id": "W01",
+  "kind": "INDEPENDENT_WORK_REVIEW",
+  "candidate_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+  "implementation_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+  "contract_version": "0.2.1",
+  "command": [
+    "/workspace/scratch/6107f9291043/w00-a00-review-tools/node_modules/node/bin/node",
+    "node_modules/eslint/bin/eslint.js",
+    "packages",
+    "apps",
+    "scripts",
+    "tests",
+    "--max-warnings",
+    "0"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a01-review",
+  "started_at": "2026-09-16T15:29:54.128536+00:00",
+  "finished_at": "2026-09-16T15:29:56.357455+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "artifact_path": "docs/reviews/work/artifacts/W01-A01-50cb4da/lint.log",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "limitation": "Focused local check only; no Docker/PostgreSQL/OPA/Next deployment or full prototype acceptance execution in Work runtime."
+}

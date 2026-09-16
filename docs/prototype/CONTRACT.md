@@ -3,6 +3,8 @@
 **Status:** Work accepts executable version 0.2.1 at `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`; see [acceptance review](../reviews/work/W00_A00_ACCEPTANCE.md). This freezes interfaces/semantics, not completed business endpoints or full application acceptance.
 **Schema writer:** Codex. **Semantic reviewer:** Work. **Consumer:** Claude Code.
 
+**Implementation checkpoint:** Work accepts A01 at `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`; see [W01 authority review](../reviews/work/AUTH_AND_CONSENT.md). Auth mounts, session and principal list/create now join health as implemented interfaces. This updates implementation status only; contract semantics remain 0.2.1 and W01 awaits A02.
+
 A00 supplies canonical executable Zod schemas and generated OpenAPI/client types/examples in `packages/contracts/`. Consume those exact artifacts and [the coordinated producer proposal](../engineering/A00-CONTRACT-PROPOSAL.md). Do not maintain duplicate UI DTOs or invent endpoints. Producer-generated PENDING_W00 labels describe submission state; the exact acceptance above governs this version. Codex owns metadata refresh and the accepted seed; future semantic changes require coordinated versioning and retest.
 
 ## 1. Names, scope and identity
@@ -87,7 +89,7 @@ Dashboard cards use actual persisted counts by state, including unknown/manual/f
 
 ## 8. HTTP interface shape
 
-Only GET `/healthz` is implemented at A00. All business routes below remain **contract-only pending their assigned tickets**; accepted schemas/examples are not runtime response fallbacks. Auth-library login/MFA/logout routes use its documented integration and are separately mounted for staff/principal scope; do not invent home-grown password endpoints.
+At the accepted A01 checkpoint, GET `/healthz`, GET `/api/v1/session`, GET/POST `/api/v1/admin/principals` and the separately scoped auth-library mounts are implemented. All other business routes below remain **contract-only pending their assigned tickets**; accepted schemas/examples are not runtime response fallbacks. Auth-library login/MFA/logout routes use its documented integration and are separately mounted for staff/principal scope; do not invent home-grown password endpoints. See the [A01 UI binding handoff](../../handoffs/codex/A01-UI-e1fa052.md) for actual MFA/error behavior. Principal directory creation does not provision a login account.
 
 Common responses: 400 validation; 401 unauthenticated; 403 denied capability; 404 missing or inaccessible scoped resource (avoid enumeration); 409 version/idempotency conflict; 429 bounded request limit; 503 required service unavailable. Return `error.code`, safe `error.message`, field errors where appropriate and `request_id`; no raw stack traces, secrets or request bodies. Validate unknown fields and input sizes. Use CSRF/session protections appropriate to the auth library and deny unapproved origins.
 
