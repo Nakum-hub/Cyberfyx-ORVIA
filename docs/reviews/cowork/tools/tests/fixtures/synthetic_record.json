@@ -1,0 +1,29 @@
+{
+  "_label": "DOCUMENT-TOOL TEST DATA \u2014 not ORVIA evidence",
+  "record_id": "DOCTOOL-REC-001",
+  "test_id": "T21",
+  "task_id": "A05",
+  "producing_lane": "Codex (synthetic fixture)",
+  "run_role": "NORMAL",
+  "command": "doc-tool-fixture --synthetic",
+  "exit_code": 0,
+  "started_at": "2000-01-01T00:00:00Z",
+  "finished_at": "2000-01-01T00:00:01Z",
+  "code_under_test_commit": "d0c0000000000000000000000000000000000000",
+  "build_id": "doc-tool-fixture",
+  "contract_version": "0.0.0-fixture",
+  "profile": "doc-tool-fixture",
+  "fixture_id": "doc-tool-fixture",
+  "observed_result": "PASS",
+  "artifact_paths": [
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_artifact.txt"
+  ],
+  "artifact_sha256": {
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_artifact.txt": "5714820808e95a4ae24a7676f5c981f78f30439db49e1251d324ebf4a3c08f60"
+  },
+  "source_handoff": "docs/reviews/cowork/tools/tests/fixtures/README.md",
+  "review_status": "INSPECTED",
+  "reviewed_by": "doc-tool-fixture",
+  "reviewed_at": "2000-01-01T00:00:02Z",
+  "limitations": "DOCUMENT-TOOL TEST DATA"
+}
