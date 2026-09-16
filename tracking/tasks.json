@@ -1,0 +1,647 @@
+{
+  "schema_version": 1,
+  "plan_version": "1.0",
+  "repository_status": "INSPECTED",
+  "rules": "Start dependencies must be completed before code starts. Acceptance dependencies may be built in parallel, but are required before integration acceptance. Dependency cycles across both graphs are forbidden. P1 requires explicit core-green promotion and only one selected slice.",
+  "tasks": [
+    {
+      "id": "W00",
+      "owner": "work",
+      "priority": "P0",
+      "title": "Adopt scope and review bootstrap proposal",
+      "start_dependencies": [],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "docs/decisions/ADR-001-prototype-profile.md",
+        "docs/reviews/work/W00_SCOPE_AND_CONTRACT.md",
+        "docs/reviews/work/W00_EVIDENCE.json",
+        "docs/prototype/SOURCE_ALIGNMENT.md",
+        "tracking/tasks.json",
+        "tracking/acceptance.json",
+        "docs/prototype/TASK_BOARD.md",
+        "CURRENT_STATE.md",
+        "handoffs/work/W00-96b8bd7.md"
+      ],
+      "deliverable": "Confirm current source/deadline/access facts; review one selected architecture and contract; record what remains unknown.",
+      "test_ids": [],
+      "status": "BLOCKED",
+      "commit": null,
+      "evidence": [
+        "docs/decisions/ADR-001-prototype-profile.md",
+        "docs/reviews/work/W00_SCOPE_AND_CONTRACT.md",
+        "docs/reviews/work/W00_EVIDENCE.json",
+        "handoffs/work/W00-96b8bd7.md"
+      ]
+    },
+    {
+      "id": "A00",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Inspect repository and create shared executable scaffold",
+      "start_dependencies": [],
+      "acceptance_dependencies": [
+        "W00"
+      ],
+      "planned_paths": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "packages/contracts/**",
+        "infrastructure/**",
+        "scripts/**",
+        "docs/engineering/REPOSITORY_INVENTORY.md"
+      ],
+      "deliverable": "Preserve existing code; pin versions; start actual services; freeze exact schemas, auth/private interfaces and client generation; hand off base commit and UI file transfer.",
+      "test_ids": [
+        "T01",
+        "T28"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "C00",
+      "owner": "cowork",
+      "priority": "P0",
+      "title": "Prepare UX and leadership scenario",
+      "start_dependencies": [],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "docs/prototype/UX_BRIEF.md",
+        "docs/prototype/DEMO_SCRIPT.md",
+        "docs/ux/ACCEPTANCE_JOURNEYS.md"
+      ],
+      "deliverable": "Define readable screens, state copy and synthetic scenario without waiting for backend; do not redesign shared contracts.",
+      "test_ids": [],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "B00",
+      "owner": "code",
+      "priority": "P0",
+      "title": "Build UI shell from shared scaffold",
+      "start_dependencies": [
+        "A00"
+      ],
+      "acceptance_dependencies": [
+        "C00"
+      ],
+      "planned_paths": [
+        "apps/web/src/app/layout.tsx",
+        "apps/web/src/app/workspace/**",
+        "apps/web/src/app/privacy/**",
+        "packages/ui/**"
+      ],
+      "deliverable": "One reusable shell, status primitives, accessible loading/error/empty states; no second backend.",
+      "test_ids": [],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A01",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Auth, bootstrap, scoped relational persistence",
+      "start_dependencies": [
+        "A00"
+      ],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "packages/auth/**",
+        "packages/authz/**",
+        "packages/db/**",
+        "apps/web/src/app/api/**",
+        "policy/admin/**",
+        "tests/security/**"
+      ],
+      "deliverable": "Protected organisation bootstrap; staff/principal sessions, MFA and capabilities; tenant DB context and negative tests.",
+      "test_ids": [
+        "T02",
+        "T03",
+        "T04",
+        "T05",
+        "T27"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "B01",
+      "owner": "code",
+      "priority": "P0",
+      "title": "Real login and configuration screens",
+      "start_dependencies": [
+        "B00"
+      ],
+      "acceptance_dependencies": [
+        "A01",
+        "A02"
+      ],
+      "planned_paths": [
+        "apps/web/src/app/workspace/**",
+        "tests/e2e/auth.spec.ts",
+        "tests/e2e/configuration.spec.ts"
+      ],
+      "deliverable": "Bind login/configuration forms and current identity to generated client; published states and permission denials real.",
+      "test_ids": [
+        "T02",
+        "T05",
+        "T06",
+        "T29"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A02",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Versioned configuration and transactional consent",
+      "start_dependencies": [
+        "A01"
+      ],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "packages/domain/**",
+        "packages/db/migrations/**",
+        "apps/web/src/app/api/**",
+        "policy/processing/**",
+        "tests/integration/consent/**"
+      ],
+      "deliverable": "Purpose/notice/policy approval, principal/system mapping, consent aggregate/events/idempotency/outbox and receipts.",
+      "test_ids": [
+        "T06",
+        "T07",
+        "T08",
+        "T09",
+        "T10"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "B02",
+      "owner": "code",
+      "priority": "P0",
+      "title": "Principal consent journey",
+      "start_dependencies": [
+        "B00"
+      ],
+      "acceptance_dependencies": [
+        "A02"
+      ],
+      "planned_paths": [
+        "apps/web/src/app/privacy/**",
+        "tests/e2e/consent.spec.ts"
+      ],
+      "deliverable": "Own choices/notice/history and grant/withdraw receipt with real persisted status and safe duplicate handling.",
+      "test_ids": [
+        "T04",
+        "T07",
+        "T08",
+        "T29"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "W01",
+      "owner": "work",
+      "priority": "P0",
+      "title": "Review authority and consent contracts",
+      "start_dependencies": [
+        "A00"
+      ],
+      "acceptance_dependencies": [
+        "A01",
+        "A02"
+      ],
+      "planned_paths": [
+        "docs/reviews/work/AUTH_AND_CONSENT.md",
+        "CURRENT_STATE.md"
+      ],
+      "deliverable": "Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.",
+      "test_ids": [
+        "T03",
+        "T04",
+        "T05",
+        "T08",
+        "T09"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A03",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Durable workflow and restricted CRM execution",
+      "start_dependencies": [
+        "A02"
+      ],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "apps/worker/**",
+        "apps/agent/**",
+        "packages/connectors/**",
+        "packages/db/**",
+        "tests/integration/workflows/**"
+      ],
+      "deliverable": "Stable workflow and command identities; signed scopes; real CRM remove/read adapter; restart-safe outbox delivery.",
+      "test_ids": [
+        "T10",
+        "T11",
+        "T12",
+        "T13"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A04",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Policy enforcement and synthetic send admission",
+      "start_dependencies": [
+        "A03"
+      ],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "packages/policy-sdk/**",
+        "packages/authz/**",
+        "policy/processing/**",
+        "apps/demo-targets/**",
+        "tests/integration/enforcement/**"
+      ],
+      "deliverable": "Current-epoch send boundary, independent service fixture and fail-closed/queue degraded processing with tested ordering.",
+      "test_ids": [
+        "T14",
+        "T15",
+        "T16"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A05",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Uncertain effects, observations and local evidence",
+      "start_dependencies": [
+        "A03"
+      ],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "packages/domain/**",
+        "packages/connectors/**",
+        "apps/demo-targets/**",
+        "apps/web/src/app/api/**",
+        "tests/integration/evidence/**"
+      ],
+      "deliverable": "REST fault/reconciliation, known failure/manual task, truthful aggregate status, separate observations and audited JSON export.",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "B03",
+      "owner": "code",
+      "priority": "P0",
+      "title": "Live workflow, failures, dashboard and evidence",
+      "start_dependencies": [
+        "B01",
+        "B02"
+      ],
+      "acceptance_dependencies": [
+        "A03",
+        "A05"
+      ],
+      "planned_paths": [
+        "apps/web/src/app/workspace/**",
+        "packages/ui/**",
+        "tests/e2e/workflow.spec.ts"
+      ],
+      "deliverable": "Stateful timeline/table/details, real outcome counts, unresolved obligations and local export.",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T19",
+        "T20",
+        "T21",
+        "T22",
+        "T29"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "C01",
+      "owner": "cowork",
+      "priority": "P0",
+      "title": "Capability truthfulness and operator runbook",
+      "start_dependencies": [
+        "C00"
+      ],
+      "acceptance_dependencies": [
+        "A00",
+        "B00"
+      ],
+      "planned_paths": [
+        "tracking/capabilities.json",
+        "docs/runbooks/OPERATOR.md",
+        "docs/demo/CLAIMS_REGISTER.md"
+      ],
+      "deliverable": "Map full module vision to actual tested depth; record real setup commands only from engineering handoffs; prepare truthful question/answer notes.",
+      "test_ids": [],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A06",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Regression runner, recovery and security checks",
+      "start_dependencies": [
+        "A04",
+        "A05"
+      ],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "packages/testing/**",
+        "tests/fault-fixtures/**",
+        "tests/integration/**",
+        "tests/security/**",
+        "tests/recovery/**",
+        "apps/web/src/app/api/**"
+      ],
+      "deliverable": "Allowlisted real assertions, broken-fixture detection, worker recovery, target quarantine restore, network/secret/input/command tests; fix failures.",
+      "test_ids": [
+        "T03",
+        "T08",
+        "T09",
+        "T10",
+        "T11",
+        "T12",
+        "T14",
+        "T15",
+        "T16",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T22",
+        "T23",
+        "T24",
+        "T25",
+        "T26",
+        "T27",
+        "T28"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "B04",
+      "owner": "code",
+      "priority": "P0",
+      "title": "Test Lab and integrated browser acceptance",
+      "start_dependencies": [
+        "B03"
+      ],
+      "acceptance_dependencies": [
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "planned_paths": [
+        "apps/web/src/app/workspace/**",
+        "tests/e2e/**"
+      ],
+      "deliverable": "Run actual allowed scenarios and display assertions; exercise complete UI and negative states; browser traffic evidence and regressions.",
+      "test_ids": [
+        "T14",
+        "T23",
+        "T24",
+        "T26",
+        "T27",
+        "T29"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "W02",
+      "owner": "work",
+      "priority": "P0",
+      "title": "Cross-system correctness and security review",
+      "start_dependencies": [
+        "W01",
+        "A03"
+      ],
+      "acceptance_dependencies": [
+        "A04",
+        "A05",
+        "A06",
+        "B04"
+      ],
+      "planned_paths": [
+        "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
+        "CURRENT_STATE.md"
+      ],
+      "deliverable": "Read exact commit/results, challenge unknown/verified/recovery/egress claims, triage blockers and route fixes to owners.",
+      "test_ids": [
+        "T11",
+        "T12",
+        "T14",
+        "T17",
+        "T18",
+        "T20",
+        "T24",
+        "T25",
+        "T26"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A08",
+      "owner": "codex",
+      "priority": "P1",
+      "title": "One explicitly promoted optional backend slice",
+      "start_dependencies": [
+        "A06"
+      ],
+      "acceptance_dependencies": [
+        "W02"
+      ],
+      "planned_paths": [
+        "packages/domain/**",
+        "apps/web/src/app/api/**",
+        "tests/integration/optional/**"
+      ],
+      "deliverable": "Only after core-green human promotion: choose one rights/retention/licence/help slice. Otherwise leave NOT_STARTED/OUT_OF_SPRINT.",
+      "test_ids": [
+        "T31",
+        "T32",
+        "T33",
+        "T34"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "B05",
+      "owner": "code",
+      "priority": "P1",
+      "title": "UI for the selected optional slice",
+      "start_dependencies": [
+        "B04"
+      ],
+      "acceptance_dependencies": [
+        "A08"
+      ],
+      "planned_paths": [
+        "apps/web/src/app/workspace/**",
+        "apps/web/src/app/privacy/**",
+        "tests/e2e/optional.spec.ts"
+      ],
+      "deliverable": "Bind only the promoted tested slice; do not create empty fake modules. Only its matching P1 test is required.",
+      "test_ids": [
+        "T31",
+        "T32",
+        "T33",
+        "T34"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "A07",
+      "owner": "codex",
+      "priority": "P0",
+      "title": "Package and rerun frozen candidate",
+      "start_dependencies": [
+        "A06"
+      ],
+      "acceptance_dependencies": [
+        "W02"
+      ],
+      "planned_paths": [
+        "scripts/**",
+        "infrastructure/**",
+        "artifacts/release-manifest.json"
+      ],
+      "deliverable": "Record locked build/profile, real clean-start/bootstrap/seed/reset commands, package and raw test artifacts; no production signing claim.",
+      "test_ids": [
+        "T01",
+        "T28",
+        "T30"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "B06",
+      "owner": "code",
+      "priority": "P0",
+      "title": "Final UI fixes and candidate browser regression",
+      "start_dependencies": [
+        "B04"
+      ],
+      "acceptance_dependencies": [
+        "A07"
+      ],
+      "planned_paths": [
+        "apps/web/src/app/workspace/**",
+        "apps/web/src/app/privacy/**",
+        "packages/ui/**",
+        "tests/e2e/**"
+      ],
+      "deliverable": "Fix only accepted issues after freeze; rerun candidate browser tests, capture actual screenshots and rehearsal artifacts.",
+      "test_ids": [
+        "T29",
+        "T30"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "C02",
+      "owner": "cowork",
+      "priority": "P0",
+      "title": "Prepare evidence-backed presentation handover",
+      "start_dependencies": [
+        "C01"
+      ],
+      "acceptance_dependencies": [
+        "A07",
+        "B06"
+      ],
+      "planned_paths": [
+        "docs/prototype/DEMO_SCRIPT.md",
+        "docs/prototype/RELEASE_CHECKLIST.md",
+        "docs/demo/LEADERSHIP_HANDOVER.md"
+      ],
+      "deliverable": "Assemble actual test/result links, limitations and recording index; optional website explanatory copy last; no automatic publishing.",
+      "test_ids": [
+        "T30"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    },
+    {
+      "id": "W03",
+      "owner": "work",
+      "priority": "P0",
+      "title": "Final acceptance decision and state consolidation",
+      "start_dependencies": [
+        "W02"
+      ],
+      "acceptance_dependencies": [
+        "A07",
+        "B06",
+        "C02"
+      ],
+      "planned_paths": [
+        "docs/reviews/work/FINAL_GATE_REPORT.md",
+        "CURRENT_STATE.md"
+      ],
+      "deliverable": "Confirm exact candidate, all mandatory evidence, source/contract versions and limitations; recommend READY/PARTIAL/NOT_READY; human signs.",
+      "test_ids": [
+        "T30"
+      ],
+      "status": "NOT_STARTED",
+      "commit": null,
+      "evidence": []
+    }
+  ]
+}
