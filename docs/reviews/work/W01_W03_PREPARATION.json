@@ -442,7 +442,7 @@
   "published_preparation_commit": "89dc838d58cdb7c5fc80045e450fe48337a79df1",
   "publication_pull_request": 12,
   "publication_branch": "prototype/work/W01-W03-preparation",
-  "latest_observed_main_commit": "8a45911be8f86f7a35bfe1153bd40f968f4aecac",
+  "latest_observed_main_commit": "4cdb640c9f8baf55b77ce99e549c21ec728f8f1c",
   "unreviewed_submissions": [
     {
       "task": "A03",
@@ -453,5 +453,9 @@
       "review_status": "PENDING_CONSOLIDATED_REVIEW",
       "intake_artifact": "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/source-intake.json"
     }
-  ]
+  ],
+  "preparation_integration_commit": "4cdb640c9f8baf55b77ce99e549c21ec728f8f1c",
+  "preparation_pull_request_status": "HUMAN_MERGED",
+  "followup_ledger_commit": "d4a152e9b731ea464c1baf5938b7e5efa6caa4d6",
+  "publication_checkpoint_at": "2026-09-16T16:34:10.490331+00:00"
 }

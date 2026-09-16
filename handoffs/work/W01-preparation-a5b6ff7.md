@@ -1,7 +1,7 @@
 # Handoff — W01 preparation — Work — 2026-09-16
 
 **Base commit:** human-integrated Work/main `4eb346f0974bb38abcc541744cc57bdf87428f1a`, tree identical to Work `33aa63a630619d170e1709b8cea2b30a78b6b78f`; last application review snapshot `a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b`.
-**New commit:** preparation `89dc838d58cdb7c5fc80045e450fe48337a79df1`, PR #12; this subsequent ledger records latest intake and validation. No W01 accepted implementation/review commit is claimed.
+**New commit:** preparation `89dc838d58cdb7c5fc80045e450fe48337a79df1`, human-merged PR #12 at `4cdb640c9f8baf55b77ce99e549c21ec728f8f1c`; subsequent ledger `d4a152e9b731ea464c1baf5938b7e5efa6caa4d6` and this checkpoint record latest intake/validation for follow-up integration. No W01 accepted implementation/review commit is claimed.
 **Source master / hash verified:** revision 1.3; `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`.
 **Contract version:** accepted 0.2.1; executable 0.3.0 candidate pending A02 correction/retest.
 **Scope and profile:** customer-local synthetic; advance Work documents, Linux isolated review checkout; no running application profile.
@@ -39,4 +39,4 @@ MEDIUM W01-A02-F01 remains OPEN: transaction-start expiry across waits in A02 co
 
 ## Next integration action
 
-Human reviews/merges Work PR #12. Codex fixes F01 while preserving authorized A03–A07 coding; Claude Code/Cowork continue their owned graph and submit factual handoffs. Return the candidate packet described in WORK_REVIEW_QUEUE for one consolidated review in W01 → W02 → W03 acceptance order. Only the human merges implementation or signs internal-demo/release approval. No recurring monitoring, automatic cross-tool orchestration, public deployment or reset authorized/performed here.
+PR #12 preparation is human-merged; human reviews/merges the small publication-ledger follow-up. Codex fixes F01 while preserving authorized A03–A07 coding; Claude Code/Cowork continue their owned graph and submit factual handoffs. Return the candidate packet described in WORK_REVIEW_QUEUE for one consolidated review in W01 → W02 → W03 acceptance order. Only the human merges implementation or signs internal-demo/release approval. No recurring monitoring, automatic cross-tool orchestration, public deployment or reset authorized/performed here.
