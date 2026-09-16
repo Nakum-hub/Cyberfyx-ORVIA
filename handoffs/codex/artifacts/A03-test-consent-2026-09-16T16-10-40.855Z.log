@@ -1,0 +1,51 @@
+$ tsx tests/integration/consent/consent.test.ts
+PASS principal cannot author configuration
+PASS auditor cannot author configuration
+PASS cross-environment configuration rejected
+PASS create persisted purpose
+PASS create immutable notice version
+PASS create scoped system
+PASS author policy draft
+PASS draft purpose hidden in own portal
+PASS unauthorized author publication denied
+PASS authorized reviewer cannot approve own version
+PASS publication requires actual proof
+PASS wrong digest denied
+PASS reauthentication rejects wrong TOTP
+PASS real MFA creates exact publication proof
+PASS different reviewer publishes exact version
+PASS published digest unchanged
+PASS publish retry returns stable published version
+PASS explicit principal to target mapping
+PASS control map exposes actual declared edge
+PASS published notice available to own principal
+PASS affirmative action mandatory
+PASS incorrect notice rejected
+PASS grant accepted after commit
+PASS first epoch is one
+PASS withdrawal accepted durably
+PASS withdrawal increments epoch
+PASS state event workflow and outbox committed together
+PASS retry returns identical withdrawal receipt
+PASS same key different request denied
+PASS old grant replay returns old immutable receipt
+PASS old grant replay cannot reactivate
+PASS old interaction with new key denied
+PASS another principal cannot read receipt
+PASS another tenant cannot read receipt
+PASS test interruption reached transaction rollback
+PASS rollback preserves aggregate epoch
+PASS rollback removes event outbox and idempotency together
+PASS concurrent grant and withdrawal serialize
+PASS race advances one epoch only
+PASS fresh reconsent requires fresh authorized interaction
+PASS new interaction advances to epoch four
+PASS history retains all four committed events
+PASS old receipt remains unchanged after new consent
+PASS RLS cannot expose another principal with missing query predicates
+PASS database rejects published version rewriting
+PASS restart preserves original receipt
+PASS restart preserves current epoch
+PASS restart preserves exact published configuration
+PASS restart preserves exact notice content
+Artifact: handoffs/codex/artifacts/A03-consent-integration-1789575063290-4aa4af4c-4fbb-45cd-a9a4-961bc7dc905e.json

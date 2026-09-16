@@ -30,6 +30,10 @@ export function selectorScope(c: Context, value: {legal_entity_id: string;enviro
   if(value.legal_entity_id!==c.actor.scope.legal_entity_id||value.environment_id!==c.actor.scope.environment_id)throw new AccessError(404,'NOT_FOUND');
 }
 export type Page = { limit: number; cursor: string | null };
+export async function lockConsent(tx: pg.PoolClient, scope: Authority['scope'], principal: string, purpose: string) {
+  // Shared lock protocol for consent, local agent mutation and send admission.
+  await tx.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[JSON.stringify([scope.tenant_id,scope.legal_entity_id,principal,purpose,'consent-boundary'])]);
+}
 export function paged<T extends {id: string}>(rows: T[], page: Page) {
   const items=rows.slice(0,page.limit);return {items,next_cursor:rows.length>page.limit?Buffer.from(items.at(-1)!.id).toString('base64url'):null};
 }

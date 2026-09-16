@@ -1,0 +1,5 @@
+$ tsc --noEmit
+tests/integration/workflows/workflow.test.ts(51,69): error TS18046: 'commandRow' is of type 'unknown'.
+tests/integration/workflows/workflow.test.ts(55,106): error TS18046: 'commandRow' is of type 'unknown'.
+tests/integration/workflows/workflow.test.ts(64,68): error TS18046: 'commandRow' is of type 'unknown'.
+[ELIFECYCLE] Command failed with exit code 2.

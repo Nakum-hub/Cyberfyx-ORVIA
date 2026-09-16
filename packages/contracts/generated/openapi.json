@@ -4501,7 +4501,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "workflow.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A03_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/workflows/{id}": {
@@ -4673,7 +4673,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "workflow.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A03_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/actions/{id}/reconcile": {
@@ -6465,7 +6465,7 @@
           }
         },
         "x-orvia-authority": "MACHINE",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A03_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -6657,7 +6657,7 @@
           }
         },
         "x-orvia-authority": "MACHINE",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A03_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {

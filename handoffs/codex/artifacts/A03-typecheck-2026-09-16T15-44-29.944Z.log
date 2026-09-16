@@ -1,0 +1,10 @@
+$ tsc --noEmit
+apps/agent/src/execute.ts(3,24): error TS2307: Cannot find module 'zod' or its corresponding type declarations.
+apps/agent/src/execute.ts(20,37): error TS7006: Parameter 's' implicitly has an 'any' type.
+packages/auth/src/machine-profile.ts(1,19): error TS2307: Cannot find module 'zod' or its corresponding type declarations.
+packages/auth/src/machine.ts(5,19): error TS2307: Cannot find module 'zod' or its corresponding type declarations.
+scripts/machine-init.ts(52,46): error TS7006: Parameter 'i' implicitly has an 'any' type.
+scripts/machine-init.ts(54,48): error TS7006: Parameter 'i' implicitly has an 'any' type.
+scripts/machine-init.ts(58,45): error TS7006: Parameter 'i' implicitly has an 'any' type.
+scripts/machine-init.ts(59,47): error TS7006: Parameter 'i' implicitly has an 'any' type.
+[ELIFECYCLE] Command failed with exit code 2.
