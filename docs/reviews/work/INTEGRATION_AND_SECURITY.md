@@ -1,5 +1,7 @@
 # W02 — integrated failure, security and recovery review
 
+**Latest intake, not acceptance:** A03 was human-merged in PR #11 at 16:26:17 UTC while this package was being published: implementation `034100943f2c2f2b8e8934921501093746962b9b`, publication `397cb370bedaf45c3f62409e88fb891f7cd3b23e`, main `8a45911be8f86f7a35bfe1153bd40f968f4aecac`. Manifest metadata still says contract 0.3.0/PENDING_WORK_REVIEW. Only commit/path/publication metadata was inspected; A03 implementation and producer results remain queued for the requested consolidated review. This does not close A02 F01 or any Work gate.
+
 **Integration update:** Work PR #10 was human-merged to `4eb346f0974bb38abcc541744cc57bdf87428f1a` during preparation; its tree exactly matches `33aa63a630619d170e1709b8cea2b30a78b6b78f`. This package is based on that integration. The earlier application snapshot remains the last runtime reviewed.
 
 **Work preparation:** COMPLETE at the inspected source. **Gated review:** BLOCKED; no integrated A03–A07 or B04 candidate reviewed here. **Date:** 2026-09-16. **Profile:** CUSTOMER_LOCAL_SYNTHETIC. This is a completed review specification and current gap assessment, not an executed application test.
@@ -10,7 +12,7 @@ The human authorized preparing W02 before its normal start dependencies are acce
 
 | Input | Reviewed identity / meaning |
 |---|---|
-| Main source | `a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b`; A02 implementation `3242521e59966885d8053747a82d96cb92ea55d5` |
+| Last application review snapshot | `a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b`; A02 implementation `3242521e59966885d8053747a82d96cb92ea55d5` |
 | Prior Work package | `33aa63a630619d170e1709b8cea2b30a78b6b78f`; A01 review `10f8e11830c43a875bfc29d05f650c9f0d853c33`; A02 review `b3c582f86c78ca565562b95aa692a8b84f672770` |
 | Authority | Approved master revision 1.3, SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`; Plan 1.0; ADR-001 retained |
 | Contract | Accepted baseline 0.2.1; executable 0.3.0 candidate awaiting A02 correction. Later changes require Codex's versioned producer/consumer proposal and Work semantic review. |

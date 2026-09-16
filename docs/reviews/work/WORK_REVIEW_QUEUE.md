@@ -1,5 +1,7 @@
 # Work — consolidated review intake and owner handoff
 
+**Latest intake, not acceptance:** A03 was human-merged in PR #11 at 16:26:17 UTC while this package was being published: implementation `034100943f2c2f2b8e8934921501093746962b9b`, publication `397cb370bedaf45c3f62409e88fb891f7cd3b23e`, main `8a45911be8f86f7a35bfe1153bd40f968f4aecac`. Manifest metadata still says contract 0.3.0/PENDING_WORK_REVIEW. Only commit/path/publication metadata was inspected; A03 implementation and producer results remain queued for the requested consolidated review. This does not close A02 F01 or any Work gate.
+
 **Integration update:** Work PR #10 was human-merged to `4eb346f0974bb38abcc541744cc57bdf87428f1a` during preparation; its tree exactly matches `33aa63a630619d170e1709b8cea2b30a78b6b78f`. This package is based on that integration. The earlier application snapshot remains the last runtime reviewed.
 
 **Date:** 2026-09-16. **Preparation:** COMPLETE. **Source:** main `a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b`. This is a manually used review packet. It creates no recurring schedule, notification, automatic cross-tool orchestration or integration authorization.
@@ -39,7 +41,7 @@ This ordering avoids circular acceptance: W02 reviews A03–A06/B04 evidence bef
 
 | Input | Producer / exact requirement | Status at this checkpoint |
 |---|---|---|
-| Source and dependency chain | Codex and human: base, implementation and integration SHAs for A02 correction/A03–A07; Work compares the actual tree and preserves changed-source limits | A03–A07 not supplied/reviewed here; A02 correction pending |
+| Source and dependency chain | Codex and human: base, implementation and integration SHAs for A02 correction/A03–A07; Work compares the actual tree and preserves changed-source limits | A03 source/publication now integrated and queued for review; A04–A07 evidence not inspected; A02 correction pending |
 | Semantic/executable contract | Codex: versioned proposal if changed, canonical schemas, generated clients/OpenAPI/examples and drift output; Claude Code consumption handoff | Current 0.3.0 candidate pending; no approval inferred for future changes |
 | Test evidence | Codex/Claude Code: IDs mapped to canonical scenarios, actual commands/exits/times, fixture/profile, assertion detail, raw artifacts/hashes, failures and retests | Existing A00/A01/A02 subsets only; full T01–T34 NOT_RUN |
 | Release package | Codex A07: `artifacts/release-manifest.json`, candidate build/lockfile/image/tool identity, migration and local start/bootstrap/seed/reset instructions, documented host/TLS/storage limits | Final manifest absent at inspected source; do not invent commands or platform support |

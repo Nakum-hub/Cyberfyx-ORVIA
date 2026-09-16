@@ -1,0 +1,100 @@
+{
+  "kind": "WORK_PREPARATION_VALIDATION",
+  "coverage": "DOCUMENT_ONLY",
+  "source_commit": "ea7e940425737c461facea5f3f4886fc1c17c183",
+  "equivalent_published_preparation_commit": "89dc838d58cdb7c5fc80045e450fe48337a79df1",
+  "source_dirty": true,
+  "latest_observed_main_commit": "8a45911be8f86f7a35bfe1153bd40f968f4aecac",
+  "reviewed_application_snapshot": "a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b",
+  "reviewed_implementation_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+  "contract_version": "0.3.0",
+  "command": [
+    "git",
+    "diff",
+    "--check",
+    "4eb346f0974bb38abcc541744cc57bdf87428f1a"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a01-review",
+  "started_at": "2026-09-16T16:31:23.954241+00:00",
+  "finished_at": "2026-09-16T16:31:23.958970+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "artifact_path": "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/final-whitespace-check.log",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "input_files": [
+    {
+      "path": "CURRENT_STATE.md",
+      "sha256": "67348e523d37d640d8e25cf4e5fce098d63aeb289994011d28450fda86817835"
+    },
+    {
+      "path": "docs/prototype/ACCEPTANCE.md",
+      "sha256": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320"
+    },
+    {
+      "path": "docs/prototype/TASK_BOARD.md",
+      "sha256": "77b90dd27d296df711dc1e28ff4b2783da02cd2bcd80e1355e8dc22ff3b2884d"
+    },
+    {
+      "path": "docs/reviews/work/AUTH_AND_CONSENT.md",
+      "sha256": "76588838348e69d86f0f1ada41d18dc3367e3ea83225d44933361f5b5c823ff9"
+    },
+    {
+      "path": "docs/reviews/work/FINAL_GATE_REPORT.md",
+      "sha256": "085a12c4cb67d97012621216123a95dfe6feada93031aee50d0d7fd396d91c1f"
+    },
+    {
+      "path": "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
+      "sha256": "cb79c3ed34575aed1cd9678378c648b760ccf1679485cdb0b3faa4650f59ab16"
+    },
+    {
+      "path": "docs/reviews/work/W01_A02_CODEX_FIX.md",
+      "sha256": "40b950faaf2fe01d42d59a24abd9c9c9f562b39d8930a2b9203dc26d38b69e10"
+    },
+    {
+      "path": "docs/reviews/work/W01_W03_PREPARATION.json",
+      "sha256": "1193dbf989aa1af71a0edf23dd20153723eacd54b343da3aca53c69adf101dd8"
+    },
+    {
+      "path": "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+      "sha256": "d0f639266624c7d4f9bb210d129ab96f82f3fd87ec003d5150373524fdaea82a"
+    },
+    {
+      "path": "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/source-intake.json",
+      "sha256": "9096ec65e811f567c0754fb26995c4e32e834a53080d03fe4d8382151a85b331"
+    },
+    {
+      "path": "docs/reviews/work/repro/W01-W03-document-check.py",
+      "sha256": "4776aee7db1b5387ae4a62448a83b0a91b23efc80f406d791c47a7f102992376"
+    },
+    {
+      "path": "handoffs/work/W01-preparation-a5b6ff7.md",
+      "sha256": "12569a07cad76db189696cc0095a42dfb66ca4207470a1d28d007f3616aa573f"
+    },
+    {
+      "path": "handoffs/work/W02-preparation-a5b6ff7.md",
+      "sha256": "4a0c0539ce5b1100c8e7e575f9261e22732199b4495976ba31e995f27814f7ad"
+    },
+    {
+      "path": "handoffs/work/W03-preparation-a5b6ff7.md",
+      "sha256": "453a3681aa6d5e5aeba8164fbf875ff2160ed85844adb310d4fcd6e2ac71dc34"
+    },
+    {
+      "path": "scripts/tracking.ts",
+      "sha256": "bbf82797d2a5f120540a4e9ee1cb8f3025660ad58b395867350e3d7f866e1430"
+    },
+    {
+      "path": "scripts/validate-tracking.ts",
+      "sha256": "b566d36482f7a658b8aabfcdb629df8867633ab74779b3b6f4a774c21858780a"
+    },
+    {
+      "path": "tracking/acceptance.json",
+      "sha256": "477949910fb48fa750a74124aed751911401802310b7e2c0dcf75716f1f801be"
+    },
+    {
+      "path": "tracking/tasks.json",
+      "sha256": "fe971b0a51e132136ae2ef6ad32c7023ea8c2d937598e3aaf6db89b704f7f6b7"
+    }
+  ],
+  "application_tests_executed": false,
+  "limitation": "Validates exact modified Work input hashes only. A03 metadata intake is not implementation review or application execution."
+}
