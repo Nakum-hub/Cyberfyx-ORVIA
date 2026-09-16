@@ -1,6 +1,6 @@
 # ORVIA prototype: internal-demo release checklist
 
-**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
+**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 **Internal-demo readiness: NOT_READY.** Source: `CURRENT_STATE.md` at the r4 inspected revision; exact source hash is in DELIVERY_STATUS.json; Work owns this value.
 **Production security/legal/supply-chain/full recovery: NOT_ASSESSED.** This prototype is not a production candidate.

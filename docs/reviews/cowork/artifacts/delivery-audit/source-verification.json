@@ -1,0 +1,280 @@
+{
+  "kind": "WORK_DELIVERY_CROSS_VERIFICATION",
+  "author": "GPT Work self-review",
+  "observed_at": "2026-09-16T21:52:14.127592+00:00",
+  "inspected_main": "9bb8f2900909997f63db864eeea1211523aa5819",
+  "prior_delivery_commit": "ea6ba473e326b449c148951e4e9549fd74f23aab",
+  "pr": "https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/20",
+  "pr_state": "MERGED",
+  "merge_commit": "9bb8f2900909997f63db864eeea1211523aa5819",
+  "native_permissions": {
+    "push": true,
+    "pull": true
+  },
+  "prior_delivery_file_count": 31,
+  "prior_delivery_total_bytes": 1480440,
+  "full_merged_tree": "ded94bd37ecd196b4475231b434641bad67999de",
+  "prior_delivery_readback": "ALL_FULL_BYTES_SIZES_SHA256_AND_CHANGED_PATHS_MATCH",
+  "prior_delivery_files": [
+    {
+      "path": "CURRENT_STATE.md",
+      "bytes": 8995,
+      "sha256": "225b5445706cefc98dd49099645cb3b5fa72dcdfdc71a78c690c03790e82c7c1"
+    },
+    {
+      "path": "docs/demo/CLAIMS_REGISTER.md",
+      "bytes": 18046,
+      "sha256": "8e57888c8d10c89e14c7a0458ac4d76f830bde46258352dbc3c8e614b87be522"
+    },
+    {
+      "path": "docs/demo/EVIDENCE_INDEX.json",
+      "bytes": 456997,
+      "sha256": "9dd4fdce004bab6a18d82982133ba8a9d9ac75ddcde4c1f068bed8b58ea29d16"
+    },
+    {
+      "path": "docs/demo/LEADERSHIP_HANDOVER.md",
+      "bytes": 13368,
+      "sha256": "5aad4e4587c3019369997ea07fa7a926b260b5c9817b378654995377913b3cfe"
+    },
+    {
+      "path": "docs/demo/demo_steps.json",
+      "bytes": 16906,
+      "sha256": "3be29fa2e6abe51327cf0c1e0ab86d60745d866cb8ba3deb77254ea9ca562999"
+    },
+    {
+      "path": "docs/demo/index.html",
+      "bytes": 184538,
+      "sha256": "4c1f4a5f5c84c3244f5b32e82e1ede2515b9a8491cc4ecdbca111cfb54fa8d44"
+    },
+    {
+      "path": "docs/prototype/DEMO_SCRIPT.md",
+      "bytes": 25385,
+      "sha256": "00bf92f95eedf02f76a3dc40dfbb98fa9f3d008fb04dae8cdf092b301dfc8a4f"
+    },
+    {
+      "path": "docs/prototype/RELEASE_CHECKLIST.md",
+      "bytes": 9658,
+      "sha256": "d5e6b4ad06b9818457bce0d3ef127986982e92a43dc31c33d63b3724b0d354d6"
+    },
+    {
+      "path": "docs/prototype/UX_BRIEF.md",
+      "bytes": 68140,
+      "sha256": "cc57e213612220e43bc4d0d7f3a51205aa6eb4fa81f4b5c4210649bddbf1f96b"
+    },
+    {
+      "path": "docs/reviews/cowork/DELIVERY_STATUS.json",
+      "bytes": 14282,
+      "sha256": "055bf06d9e47db3cb554962f63ad2fc93c514b8c0173eed11c4711a82b7f2c76"
+    },
+    {
+      "path": "docs/reviews/cowork/FINDINGS.csv",
+      "bytes": 36230,
+      "sha256": "d29b8e0bc847e32916331da099605dbbd5ba257880fd080066a1a0b951abcaad"
+    },
+    {
+      "path": "docs/reviews/cowork/GENERATED_MANIFEST.json",
+      "bytes": 3253,
+      "sha256": "0ba1b189b584e66a1e10e00ec0d420b5c3287d878bbf94415a19f2830772b121"
+    },
+    {
+      "path": "docs/reviews/cowork/VALIDATION.md",
+      "bytes": 17192,
+      "sha256": "ff0de495c7286a5cd98d673102922a1a3d1ae6795b5ead25265919b34f63ae5d"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/build-check.txt",
+      "bytes": 30,
+      "sha256": "83306ee66399f5d941db62075eeab2c945590d5316fa6694f9261094c9efebe1"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/current-validation.txt",
+      "bytes": 11459,
+      "sha256": "b38b61554b6afb902da64a1c1e469c8a1e59259d047a610616b42d82e12a0b82"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/diff-check.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/regressions-first-attempt.txt",
+      "bytes": 7937,
+      "sha256": "11488fa061b3dc16c4564ea4b0e6eb3a83557d48117d1234d51b861aa75c6ecb"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/regressions.txt",
+      "bytes": 7157,
+      "sha256": "75e858db119a8a32b1ad6a6c853bcbe4a5566130cb28986656c887f9b1e3a9a7"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/source-intake.json",
+      "bytes": 42368,
+      "sha256": "beea9d2301e996e0260d52b9fd11f601f70aee508ed14bc4d0e2df5ad8b1f7bd"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/tracking.txt",
+      "bytes": 91,
+      "sha256": "8d99682ce48b3ea351884bed8b18a182d589e24d953b19ce455e4e768e5cc9f6"
+    },
+    {
+      "path": "docs/reviews/cowork/artifacts/c-completion/validation-run.json",
+      "bytes": 8521,
+      "sha256": "2e562817004e1187557756fca212e59e717b646c738643c3a06aad3bd93dfcdc"
+    },
+    {
+      "path": "docs/reviews/cowork/tools/build_pack.py",
+      "bytes": 38109,
+      "sha256": "19ce96606177906430797625aff9216a0e43380711a029be5952f697a50311be"
+    },
+    {
+      "path": "docs/reviews/cowork/tools/evidence_rules.py",
+      "bytes": 25820,
+      "sha256": "21a5e12a6839406ac8db0dfbdcf58cb583792917b7b55d9817f866e05e0b8c6f"
+    },
+    {
+      "path": "docs/reviews/cowork/tools/tests/test_document_tools.py",
+      "bytes": 13948,
+      "sha256": "6cd6dd9f75543dbbb574562570060a3aa86eeb81008875fdd7c0a4dc2ab65f4b"
+    },
+    {
+      "path": "docs/reviews/cowork/tools/tests/test_r4_regressions.py",
+      "bytes": 19742,
+      "sha256": "a63b5b13117afbfc7b308315d7e0765b31adb3970dbeac6ff3093fff26fb2f42"
+    },
+    {
+      "path": "docs/reviews/cowork/tools/validate_docs.py",
+      "bytes": 31693,
+      "sha256": "0a7ff2bb2a65eea3539fab05da683219ba8aa0eee76635aae00f503f74e99ddb"
+    },
+    {
+      "path": "docs/reviews/work/C00-copy-source-review.md",
+      "bytes": 7877,
+      "sha256": "c6430a6119a4f7d3d6511bbd5ae202933ac6d13a2fca84ec878ff5eb6962f727"
+    },
+    {
+      "path": "docs/runbooks/OPERATOR.md",
+      "bytes": 17705,
+      "sha256": "5a29a0a6dc4fbdf213dc6369500e93c1c8b8e41162883bf4a370e566a4b9874e"
+    },
+    {
+      "path": "docs/ux/ACCEPTANCE_JOURNEYS.md",
+      "bytes": 40450,
+      "sha256": "44c077a7691aec02f1dc8c8b22b09b4cca838e296d0c553578a50b00fba8f8ae"
+    },
+    {
+      "path": "docs/ux/UI_COPY.json",
+      "bytes": 322654,
+      "sha256": "e0cc6490abdc94c7dba0977115203422c20126641aef6b9e06d9310f2ecadb2d"
+    },
+    {
+      "path": "handoffs/work/C00-C02-r4-delivery.md",
+      "bytes": 11889,
+      "sha256": "885cad660a3988f5c48c55c79fa58aedc399e40c6aa645c6ea2f9311f39384f8"
+    }
+  ],
+  "unchanged_source_roots_since_A05": [
+    "apps",
+    "packages",
+    "scripts",
+    "tests",
+    "infrastructure",
+    "policy",
+    "tracking",
+    "handoffs/codex",
+    "package.json",
+    "pnpm-lock.yaml"
+  ],
+  "master_bytes": 850752,
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "capability_register_sha256": "34ba16bbebdad5c21a4851341ef011be3518176ad6836f1521b5ae130b347669",
+  "engineering_reports_verified": 221,
+  "nonzero_exit_reports_preserved": 39,
+  "real_application_records": 0,
+  "rehearsals": {
+    "rehearsals_indexed": 0,
+    "rehearsals_started": 0,
+    "rehearsals_aborted": 0,
+    "rehearsals_completed": 0,
+    "rehearsals_completed_with_issues": 0,
+    "rehearsals_candidate_qualifying": 0
+  },
+  "c_tasks": [
+    {
+      "id": "C00",
+      "owner": "work",
+      "priority": "P0",
+      "title": "Prepare UX and leadership scenario",
+      "start_dependencies": [],
+      "acceptance_dependencies": [],
+      "planned_paths": [
+        "docs/prototype/UX_BRIEF.md",
+        "docs/prototype/DEMO_SCRIPT.md",
+        "docs/ux/ACCEPTANCE_JOURNEYS.md"
+      ],
+      "deliverable": "Define readable screens, state copy and synthetic scenario without waiting for backend; do not redesign shared contracts.",
+      "test_ids": [],
+      "status": "IN_REVIEW",
+      "commit": null,
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
+    },
+    {
+      "id": "C01",
+      "owner": "work",
+      "priority": "P0",
+      "title": "Capability truthfulness and operator runbook",
+      "start_dependencies": [
+        "C00"
+      ],
+      "acceptance_dependencies": [
+        "A00",
+        "B00"
+      ],
+      "planned_paths": [
+        "tracking/capabilities.json",
+        "docs/runbooks/OPERATOR.md",
+        "docs/demo/CLAIMS_REGISTER.md"
+      ],
+      "deliverable": "Map full module vision to actual tested depth; record real setup commands only from engineering handoffs; prepare truthful question/answer notes.",
+      "test_ids": [],
+      "status": "BLOCKED",
+      "commit": null,
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
+    },
+    {
+      "id": "C02",
+      "owner": "work",
+      "priority": "P0",
+      "title": "Prepare evidence-backed presentation handover",
+      "start_dependencies": [
+        "C01"
+      ],
+      "acceptance_dependencies": [
+        "A07",
+        "B06"
+      ],
+      "planned_paths": [
+        "docs/prototype/DEMO_SCRIPT.md",
+        "docs/prototype/RELEASE_CHECKLIST.md",
+        "docs/demo/LEADERSHIP_HANDOVER.md"
+      ],
+      "deliverable": "Assemble actual test/result links, limitations and recording index; optional website explanatory copy last; no automatic publishing.",
+      "test_ids": [
+        "T30"
+      ],
+      "status": "BLOCKED",
+      "commit": null,
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
+    }
+  ],
+  "limits": [
+    "Document/source self-review, not independent review or application test execution.",
+    "Producer artifacts verified in place at original identities; no engineering rerun.",
+    "No frozen candidate, browser acceptance or actual rehearsal supplied."
+  ]
+}

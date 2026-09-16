@@ -348,7 +348,7 @@ def validate(root, mode="current"):
                 unsupported.append(f"{c['id']}: no tests or no identified candidate")
                 continue
             for t in tests:
-                if not rules.test_qualifies(root, te.get(t, {}), cand):
+                if not rules.test_qualifies(root, te.get(t, {}), cand, ev["test_evidence"]):
                     unsupported.append(f"{c['id']}: {t} lacks current complete candidate-qualified evidence")
     R.check("Every EVIDENCED claim is supported by candidate-matched inspected evidence", not unsupported, unsupported)
     if mode == "historical-no-evidence":

@@ -1,0 +1,141 @@
+{
+  "scope": "DOCUMENT_TOOL_AND_TRACKING_VALIDATION_ONLY",
+  "inspected_application_base": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "inspected_main": "9bb8f2900909997f63db864eeea1211523aa5819",
+  "documentation_parent_commit": "9bb8f2900909997f63db864eeea1211523aa5819",
+  "working_tree_dirty": true,
+  "environment": {
+    "python": "3.12.14",
+    "node": "v24.19.0",
+    "platform": "Linux"
+  },
+  "source_input_sha256": "bb3b4c12a9952ee310dd0fa8524e1d67abb50b117b703cb1e782d48d9932e2a5",
+  "source_files": {
+    "AGENTS.md": "dba1483a35a4a4d74efcf49f0d2754ca473709d85d54c5b3330ee7bee36c2eea",
+    "CURRENT_STATE.md": "ba11bc4979c6a13eac2fea299a2b34b36de636dd28ef53d7131ba8695e942ee7",
+    "docs/demo/CLAIMS_REGISTER.md": "8e57888c8d10c89e14c7a0458ac4d76f830bde46258352dbc3c8e614b87be522",
+    "docs/demo/EVIDENCE_INDEX.json": "18a6873e052cc9666a3069cbaf46002af8ae1976a543d013f7a47c8fc7ac61e0",
+    "docs/demo/LEADERSHIP_HANDOVER.md": "560fd5e25c1b98f681dcdaf373dcf394644339a8081572a35137ee2165ee99ad",
+    "docs/demo/demo_steps.json": "834463f16880f712c670afded88134c4dca249b4ef2f9aa87a2361f029938dbb",
+    "docs/demo/index.html": "abdf9c7e281f1162a4116ae950c70e050a10a3016f17a7afa60a25804da2ad49",
+    "docs/prototype/ACCEPTANCE.md": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320",
+    "docs/prototype/CONTRACT.md": "05bbc913fc8efac83c8b8f8e1173f9dd7b9e5acc8f823bc3fac1cf49a6bd64cc",
+    "docs/prototype/DEMO_SCRIPT.md": "044c823b2f876b2c242228909492db386802607dbf441b4f8487df07d06d87ee",
+    "docs/prototype/EXECUTION_PLAN.md": "be3581b2fa1cefe5a759ce551f1999d419f982f165ff56fdf777c12a6b909bd5",
+    "docs/prototype/FILE_OWNERSHIP.md": "4f301faf87126a3ed23effeb88fb32e700b1613f42f3dd4aadd391854f5ba4d6",
+    "docs/prototype/RELEASE_CHECKLIST.md": "e603d0cc1010da28c41785672a3af7851cee1d8bba97d4c0fb83cae2f291b0ec",
+    "docs/prototype/SOURCE_ALIGNMENT.md": "57910743e4a328259280a84161fbe0040ea5459fe0c7302876e6ff6c31a58d40",
+    "docs/prototype/TASK_BOARD.md": "a12569636b0d3629c4d96f225e1fdf5bdeeb7e88f1d4f5f9368f29730093cc1f",
+    "docs/prototype/UX_BRIEF.md": "118e2671b9385ef2e5d8d23e9ae9773411f3f17abdbb6ed411655f16550bc049",
+    "docs/reviews/cowork/DELIVERY_STATUS.json": "4b927383be9eb561bf384c22c367f0f4ed48c2e302fe6d714b358fca4637aea7",
+    "docs/reviews/cowork/FINDINGS.csv": "ef49e960cae5d707dc9abd5fef33b2d2b9abde190206378934320e9a2e2646d1",
+    "docs/reviews/cowork/tools/README.md": "7a5be857f7a4421454794861693abf491a49ed918f107b3a81b1f07743ba6787",
+    "docs/reviews/cowork/tools/build_pack.py": "4178d12435457a105f5dc5c59649c44a11545395f2b1574713ff81e2f98d2e05",
+    "docs/reviews/cowork/tools/evidence_rules.py": "f561ceb1ca51d5331158ad0acb00248e98447406b9530c21436e8ecab410a2fd",
+    "docs/reviews/cowork/tools/pack.css": "028544e23927ec1f9882db32a7ddd216d343c4cab5bf09c7aa6de3475ed77e9b",
+    "docs/reviews/cowork/tools/tests/fixtures/README.md": "3b3856ac7da06c2890f8390329de1518f3dc31bbcb4ade4147c621a4117d461e",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_artifact.txt": "5714820808e95a4ae24a7676f5c981f78f30439db49e1251d324ebf4a3c08f60",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_record.json": "ef539eb0367bf00d3b4f023f6e39f0b5386f90e2523744c0825c01c79953565a",
+    "docs/reviews/cowork/tools/tests/fixtures/synthetic_report.json": "7dfb44c945ce4f73a758cf63f97549157fd758710b59660999b6cf9d2b6d11e7",
+    "docs/reviews/cowork/tools/tests/reproduce_r3.py": "a18571414c6a406c1435cfd5687d32953ba35e13beea2e5ea99910aa78c5cfae",
+    "docs/reviews/cowork/tools/tests/test_delivery_audit.py": "59bb83cb16e0ee1440389215c964760c909120780d4e4ca8c5edeea1bf2580d8",
+    "docs/reviews/cowork/tools/tests/test_document_tools.py": "0dd8bb16e4edb1bc9f2c4b04c8d6ac8fd357799b3c1e7c1f9c9cdeb853846502",
+    "docs/reviews/cowork/tools/tests/test_r4_regressions.py": "d6bbf3a7a1f1a0e3427da28c96cd56bd8736d69906b8b9f42ae42908ef6527bb",
+    "docs/reviews/cowork/tools/validate_docs.py": "6b1d5a60921e4f9fa00371164c0a93a12790aa1b14f97c840f8652faa083d41d",
+    "docs/reviews/work/C00-copy-source-review.md": "61b085a33898d710eaa2d51df3a4b28d928a247cff15c97bd41a3e43d7546732",
+    "docs/runbooks/OPERATOR.md": "4100260e1a94d4e09b7dfe5e88f48cad8d620fd20c4548302a12fbded474cdf7",
+    "docs/ux/ACCEPTANCE_JOURNEYS.md": "8ddf2a7a5e22f45e994d79d3c6dc213c8de255979870a2b56de664e524289d88",
+    "docs/ux/UI_COPY.json": "4fabf5b8a819ee7bac26110ae97b0d45b7bfbc9c6e4f9c1bf5068a5769e60604",
+    "tracking/acceptance.json": "477949910fb48fa750a74124aed751911401802310b7e2c0dcf75716f1f801be",
+    "tracking/capabilities.json": "34ba16bbebdad5c21a4851341ef011be3518176ad6836f1521b5ae130b347669",
+    "tracking/tasks.json": "4e3da53ea5d55470ebc34f493eed504af8c7ac09bb739c9d5402cea841b7f6d6"
+  },
+  "runs": [
+    {
+      "id": "build-check",
+      "command": [
+        "python3",
+        "-B",
+        "docs/reviews/cowork/tools/build_pack.py",
+        "--check"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T21:54:52.176Z",
+      "finished_at": "2026-09-16T21:54:52.247Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/delivery-audit/build-check.txt",
+      "sha256": "83306ee66399f5d941db62075eeab2c945590d5316fa6694f9261094c9efebe1"
+    },
+    {
+      "id": "current-validation",
+      "command": [
+        "python3",
+        "-B",
+        "docs/reviews/cowork/tools/validate_docs.py",
+        "--mode",
+        "current",
+        "--json"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T21:54:52.247Z",
+      "finished_at": "2026-09-16T21:54:52.481Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/delivery-audit/current-validation.txt",
+      "sha256": "b38b61554b6afb902da64a1c1e469c8a1e59259d047a610616b42d82e12a0b82"
+    },
+    {
+      "id": "regressions",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "docs/reviews/cowork/tools/tests",
+        "-v"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T21:54:52.482Z",
+      "finished_at": "2026-09-16T21:55:06.652Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/delivery-audit/regressions.txt",
+      "sha256": "e71a60d61a9e24f2118ba5045c16649abf3f2c247a526d50adf30983b6865c47"
+    },
+    {
+      "id": "tracking",
+      "command": [
+        "node",
+        "scripts/validate-tracking.ts"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T21:55:06.653Z",
+      "finished_at": "2026-09-16T21:55:06.748Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/delivery-audit/tracking.txt",
+      "sha256": "8d99682ce48b3ea351884bed8b18a182d589e24d953b19ce455e4e768e5cc9f6"
+    },
+    {
+      "id": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "working_directory": "/workspace/scratch/b68847421ce2/orvia-r4",
+      "started_at": "2026-09-16T21:55:06.748Z",
+      "finished_at": "2026-09-16T21:55:06.763Z",
+      "exit_code": 0,
+      "output_path": "docs/reviews/cowork/artifacts/delivery-audit/diff-check.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limitations": [
+    "Work self-review; no independent approval.",
+    "No application service/browser/security/recovery/egress/rehearsal execution.",
+    "Earlier browser policy refusal remains applicable; static checks are not render QA.",
+    "62 unittest methods include paired negative/positive subcases; expected STALE output belongs to isolated negative tests.",
+    "Node v24.19.0 is used only for dependency-free tracking validation, not qualification of the application pinned runtime."
+  ],
+  "baseline_reproduction": "docs/reviews/cowork/artifacts/delivery-audit/baseline-reproduction.json"
+}

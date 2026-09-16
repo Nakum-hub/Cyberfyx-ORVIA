@@ -1,3 +1,22 @@
+# Delivery cross-verification — PR20 follow-up
+
+**Inspected main:** `9bb8f2900909997f63db864eeea1211523aa5819` (PR20 human-merged). **Author/reviewer:** GPT Work self-review; no independent reviewer is claimed. This audit corrects the earlier breadth of the completion claim: source-aligned document artifacts exist, but C00 acceptance, C01 dependencies and candidate-backed C02 completion remain open.
+
+| Check | Actual result / evidence |
+|---|---|
+| Previous delivery and merge | All 31 files / 1,480,440 bytes from PR20 match the prior manifest by full SHA-256 and size. Full merged tree equals `ded94bd37ecd196b4475231b434641bad67999de`. `artifacts/delivery-audit/source-verification.json` retains the complete prior inventory. |
+| Negative reproduction against merged tools | Nine audit methods exposed 24 failed assertions/subcases: scenario/duplicate identity, raw identity/child artifacts, unsupported tested-copy reference, mutable reason/overview associations, unrelated rehearsal start identity and log performer. `regressions-before.txt` and `baseline-reproduction.json`. The first discovery attempt accidentally rediscovered an imported TestCase alias; its log is retained separately and not used to inflate counts. |
+| Repaired paired controls | 10 audit methods pass, including the generated unsupported-claim guard; all 52 prior methods remain. Full suite: **62 tests, OK**. Exact final commands, environment, input file hashes, times, exits and log hashes: `artifacts/delivery-audit/validation-run.json`. |
+| Document consistency | **98/98 checks** in current mode; deterministic generation/hash parity and canonical 23-task/34-definition validation pass. |
+| Source and producer intake | Master and genuine 33-module register hashes match the approved sources. 221 original engineering command reports and required artifacts reverified; 39 nonzero exits retained. Application/contract/script/test/producer source trees are unchanged from PR19. These are artifact inspections, not engineering reruns. |
+| Copy and active ownership | CRM wording now matches scoped restriction/readback; settled notice/manual semantics and supplied A05 fault commands replace stale missing-input statements. Active review requests name Work/Codex; historical authorship remains. |
+
+The initial focused/full successful logs are retained as preliminary checks. The final run is separately identified by `validation-run.json`; its commands do not run application services. Expected STALE messages in unittest output are from deliberately mutated disposable fixtures. The baseline failures are not application failures or canonical T-test results.
+
+**Not executed:** application/runtime/browser/security/recovery/egress/rehearsal tests. Offline HTML browser/keyboard/mobile/render QA remains NOT_RUN after the recorded browser security refusal; static checks are not a browser pass. No candidate, screenshot, recording or actual rehearsal is invented. C00 is IN_REVIEW; C01/C02 are BLOCKED under their unchanged definitions. PR20 merge, this audit's publication, document checks, task acceptance and prototype readiness are distinct. Internal demo NOT_READY; production readiness NOT_ASSESSED.
+
+---
+
 # Work C completion validation — current delivery
 
 Inspected main: `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac` (PR19), preserving the merged PR18 r4 delivery. Author/runner: GPT Work, successor to Cowork. This is document-tool execution and source/producer-artifact inspection, not application testing or independent acceptance.

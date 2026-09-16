@@ -1,6 +1,6 @@
 # ORVIA prototype: leadership handover
 
-**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN (blocked on A07 candidate and B06 browser results) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
+**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN (blocked on A07 candidate and B06 browser results) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 ## How to use this document
 
@@ -11,13 +11,13 @@ Where a statement depends on evidence, it is written as the claim to be made **o
 ## Readiness at a glance (generated)
 
 <!-- BEGIN GENERATED: handover-readiness -->
-As of 2026-09-16T20:12:06Z (DELIVERY_STATUS.json).
+As of 2026-09-16T21:51:28Z (DELIVERY_STATUS.json).
 
 | Question | Answer |
 |---|---|
-| Documentation base | `1e23bbe` (current source inspection EV-SRC-007, 2026-09-16T20:12:06Z) |
+| Documentation base | `9bb8f29` (current source inspection EV-SRC-008, 2026-09-16T21:51:28Z) |
 | Application at that base | Accepted A00/A01 plus supplied A02–A05 producer sources/reports. A05 supplies reconciliation, manual attestation, actual simulator, scoped evidence/export, counts/failure projections and connector catalogue. Only foundation UI routes exist; no workspace/privacy screens, A07 candidate or B06 browser evidence. Source/producer inspection does not accept these implementations. |
-| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `1e23bbe`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
+| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `9bb8f29`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
 | Production readiness | **NOT_ASSESSED**. Source: `CURRENT_STATE.md`, quoted: “Production security/legal/supply-chain/full recovery NOT_ASSESSED”. |
 | Frozen candidate | NOT_IDENTIFIED |
 | P0 scenarios with an inspected PASS on the candidate | 0 of 30 (records indexed: 0) |
