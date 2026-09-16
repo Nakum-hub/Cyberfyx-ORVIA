@@ -4,7 +4,7 @@
   "observed_on": "2026-09-16",
   "code_under_test_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
   "code_under_test_limit": "No application code exists at this base; this identifies the inspected repository snapshot, not a tested application.",
-  "report_commit": "Resolved by the Git commit containing this manifest; intentionally distinct from the inspected base.",
+  "report_commit": "Initial published checkpoint ebaea86cae793d04808a1fc983e1adc31b1bbe06; publication metadata is a later commit in PR #1, distinct from the inspected base.",
   "intended_profile": "CUSTOMER_LOCAL_SYNTHETIC",
   "executed_profile": "Work document review only; no application environment",
   "fixture": "Approved source and planning records only",
@@ -371,5 +371,119 @@
     "exit_code": 0,
     "procedure_reference": "document_validation.procedure_python3; unchanged",
     "reason_for_rerun": "Review publication-blocker edits and final retained evidence after GitHub write rejection."
-  }
+  },
+  "publication_retry": {
+    "scenario_id": "W00_PUBLICATION_RETRY",
+    "result": "PASS",
+    "inspected_base": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+    "original_local_checkpoint": "43d9590d26ec7e825a67ebdb1a76aea3b306ed05",
+    "published_checkpoint_commit": "ebaea86cae793d04808a1fc983e1adc31b1bbe06",
+    "published_checkpoint_tree": "4f0afd9ee19f8c69dd37d8f449334937fcba45fb",
+    "repository": "Nakum-hub/Cyberfyx-ORVIA",
+    "branch": "prototype/work/W00-bootstrap-review",
+    "pull_request": {
+      "number": 1,
+      "url": "https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/1",
+      "base": "main",
+      "base_sha": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+      "head_sha": "ebaea86cae793d04808a1fc983e1adc31b1bbe06",
+      "draft": true,
+      "state": "open",
+      "merged": false
+    },
+    "operations": [
+      {
+        "procedure": "GitHub create_tree for the reviewed nine-file patch",
+        "finished_at": "2026-09-16T08:19:19.356Z",
+        "started_at": "2026-09-16T08:19:01.655Z",
+        "result": "PASS",
+        "exit_code": null,
+        "returned_tree_sha": "4f0afd9ee19f8c69dd37d8f449334937fcba45fb",
+        "assertion": "Returned tree equals the local reviewed Git tree"
+      },
+      {
+        "procedure": "GitHub create_commit",
+        "finished_at": "2026-09-16T08:19:52.776Z",
+        "started_at": "2026-09-16T08:19:37.230Z",
+        "result": "PASS",
+        "exit_code": null,
+        "parent_sha": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+        "returned_commit_sha": "ebaea86cae793d04808a1fc983e1adc31b1bbe06"
+      },
+      {
+        "procedure": "GitHub create_branch",
+        "finished_at": "2026-09-16T08:20:14.203Z",
+        "started_at": "2026-09-16T08:20:01.833Z",
+        "result": "PASS",
+        "exit_code": null,
+        "branch": "prototype/work/W00-bootstrap-review",
+        "commit_sha": "ebaea86cae793d04808a1fc983e1adc31b1bbe06"
+      },
+      {
+        "procedure": "GitHub create_pull_request",
+        "finished_at": "2026-09-16T08:21:01.415Z",
+        "started_at": "2026-09-16T08:20:48.277Z",
+        "result": "PASS",
+        "exit_code": null,
+        "number": 1,
+        "url": "https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/1"
+      }
+    ],
+    "verified_branch_commit": "ebaea86cae793d04808a1fc983e1adc31b1bbe06",
+    "verified_pr_changed_paths": [
+      "CURRENT_STATE.md",
+      "docs/decisions/ADR-001-prototype-profile.md",
+      "docs/prototype/SOURCE_ALIGNMENT.md",
+      "docs/prototype/TASK_BOARD.md",
+      "docs/reviews/work/W00_EVIDENCE.json",
+      "docs/reviews/work/W00_SCOPE_AND_CONTRACT.md",
+      "handoffs/work/W00-96b8bd7.md",
+      "tracking/acceptance.json",
+      "tracking/tasks.json"
+    ],
+    "verification_method": "GitHub GET git/ref/heads/prototype/work/W00-bootstrap-review and GET pulls/1/files?per_page=100; compared commit and exact nine paths.",
+    "contract_version": "design 0.1.0; executable schemas absent",
+    "environment": "GitHub development repository publication; no application runtime",
+    "fixture": "Sanitized Work documents and canonical planning records",
+    "limitations": [
+      "Resolves GitHub publication access only; does not accept W00 or A00.",
+      "T01-T34 remain NOT_RUN; no runtime, browser, security, recovery or rehearsal result.",
+      "Earlier HTTP 403 remains retained under publication as a historical failed attempt.",
+      "Published commit SHA differs from the local commit because GitHub created new commit metadata; file tree is identical."
+    ]
+  },
+  "publication_metadata_validation": {
+    "scenario_id": "W00_PUBLICATION_METADATA_CHECK",
+    "procedure": "Check exact parent; restrict diff to four Work-owned documents; byte-compare ten unchanged governing/tracker/view files with parent; parse retained 403 and verified retry; require draft PR 1 and all 34 tests NOT_RUN; limited credential-pattern scan; git diff --check.",
+    "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-publication",
+    "started_at": "2026-09-16T08:24:02.069941+00:00",
+    "finished_at": "2026-09-16T08:24:02.093745+00:00",
+    "report_parent_commit": "ebaea86cae793d04808a1fc983e1adc31b1bbe06",
+    "inspected_source_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+    "contract_version": "design 0.1.0",
+    "environment": "Work publication metadata only",
+    "fixture": "No runtime fixture",
+    "result": "PASS",
+    "exit_code": 0,
+    "changed_paths": [
+      "CURRENT_STATE.md",
+      "docs/reviews/work/W00_EVIDENCE.json",
+      "docs/reviews/work/W00_SCOPE_AND_CONTRACT.md",
+      "handoffs/work/W00-96b8bd7.md"
+    ],
+    "unchanged_files_compared": [
+      "tracking/tasks.json",
+      "tracking/acceptance.json",
+      "docs/prototype/TASK_BOARD.md",
+      "docs/prototype/ACCEPTANCE.md",
+      "AGENTS.md",
+      "docs/prototype/CONTRACT.md",
+      "docs/prototype/EXECUTION_PLAN.md",
+      "docs/prototype/FILE_OWNERSHIP.md",
+      "docs/prototype/SOURCE_ALIGNMENT.md",
+      "docs/decisions/ADR-001-prototype-profile.md"
+    ],
+    "limitations": "Document/publication checks only; no application test rerun was applicable."
+  },
+  "publication_current_status": "PUBLISHED_DRAFT_PR"
 }
