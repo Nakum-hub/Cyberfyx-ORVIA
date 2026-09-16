@@ -1,0 +1,53 @@
+{
+  "fixture_kind": "PUBLIC_SYNTHETIC_SIGNATURE_VECTOR",
+  "not_a_runtime_trust_root": true,
+  "public_key_spki_base64": "MCowBQYDK2VwAyEARrapcuxWxq6Vavx3F3h74punyVSIB4jpG9cR0AKB9rU=",
+  "command": {
+    "algorithm": "Ed25519",
+    "payload": {
+      "schema_version": "0.2.0",
+      "command_id": "00000000-0000-4000-8000-00000000000d",
+      "installation_id": "00000000-0000-4000-8000-00000000000e",
+      "signing_key_id": "00000000-0000-4000-8000-00000000000f",
+      "binding": {
+        "workflow_id": "00000000-0000-4000-8000-00000000000a",
+        "action_id": "00000000-0000-4000-8000-00000000000b",
+        "scope": {
+          "tenant_id": "00000000-0000-4000-8000-000000000001",
+          "legal_entity_id": "00000000-0000-4000-8000-000000000002",
+          "environment_id": "00000000-0000-4000-8000-000000000003",
+          "principal_reference_id": "00000000-0000-4000-8000-000000000004",
+          "system_id": "00000000-0000-4000-8000-000000000005",
+          "resource_id": "00000000-0000-4000-8000-000000000006",
+          "target_subject_reference": "syn_asha_demo",
+          "purpose_id": "00000000-0000-4000-8000-000000000007",
+          "policy_version_id": "00000000-0000-4000-8000-000000000008",
+          "consent_epoch": 2,
+          "target_generation": 1,
+          "operation": "CRM_REMOVE_MARKETING_MEMBERSHIP"
+        },
+        "capability": "restrict_exact_synthetic_subject",
+        "capability_version": "1.0.0",
+        "operation_budget": {
+          "maximum_records": 1,
+          "maximum_attempts": 3
+        }
+      },
+      "scope_digest": "90843c7c05f3d0557737d5b592a4a6d125d42195130ee0f2c0c162f906aa530b",
+      "plan_digest": "d984de499554bbfdb9acdf8a627333201ce2c444677d718c5236912acfc063ea",
+      "approval": {
+        "result": "NOT_REQUIRED_BY_POLICY",
+        "decision_id": "00000000-0000-4000-8000-00000000000c",
+        "policy_version_id": "00000000-0000-4000-8000-000000000008",
+        "approved_plan_digest": "d984de499554bbfdb9acdf8a627333201ce2c444677d718c5236912acfc063ea",
+        "rule_id": "SYNTHETIC_NON_DESTRUCTIVE_RESTRICTION",
+        "decided_at": "2026-09-16T10:00:00.000Z"
+      },
+      "approval_digest": "c69250740f5d03c0e0c0eb206154fabc8cbd1ba3d61b5b318113ce3c8f396d88",
+      "issued_at": "2026-09-16T10:00:00.000Z",
+      "expires_at": "2026-09-16T10:04:00.000Z",
+      "nonce": "synthetic_example_nonce_000000000000000001"
+    },
+    "signature": "jnf6BPyJEto7ILCnhG00d0KXoj6c3tq5FWToWKzSgH2Cp1G0obe0zRV6zomXacjOL9zYpbzFH_EevQKeRM-ECg"
+  }
+}

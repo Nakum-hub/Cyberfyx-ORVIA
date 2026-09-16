@@ -1,0 +1,7 @@
+Scope: all 8 workspace projects
+Error: ERR_PNPM_PACKAGE_MANAGER_REMOVE_MODULES_DIR
+
+  × installing dependencies
+  ╰─▶ Failed to remove C:\Cyberfyx-projects\Cyberfyx_ORVIA\node_modules\.pnpm
+      from the modules directory: Access is denied. (os error 5)
+

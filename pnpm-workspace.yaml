@@ -1,0 +1,14 @@
+packages:
+  - apps/*
+  - packages/*
+strictPeerDependencies: true
+autoInstallPeers: false
+minimumReleaseAge: 1440
+engineStrict: true
+saveExact: true
+# Avoid Windows replacement of non-empty build staging directories on warm installs.
+sideEffectsCache: false
+allowBuilds:
+  '@swc/core@1.16.2': true
+  'esbuild@0.18.20 || 0.25.12 || 0.28.2': true
+  'protobufjs@7.6.6': true

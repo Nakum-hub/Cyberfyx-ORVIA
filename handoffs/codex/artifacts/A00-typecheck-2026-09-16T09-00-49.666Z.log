@@ -1,0 +1,4 @@
+$ tsc --noEmit
+packages/domain/src/completion.ts(1,24): error TS2307: Cannot find module 'zod' or its corresponding type declarations.
+packages/domain/src/completion.ts(18,7): error TS2532: Object is possibly 'undefined'.
+[ELIFECYCLE] Command failed with exit code 2.

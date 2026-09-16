@@ -1,0 +1,35 @@
+$ tsx packages/contracts/src/generate.ts
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\packages\contracts\src\examples.ts:45
+  return schemas[name].parse(result);
+                       ^
+
+ZodError: [
+  {
+    "origin": "string",
+    "code": "invalid_format",
+    "format": "email",
+    "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/",
+    "path": [
+      "email"
+    ],
+    "message": "Invalid email address"
+  },
+  {
+    "origin": "string",
+    "code": "invalid_format",
+    "format": "regex",
+    "pattern": "/@(?:aster|birch)\\.example$/",
+    "path": [
+      "email"
+    ],
+    "message": "Invalid string: must match pattern /@(?:aster|birch)\\.example$/"
+  }
+]
+    at example (C:\Cyberfyx-projects\Cyberfyx_ORVIA\packages\contracts\src\examples.ts:45:24)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\packages\contracts\src\generate.ts:20:28)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.21.0
+[ELIFECYCLE] Command failed with exit code 1.

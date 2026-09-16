@@ -1,0 +1,912 @@
+{
+  "fixture_kind": "SYNTHETIC_CONTRACT_EXAMPLES",
+  "runtime_fallback": false,
+  "routes": [
+    {
+      "operation_id": "health",
+      "method": "GET",
+      "path": "/healthz",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "status": "alive"
+      }
+    },
+    {
+      "operation_id": "session",
+      "method": "GET",
+      "path": "/api/v1/session",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "actor_domain": "STAFF",
+        "actor_id": "00000000-0000-4000-8000-000000000064",
+        "scope": {
+          "tenant_id": "00000000-0000-4000-8000-000000000065",
+          "legal_entity_id": "00000000-0000-4000-8000-000000000066",
+          "environment_id": "00000000-0000-4000-8000-000000000067"
+        },
+        "role": "ORG_SUPER_ADMIN",
+        "capabilities": [],
+        "mfa_verified": false,
+        "expires_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "overview",
+      "method": "GET",
+      "path": "/api/v1/admin/overview",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "scope": {
+          "tenant_id": "00000000-0000-4000-8000-000000000068",
+          "legal_entity_id": "00000000-0000-4000-8000-000000000069",
+          "environment_id": "00000000-0000-4000-8000-00000000006a"
+        },
+        "build_id": "a00-synthetic-example",
+        "contract_version": "1.0.0",
+        "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "counts": {
+          "accepted": 0,
+          "running": 0,
+          "needs_attention": 0,
+          "completed": 0,
+          "effect_unknown": 0,
+          "manual_required": 0,
+          "failed": 0,
+          "unverified": 0
+        }
+      }
+    },
+    {
+      "operation_id": "list_purposes",
+      "method": "GET",
+      "path": "/api/v1/admin/purposes",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_purposes",
+      "method": "POST",
+      "path": "/api/v1/admin/purposes",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "environment_id": "00000000-0000-4000-8000-00000000006b",
+        "legal_entity_id": "00000000-0000-4000-8000-00000000006c",
+        "code": "promotional_marketing",
+        "name": "Synthetic example",
+        "description": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "environment_id": "00000000-0000-4000-8000-00000000006d",
+        "legal_entity_id": "00000000-0000-4000-8000-00000000006e",
+        "code": "promotional_marketing",
+        "name": "Synthetic example",
+        "description": "Synthetic example",
+        "id": "00000000-0000-4000-8000-00000000006f",
+        "version_id": "00000000-0000-4000-8000-000000000070",
+        "version": 1,
+        "status": "DRAFT"
+      }
+    },
+    {
+      "operation_id": "list_notices",
+      "method": "GET",
+      "path": "/api/v1/admin/notices",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_notices",
+      "method": "POST",
+      "path": "/api/v1/admin/notices",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "purpose_id": "00000000-0000-4000-8000-000000000071",
+        "language": "en",
+        "title": "Synthetic example",
+        "content": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "purpose_id": "00000000-0000-4000-8000-000000000072",
+        "language": "en",
+        "title": "Synthetic example",
+        "content": "Synthetic example",
+        "id": "00000000-0000-4000-8000-000000000073",
+        "version_id": "00000000-0000-4000-8000-000000000074",
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "published_at": null
+      }
+    },
+    {
+      "operation_id": "list_policies",
+      "method": "GET",
+      "path": "/api/v1/admin/policies",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_policies",
+      "method": "POST",
+      "path": "/api/v1/admin/policies",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "purpose_id": "00000000-0000-4000-8000-000000000075",
+        "notice_version_id": "00000000-0000-4000-8000-000000000076",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "00000000-0000-4000-8000-000000000077"
+        ],
+        "required_observation": false
+      },
+      "response_status": 201,
+      "response": {
+        "purpose_id": "00000000-0000-4000-8000-000000000078",
+        "notice_version_id": "00000000-0000-4000-8000-000000000079",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "00000000-0000-4000-8000-00000000007a"
+        ],
+        "required_observation": false,
+        "id": "00000000-0000-4000-8000-00000000007b",
+        "version_id": "00000000-0000-4000-8000-00000000007c",
+        "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "author_id": "00000000-0000-4000-8000-00000000007d",
+        "status": "DRAFT",
+        "published_at": null
+      }
+    },
+    {
+      "operation_id": "list_systems",
+      "method": "GET",
+      "path": "/api/v1/admin/systems",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_systems",
+      "method": "POST",
+      "path": "/api/v1/admin/systems",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "environment_id": "00000000-0000-4000-8000-00000000007e",
+        "legal_entity_id": "00000000-0000-4000-8000-00000000007f",
+        "name": "Synthetic example",
+        "connector": "SYNTHETIC_CRM"
+      },
+      "response_status": 201,
+      "response": {
+        "environment_id": "00000000-0000-4000-8000-000000000080",
+        "legal_entity_id": "00000000-0000-4000-8000-000000000081",
+        "name": "Synthetic example",
+        "connector": "SYNTHETIC_CRM",
+        "id": "00000000-0000-4000-8000-000000000082",
+        "capability_version": "1.0.0",
+        "supports_restrict": false,
+        "supports_read": false,
+        "checked_at": null
+      }
+    },
+    {
+      "operation_id": "list_principals",
+      "method": "GET",
+      "path": "/api/v1/admin/principals",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_principals",
+      "method": "POST",
+      "path": "/api/v1/admin/principals",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "environment_id": "00000000-0000-4000-8000-000000000083",
+        "legal_entity_id": "00000000-0000-4000-8000-000000000084",
+        "display_name": "Synthetic example",
+        "email": "asha@aster.example"
+      },
+      "response_status": 201,
+      "response": {
+        "environment_id": "00000000-0000-4000-8000-000000000085",
+        "legal_entity_id": "00000000-0000-4000-8000-000000000086",
+        "display_name": "Synthetic example",
+        "email": "asha@aster.example",
+        "id": "00000000-0000-4000-8000-000000000087",
+        "synthetic": true
+      }
+    },
+    {
+      "operation_id": "publish_policy",
+      "method": "POST",
+      "path": "/api/v1/admin/policies/{id}/publish",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "version_id": "00000000-0000-4000-8000-000000000088",
+        "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "reauthentication_id": "00000000-0000-4000-8000-000000000089"
+      },
+      "response_status": 200,
+      "response": {
+        "purpose_id": "00000000-0000-4000-8000-00000000008a",
+        "notice_version_id": "00000000-0000-4000-8000-00000000008b",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "00000000-0000-4000-8000-00000000008c"
+        ],
+        "required_observation": false,
+        "id": "00000000-0000-4000-8000-00000000008d",
+        "version_id": "00000000-0000-4000-8000-00000000008e",
+        "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "author_id": "00000000-0000-4000-8000-00000000008f",
+        "status": "DRAFT",
+        "published_at": null
+      }
+    },
+    {
+      "operation_id": "control_map",
+      "method": "GET",
+      "path": "/api/v1/admin/control-map",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "edges": []
+      }
+    },
+    {
+      "operation_id": "check_system",
+      "method": "POST",
+      "path": "/api/v1/admin/systems/{id}/check",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "environment_id": "00000000-0000-4000-8000-000000000090",
+        "legal_entity_id": "00000000-0000-4000-8000-000000000091",
+        "name": "Synthetic example",
+        "connector": "SYNTHETIC_CRM",
+        "id": "00000000-0000-4000-8000-000000000092",
+        "capability_version": "1.0.0",
+        "supports_restrict": false,
+        "supports_read": false,
+        "checked_at": null
+      }
+    },
+    {
+      "operation_id": "own_consents",
+      "method": "GET",
+      "path": "/api/v1/portal/me/consents",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "grant",
+      "method": "POST",
+      "path": "/api/v1/portal/me/consents/{purpose_id}/grant",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "expected_epoch": 0,
+        "notice_version_id": "00000000-0000-4000-8000-000000000093",
+        "interaction_id": "00000000-0000-4000-8000-000000000094",
+        "affirmative": true
+      },
+      "response_status": 202,
+      "response": {
+        "receipt_id": "00000000-0000-4000-8000-000000000014",
+        "event_id": "00000000-0000-4000-8000-000000000015",
+        "purpose_id": "00000000-0000-4000-8000-000000000007",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T10:00:00.000Z",
+        "workflow_id": "00000000-0000-4000-8000-00000000000a",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "operation_id": "withdraw",
+      "method": "POST",
+      "path": "/api/v1/portal/me/consents/{purpose_id}/withdraw",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "expected_epoch": 0,
+        "interaction_id": "00000000-0000-4000-8000-000000000095"
+      },
+      "response_status": 202,
+      "response": {
+        "receipt_id": "00000000-0000-4000-8000-000000000014",
+        "event_id": "00000000-0000-4000-8000-000000000015",
+        "purpose_id": "00000000-0000-4000-8000-000000000007",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T10:00:00.000Z",
+        "workflow_id": "00000000-0000-4000-8000-00000000000a",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "operation_id": "own_receipt",
+      "method": "GET",
+      "path": "/api/v1/portal/me/receipts/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "receipt": {
+          "receipt_id": "00000000-0000-4000-8000-000000000014",
+          "event_id": "00000000-0000-4000-8000-000000000015",
+          "purpose_id": "00000000-0000-4000-8000-000000000007",
+          "consent_status": "WITHDRAWN",
+          "consent_epoch": 2,
+          "accepted_at": "2026-09-16T10:00:00.000Z",
+          "workflow_id": "00000000-0000-4000-8000-00000000000a",
+          "propagation_status": "ACCEPTED"
+        },
+        "current": {
+          "consent_status": "GRANTED",
+          "consent_epoch": 3,
+          "propagation_status": "NEEDS_ATTENTION",
+          "as_of": "2026-09-16T10:10:00.000Z"
+        }
+      }
+    },
+    {
+      "operation_id": "workflows",
+      "method": "GET",
+      "path": "/api/v1/admin/workflows",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "workflow",
+      "method": "GET",
+      "path": "/api/v1/admin/workflows/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000096",
+        "event_id": "00000000-0000-4000-8000-000000000097",
+        "purpose_id": "00000000-0000-4000-8000-000000000098",
+        "state": "ACCEPTED",
+        "accepted_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "actions": [],
+        "obligations": []
+      }
+    },
+    {
+      "operation_id": "reconcile",
+      "method": "POST",
+      "path": "/api/v1/admin/actions/{id}/reconcile",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 202,
+      "response": {
+        "operation_id": "00000000-0000-4000-8000-000000000099",
+        "status": "ACCEPTED",
+        "accepted_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "attest",
+      "method": "POST",
+      "path": "/api/v1/admin/manual-tasks/{id}/attest",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "statement": "Synthetic example",
+        "evidence_record_ids": [
+          "00000000-0000-4000-8000-00000000009a"
+        ],
+        "expected_task_version": 0
+      },
+      "response_status": 202,
+      "response": {
+        "operation_id": "00000000-0000-4000-8000-00000000009b",
+        "status": "ACCEPTED",
+        "accepted_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "failures",
+      "method": "GET",
+      "path": "/api/v1/admin/failures",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "evidence",
+      "method": "GET",
+      "path": "/api/v1/admin/evidence/{workflow_id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "workflow": {
+          "id": "00000000-0000-4000-8000-00000000009c",
+          "event_id": "00000000-0000-4000-8000-00000000009d",
+          "purpose_id": "00000000-0000-4000-8000-00000000009e",
+          "state": "ACCEPTED",
+          "accepted_at": "2026-09-16T10:00:00.000Z",
+          "updated_at": "2026-09-16T10:00:00.000Z",
+          "actions": [],
+          "obligations": []
+        },
+        "receipts": [],
+        "policy_version_ids": [],
+        "notice_version_ids": [],
+        "tests": [],
+        "exported_at": "2026-09-16T10:00:00.000Z",
+        "coverage_limits": [],
+        "integrity_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "integrity_limit": "Digest detects change relative to a trusted reference; it does not prove external effects or prevent privileged rewriting."
+      }
+    },
+    {
+      "operation_id": "export",
+      "method": "GET",
+      "path": "/api/v1/admin/evidence/{workflow_id}/export",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "workflow": {
+          "id": "00000000-0000-4000-8000-00000000009f",
+          "event_id": "00000000-0000-4000-8000-0000000000a0",
+          "purpose_id": "00000000-0000-4000-8000-0000000000a1",
+          "state": "ACCEPTED",
+          "accepted_at": "2026-09-16T10:00:00.000Z",
+          "updated_at": "2026-09-16T10:00:00.000Z",
+          "actions": [],
+          "obligations": []
+        },
+        "receipts": [],
+        "policy_version_ids": [],
+        "notice_version_ids": [],
+        "tests": [],
+        "exported_at": "2026-09-16T10:00:00.000Z",
+        "coverage_limits": [],
+        "integrity_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "integrity_limit": "Digest detects change relative to a trusted reference; it does not prove external effects or prevent privileged rewriting."
+      }
+    },
+    {
+      "operation_id": "evaluate",
+      "method": "POST",
+      "path": "/api/v1/admin/policy/evaluate",
+      "headers": {},
+      "request": {
+        "principal_id": "00000000-0000-4000-8000-0000000000a2",
+        "purpose_id": "00000000-0000-4000-8000-0000000000a3",
+        "system_id": "00000000-0000-4000-8000-0000000000a4",
+        "action": "MARKETING_SEND"
+      },
+      "response_status": 200,
+      "response": {
+        "decision_id": "00000000-0000-4000-8000-0000000000a5",
+        "decision": "ALLOW",
+        "reason_codes": [
+          "SYNTHETIC_EXAMPLE"
+        ],
+        "policy_version_id": null,
+        "consent_epoch": null,
+        "preview_only": true,
+        "evaluated_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "start_test",
+      "method": "POST",
+      "path": "/api/v1/admin/test-runs",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+        "profile": "codex-a00",
+        "fixture_id": "aster-birch-v1"
+      },
+      "response_status": 202,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000a6",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "a00-synthetic-example",
+        "contract_version": "1.0.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "operation_id": "test_run",
+      "method": "GET",
+      "path": "/api/v1/admin/test-runs/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000a7",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "a00-synthetic-example",
+        "contract_version": "1.0.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "operation_id": "capabilities",
+      "method": "GET",
+      "path": "/api/v1/admin/capabilities",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "poll_commands",
+      "method": "POST",
+      "path": "/api/v1/machine/commands/poll",
+      "headers": {},
+      "request": {
+        "installation_id": "00000000-0000-4000-8000-0000000000a8",
+        "environment_id": "00000000-0000-4000-8000-0000000000a9",
+        "maximum_commands": 1
+      },
+      "response_status": 200,
+      "response": {
+        "commands": [],
+        "poll_after_ms": 2000
+      }
+    },
+    {
+      "operation_id": "command_receipt",
+      "method": "POST",
+      "path": "/api/v1/machine/commands/{id}/receipts",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "command_id": "00000000-0000-4000-8000-0000000000aa",
+        "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "attempt_id": "00000000-0000-4000-8000-0000000000ab",
+        "execution_state": "ACKNOWLEDGED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "reason_code": "SYNTHETIC_EXAMPLE",
+        "target_generation": 0
+      },
+      "response_status": 202,
+      "response": {
+        "operation_id": "00000000-0000-4000-8000-0000000000ac",
+        "status": "ACCEPTED",
+        "accepted_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "send",
+      "method": "POST",
+      "path": "/api/v1/machine/simulator/send",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "attempt_id": "00000000-0000-4000-8000-0000000000ad",
+        "principal_reference_id": "00000000-0000-4000-8000-0000000000ae",
+        "purpose_id": "00000000-0000-4000-8000-0000000000af",
+        "system_id": "00000000-0000-4000-8000-0000000000b0",
+        "message_class": "MARKETING",
+        "order_reference": null
+      },
+      "response_status": 200,
+      "response": {
+        "attempt_id": "00000000-0000-4000-8000-00000000001e",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 2,
+        "reason_codes": [
+          "CONSENT_WITHDRAWN"
+        ]
+      }
+    },
+    {
+      "operation_id": "restrict",
+      "method": "POST",
+      "path": "/api/v1/machine/simulator/resources/{id}/restrict",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "algorithm": "Ed25519",
+        "payload": {
+          "schema_version": "0.2.0",
+          "command_id": "00000000-0000-4000-8000-00000000000d",
+          "installation_id": "00000000-0000-4000-8000-00000000000e",
+          "signing_key_id": "00000000-0000-4000-8000-00000000000f",
+          "binding": {
+            "workflow_id": "00000000-0000-4000-8000-00000000000a",
+            "action_id": "00000000-0000-4000-8000-00000000000b",
+            "scope": {
+              "tenant_id": "00000000-0000-4000-8000-000000000001",
+              "legal_entity_id": "00000000-0000-4000-8000-000000000002",
+              "environment_id": "00000000-0000-4000-8000-000000000003",
+              "principal_reference_id": "00000000-0000-4000-8000-000000000004",
+              "system_id": "00000000-0000-4000-8000-000000000005",
+              "resource_id": "00000000-0000-4000-8000-000000000006",
+              "target_subject_reference": "syn_asha_demo",
+              "purpose_id": "00000000-0000-4000-8000-000000000007",
+              "policy_version_id": "00000000-0000-4000-8000-000000000008",
+              "consent_epoch": 2,
+              "target_generation": 1,
+              "operation": "CRM_REMOVE_MARKETING_MEMBERSHIP"
+            },
+            "capability": "restrict_exact_synthetic_subject",
+            "capability_version": "1.0.0",
+            "operation_budget": {
+              "maximum_records": 1,
+              "maximum_attempts": 3
+            }
+          },
+          "scope_digest": "90843c7c05f3d0557737d5b592a4a6d125d42195130ee0f2c0c162f906aa530b",
+          "plan_digest": "d984de499554bbfdb9acdf8a627333201ce2c444677d718c5236912acfc063ea",
+          "approval": {
+            "result": "NOT_REQUIRED_BY_POLICY",
+            "decision_id": "00000000-0000-4000-8000-00000000000c",
+            "policy_version_id": "00000000-0000-4000-8000-000000000008",
+            "approved_plan_digest": "d984de499554bbfdb9acdf8a627333201ce2c444677d718c5236912acfc063ea",
+            "rule_id": "SYNTHETIC_NON_DESTRUCTIVE_RESTRICTION",
+            "decided_at": "2026-09-16T10:00:00.000Z"
+          },
+          "approval_digest": "c69250740f5d03c0e0c0eb206154fabc8cbd1ba3d61b5b318113ce3c8f396d88",
+          "issued_at": "2026-09-16T10:00:00.000Z",
+          "expires_at": "2026-09-16T10:04:00.000Z",
+          "nonce": "synthetic_example_nonce_000000000000000001"
+        },
+        "signature": "jnf6BPyJEto7ILCnhG00d0KXoj6c3tq5FWToWKzSgH2Cp1G0obe0zRV6zomXacjOL9zYpbzFH_EevQKeRM-ECg"
+      },
+      "response_status": 200,
+      "response": {
+        "command_id": "00000000-0000-4000-8000-0000000000b1",
+        "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "attempt_id": "00000000-0000-4000-8000-0000000000b2",
+        "execution_state": "ACKNOWLEDGED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "reason_code": "SYNTHETIC_EXAMPLE",
+        "target_generation": 0
+      }
+    },
+    {
+      "operation_id": "read_simulator",
+      "method": "GET",
+      "path": "/api/v1/machine/simulator/resources/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "resource_id": "00000000-0000-4000-8000-0000000000b3",
+        "generation": 0,
+        "last_applied_epoch": 0,
+        "marketing_restricted": false,
+        "observed_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "read_simulator_receipt",
+      "method": "GET",
+      "path": "/api/v1/machine/simulator/receipts/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "command_id": "00000000-0000-4000-8000-0000000000b4",
+        "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "attempt_id": "00000000-0000-4000-8000-0000000000b5",
+        "execution_state": "ACKNOWLEDGED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "reason_code": "SYNTHETIC_EXAMPLE",
+        "target_generation": 0
+      }
+    }
+  ],
+  "errors": [
+    {
+      "status": 400,
+      "body": {
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "Synthetic safe error example",
+          "retry": "NEVER"
+        },
+        "request_id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "status": 401,
+      "body": {
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Synthetic safe error example",
+          "retry": "REAUTHENTICATE"
+        },
+        "request_id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "FORBIDDEN",
+          "message": "Synthetic safe error example",
+          "retry": "NEVER"
+        },
+        "request_id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "Synthetic safe error example",
+          "retry": "NEVER"
+        },
+        "request_id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "EPOCH_CONFLICT",
+          "message": "Synthetic safe error example",
+          "retry": "REFRESH"
+        },
+        "request_id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "status": 429,
+      "body": {
+        "error": {
+          "code": "RATE_LIMITED",
+          "message": "Synthetic safe error example",
+          "retry": "AFTER_DELAY"
+        },
+        "request_id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "error": {
+          "code": "SERVICE_UNAVAILABLE",
+          "message": "Synthetic safe error example",
+          "retry": "AFTER_DELAY"
+        },
+        "request_id": "00000000-0000-4000-8000-000000000001"
+      }
+    }
+  ],
+  "immutable_receipt_replay": {
+    "description": "An identical authorised retry after epoch 3 returns the unchanged epoch-2 acceptance receipt.",
+    "original_response": {
+      "receipt_id": "00000000-0000-4000-8000-000000000014",
+      "event_id": "00000000-0000-4000-8000-000000000015",
+      "purpose_id": "00000000-0000-4000-8000-000000000007",
+      "consent_status": "WITHDRAWN",
+      "consent_epoch": 2,
+      "accepted_at": "2026-09-16T10:00:00.000Z",
+      "workflow_id": "00000000-0000-4000-8000-00000000000a",
+      "propagation_status": "ACCEPTED"
+    },
+    "replayed_response": {
+      "receipt_id": "00000000-0000-4000-8000-000000000014",
+      "event_id": "00000000-0000-4000-8000-000000000015",
+      "purpose_id": "00000000-0000-4000-8000-000000000007",
+      "consent_status": "WITHDRAWN",
+      "consent_epoch": 2,
+      "accepted_at": "2026-09-16T10:00:00.000Z",
+      "workflow_id": "00000000-0000-4000-8000-00000000000a",
+      "propagation_status": "ACCEPTED"
+    },
+    "current_get": {
+      "receipt": {
+        "receipt_id": "00000000-0000-4000-8000-000000000014",
+        "event_id": "00000000-0000-4000-8000-000000000015",
+        "purpose_id": "00000000-0000-4000-8000-000000000007",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T10:00:00.000Z",
+        "workflow_id": "00000000-0000-4000-8000-00000000000a",
+        "propagation_status": "ACCEPTED"
+      },
+      "current": {
+        "consent_status": "GRANTED",
+        "consent_epoch": 3,
+        "propagation_status": "NEEDS_ATTENTION",
+        "as_of": "2026-09-16T10:10:00.000Z"
+      }
+    }
+  }
+}

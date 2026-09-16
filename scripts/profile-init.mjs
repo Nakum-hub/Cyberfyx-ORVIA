@@ -1,0 +1,11 @@
+import { randomBytes, randomUUID } from 'node:crypto';
+import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+const profile = process.argv[2];
+if (!['codex-a00','ui-b00','rehearsal'].includes(profile)) throw new Error('Named synthetic profile required');
+const directory=resolve('.local','profiles',profile);
+mkdirSync(directory,{recursive:true,mode:0o700});
+if (existsSync(resolve(directory,'config.json')) || existsSync(resolve(directory,'postgres-password'))) throw new Error('Profile already initialized or partially initialized; do not overwrite its credentials');
+writeFileSync(resolve(directory,'postgres-password'),randomBytes(32).toString('hex'),{flag:'wx',mode:0o600});
+writeFileSync(resolve(directory,'config.json'),JSON.stringify({profile,installation_id:randomUUID(),fixture_id:'bootstrap-probe-v1',created_at:new Date().toISOString()},null,2)+'\n',{flag:'wx',mode:0o600});
+console.log(`Initialized local synthetic profile ${profile}; credentials remain in the ignored profile directory.`);

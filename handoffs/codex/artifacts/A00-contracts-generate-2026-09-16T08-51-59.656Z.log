@@ -1,0 +1,25 @@
+$ tsx packages/contracts/src/generate.ts
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\packages\contracts\src\examples.ts:45
+  return schemas[name].parse(result);
+                       ^
+
+ZodError: [
+  {
+    "origin": "number",
+    "code": "too_small",
+    "minimum": 0,
+    "inclusive": false,
+    "path": [
+      "version"
+    ],
+    "message": "Too small: expected number to be >0"
+  }
+]
+    at example (C:\Cyberfyx-projects\Cyberfyx_ORVIA\packages\contracts\src\examples.ts:45:24)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\packages\contracts\src\generate.ts:21:18)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.21.0
+[ELIFECYCLE] Command failed with exit code 1.

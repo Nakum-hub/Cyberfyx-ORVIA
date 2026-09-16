@@ -1,0 +1,55 @@
+Scope: all 8 workspace projects
+Progress: resolved 0, reused 145, downloaded 0, added 0
+Downloading next@16.3.5: 0.00 B/41.74 MB
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: C:\Users\sadas\AppData\Local\pnpm\store\v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 0, reused 211, downloaded 1, added 0
+Downloading @temporalio/core-bridge@1.24.0: 0.00 B/51.00 MB
+Progress: resolved 0, reused 289, downloaded 1, added 0
+[WARN] 2 deprecated subdependencies found: @esbuild-kit/core-utils@3.3.2, @esbuild-kit/esm-loader@2.6.5
+Progress: resolved 0, reused 325, downloaded 1, added 0
+Progress: resolved 34, reused 326, downloaded 3, added 23
+Progress: resolved 258, reused 326, downloaded 3, added 248
+Progress: resolved 322, reused 326, downloaded 3, added 314
+Progress: resolved 324, reused 326, downloaded 3, added 320
+Progress: resolved 349, reused 326, downloaded 4, added 325
+Downloading @temporalio/core-bridge@1.24.0: 7.48 MB/51.00 MB
+Downloading @temporalio/core-bridge@1.24.0: 10.81 MB/51.00 MB
+Downloading @temporalio/core-bridge@1.24.0: 16.43 MB/51.00 MB
+Downloading @temporalio/core-bridge@1.24.0: 20.65 MB/51.00 MB
+Downloading @temporalio/core-bridge@1.24.0: 29.75 MB/51.00 MB
+Downloading @temporalio/core-bridge@1.24.0: 40.15 MB/51.00 MB
+Downloading @temporalio/core-bridge@1.24.0: 51.00 MB/51.00 MB, done
+Downloading next@16.3.5: 15.29 MB/41.74 MB
+Downloading next@16.3.5: 17.50 MB/41.74 MB
+Downloading next@16.3.5: 24.63 MB/41.74 MB
+Downloading next@16.3.5: 34.52 MB/41.74 MB
+Downloading next@16.3.5: 41.74 MB/41.74 MB, done
+Progress: resolved 349, reused 326, downloaded 25, added 339
+Progress: resolved 349, reused 326, downloaded 25, added 347
+Packages: +349
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 349, reused 326, downloaded 25, added 349, done
+
+devDependencies:
++ @eslint/js 10.0.1
++ @playwright/test 1.63.0
++ @types/node 24.13.4
++ @types/pg 8.23.1
++ @types/react 19.3.0
++ @types/react-dom 19.3.0
++ eslint 10.10.0
++ openapi-typescript 7.13.0
++ tsx 4.23.13
++ typescript 5.9.3
++ typescript-eslint 8.70.0
+
+Error: ERR_PNPM_IGNORED_BUILDS
+
+  × installing dependencies
+  ╰─▶ Ignored build scripts: @swc/core@1.16.2, esbuild@0.18.20,
+      esbuild@0.25.12, esbuild@0.28.2, protobufjs@7.6.6
+  help: Run "pnpm approve-builds" to pick which dependencies should be allowed
+        to run scripts.
+

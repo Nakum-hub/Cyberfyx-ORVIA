@@ -1,0 +1,76 @@
+{
+  "task_id": "A00",
+  "recorded_at": "2026-09-16T09:39:16.755Z",
+  "repository": "https://github.com/Nakum-hub/Cyberfyx-ORVIA.git",
+  "branch": "prototype/codex/A00-bootstrap",
+  "base_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+  "bootstrap_commit": "605a73f4feaf245c2eabc82d6701ef13b6e1efe6",
+  "bootstrap_file_count": 192,
+  "contract_version": "0.2.0",
+  "contract_review_status": "PENDING_W00",
+  "openapi_sha256": "d940285830fb21fbac03401fbada1b694e56e8fa3ccfe23467f64d2b5958097d",
+  "publication": {
+    "push_command": [
+      "git",
+      "push",
+      "-u",
+      "origin",
+      "prototype/codex/A00-bootstrap"
+    ],
+    "exit_code": 0,
+    "verification_command": [
+      "git",
+      "ls-remote",
+      "--heads",
+      "origin",
+      "refs/heads/prototype/codex/A00-bootstrap"
+    ],
+    "verification_exit_code": 0,
+    "observed_remote_sha": "605a73f4feaf245c2eabc82d6701ef13b6e1efe6",
+    "local_worktree_clean_at_bootstrap_verification": true
+  },
+  "ui_transfer": {
+    "paths": [
+      "apps/web/src/app/layout.tsx",
+      "apps/web/src/app/page.tsx"
+    ],
+    "recipient": "Claude Code",
+    "effective_gate": "W00 review and human acceptance/integration of shared A00 base",
+    "worktree_created": false,
+    "profile": "ui-b00"
+  },
+  "artifacts": {
+    "files": "handoffs/codex/A00-changed-files.json",
+    "commands": "handoffs/codex/A00-command-index.json",
+    "handoff": "handoffs/codex/A00-e5cdef3.md"
+  },
+  "final_checks": {
+    "install_offline_repeat": 0,
+    "typecheck": 0,
+    "lint": 0,
+    "unit_tests": 0,
+    "contracts_check": 0,
+    "tracking_check": 0,
+    "build": 0,
+    "web_smoke": 0,
+    "service_preflight": 0,
+    "service_persistence_probe": 0,
+    "migration_rerun": 0,
+    "named_bootstrap_reset": 0,
+    "local_hygiene": 0,
+    "staged_diff_check": 0
+  },
+  "not_run": [
+    "Public advisory audit: auto-review rejected dependency metadata egress",
+    "Full application acceptance T01-T34",
+    "A01-A07 dependent work",
+    "UI worktree/browser suite",
+    "Human merge and release"
+  ],
+  "limitations": [
+    "Only A00 engineering checks and bootstrap subsets were executed.",
+    "The source master is verified at the supplied project-parent path; human-controlled repository placement remains outstanding.",
+    "Missing original contract seed/template/role prompt and Cowork capability inventory are requested through the handoff.",
+    "This publication JSON is a metadata-only follow-up to the bootstrap commit; its containing Git commit records its own final bytes."
+  ]
+}

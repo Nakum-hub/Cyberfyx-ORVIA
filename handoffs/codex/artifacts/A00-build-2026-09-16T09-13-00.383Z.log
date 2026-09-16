@@ -1,0 +1,4 @@
+$ pnpm --filter @orvia/web build
+[ERROR] GET https://registry.npmjs.org/@pnpm%2Fexe: fetch failed
+For help, run: pnpm help run
+[ELIFECYCLE] Command failed with exit code 1.
