@@ -1,0 +1,11 @@
+Scope: all 9 workspace projects
+? Verifying lockfile against supply-chain policies (486 entries)...
+[WARN] 2 deprecated subdependencies found: @esbuild-kit/core-utils@3.3.2, @esbuild-kit/esm-loader@2.6.5
+✗ Lockfile failed supply-chain policy check (486 entries in 11.3s)
+Error: ERR_PNPM_META_FETCH_FAIL
+
+  × installing dependencies
+  ╰─▶ ERR_PNPM_NO_OFFLINE_META: Failed to resolve typescript-eslint in package
+      mirror C:\Users\sadas\AppData\Local\pnpm-cache\v11/metadata-
+      full\https%3A+registry.npmjs.org\typescript-eslint.jsonl
+

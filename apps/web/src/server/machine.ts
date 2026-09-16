@@ -7,18 +7,30 @@ import { AccessError } from '../../../../packages/authz/src/index.ts';
 import { scopedTransaction } from '../../../../packages/db/src/runtime.ts';
 import { audit,idempotent,predicate,scopeValues,requireOne } from '../../../../packages/domain/src/transaction.ts';
 import { runtime } from './runtime.ts';
+import { SendRequest } from '../../../../packages/contracts/src/index.ts';
+import { admitSend } from '../../../../packages/domain/src/processing.ts';
 import { safeRoute } from './http.ts';
 let identityPool: ReturnType<typeof servicePool>|undefined;
+let observerPool: ReturnType<typeof servicePool>|undefined;
 export function machineRoute(request: Request) {return safeRoute(async requestId=>{
  const r=runtime();
  if(request.method!=='POST')throw new AccessError(404,'NOT_FOUND');
  if(request.headers.has('origin'))throw new AccessError(403,'FORBIDDEN');
- const identity=await machineFor(request,identityPool??=servicePool(r.config,'orvia_machine_auth'),r.config,'AGENT');
- const actor=machineAuthority(identity);const path=new URL(request.url).pathname;
+ const path=new URL(request.url).pathname;
+ const identity=await machineFor(request,identityPool??=servicePool(r.config,'orvia_machine_auth'),r.config,path==='/api/v1/machine/simulator/send'?'SENDER':'AGENT');
+ const actor=machineAuthority(identity);
  if(request.headers.get('content-type')?.split(';')[0]!=='application/json')throw new AccessError(400,'VALIDATION_ERROR');
  let input: unknown;try{input=JSON.parse(await limitedBody(request,16384)??'');}catch{throw new AccessError(400,'VALIDATION_ERROR');}
  const result=await scopedTransaction(r.pool,actor,async tx=>{
   const c={tx,actor,requestId};const scope=scopeValues(actor);
+  if(path==='/api/v1/machine/simulator/send') {
+   const parsed=SendRequest.safeParse(input);if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR');
+   const key=request.headers.get('idempotency-key');if(!key||!/^[A-Za-z0-9_-]{16,128}$/.test(key))throw new AccessError(400,'VALIDATION_ERROR');
+   await machineFor(request,identityPool!,r.config,'SENDER');
+   const result=await idempotent(c,'send',key,parsed.data,()=>admitSend(c,r.config,observerPool??=servicePool(r.config,'orvia_target_observer'),parsed.data));
+   await machineFor(request,identityPool!,r.config,'SENDER');
+   return result;
+  }
   if(path==='/api/v1/machine/commands/poll') {
    const parsed=PollRequest.safeParse(input);if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR');
    if(parsed.data.installation_id!==identity.installation_id||parsed.data.environment_id!==identity.scope.environment_id)throw new AccessError(403,'FORBIDDEN');

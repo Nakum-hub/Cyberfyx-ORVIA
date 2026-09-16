@@ -6,10 +6,13 @@ import { audit, idempotent, type Page } from '../../../../packages/domain/src/tr
 import { configurationList, createConfiguration, createMapping, mappingList, controlMap, publishPolicy, recordPublicationProof, publicationCandidate, type ConfigurationKind } from '../../../../packages/domain/src/configuration.ts';
 import { ownChoices, changeConsent, ownReceipt, ownHistory } from '../../../../packages/domain/src/consent.ts';
 import { readWorkflow,workflowList } from '../../../../packages/domain/src/workflow.ts';
+import { preview } from '../../../../packages/domain/src/processing.ts';
+import { servicePool } from '../../../../packages/auth/src/machine.ts';
 import { runtime } from './runtime.ts';
 import { safeRoute } from './http.ts';
 
-const implemented=new Set(['list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow']);
+const implemented=new Set(['list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow','evaluate']);
+let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
   for(const route of routes) {
@@ -78,6 +81,7 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'own_history':return ownHistory(c,id!,page);
         case 'workflows':return workflowList(c,page);
         case 'workflow':return readWorkflow(c,id!);
+        case 'evaluate':return preview(c,r.config,observerPool??=servicePool(r.config,'orvia_target_observer'),input);
         default:throw new AccessError(404,'NOT_FOUND');
       }
     };

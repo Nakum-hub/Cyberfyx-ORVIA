@@ -1,0 +1,49 @@
+Scope: all 9 workspace projects
+? Verifying lockfile against supply-chain policies (486 entries)...
+Progress: resolved 0, reused 107, downloaded 0, added 0
+Progress: resolved 0, reused 275, downloaded 0, added 0
+[WARN] 2 deprecated subdependencies found: @esbuild-kit/core-utils@3.3.2, @esbuild-kit/esm-loader@2.6.5
+Progress: resolved 0, reused 314, downloaded 0, added 0
+Progress: resolved 179, reused 334, downloaded 0, added 157
+Progress: resolved 192, reused 335, downloaded 0, added 171
+Progress: resolved 239, reused 338, downloaded 0, added 219
+Progress: resolved 267, reused 343, downloaded 0, added 249
+Progress: resolved 305, reused 348, downloaded 0, added 284
+Progress: resolved 334, reused 350, downloaded 0, added 315
+Progress: resolved 345, reused 351, downloaded 0, added 327
+Progress: resolved 348, reused 351, downloaded 0, added 331
+Progress: resolved 348, reused 351, downloaded 0, added 333
+[WARN] Request took 13348ms: https://registry.npmjs.org/@esbuild%2Fnetbsd-x64
+[WARN] Request took 23833ms: https://registry.npmjs.org/typescript
+[WARN] Request took 26299ms: https://registry.npmjs.org/@esbuild%2Flinux-arm64
+✓ Lockfile passes supply-chain policies (486 entries in 29.9s)
+Packages: +349
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 349, reused 351, downloaded 0, added 349, done
+.../node_modules/protobufjs postinstall$ node scripts/postinstall
+.../esbuild@0.18.20/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+.../node_modules/@swc/core postinstall$ node postinstall.js
+.../node_modules/protobufjs postinstall: Done
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../esbuild@0.18.20/node_modules/esbuild postinstall: Done
+.../node_modules/@swc/core postinstall: Done
+
+devDependencies:
++ @eslint/js 10.0.1
++ @playwright/test 1.63.0
++ @types/node 24.13.4
++ @types/pg 8.23.1
++ @types/react 19.3.0
++ @types/react-dom 19.3.0
++ eslint 10.10.0
++ openapi-typescript 7.13.0
++ tsx 4.23.13
++ typescript 5.9.3
++ typescript-eslint 8.70.0
+
+Done in 1m 9.1s using pnpm v12.4.2
+$ tsx scripts/migrate.ts
+Artifact: handoffs/codex/artifacts/A04-migration-1789576021953-0eedf5d4-4592-4816-b674-f83b856a588a.json

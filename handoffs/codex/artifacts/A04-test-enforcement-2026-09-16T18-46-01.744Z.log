@@ -1,0 +1,5 @@
+$ tsx tests/integration/enforcement/send.test.ts
+{ name: 'Error', code: 'UNCLASSIFIED' }
+
+Artifact: handoffs/codex/artifacts/A04-send-enforcement-1789584376255-d03d2567-d2f0-4ffc-a094-36f119d7ec77.json
+[ELIFECYCLE] Command failed with exit code 1.

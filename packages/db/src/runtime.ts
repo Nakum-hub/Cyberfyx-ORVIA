@@ -18,7 +18,7 @@ export async function scopedTransaction<T>(pool: pg.Pool, authority: Authority, 
     await tx.query('BEGIN');
     const role = await tx.query(`SELECT current_user AS name,rolsuper,rolbypassrls,rolcreatedb,rolcreaterole
       FROM pg_roles WHERE rolname=current_user`);
-    const permitted=authority.actor_domain==='MACHINE'?['orvia_app','orvia_worker','orvia_agent_control']:['orvia_app'];
+    const permitted=authority.actor_domain==='MACHINE'?['orvia_app','orvia_worker','orvia_agent_control','orvia_sender']:['orvia_app'];
     if (!permitted.includes(role.rows[0]?.name) || role.rows[0].rolsuper || role.rows[0].rolbypassrls || role.rows[0].rolcreatedb || role.rows[0].rolcreaterole) throw new Error('Unsafe application database role');
     await tx.query(`SELECT set_config('orvia.tenant_id',$1,true), set_config('orvia.legal_entity_id',$2,true),
       set_config('orvia.environment_id',$3,true), set_config('orvia.actor_id',$4,true),
