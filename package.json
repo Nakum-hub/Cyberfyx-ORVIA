@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint packages apps scripts tests --max-warnings 0",
     "test": "tsx --test tests/unit/*.test.ts",
+    "test:f07": "node handoffs/codex/repro/W00-F07/provider-receipt.mjs",
     "tracking:check": "tsx scripts/validate-tracking.ts",
     "hygiene:check": "node scripts/local-hygiene.mjs",
     "db:migrate": "tsx scripts/migrate.ts",

@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { CommandPayload, schemas, type SchemaName } from './index.ts';
+import { CONTRACT_VERSION, CommandPayload, schemas, type SchemaName } from './index.ts';
 import { digest } from './crypto.ts';
 import signatureVector from '../fixtures/command-vector.json' with { type:'json' };
 export const uuid = (n:number) => `00000000-0000-4000-8000-${n.toString(16).padStart(12,'0')}`;
 export const sampleTime='2026-09-16T10:00:00.000Z';
 export const exampleBinding={workflow_id:uuid(10),action_id:uuid(11),scope:{tenant_id:uuid(1),legal_entity_id:uuid(2),environment_id:uuid(3),principal_reference_id:uuid(4),system_id:uuid(5),resource_id:uuid(6),target_subject_reference:'syn_asha_demo',purpose_id:uuid(7),policy_version_id:uuid(8),consent_epoch:2,target_generation:1,operation:'CRM_REMOVE_MARKETING_MEMBERSHIP' as const},capability:'restrict_exact_synthetic_subject' as const,capability_version:'1.0.0',operation_budget:{maximum_records:1 as const,maximum_attempts:3}};
 const approval={result:'NOT_REQUIRED_BY_POLICY' as const,decision_id:uuid(12),policy_version_id:uuid(8),approved_plan_digest:digest(exampleBinding),rule_id:'SYNTHETIC_NON_DESTRUCTIVE_RESTRICTION' as const,decided_at:sampleTime};
-export const examplePayload=CommandPayload.parse({schema_version:'0.2.0',command_id:uuid(13),installation_id:uuid(14),signing_key_id:uuid(15),binding:exampleBinding,scope_digest:digest(exampleBinding.scope),plan_digest:digest(exampleBinding),approval,approval_digest:digest(approval),issued_at:sampleTime,expires_at:'2026-09-16T10:04:00.000Z',nonce:'synthetic_example_nonce_000000000000000001'});
+export const examplePayload=CommandPayload.parse({schema_version:CONTRACT_VERSION,command_id:uuid(13),installation_id:uuid(14),signing_key_id:uuid(15),binding:exampleBinding,scope_digest:digest(exampleBinding.scope),plan_digest:digest(exampleBinding),approval,approval_digest:digest(approval),issued_at:sampleTime,expires_at:'2026-09-16T10:04:00.000Z',nonce:'synthetic_example_nonce_000000000000000001'});
 export const exampleReceipt={receipt_id:uuid(20),event_id:uuid(21),purpose_id:uuid(7),consent_status:'WITHDRAWN',consent_epoch:2,accepted_at:sampleTime,workflow_id:uuid(10),propagation_status:'ACCEPTED'};
 export const receiptReplayExample={description:'An identical authorised retry after epoch 3 returns the unchanged epoch-2 acceptance receipt.',original_response:exampleReceipt,replayed_response:exampleReceipt,current_get:{receipt:exampleReceipt,current:{consent_status:'GRANTED',consent_epoch:3,propagation_status:'NEEDS_ATTENTION',as_of:'2026-09-16T10:10:00.000Z'}}};
 

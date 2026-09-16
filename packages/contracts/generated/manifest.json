@@ -1,13 +1,13 @@
 {
-  "contract_version": "0.2.0",
+  "contract_version": "0.2.1",
   "review_status": "PENDING_W00",
   "artifacts": {
-    "openapi.json": "d940285830fb21fbac03401fbada1b694e56e8fa3ccfe23467f64d2b5958097d",
-    "examples.json": "7c9cfccd6699343e917189a535492982ab842e5bd15804d3d45664355c1a873f",
-    "client-types.d.ts": "bdc57f1c6103fa85f05b92054065902f4e33c72b48e8a685f116f5a5ac3ff036",
-    "interfaces.json": "0c04679b31495703f738074ac59f3e2226dc6fb8f2e60f4940bb9f71a55c0504",
-    "signature-vector.json": "9bcfbb002bf6dc8dda9a40637cdd993fab3d6fac97467072966f88e9b5727009",
-    "contract-seed.proposed.json": "b538f2ec1e99a965d18646da36becbfa4676517271620bc8989f3fea52497098",
+    "openapi.json": "3e9b1934680ad28963a435517d2e7e9c9ade3a4e90282090e2dbcc192524f992",
+    "examples.json": "7029a76c7f0ec77d96eab063e6b1783646cf7ba81291d1f0b3c25e81bbc7ae71",
+    "client-types.d.ts": "f471bba73a0a1e058193e4129c82bb0ab0c47de5900ed816e4832f52aaf0eb9c",
+    "interfaces.json": "3081204e57c09cfd28a2084454cff28b77beb04453838f67ee9342b0d0f7c836",
+    "signature-vector.json": "187d00a1efd90285478085827aecb7a2f7c1bc0c3df2ab3144b662efb1393b57",
+    "contract-seed.proposed.json": "9a7888ae14c1767c25d10404307b249623c3c18186d5fdcb4a408c62e49f8d01",
     "endpoint-types.ts": "3d42ac6b98c1b23ed01df05159a628a69285f9eb7504671bcfad0e38508670e4"
   }
 }

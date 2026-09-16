@@ -875,7 +875,7 @@ export interface components {
         };
         CommandPayload: {
             /** @constant */
-            schema_version: "0.2.0";
+            schema_version: "0.2.1";
             /** Format: uuid */
             command_id: string;
             /** Format: uuid */
@@ -960,7 +960,7 @@ export interface components {
             algorithm: "Ed25519";
             payload: {
                 /** @constant */
-                schema_version: "0.2.0";
+                schema_version: "0.2.1";
                 /** Format: uuid */
                 command_id: string;
                 /** Format: uuid */
@@ -1102,7 +1102,10 @@ export interface components {
             /** Format: uuid */
             id: string;
             required: boolean;
-            /** @enum {string} */
+            /**
+             * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.
+             * @enum {string}
+             */
             completion_criterion: "CURRENT_SCOPED_OBSERVATION" | "ATTRIBUTED_MANUAL_ATTESTATION";
             /** @enum {string} */
             execution_state: "PENDING" | "RUNNING" | "ACKNOWLEDGED" | "EFFECT_UNKNOWN" | "FAILED" | "MANUAL_REQUIRED" | "SKIPPED";
@@ -1358,7 +1361,10 @@ export interface components {
                 /** Format: uuid */
                 id: string;
                 required: boolean;
-                /** @enum {string} */
+                /**
+                 * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.
+                 * @enum {string}
+                 */
                 completion_criterion: "CURRENT_SCOPED_OBSERVATION" | "ATTRIBUTED_MANUAL_ATTESTATION";
                 /** @enum {string} */
                 execution_state: "PENDING" | "RUNNING" | "ACKNOWLEDGED" | "EFFECT_UNKNOWN" | "FAILED" | "MANUAL_REQUIRED" | "SKIPPED";
@@ -1644,7 +1650,10 @@ export interface components {
                     /** Format: uuid */
                     id: string;
                     required: boolean;
-                    /** @enum {string} */
+                    /**
+                     * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.
+                     * @enum {string}
+                     */
                     completion_criterion: "CURRENT_SCOPED_OBSERVATION" | "ATTRIBUTED_MANUAL_ATTESTATION";
                     /** @enum {string} */
                     execution_state: "PENDING" | "RUNNING" | "ACKNOWLEDGED" | "EFFECT_UNKNOWN" | "FAILED" | "MANUAL_REQUIRED" | "SKIPPED";
@@ -1909,7 +1918,10 @@ export interface components {
                 /** Format: uuid */
                 id: string;
                 required: boolean;
-                /** @enum {string} */
+                /**
+                 * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.
+                 * @enum {string}
+                 */
                 completion_criterion: "CURRENT_SCOPED_OBSERVATION" | "ATTRIBUTED_MANUAL_ATTESTATION";
                 /** @enum {string} */
                 execution_state: "PENDING" | "RUNNING" | "ACKNOWLEDGED" | "EFFECT_UNKNOWN" | "FAILED" | "MANUAL_REQUIRED" | "SKIPPED";
@@ -1969,7 +1981,7 @@ export interface components {
                 algorithm: "Ed25519";
                 payload: {
                     /** @constant */
-                    schema_version: "0.2.0";
+                    schema_version: "0.2.1";
                     /** Format: uuid */
                     command_id: string;
                     /** Format: uuid */
@@ -7919,7 +7931,7 @@ export interface operations {
                  * @example {
                  *       "algorithm": "Ed25519",
                  *       "payload": {
-                 *         "schema_version": "0.2.0",
+                 *         "schema_version": "0.2.1",
                  *         "command_id": "00000000-0000-4000-8000-00000000000d",
                  *         "installation_id": "00000000-0000-4000-8000-00000000000e",
                  *         "signing_key_id": "00000000-0000-4000-8000-00000000000f",
@@ -7962,7 +7974,7 @@ export interface operations {
                  *         "expires_at": "2026-09-16T10:04:00.000Z",
                  *         "nonce": "synthetic_example_nonce_000000000000000001"
                  *       },
-                 *       "signature": "jnf6BPyJEto7ILCnhG00d0KXoj6c3tq5FWToWKzSgH2Cp1G0obe0zRV6zomXacjOL9zYpbzFH_EevQKeRM-ECg"
+                 *       "signature": "fkZUMkZ52oaxzOK2N679_lK5yy6RGfuGhv0GWZd9UhaQTV4Op5Fvcj-Lls7yxGc0d3S3ChdrrdXbOLPkiCtACQ"
                  *     }
                  */
                 "application/json": components["schemas"]["SignedCommand"];

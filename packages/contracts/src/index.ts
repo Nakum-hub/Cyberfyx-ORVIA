@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-/** A00 coordinated proposal for W00-F02/F03. Not an accepted runtime feature set. */
-export const CONTRACT_VERSION = '0.2.0' as const;
+/** A00 coordinated proposal including W00-F07. Pending semantic acceptance. */
+export const CONTRACT_VERSION = '0.2.1' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
 export const AUTH = {
   staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff' },
@@ -98,7 +98,7 @@ export const Reconciliation = z.strictObject({ id: Id, action_id: Id, uncertain_
   if(['INCONCLUSIVE','FAILED'].includes(r.state)&&r.reason_code===null)c.addIssue({code:'custom',message:'Unresolved reconciliation requires reason'});
 });
 export const ManualAttestation = z.strictObject({ statement: z.string().min(10).max(2000), evidence_record_ids: z.array(Id).min(1).max(10), expected_task_version: Epoch });
-export const Obligation = z.strictObject({ id: Id, required: z.boolean(), completion_criterion: z.enum(['CURRENT_SCOPED_OBSERVATION', 'ATTRIBUTED_MANUAL_ATTESTATION']), execution_state: ExecutionState, observation: Observation.nullable(), attestation: z.strictObject({ actor_id: Id, recorded_at: Time, statement: z.string().max(2000), evidence_record_ids: z.array(Id).min(1) }).nullable(), scope_still_current: z.boolean(), skip_reason: SafeText.nullable() });
+export const Obligation = z.strictObject({ id: Id, required: z.boolean(), completion_criterion: z.enum(['CURRENT_SCOPED_OBSERVATION', 'ATTRIBUTED_MANUAL_ATTESTATION']).describe('CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.'), execution_state: ExecutionState, observation: Observation.nullable(), attestation: z.strictObject({ actor_id: Id, recorded_at: Time, statement: z.string().max(2000), evidence_record_ids: z.array(Id).min(1) }).nullable(), scope_still_current: z.boolean(), skip_reason: SafeText.nullable() });
 export const Action = z.strictObject({ id: Id, plan: PlanBinding, execution_state: ExecutionState, attempts: z.array(CommandReceipt).max(100), observations: z.array(Observation).max(100), reconciliations: z.array(Reconciliation).max(100) });
 export const WorkflowSummary = z.strictObject({ id: Id, event_id: Id, purpose_id: Id, state: WorkflowState, accepted_at: Time, updated_at: Time });
 export const Workflow = WorkflowSummary.extend({ actions: z.array(Action).max(100), obligations: z.array(Obligation).max(100) });
