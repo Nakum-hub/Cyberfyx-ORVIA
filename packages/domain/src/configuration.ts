@@ -9,6 +9,7 @@ export type ConfigurationKind=keyof typeof configurations;
 export async function configurationList(c: Context, kind: ConfigurationKind, page: Page) {
   const {table,schema}=configurations[kind];
   const result=await c.tx.query(`SELECT * FROM app.${table} WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+  if(kind==='systems')for(const row of result.rows){const checked=(await c.tx.query(`SELECT * FROM app.system_checks WHERE ${predicate} AND system_id=$4 ORDER BY checked_at DESC,id DESC LIMIT 1`,[...scopeValues(c.actor),row.id])).rows[0];if(checked)row.document={...row.document,supports_read:checked.supports_read,supports_restrict:checked.supports_restrict,checked_at:checked.checked_at.toISOString()};}
   return paged(result.rows.map(row=>schema.parse({...row.document,...(kind==='purposes'||kind==='policies'?{status:row.status}:{}),...(kind==='policies'||kind==='notices'?{published_at:row.published_at?.toISOString()??null}:{})})),page);
 }
 export async function createConfiguration(c: Context, kind: ConfigurationKind, input: unknown) {
@@ -89,8 +90,8 @@ export async function mappingList(c: Context, page: Page) {
   const rows=await c.tx.query(`SELECT id,principal_id,purpose_id,system_id,target_subject_reference,target_generation FROM app.target_mappings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
   return paged(rows.rows.map(row=>S.TargetMapping.parse({...row,target_generation:Number(row.target_generation)})),page);
 }
-export async function controlMap(c: Context) {
-  const rows=await c.tx.query(`SELECT m.purpose_id,m.system_id,m.id resource_id,s.document FROM app.target_mappings m JOIN app.systems s USING(tenant_id,legal_entity_id,environment_id) WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND s.id=m.system_id ORDER BY m.id LIMIT 101`,scopeValues(c.actor));
-  if(rows.rows.length>100)throw new AccessError(400,'VALIDATION_ERROR');
-  return S.ControlMap.parse({edges:rows.rows.map(row=>({purpose_id:row.purpose_id,system_id:row.system_id,resource_id:row.resource_id,capability_version:row.document.capability_version,declared_restrict:row.document.supports_restrict,observed_restrict:null,as_of:null}))});
+export async function controlMap(c: Context,page:Page) {
+  const rows=await c.tx.query(`SELECT m.purpose_id,m.system_id,m.id resource_id,s.document FROM app.target_mappings m JOIN app.systems s USING(tenant_id,legal_entity_id,environment_id) WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND s.id=m.system_id AND ($4::uuid IS NULL OR m.id>$4) ORDER BY m.id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+  const edges=[];for(const row of rows.rows.slice(0,page.limit)){const latest=(await c.tx.query(`SELECT o.observation,m.target_generation FROM app.observations o JOIN app.action_plans a ON(a.id=o.action_id AND a.tenant_id=o.tenant_id AND a.legal_entity_id=o.legal_entity_id AND a.environment_id=o.environment_id) JOIN app.target_mappings m ON(m.id=a.resource_id AND m.tenant_id=a.tenant_id AND m.legal_entity_id=a.legal_entity_id AND m.environment_id=a.environment_id) WHERE o.tenant_id=$1 AND o.legal_entity_id=$2 AND o.environment_id=$3 AND a.resource_id=$4 ORDER BY o.created_at DESC,o.id DESC LIMIT 1`,[...scopeValues(c.actor),row.resource_id])).rows[0];const o=latest?.observation;const fresh=o&&o.method==='SCOPED_READ'&&o.target_generation===Number(latest.target_generation)&&Date.parse(o.fresh_until)>Date.now();edges.push({purpose_id:row.purpose_id,system_id:row.system_id,resource_id:row.resource_id,capability_version:row.document.capability_version,declared_restrict:row.document.supports_restrict,observed_restrict:fresh&&['OBSERVED_SATISFIED','OBSERVED_NOT_SATISFIED'].includes(o.state)?o.state==='OBSERVED_SATISFIED':null,as_of:o?.observed_at??null});}
+  return S.ControlMap.parse({edges,next_cursor:rows.rows.length>page.limit?Buffer.from(rows.rows[page.limit-1].resource_id).toString('base64url'):null});
 }

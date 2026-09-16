@@ -6,6 +6,8 @@ import { digest } from '../../contracts/src/crypto.ts';
 import { processingDecision } from '../../policy-sdk/src/index.ts';
 import { targetTransaction } from '../../connectors/src/target-db.ts';
 import { AccessError } from '../../authz/src/index.ts';
+import { observerEnrollment } from '../../auth/src/machine-profile.ts';
+import { readSimulator } from '../../connectors/src/simulator.ts';
 import { lockConsent,predicate,scopeValues,requireOne,audit,type Context } from './transaction.ts';
 
 async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.Pool, value: {principal_reference_id:string;purpose_id:string;system_id:string;message_class:'MARKETING'|'ORDER_SERVICE';order_reference:string|null}, preview: boolean) {
@@ -19,7 +21,14 @@ async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.P
  const unresolved=await c.tx.query(`SELECT 1 FROM app.workflows WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5 AND state<>'COMPLETED' LIMIT 1`,[...scope,value.principal_reference_id,value.purpose_id]);
  const service=await c.tx.query(`SELECT expires_at FROM app.service_conditions WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5 AND system_id=$6 AND policy_version_id=$7 AND active AND expires_at>clock_timestamp() AND ($8::text IS NULL AND $9 OR order_reference=$8) ORDER BY expires_at DESC LIMIT 1`,[...scope,value.principal_reference_id,value.purpose_id,value.system_id,policy?.version_id??null,value.order_reference,preview]);
  let target: {generation:string;marketing_restricted:boolean;quarantined:boolean}|undefined;let targetUnavailable=false;
- try {target=await targetTransaction(observer,c.actor,async tx=>(await tx.query(`SELECT generation,marketing_restricted,quarantined FROM marketing_memberships WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND resource_id=$4 AND principal_id=$5 AND purpose_id=$6 AND system_id=$7 AND subject_reference=$8`,[...scope,mapping.id,value.principal_reference_id,value.purpose_id,value.system_id,mapping.target_subject_reference])).rows[0]);}
+ try {
+  target=await targetTransaction(observer,c.actor,async tx=>(await tx.query(`SELECT generation,marketing_restricted,quarantined FROM marketing_memberships WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND resource_id=$4 AND principal_id=$5 AND purpose_id=$6 AND system_id=$7 AND subject_reference=$8`,[...scope,mapping.id,value.principal_reference_id,value.purpose_id,value.system_id,mapping.target_subject_reference])).rows[0]);
+  const system=requireOne((await c.tx.query(`SELECT connector FROM app.systems WHERE ${predicate} AND id=$4`,[...scope,value.system_id])).rows);
+  if(system.connector==='ORVIA_REST_SIMULATOR') {
+   const identity=observerEnrollment(config).identities.find(i=>i.scope.tenant_id===c.actor.scope.tenant_id&&i.scope.legal_entity_id===c.actor.scope.legal_entity_id&&i.scope.environment_id===c.actor.scope.environment_id);if(!identity)throw new Error('Observer not enrolled');
+   const observed=await readSimulator(config,identity.token,mapping.id);if(target)target={...target,generation:String(observed.generation),marketing_restricted:observed.marketing_restricted};
+  }
+ }
  catch{targetUnavailable=true;}
  const input={message_class:value.message_class,purpose_code:purpose.code,condition:policy?.document.condition??null,published:!!policy&&policy.document.system_ids.includes(value.system_id),notice_matches:!!aggregate&&!!policy&&aggregate.notice_version_id===policy.notice_version_id,consent_state:aggregate?.state??'NOT_GIVEN',target_current:!!target&&Number(target.generation)===Number(mapping.target_generation),target_restricted:target?.marketing_restricted??true,quarantined:target?.quarantined??true,unresolved_suppression:!!unresolved.rowCount,service_condition_current:!!service.rowCount};
  let result=targetUnavailable?{decision:'INDETERMINATE' as const,reason_codes:['TARGET_OBSERVATION_UNAVAILABLE']}:await processingDecision(config,input);

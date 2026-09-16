@@ -8,10 +8,11 @@ import { ownChoices, changeConsent, ownReceipt, ownHistory } from '../../../../p
 import { readWorkflow,workflowList } from '../../../../packages/domain/src/workflow.ts';
 import { preview } from '../../../../packages/domain/src/processing.ts';
 import { servicePool } from '../../../../packages/auth/src/machine.ts';
+import { requestReconciliation,attest,failures,overview,evidence,checkSystem,capabilities } from '../../../../packages/domain/src/evidence.ts';
 import { runtime } from './runtime.ts';
 import { safeRoute } from './http.ts';
 
-const implemented=new Set(['list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow','evaluate']);
+const implemented=new Set(['list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow','evaluate','reconcile','attest','failures','overview','evidence','export','check_system','capabilities']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -74,7 +75,7 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'publish_policy':return publishPolicy(c,id!,input,staffSession!.session.id);
         case 'create_mapping':return createMapping(c,input);
         case 'list_mappings':return mappingList(c,page);
-        case 'control_map':return controlMap(c);
+        case 'control_map':return controlMap(c,page);
         case 'own_consents':return ownChoices(c,page);
         case 'grant':case 'withdraw':return changeConsent(c,id!,route.id,input);
         case 'own_receipt':return ownReceipt(c,id!);
@@ -82,6 +83,13 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'workflows':return workflowList(c,page);
         case 'workflow':return readWorkflow(c,id!);
         case 'evaluate':return preview(c,r.config,observerPool??=servicePool(r.config,'orvia_target_observer'),input);
+        case 'reconcile':return requestReconciliation(c,id!);
+        case 'attest':return attest(c,id!,input);
+        case 'failures':return failures(c,page);
+        case 'overview':return overview(c);
+        case 'evidence':case 'export':return evidence(c,id!,route.id==='export');
+        case 'check_system':return checkSystem(c,id!,observerPool??=servicePool(r.config,'orvia_target_observer'));
+        case 'capabilities':return capabilities(c,page);
         default:throw new AccessError(404,'NOT_FOUND');
       }
     };
@@ -89,5 +97,5 @@ export function businessRoute(request: Request) { return safeRoute(async request
     await audit(c,route.id,id);
     return schemas[route.response].parse(result);
   });
-  return Response.json(result,{status:route.status});
+  return Response.json(result,{status:route.status,headers:{'cache-control':'no-store',...route.id==='export'?{'content-disposition':`attachment; filename="orvia-evidence-${id}.json"`}:{}}});
 },'BUSINESS'); }

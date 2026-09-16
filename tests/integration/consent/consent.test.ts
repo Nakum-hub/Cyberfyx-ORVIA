@@ -52,8 +52,15 @@ try {
   check('published digest unchanged',publishedPolicy.digest,policy.digest);
   check('publish retry returns stable published version',await (await owner.call(publishPath,publishInput,publishKey)).json(),publishedPolicy);
   const mappingResponse=await author.call('/api/v1/admin/target-mappings',{principal_id:harness.users.alice!.principal_id,purpose_id:purpose.id,system_id:system.id},key());check('explicit principal to target mapping',mappingResponse.status,201);const mapping=S.TargetMapping.parse(await mappingResponse.json());
-  check('control map exposes actual declared edge',S.ControlMap.parse(await (await owner.call('/api/v1/admin/control-map')).json()).edges.some(e=>e.resource_id===mapping.id&&e.observed_restrict===null),true);
-  async function choice() {return S.schemas.ConsentList.parse(await (await alice.call('/api/v1/portal/me/consents?limit=100')).json()).items.find(i=>i.purpose_id===purpose.id)!;}
+  const edges:ReturnType<typeof S.ControlMap.parse>['edges']=[];let mapCursor:string|null=null;
+  do {const page=S.ControlMap.parse(await (await owner.call('/api/v1/admin/control-map?limit=7'+(mapCursor?'&cursor='+mapCursor:''))).json());edges.push(...page.edges);mapCursor=page.next_cursor;}while(mapCursor);
+  check('control map exposes actual declared edge',edges.some(e=>e.resource_id===mapping.id&&e.observed_restrict===null),true);
+  check('control map pagination preserves all scoped mappings',edges.map(e=>e.resource_id).sort(),(await adminDb.query('SELECT id FROM app.target_mappings WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 ORDER BY id',[scope.tenant_id,scope.legal_entity_id,scope.environment_id])).rows.map(r=>r.id));
+  async function choice() {
+    let cursor:string|null=null;
+    do {const page=S.schemas.ConsentList.parse(await (await alice.call('/api/v1/portal/me/consents?limit=100'+(cursor?'&cursor='+cursor:''))).json());const found=page.items.find(i=>i.purpose_id===purpose.id);if(found)return found;cursor=page.next_cursor;}while(cursor);
+    throw new Error('Persisted scenario purpose missing');
+  }
   const first=await choice();check('published notice available to own principal',first.notice?.version_id,notice.version_id);
   const grantPath=`/api/v1/portal/me/consents/${purpose.id}/grant`;const withdrawPath=`/api/v1/portal/me/consents/${purpose.id}/withdraw`;
   const grant={expected_epoch:0,interaction_id:first.interaction_id,notice_version_id:notice.version_id,affirmative:true};const grantKey=key();
@@ -99,7 +106,8 @@ try {
   await harness.stop();await harness.start();
   const restarted=S.ReceiptView.parse(await (await alice.call(`/api/v1/portal/me/receipts/${receipt.receipt_id}`)).json());
   check('restart preserves original receipt',restarted.receipt,receipt);check('restart preserves current epoch',restarted.current.consent_epoch,4);
-  const policyAfterRestart=S.schemas.PolicyList.parse(await (await owner.call('/api/v1/admin/policies?limit=100')).json()).items.find(item=>item.id===policy.id);
+  let policyAfterRestart:ReturnType<typeof S.Policy.parse>|undefined;let policyCursor:string|null=null;
+  do {const page=S.schemas.PolicyList.parse(await (await owner.call('/api/v1/admin/policies?limit=100'+(policyCursor?'&cursor='+policyCursor:''))).json());policyAfterRestart=page.items.find(item=>item.id===policy.id);policyCursor=page.next_cursor;}while(!policyAfterRestart&&policyCursor);
   check('restart preserves exact published configuration',policyAfterRestart,publishedPolicy);
   check('restart preserves exact notice content',(await choice()).notice?.content,notice.content);
 } catch(error) {console.error(safeError(error));console.error(harness.diagnostics);process.exitCode=1;}

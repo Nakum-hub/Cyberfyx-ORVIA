@@ -1839,6 +1839,7 @@ export interface components {
                 observed_restrict: boolean | null;
                 as_of: string | null;
             }[];
+            next_cursor: string | null;
         };
         IdPath: {
             /** Format: uuid */
@@ -5111,7 +5112,10 @@ export interface operations {
     };
     control_map: {
         parameters: {
-            query?: never;
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -5126,7 +5130,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "edges": []
+                     *       "edges": [],
+                     *       "next_cursor": null
                      *     }
                      */
                     "application/json": components["schemas"]["ControlMap"];

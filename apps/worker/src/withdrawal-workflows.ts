@@ -6,11 +6,12 @@ export async function withdrawalWorkflow(identityId: string, workflowId: string)
  for(const action of actions) {
   let received=false;
   for(let i=0;i<150;i++) {
-   if(await activities.receipt(identityId,action)){received=true;break;}
+   const receipt=await activities.receipt(identityId,action);
+   if(receipt){received=true;if(receipt!=='EFFECT_UNKNOWN')await activities.observe(identityId,action);break;}
    await sleep('2s');
   }
-  if(received)await activities.observe(identityId,action);
-  else await activities.commandExpired(identityId,action);
+  if(!received)await activities.commandExpired(identityId,action);
  }
  return activities.finish(identityId,workflowId);
 }
+export async function reconciliationWorkflow(identityId:string,operationId:string) {return activities.reconcile(identityId,operationId);}

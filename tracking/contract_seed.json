@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.3.0",
+  "contract_version": "0.4.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -233,7 +233,8 @@
       "authority": "STAFF",
       "capability": "configuration.read",
       "response": "ControlMap",
-      "status": 200
+      "status": 200,
+      "paginated": true
     },
     {
       "id": "check_system",

@@ -23,3 +23,7 @@ export function senderEnrollment(config: RuntimeConfig) {
   const value=SenderEnrollment.parse(JSON.parse(readFileSync(resolve(config.directory,'sender/enrollment.json'),'utf8')));
   if(value.installation_id!==config.installation_id)throw new Error('Sender installation mismatch');return value;
 }
+export function observerEnrollment(config: RuntimeConfig) {
+ const value=AgentEnrollment.parse(JSON.parse(readFileSync(resolve(config.directory,'observer/enrollment.json'),'utf8')));
+ if(value.installation_id!==config.installation_id)throw new Error('Observer installation mismatch');return value;
+}

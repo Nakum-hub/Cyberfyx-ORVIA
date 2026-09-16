@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { spawn,execFileSync,type ChildProcess } from 'node:child_process';
+import { spawn,execFile,type ChildProcess } from 'node:child_process';
+import { promisify } from 'node:util';
 import { once } from 'node:events';
 import { randomUUID,createPrivateKey } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -31,8 +32,8 @@ async function stop(child: ChildProcess) {if(child.exitCode===null&&child.signal
 async function until<T>(read:()=>Promise<T>,ready:(v:T)=>boolean) {for(let i=0;i<120;i++){const value=await read();if(ready(value))return value;await new Promise(resolve=>setTimeout(resolve,500));}throw new Error('Timed out waiting for actual durable state');}
 try {
  await harness.start();const scenario=await createMarketingScenario(harness);await scenario.change('grant');
- const init=execFileSync(process.execPath,['--import','tsx','scripts/machine-init.ts',`confirm:${config.profile}`],{encoding:'utf8',windowsHide:true,timeout:60000});
- check('protected machine setup completed',init.includes('provisioned'),true);
+ const init=await promisify(execFile)(process.execPath,['--import','tsx','scripts/machine-init.ts',`confirm:${config.profile}`],{encoding:'utf8',windowsHide:true,timeout:60000});
+ check('protected machine setup completed',init.stdout.includes('provisioned'),true);
  const enrollment=agentEnrollment(config);const identity=enrollment.identities.find(i=>i.scope.environment_id===scenario.scope.environment_id)!;
  const actor=machineAuthority(identity);observer=servicePool(config,'orvia_target_observer');agentControl=servicePool(config,'orvia_agent_control');target=servicePool(config,'orvia_target_agent');
  const readTarget=()=>targetTransaction(observer!,actor,async tx=>(await tx.query('SELECT generation,last_applied_epoch,marketing_restricted,changed_at FROM marketing_memberships WHERE resource_id=$1',[scenario.mapping.id])).rows[0]);
@@ -88,7 +89,7 @@ try {
  const portal=ReceiptView.parse(await (await scenario.alice.call('/api/v1/portal/me/receipts/'+withdrawal.receipt.receipt_id)).json());check('portal receipt does not turn stale completion green',portal.current.propagation_status,'NEEDS_ATTENTION');
  const denial=await scenario.alice.call('/api/v1/machine/commands/poll',{installation_id:config.installation_id,environment_id:scenario.scope.environment_id,maximum_commands:1});check('human session cannot poll machine commands',denial.status,403);
  await stop(agent);await stop(replacement);
-}catch(error){console.error(safeError(error));console.error(harness.diagnostics);console.error(processOutput.slice(-12000));process.exitCode=1;}
+}catch(error){console.error({...safeError(error),message:error instanceof Error&&/^(Synthetic|Owned|Readiness|Assertion|Timed)/.test(error.message)?error.message:undefined,sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(harness.diagnostics);console.error(processOutput.slice(-12000));process.exitCode=1;}
 finally {
  for(const child of processes)await stop(child);await harness.stop();await runtime?.close();
  await Promise.all([admin.end(),observer?.end(),agentControl?.end(),target?.end()]);

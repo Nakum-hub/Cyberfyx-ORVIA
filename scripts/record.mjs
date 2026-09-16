@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 const task = process.argv[2];
-const allowed = ['install','contracts:generate','contracts:check','typecheck','lint','test','test:f07','test:auth','test:consent','test:expiry','test:enforcement','test:workflows','machine:init','seed:orders','auth:init','auth:bootstrap','seed:auth','tracking:check','hygiene:check','db:migrate','preflight','services:smoke','web:smoke','build','audit','profile:init','services','reset:bootstrap'];
+const allowed = ['install','contracts:generate','contracts:check','typecheck','lint','test','test:f07','test:auth','test:consent','test:expiry','test:enforcement','test:evidence','fixture:simulator','fixture:assign','test:workflows','machine:init','roles:init','seed:orders','auth:init','auth:bootstrap','seed:auth','tracking:check','hygiene:check','db:migrate','preflight','services:smoke','web:smoke','build','audit','profile:init','services','reset:bootstrap'];
 if (!allowed.includes(task)) throw new Error('Unknown engineering command');
 const root = process.cwd();
 const sha = input => createHash('sha256').update(input).digest('hex');

@@ -1,0 +1,34 @@
+$ tsx tests/integration/workflows/workflow.test.ts
+PASS protected machine setup completed
+PASS synthetic target initially has marketing membership
+PASS observer cannot mutate target
+PASS withdrawal is accepted with worker stopped
+PASS injected stop after real Temporal acceptance
+PASS outbox delivery marker rolled back
+PASS Temporal retained accepted workflow despite DB rollback
+PASS dispatcher resumes stable workflow identity
+PASS duplicate dispatcher pass creates no new work
+PASS real worker derived signed command
+PASS worker process stopped before target execution
+PASS target unchanged before agent mutation
+PASS agent actually removed synthetic membership
+PASS target recorded current withdrawal epoch
+PASS scoped workflow endpoint returns live record
+PASS independent scoped read completes required outcome
+PASS observation is separate from provider acknowledgement
+PASS receipt retained as execution evidence
+PASS same command resumes original receipt
+PASS command replay does not mutate target again
+PASS agent rejects tampered scope before effect
+PASS agent independently rejects another installation
+PASS same command ID with changed signed body rejected
+PASS expired new command rejected
+PASS generation mismatch produces known failed execution
+PASS nonce replay with another command ID rolls back
+PASS all rejected commands preserve last target mutation
+PASS stale withdrawal cannot act after fresh consent
+PASS fresh grant does not silently reactivate target
+PASS old evidence is not current completion after epoch changes
+PASS portal receipt does not turn stale completion green
+PASS human session cannot poll machine commands
+Artifact: handoffs/codex/artifacts/A05-workflow-integration-1789587147791-3f12c8a7-fa62-4ab5-a925-a7119e3cacc5.json

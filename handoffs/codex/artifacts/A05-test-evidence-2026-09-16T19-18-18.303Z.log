@@ -1,0 +1,6 @@
+$ tsx tests/integration/evidence/evidence.test.ts
+{ phase: 'machine setup', name: 'TypeError', code: 'UNCLASSIFIED' }
+
+
+Artifact: handoffs/codex/artifacts/A05-evidence-integration-1789586326750-b9be676c-1839-41f6-b04a-bbd51bc89263.json
+[ELIFECYCLE] Command failed with exit code 1.
