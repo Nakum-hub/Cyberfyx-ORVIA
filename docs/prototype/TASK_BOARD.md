@@ -1,6 +1,6 @@
 # Task board — generated from tracking/tasks.json
 
-Status counts: COMPLETED: 3; IN_PROGRESS: 1; NOT_STARTED: 19.
+Status counts: BLOCKED: 3; COMPLETED: 3; NOT_STARTED: 17.
 
 | ID | Owner | Priority | Status | Task | Start after | Accept after | Tests |
 |---|---|---|---|---|---|---|---|
@@ -10,10 +10,10 @@ Status counts: COMPLETED: 3; IN_PROGRESS: 1; NOT_STARTED: 19.
 | B00 | code | P0 | NOT_STARTED | Build UI shell from shared scaffold | A00 | C00 | Review deliverable |
 | A01 | codex | P0 | COMPLETED | Auth, bootstrap, scoped relational persistence | A00 | Own evidence | T02, T03, T04, T05, T27 |
 | B01 | code | P0 | NOT_STARTED | Real login and configuration screens | B00 | A01, A02 | T02, T05, T06, T29 |
-| A02 | codex | P0 | NOT_STARTED | Versioned configuration and transactional consent | A01 | Own evidence | T06, T07, T08, T09, T10 |
+| A02 | codex | P0 | BLOCKED | Versioned configuration and transactional consent | A01 | Own evidence | T06, T07, T08, T09, T10 |
 | B02 | code | P0 | NOT_STARTED | Principal consent journey | B00 | A02 | T04, T07, T08, T29 |
-| W01 | work | P0 | IN_PROGRESS | Review authority and consent contracts | A00 | A01, A02 | T03, T04, T05, T08, T09 |
-| A03 | codex | P0 | NOT_STARTED | Durable workflow and restricted CRM execution | A02 | Own evidence | T10, T11, T12, T13 |
+| W01 | work | P0 | BLOCKED | Review authority and consent contracts | A00 | A01, A02 | T03, T04, T05, T08, T09 |
+| A03 | codex | P0 | BLOCKED | Durable workflow and restricted CRM execution | A02 | Own evidence | T10, T11, T12, T13 |
 | A04 | codex | P0 | NOT_STARTED | Policy enforcement and synthetic send admission | A03 | Own evidence | T14, T15, T16 |
 | A05 | codex | P0 | NOT_STARTED | Uncertain effects, observations and local evidence | A03 | Own evidence | T13, T17, T18, T19, T20, T21, T22 |
 | B03 | code | P0 | NOT_STARTED | Live workflow, failures, dashboard and evidence | B01, B02 | A03, A05 | T13, T17, T19, T20, T21, T22, T29 |
@@ -90,13 +90,13 @@ Bind login/configuration forms and current identity to generated client; publish
 
 ## A02 — Versioned configuration and transactional consent
 
-**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** BLOCKED · **Accepted commit:** None recorded
 
 Purpose/notice/policy approval, principal/system mapping, consent aggregate/events/idempotency/outbox and receipts.
 
 **Planned files:** `packages/domain/**`; `packages/db/migrations/**`; `apps/web/src/app/api/**`; `policy/processing/**`; `tests/integration/consent/**`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/A02-publication.json`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`
 
 ## B02 — Principal consent journey
 
@@ -110,23 +110,23 @@ Own choices/notice/history and grant/withdraw receipt with real persisted status
 
 ## W01 — Review authority and consent contracts
 
-**Owner:** work · **Status:** IN_PROGRESS · **Accepted commit:** None recorded
+**Owner:** work · **Status:** BLOCKED · **Accepted commit:** None recorded
 
 Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.
 
-**Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`; `docs/reviews/work/W01_A01_CODEX_NEXT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A01-50cb4da/**`; `docs/reviews/work/repro/W01-A01-source-audit.py`; `handoffs/work/W01-A01-50cb4da.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`; `docs/prototype/CONTRACT.md`
+**Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`; `docs/reviews/work/W01_A01_CODEX_NEXT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A01-50cb4da/**`; `docs/reviews/work/repro/W01-A01-source-audit.py`; `handoffs/work/W01-A01-50cb4da.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`; `docs/prototype/CONTRACT.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_CODEX_FIX.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A02-a5b6ff7/**`; `docs/reviews/work/repro/W01-A02-source-audit.py`; `docs/reviews/work/repro/W01-A02-F01-expiry.sql`; `handoffs/work/W01-A02-a5b6ff7.md`
 
-**Evidence:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`
+**Evidence:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`
 
 ## A03 — Durable workflow and restricted CRM execution
 
-**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** BLOCKED · **Accepted commit:** None recorded
 
 Stable workflow and command identities; signed scopes; real CRM remove/read adapter; restart-safe outbox delivery.
 
 **Planned files:** `apps/worker/**`; `apps/agent/**`; `packages/connectors/**`; `packages/db/**`; `tests/integration/workflows/**`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/A02-A07-continuation.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`
 
 ## A04 — Policy enforcement and synthetic send admission
 

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "plan_version": "1.0",
-  "note": "Acceptance definitions, not execution evidence. Only tests for the selected P1 slice become additional readiness gates. W00/A00 foundation accepted at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe, contract 0.2.1. Linked bootstrap subsets and pure-domain F07 retests are partial evidence only. All full application scenarios remain NOT_RUN; task completion does not promote test results. A01 accepted at 50cb4daeded9253c4f7cca4f742cb212c10aa5b7 after Work review 10f8e11830c43a875bfc29d05f650c9f0d853c33. T02/T03/T04/T05/T27 links cover A01 subsets only; all full scenarios remain NOT_RUN and W01 still requires A02.",
+  "note": "Acceptance definitions, not execution evidence. Only tests for the selected P1 slice become additional readiness gates. W00/A00 foundation accepted at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe, contract 0.2.1. Linked bootstrap subsets and pure-domain F07 retests are partial evidence only. All full application scenarios remain NOT_RUN; task completion does not promote test results. A01 accepted at 50cb4daeded9253c4f7cca4f742cb212c10aa5b7 after Work review 10f8e11830c43a875bfc29d05f650c9f0d853c33. T02/T03/T04/T05/T27 links cover A01 subsets only; all full scenarios remain NOT_RUN and W01 still requires A02. A02 0.3.0 candidate reviewed at a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b by Work b3c582f86c78ca565562b95aa692a8b84f672770. A02/W01 acceptance is blocked on medium source finding W01-A02-F01; runtime reproduction is NOT_RUN, not a full-scenario FAIL. Linked 49-check consent and earlier 87-check auth evidence remain partial. A03 coding is reported under the human continuation; its acceptance is blocked by A02, not recorded as completed.",
   "tests": [
     {
       "id": "T01",
@@ -50,7 +50,10 @@
       "evidence": [
         "docs/reviews/work/W01_A01_EVIDENCE.json",
         "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
-        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json"
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
       ]
     },
     {
@@ -67,7 +70,10 @@
       "evidence": [
         "docs/reviews/work/W01_A01_EVIDENCE.json",
         "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
-        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json"
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
       ]
     },
     {
@@ -85,7 +91,10 @@
       "evidence": [
         "docs/reviews/work/W01_A01_EVIDENCE.json",
         "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
-        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json"
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
       ]
     },
     {
@@ -99,7 +108,11 @@
       ],
       "source": "M1 \u00a7\u00a78, 13\u201319, 191",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T07",
@@ -112,7 +125,11 @@
       ],
       "source": "M1 \u00a7\u00a716\u201320",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T08",
@@ -126,7 +143,11 @@
       ],
       "source": "M1 \u00a7\u00a717\u201318, 99",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T09",
@@ -139,7 +160,11 @@
       ],
       "source": "M1 \u00a7\u00a716\u201318, 99",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T10",
@@ -153,7 +178,11 @@
       ],
       "source": "M1 \u00a7\u00a717\u201318, 191",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
+      ]
     },
     {
       "id": "T11",
@@ -391,7 +420,10 @@
       "evidence": [
         "docs/reviews/work/W01_A01_EVIDENCE.json",
         "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
-        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json"
+        "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A02-test-consent-2026-09-16T15-31-31.521Z.json",
+        "handoffs/codex/artifacts/A02-consent-integration-1789572708381-865b6d53-c8fe-431a-931b-f905ae4ada96.json"
       ]
     },
     {
