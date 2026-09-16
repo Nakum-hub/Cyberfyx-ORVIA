@@ -27,10 +27,13 @@ test('unknown dependencies, cycles, invalid statuses, missing evidence, and view
     (t:Tracking)=>{t.tasks[0]!.start_dependencies=['Z99'];},
     (t:Tracking)=>{t.tasks[0]!.start_dependencies=['A00'];},
     (t:Tracking)=>{t.tasks[0]!.status='FAKE_GREEN';},
-    (t:Tracking)=>{t.tasks.find(t=>t.id==='A01')!.status='IN_PROGRESS';},
+    (t:Tracking)=>{t.tasks.find(t=>t.id==='A00')!.status='NOT_STARTED';t.tasks.find(t=>t.id==='A01')!.status='IN_PROGRESS';},
     (t:Tracking)=>{t.tasks[0]!.status='COMPLETED';t.tasks[0]!.evidence=[];},
   ]){const {tasks,acceptance}=load();mutate(tasks);assert.throws(()=>validateTracking(tasks,acceptance,()=>true));}
   const {tasks,acceptance}=load();assert.throws(()=>validateTracking(tasks,acceptance,()=>false));
   acceptance.tests[0]!.status='PASS';assert.throws(()=>validateTracking(tasks,acceptance,()=>true));
-  assert.throws(()=>assertViewRows(renderTasks(tasks).replace('| BLOCKED |','| COMPLETED |'),taskRows(tasks)));
+  const rows=taskRows(tasks);const original='| '+rows[0]!.join(' | ')+' |';
+  const drifted=renderTasks(tasks).replace(original,original.replace(tasks.tasks[0]!.status,'FAKE_GREEN'));
+  assert.notEqual(drifted,renderTasks(tasks),'the negative fixture must actually change a rendered row');
+  assert.throws(()=>assertViewRows(drifted,rows));
 });

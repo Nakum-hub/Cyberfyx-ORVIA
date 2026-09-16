@@ -1,0 +1,2 @@
+$ tsx scripts/auth-init.ts "confirm:codex-a00"
+Runtime roles provisioned; generated credentials remain in the protected local auth directory.

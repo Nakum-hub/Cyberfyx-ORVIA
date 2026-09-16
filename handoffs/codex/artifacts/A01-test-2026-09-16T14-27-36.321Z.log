@@ -1,0 +1,20 @@
+$ tsx --test tests/unit/*.test.ts
+✔ W00-F07: provider-only evidence cannot complete an independent-observation obligation (5.1136ms)
+✔ W00-F07 controls: only a fresh, satisfied independent read in current scope completes (7.9243ms)
+✔ W00-F07: provider receipts remain valid reconciliation evidence and manual work stays distinct (8.2812ms)
+✔ canonical digest is order-independent for objects and strict for unsupported values (5.5933ms)
+✔ signed envelope rejects altered bindings, signature, trust and expiry (36.0291ms)
+✔ portal-safe immutable acceptance and refreshed current status remain distinct (9.2543ms)
+✔ ACK and manual work do not fabricate automated observation; unknown history is retained (7.9956ms)
+✔ browser transport enforces request validation, parses errors, and never retries writes (63.8892ms)
+✔ current and legitimately progressed/BLOCKED tracking remain valid (32.7588ms)
+✔ application PASS cannot be manufactured from a document or bootstrap subset (13.3293ms)
+✔ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (51.8972ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2597.8047

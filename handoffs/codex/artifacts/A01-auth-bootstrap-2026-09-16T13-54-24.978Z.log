@@ -1,0 +1,2 @@
+$ tsx scripts/auth-bootstrap.ts owner "confirm:codex-a00"
+Protected owner bootstrap committed. Credentials remain in local profile auth/bootstrap.json; no credential printed.

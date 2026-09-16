@@ -1,0 +1,41 @@
+$ tsx --test tests/unit/*.test.ts
+✔ W00-F07: provider-only evidence cannot complete an independent-observation obligation (7.6082ms)
+✔ W00-F07 controls: only a fresh, satisfied independent read in current scope completes (8.3132ms)
+✔ W00-F07: provider receipts remain valid reconciliation evidence and manual work stays distinct (4.5ms)
+✔ canonical digest is order-independent for objects and strict for unsupported values (4.2619ms)
+✔ signed envelope rejects altered bindings, signature, trust and expiry (66.6151ms)
+✔ portal-safe immutable acceptance and refreshed current status remain distinct (6.9184ms)
+✔ ACK and manual work do not fabricate automated observation; unknown history is retained (7.0845ms)
+✔ browser transport enforces request validation, parses errors, and never retries writes (130.8914ms)
+✔ current and legitimately progressed/BLOCKED tracking remain valid (14.9038ms)
+✔ application PASS cannot be manufactured from a document or bootstrap subset (11.6878ms)
+✖ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (13.4746ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1067.0638
+
+✖ failing tests:
+
+test at tests\unit\tracking.test.ts:25:1
+✖ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (13.4746ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\tests\unit\tracking.test.ts:32:59)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+[ELIFECYCLE] Test failed. See above for more details.

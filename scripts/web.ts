@@ -8,7 +8,7 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 process.chdir(root);
 const require=createRequire(new URL('../apps/web/package.json',import.meta.url));
 const args=mode==='build'?['build']:[mode,'--hostname','127.0.0.1','--port',String(loadProfile().app_port)];
-const child=spawn(process.execPath,[require.resolve('next/dist/bin/next'),...args],{cwd:fileURLToPath(new URL('../apps/web/',import.meta.url)),stdio:'inherit',windowsHide:true,env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1'}});
+const child=spawn(process.execPath,[require.resolve('next/dist/bin/next'),...args],{cwd:fileURLToPath(new URL('../apps/web/',import.meta.url)),stdio:'inherit',windowsHide:true,env:{...process.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
 child.on('error',()=>{process.exitCode=1;});
 child.on('close',code=>{process.exitCode=code??1;});
 process.on('SIGTERM',()=>child.kill('SIGTERM'));

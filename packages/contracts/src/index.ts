@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-/** A00 coordinated proposal including W00-F07. Pending semantic acceptance. */
+/** W00 accepted at 425f079; human-integrated acceptance at e1fa052. */
 export const CONTRACT_VERSION = '0.2.1' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
 export const AUTH = {
