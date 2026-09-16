@@ -4,7 +4,7 @@
   "observed_on": "2026-09-16",
   "code_under_test_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
   "code_under_test_limit": "No application code exists at this base; this identifies the inspected repository snapshot, not a tested application.",
-  "report_commit": "Initial published checkpoint ebaea86cae793d04808a1fc983e1adc31b1bbe06; publication metadata is a later commit in PR #1, distinct from the inspected base.",
+  "report_commit": "Initial published checkpoint ebaea86cae793d04808a1fc983e1adc31b1bbe06 was merged by the owner via PR #1; subsequent publication metadata is a separate Work-branch proposal, distinct from the inspected source base.",
   "intended_profile": "CUSTOMER_LOCAL_SYNTHETIC",
   "executed_profile": "Work document review only; no application environment",
   "fixture": "Approved source and planning records only",
@@ -485,5 +485,35 @@
     ],
     "limitations": "Document/publication checks only; no application test rerun was applicable."
   },
-  "publication_current_status": "PUBLISHED_DRAFT_PR"
+  "publication_current_status": "INITIAL_CHECKPOINT_HUMAN_MERGED; PUBLICATION_METADATA_SEPARATE_PROPOSAL",
+  "human_integration_observation": {
+    "procedure": "GitHub GET pulls/1 and GET branches?per_page=100",
+    "observed_at": "2026-09-16T08:28:06.100413+00:00",
+    "pull_request": 1,
+    "merged": true,
+    "merged_at": "2026-09-16T08:21:24Z",
+    "merged_by": "Nakum-hub",
+    "merge_commit_sha": "d2f49fe3ebde2e7e946239329fc14c802d10a3b3",
+    "merged_head_sha": "ebaea86cae793d04808a1fc983e1adc31b1bbe06",
+    "main_sha": "d2f49fe3ebde2e7e946239329fc14c802d10a3b3",
+    "work_branch_metadata_sha_at_observation": "97622f86d7e4b4172f5358662f882f700bebada6",
+    "limitation": "The owner merged PR #1 while Work prepared publication metadata. This observation does not establish W00/A00 acceptance or any application result. No merge action was executed by Work.",
+    "main_tree_sha": "4f0afd9ee19f8c69dd37d8f449334937fcba45fb",
+    "main_tree_matches_reviewed_checkpoint": true
+  },
+  "post_merge_metadata_validation": {
+    "procedure": "Stage exactly four owned records; git diff --cached --check; compare canonical tracker/view bytes to reviewed checkpoint; verify all 34 tests still NOT_RUN; retain 403/retry evidence; verify owner merge facts and matching main tree via GitHub API.",
+    "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-publication",
+    "started_at": "2026-09-16T08:28:53.522544+00:00",
+    "finished_at": "2026-09-16T08:28:53.539793+00:00",
+    "source_base": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+    "human_integrated_commit": "d2f49fe3ebde2e7e946239329fc14c802d10a3b3",
+    "metadata_parent_commit": "97622f86d7e4b4172f5358662f882f700bebada6",
+    "contract_version": "design 0.1.0",
+    "environment": "Document publication only",
+    "fixture": "No runtime fixture",
+    "exit_code": 0,
+    "result": "PASS",
+    "limitations": "No application results; this is a separate follow-up after owner integration."
+  }
 }

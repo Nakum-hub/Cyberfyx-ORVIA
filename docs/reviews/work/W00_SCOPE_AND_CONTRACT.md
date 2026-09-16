@@ -92,7 +92,7 @@ All findings below reference the inspected base above unless explicitly labelled
 - **Owner/correction:** human checks/authorises repository Contents write and Pull requests write for the selected GitHub connection, or applies the prepared commit patch using existing authorised repository access. No token or private key is requested in chat and no access control is bypassed.
 - **Retest:** after access is corrected, publish the reviewed tree, verify remote branch commit/tree and PR target/diff, and keep `main` unchanged until human approval. This is a publication blocker, not an observed application defect.
 
-**Resolution / retest:** GitHub accepted tree `4f0afd9ee19f8c69dd37d8f449334937fcba45fb`, identical to reviewed local checkpoint `43d9590d26ec7e825a67ebdb1a76aea3b306ed05`. Published commit `ebaea86cae793d04808a1fc983e1adc31b1bbe06` is on the intended Work branch; [draft PR #1](https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/1) targets the inspected main base. Remote branch SHA and all nine changed paths were checked. `W00_EVIDENCE.json` retains the failed attempt and the successful retry separately. This closes the publication blocker only.
+**Resolution / retest:** GitHub accepted tree `4f0afd9ee19f8c69dd37d8f449334937fcba45fb`, identical to reviewed local checkpoint `43d9590d26ec7e825a67ebdb1a76aea3b306ed05`. Published checkpoint `ebaea86cae793d04808a1fc983e1adc31b1bbe06` was submitted on the intended Work branch in [PR #1](https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/1). The owner `Nakum-hub` subsequently merged it at `2026-09-16T08:21:24Z` into `d2f49fe3ebde2e7e946239329fc14c802d10a3b3`. Work did not merge it; later publication metadata is a separate proposal. Remote branch SHA and all nine changed paths were checked. `W00_EVIDENCE.json` retains the failed attempt and the successful retry separately. This closes the publication blocker only.
 
 ## Four Work stages and execution boundary
 
@@ -107,4 +107,4 @@ W01 will review real tenant/environment/principal authority, MFA/roles/version a
 
 The restored canonical ledger retains all 34 tests NOT_RUN and no application evidence. Prototype IDs are distinct from similarly numbered master tests. Internal-demo readiness is NOT_READY; production security/legal/release readiness is NOT_ASSESSED.
 
-Next dependency-ready ticket: **Codex A00**, with **Cowork C00** independent. Human may review/integrate this Work checkpoint; that alone does not accept W00/A00 or permit B00/W01 to start. See [the factual handoff](../../../handoffs/work/W00-96b8bd7.md).
+Next dependency-ready ticket: **Codex A00**, with **Cowork C00** independent. The human integrated the initial Work checkpoint via PR #1; that alone does not accept W00/A00 or permit B00/W01 to start. See [the factual handoff](../../../handoffs/work/W00-96b8bd7.md).
