@@ -1,9 +1,10 @@
 {
-  "contract_version": "0.2.1",
-  "review_status": "ACCEPTED_W00",
-  "review_commit": "425f079bc74e897d8ee97fa56faeea50e42ac46f",
-  "integration_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
-  "provenance": "Generated from accepted executable schemas. Historical proposal filename retained; tracking/contract_seed.json is generated from these same bytes.",
+  "contract_version": "0.3.0",
+  "review_status": "PENDING_WORK_REVIEW",
+  "accepted_baseline": "0.2.1",
+  "review_commit": null,
+  "integration_commit": null,
+  "provenance": "Generated from canonical executable schemas, pending Work review. Historical proposal filename retained; tracking/contract_seed.json is generated from these same bytes.",
   "api_base": "/api/v1",
   "profiles": {
     "codex-a00": {
@@ -194,6 +195,38 @@
       "idempotency": true
     },
     {
+      "id": "reauthenticate_policy",
+      "method": "post",
+      "path": "/api/v1/admin/policies/{id}/reauthenticate",
+      "authority": "STAFF",
+      "capability": "policy.publish",
+      "params": "IdPath",
+      "request": "PolicyReauthenticate",
+      "response": "PublicationProof",
+      "status": 201
+    },
+    {
+      "id": "create_mapping",
+      "method": "post",
+      "path": "/api/v1/admin/target-mappings",
+      "authority": "STAFF",
+      "capability": "configuration.write",
+      "request": "MappingCreate",
+      "response": "TargetMapping",
+      "status": 201,
+      "idempotency": true
+    },
+    {
+      "id": "list_mappings",
+      "method": "get",
+      "path": "/api/v1/admin/target-mappings",
+      "authority": "STAFF",
+      "capability": "configuration.read",
+      "response": "MappingList",
+      "status": 200,
+      "paginated": true
+    },
+    {
       "id": "control_map",
       "method": "get",
       "path": "/api/v1/admin/control-map",
@@ -219,6 +252,17 @@
       "authority": "PRINCIPAL",
       "capability": "consent.own.read",
       "response": "ConsentList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "own_history",
+      "method": "get",
+      "path": "/api/v1/portal/me/consents/{purpose_id}/history",
+      "authority": "PRINCIPAL",
+      "capability": "consent.own.read",
+      "params": "PurposePath",
+      "response": "ReceiptList",
       "status": 200,
       "paginated": true
     },

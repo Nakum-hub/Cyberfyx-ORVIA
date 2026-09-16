@@ -1,11 +1,11 @@
 {
   "fixture_kind": "PUBLIC_SYNTHETIC_SIGNATURE_VECTOR",
   "not_a_runtime_trust_root": true,
-  "public_key_spki_base64": "MCowBQYDK2VwAyEAs75cxs2YCoBn6dn09IIXFlv7vwBYPdzzcblact80PC4=",
+  "public_key_spki_base64": "MCowBQYDK2VwAyEAk4Ru+qKqKTBVkupCuuvUBZmtWVdqEO9SzofS2tNKxOc=",
   "command": {
     "algorithm": "Ed25519",
     "payload": {
-      "schema_version": "0.2.1",
+      "schema_version": "0.3.0",
       "command_id": "00000000-0000-4000-8000-00000000000d",
       "installation_id": "00000000-0000-4000-8000-00000000000e",
       "signing_key_id": "00000000-0000-4000-8000-00000000000f",
@@ -48,6 +48,6 @@
       "expires_at": "2026-09-16T10:04:00.000Z",
       "nonce": "synthetic_example_nonce_000000000000000001"
     },
-    "signature": "fkZUMkZ52oaxzOK2N679_lK5yy6RGfuGhv0GWZd9UhaQTV4Op5Fvcj-Lls7yxGc0d3S3ChdrrdXbOLPkiCtACQ"
+    "signature": "LjuMNTYNGHhasyaBtekEUlJFnXGvGf_L4q--BLcEgGuNQ24_zJDW2w6XQ6PNYCWkCVhK6NjbOiykAgSkCAw0CQ"
   }
 }

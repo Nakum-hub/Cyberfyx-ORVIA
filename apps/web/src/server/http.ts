@@ -2,13 +2,15 @@ import { randomUUID } from 'node:crypto';
 import { ErrorResponse } from '../../../../packages/contracts/src/index.ts';
 import { AccessError } from '../../../../packages/authz/src/index.ts';
 import { runtime } from './runtime.ts';
+import { safeError } from '../../../../packages/testing/src/evidence.ts';
 
-export async function safeRoute(work: (requestId: string) => Promise<Response>, operation: 'AUTH_STAFF' | 'AUTH_PRINCIPAL' | 'SESSION_READ' | 'PRINCIPAL_LIST' | 'PRINCIPAL_CREATE') {
+export async function safeRoute(work: (requestId: string) => Promise<Response>, operation: 'AUTH_STAFF' | 'AUTH_PRINCIPAL' | 'SESSION_READ' | 'PRINCIPAL_LIST' | 'PRINCIPAL_CREATE' | 'BUSINESS') {
   const requestId = randomUUID();
   let response: Response;
   try {
     response = await work(requestId);
   } catch (error) {
+    if (!(error instanceof AccessError)) console.error(JSON.stringify({ request_id: requestId, operation, ...safeError(error) }));
     const status = error instanceof AccessError ? error.status : 503;
     const code = error instanceof AccessError ? error.code : 'SERVICE_UNAVAILABLE';
     response = Response.json(ErrorResponse.parse({ error: { code, message: code === 'FORBIDDEN' ? 'Access denied; privileged staff must complete MFA.' : 'Request could not be completed.',
