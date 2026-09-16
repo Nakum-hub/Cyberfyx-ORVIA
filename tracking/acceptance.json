@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "plan_version": "1.0",
-  "note": "Acceptance definitions, not execution evidence. Only tests for the selected P1 slice become additional readiness gates.",
+  "note": "Acceptance definitions, not execution evidence. Only tests for the selected P1 slice become additional readiness gates. W00/A00 foundation accepted at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe, contract 0.2.1. Linked bootstrap subsets and pure-domain F07 retests are partial evidence only. All full application scenarios remain NOT_RUN; task completion does not promote test results.",
   "tests": [
     {
       "id": "T01",
@@ -14,7 +14,10 @@
       ],
       "source": "M1 §§84–86, 163, 194",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/A00-e5cdef3.md",
+        "docs/reviews/work/W00_A00_ACCEPTANCE.md"
+      ]
     },
     {
       "id": "T02",
@@ -241,7 +244,11 @@
       ],
       "source": "M1 §§28, 44–45, 169",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.json",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json",
+        "docs/reviews/work/W00_A00_ACCEPTANCE.md"
+      ]
     },
     {
       "id": "T19",
@@ -282,7 +289,11 @@
       ],
       "source": "M1 §§44–49, 104, 185",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.json",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json",
+        "docs/reviews/work/W00_A00_ACCEPTANCE.md"
+      ]
     },
     {
       "id": "T22",
@@ -375,7 +386,10 @@
       ],
       "source": "M1 §§122, 128, 178–179",
       "status": "NOT_RUN",
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/A00-e5cdef3.md",
+        "docs/reviews/work/W00_A00_ACCEPTANCE.md"
+      ]
     },
     {
       "id": "T29",

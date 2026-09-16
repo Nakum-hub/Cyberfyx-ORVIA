@@ -1,6 +1,8 @@
-# W00 — repository scope and bootstrap review
+# W00 — scope and bootstrap review history
 
-**Review:** repo-r2, 2026-09-16 · **Base inspected:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`
+**Current disposition:** W00/A00 accepted at integrated `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`, contract 0.2.1. See [acceptance review](W00_A00_ACCEPTANCE.md). The repo-r2 assessment below is historical; its missing-source/scaffold observations are not current. F07 and source placement were corrected and independently retested.
+
+**Historical review:** repo-r2, 2026-09-16 · **Base inspected:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`
 
 **Disposition:** Work design/checkpoint delivered; W00 acceptance BLOCKED pending A00 proposal and source placement. No application tests executed. This updates the earlier document-only review against the newly accessible repository.
 

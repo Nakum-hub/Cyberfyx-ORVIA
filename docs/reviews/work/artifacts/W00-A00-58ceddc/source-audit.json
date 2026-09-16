@@ -1,0 +1,99 @@
+{
+  "kind": "WORK_SOURCE_PROVENANCE_CHECK",
+  "task_id": "W00",
+  "source_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
+  "submission_head": "aa831cdfc2051599ab812e20287664c34f30a15c",
+  "fix_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "docs/reviews/work/repro/W00-A00-source-audit.py"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a00-retest",
+  "started_at": "2026-09-16T13:12:42.615329+00:00",
+  "finished_at": "2026-09-16T13:12:43.659495+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "contract_version": "0.2.1",
+  "master_path": "docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "submission_and_merge_tree_equal": true,
+  "generated_artifacts": [
+    {
+      "path": "openapi.json",
+      "sha256": "3e9b1934680ad28963a435517d2e7e9c9ade3a4e90282090e2dbcc192524f992",
+      "result": "PASS"
+    },
+    {
+      "path": "examples.json",
+      "sha256": "7029a76c7f0ec77d96eab063e6b1783646cf7ba81291d1f0b3c25e81bbc7ae71",
+      "result": "PASS"
+    },
+    {
+      "path": "client-types.d.ts",
+      "sha256": "f471bba73a0a1e058193e4129c82bb0ab0c47de5900ed816e4832f52aaf0eb9c",
+      "result": "PASS"
+    },
+    {
+      "path": "interfaces.json",
+      "sha256": "3081204e57c09cfd28a2084454cff28b77beb04453838f67ee9342b0d0f7c836",
+      "result": "PASS"
+    },
+    {
+      "path": "signature-vector.json",
+      "sha256": "187d00a1efd90285478085827aecb7a2f7c1bc0c3df2ab3144b662efb1393b57",
+      "result": "PASS"
+    },
+    {
+      "path": "contract-seed.proposed.json",
+      "sha256": "9a7888ae14c1767c25d10404307b249623c3c18186d5fdcb4a408c62e49f8d01",
+      "result": "PASS"
+    },
+    {
+      "path": "endpoint-types.ts",
+      "sha256": "3d42ac6b98c1b23ed01df05159a628a69285f9eb7504671bcfad0e38508670e4",
+      "result": "PASS"
+    }
+  ],
+  "producer_comparisons": [
+    {
+      "report": "handoffs/codex/artifacts/A00-test-f07-2026-09-16T13-00-35.362Z.json",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_files_matched": 92,
+      "result": "PASS"
+    },
+    {
+      "report": "handoffs/codex/artifacts/A00-test-2026-09-16T13-00-35.450Z.json",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_files_matched": 92,
+      "result": "PASS"
+    },
+    {
+      "report": "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T13-00-36.392Z.json",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_files_matched": 92,
+      "result": "PASS"
+    },
+    {
+      "report": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T13-00-35.917Z.json",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_files_matched": 92,
+      "result": "PASS"
+    },
+    {
+      "report": "handoffs/codex/artifacts/A00-lint-2026-09-16T13-00-36.620Z.json",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_files_matched": 92,
+      "result": "PASS"
+    },
+    {
+      "report": "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T13-01-18.844Z.json",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_files_matched": 92,
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Hash/source checks are not application or service execution.",
+    "Producer checks retain their own fix-commit identity; Work reruns have separate reports."
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "kind": "WORK_REVIEW_CHECK",
+  "coverage": "ENGINEERING_ONLY",
+  "task_id": "W00",
+  "test_ids": [],
+  "source_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
+  "contract_version": "0.2.1",
+  "profile": "work-review-no-services",
+  "fixture_id": "W00-F07-and-repository-unit-fixtures",
+  "command": [
+    "/workspace/scratch/6107f9291043/w00-a00-review-tools/node_modules/node/bin/node",
+    "handoffs/codex/repro/W00-F07/provider-receipt.mjs"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a00-retest",
+  "started_at": "2026-09-16T13:11:46.635575+00:00",
+  "finished_at": "2026-09-16T13:11:46.864463+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "runtime": {
+    "node": "24.21.0",
+    "pnpm": "12.4.2"
+  },
+  "artifact_paths": [
+    "docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.log"
+  ],
+  "limitations": [
+    "No service, browser or full application acceptance executed.",
+    "Node tsx loader used where applicable; prior CLI IPC failures are not relabelled as passed."
+  ],
+  "assertions": [
+    {
+      "id": "ack-only",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION",
+      "result": "PASS"
+    },
+    {
+      "id": "provider-assertion-only",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION",
+      "result": "PASS"
+    },
+    {
+      "id": "fresh-scoped-read",
+      "expected": "COMPLETED",
+      "actual": "COMPLETED",
+      "result": "PASS"
+    },
+    {
+      "id": "stale-scoped-read",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION",
+      "result": "PASS"
+    }
+  ]
+}

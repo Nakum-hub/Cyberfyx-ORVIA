@@ -20,17 +20,29 @@
         "tracking/acceptance.json",
         "docs/prototype/TASK_BOARD.md",
         "CURRENT_STATE.md",
-        "handoffs/work/W00-96b8bd7.md"
+        "handoffs/work/W00-96b8bd7.md",
+        "docs/reviews/work/W00_A00_ACCEPTANCE.md",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/**",
+        "docs/reviews/work/repro/W00-A00-source-audit.py",
+        "docs/prototype/CONTRACT.md",
+        "docs/prototype/FILE_OWNERSHIP.md",
+        "docs/prototype/ACCEPTANCE.md",
+        "handoffs/TEMPLATE.md",
+        "handoffs/work/W00-58ceddc.md"
       ],
       "deliverable": "Confirm current source/deadline/access facts; review one selected architecture and contract; record what remains unknown.",
       "test_ids": [],
-      "status": "BLOCKED",
-      "commit": null,
+      "status": "COMPLETED",
+      "commit": "425f079bc74e897d8ee97fa56faeea50e42ac46f",
       "evidence": [
         "docs/decisions/ADR-001-prototype-profile.md",
         "docs/reviews/work/W00_SCOPE_AND_CONTRACT.md",
         "docs/reviews/work/W00_EVIDENCE.json",
-        "handoffs/work/W00-96b8bd7.md"
+        "handoffs/work/W00-96b8bd7.md",
+        "docs/reviews/work/W00_A00_ACCEPTANCE.md",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/source-audit.json",
+        "handoffs/work/W00-58ceddc.md"
       ]
     },
     {
@@ -55,9 +67,21 @@
         "T01",
         "T28"
       ],
-      "status": "NOT_STARTED",
-      "commit": null,
-      "evidence": []
+      "status": "COMPLETED",
+      "commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
+      "evidence": [
+        "handoffs/codex/A00-e5cdef3.md",
+        "handoffs/codex/A00-publication.json",
+        "handoffs/codex/A00-command-index.json",
+        "docs/engineering/REPOSITORY_INVENTORY.md",
+        "docs/engineering/A00-CONTRACT-PROPOSAL.md",
+        "handoffs/codex/A00-F07-e839b1a.md",
+        "handoffs/codex/A00-F07-results.json",
+        "docs/reviews/work/W00_A00_ACCEPTANCE.md",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/unit.json",
+        "docs/reviews/work/artifacts/W00-A00-58ceddc/source-audit.json"
+      ]
     },
     {
       "id": "C00",

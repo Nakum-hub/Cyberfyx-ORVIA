@@ -18,6 +18,7 @@
 | `apps/web/src/app/layout.tsx` and UI bootstrap entry files | Codex during A00, then Claude Code | Transfer explicitly recorded in A00 handoff before B00 starts |
 | `tests/unit/**`, `tests/integration/**`, `tests/security/**`, `tests/recovery/**`, `tests/fault-fixtures/**` | Codex | Work reviews; fixes remain with Codex unless reassigned |
 | `tests/e2e/**`, UI component tests and browser screenshots | Claude Code | No shared-data reset without named isolated profile |
+| `handoffs/TEMPLATE.md` | Work | Shared format restored unchanged from the matching v1 kit |
 | `handoffs/<lane>/**` | That lane | Unique task/commit filenames; other lanes read only |
 | Integration branch and release approval | Human | Small reviewed merges; no agent silently overwrites another branch |
 
@@ -53,3 +54,7 @@ Work may review the human integration checkout read-only and provide patches for
 Include `change_id`, reason, current contract version, exact affected fields/routes/enums, producer changes, consumer changes, migration effect, tests and owner. Codex is the schema writer; Work reviews meaning; Claude Code confirms binding changes. Bump the contract version and regenerate artifacts together. No second endpoint with different semantics just to avoid coordination.
 
 If blocked, state the dependency and continue an independent owned task. Never invent missing success data, remove tests, alter the product boundary or quietly take over another lane's files.
+
+## Accepted A00 transfer — 2026-09-16
+
+Work accepts the human-integrated A00 base `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`, contract 0.2.1. After the human integrates this shared record, Codex's existing A00 handoff transfer of `apps/web/src/app/layout.tsx` and `apps/web/src/app/page.tsx` takes effect for Claude Code/B00. Health/API/server/auth, Next/root configuration, manifests, dependencies and executable schemas remain Codex-owned. B00 uses isolated `ui-b00` and shared generated clients; C00 is needed for B00 acceptance, not its start. Codex retains the accepted seed/generator metadata writer role. Work review reproducers/artifacts under docs/reviews/work are review evidence, not application fixes.

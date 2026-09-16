@@ -1,0 +1,25 @@
+{
+  "kind": "WORK_REVIEW_SETUP",
+  "task_id": "W00",
+  "source_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
+  "contract_version": "0.2.1",
+  "profile": "work-review-no-services",
+  "command": [
+    "/workspace/scratch/6107f9291043/w00-a00-review-tools/node_modules/node/bin/node",
+    "/workspace/scratch/6107f9291043/w00-a00-review-tools/node_modules/pnpm/bin/pnpm.mjs",
+    "install",
+    "--frozen-lockfile",
+    "--offline"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a00-retest",
+  "started_at": "2026-09-16T13:11:04.767443+00:00",
+  "finished_at": "2026-09-16T13:11:05.182065+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "artifact_paths": [
+    "docs/reviews/work/artifacts/W00-A00-58ceddc/install.log"
+  ],
+  "limitations": [
+    "Cached offline install only; no clean-machine or application acceptance claim."
+  ]
+}
