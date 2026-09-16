@@ -276,7 +276,12 @@
         "docs/reviews/work/artifacts/W01-A02-a5b6ff7/**",
         "docs/reviews/work/repro/W01-A02-source-audit.py",
         "docs/reviews/work/repro/W01-A02-F01-expiry.sql",
-        "handoffs/work/W01-A02-a5b6ff7.md"
+        "handoffs/work/W01-A02-a5b6ff7.md",
+        "handoffs/work/W01-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+        "docs/reviews/work/repro/W01-W03-document-check.py",
+        "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**"
       ],
       "deliverable": "Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.",
       "test_ids": [
@@ -294,7 +299,9 @@
         "handoffs/work/W01-A01-50cb4da.md",
         "docs/reviews/work/W01_A02_REVIEW.md",
         "docs/reviews/work/W01_A02_EVIDENCE.json",
-        "handoffs/work/W01-A02-a5b6ff7.md"
+        "handoffs/work/W01-A02-a5b6ff7.md",
+        "handoffs/work/W01-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json"
       ]
     },
     {
@@ -530,7 +537,16 @@
       ],
       "planned_paths": [
         "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
-        "CURRENT_STATE.md"
+        "CURRENT_STATE.md",
+        "handoffs/work/W02-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+        "docs/reviews/work/repro/W01-W03-document-check.py",
+        "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**",
+        "tracking/tasks.json",
+        "tracking/acceptance.json",
+        "docs/prototype/TASK_BOARD.md",
+        "docs/prototype/ACCEPTANCE.md"
       ],
       "deliverable": "Read exact commit/results, challenge unknown/verified/recovery/egress claims, triage blockers and route fixes to owners.",
       "test_ids": [
@@ -544,9 +560,13 @@
         "T25",
         "T26"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
+        "handoffs/work/W02-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json"
+      ]
     },
     {
       "id": "A08",
@@ -694,15 +714,28 @@
       ],
       "planned_paths": [
         "docs/reviews/work/FINAL_GATE_REPORT.md",
-        "CURRENT_STATE.md"
+        "CURRENT_STATE.md",
+        "handoffs/work/W03-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+        "docs/reviews/work/repro/W01-W03-document-check.py",
+        "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**",
+        "tracking/tasks.json",
+        "tracking/acceptance.json",
+        "docs/prototype/TASK_BOARD.md",
+        "docs/prototype/ACCEPTANCE.md"
       ],
       "deliverable": "Confirm exact candidate, all mandatory evidence, source/contract versions and limitations; recommend READY/PARTIAL/NOT_READY; human signs.",
       "test_ids": [
         "T30"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/FINAL_GATE_REPORT.md",
+        "handoffs/work/W03-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json"
+      ]
     }
   ]
 }
