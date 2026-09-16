@@ -1,0 +1,25 @@
+{
+  "task_id": "A04",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-16T18:46:16.256Z",
+  "test_ids": [
+    "T14",
+    "T15",
+    "T16"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.3.0",
+  "build_id": "zC4CM79qKkMJmguJVukju",
+  "assertions": [
+    {
+      "name": "agent cannot use sender authority",
+      "result": "FAIL",
+      "expected": 403,
+      "actual": 401
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+  ]
+}

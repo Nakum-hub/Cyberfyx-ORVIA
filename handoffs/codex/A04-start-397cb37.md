@@ -1,0 +1,9 @@
+# A04 — start record
+
+Base `397cb370bedaf45c3f62409e88fb891f7cd3b23e`, after verified A03. Owned paths: processing policy/SDK, domain/database, machine auth/API, synthetic sender, backend integration/fault tests, scripts and Codex evidence. No UI or Work-owned tracking changes.
+
+Resumed after the priority W01-A02-F01 correction at `3ddf9f473f283e68affd24e1f00bf67d04fa808d`, on `prototype/codex/A04-A07-core`. Correction PR #16 remains bounded on the prior branch. A04 was restored from stash `d2e91110b767ce8be9978e0c72b4446933c92395`; the only textual conflict was the command allowlist, resolved by retaining both `test:expiry` and `seed:orders`. Root package scripts also retain both additions. Stash retained as a recovery copy. A04 build interrupted before the correction has no completed evidence record and is NOT_RUN for acceptance; rebuild and finish its own tests before publication. Already-applied synthetic migration 0007 was preserved throughout.
+
+Implement current-state processing evaluation and private send admission. Admission shares the consent/agent lock; the linearisation point is the committed decision/send transaction while that lock is held. Resolve scope, exact published policy/notice, consent epoch, mapping generation, target restriction/quarantine and unresolved earlier obligations at admission. A preview remains evidence-only. Marketing withdrawal committed first must create no send row. Independently approved synthetic order service requires a current, explicit fixture condition; it is not a legal exemption.
+
+Prove initial admission, queued/stale-preview rejection, lock ordering with withdrawal, purpose separation, idempotency, wrong machine/scope denial, and actual OPA outage/missing/malformed-result fail-closed behavior. Preserve original policy after fault tests. Real messages remain absent.

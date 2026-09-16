@@ -1,0 +1,336 @@
+{
+  "task_id": "A04",
+  "base_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+  "implementation_commit": "94d3e72298bd8b3571d95425c3288ae4781ae418",
+  "implementation_files": [
+    "apps/demo-targets/src/sender.ts",
+    "apps/web/src/server/business.ts",
+    "apps/web/src/server/machine.ts",
+    "docs/engineering/A04-SEND-ADMISSION.md",
+    "package.json",
+    "packages/auth/src/machine-profile.ts",
+    "packages/auth/src/machine.ts",
+    "packages/contracts/generated/manifest.json",
+    "packages/contracts/generated/openapi.json",
+    "packages/contracts/src/generate.ts",
+    "packages/db/migrations/0007_send_admission.sql",
+    "packages/db/src/runtime.ts",
+    "packages/domain/src/processing.ts",
+    "packages/policy-sdk/package.json",
+    "packages/policy-sdk/src/index.ts",
+    "packages/testing/src/scenario.ts",
+    "pnpm-lock.yaml",
+    "policy/processing/decision.rego",
+    "scripts/machine-init.ts",
+    "scripts/record.mjs",
+    "scripts/seed-orders.ts",
+    "tests/integration/enforcement/send.test.ts"
+  ],
+  "contract_version": "0.3.0",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "commands": [
+    {
+      "artifact": "handoffs/codex/artifacts/A04-build-2026-09-16T18-44-42.592Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "24d1e8bfb9f419eb8f07fd22a84e13b521f277f52797212b9ee795aa2ec2fe59",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-contracts-check-2026-09-16T18-48-08.940Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "7691ab5968d3a601f2fc7764261ec69ba0162ef86fef416b287431ccc05ba9c8",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-contracts-generate-2026-09-16T18-44-28.650Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "bec07e329b9229bc263683d3ce6db30d8ff647c5845968a03e8ebf1ce7b0bb62",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-db-migrate-2026-09-16T16-25-30.515Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "exit_code": 0,
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "30744e8cb00b3c2a7455298f24b6bbd632d58db28d03a102263a3ccdf23e7d2a",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-hygiene-check-2026-09-16T18-49-29.399Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "51fc1028241994101b5b1a7b8497991464a17a79e461c023bdfaad9410812db2",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-install-2026-09-16T16-24-05.682Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--offline"
+      ],
+      "exit_code": 1,
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "30744e8cb00b3c2a7455298f24b6bbd632d58db28d03a102263a3ccdf23e7d2a",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-install-2026-09-16T18-41-35.121Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "087920c38edc54acf26478c7e5ba0d8ded18ba455bb86e8328a641e1e9a32619",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-lint-2026-09-16T18-45-40.347Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "24d1e8bfb9f419eb8f07fd22a84e13b521f277f52797212b9ee795aa2ec2fe59",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-machine-init-2026-09-16T16-27-35.770Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "machine:init",
+        "confirm:codex-a00"
+      ],
+      "exit_code": 0,
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "f09bf749427e8a8ab838668b56304a924fedf11fc7e4e6a7caf8f145fb9367de",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-test-2026-09-16T18-47-55.037Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "7691ab5968d3a601f2fc7764261ec69ba0162ef86fef416b287431ccc05ba9c8",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-test-enforcement-2026-09-16T18-46-01.744Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:enforcement"
+      ],
+      "exit_code": 1,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "24d1e8bfb9f419eb8f07fd22a84e13b521f277f52797212b9ee795aa2ec2fe59",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-test-enforcement-2026-09-16T18-47-13.681Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:enforcement"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "7691ab5968d3a601f2fc7764261ec69ba0162ef86fef416b287431ccc05ba9c8",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T16-25-44.018Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 1,
+      "source_commit": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+      "source_tree_sha256": "30744e8cb00b3c2a7455298f24b6bbd632d58db28d03a102263a3ccdf23e7d2a",
+      "dirty": true
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T18-47-54.529Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "source_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+      "source_tree_sha256": "7691ab5968d3a601f2fc7764261ec69ba0162ef86fef416b287431ccc05ba9c8",
+      "dirty": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "handoffs/codex/artifacts/A04-W01-restoration.json",
+      "sha256": "452b8bf91fc4cee3c85536fc01d7956aaceb9427030a2b8c741c80601eb61328"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-build-2026-09-16T18-44-42.592Z.json",
+      "sha256": "2dfefaaf884091e772057d949457643ec249845d6187fc1abdeede676300a48c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-build-2026-09-16T18-44-42.592Z.log",
+      "sha256": "a908c1085c21d29945f081aa3bb3462ad1af9927f0e94dec26c7618ddebbe0cd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-contracts-check-2026-09-16T18-48-08.940Z.json",
+      "sha256": "100946ae59584b1a5e4bed6b4520527e158d25ce8f95c20bf47489afd3570ccf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-contracts-check-2026-09-16T18-48-08.940Z.log",
+      "sha256": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-contracts-generate-2026-09-16T18-44-28.650Z.json",
+      "sha256": "30acd9c5093309322772977ca885b35fc3b77457db12e667115c5df8024bc72c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-contracts-generate-2026-09-16T18-44-28.650Z.log",
+      "sha256": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-db-migrate-2026-09-16T16-25-30.515Z.json",
+      "sha256": "e99e36aa4a8792d00a46f6a6863ef26eb18fc56e697b8d3f95ea0a5d6955569f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-db-migrate-2026-09-16T16-25-30.515Z.log",
+      "sha256": "d9389b2e22a15151178003a32145c13bab79e9f7ea0185d7a6da435cf3cdab16"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-hygiene-check-2026-09-16T18-49-29.399Z.json",
+      "sha256": "13d7b191fbbb28ab37acc4f173bb4a3f8abfc4a29b2910cb12630575ca623b85"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-hygiene-check-2026-09-16T18-49-29.399Z.log",
+      "sha256": "b0ba48eb13e699faa5012f6f53ad158b43430afb4a8de5e6b3541aef5accf516"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-install-2026-09-16T16-24-05.682Z.json",
+      "sha256": "e7178f462e40863b186af216a3a9918bc19158b6d460cf84c1f02080aea428a2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-install-2026-09-16T16-24-05.682Z.log",
+      "sha256": "1b0db17367e626bffcc5bab2568443d255dfabf27fc2d3083988c57d9837e5c9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-install-2026-09-16T18-41-35.121Z.json",
+      "sha256": "398239273c60197e8214e690cf5d79ae23de027d9ff14caebb132e9268848ef1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-install-2026-09-16T18-41-35.121Z.log",
+      "sha256": "a6bfdd4106db1177aef4005405fac784440e0ab411c7e8ccd1ef86aa6f8032df"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-lint-2026-09-16T18-45-40.347Z.json",
+      "sha256": "7dc42606d145742b76897cf13a36ac34ce1959463248d2ba38762eb88f0d3dc5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-lint-2026-09-16T18-45-40.347Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-machine-init-2026-09-16T16-27-35.770Z.json",
+      "sha256": "3c1dda1d9166fc1925efaa348dfcbcb01cf5b6260879b8fa313ac6c6d925c7a1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-machine-init-2026-09-16T16-27-35.770Z.log",
+      "sha256": "4c9427c936272e3bf800ca1e3cb630f7071471258da16a7e0836c6db182f0a8b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-migration-1789576021953-0eedf5d4-4592-4816-b674-f83b856a588a.json",
+      "sha256": "037e1384d2b948bef1e366c745f449ed34e1f609fead6cacb18f64eb3bc82093"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-send-enforcement-1789584376255-d03d2567-d2f0-4ffc-a094-36f119d7ec77.json",
+      "sha256": "8a48afae628e8cd485fc14e58cbdedb01290d21238d3973f74b091118b55367f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-send-enforcement-1789584450210-0f020159-3c7a-496d-9331-996200a98175.json",
+      "sha256": "53c2b041eaf32a298810267a5c14b65618173a5985f2904117808c3f0b5b0390"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-test-2026-09-16T18-47-55.037Z.json",
+      "sha256": "e6a913b87c24da378a003a0c4ae699ce5730c80829e771d0435f432a36b6ee0a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-test-2026-09-16T18-47-55.037Z.log",
+      "sha256": "291d20058f67c9e77eb266ceb21df25b2783c1672a145c52f110ed59e8d63453"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-test-enforcement-2026-09-16T18-46-01.744Z.json",
+      "sha256": "0423461b8d44c8e79f0fa0bfde9424a41e75bb1d7263bf485529a82f5801e15b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-test-enforcement-2026-09-16T18-46-01.744Z.log",
+      "sha256": "6533a3b67ac8abbd1b3f35a17602d19384b74bb17ce6c140a1624f1823618a01"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-test-enforcement-2026-09-16T18-47-13.681Z.json",
+      "sha256": "d5d5020b410ff6dd1e68ed41e5b3beaefe014fc7dcf232172ce36b3ce4e50f86"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-test-enforcement-2026-09-16T18-47-13.681Z.log",
+      "sha256": "e08504d5060ef0532d6e1eedc5b0a15a0876f9a98d418b5655c74fd63cabafca"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T16-25-44.018Z.json",
+      "sha256": "e87b93fdad77ce93a7c06f1cd6cffa2385f714628b2b650bb44debf0f4968236"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T16-25-44.018Z.log",
+      "sha256": "a06c38698cd40243540bbed5357ef07027403a533a65168c8126a6bfd20ae2fa"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T18-47-54.529Z.json",
+      "sha256": "a16606c9697f65f310fc9ff413b08c4b10bf013aa73a3f43fab4ee5a44feaa67"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T18-47-54.529Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    }
+  ],
+  "review_status": "PENDING_WORK_REVIEW"
+}

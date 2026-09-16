@@ -1,0 +1,146 @@
+{
+  "task_id": "A04",
+  "kind": "RESTORATION_SOURCE_COMPARISON",
+  "result": "PASS",
+  "stash": "d2e91110b767ce8be9978e0c72b4446933c92395",
+  "base_commit": "3ddf9f473f283e68affd24e1f00bf67d04fa808d",
+  "comparisons": [
+    {
+      "path": "apps/web/src/server/business.ts",
+      "matched": true,
+      "original_sha256": "7fc5566471d2e43ea61e74536c9909317305732d4eea02618883bd77d0a13455"
+    },
+    {
+      "path": "apps/web/src/server/machine.ts",
+      "matched": true,
+      "original_sha256": "98315a0a1668656d8a1b2cefb286ad6683467dfd4288675a382979699d558d12"
+    },
+    {
+      "path": "package.json",
+      "matched": true,
+      "original_sha256": "c90d693dede8d4f987df78ab75abbbbf8f39bfc8762dcbe12c30127178a81fb9"
+    },
+    {
+      "path": "packages/auth/src/machine-profile.ts",
+      "matched": true,
+      "original_sha256": "a76a721c939bf58c5845ee604513847cffe4916027d6b936df977dc5a0097463"
+    },
+    {
+      "path": "packages/auth/src/machine.ts",
+      "matched": true,
+      "original_sha256": "7d299d995213a5bed8ebed672d8601833713213f9e0ca9c72861e1737ab4c294"
+    },
+    {
+      "path": "packages/db/src/runtime.ts",
+      "matched": true,
+      "original_sha256": "8c8e6da8a9d51c67eba3f584102d10a976f4d3d4d9c6ab3bc013e6de0275b220"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "matched": true,
+      "original_sha256": "cb5579cd0edc41fb3f2202e37effa23246cfd2f8ac5f2a9ea2429f802ec6e994"
+    },
+    {
+      "path": "scripts/machine-init.ts",
+      "matched": true,
+      "original_sha256": "6e46f3a975ae78f89a074bc438de3596ef9a42ca3c4525e4784896c17742099d"
+    },
+    {
+      "path": "scripts/record.mjs",
+      "matched": true,
+      "original_sha256": "fe7dde7d6256542fe1f3ea99c18bdc012186b0cee71961da7db16515c44c021a"
+    },
+    {
+      "path": "apps/demo-targets/src/sender.ts",
+      "matched": true,
+      "original_sha256": "fdbf499428382ae51d56ae44d04bcaf862999ad8d45997cbf1fa19352aa3a8c7"
+    },
+    {
+      "path": "handoffs/codex/A04-start-397cb37.md",
+      "matched": true,
+      "original_sha256": "83feb84d216ac71b030637a03a5fb59c3c3529769f3f51418c1772f11ad0759c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-db-migrate-2026-09-16T16-25-30.515Z.json",
+      "matched": true,
+      "original_sha256": "e99e36aa4a8792d00a46f6a6863ef26eb18fc56e697b8d3f95ea0a5d6955569f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-db-migrate-2026-09-16T16-25-30.515Z.log",
+      "matched": true,
+      "original_sha256": "d9389b2e22a15151178003a32145c13bab79e9f7ea0185d7a6da435cf3cdab16"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-install-2026-09-16T16-24-05.682Z.json",
+      "matched": true,
+      "original_sha256": "e7178f462e40863b186af216a3a9918bc19158b6d460cf84c1f02080aea428a2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-install-2026-09-16T16-24-05.682Z.log",
+      "matched": true,
+      "original_sha256": "1b0db17367e626bffcc5bab2568443d255dfabf27fc2d3083988c57d9837e5c9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-machine-init-2026-09-16T16-27-35.770Z.json",
+      "matched": true,
+      "original_sha256": "3c1dda1d9166fc1925efaa348dfcbcb01cf5b6260879b8fa313ac6c6d925c7a1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-machine-init-2026-09-16T16-27-35.770Z.log",
+      "matched": true,
+      "original_sha256": "4c9427c936272e3bf800ca1e3cb630f7071471258da16a7e0836c6db182f0a8b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-migration-1789576021953-0eedf5d4-4592-4816-b674-f83b856a588a.json",
+      "matched": true,
+      "original_sha256": "037e1384d2b948bef1e366c745f449ed34e1f609fead6cacb18f64eb3bc82093"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T16-25-44.018Z.json",
+      "matched": true,
+      "original_sha256": "e87b93fdad77ce93a7c06f1cd6cffa2385f714628b2b650bb44debf0f4968236"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A04-typecheck-2026-09-16T16-25-44.018Z.log",
+      "matched": true,
+      "original_sha256": "a06c38698cd40243540bbed5357ef07027403a533a65168c8126a6bfd20ae2fa"
+    },
+    {
+      "path": "packages/db/migrations/0007_send_admission.sql",
+      "matched": true,
+      "original_sha256": "ee5512b0ced7530d2dab8906df6e2bf0f829991983596199711a13f9c83ebca5"
+    },
+    {
+      "path": "packages/domain/src/processing.ts",
+      "matched": true,
+      "original_sha256": "c7415ea42574748cf8ff57ded2ce65e16013fc0f79f07dcb9718b953c183a058"
+    },
+    {
+      "path": "packages/policy-sdk/package.json",
+      "matched": true,
+      "original_sha256": "41da0ecd19a4451c405f4e73f5be65e828be6bbe5e6cce10d57f5712011e2af9"
+    },
+    {
+      "path": "packages/policy-sdk/src/index.ts",
+      "matched": true,
+      "original_sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b"
+    },
+    {
+      "path": "policy/processing/decision.rego",
+      "matched": true,
+      "original_sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807"
+    },
+    {
+      "path": "scripts/seed-orders.ts",
+      "matched": true,
+      "original_sha256": "70b4499ac1463dea4ab9efe84b84aecaa59adbe3f5eee90469b1095a2981e846"
+    }
+  ],
+  "exceptions": [
+    "package.json and scripts/record.mjs retain added test:expiry registration",
+    "A04 start record adds the restoration and priority correction handoff"
+  ],
+  "limitations": [
+    "Source preservation only; no A04 runtime test result implied."
+  ]
+}
