@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "plan_version": "1.0",
+  "note": "Acceptance definitions, not execution evidence. Only tests for the selected P1 slice become additional readiness gates.",
+  "tests": [
+    {
+      "id": "T01",
+      "priority": "P0",
+      "title": "Clean local start",
+      "expected": "Fresh isolated profile with documented prerequisites reaches healthy application and persistent services; no hidden model/provider credentials.",
+      "implementation_tasks": [
+        "A00",
+        "A07"
+      ],
+      "source": "M1 §§84–86, 163, 194",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T02",
+      "priority": "P0",
+      "title": "Protected bootstrap and authentication",
+      "expected": "Create organisation and unique local owner; real login/MFA/logout/revocation work; no default-password or role-switch bypass.",
+      "implementation_tasks": [
+        "A01",
+        "B01"
+      ],
+      "source": "M1 §§6–7, 84, 109",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T03",
+      "priority": "P0",
+      "title": "Tenant and environment isolation",
+      "expected": "Cross-tenant and unassigned sibling-environment API read/write/export and background-job access denied; DB role cannot bypass configured RLS.",
+      "implementation_tasks": [
+        "A01",
+        "A06"
+      ],
+      "source": "M1 §§7, 35–36, 127",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T04",
+      "priority": "P0",
+      "title": "Principal and staff separation",
+      "expected": "Principal A cannot access principal B or workspace APIs; staff/vendor-shaped credentials cannot masquerade as a principal or vendor root.",
+      "implementation_tasks": [
+        "A01",
+        "B02"
+      ],
+      "source": "M1 §§7, 20, 31",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T05",
+      "priority": "P0",
+      "title": "Least privilege and approval",
+      "expected": "Auditor/member unauthorised writes denied server-side; policy publish by author/self or wrong digest denied; authorised distinct reviewer succeeds.",
+      "implementation_tasks": [
+        "A01",
+        "A02",
+        "B01"
+      ],
+      "source": "M1 §§7, 14, 26",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T06",
+      "priority": "P0",
+      "title": "Persisted configuration and relationships",
+      "expected": "Create purpose, notice, policy, principal and system mapping; reload/restart and read exact immutable published version; unsupported changes rejected.",
+      "implementation_tasks": [
+        "A02",
+        "B01"
+      ],
+      "source": "M1 §§8, 13–19, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T07",
+      "priority": "P0",
+      "title": "Grant and own receipt",
+      "expected": "Authenticated affirmative grant stores exact notice/purpose, server epoch and receipt; no unrelated purpose granted.",
+      "implementation_tasks": [
+        "A02",
+        "B02"
+      ],
+      "source": "M1 §§16–20",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T08",
+      "priority": "P0",
+      "title": "Atomic withdrawal acceptance",
+      "expected": "Committed receipt corresponds to state/event/outbox; injected pre-commit failure leaves no accepted receipt; refresh shows durable withdrawal.",
+      "implementation_tasks": [
+        "A02",
+        "A06",
+        "B02"
+      ],
+      "source": "M1 §§17–18, 99",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T09",
+      "priority": "P0",
+      "title": "Idempotency and concurrent epochs",
+      "expected": "Identical authorised retry returns original logical receipt; conflicting key reuse/stale epoch rejected; concurrent grant/withdraw ordering is deterministic.",
+      "implementation_tasks": [
+        "A02",
+        "A06"
+      ],
+      "source": "M1 §§16–18, 99",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T10",
+      "priority": "P0",
+      "title": "Replay and fresh re-consent safety",
+      "expected": "Old grant cannot override newer withdrawal; legitimate new interaction advances epoch; stale cleanup cannot mutate a newly authorised target generation.",
+      "implementation_tasks": [
+        "A02",
+        "A03",
+        "A06"
+      ],
+      "source": "M1 §§17–18, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T11",
+      "priority": "P0",
+      "title": "Outbox and worker recovery",
+      "expected": "Crash/restart after accepted withdrawal resumes stable workflow; duplicate dispatch does not create a second logical operation.",
+      "implementation_tasks": [
+        "A03",
+        "A06"
+      ],
+      "source": "M1 §§24–25, 99, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T12",
+      "priority": "P0",
+      "title": "Restricted signed commands",
+      "expected": "Altered/wrong-tenant/wrong-installation/expired command denied; duplicate command reconciles without duplicate effect; arbitrary operation/host/SQL rejected.",
+      "implementation_tasks": [
+        "A03",
+        "A06"
+      ],
+      "source": "M1 §§27–30, 128",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T13",
+      "priority": "P0",
+      "title": "Actual CRM mutation and readback",
+      "expected": "Real synthetic CRM membership changes via agent; separate read confirms exact target/scope/generation, not an acknowledgement copied as evidence.",
+      "implementation_tasks": [
+        "A03",
+        "A05",
+        "B03"
+      ],
+      "source": "M1 §§27–28, 44–45",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T14",
+      "priority": "P0",
+      "title": "Current send-admission enforcement",
+      "expected": "Queued marketing attempt after committed withdrawal is denied and no send row is written; concurrent case verifies documented admission ordering.",
+      "implementation_tasks": [
+        "A04",
+        "A06",
+        "B04"
+      ],
+      "source": "M1 §§18, 40–43, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T15",
+      "priority": "P0",
+      "title": "Independent service purpose",
+      "expected": "Service fixture only allowed under its own approved condition/context; missing condition denied; marketing withdrawal does not automatically permit or block every other purpose.",
+      "implementation_tasks": [
+        "A04",
+        "A06"
+      ],
+      "source": "M1 §§9, 13, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T16",
+      "priority": "P0",
+      "title": "Degraded policy safety",
+      "expected": "OPA timeout/undefined/malformed result is INDETERMINATE and marketing is blocked/queued without send; no fail-open fallback.",
+      "implementation_tasks": [
+        "A04",
+        "A06"
+      ],
+      "source": "M1 §§13, 40–43",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T17",
+      "priority": "P0",
+      "title": "Applied but response lost",
+      "expected": "REST sandbox applies change then times out; effect marked unknown; reconciliation obtains read/receipt evidence without blind unsafe retry.",
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "source": "M1 §§24–25, 44, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T18",
+      "priority": "P0",
+      "title": "Acknowledgement without effect",
+      "expected": "Sandbox returns success but unchanged target; observation detects mismatch and workflow is not falsely completed.",
+      "implementation_tasks": [
+        "A05",
+        "A06"
+      ],
+      "source": "M1 §§28, 44–45, 169",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T19",
+      "priority": "P0",
+      "title": "Known failure and bounded retry",
+      "expected": "Known unavailable/denied target state creates bounded attempts and explicit escalation; errors are not swallowed or retried forever.",
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "source": "M1 §§48, 174–175, 192",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T20",
+      "priority": "P0",
+      "title": "Manual and missing capability",
+      "expected": "Legacy no-API target becomes assigned manual requirement; manual attestation not automated verification; permission removal changes coverage.",
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "source": "M1 §§28, 48–49, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T21",
+      "priority": "P0",
+      "title": "Truthful evidence and dashboard",
+      "expected": "Receipt/version/plan/observation references match persisted state; unknown/manual/unverified obligations remain visible; counters are not fabricated.",
+      "implementation_tasks": [
+        "A05",
+        "B03"
+      ],
+      "source": "M1 §§44–49, 104, 185",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T22",
+      "priority": "P0",
+      "title": "Local export protection",
+      "expected": "Export is authorised, scope-filtered, audited and local; another tenant/principal cannot fetch it; no vendor renderer; limits accompany digest claims.",
+      "implementation_tasks": [
+        "A05",
+        "A06",
+        "B03"
+      ],
+      "source": "M1 §§31, 45–47, 133",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T23",
+      "priority": "P0",
+      "title": "Healthy regression run",
+      "expected": "Allowlisted synthetic scenario invokes real policy/boundary/target and persists assertion-level PASS/FAIL/ERROR with actual run/build references.",
+      "implementation_tasks": [
+        "A06",
+        "B04"
+      ],
+      "source": "M1 §§57–61, 193",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T24",
+      "priority": "P0",
+      "title": "Broken fixture detection and repair",
+      "expected": "Real buggy test-only sender produces a violation, assertion detects it, healthy fixture rerun passes; no result chosen from fault selector.",
+      "implementation_tasks": [
+        "A06",
+        "B04"
+      ],
+      "source": "M1 §§59, 191, 193",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T25",
+      "priority": "P0",
+      "title": "Quarantined target restore",
+      "expected": "Old target-only synthetic snapshot remains blocked/quarantined until reconciliation against current authoritative withdrawal, then restricted simulated processing stays blocked.",
+      "implementation_tasks": [
+        "A06"
+      ],
+      "source": "M1 §§91–92, 129, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T26",
+      "priority": "P0",
+      "title": "No runtime vendor/model egress",
+      "expected": "Core scenario works with vendor/model internet blocked; browser and backend observations show no unapproved traffic/assets/telemetry for the tested interval.",
+      "implementation_tasks": [
+        "A06",
+        "B04"
+      ],
+      "source": "M1 §§31, 88, 116, 217",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T27",
+      "priority": "P0",
+      "title": "Input/session and secret hygiene",
+      "expected": "Bounded schemas, CSRF/origin/session errors, log redaction, no committed secrets; dependency/secret scan findings triaged and no unacceptable critical finding.",
+      "implementation_tasks": [
+        "A01",
+        "A06",
+        "B04"
+      ],
+      "source": "M1 §§37, 109, 123, 126, 163",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T28",
+      "priority": "P0",
+      "title": "Reset and fault isolation",
+      "expected": "Named synthetic-only reset requires authorisation/confirmation and rejects non-demo targets; fault/reset unavailable outside profile; parallel lane stores isolated.",
+      "implementation_tasks": [
+        "A00",
+        "A06",
+        "A07"
+      ],
+      "source": "M1 §§122, 128, 178–179",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T29",
+      "priority": "P0",
+      "title": "Integrated browser flow and error states",
+      "expected": "Staff configure, principal withdraw, workflow/evidence/test views use real API; empty/loading/denied/service errors accessible; refresh retains truth.",
+      "implementation_tasks": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B06"
+      ],
+      "source": "M1 §§102–109, 184, 191",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T30",
+      "priority": "P0",
+      "title": "Frozen-candidate repeatability and claims",
+      "expected": "Two rehearsals from documented state; evidence matches exact candidate; recording/live distinction and capability claims accurate; no V2 inference advertised.",
+      "implementation_tasks": [
+        "A07",
+        "B06",
+        "W03",
+        "C02"
+      ],
+      "source": "M1 §§120, 145–146, 168–169, 191–194",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T31",
+      "priority": "P1",
+      "title": "Rights case coordination",
+      "expected": "Own-principal intake, identity scope, assigned review and status persist; no claim of unimplemented downstream erasure/access fulfilment.",
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "source": "M1 §§20–23",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T32",
+      "priority": "P1",
+      "title": "Retention/hold review coordination",
+      "expected": "Typed review case has allowed transitions/permissions and hold reason; no destructive operation or fabricated deletion result.",
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "source": "M1 §§50–51, 214",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T33",
+      "priority": "P1",
+      "title": "Development licence import",
+      "expected": "Local verifier accepts valid development fixture, rejects altered/wrong-profile signature; clearly not production commerce or signing; restrictions persist on expiry.",
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "source": "M1 §§76–81, 94, 160",
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    {
+      "id": "T34",
+      "priority": "P1",
+      "title": "Deterministic help",
+      "expected": "Reviewed rule/runbook points to authorised actual records, labels non-model behaviour; no inference/API/egress and absence does not break core.",
+      "implementation_tasks": [
+        "A08",
+        "B05"
+      ],
+      "source": "M1 §§63–66, 217 V1 checks",
+      "status": "NOT_RUN",
+      "evidence": []
+    }
+  ]
+}

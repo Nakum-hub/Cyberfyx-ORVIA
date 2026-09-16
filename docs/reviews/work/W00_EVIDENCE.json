@@ -1,0 +1,375 @@
+{
+  "review": "W00/repo-r2",
+  "review_kind": "document_and_repository_review",
+  "observed_on": "2026-09-16",
+  "code_under_test_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+  "code_under_test_limit": "No application code exists at this base; this identifies the inspected repository snapshot, not a tested application.",
+  "report_commit": "Resolved by the Git commit containing this manifest; intentionally distinct from the inspected base.",
+  "intended_profile": "CUSTOMER_LOCAL_SYNTHETIC",
+  "executed_profile": "Work document review only; no application environment",
+  "fixture": "Approved source and planning records only",
+  "contract_version": "design 0.1.0; executable contract absent",
+  "git_baseline_commands": [
+    {
+      "check": "repository_base",
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:40:13.505986+00:00",
+      "ended_at": "2026-09-16T07:40:13.507707+00:00",
+      "exit_code": 0,
+      "stdout": "96b8bd7590de0ca662d725b7fa0d708e811d6722\n",
+      "stderr": ""
+    },
+    {
+      "check": "worktree_status",
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v1"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:40:13.507716+00:00",
+      "ended_at": "2026-09-16T07:40:13.509584+00:00",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "check": "branch",
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:40:13.509591+00:00",
+      "ended_at": "2026-09-16T07:40:13.511100+00:00",
+      "exit_code": 0,
+      "stdout": "prototype/work/W00-bootstrap-review\n",
+      "stderr": ""
+    },
+    {
+      "check": "origin",
+      "command": [
+        "git",
+        "remote",
+        "get-url",
+        "origin"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:40:13.511106+00:00",
+      "ended_at": "2026-09-16T07:40:13.512434+00:00",
+      "exit_code": 0,
+      "stdout": "https://github.com/Nakum-hub/Cyberfyx-ORVIA.git\n",
+      "stderr": ""
+    },
+    {
+      "check": "tracked_inventory",
+      "command": [
+        "git",
+        "ls-tree",
+        "-r",
+        "--name-only",
+        "HEAD"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:40:13.512440+00:00",
+      "ended_at": "2026-09-16T07:40:13.513868+00:00",
+      "exit_code": 0,
+      "stdout": "AGENTS.md\nREADME.md\nREADME_START_HERE.md\ndocs/prototype/ACCEPTANCE.md\ndocs/prototype/CONTRACT.md\ndocs/prototype/EXECUTION_PLAN.md\ndocs/prototype/FILE_OWNERSHIP.md\n",
+      "stderr": ""
+    },
+    {
+      "check": "base_tree",
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD^{tree}"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:40:13.513875+00:00",
+      "ended_at": "2026-09-16T07:40:13.515260+00:00",
+      "exit_code": 0,
+      "stdout": "6806e5f15d603d812bef62544bc4f6ab687f16f6\n",
+      "stderr": ""
+    }
+  ],
+  "source_checks": {
+    "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+    "master_bytes": 850752,
+    "kit_sha256": "191276b630edc970cb22c0781756cbebafb65bfb95131f10c96cecd895d1411c",
+    "matching_governing_files": {
+      "AGENTS.md": {
+        "sha256": "b88cef4f546ed8679a15adfdfbe70c3824c50426710f5ad21e509a8cc0dbd8de",
+        "identical_to_agreed_kit": true
+      },
+      "README_START_HERE.md": {
+        "sha256": "134511be8ce6f905b34fe90f9154b08dfe43dae6123c9d96a0e754c362b5a669",
+        "identical_to_agreed_kit": true
+      },
+      "docs/prototype/EXECUTION_PLAN.md": {
+        "sha256": "cf066c65c5cf59bfddd2fb64ae6e09d8c2228feafd46f4e95fadb4b3997598c5",
+        "identical_to_agreed_kit": true
+      },
+      "docs/prototype/CONTRACT.md": {
+        "sha256": "5c1a2b15d5ab9531889b8c6664348d5087f9ccee69bcdf8cfd07e05784db9794",
+        "identical_to_agreed_kit": true
+      },
+      "docs/prototype/FILE_OWNERSHIP.md": {
+        "sha256": "fd9874b47f4ae901448383e45878ad47906190d79e466d2053328c98dac57544",
+        "identical_to_agreed_kit": true
+      },
+      "docs/prototype/ACCEPTANCE.md": {
+        "sha256": "18d90fccd7210da5af660a83872b9f5b3f3d93de8b06ddf0cc54f847dd2659f3",
+        "identical_to_agreed_kit": true
+      }
+    }
+  },
+  "github_baseline": {
+    "branches": [
+      {
+        "commit": {
+          "sha": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+          "url": "https://api.github.com/repos/Nakum-hub/Cyberfyx-ORVIA/commits/96b8bd7590de0ca662d725b7fa0d708e811d6722"
+        },
+        "name": "main",
+        "protected": false
+      }
+    ],
+    "open_pull_requests": [],
+    "repository": {
+      "archived": false,
+      "default_branch": "main",
+      "disabled": false,
+      "full_name": "Nakum-hub/Cyberfyx-ORVIA",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      },
+      "visibility": "public"
+    },
+    "rulesets": []
+  },
+  "document_validation": {
+    "scenario_id": "W00_DOCUMENT_CHECKS",
+    "command": [
+      "python",
+      "/workspace/scratch/6107f9291043/w00_validate_docs.py",
+      "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "/workspace/scratch/6107f9291043/w00-source-snapshot/orvia-prototype-sprint-v1",
+      "/workspace/scratch/6107f9291043/work-review-inputs/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md"
+    ],
+    "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+    "started_at": "2026-09-16T07:46:51.500955+00:00",
+    "finished_at": "2026-09-16T07:46:51.542340+00:00",
+    "inspected_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+    "contract_version": "design 0.1.0",
+    "environment": "Work document review only",
+    "fixture": "Supplied master and matching planning kit; proposed Work-owned records",
+    "exit_code": 0,
+    "stdout": "{\n  \"result\": \"PASS\",\n  \"assertion_count\": 22,\n  \"assertions\": [\n    {\n      \"assertion\": \"Exact inspected base\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Exact requested remote\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Source reference byte identity\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Base contains exactly seven documented files\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Existing files unchanged and six governing files match approved kit\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Repository source absence stated accurately\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Task schema keys/version preserved\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"23 task IDs and order preserved\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Task definitions, owners and dependency edges preserved\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Repository inspected; W00 blocked; no accepted commits\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"W00 evidence paths exist\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Acceptance definitions and bytes unchanged\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"34 unique acceptance IDs, 30 P0 and 4 P1, all NOT_RUN without results\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Dependency/test references valid\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Combined start/acceptance graph acyclic\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Generated task table matches every canonical task\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"All four Work stages visibly tracked with intended deliverables\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Existing acceptance view matches all 34 canonical rows\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Exactly nine Work-owned additions; no implementation paths\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"No common credential/private-key patterns in publish set (limited scan)\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Authored Markdown links resolve\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Evidence identifies actual inspected base and no executed application\",\n      \"result\": \"PASS\"\n    }\n  ],\n  \"application_tests\": \"NOT_RUN\",\n  \"publish_paths\": [\n    \"CURRENT_STATE.md\",\n    \"docs/decisions/ADR-001-prototype-profile.md\",\n    \"docs/prototype/SOURCE_ALIGNMENT.md\",\n    \"docs/prototype/TASK_BOARD.md\",\n    \"docs/reviews/work/W00_EVIDENCE.json\",\n    \"docs/reviews/work/W00_SCOPE_AND_CONTRACT.md\",\n    \"handoffs/work/W00-96b8bd7.md\",\n    \"tracking/acceptance.json\",\n    \"tracking/tasks.json\"\n  ]\n}\n",
+    "stderr": "",
+    "procedure_python3": "\"\"\"One-time W00 document review checks; not the application's validator or tests.\"\"\"\nimport hashlib\nimport json\nimport re\nimport subprocess\nimport sys\nfrom pathlib import Path\n\nrepo, kit, master = map(Path, sys.argv[1:4])\nbase = '96b8bd7590de0ca662d725b7fa0d708e811d6722'\nallowed = {\n    'CURRENT_STATE.md', 'docs/decisions/ADR-001-prototype-profile.md',\n    'docs/reviews/work/W00_SCOPE_AND_CONTRACT.md', 'docs/reviews/work/W00_EVIDENCE.json',\n    'docs/prototype/SOURCE_ALIGNMENT.md', 'docs/prototype/TASK_BOARD.md',\n    'tracking/tasks.json', 'tracking/acceptance.json', 'handoffs/work/W00-96b8bd7.md',\n}\nresults = []\ndef check(name, condition):\n    if not condition:\n        raise AssertionError(name)\n    results.append({'assertion': name, 'result': 'PASS'})\ndef git(*args):\n    return subprocess.check_output(['git', *args], cwd=repo, text=True).strip()\ndef read(path):\n    return json.loads(path.read_text())\n\ncheck('Exact inspected base', git('rev-parse', 'HEAD') == base)\ncheck('Exact requested remote', git('remote', 'get-url', 'origin') == 'https://github.com/Nakum-hub/Cyberfyx-ORVIA.git')\ncheck('Source reference byte identity', hashlib.sha256(master.read_bytes()).hexdigest() == '527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6')\ntracked = git('ls-tree', '-r', '--name-only', base).splitlines()\ncheck('Base contains exactly seven documented files', set(tracked) == {'AGENTS.md','README.md','README_START_HERE.md','docs/prototype/ACCEPTANCE.md','docs/prototype/CONTRACT.md','docs/prototype/EXECUTION_PLAN.md','docs/prototype/FILE_OWNERSHIP.md'})\ncheck('Existing files unchanged and six governing files match approved kit', all((repo/p).read_bytes() == (kit/p).read_bytes() for p in tracked if p != 'README.md') and not git('diff', '--name-only', base, '--', *tracked))\ncheck('Repository source absence stated accurately', not (repo/'docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md').exists())\n\ncurrent = read(repo/'tracking/tasks.json'); original = read(kit/'tracking/tasks.json')\ntests = read(repo/'tracking/acceptance.json')['tests']\ntasks = current['tasks']; task_ids = {t['id'] for t in tasks}; test_ids = {t['id'] for t in tests}\ncheck('Task schema keys/version preserved', set(current) == set(original) and current['schema_version'] == original['schema_version'] == 1 and all(set(a)==set(b) for a,b in zip(tasks,original['tasks'])))\ncheck('23 task IDs and order preserved', len(tasks) == len(task_ids) == 23 and [t['id'] for t in tasks] == [t['id'] for t in original['tasks']])\ncheck('Task definitions, owners and dependency edges preserved', all(all(a[k] == b[k] for k in b if k not in {'status','planned_paths','evidence'}) for a,b in zip(tasks,original['tasks'])) and tasks[1:] == original['tasks'][1:])\ncheck('Repository inspected; W00 blocked; no accepted commits', current['repository_status']=='INSPECTED' and tasks[0]['status']=='BLOCKED' and all(t['status']=='NOT_STARTED' for t in tasks[1:]) and all(t['commit'] is None for t in tasks))\ncheck('W00 evidence paths exist', all((repo/p).is_file() for p in tasks[0]['evidence']))\ncheck('Acceptance definitions and bytes unchanged', (repo/'tracking/acceptance.json').read_bytes() == (kit/'tracking/acceptance.json').read_bytes())\ncheck('34 unique acceptance IDs, 30 P0 and 4 P1, all NOT_RUN without results', len(tests)==len(test_ids)==34 and sum(t['priority']=='P0' for t in tests)==30 and sum(t['priority']=='P1' for t in tests)==4 and all(t['status']=='NOT_RUN' and not t['evidence'] for t in tests))\ngraph = {t['id']:set(t['start_dependencies']+t['acceptance_dependencies']) for t in tasks}\ncheck('Dependency/test references valid', all(v<=task_ids and k not in v for k,v in graph.items()) and all(set(t['test_ids'])<=test_ids for t in tasks) and all(set(t['implementation_tasks'])<=task_ids for t in tests))\nvisited, active = set(), set()\ndef visit(node):\n    if node in active:\n        raise AssertionError('Dependency cycle '+node)\n    if node in visited:\n        return\n    active.add(node)\n    for dep in graph[node]:\n        visit(dep)\n    active.remove(node); visited.add(node)\nfor node in graph:\n    visit(node)\ncheck('Combined start/acceptance graph acyclic', len(visited)==23)\nboard=(repo/'docs/prototype/TASK_BOARD.md').read_text()\nexpected=[]\nfor t in tasks:\n    vals=[t['id'],t['owner'],t['priority'],t['status'],t['title'],', '.join(t['start_dependencies']) or 'Immediately',', '.join(t['acceptance_dependencies']) or 'Own evidence',', '.join(t['test_ids']) or 'Review deliverable']\n    expected.append('| '+' | '.join(vals)+' |')\nactual=[line for line in board.splitlines() if re.match(r'^\\| [WABC]\\d{2} \\|',line)]\ncheck('Generated task table matches every canonical task', actual==expected)\ncheck('All four Work stages visibly tracked with intended deliverables', all(f'## {x} ' in board for x in ['W00','W01','W02','W03']))\nacceptance=(repo/'docs/prototype/ACCEPTANCE.md').read_text()\ncheck('Existing acceptance view matches all 34 canonical rows', [line for line in acceptance.splitlines() if re.match(r'^\\| T\\d{2} \\|',line)] == ['| '+' | '.join([t['id'],t['priority'],t['title'],t['expected'],t['status']])+' |' for t in tests])\nchanged=set(git('diff','--name-only',base).splitlines()) | set(git('ls-files','--others','--exclude-standard').splitlines())\ncheck('Exactly nine Work-owned additions; no implementation paths', changed==allowed and all((repo/p).is_file() for p in allowed))\nsecret=re.compile(r'gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{30,}|AKIA[0-9A-Z]{16}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----')\ncheck('No common credential/private-key patterns in publish set (limited scan)', all(not secret.search((repo/p).read_text()) for p in allowed))\nmissing=[]\nfor p in allowed:\n    if p.endswith('.md'):\n        for target in re.findall(r'\\]\\(([^)]+)\\)',(repo/p).read_text()):\n            if not target.startswith(('https://','http://','#')) and not ((repo/p).parent/target.split('#')[0]).exists():\n                missing.append((p,target))\ncheck('Authored Markdown links resolve', not missing)\nmanifest=read(repo/'docs/reviews/work/W00_EVIDENCE.json')\ncheck('Evidence identifies actual inspected base and no executed application', manifest['code_under_test_commit']==base and manifest['application_results']['status']=='NOT_RUN')\nprint(json.dumps({'result':'PASS','assertion_count':len(results),'assertions':results,'application_tests':'NOT_RUN','publish_paths':sorted(allowed)},indent=2))\n",
+    "procedure_sha256": "ec5e614e08c43a6a12e6c691afe491691d0eb67a672c1aa0015f48f375a0ef1c",
+    "artifact_paths": [
+      "docs/reviews/work/W00_EVIDENCE.json"
+    ],
+    "limitations": "One-time document assertions and limited credential-pattern scan, not application tests or security certification. The procedure is retained here; permanent tracker/CI validation remains Codex-owned.",
+    "independently_executed_by_work": true
+  },
+  "application_results": {
+    "test_ids": "T01-T34",
+    "status": "NOT_RUN",
+    "p0_scenarios": 30,
+    "p1_scenarios": 4,
+    "p1_promoted": [],
+    "reason": "No application, manifests, services or test code in inspected base"
+  },
+  "historical_evidence": "Earlier unavailable-repository observations and initial-only kit validator results are not runtime results for this commit. This checkpoint updates repository availability only.",
+  "retention": "Small sanitized manifest retained in Git; no expiring external runtime artifacts exist for this review.",
+  "limitations": [
+    "Document/source/access checks do not demonstrate runtime authority, durability, security, recovery, egress or readiness.",
+    "Approved master is verified from supplied reference; human-controlled repository copy is absent.",
+    "A00 inventory, executable contract, lockfile, runnable scaffold, actual host preflight and handoff remain absent.",
+    "No branch settings, system approvals, integration, release, deployment or recurring orchestration performed."
+  ],
+  "github_api_observations": [
+    {
+      "procedure": "GitHub plugin fetch",
+      "url": "https://api.github.com/repos/Nakum-hub/Cyberfyx-ORVIA",
+      "started_at": "2026-09-16T07:47:32.065Z",
+      "finished_at": "2026-09-16T07:47:32.577Z",
+      "exit_code": null,
+      "result": "PASS",
+      "observed": {
+        "full_name": "Nakum-hub/Cyberfyx-ORVIA",
+        "visibility": "public",
+        "default_branch": "main",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        },
+        "archived": false,
+        "disabled": false
+      },
+      "limitations": "Read-only API observation; no application test."
+    },
+    {
+      "procedure": "GitHub plugin fetch",
+      "url": "https://api.github.com/repos/Nakum-hub/Cyberfyx-ORVIA/branches?per_page=100",
+      "started_at": "2026-09-16T07:47:32.065Z",
+      "finished_at": "2026-09-16T07:47:32.529Z",
+      "exit_code": null,
+      "result": "PASS",
+      "observed": [
+        {
+          "name": "main",
+          "commit": {
+            "sha": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+            "url": "https://api.github.com/repos/Nakum-hub/Cyberfyx-ORVIA/commits/96b8bd7590de0ca662d725b7fa0d708e811d6722"
+          },
+          "protected": false
+        }
+      ],
+      "limitations": "Read-only API observation; no application test."
+    },
+    {
+      "procedure": "GitHub plugin fetch",
+      "url": "https://api.github.com/repos/Nakum-hub/Cyberfyx-ORVIA/pulls?state=open&per_page=100",
+      "started_at": "2026-09-16T07:47:32.065Z",
+      "finished_at": "2026-09-16T07:47:32.878Z",
+      "exit_code": null,
+      "result": "PASS",
+      "observed": [],
+      "limitations": "Read-only API observation; no application test."
+    },
+    {
+      "procedure": "GitHub plugin fetch",
+      "url": "https://api.github.com/repos/Nakum-hub/Cyberfyx-ORVIA/rulesets?includes_parents=true",
+      "started_at": "2026-09-16T07:47:32.065Z",
+      "finished_at": "2026-09-16T07:47:32.499Z",
+      "exit_code": null,
+      "result": "PASS",
+      "observed": [],
+      "limitations": "Read-only API observation; no application test."
+    }
+  ],
+  "staged_diff_checks": [
+    {
+      "scenario_id": "W00_PATCH_WHITESPACE",
+      "run": "reproduced initial formatting failure before correction",
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:48:16.221487+00:00",
+      "finished_at": "2026-09-16T07:48:16.224308+00:00",
+      "exit_code": 2,
+      "stdout": "CURRENT_STATE.md:3: trailing whitespace.\n+**Writer:** Work \u00b7 **Checkpoint:** W00/repo-r2 \u00b7 **Date:** 2026-09-16  \ndocs/decisions/ADR-001-prototype-profile.md:3: trailing whitespace.\n+**Ticket:** W00 \u00b7 **Revision:** repo-r2 \u00b7 **Date:** 2026-09-16  \ndocs/decisions/ADR-001-prototype-profile.md:4: trailing whitespace.\n+**Decision owner:** Work \u00b7 **Integration/release owner:** human  \ndocs/reviews/work/W00_SCOPE_AND_CONTRACT.md:3: trailing whitespace.\n+**Review:** repo-r2, 2026-09-16 \u00b7 **Base inspected:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`  \nhandoffs/work/W00-96b8bd7.md:3: trailing whitespace.\n+**Base commit:** `96b8bd7590de0ca662d725b7fa0d708e811d6722`  \nhandoffs/work/W00-96b8bd7.md:4: trailing whitespace.\n+**New commit:** the commit introducing this checkpoint on `prototype/work/W00-bootstrap-review`; exact publication SHA is recorded by the GitHub PR, separately from the inspected base.  \nhandoffs/work/W00-96b8bd7.md:5: trailing whitespace.\n+**Source master / hash verified:** Product V1, document revision 1.3, SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`; supplied reference verified, repository source copy absent.  \nhandoffs/work/W00-96b8bd7.md:6: trailing whitespace.\n+**Contract version:** design 0.1.0; executable contract not frozen.  \n",
+      "stderr": "",
+      "result": "FAIL",
+      "inspected_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+      "contract_version": "design 0.1.0",
+      "environment": "Staged Work document patch",
+      "fixture": "No application fixture",
+      "limitations": "Whitespace check only; Markdown hard-break spaces were rejected by Git. Not an application test."
+    },
+    {
+      "scenario_id": "W00_PATCH_WHITESPACE",
+      "run": "after removing trailing Markdown hard-break spaces",
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "started_at": "2026-09-16T07:48:16.229324+00:00",
+      "finished_at": "2026-09-16T07:48:16.231528+00:00",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "result": "PASS",
+      "inspected_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+      "contract_version": "design 0.1.0",
+      "environment": "Staged Work document patch",
+      "fixture": "No application fixture",
+      "limitations": "Whitespace check only; Markdown hard-break spaces were rejected by Git. Not an application test."
+    }
+  ],
+  "staged_diff_check_note": "An earlier wrapper also stopped on the same whitespace error with wrapper exit 1 before persisting its timestamps; this retained reproduction captures the unchanged failure, followed by the corrected retest.",
+  "publication": {
+    "operation": "GitHub plugin create_tree",
+    "repository_full_name": "Nakum-hub/Cyberfyx-ORVIA",
+    "observed_on": "2026-09-16",
+    "attempted_base_tree": "6806e5f15d603d812bef62544bc4f6ab687f16f6",
+    "attempted_new_tree": "f4649f9268df79a197b7b6e83122dc60007beb3c",
+    "result": "BLOCKED",
+    "http_status": 403,
+    "response": {
+      "error": "GitHub API error 403: {\"message\":\"Resource not accessible by integration\",\"documentation_url\":\"https://docs.github.com/rest/git/trees#create-a-tree\",\"status\":\"403\"}",
+      "error_code": "FORBIDDEN",
+      "error_data": {
+        "documentation_url": "https://docs.github.com/rest/git/trees#create-a-tree",
+        "message": "Resource not accessible by integration",
+        "status": "403"
+      }
+    },
+    "started_at": null,
+    "finished_at": null,
+    "timing_limitation": "Tool response retained; exact wall-clock start/end were not persisted for this write attempt.",
+    "remote_branch_created": false,
+    "remote_commit_created": false,
+    "pull_request_created": false,
+    "corrective_owner": "human",
+    "next_action": "Authorise scoped repository write access for the selected GitHub connection or apply the reviewed local commit patch with existing authorised access, then verify remote SHA and draft PR.",
+    "alternate_auth_observation": {
+      "git_credential_helper_configured": false,
+      "git_auth_config_present": false,
+      "git_askpass_configured": false,
+      "ssh_auth_agent_present": false,
+      "github_cli_available": false
+    }
+  },
+  "document_validation_retest": {
+    "scenario_id": "W00_DOCUMENT_CHECKS",
+    "command": [
+      "python",
+      "/workspace/scratch/6107f9291043/w00_validate_docs.py",
+      "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+      "/workspace/scratch/6107f9291043/w00-source-snapshot/orvia-prototype-sprint-v1",
+      "/workspace/scratch/6107f9291043/work-review-inputs/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md"
+    ],
+    "working_directory": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-w00",
+    "inspected_commit": "96b8bd7590de0ca662d725b7fa0d708e811d6722",
+    "contract_version": "design 0.1.0",
+    "environment": "Work document review only",
+    "fixture": "Supplied master and matching planning kit; proposed Work-owned records",
+    "procedure_sha256": "ec5e614e08c43a6a12e6c691afe491691d0eb67a672c1aa0015f48f375a0ef1c",
+    "artifact_paths": [
+      "docs/reviews/work/W00_EVIDENCE.json"
+    ],
+    "limitations": "One-time document assertions and limited credential-pattern scan, not application tests or security certification. The procedure is retained here; permanent tracker/CI validation remains Codex-owned.",
+    "independently_executed_by_work": true,
+    "started_at": "2026-09-16T07:53:20.369382+00:00",
+    "finished_at": "2026-09-16T07:53:20.413912+00:00",
+    "stdout": "{\n  \"result\": \"PASS\",\n  \"assertion_count\": 22,\n  \"assertions\": [\n    {\n      \"assertion\": \"Exact inspected base\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Exact requested remote\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Source reference byte identity\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Base contains exactly seven documented files\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Existing files unchanged and six governing files match approved kit\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Repository source absence stated accurately\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Task schema keys/version preserved\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"23 task IDs and order preserved\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Task definitions, owners and dependency edges preserved\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Repository inspected; W00 blocked; no accepted commits\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"W00 evidence paths exist\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Acceptance definitions and bytes unchanged\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"34 unique acceptance IDs, 30 P0 and 4 P1, all NOT_RUN without results\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Dependency/test references valid\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Combined start/acceptance graph acyclic\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Generated task table matches every canonical task\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"All four Work stages visibly tracked with intended deliverables\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Existing acceptance view matches all 34 canonical rows\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Exactly nine Work-owned additions; no implementation paths\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"No common credential/private-key patterns in publish set (limited scan)\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Authored Markdown links resolve\",\n      \"result\": \"PASS\"\n    },\n    {\n      \"assertion\": \"Evidence identifies actual inspected base and no executed application\",\n      \"result\": \"PASS\"\n    }\n  ],\n  \"application_tests\": \"NOT_RUN\",\n  \"publish_paths\": [\n    \"CURRENT_STATE.md\",\n    \"docs/decisions/ADR-001-prototype-profile.md\",\n    \"docs/prototype/SOURCE_ALIGNMENT.md\",\n    \"docs/prototype/TASK_BOARD.md\",\n    \"docs/reviews/work/W00_EVIDENCE.json\",\n    \"docs/reviews/work/W00_SCOPE_AND_CONTRACT.md\",\n    \"handoffs/work/W00-96b8bd7.md\",\n    \"tracking/acceptance.json\",\n    \"tracking/tasks.json\"\n  ]\n}\n",
+    "stderr": "",
+    "exit_code": 0,
+    "procedure_reference": "document_validation.procedure_python3; unchanged",
+    "reason_for_rerun": "Review publication-blocker edits and final retained evidence after GitHub write rejection."
+  }
+}
