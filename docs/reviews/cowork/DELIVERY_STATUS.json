@@ -1,0 +1,260 @@
+{
+  "document": "Cowork delivery status inputs for the offline pack",
+  "schema": "cowork.delivery_status/2",
+  "owner_lane": "Cowork",
+  "as_of": "2026-09-16T10:00:00Z",
+  "documentation_base_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+  "current_source_inspection_id": "EV-SRC-003",
+  "note": "Explicit, dated inputs used by build_pack.py instead of hardcoded prose. Cowork proposes its own ticket statuses; canonical task status and readiness belong to Work (tracking/tasks.json, CURRENT_STATE.md) and the human. Update this file, not the generated views.",
+  "canonical_readiness": {
+    "value": "NOT_READY",
+    "source_path": "CURRENT_STATE.md",
+    "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+    "quoted_text": "Internal demo NOT_READY",
+    "owner": "Work (consolidates); human (approves)"
+  },
+  "production_readiness": {
+    "value": "NOT_ASSESSED",
+    "source_path": "CURRENT_STATE.md",
+    "source_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+    "quoted_text": "production security/legal/supply-chain/recovery NOT_ASSESSED"
+  },
+  "tickets": [
+    {
+      "id": "C00",
+      "canonical_status": "NOT_STARTED",
+      "canonical_source": "tracking/tasks.json @ e839b1a",
+      "proposed_status": "REVISED_FOR_REVIEW",
+      "delivered": "UX brief, UI_COPY.json (r3), acceptance journeys, demo script and steps, offline pack",
+      "acceptance_dependency": "Work review; Claude Code adoption or objections (F-019); open copy bindings (F-006–F-018, F-023–F-026)",
+      "handoff": "handoffs/cowork/C00-C02_r3_2026-09-16.md"
+    },
+    {
+      "id": "C01",
+      "canonical_status": "NOT_STARTED",
+      "canonical_source": "tracking/tasks.json @ e839b1a",
+      "proposed_status": "PARTIAL_BLOCKED",
+      "delivered": "Claims register, operator runbook with A00-supplied commands, evidence index (r3), findings, document tools and regression tests",
+      "acceptance_dependency": "Genuine tracking/capabilities.json (F-002); A01/A06/A07 commands (F-020); A00 acceptance by Work and B00 (F-003, F-019)",
+      "handoff": "handoffs/cowork/C00-C02_r3_2026-09-16.md"
+    },
+    {
+      "id": "C02",
+      "canonical_status": "NOT_STARTED",
+      "canonical_source": "tracking/tasks.json @ e839b1a",
+      "proposed_status": "PREPARED_NOT_FROZEN",
+      "delivered": "Leadership handover, prepared answers, release checklist",
+      "acceptance_dependency": "A07 packaged candidate, B06 candidate browser results, two candidate-specific rehearsals (F-021); deadline and requested decision (F-015)",
+      "handoff": "handoffs/cowork/C00-C02_r3_2026-09-16.md"
+    }
+  ],
+  "screens": [
+    {
+      "id": "W-SIGNIN",
+      "heading_copy_id": "signin.staff.heading",
+      "audience": "STAFF",
+      "journeys": "J01",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-OVERVIEW",
+      "heading_copy_id": "overview.heading",
+      "audience": "STAFF",
+      "journeys": "J00, J15",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-ATTENTION",
+      "heading_copy_id": "attention.heading",
+      "audience": "STAFF",
+      "journeys": "J12, J13, J15",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-WORKFLOWS",
+      "heading_copy_id": "workflows.heading",
+      "audience": "STAFF",
+      "journeys": "J08, J15",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-WORKFLOW-DETAIL",
+      "heading_copy_id": "workflow.heading",
+      "audience": "STAFF",
+      "journeys": "J07–J14, J18",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-PURPOSES",
+      "heading_copy_id": "purposes.heading",
+      "audience": "STAFF",
+      "journeys": "J05",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-NOTICES",
+      "heading_copy_id": "notices.heading",
+      "audience": "STAFF",
+      "journeys": "J05",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-POLICIES",
+      "heading_copy_id": "policies.heading",
+      "audience": "STAFF",
+      "journeys": "J04, J05, J09",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-SYSTEMS",
+      "heading_copy_id": "systems.heading",
+      "audience": "STAFF",
+      "journeys": "J05, J13, J19",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-PRINCIPALS",
+      "heading_copy_id": "principals.heading",
+      "audience": "STAFF",
+      "journeys": "J02, J03",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-EVIDENCE",
+      "heading_copy_id": "evidence.heading",
+      "audience": "STAFF",
+      "journeys": "J16, J02",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-TESTLAB",
+      "heading_copy_id": "testlab.heading",
+      "audience": "STAFF",
+      "journeys": "J17",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "W-CAPABILITIES",
+      "heading_copy_id": "capabilities.heading",
+      "audience": "STAFF",
+      "journeys": "J23",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "P-SIGNIN",
+      "heading_copy_id": "signin.portal.heading",
+      "audience": "PRINCIPAL",
+      "journeys": "J03",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "P-CHOICES",
+      "heading_copy_id": "choices.heading",
+      "audience": "PRINCIPAL",
+      "journeys": "J06, J07, J14",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "P-GRANT",
+      "heading_copy_id": "grant.heading",
+      "audience": "PRINCIPAL",
+      "journeys": "J06, J14",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "P-RECEIPT",
+      "heading_copy_id": "receipt.heading",
+      "audience": "PRINCIPAL",
+      "journeys": "J07",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    },
+    {
+      "id": "P-RECEIPTS",
+      "heading_copy_id": "receipts.heading",
+      "audience": "PRINCIPAL",
+      "journeys": "J07",
+      "implementation": "NOT_IMPLEMENTED",
+      "tested": "NOT_RUN",
+      "evidence": "EV-SRC-003",
+      "implementation_note": "Only / (foundation text) and /healthz exist at e839b1a."
+    }
+  ],
+  "capability_register": {
+    "path": "tracking/capabilities.json",
+    "present": false,
+    "observed_in": "EV-SRC-003",
+    "genuine_source": "ORVIA_Prototype_Execution_Kit_v1.zip (SHA-256 recorded by Work: 191276b630edc970cb22c0781756cbebafb65bfb95131f10c96cecd895d1411c)",
+    "available_to_cowork": false,
+    "finding": "F-002",
+    "master_crosscheck": "EV-SRC-004: 33 modules; IDs 19–25 DEFERRED_V2; IDs 1–18 and 26–33 Version 1",
+    "searched": [
+      "repository @ e839b1a",
+      "C:\\Cyberfyx-projects (read-only, this session)"
+    ]
+  },
+  "candidate": {
+    "status": "NOT_IDENTIFIED",
+    "commit": null,
+    "build_id": null,
+    "source": "CURRENT_STATE.md @ e839b1a (no candidate recorded)"
+  },
+  "publication": {
+    "status": "BLOCKED",
+    "reason": "Repository is public and no separate approval to publish these files was given; this session also has no write credential (git proxy HTTP 403, GitHub API HTTP 403).",
+    "finding": "F-028",
+    "branch_local": "prototype/cowork/C00-C02-review",
+    "commit": null,
+    "pr": null
+  }
+}

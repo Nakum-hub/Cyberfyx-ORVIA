@@ -1,0 +1,19 @@
+$ node scripts/local-hygiene.mjs
+node:fs:1630
+  const result = binding.readdir(
+                         ^
+
+Error: EPERM: operation not permitted, scandir 'C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\profiles\codex-a00\auth'
+    at readdirSync (node:fs:1630:26)
+    at file:///C:/Cyberfyx-projects/Cyberfyx_ORVIA/scripts/local-hygiene.mjs:11:41
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'scandir',
+  path: 'C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\profiles\\codex-a00\\auth'
+}
+
+Node.js v24.21.0
+[ELIFECYCLE] Command failed with exit code 1.

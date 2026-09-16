@@ -1,0 +1,34 @@
+{
+  "document": "Cowork generated-output manifest",
+  "as_of": "2026-09-16T10:00:00Z",
+  "generator": "docs/reviews/cowork/tools/build_pack.py",
+  "inputs": {
+    "docs/ux/UI_COPY.json": "6e813c26cd3e6a5b8859119db787ddae4c04a590175f49ed4597bc63a31acc5a",
+    "docs/demo/demo_steps.json": "487b011b19e1f4fa7a4e6e2cd38d0258896de72b7807112285312a5a824fa7e6",
+    "docs/demo/EVIDENCE_INDEX.json": "7de5d5df5f81e3bbfbe4c65f73c5923054587cbdc1973c387e8ad661f0912799",
+    "docs/reviews/cowork/DELIVERY_STATUS.json": "b57ea98f3e753587b342be80f4f10511b2d4065628e13e92a900ef8bb7fded2b",
+    "docs/reviews/cowork/FINDINGS.csv": "8bb6dc5bffa6e389dcb6d8144d0f363f055cb8f64f84f7e725034df33d26011c",
+    "docs/demo/CLAIMS_REGISTER.md": "5bca82c53a2dd4c1398558a132d1fcb4b8c44171d5bf54108ef4185bf3406680",
+    "docs/reviews/cowork/tools/pack.css": "028544e23927ec1f9882db32a7ddd216d343c4cab5bf09c7aa6de3475ed77e9b",
+    "docs/reviews/cowork/tools/build_pack.py": "623dd419fe1c03dbe522f761cd444fb10b7ec72749b96b18b55a67bb79b7951d",
+    "AGENTS.md": "b88cef4f546ed8679a15adfdfbe70c3824c50426710f5ad21e509a8cc0dbd8de",
+    "CURRENT_STATE.md": "aee49d7494e43262774064c20bc788896a4fcdb7b306dee8afb56f4282bc6603",
+    "docs/prototype/EXECUTION_PLAN.md": "cf066c65c5cf59bfddd2fb64ae6e09d8c2228feafd46f4e95fadb4b3997598c5",
+    "docs/prototype/CONTRACT.md": "5c1a2b15d5ab9531889b8c6664348d5087f9ccee69bcdf8cfd07e05784db9794",
+    "docs/prototype/ACCEPTANCE.md": "18d90fccd7210da5af660a83872b9f5b3f3d93de8b06ddf0cc54f847dd2659f3",
+    "docs/prototype/FILE_OWNERSHIP.md": "fd9874b47f4ae901448383e45878ad47906190d79e466d2053328c98dac57544",
+    "docs/decisions/ADR-001-prototype-profile.md": "d86ac9527f93e92d275946a249f67aa44953b7b01ead0ab32c8cd1de955571e5",
+    "tracking/tasks.json": "a018a710678257adbae37df228173a22f56e554cb50c3568a82f17fc30e90e15",
+    "tracking/acceptance.json": "9d0d05edab346a43a5c28eac1cab0417e2decde1ff50edcb89d0d8fc1777cca1",
+    "packages/contracts/src/index.ts": "c791f346beef0237505dea97008ffb0fd51319c7b2ebe99895bd3c84e277c538",
+    "docs/ux/ACCEPTANCE_JOURNEYS.md": "e00f37930ad53ad40a434391017e053531fd9004429a3cacba4b0848c724512e",
+    "docs/runbooks/OPERATOR.md": "10e81c79c54d7efb36ec54e0e9829b68388c6f0c3c6f1885093d9b9a5b276e42",
+    "docs/prototype/RELEASE_CHECKLIST.md": "573a245530f892626b9cbe4be1192658712bd1688d27dcb6c3c4109d2b4c89c3"
+  },
+  "outputs": {
+    "docs/prototype/UX_BRIEF.md": "672e7812b284966b55c72a69fb345154a2fb32cdec78cc41fc24781a322dc981",
+    "docs/prototype/DEMO_SCRIPT.md": "ffbf32d5a292af616412799b29a0673c6eef5412a84201f1aa07473abe7f1b91",
+    "docs/demo/LEADERSHIP_HANDOVER.md": "1fa3ccda98f3d734cbe1922b82f8e7b9c1928798842d91e3ded7004c9a0dafb0",
+    "docs/demo/index.html": "982bfacfda61bae98c7ce060d161c16181d92b44d6c48a57f25b8a324fb38d78"
+  }
+}

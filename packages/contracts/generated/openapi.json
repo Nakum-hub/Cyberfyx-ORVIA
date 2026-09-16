@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.2.1",
-    "description": "Contract accepted by W00 at 425f079 and integrated at e1fa052. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.3.0",
+    "description": "Contract 0.3.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -668,7 +668,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       },
       "post": {
         "operationId": "create_purposes",
@@ -841,7 +841,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.write",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -1033,7 +1033,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       },
       "post": {
         "operationId": "create_notices",
@@ -1205,7 +1205,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.write",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -1396,7 +1396,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       },
       "post": {
         "operationId": "create_policies",
@@ -1573,7 +1573,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.write",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -1767,7 +1767,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       },
       "post": {
         "operationId": "create_systems",
@@ -1940,7 +1940,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.write",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -2505,7 +2505,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "policy.publish",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -2521,6 +2521,549 @@
             }
           }
         }
+      }
+    },
+    "/api/v1/admin/policies/{id}/reauthenticate": {
+      "post": {
+        "operationId": "reauthenticate_policy",
+        "security": [
+          {
+            "staffSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicationProof"
+                },
+                "example": {
+                  "reauthentication_id": "00000000-0000-4000-8000-000000000091",
+                  "version_id": "00000000-0000-4000-8000-000000000092",
+                  "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "expires_at": "2026-09-16T10:00:00.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "policy.publish",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PolicyReauthenticate"
+              },
+              "example": {
+                "version_id": "00000000-0000-4000-8000-000000000090",
+                "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "code": "123456"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/target-mappings": {
+      "post": {
+        "operationId": "create_mapping",
+        "security": [
+          {
+            "staffSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetMapping"
+                },
+                "example": {
+                  "principal_id": "00000000-0000-4000-8000-000000000096",
+                  "purpose_id": "00000000-0000-4000-8000-000000000097",
+                  "system_id": "00000000-0000-4000-8000-000000000098",
+                  "id": "00000000-0000-4000-8000-000000000099",
+                  "target_subject_reference": "syn_asha_demo",
+                  "target_generation": 0
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MappingCreate"
+              },
+              "example": {
+                "principal_id": "00000000-0000-4000-8000-000000000093",
+                "purpose_id": "00000000-0000-4000-8000-000000000094",
+                "system_id": "00000000-0000-4000-8000-000000000095"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "list_mappings",
+        "security": [
+          {
+            "staffSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.read",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/control-map": {
@@ -2675,7 +3218,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "configuration.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/systems/{id}/check": {
@@ -2706,11 +3249,11 @@
                   "$ref": "#/components/schemas/System"
                 },
                 "example": {
-                  "environment_id": "00000000-0000-4000-8000-000000000090",
-                  "legal_entity_id": "00000000-0000-4000-8000-000000000091",
+                  "environment_id": "00000000-0000-4000-8000-00000000009a",
+                  "legal_entity_id": "00000000-0000-4000-8000-00000000009b",
                   "name": "Synthetic example",
                   "connector": "SYNTHETIC_CRM",
-                  "id": "00000000-0000-4000-8000-000000000092",
+                  "id": "00000000-0000-4000-8000-00000000009c",
                   "capability_version": "1.0.0",
                   "supports_restrict": false,
                   "supports_read": false,
@@ -3023,7 +3566,191 @@
         },
         "x-orvia-authority": "PRINCIPAL",
         "x-orvia-capability": "consent.own.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
+      }
+    },
+    "/api/v1/portal/me/consents/{purpose_id}/history": {
+      "get": {
+        "operationId": "own_history",
+        "security": [
+          {
+            "principalSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "purpose_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReceiptList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "PRINCIPAL",
+        "x-orvia-capability": "consent.own.read",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       }
     },
     "/api/v1/portal/me/consents/{purpose_id}/grant": {
@@ -3206,7 +3933,7 @@
         },
         "x-orvia-authority": "PRINCIPAL",
         "x-orvia-capability": "consent.own.write",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -3216,8 +3943,8 @@
               },
               "example": {
                 "expected_epoch": 0,
-                "notice_version_id": "00000000-0000-4000-8000-000000000093",
-                "interaction_id": "00000000-0000-4000-8000-000000000094",
+                "notice_version_id": "00000000-0000-4000-8000-00000000009d",
+                "interaction_id": "00000000-0000-4000-8000-00000000009e",
                 "affirmative": true
               }
             }
@@ -3405,7 +4132,7 @@
         },
         "x-orvia-authority": "PRINCIPAL",
         "x-orvia-capability": "consent.own.write",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -3415,7 +4142,7 @@
               },
               "example": {
                 "expected_epoch": 0,
-                "interaction_id": "00000000-0000-4000-8000-000000000095"
+                "interaction_id": "00000000-0000-4000-8000-00000000009f"
               }
             }
           }
@@ -3599,7 +4326,7 @@
         },
         "x-orvia-authority": "PRINCIPAL",
         "x-orvia-capability": "receipt.own.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A02_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/workflows": {
@@ -3805,9 +4532,9 @@
                   "$ref": "#/components/schemas/Workflow"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000096",
-                  "event_id": "00000000-0000-4000-8000-000000000097",
-                  "purpose_id": "00000000-0000-4000-8000-000000000098",
+                  "id": "00000000-0000-4000-8000-0000000000a0",
+                  "event_id": "00000000-0000-4000-8000-0000000000a1",
+                  "purpose_id": "00000000-0000-4000-8000-0000000000a2",
                   "state": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z",
                   "updated_at": "2026-09-16T10:00:00.000Z",
@@ -3988,7 +4715,7 @@
                   "$ref": "#/components/schemas/AcceptedOperation"
                 },
                 "example": {
-                  "operation_id": "00000000-0000-4000-8000-000000000099",
+                  "operation_id": "00000000-0000-4000-8000-0000000000a3",
                   "status": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z"
                 }
@@ -4166,7 +4893,7 @@
                   "$ref": "#/components/schemas/AcceptedOperation"
                 },
                 "example": {
-                  "operation_id": "00000000-0000-4000-8000-00000000009b",
+                  "operation_id": "00000000-0000-4000-8000-0000000000a5",
                   "status": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z"
                 }
@@ -4313,7 +5040,7 @@
               "example": {
                 "statement": "Synthetic example",
                 "evidence_record_ids": [
-                  "00000000-0000-4000-8000-00000000009a"
+                  "00000000-0000-4000-8000-0000000000a4"
                 ],
                 "expected_task_version": 0
               }
@@ -4526,9 +5253,9 @@
                 },
                 "example": {
                   "workflow": {
-                    "id": "00000000-0000-4000-8000-00000000009c",
-                    "event_id": "00000000-0000-4000-8000-00000000009d",
-                    "purpose_id": "00000000-0000-4000-8000-00000000009e",
+                    "id": "00000000-0000-4000-8000-0000000000a6",
+                    "event_id": "00000000-0000-4000-8000-0000000000a7",
+                    "purpose_id": "00000000-0000-4000-8000-0000000000a8",
                     "state": "ACCEPTED",
                     "accepted_at": "2026-09-16T10:00:00.000Z",
                     "updated_at": "2026-09-16T10:00:00.000Z",
@@ -4708,9 +5435,9 @@
                 },
                 "example": {
                   "workflow": {
-                    "id": "00000000-0000-4000-8000-00000000009f",
-                    "event_id": "00000000-0000-4000-8000-0000000000a0",
-                    "purpose_id": "00000000-0000-4000-8000-0000000000a1",
+                    "id": "00000000-0000-4000-8000-0000000000a9",
+                    "event_id": "00000000-0000-4000-8000-0000000000aa",
+                    "purpose_id": "00000000-0000-4000-8000-0000000000ab",
                     "state": "ACCEPTED",
                     "accepted_at": "2026-09-16T10:00:00.000Z",
                     "updated_at": "2026-09-16T10:00:00.000Z",
@@ -4879,7 +5606,7 @@
                   "$ref": "#/components/schemas/Decision"
                 },
                 "example": {
-                  "decision_id": "00000000-0000-4000-8000-0000000000a5",
+                  "decision_id": "00000000-0000-4000-8000-0000000000af",
                   "decision": "ALLOW",
                   "reason_codes": [
                     "SYNTHETIC_EXAMPLE"
@@ -5030,9 +5757,9 @@
                 "$ref": "#/components/schemas/Evaluate"
               },
               "example": {
-                "principal_id": "00000000-0000-4000-8000-0000000000a2",
-                "purpose_id": "00000000-0000-4000-8000-0000000000a3",
-                "system_id": "00000000-0000-4000-8000-0000000000a4",
+                "principal_id": "00000000-0000-4000-8000-0000000000ac",
+                "purpose_id": "00000000-0000-4000-8000-0000000000ad",
+                "system_id": "00000000-0000-4000-8000-0000000000ae",
                 "action": "MARKETING_SEND"
               }
             }
@@ -5070,7 +5797,7 @@
                   "$ref": "#/components/schemas/TestRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-0000000000a6",
+                  "id": "00000000-0000-4000-8000-0000000000b0",
                   "request": {
                     "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
                     "profile": "codex-a00",
@@ -5262,7 +5989,7 @@
                   "$ref": "#/components/schemas/TestRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-0000000000a7",
+                  "id": "00000000-0000-4000-8000-0000000000b1",
                   "request": {
                     "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
                     "profile": "codex-a00",
@@ -5747,8 +6474,8 @@
                 "$ref": "#/components/schemas/PollRequest"
               },
               "example": {
-                "installation_id": "00000000-0000-4000-8000-0000000000a8",
-                "environment_id": "00000000-0000-4000-8000-0000000000a9",
+                "installation_id": "00000000-0000-4000-8000-0000000000b2",
+                "environment_id": "00000000-0000-4000-8000-0000000000b3",
                 "maximum_commands": 1
               }
             }
@@ -5795,7 +6522,7 @@
                   "$ref": "#/components/schemas/AcceptedOperation"
                 },
                 "example": {
-                  "operation_id": "00000000-0000-4000-8000-0000000000ac",
+                  "operation_id": "00000000-0000-4000-8000-0000000000b6",
                   "status": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z"
                 }
@@ -5939,9 +6666,9 @@
                 "$ref": "#/components/schemas/CommandReceipt"
               },
               "example": {
-                "command_id": "00000000-0000-4000-8000-0000000000aa",
+                "command_id": "00000000-0000-4000-8000-0000000000b4",
                 "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "attempt_id": "00000000-0000-4000-8000-0000000000ab",
+                "attempt_id": "00000000-0000-4000-8000-0000000000b5",
                 "execution_state": "ACKNOWLEDGED",
                 "recorded_at": "2026-09-16T10:00:00.000Z",
                 "reason_code": "SYNTHETIC_EXAMPLE",
@@ -6131,10 +6858,10 @@
                 "$ref": "#/components/schemas/SendRequest"
               },
               "example": {
-                "attempt_id": "00000000-0000-4000-8000-0000000000ad",
-                "principal_reference_id": "00000000-0000-4000-8000-0000000000ae",
-                "purpose_id": "00000000-0000-4000-8000-0000000000af",
-                "system_id": "00000000-0000-4000-8000-0000000000b0",
+                "attempt_id": "00000000-0000-4000-8000-0000000000b7",
+                "principal_reference_id": "00000000-0000-4000-8000-0000000000b8",
+                "purpose_id": "00000000-0000-4000-8000-0000000000b9",
+                "system_id": "00000000-0000-4000-8000-0000000000ba",
                 "message_class": "MARKETING",
                 "order_reference": null
               }
@@ -6182,9 +6909,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-0000000000b1",
+                  "command_id": "00000000-0000-4000-8000-0000000000bb",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-0000000000b2",
+                  "attempt_id": "00000000-0000-4000-8000-0000000000bc",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -6332,7 +7059,7 @@
               "example": {
                 "algorithm": "Ed25519",
                 "payload": {
-                  "schema_version": "0.2.1",
+                  "schema_version": "0.3.0",
                   "command_id": "00000000-0000-4000-8000-00000000000d",
                   "installation_id": "00000000-0000-4000-8000-00000000000e",
                   "signing_key_id": "00000000-0000-4000-8000-00000000000f",
@@ -6375,7 +7102,7 @@
                   "expires_at": "2026-09-16T10:04:00.000Z",
                   "nonce": "synthetic_example_nonce_000000000000000001"
                 },
-                "signature": "fkZUMkZ52oaxzOK2N679_lK5yy6RGfuGhv0GWZd9UhaQTV4Op5Fvcj-Lls7yxGc0d3S3ChdrrdXbOLPkiCtACQ"
+                "signature": "LjuMNTYNGHhasyaBtekEUlJFnXGvGf_L4q--BLcEgGuNQ24_zJDW2w6XQ6PNYCWkCVhK6NjbOiykAgSkCAw0CQ"
               }
             }
           }
@@ -6410,7 +7137,7 @@
                   "$ref": "#/components/schemas/SimulatorState"
                 },
                 "example": {
-                  "resource_id": "00000000-0000-4000-8000-0000000000b3",
+                  "resource_id": "00000000-0000-4000-8000-0000000000bd",
                   "generation": 0,
                   "last_applied_epoch": 0,
                   "marketing_restricted": false,
@@ -6578,9 +7305,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-0000000000b4",
+                  "command_id": "00000000-0000-4000-8000-0000000000be",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-0000000000b5",
+                  "attempt_id": "00000000-0000-4000-8000-0000000000bf",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -7589,6 +8316,130 @@
         ],
         "additionalProperties": false
       },
+      "PolicyReauthenticate": {
+        "type": "object",
+        "properties": {
+          "version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[0-9]{6}$"
+          }
+        },
+        "required": [
+          "version_id",
+          "digest",
+          "code"
+        ],
+        "additionalProperties": false
+      },
+      "PublicationProof": {
+        "type": "object",
+        "properties": {
+          "reauthentication_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "reauthentication_id",
+          "version_id",
+          "digest",
+          "expires_at"
+        ],
+        "additionalProperties": false
+      },
+      "MappingCreate": {
+        "type": "object",
+        "properties": {
+          "principal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "purpose_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "system_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "principal_id",
+          "purpose_id",
+          "system_id"
+        ],
+        "additionalProperties": false
+      },
+      "TargetMapping": {
+        "type": "object",
+        "properties": {
+          "principal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "purpose_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "system_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "target_subject_reference": {
+            "type": "string",
+            "pattern": "^syn_[a-z0-9_]{1,80}$"
+          },
+          "target_generation": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "principal_id",
+          "purpose_id",
+          "system_id",
+          "id",
+          "target_subject_reference",
+          "target_generation"
+        ],
+        "additionalProperties": false
+      },
       "SystemCreate": {
         "type": "object",
         "properties": {
@@ -8203,7 +9054,7 @@
         "properties": {
           "schema_version": {
             "type": "string",
-            "const": "0.2.1"
+            "const": "0.3.0"
           },
           "command_id": {
             "type": "string",
@@ -8501,7 +9352,7 @@
             "properties": {
               "schema_version": {
                 "type": "string",
-                "const": "0.2.1"
+                "const": "0.3.0"
               },
               "command_id": {
                 "type": "string",
@@ -12238,6 +13089,166 @@
         ],
         "additionalProperties": false
       },
+      "ReceiptList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "receipt_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "event_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "purpose_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "consent_status": {
+                  "type": "string",
+                  "enum": [
+                    "GRANTED",
+                    "WITHDRAWN"
+                  ]
+                },
+                "consent_epoch": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "accepted_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "workflow_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "propagation_status": {
+                  "type": "string",
+                  "enum": [
+                    "ACCEPTED",
+                    "NOT_REQUIRED"
+                  ]
+                }
+              },
+              "required": [
+                "receipt_id",
+                "event_id",
+                "purpose_id",
+                "consent_status",
+                "consent_epoch",
+                "accepted_at",
+                "workflow_id",
+                "propagation_status"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "MappingList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "principal_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "purpose_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "system_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "target_subject_reference": {
+                  "type": "string",
+                  "pattern": "^syn_[a-z0-9_]{1,80}$"
+                },
+                "target_generation": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "principal_id",
+                "purpose_id",
+                "system_id",
+                "id",
+                "target_subject_reference",
+                "target_generation"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
       "PurposeList": {
         "type": "object",
         "properties": {
@@ -13248,7 +14259,7 @@
                   "properties": {
                     "schema_version": {
                       "type": "string",
-                      "const": "0.2.1"
+                      "const": "0.3.0"
                     },
                     "command_id": {
                       "type": "string",

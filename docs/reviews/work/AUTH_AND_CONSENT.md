@@ -1,7 +1,9 @@
 # W01 — authority and consent review
 
-**Checkpoint:** A01 accepted; W01 remains IN_PROGRESS pending A02.
+**Current checkpoint:** A01 accepted; A02/W01 acceptance BLOCKED by the medium freshness finding in [W01_A02_REVIEW.md](W01_A02_REVIEW.md). Use the [A02 correction prompt](W01_A02_CODEX_FIX.md).
 **Date:** 2026-09-16. **Reviewer:** Work. **Profile:** CUSTOMER_LOCAL_SYNTHETIC.
+
+The A01 review below is retained as the historical 0.2.1 checkpoint. Its pending-A02 and next-start wording is superseded by the linked A02 review of contract 0.3.0. A03 continuation is reported, not accepted; no full acceptance result has been promoted.
 
 ## Decision and exact candidate
 

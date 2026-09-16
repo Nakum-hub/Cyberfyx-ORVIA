@@ -1,0 +1,2 @@
+DOCUMENT-TOOL TEST DATA
+Synthetic artifact used only by docs/reviews/cowork/tools/tests. Not an ORVIA run log.

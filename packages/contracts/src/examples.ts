@@ -34,6 +34,7 @@ export function sample(schema:JsonSchema,key=''):unknown {
   if(schema.pattern?.includes('{32,128}'))return 'A'.repeat(32);
   if(schema.pattern?.includes('[A-Z_]'))return 'SYNTHETIC_EXAMPLE';
   if(key==='build_id')return 'a00-synthetic-example';
+  if(schema.pattern==='^[0-9]{6}$')return '123456';
   return 'Synthetic example'.padEnd(schema.minLength??1,'x');
 }
 export function example(name:SchemaName):unknown {

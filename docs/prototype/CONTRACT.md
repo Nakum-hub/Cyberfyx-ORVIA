@@ -1,5 +1,7 @@
 # Shared prototype contract — accepted version 0.2.1
 
+**Current executable candidate:** 0.3.0 from A02 at `3242521e59966885d8053747a82d96cb92ea55d5`, human-integrated in `004fe3d`. It adds configuration/consent implementation and four coordinated routes. Work's [A02 review](../reviews/work/W01_A02_REVIEW.md) requires W01-A02-F01 correction/retest before candidate acceptance. The 0.2.1 acceptance below remains the historical baseline, not a claim that current executable schemas are still 0.2.1. See section 10 for candidate additions.
+
 **Status:** Work accepts executable version 0.2.1 at `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`; see [acceptance review](../reviews/work/W00_A00_ACCEPTANCE.md). This freezes interfaces/semantics, not completed business endpoints or full application acceptance.
 **Schema writer:** Codex. **Semantic reviewer:** Work. **Consumer:** Claude Code.
 
@@ -89,7 +91,7 @@ Dashboard cards use actual persisted counts by state, including unknown/manual/f
 
 ## 8. HTTP interface shape
 
-At the accepted A01 checkpoint, GET `/healthz`, GET `/api/v1/session`, GET/POST `/api/v1/admin/principals` and the separately scoped auth-library mounts are implemented. All other business routes below remain **contract-only pending their assigned tickets**; accepted schemas/examples are not runtime response fallbacks. Auth-library login/MFA/logout routes use its documented integration and are separately mounted for staff/principal scope; do not invent home-grown password endpoints. See the [A01 UI binding handoff](../../handoffs/codex/A01-UI-e1fa052.md) for actual MFA/error behavior. Principal directory creation does not provision a login account.
+At the accepted A01 checkpoint, GET `/healthz`, GET `/api/v1/session`, GET/POST `/api/v1/admin/principals` and the separately scoped auth-library mounts are implemented. A02 now also implements scoped configuration list/create, publication/reauthentication, mapping/control-map and own-consent/receipt/history routes; their acceptance is pending the linked freshness correction. Other business routes below remain **contract-only pending their assigned tickets**; schemas/examples are not runtime response fallbacks. Auth-library login/MFA/logout routes use its documented integration and are separately mounted for staff/principal scope; do not invent home-grown password endpoints. See the [A01 UI binding handoff](../../handoffs/codex/A01-UI-e1fa052.md) for actual MFA/error behavior. Principal directory creation does not provision a login account.
 
 Common responses: 400 validation; 401 unauthenticated; 403 denied capability; 404 missing or inaccessible scoped resource (avoid enumeration); 409 version/idempotency conflict; 429 bounded request limit; 503 required service unavailable. Return `error.code`, safe `error.message`, field errors where appropriate and `request_id`; no raw stack traces, secrets or request bodies. Validate unknown fields and input sizes. Use CSRF/session protections appropriate to the auth library and deny unapproved origins.
 
@@ -129,3 +131,17 @@ Agent polling/receipt and sandbox send endpoints are **private machine interface
 Faults are allowlisted test fixtures: HEALTHY, UNAVAILABLE, APPLY_THEN_TIMEOUT, ACK_WITHOUT_EFFECT and a deliberately unsafe sender fixture used only by the regression harness. Faults change target behaviour, never the reported test result. Do not add a production “disable privacy” switch.
 
 Reset requires a named synthetic deployment/namespace, explicit confirmation, an authority check, no live jobs and a guard rejecting unrecognised/non-demo databases. Freeze/rehearsal evidence is exported before resetting. Fault/reset surfaces are unavailable outside the private synthetic profile. P1 routes require a coordinated contract extension; the frontend cannot independently create placeholder success handlers.
+
+## 10. A02 candidate 0.3.0 — correction pending
+
+Producer change [A02-C01](../engineering/A02-CONTRACT-CHANGE.md) supplies the canonical schema/consumer handoff. Work accepts the need for these bounded interfaces; this is not candidate acceptance or a transfer of schema-writing ownership.
+
+| Added route | Candidate meaning / required boundary |
+|---|---|
+| POST `/api/v1/admin/policies/{id}/reauthenticate` | Verify real current TOTP for a distinct authorized reviewer; issue a 120-second, one-use proof bound to actor/session, exact policy/version/digest and scope. Reauthentication alone does not publish |
+| GET/POST `/api/v1/admin/target-mappings` | Scoped synthetic mapping list/create; server generates target subject identity; no caller-selected URL, SQL, credentials or target identifier |
+| GET `/api/v1/portal/me/consents/{purpose_id}/history` | Own-principal immutable receipt history with bounded pagination |
+
+New interactions from own-consent reads are ten-minute, own-principal, epoch/notice-bound records. At the new-operation consume/mutation boundary, expired proofs/interactions must be rejected after relevant lock waits using advancing server time. The reviewed candidate's transaction-start `now()` checks do not satisfy this boundary; F01 requires a real regression/retest. Preserve authorized identical replay of an already committed operation before new-operation freshness checks. The withdrawal rule still requires no acceptance of a new notice.
+
+Schemas/examples/client/signature vector and seed are generated together as 0.3.0; earlier-version command envelopes remain rejected. A03 must consume the coordinated version. Do not hand-edit generated artifacts, infer target success from A02 rows, or treat the pending candidate label as an implemented security fix. No additional profile ADR, dependency or product-scope change is needed.

@@ -1,5 +1,7 @@
 # Codex prompt after A01 review
 
+**Historical prompt — superseded:** A02 was subsequently pushed and reviewed. Do not restart A02 from this prompt; preserve the continuation work and use [W01_A02_CODEX_FIX.md](W01_A02_CODEX_FIX.md) for the current bounded correction.
+
 A01 at `50cb4daeded9253c4f7cca4f742cb212c10aa5b7` has no blocking Work finding. There is no A01 repair ticket. After the human merges the Work acceptance/tracking PR, give Codex the following:
 
 ```text
