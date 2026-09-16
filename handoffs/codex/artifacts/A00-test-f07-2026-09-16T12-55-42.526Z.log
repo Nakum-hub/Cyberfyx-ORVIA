@@ -1,0 +1,34 @@
+$ node handoffs/codex/repro/W00-F07/provider-receipt.mjs
+{
+  "kind": "WORK_REVIEW_COUNTEREXAMPLE",
+  "assertions": [
+    {
+      "id": "ack-only",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION",
+      "result": "PASS"
+    },
+    {
+      "id": "provider-assertion-only",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "COMPLETED",
+      "result": "FAIL"
+    },
+    {
+      "id": "fresh-scoped-read",
+      "expected": "COMPLETED",
+      "actual": "COMPLETED",
+      "result": "PASS"
+    },
+    {
+      "id": "stale-scoped-read",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Pure domain/schema execution only; no target, database, API or browser involved."
+  ]
+}
+[ELIFECYCLE] Command failed with exit code 1.

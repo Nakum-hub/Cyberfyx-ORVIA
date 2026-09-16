@@ -1,0 +1,174 @@
+{
+  "task_id": "A00",
+  "finding_ids": [
+    "W00-F07",
+    "W00-F01"
+  ],
+  "recorded_at": "2026-09-16T13:02:57.826Z",
+  "base_commit": "e839b1a0e9358d389c5cb728648b1590f8f7ef9e",
+  "fix_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+  "work_review_commit": "beec1a0023a699a71b085878ec2bc2c2214c4166",
+  "contract_version": "0.2.1",
+  "master": {
+    "path": "docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md",
+    "sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+    "bytes": 850752,
+    "committed_and_worktree_match": true
+  },
+  "reproducer": {
+    "original_path": "docs/reviews/work/repro/W00-F07-provider-receipt.mjs",
+    "original_commit": "beec1a0023a699a71b085878ec2bc2c2214c4166",
+    "local_path": "handoffs/codex/repro/W00-F07/provider-receipt.mjs",
+    "sha256": "b40598c60c17a9ff7d44fbafaf88c6d7b1090227c0f6a63bb476b8d7099d1b83",
+    "byte_identical": true
+  },
+  "pre_fix": {
+    "artifact": "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.json",
+    "exit_code": 1,
+    "classification": "EXPECTED_REPRODUCTION_OF_W00_F07",
+    "provider_only_actual": "COMPLETED",
+    "provider_only_expected": "NEEDS_ATTENTION",
+    "other_controls_passed": 3
+  },
+  "checks": [
+    {
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:f07"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_matches_commit": true,
+      "artifact": "handoffs/codex/artifacts/A00-test-f07-2026-09-16T13-00-35.362Z.json",
+      "log": "handoffs/codex/artifacts/A00-test-f07-2026-09-16T13-00-35.362Z.log",
+      "started_at": "2026-09-16T13:00:35.362Z",
+      "finished_at": "2026-09-16T13:00:38.131Z"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_matches_commit": true,
+      "artifact": "handoffs/codex/artifacts/A00-test-2026-09-16T13-00-35.450Z.json",
+      "log": "handoffs/codex/artifacts/A00-test-2026-09-16T13-00-35.450Z.log",
+      "started_at": "2026-09-16T13:00:35.450Z",
+      "finished_at": "2026-09-16T13:00:40.210Z"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_matches_commit": true,
+      "artifact": "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T13-00-36.392Z.json",
+      "log": "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T13-00-36.392Z.log",
+      "started_at": "2026-09-16T13:00:36.392Z",
+      "finished_at": "2026-09-16T13:00:42.286Z"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_matches_commit": true,
+      "artifact": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T13-00-35.917Z.json",
+      "log": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T13-00-35.917Z.log",
+      "started_at": "2026-09-16T13:00:35.917Z",
+      "finished_at": "2026-09-16T13:01:25.823Z"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_matches_commit": true,
+      "artifact": "handoffs/codex/artifacts/A00-lint-2026-09-16T13-00-36.620Z.json",
+      "log": "handoffs/codex/artifacts/A00-lint-2026-09-16T13-00-36.620Z.log",
+      "started_at": "2026-09-16T13:00:36.620Z",
+      "finished_at": "2026-09-16T13:01:17.281Z"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "732f4f50142e9b6bbe37187b07da04e3341b9621",
+      "source_matches_commit": true,
+      "artifact": "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T13-01-18.844Z.json",
+      "log": "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T13-01-18.844Z.log",
+      "started_at": "2026-09-16T13:01:18.844Z",
+      "finished_at": "2026-09-16T13:01:20.346Z"
+    }
+  ],
+  "correction_files": [
+    ".gitattributes",
+    "docs/engineering/A00-CONTRACT-PROPOSAL.md",
+    "docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md",
+    "handoffs/codex/A00-F07-e839b1a.md",
+    "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T12-57-57.048Z.json",
+    "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T12-57-57.048Z.log",
+    "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T12-58-24.241Z.json",
+    "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T12-58-24.241Z.log",
+    "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.json",
+    "handoffs/codex/artifacts/A00-test-f07-2026-09-16T12-55-42.526Z.log",
+    "handoffs/codex/repro/W00-F07/provider-receipt.mjs",
+    "package.json",
+    "packages/contracts/fixtures/command-vector.json",
+    "packages/contracts/generated/client-types.d.ts",
+    "packages/contracts/generated/contract-seed.proposed.json",
+    "packages/contracts/generated/examples.json",
+    "packages/contracts/generated/interfaces.json",
+    "packages/contracts/generated/manifest.json",
+    "packages/contracts/generated/openapi.json",
+    "packages/contracts/generated/signature-vector.json",
+    "packages/contracts/package.json",
+    "packages/contracts/src/examples.ts",
+    "packages/contracts/src/index.ts",
+    "packages/domain/src/completion.ts",
+    "scripts/record.mjs",
+    "tests/unit/completion.test.ts",
+    "tests/unit/contracts.test.ts"
+  ],
+  "generated_manifest": {
+    "contract_version": "0.2.1",
+    "review_status": "PENDING_W00",
+    "artifacts": {
+      "openapi.json": "3e9b1934680ad28963a435517d2e7e9c9ade3a4e90282090e2dbcc192524f992",
+      "examples.json": "7029a76c7f0ec77d96eab063e6b1783646cf7ba81291d1f0b3c25e81bbc7ae71",
+      "client-types.d.ts": "f471bba73a0a1e058193e4129c82bb0ab0c47de5900ed816e4832f52aaf0eb9c",
+      "interfaces.json": "3081204e57c09cfd28a2084454cff28b77beb04453838f67ee9342b0d0f7c836",
+      "signature-vector.json": "187d00a1efd90285478085827aecb7a2f7c1bc0c3df2ab3144b662efb1393b57",
+      "contract-seed.proposed.json": "9a7888ae14c1767c25d10404307b249623c3c18186d5fdcb4a408c62e49f8d01",
+      "endpoint-types.ts": "3d42ac6b98c1b23ed01df05159a628a69285f9eb7504671bcfad0e38508670e4"
+    }
+  },
+  "acceptance": "SUBMITTED_FOR_W00_RETEST; no self-acceptance",
+  "not_run": [
+    "Full application T01-T34",
+    "Live service/build/browser/recovery/reset checks: outside this bounded pure-domain correction",
+    "Advisory audit: prior egress rejection remains; no new request or attempt"
+  ],
+  "next_gate": "Work review and human integration before A01/B00"
+}

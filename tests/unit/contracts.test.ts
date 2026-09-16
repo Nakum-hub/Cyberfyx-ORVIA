@@ -35,6 +35,7 @@ test('signed envelope rejects altered bindings, signature, trust and expiry',()=
   assert.throws(()=>verifyCommand(command,keys.publicKey,{...expected,legal_entity_id:uuid(999)}));
   assert.throws(()=>verifyCommand(command,keys.publicKey,{...expected,now:new Date(NaN)}));
   assert.throws(()=>schemas.CommandPayload.parse({...examplePayload,schema_version:'999.0.0'}));
+  assert.throws(()=>schemas.CommandPayload.parse({...examplePayload,schema_version:'0.2.0'}));
   assert.throws(()=>schemas.CommandPayload.parse({...examplePayload,url:'https://unapproved.example'}));
 });
 test('portal-safe immutable acceptance and refreshed current status remain distinct',()=>{
