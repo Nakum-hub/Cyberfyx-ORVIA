@@ -3,7 +3,7 @@
   "info": {
     "title": "ORVIA customer-local synthetic contract",
     "version": "0.2.1",
-    "description": "A00 proposal pending W00 review. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "description": "Contract accepted by W00 at 425f079 and integrated at e1fa052. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -320,7 +320,7 @@
           }
         },
         "x-orvia-authority": "STAFF_OR_PRINCIPAL",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A01_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/overview": {
@@ -2131,7 +2131,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "principals.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A01_PENDING_REVIEW"
       },
       "post": {
         "operationId": "create_principals",
@@ -2301,7 +2301,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "principals.create",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A01_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {

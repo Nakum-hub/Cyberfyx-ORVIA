@@ -5,6 +5,7 @@ import openapiTS, { astToString, type OpenAPI3 } from 'openapi-typescript';
 import { AUTH, CONTRACT_VERSION, PROFILES, routes, schemas, type SchemaName } from './index.ts';
 import { example, receiptReplayExample } from './examples.ts';
 import signatureVector from '../fixtures/command-vector.json' with { type:'json' };
+const review = { review_status: 'ACCEPTED_W00', review_commit: '425f079bc74e897d8ee97fa56faeea50e42ac46f', integration_commit: 'e1fa052c6c419e90c4783ce220dee2ef247472dc' };
 
 const components=Object.fromEntries(Object.entries(schemas).map(([name,schema])=>{
   const json=z.toJSONSchema(schema,{target:'draft-2020-12'});
@@ -29,17 +30,17 @@ for(const route of routes){
   const security=route.authority==='PUBLIC'?[]:route.authority==='STAFF_OR_PRINCIPAL'?[{staffSession:[]},{principalSession:[]}]:route.authority==='STAFF'?[{staffSession:[]}]:route.authority==='PRINCIPAL'?[{principalSession:[]}]:[{machineCredential:[]}];
   const responses:Record<string,unknown>={[route.status]:{description:'Typed contract response; endpoint implementation is ticket-gated.',content:{'application/json':{schema:ref(route.response),example:response}}}};
   for(const error of errors)responses[error.status]={description:error.body.error.code,content:{'application/json':{schema:ref('ErrorResponse'),example:error.body}}};
-  const operation={operationId:route.id,security,parameters,responses,'x-orvia-authority':route.authority,'x-orvia-capability':route.capability,'x-orvia-implementation':route.id==='health'?'IMPLEMENTED_A00':'CONTRACT_ONLY_PENDING_TICKET',...(route.request?{requestBody:{required:true,content:{'application/json':{schema:ref(route.request),example:body}}}}:{})};
+  const operation={operationId:route.id,security,parameters,responses,'x-orvia-authority':route.authority,'x-orvia-capability':route.capability,'x-orvia-implementation':route.id==='health'?'IMPLEMENTED_A00':['session','list_principals','create_principals'].includes(route.id)?'IMPLEMENTED_A01_PENDING_REVIEW':'CONTRACT_ONLY_PENDING_TICKET',...(route.request?{requestBody:{required:true,content:{'application/json':{schema:ref(route.request),example:body}}}}:{})};
   (paths[route.path]??={})[route.method]=operation;
   routeExamples.push({operation_id:route.id,method:route.method.toUpperCase(),path:route.path,headers:route.idempotency?{'Idempotency-Key':'synthetic_example_key_0001'}:{},request:body??null,response_status:route.status,response});
 }
-const doc={openapi:'3.1.0',info:{title:'ORVIA customer-local synthetic contract',version:CONTRACT_VERSION,description:'A00 proposal pending W00 review. Examples are labelled synthetic contract fixtures, never runtime responses.'},paths,components:{schemas:components,securitySchemes:{staffSession:{type:'apiKey',in:'cookie',name:`${AUTH.staff.cookie_prefix}.session_token`},principalSession:{type:'apiKey',in:'cookie',name:`${AUTH.principal.cookie_prefix}.session_token`},machineCredential:{type:'http',scheme:'bearer',description:'Independent installation/environment-scoped machine authority; never a human session.'}}}};
+const doc={openapi:'3.1.0',info:{title:'ORVIA customer-local synthetic contract',version:CONTRACT_VERSION,description:'Contract accepted by W00 at 425f079 and integrated at e1fa052. Examples are labelled synthetic contract fixtures, never runtime responses.'},paths,components:{schemas:components,securitySchemes:{staffSession:{type:'apiKey',in:'cookie',name:`${AUTH.staff.cookie_prefix}.session_token`},principalSession:{type:'apiKey',in:'cookie',name:`${AUTH.principal.cookie_prefix}.session_token`},machineCredential:{type:'http',scheme:'bearer',description:'Independent installation/environment-scoped machine authority; never a human session.'}}}};
 const json=(v:unknown)=>JSON.stringify(v,null,2)+'\n';
-const outputs:Record<string,string>={'openapi.json':json(doc),'examples.json':json({fixture_kind:'SYNTHETIC_CONTRACT_EXAMPLES',runtime_fallback:false,routes:routeExamples,errors,immutable_receipt_replay:receiptReplayExample}),'client-types.d.ts':astToString(await openapiTS(doc as unknown as OpenAPI3)), 'interfaces.json':json({contract_version:CONTRACT_VERSION,review_status:'PENDING_W00',auth:AUTH,profiles:PROFILES,polling:{minimum_interval_ms:2000,maximum_backoff_ms:30000,workflow_terminal:['COMPLETED'],test_terminal:['PASS','FAIL','ERROR','SKIPPED'],needs_attention:'Pause automatic polling after surfacing attention; explicit refresh remains available.'}})};
+const outputs:Record<string,string>={'openapi.json':json(doc),'examples.json':json({fixture_kind:'SYNTHETIC_CONTRACT_EXAMPLES',runtime_fallback:false,routes:routeExamples,errors,immutable_receipt_replay:receiptReplayExample}),'client-types.d.ts':astToString(await openapiTS(doc as unknown as OpenAPI3)), 'interfaces.json':json({contract_version:CONTRACT_VERSION,...review,auth:AUTH,profiles:PROFILES,polling:{minimum_interval_ms:2000,maximum_backoff_ms:30000,workflow_terminal:['COMPLETED'],test_terminal:['PASS','FAIL','ERROR','SKIPPED'],needs_attention:'Pause automatic polling after surfacing attention; explicit refresh remains available.'}})};
 outputs['signature-vector.json']=json(signatureVector);
-outputs['contract-seed.proposed.json']=json({contract_version:CONTRACT_VERSION,review_status:'PENDING_W00',provenance:'Generated proposal; original tracking/contract_seed.json was absent at inspected base.',api_base:'/api/v1',profiles:PROFILES,auth:AUTH,routes});
+outputs['contract-seed.proposed.json']=json({contract_version:CONTRACT_VERSION,...review,provenance:'Generated from accepted executable schemas. Historical proposal filename retained; tracking/contract_seed.json is generated from these same bytes.',api_base:'/api/v1',profiles:PROFILES,auth:AUTH,routes});
 outputs['endpoint-types.ts']='// Generated from canonical routes. Do not edit.\nexport interface EndpointMap {\n'+routes.filter(r=>r.authority!=='MACHINE').map(r=>`  ${r.id}: { request: ${r.request?`import('zod').infer<typeof import('../src/index.ts').schemas.${r.request}>`:'undefined'}; response: import('zod').infer<typeof import('../src/index.ts').schemas.${r.response}> };`).join('\n')+'\n}\n';
-outputs['manifest.json']=json({contract_version:CONTRACT_VERSION,review_status:'PENDING_W00',artifacts:Object.fromEntries(Object.entries(outputs).map(([p,b])=>[p,createHash('sha256').update(b).digest('hex')]))});
+outputs['manifest.json']=json({contract_version:CONTRACT_VERSION,...review,artifacts:Object.fromEntries(Object.entries(outputs).map(([p,b])=>[p,createHash('sha256').update(b).digest('hex')]))});
 const check=process.argv.includes('--check');
 mkdirSync('packages/contracts/generated',{recursive:true});
 for(const [name,bytes] of Object.entries(outputs)){
@@ -47,4 +48,7 @@ for(const [name,bytes] of Object.entries(outputs)){
   if(check){if(!existsSync(path)||readFileSync(path,'utf8')!==bytes)throw new Error(`Generated contract drift: ${path}`);}
   else writeFileSync(path,bytes);
 }
-console.log(`${check?'Checked':'Generated'} ${Object.keys(outputs).length} artifacts; ${routes.length} route examples and ${errors.length} error examples validated; contract ${CONTRACT_VERSION}.`);
+const seedPath='tracking/contract_seed.json';
+if(check){if(!existsSync(seedPath)||readFileSync(seedPath,'utf8')!==outputs['contract-seed.proposed.json'])throw new Error('Generated accepted seed drift');}
+else writeFileSync(seedPath,outputs['contract-seed.proposed.json']!);
+console.log(`${check?'Checked':'Generated'} ${Object.keys(outputs).length} artifacts and accepted seed; ${routes.length} route examples and ${errors.length} error examples validated; contract ${CONTRACT_VERSION}.`);

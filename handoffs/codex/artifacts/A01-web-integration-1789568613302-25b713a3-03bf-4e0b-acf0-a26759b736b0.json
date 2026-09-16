@@ -1,0 +1,15 @@
+{
+  "task_id": "A01",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-16T14:23:33.303Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "assertions": [
+    "liveness 200 with exact body",
+    "foundation page 200 and nosniff",
+    "unimplemented business endpoint 404"
+  ],
+  "limitations": [
+    "HTTP bootstrap smoke only; not UI browser acceptance or authenticated API tests."
+  ]
+}

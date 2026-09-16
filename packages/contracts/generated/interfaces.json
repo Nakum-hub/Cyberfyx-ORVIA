@@ -1,6 +1,8 @@
 {
   "contract_version": "0.2.1",
-  "review_status": "PENDING_W00",
+  "review_status": "ACCEPTED_W00",
+  "review_commit": "425f079bc74e897d8ee97fa56faeea50e42ac46f",
+  "integration_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
   "auth": {
     "staff": {
       "base_path": "/api/auth/staff",

@@ -1,0 +1,5 @@
+$ tsx tests/security/auth.test.ts
+PASS unauthenticated session denied
+{ name: 'Error', code: 'UNCLASSIFIED' }
+Artifact: handoffs/codex/artifacts/A01-auth-security-1789567132431-5f0fd981-f650-4d5e-849a-0dc60e237134.json
+[ELIFECYCLE] Command failed with exit code 1.

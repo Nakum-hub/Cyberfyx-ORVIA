@@ -1,0 +1,22 @@
+$ tsx scripts/preflight.ts
+Artifact: handoffs/codex/artifacts/A01-preflight-services-1789568625369-8831e217-66a7-4ac5-a0c9-613a14618fb2.json
+{
+  "postgres": {
+    "result": "PASS",
+    "database": "orvia_codex_a00",
+    "version": "17.11 (Debian 17.11-1.pgdg12+2)",
+    "installation_id": "659aed8e-59f6-422c-89cd-7976f108ecc3",
+    "profile": "codex-a00"
+  },
+  "opa": {
+    "result": "PASS",
+    "readiness": true,
+    "arbitrary_operation": false,
+    "policy_scope": "bootstrap readiness only"
+  },
+  "temporal": {
+    "result": "PASS",
+    "namespace": "orvia-codex-a00",
+    "server": "persistent single-node CLI development server"
+  }
+}

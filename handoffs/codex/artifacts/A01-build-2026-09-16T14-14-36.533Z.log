@@ -1,0 +1,14 @@
+$ tsx scripts/web.ts build
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 190ms
+- Experiments (use with caution):
+  · cpus: 1
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 15.5s
+  Running TypeScript ...
+src/app/api/auth/principal/[...all]/route.ts(5,145): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+src/app/api/auth/staff/[...all]/route.ts(5,141): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+Failed to type check.
+
+[ELIFECYCLE] Command failed with exit code 1.

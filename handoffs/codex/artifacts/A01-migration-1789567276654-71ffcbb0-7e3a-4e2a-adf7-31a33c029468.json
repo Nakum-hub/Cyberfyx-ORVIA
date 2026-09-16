@@ -1,0 +1,11 @@
+{
+  "task_id": "A01",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-16T14:01:16.655Z",
+  "profile": "codex-a00",
+  "migrations": [
+    "0002_idempotency_key_bound"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner"
+}
