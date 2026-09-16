@@ -1,0 +1,2 @@
+$ tsx packages/contracts/src/generate.ts
+Generated 8 artifacts; 37 route examples and 7 error examples validated; contract 0.2.0.

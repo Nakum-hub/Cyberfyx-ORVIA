@@ -1,0 +1,59 @@
+name: ${ORVIA_COMPOSE_PROJECT:?profile required}
+services:
+  postgres:
+    image: postgres@sha256:051f7b7b3abdd564d5d1bd1e8c4b9c1b6e77087d1dd22020ede611c096a272e0
+    environment:
+      POSTGRES_USER: orvia_migrator
+      POSTGRES_DB: ${ORVIA_DATABASE:?database required}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --auth-local=scram-sha-256
+    secrets: [postgres_password]
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    networks: [private]
+    mem_limit: 384m
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U orvia_migrator -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  opa:
+    image: openpolicyagent/opa@sha256:2de1e6619246955695b982d0bcb6c73bcee22aa34ff96f2455996616ec1d21c1
+    command: ['run', '--server', '--addr=0.0.0.0:8181', '--skip-version-check', '/policy']
+    volumes: ['../policy:/policy:ro']
+    networks: [private]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+  temporal:
+    image: temporalio/temporal@sha256:ad4c82c97bd12b417d1ea942610dbcd511afb250c4d5ed26c694009533df447e
+    command: ['server', 'start-dev', '--ip', '0.0.0.0', '--port', '7233', '--db-filename', '/home/temporal/temporal.db', '--namespace', '${ORVIA_TEMPORAL_NAMESPACE:?namespace required}', '--headless', '--ui-disable-news-fetch']
+    volumes: [temporal_state:/home/temporal]
+    networks: [private]
+    mem_limit: 768m
+    security_opt: [no-new-privileges:true]
+  loopback:
+    image: node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553
+    command: ['node', '/app/loopback.mjs']
+    user: node
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 64m
+    volumes: ['./loopback.mjs:/app/loopback.mjs:ro']
+    networks: [private, loopback_access]
+    ports:
+      - '127.0.0.1:${ORVIA_POSTGRES_PORT:?port required}:5432'
+      - '127.0.0.1:${ORVIA_OPA_PORT:?port required}:8181'
+      - '127.0.0.1:${ORVIA_TEMPORAL_PORT:?port required}:7233'
+networks:
+  private:
+    internal: true
+  loopback_access:
+    driver: bridge
+volumes:
+  postgres_data:
+  temporal_state:
+secrets:
+  postgres_password:
+    file: ${ORVIA_SECRET_DIRECTORY:?secret directory required}/postgres-password

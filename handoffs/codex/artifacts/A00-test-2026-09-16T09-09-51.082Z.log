@@ -1,0 +1,16 @@
+$ tsx --test tests/unit/*.test.ts
+✔ canonical digest is order-independent for objects and strict for unsupported values (4.9025ms)
+✔ signed envelope rejects altered bindings, signature, trust and expiry (79.3357ms)
+✔ portal-safe immutable acceptance and refreshed current status remain distinct (42.4609ms)
+✔ ACK and manual work do not fabricate automated observation; unknown history is retained (51.0968ms)
+✔ browser transport enforces request validation, parses errors, and never retries writes (197.2561ms)
+✔ current and legitimately progressed/BLOCKED tracking remain valid (31.2326ms)
+✔ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (26.3916ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2433.9485

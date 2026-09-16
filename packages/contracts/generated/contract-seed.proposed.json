@@ -1,0 +1,431 @@
+{
+  "contract_version": "0.2.0",
+  "review_status": "PENDING_W00",
+  "provenance": "Generated proposal; original tracking/contract_seed.json was absent at inspected base.",
+  "api_base": "/api/v1",
+  "profiles": {
+    "codex-a00": {
+      "compose_project": "orvia-codex-a00",
+      "app_port": 4310,
+      "postgres_port": 55431,
+      "opa_port": 58181,
+      "temporal_port": 57233,
+      "database": "orvia_codex_a00",
+      "temporal_namespace": "orvia-codex-a00",
+      "seed": "aster-birch-v1",
+      "reset": "codex-a00-bootstrap-only"
+    },
+    "ui-b00": {
+      "compose_project": "orvia-ui-b00",
+      "app_port": 4320,
+      "postgres_port": 55432,
+      "opa_port": 58182,
+      "temporal_port": 57234,
+      "database": "orvia_ui_b00",
+      "temporal_namespace": "orvia-ui-b00",
+      "seed": "aster-birch-v1",
+      "reset": "ui-b00-bootstrap-only"
+    },
+    "rehearsal": {
+      "compose_project": "orvia-rehearsal",
+      "app_port": 4330,
+      "postgres_port": 55433,
+      "opa_port": 58183,
+      "temporal_port": 57235,
+      "database": "orvia_rehearsal",
+      "temporal_namespace": "orvia-rehearsal",
+      "seed": "aster-birch-v1",
+      "reset": "rehearsal-bootstrap-only"
+    }
+  },
+  "auth": {
+    "staff": {
+      "base_path": "/api/auth/staff",
+      "cookie_prefix": "orvia.staff"
+    },
+    "principal": {
+      "base_path": "/api/auth/principal",
+      "cookie_prefix": "orvia.principal"
+    }
+  },
+  "routes": [
+    {
+      "id": "health",
+      "method": "get",
+      "path": "/healthz",
+      "authority": "PUBLIC",
+      "response": "Health",
+      "status": 200
+    },
+    {
+      "id": "session",
+      "method": "get",
+      "path": "/api/v1/session",
+      "authority": "STAFF_OR_PRINCIPAL",
+      "response": "Session",
+      "status": 200
+    },
+    {
+      "id": "overview",
+      "method": "get",
+      "path": "/api/v1/admin/overview",
+      "authority": "STAFF",
+      "capability": "overview.read",
+      "response": "Overview",
+      "status": 200
+    },
+    {
+      "id": "list_purposes",
+      "method": "get",
+      "path": "/api/v1/admin/purposes",
+      "authority": "STAFF",
+      "response": "PurposeList",
+      "status": 200,
+      "paginated": true,
+      "capability": "configuration.read"
+    },
+    {
+      "id": "create_purposes",
+      "method": "post",
+      "path": "/api/v1/admin/purposes",
+      "authority": "STAFF",
+      "request": "PurposeCreate",
+      "response": "Purpose",
+      "status": 201,
+      "idempotency": true,
+      "capability": "configuration.write"
+    },
+    {
+      "id": "list_notices",
+      "method": "get",
+      "path": "/api/v1/admin/notices",
+      "authority": "STAFF",
+      "response": "NoticeList",
+      "status": 200,
+      "paginated": true,
+      "capability": "configuration.read"
+    },
+    {
+      "id": "create_notices",
+      "method": "post",
+      "path": "/api/v1/admin/notices",
+      "authority": "STAFF",
+      "request": "NoticeCreate",
+      "response": "Notice",
+      "status": 201,
+      "idempotency": true,
+      "capability": "configuration.write"
+    },
+    {
+      "id": "list_policies",
+      "method": "get",
+      "path": "/api/v1/admin/policies",
+      "authority": "STAFF",
+      "response": "PolicyList",
+      "status": 200,
+      "paginated": true,
+      "capability": "configuration.read"
+    },
+    {
+      "id": "create_policies",
+      "method": "post",
+      "path": "/api/v1/admin/policies",
+      "authority": "STAFF",
+      "request": "PolicyCreate",
+      "response": "Policy",
+      "status": 201,
+      "idempotency": true,
+      "capability": "configuration.write"
+    },
+    {
+      "id": "list_systems",
+      "method": "get",
+      "path": "/api/v1/admin/systems",
+      "authority": "STAFF",
+      "response": "SystemList",
+      "status": 200,
+      "paginated": true,
+      "capability": "configuration.read"
+    },
+    {
+      "id": "create_systems",
+      "method": "post",
+      "path": "/api/v1/admin/systems",
+      "authority": "STAFF",
+      "request": "SystemCreate",
+      "response": "System",
+      "status": 201,
+      "idempotency": true,
+      "capability": "configuration.write"
+    },
+    {
+      "id": "list_principals",
+      "method": "get",
+      "path": "/api/v1/admin/principals",
+      "authority": "STAFF",
+      "response": "PrincipalList",
+      "status": 200,
+      "paginated": true,
+      "capability": "principals.read"
+    },
+    {
+      "id": "create_principals",
+      "method": "post",
+      "path": "/api/v1/admin/principals",
+      "authority": "STAFF",
+      "request": "PrincipalCreate",
+      "response": "Principal",
+      "status": 201,
+      "idempotency": true,
+      "capability": "principals.create"
+    },
+    {
+      "id": "publish_policy",
+      "method": "post",
+      "path": "/api/v1/admin/policies/{id}/publish",
+      "authority": "STAFF",
+      "capability": "policy.publish",
+      "params": "IdPath",
+      "request": "PolicyPublish",
+      "response": "Policy",
+      "status": 200,
+      "idempotency": true
+    },
+    {
+      "id": "control_map",
+      "method": "get",
+      "path": "/api/v1/admin/control-map",
+      "authority": "STAFF",
+      "capability": "configuration.read",
+      "response": "ControlMap",
+      "status": 200
+    },
+    {
+      "id": "check_system",
+      "method": "post",
+      "path": "/api/v1/admin/systems/{id}/check",
+      "authority": "STAFF",
+      "capability": "systems.check",
+      "params": "IdPath",
+      "response": "System",
+      "status": 200
+    },
+    {
+      "id": "own_consents",
+      "method": "get",
+      "path": "/api/v1/portal/me/consents",
+      "authority": "PRINCIPAL",
+      "capability": "consent.own.read",
+      "response": "ConsentList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "grant",
+      "method": "post",
+      "path": "/api/v1/portal/me/consents/{purpose_id}/grant",
+      "authority": "PRINCIPAL",
+      "capability": "consent.own.write",
+      "params": "PurposePath",
+      "request": "Grant",
+      "response": "Receipt",
+      "status": 202,
+      "idempotency": true
+    },
+    {
+      "id": "withdraw",
+      "method": "post",
+      "path": "/api/v1/portal/me/consents/{purpose_id}/withdraw",
+      "authority": "PRINCIPAL",
+      "capability": "consent.own.write",
+      "params": "PurposePath",
+      "request": "Withdraw",
+      "response": "Receipt",
+      "status": 202,
+      "idempotency": true
+    },
+    {
+      "id": "own_receipt",
+      "method": "get",
+      "path": "/api/v1/portal/me/receipts/{id}",
+      "authority": "PRINCIPAL",
+      "capability": "receipt.own.read",
+      "params": "IdPath",
+      "response": "ReceiptView",
+      "status": 200
+    },
+    {
+      "id": "workflows",
+      "method": "get",
+      "path": "/api/v1/admin/workflows",
+      "authority": "STAFF",
+      "capability": "workflow.read",
+      "response": "WorkflowList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "workflow",
+      "method": "get",
+      "path": "/api/v1/admin/workflows/{id}",
+      "authority": "STAFF",
+      "capability": "workflow.read",
+      "params": "IdPath",
+      "response": "Workflow",
+      "status": 200
+    },
+    {
+      "id": "reconcile",
+      "method": "post",
+      "path": "/api/v1/admin/actions/{id}/reconcile",
+      "authority": "STAFF",
+      "capability": "action.reconcile",
+      "params": "IdPath",
+      "response": "AcceptedOperation",
+      "status": 202,
+      "idempotency": true
+    },
+    {
+      "id": "attest",
+      "method": "post",
+      "path": "/api/v1/admin/manual-tasks/{id}/attest",
+      "authority": "STAFF",
+      "capability": "manual.attest",
+      "params": "IdPath",
+      "request": "ManualAttestation",
+      "response": "AcceptedOperation",
+      "status": 202,
+      "idempotency": true
+    },
+    {
+      "id": "failures",
+      "method": "get",
+      "path": "/api/v1/admin/failures",
+      "authority": "STAFF",
+      "capability": "workflow.read",
+      "response": "FailureList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "evidence",
+      "method": "get",
+      "path": "/api/v1/admin/evidence/{workflow_id}",
+      "authority": "STAFF",
+      "capability": "evidence.read",
+      "params": "WorkflowPath",
+      "response": "Evidence",
+      "status": 200
+    },
+    {
+      "id": "export",
+      "method": "get",
+      "path": "/api/v1/admin/evidence/{workflow_id}/export",
+      "authority": "STAFF",
+      "capability": "evidence.export",
+      "params": "WorkflowPath",
+      "response": "Evidence",
+      "status": 200
+    },
+    {
+      "id": "evaluate",
+      "method": "post",
+      "path": "/api/v1/admin/policy/evaluate",
+      "authority": "STAFF",
+      "capability": "policy.preview",
+      "request": "Evaluate",
+      "response": "Decision",
+      "status": 200
+    },
+    {
+      "id": "start_test",
+      "method": "post",
+      "path": "/api/v1/admin/test-runs",
+      "authority": "STAFF",
+      "capability": "tests.run",
+      "request": "TestRunCreate",
+      "response": "TestRun",
+      "status": 202,
+      "idempotency": true
+    },
+    {
+      "id": "test_run",
+      "method": "get",
+      "path": "/api/v1/admin/test-runs/{id}",
+      "authority": "STAFF",
+      "capability": "tests.read",
+      "params": "IdPath",
+      "response": "TestRun",
+      "status": 200
+    },
+    {
+      "id": "capabilities",
+      "method": "get",
+      "path": "/api/v1/admin/capabilities",
+      "authority": "STAFF",
+      "capability": "capabilities.read",
+      "response": "CapabilityList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "poll_commands",
+      "method": "post",
+      "path": "/api/v1/machine/commands/poll",
+      "authority": "MACHINE",
+      "request": "PollRequest",
+      "response": "CommandList",
+      "status": 200
+    },
+    {
+      "id": "command_receipt",
+      "method": "post",
+      "path": "/api/v1/machine/commands/{id}/receipts",
+      "authority": "MACHINE",
+      "params": "IdPath",
+      "request": "CommandReceipt",
+      "response": "AcceptedOperation",
+      "status": 202,
+      "idempotency": true
+    },
+    {
+      "id": "send",
+      "method": "post",
+      "path": "/api/v1/machine/simulator/send",
+      "authority": "MACHINE",
+      "request": "SendRequest",
+      "response": "SendResult",
+      "status": 200,
+      "idempotency": true
+    },
+    {
+      "id": "restrict",
+      "method": "post",
+      "path": "/api/v1/machine/simulator/resources/{id}/restrict",
+      "authority": "MACHINE",
+      "params": "IdPath",
+      "request": "SignedCommand",
+      "response": "CommandReceipt",
+      "status": 200,
+      "idempotency": true
+    },
+    {
+      "id": "read_simulator",
+      "method": "get",
+      "path": "/api/v1/machine/simulator/resources/{id}",
+      "authority": "MACHINE",
+      "params": "IdPath",
+      "response": "SimulatorState",
+      "status": 200
+    },
+    {
+      "id": "read_simulator_receipt",
+      "method": "get",
+      "path": "/api/v1/machine/simulator/receipts/{id}",
+      "authority": "MACHINE",
+      "params": "IdPath",
+      "response": "CommandReceipt",
+      "status": 200
+    }
+  ]
+}

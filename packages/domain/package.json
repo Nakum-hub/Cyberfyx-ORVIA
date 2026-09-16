@@ -1,0 +1,5 @@
+{
+  "name": "@orvia/domain", "version": "0.0.0", "private": true, "type": "module",
+  "exports": { ".": "./src/completion.ts" },
+  "dependencies": { "@orvia/contracts": "workspace:*" }
+}

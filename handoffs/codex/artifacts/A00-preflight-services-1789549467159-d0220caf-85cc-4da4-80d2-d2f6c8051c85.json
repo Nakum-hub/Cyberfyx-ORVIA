@@ -1,0 +1,32 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-16T09:04:27.161Z",
+  "profile": "codex-a00",
+  "checks": {
+    "postgres": {
+      "result": "FAIL",
+      "error": {
+        "name": "Error",
+        "code": "ECONNREFUSED"
+      }
+    },
+    "opa": {
+      "result": "FAIL",
+      "error": {
+        "name": "TypeError",
+        "code": "UNCLASSIFIED"
+      }
+    },
+    "temporal": {
+      "result": "FAIL",
+      "error": {
+        "name": "Error",
+        "code": "UNCLASSIFIED"
+      }
+    }
+  },
+  "limitations": [
+    "No business auth, consent, send, CRM or agent operation is exercised."
+  ]
+}

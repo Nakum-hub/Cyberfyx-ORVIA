@@ -1,0 +1,5 @@
+{
+  "name": "@orvia/auth", "version": "0.0.0", "private": true, "type": "module",
+  "exports": { "./client": "./src/client.ts" },
+  "dependencies": { "@orvia/contracts": "workspace:*", "better-auth": "1.7.5", "drizzle-orm": "0.45.2", "pg": "8.23.0", "react": "19.3.0" }
+}

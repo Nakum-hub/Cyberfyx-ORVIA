@@ -1,0 +1,6 @@
+# Deterministic generated contracts and SQL checksums across isolated worktrees.
+packages/contracts/generated/** text eol=lf
+packages/contracts/fixtures/** text eol=lf
+packages/db/migrations/** text eol=lf
+# Raw terminal evidence retains CR/progress whitespace exactly as captured.
+handoffs/codex/artifacts/*.log -text -whitespace

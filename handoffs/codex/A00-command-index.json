@@ -1,0 +1,939 @@
+{
+  "task_id": "A00",
+  "base_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+  "commands": [
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T08-48-11.769Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install"
+      ],
+      "started_at": "2026-09-16T08:48:11.769Z",
+      "finished_at": "2026-09-16T08:49:08.863Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "c82566d634cec09af651e8a2d7024ee29451dd4a6ebe85458ef166731c562d77",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T08-48-11.769Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-51-59.656Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "started_at": "2026-09-16T08:51:59.656Z",
+      "finished_at": "2026-09-16T08:52:19.681Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "d5b68407b76de6d51a98a9c688e18e1746c67fa45924181761c090cbfa4a3978",
+      "log": [
+        "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-51-59.656Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T08-56-41.219Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "started_at": "2026-09-16T08:56:41.219Z",
+      "finished_at": "2026-09-16T08:56:46.745Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "2ee163c28d4ee170daa81385a8c85c9c028732b021351de152f665ae0341b826",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T08-56-41.219Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-services-2026-09-16T08-56-57.848Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "pull"
+      ],
+      "started_at": "2026-09-16T08:56:57.848Z",
+      "finished_at": "2026-09-16T08:58:32.620Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "2ee163c28d4ee170daa81385a8c85c9c028732b021351de152f665ae0341b826",
+      "log": [
+        "handoffs/codex/artifacts/A00-services-2026-09-16T08-56-57.848Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-57-13.202Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "started_at": "2026-09-16T08:57:13.202Z",
+      "finished_at": "2026-09-16T08:57:21.886Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "2ee163c28d4ee170daa81385a8c85c9c028732b021351de152f665ae0341b826",
+      "log": [
+        "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T08-57-13.202Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-00-09.163Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "started_at": "2026-09-16T09:00:09.163Z",
+      "finished_at": "2026-09-16T09:00:13.779Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "dba269f4333378de9c6ad3e6fffedec218e1317c0b6e92ca500d2f55c03d8351",
+      "log": [
+        "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-00-09.163Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-services-2026-09-16T09-00-40.494Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "up"
+      ],
+      "started_at": "2026-09-16T09:00:40.494Z",
+      "finished_at": "2026-09-16T09:00:46.417Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "40d4741892866d85665cfa4c0ac3c061b1ed6a13223b138f36a9e40f65430db3",
+      "log": [
+        "handoffs/codex/artifacts/A00-services-2026-09-16T09-00-40.494Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-00-49.666Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "started_at": "2026-09-16T09:00:49.666Z",
+      "finished_at": "2026-09-16T09:01:49.611Z",
+      "exit_code": 2,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "40d4741892866d85665cfa4c0ac3c061b1ed6a13223b138f36a9e40f65430db3",
+      "log": [
+        "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-00-49.666Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-02-29.439Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "started_at": "2026-09-16T09:02:29.439Z",
+      "finished_at": "2026-09-16T09:02:40.658Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "83d031769f0724d9f127975c33fe479186fc8796f517f6647e5b5926ebeb16f6",
+      "log": [
+        "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-02-29.439Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-04-06.934Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "preflight"
+      ],
+      "started_at": "2026-09-16T09:04:06.934Z",
+      "finished_at": "2026-09-16T09:04:27.321Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "4ec74b4ea90f206b753788985c5aa10c00a48eae3697494841f7302a3be7ef3d",
+      "log": [
+        "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-04-06.934Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-04-37.855Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "started_at": "2026-09-16T09:04:37.855Z",
+      "finished_at": "2026-09-16T09:04:57.441Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "4ec74b4ea90f206b753788985c5aa10c00a48eae3697494841f7302a3be7ef3d",
+      "log": [
+        "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-04-37.855Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-services-2026-09-16T09-05-36.293Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "up"
+      ],
+      "started_at": "2026-09-16T09:05:36.293Z",
+      "finished_at": "2026-09-16T09:05:42.208Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "cd8a9acd005a82173cdfd05753b1dd0ed5eca05b397631820e3704c7c13f4581",
+      "log": [
+        "handoffs/codex/artifacts/A00-services-2026-09-16T09-05-36.293Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-05-49.195Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "started_at": "2026-09-16T09:05:49.195Z",
+      "finished_at": "2026-09-16T09:05:53.206Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "cd8a9acd005a82173cdfd05753b1dd0ed5eca05b397631820e3704c7c13f4581",
+      "log": [
+        "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-05-49.195Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-07-05.024Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "tracking:check",
+        "--propose-views"
+      ],
+      "started_at": "2026-09-16T09:07:05.024Z",
+      "finished_at": "2026-09-16T09:07:07.359Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "cd8a9acd005a82173cdfd05753b1dd0ed5eca05b397631820e3704c7c13f4581",
+      "log": [
+        "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-07-05.024Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-services-2026-09-16T09-07-54.483Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "pull"
+      ],
+      "started_at": "2026-09-16T09:07:54.483Z",
+      "finished_at": "2026-09-16T09:08:14.453Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "2618f1221eb6d67dd0fd06dd9580dc1b4c8da7499ec1317a7821ad7fa4f6fed8",
+      "log": [
+        "handoffs/codex/artifacts/A00-services-2026-09-16T09-07-54.483Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-test-2026-09-16T09-09-51.082Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "started_at": "2026-09-16T09:09:51.082Z",
+      "finished_at": "2026-09-16T09:09:54.671Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-test-2026-09-16T09-09-51.082Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-lint-2026-09-16T09-09-51.401Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "started_at": "2026-09-16T09:09:51.401Z",
+      "finished_at": "2026-09-16T09:10:32.691Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-lint-2026-09-16T09-09-51.401Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-services-2026-09-16T09-10-18.623Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "up"
+      ],
+      "started_at": "2026-09-16T09:10:18.623Z",
+      "finished_at": "2026-09-16T09:10:26.581Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-services-2026-09-16T09-10-18.623Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-10-32.417Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "started_at": "2026-09-16T09:10:32.417Z",
+      "finished_at": "2026-09-16T09:10:37.290Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-10-32.417Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-11-04.960Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "preflight"
+      ],
+      "started_at": "2026-09-16T09:11:04.960Z",
+      "finished_at": "2026-09-16T09:11:10.070Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-11-04.960Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-services-smoke-2026-09-16T09-11-17.322Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services:smoke"
+      ],
+      "started_at": "2026-09-16T09:11:17.322Z",
+      "finished_at": "2026-09-16T09:12:32.899Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-services-smoke-2026-09-16T09-11-17.322Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-11-30.433Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "started_at": "2026-09-16T09:11:30.433Z",
+      "finished_at": "2026-09-16T09:11:55.447Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-11-30.433Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-build-2026-09-16T09-13-00.383Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "started_at": "2026-09-16T09:13:00.383Z",
+      "finished_at": "2026-09-16T09:14:14.148Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-build-2026-09-16T09-13-00.383Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-reset-bootstrap-2026-09-16T09-13-58.143Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "reset:bootstrap",
+        "codex-a00",
+        "codex-a00-bootstrap-only"
+      ],
+      "started_at": "2026-09-16T09:13:58.143Z",
+      "finished_at": "2026-09-16T09:14:01.912Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "0cfab2082aac939650fcd7ffa5159aaf06d4ef50484ecc178893e2a7b4a2441a",
+      "log": [
+        "handoffs/codex/artifacts/A00-reset-bootstrap-2026-09-16T09-13-58.143Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-build-2026-09-16T09-15-15.784Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "started_at": "2026-09-16T09:15:15.784Z",
+      "finished_at": "2026-09-16T09:16:00.652Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "dfb7b651de1e0b33206bffd610bb7ca6241b53a43c7f10261505252729bdb4f2",
+      "log": [
+        "handoffs/codex/artifacts/A00-build-2026-09-16T09-15-15.784Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-test-2026-09-16T09-17-21.161Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "started_at": "2026-09-16T09:17:21.161Z",
+      "finished_at": "2026-09-16T09:17:23.448Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "a9a9c27f728ca9474fb44d46d72c4b63b8d697d5236dc2ed1f30dee6b8d611f4",
+      "log": [
+        "handoffs/codex/artifacts/A00-test-2026-09-16T09-17-21.161Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-17-21.300Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "tracking:check",
+        "--propose-views"
+      ],
+      "started_at": "2026-09-16T09:17:21.300Z",
+      "finished_at": "2026-09-16T09:17:22.651Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "a9a9c27f728ca9474fb44d46d72c4b63b8d697d5236dc2ed1f30dee6b8d611f4",
+      "log": [
+        "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-17-21.300Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-17-54.770Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "web:smoke"
+      ],
+      "started_at": "2026-09-16T09:17:54.770Z",
+      "finished_at": "2026-09-16T09:17:57.311Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "a9a9c27f728ca9474fb44d46d72c4b63b8d697d5236dc2ed1f30dee6b8d611f4",
+      "log": [
+        "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-17-54.770Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-19-50.913Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "started_at": "2026-09-16T09:19:50.913Z",
+      "finished_at": "2026-09-16T09:20:15.208Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "210f58b2275e4f6912533f325b5a7c28ae4377711271725db1da28b632c6f318",
+      "log": [
+        "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-19-50.913Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-19-51.419Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "started_at": "2026-09-16T09:19:51.419Z",
+      "finished_at": "2026-09-16T09:20:17.111Z",
+      "exit_code": 2,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "210f58b2275e4f6912533f325b5a7c28ae4377711271725db1da28b632c6f318",
+      "log": [
+        "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-19-51.419Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-lint-2026-09-16T09-19-51.882Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "started_at": "2026-09-16T09:19:51.882Z",
+      "finished_at": "2026-09-16T09:20:16.573Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "210f58b2275e4f6912533f325b5a7c28ae4377711271725db1da28b632c6f318",
+      "log": [
+        "handoffs/codex/artifacts/A00-lint-2026-09-16T09-19-51.882Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-27-31.542Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "started_at": "2026-09-16T09:27:31.542Z",
+      "finished_at": "2026-09-16T09:27:38.465Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "f3047afec2b18c98d77d26aa605901205bed78189f2c0eadce1b8368e7fb6db1",
+      "log": [
+        "handoffs/codex/artifacts/A00-contracts-generate-2026-09-16T09-27-31.542Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T09-27-39.639Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "started_at": "2026-09-16T09:27:39.639Z",
+      "finished_at": "2026-09-16T09:27:39.998Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T09-27-39.639Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T09-28-32.077Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "started_at": "2026-09-16T09:28:32.077Z",
+      "finished_at": "2026-09-16T09:28:36.073Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T09-28-32.077Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-29-04.665Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "started_at": "2026-09-16T09:29:04.665Z",
+      "finished_at": "2026-09-16T09:29:05.377Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+      "log": [
+        "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-29-04.665Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T09-29-30.482Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "started_at": "2026-09-16T09:29:30.482Z",
+      "finished_at": "2026-09-16T09:29:32.218Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T09-29-30.482Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T09-30-18.319Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "started_at": "2026-09-16T09:30:18.319Z",
+      "finished_at": "2026-09-16T09:30:23.127Z",
+      "exit_code": 1,
+      "result": "FAIL",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "f9cc4f6fb6c0a33fa2aff81c18827801bd2516380b929be46a5e375bafd32450",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T09-30-18.319Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T09-31-38.793Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "started_at": "2026-09-16T09:31:38.793Z",
+      "finished_at": "2026-09-16T09:31:44.610Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T09-31-38.793Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-install-2026-09-16T09-32-03.135Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile",
+        "--offline"
+      ],
+      "started_at": "2026-09-16T09:32:03.135Z",
+      "finished_at": "2026-09-16T09:32:03.390Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+      "log": [
+        "handoffs/codex/artifacts/A00-install-2026-09-16T09-32-03.135Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-lint-2026-09-16T09-32-22.400Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "started_at": "2026-09-16T09:32:22.400Z",
+      "finished_at": "2026-09-16T09:33:08.585Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+      "log": [
+        "handoffs/codex/artifacts/A00-lint-2026-09-16T09-32-22.400Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-test-2026-09-16T09-32-22.400Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "started_at": "2026-09-16T09:32:22.400Z",
+      "finished_at": "2026-09-16T09:32:28.369Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+      "log": [
+        "handoffs/codex/artifacts/A00-test-2026-09-16T09-32-22.400Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-32-22.400Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "started_at": "2026-09-16T09:32:22.400Z",
+      "finished_at": "2026-09-16T09:33:09.126Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+      "log": [
+        "handoffs/codex/artifacts/A00-typecheck-2026-09-16T09-32-22.400Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-32-22.612Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "started_at": "2026-09-16T09:32:22.612Z",
+      "finished_at": "2026-09-16T09:32:39.406Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "fc6f7ae96fdcc8561fc372ffa5f2890e07241fd947b7738bc92fcb7224a9aed9",
+      "log": [
+        "handoffs/codex/artifacts/A00-contracts-check-2026-09-16T09-32-22.612Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-build-2026-09-16T09-33-08.070Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "started_at": "2026-09-16T09:33:08.070Z",
+      "finished_at": "2026-09-16T09:33:40.383Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "f148b763e2a3adcef9f8aeac837559df41d245016caf3abb1a23357875e91529",
+      "log": [
+        "handoffs/codex/artifacts/A00-build-2026-09-16T09-33-08.070Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-34-16.348Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "started_at": "2026-09-16T09:34:16.348Z",
+      "finished_at": "2026-09-16T09:34:17.780Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+      "log": [
+        "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-34-16.348Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-34-18.929Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "tracking:check"
+      ],
+      "started_at": "2026-09-16T09:34:18.929Z",
+      "finished_at": "2026-09-16T09:34:19.435Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+      "log": [
+        "handoffs/codex/artifacts/A00-tracking-check-2026-09-16T09-34-18.929Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-34-38.945Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "started_at": "2026-09-16T09:34:38.945Z",
+      "finished_at": "2026-09-16T09:34:45.058Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+      "log": [
+        "handoffs/codex/artifacts/A00-db-migrate-2026-09-16T09-34-38.945Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-34-49.402Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "web:smoke"
+      ],
+      "started_at": "2026-09-16T09:34:49.402Z",
+      "finished_at": "2026-09-16T09:34:51.096Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+      "log": [
+        "handoffs/codex/artifacts/A00-web-smoke-2026-09-16T09-34-49.402Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-35-24.554Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "preflight"
+      ],
+      "started_at": "2026-09-16T09:35:24.554Z",
+      "finished_at": "2026-09-16T09:35:35.623Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+      "log": [
+        "handoffs/codex/artifacts/A00-preflight-2026-09-16T09-35-24.554Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-lint-2026-09-16T09-35-35.666Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "started_at": "2026-09-16T09:35:35.666Z",
+      "finished_at": "2026-09-16T09:35:39.658Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+      "log": [
+        "handoffs/codex/artifacts/A00-lint-2026-09-16T09-35-35.666Z.log"
+      ]
+    },
+    {
+      "artifact": "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-36-12.997Z.json",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "started_at": "2026-09-16T09:36:12.997Z",
+      "finished_at": "2026-09-16T09:36:13.549Z",
+      "exit_code": 0,
+      "result": "PASS",
+      "source_commit": "e5cdef310d61a697edcf9e4f7bc03c9a4a0a3e8c",
+      "source_tree_sha256": "6a08f0947ebd590da7fe7251e6c4b155b58d1c6cd3d60bba7b00081d02b6f035",
+      "log": [
+        "handoffs/codex/artifacts/A00-hygiene-check-2026-09-16T09-36-12.997Z.log"
+      ]
+    }
+  ],
+  "not_run": [
+    {
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "audit",
+        "--json"
+      ],
+      "reason": "Automatic approval review rejected private lockfile metadata egress to public advisory service. No process exit code; not executed."
+    }
+  ],
+  "additional_tool_observations": [
+    {
+      "action": "Workspace tool bootstrap and public version resolution",
+      "outcome": "Completed; pinned versions and source integrity recorded in toolchain.lock.json; no separate raw transcript was saved."
+    },
+    {
+      "action": "Read-only repository/source/machine and Docker inspection",
+      "outcome": "Real tool outputs; source/versions in machine snapshot. Some sandbox-denied probes were repeated using normal approval."
+    },
+    {
+      "action": "Generate public signature vector",
+      "command": [
+        "scripts/dev.ps1",
+        "exec",
+        "tsx",
+        "scripts/create-contract-vector.ts"
+      ],
+      "exit_code": 0,
+      "outcome": "Only public key/signature persisted; private test key not exported."
+    },
+    {
+      "action": "Recover generated dependencies",
+      "outcome": "PowerShell recursive move failed after partially preserving dependencies; atomic rename also failed despite shell exit 0. Neither was counted as success. Build-cache-disabled offline install and repeat succeeded."
+    },
+    {
+      "action": "Git baseline synchronization",
+      "outcome": "Fetched origin; fast-forwarded Codex branch from 96b8bd7 to e5cdef3. No integration merge authored."
+    }
+  ],
+  "application_acceptance": "NOT_RUN; bootstrap subset and semantic unit tests only",
+  "limitations": [
+    "This index summarizes existing artifacts; it does not invent missing raw transcripts or promote task/test acceptance."
+  ]
+}

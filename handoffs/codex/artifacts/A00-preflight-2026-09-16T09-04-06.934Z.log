@@ -1,0 +1,26 @@
+$ tsx scripts/preflight.ts
+Artifact: handoffs/codex/artifacts/A00-preflight-services-1789549467159-d0220caf-85cc-4da4-80d2-d2f6c8051c85.json
+{
+  "postgres": {
+    "result": "FAIL",
+    "error": {
+      "name": "Error",
+      "code": "ECONNREFUSED"
+    }
+  },
+  "opa": {
+    "result": "FAIL",
+    "error": {
+      "name": "TypeError",
+      "code": "UNCLASSIFIED"
+    }
+  },
+  "temporal": {
+    "result": "FAIL",
+    "error": {
+      "name": "Error",
+      "code": "UNCLASSIFIED"
+    }
+  }
+}
+[ELIFECYCLE] Command failed with exit code 1.

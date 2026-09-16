@@ -1,0 +1,12 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-16T09:14:01.802Z",
+  "profile": "codex-a00",
+  "intent": "handoffs/codex/artifacts/A00-reset-intent-1789550041789-e2edc828-7b8b-462b-9b27-bceb48ff476a.json",
+  "rows_deleted": 1,
+  "result": "COMMITTED",
+  "limitations": [
+    "Temporal histories, profile identity and migrations are retained. A01+ schema disables this command."
+  ]
+}

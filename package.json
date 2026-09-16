@@ -1,0 +1,40 @@
+{
+  "name": "cyberfyx-orvia",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.4.2",
+  "engines": { "node": "24.21.0", "pnpm": "12.4.2" },
+  "scripts": {
+    "contracts:generate": "tsx packages/contracts/src/generate.ts",
+    "contracts:check": "tsx packages/contracts/src/generate.ts --check",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint packages apps scripts tests --max-warnings 0",
+    "test": "tsx --test tests/unit/*.test.ts",
+    "tracking:check": "tsx scripts/validate-tracking.ts",
+    "hygiene:check": "node scripts/local-hygiene.mjs",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "preflight": "tsx scripts/preflight.ts",
+    "profile:init": "node scripts/profile-init.mjs",
+    "services": "tsx scripts/services.ts",
+    "reset:bootstrap": "tsx scripts/reset-bootstrap.ts",
+    "services:smoke": "tsx tests/integration/bootstrap.test.ts",
+    "build": "tsx scripts/web.ts build",
+    "dev": "tsx scripts/web.ts dev",
+    "start": "tsx scripts/web.ts start",
+    "web:smoke": "tsx tests/integration/web.test.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.13.4",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.10.0",
+    "openapi-typescript": "7.13.0",
+    "tsx": "4.23.13",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0"
+  }
+}

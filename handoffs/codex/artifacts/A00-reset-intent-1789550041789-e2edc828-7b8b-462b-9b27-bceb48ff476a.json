@@ -1,0 +1,10 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-16T09:14:01.789Z",
+  "profile": "codex-a00",
+  "installation_id": "659aed8e-59f6-422c-89cd-7976f108ecc3",
+  "scope": "bootstrap_probes only",
+  "rows": 1,
+  "caller": "local operator possessing profile credential"
+}

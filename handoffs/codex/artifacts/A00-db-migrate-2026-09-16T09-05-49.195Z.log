@@ -1,0 +1,3 @@
+$ tsx scripts/migrate.ts
+{ name: 'Error', code: 'ECONNREFUSED' }
+[ELIFECYCLE] Command failed with exit code 1.

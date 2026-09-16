@@ -1,0 +1,4 @@
+$ tsc --noEmit
+scripts/tracking.ts(77,307): error TS18048: 'section' is possibly 'undefined'.
+scripts/tracking.ts(81,65): error TS18048: 'countLine' is possibly 'undefined'.
+[ELIFECYCLE] Command failed with exit code 2.

@@ -1,0 +1,5 @@
+{
+  "name": "@orvia/testing", "version": "0.0.0", "private": true, "type": "module",
+  "exports": { ".": "./src/config.ts", "./evidence": "./src/evidence.ts" },
+  "dependencies": { "@orvia/contracts": "workspace:*", "zod": "4.6.5" }
+}

@@ -1,0 +1,21 @@
+Scope: all 8 workspace projects
+✓ Lockfile passes supply-chain policies (verified 41m ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: C:\Users\sadas\AppData\Local\pnpm\store\v11
+  Virtual store is at:             node_modules/.pnpm
+Packages: +349
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 349, reused 349, downloaded 0, added 349, done
+.../node_modules/@swc/core postinstall$ node postinstall.js
+.../node_modules/protobufjs postinstall$ node scripts/postinstall
+.../node_modules/protobufjs postinstall: Done
+.../node_modules/@swc/core postinstall: Done
+Error:   × installing dependencies
+  ╰─▶ failed to rename staging directory "C:\\Cyberfyx-projects\
+      \Cyberfyx_ORVIA\\node_modules\\.pnpm\\esbuild@0.18.20\\node_modules\
+      \esbuild_pacquet-stage_2612_1789551021800752600_20" to "C:\\Cyberfyx-
+      projects\\Cyberfyx_ORVIA\\node_modules\\.pnpm\\esbuild@0.18.20\
+      \node_modules\\esbuild": Access is denied. (os error 5)
+

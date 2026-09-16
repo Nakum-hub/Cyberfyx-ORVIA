@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import { spawn } from 'node:child_process';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { once } from 'node:events';
+import { loadProfile } from '../../packages/testing/src/config.ts';
+import { writeEvidence,safeError } from '../../packages/testing/src/evidence.ts';
+const profile=loadProfile();
+const require=createRequire(new URL('../../apps/web/package.json',import.meta.url));
+const child=spawn(process.execPath,[require.resolve('next/dist/bin/next'),'start','--hostname','127.0.0.1','--port',String(profile.app_port)],{cwd:fileURLToPath(new URL('../../apps/web/',import.meta.url)),windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1'}});
+let output='';child.stdout.on('data',chunk=>{output+=chunk;});child.stderr.on('data',chunk=>{output+=chunk;});
+try{
+  let healthy=false;
+  for(let attempt=0;attempt<60;attempt++){
+    if(child.exitCode!==null)throw new Error('Web process exited before readiness');
+    try{
+      const response=await fetch(`http://127.0.0.1:${profile.app_port}/healthz`,{signal:AbortSignal.timeout(1000)});
+      assert.equal(response.status,200);assert.deepEqual(await response.json(),{status:'alive'});healthy=true;break;
+    }catch{await new Promise(resolve=>setTimeout(resolve,500));}
+  }
+  assert.equal(healthy,true);
+  const page=await fetch(`http://127.0.0.1:${profile.app_port}/`);
+  assert.equal(page.status,200);assert.equal(page.headers.get('x-content-type-options'),'nosniff');
+  assert.match(await page.text(),/foundation build/);
+  assert.equal((await fetch(`http://127.0.0.1:${profile.app_port}/api/v1/admin/overview`)).status,404);
+  writeEvidence('web-integration',{profile:profile.profile,result:'PASS',assertions:['liveness 200 with exact body','foundation page 200 and nosniff','unimplemented business endpoint 404'],limitations:['HTTP bootstrap smoke only; not UI browser acceptance or authenticated API tests.']});
+}catch(error){console.error(safeError(error));writeEvidence('web-integration',{profile:profile.profile,result:'FAIL',error:safeError(error),server_output:output});process.exitCode=1;}
+finally{if(child.exitCode===null){const closed=once(child,'close');child.kill();await closed;}}

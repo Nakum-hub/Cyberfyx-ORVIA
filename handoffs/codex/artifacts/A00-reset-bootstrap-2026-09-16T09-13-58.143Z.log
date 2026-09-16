@@ -1,0 +1,3 @@
+$ tsx scripts/reset-bootstrap.ts "codex-a00" "codex-a00-bootstrap-only"
+Artifact: handoffs/codex/artifacts/A00-reset-intent-1789550041789-e2edc828-7b8b-462b-9b27-bceb48ff476a.json
+Artifact: handoffs/codex/artifacts/A00-reset-result-1789550041802-b9306b67-e094-4ab6-afbe-9ccea4325948.json
