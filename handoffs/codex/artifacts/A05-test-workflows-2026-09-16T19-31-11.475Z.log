@@ -1,0 +1,16 @@
+$ tsx tests/integration/workflows/workflow.test.ts
+{
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  message: 'Synthetic owner MFA failed',
+  sites: [
+    '    at HttpFixture.login (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\packages\\testing\\src\\http-fixture.ts:59:141)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)',
+    '    at async createMarketingScenario (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\packages\\testing\\src\\scenario.ts:6:14)',
+    '    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\integration\\workflows\\workflow.test.ts:34:39)'
+  ]
+}
+
+
+Artifact: handoffs/codex/artifacts/A05-workflow-integration-1789587076546-cd27df0a-9d57-479c-94cf-de0020d3c55b.json
+[ELIFECYCLE] Command failed with exit code 1.

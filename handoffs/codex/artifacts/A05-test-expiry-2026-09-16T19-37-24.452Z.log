@@ -1,0 +1,22 @@
+$ tsx tests/integration/consent/expiry.test.ts
+PASS publication/fresh: HTTP status
+PASS publication: fresh proof consumed before expiry with one approval and idempotency
+PASS publication: committed replay after expiry status
+PASS publication: committed replay response
+PASS publication: replay preserves business rows
+PASS publication: replay still requires authentication
+PASS publication/expired: HTTP status
+PASS publication/expired: proof remains unused
+PASS publication/expired: all business rows unchanged
+PASS publication/expired: no approval or success idempotency
+PASS publication/expired: policy remains draft
+PASS publication/publication: actual transaction and wait began before expiry
+PASS publication/publication: HTTP status
+PASS publication/publication: proof remains unused
+PASS publication/publication: all business rows unchanged
+PASS publication/publication: no approval or success idempotency
+PASS publication/publication: policy remains draft
+{ name: 'Error', code: 'UNCLASSIFIED' }
+
+Artifact: handoffs/codex/artifacts/A05-expiry-integration-1789587456782-ffd26a58-e379-4e06-8809-9a361affc60b.json
+[ELIFECYCLE] Command failed with exit code 1.

@@ -1,0 +1,188 @@
+{
+  "task_id": "A05",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-16T19:37:36.783Z",
+  "finding": "W01-A02-F01",
+  "phase": "CORRECTED_RETEST",
+  "profile": "codex-a00",
+  "contract_version": "0.4.0",
+  "build_id": "4aj5vmijel13HPC8hHnyi",
+  "assertions": [
+    {
+      "name": "publication/fresh: HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "publication: fresh proof consumed before expiry with one approval and idempotency",
+      "result": "PASS",
+      "expected": {
+        "timely": true,
+        "approvals": 1,
+        "idempotency": 1
+      },
+      "actual": {
+        "timely": true,
+        "approvals": 1,
+        "idempotency": 1
+      }
+    },
+    {
+      "name": "publication: committed replay after expiry status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "publication: committed replay response",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "cdc474c4-31d4-412c-837d-8d7ec76b8ccf",
+        "notice_version_id": "5eab4960-9b5a-4088-b35e-0e4274049871",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "3186e1a6-2c29-4ff2-9a80-d49f8d061496"
+        ],
+        "required_observation": true,
+        "id": "951f1a62-8799-4d8c-a7f6-f69957ab2e1d",
+        "version_id": "d0c1e17f-ada5-4e03-8c10-39a1d913b707",
+        "digest": "b8fd6212d4be32d5486c15409de6c0f864bb829ff1c37737b142b69808146c34",
+        "author_id": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-16T19:37:32.291Z"
+      },
+      "actual": {
+        "purpose_id": "cdc474c4-31d4-412c-837d-8d7ec76b8ccf",
+        "notice_version_id": "5eab4960-9b5a-4088-b35e-0e4274049871",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "3186e1a6-2c29-4ff2-9a80-d49f8d061496"
+        ],
+        "required_observation": true,
+        "id": "951f1a62-8799-4d8c-a7f6-f69957ab2e1d",
+        "version_id": "d0c1e17f-ada5-4e03-8c10-39a1d913b707",
+        "digest": "b8fd6212d4be32d5486c15409de6c0f864bb829ff1c37737b142b69808146c34",
+        "author_id": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-16T19:37:32.291Z"
+      }
+    },
+    {
+      "name": "publication: replay preserves business rows",
+      "result": "PASS",
+      "expected": "6e0b4318277dbb39f88c0954af96cc51bbd5a1bcb9388d03c31da642bb54280c",
+      "actual": "6e0b4318277dbb39f88c0954af96cc51bbd5a1bcb9388d03c31da642bb54280c"
+    },
+    {
+      "name": "publication: replay still requires authentication",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "publication/expired: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/expired: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/expired: all business rows unchanged",
+      "result": "PASS",
+      "expected": "def7d614e2f2f770e4abefe55a390c8d2d5475ccec2964c38b6d4c8f3bcd5b1d",
+      "actual": "def7d614e2f2f770e4abefe55a390c8d2d5475ccec2964c38b6d4c8f3bcd5b1d"
+    },
+    {
+      "name": "publication/expired: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/expired: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publication/publication: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        "Lock"
+      ],
+      "actual": [
+        true,
+        true,
+        "Lock"
+      ]
+    },
+    {
+      "name": "publication/publication: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/publication: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/publication: all business rows unchanged",
+      "result": "PASS",
+      "expected": "4b96ae75b5563993c8d54a3aa339cee376761c223cbf57d08f3400d35f78c865",
+      "actual": "4b96ae75b5563993c8d54a3aa339cee376761c223cbf57d08f3400d35f78c865"
+    },
+    {
+      "name": "publication/publication: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/publication: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    }
+  ],
+  "waits": [
+    {
+      "name": "publication/publication",
+      "token_id": "9c1ba21c-cd61-444e-ae37-9482bf1ed5bd",
+      "xact_start": "2026-09-16T19:37:33.524Z",
+      "expires_at": "2026-09-16T19:37:36.446Z",
+      "observed_at": "2026-09-16T19:37:33.635Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-09-16T19:37:36.447Z",
+      "expired": true
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance."
+  ]
+}

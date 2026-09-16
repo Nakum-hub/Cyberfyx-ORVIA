@@ -1,0 +1,2 @@
+$ tsx scripts/roles-init.ts "confirm:codex-a00"
+Allowlisted unprivileged roles present; credentials remain protected locally.

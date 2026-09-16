@@ -1,0 +1,6 @@
+$ tsx tests/integration/workflows/workflow.test.ts
+{ name: 'Error', code: 'UNCLASSIFIED' }
+
+
+Artifact: handoffs/codex/artifacts/A05-workflow-integration-1789587027698-5cb5ac0e-8f43-4ac3-95ae-1204ace79194.json
+[ELIFECYCLE] Command failed with exit code 1.

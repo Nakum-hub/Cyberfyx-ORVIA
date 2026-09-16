@@ -1,0 +1,576 @@
+{
+  "task_id": "A05",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-16T19:37:23.481Z",
+  "test_ids": [
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10"
+  ],
+  "contract_version": "0.4.0",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "name": "principal cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "cross-environment configuration rejected",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "create persisted purpose",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create immutable notice version",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create scoped system",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "author policy draft",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "draft purpose hidden in own portal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "unauthorized author publication denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "authorized reviewer cannot approve own version",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication requires actual proof",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "wrong digest denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "reauthentication rejects wrong TOTP",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "real MFA creates exact publication proof",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "different reviewer publishes exact version",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "published digest unchanged",
+      "result": "PASS",
+      "expected": "56acb9b67c05d4307ae80b8d254634c562288820aa31144890e69d033503a46f",
+      "actual": "56acb9b67c05d4307ae80b8d254634c562288820aa31144890e69d033503a46f"
+    },
+    {
+      "name": "publish retry returns stable published version",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "notice_version_id": "631f7c82-7398-43a3-abe6-24dbf504baec",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "9931e886-80be-4bc3-b4b8-adbfea6d193e"
+        ],
+        "required_observation": true,
+        "id": "8d8ac31d-3641-4589-b33b-d6507ac7ec75",
+        "version_id": "f98e4111-1636-40a5-8603-16e20552d949",
+        "digest": "56acb9b67c05d4307ae80b8d254634c562288820aa31144890e69d033503a46f",
+        "author_id": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-16T19:37:03.719Z"
+      },
+      "actual": {
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "notice_version_id": "631f7c82-7398-43a3-abe6-24dbf504baec",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "9931e886-80be-4bc3-b4b8-adbfea6d193e"
+        ],
+        "required_observation": true,
+        "id": "8d8ac31d-3641-4589-b33b-d6507ac7ec75",
+        "version_id": "f98e4111-1636-40a5-8603-16e20552d949",
+        "digest": "56acb9b67c05d4307ae80b8d254634c562288820aa31144890e69d033503a46f",
+        "author_id": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-16T19:37:03.719Z"
+      }
+    },
+    {
+      "name": "explicit principal to target mapping",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "control map exposes actual declared edge",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "control map pagination preserves all scoped mappings",
+      "result": "PASS",
+      "expected": [
+        "02343e83-ea60-4be3-8511-ef97026e1392",
+        "047e8de3-8d8f-4f73-badd-b9afc22ddc2d",
+        "076195a8-459a-42b2-9ce3-a75071736678",
+        "0c63c2e4-fca8-4f7a-b358-4c714fd4a6c0",
+        "1f8f1f24-f450-4a42-a58b-e95479c3f336",
+        "280ae993-fbe9-4686-bcc8-b43ab8d22ba2",
+        "2d97d5fd-2630-435c-b2fe-3c957a2c2ef6",
+        "3257dc21-0dfb-49e8-bab8-3bccb7176846",
+        "37a76d2a-36f7-448f-99fd-f202e2bc6fec",
+        "3d9b2c3a-f132-4956-8b7d-69abb5546e65",
+        "405d255c-ba93-4850-834d-a2cfbe26a7b2",
+        "4bb54fb9-a183-477c-8881-ad2d68983ab6",
+        "50c76e16-6f05-4efa-8673-fc62034b21d8",
+        "52bf96ef-5cf3-4bda-877f-2d16ee60b881",
+        "53eb3232-f18a-49a3-93d8-03f7d0511176",
+        "549985bb-5094-4250-a2a6-ca0edd3d841e",
+        "599eb814-a2a8-4fcb-9a00-4b418f735593",
+        "664aff57-183a-4efa-a98f-6a4fe892d343",
+        "684f3c2a-efef-447b-ab8f-e26cfffcfaad",
+        "687a513f-d584-44b8-bc08-321fdf36027d",
+        "697ffa9d-caf0-4490-8213-82b13f83cc73",
+        "69911eb2-2677-4524-b729-f2ab7159624d",
+        "6af338f0-9862-428d-a38e-5ffef6e28015",
+        "74ba7fa4-429d-4e67-851a-60a4108e8d0d",
+        "75aa5a3c-453a-4247-ab88-bc25deffef55",
+        "76eb1ee3-1a22-4972-92e2-4e162a731de7",
+        "7d0ad813-c377-4514-88a4-be688c469cfe",
+        "7e05ae96-c559-4ef8-8fa0-25ea1e8fc164",
+        "813ba685-02ad-403f-92d0-d9de41045953",
+        "82b57af7-9146-4682-ba54-43d33aefe9d8",
+        "8819232a-df80-4882-9914-263ce18e89b3",
+        "9b94ab03-1fc5-42cc-bcde-250143982278",
+        "9c4f50a0-ffc2-48fc-a113-bd8a6f595566",
+        "9d7b0e5e-0e36-48f1-a7e3-a87d34f48efe",
+        "9f956457-6260-43b0-a696-99c9546848c0",
+        "a3fb5a5a-66a2-474d-be35-c0fa459d7b66",
+        "a65cacbe-4504-4a1a-8c6e-384ff2efa78e",
+        "a7c162b3-ba7f-4bca-8e5b-056b2f3a462f",
+        "a9761922-5a00-455c-ab6f-daa18829ec50",
+        "b66b9d40-a321-4009-8b83-02f724654409",
+        "c08174ff-3810-4435-9fab-dc84bc61db31",
+        "c45e58c1-083c-4abb-9bb1-9a70c36487ca",
+        "c65aa2b6-75d3-4453-a17c-38021f996f29",
+        "d2dffe22-9dbe-4720-814e-3bbd6402669c",
+        "e2aad71b-ea66-41f8-abf6-0c794d9abbd9",
+        "e759e8c6-e8de-47c5-b700-628833601aab",
+        "ef75ae98-5895-49c8-8677-06522c4d3c87",
+        "f2b5c549-0926-4ce3-af68-4b254f8981f1",
+        "f3090b8a-4601-4c52-af75-961db1c96669",
+        "f7f6b6f6-5555-4ae6-b070-3d872db242ab",
+        "faf5dd9f-f18a-41f7-9da7-8ed92d1a3ec7",
+        "fd409648-1f6e-43c3-bc27-3107ef60615a"
+      ],
+      "actual": [
+        "02343e83-ea60-4be3-8511-ef97026e1392",
+        "047e8de3-8d8f-4f73-badd-b9afc22ddc2d",
+        "076195a8-459a-42b2-9ce3-a75071736678",
+        "0c63c2e4-fca8-4f7a-b358-4c714fd4a6c0",
+        "1f8f1f24-f450-4a42-a58b-e95479c3f336",
+        "280ae993-fbe9-4686-bcc8-b43ab8d22ba2",
+        "2d97d5fd-2630-435c-b2fe-3c957a2c2ef6",
+        "3257dc21-0dfb-49e8-bab8-3bccb7176846",
+        "37a76d2a-36f7-448f-99fd-f202e2bc6fec",
+        "3d9b2c3a-f132-4956-8b7d-69abb5546e65",
+        "405d255c-ba93-4850-834d-a2cfbe26a7b2",
+        "4bb54fb9-a183-477c-8881-ad2d68983ab6",
+        "50c76e16-6f05-4efa-8673-fc62034b21d8",
+        "52bf96ef-5cf3-4bda-877f-2d16ee60b881",
+        "53eb3232-f18a-49a3-93d8-03f7d0511176",
+        "549985bb-5094-4250-a2a6-ca0edd3d841e",
+        "599eb814-a2a8-4fcb-9a00-4b418f735593",
+        "664aff57-183a-4efa-a98f-6a4fe892d343",
+        "684f3c2a-efef-447b-ab8f-e26cfffcfaad",
+        "687a513f-d584-44b8-bc08-321fdf36027d",
+        "697ffa9d-caf0-4490-8213-82b13f83cc73",
+        "69911eb2-2677-4524-b729-f2ab7159624d",
+        "6af338f0-9862-428d-a38e-5ffef6e28015",
+        "74ba7fa4-429d-4e67-851a-60a4108e8d0d",
+        "75aa5a3c-453a-4247-ab88-bc25deffef55",
+        "76eb1ee3-1a22-4972-92e2-4e162a731de7",
+        "7d0ad813-c377-4514-88a4-be688c469cfe",
+        "7e05ae96-c559-4ef8-8fa0-25ea1e8fc164",
+        "813ba685-02ad-403f-92d0-d9de41045953",
+        "82b57af7-9146-4682-ba54-43d33aefe9d8",
+        "8819232a-df80-4882-9914-263ce18e89b3",
+        "9b94ab03-1fc5-42cc-bcde-250143982278",
+        "9c4f50a0-ffc2-48fc-a113-bd8a6f595566",
+        "9d7b0e5e-0e36-48f1-a7e3-a87d34f48efe",
+        "9f956457-6260-43b0-a696-99c9546848c0",
+        "a3fb5a5a-66a2-474d-be35-c0fa459d7b66",
+        "a65cacbe-4504-4a1a-8c6e-384ff2efa78e",
+        "a7c162b3-ba7f-4bca-8e5b-056b2f3a462f",
+        "a9761922-5a00-455c-ab6f-daa18829ec50",
+        "b66b9d40-a321-4009-8b83-02f724654409",
+        "c08174ff-3810-4435-9fab-dc84bc61db31",
+        "c45e58c1-083c-4abb-9bb1-9a70c36487ca",
+        "c65aa2b6-75d3-4453-a17c-38021f996f29",
+        "d2dffe22-9dbe-4720-814e-3bbd6402669c",
+        "e2aad71b-ea66-41f8-abf6-0c794d9abbd9",
+        "e759e8c6-e8de-47c5-b700-628833601aab",
+        "ef75ae98-5895-49c8-8677-06522c4d3c87",
+        "f2b5c549-0926-4ce3-af68-4b254f8981f1",
+        "f3090b8a-4601-4c52-af75-961db1c96669",
+        "f7f6b6f6-5555-4ae6-b070-3d872db242ab",
+        "faf5dd9f-f18a-41f7-9da7-8ed92d1a3ec7",
+        "fd409648-1f6e-43c3-bc27-3107ef60615a"
+      ]
+    },
+    {
+      "name": "published notice available to own principal",
+      "result": "PASS",
+      "expected": "631f7c82-7398-43a3-abe6-24dbf504baec",
+      "actual": "631f7c82-7398-43a3-abe6-24dbf504baec"
+    },
+    {
+      "name": "affirmative action mandatory",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "incorrect notice rejected",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant accepted after commit",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "first epoch is one",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "withdrawal accepted durably",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "withdrawal increments epoch",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "state event workflow and outbox committed together",
+      "result": "PASS",
+      "expected": {
+        "events": 1,
+        "outbox": 1,
+        "workflows": 1
+      },
+      "actual": {
+        "events": 1,
+        "outbox": 1,
+        "workflows": 1
+      }
+    },
+    {
+      "name": "retry returns identical withdrawal receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "42146933-0c24-4973-8972-65e5ebe943ce",
+        "event_id": "ca809f0a-0707-44ec-9547-eec23d58a63e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T19:37:09.749Z",
+        "workflow_id": "8b830496-9509-4175-84bd-ef97af9fd621",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "42146933-0c24-4973-8972-65e5ebe943ce",
+        "event_id": "ca809f0a-0707-44ec-9547-eec23d58a63e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T19:37:09.749Z",
+        "workflow_id": "8b830496-9509-4175-84bd-ef97af9fd621",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "same key different request denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "old grant replay returns old immutable receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "db8ee234-f03e-4553-ba32-41441b842b12",
+        "event_id": "77196cd5-0864-446f-8caf-fae8b09edc9e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-09-16T19:37:08.035Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      },
+      "actual": {
+        "receipt_id": "db8ee234-f03e-4553-ba32-41441b842b12",
+        "event_id": "77196cd5-0864-446f-8caf-fae8b09edc9e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-09-16T19:37:08.035Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      }
+    },
+    {
+      "name": "old grant replay cannot reactivate",
+      "result": "PASS",
+      "expected": "WITHDRAWN",
+      "actual": "WITHDRAWN"
+    },
+    {
+      "name": "old interaction with new key denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "another principal cannot read receipt",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another tenant cannot read receipt",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "test interruption reached transaction rollback",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "rollback preserves aggregate epoch",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "rollback removes event outbox and idempotency together",
+      "result": "PASS",
+      "expected": {
+        "events": 2,
+        "outbox": 1,
+        "idempotency": 0
+      },
+      "actual": {
+        "events": 2,
+        "outbox": 1,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "concurrent grant and withdrawal serialize",
+      "result": "PASS",
+      "expected": [
+        202,
+        409
+      ],
+      "actual": [
+        202,
+        409
+      ]
+    },
+    {
+      "name": "race advances one epoch only",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "fresh reconsent requires fresh authorized interaction",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "new interaction advances to epoch four",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "history retains all four committed events",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "old receipt remains unchanged after new consent",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "42146933-0c24-4973-8972-65e5ebe943ce",
+        "event_id": "ca809f0a-0707-44ec-9547-eec23d58a63e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T19:37:09.749Z",
+        "workflow_id": "8b830496-9509-4175-84bd-ef97af9fd621",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "42146933-0c24-4973-8972-65e5ebe943ce",
+        "event_id": "ca809f0a-0707-44ec-9547-eec23d58a63e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T19:37:09.749Z",
+        "workflow_id": "8b830496-9509-4175-84bd-ef97af9fd621",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "RLS cannot expose another principal with missing query predicates",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "database rejects published version rewriting",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "restart preserves original receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "42146933-0c24-4973-8972-65e5ebe943ce",
+        "event_id": "ca809f0a-0707-44ec-9547-eec23d58a63e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T19:37:09.749Z",
+        "workflow_id": "8b830496-9509-4175-84bd-ef97af9fd621",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "42146933-0c24-4973-8972-65e5ebe943ce",
+        "event_id": "ca809f0a-0707-44ec-9547-eec23d58a63e",
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-16T19:37:09.749Z",
+        "workflow_id": "8b830496-9509-4175-84bd-ef97af9fd621",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "restart preserves current epoch",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "restart preserves exact published configuration",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "notice_version_id": "631f7c82-7398-43a3-abe6-24dbf504baec",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "9931e886-80be-4bc3-b4b8-adbfea6d193e"
+        ],
+        "required_observation": true,
+        "id": "8d8ac31d-3641-4589-b33b-d6507ac7ec75",
+        "version_id": "f98e4111-1636-40a5-8603-16e20552d949",
+        "digest": "56acb9b67c05d4307ae80b8d254634c562288820aa31144890e69d033503a46f",
+        "author_id": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-16T19:37:03.719Z"
+      },
+      "actual": {
+        "purpose_id": "0ffe1cba-95c4-48ef-9951-fef5861fd6ba",
+        "notice_version_id": "631f7c82-7398-43a3-abe6-24dbf504baec",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "9931e886-80be-4bc3-b4b8-adbfea6d193e"
+        ],
+        "required_observation": true,
+        "id": "8d8ac31d-3641-4589-b33b-d6507ac7ec75",
+        "version_id": "f98e4111-1636-40a5-8603-16e20552d949",
+        "digest": "56acb9b67c05d4307ae80b8d254634c562288820aa31144890e69d033503a46f",
+        "author_id": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-16T19:37:03.719Z"
+      }
+    },
+    {
+      "name": "restart preserves exact notice content",
+      "result": "PASS",
+      "expected": "Optional synthetic marketing. Withdraw in the same portal; no real messages are sent.",
+      "actual": "Optional synthetic marketing. Withdraw in the same portal; no real messages are sent."
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "T10 outbox transaction only; durable worker recovery belongs to A03. Browser acceptance remains Claude Code owned."
+  ]
+}
