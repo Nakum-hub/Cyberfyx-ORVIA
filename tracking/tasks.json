@@ -85,7 +85,7 @@
     },
     {
       "id": "C00",
-      "owner": "cowork",
+      "owner": "work",
       "priority": "P0",
       "title": "Prepare UX and leadership scenario",
       "start_dependencies": [],
@@ -97,13 +97,15 @@
       ],
       "deliverable": "Define readable screens, state copy and synthetic scenario without waiting for backend; do not redesign shared contracts.",
       "test_ids": [],
-      "status": "NOT_STARTED",
+      "status": "IN_REVIEW",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "B00",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Build UI shell from shared scaffold",
       "start_dependencies": [
@@ -160,7 +162,7 @@
     },
     {
       "id": "B01",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Real login and configuration screens",
       "start_dependencies": [
@@ -221,7 +223,7 @@
     },
     {
       "id": "B02",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Principal consent journey",
       "start_dependencies": [
@@ -392,7 +394,7 @@
     },
     {
       "id": "B03",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Live workflow, failures, dashboard and evidence",
       "start_dependencies": [
@@ -424,7 +426,7 @@
     },
     {
       "id": "C01",
-      "owner": "cowork",
+      "owner": "work",
       "priority": "P0",
       "title": "Capability truthfulness and operator runbook",
       "start_dependencies": [
@@ -441,9 +443,11 @@
       ],
       "deliverable": "Map full module vision to actual tested depth; record real setup commands only from engineering handoffs; prepare truthful question/answer notes.",
       "test_ids": [],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "A06",
@@ -492,7 +496,7 @@
     },
     {
       "id": "B04",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Test Lab and integrated browser acceptance",
       "start_dependencies": [
@@ -597,7 +601,7 @@
     },
     {
       "id": "B05",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P1",
       "title": "UI for the selected optional slice",
       "start_dependencies": [
@@ -650,7 +654,7 @@
     },
     {
       "id": "B06",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Final UI fixes and candidate browser regression",
       "start_dependencies": [
@@ -676,7 +680,7 @@
     },
     {
       "id": "C02",
-      "owner": "cowork",
+      "owner": "work",
       "priority": "P0",
       "title": "Prepare evidence-backed presentation handover",
       "start_dependencies": [
@@ -695,9 +699,11 @@
       "test_ids": [
         "T30"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "W03",

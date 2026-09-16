@@ -24,13 +24,14 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
 import build_pack  # noqa: E402
+import evidence_rules as rules  # noqa: E402
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 FINDING_STATUS = {"OPEN", "PARTIALLY_RESOLVED", "RESOLVED", "RESOLVED_PENDING_REVIEW"}
 OPEN_STATUS = {"OPEN", "PARTIALLY_RESOLVED"}
 CLAIM_STATUS = {"NOT_EVIDENCED", "EVIDENCED", "BLOCKED", "NOT_PERMITTED"}
 PROPOSED_STATUS = {"REVISED_FOR_REVIEW", "PARTIAL_BLOCKED", "PREPARED_NOT_FROZEN", "SUBMITTED_FOR_REVIEW", "BLOCKED"}
-SCREEN_IMPL = {"NOT_IMPLEMENTED", "IMPLEMENTED"}
+SCREEN_IMPL = {"UNKNOWN", "NOT_IMPLEMENTED", "IMPLEMENTED"}
 TEST_RESULTS = {"NOT_RUN", "RUNNING", "PASS", "FAIL", "ERROR", "SKIPPED"}
 OWNED_MD = ["docs/prototype/UX_BRIEF.md", "docs/prototype/DEMO_SCRIPT.md", "docs/prototype/RELEASE_CHECKLIST.md",
             "docs/ux/ACCEPTANCE_JOURNEYS.md", "docs/demo/CLAIMS_REGISTER.md", "docs/demo/LEADERSHIP_HANDOVER.md",
@@ -148,8 +149,8 @@ def validate(root, mode="current"):
                     continue
                 invented.append(i)
         R.check("No state value outside the design contract or the cited executable proposal", not invented, invented)
-        R.check("Proposal-bound values stay UNRESOLVED until accepted",
-                all(C[i]["binding_status"] == "UNRESOLVED" for i in ids if re.match(r"state\.reconciliation\.", i)))
+        approval_problems = rules.approval_errors(root, copy)
+        R.check("All accepted bindings have exact source-backed scoped approval", not approval_problems, approval_problems)
         secretish = re.compile(r"(password\s*[:=]|api[_-]?key|secret\s*[:=]|BEGIN [A-Z ]*PRIVATE KEY|@(?!aster\.example|birch\.example)[a-z0-9-]+\.(com|net|in|org|io))", re.I)
         R.check("UI_COPY contains no credentials or real email addresses", not secretish.search(json.dumps(copy)))
         assigned = {"state.workflow.ACCEPTED.detail": "Withdrawal recorded. Downstream actions are still being checked.",
@@ -232,6 +233,8 @@ def validate(root, mode="current"):
             src = root / cr.get("source_path", "")
             R.check(f"{k} quotation appears in its source file", src.exists() and cr.get("quoted_text", "\0") in src.read_text(encoding="utf-8"),
                     cr.get("source_path"))
+            problems = rules.readiness_errors(root, k, cr)
+            R.check(f"{k} value and source revision agree", not problems, problems)
         if tasks is not None:
             tt = {t["id"]: t for t in tasks.get("tasks", [])}
             wrong = [t["id"] for t in status["tickets"] if tt.get(t["id"], {}).get("status") != t.get("canonical_status")]
@@ -257,12 +260,15 @@ def validate(root, mode="current"):
                     status["current_source_inspection_id"] == ev["current_source_inspection_id"]
                     and cur and cur[0]["commit"] == status["documentation_base_commit"])
         fc = ev["frozen_candidate"]
-        if fc.get("status") == "IDENTIFIED":
-            ok = bool(fc.get("commit") and HEX40.match(fc["commit"]) and fc.get("build_id") and fc.get("source"))
-            R.check("Identified candidate has commit, build and source", ok)
-            cand = fc.get("commit") if ok else None
-        else:
-            R.check("Unidentified candidate has no commit", fc.get("commit") is None and fc.get("status") == "NOT_IDENTIFIED")
+        candidate_problems = rules.candidate_errors(fc)
+        R.check("Candidate identity is complete or explicitly unidentified", not candidate_problems, candidate_problems)
+        cand = fc
+        if status is not None:
+            R.check("Candidate identities agree across status and evidence",
+                    not rules.candidate_errors(status["candidate"]) and status["candidate"].get("status") == fc.get("status")
+                    and rules.identity(status["candidate"], True) == rules.identity(fc, True))
+            screen_problems = rules.screen_errors(root, status["screens"], ev)
+            R.check("Screen implementation and browser claims have scoped evidence", not screen_problems, screen_problems)
         rs = ev["record_schema"]
         probs = []
         for t in te:
@@ -287,14 +293,9 @@ def validate(root, mode="current"):
                     probs.append(f"{rid}: inspected without reviewer/time")
                 if not r["artifact_paths"]:
                     probs.append(f"{rid}: no artifacts")
-                for pth in r["artifact_paths"]:
-                    f = root / pth
-                    if not f.exists():
-                        probs.append(f"{rid}: artifact missing {pth}")
-                    elif hashlib.sha256(f.read_bytes()).hexdigest() != r["artifact_sha256"].get(pth):
-                        probs.append(f"{rid}: artifact hash mismatch {pth}")
-                if r["run_role"] == "EXPECTED_DETECTION" and r["observed_result"] == "PASS":
-                    probs.append(f"{rid}: expected-detection run recorded as PASS")
+                probs.extend(f"{rid}: {p}" for p in rules.record_errors(root, r))
+        record_ids = [r.get("record_id") for t in te for r in t.get("records", [])]
+        if len(set(record_ids)) != len(record_ids): probs.append("duplicate evidence record IDs")
         R.check("Evidence records are complete, provenance-backed and hash-matched", not probs, probs)
         mprobs = []
         for m in ev.get("media", []):
@@ -303,32 +304,30 @@ def validate(root, mode="current"):
                 mprobs.append(f"{m.get('media_id')}: missing {miss}")
             elif m.get("live_or_recorded") != "RECORDED" or m.get("kind") not in ev["media_schema"]["kind"]:
                 mprobs.append(f"{m.get('media_id')}: invalid kind/label")
-            elif not (root / m["path"]).exists() or hashlib.sha256((root / m["path"]).read_bytes()).hexdigest() != m["sha256"]:
-                mprobs.append(f"{m.get('media_id')}: file missing or hash mismatch")
+            else:
+                mprobs.extend(rules.artifacts(root, {"artifact_paths": [m["path"]], "artifact_sha256": {m["path"]: m["sha256"]}}))
+                if not rules.HEX40.fullmatch(str(m.get("code_under_test_commit", ""))) or not all(m.get(k) for k in rules.IDENTITY) or not rules.date(m.get("captured_at")):
+                    mprobs.append(f"{m.get('media_id')}: incomplete candidate/media provenance")
         for h in ev.get("rehearsals", []):
-            miss = [k for k in ev.get("rehearsal_schema", {}).get("required", []) if not h.get(k) and k != "issues"]
-            if miss:
-                mprobs.append(f"{h.get('rehearsal_id')}: missing {miss}")
+            mprobs.extend(f"{h.get('rehearsal_id')}: {p}" for p in rules.rehearsal_errors(root, h))
+        for field, id_key in (("rehearsals", "rehearsal_id"), ("media", "media_id")):
+            ids = [r.get(id_key) for r in ev.get(field, [])]
+            if len(ids) != len(set(ids)): mprobs.append(f"duplicate {id_key}")
         R.check("Media and rehearsal entries are complete", not mprobs, mprobs)
-        derived = build_pack.summary_counts(ev)
+        derived = build_pack.summary_counts(ev, root)
         diff = {k: (ev["summary"].get(k), v) for k, v in derived.items() if ev["summary"].get(k) != v}
         R.check("EVIDENCE_INDEX summary equals counts derived from its records", not diff, diff)
         eng = ev.get("engineering_reports", {})
         ep = []
         for r in eng.get("records", []):
-            if r.get("counts_as_acceptance") is not False:
-                ep.append(f"{r.get('report_id')}: counts_as_acceptance must be false")
-            for pth, d in r.get("artifact_sha256", {}).items():
-                f = root / pth
-                if f.exists() and hashlib.sha256(f.read_bytes()).hexdigest() != d:
-                    ep.append(f"{r.get('report_id')}: hash mismatch {pth}")
+            ep.extend(f"{r.get('report_id')}: {p}" for p in rules.engineering_errors(root, r))
         R.check("Engineering reports never count as acceptance and match their artifacts", not ep, ep[:10])
         fixture_leak = "DOCUMENT-TOOL TEST DATA" in json.dumps(ev)
         R.check("No document-tool test fixture data in the real evidence index", not fixture_leak or mode == "fixture")
         if mode == "historical-no-evidence":
             R.check("[historical] every canonical result is NOT_RUN", all(t["status"] == "NOT_RUN" for t in canon.values()))
             R.check("[historical] no test records", derived["records"] == 0)
-            R.check("[historical] no media or rehearsals", derived["screenshots"] + derived["recordings"] + derived["browser_traces"] + derived["rehearsals_completed"] == 0)
+            R.check("[historical] no media or rehearsals", derived["screenshots"] + derived["recordings"] + derived["browser_traces"] + derived["rehearsals_indexed"] == 0)
             R.check("[historical] every journey result is NOT_RUN", all("NOT_RUN" in l for l in re.findall(r"^\| J\d\d \|.*$", summary, re.M)))
 
     # ---- claims
@@ -343,15 +342,12 @@ def validate(root, mode="current"):
             if st_of(c) != "EVIDENCED":
                 continue
             tests = re.findall(r"\bT\d\d\b", c["tests"])
-            if not tests or not cand:
+            if not tests or not cand or cand.get("status") != "IDENTIFIED":
                 unsupported.append(f"{c['id']}: no tests or no identified candidate")
                 continue
             for t in tests:
-                recs = [r for r in te.get(t, {}).get("records", []) if r.get("code_under_test_commit") == cand]
-                if not any(r["review_status"] == "INSPECTED" and r["observed_result"] == "PASS" and r["run_role"] in ("NORMAL", "HEALTHY_RERUN") for r in recs):
-                    unsupported.append(f"{c['id']}: {t} lacks an inspected PASS on the candidate")
-                if t == "T24" and not any(r["run_role"] == "EXPECTED_DETECTION" and r["observed_result"] == "FAIL" and r["review_status"] == "INSPECTED" for r in recs):
-                    unsupported.append(f"{c['id']}: T24 lacks the inspected expected-detection FAIL")
+                if not rules.test_qualifies(root, te.get(t, {}), cand):
+                    unsupported.append(f"{c['id']}: {t} lacks current complete candidate-qualified evidence")
     R.check("Every EVIDENCED claim is supported by candidate-matched inspected evidence", not unsupported, unsupported)
     if mode == "historical-no-evidence":
         R.check("[historical] no claim is EVIDENCED", not any(st_of(c) == "EVIDENCED" for c in claims))

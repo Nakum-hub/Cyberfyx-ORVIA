@@ -1,27 +1,27 @@
 # ORVIA prototype: leadership handover
 
-**Owner:** Cowork (C02) · **Status:** PREPARED_NOT_FROZEN (blocked on A07 candidate and B06 browser results) · **Revision:** c02-r2, 16 Sep 2026 IST · **Documentation base:** `e839b1a` (r1 was written against `96b8bd7`)
+**Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN (blocked on A07 candidate and B06 browser results) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
 
 ## How to use this document
 
-This is the presentation content. Its claims **cannot be frozen** yet: no packaged candidate, test result, browser result, screenshot, recording or rehearsal exists.
+This is the presentation content. Its claims **cannot be frozen** yet: no packaged final candidate, full-scenario acceptance, candidate browser result, screenshot, recording or qualifying rehearsal is supplied. Historical engineering reports exist and are indexed separately.
 
 Where a statement depends on evidence, it is written as the claim to be made **once evidenced**, and it points to its register entry in [`CLAIMS_REGISTER.md`](CLAIMS_REGISTER.md). Until then, present only §1, §5, §6 and §7, and say plainly that the working demonstration is not ready.
 
 ## Readiness at a glance (generated)
 
 <!-- BEGIN GENERATED: handover-readiness -->
-As of 2026-09-16T10:00:00Z (DELIVERY_STATUS.json).
+As of 2026-09-16T19:35:38Z (DELIVERY_STATUS.json).
 
 | Question | Answer |
 |---|---|
-| Documentation base | `e839b1a` (current source inspection EV-SRC-003, 2026-09-16T09:44:21Z) |
-| Application at that base | A00 bootstrap only: apps/web has layout.tsx, page.tsx (minimal foundation text) and /healthz; no workspace or Privacy Centre screens; business endpoints are contract-only (CONTRACT_ONLY_PENDING_TICKET). |
-| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `e839b1a`, quoted: “Internal demo NOT_READY”. Owner: Work (consolidates); human (approves). |
-| Production readiness | **NOT_ASSESSED**. Source: `CURRENT_STATE.md`, quoted: “production security/legal/supply-chain/recovery NOT_ASSESSED”. |
+| Documentation base | `2432a00` (current source inspection EV-SRC-006, 2026-09-16T19:35:38Z) |
+| Application at that base | Accepted A00/A01; A02/A03, merged PR #16 expiry correction and newly merged PR #17 A04 scoped send/preview sources and reports are present for consolidated review. Workspace/Privacy Centre UI routes and candidate browser evidence are absent at this inspected base. No full application scenario is accepted here. |
+| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `2432a00`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
+| Production readiness | **NOT_ASSESSED**. Source: `CURRENT_STATE.md`, quoted: “Production security/legal/supply-chain/full recovery NOT_ASSESSED”. |
 | Frozen candidate | NOT_IDENTIFIED |
 | P0 scenarios with an inspected PASS on the candidate | 0 of 30 (records indexed: 0) |
-| Engineering reports indexed (not acceptance) | 51 (14 with non-zero exit, retained) |
+| Engineering reports indexed (not acceptance) | 174 (32 with non-zero exit, retained) |
 | Presentation deadline | See F-015 in FINDINGS.csv |
 <!-- END GENERATED: handover-readiness -->
 
@@ -70,7 +70,7 @@ These are stated even after the evidence exists.
 - **Withdrawal stops marketing use.** It does not erase data. Rights, retention and guardian flows are not built.
 - **Evidence digests detect changes against a trusted copy.** They are not legal certificates.
 - **No production security, HA, disaster recovery, SSO, licensing or update infrastructure.** No penetration test.
-- **The wider Version 1 programme is larger.** The master lists 33 modules: 26 are in Version 1, and seven custom-AI modules (IDs 19–25) are deferred to Version 2 (EV-SRC-004). The capability register that tracks their status is not in the repository (F-002), so module status cannot be shown yet. Unbuilt Version 1 work stays in Version 1.
+- **The wider Version 1 programme is larger.** The master lists 33 modules: 26 are in Version 1, and seven custom-AI modules (IDs 19–25) are deferred to Version 2 (EV-SRC-004). The genuine 33-module register is restored (F-002 resolved). Its original NOT_INSPECTED values make no module-completion claim; the source-backed capability mapping states partial implementation and remaining evidence. API/UI mapping remains F-029. Unbuilt Version 1 work stays in Version 1.
 - **No legal-compliance claim of any kind.** (CL-22)
 
 ## 7. Next engineering decisions for leadership
@@ -78,10 +78,10 @@ These are stated even after the evidence exists.
 | Decision | Why it matters now | Owner |
 |---|---|---|
 | Confirm the presentation date and time (IST), and what leadership is asked to decide | Sets the cut line; nothing is timed today (F-015) | Human |
-| Provide the approved master and the tracking files to the repository | Scope, 33-module register, and task/acceptance truth (F-001, F-002, F-004, F-005) | Human |
-| Authorise and accept the A00 bootstrap | No implementation exists; every gate depends on it (F-003) | Human → Codex |
+| Review the completed C00 handoff and its narrow Codex cross-check | Unblocks B00 acceptance without waiting for completed UI | Human / Codex |
+| Preserve accepted A00/A01 and review A02/A03/A04 correction evidence | Those increments exist; no restart or invented acceptance | Work / Codex |
 | If time is short, accept a smaller truthful slice rather than the full outcome demo | EXECUTION_PLAN §6–§7: a partial demo must not be labelled complete | Human with Work |
-| Decide the open contract questions: propagation status, reconciliation/quarantine representation, send-record view, receipt list | Needed before the UI can bind honestly (F-006, F-008, F-016, F-018) | Work → Codex, Claude Code |
+| Close remaining producer/consumer gaps: quarantine/retry/count/reason codes, candidate receipt-history binding and safe request recovery | Needed before the UI can bind honestly (F-006, F-008, F-016, F-018) | Work → Codex, Codex |
 | Production path after the demo: security review, legal review, real connector selection, deployment model | The prototype is a foundation, not a release | Leadership |
 
 ---
@@ -91,20 +91,14 @@ These are stated even after the evidence exists.
 Answers are written to stay true today. Update the evidence references when artifacts exist.
 
 **What actually ran?**
-No ORVIA application scenario has run yet. At `e839b1a`, the repository holds the A00 bootstrap:
-- a foundation page and `/healthz`;
-- PostgreSQL, OPA and Temporal probes;
-- contract proposal 0.2.0.
-
-Codex reports 51 recorded engineering runs in its `codex-a00` profile; 14 exited non-zero before later successful reruns. Cowork checked that the artifacts exist and that their exit codes match. Cowork re-ran nothing, and these runs are not T01–T34 acceptance. When a candidate exists, the answer is the list of `INSPECTED` records in `EVIDENCE_INDEX.json` for that build.
+Work inspected 174 supplied A00–A04/correction engineering command reports and their referenced bytes; original failures and dirty-source identities remain. Accepted increments are A00/A01. A02/A03/A04 and the merged PR #16 correction are implementation/report inputs awaiting consolidated acceptance. Work executed document tools and canonical tracking checks in this session; it did not execute application services or scenarios.
 
 **What remains incomplete?**
-- All 30 required scenarios have no application evidence.
-- Work has not yet recorded A00 acceptance or accepted contract 0.2.0.
-- The authentication, consent, workflow, agent, enforcement, evidence, recovery and UI tickets (A01–A07, B00–B06) have not started.
-- The capability register is absent, and the master is not yet in the repository.
-- Most operator commands are still missing.
-- No rehearsal has taken place.
+- The 30 P0 full-scenario candidate gates are still NOT_RUN; partial producer assertions do not close them.
+- No A07 packaged candidate or B06 application browser evidence is supplied.
+- Workspace/Privacy Centre UI routes are absent at the inspected base; Codex owns their existing B IDs.
+- A04–A07 enforcement/evidence/fault/recovery/package procedures and their applicable tests remain required.
+- No qualifying rehearsal or human readiness sign-off exists.
 
 `FINDINGS.csv` lists the owners.
 
@@ -118,7 +112,7 @@ That ORVIA read a specific target record, by a named method, at a recorded time 
 Only the local, supported send-admission point in the prototype. At admission it rechecks current consent and the published policy. It does not intercept other software, and it cannot recall messages already sent. (CL-10)
 
 **How are unknown effects handled?**
-A lost reply is recorded as *outcome unknown*, not *failed*. ORVIA then records a separate reconciliation attempt and reads the target or its receipt. The uncertain attempt is never rewritten as a success. If the read cannot settle the question, the item stays unknown and assigned. Retries are bounded and escalate to a person. The same principle applies to a person's own request: after a timeout the page retries the *same* request rather than creating a new one. (CL-11)
+A lost reply is recorded as *outcome unknown*, not *failed*. ORVIA then records a separate reconciliation attempt and reads the target or its receipt. The uncertain attempt is never rewritten as a success. If the read cannot settle the question, the item stays unknown and assigned. Retries are bounded and escalate to a person. The same principle applies to a person's own request: Work specifies an explicit authorised retry of the *same* retained request. Full-reload recovery remains a Codex dependency; the page must not fabricate a fresh request identity when the original is lost. (CL-11)
 
 **How do customer and vendor identities differ?**
 Staff and data principals have separate sessions scoped to their organisation. Organisation administrators manage their own installation. The prototype accepts no Cyberfyx vendor identity and has no vendor remote administration. Commerce and release signing sit in a separate trust domain from customer evidence keys. (CL-04; CONTRACT §1, §7)
@@ -172,13 +166,13 @@ All T01–T30 are mandatory for the completed internal demo, including tests who
 ## 10. Media index
 
 <!-- BEGIN GENERATED: handover-media -->
-Indexed: 0 screenshots, 0 recordings, 0 browser traces, 0 completed rehearsals (EVIDENCE_INDEX.json).
+Indexed: 0 screenshots, 0 recordings, 0 browser traces, 0 indexed rehearsals, 0 completed historical runs, 0 candidate-qualifying runs (EVIDENCE_INDEX.json).
 <!-- END GENERATED: handover-media -->
 
 Each entry in `EVIDENCE_INDEX.json` → `media` records:
 
 - file path;
-- producer (Claude Code or the human);
+- producer (Codex or the human);
 - candidate commit and build;
 - profile;
 - capture time (IST);

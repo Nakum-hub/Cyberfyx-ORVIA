@@ -1,0 +1,184 @@
+{
+  "label": "DOCUMENT-TOOL TEST DATA; failures demonstrate inherited defects, not application results",
+  "base": "0a2671640223087626d8e422396efb1363981ed9",
+  "fixture_normalisation": "Authentic readiness quotations refreshed; generated outputs rebuilt only inside disposable fixture.",
+  "cases": [
+    {
+      "case": "positive inherited fixture control",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "readiness value ONLY changed, authentic quotation retained",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "same SHA but different build/profile/contract; inconsistent status identity",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 1,
+        "p0_with_inspected_pass_on_candidate": 1,
+        "p1_selected": 0,
+        "records": 1,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "screen browser PASS backed only by source inspection",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "screen browser PASS with unknown reference",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "missing engineering artifact treated as verified",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "duplicate aborted rehearsals with invalid dates and missing logs",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 2,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "non-reconciliation proposal accepted without decision",
+      "passed": 92,
+      "total": 92,
+      "failures": [],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    },
+    {
+      "case": "reconciliation accepted state permanently rejected by old rule",
+      "passed": 91,
+      "total": 92,
+      "failures": [
+        {
+          "check": "Proposal-bound values stay UNRESOLVED until accepted",
+          "ok": false,
+          "detail": ""
+        }
+      ],
+      "summary": {
+        "p0_total": 30,
+        "p0_with_records": 0,
+        "p0_with_inspected_pass_on_candidate": 0,
+        "p1_selected": 0,
+        "records": 0,
+        "screenshots": 0,
+        "recordings": 0,
+        "browser_traces": 0,
+        "rehearsals_completed": 0,
+        "engineering_reports": 51,
+        "engineering_reports_nonzero_exit": 14
+      }
+    }
+  ]
+}

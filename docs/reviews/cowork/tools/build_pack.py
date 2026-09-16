@@ -19,6 +19,7 @@ readiness value and quotation that DELIVERY_STATUS.json cites from CURRENT_STATE
 """
 import argparse, csv, hashlib, html, io, json, re, sys
 from pathlib import Path
+import evidence_rules as rules
 
 TOOLS = Path(__file__).resolve().parent
 OUT_UX = "docs/prototype/UX_BRIEF.md"
@@ -28,10 +29,11 @@ OUT_HTML = "docs/demo/index.html"
 OUT_MANIFEST = "docs/reviews/cowork/GENERATED_MANIFEST.json"
 INPUTS = ["docs/ux/UI_COPY.json", "docs/demo/demo_steps.json", "docs/demo/EVIDENCE_INDEX.json",
           "docs/reviews/cowork/DELIVERY_STATUS.json", "docs/reviews/cowork/FINDINGS.csv", "docs/demo/CLAIMS_REGISTER.md",
-          "docs/reviews/cowork/tools/pack.css", "docs/reviews/cowork/tools/build_pack.py"]
+          "docs/reviews/cowork/tools/pack.css", "docs/reviews/cowork/tools/build_pack.py", "docs/reviews/cowork/tools/evidence_rules.py",
+          "docs/reviews/cowork/tools/validate_docs.py"]
 CONTEXT_SOURCES = ["AGENTS.md", "CURRENT_STATE.md", "docs/prototype/EXECUTION_PLAN.md", "docs/prototype/CONTRACT.md",
                    "docs/prototype/ACCEPTANCE.md", "docs/prototype/FILE_OWNERSHIP.md", "docs/decisions/ADR-001-prototype-profile.md",
-                   "tracking/tasks.json", "tracking/acceptance.json", "packages/contracts/src/index.ts",
+                   "tracking/tasks.json", "tracking/acceptance.json", "tracking/capabilities.json", "packages/contracts/src/index.ts",
                    "docs/ux/ACCEPTANCE_JOURNEYS.md", "docs/runbooks/OPERATOR.md", "docs/prototype/RELEASE_CHECKLIST.md"]
 
 AXES = [("Consent", "consent", ["NOT_GIVEN", "GRANTED", "WITHDRAWN"], "design 0.1.0"),
@@ -40,7 +42,7 @@ AXES = [("Consent", "consent", ["NOT_GIVEN", "GRANTED", "WITHDRAWN"], "design 0.
          ["PENDING", "RUNNING", "ACKNOWLEDGED", "EFFECT_UNKNOWN", "FAILED", "MANUAL_REQUIRED", "SKIPPED"], "design 0.1.0"),
         ("Observation (what ORVIA read separately)", "observation",
          ["NOT_CHECKED", "OBSERVED_SATISFIED", "OBSERVED_NOT_SATISFIED", "UNVERIFIABLE", "STALE"], "design 0.1.0"),
-        ("Reconciliation record (0.2.0 proposal, pending W00)", "reconciliation",
+        ("Reconciliation record", "reconciliation",
          ["PENDING", "RECONCILING", "RESOLVED", "INCONCLUSIVE", "FAILED"], "proposal 0.2.0"),
         ("Processing decision", "decision", ["ALLOW", "BLOCK", "INDETERMINATE"], "design 0.1.0"),
         ("Test result", "test", ["NOT_RUN", "RUNNING", "PASS", "FAIL", "ERROR", "SKIPPED"], "design 0.1.0")]
@@ -108,31 +110,45 @@ def splice(src, marker, body, path):
     return pat.sub(lambda m: m.group(1) + body + m.group(2), src)
 
 
-def summary_counts(ev):
+def summary_counts(ev, root=None):
     """Counts derived from the underlying records (the validator compares them with ev['summary'])."""
+    root = Path(root) if root is not None else TOOLS.parents[3]
     te = ev["test_evidence"]
-    cand = ev.get("frozen_candidate", {}).get("commit")
+    cand = ev.get("frozen_candidate", {})
     recs = [r for t in te for r in t.get("records", [])]
     media = ev.get("media", [])
     eng = ev.get("engineering_reports", {}).get("records", [])
     return {
         "p0_total": sum(t["priority"] == "P0" for t in te),
         "p0_with_records": sum(1 for t in te if t["priority"] == "P0" and t.get("records")),
-        "p0_with_inspected_pass_on_candidate": sum(1 for t in te if t["priority"] == "P0" and any(
-            r.get("review_status") == "INSPECTED" and r.get("observed_result") == "PASS" and cand and r.get("code_under_test_commit") == cand
-            for r in t.get("records", []))),
+        "p0_with_inspected_pass_on_candidate": sum(1 for t in te if t["priority"] == "P0" and rules.test_qualifies(root, t, cand)),
         "p1_selected": sum(1 for t in te if t["priority"] == "P1" and t.get("selected")),
         "records": len(recs),
         "screenshots": sum(m.get("kind") == "SCREENSHOT" for m in media),
         "recordings": sum(m.get("kind") == "RECORDING" for m in media),
         "browser_traces": sum(m.get("kind") == "BROWSER_TRACE" for m in media),
-        "rehearsals_completed": len(ev.get("rehearsals", [])),
+        **rules.rehearsal_counts(root, ev),
         "engineering_reports": len(eng),
         "engineering_reports_nonzero_exit": sum(1 for r in eng if r.get("exit_code") not in (0, None)),
     }
 
 
 # ---------------- Markdown sections ----------------
+def binding_caption(S, entry):
+    if entry.get("binding_status") == "UNRESOLVED":
+        return "UNRESOLVED " + str(entry.get("finding_ref"))
+    if entry.get("binding_status") == "ACCEPTED_CONTRACT":
+        if rules.approval_errors(S.root, dict(S.copy, entries=[entry])):
+            return "UNVERIFIED_BINDING"
+        return "accepted " + entry["binding_version"] + "; consumer " + entry["consumer_binding"]
+    return "historical design 0.1.0; consumer unverified"
+
+
+def display_readiness(S, key):
+    original = S.status[key]
+    return dict(original, value="INVALID_SOURCE") if rules.readiness_errors(S.root, key, original) else original
+
+
 def ux_status_copy(S):
     out = []
     for title, key, vals, basis in AXES:
@@ -141,7 +157,7 @@ def ux_status_copy(S):
             lab = f"state.{key}.{v}.label"
             det = f"state.{key}.{v}.detail" if f"state.{key}.{v}.detail" in S.C else f"state.{key}.{v}.portal"
             ub = sorted({S.C[x]["finding_ref"] for x in (lab, det) if x in S.C and S.C[x]["binding_status"] == "UNRESOLVED"})
-            b = ("UNRESOLVED " + ", ".join(ub)) if ub else basis
+            b = ("UNRESOLVED " + ", ".join(ub)) if ub else binding_caption(S, S.C[lab])
             out.append(f"| `{v}` | {ICON.get(v, '')} {md_cell(S.text(lab))} | {md_cell(S.text(det))} | `{lab}`, `{det}` | {b} |")
         out.append("")
     out += ["### Principal consent lines", "", "| Stored value | Privacy Centre text | Copy ID |", "|---|---|---|"]
@@ -150,7 +166,7 @@ def ux_status_copy(S):
     out += ["", "### Supplementary status lines", "", "| Copy ID | Text | Binding |", "|---|---|---|"]
     for e in S.copy["entries"]:
         if e["screen"] == "STATUS" and not re.match(r"state\.[a-z]+\.[A-Z_]+\.(label|detail|portal)$", e["id"]):
-            b = f"UNRESOLVED {e['finding_ref']}" if e["binding_status"] == "UNRESOLVED" else "design 0.1.0"
+            b = binding_caption(S, e)
             out.append(f"| `{e['id']}` | {md_cell(e['text'])} | {b} |")
     out.append("")
     return "\n".join(out) + "\n"
@@ -160,7 +176,7 @@ def ux_state_copy(S):
     out = ["| Copy ID | Audience | Semantic state | Text | Binding |", "|---|---|---|---|---|"]
     for e in S.copy["entries"]:
         if e["id"].startswith(("error.", "permission.", "recovery.", "global.loading", "global.count")) or e["element"] == "empty":
-            b = f"UNRESOLVED {e['finding_ref']}" if e["binding_status"] == "UNRESOLVED" else "design 0.1.0"
+            b = binding_caption(S, e)
             if (e.get("unresolved_binding") or "").startswith("CONDITIONAL"):
                 b = f"CONDITIONAL — do not display ({e['finding_ref']})"
             st = e["semantic_state"] or ("EMPTY" if e["element"] == "empty" else "")
@@ -184,8 +200,8 @@ def script_steps(S):
 
 
 def handover_readiness(S):
-    st, ci, cnt = S.status, S.current_inspection(), summary_counts(S.ev)
-    cr, pr, cand = st["canonical_readiness"], st["production_readiness"], st["candidate"]
+    st, ci, cnt = S.status, S.current_inspection(), summary_counts(S.ev, S.root)
+    cr, pr, cand = display_readiness(S, "canonical_readiness"), display_readiness(S, "production_readiness"), st["candidate"]
     rows = [
         ("Documentation base", f"`{st['documentation_base_commit'][:7]}` (current source inspection {ci['evidence_id']}, {ci['performed_at']})"),
         ("Application at that base", ci["observed"].get("application_scope_note", "—")),
@@ -208,7 +224,7 @@ GROUPS = [("Start, bootstrap, isolation, roles", 1, 5), ("Configuration and cons
 
 
 def handover_evidence(S):
-    cand = S.ev.get("frozen_candidate", {}).get("commit")
+    cand = S.ev.get("frozen_candidate", {})
     te = {t["test_id"]: t for t in S.ev["test_evidence"]}
     out = ["| Area | Tests | Canonical status (Work) | With records | Inspected PASS on candidate |", "|---|---|---|---|---|"]
     tot = [0, 0, 0]
@@ -216,7 +232,7 @@ def handover_evidence(S):
         ids = [f"T{i:02d}" for i in range(a, b + 1)]
         canon = sorted({te[i]["canonical_status"]["value"] for i in ids})
         wr = sum(1 for i in ids if te[i].get("records"))
-        ip = sum(1 for i in ids if any(r.get("review_status") == "INSPECTED" and r.get("observed_result") == "PASS" and cand and r.get("code_under_test_commit") == cand for r in te[i].get("records", [])))
+        ip = sum(1 for i in ids if rules.test_qualifies(S.root, te[i], cand))
         tot[0] += len(ids); tot[1] += wr; tot[2] += ip
         out.append(f"| {name} | {ids[0]}–{ids[-1]} | {', '.join(canon)} | {wr} / {len(ids)} | {ip} / {len(ids)} |")
     out.append(f"| **Total P0** | **T01–T30** | — | **{tot[1]} / {tot[0]}** | **{tot[2]} / {tot[0]}** |")
@@ -225,8 +241,8 @@ def handover_evidence(S):
 
 
 def handover_media(S):
-    cnt, media, reh = summary_counts(S.ev), S.ev.get("media", []), S.ev.get("rehearsals", [])
-    out = [f"Indexed: {cnt['screenshots']} screenshots, {cnt['recordings']} recordings, {cnt['browser_traces']} browser traces, {cnt['rehearsals_completed']} completed rehearsals (EVIDENCE_INDEX.json)."]
+    cnt, media, reh = summary_counts(S.ev, S.root), S.ev.get("media", []), S.ev.get("rehearsals", [])
+    out = [f"Indexed: {cnt['screenshots']} screenshots, {cnt['recordings']} recordings, {cnt['browser_traces']} browser traces, {cnt['rehearsals_indexed']} indexed rehearsals, {cnt['rehearsals_completed']} completed historical runs, {cnt['rehearsals_candidate_qualifying']} candidate-qualifying runs (EVIDENCE_INDEX.json)."]
     if media:
         out += ["", "| Media | Kind | Build | Captured | Live or recorded | Shows | Does not show |", "|---|---|---|---|---|---|---|"]
         out += [f"| `{m['path']}` | {m['kind']} | {m['build_id']} | {m['captured_at']} | {m['live_or_recorded']} | {md_cell(m['shows'])} | {md_cell(m['does_not_show'])} |" for m in media]
@@ -252,7 +268,7 @@ def table(head, rows, attrs=""):
 
 
 def build_html(S, source_hashes):
-    st, ev, cnt, ci = S.status, S.ev, summary_counts(S.ev), S.current_inspection()
+    st, ev, cnt, ci = S.status, S.ev, summary_counts(S.ev, S.root), S.current_inspection()
     of = [f for f in S.findings if f["status"] in ("OPEN", "PARTIALLY_RESOLVED")]
     screens = st["screens"]
     impl = sum(s["implementation"] == "IMPLEMENTED" for s in screens)
@@ -271,21 +287,21 @@ def build_html(S, source_hashes):
            ("evidence", "Acceptance evidence"), ("engineering", "Engineering reports"), ("claims", "Claims register"),
            ("findings", "Findings"), ("limits", "Limitations"), ("sources", "Sources")]
     a('<div class="shell"><nav class="toc" aria-label="Contents"><ol>' + "".join(f'<li><a href="#{i}">{esc(t)}</a></li>' for i, t in toc) + '</ol></nav><main id="main">')
-    a(f'<header class="top"><p class="eyebrow">Cyberfyx · ORVIA Version 1 · internal prototype · Cowork lane C00–C02</p>'
-      f'<h1>ORVIA prototype delivery pack</h1><p class="lede">Demo scenario, interface copy, claims, findings and evidence status for the ORVIA outcome-assurance prototype, compiled from the repository\'s Cowork documents. Nothing on this page is live: every figure is a count of documentation records, and readiness is quoted from its owner\'s file.</p>'
+    a(f'<header class="top"><p class="eyebrow">Cyberfyx · ORVIA Version 1 · internal prototype · Work successor lane C00–C02</p>'
+      f'<h1>ORVIA prototype delivery pack</h1><p class="lede">Demo scenario, interface copy, claims, findings and evidence status for the ORVIA outcome-assurance prototype, compiled from the repository\'s inherited delivery documents. Nothing on this page is live: every figure is a count of documentation records, and readiness is quoted from its owner\'s file.</p>'
       f'<div class="meta"><span>Documentation base <code>{esc(st["documentation_base_commit"][:12])}</code></span><span>As of {esc(st["as_of"])}</span>'
       f'<span>Copy revision {esc(S.copy.get("revision"))}</span><span>Review status: {pill(S.copy.get("status", ""))}</span></div></header>')
     # status
-    cr, pr, pub = st["canonical_readiness"], st["production_readiness"], st.get("publication", {})
+    cr, pr, pub = display_readiness(S, "canonical_readiness"), display_readiness(S, "production_readiness"), st.get("publication", {})
     a('<section id="status" aria-labelledby="h-status"><h2 id="h-status">Status at a glance</h2><p class="intro">Readiness values are quoted from the file that owns them; counts are derived from indexed records.</p><div class="glance">')
     a(f'<div class="fact{" alert" if cr["value"] != "READY" else ""}"><div class="k">Internal demo readiness</div><div class="v">{esc(cr["value"])}</div><div class="n">Quoted from <code>{esc(cr["source_path"])}</code> @ {esc(cr["source_commit"][:7])}: <span class="quote">“{esc(cr["quoted_text"])}”</span></div></div>')
     a(f'<div class="fact{" alert" if cnt["p0_with_inspected_pass_on_candidate"] < cnt["p0_total"] else ""}"><div class="k">P0 with inspected PASS on candidate</div><div class="v">{cnt["p0_with_inspected_pass_on_candidate"]} of {cnt["p0_total"]}</div><div class="n">Candidate: {esc(st["candidate"]["status"])}. Test records indexed: {cnt["records"]}.</div></div>')
     a(f'<div class="fact"><div class="k">Open findings</div><div class="v">{len(of)}</div><div class="n">' + " · ".join(f"{sum(f['severity'] == s for f in of)} {s.lower()}" for s in SEVERITY) + f' · {len(S.findings) - len(of)} resolved or pending review</div></div>')
     a(f'<div class="fact"><div class="k">Screens specified / implemented</div><div class="v">{len(screens)} / {impl}</div><div class="n">From DELIVERY_STATUS.json (evidence {esc(screens[0]["evidence"] if screens else "—")}).</div></div>')
-    a(f'<div class="fact"><div class="k">Screenshots · recordings · rehearsals</div><div class="v">{cnt["screenshots"]} · {cnt["recordings"]} · {cnt["rehearsals_completed"]}</div><div class="n">Indexed in EVIDENCE_INDEX.json. T30 needs two candidate rehearsals.</div></div>')
+    a(f'<div class="fact"><div class="k">Indexed screenshots · recordings · qualifying rehearsals</div><div class="v">{cnt["screenshots"]} · {cnt["recordings"]} · {cnt["rehearsals_candidate_qualifying"]}</div><div class="n">Media counts are indexed records, not browser PASS. T30 needs two qualifying candidate rehearsals.</div></div>')
     a(f'<div class="fact"><div class="k">Production readiness</div><div class="v">{esc(pr["value"])}</div><div class="n">Quoted: <span class="quote">“{esc(pr["quoted_text"])}”</span></div></div>')
-    a("</div><h3>Cowork tickets</h3>")
-    a(table(["Ticket", "Canonical (Work)", "Cowork proposal", "Delivered", "Acceptance dependency"],
+    a("</div><h3>C-task delivery</h3>")
+    a(table(["Ticket", "Canonical (Work)", "Work artifact proposal", "Delivered", "Acceptance dependency"],
             [f"<tr><th scope='row'>{esc(t['id'])}</th><td>{pill(t['canonical_status'])}<br><span class='small'>{esc(t['canonical_source'])}</span></td><td>{pill(t['proposed_status'])}</td><td>{esc(t['delivered'])}</td><td>{esc(t['acceptance_dependency'])}</td></tr>" for t in st["tickets"]]))
     if pub:
         a(f'<p><strong>Publication:</strong> {pill(pub.get("status", ""))} {esc(pub.get("reason", ""))} ({esc(pub.get("finding", ""))})</p>')
@@ -323,7 +339,7 @@ def build_html(S, source_hashes):
             lab = f"state.{key}.{v}.label"
             det = f"state.{key}.{v}.detail" if f"state.{key}.{v}.detail" in S.C else f"state.{key}.{v}.portal"
             un = sorted({S.C[x]["finding_ref"] for x in (lab, det) if x in S.C and S.C[x]["binding_status"] == "UNRESOLVED"})
-            b = pill("UNRESOLVED " + ", ".join(un)) if un else f'<span class="small">{esc(basis)}</span>'
+            b = pill("UNRESOLVED " + ", ".join(un)) if un else f'<span class="small">{esc(binding_caption(S, S.C[lab]))}</span>'
             rows.append(f"<tr><td><code>{esc(v)}</code></td><td>{badge(v, S.text(lab))}</td><td>{esc(S.text(det))}</td><td>{b}</td></tr>")
         a(f"<h3>{esc(title)}</h3>" + table(["Stored value", "Badge", "Detail text", "Binding"], rows))
     a("</section>")
@@ -354,7 +370,7 @@ def build_html(S, source_hashes):
     for e in S.copy["entries"]:
         if e["id"].startswith(("error.", "permission.", "recovery.", "global.loading", "global.count")) or e["element"] == "empty":
             cond = (e.get("unresolved_binding") or "").startswith("CONDITIONAL")
-            bind = pill("CONDITIONAL — do not display " + e["finding_ref"]) if cond else (pill("UNRESOLVED " + e["finding_ref"]) if e["binding_status"] == "UNRESOLVED" else '<span class="small">design 0.1.0</span>')
+            bind = pill("CONDITIONAL — do not display " + e["finding_ref"]) if cond else (pill("UNRESOLVED " + e["finding_ref"]) if e["binding_status"] == "UNRESOLVED" else '<span class="small">' + esc(binding_caption(S, e)) + '</span>')
             rows.append(f'<tr data-aud="{esc(e["audience"])}"><td><code>{esc(e["id"])}</code></td><td>{esc(e["audience"])}</td><td>{esc(e["semantic_state"] or "EMPTY")}</td><td>{esc(e["text"])}</td><td>{bind}</td></tr>')
     a(table(["Copy ID", "Audience", "State", "Text", "Binding"], rows, ' id="statetable"') + "</section>")
     # evidence
@@ -394,13 +410,13 @@ def build_html(S, source_hashes):
            "Evidence digests detect changes relative to a trusted copy; they are not legal certificates.",
            "No production security, high availability, disaster recovery, SSO, licensing or update infrastructure.",
            f"Capability register {'present' if reg['present'] else 'absent'} ({reg['finding']}); only master module IDs 19–25 are Version 2, and no replacement list is shown.",
-           "Contract 0.2.0 is a proposal pending Work review; copy bound to it stays UNRESOLVED.",
+           "Accepted contract " + S.copy.get("accepted_contract_version", "UNKNOWN") + "; executable candidate " + S.copy.get("executable_contract_version", "UNKNOWN") + ". Semantics, consumer implementation and tests are separate facts.",
            "No legal-compliance claim is made."]
     a('<section id="limits" aria-labelledby="h-li"><h2 id="h-li">Limitations</h2><ul class="plain">' + "".join(f"<li>{esc(x)}</li>" for x in lim) + "</ul></section>")
     # sources
     rows = [f"<tr><td><code>{esc(p)}</code></td><td><code>{d}</code></td></tr>" for p, d in source_hashes]
     a('<section id="sources" aria-labelledby="h-so"><h2 id="h-so">Sources</h2><p class="intro">SHA-256 of each input at build time. <code>python3 docs/reviews/cowork/tools/build_pack.py --check</code> reports drift.</p>' + table(["File", "SHA-256"], rows) + "</section>")
-    a(f'<footer>Prepared by the Cowork lane. Not the ORVIA application. Built from sources dated {esc(st["as_of"])}.</footer></main></div>')
+    a(f'<footer>Prepared by GPT Work, successor to Cowork. Not the ORVIA application. Built from sources dated {esc(st["as_of"])}.</footer></main></div>')
     a("""<script>
 (function(){
   function wire(selId, tableId, attr){
@@ -437,7 +453,7 @@ def build(root):
         data = out[p].encode("utf-8") if p in out else ((root / p).read_bytes() if (root / p).exists() else None)
         hashes.append((p, sha(data) if data is not None else "ABSENT"))
     out[OUT_HTML] = build_html(S, hashes)
-    manifest = {"document": "Cowork generated-output manifest", "as_of": S.status["as_of"],
+    manifest = {"document": "Work successor generated-output manifest", "as_of": S.status["as_of"],
                 "generator": "docs/reviews/cowork/tools/build_pack.py",
                 "inputs": {p: d for p, d in hashes if p in INPUTS + CONTEXT_SOURCES},
                 "outputs": {p: sha(out[p].encode("utf-8")) for p in (OUT_UX, OUT_SCRIPT, OUT_HANDOVER, OUT_HTML)}}

@@ -1,14 +1,14 @@
 # ORVIA prototype: acceptance journeys
 
-**Owner:** Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r3, 16 Sep 2026 IST · **Documentation base:** `e839b1a` (r2 was written against `96b8bd7`)
+**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4, 16 Sep 2026 UTC · **Documentation base:** `2432a008539450725129d19ff5fc6c2eee488031`
 
 ## Status
 
 These journeys define what a browser test, integration test or operator must do and observe. They are not evidence.
 
-**Results in this file.** The *Result* column copies the canonical status recorded by Work in `tracking/acceptance.json` at the documentation base. At `e839b1a` every result is NOT_RUN: only the A00 foundation page and `/healthz` exist, and A00's bootstrap checks are engineering subsets, not T01/T28 acceptance.
+**Results in this file.** The *Result* column copies the canonical status recorded by Work in `tracking/acceptance.json` at the documentation base. At the r4 base every full scenario remains NOT_RUN. A00/A01 are accepted increments; A02/A03/A04 and PR #16 correction reports are available for review. No full-scenario candidate acceptance or application browser run is supplied.
 
-**Updating results.** When real results exist, Cowork updates this column only from Work's canonical record and indexes the underlying artifacts in `docs/demo/EVIDENCE_INDEX.json`. A FAIL or ERROR is kept as recorded. Evidence existing, evidence inspected, an observed PASS and Work's acceptance are four different facts.
+**Updating results.** When real results exist, Work updates this column only from Work's canonical record and indexes the underlying artifacts in `docs/demo/EVIDENCE_INDEX.json`. A FAIL or ERROR is kept as recorded. Evidence existing, evidence inspected, an observed PASS and Work's acceptance are four different facts.
 
 **Which tests are mandatory.** All T01–T30 are mandatory P0 tests for the completed internal demo. Some are marked optional *to narrate live* in the demo script (for example T18 and T19); their test evidence is still required. T31–T34 stay unpromoted unless the human selects a permitted P1 slice.
 
@@ -19,15 +19,15 @@ These journeys define what a browser test, integration test or operator must do 
 - **Copy IDs:** from `docs/ux/UI_COPY.json`.
 - **Fixtures:** from `docs/prototype/DEMO_SCRIPT.md` §1.
 - **Routes and fields:**
-  - API routes are the design routes in CONTRACT 0.1.0.
-  - Where the executable proposal 0.2.0 (A00, `PENDING_W00`) is cited, it is a proposal, not an accepted binding.
-  - UI paths are Claude Code's decision.
+  - Use accepted 0.2.1 semantics and the current generated client; the UX_BRIEF r4 table distinguishes present producer source from pending acceptance.
+  - Executable 0.3.0 additions remain pending consolidated Work review; old r3 pending-W00 wording is superseded.
+  - UI paths are Codex's decision.
 
 ## Executors
 
 | Code | Who runs it | Where |
 |---|---|---|
-| **CC-E2E** | Claude Code | Playwright tests (`tests/e2e/**`) |
+| **CC-E2E** | Codex | Playwright tests (`tests/e2e/**`) |
 | **CX** | Codex | Integration, security and recovery tests |
 | **HUMAN** | Human operator | Manual checks |
 
@@ -68,7 +68,7 @@ These journeys define what a browser test, integration test or operator must do 
 | J20 | No runtime vendor or model egress | All core screens | T26 | HUMAN, CX, CC-E2E | NOT_RUN |
 | J21 | Screen states and accessibility sweep | All screens | T29, T27 (session/CSRF) | CC-E2E | NOT_RUN |
 | J22 | Reset and fault isolation | W-TESTLAB + operator | T28 | CX, HUMAN | NOT_RUN |
-| J23 | Frozen-candidate rehearsal and claims | Whole demo | T30 | HUMAN, Cowork review | NOT_RUN |
+| J23 | Frozen-candidate rehearsal and claims | Whole demo | T30 | HUMAN, Work review | NOT_RUN |
 | J24 | P1: rights intake coordination | Not specified | T31 | — | NOT_RUN (not a gate unless selected) |
 | J25 | P1: retention/hold review | Not specified | T32 | — | NOT_RUN (not a gate unless selected) |
 | J26 | P1: development licence import | Not specified | T33 | — | NOT_RUN (not a gate unless selected) |
@@ -171,7 +171,7 @@ Each journey lists:
   - Denied responses contain no Aster fields.
   - The export is refused.
   - The denial is audited, if A00 audits denials.
-  - The exact status code follows the F-014 decision.
+  - Use accepted scoped 404 for inaccessible resources and 403 for capability denial (F-014); verify actual context in the browser/API tests.
 - **Never:**
   - Aster names or counts in any Birch response.
 - **Evidence:**
@@ -246,7 +246,7 @@ Each journey lists:
   - Three coverage badges, derived from `connector`, `supports_restrict` and `supports_read`:
     - `state.coverage.automated_observable.label` ×2
     - `state.coverage.manual_only.label`
-  - The send gateway is explained in text only. It is not a configured system in 0.2.0 (F-018).
+  - The send gateway is explained in text only. It is not a configured system in the accepted 0.2.1 shape (F-018).
   - Identical content after the restart.
   - `systems.field.type.help`, with no URL or credential fields.
   - `purposes.published_fixed`.
@@ -288,7 +288,7 @@ Each journey lists:
 - **Timeout variant (CC-E2E + CX):**
   1. Drop the response after submitting the grant.
   2. **See:** `error.portal.network_change`, then `recovery.portal.heading`, `recovery.portal.retry_same` and `recovery.portal.check`.
-  3. Reload the page and select `recovery.portal.retry_same`. The request sent is byte-identical: same Idempotency-Key, `notice_version_id`, `interaction_id` and `expected_epoch`.
+  3. While the original request holder survives, select `recovery.portal.retry_same` after authorised recovery: same Idempotency-Key, exact payload, `notice_version_id`, `interaction_id` and `expected_epoch`. Separately reload the full document: until the accepted durable recovery mechanism exists, assert an honest unavailable-recovery state, no fabricated key/epoch and no assertion of rollback (UX_BRIEF C00-R4-RECOVERY).
   4. **True:**
      - If the first request committed, the original receipt is returned and `recovery.portal.resolved_saved` is shown.
      - If a different change intervened, `EPOCH_CONFLICT` leads to `recovery.portal.resolved_conflict`, which appears only after a successful reload.
@@ -415,7 +415,7 @@ Each journey lists:
     - `state.observation.NOT_CHECKED.label`
     - `state.workflow.NEEDS_ATTENTION.label`
   - While waiting for the 202: `reconcile.pending`. This is transient button text only.
-  - After: a durable reconciliation record from the workflow, shown with `state.reconciliation.*`. This uses the values proposed in 0.2.0 and is pending W00 (F-008).
+  - After: a durable reconciliation record from the workflow, shown with `state.reconciliation.*`. The reconciliation values are accepted in 0.2.1; A05 producer and B03 consumer execution/evidence remain pending (F-008/F-019).
     - For RESOLVED: `reconcile.result.observed` plus the linked `state.observation.OBSERVED_SATISFIED.detail`.
     - For INCONCLUSIVE or FAILED: `reconcile.result.unresolved`.
   - The uncertain attempt still shows `Outcome unknown` in history.
@@ -429,7 +429,7 @@ Each journey lists:
   - A blind retry.
   - Unknown turned into observed without an observation record.
   - A reconciliation state shown only in the browser with no durable server record.
-  - Canonical states invented by the UI or by Cowork (F-008).
+  - Canonical states invented by the UI or documentation (F-008).
 - **Evidence:**
   - Simulator call log
   - Action history
@@ -533,7 +533,7 @@ Each journey lists:
   4. Open W-ATTENTION.
 - **See:**
   - `overview.subheading`.
-  - Separate cards for the counts the accepted contract provides. 0.2.0 proposes `overview.card.unknown`, `.failed`, `.manual` and `.unverified` alongside the workflow states.
+  - Separate cards for the counts the accepted contract provides. Accepted 0.2.1 defines `overview.card.unknown`, `.failed`, `.manual` and `.unverified` alongside the workflow states.
   - `.unverifiable`, `.not_satisfied` and `.stale` appear only if the accepted contract adds those counts (F-007).
   - While loading: `global.loading.count`, with no digits.
   - On failure: `global.count.unavailable` with `global.action.retry`.
@@ -584,7 +584,7 @@ Each journey lists:
 - **See:**
   - `testlab.run_header` on every run.
   - Result badges from `state.test.*`.
-  - `testlab.broken_fixture_note`, only where the run record's `expected_fault_detection` is true (0.2.0 proposal; F-010).
+  - `testlab.broken_fixture_note`, only where the run record's `expected_fault_detection` is true (accepted 0.2.1 field; A06/B04 result evidence pending, F-010).
   - The failing assertion's actual observed violation.
 - **True:**
   - Results are persisted per assertion.
@@ -653,7 +653,7 @@ Each journey lists:
 
 ### J21 — Screen states and accessibility sweep (T29, T27 session parts)
 
-- **Actor:** Claude Code.
+- **Actor:** Codex.
 - **Checks, for every screen in UX_BRIEF §4:**
   - **Empty:** the screen's `*.empty` copy.
   - **Loading:** `global.loading.*`.
@@ -691,7 +691,7 @@ Each journey lists:
 
 ### J23 — Frozen-candidate rehearsal and claims (T30)
 
-- **Actor:** Human presenter; Cowork reviews.
+- **Actor:** Human presenter; Work reviews.
 - **Steps:**
   1. Rehearse `DEMO_SCRIPT.md` twice on the frozen candidate, from the documented state.
   2. Check every spoken claim against `CLAIMS_REGISTER.md` and `EVIDENCE_INDEX.json`.
@@ -719,3 +719,28 @@ Each P1 test carries this constraint from ACCEPTANCE.md:
 | T32 | No destructive action |
 | T33 | Development licence only |
 | T34 | Non-model and no egress |
+
+## r4 route, presentation and fallback cross-check
+
+Actor, preconditions, steps, expected facts, test IDs and required artifacts remain in each journey above. This table completes the operator/presenter binding; all application UI routes remain required-but-unimplemented at the inspected base. The exact API interfaces and their acceptance state are in UX_BRIEF's r4 table. Never substitute the offline pack for a live screen.
+
+| Journey | Supported producer action / dependency | Presenter text | Honest fallback |
+|---|---|---|---|
+| J00 | Operator profile/preflight/build; A07 package absent | “This is the identified local synthetic build.” Only say this with its manifest. | Show source identity and say no frozen candidate. |
+| J01 | A01 auth clients/session; B01 screen | “Staff authority requires the actual authenticated session and MFA.” | Record missing browser flow; no role-switch simulation. |
+| J02–J03 | Scoped auth/resource endpoints; B01/B02 denial tests | “This identity cannot access that scope.” | Show actual denied response only; missing trace stays NOT_RUN. |
+| J04–J05 | A02 configuration, exact reviewer reauth/publish and mappings | “Another authorised reviewer approves this exact version.” | Explain candidate review gap; do not play a successful mock. |
+| J06–J07 | Own choices/grant/withdraw/receipt/history; B02 | “The receipt records acceptance; propagation is separate.” | Preserve uncertain outcome and original request; no new key/reloaded epoch retry. |
+| J08 | A03 workflow/agent and independent read | “The target change and the separate read are different evidence.” | State source/report scope; absent current browser evidence remains absent. |
+| J09 | Actual machine admission and Test Lab evidence; A04/B04 pending | “This result concerns this supported send point.” | Preview is not send evidence; show missing gate. |
+| J10–J12 | A05 reconcile/faults; B03/B04 pending | “Unknown, acknowledged and known failure remain distinct.” | Keep original failure/ERROR and partial assertions; no complete PASS. |
+| J13 | A05 manual/coverage; B03 pending | “This is a person's statement, not an independent observation.” | Leave required unresolved obligations visible. |
+| J14 | A02 replay; A03/A06 current target-generation controls | “An old event cannot create new authority.” | No inferred success without recorded race/replay assertions. |
+| J15–J16 | A05 overview/evidence/export; B03 pending | “Counts and export reflect scoped stored facts.” | Mark unavailable, never zero or fabricated download. |
+| J17 | A06 Test Lab healthy/broken/healthy; B04 | “This deliberately broken fixture produces an actual failed assertion.” | Keep FAIL/ERROR and inspect partial assertions; no relabelled healthy pass. |
+| J18–J19 | A03 worker controls; A06 quarantined restore procedure pending | “Recovery is bounded to this tested profile and target.” | Do not run ad hoc interruption/reset/restore. |
+| J20–J22 | A06 egress/hygiene/reset and B06 accessibility | “These are measured checks on this candidate.” | State NOT_RUN; a document browser render proves no application property. |
+| J23 | A07/B06 exact build plus two qualifying T30 rehearsals | “These two distinct runs used the same documented candidate state.” | Show zero qualifying runs until real logs pass intake. |
+| J24–J27 | Four unpromoted P1 definitions | “These remain outside this demo's selected scope.” | No invented implementation or promotion. |
+
+CC-E2E is retained as the historical executor code for compatibility; its current owner is Codex. C00 documents have no B00 acceptance dependency. Codex's consumer cross-check is review, not a requirement that UI implementation be complete before C00 can be accepted.

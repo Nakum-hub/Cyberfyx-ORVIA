@@ -3,7 +3,7 @@
 **Current executable candidate:** 0.3.0 from A02 at `3242521e59966885d8053747a82d96cb92ea55d5`, human-integrated in `004fe3d`. It adds configuration/consent implementation and four coordinated routes. Work's [A02 review](../reviews/work/W01_A02_REVIEW.md) requires W01-A02-F01 correction/retest before candidate acceptance. The 0.2.1 acceptance below remains the historical baseline, not a claim that current executable schemas are still 0.2.1. See section 10 for candidate additions.
 
 **Status:** Work accepts executable version 0.2.1 at `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`; see [acceptance review](../reviews/work/W00_A00_ACCEPTANCE.md). This freezes interfaces/semantics, not completed business endpoints or full application acceptance.
-**Schema writer:** Codex. **Semantic reviewer:** Work. **Consumer:** Claude Code.
+**Schema writer:** Codex. **Semantic reviewer:** Work. **Consumer:** Codex (transferred UI/B IDs).
 
 **Implementation checkpoint:** Work accepts A01 at `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`; see [W01 authority review](../reviews/work/AUTH_AND_CONSENT.md). Auth mounts, session and principal list/create now join health as implemented interfaces. This updates implementation status only; contract semantics remain 0.2.1 and W01 awaits A02.
 

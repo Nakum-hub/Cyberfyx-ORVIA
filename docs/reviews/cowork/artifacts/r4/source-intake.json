@@ -1,0 +1,195 @@
+{
+  "inspected_base": "0a2671640223087626d8e422396efb1363981ed9",
+  "observed_at": "2026-09-16T19:12:37Z",
+  "authored_by": "GPT Work, successor to Cowork",
+  "master_bytes": 850752,
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "v1_kit_sha256": "191276b630edc970cb22c0781756cbebafb65bfb95131f10c96cecd895d1411c",
+  "capabilities_original_sha256": "34ba16bbebdad5c21a4851341ef011be3518176ad6836f1521b5ae130b347669",
+  "module_ids_names": [
+    {
+      "module_id": "M01",
+      "name": "Identity and Access Management",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M02",
+      "name": "Tenant Management",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M03",
+      "name": "Privacy Control Graph",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M04",
+      "name": "Policy Engine",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M05",
+      "name": "Workflow Engine",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M06",
+      "name": "Connector Framework",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M07",
+      "name": "Verification Engine",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M08",
+      "name": "Evidence Engine",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M09",
+      "name": "Privacy Test Engine",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M10",
+      "name": "Notification Engine",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M11",
+      "name": "Consent Management",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M12",
+      "name": "Notice Management",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M13",
+      "name": "Data Principal Portal",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M14",
+      "name": "Rights Management",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M15",
+      "name": "Retention Management",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M16",
+      "name": "Processor/Vendor Management",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M17",
+      "name": "Privacy Incident Explorer",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M18",
+      "name": "Coverage and Failure Center",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M19",
+      "name": "AI Privacy Copilot",
+      "target_product": "V2"
+    },
+    {
+      "module_id": "M20",
+      "name": "AI Discovery",
+      "target_product": "V2"
+    },
+    {
+      "module_id": "M21",
+      "name": "AI Policy Builder",
+      "target_product": "V2"
+    },
+    {
+      "module_id": "M22",
+      "name": "AI Workflow Builder",
+      "target_product": "V2"
+    },
+    {
+      "module_id": "M23",
+      "name": "AI Risk/Drift Analysis",
+      "target_product": "V2"
+    },
+    {
+      "module_id": "M24",
+      "name": "AI Test Generation",
+      "target_product": "V2"
+    },
+    {
+      "module_id": "M25",
+      "name": "AI Incident Analysis",
+      "target_product": "V2"
+    },
+    {
+      "module_id": "M26",
+      "name": "Billing",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M27",
+      "name": "Licensing",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M28",
+      "name": "Entitlements",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M29",
+      "name": "Customer Onboarding",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M30",
+      "name": "Support Bundle System",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M31",
+      "name": "Updates",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M32",
+      "name": "Monitoring",
+      "target_product": "V1"
+    },
+    {
+      "module_id": "M33",
+      "name": "Audit Administration",
+      "target_product": "V1"
+    }
+  ],
+  "kit_owned_document_hashes": {
+    "docs/prototype/UX_BRIEF.md": "615e4cae95fcfec020f708693e977acc791152f989b8cdfda77a309bc9279b32",
+    "docs/prototype/DEMO_SCRIPT.md": "38c3c48be4947aaa8ea517abb6fe70f53e96a8239f3c7f16494f79c81482e287",
+    "docs/prototype/RELEASE_CHECKLIST.md": "9758a5f6b1623e61ee7d869eeb2d6990afe224bb07bd62d7e0e36db5d7a36164"
+  },
+  "kit_comparison": "Kit UX/demo/release files are scaffolds. Retain r3 implementation-ready substance; do not replace it with older kit defaults.",
+  "engineering_reports_inspected": 160,
+  "engineering_nonzero_exits": 29,
+  "merge_facts": {
+    "PR15": "0a2671640223087626d8e422396efb1363981ed9",
+    "PR16": "c0ee94dc6c03c2c2ee90d84d3b40669dbcc04c17"
+  },
+  "limits": [
+    "Application commands not run by this session",
+    "No candidate freeze",
+    "No application browser/test PASS",
+    "No task acceptance",
+    "Source originals unchanged"
+  ]
+}
