@@ -107,7 +107,7 @@ export function formatTime(value: string | null | undefined): string {
   if (!value) return '—';
   const parsed = Date.parse(value);
   if (Number.isNaN(parsed)) return value;
-  return new Date(parsed).toLocaleString(undefined, { hour12: false });
+  return new Date(parsed).toLocaleString(undefined, { hour12: false, timeZoneName: 'short' });
 }
 
 export function formatId(value: string | null | undefined): string {

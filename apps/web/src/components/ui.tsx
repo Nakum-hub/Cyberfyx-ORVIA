@@ -124,7 +124,7 @@ export function QueryBoundary<T>({ query, label, dependency, isEmpty, empty, chi
   }
   if (query.status === 'loading' || (query.status === 'idle' && !query.data)) return <Loading label={label} />;
   if (!query.data) return <Loading label={label} />;
-  if (isEmpty?.(query.data)) return <>{empty ?? <EmptyState title="Nothing recorded yet"><p>No records exist for this scope in the synthetic profile.</p></EmptyState>}</>;
+  if (isEmpty?.(query.data)) return <>{query.failure ? <FailureState failure={query.failure} onRetry={query.refresh} /> : null}{empty ?? <EmptyState title="Nothing recorded yet"><p>No records exist for this scope in the synthetic profile.</p></EmptyState>}</>;
   return (
     <>
       {query.failure ? <FailureState failure={query.failure} onRetry={query.refresh} /> : null}
@@ -307,4 +307,8 @@ export function ConfirmDialog({ title, confirmLabel, tone = 'primary', onConfirm
 
 export function PendingHint({ children }: { children: ReactNode }) {
   return <p className="muted" role="status" aria-live="polite">{children}</p>;
+}
+
+export function Pagination({ query }: { query: { data: { next_cursor: string | null } | null; status: string; page: number; hasPrevious: boolean; next: (cursor:string) => void; previous: () => void } }) {
+  return <nav aria-label="Result pages" className="row"><button type="button" disabled={!query.hasPrevious || query.status === 'loading'} onClick={query.previous}>Previous page</button><span>Page {query.page}</span><button type="button" disabled={!query.data?.next_cursor || query.status === 'loading'} onClick={() => { if(query.data?.next_cursor) query.next(query.data.next_cursor); }}>Next page</button></nav>;
 }

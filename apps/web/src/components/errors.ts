@@ -77,17 +77,20 @@ export function describeFailure(error: unknown, options: { write?: boolean } = {
       retry: envelope.retry,
       requestId: error.envelope.request_id,
       fieldErrors: envelope.field_errors ? [...envelope.field_errors] : [],
-      outcomeUnknown: false,
+      outcomeUnknown: write && error.status >= 500,
       sameKeyRetry: envelope.retry === 'SAME_IDEMPOTENCY_KEY',
       needsReauthentication: envelope.retry === 'REAUTHENTICATE' || error.status === 401,
     };
+  }
+  if (error instanceof DOMException && (error.name === 'TimeoutError' || (write && error.name === 'AbortError'))) {
+    return blank('NETWORK', write ? 'Outcome unknown' : 'Request timed out', 'No authoritative response was received. Preserve this request; read current state and replay the same request before starting another decision.', write);
   }
   if (error instanceof DOMException && error.name === 'AbortError') {
     return blank('ABORTED', 'Request cancelled', 'This request was superseded and its response was discarded.', false);
   }
   if (error instanceof SyntaxError || (error instanceof Error && error.name === 'ZodError')) {
     return blank('MALFORMED', 'Contract validation failed',
-      'A request or response value did not validate against contract 0.3.0. The outcome is unverified and must not be read as success.', write);
+      'A request or response did not validate against the current generated contract. The outcome is unverified and must not be read as success.', write);
   }
   if (error instanceof TypeError) {
     return blank('NETWORK', write ? 'Outcome unknown' : 'Server unreachable',

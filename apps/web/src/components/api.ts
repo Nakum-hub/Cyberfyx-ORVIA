@@ -19,7 +19,8 @@ export const POLL = {
 export const CONTRACT_VERSION = interfaces.contract_version;
 export const CONTRACT_REVIEW_STATUS = interfaces.review_status;
 
-const client = createClient((input, init) => fetch(input, init));
+const client = createClient((input, init) => fetch(input, { ...init, signal: init?.signal
+  ? AbortSignal.any([init.signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000) }));
 
 export type Operation = keyof EndpointMap;
 export type CallOptions = { params?: Record<string, string>; cursor?: string; limit?: number; idempotency_key?: string; signal?: AbortSignal };
@@ -77,6 +78,7 @@ export type QueryOptions<T> = {
   enabled?: boolean;
   params?: Record<string, string>;
   limit?: number;
+  cursor?: string;
   /** Return true while the result should continue to be polled. */
   pollWhile?: (data: T) => boolean;
 };
@@ -87,7 +89,7 @@ export type QueryOptions<T> = {
  */
 export function useQuery<K extends Operation>(operation: K, options: QueryOptions<EndpointMap[K]['response']> = {}): Query<EndpointMap[K]['response']> {
   type Result = EndpointMap[K]['response'];
-  const { enabled = true, params, limit, pollWhile } = options;
+  const { enabled = true, params, limit, cursor, pollWhile } = options;
   const [state, setState] = useState<{ status: QueryStatus; data: Result | null; failure: UiFailure | null; loadedAt: number | null }>(
     { status: 'idle', data: null, failure: null, loadedAt: null });
   const [tick, setTick] = useState(0);
@@ -113,10 +115,10 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     const effectiveParams = JSON.parse(paramsKey) as Record<string, string> | null;
 
     const read = async (isRefresh: boolean) => {
-      setState(previous => ({ ...previous, status: isRefresh ? 'refreshing' : 'loading' }));
+      setState(previous => isRefresh ? { ...previous, status: 'refreshing' } : { status: 'loading', data: null, failure: null, loadedAt: null });
       try {
         const data = await client.call(operation, undefined as EndpointMap[K]['request'],
-          { ...(effectiveParams ? { params: effectiveParams } : {}), ...(limit ? { limit } : {}), signal: controller.signal }) as Result;
+          { ...(effectiveParams ? { params: effectiveParams } : {}), ...(limit ? { limit } : {}), cursor, signal: controller.signal }) as Result;
         // A response that outlived its actor or its screen is discarded, never rendered.
         if (cancelled || requestIdentity !== identity) return;
         setState({ status: 'ready', data, failure: null, loadedAt: Date.now() });
@@ -126,7 +128,9 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
         if (cancelled || requestIdentity !== identity) return;
         const failure = describeFailure(error);
         if (failure.kind === 'ABORTED') return;
-        setState(previous => ({ status: 'error', data: previous.data, failure, loadedAt: previous.loadedAt }));
+        const denied = failure.status === 401 || failure.status === 403 || failure.status === 404;
+        setState(previous => ({ status: 'error', data: denied ? null : previous.data, failure, loadedAt: denied ? null : previous.loadedAt }));
+        if (failure.status === 401) globalThis.dispatchEvent(new globalThis.Event('orvia-session-invalid'));
         if (pollRef.current) {
           backoff = Math.min(backoff * 2, POLL.maximumBackoffMs);
           timer = setTimeout(() => void read(true), backoff);
@@ -135,7 +139,7 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     };
     void read(false);
     return () => { cancelled = true; controller.abort(); if (timer) clearTimeout(timer); };
-  }, [operation, enabled, paramsKey, limit, tick]);
+  }, [operation, enabled, paramsKey, limit, cursor, tick]);
 
   const refresh = useCallback(() => setTick(value => value + 1), []);
   return { ...state, refresh };
@@ -155,6 +159,8 @@ export type Mutation<K extends Operation> = {
   reset: () => void;
   /** Starts a new interaction: a genuinely new request gets a new key. */
   newInteraction: () => void;
+  retry: () => Promise<EndpointMap[K]['response'] | null>;
+  unsettled: boolean;
 };
 
 function stableStringify(value: unknown): string {
@@ -179,37 +185,68 @@ export function useMutation<K extends Operation>(operation: K, needsKey: boolean
     { status: 'idle', result: null, failure: null });
   const keyRef = useRef<{ digest: string; key: string } | null>(null);
   const inFlight = useRef(false);
+  const generation = useRef(0);
+  const requestRef = useRef<{ input: EndpointMap[K]['request']; options: { params?: Record<string,string> } } | null>(null);
+  const unsettled = useRef(false);
 
   useEffect(() => onIdentityChange(() => {
     keyRef.current = null;
+    generation.current += 1;
+    requestRef.current = null;
+    unsettled.current = false;
     setState({ status: 'idle', result: null, failure: null });
   }), []);
+  useEffect(() => () => { generation.current += 1; }, []);
 
   const run = useCallback(async (input: EndpointMap[K]['request'], options: { params?: Record<string, string> } = {}) => {
     if (inFlight.current) return null; // duplicate submit while pending is ignored
+    const digest = stableStringify({ input: input ?? null, params: options.params ?? null });
+    if (unsettled.current && keyRef.current?.digest !== digest) return null;
+    const requestIdentity = identity;
+    const requestGeneration = generation.current;
     inFlight.current = true;
+    requestRef.current = { input: structuredClone(input), options: structuredClone(options) };
     setState({ status: 'pending', result: null, failure: null });
     let key: string | undefined;
     if (needsKey) {
-      const digest = stableStringify({ input: input ?? null, params: options.params ?? null });
       if (!keyRef.current || keyRef.current.digest !== digest) keyRef.current = { digest, key: newIdempotencyKey() };
       key = keyRef.current.key;
     }
     try {
       const result = await client.call(operation, input, { ...(options.params ? { params: options.params } : {}), ...(key ? { idempotency_key: key } : {}) }) as Result;
+      if (requestGeneration !== generation.current || requestIdentity !== identity) return null;
+      unsettled.current = false;
       setState({ status: 'done', result, failure: null });
       return result;
     } catch (error) {
-      setState({ status: 'error', result: null, failure: describeFailure(error, { write: true }) });
+      if (requestGeneration !== generation.current || requestIdentity !== identity) return null;
+      const failure = describeFailure(error, { write: true });
+      unsettled.current = needsKey && (failure.outcomeUnknown || failure.code === 'IDEMPOTENCY_CONFLICT');
+      if (failure.status === 401) globalThis.dispatchEvent(new globalThis.Event('orvia-session-invalid'));
+      setState({ status: 'error', result: null, failure });
       return null;
     } finally {
       inFlight.current = false;
     }
   }, [operation, needsKey]);
 
-  const reset = useCallback(() => setState({ status: 'idle', result: null, failure: null }), []);
-  const newInteraction = useCallback(() => { keyRef.current = null; setState({ status: 'idle', result: null, failure: null }); }, []);
-  return { ...state, run, reset, newInteraction };
+  const reset = useCallback(() => { if (!unsettled.current) setState({ status: 'idle', result: null, failure: null }); }, []);
+  const newInteraction = useCallback(() => { if (unsettled.current || inFlight.current) return; keyRef.current = null; requestRef.current = null; setState({ status: 'idle', result: null, failure: null }); }, []);
+  const retry = useCallback(() => requestRef.current ? run(requestRef.current.input, requestRef.current.options) : Promise.resolve(null), [run]);
+  return { ...state, run, reset, newInteraction, retry, unsettled: unsettled.current };
+}
+
+/** Each page is rendered only after its own real response; an empty page may still have a next cursor. */
+export function usePagedQuery<K extends Operation>(operation: K, options: Omit<QueryOptions<EndpointMap[K]['response']>, 'cursor'> = {}) {
+  const [cursors, setCursors] = useState<(string | undefined)[]>([undefined]);
+  const paramsKey = JSON.stringify(options.params ?? null);
+  useEffect(() => { setCursors([undefined]); }, [paramsKey]);
+  useEffect(() => onIdentityChange(() => setCursors([undefined])), []);
+  const query = useQuery(operation, { ...options, cursor: cursors.at(-1) });
+  return { ...query, page: cursors.length, hasPrevious: cursors.length > 1,
+    next: (cursor: string) => setCursors(previous => [...previous, cursor]),
+    previous: () => setCursors(previous => previous.length > 1 ? previous.slice(0,-1) : previous),
+    first: () => setCursors([undefined]) };
 }
 
 /** Convenience for one-off reads outside the hook lifecycle (exports, recovery). */

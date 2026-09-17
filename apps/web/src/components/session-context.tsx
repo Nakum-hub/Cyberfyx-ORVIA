@@ -29,6 +29,22 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<{ status: SessionState['status']; session: Session | null; failure: UiFailure | null }>(
     { status: 'loading', session: null, failure: null });
   const [tick, setTick] = useState(0);
+  useEffect(() => {
+    // A focus recheck must not destroy an unresolved same-tab request holder.
+    // The authenticated response below invalidates data if authority changed.
+    const recheck = () => setTick(value => value + 1);
+    const visible = () => { if (globalThis.document.visibilityState === 'visible') recheck(); };
+    globalThis.addEventListener('pageshow', recheck);
+    globalThis.addEventListener('focus', recheck);
+    globalThis.addEventListener('orvia-session-invalid', recheck);
+    globalThis.document.addEventListener('visibilitychange', visible);
+    return () => { globalThis.removeEventListener('pageshow', recheck); globalThis.removeEventListener('focus', recheck); globalThis.removeEventListener('orvia-session-invalid', recheck); globalThis.document.removeEventListener('visibilitychange', visible); };
+  }, []);
+  useEffect(() => {
+    if (!state.session) return;
+    const timer = setTimeout(() => { setIdentity('anonymous'); setState({ status: 'unauthenticated', session: null, failure: null }); setTick(value => value + 1); }, Math.max(0, Date.parse(state.session.expires_at) - Date.now()));
+    return () => clearTimeout(timer);
+  }, [state.session]);
 
   useEffect(() => {
     let cancelled = false;
@@ -115,5 +131,5 @@ export function DomainGuard({ domain, signInHref, children }: { domain: 'STAFF' 
       </NoticeBox>
     );
   }
-  return <>{children(session)}</>;
+  return <div key={identityKey(session)}>{children(session)}</div>;
 }
