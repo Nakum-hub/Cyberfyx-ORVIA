@@ -114,8 +114,11 @@ def record_errors(root, r):
         report_path = r.get('report_path')
         if report_path not in r.get('artifact_paths', []): raise ValueError('report absent from required artifacts')
         report = json.loads(local_file(root, report_path).read_text())
-        for k in ('code_under_test_commit', *IDENTITY, 'command', 'started_at', 'finished_at', 'exit_code', 'observed_result', 'run_role'):
+        for k in ('record_id', 'task_id', 'producing_lane', 'source_handoff', 'code_under_test_commit', *IDENTITY, 'command', 'started_at', 'finished_at', 'exit_code', 'observed_result', 'run_role'):
             if report.get(k) != r.get(k): errors.append('report content mismatch: ' + k)
+        children = report.get('artifact_paths', [])
+        if not isinstance(children, list) or not all(isinstance(p, str) for p in children) or not set(children).issubset(r.get('artifact_paths', [])):
+            errors.append('report required child artifact not indexed')
         if r.get('test_id') not in report.get('test_ids', []): errors.append('report test scope mismatch')
         if report.get('kind') not in ('APPLICATION_ACCEPTANCE', 'BROWSER_ACCEPTANCE') or report.get('coverage') != 'FULL_SCENARIO':
             errors.append('report is not full application/browser scenario evidence')
@@ -139,7 +142,15 @@ def qualified(root, r, candidate):
             and r.get('run_role') in ('NORMAL', 'HEALTHY_RERUN') and not record_errors(root, r))
 
 
-def test_qualifies(root, test, candidate):
+def test_qualifies(root, test, candidate, all_tests=None):
+    records = test.get('records', [])
+    # Generation uses this rule too, before the full validator runs. Fail closed on
+    # misfiled or ambiguous records instead of rendering a misleading green count.
+    if not test.get('test_id') or any(r.get('test_id') != test['test_id'] for r in records): return False
+    indexed = all_tests if all_tests is not None else [test]
+    if sum(t.get('test_id') == test['test_id'] for t in indexed) != 1: return False
+    ids = [r.get('record_id') for t in indexed for r in t.get('records', [])]
+    if any(not r.get('record_id') or ids.count(r['record_id']) != 1 for r in records): return False
     recs = [r for r in test.get('records', []) if matches(r, candidate)]
     normal = [r for r in recs if r.get('run_role') != 'EXPECTED_DETECTION']
     if not normal or any(not date(r.get('started_at')) or not date(r.get('finished_at')) for r in normal): return False
@@ -201,10 +212,31 @@ def readiness_errors(root, key, r):
     return errors
 
 
+def consumer_evidence_errors(root, entry):
+    """A reference alone is not proof that a consumer was tested."""
+    try:
+        ev = json.loads(local_file(root, 'docs/demo/EVIDENCE_INDEX.json').read_text())
+        records = [(t, r) for t in ev.get('test_evidence', []) for r in t.get('records', [])
+                   if r.get('record_id') == entry.get('consumer_evidence_ref')]
+        if len(records) != 1: raise ValueError('tested consumer lacks unique execution evidence')
+        test, rec = records[0]
+        candidate = ev.get('frozen_candidate', {})
+        if not qualified(root, rec, candidate) or not test_qualifies(root, test, candidate, ev['test_evidence']):
+            raise ValueError('tested consumer lacks current candidate-qualified execution')
+        raw = json.loads(local_file(root, rec['report_path']).read_text())
+        if entry['id'] not in raw.get('copy_ids', []): raise ValueError('consumer evidence does not cover this copy ID')
+    except (ValueError, OSError, TypeError) as err:
+        return [str(err)]
+    return []
+
+
 def approval_errors(root, copy):
     approvals = {a.get('id'): a for a in copy.get('contract_approvals', [])}
     errors = []
     for e in copy.get('entries', []):
+        # Execution evidence is required independently of semantic approval state.
+        if e.get('consumer_binding') == 'TESTED':
+            errors.extend(e['id'] + ': ' + p for p in consumer_evidence_errors(root, e))
         accepted = e.get('binding_status') == 'ACCEPTED_CONTRACT'
         if e.get('contract_proposal_ref') and not accepted and e.get('binding_status') != 'UNRESOLVED':
             errors.append(e['id'] + ': proposal bypasses approval lifecycle')
@@ -225,15 +257,29 @@ def approval_errors(root, copy):
             if not field.get('quote') or field['quote'] not in content: raise ValueError('accepted field source mismatch')
             if e.get('consumer_binding') not in ('NOT_IMPLEMENTED','NOT_INSPECTED','IMPLEMENTED_UNTESTED','TESTED'):
                 raise ValueError('consumer binding fact absent')
-            if e.get('consumer_binding') == 'TESTED' and not e.get('consumer_evidence_ref'): raise ValueError('tested consumer lacks evidence')
         except (ValueError, OSError, TypeError) as err:
             errors.append(e['id'] + ': ' + str(err))
     return errors
 
 
+def display_rules_digest(copy):
+    """Bind the exact authored mappings/predicates to their scoped review."""
+    payload = {key: copy.get(key) for key in ('reason_mappings', 'overview_bindings')}
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+
+
 def copy_safety_errors(root, copy):
     """Check Work's display contract, never infer application implementation."""
     errors = []
+    review = copy.get('display_rules_review', {})
+    try:
+        data = local_file(root, review.get('path')).read_bytes()
+        if hashlib.sha256(data).hexdigest() != review.get('sha256'):
+            errors.append('display-rule review hash mismatch')
+        if 'Reviewed display-rule SHA-256: `' + display_rules_digest(copy) + '`' not in data.decode():
+            errors.append('reason mappings or overview predicates disagree with their scoped review')
+    except (ValueError, OSError, TypeError) as err:
+        errors.append('display-rule review: ' + str(err))
     entries = {e['id']: e for e in copy.get('entries', [])}
     for ident in ('error.staff.503', 'error.staff.network_change', 'error.portal.503'):
         entry = entries.get(ident, {})
@@ -319,7 +365,7 @@ def screen_errors(root, screens, ev):
                 raw = json.loads(local_file(root,r['report_path']).read_text())
                 if raw.get('kind') != 'BROWSER_ACCEPTANCE' or sid not in raw.get('screen_ids',[]): raise ValueError('source-only or unrelated screen record cannot support browser result')
                 t = next(t for t in ev['test_evidence'] if t['test_id']==r['test_id'])
-                if s['tested']=='PASS' and not test_qualifies(root,t,candidate): raise ValueError('screen PASS superseded or unqualified')
+                if s['tested']=='PASS' and not test_qualifies(root,t,candidate,ev['test_evidence']): raise ValueError('screen PASS superseded or unqualified')
             except (ValueError, OSError, StopIteration) as err:
                 errors.append(str(sid)+': '+str(err))
     return errors
@@ -351,8 +397,19 @@ def rehearsal_errors(root, r):
         if r.get('log_path') not in r.get('artifact_paths',[]): raise ValueError('rehearsal log is not a required artifact')
         if r.get('start_state_ref') not in r.get('artifact_paths',[]): raise ValueError('documented rehearsal start state is not integrity checked')
         log=json.loads(local_file(root,r.get('log_path')).read_text())
-        for key in ('rehearsal_id','code_under_test_commit',*IDENTITY,'started_at','finished_at','result','status','issues','start_state_ref'):
+        for key in ('rehearsal_id','code_under_test_commit',*IDENTITY,'started_at','finished_at','result','status','issues','start_state_ref','performed_by'):
             if r.get(key) != log.get(key): errors.append('rehearsal log content mismatch: '+key)
+        if not set(log.get('artifact_paths', [])).issubset(r.get('artifact_paths', [])):
+            errors.append('rehearsal required child artifact not indexed')
+        start = json.loads(local_file(root, r['start_state_ref']).read_text())
+        for key in ('rehearsal_id', 'code_under_test_commit', *IDENTITY):
+            if r.get(key) != start.get(key): errors.append('rehearsal start state content mismatch: ' + key)
+        if start.get('kind') != 'REHEARSAL_START_STATE' or not start.get('documented_start'):
+            errors.append('documented rehearsal start state absent')
+        if not ordered(start.get('captured_at'), r.get('started_at')):
+            errors.append('rehearsal start state must be recorded before execution')
+        if not set(start.get('artifact_paths', [])).issubset(r.get('artifact_paths', [])):
+            errors.append('rehearsal start-state child artifact not indexed')
         if log.get('kind') != 'REHEARSAL_EXECUTION': errors.append('not a rehearsal execution log')
         if not log.get('steps') or not all(isinstance(s,dict) and s.get('actual') and s.get('result') for s in log['steps']): errors.append('rehearsal actual steps absent')
         if r.get('result')=='PASS' and [s.get('step') for s in log.get('steps',[])] != list(range(1,13)):

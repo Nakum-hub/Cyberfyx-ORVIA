@@ -6,7 +6,7 @@
   "revision": "c00-c02-r4-completion",
   "documentation_base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
   "history_note": "r2 (base 96b8bd7) used schema v1 with one source inspection. r3 keeps that inspection as EV-SRC-001 and the e5cdef3 inspection made at 09:09Z (during an interrupted r3 attempt) as EV-SRC-002, both HISTORICAL, and adds EV-SRC-003 at e839b1a. Per-test evidence lives in records lists so real results can be indexed without overwriting history. Work continuation after PR18 merge and PR19 A05 preserves EV-SRC-006 and all former reports; EV-SRC-007 is the current source observation.",
-  "current_source_inspection_id": "EV-SRC-007",
+  "current_source_inspection_id": "EV-SRC-008",
   "frozen_candidate": {
     "status": "NOT_IDENTIFIED",
     "commit": null,
@@ -76,7 +76,8 @@
       "INSPECTED",
       "INSPECTED_WITH_FINDINGS",
       "HISTORICAL_INSPECTION"
-    ]
+    ],
+    "raw_report_rules": "Record/task/producer/handoff identity and full candidate/result identity must match. All child artifact_paths named by the raw report must be indexed and hash verified. Enclosing test ID and globally unique record IDs are required for candidate counts and claims."
   },
   "source_inspections": [
     {
@@ -760,7 +761,7 @@
     {
       "evidence_id": "EV-SRC-007",
       "kind": "source_inspection",
-      "status": "CURRENT",
+      "status": "HISTORICAL",
       "performed_by": "GPT Work, successor to Cowork",
       "performed_at": "2026-09-16T20:12:06Z",
       "commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
@@ -959,6 +960,209 @@
       },
       "review_status": "INSPECTED",
       "limitations": "Source and supplied report inspection only; no runtime/application/browser/rehearsal rerun. Capability register is recovered in this delivery, absent at the inspected base."
+    },
+    {
+      "evidence_id": "EV-SRC-008",
+      "kind": "source_inspection",
+      "status": "CURRENT",
+      "performed_by": "GPT Work, successor to Cowork",
+      "performed_at": "2026-09-16T21:51:28Z",
+      "commit": "9bb8f2900909997f63db864eeea1211523aa5819",
+      "command": "git fetch main; verify PR20 full merged tree and 31-file hashes; compare application source and recheck report references, counts and document bindings",
+      "exit_code": 0,
+      "observed": {
+        "tracked_file_count": 841,
+        "application_code_present": true,
+        "docs_source_master_present": true,
+        "tracking_capabilities_present": true,
+        "executable_contract_version": "0.4.0",
+        "executable_contract_review_status": "PENDING_WORK_REVIEW; accepted baseline 0.2.1; signed command 0.3.0",
+        "application_scope_note": "Accepted A00/A01 plus supplied A02–A05 producer sources/reports. A05 supplies reconciliation, manual attestation, actual simulator, scoped evidence/export, counts/failure projections and connector catalogue. Only foundation UI routes exist; no workspace/privacy screens, A07 candidate or B06 browser evidence. Source/producer inspection does not accept these implementations.",
+        "screens": {
+          "W-SIGNIN": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-OVERVIEW": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-ATTENTION": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-WORKFLOWS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-WORKFLOW-DETAIL": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-PURPOSES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-NOTICES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-POLICIES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-SYSTEMS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-PRINCIPALS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-EVIDENCE": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-TESTLAB": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "W-CAPABILITIES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-SIGNIN": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-CHOICES": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-GRANT": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-RECEIPT": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          },
+          "P-RECEIPTS": {
+            "implementation": "NOT_IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/page.tsx"
+            ],
+            "scope": "All tracked app UI route files at 9bb8f2900909997f63db864eeea1211523aa5819 inspected: root foundation page/layout, no workspace/privacy screens. API presence is separate.",
+            "source_sha256": {
+              "apps/web/src/app/page.tsx": "60fd0d3e36f1de37e55f9711c969cc3582c1f41ed6c66cf28a62f08081ed2a9e"
+            }
+          }
+        }
+      },
+      "review_status": "INSPECTED",
+      "limitations": "Document/source self-review only; runtime source is unchanged from PR19. No new application, browser, recovery, egress or rehearsal execution; no acceptance inferred from merge."
     }
   ],
   "document_checks_ref": "docs/reviews/cowork/VALIDATION.md (document checks only; not application tests)",
@@ -1885,7 +2089,22 @@
       "ABORTED",
       "COMPLETED",
       "COMPLETED_WITH_ISSUES"
-    ]
+    ],
+    "start_state_content": {
+      "kind": "REHEARSAL_START_STATE",
+      "required": [
+        "rehearsal_id",
+        "code_under_test_commit",
+        "build_id",
+        "contract_version",
+        "profile",
+        "fixture_id",
+        "scenario_scope",
+        "captured_at",
+        "documented_start"
+      ],
+      "rules": "Identity must equal the run; captured_at must not follow run start. Raw log performer and required child references must agree. Every referenced child must be indexed and hashed."
+    }
   },
   "summary": {
     "p0_total": 30,

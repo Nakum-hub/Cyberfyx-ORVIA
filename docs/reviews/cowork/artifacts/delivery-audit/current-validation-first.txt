@@ -1,0 +1,100 @@
+PASS  JSON parses: docs/ux/UI_COPY.json
+PASS  JSON parses: docs/demo/demo_steps.json
+PASS  JSON parses: docs/demo/EVIDENCE_INDEX.json
+PASS  JSON parses: docs/reviews/cowork/DELIVERY_STATUS.json
+PASS  JSON parses: tracking/tasks.json
+PASS  JSON parses: tracking/acceptance.json
+PASS  FINDINGS.csv has the required columns
+PASS  Every finding row is complete
+PASS  Finding severities valid
+PASS  Finding statuses valid
+PASS  Finding IDs unique
+PASS  Finding history is preserved (dated entries)
+PASS  Required fields present: UI_COPY.json
+PASS  UI_COPY entries have all fields
+PASS  UI_COPY ids unique
+PASS  UI_COPY placeholders match text
+PASS  UI_COPY binding_status values valid
+PASS  UNRESOLVED entries state the open decision
+PASS  Every UNRESOLVED entry names a finding
+PASS  Every copy finding_ref exists in FINDINGS.csv
+PASS  UNRESOLVED entries point to open findings
+PASS  Every CONTRACT §3 state has a label
+PASS  No state value outside the design contract or the cited executable proposal
+PASS  All accepted bindings have exact source-backed scoped approval
+PASS  Copy recovery, reason mappings and count units match their source guards
+PASS  UI_COPY contains no credentials or real email addresses
+PASS  Assigned state wording present
+PASS  OBSERVED_SATISFIED detail carries scope and timestamp
+PASS  STALE detail requires recheck
+PASS  ALLOW copy is purpose-specific and does not require consent universally
+PASS  No unconditional 'nothing changed' assurance in error copy
+PASS  Conditional no-commit copy is marked do-not-display
+PASS  'Loaded your latest choice' is gated on a successful reload
+PASS  Recovery copy retries the same request
+PASS  Reconcile pending text is marked transient
+PASS  Manual completion note exists
+PASS  Screen-state copy exists: LOADING
+PASS  Screen-state copy exists: VALIDATION_ERROR
+PASS  Screen-state copy exists: UNAUTHENTICATED
+PASS  Screen-state copy exists: FORBIDDEN
+PASS  Screen-state copy exists: NOT_FOUND_OR_INACCESSIBLE
+PASS  Screen-state copy exists: VERSION_CONFLICT
+PASS  Screen-state copy exists: SERVICE_UNAVAILABLE
+PASS  Screen-state copy exists: OUTCOME_UNCONFIRMED
+PASS  Screen-state copy exists: IDEMPOTENCY_CONFLICT
+PASS  Empty-state copy exists for every specified screen
+PASS  Successful-acceptance copy exists
+PASS  All copy IDs referenced in Markdown exist
+PASS  tracking/acceptance.json has 34 scenarios
+PASS  Canonical results use allowed values
+PASS  Every T01–T34 appears in the journey summary
+PASS  Journey summary rows parse
+PASS  Journey results match Work's canonical status
+PASS  No P0 test is described as optional
+PASS  Required fields present: DELIVERY_STATUS.json
+PASS  canonical_readiness quotation appears in its source file
+PASS  canonical_readiness value and source revision agree
+PASS  production_readiness quotation appears in its source file
+PASS  production_readiness value and source revision agree
+PASS  Ticket canonical status matches tracking/tasks.json
+PASS  Cowork proposed statuses use allowed values
+PASS  Cowork never proposes accepted/complete for its own tickets
+PASS  Screen implementation values valid
+PASS  Required fields present: EVIDENCE_INDEX.json
+PASS  EVIDENCE_INDEX covers each canonical test once
+PASS  EVIDENCE_INDEX canonical status matches tracking/acceptance.json
+PASS  Exactly one CURRENT repository inspection, matching current_source_inspection_id
+PASS  Historical inspections are preserved
+PASS  DELIVERY_STATUS and EVIDENCE_INDEX name the same current inspection and base
+PASS  Candidate identity is complete or explicitly unidentified
+PASS  Candidate identities agree across status and evidence
+PASS  Screen implementation and browser claims have scoped evidence
+PASS  Evidence records are complete, provenance-backed and hash-matched
+PASS  Media and rehearsal entries are complete
+PASS  EVIDENCE_INDEX summary equals counts derived from its records
+PASS  Engineering reports never count as acceptance and match their artifacts
+PASS  No document-tool test fixture data in the real evidence index
+PASS  Claims register rows present
+PASS  Claim statuses valid
+PASS  Every EVIDENCED claim is supported by candidate-matched inspected evidence
+PASS  No unsupported readiness claim in owned prose
+PASS  Every referenced finding ID exists
+PASS  Relative Markdown links resolve
+PASS  Required fields present: demo_steps.json
+PASS  Demo has the 12 assigned steps
+PASS  Every demo step has all required fields
+PASS  Demo steps reference only known tests
+PASS  Step 8 has no server-says-otherwise escape clause
+PASS  Generated sections, pack and manifest are current (build_pack --check)
+PASS  No Cowork-owned file is ignored by .gitignore
+PASS  HTML pack exists
+PASS  HTML internal anchors resolve
+PASS  HTML loads no external resources
+PASS  HTML has no forms, inputs, iframes or buttons
+PASS  HTML has no storage, network or analytics calls
+PASS  HTML labels itself as documentation
+PASS  HTML has a restrictive CSP
+PASS  HTML declares dark and light tokens
+
+98/98 document checks passed (mode: current)

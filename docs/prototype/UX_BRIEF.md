@@ -1,6 +1,6 @@
 # ORVIA prototype: UX brief
 
-**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
+**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 **Revision history:**
 
@@ -209,7 +209,7 @@ Each spec covers the same fields: actor, goal, prerequisite, visible information
 
 | System | Operation | Action status | Observation | Next step |
 |---|---|---|---|---|
-| Aster CRM (synthetic) | Remove from marketing audience | Acknowledged | Required state observed · membership read · {observed_at} · generation {generation} | — |
+| Aster CRM (synthetic) | Restrict scoped marketing membership | Acknowledged | Required state observed · independent restriction read · {observed_at} · generation {generation} | — |
 | Aster Messaging Simulator | Restrict marketing | Outcome unknown | Not observed | Reconcile |
 | Aster Loyalty Ledger (no API) | — | Manual action required | Cannot be observed | Assigned to {owner_name} |
 

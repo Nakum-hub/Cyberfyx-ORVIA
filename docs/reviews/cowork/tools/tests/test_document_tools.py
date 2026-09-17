@@ -52,7 +52,7 @@ class DocToolCase(unittest.TestCase):
         rec = json.loads((FIXTURES / "synthetic_record.json").read_text(encoding="utf-8"))
         rec.update(over)
         raw = self.jload(rec['report_path'])
-        for key in ('code_under_test_commit','build_id','contract_version','profile','fixture_id','scenario_scope','command','started_at','finished_at','exit_code','observed_result','run_role'):
+        for key in ('record_id','task_id','producing_lane','source_handoff','code_under_test_commit','build_id','contract_version','profile','fixture_id','scenario_scope','command','started_at','finished_at','exit_code','observed_result','run_role'):
             raw[key] = rec[key]
         raw['test_ids'] = [rec['test_id']]
         raw['assertions'][0]['result'] = 'FAIL' if rec['observed_result']=='FAIL' else 'PASS'

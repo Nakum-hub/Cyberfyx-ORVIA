@@ -1,6 +1,6 @@
 # ORVIA prototype: acceptance journeys
 
-**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
+**Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 ## Status
 
@@ -259,7 +259,7 @@ Each journey lists:
 - **Evidence:**
   - Playwright trace across the restart
   - Read-back digests
-- **Open:** how a notice is published (F-017).
+- **Settled rule:** the distinct reviewer publishes the exact policy version and its notice together; suppress a standalone notice-publish action. F-017 remains for consumer binding and browser evidence.
 
 ### J06 — Affirmative marketing grant (T07, T15)
 
@@ -359,7 +359,7 @@ Each journey lists:
   - CRM row, Observation: `state.observation.OBSERVED_SATISFIED.label`, with method, time, generation and scope.
   - Separate `workflow.timeline.command` and `workflow.timeline.observation` entries.
 - **True:**
-  - An independent read of the synthetic CRM fixture shows Asha is no longer in "Autumn offers (synthetic)".
+  - An independent read of the exact synthetic CRM membership shows `marketing_restricted=true` at the current applied epoch and target generation. Membership deletion or audience removal is not claimed by this implementation.
   - The observation record has method, generation, observed_at and scope.
   - The observation is not a copy of the acknowledgement.
 - **Never:**
@@ -490,8 +490,8 @@ Each journey lists:
   - The attestation is stored with its own type, actor and time.
   - The observation is unchanged.
   - While the ledger obligation is unresolved under the approved criteria, the workflow is `NEEDS_ATTENTION`.
-  - After attestation, the workflow state must follow the criterion Work accepts (F-013). A COMPLETED workflow must show `state.workflow.COMPLETED.manual_note`.
-  - A server result that shows the workflow as observed or completed against the approved criteria is recorded as a finding, not accepted.
+  - Accepted 0.2.1 permits ATTRIBUTED_MANUAL_ATTESTATION: a current-scope attributed statement with evidence references can satisfy that obligation without changing its observation. Workflow completion still requires every obligation to satisfy its own criterion; A05 source/report and B03/T20 qualification remain separate (F-013). A COMPLETED workflow must show `state.workflow.COMPLETED.manual_note`.
+  - A server result claiming independent observation from a manual statement, or completion without every applicable criterion satisfied, is recorded as a finding.
 - **Never:**
   - A manual record shown as an observation.
   - An optimistic pass on an unreadable target.

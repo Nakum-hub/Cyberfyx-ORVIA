@@ -2,9 +2,9 @@
   "document": "ORVIA prototype demo steps",
   "owner_lane": "Work",
   "status": "REVISED_FOR_REVIEW",
-  "base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "base_commit": "9bb8f2900909997f63db864eeea1211523aa5819",
   "application_available": false,
-  "note": "Source at PR19 main includes A00–A05 APIs/workers/evidence and only foundation UI. All designed screen steps remain unavailable as application journeys. Placeholders are actual server values, not invented fixtures. All listed tests remain mandatory P0 even when narration is optional.",
+  "note": "Application source unchanged by merged PR20 includes A00–A05 APIs/workers/evidence and only foundation UI. All designed screen steps remain unavailable as application journeys. Placeholders are actual server values, not invented fixtures. All listed tests remain mandatory P0 even when narration is optional.",
   "steps": [
     {
       "step": 1,
@@ -85,7 +85,7 @@
     },
     {
       "step": 5,
-      "title": "The CRM audience actually changes, and ORVIA reads it back separately",
+      "title": "The CRM marketing restriction changes, and ORVIA reads it back separately",
       "actor": "Worker and restricted agent; Karan views",
       "precondition": "Withdrawal accepted in step 4.",
       "screen": "W-WORKFLOW-DETAIL",
@@ -238,6 +238,6 @@
       "limitation": "Target-only synthetic restore; not control-plane backup recovery or enterprise disaster recovery."
     }
   ],
-  "revision": "c00-c02-r4-completion",
-  "documentation_base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+  "revision": "c00-c02-r4-delivery-audit",
+  "documentation_base_commit": "9bb8f2900909997f63db864eeea1211523aa5819"
 }

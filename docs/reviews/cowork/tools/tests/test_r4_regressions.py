@@ -236,7 +236,9 @@ class R4Tests(legacy.DocToolCase):
            'reviewed_by':'doc fixture reviewer','start_state_ref':state,'log_path':p,'artifact_paths':[p,state],
            'availability':'VERIFIED_LOCAL','media_paths':[]}
         log={**r,'kind':'REHEARSAL_EXECUTION','steps':[{'step':i,'actual':'DOCUMENT-TOOL TEST DATA','result':'PASS'} for i in range(1,13)]}
-        r['artifact_sha256']={p:self.put(p,log),state:self.put(state,{'label':'DOCUMENT-TOOL TEST DATA','documented_start':'synthetic controlled start'})}
+        r['artifact_sha256']={p:self.put(p,log),state:self.put(state,{'label':'DOCUMENT-TOOL TEST DATA','kind':'REHEARSAL_START_STATE',
+            **{k:r[k] for k in ('rehearsal_id','code_under_test_commit',*rules.IDENTITY)},
+            'captured_at':r['started_at'],'documented_start':'synthetic controlled start','artifact_paths':[]})}
         return r
 
     def test_rehearsal_two_genuine_controls_and_counters(self):
