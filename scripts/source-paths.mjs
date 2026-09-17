@@ -13,7 +13,7 @@
  * new source file is qualified once it is tracked, which is also when it can
  * belong to a candidate.
  */
-export const EXCLUDED_PREFIXES = ['handoffs/', 'artifacts/', 'docs/', 'tracking/'];
+export const EXCLUDED_PREFIXES = ['handoffs/', 'artifacts/', 'docs/'];
 
 /**
  * Live state documents. These record where the programme has got to — the
@@ -27,8 +27,16 @@ export const EXCLUDED_PREFIXES = ['handoffs/', 'artifacts/', 'docs/', 'tracking/
  * being able to invalidate a frozen candidate. The code that validates them
  * (scripts/tracking.ts and its unit tests) is qualified source and is checked at
  * qualification time against whatever the live board actually contains.
+ *
+ * Only the gate board itself qualifies. `tracking/capabilities.json` is imported
+ * by the capability register screen and `tracking/contract_seed.json` is emitted
+ * and checked by contract generation, so both are runtime source: the container
+ * build context is assembled from this same inventory and fails without them.
  */
-export const LIVE_STATE_FILES = ['CURRENT_STATE.md', 'README.md', 'README_START_HERE.md', 'AGENTS.md'];
+export const LIVE_STATE_FILES = [
+  'CURRENT_STATE.md', 'README.md', 'README_START_HERE.md', 'AGENTS.md',
+  'tracking/tasks.json', 'tracking/acceptance.json',
+];
 
 /** True when a repository-relative path belongs to the qualified runtime inventory. */
 export function isQualifiedSource(path) {
@@ -40,7 +48,7 @@ export function isQualifiedSource(path) {
 /** Live gate/state paths, hashed separately from the candidate source identity. */
 export function liveStatePaths(lsFilesOutput) {
   const all = lsFilesOutput.split(/\r?\n/).filter(Boolean);
-  return [...new Set(all.filter(p => p.startsWith('tracking/') || LIVE_STATE_FILES.includes(p)))].sort();
+  return [...new Set(all.filter(p => LIVE_STATE_FILES.includes(p)))].sort();
 }
 
 /** Qualified paths from `git ls-files --cached` output, sorted and de-duplicated. */
