@@ -1,0 +1,362 @@
+[
+  {
+    "ticket": "B00",
+    "command": "node tests/e2e/record.mjs B00 build",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7f4f7010a908f77c036ab31951ed89fa200f722c",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B00-build-2026-09-17T04-50-09.502Z/command.json",
+    "output": "handoffs/codex/browser/B00-build-2026-09-17T04-50-09.502Z/command.txt"
+  },
+  {
+    "ticket": "B00",
+    "command": "node tests/e2e/record.mjs B00 lint",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7f4f7010a908f77c036ab31951ed89fa200f722c",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B00-lint-2026-09-17T04-49-37.808Z/command.json",
+    "output": "handoffs/codex/browser/B00-lint-2026-09-17T04-49-37.808Z/command.txt"
+  },
+  {
+    "ticket": "B00",
+    "command": "node tests/e2e/record.mjs B00 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7f4f7010a908f77c036ab31951ed89fa200f722c",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B00-typecheck-2026-09-17T04-48-34.798Z/command.json",
+    "output": "handoffs/codex/browser/B00-typecheck-2026-09-17T04-48-34.798Z/command.txt"
+  },
+  {
+    "ticket": "B01",
+    "command": "node tests/e2e/record.mjs B01 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "3a045e63a2d662a6d3e0b8f6be063be09d667810",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B01-typecheck-2026-09-17T04-58-25.693Z/command.json",
+    "output": "handoffs/codex/browser/B01-typecheck-2026-09-17T04-58-25.693Z/command.txt"
+  },
+  {
+    "ticket": "B02",
+    "command": "node tests/e2e/record.mjs B02 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "c2bf492affabdd39b8ac9e67756b02ce52cb4a3c",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B02-typecheck-2026-09-17T05-01-33.752Z/command.json",
+    "output": "handoffs/codex/browser/B02-typecheck-2026-09-17T05-01-33.752Z/command.txt"
+  },
+  {
+    "ticket": "B03",
+    "command": "node tests/e2e/record.mjs B03 lint",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "09882215c210bf9f94b6e9b38ec1a288bcfd9627",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B03-lint-2026-09-17T05-10-15.379Z/command.json",
+    "output": "handoffs/codex/browser/B03-lint-2026-09-17T05-10-15.379Z/command.txt"
+  },
+  {
+    "ticket": "B03",
+    "command": "node tests/e2e/record.mjs B03 test",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "09882215c210bf9f94b6e9b38ec1a288bcfd9627",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B03-test-2026-09-17T05-09-42.758Z/command.json",
+    "output": "handoffs/codex/browser/B03-test-2026-09-17T05-09-42.758Z/command.txt"
+  },
+  {
+    "ticket": "B03",
+    "command": "node tests/e2e/record.mjs B03 test",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "09882215c210bf9f94b6e9b38ec1a288bcfd9627",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B03-test-2026-09-17T05-10-13.849Z/command.json",
+    "output": "handoffs/codex/browser/B03-test-2026-09-17T05-10-13.849Z/command.txt"
+  },
+  {
+    "ticket": "B03",
+    "command": "node tests/e2e/record.mjs B03 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "09882215c210bf9f94b6e9b38ec1a288bcfd9627",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B03-typecheck-2026-09-17T05-08-07.681Z/command.json",
+    "output": "handoffs/codex/browser/B03-typecheck-2026-09-17T05-08-07.681Z/command.txt"
+  },
+  {
+    "ticket": "B04",
+    "command": "node tests/e2e/record.mjs B04 typecheck",
+    "exit_code": 2,
+    "result": "FAIL",
+    "source_commit": "3859c6eadd26909a68c2f09afed684e48fde1ad1",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B04-typecheck-2026-09-17T05-13-16.956Z/command.json",
+    "output": "handoffs/codex/browser/B04-typecheck-2026-09-17T05-13-16.956Z/command.txt"
+  },
+  {
+    "ticket": "B04",
+    "command": "node tests/e2e/record.mjs B04 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "3859c6eadd26909a68c2f09afed684e48fde1ad1",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B04-typecheck-2026-09-17T05-14-24.982Z/command.json",
+    "output": "handoffs/codex/browser/B04-typecheck-2026-09-17T05-14-24.982Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 build",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-build-2026-09-17T05-34-59.020Z/command.json",
+    "output": "handoffs/codex/browser/B06-build-2026-09-17T05-34-59.020Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 build",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-build-2026-09-17T05-43-31.138Z/command.json",
+    "output": "handoffs/codex/browser/B06-build-2026-09-17T05-43-31.138Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 contracts:check",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-contracts-check-2026-09-17T05-31-48.181Z/command.json",
+    "output": "handoffs/codex/browser/B06-contracts-check-2026-09-17T05-31-48.181Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec playwright install chromium --only-shell",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "3859c6eadd26909a68c2f09afed684e48fde1ad1",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-13-48.004Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-13-48.004Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec tsx tests/e2e/transport-preflight.ts",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-24-33.299Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-24-33.299Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec tsx scripts/services.ts up",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-28-03.906Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-28-03.906Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec tsx tests/e2e/transport-preflight.ts",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-28-27.317Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-28-27.317Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec tsx tests/e2e/transport-preflight.ts",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-30-07.160Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-30-07.160Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec playwright test --config tests/e2e/playwright.config.ts tls.spec.ts --max-failures=1",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-36-01.348Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-36-01.348Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec tsx scripts/runtime-image.ts",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-44-03.461Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-44-03.461Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec playwright test --config tests/e2e/playwright.config.ts tls.spec.ts --max-failures=1",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-46-18.750Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-46-18.750Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec tsx scripts/network-qualification.ts confirm:rehearsal",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-47-25.058Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-47-25.058Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 exec tsx tests/e2e/package.ts confirm:rehearsal",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-exec-2026-09-17T05-49-46.217Z/command.json",
+    "output": "handoffs/codex/browser/B06-exec-2026-09-17T05-49-46.217Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 hygiene:check",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-hygiene-check-2026-09-17T05-38-51.076Z/command.json",
+    "output": "handoffs/codex/browser/B06-hygiene-check-2026-09-17T05-38-51.076Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 hygiene:check",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-hygiene-check-2026-09-17T05-53-04.236Z/command.json",
+    "output": "handoffs/codex/browser/B06-hygiene-check-2026-09-17T05-53-04.236Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 lint",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-lint-2026-09-17T05-32-24.877Z/command.json",
+    "output": "handoffs/codex/browser/B06-lint-2026-09-17T05-32-24.877Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 lint",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-lint-2026-09-17T05-34-51.218Z/command.json",
+    "output": "handoffs/codex/browser/B06-lint-2026-09-17T05-34-51.218Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 lint",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-lint-2026-09-17T05-38-44.787Z/command.json",
+    "output": "handoffs/codex/browser/B06-lint-2026-09-17T05-38-44.787Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 lint",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-lint-2026-09-17T05-41-32.154Z/command.json",
+    "output": "handoffs/codex/browser/B06-lint-2026-09-17T05-41-32.154Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 test",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-test-2026-09-17T05-34-56.702Z/command.json",
+    "output": "handoffs/codex/browser/B06-test-2026-09-17T05-34-56.702Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-27-40.077Z/command.json",
+    "output": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-27-40.077Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-32-03.140Z/command.json",
+    "output": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-32-03.140Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-34-33.422Z/command.json",
+    "output": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-34-33.422Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-38-24.761Z/command.json",
+    "output": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-38-24.761Z/command.txt"
+  },
+  {
+    "ticket": "B06",
+    "command": "node tests/e2e/record.mjs B06 typecheck",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+    "source_changed_during_run": false,
+    "artifact": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-41-15.640Z/command.json",
+    "output": "handoffs/codex/browser/B06-typecheck-2026-09-17T05-41-15.640Z/command.txt"
+  }
+]

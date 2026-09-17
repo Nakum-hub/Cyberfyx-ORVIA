@@ -1,0 +1,32 @@
+ORVIA UI candidate ? protected local rehearsal
+
+Source candidate: 766854399d411c551c4d3f657ea2b4f3f189a4bd.
+Repository branch: prototype/codex/B00-B06-ui. Review PR: https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/24
+Contract: 0.4.1. Profile: rehearsal. Fixture: aster-birch-v1.
+
+This is an engineering candidate, not Work acceptance or an approved release. All mandatory screens and seven executable suite files are supplied. The actual browser TLS preflight failed because the rehearsal CA is not trusted. Authenticated browser journeys and successful UI screenshots remain NOT_RUN.
+
+Use the existing A07 installation/operator instructions in docs/engineering/A07-PACKAGE.md for pinned tools and the retained synthetic profile. Never reset or replace its business history. Do not run setup-rehearsal.ps1 against an existing installation. No public deployment or external messaging is included.
+
+After human approval/install of the reviewed local browser CA, stop any existing app supervisor before isolated tests. Browser tests own their web process and their temporary worker/agent processes; the operator runner requires exclusive profile ownership.
+
+PowerShell, from repository root:
+  $env:ORVIA_PROFILE='rehearsal'
+  ./scripts/dev.ps1 services up
+  ./scripts/dev.ps1 machine:init confirm:rehearsal
+  ./scripts/dev.ps1 build
+  & .local/tools/node-v24.21.0-win-x64/node.exe tests/e2e/record.mjs B06 exec playwright test --config tests/e2e/playwright.config.ts tls.spec.ts --max-failures=1
+  # Only after verified TLS succeeds:
+  & .local/tools/node-v24.21.0-win-x64/node.exe tests/e2e/record.mjs B06 exec playwright test --config tests/e2e/playwright.config.ts
+
+The pinned browser cache is .local/tools/playwright. The recorder provides the pinned Node/pnpm, rehearsal profile, telemetry-off settings and per-process Node CA trust. It never installs Windows trust or disables browser verification.
+
+The full suite contains 15 tests: staff MFA/rejection/capability/real session expiry; configuration and distinct-reviewer publication; principal grant/withdraw/immutable receipt/history/stale epoch/lost committed response with identical replay; actual target readback, uncertainty/reconciliation, manual obligation and ACK without effect; real healthy/broken/repaired/restoration/interrupted Test Lab runs; candidate walkthrough, outage/malformed scope/mobile navigation; TLS prerequisite. Broken-control business FAIL is an expected detection, not converted to PASS. Raw traces/failure screenshots may contain session material and remain protected under .local/browser-evidence. Only reviewed synthetic screenshots/exports and safe metadata go to handoffs/codex/browser.
+
+To operate manually after qualification, use ./scripts/dev.ps1 app:run confirm:rehearsal and the documented app:stop command. Staff and principal must use separate browser contexts at https://127.0.0.1:4330/workspace and /privacy. Obtain generated synthetic credentials only from the protected local profile; never paste them into chat/logs/Git. Test Lab queues durable requests. With app worker/agent stopped, the protected operator executes ./scripts/dev.ps1 regression:run confirm:rehearsal while a web process serves requests; the browser test harness already coordinates this lifecycle. Do not launch an extra runner beside active worker/agent ownership.
+
+The manual-attestation submit UI is deliberately unavailable because contract 0.4.1 does not expose its required current task version. This producer/contract binding needs coordinated follow-up and Work review. No version is guessed.
+
+Package generation reuses scripts/package-candidate.ts via tests/e2e/package.ts confirm:rehearsal. The authoritative final release-manifest.json includes the UI browser archive and its explicit gates. A07 helper artifacts retain their historical namespace; their intermediate package-manifest checksum precedes UI enrichment. Use the final B06 command checksum and final manifest. Source/archive/image hashes and build identities are exact; private profiles, credentials and authenticated traces are never packaged.
+
+After human integration: Work W01/W02 review; confirmed fixes; fresh qualified candidate; full T01-T30; C01/C02 refresh; Rehearsal 1 and 2; W03; human sign-off. None of those later gates is implied by a successful build or package.
