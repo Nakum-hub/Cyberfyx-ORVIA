@@ -1,0 +1,17 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-16T17:16:37.366Z",
+  "profile": "ui-b00",
+  "migrations": [
+    "0000_bootstrap",
+    "0001_auth_scope",
+    "0002_idempotency_key_bound",
+    "0003_request_audit",
+    "0004_configuration_consent",
+    "0005_publication_trigger",
+    "0006_machine_workflow"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner"
+}

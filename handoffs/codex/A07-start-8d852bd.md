@@ -1,0 +1,9 @@
+# A07 start and existing UI preservation
+
+Base `8d852bd2da87dbd41a8cf3e5fa4b400b91cf8360` includes published A06 PR #22 and human-merged main `9bb8f2900909997f63db864eeea1211523aa5819`. A06 publication commit is `90f0847` (full identity in Git). Authorized serial A02–A07 implementation continues; Work acceptance and human merges/releases remain separate.
+
+Allowed paths: Codex engineering, infrastructure/scripts, manifests/contracts, application tests, engineering notes and Codex handoffs. Work-owned source/review/tracking/UX/runbook files remain read-only. The human-recorded successor transfer in `handoffs/work/C00-C02-r4-owner-transfer.md` assigns unfinished UI/component/browser B paths to Codex. This note records that transfer before preservation or integration edits. Existing Claude authorship and unfinished task status are retained.
+
+First preserve the 20 existing unpublished project files captured from `C:/Cyberfyx-projects/orvia-ui-b00`, HEAD `397cb370bedaf45c3f62409e88fb891f7cd3b23e`, without changing that worktree. Main has no competing UI edits. Record byte hashes/provenance and publish a separate preservation commit. Do not restyle the partial UI or certify its unfinished staff pages/browser tests.
+
+Then implement and execute fresh named rehearsal-profile setup, verified loopback HTTPS, protected local seeding/start/stop/export scripts, persistence/restart and guarded reset checks, a real source package and exact candidate manifest. Use per-process CA trust without changing system/browser trust or bypassing certificate checks. Keep service stores private and credentials generated locally. Exercise applicable backend tests against the identified candidate; retain original failures. W02/W03, remaining B work and two actual human T30 rehearsals remain acceptance gates. A08 is excluded.
