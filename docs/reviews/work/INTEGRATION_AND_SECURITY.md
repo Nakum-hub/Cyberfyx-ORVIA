@@ -72,3 +72,65 @@ Future findings use: **ID; severity and rationale; task/exact file and source SH
 Accept W01 and A03, inspect the actual integrated A04/A05/A06/B04 candidate, complete this matrix with evidence, retest blocking corrections, and retain all unresolved limitations. Only then may Work close W02. Codex's authorized serial preparation of A07 may proceed, but its acceptance depends on W02; A08 remains unpromoted.
 
 Current executed full scenarios: **T01–T34 NOT_RUN**. No application services, reset, network test or rehearsal ran during this document checkpoint. Work's [handoff](../../../handoffs/work/W02-preparation-a5b6ff7.md) and [consolidated intake](WORK_REVIEW_QUEUE.md) are ready for the later candidate. Human integration and release remain explicit decisions.
+
+---
+
+## W02 consolidated review — 2026-09-17
+
+**Review content: ACCEPTED** at candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, tree
+`e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437`, contract 0.5.0 / signed command 0.3.0.
+**The canonical W02 ticket stays BLOCKED** for one reason only: its acceptance dependency B04 sits behind
+`B00 ← C00`, and C00 acceptance is an outstanding human decision. The engineering under review is merged
+and qualified. Everything above this line is retained unchanged.
+
+| Boundary | Result at this candidate | Evidence |
+|---|---|---|
+| Durable workflow, signed commands, stale/replayed authority | PASS, exit 0, 32 assertions | `B06-exec-2026-09-17T11-55-06.951Z`; `A07-workflow-integration-1789646136254-…` |
+| Current admission and degraded policy safety | PASS, exit 0, 46 assertions; missing/malformed/outage OPA all INDETERMINATE with no send, recovery still blocks withdrawal | `B06-exec-2026-09-17T11-57-02.765Z`; `A07-send-enforcement-1789646240320-…` |
+| Observation, completion, manual action, reconciliation, export, counts | PASS, exit 0, 69 assertions | `B06-exec-2026-09-17T11-45-47.355Z`; `A07-evidence-integration-1789645594362-…` |
+| Regression detection, quarantined restore, interrupted recovery | PASS, exit 0, 70 assertions (T23–T25) | `B06-exec-2026-09-17T11-58-46.926Z`; `A07-regression-integration-1789646604777-…` |
+| Transport and lifecycle | PASS, exit 0 (12 and 17 assertions, two full supervised cycles) | `…T12-06-43.711Z`; `…T12-05-05.401Z` |
+| Runtime egress (T26) | PASS, exit 0, 13 assertions at this exact candidate; image label matches the candidate source tree, internal-only network, no published host ports, canary never reached, deny-all DNS saw only the controlled query | `B06-exec-2026-09-17T12-50-28.741Z`; `A07-network-qualification-1789649464712-…` |
+| Integrated browser flow | **16/16 PASS, exit 0** over 9 min 59 s at the exact candidate commit and tree; all seven mandatory suites; Chromium over normal trusted HTTPS with no bypass; per-context network records assert no request leaves the application origin | `handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/results.json` |
+
+### Findings closed
+
+- **FINAL-B06-F02 — manual-attestation contract gap.** The read now exposes the authoritative stored task
+  version, the UI submits exactly that version, and the server enforces it. Proven by 14 evidence-suite
+  assertions (authoritative stored version; exactly one of two concurrent current-version attestations
+  accepted; identical replay accepted and preserving the original operation; conflicting replay denied;
+  stale version denied on a new request; exactly one revision increment; attribution; **no automated
+  observation created**; manual cannot satisfy an independent-read criterion; old attestation not current
+  after fresh consent) plus the browser case *B03 manual task uses its read version, preserves replay and
+  rejects a stale tab*. Delivered through the canonical generator as transport 0.5.0; no second
+  hand-written DTO and no storage migration.
+- **FINAL-B06-F05 — browser fixture ownership timeout.** Verified by a complete 16-test run lasting
+  9 min 59 s, well beyond the loopback relay's five-minute idle limit, with no lease loss.
+- **FINAL-CONT-F06 — Test Lab operator exit contract.** The documented contract is: exit 0 when the
+  enqueued run reached a recorded terminal result, exit 1 only when the runner itself could not complete
+  it. A detected broken control is a completed execution whose durable business result is FAIL. Confirmed
+  at runtime: the regression integration suite invokes the runner through `execFile` for
+  `MARKETING_WITHDRAWAL_BROKEN_CONTROL` and that call resolves while run `7f48cebe-02ba-47aa-bdf5-15b2f7842e2e`
+  is stored as FAIL with `expected_fault_detection: true`. `scripts/demo-run.ts` and
+  `tests/security/network-core.ts` depend on the same semantics. No product assertion was weakened.
+- **FINAL-CONT-F07 — interruption barrier.** `app.purposes` does not exist; the actual configuration table
+  is `app.purpose_versions`. The barrier now locks the correct table and protects acquisition, setup,
+  operator termination, rollback and release.
+
+### Open finding
+
+- **FINAL-CONT-F08 — LOW, no per-screen browser acceptance producer.** `evidence_rules.screen_errors`
+  requires a raw report of `kind: "BROWSER_ACCEPTANCE"` carrying `screen_ids` before any screen may claim a
+  browser result. The Playwright reporter writes `results.json` without `kind` or `screen_ids`, so C02
+  screen-level browser claims cannot be evidenced even though the suite passes 16/16. Owner: browser
+  harness (`tests/e2e/reporter.ts`). Not corrected here: it is outside this session's recorded bounded
+  scope and needs its own decision.
+
+### Retained limitations
+
+Synthetic targets only; one effect attempt followed by read reconciliation; target-only recovery with no
+control-plane disaster recovery; development SHA-256 checksums with no production signing; backend-scoped
+egress observation with no whole-host assurance; no enterprise security certification, penetration test,
+legal approval or production readiness. Work-lane acceptance of executed evidence only.
+
+Full review: `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`.

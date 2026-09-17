@@ -4,18 +4,18 @@
   "owner_lane": "Work",
   "status": "DRAFT_FOR_REVIEW",
   "revision": "c00-c02-r4-completion",
-  "documentation_base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "documentation_base_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
   "history_note": "r2 (base 96b8bd7) used schema v1 with one source inspection. r3 keeps that inspection as EV-SRC-001 and the e5cdef3 inspection made at 09:09Z (during an interrupted r3 attempt) as EV-SRC-002, both HISTORICAL, and adds EV-SRC-003 at e839b1a. Per-test evidence lives in records lists so real results can be indexed without overwriting history. Work continuation after PR18 merge and PR19 A05 preserves EV-SRC-006 and all former reports; EV-SRC-007 is the current source observation.",
-  "current_source_inspection_id": "EV-SRC-008",
+  "current_source_inspection_id": "EV-SRC-009",
   "frozen_candidate": {
-    "status": "NOT_IDENTIFIED",
-    "commit": null,
-    "build_id": null,
-    "contract_version": null,
-    "profile": null,
-    "fixture_id": null,
-    "scenario_scope": null,
-    "source": "CURRENT_STATE.md; no A07 packaged candidate supplied"
+    "status": "IDENTIFIED",
+    "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+    "build_id": "mtRrfhGjl22jabwoImHIf",
+    "contract_version": "0.5.0",
+    "profile": "rehearsal",
+    "fixture_id": "aster-birch-v1",
+    "scenario_scope": "CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal on the Aster/Birch fixture",
+    "source": "artifacts/release-manifest.json (SHA-256 95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026), independently verified by handoffs/work/final-prototype-continuation/candidate-verification.json (242 checks, 0 failures)"
   },
   "rules": [
     "This index points to evidence and records Cowork's review of it. It never sets canonical results; Work records those in tracking/acceptance.json.",
@@ -328,7 +328,7 @@
     {
       "evidence_id": "EV-SRC-004",
       "kind": "approved_master_verification",
-      "status": "CURRENT",
+      "status": "HISTORICAL",
       "performed_by": "Cowork",
       "performed_at": "2026-09-16T09:50:30Z",
       "access_scope": "Read-only copy staged from the human's computer (C:\\Cyberfyx-projects, folder access approved in this session). Not committed; not published.",
@@ -964,7 +964,7 @@
     {
       "evidence_id": "EV-SRC-008",
       "kind": "source_inspection",
-      "status": "CURRENT",
+      "status": "HISTORICAL",
       "performed_by": "GPT Work, successor to Cowork",
       "performed_at": "2026-09-16T21:51:28Z",
       "commit": "9bb8f2900909997f63db864eeea1211523aa5819",
@@ -1163,6 +1163,217 @@
       },
       "review_status": "INSPECTED",
       "limitations": "Document/source self-review only; runtime source is unchanged from PR19. No new application, browser, recovery, egress or rehearsal execution; no acceptance inferred from merge."
+    },
+    {
+      "evidence_id": "EV-SRC-009",
+      "kind": "source_inspection",
+      "status": "CURRENT",
+      "performed_by": "GPT Work continuation lane (Claude Code session)",
+      "performed_at": "2026-09-17T13:05:00Z",
+      "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+      "command": "git rev-parse HEAD; git ls-tree -r --name-only 81431d64afb8dd613c96d942402d8c0d8cc07ac0; sha256 each /workspace and /privacy route file; compare with the frozen release manifest and the complete browser run at this commit",
+      "exit_code": 0,
+      "observed": {
+        "tracked_file_count": 1661,
+        "application_code_present": true,
+        "docs_source_master_present": true,
+        "tracking_capabilities_present": true,
+        "executable_contract_version": "0.5.0",
+        "executable_contract_review_status": "W01 accepted 2026-09-17; W02 review content accepted, ticket blocked on the B04 chain behind C00 human acceptance; signed command 0.3.0",
+        "application_scope_note": "Frozen candidate 81431d64afb8dd613c96d942402d8c0d8cc07ac0, tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437, host build mtRrfhGjl22jabwoImHIf. All 18 designed workspace and Privacy Centre screens are implemented as tracked Next routes. A complete Playwright run at this exact commit passed 16/16. Screen-level browser results are still NOT_RUN because the reporter emits no BROWSER_ACCEPTANCE record with screen_ids (finding FINAL-CONT-F08); source inspection is not browser acceptance and neither is Work acceptance or a human rehearsal.",
+        "screens": {
+          "W-SIGNIN": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/sign-in/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/sign-in/page.tsx": "c60ca94e40599ea366bcbdeb6e232e2f4dc2cf4ce8462a12899b8d893dba1af4"
+            }
+          },
+          "W-OVERVIEW": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/page.tsx": "90f7a8e2e7226ec7a0bd16e0943d29c9daba62cfdfb9b2f2bd9d7b46d359aef1"
+            }
+          },
+          "W-ATTENTION": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/failures/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/failures/page.tsx": "4200d4e7d389f0f5607250b72638b5087ae55daddb74115292051a9cdd4179aa"
+            }
+          },
+          "W-WORKFLOWS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/workflows/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/workflows/page.tsx": "6bd0a5cd0e1cd1076836f9c41bec15b7b0d5a6c9adf39ca10b0c49fdf50a3f2b"
+            }
+          },
+          "W-WORKFLOW-DETAIL": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/workflows/[id]/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/workflows/[id]/page.tsx": "7a31987070673d35ba14052c19652581985272bf0f468d36afb65c377ace2681"
+            }
+          },
+          "W-PURPOSES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "2d6dd7db831bdd337b0246ed9e4db40c3fb27085f10a5628ed73f1dbe513c645"
+            }
+          },
+          "W-NOTICES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "2d6dd7db831bdd337b0246ed9e4db40c3fb27085f10a5628ed73f1dbe513c645"
+            }
+          },
+          "W-POLICIES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "2d6dd7db831bdd337b0246ed9e4db40c3fb27085f10a5628ed73f1dbe513c645"
+            }
+          },
+          "W-SYSTEMS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "2d6dd7db831bdd337b0246ed9e4db40c3fb27085f10a5628ed73f1dbe513c645"
+            }
+          },
+          "W-PRINCIPALS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/principals/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/principals/page.tsx": "fa4c11e4e1f7412b56e07462b7403954eb1ac15b0551dedd44f83475c97f946e"
+            }
+          },
+          "W-EVIDENCE": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/evidence/page.tsx",
+              "apps/web/src/app/workspace/evidence/[id]/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/evidence/page.tsx": "22c03ef434838fd25a86abecbebef6909a650dcae0bbfdefca377afb90324ba0",
+              "apps/web/src/app/workspace/evidence/[id]/page.tsx": "1dbc7abf9ee9e65c672761f15ba3af83cd6202aac555d4e1a1d813163b4946cb"
+            }
+          },
+          "W-TESTLAB": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/test-lab/page.tsx",
+              "apps/web/src/app/workspace/test-lab/[id]/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/test-lab/page.tsx": "6e8566b97b0b5380b7599e3e67b963472e83822ddbb17d40e83bd29ebe535b46",
+              "apps/web/src/app/workspace/test-lab/[id]/page.tsx": "5487969dc7866230323169adb4d9237c63f319002608e79153585540d7eb4229"
+            }
+          },
+          "W-CAPABILITIES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/capabilities/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/capabilities/page.tsx": "a555db3e95bd5922977d5de914933fe44d6d9b11fb38b118e57d2b9779f22519"
+            }
+          },
+          "P-SIGNIN": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/sign-in/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/sign-in/page.tsx": "53ffa5de99ba3f0e26d8240e4ee1b6ba7348eea600d1789569729513089d8691"
+            }
+          },
+          "P-CHOICES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/page.tsx": "c20a188fc5cc0fe312a7282d60174708166a47b5becec2dd07ec2b8d68d34cb1"
+            }
+          },
+          "P-GRANT": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/page.tsx": "c20a188fc5cc0fe312a7282d60174708166a47b5becec2dd07ec2b8d68d34cb1"
+            }
+          },
+          "P-RECEIPT": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/receipt/[id]/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/receipt/[id]/page.tsx": "21d0a770615d1e78f401dee6bdf45343f0094ebff9bd6abe4e1f10d39dd65761"
+            }
+          },
+          "P-RECEIPTS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/receipts/page.tsx"
+            ],
+            "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/receipts/page.tsx": "28e18a060d7927b7465dedaf41b0fb6836aaf30a9cd22441986d9e3b74734656"
+            }
+          }
+        }
+      },
+      "review_status": "INSPECTED",
+      "limitations": [
+        "Source inspection of tracked route files and their hashes only.",
+        "Implementation is not browser acceptance, canonical scenario acceptance, Work acceptance of the screen or a human rehearsal.",
+        "Screen-level browser claims remain unevidenced pending a BROWSER_ACCEPTANCE producer."
+      ]
     }
   ],
   "document_checks_ref": "docs/reviews/cowork/VALIDATION.md (document checks only; not application tests)",

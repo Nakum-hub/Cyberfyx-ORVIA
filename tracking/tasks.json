@@ -212,13 +212,16 @@
         "T09",
         "T10"
       ],
-      "status": "BLOCKED",
-      "commit": null,
+      "status": "COMPLETED",
+      "commit": "3242521e59966885d8053747a82d96cb92ea55d5",
       "evidence": [
         "handoffs/codex/A02-publication.json",
         "docs/reviews/work/W01_A02_REVIEW.md",
         "docs/reviews/work/W01_A02_EVIDENCE.json",
-        "handoffs/work/W01-A02-a5b6ff7.md"
+        "handoffs/work/W01-A02-a5b6ff7.md",
+        "handoffs/codex/artifacts/A07-consent-integration-1789645869949-967a9fd6-3087-45da-9b39-0c8e54ae981d.json",
+        "handoffs/codex/artifacts/A07-expiry-integration-1789646017958-1f369060-4bc5-4689-8500-3fcf40b1045b.json",
+        "handoffs/work/final-prototype-continuation/W01-consolidated-review.md"
       ]
     },
     {
@@ -293,8 +296,8 @@
         "T08",
         "T09"
       ],
-      "status": "BLOCKED",
-      "commit": null,
+      "status": "COMPLETED",
+      "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
       "evidence": [
         "docs/reviews/work/AUTH_AND_CONSENT.md",
         "docs/reviews/work/W01_A01_EVIDENCE.json",
@@ -303,7 +306,11 @@
         "docs/reviews/work/W01_A02_EVIDENCE.json",
         "handoffs/work/W01-A02-a5b6ff7.md",
         "handoffs/work/W01-preparation-a5b6ff7.md",
-        "docs/reviews/work/W01_W03_PREPARATION.json"
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "handoffs/work/final-prototype-continuation/W01-consolidated-review.md",
+        "handoffs/work/final-prototype-continuation/T01-T30-reconciliation.md",
+        "handoffs/codex/artifacts/A07-auth-security-1789645754389-e1e3e132-9c26-4b6d-b878-c4e5b976e732.json",
+        "handoffs/codex/artifacts/A07-tls-integration-1789646809053-59dbc67f-e9e8-4344-bf56-442cf000284a.json"
       ]
     },
     {
@@ -329,11 +336,13 @@
         "T12",
         "T13"
       ],
-      "status": "BLOCKED",
-      "commit": null,
+      "status": "COMPLETED",
+      "commit": "034100943f2c2f2b8e8934921501093746962b9b",
       "evidence": [
         "handoffs/codex/A02-A07-continuation.md",
-        "docs/reviews/work/W01_A02_EVIDENCE.json"
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/codex/artifacts/A07-workflow-integration-1789646136254-11016705-c854-42a4-8acb-b58c356f1873.json",
+        "handoffs/work/final-prototype-continuation/W02-consolidated-review.md"
       ]
     },
     {
@@ -358,9 +367,12 @@
         "T15",
         "T16"
       ],
-      "status": "NOT_STARTED",
-      "commit": null,
-      "evidence": []
+      "status": "COMPLETED",
+      "commit": "94d3e72298bd8b3571d95425c3288ae4781ae418",
+      "evidence": [
+        "handoffs/codex/artifacts/A07-send-enforcement-1789646240320-8a3a2988-2905-4e96-9af7-dcebdfdc3c09.json",
+        "handoffs/work/final-prototype-continuation/W02-consolidated-review.md"
+      ]
     },
     {
       "id": "A05",
@@ -388,9 +400,12 @@
         "T21",
         "T22"
       ],
-      "status": "NOT_STARTED",
-      "commit": null,
-      "evidence": []
+      "status": "COMPLETED",
+      "commit": "d94f525e19d6eaab0999b838a3ac9debef9860a9",
+      "evidence": [
+        "handoffs/codex/artifacts/A07-evidence-integration-1789645594362-18028a06-424b-43bf-8363-b2358bb7f8f4.json",
+        "handoffs/work/final-prototype-continuation/W02-consolidated-review.md"
+      ]
     },
     {
       "id": "B03",
@@ -490,9 +505,13 @@
         "T27",
         "T28"
       ],
-      "status": "NOT_STARTED",
-      "commit": null,
-      "evidence": []
+      "status": "COMPLETED",
+      "commit": "3c2ee18f568cebb3c4add734c6c94a3f68e2c692",
+      "evidence": [
+        "handoffs/codex/artifacts/A07-regression-integration-1789646604777-caac7f33-7580-4dc2-ac9c-171ab199070e.json",
+        "handoffs/codex/artifacts/A07-network-qualification-1789649464712-61fc22c5-8651-4fd8-9679-cf7e0b0aef05.json",
+        "handoffs/work/final-prototype-continuation/W02-consolidated-review.md"
+      ]
     },
     {
       "id": "B04",
@@ -569,7 +588,9 @@
       "evidence": [
         "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
         "handoffs/work/W02-preparation-a5b6ff7.md",
-        "docs/reviews/work/W01_W03_PREPARATION.json"
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "handoffs/work/final-prototype-continuation/W02-consolidated-review.md",
+        "handoffs/work/final-prototype-continuation/T01-T30-reconciliation.md"
       ]
     },
     {

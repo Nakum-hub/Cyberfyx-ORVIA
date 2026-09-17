@@ -492,7 +492,10 @@ def main(argv=None):
         print("generated outputs are current" if not s else f"{len(s)} generated output(s) stale; run build_pack.py")
         return 1 if s else 0
     for p, c in build(root).items():
-        (root / p).write_text(c, encoding="utf-8")
+        # newline="" keeps the generated "\n" verbatim. Without it Python's text
+        # mode rewrites every line as CRLF on Windows, so the same inputs produce
+        # different bytes, different SHA-256 values and a whole-file Git diff.
+        (root / p).write_text(c, encoding="utf-8", newline="")
         print(f"wrote {p}")
     return 0
 

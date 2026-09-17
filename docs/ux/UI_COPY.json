@@ -1914,7 +1914,7 @@
       "approval_ref": "W00-A00-0.2.1",
       "accepted_field_ref": {
         "path": "packages/contracts/src/index.ts",
-        "quote": "export const Obligation = z.strictObject({ id: Id, required: z.boolean(), completion_criterion: z.enum(['CURRENT_SCOPED_OBSERVATION', 'ATTRIBUTED_MANUAL_ATTESTATION']).describe('CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.'), execution_state: ExecutionState, observation: Observation.nullable(), attestation: z.strictObject({ actor_id: Id, recorded_at: Time, statement: z.string().max(2000), evidence_record_ids: z.array(Id).min(1) }).nullable(), scope_still_current: z.boolean(), skip_reason: SafeText.nullable() });"
+        "quote": "export const Obligation = z.strictObject({ id: Id, task_version: Epoch.describe('Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence.'), required: z.boolean(), completion_criterion: z.enum(['CURRENT_SCOPED_OBSERVATION', 'ATTRIBUTED_MANUAL_ATTESTATION']).describe('CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.'), execution_state: ExecutionState, observation: Observation.nullable(), attestation: z.strictObject({ actor_id: Id, recorded_at: Time, statement: z.string().max(2000), evidence_record_ids: z.array(Id).min(1) }).nullable(), scope_still_current: z.boolean(), skip_reason: SafeText.nullable() });"
       }
     },
     {
@@ -7885,7 +7885,7 @@
       "version": "0.2.1",
       "accepted_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
       "decision_path": "docs/reviews/work/C00-copy-source-review.md",
-      "decision_sha256": "61b085a33898d710eaa2d51df3a4b28d928a247cff15c97bd41a3e43d7546732",
+      "decision_sha256": "9060f7ad82ab96ec582157ba6432e81394023a30dfba3e3c5568c8782702d538",
       "quoted_text": "Work accepts the display bindings listed below to the already accepted contract **0.2.1**",
       "copy_ids": [
         "permission.action.setup_mfa",
@@ -8073,32 +8073,32 @@
           "copy_id": "reason.reconciliation.READ_UNAVAILABLE",
           "required_state": "INCONCLUSIVE",
           "source_path": "packages/domain/src/evidence.ts",
-          "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
+          "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0"
         },
         {
           "code": "STALE_SCOPE",
           "copy_id": "reason.reconciliation.STALE_SCOPE",
           "required_state": "INCONCLUSIVE",
           "source_path": "packages/domain/src/evidence.ts",
-          "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
+          "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0"
         },
         {
           "code": "DESIRED_STATE_NOT_OBSERVED",
           "copy_id": "reason.reconciliation.DESIRED_STATE_NOT_OBSERVED",
           "required_state": "INCONCLUSIVE",
           "source_path": "packages/domain/src/evidence.ts",
-          "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
+          "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0"
         }
       ]
     }
   },
   "overview_bindings": {
-    "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+    "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
     "source_path": "packages/domain/src/evidence.ts",
-    "source_sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
+    "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
     "count_units": {
       "accepted": "WORKFLOWS",
       "running": "WORKFLOWS",
@@ -8119,7 +8119,7 @@
   },
   "display_rules_review": {
     "path": "docs/reviews/work/C00-copy-source-review.md",
-    "sha256": "61b085a33898d710eaa2d51df3a4b28d928a247cff15c97bd41a3e43d7546732",
+    "sha256": "9060f7ad82ab96ec582157ba6432e81394023a30dfba3e3c5568c8782702d538",
     "review_kind": "WORK_AUTHORED_SEMANTIC_DECISION_AND_SELF_REVIEW",
     "application_acceptance": false
   }

@@ -1,38 +1,38 @@
 {
   "document": "Work successor generated-output manifest",
-  "as_of": "2026-09-16T21:51:28Z",
+  "as_of": "2026-09-17T13:05:00Z",
   "generator": "docs/reviews/cowork/tools/build_pack.py",
   "inputs": {
-    "docs/ux/UI_COPY.json": "4fabf5b8a819ee7bac26110ae97b0d45b7bfbc9c6e4f9c1bf5068a5769e60604",
+    "docs/ux/UI_COPY.json": "1e516db0012e61a890f671aae3f1cce582a209168ccb8d110971a8b6a17d195d",
     "docs/demo/demo_steps.json": "834463f16880f712c670afded88134c4dca249b4ef2f9aa87a2361f029938dbb",
-    "docs/demo/EVIDENCE_INDEX.json": "18a6873e052cc9666a3069cbaf46002af8ae1976a543d013f7a47c8fc7ac61e0",
-    "docs/reviews/cowork/DELIVERY_STATUS.json": "4b927383be9eb561bf384c22c367f0f4ed48c2e302fe6d714b358fca4637aea7",
+    "docs/demo/EVIDENCE_INDEX.json": "a104117b15236f839ce80969d30de7d6f4828fba2396adad3d8c2388993b9779",
+    "docs/reviews/cowork/DELIVERY_STATUS.json": "906280fcf7a80b56e410d07829e33e83ef36ad364b762574d464120441a8d953",
     "docs/reviews/cowork/FINDINGS.csv": "ef49e960cae5d707dc9abd5fef33b2d2b9abde190206378934320e9a2e2646d1",
     "docs/demo/CLAIMS_REGISTER.md": "8e57888c8d10c89e14c7a0458ac4d76f830bde46258352dbc3c8e614b87be522",
     "docs/reviews/cowork/tools/pack.css": "028544e23927ec1f9882db32a7ddd216d343c4cab5bf09c7aa6de3475ed77e9b",
-    "docs/reviews/cowork/tools/build_pack.py": "4178d12435457a105f5dc5c59649c44a11545395f2b1574713ff81e2f98d2e05",
+    "docs/reviews/cowork/tools/build_pack.py": "295787e3aeb347486099e0713d0b67d45e80710e54bcbcd75a3644bf0a60d51a",
     "docs/reviews/cowork/tools/evidence_rules.py": "f561ceb1ca51d5331158ad0acb00248e98447406b9530c21436e8ecab410a2fd",
     "docs/reviews/cowork/tools/validate_docs.py": "6b1d5a60921e4f9fa00371164c0a93a12790aa1b14f97c840f8652faa083d41d",
     "AGENTS.md": "dba1483a35a4a4d74efcf49f0d2754ca473709d85d54c5b3330ee7bee36c2eea",
-    "CURRENT_STATE.md": "ba11bc4979c6a13eac2fea299a2b34b36de636dd28ef53d7131ba8695e942ee7",
+    "CURRENT_STATE.md": "ecc83ec1166ff1463ea00e79640cd01e6da8c98c9a729a9f7e61a8f9e1b5c4ad",
     "docs/prototype/EXECUTION_PLAN.md": "be3581b2fa1cefe5a759ce551f1999d419f982f165ff56fdf777c12a6b909bd5",
     "docs/prototype/CONTRACT.md": "05bbc913fc8efac83c8b8f8e1173f9dd7b9e5acc8f823bc3fac1cf49a6bd64cc",
     "docs/prototype/ACCEPTANCE.md": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320",
     "docs/prototype/FILE_OWNERSHIP.md": "4f301faf87126a3ed23effeb88fb32e700b1613f42f3dd4aadd391854f5ba4d6",
     "docs/decisions/ADR-001-prototype-profile.md": "59649c767de56d34aef78a28232688d2dcdf80160e1c2f096ca11fd89053bcd9",
-    "tracking/tasks.json": "4e3da53ea5d55470ebc34f493eed504af8c7ac09bb739c9d5402cea841b7f6d6",
-    "tracking/acceptance.json": "477949910fb48fa750a74124aed751911401802310b7e2c0dcf75716f1f801be",
+    "tracking/tasks.json": "3417cf88e5060a6ca3130b9e96d7768d336651d1b10d93856f11d08575c430e7",
+    "tracking/acceptance.json": "3812dc5643a074b6707d2084cfab4b666f07fa332d8c7d1c12826ba81ab6c340",
     "tracking/capabilities.json": "34ba16bbebdad5c21a4851341ef011be3518176ad6836f1521b5ae130b347669",
-    "packages/contracts/src/index.ts": "83f05e999e9215a79c46e9ccc236f2db459b31f0df652cb8691824b909adb6f1",
+    "packages/contracts/src/index.ts": "72dc6c9982d5fa6fce2f84c4a5a0a927fcf405a4ec606eb64057e35c90b952bb",
     "docs/ux/ACCEPTANCE_JOURNEYS.md": "8ddf2a7a5e22f45e994d79d3c6dc213c8de255979870a2b56de664e524289d88",
-    "docs/runbooks/OPERATOR.md": "4100260e1a94d4e09b7dfe5e88f48cad8d620fd20c4548302a12fbded474cdf7",
+    "docs/runbooks/OPERATOR.md": "a2df860d4828b4c2d9bdc7c963c5fca7d8d2659b88e7b9259294437e468c5589",
     "docs/prototype/RELEASE_CHECKLIST.md": "e603d0cc1010da28c41785672a3af7851cee1d8bba97d4c0fb83cae2f291b0ec",
-    "docs/reviews/work/C00-copy-source-review.md": "61b085a33898d710eaa2d51df3a4b28d928a247cff15c97bd41a3e43d7546732"
+    "docs/reviews/work/C00-copy-source-review.md": "9060f7ad82ab96ec582157ba6432e81394023a30dfba3e3c5568c8782702d538"
   },
   "outputs": {
     "docs/prototype/UX_BRIEF.md": "118e2671b9385ef2e5d8d23e9ae9773411f3f17abdbb6ed411655f16550bc049",
     "docs/prototype/DEMO_SCRIPT.md": "044c823b2f876b2c242228909492db386802607dbf441b4f8487df07d06d87ee",
-    "docs/demo/LEADERSHIP_HANDOVER.md": "560fd5e25c1b98f681dcdaf373dcf394644339a8081572a35137ee2165ee99ad",
-    "docs/demo/index.html": "abdf9c7e281f1162a4116ae950c70e050a10a3016f17a7afa60a25804da2ad49"
+    "docs/demo/LEADERSHIP_HANDOVER.md": "e7d927a9124e93ad92df9523ecd24622eaaf21d8ebd16505d876eaa190edfbf4",
+    "docs/demo/index.html": "e59d4bb0b61e285ffe71a9897b21cd238c8ff363ea8e672d99c275d7e3078c19"
   }
 }

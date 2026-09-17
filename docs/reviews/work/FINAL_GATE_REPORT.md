@@ -127,3 +127,45 @@ The master remains authoritative for pilot/production: applicable Critical/High 
 The next dependency-ready correction is Codex A02 F01; authorized A03–A07 coding may continue. Claude Code B00 has its accepted A00 start and must follow the UI graph; C00 is needed for its acceptance. Human reviews/merges the Work documentation PR. After the coding/UI/claims artifacts arrive, use [WORK_REVIEW_QUEUE.md](WORK_REVIEW_QUEUE.md) for one consolidated review, applying W01 → W02 → W03 acceptance in order.
 
 The [W03 preparation handoff](../../../handoffs/work/W03-preparation-a5b6ff7.md) records completed Work documents and the actual validation. No merge to main, reset, rehearsal, release approval or automatic future task is performed by this checkpoint. Work alone consolidates CURRENT_STATE and canonical results.
+
+---
+
+## W03 status — 2026-09-17
+
+**Recommendation: NOT_READY.** This is unchanged, and the reason has changed. Everything above this line is
+retained at its original date.
+
+### What is now satisfied
+
+| W03 gate | State | Basis |
+|---|---|---|
+| W01 accepted | **YES** | `AUTH_AND_CONSENT.md`, W01 consolidated acceptance, 2026-09-17 |
+| W02 accepted | **Review content yes; ticket BLOCKED** | `INTEGRATION_AND_SECURITY.md`; blocked only by the B04 chain behind C00 |
+| Exact final candidate frozen | **YES** | `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, manifest SHA-256 `95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026`, independently verified 242/242 |
+| Browser evidence | **YES** | 16/16 PASS, exit 0, at the exact candidate commit and tree, normal trusted HTTPS |
+| No unresolved blocking finding | **YES** for blocking severity | one LOW open finding, FINAL-CONT-F08 |
+| Limitations documented | **YES** | retained in the manifest, both reviews and `CURRENT_STATE.md` |
+| T01–T30 results | **NO** | all NOT_RUN; 25 of 30 have full component coverage at the candidate, 5 are PARTIAL with named gaps |
+| C01/C02 aligned | **PARTIAL** | candidate identity and source inspection refreshed; screen-level browser claims blocked by FINAL-CONT-F08 |
+| Two qualifying rehearsals | **NO** | R1 and R2 NOT_RUN |
+| Human sign-off | **NO** | not given |
+
+### Why NOT_READY
+
+Two mandatory gates are genuinely unmet, and neither can be closed by this lane:
+
+1. **Rehearsal 1 and Rehearsal 2 have not been run.** They are human-run or human-supervised by design.
+   They are also the designed producer of the `APPLICATION_ACCEPTANCE` / `FULL_SCENARIO` records that
+   `scripts/tracking.ts` requires before any canonical test may be promoted to PASS.
+2. **C00 acceptance is an outstanding human decision**, and it gates the entire canonical board chain
+   `C00 → B00 → B01/B02 → B03 → B04 → W02 → A07 → B06 → C02 → W03`.
+
+No canonical test was promoted to PASS from component evidence, and no acceptance record was
+hand-authored. `handoffs/work/final-prototype-continuation/T01-T30-reconciliation.md` states, per
+scenario, exactly what ran and exactly what is missing.
+
+### Rehearsal readiness
+
+The candidate, environment, fixtures and trusted HTTPS are all in place, and the step-by-step procedure is
+`handoffs/work/final-prototype-continuation/REHEARSAL_RUNBOOK.md`. Two rerenderings of one report, or
+replaying one recording, are still not two rehearsals.

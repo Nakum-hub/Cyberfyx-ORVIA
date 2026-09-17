@@ -1,6 +1,6 @@
 # Task board — generated from tracking/tasks.json
 
-Status counts: BLOCKED: 7; COMPLETED: 3; IN_REVIEW: 1; NOT_STARTED: 12.
+Status counts: BLOCKED: 4; COMPLETED: 9; IN_REVIEW: 1; NOT_STARTED: 9.
 
 | ID | Owner | Priority | Status | Task | Start after | Accept after | Tests |
 |---|---|---|---|---|---|---|---|
@@ -10,15 +10,15 @@ Status counts: BLOCKED: 7; COMPLETED: 3; IN_REVIEW: 1; NOT_STARTED: 12.
 | B00 | codex | P0 | NOT_STARTED | Build UI shell from shared scaffold | A00 | C00 | Review deliverable |
 | A01 | codex | P0 | COMPLETED | Auth, bootstrap, scoped relational persistence | A00 | Own evidence | T02, T03, T04, T05, T27 |
 | B01 | codex | P0 | NOT_STARTED | Real login and configuration screens | B00 | A01, A02 | T02, T05, T06, T29 |
-| A02 | codex | P0 | BLOCKED | Versioned configuration and transactional consent | A01 | Own evidence | T06, T07, T08, T09, T10 |
+| A02 | codex | P0 | COMPLETED | Versioned configuration and transactional consent | A01 | Own evidence | T06, T07, T08, T09, T10 |
 | B02 | codex | P0 | NOT_STARTED | Principal consent journey | B00 | A02 | T04, T07, T08, T29 |
-| W01 | work | P0 | BLOCKED | Review authority and consent contracts | A00 | A01, A02 | T03, T04, T05, T08, T09 |
-| A03 | codex | P0 | BLOCKED | Durable workflow and restricted CRM execution | A02 | Own evidence | T10, T11, T12, T13 |
-| A04 | codex | P0 | NOT_STARTED | Policy enforcement and synthetic send admission | A03 | Own evidence | T14, T15, T16 |
-| A05 | codex | P0 | NOT_STARTED | Uncertain effects, observations and local evidence | A03 | Own evidence | T13, T17, T18, T19, T20, T21, T22 |
+| W01 | work | P0 | COMPLETED | Review authority and consent contracts | A00 | A01, A02 | T03, T04, T05, T08, T09 |
+| A03 | codex | P0 | COMPLETED | Durable workflow and restricted CRM execution | A02 | Own evidence | T10, T11, T12, T13 |
+| A04 | codex | P0 | COMPLETED | Policy enforcement and synthetic send admission | A03 | Own evidence | T14, T15, T16 |
+| A05 | codex | P0 | COMPLETED | Uncertain effects, observations and local evidence | A03 | Own evidence | T13, T17, T18, T19, T20, T21, T22 |
 | B03 | codex | P0 | NOT_STARTED | Live workflow, failures, dashboard and evidence | B01, B02 | A03, A05 | T13, T17, T19, T20, T21, T22, T29 |
 | C01 | work | P0 | BLOCKED | Capability truthfulness and operator runbook | C00 | A00, B00 | Review deliverable |
-| A06 | codex | P0 | NOT_STARTED | Regression runner, recovery and security checks | A04, A05 | Own evidence | T03, T08, T09, T10, T11, T12, T14, T15, T16, T17, T18, T19, T20, T22, T23, T24, T25, T26, T27, T28 |
+| A06 | codex | P0 | COMPLETED | Regression runner, recovery and security checks | A04, A05 | Own evidence | T03, T08, T09, T10, T11, T12, T14, T15, T16, T17, T18, T19, T20, T22, T23, T24, T25, T26, T27, T28 |
 | B04 | codex | P0 | NOT_STARTED | Test Lab and integrated browser acceptance | B03 | A04, A05, A06 | T14, T23, T24, T26, T27, T29 |
 | W02 | work | P0 | BLOCKED | Cross-system correctness and security review | W01, A03 | A04, A05, A06, B04 | T11, T12, T14, T17, T18, T20, T24, T25, T26 |
 | A08 | codex | P1 | NOT_STARTED | One explicitly promoted optional backend slice | A06 | W02 | T31, T32, T33, T34 |
@@ -90,13 +90,13 @@ Bind login/configuration forms and current identity to generated client; publish
 
 ## A02 — Versioned configuration and transactional consent
 
-**Owner:** codex · **Status:** BLOCKED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** COMPLETED · **Accepted commit:** 3242521e59966885d8053747a82d96cb92ea55d5
 
 Purpose/notice/policy approval, principal/system mapping, consent aggregate/events/idempotency/outbox and receipts.
 
 **Planned files:** `packages/domain/**`; `packages/db/migrations/**`; `apps/web/src/app/api/**`; `policy/processing/**`; `tests/integration/consent/**`
 
-**Evidence:** `handoffs/codex/A02-publication.json`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`
+**Evidence:** `handoffs/codex/A02-publication.json`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`; `handoffs/codex/artifacts/A07-consent-integration-1789645869949-967a9fd6-3087-45da-9b39-0c8e54ae981d.json`; `handoffs/codex/artifacts/A07-expiry-integration-1789646017958-1f369060-4bc5-4689-8500-3fcf40b1045b.json`; `handoffs/work/final-prototype-continuation/W01-consolidated-review.md`
 
 ## B02 — Principal consent journey
 
@@ -110,43 +110,43 @@ Own choices/notice/history and grant/withdraw receipt with real persisted status
 
 ## W01 — Review authority and consent contracts
 
-**Owner:** work · **Status:** BLOCKED · **Accepted commit:** None recorded
+**Owner:** work · **Status:** COMPLETED · **Accepted commit:** 81431d64afb8dd613c96d942402d8c0d8cc07ac0
 
 Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.
 
 **Planned files:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `CURRENT_STATE.md`; `docs/reviews/work/W01_A01_CODEX_NEXT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A01-50cb4da/**`; `docs/reviews/work/repro/W01-A01-source-audit.py`; `handoffs/work/W01-A01-50cb4da.md`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`; `docs/prototype/CONTRACT.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_CODEX_FIX.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `docs/reviews/work/artifacts/W01-A02-a5b6ff7/**`; `docs/reviews/work/repro/W01-A02-source-audit.py`; `docs/reviews/work/repro/W01-A02-F01-expiry.sql`; `handoffs/work/W01-A02-a5b6ff7.md`; `handoffs/work/W01-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `docs/reviews/work/WORK_REVIEW_QUEUE.md`; `docs/reviews/work/repro/W01-W03-document-check.py`; `docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**`
 
-**Evidence:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`; `handoffs/work/W01-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`
+**Evidence:** `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`; `handoffs/work/W01-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `handoffs/work/final-prototype-continuation/W01-consolidated-review.md`; `handoffs/work/final-prototype-continuation/T01-T30-reconciliation.md`; `handoffs/codex/artifacts/A07-auth-security-1789645754389-e1e3e132-9c26-4b6d-b878-c4e5b976e732.json`; `handoffs/codex/artifacts/A07-tls-integration-1789646809053-59dbc67f-e9e8-4344-bf56-442cf000284a.json`
 
 ## A03 — Durable workflow and restricted CRM execution
 
-**Owner:** codex · **Status:** BLOCKED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** COMPLETED · **Accepted commit:** 034100943f2c2f2b8e8934921501093746962b9b
 
 Stable workflow and command identities; signed scopes; real CRM remove/read adapter; restart-safe outbox delivery.
 
 **Planned files:** `apps/worker/**`; `apps/agent/**`; `packages/connectors/**`; `packages/db/**`; `tests/integration/workflows/**`
 
-**Evidence:** `handoffs/codex/A02-A07-continuation.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`
+**Evidence:** `handoffs/codex/A02-A07-continuation.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/codex/artifacts/A07-workflow-integration-1789646136254-11016705-c854-42a4-8acb-b58c356f1873.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
 ## A04 — Policy enforcement and synthetic send admission
 
-**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** COMPLETED · **Accepted commit:** 94d3e72298bd8b3571d95425c3288ae4781ae418
 
 Current-epoch send boundary, independent service fixture and fail-closed/queue degraded processing with tested ordering.
 
 **Planned files:** `packages/policy-sdk/**`; `packages/authz/**`; `policy/processing/**`; `apps/demo-targets/**`; `tests/integration/enforcement/**`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/artifacts/A07-send-enforcement-1789646240320-8a3a2988-2905-4e96-9af7-dcebdfdc3c09.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
 ## A05 — Uncertain effects, observations and local evidence
 
-**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** COMPLETED · **Accepted commit:** d94f525e19d6eaab0999b838a3ac9debef9860a9
 
 REST fault/reconciliation, known failure/manual task, truthful aggregate status, separate observations and audited JSON export.
 
 **Planned files:** `packages/domain/**`; `packages/connectors/**`; `apps/demo-targets/**`; `apps/web/src/app/api/**`; `tests/integration/evidence/**`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/artifacts/A07-evidence-integration-1789645594362-18028a06-424b-43bf-8363-b2358bb7f8f4.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
 ## B03 — Live workflow, failures, dashboard and evidence
 
@@ -170,13 +170,13 @@ Map full module vision to actual tested depth; record real setup commands only f
 
 ## A06 — Regression runner, recovery and security checks
 
-**Owner:** codex · **Status:** NOT_STARTED · **Accepted commit:** None recorded
+**Owner:** codex · **Status:** COMPLETED · **Accepted commit:** 3c2ee18f568cebb3c4add734c6c94a3f68e2c692
 
 Allowlisted real assertions, broken-fixture detection, worker recovery, target quarantine restore, network/secret/input/command tests; fix failures.
 
 **Planned files:** `packages/testing/**`; `tests/fault-fixtures/**`; `tests/integration/**`; `tests/security/**`; `tests/recovery/**`; `apps/web/src/app/api/**`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/artifacts/A07-regression-integration-1789646604777-caac7f33-7580-4dc2-ac9c-171ab199070e.json`; `handoffs/codex/artifacts/A07-network-qualification-1789649464712-61fc22c5-8651-4fd8-9679-cf7e0b0aef05.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
 ## B04 — Test Lab and integrated browser acceptance
 
@@ -196,7 +196,7 @@ Read exact commit/results, challenge unknown/verified/recovery/egress claims, tr
 
 **Planned files:** `docs/reviews/work/INTEGRATION_AND_SECURITY.md`; `CURRENT_STATE.md`; `handoffs/work/W02-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `docs/reviews/work/WORK_REVIEW_QUEUE.md`; `docs/reviews/work/repro/W01-W03-document-check.py`; `docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`
 
-**Evidence:** `docs/reviews/work/INTEGRATION_AND_SECURITY.md`; `handoffs/work/W02-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`
+**Evidence:** `docs/reviews/work/INTEGRATION_AND_SECURITY.md`; `handoffs/work/W02-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`; `handoffs/work/final-prototype-continuation/T01-T30-reconciliation.md`
 
 ## A08 — One explicitly promoted optional backend slice
 

@@ -44,3 +44,41 @@ Work self-review against merged main `9bb8f2900909997f63db864eeea1211523aa5819`;
 The overview counts use the inspected `evidence.ts` / `completion.ts` predicate and mixed units described above. Execution-state counts are not unresolved-obligation counts. The following fingerprint binds the full `reason_mappings` and `overview_bindings` objects, including exact source hashes, states, copy IDs, fallbacks, predicates and limits, serialized as UTF-8 JSON with sorted keys and compact separators. Changing any binding requires an explicit source cross-check and refreshed review; merely keeping a valid source hash is insufficient. This is Work's authored display decision and self-review, not consumer execution or independent acceptance.
 
 Reviewed display-rule SHA-256: `dab2f46bd20f6657548067e8c8784f626de102448616591eb71d1ae6a2a9d3ec`
+
+---
+
+## Source-guard re-review at the frozen candidate — 2026-09-17
+
+Candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`. Three source guards in `docs/ux/UI_COPY.json` fired
+because their bound application source changed since `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`. Each was
+re-read before rebinding. **No display decision changed**; only the recorded source identity was advanced.
+
+1. **`state.action.SKIPPED.detail` accepted field.** `packages/contracts/src/index.ts` `Obligation` gained
+   one required field, `task_version`, as part of the coordinated transport 0.5.0 manual-attestation
+   correction. The accepted field for this copy entry, `skip_reason: SafeText.nullable()`, is byte-identical
+   and still last in the object; `completion_criterion`, `observation`, `attestation` and
+   `scope_still_current` are unchanged. The quote is advanced to the current exact definition so any future
+   schema change re-triggers this review. The 0.2.1 approval binding is untouched.
+
+2. **`reason_mappings.reconciliation` (`READ_UNAVAILABLE`, `STALE_SCOPE`, `DESIRED_STATE_NOT_OBSERVED`).**
+   All three still originate from the single expression at `packages/domain/src/evidence.ts:39`, with
+   unchanged meaning: `READ_UNAVAILABLE` when the observation state is `UNVERIFIABLE`, `STALE_SCOPE` when
+   the scope is not current, `DESIRED_STATE_NOT_OBSERVED` otherwise, and `null` when satisfied. The file
+   hash moved because of the A06 change `3c2ee18f568cebb3c4add734c6c94a3f68e2c692`, which persists real
+   regression outcomes and does not touch these codes. The safe unknown-code policy
+   `NO_AUTHORITY_NO_RETRY_NO_OBSERVATION_INFERENCE` is retained.
+
+3. **`overview_bindings`.** Bound to the same `packages/domain/src/evidence.ts`, so it moved for the same
+   reason. The predicate source `packages/domain/src/completion.ts` is **unchanged** and its hash still
+   matches. Count units remain `WORKFLOWS` for accepted/running/needs_attention/completed and
+   `OBLIGATIONS` for effect_unknown/manual_required/failed/unverified, and `may_sum_cards` remains false.
+   The runtime behaviour was re-confirmed by the evidence integration suite at this candidate
+   (`overview workflow counts come from scoped persisted rows`, `overview exposes unknown and manual axes`).
+
+This is Work-authored semantic re-review against inspected source. It is not application acceptance,
+browser acceptance or a human rehearsal.
+
+Reviewed display-rule SHA-256: `e693be70631da7e5728f0838b9e1219e23265fd7a9141584181ba7ab11ecc0c5`
+
+The earlier digest recorded above this section remains the historical binding for the
+`1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac` revision of these mappings.

@@ -1,0 +1,16 @@
+PASSED B01 real staff MFA, refresh, actor separation and logout
+PASSED B01 rejected login and read-only authority
+PASSED B01 expired browser session is rechecked and protected content disappears
+PASSED B06 candidate walkthrough across staff, privacy, enforcement and evidence
+PASSED B06 real dependency outage, malformed ID, denied scope and responsive navigation
+PASSED B01 configure purpose/notice/system/policy and distinct reviewer publication persists
+PASSED B02 principal consent, immutable receipt, withdrawal, history and refresh
+PASSED B02 lost committed response retains exact request across read and replays one event
+PASSED B02 stale interaction denial has no extra event and withdrawal modal supports Escape
+PASSED B04 real healthy, broken detection, repaired and target restoration results
+PASSED B04 actual interrupted operator is recovered as ERROR without fabricated pass
+PASSED B06 real browser validates rehearsal HTTPS without certificate bypass
+PASSED B03 real target effect, independent read, workflow persistence and evidence export
+PASSED B03 applied response lost, read reconciliation and visible manual obligation
+PASSED B03 acknowledgement without effect remains unresolved and never verified
+PASSED B03 manual task uses its read version, preserves replay and rejects a stale tab

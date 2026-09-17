@@ -11,15 +11,15 @@ Where a statement depends on evidence, it is written as the claim to be made **o
 ## Readiness at a glance (generated)
 
 <!-- BEGIN GENERATED: handover-readiness -->
-As of 2026-09-16T21:51:28Z (DELIVERY_STATUS.json).
+As of 2026-09-17T13:05:00Z (DELIVERY_STATUS.json).
 
 | Question | Answer |
 |---|---|
-| Documentation base | `9bb8f29` (current source inspection EV-SRC-008, 2026-09-16T21:51:28Z) |
-| Application at that base | Accepted A00/A01 plus supplied A02–A05 producer sources/reports. A05 supplies reconciliation, manual attestation, actual simulator, scoped evidence/export, counts/failure projections and connector catalogue. Only foundation UI routes exist; no workspace/privacy screens, A07 candidate or B06 browser evidence. Source/producer inspection does not accept these implementations. |
-| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `9bb8f29`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
+| Documentation base | `81431d6` (current source inspection EV-SRC-009, 2026-09-17T13:05:00Z) |
+| Application at that base | Frozen candidate 81431d64afb8dd613c96d942402d8c0d8cc07ac0, tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437, host build mtRrfhGjl22jabwoImHIf. All 18 designed workspace and Privacy Centre screens are implemented as tracked Next routes. A complete Playwright run at this exact commit passed 16/16. Screen-level browser results are still NOT_RUN because the reporter emits no BROWSER_ACCEPTANCE record with screen_ids (finding FINAL-CONT-F08); source inspection is not browser acceptance and neither is Work acceptance or a human rehearsal. |
+| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `81431d6`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
 | Production readiness | **NOT_ASSESSED**. Source: `CURRENT_STATE.md`, quoted: “Production security/legal/supply-chain/full recovery NOT_ASSESSED”. |
-| Frozen candidate | NOT_IDENTIFIED |
+| Frozen candidate | IDENTIFIED `81431d64afb8dd613c96d942402d8c0d8cc07ac0` |
 | P0 scenarios with an inspected PASS on the candidate | 0 of 30 (records indexed: 0) |
 | Engineering reports indexed (not acceptance) | 221 (39 with non-zero exit, retained) |
 | Presentation deadline | See F-015 in FINDINGS.csv |

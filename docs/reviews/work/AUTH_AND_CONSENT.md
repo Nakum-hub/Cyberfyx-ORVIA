@@ -95,3 +95,44 @@ These are existing later-ticket gates and evidence limitations, not reasons to r
 ## Next handoff
 
 Human reviews/merges this Work review/tracker branch. Codex then starts **A02 only**, preserving A01 and the approved stack. See the [copyable Codex prompt](W01_A01_CODEX_NEXT.md). W01 remains open through A02 acceptance; W02/W03 retain the canonical dependencies. Claude Code/Cowork continue their own dependency-ready work. Cowork [PR #7](https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/7) exists as an unmerged draft and was not accepted or substantively reviewed in this A01 checkpoint. No lane handoff, implementation path, source original or dependency ownership is transferred.
+
+---
+
+## W01 consolidated acceptance — 2026-09-17
+
+**Decision: ACCEPTED.** Candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, tree
+`e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437`, contract 0.5.0 / signed command 0.3.0,
+profile `rehearsal`, fixture `aster-birch-v1`. Everything above this line is retained at its original date
+and authorship; nothing is rewritten.
+
+**W01-A02-F01 is CLOSED on executed evidence, not on merge.** `tests/integration/consent/expiry.test.ts`
+ran against real HTTP and real PostgreSQL locks at this candidate: **87 assertions, 0 failures**, including
+**15 actual `transaction and wait began before expiry` controls**. For each of the aggregate, interaction,
+publication and idempotency wait modes it confirms the wait started before expiry, releases after the
+expiry is observed, asserts the HTTP status and then asserts that
+`aggregate / interaction / event / receipt / workflow / outbox / idempotency` rows are unchanged. Fresh
+paths, committed replay after expiry, replay response identity, replay row preservation and
+still-required authentication are asserted separately.
+Evidence: `handoffs/codex/browser/B06-exec-2026-09-17T11-52-38.674Z/command.json` (exit 0) and
+`handoffs/codex/artifacts/A07-expiry-integration-1789646017958-1f369060-4bc5-4689-8500-3fcf40b1045b.json`.
+
+| W01 closure check | Result at this candidate | Evidence |
+|---|---|---|
+| Server authority, domain separation, MFA, scope isolation, RLS, role boundaries | PASS, exit 0, 87/87 | `B06-exec-2026-09-17T11-48-52.399Z`; `A07-auth-security-1789645754389-…` |
+| Grant, immutable receipt, atomic withdrawal, history, restart persistence | PASS, exit 0, 50 assertions | `B06-exec-2026-09-17T11-50-49.858Z`; `A07-consent-integration-1789645869949-…` |
+| Freshness/expiry at consumption after lock waits (F01) | PASS, exit 0, 87/87 | as above |
+| Trusted TLS chain, wrong-host/untrusted rejection, no plaintext fallback, secure cookie namespaces | PASS, exit 0, 12 assertions | `B06-exec-2026-09-17T12-06-43.711Z`; `A07-tls-integration-1789646809053-…` |
+| Browser authority, configuration and consent journeys | PASS 7/7 of the relevant specs inside a 16/16 suite run at this exact commit | `handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/results.json` |
+
+**Retained failure.** `handoffs/codex/browser/B06-exec-2026-09-17T11-46-50.057Z` is an auth suite FAIL,
+exit 1: `wrong MFA code rejected` expected 401, actual 429, because the authentication rate-limit window
+had been consumed by the immediately preceding operator execution. The product rate-limited correctly.
+The run is retained; the rerun after the window cleared is the PASS above.
+
+**Limitations.** Synthetic Aster/Birch data only. Work-lane acceptance of executed evidence, not an
+independent penetration test, human rehearsal or release approval. `tests/security/fixture-isolation.ts`
+is pinned to the `codex-a00` profile and is NOT_RUN for this candidate. Normal Chromium HTTPS depended on a
+temporary, explicitly human-approved CurrentUser CA trust, recorded in
+`handoffs/work/final-prototype-continuation/certificate-trust.json`; no validation bypass was used.
+
+Full review: `handoffs/work/final-prototype-continuation/W01-consolidated-review.md`.

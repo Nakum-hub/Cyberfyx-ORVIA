@@ -196,7 +196,11 @@ class R4Tests(legacy.DocToolCase):
 
     def test_screen_unknown_and_source_only_browser_claim_fail(self):
         st=self.jload(ST);ev=self.jload(EV);self.assertEqual(rules.screen_errors(self.root,st['screens'],ev),[])
-        for values in [dict(evidence='UNKNOWN'),dict(tested='PASS'),dict(implementation='IMPLEMENTED')]:
+        # The control must state an implementation that contradicts the current
+        # source inspection. Hard-coding IMPLEMENTED stopped perturbing anything
+        # once the screens were genuinely implemented, so derive the opposite.
+        contradiction='NOT_IMPLEMENTED' if st['screens'][0]['implementation']=='IMPLEMENTED' else 'IMPLEMENTED'
+        for values in [dict(evidence='UNKNOWN'),dict(tested='PASS'),dict(implementation=contradiction)]:
             with self.subTest(values=values):
                 screens=copy.deepcopy(st['screens']);screens[0].update(values)
                 self.assertTrue(rules.screen_errors(self.root,screens,ev))

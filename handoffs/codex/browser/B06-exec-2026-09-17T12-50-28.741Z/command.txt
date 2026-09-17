@@ -1,0 +1,15 @@
+PASS runtime image matches current source
+PASS service network is internal
+PASS postgres belongs to named profile
+PASS opa belongs to named profile
+PASS temporal belongs to named profile
+PASS controlled canary is reachable in positive control
+PASS runtime has only the internal service network
+PASS runtime publishes no host ports
+Artifact: handoffs/codex/artifacts/A07-network-core-1789649460539-21c84475-ae56-4bd3-9a0a-e069c25092f3.json
+PASS actual backend core succeeds under blocked egress
+PASS isolated runtime never reached controlled external endpoint
+PASS deny-all DNS observed controlled query
+PASS no unexpected DNS queries
+PASS core used PostgreSQL OPA and Temporal
+Artifact: handoffs/codex/artifacts/A07-network-qualification-1789649464712-61fc22c5-8651-4fd8-9679-cf7e0b0aef05.json

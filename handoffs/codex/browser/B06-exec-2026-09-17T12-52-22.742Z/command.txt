@@ -1,0 +1,9 @@
+{
+  "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+  "source_tree_sha256": "e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437",
+  "manifest": "artifacts/release-manifest.json",
+  "manifest_sha256": "95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026",
+  "browser_gate": "PASS_ENGINEERING",
+  "browser_archive_files": 337,
+  "package_result": "PASS"
+}

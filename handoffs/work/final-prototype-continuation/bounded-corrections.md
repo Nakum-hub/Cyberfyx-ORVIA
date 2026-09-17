@@ -85,3 +85,71 @@ state is manufactured and the recovery path is unchanged.
 
 Browser execution of the retests above is **BLOCKED** pending fresh explicit human approval to reinstall
 the reviewed rehearsal CA in `CurrentUser\Root`; see `START.md` for the re-verified certificate identity.
+
+---
+
+## FINAL-CONT-F08 — LOW, no per-screen browser acceptance producer (OPEN, not corrected here)
+
+**Severity** LOW · **Owner** browser harness · **Source** `tests/e2e/reporter.ts`
+
+`evidence_rules.screen_errors` (line 366) requires a raw report of `kind: "BROWSER_ACCEPTANCE"` listing the
+screen in `screen_ids` before any screen in `DELIVERY_STATUS.json` may claim a browser result. The
+Playwright reporter writes `handoffs/codex/browser/B06-playwright-*/results.json` with `result`,
+`source_commit`, `source_tree_sha256`, `contract_version`, `profile`, `fixture`, `limitations` and per-test
+entries — but **no `kind` and no `screen_ids`**.
+
+Consequence: even though the complete suite passed **16/16 at the exact candidate commit**, every screen's
+`tested` value stays `NOT_RUN`, and C02 cannot evidence a screen-level browser claim. The source-inspection
+side is now satisfied (all 18 screens are `IMPLEMENTED` with hash-verified route files at the candidate).
+
+**Not corrected here.** Adding `kind` and a screen mapping to the reporter is an engineering change outside
+this session's recorded bounded scope, and the screen-to-test mapping is a product decision. Recorded for
+the human and the next engineering increment.
+
+---
+
+## FINAL-CONT-F09 — LOW, pack builder was not byte-deterministic across platforms (CORRECTED)
+
+**Severity** LOW · **Owner** Work document tools · **Source** `docs/reviews/cowork/tools/build_pack.py:495`
+
+`(root / p).write_text(c, encoding="utf-8")` used Python text mode, which rewrites every `\n` as `\r\n` on
+Windows. The repository stores these generated files with LF, so running the documented command
+`python3 docs/reviews/cowork/tools/build_pack.py` on Windows rewrote all five outputs wholesale:
+`UX_BRIEF.md` (646 lines), `DEMO_SCRIPT.md` (323), `LEADERSHIP_HANDOVER.md` (182), `index.html` (297) and
+`GENERATED_MANIFEST.json` (38), with `git diff --check` reporting trailing whitespace on every line.
+
+This matters beyond diff noise: the C-lane evidence system hashes these files, so identical inputs produced
+different SHA-256 values depending on the operating system the builder ran on.
+
+**Correction.** Pass `newline=""` so the generated `\n` is written verbatim on every platform. After the
+fix, rebuilding changes only real content: `LEADERSHIP_HANDOVER.md` 5 lines, `index.html` 9 lines,
+`GENERATED_MANIFEST.json` 13 lines; `UX_BRIEF.md` and `DEMO_SCRIPT.md` are byte-identical to `HEAD`.
+`git diff --check` is clean. `validate_docs.py` reports **98/98**.
+
+This path is Work-owned (`AGENTS.md`: Work owns the transferred former-Cowork document tools), so no
+cross-lane transfer was required.
+
+---
+
+## FINAL-CONT-F10 — LOW, screen negative control stopped perturbing its input (CORRECTED)
+
+**Severity** LOW · **Owner** Work document tools · **Source**
+`docs/reviews/cowork/tools/tests/test_r4_regressions.py:199`
+
+`test_screen_unknown_and_source_only_browser_claim_fail` proves that a stated screen implementation which
+contradicts the source inspection is rejected. It did so by overriding `screens[0]` with the hard-coded
+value `implementation='IMPLEMENTED'`, which was a contradiction only while the real screens were
+`NOT_IMPLEMENTED`.
+
+Once EV-SRC-009 recorded the screens as genuinely `IMPLEMENTED` at the frozen candidate, that override
+became a no-op: `rules.screen_errors` correctly returned `[]`, and the control failed with
+`AssertionError: [] is not true`. **The rule was never broken** — the other two sub-controls
+(`evidence='UNKNOWN'`, `tested='PASS'`) continued to fail as designed, and `validate_docs.py` reports 98/98.
+
+**Correction.** Derive the contradicting value from the current state instead of hard-coding it, so the
+control keeps perturbing its input whichever way the real screens are recorded. Verified:
+`python -m unittest test_r4_regressions.R4Tests.test_screen_unknown_and_source_only_browser_claim_fail`
+→ OK.
+
+The failing run is retained in this session's record; it is a stale test fixture, not a regression in the
+evidence rules.

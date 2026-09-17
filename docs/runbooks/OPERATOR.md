@@ -138,3 +138,68 @@ Preserve evidence before changing modes. Stop if the exact resource/profile cann
 For the assigned-member manual step, set `$orviaWorkflowId = '<actual-scoped-workflow-uuid>'`, then `.\scripts\dev.ps1 fixture:assign confirm:rehearsal $orviaWorkflowId`. The source checks the installation, `aster-birch-v1` fixture and fixed member scope, assigns only that workflow and audits the assignment. It does not change the member role, tenant or observation. The assignee subsequently submits the actual statement and scoped evidence references through the application/API; assignment alone is not attestation.
 
 A05 source/report intake is recorded in `docs/reviews/cowork/artifacts/c-completion/source-intake.json`. Earlier setup, migration and interrupted-run failures are retained alongside later results, with original source hashes and build IDs. A05 publication/merge is not full task acceptance or qualification of these commands on a new rehearsal profile.
+
+---
+
+## C01 refresh against the frozen candidate — 2026-09-17
+
+Candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, host build `mtRrfhGjl22jabwoImHIf`, contract 0.5.0 /
+signed command 0.3.0, profile `rehearsal`, fixture `aster-birch-v1`. Statements above this line are
+retained at their original date; the corrections below supersede them for this candidate.
+
+**Corrections to earlier wording.**
+
+1. The rehearsal origin is **`https://127.0.0.1:4330`**, not `http://`. `tests/security/tls.test.ts` passed
+   at this candidate, including `plaintext application transport refused`. There is no HTTP fallback.
+2. The workspace and Privacy Centre screens **exist and are exercised**. `/workspace/sign-in`,
+   `/workspace`, `/workspace/configuration`, `/workspace/principals`, `/workspace/workflows`,
+   `/workspace/workflows/[id]`, `/workspace/failures`, `/workspace/evidence`, `/workspace/evidence/[id]`,
+   `/workspace/test-lab`, `/workspace/test-lab/[id]`, `/workspace/capabilities`,
+   `/workspace/policy-preview`, `/workspace/control-map`, `/privacy`, `/privacy/sign-in`,
+   `/privacy/receipts` and `/privacy/receipt/[id]` are all present in the candidate source and covered by a
+   16/16 Playwright run at this exact commit. The earlier "foundation page only" wording is stale.
+3. `tests/e2e/record.mjs` is the browser/UI recorder that the earlier text said Codex still had to supply.
+   It accepts `B00`–`B04` and `B06` with `typecheck`, `lint`, `test`, `build`, `contracts:check`,
+   `hygiene:check`, `install` and `exec` (`playwright` or `tsx` only), and it records source identity,
+   timings, exit code and log path.
+
+**Toolchain note discovered in this session.** `scripts/package-candidate.ts` and `tests/e2e/package.ts`
+call `tar` with Windows absolute paths and bsdtar-only switches (`tar -a -cf … -T list`). They require
+Windows' own `C:\Windows\System32\tar.exe` (bsdtar). If a Git Bash or MSYS `tar` (GNU tar) is earlier on
+`PATH`, packaging fails with `tar: Cannot connect to C: resolve failed`. Run packaging from PowerShell as
+the runbook specifies, or put `C:\Windows\System32` ahead of Git's `usr\bin` on `PATH`. A retained failed
+attempt is `handoffs/codex/browser/B06-exec-2026-09-17T12-51-36.045Z`.
+
+**Operator and worker exclusivity.** `scripts/regression-runner.ts` refuses to start while an
+`orvia_worker` or `orvia_agent_control` connection is active, and `scripts/app-run.ts` starts the web app,
+worker **and** agent together. A Test Lab execution therefore requires stopping the application supervisor
+first:
+
+```powershell
+.\scripts\dev.ps1 app:stop confirm:rehearsal
+.\scripts\dev.ps1 regression:run confirm:rehearsal
+.\scripts\dev.ps1 app:run confirm:rehearsal
+```
+
+**Operator CLI exit contract.** `regression:run` exits **0** when the enqueued run reached a recorded
+terminal result — including a `MARKETING_WITHDRAWAL_BROKEN_CONTROL` run whose durable result is FAIL,
+which is the expected detection — and when there was nothing pending or only an interrupted run to recover
+as ERROR. It exits **1** only when the runner itself could not complete the execution. Read the run's
+stored state in the Test Lab, not the exit code, for the business outcome.
+
+**Candidate packaging and verification.**
+
+```powershell
+$env:ORVIA_PROFILE = 'rehearsal'
+node tests/e2e/record.mjs B06 exec tsx tests/e2e/package.ts confirm:rehearsal
+python handoffs/work/final-prototype-continuation/verify-candidate.py
+```
+
+The verifier recomputes every manifest hash, re-verifies the Git bundle, compares the source archive
+byte-for-byte against the candidate commit, checks both evidence archives against their listings and
+confirms the runtime image label and revision. It reported **242 checks, 0 failures** for this candidate.
+
+**Still true and unchanged.** Credentials, signing keys and `auth/bootstrap.json` remain in ignored
+`.local/profiles/rehearsal/`; never print, paste, commit or attach them. Staff and principal sign-in need
+independent browser profiles. Reset is bootstrap-probe-only and refuses the business schema. No customer
+profile, real messaging or public deployment is authorized.
