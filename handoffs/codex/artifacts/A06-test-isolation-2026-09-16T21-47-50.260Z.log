@@ -1,0 +1,15 @@
+$ tsx tests/security/fixture-isolation.ts
+PASS unknown production profile denied
+PASS wrong confirmation denied
+PASS business schema blocks bootstrap reset
+PASS reset denials preserve ledger workflows and target controls
+PASS foreign lane confirmation
+PASS unenrolled resource
+PASS arbitrary simulator operation
+PASS invalid fault operations preserve database state
+PASS test-owned workflow is actually running
+PASS running execution visible to reset guard
+PASS active workflow blocks reset before database mutation
+PASS active-job denial preserves database state
+PASS all frozen lane ports and namespaces differ
+Artifact: handoffs/codex/artifacts/A06-fixture-isolation-1789595276696-9295bcfa-586c-4be1-a88c-863c48cca115.json

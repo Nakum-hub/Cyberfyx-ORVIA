@@ -1,0 +1,12 @@
+$ eslint packages apps scripts tests --max-warnings 0
+
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\scripts\dependency-advisories.mjs
+  20:58  error  Spaces are hard to count. Use {2}  no-regex-spaces
+
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\scripts\network-qualification.ts
+  34:135  error  Unsafe usage of ThrowStatement  no-unsafe-finally
+
+✖ 2 problems (2 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+[ELIFECYCLE] Command failed with exit code 1.

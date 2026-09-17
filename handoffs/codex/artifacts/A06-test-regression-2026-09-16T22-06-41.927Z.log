@@ -1,0 +1,14 @@
+$ tsx tests/integration/regression/regression.test.ts
+{
+  phase: 'setup',
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  sites: [
+    '    at HttpFixture.login (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\packages\\testing\\src\\http-fixture.ts:60:168)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)',
+    '    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\integration\\regression\\regression.test.ts:18:14)'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/A06-regression-integration-1789596407752-90e74f27-5d17-4ce3-9347-7379fbbeb1ca.json
+[ELIFECYCLE] Command failed with exit code 1.

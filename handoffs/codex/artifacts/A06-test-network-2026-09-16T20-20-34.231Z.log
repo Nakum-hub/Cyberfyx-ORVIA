@@ -1,0 +1,9 @@
+$ tsx scripts/network-qualification.ts "confirm:codex-a00"
+PASS runtime image matches current source
+PASS service network is internal
+PASS postgres belongs to named profile
+PASS opa belongs to named profile
+PASS temporal belongs to named profile
+{ name: 'Error', code: '1' }
+Artifact: handoffs/codex/artifacts/A06-network-qualification-1789590045681-e59fdd31-0a5e-43af-af58-eadeac32c3b0.json
+[ELIFECYCLE] Command failed with exit code 1.

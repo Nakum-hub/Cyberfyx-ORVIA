@@ -1,0 +1,51 @@
+$ tsx tests/integration/regression/regression.test.ts
+PASS anonymous test start denied
+PASS principal test start denied
+PASS auditor test start denied
+PASS delegated admin cannot run privileged faults
+PASS unenrolled tenant cannot run Aster fixture
+PASS another lane profile denied
+PASS arbitrary scenario rejected
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+{
+  phase: 'MARKETING_WITHDRAWAL_HEALTHY',
+  name: 'Error',
+  code: '1',
+  sites: [ '{', "  name: 'Error',", "  code: 'UNCLASSIFIED',", '  sites: [' ]
+}
+
+Artifact: handoffs/codex/artifacts/A06-regression-integration-1789596581395-6997fd26-b6ee-4159-94cb-d5c64d6c755d.json
+[ELIFECYCLE] Command failed with exit code 1.

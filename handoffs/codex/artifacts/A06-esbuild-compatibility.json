@@ -1,0 +1,9 @@
+{
+  "task_id": "A06",
+  "command": "node .local/esbuild-compat.cjs",
+  "node": "v24.21.0",
+  "esbuild": "0.28.2",
+  "assertions": 7,
+  "result": "PASS",
+  "scope": "Pinned core-utils synchronous/asynchronous TS transforms with real patched esbuild; auth/build/Temporal checks are separate"
+}
