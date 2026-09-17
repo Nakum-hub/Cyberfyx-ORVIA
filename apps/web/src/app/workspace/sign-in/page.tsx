@@ -1,6 +1,7 @@
 'use client';
 import { useState, type FormEvent } from 'react';
 import { staffAuthClient } from '@orvia/auth/client';
+import { describeFailure } from '../../../components/errors.ts';
 import { call } from '../../../components/api.ts';
 import { useSession } from '../../../components/session-context.tsx';
 import { NoticeBox, TextField } from '../../../components/ui.tsx';
@@ -21,7 +22,7 @@ export default function StaffSignIn() {
         const data = result.data;
         if (data && 'twoFactorRedirect' in data && data.twoFactorRedirect === true) { setStep('challenge'); return; }
         try { await call('session',undefined); reload(); }
-        catch { setStep('enroll'); }
+        catch (error) { if(describeFailure(error).status === 403) setStep('enroll'); else throw error; }
       } else if (step === 'enroll' && !enrollment) {
         const result = await staffAuthClient.twoFactor.enable({password,method:'totp'});
         setPassword('');

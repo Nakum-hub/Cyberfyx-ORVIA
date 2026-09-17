@@ -79,6 +79,8 @@ export type QueryOptions<T> = {
   params?: Record<string, string>;
   limit?: number;
   cursor?: string;
+  /** Internal collection reader: each page is contract-validated before combining. */
+  allPages?: boolean;
   /** Return true while the result should continue to be polled. */
   pollWhile?: (data: T) => boolean;
 };
@@ -89,11 +91,12 @@ export type QueryOptions<T> = {
  */
 export function useQuery<K extends Operation>(operation: K, options: QueryOptions<EndpointMap[K]['response']> = {}): Query<EndpointMap[K]['response']> {
   type Result = EndpointMap[K]['response'];
-  const { enabled = true, params, limit, cursor, pollWhile } = options;
+  const { enabled = true, params, limit, cursor, allPages = false, pollWhile } = options;
   const [state, setState] = useState<{ status: QueryStatus; data: Result | null; failure: UiFailure | null; loadedAt: number | null }>(
     { status: 'idle', data: null, failure: null, loadedAt: null });
   const [tick, setTick] = useState(0);
   const paramsKey = JSON.stringify(params ?? null);
+  const sourceRef = useRef<string | null>(null);
   const pollRef = useRef(pollWhile);
   pollRef.current = pollWhile;
 
@@ -106,6 +109,9 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     if (!enabled) { setState({ status: 'idle', data: null, failure: null, loadedAt: null }); return; }
     const controller = new AbortController();
     const requestIdentity = identity;
+    const sourceKey = JSON.stringify([identity,operation,paramsKey,limit,cursor,allPages]);
+    const sameSource = sourceRef.current === sourceKey;
+    sourceRef.current = sourceKey;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let cancelled = false;
     let backoff = POLL.minimumIntervalMs;
@@ -117,8 +123,21 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     const read = async (isRefresh: boolean) => {
       setState(previous => isRefresh ? { ...previous, status: 'refreshing' } : { status: 'loading', data: null, failure: null, loadedAt: null });
       try {
-        const data = await client.call(operation, undefined as EndpointMap[K]['request'],
+        let data = await client.call(operation, undefined as EndpointMap[K]['request'],
           { ...(effectiveParams ? { params: effectiveParams } : {}), ...(limit ? { limit } : {}), cursor, signal: controller.signal }) as Result;
+        if (allPages) {
+          const collection = data as Result & {items:unknown[];next_cursor:string|null};
+          const items = [...collection.items]; const seen = new Set<string>();
+          let next = collection.next_cursor;
+          while (next) {
+            if(seen.has(next) || seen.size >= 100) throw new Error('Collection pagination did not complete; no partial list is displayed.');
+            seen.add(next);
+            const page = await client.call(operation, undefined as EndpointMap[K]['request'],
+              { ...(effectiveParams ? {params:effectiveParams} : {}), limit:100,cursor:next,signal:controller.signal }) as Result & {items:unknown[];next_cursor:string|null};
+            items.push(...page.items); next=page.next_cursor;
+          }
+          data={...collection,items,next_cursor:null};
+        }
         // A response that outlived its actor or its screen is discarded, never rendered.
         if (cancelled || requestIdentity !== identity) return;
         setState({ status: 'ready', data, failure: null, loadedAt: Date.now() });
@@ -137,9 +156,9 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
         }
       }
     };
-    void read(false);
+    void read(sameSource);
     return () => { cancelled = true; controller.abort(); if (timer) clearTimeout(timer); };
-  }, [operation, enabled, paramsKey, limit, cursor, tick]);
+  }, [operation, enabled, paramsKey, limit, cursor, allPages, tick]);
 
   const refresh = useCallback(() => setTick(value => value + 1), []);
   return { ...state, refresh };
@@ -261,4 +280,10 @@ export function useNow(intervalMs = 30_000) {
     return () => clearInterval(timer);
   }, [intervalMs]);
   return now;
+}
+
+/** Load selector collections through every canonical cursor, never truncate silently. */
+type CollectionOperation = { [K in Operation]: EndpointMap[K]['response'] extends {items:unknown[];next_cursor:string|null} ? K : never }[Operation];
+export function useCollection<K extends CollectionOperation>(operation:K, options:Omit<QueryOptions<EndpointMap[K]['response']>,'cursor'|'allPages'>={}) {
+  return useQuery(operation,{...options,limit:100,allPages:true});
 }
