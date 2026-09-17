@@ -5963,7 +5963,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "tests.run",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "x-orvia-implementation": "IMPLEMENTED_A06_PENDING_REVIEW",
         "requestBody": {
           "required": true,
           "content": {
@@ -6155,7 +6155,7 @@
         },
         "x-orvia-authority": "STAFF",
         "x-orvia-capability": "tests.read",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "IMPLEMENTED_A06_PENDING_REVIEW"
       }
     },
     "/api/v1/admin/capabilities": {

@@ -1,0 +1,85 @@
+{
+  "task_id": "A06",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-16T22:04:32.412Z",
+  "profile": "codex-a00",
+  "phase": "evidence suite setup failure",
+  "observation": [
+    {
+      "operation": "/sign-in/email",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:19.035Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:19.280Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:21.380Z"
+    },
+    {
+      "operation": "/sign-in/email",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:22.264Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:22.392Z"
+    },
+    {
+      "operation": "/sign-in/email",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:22.741Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:22.888Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:01:23.686Z"
+    },
+    {
+      "operation": "/sign-in/email",
+      "status": 200,
+      "created_at": "2026-09-16T22:02:07.991Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:02:08.313Z"
+    },
+    {
+      "operation": "/sign-in/email",
+      "status": 200,
+      "created_at": "2026-09-16T22:02:08.719Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:02:09.123Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:02:11.798Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 200,
+      "created_at": "2026-09-16T22:02:19.775Z"
+    },
+    {
+      "operation": "/two-factor/verify-totp",
+      "status": 429,
+      "created_at": "2026-09-16T22:02:27.097Z"
+    }
+  ],
+  "conclusion": "Auth audit records actual 429 at the failing MFA reauthentication; preceding suites share the named synthetic loopback rate-limit bucket. No controls disabled."
+}

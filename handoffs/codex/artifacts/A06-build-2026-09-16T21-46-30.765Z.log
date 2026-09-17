@@ -1,0 +1,32 @@
+$ tsx scripts/web.ts build
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 2.2s
+- Experiments (use with caution):
+  · cpus: 1
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 19.4s
+  Running TypeScript ...
+  Finished TypeScript in 12.1s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/4) ...
+  Generating static pages using 1 worker (1/4) 
+  Generating static pages using 1 worker (2/4) 
+  Generating static pages using 1 worker (3/4) 
+✓ Generating static pages using 1 worker (4/4) in 346ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/principal/[...all]
+├ ƒ /api/auth/staff/[...all]
+├ ƒ /api/v1/[...segments]
+├ ƒ /api/v1/admin/principals
+├ ƒ /api/v1/session
+└ ƒ /healthz
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

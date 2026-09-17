@@ -1,0 +1,16 @@
+$ tsx tests/integration/evidence/evidence.test.ts
+{
+  phase: 'create APPLY_THEN_TIMEOUT',
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  cause: { name: 'Error', code: 'UNCLASSIFIED' },
+  sites: [
+    '    at createMarketingScenario (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\packages\\testing\\src\\scenario.ts:17:38)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)',
+    '    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\integration\\evidence\\evidence.test.ts:28:127)'
+  ]
+}
+
+
+Artifact: handoffs/codex/artifacts/A06-evidence-integration-1789596147362-0c65dd81-099d-47c4-abe7-9e16bff1c290.json
+[ELIFECYCLE] Command failed with exit code 1.

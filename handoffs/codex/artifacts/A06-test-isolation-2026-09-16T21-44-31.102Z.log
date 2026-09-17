@@ -1,0 +1,13 @@
+$ tsx tests/security/fixture-isolation.ts
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\node_modules\.pnpm\@grpc+grpc-js@1.14.4\node_modules\@grpc\grpc-js\src\client.ts:177
+        callback(new Error('Failed to connect before the deadline'));
+                 ^
+
+Error: Failed to connect before the deadline
+    at checkState (C:\Cyberfyx-projects\Cyberfyx_ORVIA\node_modules\.pnpm\@grpc+grpc-js@1.14.4\node_modules\@grpc\grpc-js\src\client.ts:177:18)
+    at Timeout._onTimeout (C:\Cyberfyx-projects\Cyberfyx_ORVIA\node_modules\.pnpm\@grpc+grpc-js@1.14.4\node_modules\@grpc\grpc-js\src\internal-channel.ts:826:9)
+    at listOnTimeout (node:internal/timers:685:17)
+    at process.processTimers (node:internal/timers:618:7)
+
+Node.js v24.21.0
+[ELIFECYCLE] Command failed with exit code 1.

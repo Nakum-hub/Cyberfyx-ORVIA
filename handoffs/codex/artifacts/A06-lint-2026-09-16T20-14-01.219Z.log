@@ -1,0 +1,8 @@
+$ eslint packages apps scripts tests --max-warnings 0
+
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\scripts\network-qualification.ts
+  33:220  error  Unsafe usage of ThrowStatement  no-unsafe-finally
+
+✖ 1 problem (1 error, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

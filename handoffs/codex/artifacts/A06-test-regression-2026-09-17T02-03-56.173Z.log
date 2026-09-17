@@ -1,0 +1,82 @@
+$ tsx tests/integration/regression/regression.test.ts
+PASS anonymous test start denied
+PASS principal test start denied
+PASS auditor test start denied
+PASS delegated admin cannot run privileged faults
+PASS unenrolled tenant cannot run Aster fixture
+PASS another lane profile denied
+PASS arbitrary scenario rejected
+Authentication fixture idle window: 60s remaining; controls unchanged.
+Authentication fixture idle window: 30s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 27s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 40s remaining; controls unchanged.
+Authentication fixture idle window: 10s remaining; controls unchanged.
+PASS TARGET_RESTORE_QUARANTINE accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS TARGET_RESTORE_QUARANTINE actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS recovery journal artifact exists
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+{
+  phase: 'runner interruption',
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  sites: [
+    '    at check (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\integration\\regression\\regression.test.ts:16:246)',
+    '    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\integration\\regression\\regression.test.ts:47:2)'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/A06-regression-integration-1789611264431-c00cd5eb-8899-4282-803b-4aa50bfad2f2.json
+[ELIFECYCLE] Command failed with exit code 1.

@@ -1,0 +1,25 @@
+{
+  "source": "https://api.github.com/advisories?ecosystem=npm&type=reviewed&per_page=100",
+  "feed_sha256": "2d37a0b88f7265bebc6d2d0c1c1ae0083e7f7b3e338ddd6290d9ba70529a3966",
+  "downloaded_advisories": 7408,
+  "lock_packages": 501,
+  "findings": [
+    {
+      "package": "esbuild",
+      "version": "0.18.20",
+      "advisory": "GHSA-67mh-4wv8-2f99",
+      "severity": "medium",
+      "url": "https://github.com/advisories/GHSA-67mh-4wv8-2f99",
+      "range": "<= 0.24.2",
+      "first_patched_version": "0.25.0",
+      "summary": "esbuild enables any website to send any requests to the development server and read the response"
+    }
+  ],
+  "unparsed": [],
+  "limitations": [
+    "Reviewed npm advisory snapshot only, excludes malware/unreviewed/container OS advisories; no vulnerability-free claim."
+  ],
+  "task_id": "A06",
+  "phase": "original observation before override",
+  "result": "FINDING"
+}

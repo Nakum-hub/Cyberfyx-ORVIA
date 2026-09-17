@@ -1,0 +1,18 @@
+{
+  "task_id": "A06",
+  "checked_at": "2026-09-16T21:42:43.060Z",
+  "source": "https://api.github.com/advisories?ecosystem=npm&type=reviewed&per_page=100",
+  "feed_sha256": "2d37a0b88f7265bebc6d2d0c1c1ae0083e7f7b3e338ddd6290d9ba70529a3966",
+  "lock_sha256": "d74a89cdbc773f9ede3cc1e3dd11b1e335c86017cbc3ebba14ff746e86434d9f",
+  "node": "v24.21.0",
+  "npm": "11.19.0",
+  "downloaded_advisories": 7408,
+  "lock_sections": 2,
+  "lock_packages": 478,
+  "findings": [],
+  "unparsed": [],
+  "result": "PASS",
+  "limitations": [
+    "Reviewed npm advisory snapshot only; excludes unreviewed advisories, malware and container OS advisories. No vulnerability-free claim. Feed may change; hash identifies the exact local snapshot."
+  ]
+}

@@ -8,7 +8,9 @@ engineStrict: true
 saveExact: true
 # Avoid Windows replacement of non-empty build staging directories on warm installs.
 sideEffectsCache: false
+overrides:
+  '@esbuild-kit/core-utils>esbuild': 0.28.2
 allowBuilds:
   '@swc/core@1.16.2': true
-  'esbuild@0.18.20 || 0.25.12 || 0.28.2': true
+  'esbuild@0.25.12 || 0.28.2': true
   'protobufjs@7.6.6': true

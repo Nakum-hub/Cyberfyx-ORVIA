@@ -1,0 +1,70 @@
+$ tsx tests/integration/regression/regression.test.ts
+PASS anonymous test start denied
+PASS principal test start denied
+PASS auditor test start denied
+PASS delegated admin cannot run privileged faults
+PASS unenrolled tenant cannot run Aster fixture
+PASS another lane profile denied
+PASS arbitrary scenario rejected
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS TARGET_RESTORE_QUARANTINE accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS TARGET_RESTORE_QUARANTINE actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS runner actually began before interruption
+PASS interrupted run remains durable
+PASS interrupted run becomes explicit ERROR
+PASS interruption creates no success fallback
+PASS terminal outcome cannot be rewritten
+Artifact: handoffs/codex/artifacts/A06-regression-integration-1789589350150-590175a4-c960-4797-8b7d-bd224e707c25.json

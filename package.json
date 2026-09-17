@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@12.4.2",
-  "engines": { "node": "24.21.0", "pnpm": "12.4.2" },
+  "engines": {
+    "node": "24.21.0",
+    "pnpm": "12.4.2"
+  },
   "scripts": {
     "contracts:generate": "tsx packages/contracts/src/generate.ts",
     "contracts:check": "tsx packages/contracts/src/generate.ts --check",
@@ -17,6 +20,11 @@
     "test:expiry": "tsx tests/integration/consent/expiry.test.ts",
     "test:enforcement": "tsx tests/integration/enforcement/send.test.ts",
     "test:evidence": "tsx tests/integration/evidence/evidence.test.ts",
+    "test:regression": "tsx tests/integration/regression/regression.test.ts",
+    "regression:init": "tsx scripts/regression-init.ts",
+    "regression:run": "tsx scripts/regression-runner.ts",
+    "runtime:build": "tsx scripts/runtime-image.ts",
+    "test:network": "tsx scripts/network-qualification.ts",
     "fixture:simulator": "tsx scripts/simulator-fixture.ts",
     "fixture:assign": "tsx scripts/assign-manual.ts",
     "test:workflows": "tsx tests/integration/workflows/workflow.test.ts",
@@ -39,7 +47,9 @@
     "build": "tsx scripts/web.ts build",
     "dev": "tsx scripts/web.ts dev",
     "start": "tsx scripts/web.ts start",
-    "web:smoke": "tsx tests/integration/web.test.ts"
+    "web:smoke": "tsx tests/integration/web.test.ts",
+    "test:isolation": "tsx tests/security/fixture-isolation.ts",
+    "dependencies:check": "node scripts/dependency-advisories.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
