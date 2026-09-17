@@ -22,7 +22,8 @@ export class BrowserHarness extends HttpFixture {
   publicDirectory=resolve('handoffs/codex/browser',`B06-playwright-${process.env.ORVIA_BROWSER_RUN_ID}`);
   privateDirectory=resolve('.local/browser-evidence',process.env.ORVIA_BROWSER_RUN_ID!);
   constructor(){super();const login=super.login.bind(this);const clients=new Map<string,ReturnType<HttpFixture['browser']>>();this.login=async name=>{if(!clients.has(name)){await this.authWindow();clients.set(name,await login(name));}return clients.get(name)!;};}
-  async authWindow(){const n=Number((await this.db.query("SELECT count(*) n FROM staff_auth.auth_audit WHERE created_at>clock_timestamp()-interval '61 seconds' AND operation IN ('/sign-in/email','/two-factor/verify-totp')")).rows[0].n);if(n>=8)await waitForAuthWindow(this.db);}
+  // Same per-bucket measurement as guardAuthWindow, using the pool already held.
+  async authWindow(){const r=(await this.db.query("SELECT count(*) FILTER (WHERE operation='/sign-in/email') sign_in, count(*) FILTER (WHERE operation LIKE '/two-factor/%') two_factor FROM staff_auth.auth_audit WHERE created_at>clock_timestamp()-interval '61 seconds'")).rows[0];if(Number(r.sign_in)>=6||Number(r.two_factor)>=6)await waitForAuthWindow(this.db);}
   async start(){
     if(this.profile.profile!=='rehearsal')throw new Error('Exclusive rehearsal profile required');
     const identity=(await this.db.query('SELECT installation_id,profile FROM bootstrap_profile WHERE singleton=1')).rows[0];
