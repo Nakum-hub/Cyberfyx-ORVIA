@@ -1,0 +1,2 @@
+$ tsx scripts/regression-init.ts "confirm:rehearsal"
+Fixed Aster synthetic regression scope enrolled; no test result or production authority created.

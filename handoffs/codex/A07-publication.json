@@ -1,0 +1,4156 @@
+{
+  "task_id": "A07",
+  "status": "IMPLEMENTED_AND_PACKAGED_PENDING_WORK_REVIEW",
+  "created_at": "2026-09-17T04:02:40.494983+00:00",
+  "branch": "prototype/codex/A07-package",
+  "integration_base": "f53dd57cf9f6805de891298ed931e632b26e6788",
+  "branch_start": "8d852bd2da87dbd41a8cf3e5fa4b400b91cf8360",
+  "candidate_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+  "implementation_commits": [
+    "04a16669e3634cff5c6f4f46769287182a1a4275",
+    "dfa965c48668277df8f9979fbd8e390ed428267c",
+    "e3740308fe217a59d21a68e899a93d07a4829463"
+  ],
+  "master": {
+    "path": "docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md",
+    "sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6"
+  },
+  "contract": {
+    "version": "0.4.1",
+    "command_schema_version": "0.3.0",
+    "manifest_sha256": "7415cd5aaca0fd243a41fb4347d5a1a2eeb344ca7f0bd737bebb1c213caad62c"
+  },
+  "lockfile_sha256": "b2694da120310a26a6ae377ebecbd4dafcac6711b60377c4ff308fe4fc91a5c8",
+  "build": {
+    "host": "kIB5gxhIwn42T6Dqsburh",
+    "container": "lBTMG6QFakbJa4pG--aN9",
+    "runtime_image_id": "sha256:a5f61ea21a6bb667955ac208d0874ca58fb10487e257ac53e2a7553cf69389ed",
+    "runtime_image_source_commit": "e3740308fe217a59d21a68e899a93d07a4829463"
+  },
+  "profile": {
+    "name": "rehearsal",
+    "installation_id": "b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+    "fixture_id": "aster-birch-v1",
+    "origin": "https://127.0.0.1:4330"
+  },
+  "release_manifest": {
+    "path": "artifacts/release-manifest.json",
+    "sha256": "c89bf908a3e9bfbf2d75f288372e23b13f2296109bd7e35e483ba2b026fe6252"
+  },
+  "changed_files_from_integration": [
+    {
+      "status": "M",
+      "path": ".gitattributes",
+      "sha256": "8286952deccdbd908b17f9bc0732ef4cfc39f53deafcb135d18afde75d1b7520"
+    },
+    {
+      "status": "M",
+      "path": "README.md",
+      "sha256": "b697d32c9431f97a755d9e264d47ab9927af15887c7888d0296cfb64a85f4c68"
+    },
+    {
+      "status": "M",
+      "path": "apps/agent/src/main.ts",
+      "sha256": "47a1b59c5861f4db7569cc2917c13ecd3c9d7869073e0925067c8844a3d7c0cc"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/app/globals.css",
+      "sha256": "7b9bf3a8003ba4bfbabe47bc0fac674caa61a6c66eb88f74b1bb69c561f5cdd7"
+    },
+    {
+      "status": "M",
+      "path": "apps/web/src/app/layout.tsx",
+      "sha256": "8e6361ccc54533c796ac7980e067f1d8b5f7d711e02bafc362d2c96ccf3f8476"
+    },
+    {
+      "status": "M",
+      "path": "apps/web/src/app/page.tsx",
+      "sha256": "04d180fcf69d13618b68b8c8184a7d884e48b7d876ee5e748ac9e68093719eb3"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/app/privacy/layout.tsx",
+      "sha256": "897b52d223d6405b11a69d5268e3200e8f79d5eeee016a213849e9c6f44b556a"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/app/privacy/page.tsx",
+      "sha256": "69659931d4f911a2a6903fc34779d0d926a270a2b3ef66f03b70aa96b51e47be"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/app/privacy/receipt/[id]/page.tsx",
+      "sha256": "21d0a770615d1e78f401dee6bdf45343f0094ebff9bd6abe4e1f10d39dd65761"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/app/privacy/receipts/page.tsx",
+      "sha256": "746647ec3423aa93901811c49bb2271ecf4edb03896c7ec22cb2bed629d3345e"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/app/privacy/sign-in/page.tsx",
+      "sha256": "da811f6fcb789516652af4031599dab2ec315ca1a8fb98a8471d89275e59ffc5"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/app/workspace/layout.tsx",
+      "sha256": "3a30bc81ec4fc71188f8ef10f9c0ebcaf5a4188cc7b90306f6677f6fa0570826"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/components/api.ts",
+      "sha256": "7fbabfca5a4b4a2af5c43e556d26ed98ba58ba5f761e09464847e3b2503c3118"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/components/derive.ts",
+      "sha256": "bfac1b76e732506df7cb40ffb12f700a2c5a82e957c58936dca85c524d694b45"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/components/errors.ts",
+      "sha256": "65904a7881fc201834af4e178afc258bcfa6145885c124508e65a3fa4955dee3"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/components/session-context.tsx",
+      "sha256": "995e62ab650f0f3278b5d03f0e224705ff046c64f343e5457c6d1cb8c9045ef4"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/components/shell.tsx",
+      "sha256": "e50a64d11737a256dc9fffb5cd3807564885b28be6955f558491fe7c372cfedc"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/components/state-labels.ts",
+      "sha256": "3f1f0f439712f43ed390661d0d70ec03dfd6c0f7e342212028fda690dfda24d7"
+    },
+    {
+      "status": "A",
+      "path": "apps/web/src/components/ui.tsx",
+      "sha256": "f70ec31bf18f97e275ac10c7ab523da6426c9aca0818cf489a53846707d4db2d"
+    },
+    {
+      "status": "M",
+      "path": "apps/worker/src/main.ts",
+      "sha256": "816354545b523742749c94e2269a1ce0325d2fdcf2db552b5fe752c8cddeddcf"
+    },
+    {
+      "status": "A",
+      "path": "docs/engineering/A07-PACKAGE.md",
+      "sha256": "03fc8aa0aa4cea106c9d462649929f7662d063b64bd6fe549e805954be016317"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/code/artifacts/bringup.log",
+      "sha256": "6298d3f2bb92f1a6a0037153845abefb20f662509768c52a7783143e49b2887b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/code/artifacts/bringup.sh",
+      "sha256": "dc85e710ed530747c390fdcd6204107936ff6137a04f6bd7980132f5a53065cc"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/A07-C01-TLS-contract.md",
+      "sha256": "a41f07fee811e54375b8a35ce2f8b3cc2d72b7321fc71f0e95a993ca548313a9"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/A07-start-8d852bd.md",
+      "sha256": "7fdc8b672b4c4e7dda2af8b3f44980ba190b272a36348375c17664121776ebd1"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/A07-ui-preservation.json",
+      "sha256": "ff825a71fb00fcafc111c92a3a4438d80975e152b304dddb5c8546654a1e387b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A00-migration-1789578997366-dc63956c-f489-42a1-91a9-acfd9fed6e9e.json",
+      "sha256": "fae25e676ec485bf8d9b55ec5900e365f586f4a2fb63e78fd06cd46a7ad7f6b0"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A00-preflight-services-1789579010554-3a945b41-0064-417a-8e2d-d72ccba967aa.json",
+      "sha256": "106716c296fb613eda2daef130273802ba83c258a69a620142e517cba4b2a147"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789615342192-252bd08d-c0d6-4fc3-a865-08a92b662bfb.json",
+      "sha256": "3491bb831ad353c9c2aaccba0204b2bbf525a93587532463509096b72241307b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789615728529-69b510f5-b879-4461-a636-9d2efce8c543.json",
+      "sha256": "360335682f5573252576b16b265dcb6baa14e9c3524c2e547714f88209224050"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789616013471-25ba6b8c-18d2-468a-8e05-1bf6ad580d17.json",
+      "sha256": "5a79df91a80c5b60bb32624f4255bc6d8964bd954f778406655ea38d3cf885a2"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789616381428-df083133-dd2d-4022-9518-b1a6c46eb70b.json",
+      "sha256": "7e64ccab4722a97a3a32aaf8afd8fbe0b828ffd2f5462e0b5aa51b2ad2e6073e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789616415090-9357627c-6277-4d46-9657-3677e9603592.json",
+      "sha256": "d3b9a4f2386ffbe8b11b8c5686f1c6da6ba0f66553853aae1561fb7fb883b230"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-auth-bootstrap-2026-09-17T02-53-02.177Z.json",
+      "sha256": "92c0de4358a514317771641de7a64b1d46ed6340727c2562f1f4f63a12e68472"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-auth-bootstrap-2026-09-17T02-53-02.177Z.log",
+      "sha256": "39beea4ce6e37d744fc0f697d31e9535a536ba018cd83aa8bba2221665b8a92e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-auth-init-2026-09-17T02-52-55.395Z.json",
+      "sha256": "9c4f0a92f97c8b70ed8f13fe92a553f2d1e323001c206849c609f115ae3702b0"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-auth-init-2026-09-17T02-52-55.395Z.log",
+      "sha256": "573a7ca73b549d3aa18c7f562318d3c3afe71eb9c7c895faf570d160182fb888"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-auth-security-1789614293982-aed28b73-c0b7-4c46-834c-859eec4b3523.json",
+      "sha256": "b6ae64e49898678f6ca36e74fe05325f9d217e6204cd59033c70b31c9090f9e0"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T02-54-31.503Z.json",
+      "sha256": "fb17a7824c97d72186d20190079144bd65a9684a07d15eeb6ca17208c454067f"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T02-54-31.503Z.log",
+      "sha256": "20aa9d37bcb8e0ed8b455a115c98466b86098bfc578107606c1413e907cd411b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-02-46.529Z.json",
+      "sha256": "2a460604a20c5ad68cee1a07abcf6c1ee52898df685639f90f8f74149f67736a"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-02-46.529Z.log",
+      "sha256": "f46968bb72ea8bbcc8d87f0105bfedd27d57b1de1c8b00698496031b1ed0b655"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.json",
+      "sha256": "5c563239dc166fe930e9864e0deb527403ed958d4e87f21976722187c547fcfd"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.log",
+      "sha256": "3a26d07ea40a0d2361fb8dd544b71a23d3f1678146af4ef3b4dba6ce76cb93e1"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-consent-integration-1789614367643-3da544ea-0cb0-4a3b-b6c5-aef085476cdf.json",
+      "sha256": "5ff1fc5ab7c478332a6b70856cd2f3327094942a2da3ef3aeca7c7c38c0df998"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T02-56-37.486Z.json",
+      "sha256": "28f05ce82284e68f938adf4481688d7a85a340b7e2c4401a3d1e1b6994ed9c2e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T02-56-37.486Z.log",
+      "sha256": "eb3e95df863b5c562ef8d55a3d2704b6583d37ff88202c779f7fb10be9114e87"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.json",
+      "sha256": "af2c6c05141e9d91b1656ddd04258a2ff0df295d0c82828a745a19f032220ca0"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.log",
+      "sha256": "eb3e95df863b5c562ef8d55a3d2704b6583d37ff88202c779f7fb10be9114e87"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-42-44.504Z.json",
+      "sha256": "90ac8ef298d4ea34d91f48fcc32dd95aae0ab769d74a4066368954b9afacd27f"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-42-44.504Z.log",
+      "sha256": "eb3e95df863b5c562ef8d55a3d2704b6583d37ff88202c779f7fb10be9114e87"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-45-58.526Z.json",
+      "sha256": "904dd4c7dc538a4c156f1522f7394cfef01e5e65ab07e146550b4fce0eb6d7cf"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-45-58.526Z.log",
+      "sha256": "e8f46a895762266ddfdf0a3033a6b04900b8dee2fc55c9dfb12aec577482eb68"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-46-23.815Z.json",
+      "sha256": "120fa6e761d7029fd5d3d27f8a69b465ce29f038e47257cab5109cfb16a137d2"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-46-23.815Z.log",
+      "sha256": "b32c830f29ddcae22e9a8d453b34ff8819bb156f9f2e4d0541874a36b49555b8"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-48-41.760Z.json",
+      "sha256": "ec52c0666969cf295f2aeb9dfc06613bb4d3df9935b5cb394c0d48f33d1da65f"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-48-41.760Z.log",
+      "sha256": "5fdefea87dc62ea36c6f8e2ba2d8a3ceeb1d43e1e29c23aaf75a6d86cb208443"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-52-40.990Z.json",
+      "sha256": "a0edc8fbcd01545e723411f503ad603321cc0daee3a74981d638664091ead68e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-52-40.990Z.log",
+      "sha256": "7bb1df89f22bc869956031ced992f14847bd134f9d3e2f55e24b370457b08901"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-demo-export-1789615216208-95b28097-5a3d-4731-be29-b796c5112254.json",
+      "sha256": "eda0beab02aa244d9ea2b3969915551b342b42887dc6a83297322c9fbf48a42f"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-demo-run-2026-09-17T03-19-49.329Z.json",
+      "sha256": "7fc797f6b38c627c250d46fbc8c99e5e06118eb4b04404e329867d912487dd75"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-demo-run-2026-09-17T03-19-49.329Z.log",
+      "sha256": "19a06a1a71d53dcd8767e9428871d4be5ac838ad453b5e46102b8a9eddf3abf3"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-dependencies-check-2026-09-17T02-56-16.089Z.json",
+      "sha256": "04d7b10e882c7822ab11f17a14a64432740003ee7906a26fe8c99026216d55f5"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-dependencies-check-2026-09-17T02-56-16.089Z.log",
+      "sha256": "4859aecd44f1e8eeda9d38ec4894d9a5f8732513498627ed695826239311dd55"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-dependency-advisories-1789613793192.json",
+      "sha256": "da277b7c097bbb279344dacc656443362bf9a85decea1c21125e065e81d78cbf"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-evidence-export-2026-09-17T03-40-57.569Z.json",
+      "sha256": "57d2a23460548d4c5b1e27736589bcf54d62dbbad75854e25b0be900eb48bc5a"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-evidence-export-2026-09-17T03-40-57.569Z.log",
+      "sha256": "a0d1cab69727df2add02df45f2bc85b94643e669edd02d59689b67e94e19bc10"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-evidence-integration-1789614803452-366f63a4-4213-4387-b82d-d21d316327fc.json",
+      "sha256": "6a3e3643d8fa2aa9f1d7d367cddd4d112aca7398ce17857e0e427471e0f5fdb3"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-expiry-integration-1789614487473-79bbdde1-3816-4e19-b238-1a74c944bc9c.json",
+      "sha256": "2895bf13c765a57d4e0becbfc10049cfb92a5d0bf455b3eab2cc4e3796c0071c"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-fresh-bundle-check.json",
+      "sha256": "bd92749c7e6332a820a56f60349f79ecd39249cdd7a45896ec8b97e6160bea3a"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-00-43.778Z.json",
+      "sha256": "23053f6d1f23ebfe5ceb4445b533fd632b3208d323eee20c46d6ac90cbeeb355"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-00-43.778Z.log",
+      "sha256": "ae6b67ec0ae729338d6ebe43a2bd9e75c9035b201f8023688a39bc5cbdf27833"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-43-14.226Z.json",
+      "sha256": "46004c4592fc923ea725a33c884a7103a15f8e0c5020f62c6e8cd7b25dac1db7"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-43-14.226Z.log",
+      "sha256": "5105fbd05426f90ab711f97adb2af2a52a32e5949b049c37777263dbd828e592"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-38-52.628Z.json",
+      "sha256": "77ab3ef0d2c65693abb4a0cdf78e54e0a85bb7d16aafa330748c3b176e981627"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-38-52.628Z.log",
+      "sha256": "d2bc15ab4df5bc346f0473bbcac4d3939f082535ec0b524351035b61c9127307"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-54-25.779Z.json",
+      "sha256": "a05beb0de2f113ea6c736ff0c3421d916db30c9fac0c950594c53437a44097cb"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-54-25.779Z.log",
+      "sha256": "21054c52129288e99af0d99a5a5662c39760921ac39fe5d8fba8fea74f0b2321"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.json",
+      "sha256": "7345ef201d09cc9ca0615dbadaf6c79a7caf526363cfd75690749b359789f506"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.log",
+      "sha256": "cc41ad3a1d458c9c8651b063b2823bcb4b06c514455b6013e3b720548bb4c546"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789615342659-8b987005-0f50-4f4b-bfd9-712c4982d823.json",
+      "sha256": "0b972ba7645bcec9ef3019933f1ae7cc348859a17146c32bcc1405981b68e094"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789615729112-3a2ef0e4-b1dc-4eb6-a3c4-2c85a2d71092.json",
+      "sha256": "41056a24928bbe475e96e54b7f2dfc3aed9a74e9be9655274b9ab7b056a22046"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789616013595-51410598-9c36-4d83-9f8c-9f325ad52415.json",
+      "sha256": "ad7f34cd02d7b87749bbec3023aa2b024b0ca3fa9694231fea898a74d5e5fcf2"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789616415381-25f3a088-9b4f-4f05-96f9-3638fd9559e8.json",
+      "sha256": "18709a1cbb29da39513e8bb489c9002035fd15590689ac24edd8b67aebec580d"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lifecycle-original-observation-1789615477294-b2a9f4b6-9b39-41bc-8116-bc9b2f106c02.json",
+      "sha256": "88da1097d7199480142995c1f9dbf7679265501f2f963399038ca971645596ea"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-36-27.956Z.json",
+      "sha256": "7abb5f150a0aaca0cd3e2f32c15ad1a4aac353ce7fd7a82e364e3b96302fb79d"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-36-27.956Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-47-22.571Z.json",
+      "sha256": "43ddaeffe854ee252a5692bfe5ba241783eb57efaca8d915193ce58b64554f64"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-47-22.571Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-51-59.957Z.json",
+      "sha256": "25c8bdebf2ede03541216723070f4ea87b8d1456853796d9350d8cf8f5a9a4bf"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-51-59.957Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-58-25.852Z.json",
+      "sha256": "adb835f1dc174320bd49d3d3dcc1bbd7ea2487845656b8788d5621529d805c23"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-58-25.852Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-26-45.687Z.json",
+      "sha256": "3f4119d2edd06d367a08b9ca23982a7238ab4ee9f440493119cceb9c58b0ccb5"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-26-45.687Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-42-27.192Z.json",
+      "sha256": "ca5da3ee27561f0c4d1d9df2b2b0345656c7d0c7507e21df553d48c277938d9d"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-42-27.192Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-machine-init-2026-09-17T02-53-41.970Z.json",
+      "sha256": "272f41cec702c331b5d394e6bd16e6a680966951d94353737ff4539a6c909d9a"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-machine-init-2026-09-17T02-53-41.970Z.log",
+      "sha256": "483acda970dff372d6158842c5460fc64f54884da209ba144e696d4ef2e84137"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-migration-1789613324404-798a0b5f-64bb-4cb6-8e22-ab5f553f197b.json",
+      "sha256": "75506a872cc5509f2f8126fb5150e31e6f15ee034ab9cee779144810e941e4cd"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-migration-1789613573377-be9b3fd6-da19-4574-966a-a72d9f015ac7.json",
+      "sha256": "01d989009bb96d3c46a94f7244f904696e77fc330e2805bcba8cb93db60376df"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-operator-export-1789616475099-2f151339-3d7f-478c-8348-21b60b82c9e9.json",
+      "sha256": "bf0f48070140236a52ae487ba8323abf0a8b4582da7224b8d9797ab5d04a0782"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-preflight-2026-09-17T02-48-45.312Z.json",
+      "sha256": "387a52eac13e3babc613d5f7887d108d5487c2361ec2a6908ba36f14223b6ac7"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-preflight-2026-09-17T02-48-45.312Z.log",
+      "sha256": "0f628dbf9e4266fa7c481ef042c2785640d85f4b7f257514166e49e809480e6a"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-preflight-services-1789613343445-f37b8c4f-5fe4-45ff-9561-62a747145880.json",
+      "sha256": "c5e92271cdd9d1da20bcd4a6227605d06e9a4af7fb89894bfa631f619eca435d"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-profile-init-2026-09-17T02-47-24.210Z.json",
+      "sha256": "a0cb367b103b79403cbf85c968a7cf9f0813ed9f039e30268bc11a6fe735a300"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-profile-init-2026-09-17T02-47-24.210Z.log",
+      "sha256": "ef8d1cf4c92b8d1f459332efa239fd5eb52179ae6c7987cb2b2acc9c41f4aeaf"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-recovery-journal-1789615139772-ebe599cd-c532-4018-8a29-fab5ec14262c.json",
+      "sha256": "c5230be33d2b94d892dd14232b3cdae96cbfb93fc9bed84881251b25a4a9e06c"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-init-2026-09-17T02-54-16.011Z.json",
+      "sha256": "75df16d2066d454ecd670b29ccbdaf667d623593ece445d960e6f2ebe3f92cd9"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-init-2026-09-17T02-54-16.011Z.log",
+      "sha256": "558561458cb4f6a2c2ef45abcde6001ae62419bc10e314108f6bb83f10e43b3f"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-integration-1789615144286-a23f7b2c-ed5f-4bd4-97d1-45c56da0f76e.json",
+      "sha256": "84dd5653e69d810ad5329ffa59eca94370cbe1191bb48c6fe5392ae6e83a4c96"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789614946096-a3e565c0-4e98-40af-9c62-64743f8be3b0.json",
+      "sha256": "861c8b327842c418ce91e52f160edecff16f6e2fd14c44959edd297c199016d4"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615008386-a4fff4ed-2988-446b-b4b7-3cdcf9f3623e.json",
+      "sha256": "1a04f96128d2f4c27d2ffc9ac3cd1a432bbefef1c79c67964f8eb19c4b31a0e6"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615075477-0ae596ee-bc9d-4f17-9df5-92e6d138e7f5.json",
+      "sha256": "eb08b8088fc877fd8994dafb5feb6c1beedb83b2d6272e9673da4cef7a7aa133"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615139888-a43d1167-33d1-4b0c-9f26-ff66ce8931e8.json",
+      "sha256": "fe5a59cb62098196d2041b48be2b06db7eef836901f69e0383d30f33edbb0d27"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615215931-04b7ae98-794c-4aac-88a2-38da0e3a30bd.json",
+      "sha256": "b75df9a66260444f74d279656009750e2f3511714281c75296b5c1188d09f245"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-reset-bootstrap-2026-09-17T02-51-28.437Z.json",
+      "sha256": "74a4c0f20ee0ef865596d2299ed06a709c3c8e1ff84dee3f3c62695406a42abb"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-reset-bootstrap-2026-09-17T02-51-28.437Z.log",
+      "sha256": "b885706eb15d36b7b9602988ae5ac8af06747c62ed698253145f57db3939eaed"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-reset-intent-1789613503288-9ff4662a-0913-487d-a874-13333c14f1e0.json",
+      "sha256": "06b44c73c4d301c062f0fbaa356f599692b98650425de2655fe33f700f58bf3b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-reset-result-1789613503418-4000f8ab-056b-4444-9bcb-1936ce201203.json",
+      "sha256": "4380012b191eaff10f86b001d69296836466bfb97fef1285851aa253801fb216"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-roles-init-2026-09-17T02-48-12.558Z.json",
+      "sha256": "ff22f5d6b5cbb28fd0bfa3f85c5344332785c73ac968c9c7570abe89716a667f"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-roles-init-2026-09-17T02-48-12.558Z.log",
+      "sha256": "3118038399a6f6306f039631f32a633a748cbd2cf5056a6f68def875e4612d76"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-04-09.146Z.json",
+      "sha256": "a23f24bdf74b7e218b326742bcfd51c381377966863016bfb0219c5631ab24d2"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-04-09.146Z.log",
+      "sha256": "13c8adb9957f43a89b784b3aff35471ed071d7417b2f08ea5e64ef2ec01bc508"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-runtime-image-1789614546496-2f1d211d-d60c-4d16-93c8-e0050bf3bb69.json",
+      "sha256": "830304bef04cf2c2d40cbb58b5fde530839a5cfb47b3a57823651cbb7dd4c66c"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-seed-auth-2026-09-17T02-53-21.110Z.json",
+      "sha256": "88d51f7d09366f35d1f76b3bd07c31fb3d8b881e3ad44eb44322254d52692b1e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-seed-auth-2026-09-17T02-53-21.110Z.log",
+      "sha256": "051f8fd3c8a0c6d8ad4c997956014e2bc9d887d0f4dc6c00811e846fb19fed04"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-seed-orders-2026-09-17T02-54-06.607Z.json",
+      "sha256": "ba858c3c217302ffebffbac055f3db13c3ac66c8a4e09e8f961b564ca81af20b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-seed-orders-2026-09-17T02-54-06.607Z.log",
+      "sha256": "0684a014bbd9d9d567be2f6b589745a876c0274d9a8878f5930061b2dfb4d281"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-send-enforcement-1789614671237-3c25daea-6767-40e9-9113-2641d45c6821.json",
+      "sha256": "745409012cef3a17afa17b19dea0d55892fcd640e1f02d76f2993da9943b0099"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-service-integration-1789613486180-ebdb6af8-b1b1-4256-a6bc-5f758adaee8c.json",
+      "sha256": "a725565ccbbd3d6a31ddf26a084618e0257f182da7f111057374d3ec98eaec9c"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-47-33.399Z.json",
+      "sha256": "ffbd05175bb978e47f31e39b6c87a79f7c51448b10540bcb3ddbed28f117b852"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-47-33.399Z.log",
+      "sha256": "13f11b4d4fe9ae96471c827c95762639355ec914777d004d556382a45dcb832a"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-51-29.247Z.json",
+      "sha256": "6c46789ed078d847b893e393e9568b5a858d822d462dac67e931adc88b932816"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-51-29.247Z.log",
+      "sha256": "9425640a5ac60549cf4dcfb2fd17b0e3d6e23cd19c2d71f0941927342e295200"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-services-smoke-2026-09-17T02-49-04.414Z.json",
+      "sha256": "c172070b317b1632026bed7726394275dc5dd89d7da23da539397dba902bc275"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-services-smoke-2026-09-17T02-49-04.414Z.log",
+      "sha256": "2004e320a8eab8be55b9a541f74d86439ca3fb59b602262ae269ad97fc5bcb82"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-2026-09-17T02-58-57.833Z.json",
+      "sha256": "474640eabf8dadcabdb572db2dfd599143c3cabe29dd1e1aaa98830c25f8665d"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-2026-09-17T02-58-57.833Z.log",
+      "sha256": "847efb5e404cba566673357951719d9900ed05c8b91421094b780a401b117edc"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-04-09.928Z.json",
+      "sha256": "74ca7518bc3bb6cb12db0b01247f3eefc741ee00e8caa87e8a5f53b566fd3455"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-04-09.928Z.log",
+      "sha256": "4e39bb8257b5a663b2c7077f91a65ff80bd41ff193d6ae9a091e2bac26d98832"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-consent-2026-09-17T03-05-35.727Z.json",
+      "sha256": "79eb132b44280eb2d8d64e83ed1621531f06ca9962eb5ef14757f6e006141da1"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-consent-2026-09-17T03-05-35.727Z.log",
+      "sha256": "81d0d1e426975daf2ff8ec910962c202e89f110ba60b67924a7d6abf60fabc6e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-enforcement-2026-09-17T03-10-48.433Z.json",
+      "sha256": "025d80705a67374b5cf3927b84966dcea76fa3972812216bd3ce1aa72f94e295"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-enforcement-2026-09-17T03-10-48.433Z.log",
+      "sha256": "5ec18d86971b89e31dbc66d5677dc014f51c6ee7d3412c14e1d3ac1231594d1e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-evidence-2026-09-17T03-12-06.381Z.json",
+      "sha256": "9c4ec8cb7f835fab69cc76b8c80cc1dd8dc42dc1100281264b0a917dac14afa9"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-evidence-2026-09-17T03-12-06.381Z.log",
+      "sha256": "3132132ff98d0bef8c035accfa0984ef18951589446f4b15ad6f1641851b3527"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-expiry-2026-09-17T03-07-03.054Z.json",
+      "sha256": "e3a21c67d21f728328de3c0575539beb1fac52ba0d9703af7e1b99fcd217189c"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-expiry-2026-09-17T03-07-03.054Z.log",
+      "sha256": "935e57da31b9b508dcfbc2c287f3fbb5b48d64153147c0bf431f1ca919b85e28"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-21-03.792Z.json",
+      "sha256": "69405f37c3c8c411e93adf98992ff40c345fd7712340f80de9ff93866521a5e6"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-21-03.792Z.log",
+      "sha256": "0873b4183a902d6a1f190840d16179690c1d807c8c93551937a42806823cfe72"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-27-27.879Z.json",
+      "sha256": "e3a8d10199740bf027124947a3dc80a39f467fe1beba46a0e1ae78bf06860c19"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-27-27.879Z.log",
+      "sha256": "4105138f2d7b678f7b19eff103d2297abdd7725ac2545ba267263221a4816f2e"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-32-46.705Z.json",
+      "sha256": "cf179f940523661bc4c8729577c0727b0cace52dc166edabfdda28b602b66627"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-32-46.705Z.log",
+      "sha256": "da2a78d762d4ef0f7e83b97424b331471c9136bf1b04f57e8069114ae2d227a1"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-39-03.512Z.json",
+      "sha256": "8a6513a51e4224110e8285ddfc108f55eaccb5fc044347ee245682f3badb2e74"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-39-03.512Z.log",
+      "sha256": "3298eae0c571312da3c9de857c4dcdce90f9fe09a5c2492c6e802828879ab0d5"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-regression-2026-09-17T03-14-23.255Z.json",
+      "sha256": "d67c526dec02c872e0bbbd6d24ff244b14344aab67375eee9c99bb3743255e51"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-regression-2026-09-17T03-14-23.255Z.log",
+      "sha256": "3cdc2b8e857747ef2b70479fb23f4a8081989bb9f575e8d92f0238506497e138"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T02-59-00.038Z.json",
+      "sha256": "f5ca38a644e6083d23dfb45787dba10415f3a36f777d043438eba689eb4e90e1"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T02-59-00.038Z.log",
+      "sha256": "448fb36f39e53db53eda99391941577000eb180180fec79ff9bee41a4d59e77b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-02-59.350Z.json",
+      "sha256": "90cbaca1310c5361be21f0b54fe5f3f59f1af4245e25b5a7c878853f4d5edc74"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-02-59.350Z.log",
+      "sha256": "fd2321e8bedb9d6508175e225f8d21c8209a2db8000529fac92554380c22fc46"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-08-33.370Z.json",
+      "sha256": "ab277c84eb9424acfbc3a391b20aaa2950691571e09ae36f100a238d903433be"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-08-33.370Z.log",
+      "sha256": "75ee0766fb9fdfcd91396ac0b87e2a9f83af7cf78d435e8d15c19954ddb75b8c"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-tls-init-2026-09-17T02-47-25.679Z.json",
+      "sha256": "23ae3418a8fc7649af214da7ac7463fb0d10c6de46853475b1326991af6e116c"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-tls-init-2026-09-17T02-47-25.679Z.log",
+      "sha256": "55945f02bdaaf45661e5020de2055cfe57a54d815981797b967e2f37acb6b167"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789613971850-8db688ee-60e3-4951-ac77-f6f7a5f83545.json",
+      "sha256": "7a1f5f4395e2f39eeb93d0b198437f7cdb1780aec52cb44171ce3c8f9ace7d8b"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789614188081-ef257b0c-c6c7-4e2e-b156-641f7b9c3178.json",
+      "sha256": "9f3fb70ae60f861103d9cd8c532300263804a98c4ce922e8e87d513e8f511edb"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-tls-material-1789613249844-ab0d43ec-75e0-4738-83d4-0d6b102216ac.json",
+      "sha256": "84a668ca1041be159df98a5c48ec161ee5a417fd46a4d7285ac8a273d019b6c6"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-34-37.106Z.json",
+      "sha256": "3175682b75175b5cdec9adbd4a472b213066ad77ede5a8ec6b663110808ceba8"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-34-37.106Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-46-56.702Z.json",
+      "sha256": "d0df7e6816e67a25022f462d03024a17f15f8d6ceaa6dcf3d6eb051fb38881ee"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-46-56.702Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-51-03.063Z.json",
+      "sha256": "a0f6f29677e7744a482c1a70d17d09421f748f91184856de7425611d89cd4aa1"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-51-03.063Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-57-50.281Z.json",
+      "sha256": "31ba58758186c1cfa5eb96704e9be329df1d729e1507e571381ba384ff026787"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-57-50.281Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-26-05.331Z.json",
+      "sha256": "ee3440b9f80aa39cdef1ae6c1574b6a2add1302706c2217873c415767bac33ef"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-26-05.331Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-41-30.373Z.json",
+      "sha256": "ac6441e8e7460e639deede32024fa3b4499ee4379939c5f19878ae4d14a7cebb"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-41-30.373Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "status": "A",
+      "path": "handoffs/codex/artifacts/A07-workflow-integration-1789614645272-32d2577e-5790-4676-8dfb-22cc2ac18b9a.json",
+      "sha256": "7cea8a343b57806545d0f53af4bc44e48b64d1dca97019c1ba55c55df21672cc"
+    },
+    {
+      "status": "M",
+      "path": "infrastructure/runtime-entry.mjs",
+      "sha256": "d6f1a8682b0d688f979e8737e5a0c0b4fbf377d4d44835f28f6bd8e04c7f493b"
+    },
+    {
+      "status": "M",
+      "path": "package.json",
+      "sha256": "e221aede0d84f7ff7da24ec6aa81ef0d02309b34d3830cba52d9da15e85f6ee3"
+    },
+    {
+      "status": "M",
+      "path": "packages/auth/src/config.ts",
+      "sha256": "534df37be2e2df3d6b9fa68bc6a688acb58b764205e527d05ed063db93e052e6"
+    },
+    {
+      "status": "M",
+      "path": "packages/auth/src/server.ts",
+      "sha256": "d66eff5e560f750231a9be62cc15b9af417792e0c27fa0b55d9de28fa9d60aef"
+    },
+    {
+      "status": "M",
+      "path": "packages/contracts/generated/contract-seed.proposed.json",
+      "sha256": "2bc97118f6eaf93e56bfe87e9d4cb44ae9fa60aed3583f97e77e4831af581a1e"
+    },
+    {
+      "status": "M",
+      "path": "packages/contracts/generated/interfaces.json",
+      "sha256": "16a04f44dd54f890ca4d66593b54c92274c01388af77415db6c3c65d5ae7c7b9"
+    },
+    {
+      "status": "M",
+      "path": "packages/contracts/generated/manifest.json",
+      "sha256": "7415cd5aaca0fd243a41fb4347d5a1a2eeb344ca7f0bd737bebb1c213caad62c"
+    },
+    {
+      "status": "M",
+      "path": "packages/contracts/generated/openapi.json",
+      "sha256": "ed4a7dd8651b9f03afcc1aabf70c22b6896a05a4905e7ac6ca590946a2f17275"
+    },
+    {
+      "status": "M",
+      "path": "packages/contracts/package.json",
+      "sha256": "19a418e5a4df557bc44a762dc3a8b777dec3c550abca211664733571e862316c"
+    },
+    {
+      "status": "M",
+      "path": "packages/contracts/src/generate.ts",
+      "sha256": "1e4b20965b7031968a5955d949ab130f04bb638f9e54d0a48d2a5d25850e694a"
+    },
+    {
+      "status": "M",
+      "path": "packages/contracts/src/index.ts",
+      "sha256": "cabbeaf5a44f7e27c40612181c3596df077e2e872ff350c92609ea1cd82b525f"
+    },
+    {
+      "status": "M",
+      "path": "packages/testing/src/http-fixture.ts",
+      "sha256": "5094b597d1c947b4bfc29eea61ac97111f29c5e561d1258f5b04cfe09e2dcb57"
+    },
+    {
+      "status": "M",
+      "path": "pnpm-lock.yaml",
+      "sha256": "b2694da120310a26a6ae377ebecbd4dafcac6711b60377c4ff308fe4fc91a5c8"
+    },
+    {
+      "status": "A",
+      "path": "scripts/app-run.ts",
+      "sha256": "2f5889e248eed1ff8c323f855ec254a8bb36b8d1f06e7c4430385ef581c76fea"
+    },
+    {
+      "status": "A",
+      "path": "scripts/app-stop.ts",
+      "sha256": "bc82b7e067708173243863dea287c4cb8c00ab9361cef6639f8133c6456ecf92"
+    },
+    {
+      "status": "A",
+      "path": "scripts/demo-run.ts",
+      "sha256": "f89648c1f6cfeed23c496d4a2696979065f8c9c7cfdd3d9762dd06277f1ef5ca"
+    },
+    {
+      "status": "M",
+      "path": "scripts/dev.ps1",
+      "sha256": "115813897d6b9391b79b94e42baa61646ad2b4feaeda8e7479a6928e2669a8f7"
+    },
+    {
+      "status": "A",
+      "path": "scripts/evidence-export.ts",
+      "sha256": "05d90b74ffd4499c7f29f5aa756e58a0b0f30f4c53cde3449a9d17e43bc0ff24"
+    },
+    {
+      "status": "M",
+      "path": "scripts/local-hygiene.mjs",
+      "sha256": "9d2c40882f4b1ee3f2194c5a84745a732a6b42042f1b893ffbf521827482aa04"
+    },
+    {
+      "status": "M",
+      "path": "scripts/migrate.ts",
+      "sha256": "9f6bc2478487888e1cd41b6a29553d8a546bf3517316b0e4c05128e22edebf6c"
+    },
+    {
+      "status": "M",
+      "path": "scripts/network-qualification.ts",
+      "sha256": "2e7d99954e0113a20a12ebeabd461e86bf24e6479422d35736efa3c4875defc3"
+    },
+    {
+      "status": "A",
+      "path": "scripts/package-candidate.ts",
+      "sha256": "a14103956390b663fde9a824be01283bbd9b04debac1b284e2df89f46b181092"
+    },
+    {
+      "status": "M",
+      "path": "scripts/profile-init.mjs",
+      "sha256": "62f6af0d8949436fdf8d3729371b7b090197305b58a30d7fec4ee51dfafece57"
+    },
+    {
+      "status": "M",
+      "path": "scripts/record.mjs",
+      "sha256": "e9344e2b0ec45497f1a9234a577dab60b88a2f7c72b681a3d0a389e713ac4ad4"
+    },
+    {
+      "status": "A",
+      "path": "scripts/setup-rehearsal.ps1",
+      "sha256": "b5b53f5bd785e6b8eec7bbd0464b4c3acb045c0fb334ab32a75674db90b7b9f1"
+    },
+    {
+      "status": "A",
+      "path": "scripts/tls-init.ts",
+      "sha256": "ad48e34ff21ee9a7515281e29256558ac8bca52a8ebf3ba928a6daf0870862eb"
+    },
+    {
+      "status": "A",
+      "path": "scripts/tls-server.ts",
+      "sha256": "2abfea03a25216b8ecf5d4052559eac5f2c8ec14faf22f10750cb49ed87f2265"
+    },
+    {
+      "status": "A",
+      "path": "scripts/web-process.ts",
+      "sha256": "060624fe9dfe2f0f19ba272d4cb4e03dc52b6f00c0108060a48f21cfcb7a131a"
+    },
+    {
+      "status": "M",
+      "path": "scripts/web.ts",
+      "sha256": "2d586fac42672ea0bb346765b3dd39f047fd21dcd2af9839313428511ff38c04"
+    },
+    {
+      "status": "M",
+      "path": "tests/integration/consent/expiry.test.ts",
+      "sha256": "e30b8444a9493261eec75f2b0ae1533c6e5f2b66208e2d7b6afcba3e5d74ed85"
+    },
+    {
+      "status": "M",
+      "path": "tests/integration/enforcement/send.test.ts",
+      "sha256": "d3b8960256ca67ef93bf8706e6801abdc9c8d0ef11a0a7d928d1be7d43263e17"
+    },
+    {
+      "status": "M",
+      "path": "tests/integration/evidence/evidence.test.ts",
+      "sha256": "224f672def1e4dccd8927e4dda284ac6a6c5b3fe2bffeedd8330b832b9fb3a89"
+    },
+    {
+      "status": "A",
+      "path": "tests/integration/lifecycle.test.ts",
+      "sha256": "a1162fea3a5670b9abe841169bf837bfb0e929645719b4a67944e3526d4e4790"
+    },
+    {
+      "status": "M",
+      "path": "tests/integration/regression/regression.test.ts",
+      "sha256": "00199a9f34bed85ec2dff3f1b98163f91272edfeb59d7bb97a56c0b4fbb3e467"
+    },
+    {
+      "status": "M",
+      "path": "tests/security/auth.test.ts",
+      "sha256": "0f9c956b8d75aee9f66f1229a6fc266daa94ff71acbf9f34511b663b6aac44fa"
+    },
+    {
+      "status": "A",
+      "path": "tests/security/tls.test.ts",
+      "sha256": "61b7412abd86eceae7f1d4ca0660bdeabf84df0fcba62950373cca984a3b758f"
+    },
+    {
+      "status": "M",
+      "path": "tracking/contract_seed.json",
+      "sha256": "2bc97118f6eaf93e56bfe87e9d4cb44ae9fa60aed3583f97e77e4831af581a1e"
+    }
+  ],
+  "commands": [
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-bootstrap-2026-09-17T02-53-02.177Z.json",
+      "sha256": "92c0de4358a514317771641de7a64b1d46ed6340727c2562f1f4f63a12e68472",
+      "bytes": 52563,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "auth:bootstrap",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:53:02.177Z",
+      "finished_at": "2026-09-17T02:53:18.388Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-auth-bootstrap-2026-09-17T02-53-02.177Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-init-2026-09-17T02-52-55.395Z.json",
+      "sha256": "9c4f0a92f97c8b70ed8f13fe92a553f2d1e323001c206849c609f115ae3702b0",
+      "bytes": 52553,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "auth:init",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:52:55.395Z",
+      "finished_at": "2026-09-17T02:53:00.645Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-auth-init-2026-09-17T02-52-55.395Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T02-54-31.503Z.json",
+      "sha256": "fb17a7824c97d72186d20190079144bd65a9684a07d15eeb6ca17208c454067f",
+      "bytes": 104308,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:54:31.503Z",
+      "finished_at": "2026-09-17T02:56:53.109Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "46c2862bd4b85634284d36ba88e004c04a828029679cde25b937c3f6cf2e7749",
+      "source_changed_during_run": true,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-build-2026-09-17T02-54-31.503Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-02-46.529Z.json",
+      "sha256": "2a460604a20c5ad68cee1a07abcf6c1ee52898df685639f90f8f74149f67736a",
+      "bytes": 55361,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:02:46.529Z",
+      "finished_at": "2026-09-17T03:02:57.510Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-build-2026-09-17T03-02-46.529Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.json",
+      "sha256": "5c563239dc166fe930e9864e0deb527403ed958d4e87f21976722187c547fcfd",
+      "bytes": 55388,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-package-probe",
+      "started_at": "2026-09-17T03:21:58.234Z",
+      "finished_at": "2026-09-17T03:23:52.012Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-45-20.163Z.json",
+      "sha256": "4136515abadb6151b7fa1b446fac5b688287660c444fb80d442e3566f9c246be",
+      "bytes": 55361,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "build"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:45:20.163Z",
+      "finished_at": "2026-09-17T03:45:50.473Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-build-2026-09-17T03-45-20.163Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-candidate-package-2026-09-17T03-54-38.325Z.json",
+      "sha256": "b644cafba1ab3c4cd213ef1c9f1c0a2c9b319583c55b3d0b45c874a1d126b4bc",
+      "bytes": 55410,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "candidate:package",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:54:38.325Z",
+      "finished_at": "2026-09-17T03:56:12.680Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-candidate-package-2026-09-17T03-54-38.325Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T02-56-37.486Z.json",
+      "sha256": "28f05ce82284e68f938adf4481688d7a85a340b7e2c4401a3d1e1b6994ed9c2e",
+      "bytes": 52685,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:56:37.486Z",
+      "finished_at": "2026-09-17T02:56:53.263Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "8a07fce2121a53f429ad6939ce0c54720dbf603db109353bd11cbab469573da5",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T02-56-37.486Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.json",
+      "sha256": "af2c6c05141e9d91b1656ddd04258a2ff0df295d0c82828a745a19f032220ca0",
+      "bytes": 55408,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-package-probe",
+      "started_at": "2026-09-17T03:21:40.812Z",
+      "finished_at": "2026-09-17T03:21:57.782Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-42-44.504Z.json",
+      "sha256": "90ac8ef298d4ea34d91f48fcc32dd95aae0ab769d74a4066368954b9afacd27f",
+      "bytes": 55380,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:42:44.504Z",
+      "finished_at": "2026-09-17T03:43:12.806Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-42-44.504Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-45-58.526Z.json",
+      "sha256": "904dd4c7dc538a4c156f1522f7394cfef01e5e65ab07e146550b4fce0eb6d7cf",
+      "bytes": 52263,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:45:58.526Z",
+      "finished_at": "2026-09-17T02:46:02.416Z",
+      "exit_code": 1,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "9f60e9c3f5be257fe9dd8d372178b3fbee91c3e68afae25de425740a8a80b53e",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "FAIL",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-45-58.526Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-46-23.815Z.json",
+      "sha256": "120fa6e761d7029fd5d3d27f8a69b465ce29f038e47257cab5109cfb16a137d2",
+      "bytes": 103478,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "contracts:generate"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:46:23.815Z",
+      "finished_at": "2026-09-17T02:46:56.149Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "9f60e9c3f5be257fe9dd8d372178b3fbee91c3e68afae25de425740a8a80b53e",
+      "source_changed_during_run": true,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-46-23.815Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-48-41.760Z.json",
+      "sha256": "ec52c0666969cf295f2aeb9dfc06613bb4d3df9935b5cb394c0d48f33d1da65f",
+      "bytes": 52269,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate",
+        "bootstrap-only"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:48:41.760Z",
+      "finished_at": "2026-09-17T02:48:44.833Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-48-41.760Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-52-40.990Z.json",
+      "sha256": "a0edc8fbcd01545e723411f503ad603321cc0daee3a74981d638664091ead68e",
+      "bytes": 52530,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "db:migrate"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:52:40.990Z",
+      "finished_at": "2026-09-17T02:52:53.989Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-52-40.990Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-demo-run-2026-09-17T03-19-49.329Z.json",
+      "sha256": "7fc797f6b38c627c250d46fbc8c99e5e06118eb4b04404e329867d912487dd75",
+      "bytes": 55392,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "demo:run",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:19:49.329Z",
+      "finished_at": "2026-09-17T03:20:16.464Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-demo-run-2026-09-17T03-19-49.329Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-dependencies-check-2026-09-17T02-56-16.089Z.json",
+      "sha256": "04d7b10e882c7822ab11f17a14a64432740003ee7906a26fe8c99026216d55f5",
+      "bytes": 52691,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "dependencies:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:56:16.089Z",
+      "finished_at": "2026-09-17T02:56:35.424Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "8a07fce2121a53f429ad6939ce0c54720dbf603db109353bd11cbab469573da5",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-dependencies-check-2026-09-17T02-56-16.089Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-evidence-export-2026-09-17T03-40-57.569Z.json",
+      "sha256": "57d2a23460548d4c5b1e27736589bcf54d62dbbad75854e25b0be900eb48bc5a",
+      "bytes": 55449,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "evidence:export",
+        "confirm:rehearsal",
+        "8f5e3920-b036-40f8-b400-ef8d0ce08758"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:40:57.569Z",
+      "finished_at": "2026-09-17T03:41:15.461Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-evidence-export-2026-09-17T03-40-57.569Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-00-43.778Z.json",
+      "sha256": "23053f6d1f23ebfe5ceb4445b533fd632b3208d323eee20c46d6ac90cbeeb355",
+      "bytes": 52681,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:00:43.778Z",
+      "finished_at": "2026-09-17T03:01:16.670Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "eed4923fee4cb69aa0108f8057448ab710a0ce50aec5632003e86eab08c9fc79",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-00-43.778Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-43-14.226Z.json",
+      "sha256": "46004c4592fc923ea725a33c884a7103a15f8e0c5020f62c6e8cd7b25dac1db7",
+      "bytes": 55376,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:43:14.226Z",
+      "finished_at": "2026-09-17T03:43:55.358Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-43-14.226Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-58-58.848Z.json",
+      "sha256": "82e3146394c4955923407af2951098773069abd59c5fe9f27c82e6bb9bbabf08",
+      "bytes": 55377,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:58:58.848Z",
+      "finished_at": "2026-09-17T03:59:17.589Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-58-58.848Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T04-02-38.510Z.json",
+      "sha256": "dcb99e005ebd17d78fcb3d8a232cbb2328aa792079229087b7b94964301576b7",
+      "bytes": 55377,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T04:02:38.510Z",
+      "finished_at": "2026-09-17T04:02:39.870Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T04-02-38.510Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-38-52.628Z.json",
+      "sha256": "77ab3ef0d2c65693abb4a0cdf78e54e0a85bb7d16aafa330748c3b176e981627",
+      "bytes": 101022,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--no-frozen-lockfile"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:38:52.628Z",
+      "finished_at": "2026-09-17T02:39:09.938Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "652169bc79cb14ee92442354c9ad5ae007a9e8958f8738af84251e54fa28e4b4",
+      "source_changed_during_run": true,
+      "dirty": true,
+      "contract_version": "0.4.0",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-install-2026-09-17T02-38-52.628Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-54-25.779Z.json",
+      "sha256": "a05beb0de2f113ea6c736ff0c3421d916db30c9fac0c950594c53437a44097cb",
+      "bytes": 104192,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:54:25.779Z",
+      "finished_at": "2026-09-17T02:54:29.373Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "f44880a42f1b276b64166bbcd5ad6744c8b07265542460553cb841d4feb74a39",
+      "source_changed_during_run": true,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-install-2026-09-17T02-54-25.779Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.json",
+      "sha256": "7345ef201d09cc9ca0615dbadaf6c79a7caf526363cfd75690749b359789f506",
+      "bytes": 55417,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-package-probe",
+      "started_at": "2026-09-17T03:21:22.941Z",
+      "finished_at": "2026-09-17T03:21:39.773Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-36-27.956Z.json",
+      "sha256": "7abb5f150a0aaca0cd3e2f32c15ad1a4aac353ce7fd7a82e364e3b96302fb79d",
+      "bytes": 51004,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:36:27.956Z",
+      "finished_at": "2026-09-17T02:38:12.437Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "8d852bd2da87dbd41a8cf3e5fa4b400b91cf8360",
+      "source_tree_sha256": "44173a2202ebffccb2f2d9eaf74b7c9a4dd02c3434705596d61b34b202de8aff",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.0",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-lint-2026-09-17T02-36-27.956Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-47-22.571Z.json",
+      "sha256": "43ddaeffe854ee252a5692bfe5ba241783eb57efaca8d915193ce58b64554f64",
+      "bytes": 52235,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:47:22.571Z",
+      "finished_at": "2026-09-17T02:47:39.355Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-lint-2026-09-17T02-47-22.571Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-51-59.957Z.json",
+      "sha256": "25c8bdebf2ede03541216723070f4ea87b8d1456853796d9350d8cf8f5a9a4bf",
+      "bytes": 52518,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:51:59.957Z",
+      "finished_at": "2026-09-17T02:52:18.685Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-lint-2026-09-17T02-51-59.957Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-58-25.852Z.json",
+      "sha256": "adb835f1dc174320bd49d3d3dcc1bbd7ea2487845656b8788d5621529d805c23",
+      "bytes": 52663,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:58:25.852Z",
+      "finished_at": "2026-09-17T02:58:57.111Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "a11c6631496bbf4f0ef02e337be59d25ff4359301a5a36870163fe514bbbc107",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-lint-2026-09-17T02-58-25.852Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-26-45.687Z.json",
+      "sha256": "3f4119d2edd06d367a08b9ca23982a7238ab4ee9f440493119cceb9c58b0ccb5",
+      "bytes": 55358,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:26:45.687Z",
+      "finished_at": "2026-09-17T03:27:27.475Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "fbe4f06a4457dec6e30f1b6cc6c1a4227309ee41954790707d210832e09eaa60",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-lint-2026-09-17T03-26-45.687Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-42-27.192Z.json",
+      "sha256": "ca5da3ee27561f0c4d1d9df2b2b0345656c7d0c7507e21df553d48c277938d9d",
+      "bytes": 55358,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "lint"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:42:27.192Z",
+      "finished_at": "2026-09-17T03:42:42.233Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-lint-2026-09-17T03-42-27.192Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-machine-init-2026-09-17T02-53-41.970Z.json",
+      "sha256": "272f41cec702c331b5d394e6bd16e6a680966951d94353737ff4539a6c909d9a",
+      "bytes": 52559,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "machine:init",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:53:41.970Z",
+      "finished_at": "2026-09-17T02:54:04.705Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-machine-init-2026-09-17T02-53-41.970Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-verifier-execution.json",
+      "sha256": "28dca9b105bd54116cb26704a22498a5140a99d0c68a01608668ce303af5588f",
+      "bytes": 751,
+      "command": [
+        "python",
+        "handoffs/codex/artifacts/A07-package-verifier.py"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": null,
+      "finished_at": null,
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": null,
+      "source_changed_during_run": null,
+      "dirty": null,
+      "contract_version": null,
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-final-package-verification.json"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-verifier-original-failure.json",
+      "sha256": "94dfb23371996261402298ca486a62bf417fda1a2aa9a96024e57ff79529de70",
+      "bytes": 711,
+      "command": [
+        "python",
+        "handoffs/codex/artifacts/A07-package-verifier.py"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": null,
+      "finished_at": null,
+      "exit_code": 1,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": null,
+      "source_changed_during_run": null,
+      "dirty": null,
+      "contract_version": null,
+      "profile": null,
+      "result": "FAIL",
+      "artifact_paths": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-preflight-2026-09-17T02-48-45.312Z.json",
+      "sha256": "387a52eac13e3babc613d5f7887d108d5487c2361ec2a6908ba36f14223b6ac7",
+      "bytes": 52245,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "preflight"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:48:45.312Z",
+      "finished_at": "2026-09-17T02:49:03.823Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-preflight-2026-09-17T02-48-45.312Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-profile-init-2026-09-17T02-47-24.210Z.json",
+      "sha256": "a0cb367b103b79403cbf85c968a7cf9f0813ed9f039e30268bc11a6fe735a300",
+      "bytes": 52268,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "profile:init",
+        "rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:47:24.210Z",
+      "finished_at": "2026-09-17T02:47:25.177Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-profile-init-2026-09-17T02-47-24.210Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-init-2026-09-17T02-54-16.011Z.json",
+      "sha256": "75df16d2066d454ecd670b29ccbdaf667d623593ece445d960e6f2ebe3f92cd9",
+      "bytes": 104063,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "regression:init",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:54:16.011Z",
+      "finished_at": "2026-09-17T02:54:23.597Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": true,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-regression-init-2026-09-17T02-54-16.011Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-reset-bootstrap-2026-09-17T02-51-28.437Z.json",
+      "sha256": "74a4c0f20ee0ef865596d2299ed06a709c3c8e1ff84dee3f3c62695406a42abb",
+      "bytes": 52589,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "reset:bootstrap",
+        "rehearsal",
+        "rehearsal-bootstrap-only"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:51:28.437Z",
+      "finished_at": "2026-09-17T02:51:44.886Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-reset-bootstrap-2026-09-17T02-51-28.437Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-roles-init-2026-09-17T02-48-12.558Z.json",
+      "sha256": "ff22f5d6b5cbb28fd0bfa3f85c5344332785c73ac968c9c7570abe89716a667f",
+      "bytes": 52272,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "roles:init",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:48:12.558Z",
+      "finished_at": "2026-09-17T02:48:41.066Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-roles-init-2026-09-17T02-48-12.558Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-04-09.146Z.json",
+      "sha256": "a23f24bdf74b7e218b326742bcfd51c381377966863016bfb0219c5631ab24d2",
+      "bytes": 55377,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "runtime:build"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:04:09.146Z",
+      "finished_at": "2026-09-17T03:09:07.634Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-04-09.146Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-50-48.067Z.json",
+      "sha256": "4f48069ac54073c744a94b4e45a3a8c1703303a95b2ae22cc7030b09c8e4ccef",
+      "bytes": 55377,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "runtime:build"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:50:48.067Z",
+      "finished_at": "2026-09-17T03:52:54.195Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-50-48.067Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-seed-auth-2026-09-17T02-53-21.110Z.json",
+      "sha256": "88d51f7d09366f35d1f76b3bd07c31fb3d8b881e3ad44eb44322254d52692b1e",
+      "bytes": 52553,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "seed:auth",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:53:21.110Z",
+      "finished_at": "2026-09-17T02:53:39.300Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-seed-auth-2026-09-17T02-53-21.110Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-seed-orders-2026-09-17T02-54-06.607Z.json",
+      "sha256": "ba858c3c217302ffebffbac055f3db13c3ac66c8a4e09e8f961b564ca81af20b",
+      "bytes": 52557,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "seed:orders",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:54:06.607Z",
+      "finished_at": "2026-09-17T02:54:14.650Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-seed-orders-2026-09-17T02-54-06.607Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-47-33.399Z.json",
+      "sha256": "ffbd05175bb978e47f31e39b6c87a79f7c51448b10540bcb3ddbed28f117b852",
+      "bytes": 52253,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "up"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:47:33.399Z",
+      "finished_at": "2026-09-17T02:48:10.702Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-services-2026-09-17T02-47-33.399Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-51-29.247Z.json",
+      "sha256": "6c46789ed078d847b893e393e9568b5a858d822d462dac67e931adc88b932816",
+      "bytes": 52538,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services",
+        "stop"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:51:29.247Z",
+      "finished_at": "2026-09-17T02:52:02.800Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-services-2026-09-17T02-51-29.247Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-smoke-2026-09-17T02-49-04.414Z.json",
+      "sha256": "c172070b317b1632026bed7726394275dc5dd89d7da23da539397dba902bc275",
+      "bytes": 103777,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "services:smoke"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:49:04.414Z",
+      "finished_at": "2026-09-17T02:51:27.110Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": true,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-services-smoke-2026-09-17T02-49-04.414Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-2026-09-17T02-58-57.833Z.json",
+      "sha256": "474640eabf8dadcabdb572db2dfd599143c3cabe29dd1e1aaa98830c25f8665d",
+      "bytes": 52663,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:58:57.833Z",
+      "finished_at": "2026-09-17T02:58:59.634Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "a11c6631496bbf4f0ef02e337be59d25ff4359301a5a36870163fe514bbbc107",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-2026-09-17T02-58-57.833Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-04-09.928Z.json",
+      "sha256": "74ca7518bc3bb6cb12db0b01247f3eefc741ee00e8caa87e8a5f53b566fd3455",
+      "bytes": 55426,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:04:09.928Z",
+      "finished_at": "2026-09-17T03:04:54.607Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-04-09.928Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-47-07.677Z.json",
+      "sha256": "364c93c371f70f62a663acf4dcf522f31193be65c9aa884fb37d3da65c319e13",
+      "bytes": 55426,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:auth"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:47:07.677Z",
+      "finished_at": "2026-09-17T03:47:32.565Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-47-07.677Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-consent-2026-09-17T03-05-35.727Z.json",
+      "sha256": "79eb132b44280eb2d8d64e83ed1621531f06ca9962eb5ef14757f6e006141da1",
+      "bytes": 55375,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:consent"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:05:35.727Z",
+      "finished_at": "2026-09-17T03:06:08.029Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-consent-2026-09-17T03-05-35.727Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-enforcement-2026-09-17T03-10-48.433Z.json",
+      "sha256": "025d80705a67374b5cf3927b84966dcea76fa3972812216bd3ce1aa72f94e295",
+      "bytes": 55383,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:enforcement"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:10:48.433Z",
+      "finished_at": "2026-09-17T03:11:11.509Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-enforcement-2026-09-17T03-10-48.433Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-evidence-2026-09-17T03-12-06.381Z.json",
+      "sha256": "9c4ec8cb7f835fab69cc76b8c80cc1dd8dc42dc1100281264b0a917dac14afa9",
+      "bytes": 55377,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:evidence"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:12:06.381Z",
+      "finished_at": "2026-09-17T03:13:23.721Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-evidence-2026-09-17T03-12-06.381Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-expiry-2026-09-17T03-07-03.054Z.json",
+      "sha256": "e3a21c67d21f728328de3c0575539beb1fac52ba0d9703af7e1b99fcd217189c",
+      "bytes": 55373,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:expiry"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:07:03.054Z",
+      "finished_at": "2026-09-17T03:08:08.099Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-expiry-2026-09-17T03-07-03.054Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-21-03.792Z.json",
+      "sha256": "69405f37c3c8c411e93adf98992ff40c345fd7712340f80de9ff93866521a5e6",
+      "bytes": 55379,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:lifecycle"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:21:03.792Z",
+      "finished_at": "2026-09-17T03:22:28.680Z",
+      "exit_code": 1,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "FAIL",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-21-03.792Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-27-27.879Z.json",
+      "sha256": "e3a8d10199740bf027124947a3dc80a39f467fe1beba46a0e1ae78bf06860c19",
+      "bytes": 55378,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:lifecycle"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:27:27.879Z",
+      "finished_at": "2026-09-17T03:28:51.107Z",
+      "exit_code": 1,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "fbe4f06a4457dec6e30f1b6cc6c1a4227309ee41954790707d210832e09eaa60",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "FAIL",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-27-27.879Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-32-46.705Z.json",
+      "sha256": "cf179f940523661bc4c8729577c0727b0cace52dc166edabfdda28b602b66627",
+      "bytes": 55378,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:lifecycle"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:32:46.705Z",
+      "finished_at": "2026-09-17T03:33:33.853Z",
+      "exit_code": 1,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "5423999aca9d5dd2cebf6507428543b202fc2df4fba8b060e74d28c04e761c8e",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "FAIL",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-32-46.705Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-39-03.512Z.json",
+      "sha256": "8a6513a51e4224110e8285ddfc108f55eaccb5fc044347ee245682f3badb2e74",
+      "bytes": 55378,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:lifecycle"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:39:03.512Z",
+      "finished_at": "2026-09-17T03:40:15.709Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "92ebf2fcdd03e3937206d54a479a74752a34d9d9e0c728eeac8819bee1fb5c84",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-39-03.512Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-49-53.472Z.json",
+      "sha256": "1ffc0816ff6eec7abc156dba9540696bb22c43345e38f9d0226e2592c7707db8",
+      "bytes": 55379,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:lifecycle"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:49:53.472Z",
+      "finished_at": "2026-09-17T03:50:47.729Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-49-53.472Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-network-2026-09-17T03-52-57.312Z.json",
+      "sha256": "a7f53bb33b7dcf716fb5e1e6b6725004c87deb6f432af37f4f79e75335235d23",
+      "bytes": 55400,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:network",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:52:57.312Z",
+      "finished_at": "2026-09-17T03:54:06.326Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-network-2026-09-17T03-52-57.312Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-regression-2026-09-17T03-14-23.255Z.json",
+      "sha256": "d67c526dec02c872e0bbbd6d24ff244b14344aab67375eee9c99bb3743255e51",
+      "bytes": 55381,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:regression"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:14:23.255Z",
+      "finished_at": "2026-09-17T03:19:05.529Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-regression-2026-09-17T03-14-23.255Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T02-59-00.038Z.json",
+      "sha256": "f5ca38a644e6083d23dfb45787dba10415f3a36f777d043438eba689eb4e90e1",
+      "bytes": 52671,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:tls"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:59:00.038Z",
+      "finished_at": "2026-09-17T02:59:34.309Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "a11c6631496bbf4f0ef02e337be59d25ff4359301a5a36870163fe514bbbc107",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-tls-2026-09-17T02-59-00.038Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-02-59.350Z.json",
+      "sha256": "90cbaca1310c5361be21f0b54fe5f3f59f1af4245e25b5a7c878853f4d5edc74",
+      "bytes": 55367,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:tls"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:02:59.350Z",
+      "finished_at": "2026-09-17T03:03:08.733Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-02-59.350Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-45-52.215Z.json",
+      "sha256": "82fcbb6dfe52ac53479c7b9a1e5edcd2daec3e5fdbe93d1ca2a2bbe8540be2a1",
+      "bytes": 55367,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:tls"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:45:52.215Z",
+      "finished_at": "2026-09-17T03:46:06.761Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-45-52.215Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-08-33.370Z.json",
+      "sha256": "ab277c84eb9424acfbc3a391b20aaa2950691571e09ae36f100a238d903433be",
+      "bytes": 55379,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:workflows"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:08:33.370Z",
+      "finished_at": "2026-09-17T03:10:45.799Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "2000fc732801c54a8758797de5a997d87e3d43445597bbc85ea21ed6eac833cd",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-08-33.370Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-48-22.990Z.json",
+      "sha256": "3914ca88b1805b0795ab015b0fd292fe1a3e51090026658c407ccc5a731b15db",
+      "bytes": 55379,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "test:workflows"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:48:22.990Z",
+      "finished_at": "2026-09-17T03:49:37.471Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": false,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-48-22.990Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-init-2026-09-17T02-47-25.679Z.json",
+      "sha256": "23ae3418a8fc7649af214da7ac7463fb0d10c6de46853475b1326991af6e116c",
+      "bytes": 52268,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "tls:init",
+        "confirm:rehearsal"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:47:25.679Z",
+      "finished_at": "2026-09-17T02:47:30.920Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-tls-init-2026-09-17T02-47-25.679Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-34-37.106Z.json",
+      "sha256": "3175682b75175b5cdec9adbd4a472b213066ad77ede5a8ec6b663110808ceba8",
+      "bytes": 51014,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:34:37.106Z",
+      "finished_at": "2026-09-17T02:36:27.124Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "8d852bd2da87dbd41a8cf3e5fa4b400b91cf8360",
+      "source_tree_sha256": "44173a2202ebffccb2f2d9eaf74b7c9a4dd02c3434705596d61b34b202de8aff",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.0",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-34-37.106Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-46-56.702Z.json",
+      "sha256": "d0df7e6816e67a25022f462d03024a17f15f8d6ceaa6dcf3d6eb051fb38881ee",
+      "bytes": 52245,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:46:56.702Z",
+      "finished_at": "2026-09-17T02:47:22.188Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "3f7993db1ace25993a208e38045bb0c14888d8ae2a437001c9513e23910f3c08",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-46-56.702Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-51-03.063Z.json",
+      "sha256": "a0f6f29677e7744a482c1a70d17d09421f748f91184856de7425611d89cd4aa1",
+      "bytes": 52528,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:51:03.063Z",
+      "finished_at": "2026-09-17T02:51:57.119Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "codex-a00",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-51-03.063Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-57-50.281Z.json",
+      "sha256": "31ba58758186c1cfa5eb96704e9be329df1d729e1507e571381ba384ff026787",
+      "bytes": 52673,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T02:57:50.281Z",
+      "finished_at": "2026-09-17T02:58:25.502Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
+      "source_tree_sha256": "a11c6631496bbf4f0ef02e337be59d25ff4359301a5a36870163fe514bbbc107",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-57-50.281Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-26-05.331Z.json",
+      "sha256": "ee3440b9f80aa39cdef1ae6c1574b6a2add1302706c2217873c415767bac33ef",
+      "bytes": 55368,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:26:05.331Z",
+      "finished_at": "2026-09-17T03:26:45.224Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "fbe4f06a4457dec6e30f1b6cc6c1a4227309ee41954790707d210832e09eaa60",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-26-05.331Z.log"
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-41-30.373Z.json",
+      "sha256": "ac6441e8e7460e639deede32024fa3b4499ee4379939c5f19878ae4d14a7cebb",
+      "bytes": 55368,
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "typecheck"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "started_at": "2026-09-17T03:41:30.373Z",
+      "finished_at": "2026-09-17T03:42:26.863Z",
+      "exit_code": 0,
+      "signal": null,
+      "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "source_changed_during_run": false,
+      "dirty": true,
+      "contract_version": "0.4.1",
+      "profile": "rehearsal",
+      "result": "PASS",
+      "artifact_paths": [
+        "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-41-30.373Z.log"
+      ]
+    }
+  ],
+  "assertion_reports": [
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-security-1789614293982-aed28b73-c0b7-4c46-834c-859eec4b3523.json",
+      "sha256": "b6ae64e49898678f6ca36e74fe05325f9d217e6204cd59033c70b31c9090f9e0",
+      "bytes": 13577,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:04:53.982Z",
+      "counts": {
+        "PASS": 89,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-security-1789616852357-8e78561f-1eea-4b1d-b711-d3999e424809.json",
+      "sha256": "08ba81baff017bba7405c9f4adeb8b47af5afd5dde3c5cdf632d6925d034bca3",
+      "bytes": 13370,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:47:32.357Z",
+      "counts": {
+        "PASS": 87,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-consent-integration-1789614367643-3da544ea-0cb0-4a3b-b6c5-aef085476cdf.json",
+      "sha256": "5ff1fc5ab7c478332a6b70856cd2f3327094942a2da3ef3aeca7c7c38c0df998",
+      "bytes": 13863,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:06:07.644Z",
+      "counts": {
+        "PASS": 50,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-evidence-integration-1789614803452-366f63a4-4213-4387-b82d-d21d316327fc.json",
+      "sha256": "6a3e3643d8fa2aa9f1d7d367cddd4d112aca7398ce17857e0e427471e0f5fdb3",
+      "bytes": 11347,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:13:23.453Z",
+      "counts": {
+        "PASS": 63,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-expiry-integration-1789614487473-79bbdde1-3816-4e19-b238-1a74c944bc9c.json",
+      "sha256": "2895bf13c765a57d4e0becbfc10049cfb92a5d0bf455b3eab2cc4e3796c0071c",
+      "bytes": 28410,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:08:07.473Z",
+      "counts": {
+        "PASS": 87,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789615342659-8b987005-0f50-4f4b-bfd9-712c4982d823.json",
+      "sha256": "0b972ba7645bcec9ef3019933f1ae7cc348859a17146c32bcc1405981b68e094",
+      "bytes": 1040,
+      "result": "FAIL",
+      "recorded_at": "2026-09-17T03:22:22.661Z",
+      "counts": {
+        "PASS": 3,
+        "FAIL": 1,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789615729112-3a2ef0e4-b1dc-4eb6-a3c4-2c85a2d71092.json",
+      "sha256": "41056a24928bbe475e96e54b7f2dfc3aed9a74e9be9655274b9ab7b056a22046",
+      "bytes": 1040,
+      "result": "FAIL",
+      "recorded_at": "2026-09-17T03:28:49.112Z",
+      "counts": {
+        "PASS": 3,
+        "FAIL": 1,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789616013595-51410598-9c36-4d83-9f8c-9f325ad52415.json",
+      "sha256": "ad7f34cd02d7b87749bbec3023aa2b024b0ca3fa9694231fea898a74d5e5fcf2",
+      "bytes": 1777,
+      "result": "FAIL",
+      "recorded_at": "2026-09-17T03:33:33.596Z",
+      "counts": {
+        "PASS": 7,
+        "FAIL": 1,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789616415381-25f3a088-9b4f-4f05-96f9-3638fd9559e8.json",
+      "sha256": "18709a1cbb29da39513e8bb489c9002035fd15590689ac24edd8b67aebec580d",
+      "bytes": 3458,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:40:15.382Z",
+      "counts": {
+        "PASS": 17,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789617047440-555b379c-efd6-4e3f-9ce3-8051c83c37fa.json",
+      "sha256": "847efccf0e679a3531179ba0fdd4be6d1c75f23e92370489d3b3564b9fba82b9",
+      "bytes": 3458,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:50:47.440Z",
+      "counts": {
+        "PASS": 17,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-qualification-1789617245884-fef601b0-dd29-4ded-aba5-7edd2acd5e25.json",
+      "sha256": "d0d58a4a2fabbfac9cc0b4ad7348e68f83838fb472c8877f0437620c2acffc34",
+      "bytes": 32076,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:54:05.885Z",
+      "counts": {
+        "PASS": 13,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-integration-1789615144286-a23f7b2c-ed5f-4bd4-97d1-45c56da0f76e.json",
+      "sha256": "84dd5653e69d810ad5329ffa59eca94370cbe1191bb48c6fe5392ae6e83a4c96",
+      "bytes": 44813,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:19:04.289Z",
+      "counts": {
+        "PASS": 70,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-send-enforcement-1789614671237-3c25daea-6767-40e9-9113-2641d45c6821.json",
+      "sha256": "745409012cef3a17afa17b19dea0d55892fcd640e1f02d76f2993da9943b0099",
+      "bytes": 7916,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:11:11.237Z",
+      "counts": {
+        "PASS": 46,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-service-integration-1789613486180-ebdb6af8-b1b1-4256-a6bc-5f758adaee8c.json",
+      "sha256": "a725565ccbbd3d6a31ddf26a084618e0257f182da7f111057374d3ec98eaec9c",
+      "bytes": 1275,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T02:51:26.180Z",
+      "counts": {
+        "PASS": 4,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789613971850-8db688ee-60e3-4951-ac77-f6f7a5f83545.json",
+      "sha256": "7a1f5f4395e2f39eeb93d0b198437f7cdb1780aec52cb44171ce3c8f9ace7d8b",
+      "bytes": 2092,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T02:59:31.850Z",
+      "counts": {
+        "PASS": 12,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789614188081-ef257b0c-c6c7-4e2e-b156-641f7b9c3178.json",
+      "sha256": "9f3fb70ae60f861103d9cd8c532300263804a98c4ce922e8e87d513e8f511edb",
+      "bytes": 2092,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:03:08.082Z",
+      "counts": {
+        "PASS": 12,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789616766098-d6730dca-8a23-4ae8-8946-be6617743289.json",
+      "sha256": "634550fe26b68c05e03a5fdf1424334acfe1af4f1420d7abd722d885e899fa8e",
+      "bytes": 2081,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:46:06.099Z",
+      "counts": {
+        "PASS": 12,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-workflow-integration-1789614645272-32d2577e-5790-4676-8dfb-22cc2ac18b9a.json",
+      "sha256": "7cea8a343b57806545d0f53af4bc44e48b64d1dca97019c1ba55c55df21672cc",
+      "bytes": 6033,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:10:45.272Z",
+      "counts": {
+        "PASS": 32,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-workflow-integration-1789616977175-b6236db9-76be-4998-8c8a-0d210652ca62.json",
+      "sha256": "d792826cb0bd90a770af9ad29e684cee876319e3e5c47697f900a2534885cc02",
+      "bytes": 6033,
+      "result": "PASS",
+      "recorded_at": "2026-09-17T03:49:37.176Z",
+      "counts": {
+        "PASS": 32,
+        "FAIL": 0,
+        "ERROR": 0,
+        "NOT_RUN": 0
+      }
+    }
+  ],
+  "artifact_files": [
+    {
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789615342192-252bd08d-c0d6-4fc3-a865-08a92b662bfb.json",
+      "sha256": "3491bb831ad353c9c2aaccba0204b2bbf525a93587532463509096b72241307b",
+      "bytes": 861
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789615728529-69b510f5-b879-4461-a636-9d2efce8c543.json",
+      "sha256": "360335682f5573252576b16b265dcb6baa14e9c3524c2e547714f88209224050",
+      "bytes": 861
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789616013471-25ba6b8c-18d2-468a-8e05-1bf6ad580d17.json",
+      "sha256": "5a79df91a80c5b60bb32624f4255bc6d8964bd954f778406655ea38d3cf885a2",
+      "bytes": 1010
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789616381428-df083133-dd2d-4022-9518-b1a6c46eb70b.json",
+      "sha256": "7e64ccab4722a97a3a32aaf8afd8fbe0b828ffd2f5462e0b5aa51b2ad2e6073e",
+      "bytes": 1010
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789616415090-9357627c-6277-4d46-9657-3677e9603592.json",
+      "sha256": "d3b9a4f2386ffbe8b11b8c5686f1c6da6ba0f66553853aae1561fb7fb883b230",
+      "bytes": 1010
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789617018311-8e42c970-1637-4fe6-ae74-080b9c1bfd11.json",
+      "sha256": "3ea1407e7428932535ae25d08b8dfd7cb7d7b44593b74d36d930912854f80725",
+      "bytes": 1009
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-application-lifecycle-1789617047073-fdb468da-946b-413c-b113-5aeac4d4f37b.json",
+      "sha256": "946f68ef1a9115aac717c3fb57c7b27504c115b3769ebe61cbcf3e03363e99d9",
+      "bytes": 1010
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-bootstrap-2026-09-17T02-53-02.177Z.json",
+      "sha256": "92c0de4358a514317771641de7a64b1d46ed6340727c2562f1f4f63a12e68472",
+      "bytes": 52563
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-bootstrap-2026-09-17T02-53-02.177Z.log",
+      "sha256": "39beea4ce6e37d744fc0f697d31e9535a536ba018cd83aa8bba2221665b8a92e",
+      "bytes": 175
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-init-2026-09-17T02-52-55.395Z.json",
+      "sha256": "9c4f0a92f97c8b70ed8f13fe92a553f2d1e323001c206849c609f115ae3702b0",
+      "bytes": 52553
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-init-2026-09-17T02-52-55.395Z.log",
+      "sha256": "573a7ca73b549d3aa18c7f562318d3c3afe71eb9c7c895faf570d160182fb888",
+      "bytes": 142
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-security-1789614293982-aed28b73-c0b7-4c46-834c-859eec4b3523.json",
+      "sha256": "b6ae64e49898678f6ca36e74fe05325f9d217e6204cd59033c70b31c9090f9e0",
+      "bytes": 13577
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-auth-security-1789616852357-8e78561f-1eea-4b1d-b711-d3999e424809.json",
+      "sha256": "08ba81baff017bba7405c9f4adeb8b47af5afd5dde3c5cdf632d6925d034bca3",
+      "bytes": 13370
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T02-54-31.503Z.json",
+      "sha256": "fb17a7824c97d72186d20190079144bd65a9684a07d15eeb6ca17208c454067f",
+      "bytes": 104308
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T02-54-31.503Z.log",
+      "sha256": "20aa9d37bcb8e0ed8b455a115c98466b86098bfc578107606c1413e907cd411b",
+      "bytes": 1012
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-02-46.529Z.json",
+      "sha256": "2a460604a20c5ad68cee1a07abcf6c1ee52898df685639f90f8f74149f67736a",
+      "bytes": 55361
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-02-46.529Z.log",
+      "sha256": "f46968bb72ea8bbcc8d87f0105bfedd27d57b1de1c8b00698496031b1ed0b655",
+      "bytes": 1015
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.json",
+      "sha256": "5c563239dc166fe930e9864e0deb527403ed958d4e87f21976722187c547fcfd",
+      "bytes": 55388
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.log",
+      "sha256": "3a26d07ea40a0d2361fb8dd544b71a23d3f1678146af4ef3b4dba6ce76cb93e1",
+      "bytes": 1283
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-45-20.163Z.json",
+      "sha256": "4136515abadb6151b7fa1b446fac5b688287660c444fb80d442e3566f9c246be",
+      "bytes": 55361
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-45-20.163Z.log",
+      "sha256": "6adf01ca0b7a3e0cb708e0650e2c766a652605d6191fad0905149a5ffe67f5b1",
+      "bytes": 1014
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-candidate-package-2026-09-17T03-54-38.325Z.json",
+      "sha256": "b644cafba1ab3c4cd213ef1c9f1c0a2c9b319583c55b3d0b45c874a1d126b4bc",
+      "bytes": 55410
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-candidate-package-2026-09-17T03-54-38.325Z.log",
+      "sha256": "c8ce7b0edb1ccf3ef579c8888e274d0e38ee66477f6526b556bdd99820ab0487",
+      "bytes": 158
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-consent-integration-1789614367643-3da544ea-0cb0-4a3b-b6c5-aef085476cdf.json",
+      "sha256": "5ff1fc5ab7c478332a6b70856cd2f3327094942a2da3ef3aeca7c7c38c0df998",
+      "bytes": 13863
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T02-56-37.486Z.json",
+      "sha256": "28f05ce82284e68f938adf4481688d7a85a340b7e2c4401a3d1e1b6994ed9c2e",
+      "bytes": 52685
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T02-56-37.486Z.log",
+      "sha256": "eb3e95df863b5c562ef8d55a3d2704b6583d37ff88202c779f7fb10be9114e87",
+      "bytes": 155
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.json",
+      "sha256": "af2c6c05141e9d91b1656ddd04258a2ff0df295d0c82828a745a19f032220ca0",
+      "bytes": 55408
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.log",
+      "sha256": "eb3e95df863b5c562ef8d55a3d2704b6583d37ff88202c779f7fb10be9114e87",
+      "bytes": 155
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-42-44.504Z.json",
+      "sha256": "90ac8ef298d4ea34d91f48fcc32dd95aae0ab769d74a4066368954b9afacd27f",
+      "bytes": 55380
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-42-44.504Z.log",
+      "sha256": "eb3e95df863b5c562ef8d55a3d2704b6583d37ff88202c779f7fb10be9114e87",
+      "bytes": 155
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-45-58.526Z.json",
+      "sha256": "904dd4c7dc538a4c156f1522f7394cfef01e5e65ab07e146550b4fce0eb6d7cf",
+      "bytes": 52263
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-45-58.526Z.log",
+      "sha256": "e8f46a895762266ddfdf0a3033a6b04900b8dee2fc55c9dfb12aec577482eb68",
+      "bytes": 263
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-46-23.815Z.json",
+      "sha256": "120fa6e761d7029fd5d3d27f8a69b465ce29f038e47257cab5109cfb16a137d2",
+      "bytes": 103478
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T02-46-23.815Z.log",
+      "sha256": "b32c830f29ddcae22e9a8d453b34ff8819bb156f9f2e4d0541874a36b49555b8",
+      "bytes": 816
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-48-41.760Z.json",
+      "sha256": "ec52c0666969cf295f2aeb9dfc06613bb4d3df9935b5cb394c0d48f33d1da65f",
+      "bytes": 52269
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-48-41.760Z.log",
+      "sha256": "5fdefea87dc62ea36c6f8e2ba2d8a3ceeb1d43e1e29c23aaf75a6d86cb208443",
+      "bytes": 147
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-52-40.990Z.json",
+      "sha256": "a0edc8fbcd01545e723411f503ad603321cc0daee3a74981d638664091ead68e",
+      "bytes": 52530
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-db-migrate-2026-09-17T02-52-40.990Z.log",
+      "sha256": "7bb1df89f22bc869956031ced992f14847bd134f9d3e2f55e24b370457b08901",
+      "bytes": 130
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-demo-export-1789615216208-95b28097-5a3d-4731-be29-b796c5112254.json",
+      "sha256": "eda0beab02aa244d9ea2b3969915551b342b42887dc6a83297322c9fbf48a42f",
+      "bytes": 8971
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-demo-run-2026-09-17T03-19-49.329Z.json",
+      "sha256": "7fc797f6b38c627c250d46fbc8c99e5e06118eb4b04404e329867d912487dd75",
+      "bytes": 55392
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-demo-run-2026-09-17T03-19-49.329Z.log",
+      "sha256": "19a06a1a71d53dcd8767e9428871d4be5ac838ad453b5e46102b8a9eddf3abf3",
+      "bytes": 463
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-dependencies-check-2026-09-17T02-56-16.089Z.json",
+      "sha256": "04d7b10e882c7822ab11f17a14a64432740003ee7906a26fe8c99026216d55f5",
+      "bytes": 52691
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-dependencies-check-2026-09-17T02-56-16.089Z.log",
+      "sha256": "4859aecd44f1e8eeda9d38ec4894d9a5f8732513498627ed695826239311dd55",
+      "bytes": 849
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-dependency-advisories-1789613793192.json",
+      "sha256": "da277b7c097bbb279344dacc656443362bf9a85decea1c21125e065e81d78cbf",
+      "bytes": 728
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-evidence-export-2026-09-17T03-40-57.569Z.json",
+      "sha256": "57d2a23460548d4c5b1e27736589bcf54d62dbbad75854e25b0be900eb48bc5a",
+      "bytes": 55449
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-evidence-export-2026-09-17T03-40-57.569Z.log",
+      "sha256": "a0d1cab69727df2add02df45f2bc85b94643e669edd02d59689b67e94e19bc10",
+      "bytes": 203
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-evidence-integration-1789614803452-366f63a4-4213-4387-b82d-d21d316327fc.json",
+      "sha256": "6a3e3643d8fa2aa9f1d7d367cddd4d112aca7398ce17857e0e427471e0f5fdb3",
+      "bytes": 11347
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-expiry-integration-1789614487473-79bbdde1-3816-4e19-b238-1a74c944bc9c.json",
+      "sha256": "2895bf13c765a57d4e0becbfc10049cfb92a5d0bf455b3eab2cc4e3796c0071c",
+      "bytes": 28410
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-final-package-verification.json",
+      "sha256": "3b9b1c41c4ba55e5028acdedf7186827e838c68508d6ee869f38ca287c49bd93",
+      "bytes": 3311
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-fresh-bundle-check.json",
+      "sha256": "bd92749c7e6332a820a56f60349f79ecd39249cdd7a45896ec8b97e6160bea3a",
+      "bytes": 1694
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-00-43.778Z.json",
+      "sha256": "23053f6d1f23ebfe5ceb4445b533fd632b3208d323eee20c46d6ac90cbeeb355",
+      "bytes": 52681
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-00-43.778Z.log",
+      "sha256": "ae6b67ec0ae729338d6ebe43a2bd9e75c9035b201f8023688a39bc5cbdf27833",
+      "bytes": 312
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-43-14.226Z.json",
+      "sha256": "46004c4592fc923ea725a33c884a7103a15f8e0c5020f62c6e8cd7b25dac1db7",
+      "bytes": 55376
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-43-14.226Z.log",
+      "sha256": "5105fbd05426f90ab711f97adb2af2a52a32e5949b049c37777263dbd828e592",
+      "bytes": 312
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-58-58.848Z.json",
+      "sha256": "82e3146394c4955923407af2951098773069abd59c5fe9f27c82e6bb9bbabf08",
+      "bytes": 55377
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-58-58.848Z.log",
+      "sha256": "3a20aba579acceb7514b6b1a12fa306d60308008040e5275f4571eeab11e1467",
+      "bytes": 312
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T04-02-38.510Z.json",
+      "sha256": "dcb99e005ebd17d78fcb3d8a232cbb2328aa792079229087b7b94964301576b7",
+      "bytes": 55377
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T04-02-38.510Z.log",
+      "sha256": "2c001a0c6e47b5cb3d042e70ac3ff01485220d257bc4f26faa7bd59875fa1f95",
+      "bytes": 312
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-38-52.628Z.json",
+      "sha256": "77ab3ef0d2c65693abb4a0cdf78e54e0a85bb7d16aafa330748c3b176e981627",
+      "bytes": 101022
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-38-52.628Z.log",
+      "sha256": "d2bc15ab4df5bc346f0473bbcac4d3939f082535ec0b524351035b61c9127307",
+      "bytes": 1205
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-54-25.779Z.json",
+      "sha256": "a05beb0de2f113ea6c736ff0c3421d916db30c9fac0c950594c53437a44097cb",
+      "bytes": 104192
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-54-25.779Z.log",
+      "sha256": "21054c52129288e99af0d99a5a5662c39760921ac39fe5d8fba8fea74f0b2321",
+      "bytes": 177
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.json",
+      "sha256": "7345ef201d09cc9ca0615dbadaf6c79a7caf526363cfd75690749b359789f506",
+      "bytes": 55417
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.log",
+      "sha256": "cc41ad3a1d458c9c8651b063b2823bcb4b06c514455b6013e3b720548bb4c546",
+      "bytes": 1746
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789615342659-8b987005-0f50-4f4b-bfd9-712c4982d823.json",
+      "sha256": "0b972ba7645bcec9ef3019933f1ae7cc348859a17146c32bcc1405981b68e094",
+      "bytes": 1040
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789615729112-3a2ef0e4-b1dc-4eb6-a3c4-2c85a2d71092.json",
+      "sha256": "41056a24928bbe475e96e54b7f2dfc3aed9a74e9be9655274b9ab7b056a22046",
+      "bytes": 1040
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789616013595-51410598-9c36-4d83-9f8c-9f325ad52415.json",
+      "sha256": "ad7f34cd02d7b87749bbec3023aa2b024b0ca3fa9694231fea898a74d5e5fcf2",
+      "bytes": 1777
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789616415381-25f3a088-9b4f-4f05-96f9-3638fd9559e8.json",
+      "sha256": "18709a1cbb29da39513e8bb489c9002035fd15590689ac24edd8b67aebec580d",
+      "bytes": 3458
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-integration-1789617047440-555b379c-efd6-4e3f-9ce3-8051c83c37fa.json",
+      "sha256": "847efccf0e679a3531179ba0fdd4be6d1c75f23e92370489d3b3564b9fba82b9",
+      "bytes": 3458
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lifecycle-original-observation-1789615477294-b2a9f4b6-9b39-41bc-8116-bc9b2f106c02.json",
+      "sha256": "88da1097d7199480142995c1f9dbf7679265501f2f963399038ca971645596ea",
+      "bytes": 758
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-36-27.956Z.json",
+      "sha256": "7abb5f150a0aaca0cd3e2f32c15ad1a4aac353ce7fd7a82e364e3b96302fb79d",
+      "bytes": 51004
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-36-27.956Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+      "bytes": 54
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-47-22.571Z.json",
+      "sha256": "43ddaeffe854ee252a5692bfe5ba241783eb57efaca8d915193ce58b64554f64",
+      "bytes": 52235
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-47-22.571Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+      "bytes": 54
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-51-59.957Z.json",
+      "sha256": "25c8bdebf2ede03541216723070f4ea87b8d1456853796d9350d8cf8f5a9a4bf",
+      "bytes": 52518
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-51-59.957Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+      "bytes": 54
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-58-25.852Z.json",
+      "sha256": "adb835f1dc174320bd49d3d3dcc1bbd7ea2487845656b8788d5621529d805c23",
+      "bytes": 52663
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T02-58-25.852Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+      "bytes": 54
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-26-45.687Z.json",
+      "sha256": "3f4119d2edd06d367a08b9ca23982a7238ab4ee9f440493119cceb9c58b0ccb5",
+      "bytes": 55358
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-26-45.687Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+      "bytes": 54
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-42-27.192Z.json",
+      "sha256": "ca5da3ee27561f0c4d1d9df2b2b0345656c7d0c7507e21df553d48c277938d9d",
+      "bytes": 55358
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-lint-2026-09-17T03-42-27.192Z.log",
+      "sha256": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+      "bytes": 54
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-machine-init-2026-09-17T02-53-41.970Z.json",
+      "sha256": "272f41cec702c331b5d394e6bd16e6a680966951d94353737ff4539a6c909d9a",
+      "bytes": 52559
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-machine-init-2026-09-17T02-53-41.970Z.log",
+      "sha256": "483acda970dff372d6158842c5460fc64f54884da209ba144e696d4ef2e84137",
+      "bytes": 189
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-migration-1789613324404-798a0b5f-64bb-4cb6-8e22-ab5f553f197b.json",
+      "sha256": "75506a872cc5509f2f8126fb5150e31e6f15ee034ab9cee779144810e941e4cd",
+      "bytes": 295
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-migration-1789613573377-be9b3fd6-da19-4574-966a-a72d9f015ac7.json",
+      "sha256": "01d989009bb96d3c46a94f7244f904696e77fc330e2805bcba8cb93db60376df",
+      "bytes": 708
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-core-1789617242997-1d7e84fa-bd3b-441a-8a80-147febf7ea8c.json",
+      "sha256": "86c9f5d7c5730d9de20775299cf1af5e19fc0cc777034eb5137174d1e67ada6f",
+      "bytes": 2797
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-observations-2b45d71b-3327-419e-b2f5-5eb0eca1f7ac.json",
+      "sha256": "2854d264781f8e9e47cc0103598fa3d930aade3f8d35f0bd4ce6421dbd6884da",
+      "bytes": 307
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-qualification-1789617245884-fef601b0-dd29-4ded-aba5-7edd2acd5e25.json",
+      "sha256": "d0d58a4a2fabbfac9cc0b4ad7348e68f83838fb472c8877f0437620c2acffc34",
+      "bytes": 32076
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-operator-export-1789616475099-2f151339-3d7f-478c-8348-21b60b82c9e9.json",
+      "sha256": "bf0f48070140236a52ae487ba8323abf0a8b4582da7224b8d9797ab5d04a0782",
+      "bytes": 7349
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-1789617372376-53c4dcc6-bec0-471a-8368-dcd188583513.json",
+      "sha256": "0e3a02f978ffde44d57f6bffce965b038ad70fefd94409ad9e3d1fd1a6f74f61",
+      "bytes": 1884
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-verifier-execution.json",
+      "sha256": "28dca9b105bd54116cb26704a22498a5140a99d0c68a01608668ce303af5588f",
+      "bytes": 751
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-verifier-original-failure.json",
+      "sha256": "94dfb23371996261402298ca486a62bf417fda1a2aa9a96024e57ff79529de70",
+      "bytes": 711
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-verifier.py",
+      "sha256": "1ca419e9d057b67709ffe9ba3aac5eb4ced2d68e9fc995d4aaa5c70851e95bfa",
+      "bytes": 4289
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-preflight-2026-09-17T02-48-45.312Z.json",
+      "sha256": "387a52eac13e3babc613d5f7887d108d5487c2361ec2a6908ba36f14223b6ac7",
+      "bytes": 52245
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-preflight-2026-09-17T02-48-45.312Z.log",
+      "sha256": "0f628dbf9e4266fa7c481ef042c2785640d85f4b7f257514166e49e809480e6a",
+      "bytes": 645
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-preflight-services-1789613343445-f37b8c4f-5fe4-45ff-9561-62a747145880.json",
+      "sha256": "c5e92271cdd9d1da20bcd4a6227605d06e9a4af7fb89894bfa631f619eca435d",
+      "bytes": 795
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-profile-init-2026-09-17T02-47-24.210Z.json",
+      "sha256": "a0cb367b103b79403cbf85c968a7cf9f0813ed9f039e30268bc11a6fe735a300",
+      "bytes": 52268
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-profile-init-2026-09-17T02-47-24.210Z.log",
+      "sha256": "ef8d1cf4c92b8d1f459332efa239fd5eb52179ae6c7987cb2b2acc9c41f4aeaf",
+      "bytes": 144
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-recovery-journal-1789615139772-ebe599cd-c532-4018-8a29-fab5ec14262c.json",
+      "sha256": "c5230be33d2b94d892dd14232b3cdae96cbfb93fc9bed84881251b25a4a9e06c",
+      "bytes": 4130
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-init-2026-09-17T02-54-16.011Z.json",
+      "sha256": "75df16d2066d454ecd670b29ccbdaf667d623593ece445d960e6f2ebe3f92cd9",
+      "bytes": 104063
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-init-2026-09-17T02-54-16.011Z.log",
+      "sha256": "558561458cb4f6a2c2ef45abcde6001ae62419bc10e314108f6bb83f10e43b3f",
+      "bytes": 150
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-integration-1789615144286-a23f7b2c-ed5f-4bd4-97d1-45c56da0f76e.json",
+      "sha256": "84dd5653e69d810ad5329ffa59eca94370cbe1191bb48c6fe5392ae6e83a4c96",
+      "bytes": 44813
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789614946096-a3e565c0-4e98-40af-9c62-64743f8be3b0.json",
+      "sha256": "861c8b327842c418ce91e52f160edecff16f6e2fd14c44959edd297c199016d4",
+      "bytes": 1883
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615008386-a4fff4ed-2988-446b-b4b7-3cdcf9f3623e.json",
+      "sha256": "1a04f96128d2f4c27d2ffc9ac3cd1a432bbefef1c79c67964f8eb19c4b31a0e6",
+      "bytes": 1889
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615075477-0ae596ee-bc9d-4f17-9df5-92e6d138e7f5.json",
+      "sha256": "eb08b8088fc877fd8994dafb5feb6c1beedb83b2d6272e9673da4cef7a7aa133",
+      "bytes": 1883
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615139888-a43d1167-33d1-4b0c-9f26-ff66ce8931e8.json",
+      "sha256": "fe5a59cb62098196d2041b48be2b06db7eef836901f69e0383d30f33edbb0d27",
+      "bytes": 3931
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789615215931-04b7ae98-794c-4aac-88a2-38da0e3a30bd.json",
+      "sha256": "b75df9a66260444f74d279656009750e2f3511714281c75296b5c1188d09f245",
+      "bytes": 1883
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-run-1789617242822-6ebb392d-6dba-4d60-bbbb-491fc9ebb57d.json",
+      "sha256": "6663aa9b91664c26c509164292d1eea9a4397834dbeac2abdbe6ffc196ede0ac",
+      "bytes": 1883
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-reset-bootstrap-2026-09-17T02-51-28.437Z.json",
+      "sha256": "74a4c0f20ee0ef865596d2299ed06a709c3c8e1ff84dee3f3c62695406a42abb",
+      "bytes": 52589
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-reset-bootstrap-2026-09-17T02-51-28.437Z.log",
+      "sha256": "b885706eb15d36b7b9602988ae5ac8af06747c62ed698253145f57db3939eaed",
+      "bytes": 288
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-reset-intent-1789613503288-9ff4662a-0913-487d-a874-13333c14f1e0.json",
+      "sha256": "06b44c73c4d301c062f0fbaa356f599692b98650425de2655fe33f700f58bf3b",
+      "bytes": 310
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-reset-result-1789613503418-4000f8ab-056b-4444-9bcb-1936ce201203.json",
+      "sha256": "4380012b191eaff10f86b001d69296836466bfb97fef1285851aa253801fb216",
+      "bytes": 430
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-roles-init-2026-09-17T02-48-12.558Z.json",
+      "sha256": "ff22f5d6b5cbb28fd0bfa3f85c5344332785c73ac968c9c7570abe89716a667f",
+      "bytes": 52272
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-roles-init-2026-09-17T02-48-12.558Z.log",
+      "sha256": "3118038399a6f6306f039631f32a633a748cbd2cf5056a6f68def875e4612d76",
+      "bytes": 126
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-04-09.146Z.json",
+      "sha256": "a23f24bdf74b7e218b326742bcfd51c381377966863016bfb0219c5631ab24d2",
+      "bytes": 55377
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-04-09.146Z.log",
+      "sha256": "13c8adb9957f43a89b784b3aff35471ed071d7417b2f08ea5e64ef2ec01bc508",
+      "bytes": 13198
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-50-48.067Z.json",
+      "sha256": "4f48069ac54073c744a94b4e45a3a8c1703303a95b2ae22cc7030b09c8e4ccef",
+      "bytes": 55377
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-50-48.067Z.log",
+      "sha256": "c582075bd6e5a592d9ad7d3ebfd229f10eb3eb28a1ebf7429022f61eb63778f6",
+      "bytes": 4781
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-image-1789614546496-2f1d211d-d60c-4d16-93c8-e0050bf3bb69.json",
+      "sha256": "830304bef04cf2c2d40cbb58b5fde530839a5cfb47b3a57823651cbb7dd4c66c",
+      "bytes": 29902
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-runtime-image-1789617173722-d7214a1b-4bca-4284-a5b8-31c2dcf50559.json",
+      "sha256": "d3ff13c79ebd2448c110708c74a85aef5cf4a68a3b664bbfa6feebd47829ff4f",
+      "bytes": 29902
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-seed-auth-2026-09-17T02-53-21.110Z.json",
+      "sha256": "88d51f7d09366f35d1f76b3bd07c31fb3d8b881e3ad44eb44322254d52692b1e",
+      "bytes": 52553
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-seed-auth-2026-09-17T02-53-21.110Z.log",
+      "sha256": "051f8fd3c8a0c6d8ad4c997956014e2bc9d887d0f4dc6c00811e846fb19fed04",
+      "bytes": 181
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-seed-orders-2026-09-17T02-54-06.607Z.json",
+      "sha256": "ba858c3c217302ffebffbac055f3db13c3ac66c8a4e09e8f961b564ca81af20b",
+      "bytes": 52557
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-seed-orders-2026-09-17T02-54-06.607Z.log",
+      "sha256": "0684a014bbd9d9d567be2f6b589745a876c0274d9a8878f5930061b2dfb4d281",
+      "bytes": 164
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-send-enforcement-1789614671237-3c25daea-6767-40e9-9113-2641d45c6821.json",
+      "sha256": "745409012cef3a17afa17b19dea0d55892fcd640e1f02d76f2993da9943b0099",
+      "bytes": 7916
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-service-integration-1789613486180-ebdb6af8-b1b1-4256-a6bc-5f758adaee8c.json",
+      "sha256": "a725565ccbbd3d6a31ddf26a084618e0257f182da7f111057374d3ec98eaec9c",
+      "bytes": 1275
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-47-33.399Z.json",
+      "sha256": "ffbd05175bb978e47f31e39b6c87a79f7c51448b10540bcb3ddbed28f117b852",
+      "bytes": 52253
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-47-33.399Z.log",
+      "sha256": "13f11b4d4fe9ae96471c827c95762639355ec914777d004d556382a45dcb832a",
+      "bytes": 1527
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-51-29.247Z.json",
+      "sha256": "6c46789ed078d847b893e393e9568b5a858d822d462dac67e931adc88b932816",
+      "bytes": 52538
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-2026-09-17T02-51-29.247Z.log",
+      "sha256": "9425640a5ac60549cf4dcfb2fd17b0e3d6e23cd19c2d71f0941927342e295200",
+      "bytes": 403
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-smoke-2026-09-17T02-49-04.414Z.json",
+      "sha256": "c172070b317b1632026bed7726394275dc5dd89d7da23da539397dba902bc275",
+      "bytes": 103777
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-services-smoke-2026-09-17T02-49-04.414Z.log",
+      "sha256": "2004e320a8eab8be55b9a541f74d86439ca3fb59b602262ae269ad97fc5bcb82",
+      "bytes": 2742
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-2026-09-17T02-58-57.833Z.json",
+      "sha256": "474640eabf8dadcabdb572db2dfd599143c3cabe29dd1e1aaa98830c25f8665d",
+      "bytes": 52663
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-2026-09-17T02-58-57.833Z.log",
+      "sha256": "847efb5e404cba566673357951719d9900ed05c8b91421094b780a401b117edc",
+      "bytes": 1222
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-04-09.928Z.json",
+      "sha256": "74ca7518bc3bb6cb12db0b01247f3eefc741ee00e8caa87e8a5f53b566fd3455",
+      "bytes": 55426
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-04-09.928Z.log",
+      "sha256": "4e39bb8257b5a663b2c7077f91a65ff80bd41ff193d6ae9a091e2bac26d98832",
+      "bytes": 3812
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-47-07.677Z.json",
+      "sha256": "364c93c371f70f62a663acf4dcf522f31193be65c9aa884fb37d3da65c319e13",
+      "bytes": 55426
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-47-07.677Z.log",
+      "sha256": "c6a6f7a4901c46c3dd9166fea26ed950127b721bc9191d0d4388a64e20c5484e",
+      "bytes": 3723
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-consent-2026-09-17T03-05-35.727Z.json",
+      "sha256": "79eb132b44280eb2d8d64e83ed1621531f06ca9962eb5ef14757f6e006141da1",
+      "bytes": 55375
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-consent-2026-09-17T03-05-35.727Z.log",
+      "sha256": "81d0d1e426975daf2ff8ec910962c202e89f110ba60b67924a7d6abf60fabc6e",
+      "bytes": 2303
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-enforcement-2026-09-17T03-10-48.433Z.json",
+      "sha256": "025d80705a67374b5cf3927b84966dcea76fa3972812216bd3ce1aa72f94e295",
+      "bytes": 55383
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-enforcement-2026-09-17T03-10-48.433Z.log",
+      "sha256": "5ec18d86971b89e31dbc66d5677dc014f51c6ee7d3412c14e1d3ac1231594d1e",
+      "bytes": 2006
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-evidence-2026-09-17T03-12-06.381Z.json",
+      "sha256": "9c4ec8cb7f835fab69cc76b8c80cc1dd8dc42dc1100281264b0a917dac14afa9",
+      "bytes": 55377
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-evidence-2026-09-17T03-12-06.381Z.log",
+      "sha256": "3132132ff98d0bef8c035accfa0984ef18951589446f4b15ad6f1641851b3527",
+      "bytes": 3007
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-expiry-2026-09-17T03-07-03.054Z.json",
+      "sha256": "e3a21c67d21f728328de3c0575539beb1fac52ba0d9703af7e1b99fcd217189c",
+      "bytes": 55373
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-expiry-2026-09-17T03-07-03.054Z.log",
+      "sha256": "935e57da31b9b508dcfbc2c287f3fbb5b48d64153147c0bf431f1ca919b85e28",
+      "bytes": 5364
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-21-03.792Z.json",
+      "sha256": "69405f37c3c8c411e93adf98992ff40c345fd7712340f80de9ff93866521a5e6",
+      "bytes": 55379
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-21-03.792Z.log",
+      "sha256": "0873b4183a902d6a1f190840d16179690c1d807c8c93551937a42806823cfe72",
+      "bytes": 2481
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-27-27.879Z.json",
+      "sha256": "e3a8d10199740bf027124947a3dc80a39f467fe1beba46a0e1ae78bf06860c19",
+      "bytes": 55378
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-27-27.879Z.log",
+      "sha256": "4105138f2d7b678f7b19eff103d2297abdd7725ac2545ba267263221a4816f2e",
+      "bytes": 597
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-32-46.705Z.json",
+      "sha256": "cf179f940523661bc4c8729577c0727b0cace52dc166edabfdda28b602b66627",
+      "bytes": 55378
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-32-46.705Z.log",
+      "sha256": "da2a78d762d4ef0f7e83b97424b331471c9136bf1b04f57e8069114ae2d227a1",
+      "bytes": 3595
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-39-03.512Z.json",
+      "sha256": "8a6513a51e4224110e8285ddfc108f55eaccb5fc044347ee245682f3badb2e74",
+      "bytes": 55378
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-39-03.512Z.log",
+      "sha256": "3298eae0c571312da3c9de857c4dcdce90f9fe09a5c2492c6e802828879ab0d5",
+      "bytes": 901
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-49-53.472Z.json",
+      "sha256": "1ffc0816ff6eec7abc156dba9540696bb22c43345e38f9d0226e2592c7707db8",
+      "bytes": 55379
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-49-53.472Z.log",
+      "sha256": "23ab390503195143cea007c7db79696f770f83ddd91dfd4f5e0965c79c2663d6",
+      "bytes": 901
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-network-2026-09-17T03-52-57.312Z.json",
+      "sha256": "a7f53bb33b7dcf716fb5e1e6b6725004c87deb6f432af37f4f79e75335235d23",
+      "bytes": 55400
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-network-2026-09-17T03-52-57.312Z.log",
+      "sha256": "ab59d2c1e46c95ff34d4c02089197b132e8bbff297db631182be3961dfb4685d",
+      "bytes": 853
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-regression-2026-09-17T03-14-23.255Z.json",
+      "sha256": "d67c526dec02c872e0bbbd6d24ff244b14344aab67375eee9c99bb3743255e51",
+      "bytes": 55381
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-regression-2026-09-17T03-14-23.255Z.log",
+      "sha256": "3cdc2b8e857747ef2b70479fb23f4a8081989bb9f575e8d92f0238506497e138",
+      "bytes": 3790
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T02-59-00.038Z.json",
+      "sha256": "f5ca38a644e6083d23dfb45787dba10415f3a36f777d043438eba689eb4e90e1",
+      "bytes": 52671
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T02-59-00.038Z.log",
+      "sha256": "448fb36f39e53db53eda99391941577000eb180180fec79ff9bee41a4d59e77b",
+      "bytes": 600
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-02-59.350Z.json",
+      "sha256": "90cbaca1310c5361be21f0b54fe5f3f59f1af4245e25b5a7c878853f4d5edc74",
+      "bytes": 55367
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-02-59.350Z.log",
+      "sha256": "fd2321e8bedb9d6508175e225f8d21c8209a2db8000529fac92554380c22fc46",
+      "bytes": 600
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-45-52.215Z.json",
+      "sha256": "82fcbb6dfe52ac53479c7b9a1e5edcd2daec3e5fdbe93d1ca2a2bbe8540be2a1",
+      "bytes": 55367
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-45-52.215Z.log",
+      "sha256": "4663c415b5deff487bb7c4f3092fa145aea20f7d3e1ba9418416901ba398ca2c",
+      "bytes": 600
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-08-33.370Z.json",
+      "sha256": "ab277c84eb9424acfbc3a391b20aaa2950691571e09ae36f100a238d903433be",
+      "bytes": 55379
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-08-33.370Z.log",
+      "sha256": "75ee0766fb9fdfcd91396ac0b87e2a9f83af7cf78d435e8d15c19954ddb75b8c",
+      "bytes": 1762
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-48-22.990Z.json",
+      "sha256": "3914ca88b1805b0795ab015b0fd292fe1a3e51090026658c407ccc5a731b15db",
+      "bytes": 55379
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-48-22.990Z.log",
+      "sha256": "680eb4bba999acd262964fb70689e729db6e8c0c5cc484e41bac5697d2600ad5",
+      "bytes": 1762
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-init-2026-09-17T02-47-25.679Z.json",
+      "sha256": "23ae3418a8fc7649af214da7ac7463fb0d10c6de46853475b1326991af6e116c",
+      "bytes": 52268
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-init-2026-09-17T02-47-25.679Z.log",
+      "sha256": "55945f02bdaaf45661e5020de2055cfe57a54d815981797b967e2f37acb6b167",
+      "bytes": 154
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789613971850-8db688ee-60e3-4951-ac77-f6f7a5f83545.json",
+      "sha256": "7a1f5f4395e2f39eeb93d0b198437f7cdb1780aec52cb44171ce3c8f9ace7d8b",
+      "bytes": 2092
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789614188081-ef257b0c-c6c7-4e2e-b156-641f7b9c3178.json",
+      "sha256": "9f3fb70ae60f861103d9cd8c532300263804a98c4ce922e8e87d513e8f511edb",
+      "bytes": 2092
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-integration-1789616766098-d6730dca-8a23-4ae8-8946-be6617743289.json",
+      "sha256": "634550fe26b68c05e03a5fdf1424334acfe1af4f1420d7abd722d885e899fa8e",
+      "bytes": 2081
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-tls-material-1789613249844-ab0d43ec-75e0-4738-83d4-0d6b102216ac.json",
+      "sha256": "84a668ca1041be159df98a5c48ec161ee5a417fd46a4d7285ac8a273d019b6c6",
+      "bytes": 783
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-34-37.106Z.json",
+      "sha256": "3175682b75175b5cdec9adbd4a472b213066ad77ede5a8ec6b663110808ceba8",
+      "bytes": 51014
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-34-37.106Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-46-56.702Z.json",
+      "sha256": "d0df7e6816e67a25022f462d03024a17f15f8d6ceaa6dcf3d6eb051fb38881ee",
+      "bytes": 52245
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-46-56.702Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-51-03.063Z.json",
+      "sha256": "a0f6f29677e7744a482c1a70d17d09421f748f91184856de7425611d89cd4aa1",
+      "bytes": 52528
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-51-03.063Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-57-50.281Z.json",
+      "sha256": "31ba58758186c1cfa5eb96704e9be329df1d729e1507e571381ba384ff026787",
+      "bytes": 52673
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T02-57-50.281Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-26-05.331Z.json",
+      "sha256": "ee3440b9f80aa39cdef1ae6c1574b6a2add1302706c2217873c415767bac33ef",
+      "bytes": 55368
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-26-05.331Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-41-30.373Z.json",
+      "sha256": "ac6441e8e7460e639deede32024fa3b4499ee4379939c5f19878ae4d14a7cebb",
+      "bytes": 55368
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-typecheck-2026-09-17T03-41-30.373Z.log",
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-workflow-integration-1789614645272-32d2577e-5790-4676-8dfb-22cc2ac18b9a.json",
+      "sha256": "7cea8a343b57806545d0f53af4bc44e48b64d1dca97019c1ba55c55df21672cc",
+      "bytes": 6033
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-workflow-integration-1789616977175-b6236db9-76be-4998-8c8a-0d210652ca62.json",
+      "sha256": "d792826cb0bd90a770af9ad29e684cee876319e3e5c47697f900a2534885cc02",
+      "bytes": 6033
+    }
+  ],
+  "gates": {
+    "work_review": "PENDING",
+    "browser_acceptance": "NOT_RUN",
+    "human_rehearsals": "NOT_RUN",
+    "release": "NOT_APPROVED"
+  },
+  "limitations": [
+    "Work owns acceptance; human owns integration/release. A02 W01 expiry correction and A03-A07 remain submitted for consolidated review.",
+    "UI files were preserved, not completed or browser-qualified. Two human T30 rehearsals are NOT_RUN.",
+    "All retained original failures remain indexed. Broken-control business FAIL is expected regression detection, not an ordinary passing run.",
+    "Reports record actual source commits, byte manifests and dirty state. Full backend suite on bfa81e5 preceded final lifecycle/package refinements; changed worker entry point received final workflow/lifecycle/network reruns on e374030.",
+    "Only publishable source/docs/synthetic evidence go to GitHub. Ignored credentials, populated stores, tool/dependency caches and large local package archives stay local."
+  ]
+}

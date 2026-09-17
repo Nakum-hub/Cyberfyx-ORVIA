@@ -1,0 +1,22 @@
+$ tsx scripts/preflight.ts
+Artifact: handoffs/codex/artifacts/A07-preflight-services-1789613343445-f37b8c4f-5fe4-45ff-9561-62a747145880.json
+{
+  "postgres": {
+    "result": "PASS",
+    "database": "orvia_rehearsal",
+    "version": "17.11 (Debian 17.11-1.pgdg12+2)",
+    "installation_id": "b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+    "profile": "rehearsal"
+  },
+  "opa": {
+    "result": "PASS",
+    "readiness": true,
+    "arbitrary_operation": false,
+    "policy_scope": "bootstrap readiness only"
+  },
+  "temporal": {
+    "result": "PASS",
+    "namespace": "orvia-rehearsal",
+    "server": "persistent single-node CLI development server"
+  }
+}

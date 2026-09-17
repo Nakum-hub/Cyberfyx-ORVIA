@@ -1,0 +1,41 @@
+Scope: all 9 workspace projects
+✓ Lockfile passes supply-chain policies (verified 42m ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: C:\Users\sadas\AppData\Local\pnpm\store\v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 146, reused 146, downloaded 0, added 124
+Progress: resolved 239, reused 239, downloaded 0, added 219
+Progress: resolved 312, reused 312, downloaded 0, added 295
+Progress: resolved 346, reused 346, downloaded 0, added 331
+Progress: resolved 356, reused 356, downloaded 0, added 344
+Progress: resolved 367, reused 367, downloaded 0, added 357
+Packages: +367
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 367, reused 367, downloaded 0, added 367, done
+.../node_modules/@swc/core postinstall$ node postinstall.js
+.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../node_modules/protobufjs postinstall$ node scripts/postinstall
+.../node_modules/protobufjs postinstall: Done
+.../node_modules/@swc/core postinstall: Done
+.../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+
+devDependencies:
++ @eslint/js 10.0.1
++ @peculiar/x509 2.1.0
++ @playwright/test 1.63.0
++ @types/node 24.13.4
++ @types/pg 8.23.1
++ @types/react 19.3.0
++ @types/react-dom 19.3.0
++ eslint 10.10.0
++ openapi-typescript 7.13.0
++ reflect-metadata 0.2.2
++ tsx 4.23.13
++ typescript 5.9.3
++ typescript-eslint 8.70.0
+
+Done in 16s using pnpm v12.4.2

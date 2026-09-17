@@ -12,18 +12,18 @@ import { loadProfile } from '../../../packages/testing/src/config.ts';
 import * as S from '../../../packages/contracts/src/index.ts';
 import { digest } from '../../../packages/contracts/src/crypto.ts';
 import { observerEnrollment,agentEnrollment,senderEnrollment } from '../../../packages/auth/src/machine-profile.ts';
-const h=new HttpFixture();const profile=loadProfile();if(profile.profile!=='codex-a00')throw new Error('Only codex-a00 permitted');
+const h=new HttpFixture();const profile=loadProfile();if(!['codex-a00','rehearsal'].includes(profile.profile))throw new Error('Only codex-a00/rehearsal permitted');
 const db=connectDatabase(profile).pool;const target=connectDatabase({...profile,database:profile.database+'_targets'}).pool;
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];const children:ChildProcess[]=[];let output='';let phase='setup';
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed');}}
 const run=promisify(execFile);
-const cli=(file:string,args:string[]=[])=>run(process.execPath,['--import','tsx',file,'confirm:codex-a00',...args],{encoding:'utf8',windowsHide:true,timeout:60000});
+const cli=(file:string,args:string[]=[])=>run(process.execPath,['--import','tsx',file,`confirm:${profile.profile}`,...args],{encoding:'utf8',windowsHide:true,timeout:60000});
 function start(file:string){const child=spawn(process.execPath,['--import','tsx',file],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});child.stdout?.on('data',c=>{output+=c;});child.stderr?.on('data',c=>{output+=c;});children.push(child);return child;}
 async function stop(child:ChildProcess){if(child.exitCode===null&&child.signalCode===null){const closed=once(child,'close');child.kill();await closed;}}
 async function until<T>(read:()=>Promise<T>,ready:(value:T)=>boolean){for(let i=0;i<160;i++){const value=await read();if(ready(value))return value;await new Promise(r=>setTimeout(r,500));}throw new Error('Durable state timeout');}
 const clients=new Map<string,ReturnType<HttpFixture['browser']>>();const login=h.login.bind(h);h.login=async name=>{let browser=clients.get(name);if(!browser){browser=await login(name);clients.set(name,browser);}return browser;};
 try{
- await run('docker',['restart','orvia-codex-a00-opa-1'],{encoding:'utf8',windowsHide:true});await h.start();
+ await run('docker',['restart',`${profile.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});await h.start();
  const scenarios=[];
  for(const mode of ['HEALTHY','UNAVAILABLE','APPLY_THEN_TIMEOUT','ACK_WITHOUT_EFFECT'] as const){phase='create '+mode;const s=await createMarketingScenario(h,'ORVIA_REST_SIMULATOR');await s.change('grant');scenarios.push({mode,s,workflow:''});}
  const manual=await createMarketingScenario(h,'LEGACY_MANUAL','promotional_marketing',false);await manual.change('grant');

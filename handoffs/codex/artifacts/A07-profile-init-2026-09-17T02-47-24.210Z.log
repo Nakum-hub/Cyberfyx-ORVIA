@@ -1,0 +1,2 @@
+$ node scripts/profile-init.mjs "rehearsal"
+Initialized local synthetic profile rehearsal; credentials remain in the ignored profile directory.

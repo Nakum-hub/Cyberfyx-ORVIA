@@ -1,0 +1,24 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T02:52:53.378Z",
+  "profile": "rehearsal",
+  "migrations": [
+    "0001_auth_scope",
+    "0002_idempotency_key_bound",
+    "0003_request_audit",
+    "0004_configuration_consent",
+    "0005_publication_trigger",
+    "0006_machine_workflow",
+    "0007_send_admission",
+    "0008_evidence_reconciliation",
+    "0009_member_projection",
+    "0010_agent_policy_dependencies",
+    "0011_sender_system_read",
+    "0012_effective_read_capability",
+    "0013_regression_runs",
+    "0014_fault_output_rls"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner"
+}

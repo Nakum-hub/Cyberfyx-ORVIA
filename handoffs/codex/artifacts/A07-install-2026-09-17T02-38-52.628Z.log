@@ -1,0 +1,26 @@
+Scope: all 9 workspace projects
+✓ Lockfile passes supply-chain policies (verified 4h ago)
+Progress: resolved 0, reused 69, downloaded 0, added 0
+Progress: resolved 0, reused 96, downloaded 2, added 0
+Progress: resolved 0, reused 96, downloaded 10, added 0
+Progress: resolved 0, reused 97, downloaded 19, added 0
+Progress: resolved 0, reused 194, downloaded 20, added 0
+Progress: resolved 0, reused 275, downloaded 20, added 0
+[WARN] 2 deprecated subdependencies found: @esbuild-kit/core-utils@3.3.2, @esbuild-kit/esm-loader@2.6.5
+Packages: +20
+++++++++++++++++++++
+Progress: resolved 20, reused 311, downloaded 20, added 20, done
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../node_modules/protobufjs postinstall$ node scripts/postinstall
+.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+.../node_modules/@swc/core postinstall$ node postinstall.js
+.../node_modules/protobufjs postinstall: Done
+.../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../node_modules/@swc/core postinstall: Done
+
+devDependencies:
++ @peculiar/x509 2.1.0
++ reflect-metadata 0.2.2
+
+Done in 13.5s using pnpm v12.4.2

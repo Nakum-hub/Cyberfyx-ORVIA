@@ -1,0 +1,40 @@
+{
+  "task_id": "A07",
+  "recorded_at": "2026-09-17T03:30:45.028419+00:00",
+  "source_commit": "bfa81e59b8f525a1d2531ae7b5e7504bb8b42687",
+  "clone": ".local\\A07-package-probe",
+  "tracked_files_verified": 1066,
+  "byte_mismatches": [],
+  "profile_directory_exists": false,
+  "copied_reports": [
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.json",
+      "sha256": "5c563239dc166fe930e9864e0deb527403ed958d4e87f21976722187c547fcfd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-build-2026-09-17T03-21-58.234Z.log",
+      "sha256": "3a26d07ea40a0d2361fb8dd544b71a23d3f1678146af4ef3b4dba6ce76cb93e1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.json",
+      "sha256": "af2c6c05141e9d91b1656ddd04258a2ff0df295d0c82828a745a19f032220ca0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-contracts-check-2026-09-17T03-21-40.812Z.log",
+      "sha256": "eb3e95df863b5c562ef8d55a3d2704b6583d37ff88202c779f7fb10be9114e87"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.json",
+      "sha256": "7345ef201d09cc9ca0615dbadaf6c79a7caf526363cfd75690749b359789f506"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-install-2026-09-17T03-21-22.941Z.log",
+      "sha256": "cc41ad3a1d458c9c8651b063b2823bcb4b06c514455b6013e3b720548bb4c546"
+    }
+  ],
+  "build_id": "DyFXQ9t0LoSwgzJcQocfm",
+  "result": "PASS",
+  "limitations": [
+    "Fresh offline-bundle source checkout with pinned bootstrap, frozen install, contract check and production build. No profile or service started in this clone. Original executed reports retain their actual clone cwd."
+  ]
+}

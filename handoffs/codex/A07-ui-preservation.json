@@ -1,0 +1,111 @@
+{
+  "source_worktree": "C:\\Cyberfyx-projects\\orvia-ui-b00",
+  "source_head": "397cb370bedaf45c3f62409e88fb891f7cd3b23e",
+  "files": [
+    {
+      "path": "apps/web/src/app/globals.css",
+      "sha256": "7b9bf3a8003ba4bfbabe47bc0fac674caa61a6c66eb88f74b1bb69c561f5cdd7",
+      "bytes": 9984
+    },
+    {
+      "path": "apps/web/src/app/layout.tsx",
+      "sha256": "8e6361ccc54533c796ac7980e067f1d8b5f7d711e02bafc362d2c96ccf3f8476",
+      "bytes": 411
+    },
+    {
+      "path": "apps/web/src/app/page.tsx",
+      "sha256": "04d180fcf69d13618b68b8c8184a7d884e48b7d876ee5e748ac9e68093719eb3",
+      "bytes": 1448
+    },
+    {
+      "path": "apps/web/src/app/privacy/layout.tsx",
+      "sha256": "897b52d223d6405b11a69d5268e3200e8f79d5eeee016a213849e9c6f44b556a",
+      "bytes": 245
+    },
+    {
+      "path": "apps/web/src/app/privacy/page.tsx",
+      "sha256": "69659931d4f911a2a6903fc34779d0d926a270a2b3ef66f03b70aa96b51e47be",
+      "bytes": 9176
+    },
+    {
+      "path": "apps/web/src/app/privacy/receipt/[id]/page.tsx",
+      "sha256": "21d0a770615d1e78f401dee6bdf45343f0094ebff9bd6abe4e1f10d39dd65761",
+      "bytes": 4839
+    },
+    {
+      "path": "apps/web/src/app/privacy/receipts/page.tsx",
+      "sha256": "746647ec3423aa93901811c49bb2271ecf4edb03896c7ec22cb2bed629d3345e",
+      "bytes": 3294
+    },
+    {
+      "path": "apps/web/src/app/privacy/sign-in/page.tsx",
+      "sha256": "da811f6fcb789516652af4031599dab2ec315ca1a8fb98a8471d89275e59ffc5",
+      "bytes": 2920
+    },
+    {
+      "path": "apps/web/src/app/workspace/layout.tsx",
+      "sha256": "3a30bc81ec4fc71188f8ef10f9c0ebcaf5a4188cc7b90306f6677f6fa0570826",
+      "bytes": 253
+    },
+    {
+      "path": "apps/web/src/components/api.ts",
+      "sha256": "7fbabfca5a4b4a2af5c43e556d26ed98ba58ba5f761e09464847e3b2503c3118",
+      "bytes": 10294
+    },
+    {
+      "path": "apps/web/src/components/derive.ts",
+      "sha256": "bfac1b76e732506df7cb40ffb12f700a2c5a82e957c58936dca85c524d694b45",
+      "bytes": 12294
+    },
+    {
+      "path": "apps/web/src/components/errors.ts",
+      "sha256": "65904a7881fc201834af4e178afc258bcfa6145885c124508e65a3fa4955dee3",
+      "bytes": 6037
+    },
+    {
+      "path": "apps/web/src/components/session-context.tsx",
+      "sha256": "995e62ab650f0f3278b5d03f0e224705ff046c64f343e5457c6d1cb8c9045ef4",
+      "bytes": 5131
+    },
+    {
+      "path": "apps/web/src/components/shell.tsx",
+      "sha256": "e50a64d11737a256dc9fffb5cd3807564885b28be6955f558491fe7c372cfedc",
+      "bytes": 5042
+    },
+    {
+      "path": "apps/web/src/components/state-labels.ts",
+      "sha256": "3f1f0f439712f43ed390661d0d70ec03dfd6c0f7e342212028fda690dfda24d7",
+      "bytes": 7891
+    },
+    {
+      "path": "apps/web/src/components/ui.tsx",
+      "sha256": "f70ec31bf18f97e275ac10c7ab523da6426c9aca0818cf489a53846707d4db2d",
+      "bytes": 12591
+    },
+    {
+      "path": "handoffs/code/artifacts/bringup.log",
+      "sha256": "6298d3f2bb92f1a6a0037153845abefb20f662509768c52a7783143e49b2887b",
+      "bytes": 5535
+    },
+    {
+      "path": "handoffs/code/artifacts/bringup.sh",
+      "sha256": "dc85e710ed530747c390fdcd6204107936ff6137a04f6bd7980132f5a53065cc",
+      "bytes": 487
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-migration-1789578997366-dc63956c-f489-42a1-91a9-acfd9fed6e9e.json",
+      "sha256": "fae25e676ec485bf8d9b55ec5900e365f586f4a2fb63e78fd06cd46a7ad7f6b0",
+      "bytes": 470
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-preflight-services-1789579010554-3a945b41-0064-417a-8e2d-d72ccba967aa.json",
+      "sha256": "106716c296fb613eda2daef130273802ba83c258a69a620142e517cba4b2a147",
+      "bytes": 783
+    }
+  ],
+  "generated_credentials_compared": 16,
+  "copy_kind": "Byte-preserved unpublished Claude project files; no source worktree mutation",
+  "limitations": [
+    "Partial UI implementation; build and browser acceptance not inferred."
+  ]
+}

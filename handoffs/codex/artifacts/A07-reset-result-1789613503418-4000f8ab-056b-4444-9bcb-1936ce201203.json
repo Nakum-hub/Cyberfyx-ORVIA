@@ -1,0 +1,12 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T02:51:43.418Z",
+  "profile": "rehearsal",
+  "intent": "handoffs/codex/artifacts/A07-reset-intent-1789613503288-9ff4662a-0913-487d-a874-13333c14f1e0.json",
+  "rows_deleted": 1,
+  "result": "COMMITTED",
+  "limitations": [
+    "Temporal histories, profile identity and migrations are retained. A01+ schema disables this command."
+  ]
+}

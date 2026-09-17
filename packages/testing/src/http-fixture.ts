@@ -2,7 +2,7 @@
 // in the protected local fixture journal and are never included in evidence.
 import { spawn, type ChildProcess } from 'node:child_process';
 import { once } from 'node:events';
-import { createRequire } from 'node:module';
+import { webProcess } from '../../../scripts/web-process.ts';
 import { createHmac } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -24,8 +24,8 @@ export class HttpFixture {
   child: ChildProcess|undefined;
   diagnostics='';
   async start() {
-    const require=createRequire(new URL('../../../apps/web/package.json',import.meta.url));
-    this.child=spawn(process.execPath,[require.resolve('next/dist/bin/next'),'start','--hostname','127.0.0.1','--port',String(this.config.app_port)],{cwd:resolve('apps/web'),windowsHide:true,stdio:['ignore','ignore','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd(),NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
+    const command=webProcess(this.config);
+    this.child=spawn(process.execPath,command.args,{cwd:command.cwd,windowsHide:true,stdio:['ignore','ignore','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd(),NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
     this.child.stderr?.on('data',chunk=>{this.diagnostics+=chunk.toString();});
     for(let i=0;i<90;i++) {
       if(this.child.exitCode!==null)throw new Error('Owned web process failed to start');

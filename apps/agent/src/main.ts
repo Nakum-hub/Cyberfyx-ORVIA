@@ -7,7 +7,7 @@ import { safeError } from '../../../packages/testing/src/evidence.ts';
 import { deliverSimulator } from '../../../packages/connectors/src/simulator.ts';
 const config=runtimeConfig();const enrollment=agentEnrollment(config);
 const control=servicePool(config,'orvia_agent_control');const target=servicePool(config,'orvia_target_agent');
-let stopped=false;process.on('SIGINT',()=>{stopped=true;});process.on('SIGTERM',()=>{stopped=true;});
+let stopped=false;process.on('SIGINT',()=>{stopped=true;});process.on('SIGTERM',()=>{stopped=true;});process.on('message',message=>{if(message==='orvia-stop')stopped=true;});
 try {
  while(!stopped) {
   for(const identity of enrollment.identities) {
@@ -26,3 +26,5 @@ try {
   await new Promise(resolve=>setTimeout(resolve,2000));
  }
 }catch(error){console.error(safeError(error));process.exitCode=1;}finally{await Promise.all([control.end(),target.end()]);}
+
+if(process.connected)process.disconnect();

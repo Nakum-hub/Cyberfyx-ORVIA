@@ -10,12 +10,12 @@ import { loadProfile } from '../../../packages/testing/src/config.ts';
 import { connectDatabase } from '../../../packages/db/src/index.ts';
 import { writeEvidence,safeError } from '../../../packages/testing/src/evidence.ts';
 import * as S from '../../../packages/contracts/src/index.ts';
-const profile=loadProfile();if(profile.profile!=='codex-a00')throw new Error('Only codex-a00 regression integration permitted');
+const profile=loadProfile();if(!['codex-a00','rehearsal'].includes(profile.profile))throw new Error('Only codex-a00/rehearsal regression integration permitted');
 const h=new HttpFixture();const db=connectDatabase(profile).pool;const cli=promisify(execFile);
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];let runner:ChildProcess|undefined;let phase='setup';const runs:ReturnType<typeof S.TestRun.parse>[]=[];
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed');}}
 try{
- await cli(process.execPath,['--import','tsx','scripts/regression-init.ts','confirm:codex-a00'],{windowsHide:true,timeout:30000});await h.start();
+ await cli(process.execPath,['--import','tsx','scripts/regression-init.ts',`confirm:${profile.profile}`],{windowsHide:true,timeout:30000});await h.start();
  await waitForAuthWindow(db);
  const owner=await h.login('owner');const admin=await h.login('admin');const auditor=await h.login('auditor');const alice=await h.login('alice');const birch=await h.login('birch');
  const request={scenario:'MARKETING_WITHDRAWAL_HEALTHY',profile:profile.profile,fixture_id:'aster-birch-v1'};
@@ -27,7 +27,7 @@ try{
   phase=scenario;const input={...request,scenario};const key=randomUUID();const response=await start(owner,input,key);check(scenario+' accepted',response.status,202);const accepted=S.TestRun.parse(await response.json());
   check('pending run is durably NOT_RUN',accepted.state,'NOT_RUN');check('pending request replay stable',await (await start(owner,input,key)).json(),accepted);check('overlapping fixture execution denied',(await start(owner,input)).status,409);
   check('foreign tenant cannot read run',(await birch.call('/api/v1/admin/test-runs/'+accepted.id)).status,404);check('principal cannot read run',(await alice.call('/api/v1/admin/test-runs/'+accepted.id)).status,403);
-  const executed=await cli(process.execPath,['--import','tsx','scripts/regression-runner.ts','confirm:codex-a00'],{windowsHide:true,timeout:240000,maxBuffer:2*1024*1024});
+  const executed=await cli(process.execPath,['--import','tsx','scripts/regression-runner.ts',`confirm:${profile.profile}`],{windowsHide:true,timeout:240000,maxBuffer:2*1024*1024});
   check('protected runner executed real assertions',executed.stdout.includes('independent_read_restriction'),true);
   const result=S.TestRun.parse(await (await auditor.call('/api/v1/admin/test-runs/'+accepted.id)).json());runs.push(result);
   check(scenario+' actual result',result.state,scenario==='MARKETING_WITHDRAWAL_BROKEN_CONTROL'?'FAIL':'PASS');
@@ -42,11 +42,11 @@ try{
   const exported=S.Evidence.parse(await (await auditor.call('/api/v1/admin/evidence/'+workflow+'/export')).json());check('local evidence links actual test run',exported.tests.find(t=>t.id===result.id),result);
  }
  phase='runner interruption';const interrupted=S.TestRun.parse(await (await start()).json());
- runner=spawn(process.execPath,['--import','tsx','scripts/regression-runner.ts','confirm:codex-a00'],{windowsHide:true,stdio:'ignore'});
+ runner=spawn(process.execPath,['--import','tsx','scripts/regression-runner.ts',`confirm:${profile.profile}`],{windowsHide:true,stdio:'ignore'});
  let started=false;for(let n=0;n<1500;n++){if((await db.query('SELECT state FROM app.test_runs WHERE id=$1',[interrupted.id])).rows[0].state==='RUNNING'){started=true;break;}await new Promise(r=>setTimeout(r,20));}
  check('runner actually began before interruption',started,true);const closed=once(runner,'close');runner.kill();await closed;
  check('interrupted run remains durable',(await db.query('SELECT state FROM app.test_runs WHERE id=$1',[interrupted.id])).rows[0].state,'RUNNING');
- await cli(process.execPath,['--import','tsx','scripts/regression-runner.ts','confirm:codex-a00'],{windowsHide:true,timeout:30000});
+ await cli(process.execPath,['--import','tsx','scripts/regression-runner.ts',`confirm:${profile.profile}`],{windowsHide:true,timeout:30000});
  const recovered=S.TestRun.parse(await (await owner.call('/api/v1/admin/test-runs/'+interrupted.id)).json());check('interrupted run becomes explicit ERROR',recovered.state,'ERROR');check('interruption creates no success fallback',recovered.assertions.some(a=>a.id==='runner_interrupted'&&a.result==='ERROR'),true);
  check('interruption assertion separately persisted',(await db.query('SELECT count(*)::int n FROM app.test_case_results WHERE run_id=$1',[interrupted.id])).rows[0].n,recovered.assertions.length);
  let immutable=false;try{await db.query("UPDATE app.test_runs SET document=jsonb_set(document,'{state}','\"PASS\"'),state='PASS' WHERE id=$1",[interrupted.id]);}catch(error){immutable=safeError(error).code==='23514';}check('terminal outcome cannot be rewritten',immutable,true);

@@ -1,0 +1,39 @@
+$ tsx scripts/web.ts build
+▲ Next.js 16.3.5 (Turbopack)
+⚠ Warning: Next.js ignored pnpm-workspace.yaml in C:\Cyberfyx-projects\Cyberfyx_ORVIA because it is outside the current Git repository (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\A07-package-probe).
+ To use this directory, set `turbopack.root` in your Next.js config.
+
+✓ Running next.config.ts took 59ms
+- Experiments (use with caution):
+  · cpus: 1
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 35.8s
+  Running TypeScript ...
+  Finished TypeScript in 64s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/7) ...
+  Generating static pages using 1 worker (1/7) 
+  Generating static pages using 1 worker (3/7) 
+  Generating static pages using 1 worker (5/7) 
+✓ Generating static pages using 1 worker (7/7) in 403ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/principal/[...all]
+├ ƒ /api/auth/staff/[...all]
+├ ƒ /api/v1/[...segments]
+├ ƒ /api/v1/admin/principals
+├ ƒ /api/v1/session
+├ ƒ /healthz
+├ ○ /privacy
+├ ƒ /privacy/receipt/[id]
+├ ○ /privacy/receipts
+└ ○ /privacy/sign-in
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

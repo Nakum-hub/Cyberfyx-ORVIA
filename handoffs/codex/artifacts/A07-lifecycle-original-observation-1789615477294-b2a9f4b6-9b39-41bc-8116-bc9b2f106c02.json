@@ -1,0 +1,31 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T03:24:37.295Z",
+  "profile": "rehearsal",
+  "window": {
+    "start": "2026-09-17T03:21:16.552Z",
+    "end": "2026-09-17T03:22:22.190Z"
+  },
+  "observed": {
+    "successful_authenticated_polls": 75
+  },
+  "original_child_exits": [
+    {
+      "pid": 17032,
+      "exit_code": 0,
+      "signal": null
+    },
+    {
+      "pid": 40684,
+      "exit_code": 0,
+      "signal": null
+    },
+    {
+      "pid": 5948,
+      "exit_code": 0,
+      "signal": null
+    }
+  ],
+  "meaning": "Original test required a direct agent PG session although idle agents use authenticated HTTP polling; actual committed successful poll audits and normal child shutdowns are retained."
+}

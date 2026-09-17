@@ -1,0 +1,19 @@
+$ tsx tests/integration/lifecycle.test.ts
+PASS business fixture exists before restart
+PASS named bootstrap reset refuses business schema
+PASS reset denial preserves business state
+PASS web worker and agent actually active cycle 0
+PASS verified HTTPS health cycle 0
+PASS unauthenticated authority denied cycle 0
+PASS wrong profile stop refused cycle 0
+PASS supervisor stopped normally cycle 0
+PASS owned worker and agent connections gone cycle 0
+PASS business state retained cycle 0
+PASS web worker and agent actually active cycle 1
+PASS verified HTTPS health cycle 1
+PASS unauthenticated authority denied cycle 1
+PASS wrong profile stop refused cycle 1
+PASS supervisor stopped normally cycle 1
+PASS owned worker and agent connections gone cycle 1
+PASS business state retained cycle 1
+Artifact: handoffs/codex/artifacts/A07-lifecycle-integration-1789616415381-25f3a088-9b4f-4f05-96f9-3638fd9559e8.json

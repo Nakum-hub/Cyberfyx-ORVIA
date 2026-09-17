@@ -1,0 +1,9 @@
+$ tsx scripts/demo-run.ts "confirm:rehearsal"
+PASS fresh_permission_admits
+PASS durable_workflow_completed
+PASS independent_read_restriction
+PASS independent_observation_method
+PASS current_boundary_blocks_withdrawal
+PASS no_post_withdrawal_send
+Artifact: handoffs/codex/artifacts/A07-regression-run-1789615215931-04b7ae98-794c-4aac-88a2-38da0e3a30bd.json
+Artifact: handoffs/codex/artifacts/A07-demo-export-1789615216208-95b28097-5a3d-4731-be29-b796c5112254.json

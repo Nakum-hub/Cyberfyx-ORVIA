@@ -1,0 +1,112 @@
++ W=/c/Cyberfyx-projects/orvia-ui-b00
++ N=/c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe
++ P=/c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs
++ export ORVIA_PROFILE=ui-b00
++ ORVIA_PROFILE=ui-b00
++ run profile:init ui-b00
++ echo '### profile:init ui-b00'
+### profile:init ui-b00
++ /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs --dir /c/Cyberfyx-projects/orvia-ui-b00 profile:init ui-b00
+$ node scripts/profile-init.mjs "ui-b00"
+Initialized local synthetic profile ui-b00; credentials remain in the ignored profile directory.
++ echo '### exit=0'
+### exit=0
++ run services up
++ echo '### services up'
+### services up
++ /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs --dir /c/Cyberfyx-projects/orvia-ui-b00 services up
+$ tsx scripts/services.ts "up"
+ Network orvia-ui-b00_loopback_access Creating 
+ Volume orvia-ui-b00_temporal_state Creating 
+ Network orvia-ui-b00_private Creating 
+ Volume orvia-ui-b00_postgres_data Creating 
+ Network orvia-ui-b00_loopback_access Creating 
+ Volume orvia-ui-b00_postgres_data Creating 
+ Network orvia-ui-b00_private Creating 
+ Volume orvia-ui-b00_temporal_state Creating 
+ Volume orvia-ui-b00_temporal_state Created 
+ Volume orvia-ui-b00_temporal_state Created 
+ Volume orvia-ui-b00_postgres_data Created 
+ Volume orvia-ui-b00_postgres_data Created 
+ Network orvia-ui-b00_loopback_access Created 
+ Network orvia-ui-b00_loopback_access Created 
+ Network orvia-ui-b00_private Created 
+ Network orvia-ui-b00_private Created 
+ Container orvia-ui-b00-temporal-1 Creating 
+ Container orvia-ui-b00-postgres-1 Creating 
+ Container orvia-ui-b00-opa-1 Creating 
+ Container orvia-ui-b00-loopback-1 Creating 
+ Container orvia-ui-b00-temporal-1 Created 
+ Container orvia-ui-b00-loopback-1 Created 
+ Container orvia-ui-b00-postgres-1 Created 
+ Container orvia-ui-b00-opa-1 Created 
+ Container orvia-ui-b00-temporal-1 Starting 
+ Container orvia-ui-b00-opa-1 Starting 
+ Container orvia-ui-b00-loopback-1 Starting 
+ Container orvia-ui-b00-postgres-1 Starting 
+ Container orvia-ui-b00-temporal-1 Started 
+ Container orvia-ui-b00-opa-1 Started 
+ Container orvia-ui-b00-loopback-1 Started 
+ Container orvia-ui-b00-postgres-1 Started 
++ echo '### exit=0'
+### exit=0
++ run db:migrate
++ echo '### db:migrate'
+### db:migrate
++ /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs --dir /c/Cyberfyx-projects/orvia-ui-b00 db:migrate
+$ tsx scripts/migrate.ts
+Artifact: handoffs/codex/artifacts/A00-migration-1789578997366-dc63956c-f489-42a1-91a9-acfd9fed6e9e.json
++ echo '### exit=0'
+### exit=0
++ run preflight
++ echo '### preflight'
+### preflight
++ /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs --dir /c/Cyberfyx-projects/orvia-ui-b00 preflight
+$ tsx scripts/preflight.ts
+Artifact: handoffs/codex/artifacts/A00-preflight-services-1789579010554-3a945b41-0064-417a-8e2d-d72ccba967aa.json
+{
+  "postgres": {
+    "result": "PASS",
+    "database": "orvia_ui_b00",
+    "version": "17.11 (Debian 17.11-1.pgdg12+2)",
+    "installation_id": "4d340067-ea59-4e63-b544-9d8419a78cb0",
+    "profile": "ui-b00"
+  },
+  "opa": {
+    "result": "PASS",
+    "readiness": true,
+    "arbitrary_operation": false,
+    "policy_scope": "bootstrap readiness only"
+  },
+  "temporal": {
+    "result": "PASS",
+    "namespace": "orvia-ui-b00",
+    "server": "persistent single-node CLI development server"
+  }
+}
++ echo '### exit=0'
+### exit=0
++ run auth:init confirm:ui-b00
++ echo '### auth:init confirm:ui-b00'
+### auth:init confirm:ui-b00
++ /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs --dir /c/Cyberfyx-projects/orvia-ui-b00 auth:init confirm:ui-b00
+$ tsx scripts/auth-init.ts "confirm:ui-b00"
+Runtime roles provisioned; generated credentials remain in the protected local auth directory.
++ echo '### exit=0'
+### exit=0
++ run auth:bootstrap confirm:ui-b00
++ echo '### auth:bootstrap confirm:ui-b00'
+### auth:bootstrap confirm:ui-b00
++ /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs --dir /c/Cyberfyx-projects/orvia-ui-b00 auth:bootstrap confirm:ui-b00
+$ tsx scripts/auth-bootstrap.ts owner "confirm:ui-b00"
+Protected owner bootstrap committed. Credentials remain in local profile auth/bootstrap.json; no credential printed.
++ echo '### exit=0'
+### exit=0
++ run seed:auth confirm:ui-b00
++ echo '### seed:auth confirm:ui-b00'
+### seed:auth confirm:ui-b00
++ /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/node-v24.21.0-win-x64/node.exe /c/Cyberfyx-projects/Cyberfyx_ORVIA/.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs --dir /c/Cyberfyx-projects/orvia-ui-b00 seed:auth confirm:ui-b00
+$ tsx scripts/auth-bootstrap.ts fixtures "confirm:ui-b00"
+Protected fixtures bootstrap committed. Credentials remain in local profile auth/bootstrap.json; no credential printed.
++ echo '### exit=0'
+### exit=0

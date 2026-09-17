@@ -1,0 +1,2 @@
+$ tsx scripts/seed-orders.ts "confirm:rehearsal"
+Created 0 explicit synthetic order conditions for already approved policies; no legal exemption or real transport.

@@ -7,3 +7,6 @@ packages/db/migrations/** text eol=lf
 handoffs/codex/artifacts/*.log -text -whitespace
 # Approved original: preserve source bytes, including original formatting.
 docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md -text -whitespace
+
+# Preserve imported raw Claude bring-up evidence byte-for-byte.
+handoffs/code/artifacts/*.log -text -whitespace

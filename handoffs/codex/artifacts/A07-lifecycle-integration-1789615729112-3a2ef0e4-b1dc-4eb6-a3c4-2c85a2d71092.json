@@ -1,0 +1,44 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T03:28:49.112Z",
+  "profile": "rehearsal",
+  "assertions": [
+    {
+      "name": "business fixture exists before restart",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "named bootstrap reset refuses business schema",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "reset denial preserves business state",
+      "actual": {
+        "events": 34,
+        "runs": 6,
+        "mappings": 16
+      },
+      "expected": {
+        "events": 34,
+        "runs": 6,
+        "mappings": 16
+      },
+      "result": "PASS"
+    },
+    {
+      "name": "web worker and agent actually active cycle 0",
+      "actual": false,
+      "expected": true,
+      "result": "FAIL"
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Application process restarts with existing synthetic database. Host crash recovery and human demonstration are not inferred."
+  ]
+}

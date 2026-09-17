@@ -1,0 +1,85 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T03:54:02.997Z",
+  "profile": "rehearsal",
+  "contract_version": "0.4.1",
+  "results": [
+    {
+      "name": "DNS name denied",
+      "blocked": true
+    },
+    {
+      "name": "Direct external network address denied",
+      "blocked": true
+    },
+    {
+      "name": "Actual backend core under blocked egress",
+      "assertion_output": "PASS fresh_permission_admits\nPASS durable_workflow_completed\nPASS independent_read_restriction\nPASS independent_observation_method\nPASS current_boundary_blocks_withdrawal\nPASS no_post_withdrawal_send\nArtifact: handoffs/codex/artifacts/A07-regression-run-1789617242822-6ebb392d-6dba-4d60-bbbb-491fc9ebb57d.json\n"
+    },
+    {
+      "run": {
+        "id": "1d17fe0a-8171-4e63-b981-8ee160661338",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "rehearsal",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "PASS",
+        "build_id": "lBTMG6QFakbJa4pG--aN9",
+        "contract_version": "0.4.1",
+        "started_at": "2026-09-17T03:53:38.367Z",
+        "finished_at": "2026-09-17T03:54:01.264Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "PASS",
+            "expected": "0",
+            "actual": "0",
+            "artifact_paths": []
+          }
+        ],
+        "expected_fault_detection": false
+      }
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Private Docker backend network only; host development processes and browser traffic are not qualified by this test. Controlled external-network canary and local deny-all DNS; no real vendor call."
+  ]
+}

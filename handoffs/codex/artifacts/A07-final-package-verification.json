@@ -1,0 +1,101 @@
+{
+  "task_id": "A07",
+  "result": "PASS",
+  "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+  "recorded_at": "2026-09-17T03:58:58.096458+00:00",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "bundle",
+        "verify",
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\releases\\e3740308fe217a59d21a68e899a93d07a4829463\\orvia-source.bundle"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "clone",
+        "--config",
+        "core.autocrlf=false",
+        "--branch",
+        "prototype/codex/A07-package",
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\releases\\e3740308fe217a59d21a68e899a93d07a4829463\\orvia-source.bundle",
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-final-package-e3740308fe21"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-final-package-e3740308fe21",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "fsck",
+        "--full",
+        "--no-reflogs"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-final-package-e3740308fe21",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "ls-tree",
+        "-r",
+        "-z",
+        "e3740308fe217a59d21a68e899a93d07a4829463"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-final-package-e3740308fe21",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "cat-file",
+        "--batch"
+      ],
+      "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\A07-final-package-e3740308fe21",
+      "exit_code": 0
+    }
+  ],
+  "package_artifacts": [
+    {
+      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-source.bundle",
+      "sha256": "f6475e9a99b3d6bbc67aadbee7792f2472607c88e2b01d9df1c800290f93ae20",
+      "bytes": 2346463
+    },
+    {
+      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-source.zip",
+      "sha256": "c5504f986945de41e3682422b6325a442425fd9bfcd6c858a6d9b8e4ebf28ff2",
+      "bytes": 5323501
+    },
+    {
+      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-evidence.zip",
+      "sha256": "ea8a82c36a492403c89fb6dcb124cf1c46d4ffe54a8d6d5208a0c5885a76ce11",
+      "bytes": 1426569
+    },
+    {
+      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-local-images.tar",
+      "sha256": "0bbb39b9db24943f69c4e013e344ca9b1114a8be112ebf765a928d1c6d93d662",
+      "bytes": 668584960
+    }
+  ],
+  "tracked_files_byte_verified": 1221,
+  "source_archive_files_byte_verified": 1221,
+  "evidence_archive_files_byte_verified": 180,
+  "preserved_ui_files_byte_verified": 20,
+  "profile_directory_exists": false,
+  "limitations": [
+    "Final offline bundle cloned and Git-fsck/byte-verified against its source ZIP. Fresh install/build reports from the earlier bfa81e5 bundle retain that exact earlier identity; final host/image build and relevant test reruns are separately recorded. No customer stores or private credentials are imported into this clone."
+  ]
+}

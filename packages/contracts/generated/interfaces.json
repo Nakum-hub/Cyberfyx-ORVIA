@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.4.0",
+  "contract_version": "0.4.1",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -7,11 +7,13 @@
   "auth": {
     "staff": {
       "base_path": "/api/auth/staff",
-      "cookie_prefix": "orvia.staff"
+      "cookie_prefix": "orvia.staff",
+      "secure_cookie_prefix": "__Secure-orvia.staff"
     },
     "principal": {
       "base_path": "/api/auth/principal",
-      "cookie_prefix": "orvia.principal"
+      "cookie_prefix": "orvia.principal",
+      "secure_cookie_prefix": "__Secure-orvia.principal"
     }
   },
   "profiles": {

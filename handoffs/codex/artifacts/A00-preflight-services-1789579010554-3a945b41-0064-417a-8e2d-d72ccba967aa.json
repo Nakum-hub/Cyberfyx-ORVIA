@@ -1,0 +1,29 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-16T17:16:50.554Z",
+  "profile": "ui-b00",
+  "checks": {
+    "postgres": {
+      "result": "PASS",
+      "database": "orvia_ui_b00",
+      "version": "17.11 (Debian 17.11-1.pgdg12+2)",
+      "installation_id": "4d340067-ea59-4e63-b544-9d8419a78cb0",
+      "profile": "ui-b00"
+    },
+    "opa": {
+      "result": "PASS",
+      "readiness": true,
+      "arbitrary_operation": false,
+      "policy_scope": "bootstrap readiness only"
+    },
+    "temporal": {
+      "result": "PASS",
+      "namespace": "orvia-ui-b00",
+      "server": "persistent single-node CLI development server"
+    }
+  },
+  "limitations": [
+    "No business auth, consent, send, CRM or agent operation is exercised."
+  ]
+}

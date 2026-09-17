@@ -1,0 +1,10 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T02:51:43.288Z",
+  "profile": "rehearsal",
+  "installation_id": "b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "scope": "bootstrap_probes only",
+  "rows": 1,
+  "caller": "local operator possessing profile credential"
+}

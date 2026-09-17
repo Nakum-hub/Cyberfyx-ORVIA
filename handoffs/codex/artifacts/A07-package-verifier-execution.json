@@ -1,0 +1,21 @@
+{
+  "task_id": "A07",
+  "command": [
+    "python",
+    "handoffs/codex/artifacts/A07-package-verifier.py"
+  ],
+  "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+  "exit_code": 0,
+  "result": "PASS",
+  "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+  "profile": "rehearsal",
+  "recorded_at": "2026-09-17T04:01:37.537465+00:00",
+  "verification_finished_at": "2026-09-17T03:58:58.096458+00:00",
+  "artifact_paths": [
+    "handoffs/codex/artifacts/A07-final-package-verification.json"
+  ],
+  "verifier_sha256": "1ca419e9d057b67709ffe9ba3aac5eb4ced2d68e9fc995d4aaa5c70851e95bfa",
+  "limitations": [
+    "Records the actually completed independent verifier command. Original exit-1 Python compatibility failure is retained separately."
+  ]
+}

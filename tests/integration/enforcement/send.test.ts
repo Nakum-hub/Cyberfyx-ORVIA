@@ -15,13 +15,13 @@ import { SendRequest,SendResult,Decision,CONTRACT_VERSION } from '../../../packa
 import { enqueue,drain } from '../../../apps/demo-targets/src/sender.ts';
 
 const h=new HttpFixture();const config=h.config;const db=connectDatabase(loadProfile()).pool;
-if(config.profile!=='codex-a00')throw new Error('Only isolated codex-a00 permitted');
+if(!['codex-a00','rehearsal'].includes(config.profile))throw new Error('Only isolated codex-a00/rehearsal permitted');
 let sender:ReturnType<typeof servicePool>|undefined;
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed: '+name);}}
 const run=promisify(execFile);
-const setup=(script:string)=>run(process.execPath,['--import','tsx',script,'confirm:codex-a00'],{windowsHide:true,encoding:'utf8',timeout:60000});
-const docker=(command:string)=>run('docker',[command,'orvia-codex-a00-opa-1'],{windowsHide:true,encoding:'utf8',timeout:30000});
+const setup=(script:string)=>run(process.execPath,['--import','tsx',script,`confirm:${config.profile}`],{windowsHide:true,encoding:'utf8',timeout:60000});
+const docker=(command:string)=>run('docker',[command,`${config.compose_project}-opa-1`],{windowsHide:true,encoding:'utf8',timeout:30000});
 const opa=`http://127.0.0.1:${config.opa_port}`;
 try {
  await docker('restart');await h.start();

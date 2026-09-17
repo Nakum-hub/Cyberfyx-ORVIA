@@ -1,0 +1,1 @@
+$ eslint packages apps scripts tests --max-warnings 0

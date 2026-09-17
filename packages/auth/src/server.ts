@@ -19,8 +19,8 @@ export function createAuth(config: RuntimeConfig, domain: Domain, bootstrap = fa
     emailAndPassword: { enabled: true, disableSignUp: !bootstrap, autoSignIn: false, minPasswordLength: 16, maxPasswordLength: 128 },
     session: { expiresIn: 3600, updateAge: 300, freshAge: 300, cookieCache: { enabled: false } },
     advanced: { cookiePrefix: AUTH[domain].cookie_prefix, database: { generateId: () => randomUUID() },
-      // Loopback development transport only. A07 must qualify verified TLS.
-      useSecureCookies: false, defaultCookieAttributes: { httpOnly: true, sameSite: 'strict', path: '/' },
+      // Rehearsal is verified HTTPS; other profiles remain explicit development HTTP.
+      useSecureCookies: config.origin.startsWith('https:'), defaultCookieAttributes: { httpOnly: true, sameSite: 'strict', path: '/' },
       ipAddress: { ipAddressHeaders: ['x-orvia-loopback-ip'] } },
     rateLimit: { enabled: true, storage: 'database', window: 60, max: 60,
       customRules: { '/sign-in/email': { window: 60, max: 10 }, '/two-factor/*': { window: 60, max: 10 } } },
