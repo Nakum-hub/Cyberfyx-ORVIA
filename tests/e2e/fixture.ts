@@ -48,9 +48,18 @@ export class BrowserHarness extends HttpFixture {
 export const test=base.extend<{networkAudit:void},{h:BrowserHarness}>({
   h:[async({browserName},use)=>{
     if(browserName!=='chromium')throw new Error('This evidence suite pins Chromium');
-    const h=new BrowserHarness();const lock=await h.db.connect();
-    try{if(!(await lock.query('SELECT pg_try_advisory_lock(728107) locked')).rows[0].locked)throw new Error('Another browser suite owns rehearsal');await h.start();await use(h);}
-    finally{try{await h.stop();}finally{lock.release();await Promise.all([h.db.end(),h.target.end()]);}}
+    const h=new BrowserHarness();const lock=await h.db.connect();let heartbeat:ReturnType<typeof setInterval>|undefined;
+    let failLease:(error:Error)=>void=()=>{};const leaseLost=new Promise<never>((_,reject)=>{failLease=reject;});
+    // Keep the checked-out ownership connection active across long real suites.
+    // The loopback relay expires idle sockets after five minutes. Losing this
+    // connection also loses the advisory lock, so stop instead of continuing.
+    lock.on('error',failLease);
+    try{
+      if(!(await lock.query('SELECT pg_try_advisory_lock(728107) locked')).rows[0].locked)throw new Error('Another browser suite owns rehearsal');
+      await h.start();
+      heartbeat=setInterval(()=>{void lock.query('SELECT 1').catch(failLease);},30000);
+      await Promise.race([use(h),leaseLost]);
+    }finally{if(heartbeat)clearInterval(heartbeat);try{await h.stop();}finally{lock.removeListener('error',failLease);lock.release();await Promise.all([h.db.end(),h.target.end()]);}}
   },{scope:'worker'}],
   networkAudit:[async({context,h},use,info)=>{
     const requests:{origin:string;path:string;method:string}[]=[];

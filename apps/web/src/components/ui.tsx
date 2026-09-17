@@ -167,7 +167,7 @@ export function Field({ label, hint, error, required, children }: FieldProps) {
   return (
     <div className={`field${error ? ' field-invalid' : ''}`}>
       <label htmlFor={id}>
-        <span className="label">{label}{required ? ' *' : ''}</span>
+        <span className="label"><span id={`${id}-label`}>{label}</span>{required ? <span aria-hidden="true"> *</span> : null}</span>
       </label>
       {hint ? <span className="hint" id={hintId}>{hint}</span> : null}
       {children(id, describedBy)}
@@ -186,7 +186,7 @@ export function TextField({ label, value, onChange, hint, error, required, type 
       {(id, describedBy) => (
         <input id={id} type={type} value={value} required={required} autoComplete={autoComplete}
           placeholder={placeholder} inputMode={inputMode} maxLength={maxLength}
-          aria-describedby={describedBy} aria-invalid={error ? true : undefined}
+          aria-labelledby={`${id}-label`} aria-describedby={describedBy} aria-invalid={error ? true : undefined}
           onChange={event => onChange(event.target.value)} />
       )}
     </Field>
@@ -200,7 +200,7 @@ export function TextAreaField({ label, value, onChange, hint, error, required, m
     <Field label={label} hint={hint} error={error} required={required}>
       {(id, describedBy) => (
         <textarea id={id} value={value} required={required} maxLength={maxLength}
-          aria-describedby={describedBy} aria-invalid={error ? true : undefined}
+          aria-labelledby={`${id}-label`} aria-describedby={describedBy} aria-invalid={error ? true : undefined}
           onChange={event => onChange(event.target.value)} />
       )}
     </Field>
@@ -214,7 +214,7 @@ export function SelectField({ label, value, onChange, options, hint, error, requ
   return (
     <Field label={label} hint={hint} error={error} required={required}>
       {(id, describedBy) => (
-        <select id={id} value={value} required={required} aria-describedby={describedBy}
+        <select id={id} value={value} required={required} aria-labelledby={`${id}-label`} aria-describedby={describedBy}
           aria-invalid={error ? true : undefined} onChange={event => onChange(event.target.value)}>
           <option value="">— select —</option>
           {options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}

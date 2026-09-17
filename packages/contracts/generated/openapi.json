@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.4.1",
-    "description": "Contract 0.4.1 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.5.0",
+    "description": "Contract 0.5.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -10069,6 +10069,12 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
+          "task_version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence."
+          },
           "required": {
             "type": "boolean"
           },
@@ -10267,6 +10273,7 @@
         },
         "required": [
           "id",
+          "task_version",
           "required",
           "completion_criterion",
           "execution_state",
@@ -11239,6 +11246,12 @@
                   "format": "uuid",
                   "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                 },
+                "task_version": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence."
+                },
                 "required": {
                   "type": "boolean"
                 },
@@ -11437,6 +11450,7 @@
               },
               "required": [
                 "id",
+                "task_version",
                 "required",
                 "completion_criterion",
                 "execution_state",
@@ -12578,6 +12592,12 @@
                       "format": "uuid",
                       "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                     },
+                    "task_version": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991,
+                      "description": "Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence."
+                    },
                     "required": {
                       "type": "boolean"
                     },
@@ -12776,6 +12796,7 @@
                   },
                   "required": [
                     "id",
+                    "task_version",
                     "required",
                     "completion_criterion",
                     "execution_state",
@@ -14070,6 +14091,12 @@
                   "format": "uuid",
                   "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                 },
+                "task_version": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "description": "Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence."
+                },
                 "required": {
                   "type": "boolean"
                 },
@@ -14268,6 +14295,7 @@
               },
               "required": [
                 "id",
+                "task_version",
                 "required",
                 "completion_criterion",
                 "execution_state",

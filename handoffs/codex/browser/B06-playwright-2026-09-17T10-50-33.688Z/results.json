@@ -1,0 +1,100 @@
+{
+  "result": "failed",
+  "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+  "source_tree_sha256": "18f555db7b6d1933cf73b72f767203bbe3e613ad53f0d9d1413e1afd2088b22c",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 real healthy, broken detection, repaired and target restoration results"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 51662,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "ad0a21f7311c406e51a059b242a8d3a42d2c3aa1308bbcaa7c879292fc653b37",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-50-33.688Z\\raw\\test-lab-B04-real-healthy--09b59--target-restoration-results\\test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "3ecf4c83b4ffb64c47c6ae25c60db7a9f1714c90a89e3243ff581b12d6db35ff",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-50-33.688Z\\raw\\test-lab-B04-real-healthy--09b59--target-restoration-results\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "8bbfe580e2914b28a1e829fad63101a3381e8cab8ce4859a47e4d79f47823d84",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-50-33.688Z\\raw\\test-lab-B04-real-healthy--09b59--target-restoration-results\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 actual interrupted operator is recovered as ERROR without fabricated pass"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 44321,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 26,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        },
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "b17d7d6cd23e69ea62527e53de9a6f9bf1b04522effbd3d2c3c5eebfde386826",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-50-33.688Z\\raw\\test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass\\test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "04f6c4e75ab432e47edd01aac441a7f0f85db927b58ccad164dd2a9a131ccd37",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-50-33.688Z\\raw\\test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "b23714807ca9e4d05fd3541d82a01779f9123bfa1b3084a3ca5b042215a7605a",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-50-33.688Z\\raw\\test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass\\trace.zip"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

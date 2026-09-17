@@ -49,7 +49,7 @@ test('portal-safe immutable acceptance and refreshed current status remain disti
 });
 test('ACK and manual work do not fabricate automated observation; unknown history is retained',()=>{
   const now=new Date('2026-09-16T10:01:00Z');
-  const obligation={id:uuid(1),required:true,completion_criterion:'CURRENT_SCOPED_OBSERVATION',execution_state:'ACKNOWLEDGED',observation:null,attestation:null,scope_still_current:true,skip_reason:null};
+  const obligation={id:uuid(1),task_version:0,required:true,completion_criterion:'CURRENT_SCOPED_OBSERVATION',execution_state:'ACKNOWLEDGED',observation:null,attestation:null,scope_still_current:true,skip_reason:null};
   assert.equal(obligationSatisfied(obligation,now),false);
   const manual={actor_id:uuid(2),recorded_at:sampleTime,statement:'Synthetic manual evidence',evidence_record_ids:[uuid(3)]};
   assert.equal(obligationSatisfied({...obligation,attestation:manual},now),false);

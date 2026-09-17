@@ -1184,6 +1184,8 @@ export interface components {
         Obligation: {
             /** Format: uuid */
             id: string;
+            /** @description Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence. */
+            task_version: number;
             required: boolean;
             /**
              * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.
@@ -1443,6 +1445,8 @@ export interface components {
             obligations: {
                 /** Format: uuid */
                 id: string;
+                /** @description Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence. */
+                task_version: number;
                 required: boolean;
                 /**
                  * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.
@@ -1732,6 +1736,8 @@ export interface components {
                 obligations: {
                     /** Format: uuid */
                     id: string;
+                    /** @description Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence. */
+                    task_version: number;
                     required: boolean;
                     /**
                      * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.
@@ -2035,6 +2041,8 @@ export interface components {
             items: {
                 /** Format: uuid */
                 id: string;
+                /** @description Authoritative stored manual-task revision. Submit this exact value as expected_task_version; never infer it from workflow state or attestation presence. */
+                task_version: number;
                 required: boolean;
                 /**
                  * @description CURRENT_SCOPED_OBSERVATION requires a fresh, satisfied SCOPED_READ in the current scope. PROVIDER_RECEIPT remains attributable evidence/reconciliation input and cannot satisfy this criterion. ATTRIBUTED_MANUAL_ATTESTATION remains a separate administrative criterion.

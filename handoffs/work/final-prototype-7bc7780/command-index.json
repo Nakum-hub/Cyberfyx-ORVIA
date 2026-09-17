@@ -1,0 +1,512 @@
+[
+  {
+    "path": "handoffs/codex/browser/B06-build-2026-09-17T10-16-07.298Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "build"
+    ],
+    "started_at": "2026-09-17T10:16:07.298Z",
+    "finished_at": "2026-09-17T10:17:15.105Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "68ae58e681ee5e4bc2e0ab2698fdec834e37ae4fe31879820721cbd6e92d7baa",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-typecheck-2026-09-17T10-33-39.465Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "typecheck"
+    ],
+    "started_at": "2026-09-17T10:33:39.465Z",
+    "finished_at": "2026-09-17T10:34:03.828Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "0f5e57b6a27dff96ba4c6a04c936ebe618afd2d9e132be1ba3948fcdf905b2d7",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-typecheck-2026-09-17T10-25-28.186Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "typecheck"
+    ],
+    "started_at": "2026-09-17T10:25:28.186Z",
+    "finished_at": "2026-09-17T10:26:08.773Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "36e11d09ca399844aa8d2d0cd99b968a0f6b5c00784bba32acc0817d9efcb52e",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-typecheck-2026-09-17T10-02-14.074Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "typecheck"
+    ],
+    "started_at": "2026-09-17T10:02:14.074Z",
+    "finished_at": "2026-09-17T10:03:22.77Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-test-2026-09-17T10-26-58.129Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "test"
+    ],
+    "started_at": "2026-09-17T10:26:58.129Z",
+    "finished_at": "2026-09-17T10:27:00.464Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "36e11d09ca399844aa8d2d0cd99b968a0f6b5c00784bba32acc0817d9efcb52e",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-test-2026-09-17T10-04-12.263Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "test"
+    ],
+    "started_at": "2026-09-17T10:04:12.263Z",
+    "finished_at": "2026-09-17T10:04:14.09Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-lint-2026-09-17T10-51-16.957Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "lint"
+    ],
+    "started_at": "2026-09-17T10:51:16.957Z",
+    "finished_at": "2026-09-17T10:52:00.279Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "69595b59fbf932aab4ff778273bc17224752c9d04aa5b318f0a5c212a53ab9b8",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-lint-2026-09-17T10-34-04.135Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "lint"
+    ],
+    "started_at": "2026-09-17T10:34:04.135Z",
+    "finished_at": "2026-09-17T10:34:53.756Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "0f5e57b6a27dff96ba4c6a04c936ebe618afd2d9e132be1ba3948fcdf905b2d7",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-lint-2026-09-17T10-26-09.231Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "lint"
+    ],
+    "started_at": "2026-09-17T10:26:09.231Z",
+    "finished_at": "2026-09-17T10:26:57.797Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "36e11d09ca399844aa8d2d0cd99b968a0f6b5c00784bba32acc0817d9efcb52e",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-lint-2026-09-17T10-03-23.141Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "lint"
+    ],
+    "started_at": "2026-09-17T10:03:23.141Z",
+    "finished_at": "2026-09-17T10:04:11.878Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-hygiene-check-2026-09-17T10-55-25.590Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "hygiene:check"
+    ],
+    "started_at": "2026-09-17T10:55:25.59Z",
+    "finished_at": "2026-09-17T10:55:44.742Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "69595b59fbf932aab4ff778273bc17224752c9d04aa5b318f0a5c212a53ab9b8",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-50-32.165Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "test-lab.spec.ts"
+    ],
+    "started_at": "2026-09-17T10:50:32.165Z",
+    "finished_at": "2026-09-17T10:56:27.067Z",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "69595b59fbf932aab4ff778273bc17224752c9d04aa5b318f0a5c212a53ab9b8",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-49-42.567Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "tsx",
+      "handoffs/work/final-prototype-7bc7780/recover-interrupted.ts"
+    ],
+    "started_at": "2026-09-17T10:49:42.567Z",
+    "finished_at": "2026-09-17T10:49:55.227Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "69595b59fbf932aab4ff778273bc17224752c9d04aa5b318f0a5c212a53ab9b8",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-39-46.459Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts"
+    ],
+    "started_at": "2026-09-17T10:39:46.459Z",
+    "finished_at": "2026-09-17T10:48:47.537Z",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "0f5e57b6a27dff96ba4c6a04c936ebe618afd2d9e132be1ba3948fcdf905b2d7",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-38-04.597Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "workflow.spec.ts",
+      "--grep",
+      "manual task uses",
+      "--max-failures=1"
+    ],
+    "started_at": "2026-09-17T10:38:04.597Z",
+    "finished_at": "2026-09-17T10:38:59.823Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "0f5e57b6a27dff96ba4c6a04c936ebe618afd2d9e132be1ba3948fcdf905b2d7",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-28-29.465Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "workflow.spec.ts",
+      "--grep",
+      "manual task uses",
+      "--max-failures=1"
+    ],
+    "started_at": "2026-09-17T10:28:29.465Z",
+    "finished_at": "2026-09-17T10:30:32.299Z",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "36e11d09ca399844aa8d2d0cd99b968a0f6b5c00784bba32acc0817d9efcb52e",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-19-12.215Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "auth.spec.ts",
+      "configuration.spec.ts",
+      "consent.spec.ts",
+      "--max-failures=2"
+    ],
+    "started_at": "2026-09-17T10:19:12.215Z",
+    "finished_at": "2026-09-17T10:21:03.284Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "830e5958edc1429777fa0f7e430a6124e8bd365ddb624af792160a645b282833",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-17-40.310Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "auth.spec.ts",
+      "--max-failures=1"
+    ],
+    "started_at": "2026-09-17T10:17:40.31Z",
+    "finished_at": "2026-09-17T10:18:00.345Z",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "68ae58e681ee5e4bc2e0ab2698fdec834e37ae4fe31879820721cbd6e92d7baa",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-06-21.362Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts"
+    ],
+    "started_at": "2026-09-17T10:06:21.362Z",
+    "finished_at": "2026-09-17T10:15:29.897Z",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-05-32.858Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "tls.spec.ts",
+      "--max-failures=1"
+    ],
+    "started_at": "2026-09-17T10:05:32.858Z",
+    "finished_at": "2026-09-17T10:05:48.39Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-02-59.755Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "tls.spec.ts",
+      "--max-failures=1"
+    ],
+    "started_at": "2026-09-17T10:02:59.755Z",
+    "finished_at": "2026-09-17T10:03:12.031Z",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-exec-2026-09-17T10-00-10.502Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "exec",
+      "playwright",
+      "test",
+      "--config",
+      "tests/e2e/playwright.config.ts",
+      "tls.spec.ts",
+      "--max-failures=1"
+    ],
+    "started_at": "2026-09-17T10:00:10.502Z",
+    "finished_at": "2026-09-17T10:01:03.536Z",
+    "exit_code": 1,
+    "result": "FAIL",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-contracts-check-2026-09-17T10-25-24.284Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "contracts:check"
+    ],
+    "started_at": "2026-09-17T10:25:24.284Z",
+    "finished_at": "2026-09-17T10:25:27.713Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "36e11d09ca399844aa8d2d0cd99b968a0f6b5c00784bba32acc0817d9efcb52e",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-contracts-check-2026-09-17T10-01-58.609Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "contracts:check"
+    ],
+    "started_at": "2026-09-17T10:01:58.609Z",
+    "finished_at": "2026-09-17T10:02:13.76Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "f4e5d19fbf76bf413a3e7d8b863398fdc9baa757e7f0044e6e1c2321db125ec2",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-build-2026-09-17T10-34-54.071Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "build"
+    ],
+    "started_at": "2026-09-17T10:34:54.071Z",
+    "finished_at": "2026-09-17T10:35:21.864Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "0f5e57b6a27dff96ba4c6a04c936ebe618afd2d9e132be1ba3948fcdf905b2d7",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-build-2026-09-17T10-27-00.892Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "build"
+    ],
+    "started_at": "2026-09-17T10:27:00.892Z",
+    "finished_at": "2026-09-17T10:27:47.326Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "36e11d09ca399844aa8d2d0cd99b968a0f6b5c00784bba32acc0817d9efcb52e",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/browser/B06-typecheck-2026-09-17T10-50-08.294Z/command.json",
+    "command": [
+      "node",
+      "tests/e2e/record.mjs",
+      "B06",
+      "typecheck"
+    ],
+    "started_at": "2026-09-17T10:50:08.294Z",
+    "finished_at": "2026-09-17T10:51:16.223Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "69595b59fbf932aab4ff778273bc17224752c9d04aa5b318f0a5c212a53ab9b8",
+    "source_changed_during_run": false
+  },
+  {
+    "path": "handoffs/codex/artifacts/A07-contracts-generate-2026-09-17T10-24-59.300Z.json",
+    "command": [
+      "node",
+      "scripts/record.mjs",
+      "contracts:generate"
+    ],
+    "started_at": "2026-09-17T10:24:59.3Z",
+    "finished_at": "2026-09-17T10:25:23.793Z",
+    "exit_code": 0,
+    "result": "PASS",
+    "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+    "source_tree_sha256": "c20bce43a11c7fd362d3815fed0e9e8851ab9cf1a63cadb6c8b4c84f736e69fb",
+    "source_changed_during_run": true
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "task": "W01/B06",
+  "recorded_at": "2026-09-17T10:04:35.8831925Z",
+  "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+  "subject": "CN=ORVIA synthetic rehearsal b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "issuer": "CN=ORVIA synthetic rehearsal b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "sha256": "57233744A03B8737F9CD0AC56E5128933668F7DD6CAF621DAE0E365F10BB6F3F",
+  "thumbprint": "8C592FC41BBD6AA18F42234085F6B8155466A190",
+  "store": "CurrentUser\\Root",
+  "already_present": false,
+  "installed_by_this_task": true,
+  "trusted_after": false,
+  "authority": "Explicit user approval in this task, 2026-09-17",
+  "removal": "Remove only the exact reviewed thumbprint after qualification and rehearsals if installed by this task"
+}

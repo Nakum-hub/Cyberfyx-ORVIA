@@ -5,7 +5,7 @@ import { workflowCompletion } from '../../../../packages/domain/src/completion.t
 const id = n => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
 const now = new Date('2026-09-16T10:01:00Z');
 const obligation = {
-  id: id(1), required: true,
+  id: id(1), task_version: 0, required: true,
   completion_criterion: 'CURRENT_SCOPED_OBSERVATION',
   execution_state: 'ACKNOWLEDGED', attestation: null,
   scope_still_current: true, skip_reason: null,

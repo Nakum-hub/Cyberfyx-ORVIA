@@ -1,0 +1,1 @@
+Existing runner recorded the abandoned synthetic run as ERROR; history retained.

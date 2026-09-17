@@ -1,0 +1,1 @@
+FAILED B03 manual task uses its read version, preserves replay and rejects a stale tab

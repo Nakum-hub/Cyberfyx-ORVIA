@@ -1,0 +1,77 @@
+{
+  "kind": "RECOVERY_OF_INTERRUPTED_ENGINEERING_RUN",
+  "started_at": "2026-09-17T10:49:44.681Z",
+  "finished_at": "2026-09-17T10:49:54.702Z",
+  "profile": "rehearsal",
+  "run_id": "84cd5044-b7c9-4957-b7f9-46024a329c58",
+  "command": "node --import tsx scripts/regression-runner.ts confirm:rehearsal",
+  "exit_code": 0,
+  "before": [
+    {
+      "id": "84cd5044-b7c9-4957-b7f9-46024a329c58",
+      "state": "RUNNING",
+      "document": {
+        "id": "84cd5044-b7c9-4957-b7f9-46024a329c58",
+        "state": "RUNNING",
+        "request": {
+          "profile": "rehearsal",
+          "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+          "fixture_id": "aster-birch-v1"
+        },
+        "build_id": "bnT12a1F-IJPzS63CNXqZ",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "actual": "\"ALLOW\"",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "artifact_paths": []
+          }
+        ],
+        "started_at": "2026-09-17T10:44:49.748Z",
+        "finished_at": null,
+        "contract_version": "0.5.0",
+        "expected_fault_detection": true
+      }
+    }
+  ],
+  "after": {
+    "id": "84cd5044-b7c9-4957-b7f9-46024a329c58",
+    "state": "ERROR",
+    "document": {
+      "id": "84cd5044-b7c9-4957-b7f9-46024a329c58",
+      "state": "ERROR",
+      "request": {
+        "profile": "rehearsal",
+        "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+        "fixture_id": "aster-birch-v1"
+      },
+      "build_id": "bnT12a1F-IJPzS63CNXqZ",
+      "assertions": [
+        {
+          "id": "fresh_permission_admits",
+          "actual": "\"ALLOW\"",
+          "result": "PASS",
+          "expected": "\"ALLOW\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "runner_interrupted",
+          "actual": "Previous runner ended before recording a terminal result",
+          "result": "ERROR",
+          "expected": "One uninterrupted protected fixture execution",
+          "artifact_paths": []
+        }
+      ],
+      "started_at": "2026-09-17T10:44:49.748Z",
+      "finished_at": "2026-09-17T10:49:54.560Z",
+      "contract_version": "0.5.0",
+      "expected_fault_detection": true
+    }
+  },
+  "stdout": "No pending synthetic test run.\n",
+  "stderr": "",
+  "limitations": [
+    "Existing operator recovery, no reset or manual result rewrite. Original broken-control execution remains ERROR, not a qualifying detection."
+  ]
+}

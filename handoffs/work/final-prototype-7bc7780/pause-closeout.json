@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-17T10:57:13.533Z",
+  "pending_runs": [
+    {
+      "id": "09c0701c-bf82-4c69-9198-dd98b8208834",
+      "state": "NOT_RUN",
+      "document": {
+        "id": "09c0701c-bf82-4c69-9198-dd98b8208834",
+        "state": "NOT_RUN",
+        "request": {
+          "profile": "rehearsal",
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "fixture_id": "aster-birch-v1"
+        },
+        "build_id": "bnT12a1F-IJPzS63CNXqZ",
+        "assertions": [],
+        "started_at": null,
+        "finished_at": null,
+        "contract_version": "0.5.0",
+        "expected_fault_detection": false
+      }
+    }
+  ],
+  "active_runtime": [],
+  "temporary_root_removed": true,
+  "readiness": "NOT_READY",
+  "reason": "Human requested pause to conserve credits"
+}
