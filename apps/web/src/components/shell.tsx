@@ -110,6 +110,7 @@ export const WORKSPACE_NAV: NavItem[] = [
   { href: '/workspace/control-map', label: 'Control map' },
   { href: '/workspace/policy-preview', label: 'Policy preview' },
   { href: '/workspace/capabilities', label: 'Capabilities' },
+  { href: '/workspace/test-lab', label: 'Test Lab' },
   { href: '/workspace/sign-in', label: 'Staff sign in' },
 ];
 
