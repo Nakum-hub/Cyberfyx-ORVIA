@@ -57,14 +57,23 @@ export function qualifiedSourcePaths(lsFilesOutput) {
 }
 
 /**
+ * Repository-relative path from one `git status --porcelain` line.
+ *
+ * Callers routinely `.trim()` the whole command output, which strips the leading
+ * status column from the *first* line when its index status is a space (` M
+ * path`). A fixed `slice(3)` then reads that line three characters into the
+ * path and misclassifies it — so the first entry could always be judged against
+ * the wrong prefix. Matching the status column instead handles both forms.
+ */
+export function statusPath(line) {
+  return line.replace(/^.{0,2}\s+/, '').split(' -> ').at(-1)?.replace(/^"|"$/g, '');
+}
+
+/**
  * True when a qualified source path is modified, staged or deleted relative to
  * HEAD, or when an untracked file sits inside the qualified tree. Evidence,
  * artifact and document churn no longer reports the source as dirty.
  */
 export function qualifiedDirty(porcelainOutput) {
-  return porcelainOutput.split(/\r?\n/).some(line => {
-    if (!line.trim()) return false;
-    const path = line.slice(3).split(' -> ').at(-1)?.replace(/^"|"$/g, '');
-    return isQualifiedSource(path);
-  });
+  return porcelainOutput.split(/\r?\n/).some(line => line.trim() && isQualifiedSource(statusPath(line)));
 }

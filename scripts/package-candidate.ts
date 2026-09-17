@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync,writeFileSync,mkdirSync,readdirSync,existsSync,createReadStream } from 'node:fs';
 import { resolve,relative } from 'node:path';
 import { liveState,sourceState } from './source-state.ts';
+import { statusPath } from './source-paths.mjs';
 import { loadProfile } from '../packages/testing/src/config.ts';
 import { CONTRACT_VERSION,COMMAND_SCHEMA_VERSION } from '../packages/contracts/src/index.ts';
 import { writeEvidence } from '../packages/testing/src/evidence.ts';
@@ -11,7 +12,10 @@ const p=loadProfile();if(p.profile!=='rehearsal'||process.argv[2]!=='confirm:reh
 const cli=promisify(execFile);const run=async(command:string,args:string[])=>(await cli(command,args,{windowsHide:true,maxBuffer:8*1024*1024})).stdout.trim();
 const hash=async(path:string)=>{const digest=createHash('sha256');for await(const chunk of createReadStream(path))digest.update(chunk);return digest.digest('hex');};
 const source=sourceState();
-const dirty=(await run('git',['status','--porcelain','--untracked-files=all'])).split(/\r?\n/).filter(line=>line&&!line.slice(3).startsWith('handoffs/')&&!line.slice(3).startsWith('artifacts/'));
+// Deliberately stricter than qualifiedDirty: packaging refuses any uncommitted
+// change outside the evidence trees, documents included. statusPath keeps the
+// first porcelain line from being misread once the output has been trimmed.
+const dirty=(await run('git',['status','--porcelain','--untracked-files=all'])).split(/\r?\n/).filter(line=>{const path=statusPath(line)??'';return line&&!path.startsWith('handoffs/')&&!path.startsWith('artifacts/');});
 if(dirty.length)throw new Error('Commit candidate source/document changes before packaging');
 const tracked=(await run('git',['ls-tree','-r','--name-only','HEAD'])).split(/\r?\n/);
 if(tracked.some(path=>/^(?:\.local|node_modules|\.git)\//.test(path)||/(?:^|\/)\.env(?:\.|$)/.test(path)&&path!=='.env.example'||/(?:^|\/)(?:server-key\.pem|postgres-password)$/.test(path)))throw new Error('Forbidden local material in candidate tree');
