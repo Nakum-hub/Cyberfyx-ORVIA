@@ -1,0 +1,2 @@
+$ tsx scripts/package-candidate.ts "confirm:rehearsal"
+Artifact: handoffs/codex/artifacts/A07-package-1789617372376-53c4dcc6-bec0-471a-8368-dcd188583513.json

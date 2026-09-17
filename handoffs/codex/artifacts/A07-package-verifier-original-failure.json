@@ -1,0 +1,15 @@
+{
+  "task_id": "A07",
+  "recorded_at": "2026-09-17T03:57:50.868967+00:00",
+  "command": [
+    "python",
+    "handoffs/codex/artifacts/A07-package-verifier.py"
+  ],
+  "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA",
+  "exit_code": 1,
+  "result": "FAIL",
+  "python": "3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]",
+  "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+  "observation": "AttributeError: module hashlib has no attribute file_digest. Failed before clone or package mutation.",
+  "correction": "Use streaming hashlib.sha256 supported by the actual Python interpreter. Package/source bytes unchanged; this affects only the independent artifact verifier."
+}

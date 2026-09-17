@@ -1,0 +1,227 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T03:49:37.176Z",
+  "test_ids": [
+    "T10",
+    "T11",
+    "T12",
+    "T13"
+  ],
+  "contract_version": "0.4.1",
+  "profile": "rehearsal",
+  "assertions": [
+    {
+      "name": "protected machine setup completed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "synthetic target initially has marketing membership",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "observer cannot mutate target",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "withdrawal is accepted with worker stopped",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "injected stop after real Temporal acceptance",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "outbox delivery marker rolled back",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "Temporal retained accepted workflow despite DB rollback",
+      "result": "PASS",
+      "expected": "RUNNING",
+      "actual": "RUNNING"
+    },
+    {
+      "name": "dispatcher resumes stable workflow identity",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "duplicate dispatcher pass creates no new work",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "real worker derived signed command",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "worker process stopped before target execution",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "target unchanged before agent mutation",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "agent actually removed synthetic membership",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "target recorded current withdrawal epoch",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "scoped workflow endpoint returns live record",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "independent scoped read completes required outcome",
+      "result": "PASS",
+      "expected": "COMPLETED",
+      "actual": "COMPLETED"
+    },
+    {
+      "name": "observation is separate from provider acknowledgement",
+      "result": "PASS",
+      "expected": "SCOPED_READ",
+      "actual": "SCOPED_READ"
+    },
+    {
+      "name": "receipt retained as execution evidence",
+      "result": "PASS",
+      "expected": "ACKNOWLEDGED",
+      "actual": "ACKNOWLEDGED"
+    },
+    {
+      "name": "same command resumes original receipt",
+      "result": "PASS",
+      "expected": {
+        "command_id": "efb7c9a6-0b27-4b2b-a428-e6c25184fc9d",
+        "command_digest": "9f1c8694d3afb4e9aac446b8821e076d674567ece7c853ae9e6977b801172a07",
+        "attempt_id": "62d74fe7-2dbc-4ada-917f-6fdf0beac24e",
+        "execution_state": "ACKNOWLEDGED",
+        "recorded_at": "2026-09-17T03:49:23.762Z",
+        "reason_code": "APPLIED",
+        "target_generation": 1
+      },
+      "actual": {
+        "command_id": "efb7c9a6-0b27-4b2b-a428-e6c25184fc9d",
+        "command_digest": "9f1c8694d3afb4e9aac446b8821e076d674567ece7c853ae9e6977b801172a07",
+        "attempt_id": "62d74fe7-2dbc-4ada-917f-6fdf0beac24e",
+        "execution_state": "ACKNOWLEDGED",
+        "recorded_at": "2026-09-17T03:49:23.762Z",
+        "reason_code": "APPLIED",
+        "target_generation": 1
+      }
+    },
+    {
+      "name": "command replay does not mutate target again",
+      "result": "PASS",
+      "expected": "2026-09-17T03:49:23.724Z",
+      "actual": "2026-09-17T03:49:23.724Z"
+    },
+    {
+      "name": "agent rejects tampered scope before effect",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "agent independently rejects another installation",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "same command ID with changed signed body rejected",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "expired new command rejected",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "generation mismatch produces known failed execution",
+      "result": "PASS",
+      "expected": "STALE_GENERATION",
+      "actual": "STALE_GENERATION"
+    },
+    {
+      "name": "nonce replay with another command ID rolls back",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "all rejected commands preserve last target mutation",
+      "result": "PASS",
+      "expected": "2026-09-17T03:49:23.724Z",
+      "actual": "2026-09-17T03:49:23.724Z"
+    },
+    {
+      "name": "stale withdrawal cannot act after fresh consent",
+      "result": "PASS",
+      "expected": "STALE_EPOCH",
+      "actual": "STALE_EPOCH"
+    },
+    {
+      "name": "fresh grant does not silently reactivate target",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "old evidence is not current completion after epoch changes",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "portal receipt does not turn stale completion green",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "human session cannot poll machine commands",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Synthetic CRM only; simulator faults, send admission and target restore are later increments. No browser acceptance claim."
+  ]
+}
