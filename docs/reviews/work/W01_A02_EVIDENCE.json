@@ -1,0 +1,90 @@
+{
+  "task_id": "W01",
+  "kind": "WORK_REVIEW",
+  "coverage": "A02_FOUNDATION_ONLY",
+  "recorded_at": "2026-09-16T15:56:50.267359+00:00",
+  "decision": "A02_CORRECTION_REQUIRED",
+  "w01_status": "BLOCKED",
+  "source_commit": "a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b",
+  "implementation_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+  "submission_commit": "2e01b7a36d663382d82ec9310bd707f1c2d405ef",
+  "integration_commit": "004fe3dc43e3a278caeb9c4e4983e7e58a825b9f",
+  "contract_version": "0.3.0",
+  "accepted_contract_baseline": "0.2.1",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "review_document": "docs/reviews/work/W01_A02_REVIEW.md",
+  "handoff": "handoffs/work/W01-A02-a5b6ff7.md",
+  "fix_prompt": "docs/reviews/work/W01_A02_CODEX_FIX.md",
+  "findings": [
+    {
+      "id": "W01-A02-F01",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "task": "A02",
+      "owner": "codex",
+      "evidence_type": "SOURCE_REVIEW",
+      "runtime_reproduction_status": "NOT_RUN",
+      "files": [
+        "packages/domain/src/configuration.ts",
+        "packages/domain/src/consent.ts",
+        "packages/domain/src/transaction.ts",
+        "apps/web/src/server/business.ts",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "evidence": "Publication and interaction expiry predicates use expires_at>now() across lock waits. PostgreSQL now() is fixed at transaction start; interaction checking also precedes a later publication wait.",
+      "expected": "Reject expired new proof/interaction at consumption after relevant waits, with no committed business effect; preserve original authorized committed replay.",
+      "reproduction": "Hold the relevant synthetic lock; start a real request before a test-owned proof/interaction expires; release after expiry within query timeout; observe database effects and response. Not executed by Work.",
+      "retest": "Fresh/expired/lock-wait expiry, late shared-publication wait, no-effect rollback, exact committed replay, existing auth/scope/MFA/epoch/concurrency controls on corrected source.",
+      "sql_control": "docs/reviews/work/repro/W01-A02-F01-expiry.sql",
+      "sql_control_status": "NOT_RUN",
+      "reference": "https://www.postgresql.org/docs/17/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT"
+    }
+  ],
+  "producer": {
+    "publication": "handoffs/codex/A02-publication.json",
+    "artifact_hashes_verified": 50,
+    "exact_source_report_count": 2,
+    "source_files_per_exact_report": 141,
+    "consent_assertions": 49,
+    "auth_assertions": 87,
+    "prior_command_failures_retained": 3,
+    "rerun_by_work": false,
+    "source_identity_limit": "Only final contract and consent reports are exact-commit; earlier dirty-source identities and mismatches are preserved in the source audit."
+  },
+  "independent_work": {
+    "runtime": "Linux Node 24.21.0 / pnpm 12.4.2; no application service/profile",
+    "reports": [
+      "docs/reviews/work/artifacts/W01-A02-a5b6ff7/install.json",
+      "docs/reviews/work/artifacts/W01-A02-a5b6ff7/unit.json",
+      "docs/reviews/work/artifacts/W01-A02-a5b6ff7/contracts.json",
+      "docs/reviews/work/artifacts/W01-A02-a5b6ff7/typecheck.json",
+      "docs/reviews/work/artifacts/W01-A02-a5b6ff7/lint.json",
+      "docs/reviews/work/artifacts/W01-A02-a5b6ff7/source-audit.json"
+    ],
+    "unit_passed": 11,
+    "source_audit_command": [
+      "python",
+      "docs/reviews/work/repro/W01-A02-source-audit.py"
+    ],
+    "source_audit_exit_code": 0
+  },
+  "partial_test_ids": [
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T27"
+  ],
+  "full_application_status": "T01-T34 NOT_RUN",
+  "a03_reported_state": "User reports coding underway; Codex continuation handoff records human serial-implementation instruction. No A03 source reviewed or accepted in this checkpoint.",
+  "limitations": [
+    "F01 is source-evidenced, not an executed Work PostgreSQL/HTTP failure.",
+    "A01 remains accepted. A02 and W01 require correction/retest; A03 acceptance remains dependent.",
+    "No full scenario, internal-demo or production security/legal/release approval.",
+    "Cowork integration observed, not substantive acceptance in this checkpoint."
+  ]
+}

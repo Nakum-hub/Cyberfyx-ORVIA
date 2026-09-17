@@ -1,0 +1,92 @@
+{
+  "kind": "WORK_PREPARATION_VALIDATION",
+  "coverage": "DOCUMENT_ONLY",
+  "source_commit": "4eb346f0974bb38abcc541744cc57bdf87428f1a",
+  "source_dirty": true,
+  "reviewed_application_snapshot": "a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b",
+  "reviewed_implementation_commit": "3242521e59966885d8053747a82d96cb92ea55d5",
+  "contract_version": "0.3.0",
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "cwd": "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-a01-review",
+  "started_at": "2026-09-16T16:25:49.151917+00:00",
+  "finished_at": "2026-09-16T16:25:49.157263+00:00",
+  "exit_code": 0,
+  "result": "PASS",
+  "artifact_path": "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/initial-whitespace-check.log",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "input_files": [
+    {
+      "path": "CURRENT_STATE.md",
+      "sha256": "91c794789e79d8617d152a41e63718b9edb0d0c66158f8814417fcd58b42ea13"
+    },
+    {
+      "path": "docs/prototype/ACCEPTANCE.md",
+      "sha256": "9c14ed70b58c092f52c04a3cd89b774507936a9b8aa4efc6b5a2e8dc9e47f320"
+    },
+    {
+      "path": "docs/prototype/TASK_BOARD.md",
+      "sha256": "77b90dd27d296df711dc1e28ff4b2783da02cd2bcd80e1355e8dc22ff3b2884d"
+    },
+    {
+      "path": "docs/reviews/work/AUTH_AND_CONSENT.md",
+      "sha256": "7bd776ea5e93b22431b19dd1e379077e94b3b3e49fbc6e1c53305fb777c6f6df"
+    },
+    {
+      "path": "docs/reviews/work/FINAL_GATE_REPORT.md",
+      "sha256": "88210d8d85d5fffb398606b28b07830a477b53d20ff9b839b8602a4076fe94f4"
+    },
+    {
+      "path": "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
+      "sha256": "6f4b274ff240689dc4d7fe17711b3f333cf99d0a14d123d096690fb16dfdb968"
+    },
+    {
+      "path": "docs/reviews/work/W01_A02_CODEX_FIX.md",
+      "sha256": "40b950faaf2fe01d42d59a24abd9c9c9f562b39d8930a2b9203dc26d38b69e10"
+    },
+    {
+      "path": "docs/reviews/work/W01_W03_PREPARATION.json",
+      "sha256": "42f260f1dafe2dffe9cef960f7f1eebd746cac822f1aaace42cf78583f047e39"
+    },
+    {
+      "path": "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+      "sha256": "f9598f2e161678791f3d5f112268b1f385b280ee5b0d85b314aa7cf7bcb013e2"
+    },
+    {
+      "path": "docs/reviews/work/repro/W01-W03-document-check.py",
+      "sha256": "4776aee7db1b5387ae4a62448a83b0a91b23efc80f406d791c47a7f102992376"
+    },
+    {
+      "path": "handoffs/work/W01-preparation-a5b6ff7.md",
+      "sha256": "796504697465c8022304db770dced2c10012e96e3f82af58bcae1ca45a2059cb"
+    },
+    {
+      "path": "handoffs/work/W02-preparation-a5b6ff7.md",
+      "sha256": "f1b121c5fba528c1f0f9213ab0f524f529e40f16d8824de82c11cba31cbaf400"
+    },
+    {
+      "path": "handoffs/work/W03-preparation-a5b6ff7.md",
+      "sha256": "e5db943e4124d345360ef1ed06179aa833c56af3288bf3e632a1bd5e839b889f"
+    },
+    {
+      "path": "scripts/tracking.ts",
+      "sha256": "bbf82797d2a5f120540a4e9ee1cb8f3025660ad58b395867350e3d7f866e1430"
+    },
+    {
+      "path": "scripts/validate-tracking.ts",
+      "sha256": "b566d36482f7a658b8aabfcdb629df8867633ab74779b3b6f4a774c21858780a"
+    },
+    {
+      "path": "tracking/acceptance.json",
+      "sha256": "477949910fb48fa750a74124aed751911401802310b7e2c0dcf75716f1f801be"
+    },
+    {
+      "path": "tracking/tasks.json",
+      "sha256": "fe971b0a51e132136ae2ef6ad32c7023ea8c2d937598e3aaf6db89b704f7f6b7"
+    }
+  ],
+  "application_tests_executed": false
+}

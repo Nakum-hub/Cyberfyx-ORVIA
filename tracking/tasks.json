@@ -85,7 +85,7 @@
     },
     {
       "id": "C00",
-      "owner": "cowork",
+      "owner": "work",
       "priority": "P0",
       "title": "Prepare UX and leadership scenario",
       "start_dependencies": [],
@@ -97,13 +97,15 @@
       ],
       "deliverable": "Define readable screens, state copy and synthetic scenario without waiting for backend; do not redesign shared contracts.",
       "test_ids": [],
-      "status": "NOT_STARTED",
+      "status": "IN_REVIEW",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "B00",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Build UI shell from shared scaffold",
       "start_dependencies": [
@@ -149,13 +151,18 @@
         "T05",
         "T27"
       ],
-      "status": "NOT_STARTED",
-      "commit": null,
-      "evidence": []
+      "status": "COMPLETED",
+      "commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+      "evidence": [
+        "handoffs/codex/A01-publication.json",
+        "docs/reviews/work/AUTH_AND_CONSENT.md",
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/work/W01-A01-50cb4da.md"
+      ]
     },
     {
       "id": "B01",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Real login and configuration screens",
       "start_dependencies": [
@@ -205,13 +212,18 @@
         "T09",
         "T10"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/A02-publication.json",
+        "docs/reviews/work/W01_A02_REVIEW.md",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/work/W01-A02-a5b6ff7.md"
+      ]
     },
     {
       "id": "B02",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Principal consent journey",
       "start_dependencies": [
@@ -249,7 +261,29 @@
       ],
       "planned_paths": [
         "docs/reviews/work/AUTH_AND_CONSENT.md",
-        "CURRENT_STATE.md"
+        "CURRENT_STATE.md",
+        "docs/reviews/work/W01_A01_CODEX_NEXT.md",
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "docs/reviews/work/artifacts/W01-A01-50cb4da/**",
+        "docs/reviews/work/repro/W01-A01-source-audit.py",
+        "handoffs/work/W01-A01-50cb4da.md",
+        "tracking/tasks.json",
+        "tracking/acceptance.json",
+        "docs/prototype/TASK_BOARD.md",
+        "docs/prototype/ACCEPTANCE.md",
+        "docs/prototype/CONTRACT.md",
+        "docs/reviews/work/W01_A02_REVIEW.md",
+        "docs/reviews/work/W01_A02_CODEX_FIX.md",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "docs/reviews/work/artifacts/W01-A02-a5b6ff7/**",
+        "docs/reviews/work/repro/W01-A02-source-audit.py",
+        "docs/reviews/work/repro/W01-A02-F01-expiry.sql",
+        "handoffs/work/W01-A02-a5b6ff7.md",
+        "handoffs/work/W01-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+        "docs/reviews/work/repro/W01-W03-document-check.py",
+        "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**"
       ],
       "deliverable": "Review server scope, transaction/replay guarantees, role checks and API/UI compatibility; return bounded findings, no code takeover.",
       "test_ids": [
@@ -259,9 +293,18 @@
         "T08",
         "T09"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/AUTH_AND_CONSENT.md",
+        "docs/reviews/work/W01_A01_EVIDENCE.json",
+        "handoffs/work/W01-A01-50cb4da.md",
+        "docs/reviews/work/W01_A02_REVIEW.md",
+        "docs/reviews/work/W01_A02_EVIDENCE.json",
+        "handoffs/work/W01-A02-a5b6ff7.md",
+        "handoffs/work/W01-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json"
+      ]
     },
     {
       "id": "A03",
@@ -286,9 +329,12 @@
         "T12",
         "T13"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/A02-A07-continuation.md",
+        "docs/reviews/work/W01_A02_EVIDENCE.json"
+      ]
     },
     {
       "id": "A04",
@@ -348,7 +394,7 @@
     },
     {
       "id": "B03",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Live workflow, failures, dashboard and evidence",
       "start_dependencies": [
@@ -380,7 +426,7 @@
     },
     {
       "id": "C01",
-      "owner": "cowork",
+      "owner": "work",
       "priority": "P0",
       "title": "Capability truthfulness and operator runbook",
       "start_dependencies": [
@@ -397,9 +443,11 @@
       ],
       "deliverable": "Map full module vision to actual tested depth; record real setup commands only from engineering handoffs; prepare truthful question/answer notes.",
       "test_ids": [],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "A06",
@@ -448,7 +496,7 @@
     },
     {
       "id": "B04",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Test Lab and integrated browser acceptance",
       "start_dependencies": [
@@ -493,7 +541,16 @@
       ],
       "planned_paths": [
         "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
-        "CURRENT_STATE.md"
+        "CURRENT_STATE.md",
+        "handoffs/work/W02-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+        "docs/reviews/work/repro/W01-W03-document-check.py",
+        "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**",
+        "tracking/tasks.json",
+        "tracking/acceptance.json",
+        "docs/prototype/TASK_BOARD.md",
+        "docs/prototype/ACCEPTANCE.md"
       ],
       "deliverable": "Read exact commit/results, challenge unknown/verified/recovery/egress claims, triage blockers and route fixes to owners.",
       "test_ids": [
@@ -507,9 +564,13 @@
         "T25",
         "T26"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/INTEGRATION_AND_SECURITY.md",
+        "handoffs/work/W02-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json"
+      ]
     },
     {
       "id": "A08",
@@ -540,7 +601,7 @@
     },
     {
       "id": "B05",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P1",
       "title": "UI for the selected optional slice",
       "start_dependencies": [
@@ -593,7 +654,7 @@
     },
     {
       "id": "B06",
-      "owner": "code",
+      "owner": "codex",
       "priority": "P0",
       "title": "Final UI fixes and candidate browser regression",
       "start_dependencies": [
@@ -619,7 +680,7 @@
     },
     {
       "id": "C02",
-      "owner": "cowork",
+      "owner": "work",
       "priority": "P0",
       "title": "Prepare evidence-backed presentation handover",
       "start_dependencies": [
@@ -638,9 +699,11 @@
       "test_ids": [
         "T30"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/work/C00-C02-r4-delivery.md"
+      ]
     },
     {
       "id": "W03",
@@ -657,15 +720,28 @@
       ],
       "planned_paths": [
         "docs/reviews/work/FINAL_GATE_REPORT.md",
-        "CURRENT_STATE.md"
+        "CURRENT_STATE.md",
+        "handoffs/work/W03-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "docs/reviews/work/WORK_REVIEW_QUEUE.md",
+        "docs/reviews/work/repro/W01-W03-document-check.py",
+        "docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**",
+        "tracking/tasks.json",
+        "tracking/acceptance.json",
+        "docs/prototype/TASK_BOARD.md",
+        "docs/prototype/ACCEPTANCE.md"
       ],
       "deliverable": "Confirm exact candidate, all mandatory evidence, source/contract versions and limitations; recommend READY/PARTIAL/NOT_READY; human signs.",
       "test_ids": [
         "T30"
       ],
-      "status": "NOT_STARTED",
+      "status": "BLOCKED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "docs/reviews/work/FINAL_GATE_REPORT.md",
+        "handoffs/work/W03-preparation-a5b6ff7.md",
+        "docs/reviews/work/W01_W03_PREPARATION.json"
+      ]
     }
   ]
 }

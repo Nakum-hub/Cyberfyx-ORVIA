@@ -1,0 +1,83 @@
+{
+  "task_id": "W01",
+  "kind": "WORK_REVIEW",
+  "coverage": "A01_FOUNDATION_ONLY",
+  "recorded_at": "2026-09-16T15:37:02.929386+00:00",
+  "decision": "ACCEPTED_A01",
+  "w01_status": "IN_PROGRESS",
+  "base_commit": "e1fa052c6c419e90c4783ce220dee2ef247472dc",
+  "source_commit": "50cb4daeded9253c4f7cca4f742cb212c10aa5b7",
+  "implementation_commit": "3be3fd09c358ac851b97a381f9a856f8f0a92177",
+  "submission_commit": "2686474a56ed774780e84179ac60457943dc075d",
+  "contract_version": "0.2.1",
+  "master_sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6",
+  "review_document": "docs/reviews/work/AUTH_AND_CONSENT.md",
+  "handoff": "handoffs/work/W01-A01-50cb4da.md",
+  "blocking_findings": [],
+  "a01_fix_prompt_required": false,
+  "producer": {
+    "publication": "handoffs/codex/A01-publication.json",
+    "profile": "codex-a00",
+    "fixture_id": "aster-birch-v1",
+    "build_id": "7lbFfFolBo_kmvKFWs1mW",
+    "security": {
+      "path": "handoffs/codex/artifacts/A01-auth-security-1789569066117-5942b6f6-7815-4657-9659-ab21f9fd8091.json",
+      "assertions": 87,
+      "result": "PASS"
+    },
+    "unit": {
+      "passed": 11,
+      "failed": 0
+    },
+    "exact_commit_reports": [
+      "handoffs/codex/artifacts/A01-build-2026-09-16T14-27-24.195Z.json",
+      "handoffs/codex/artifacts/A01-contracts-check-2026-09-16T14-27-35.327Z.json",
+      "handoffs/codex/artifacts/A01-db-migrate-2026-09-16T14-31-04.034Z.json",
+      "handoffs/codex/artifacts/A01-hygiene-check-2026-09-16T14-29-56.612Z.json",
+      "handoffs/codex/artifacts/A01-lint-2026-09-16T14-28-34.861Z.json",
+      "handoffs/codex/artifacts/A01-preflight-2026-09-16T14-32-32.598Z.json",
+      "handoffs/codex/artifacts/A01-test-2026-09-16T14-27-36.321Z.json",
+      "handoffs/codex/artifacts/A01-test-auth-2026-09-16T14-29-46.339Z.json",
+      "handoffs/codex/artifacts/A01-typecheck-2026-09-16T14-28-34.862Z.json",
+      "handoffs/codex/artifacts/A01-web-smoke-2026-09-16T14-32-30.670Z.json"
+    ],
+    "artifact_hashes_verified": 99,
+    "source_files_verified_per_report": 131,
+    "prior_command_failures_retained": 3,
+    "rerun_by_work": false
+  },
+  "independent_work": {
+    "runtime": "Linux; Node 24.21.0 / pnpm 12.4.2; no application service/profile",
+    "reports": [
+      "docs/reviews/work/artifacts/W01-A01-50cb4da/install.json",
+      "docs/reviews/work/artifacts/W01-A01-50cb4da/unit.json",
+      "docs/reviews/work/artifacts/W01-A01-50cb4da/contracts.json",
+      "docs/reviews/work/artifacts/W01-A01-50cb4da/typecheck.json",
+      "docs/reviews/work/artifacts/W01-A01-50cb4da/lint.json",
+      "docs/reviews/work/artifacts/W01-A01-50cb4da/source-audit.json"
+    ],
+    "unit_passed": 11,
+    "source_audit_command": [
+      "python",
+      "docs/reviews/work/repro/W01-A01-source-audit.py"
+    ],
+    "source_audit_exit_code": 0
+  },
+  "partial_test_ids": [
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T27"
+  ],
+  "full_application_status": "T01-T34 NOT_RUN",
+  "next_codex_task": "A02",
+  "next_prompt": "docs/reviews/work/W01_A01_CODEX_NEXT.md",
+  "limitations": [
+    "W01 acceptance still requires A02.",
+    "Producer runtime evidence reviewed; no Work Docker/PostgreSQL/OPA/Next HTTP/MFA rerun.",
+    "Full browser, dependency advisory, TLS/egress/reset/recovery/rehearsal gates remain.",
+    "No internal-demo or production security/legal/release approval.",
+    "No A01 repair finding; later gates do not authorize coding-lane takeover."
+  ]
+}

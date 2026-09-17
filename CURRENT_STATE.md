@@ -1,32 +1,43 @@
 # ORVIA — current execution state
 
-**Writer:** Work · **Checkpoint:** W00 acceptance / A00 retest · **Date:** 2026-09-16
+**Writer:** Work · **Checkpoint:** C00 source/copy handoff completed and submitted; A05 intake; candidate gates open · **Date:** 2026-09-16
 
 | Field | Current evidence / decision |
 |---|---|
-| Reviewed integration | main at 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe; human merged PR #5 at 13:06:04 UTC |
-| Source / contract | Approved master revision 1.3 committed under docs/source; SHA-256 527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6 verified in Git and checkout. Plan 1.0; executable contract 0.2.1 accepted |
-| Implementation identity | Correction 732f4f50142e9b6bbe37187b07da04e3341b9621; submission aa831cdfc2051599ab812e20287664c34f30a15c; submission and integration trees identical |
-| Accepted tasks | W00 review: 425f079bc74e897d8ee97fa56faeea50e42ac46f. A00 implementation: 58ceddcd73b9b9f0717553bbd1e2fff3f7389abe. Canonical ledger: both COMPLETED |
-| Work publication | prototype/work/W00-a00-retest; separate tracking commit records the exact reviewed commit. Prior PR #4 was closed unmerged; this acceptance supersedes its gate disposition |
-| Profile / scope | CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal; existing stack preserved; custom AI DEFERRED_V2; no P1 promoted |
-| Owners | Work: decisions/reviews/trackers/views/state/common template. Codex: executable schemas/dependencies/core/infra/tests/seed. Claude Code: UI/browser. Cowork: UX/capability/demo/runbooks. Human: source originals/access/system approvals/merges/release |
-| Effective UI transfer | A00 layout.tsx and page.tsx transfer to Claude Code/B00 on accepted base once human integrates shared record; Codex retains health/API/server/auth/configuration/manifests |
-| Independent executed results | Pinned offline install; F07 four-control retest; 11 unit tests; typecheck/lint; generated drift (8 artifacts, 37 routes, 7 errors); master/manifest/provenance checks PASS at 58ceddc |
-| Producer evidence | Original service/start/reset/build evidence remains bootstrap-only; correction's six post-commit reports match integrated source bytes. Prior failures retained. Work did not rerun services/PowerShell/build/browser/egress/recovery |
-| Full application results | T01–T34 all NOT_RUN: 30 P0 and 4 unpromoted P1. Partial bootstrap/domain evidence linked without result promotion |
-| Findings | F01 source/scaffold and F07 completion defect CLOSED. F02/F03/F04 CLOSED at A00 depth; real runtime/security tests remain future gates. F06 publication previously CLOSED |
-| Remaining facts | F05 actual R0/meeting deadline still unknown, nonblocking; Windows runtime inventory exists. C00 has no submitted artifact in this inspected repository; needed for B00 acceptance |
-| Isolation / later gates | UI ui-b00 and rehearsal separate from codex-a00; no Work service profile. Actual auth/scoping, consent races, current boundary, retry/observation, reset/recovery, egress/TLS remain implementation/testing tasks |
-| Readiness | A00 foundation ACCEPTED. Full internal demo NOT_READY; production security/legal/release NOT_ASSESSED |
-| Next ready tickets | Codex A01 and Claude Code B00 after human integrates this ledger; Cowork C00 independent. Work W01 is next, with acceptance after actual A01/A02 evidence |
-| Next merge | Human reviews/merges the Work acceptance/tracking PR. Implementation already integrated in PR #5. No Work merge, deployment or release |
+| Current integration / reviewed runtime | Inspected current main `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`: PR #19 A05 evidence/reconciliation and PR #18 Work r4 are human-merged; earlier PR #15–#17 work remains present. Includes A03 and PR #16 expiry correction (fix `2c85b3b4d16e09f83b41822500010022b371b72c`, evidence `794fa617a8e65efabc777da894fb1a217b4ea02e`, integration `c0ee94dc6c03c2c2ee90d84d3b40669dbcc04c17`). These are supplied for consolidated review, not accepted by this document. Last Work-reviewed application snapshot remains `a5b6ff73c4fca4aa02e110ee5f11a121b1a7563b`. |
+| Source / contract | Master rev 1.3: 850752 bytes, SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6` independently verified. Original 33-module capability register restored exactly from verified v1 kit. Plan 1.0 and ADR-001 retained. Accepted contract 0.2.1; executable transport 0.4.0 and signed command 0.3.0 await consolidated Work review. |
+| Exact Work reviews / publication | Existing accepted W00/A00/A01 reviews and prior W01–W03 preparation remain historical evidence at their original identities. PR #12 and the subsequent publication ledger are already integrated in current main. PR #18 delivery `dbad932fc93e9172cabe0b40888f52fca4938ae6` was human-merged at `95ada0aaa7e803ede3b7dd0d1b39b7be9a52d499`. Current document continuation branch: `prototype/work/cowork-c-completion`. Merge is distinct from task/contract/runtime acceptance. |
+| Owners | Work: sole canonical writer and former-Cowork UX/copy/capability/demo/runbooks/document tools/C00–C02; Codex: all application engineering plus transferred UI/component/browser B IDs; human: approvals/merge/release. Human-authorised transfer: `handoffs/work/C00-C02-r4-owner-transfer.md`. |
+| Accepted tasks | W00 `425f079bc74e897d8ee97fa56faeea50e42ac46f`; A00 `58ceddcd73b9b9f0717553bbd1e2fff3f7389abe`; A01 `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`. Only these three are COMPLETED. |
+| Work deliverables | W01 authority/consent closure matrix; W02 integrated failure/security/recovery matrix; W03 current NOT_READY report, final evidence/freeze/rehearsal rules; consolidated intake and three template handoffs prepared. W01/W02/W03 acceptance BLOCKED. |
+| Blocking review | W01-A02-F01 expiry correction and Codex retest are now supplied by merged PR #16. Work consolidated semantic/contract/result review remains pending; no new Work PostgreSQL/HTTP/SQL-control execution or A02 acceptance. Historical finding is not erased. |
+| Executed results | Historical Work A01/A02 pinned offline install, 11 unit tests per snapshot, contracts/typecheck/lint and provenance checks passed; earlier W01–W03 preparation executed document/trackers only (137 documentary assertions and 23-task/34-definition validation passed; historical records under `docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/`). r4 document checks are recorded in docs/reviews/cowork/VALIDATION.md. No new application execution. |
+| Producer evidence limits | A01 87 assertions and A02 49 consent assertions reviewed; A02 50 artifact hashes verified; two final reports match all 141 source files. Earlier dirty-source build/auth/lint/hygiene/unit/type identities and three command failures remain retained. No Work service/browser/recovery/egress rerun. |
+| Canonical acceptance | T01–T34 NOT_RUN: 30 P0, four unpromoted P1. Partial results are linked at their original scope. A source finding is not an executed scenario FAIL; document preparation is not PASS. |
+| Authorized continuation | Human requested advance W01–W03 documents and later consolidated review; Codex continuation records A02–A07 serial coding. A03 source/publication are now present and human-merged; only metadata/contract-version intake completed, no implementation or result acceptance. BLOCKED denotes unresolved acceptance dependencies, not an instruction to discard authorized code. Graph unchanged. |
+| C-lane document delivery | C00 18-screen UX, 410 copy entries, 28 journeys and 12-step scenario plus critical-copy/source self-review completed and submitted; C01 genuine capability mapping, A05 operator instructions/claims and 221 original engineering command reports indexed; C02 presentation/checklist prepared, candidate-backed completion blocked. No application browser evidence or rehearsal accepted. B00 can start from accepted A00/layout transfer; C00 is required for its acceptance. |
+| Scope / isolation / time | CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal; AI DEFERRED_V2; no P1 or public deployment. No Work service/profile/reset. codex-a00/ui-b00/rehearsal stores and artifacts remain separate. Original remaining-time budget retained; exact R0/meeting deadline unknown. |
+| Readiness | Internal-demo NOT_READY; frozen candidate NOT_IDENTIFIED; two rehearsals NOT_RUN; human NOT_SIGNED. Production security/legal/supply-chain/full recovery NOT_ASSESSED and governed separately by the master. |
+| Next merge / action | Review the r4 Work PR and narrow Codex handoff. Codex completes existing B IDs and A06/A07 gaps; Work reviews supplied A02 correction and A03–A05 in the existing consolidated W01 → W02 → W03 process. Return exact candidate/results for C02. Human retains merge/release; no direct main push, deployment or automatic acceptance. |
 
-| Work ticket | Status | Evidence / remaining dependency |
+| Work ticket | Document deliverable | Acceptance / remaining gate |
 |---|---|---|
-| W00 | COMPLETED | [Acceptance review](docs/reviews/work/W00_A00_ACCEPTANCE.md), exact reports and [handoff](handoffs/work/W00-58ceddc.md) |
-| W01 | NOT_STARTED; eligible to start | Review actual A01/A02 authority/consent work as supplied; acceptance requires both |
-| W02 | NOT_STARTED | Start W01/A03; accept A04/A05/A06/B04 with integrated failure/security/recovery evidence |
-| W03 | NOT_STARTED | Start W02; accept A07/B06/C02 with exact frozen candidate, required tests and two rehearsals |
+| W00 | [Scope/ADR and A00 review](docs/reviews/work/W00_A00_ACCEPTANCE.md) complete | COMPLETED; existing accepted commit retained |
+| W01 | [Authority/consent](docs/reviews/work/AUTH_AND_CONSENT.md) and [handoff](handoffs/work/W01-preparation-a5b6ff7.md) ready | BLOCKED pending review of supplied A02 F01 correction/retest and executable 0.3.0 |
+| W02 | [Integration/security/recovery](docs/reviews/work/INTEGRATION_AND_SECURITY.md) and [handoff](handoffs/work/W02-preparation-a5b6ff7.md) ready | BLOCKED; start W01/A03, accept A04/A05/A06/B04 with actual results |
+| C00 | [UX/copy/journeys/scenario](handoffs/work/C00-C02-r4-delivery.md) revised | IN_REVIEW; self-review only, Codex consumer cross-check and human acceptance pending; no B00 dependency |
+| C01 | [Capability map/runbook/claims/evidence](handoffs/work/C00-C02-r4-delivery.md) independently refreshed | BLOCKED; C00 start dependency; A00 accepted, B00 acceptance pending |
+| C02 | [Presentation/release handover](handoffs/work/C00-C02-r4-delivery.md) prepared | BLOCKED; C01 then A07/B06 and actual candidate/T30 gates |
+| W03 | [Final gate report](docs/reviews/work/FINAL_GATE_REPORT.md) and [handoff](handoffs/work/W03-preparation-a5b6ff7.md) ready | BLOCKED; W02 then A07/B06/C02, exact frozen full evidence and two rehearsals |
 
-Work alone consolidates this state. Other lanes submit factual handoffs. Preserve the original task graph, separate source/review commits and failures/retests. A01 → A02 → A03 → A04/A05 → A06 → A07 remains gated; A07 acceptance requires W02. B00 acceptance needs C00. Generated views derive from canonical JSON. Human retains integration/release authority; no deadline reset, recurring scheduling or automatic orchestration is authorised.
+Work alone consolidates this compact record. Other lanes submit factual handoffs. Use [WORK_REVIEW_QUEUE](docs/reviews/work/WORK_REVIEW_QUEUE.md) and [the current Codex fix prompt](docs/reviews/work/W01_A02_CODEX_FIX.md). Preparation status is recorded separately in [W01_W03_PREPARATION.json](docs/reviews/work/W01_W03_PREPARATION.json); canonical task/test acceptance and human integration/release control are preserved.
+
+## r4 takeover checkpoint
+
+Inspected main: `0a2671640223087626d8e422396efb1363981ed9`; PR #15 merged, completing r3 individual-file import. No open PRs or current writer lease found at intake. Prior Work publication checkout was left untouched. This session is the single canonical Work writer on `prototype/work/cowork-r4-completion`. Historical application reviews retain their original scope. r4 document-tool regression execution and offline-pack inspection are reported separately in `docs/reviews/cowork/VALIDATION.md`. No task acceptance, application rerun or readiness promotion accompanies this transfer.
+
+Publication recheck found PR #17 merged at `2432a008539450725129d19ff5fc6c2eee488031`. The unpublished Work branch was rebased onto this nonoverlapping advance, preserving all incoming engineering files byte-for-byte. EV-SRC-005 remains the original takeover observation; EV-SRC-006 is the current source intake. No A04 acceptance is implied.
+
+## C completion continuation
+
+PR #18 is merged; the old branch is retired. The current sole Work writer continues on `prototype/work/cowork-c-completion`, based on `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac` (PR #19). EV-SRC-007 and `docs/reviews/cowork/artifacts/c-completion/source-intake.json` preserve the new inspection and 47 original A05 command reports (7 nonzero exits). Work authored the source-backed display decisions in `docs/reviews/work/C00-copy-source-review.md`; it did not independently approve its own work or run application scenarios. C00 has no application-completion dependency. C01 and C02 external acceptance gates remain as defined in tracking/tasks.json.

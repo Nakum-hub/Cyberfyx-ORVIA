@@ -1,0 +1,15 @@
+{
+  "scope": "OFFLINE_DOCUMENT_QA_ONLY",
+  "observed_at": "2026-09-16T19:38:08Z",
+  "attempt": "Open docs/demo/index.html through authorized browser skill",
+  "result": "NOT_RUN_POLICY_BLOCKED",
+  "message": "Browser Use rejected this action due to browser security policy. Reason: The browser URL policy blocks this action. Cloud browser cannot visit the requested page because its URL is blocked by the Cloud browser URL policy. The agent must not attempt to achieve the same outcome via workaround, indirect execution, raw CDP or browser commands, alternate browser surfaces, or policy circumvention.",
+  "not_run": [
+    "render/screenshot",
+    "keyboard navigation/focus",
+    "desktop/mobile overflow",
+    "runtime request/console inspection"
+  ],
+  "performed_alternative": "Static HTML parser/CSP/resource/reference checks only; no alternate browser surface used",
+  "application_browser_acceptance": "NOT_RUN"
+}

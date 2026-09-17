@@ -1,0 +1,807 @@
+{
+  "kind": "WORK_SOURCE_AND_PRODUCER_ARTIFACT_INSPECTION",
+  "author": "GPT Work, successor to Cowork",
+  "observed_at": "2026-09-16T20:12:06Z",
+  "base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "main_rechecked": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "branch": "prototype/work/cowork-c-completion",
+  "prior_work_publication": {
+    "pr": "https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/18",
+    "delivery_commit": "dbad932fc93e9172cabe0b40888f52fca4938ae6",
+    "human_merge_commit": "95ada0aaa7e803ede3b7dd0d1b39b7be9a52d499"
+  },
+  "a05_pr": "https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/19",
+  "a05_implementation_commit": "d94f525e19d6eaab0999b838a3ac9debef9860a9",
+  "sources": [
+    {
+      "path": "packages/domain/src/consent.ts",
+      "sha256": "7b3e6d37bfad77d53b6a2179275cc0ea88d20bf9cad9b392208b72086aa4f4ab",
+      "bytes": 8706
+    },
+    {
+      "path": "packages/domain/src/evidence.ts",
+      "sha256": "606bbec4aa9a392f6981d4fc682bd146c5d7504bc73817819e3e318ee9790d67",
+      "bytes": 11678
+    },
+    {
+      "path": "packages/domain/src/completion.ts",
+      "sha256": "c5b3622b545de10fd8887b2d8e5488c7d7d9d35360f151e5e98082cb62b98682",
+      "bytes": 1639
+    },
+    {
+      "path": "packages/domain/src/workflow.ts",
+      "sha256": "fcdf07dac81e79c735a68928cb984f35fe6ea8746a11f2be3b3712e37eef8296",
+      "bytes": 11533
+    },
+    {
+      "path": "packages/domain/src/processing.ts",
+      "sha256": "2106e9bb8e209977802ad00ad402adb0943eb0fe1e43a099eb34b92b2d8b847a",
+      "bytes": 8072
+    },
+    {
+      "path": "packages/policy-sdk/src/index.ts",
+      "sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b",
+      "bytes": 1120
+    },
+    {
+      "path": "policy/processing/decision.rego",
+      "sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807",
+      "bytes": 1081
+    },
+    {
+      "path": "apps/agent/src/execute.ts",
+      "sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
+      "bytes": 6391
+    },
+    {
+      "path": "packages/connectors/src/simulator.ts",
+      "sha256": "9a84ff76ecd58757754c452f6dcbd50c644ac6f695ae1f1e38c5a880059ce00a",
+      "bytes": 2914
+    },
+    {
+      "path": "packages/auth/src/client.ts",
+      "sha256": "d33c4a4f07800b576719748f04e9b1eb0cce013749e7e809ce0f642d9128fd89",
+      "bytes": 468
+    },
+    {
+      "path": "scripts/roles-init.ts",
+      "sha256": "e9f9446161ef01d345d0bba054348360051948bfd760d56258a8fe0801eb6a0a",
+      "bytes": 3073
+    },
+    {
+      "path": "scripts/simulator-fixture.ts",
+      "sha256": "411080a82e8cbd0498847880450a5355a3ce4ade1e8d1c556421ae6f63fea6ff",
+      "bytes": 1750
+    },
+    {
+      "path": "scripts/assign-manual.ts",
+      "sha256": "7de9435b1fe44e8c632e5add1cd2f892772519ffc8cdae1ae597c472c4a44a36",
+      "bytes": 2177
+    },
+    {
+      "path": "scripts/dev.ps1",
+      "sha256": "c61c2b9613da37c09003666f7c073b533dea95f4ad22fd33bc0e98c5cce34f23",
+      "bytes": 752
+    },
+    {
+      "path": "scripts/record.mjs",
+      "sha256": "f7691b8facedd50d343f4bb6775c0d79150748915a345277d7ef8cb84e15f66b",
+      "bytes": 3829
+    },
+    {
+      "path": "package.json",
+      "sha256": "f316a762cdc63bc7bcf47dd62f852d83534974683c10e84ccdea620e48931309",
+      "bytes": 2433
+    },
+    {
+      "path": "packages/contracts/generated/manifest.json",
+      "sha256": "31e8355eacc367beeae20f3b526877d2693f52de706ccb6df7ede7a3c7154545",
+      "bytes": 838
+    },
+    {
+      "path": "handoffs/codex/A05-d94f525.md",
+      "sha256": "f339d08c3f30030daaa12e839ebaf08f2f8b81d779748e9cb64e4b4f19aa4bcb",
+      "bytes": 6015
+    },
+    {
+      "path": "handoffs/codex/A05-publication.json",
+      "sha256": "6c1a88b0684db25f4db1581c3c32a092131e30e6021e800c05164c0ac6b36ee2",
+      "bytes": 43247
+    },
+    {
+      "path": "docs/engineering/A05-EVIDENCE-RECONCILIATION.md",
+      "sha256": "70462aeeaab112d79305fff046d0c6f7adc042ca3f2faa25cb7fa4722cbff3e6",
+      "bytes": 5911
+    }
+  ],
+  "producer_commands_added": 47,
+  "producer_nonzero_exits_added": 7,
+  "raw_assertion_reports": [
+    {
+      "path": "handoffs/codex/artifacts/A05-auth-security-1789587212695-4edfcef2-5dcb-44d0-826b-eb40836d44c1.json",
+      "sha256": "546cf0d446f84872f61c103c7c470d10347071476906478da222a1ad247be561",
+      "bytes": 13316,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 87
+      },
+      "recorded_at": "2026-09-16T19:33:32.695Z",
+      "profile": "codex-a00",
+      "build_id": "b438yM6PlIpiKWd7NzWaQ",
+      "contract_version": null,
+      "test_ids": [
+        "T02",
+        "T03",
+        "T04",
+        "T05",
+        "T27"
+      ],
+      "limitations": [
+        "A01 API/database coverage only. Own-consent endpoints, distinct policy publication, workflow/job/export scoping and browser flows remain later tickets.",
+        "HTTP loopback development; TLS and runtime egress qualification are not claimed."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-consent-integration-1789587443480-4fdc73ea-e587-4f7a-a243-8822e62a3f9e.json",
+      "sha256": "caab9f57d2fe4f077bf722dd57a04c5db697fdb2019ddf8bbc4f00475efafe20",
+      "bytes": 18759,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 50
+      },
+      "recorded_at": "2026-09-16T19:37:23.481Z",
+      "profile": "codex-a00",
+      "build_id": null,
+      "contract_version": "0.4.0",
+      "test_ids": [
+        "T06",
+        "T07",
+        "T08",
+        "T09",
+        "T10"
+      ],
+      "limitations": [
+        "T10 outbox transaction only; durable worker recovery belongs to A03. Browser acceptance remains Claude Code owned."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-evidence-integration-1789585901738-789cbb88-736b-4d9e-838c-1e88c7203be2.json",
+      "sha256": "93b9fc60e5712fc9c2cdc57fad3ce2ecfc43858d35ebec69ab300dd9469b6af0",
+      "bytes": 560,
+      "result": "FAIL",
+      "assertion_counts": {},
+      "recorded_at": "2026-09-16T19:11:41.738Z",
+      "profile": "codex-a00",
+      "build_id": "AjOEU72APulYQZRgZPSI8",
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "limitations": [
+        "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-evidence-integration-1789585976562-9be90815-7ae5-4d03-8dd5-283196e49cde.json",
+      "sha256": "8bc78626489e3bcf8a2f523e9a2b700b21d9e98f248b43c17c18d72e49aef8d0",
+      "bytes": 560,
+      "result": "FAIL",
+      "assertion_counts": {},
+      "recorded_at": "2026-09-16T19:12:56.562Z",
+      "profile": "codex-a00",
+      "build_id": "AjOEU72APulYQZRgZPSI8",
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "limitations": [
+        "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-evidence-integration-1789586122766-f89245ed-d3cf-44fa-903f-b40cab8bdafd.json",
+      "sha256": "35984dd62543a0d0e5db5505b911975935cad75fc2ea1d52845746a4a1198192",
+      "bytes": 10085,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 56
+      },
+      "recorded_at": "2026-09-16T19:15:22.766Z",
+      "profile": "codex-a00",
+      "build_id": "AjOEU72APulYQZRgZPSI8",
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "limitations": [
+        "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-evidence-integration-1789586326750-b9be676c-1839-41f6-b04a-bbd51bc89263.json",
+      "sha256": "1e71c39ebbd88bf25ff103af01394b06bd4419e91c6fc495b1ccefcbdef16e09",
+      "bytes": 560,
+      "result": "FAIL",
+      "assertion_counts": {},
+      "recorded_at": "2026-09-16T19:18:46.750Z",
+      "profile": "codex-a00",
+      "build_id": "-NggQ-LVUFgEhwblPgEbh",
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "limitations": [
+        "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-evidence-integration-1789586546654-da392078-8d9d-4e2d-8226-e9ed57eaea45.json",
+      "sha256": "cc5f256cf7b4dd4717e1c51a35537fb7387beab33b1df09fa8771d3ec78a39e0",
+      "bytes": 10925,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 60
+      },
+      "recorded_at": "2026-09-16T19:22:26.654Z",
+      "profile": "codex-a00",
+      "build_id": "-NggQ-LVUFgEhwblPgEbh",
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "limitations": [
+        "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-evidence-integration-1789587023044-3902a5c3-2f5b-4088-92a0-8332af7a95b3.json",
+      "sha256": "0a04201e19620894c10247163f45b31f37e6bc674e7255fda6c8266408a6a7b4",
+      "bytes": 11175,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 61
+      },
+      "recorded_at": "2026-09-16T19:30:23.044Z",
+      "profile": "codex-a00",
+      "build_id": "b438yM6PlIpiKWd7NzWaQ",
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "limitations": [
+        "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-evidence-integration-1789587916158-d22b2447-4862-41b6-900a-777f74fe931c.json",
+      "sha256": "dd7868e9928ef77cb0335101896cc304370b982813585d3b91ac92a536c6544b",
+      "bytes": 11637,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 63
+      },
+      "recorded_at": "2026-09-16T19:45:16.159Z",
+      "profile": "codex-a00",
+      "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+      "contract_version": "0.4.0",
+      "test_ids": [
+        "T13",
+        "T17",
+        "T18",
+        "T19",
+        "T20",
+        "T21",
+        "T22"
+      ],
+      "limitations": [
+        "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-expiry-integration-1789587456782-ffd26a58-e379-4e06-8809-9a361affc60b.json",
+      "sha256": "1de376cdee0ec3aa6f9801d8998576effad3703fa4b9a932993c0a137ca7b961",
+      "bytes": 5627,
+      "result": "FAIL",
+      "assertion_counts": {
+        "PASS": 17
+      },
+      "recorded_at": "2026-09-16T19:37:36.783Z",
+      "profile": "codex-a00",
+      "build_id": "4aj5vmijel13HPC8hHnyi",
+      "contract_version": "0.4.0",
+      "test_ids": null,
+      "limitations": [
+        "Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance."
+      ],
+      "waits": [
+        {
+          "name": "publication/publication",
+          "token_id": "9c1ba21c-cd61-444e-ae37-9482bf1ed5bd",
+          "xact_start": "2026-09-16T19:37:33.524Z",
+          "expires_at": "2026-09-16T19:37:36.446Z",
+          "observed_at": "2026-09-16T19:37:33.635Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:37:36.447Z",
+          "expired": true
+        }
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-expiry-integration-1789587713035-a93a36be-d2e4-4e5f-baef-dbac1f6ab350.json",
+      "sha256": "17b56614f4c020b4f254a9227d1b1367654b64e5df9a843edcb150fb9f36d355",
+      "bytes": 28410,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 87
+      },
+      "recorded_at": "2026-09-16T19:41:53.039Z",
+      "profile": "codex-a00",
+      "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+      "contract_version": "0.4.0",
+      "test_ids": null,
+      "limitations": [
+        "Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance."
+      ],
+      "waits": [
+        {
+          "name": "publication/publication",
+          "token_id": "d779dba8-e18a-4584-a5cd-1f02b9d14194",
+          "xact_start": "2026-09-16T19:40:38.273Z",
+          "expires_at": "2026-09-16T19:40:41.233Z",
+          "observed_at": "2026-09-16T19:40:38.327Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:40:41.245Z",
+          "expired": true
+        },
+        {
+          "name": "publication/purpose",
+          "token_id": "2426254b-0045-448c-bd79-ea75960e9191",
+          "xact_start": "2026-09-16T19:40:41.652Z",
+          "expires_at": "2026-09-16T19:40:44.610Z",
+          "observed_at": "2026-09-16T19:40:41.722Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:40:44.622Z",
+          "expired": true
+        },
+        {
+          "name": "publication/policy",
+          "token_id": "33b755d7-f249-4c4d-9a3f-faf040222592",
+          "xact_start": "2026-09-16T19:40:45.783Z",
+          "expires_at": "2026-09-16T19:40:48.707Z",
+          "observed_at": "2026-09-16T19:40:45.895Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:40:48.733Z",
+          "expired": true
+        },
+        {
+          "name": "publication/proof",
+          "token_id": "fbe45fc6-3767-4f96-89c3-0670e5a6d941",
+          "xact_start": "2026-09-16T19:40:49.285Z",
+          "expires_at": "2026-09-16T19:40:52.231Z",
+          "observed_at": "2026-09-16T19:40:49.347Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:40:52.246Z",
+          "expired": true
+        },
+        {
+          "name": "publication/idempotency",
+          "token_id": "fd9c4fee-34f1-4ba4-a0a2-031c2fe7d59f",
+          "xact_start": "2026-09-16T19:40:52.614Z",
+          "expires_at": "2026-09-16T19:40:55.578Z",
+          "observed_at": "2026-09-16T19:40:52.681Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:40:55.610Z",
+          "expired": true
+        },
+        {
+          "name": "grant/consent-boundary",
+          "token_id": "310e0594-3569-410e-a1f3-6b2c49193dcb",
+          "xact_start": "2026-09-16T19:40:58.270Z",
+          "expires_at": "2026-09-16T19:41:01.244Z",
+          "observed_at": "2026-09-16T19:40:58.302Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:01.272Z",
+          "expired": true
+        },
+        {
+          "name": "grant/aggregate",
+          "token_id": "77dbe536-0ee6-4f39-8314-6f702ae90f15",
+          "xact_start": "2026-09-16T19:41:02.067Z",
+          "expires_at": "2026-09-16T19:41:05.041Z",
+          "observed_at": "2026-09-16T19:41:02.102Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:05.085Z",
+          "expired": true
+        },
+        {
+          "name": "grant/interaction",
+          "token_id": "1a9f01a9-7fa7-472f-aa02-4f9bd4a29a45",
+          "xact_start": "2026-09-16T19:41:05.857Z",
+          "expires_at": "2026-09-16T19:41:08.829Z",
+          "observed_at": "2026-09-16T19:41:05.950Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:08.856Z",
+          "expired": true
+        },
+        {
+          "name": "grant/publication",
+          "token_id": "56eb6b9d-1b53-44a9-ba20-2855386fc1cc",
+          "xact_start": "2026-09-16T19:41:10.242Z",
+          "expires_at": "2026-09-16T19:41:13.159Z",
+          "observed_at": "2026-09-16T19:41:10.413Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:13.201Z",
+          "expired": true
+        },
+        {
+          "name": "grant/idempotency",
+          "token_id": "b83c7a22-325e-4658-ae15-16da352f591b",
+          "xact_start": "2026-09-16T19:41:15.357Z",
+          "expires_at": "2026-09-16T19:41:18.238Z",
+          "observed_at": "2026-09-16T19:41:15.450Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:18.255Z",
+          "expired": true
+        },
+        {
+          "name": "withdraw/consent-boundary",
+          "token_id": "48ea5c1c-4363-40dc-aa45-b4cae5af4a02",
+          "xact_start": "2026-09-16T19:41:27.287Z",
+          "expires_at": "2026-09-16T19:41:30.034Z",
+          "observed_at": "2026-09-16T19:41:27.437Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:30.054Z",
+          "expired": true
+        },
+        {
+          "name": "withdraw/aggregate",
+          "token_id": "b4105ec2-50b9-49e7-8398-d85b3ed93606",
+          "xact_start": "2026-09-16T19:41:35.665Z",
+          "expires_at": "2026-09-16T19:41:38.550Z",
+          "observed_at": "2026-09-16T19:41:35.825Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:38.598Z",
+          "expired": true
+        },
+        {
+          "name": "withdraw/interaction",
+          "token_id": "420ebb9c-2fb1-42a9-9d5e-60bb277b9407",
+          "xact_start": "2026-09-16T19:41:41.771Z",
+          "expires_at": "2026-09-16T19:41:44.582Z",
+          "observed_at": "2026-09-16T19:41:41.956Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:44.617Z",
+          "expired": true
+        },
+        {
+          "name": "withdraw/publication",
+          "token_id": "4b8b2009-41f5-46a0-87a1-f387d88427ab",
+          "xact_start": "2026-09-16T19:41:45.888Z",
+          "expires_at": "2026-09-16T19:41:48.840Z",
+          "observed_at": "2026-09-16T19:41:45.974Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:48.850Z",
+          "expired": true
+        },
+        {
+          "name": "withdraw/idempotency",
+          "token_id": "1bd8a384-998c-4337-9e71-9bc9f326e1c5",
+          "xact_start": "2026-09-16T19:41:49.877Z",
+          "expires_at": "2026-09-16T19:41:52.826Z",
+          "observed_at": "2026-09-16T19:41:49.967Z",
+          "began_before_expiry": true,
+          "waiting_before_expiry": true,
+          "wait_event_type": "Lock",
+          "released_after": "2026-09-16T19:41:52.826Z",
+          "expired": true
+        }
+      ]
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-send-enforcement-1789587957535-3af40250-8fdd-4f4c-854b-2592479884ba.json",
+      "sha256": "57f99c57663fc6e6b528d28f4a1ed3b4c50b17e12cbb74b1e704659360c036a6",
+      "bytes": 439,
+      "result": "FAIL",
+      "assertion_counts": {},
+      "recorded_at": "2026-09-16T19:45:57.535Z",
+      "profile": "codex-a00",
+      "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+      "contract_version": "0.4.0",
+      "test_ids": [
+        "T14",
+        "T15",
+        "T16"
+      ],
+      "limitations": [
+        "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-send-enforcement-1789588044769-1a53f93c-0d58-4036-856f-bf60aff7365d.json",
+      "sha256": "de012b9cf9dec9fa9723a5caa2b1701187c40417512a4d3f6399833199e1b01b",
+      "bytes": 7916,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 46
+      },
+      "recorded_at": "2026-09-16T19:47:24.769Z",
+      "profile": "codex-a00",
+      "build_id": "tR-UmUxDbxZfmlVEJzTH3",
+      "contract_version": "0.4.0",
+      "test_ids": [
+        "T14",
+        "T15",
+        "T16"
+      ],
+      "limitations": [
+        "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-workflow-integration-1789587027698-5cb5ac0e-8f43-4ac3-95ae-1204ace79194.json",
+      "sha256": "3f64bb8ba646025454859a6d4eefbd829c1863e24a16fa1c3845f9f0a8c2f790",
+      "bytes": 428,
+      "result": "FAIL",
+      "assertion_counts": {},
+      "recorded_at": "2026-09-16T19:30:27.699Z",
+      "profile": "codex-a00",
+      "build_id": null,
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T10",
+        "T11",
+        "T12",
+        "T13"
+      ],
+      "limitations": [
+        "Synthetic CRM only; simulator faults, send admission and target restore are later increments. No browser acceptance claim."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-workflow-integration-1789587076546-cd27df0a-9d57-479c-94cf-de0020d3c55b.json",
+      "sha256": "d35754faa2b9320c4cdaa6f7f9665046d27a663f7b8cadfaefff81cf7da11918",
+      "bytes": 428,
+      "result": "FAIL",
+      "assertion_counts": {},
+      "recorded_at": "2026-09-16T19:31:16.547Z",
+      "profile": "codex-a00",
+      "build_id": null,
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T10",
+        "T11",
+        "T12",
+        "T13"
+      ],
+      "limitations": [
+        "Synthetic CRM only; simulator faults, send admission and target restore are later increments. No browser acceptance claim."
+      ],
+      "waits": null
+    },
+    {
+      "path": "handoffs/codex/artifacts/A05-workflow-integration-1789587147791-3f12c8a7-fa62-4ab5-a925-a7119e3cacc5.json",
+      "sha256": "05e445847c8de7e522551e2415b106e28604e854b7d7ddb849a9e02198dcb519",
+      "bytes": 6033,
+      "result": "PASS",
+      "assertion_counts": {
+        "PASS": 32
+      },
+      "recorded_at": "2026-09-16T19:32:27.791Z",
+      "profile": "codex-a00",
+      "build_id": null,
+      "contract_version": "0.3.0",
+      "test_ids": [
+        "T10",
+        "T11",
+        "T12",
+        "T13"
+      ],
+      "limitations": [
+        "Synthetic CRM only; simulator faults, send admission and target restore are later increments. No browser acceptance claim."
+      ],
+      "waits": null
+    }
+  ],
+  "artifact_hashes": {
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-08-03.942Z.json": "d2894f196193c8cc96b928cf8f711f2687cd151fb11dbf07a070f3eef9425a5f",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-08-03.942Z.log": "1e08c6103c290e8bfec2d861fe0f0988abe2c2b5ba980255da516521e67cbf10",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-16-51.184Z.json": "0149bacd8e55b4e316a448d3139d398c2fd195e38cac4621e59202fdac6575e7",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-16-51.184Z.log": "468d188bd2a52b5e54f76251ab1f705af5a87dc14dc6d6466e1dc5afacf513d4",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-28-03.017Z.json": "913b202c0dd45b6276ddb05b6835afca4d8d254a604fb94bc66574768c4a55d5",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-28-03.017Z.log": "7bf0d2e5c8b1d4fbed68b8099cdf7ccda9fd6f58544c580244e96efd775bf5eb",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-35-27.148Z.json": "d288c7047e4e4fb9c04a0f9e69cd41c738e578079b3b4c4b58da975718cd7f7b",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-35-27.148Z.log": "2a6d0c3e450293b219dd93b89413052d2e68d59f17f525246ac12af11321f6f1",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-39-12.802Z.json": "c1420a893f5fa24da4cbe406465671bf74b98ba4146ef7eaa573140d125ee195",
+    "handoffs/codex/artifacts/A05-build-2026-09-16T19-39-12.802Z.log": "c4d89d86034feaa66c638360367201b01370fff09287583066060d6b26ab856c",
+    "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-28-28.430Z.json": "131c134556925c62364480800420f033df0480b2c5af9b9a649cbbb23bcd037e",
+    "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-28-28.430Z.log": "ba7eafbb70dc402d7fc08e392c7c4449876aaf19b2de23480f9d5eb9c8c119f6",
+    "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-39-45.129Z.json": "04bb184d0eee9d64e86a2cca66bc63d16ef52c805c277afb0bec25feda90bb9d",
+    "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-39-45.129Z.log": "a69b381373fa6838448766297f9b0b3112a32cba093003c65dce0d39c74dd81d",
+    "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-50-19.872Z.json": "1911ec0f5b1a75405e50eec6aca8156dabb43565ad28996125c7b18eb46c9454",
+    "handoffs/codex/artifacts/A05-contracts-check-2026-09-16T19-50-19.872Z.log": "a69b381373fa6838448766297f9b0b3112a32cba093003c65dce0d39c74dd81d",
+    "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-07-47.735Z.json": "1ebc2c344b5db1460d84d28ebcb00644ecdb4e4c086dc979bb6db4aaa1dd72ee",
+    "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-07-47.735Z.log": "4e47ee16e0a0d3ef4a50b56d965034c95bc8c14f63206d0f7a7ae7cb80a28150",
+    "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-35-05.998Z.json": "9959831a8e9fd5e98cec50e46b9a4d8ec6cdff6a19b41fd35ae6640b7cfb443f",
+    "handoffs/codex/artifacts/A05-contracts-generate-2026-09-16T19-35-05.998Z.log": "260933d8e287048f8de46d0cd58552aabd8ddc7adedc05d6fa4d78c0e4a9f028",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T18-55-57.136Z.json": "bdbffde5fa51394b776271984c8186d2650cf3f22e376a8bbcd2a7b3c72f077c",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T18-55-57.136Z.log": "f67484cf66b3d3765794c7f4cece2f2872f00c1b7f2762d3313dab49dbebe9cb",
+    "handoffs/codex/artifacts/A05-migration-1789584961132-1b2e47aa-986c-48c6-a546-fc83c24db8bf.json": "4d2e7cd26c3d8a4c4914b2d91b09237e344c9645d6b3b3fccd01050e5b3a45b6",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-05-07.488Z.json": "37964cf5809f56546d66ab827f8470459294cdcefdecdeb897a4dc9557d6aee1",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-05-07.488Z.log": "dd1b14d4ed7b646978cf472f2f1d44f1b519db1bc307e41ac1bae7f058040b0a",
+    "handoffs/codex/artifacts/A05-migration-1789585512707-8daadc41-840c-43e5-9e41-f37148791ceb.json": "9f1090935fe9e7337f72b4e7246019a5f34452d31d3d4dce8a1df8c6f6deda46",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-12-29.213Z.json": "3e7c05f4b18b5e5072c8f3542dfb1075365ef2b06add7a7b7170e942422a517a",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-12-29.213Z.log": "196b5e5a580084f9f014c9eca7e2c20611040b8be7470fa0310308b964ffd1cc",
+    "handoffs/codex/artifacts/A05-migration-1789585950673-2f3c08f5-4243-4c32-a6dc-d62249bcf60b.json": "a89be0fb0b81e5b8e5e30d7133170876511804a540f7834e3adc38d149084663",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-16-43.629Z.json": "261f03450cc4f180808d2b8ced7e66ae2e167ff4708ca844b269c39728ffe383",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-16-43.629Z.log": "5c0d3ecf963ec0c35807bcaa6a5819a8706d94d8e26b2aa68d6a541561790e89",
+    "handoffs/codex/artifacts/A05-migration-1789586206458-5d3b50e5-39ee-4d32-865a-6c060fbf98a9.json": "9243e5408458e36d1c16713387ee0b7cd4ec88d6bc7fef9c231fa08c1bcd9130",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-39-09.519Z.json": "55bf9fcae7bc3c7c5efe5b93562891877c953de206e0a3807076b410b4b610e2",
+    "handoffs/codex/artifacts/A05-db-migrate-2026-09-16T19-39-09.519Z.log": "15b6bd28c4c0c90bf110c2bd2e2e27524265612bff0e0ad19fdf79e11841c538",
+    "handoffs/codex/artifacts/A05-migration-1789587552153-bed33507-3df2-4eaa-8cb5-595cf9e5d303.json": "49cbf86aaa646310c7bfa284c2f1872055cb9e4792d805c2e3fcad64822867e2",
+    "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-42-18.328Z.json": "b72e509ba45296f4abea2cf98c9e4536022d49c6651c8819336865fe52c6f0d6",
+    "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-42-18.328Z.log": "286be41de17f018d3e2077cd9ac4806d3c4557484b3d532514e6877702d4bd41",
+    "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-50-18.098Z.json": "23380456165f1ff4c686f8b445d01abde77f027924e2bfa733c87d92c221e96a",
+    "handoffs/codex/artifacts/A05-hygiene-check-2026-09-16T19-50-18.098Z.log": "397dd3d1f237398dacd0f8f0a8eaedbd3b73356778065a0144a20d265aac7b22",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-08-42.470Z.json": "65413a0e24f43bcab61facdaec27a3a46f855b9724e737d85b573d39de464fbb",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-08-42.470Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-19-39.069Z.json": "392926051795933596c845fdaf0c0dc78b1861e7d6f48560e0f3e0c18af0d8dd",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-19-39.069Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-28-44.551Z.json": "d94aeeec61f41a9f0e2b5ac7cced3c9383e1b833359201afb3d5c7a8892b9a08",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-28-44.551Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-36-09.312Z.json": "7f3e4b7f9f550d2d803b2d3f5d97eeef5b9fd10dcc776b1040426a581ec3a3eb",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-36-09.312Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-39-58.545Z.json": "37da240f47a98b60f9c7d30d4cff84e414ffd06ac0b6e5ceca294663497cba18",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-39-58.545Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-48-05.195Z.json": "0db6debece2a47e7bda8a8c6ba570a6e7032bab089eb525200bb9e7eebecc97a",
+    "handoffs/codex/artifacts/A05-lint-2026-09-16T19-48-05.195Z.log": "52d8dad0cedcbc5600fe421203fe9d6b6af40e1ba2d2e22b62dcb15118a20501",
+    "handoffs/codex/artifacts/A05-roles-init-2026-09-16T19-33-03.831Z.json": "f5971dd13a8113cafb4ecf4d1ca976c0413643e84482ee88349e86eeaae8dfe3",
+    "handoffs/codex/artifacts/A05-roles-init-2026-09-16T19-33-03.831Z.log": "b9c8125c3b8456de5a2d433cd0212b6ad91867db1b1eef976f63ecca67698729",
+    "handoffs/codex/artifacts/A05-test-2026-09-16T19-28-26.166Z.json": "ab366c98fbe358476d337161bc3dc09211370a4e30e45c2fe490027405a3e85d",
+    "handoffs/codex/artifacts/A05-test-2026-09-16T19-28-26.166Z.log": "3865762ab8b0bc8edf4c89c7a744ad68108b35e97ea63a888073bb83703f54b5",
+    "handoffs/codex/artifacts/A05-test-2026-09-16T19-36-19.704Z.json": "fe038fa32c7cd47b575bb5f8eb884ed4b1a8efe3aebb0fed677e639db514f02c",
+    "handoffs/codex/artifacts/A05-test-2026-09-16T19-36-19.704Z.log": "698d813d54f56f02eaf3faee0cb77238908c2ad7f10d2bc4115f028f1e3a0b16",
+    "handoffs/codex/artifacts/A05-test-auth-2026-09-16T19-33-07.079Z.json": "2adf33b2e96563c3096eaeb712292fd610fdad15caeae7a702f11f14773d7932",
+    "handoffs/codex/artifacts/A05-test-auth-2026-09-16T19-33-07.079Z.log": "18c8298f56b12813ceae0c4a5014d12c1e4dedae9f4bf3febc957a137d6930cc",
+    "handoffs/codex/artifacts/A05-auth-security-1789587212695-4edfcef2-5dcb-44d0-826b-eb40836d44c1.json": "546cf0d446f84872f61c103c7c470d10347071476906478da222a1ad247be561",
+    "handoffs/codex/artifacts/A05-test-consent-2026-09-16T19-36-43.010Z.json": "3d3314bcbd60d3f8489ec9f338aa133d46602209254b78e2497d078108a4f001",
+    "handoffs/codex/artifacts/A05-test-consent-2026-09-16T19-36-43.010Z.log": "05d59f51a10a05803999ef127a9349bb26cbdef1cb34d0798156025458948f4f",
+    "handoffs/codex/artifacts/A05-consent-integration-1789587443480-4fdc73ea-e587-4f7a-a243-8822e62a3f9e.json": "caab9f57d2fe4f077bf722dd57a04c5db697fdb2019ddf8bbc4f00475efafe20",
+    "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-45-37.935Z.json": "ac6d62bfb5b46a1c1963393eea4dfd860786f3b00c6f03f4e74c000c2900f528",
+    "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-45-37.935Z.log": "c9461cadb8039ec24a958594a198783aa9db924eae96bc0a7406131de16bb524",
+    "handoffs/codex/artifacts/A05-send-enforcement-1789587957535-3af40250-8fdd-4f4c-854b-2592479884ba.json": "57f99c57663fc6e6b528d28f4a1ed3b4c50b17e12cbb74b1e704659360c036a6",
+    "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-46-57.983Z.json": "a2745be839ae3ba2b51bc1117401bb41a79ec75784958513b9de557aa3524b4b",
+    "handoffs/codex/artifacts/A05-test-enforcement-2026-09-16T19-46-57.983Z.log": "a59301d7045ab67fe48cc46099525b607388097f513a7e190cda4159b2e917b4",
+    "handoffs/codex/artifacts/A05-send-enforcement-1789588044769-1a53f93c-0d58-4036-856f-bf60aff7365d.json": "de012b9cf9dec9fa9723a5caa2b1701187c40417512a4d3f6399833199e1b01b",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-09-38.155Z.json": "1c4c87c55e904600f003b07c529ec87f1c273f9f240dc92341e1ff2e08d3d588",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-09-38.155Z.log": "d519187629ebee33764772efd2869bdbf1223fd404b29428484ae45b6a327402",
+    "handoffs/codex/artifacts/A05-evidence-integration-1789585901738-789cbb88-736b-4d9e-838c-1e88c7203be2.json": "93b9fc60e5712fc9c2cdc57fad3ce2ecfc43858d35ebec69ab300dd9469b6af0",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-12-35.077Z.json": "649ae6a0c06516ff155e0070612d9f09eb1fe195bc2ac737f07f2b4b24bbe7a1",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-12-35.077Z.log": "a383c33b9cb144b7ef530d04068d29a50107e0b2b4146c4425aa29c7bf0875db",
+    "handoffs/codex/artifacts/A05-evidence-integration-1789585976562-9be90815-7ae5-4d03-8dd5-283196e49cde.json": "8bc78626489e3bcf8a2f523e9a2b700b21d9e98f248b43c17c18d72e49aef8d0",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-13-58.235Z.json": "2af5fcb255b20640c20161af4aec30274459241d6c82e3956da95a4c579f773d",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-13-58.235Z.log": "ed7aaf7a29869c0023a04ef4b06de60ec7de541e1b90985bc35360a3f5c29893",
+    "handoffs/codex/artifacts/A05-evidence-integration-1789586122766-f89245ed-d3cf-44fa-903f-b40cab8bdafd.json": "35984dd62543a0d0e5db5505b911975935cad75fc2ea1d52845746a4a1198192",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-18-18.303Z.json": "2c265e2cc6b227a2b044c387a8a929aabdb2de01c1dd19ead26ec685a8191655",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-18-18.303Z.log": "a89dd7633af395bcd4130d4568226c17896bc33c5be1c6cfdc4bf277fea4f578",
+    "handoffs/codex/artifacts/A05-evidence-integration-1789586326750-b9be676c-1839-41f6-b04a-bbd51bc89263.json": "1e71c39ebbd88bf25ff103af01394b06bd4419e91c6fc495b1ccefcbdef16e09",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-20-44.035Z.json": "6b1d9e8f8155e89b847c83ec970eecb0764af69dfa540ddecf67b5276e5a8ed4",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-20-44.035Z.log": "8d3fc97b2cf4fb01c3928b6c276e40500edb6121c83ff17cbdcf411055832ebb",
+    "handoffs/codex/artifacts/A05-evidence-integration-1789586546654-da392078-8d9d-4e2d-8226-e9ed57eaea45.json": "cc5f256cf7b4dd4717e1c51a35537fb7387beab33b1df09fa8771d3ec78a39e0",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-29-15.158Z.json": "5d651793d2a6acde9844a536492200eceebc7397356154f05e89332210472ab6",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-29-15.158Z.log": "1cd32dc2d1b029a0338153f1c9a89d3e8f22e989393fae8085ffc272bdb8fb9f",
+    "handoffs/codex/artifacts/A05-evidence-integration-1789587023044-3902a5c3-2f5b-4088-92a0-8332af7a95b3.json": "0a04201e19620894c10247163f45b31f37e6bc674e7255fda6c8266408a6a7b4",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-42-45.348Z.json": "72269ba317d1a0b599130aa7bea4cea7db249f7c9593064ee751a7ff6c6cca6a",
+    "handoffs/codex/artifacts/A05-test-evidence-2026-09-16T19-42-45.348Z.log": "169c4c1825a2e52b2753417089eda5a318a24b4cad92b3b881bf1f3c35176d82",
+    "handoffs/codex/artifacts/A05-evidence-integration-1789587916158-d22b2447-4862-41b6-900a-777f74fe931c.json": "dd7868e9928ef77cb0335101896cc304370b982813585d3b91ac92a536c6544b",
+    "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-37-24.452Z.json": "840066a261d773b0d6824236f4d5159159ac33f918b8bfe764320fe7e99ddb60",
+    "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-37-24.452Z.log": "33591ac5ee445eaaf841586e69dd9dfd3433fddf5de37820ef3dbbaef884d255",
+    "handoffs/codex/artifacts/A05-expiry-integration-1789587456782-ffd26a58-e379-4e06-8809-9a361affc60b.json": "1de376cdee0ec3aa6f9801d8998576effad3703fa4b9a932993c0a137ca7b961",
+    "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-40-29.936Z.json": "401a190cff84f25f1197c67b7d6d382739e412d6df07577d8c7e2df8d8f8ad36",
+    "handoffs/codex/artifacts/A05-test-expiry-2026-09-16T19-40-29.936Z.log": "f8816105372b7433c14b26eb2750e5cbec82766cafd3164e8cc65a96b973a6b9",
+    "handoffs/codex/artifacts/A05-expiry-integration-1789587713035-a93a36be-d2e4-4e5f-baef-dbac1f6ab350.json": "17b56614f4c020b4f254a9227d1b1367654b64e5df9a843edcb150fb9f36d355",
+    "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-30-23.662Z.json": "ea6eacdf43f7b8e484e5df2c47549e95a8efe6990c1e81d97e1d91dc3c3d14a8",
+    "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-30-23.662Z.log": "b3643a3b3728e33f3ea67cea51dfae27d5573bf1e32e1adeae115b108841041b",
+    "handoffs/codex/artifacts/A05-workflow-integration-1789587027698-5cb5ac0e-8f43-4ac3-95ae-1204ace79194.json": "3f64bb8ba646025454859a6d4eefbd829c1863e24a16fa1c3845f9f0a8c2f790",
+    "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-11.475Z.json": "704934682bf6a0df33687fe18767fc1ee3d1dbb39a5bba630cd5615ee82e5083",
+    "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-11.475Z.log": "02b10ee25a8f050819b201c9a83c78631d93a7aef9a8778be7b355fe561f7fa4",
+    "handoffs/codex/artifacts/A05-workflow-integration-1789587076546-cd27df0a-9d57-479c-94cf-de0020d3c55b.json": "d35754faa2b9320c4cdaa6f7f9665046d27a663f7b8cadfaefff81cf7da11918",
+    "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-54.528Z.json": "7548087bee6489918cef94a8c4eb6dfe1a28beec57c4f971b6ecca2184c68ef0",
+    "handoffs/codex/artifacts/A05-test-workflows-2026-09-16T19-31-54.528Z.log": "7392f581de4ffb1975733305117996a0cb10a24ddaa33e83d96363076c5846df",
+    "handoffs/codex/artifacts/A05-workflow-integration-1789587147791-3f12c8a7-fa62-4ab5-a925-a7119e3cacc5.json": "05e445847c8de7e522551e2415b106e28604e854b7d7ddb849a9e02198dcb519",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-00-05.068Z.json": "a6d3d007f74499e1eb84a8c89277699585cbd68536e51662e9fabc322ed0cf2b",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-00-05.068Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-18-31.803Z.json": "723c5a112bf5493e24752d62a25460d8c4eabf5deeb7754725940588d4829e15",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-18-31.803Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-31-18.478Z.json": "ddda8f1420e46215c3bd62021f3929247120e8261e0b31259ec9e0900c1d415e",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-31-18.478Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-40-05.631Z.json": "ea7d7d626fd8eae9199f75754c580d1f9d21eac6fa39c539230f3eb629b49706",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-40-05.631Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-47-47.169Z.json": "3b4f7140d3535e6fdef60e9e27be748fa15b78104a4d230c7c2f4f76cdab25bc",
+    "handoffs/codex/artifacts/A05-typecheck-2026-09-16T19-47-47.169Z.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+  },
+  "limits": [
+    "No application, fault, reset, restore or browser execution by Work.",
+    "Command wrappers keep original source_commit/source_tree_sha256/dirty/profile/contract. Raw reports keep their own build IDs or explicit absence. No retroactive source identity assignment.",
+    "Unit/consent/auth/workflow/expiry/enforcement/evidence subsets are not full T01–T30 or candidate acceptance.",
+    "A05 initial MEMBER permission failure fixed by producer migration; generic intermittent setup failures and interrupted expiry run retained, not all causes established.",
+    "C00 source-backed copy decisions are Work self-review; independent review and human acceptance separate."
+  ]
+}

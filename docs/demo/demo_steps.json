@@ -1,0 +1,243 @@
+{
+  "document": "ORVIA prototype demo steps",
+  "owner_lane": "Work",
+  "status": "REVISED_FOR_REVIEW",
+  "base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "application_available": false,
+  "note": "Source at PR19 main includes A00–A05 APIs/workers/evidence and only foundation UI. All designed screen steps remain unavailable as application journeys. Placeholders are actual server values, not invented fixtures. All listed tests remain mandatory P0 even when narration is optional.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Two separate organisations and people",
+      "actor": "Human operator (seed); presenter",
+      "precondition": "Frozen candidate started in the 'rehearsal' profile (A00 profile name) and seeded with fixture 'aster-birch-v1' by Codex tooling (identity seed exists; complete planned business-scenario seed remains A07); principals Asha Demo, Ravi Demo (Aster) and Bela Demo (Birch) exist.",
+      "screen": "W-OVERVIEW (Aster) and W-PRINCIPALS",
+      "screen_status": "MISSING",
+      "action": "Show the Aster workspace header (organisation, environment, build) and the demo principals list.",
+      "expected_fact": "Header shows Aster Demo scope and the server build ID; principals list shows only Aster principals.",
+      "tests": [
+        "T01",
+        "T03",
+        "T04"
+      ],
+      "evidence_needed": "Clean-start transcript and build manifest (A07); isolation test output (A01/A06); screenshot of header with build ID (B06).",
+      "evidence_status": "MISSING",
+      "presenter_words": "Everything here is fictional. Aster Demo and Birch Demo are separate organisations on the same local installation, and the build number on screen is the one we tested.",
+      "fallback": "If the build chip shows 'Build ID not available', say so and do not continue with claims about the tested build.",
+      "limitation": "Local synthetic profile only; not a production deployment."
+    },
+    {
+      "step": 2,
+      "title": "Separate purposes, systems, notice and a reviewed policy",
+      "actor": "Priya Admin (Demo) as author; Karan Reviewer (Demo) as distinct reviewer",
+      "precondition": "Staff sessions for both; Karan has MFA set up.",
+      "screen": "W-PURPOSES, W-NOTICES, W-SYSTEMS, W-POLICIES",
+      "screen_status": "MISSING",
+      "action": "Show promotional_marketing and order_service_demo as separate purposes, the three declared systems (synthetic CRM, REST simulator, no-API ledger) with coverage labels, Priya's self-approval being refused, and Karan approving the exact digest. Explain that the send gateway is the enforcement point, not a configured system.",
+      "expected_fact": "Self-approval refused; publication records reviewer, digest and time; published version cannot be edited.",
+      "tests": [
+        "T05",
+        "T06"
+      ],
+      "evidence_needed": "T05/T06 execution records; policy version record with reviewer and digest.",
+      "evidence_status": "MISSING",
+      "presenter_words": "Marketing and order service are configured separately. The person who wrote the policy can't publish it; a different reviewer approved this exact version, and now it's fixed.",
+      "fallback": "If configuration was seeded rather than created live, say it was seeded and point to the persistence test record instead.",
+      "limitation": "Policy editor is a small form with declared fields, not a general rules designer."
+    },
+    {
+      "step": 3,
+      "title": "Asha grants marketing consent",
+      "actor": "Asha Demo (Privacy Centre)",
+      "precondition": "Asha signed in to the Aster Privacy Centre; marketing choice is NOT_GIVEN; notice published.",
+      "screen": "P-CHOICES, P-GRANT, P-RECEIPT",
+      "screen_status": "MISSING",
+      "action": "Open the marketing card, read the notice, select 'I agree to Promotional marketing'.",
+      "expected_fact": "Receipt shows the server's notice version and consent epoch; order-service card unchanged.",
+      "tests": [
+        "T07",
+        "T15"
+      ],
+      "evidence_needed": "T07 record; receipt JSON; consent read-back.",
+      "evidence_status": "MISSING",
+      "presenter_words": "Asha makes an explicit choice after reading this exact notice. The receipt shows the version and choice number the server recorded.",
+      "fallback": "If the grant was seeded, say so and show the stored receipt rather than claiming a live grant.",
+      "limitation": "Adult fictional principal only; guardian and nomination flows are not in this prototype."
+    },
+    {
+      "step": 4,
+      "title": "A marketing message is queued, then Asha withdraws",
+      "actor": "Operator (queues synthetic attempt DEMO-CAMP-01); Asha Demo",
+      "precondition": "Asha's marketing consent GRANTED; DEMO-CAMP-01 queued but not admitted.",
+      "screen": "P-CHOICES, P-RECEIPT",
+      "screen_status": "MISSING",
+      "action": "Select 'Withdraw consent'. Refresh the page after the receipt appears.",
+      "expected_fact": "Receipt says 'Withdrawal recorded. Downstream actions are still being checked.' with the server's advanced epoch; refresh shows the persisted withdrawal. If the response is lost, the page offers 'Retry the same request' rather than a new request.",
+      "tests": [
+        "T08",
+        "T09"
+      ],
+      "evidence_needed": "T08/T09 records including injected pre-commit failure and idempotent retry; receipt JSON.",
+      "evidence_status": "MISSING",
+      "presenter_words": "The receipt appears only after the choice, its event and the follow-up work are saved together. It is a receipt, not a claim that every system is already done.",
+      "fallback": "If the receipt does not appear, say the outcome is unconfirmed. Use 'Retry the same request' (same key, payload and epoch) or 'Check my current choice'; never start a fresh withdrawal while the first is unsettled.",
+      "limitation": "Marketing withdrawal is not erasure of Asha's data and cannot recall messages already sent."
+    },
+    {
+      "step": 5,
+      "title": "The CRM audience actually changes, and ORVIA reads it back separately",
+      "actor": "Worker and restricted agent; Karan views",
+      "precondition": "Withdrawal accepted in step 4.",
+      "screen": "W-WORKFLOW-DETAIL",
+      "screen_status": "MISSING",
+      "action": "Open the workflow; point at the CRM row's two columns and the timeline.",
+      "expected_fact": "Action status 'Acknowledged' and, separately, Observation 'Required state observed' with method, time, generation and scope.",
+      "tests": [
+        "T11",
+        "T12",
+        "T13"
+      ],
+      "evidence_needed": "T13 record with independent CRM fixture read; observation record; T12 command-rejection record.",
+      "evidence_status": "MISSING",
+      "presenter_words": "Two columns on purpose. The first is what the CRM told us. The second is what ORVIA saw when it read the CRM afterwards. Only the second counts as observed.",
+      "fallback": "If the observation is still 'Not observed', say so and wait or move on; do not describe the acknowledgement as proof.",
+      "limitation": "Synthetic local CRM database, not a commercial CRM integration."
+    },
+    {
+      "step": 6,
+      "title": "The queued marketing message is stopped; order service is judged separately",
+      "actor": "Local send-admission gateway; Karan views",
+      "precondition": "Withdrawal committed before admission of DEMO-CAMP-01; DEMO-1042 has its own configured condition.",
+      "screen": "W-TESTLAB assertion detail and W-EVIDENCE (no staff send-record screen or route exists; F-018)",
+      "screen_status": "MISSING",
+      "action": "Show the admission decisions recorded by the test run: DEMO-CAMP-01 blocked; DEMO-1042 evaluated under its own condition.",
+      "expected_fact": "Decision BLOCK and no simulated send row for DEMO-CAMP-01; DEMO-1042 decision follows its own condition only.",
+      "tests": [
+        "T14",
+        "T15",
+        "T16"
+      ],
+      "evidence_needed": "T14 record including the no-send-row query and concurrency ordering; T15 and T16 records.",
+      "evidence_status": "MISSING",
+      "presenter_words": "When the message reached the send point, ORVIA checked current authority again and blocked it. The order update is judged on its own approved condition, not on marketing consent. This protection is at this supported local send point, not every system in a company.",
+      "fallback": "If no screen shows admission records, show the test assertion or evidence export and say the dedicated view is not built.",
+      "limitation": "Only the local supported send-admission integration is controlled; no global interception."
+    },
+    {
+      "step": 7,
+      "title": "Response lost: outcome unknown, then reconciliation",
+      "actor": "Operator sets messaging simulator to APPLY_THEN_TIMEOUT before the run; Karan reconciles",
+      "precondition": "Fault mode set in the private synthetic profile using the Codex-supplied procedure.",
+      "screen": "W-WORKFLOW-DETAIL (reconcile dialog)",
+      "screen_status": "MISSING",
+      "action": "Point at 'Outcome unknown', open Reconcile, confirm.",
+      "expected_fact": "Action stays EFFECT_UNKNOWN (not FAILED); a separate reconciliation record moves through the server's proposed states and, if resolved, links an observation; no blind resend.",
+      "tests": [
+        "T17",
+        "T18",
+        "T19"
+      ],
+      "evidence_needed": "T17 record with the simulator call log showing no second restrict; the durable reconciliation record. T18 and T19 records are also mandatory P0 evidence: showing them live is optional, having their evidence is not.",
+      "evidence_status": "MISSING",
+      "presenter_words": "The change was applied but the reply was lost. That's neither a failure nor a success, so ORVIA says it's unknown and reads the system before deciding anything.",
+      "fallback": "If reconciliation is inconclusive, show that the action stays unknown and assigned; that is the correct behaviour. If T18/T19 are not shown live, point to their recorded evidence.",
+      "limitation": "Local simulator fault; real vendor APIs may not offer the same read or receipt capability."
+    },
+    {
+      "step": 8,
+      "title": "A system with no API becomes a manual obligation",
+      "actor": "System; Sam Member (Demo) as assignee",
+      "precondition": "Legacy ledger declared with no supported operations and mapped to marketing.",
+      "screen": "W-ATTENTION, W-WORKFLOW-DETAIL (attest dialog)",
+      "screen_status": "MISSING",
+      "action": "Show the manual row; Sam records a manual action.",
+      "expected_fact": "Row shows 'Manual action required' and 'Cannot be observed'. The manual record is labelled as a person's statement, and the observation stays unchanged. While required manual work or required observations are unresolved under the approved criteria, the workflow is shown as Needs attention. Where the accepted declared criterion permits attributed manual completion, the workflow must still state that those systems were not independently observed.",
+      "tests": [
+        "T20",
+        "T21"
+      ],
+      "evidence_needed": "T20 record including attestation type and coverage change on permission removal.",
+      "evidence_status": "MISSING",
+      "presenter_words": "This system has no API, so ORVIA assigns a person. Sam's record is kept as his statement, not as something ORVIA observed.",
+      "fallback": "If the screen shows the workflow as completed or observed while required manual work is unresolved, stop the step and record it as a finding against the approved criteria; do not explain it away.",
+      "limitation": "Closing a task is not automated verification."
+    },
+    {
+      "step": 9,
+      "title": "An old grant replay cannot re-enable marketing",
+      "actor": "Test harness (Codex); Asha views",
+      "precondition": "Withdrawal at a higher epoch than the replayed grant.",
+      "screen": "P-CHOICES; W-WORKFLOW-DETAIL timeline",
+      "screen_status": "MISSING",
+      "action": "Replay the old grant event; refresh Asha's choices.",
+      "expected_fact": "Epoch not lowered; marketing stays withdrawn. Fresh re-consent, if shown, is a new interaction at a higher epoch.",
+      "tests": [
+        "T10"
+      ],
+      "evidence_needed": "T10 record including the stale-worker generation check.",
+      "evidence_status": "MISSING",
+      "presenter_words": "Replaying an old 'yes' does nothing. Only a new, deliberate choice can change it, and that gets a higher number.",
+      "fallback": "Show the T10 test record rather than performing the replay live.",
+      "limitation": "Ordering guarantee applies to the local supported path as documented; not global distributed atomicity."
+    },
+    {
+      "step": 10,
+      "title": "Export local evidence, including gaps",
+      "actor": "Karan; Bo Admin (Demo) for the denial",
+      "precondition": "Workflow from step 4 exists.",
+      "screen": "W-EVIDENCE",
+      "screen_status": "MISSING",
+      "action": "Show sections including 'Gaps and limits'; download the JSON; Bo tries the same link.",
+      "expected_fact": "Export includes versions, commands, observations, unknown and manual items and coverage limits; audit event written; Bo is refused.",
+      "tests": [
+        "T21",
+        "T22"
+      ],
+      "evidence_needed": "Exported synthetic file; audit record; denial response.",
+      "evidence_status": "MISSING",
+      "presenter_words": "The export is generated here, is recorded in the audit log, and keeps the gaps in. The digest helps spot changes; it is not a legal certificate.",
+      "fallback": "Show a previously exported file from the same candidate, labelled with its time and build.",
+      "limitation": "Tamper detection is relative to a trusted copy; not proof against an administrator who controls the store and keys."
+    },
+    {
+      "step": 11,
+      "title": "The regression test catches a real break",
+      "actor": "Karan in Test Lab",
+      "precondition": "Allowlisted healthy scenario and deliberately broken test-only sender fixture available in the private profile.",
+      "screen": "W-TESTLAB",
+      "screen_status": "MISSING",
+      "action": "Run 'Marketing withdrawal — healthy control', then 'Marketing withdrawal — deliberately broken test-only control', then the healthy control again; open the failing assertion.",
+      "expected_fact": "Each run records assertion-level results from real policy, boundary and target interaction. The broken run's record carries expected_fault_detection and its assertion shows the actual violation; its recorded result is not converted to PASS.",
+      "tests": [
+        "T23",
+        "T24"
+      ],
+      "evidence_needed": "Three run records with build and fixture references; code review confirming the result is not derived from the selector.",
+      "evidence_status": "MISSING",
+      "presenter_words": "The broken fixture really does send after withdrawal, and the test catches it by looking at what was sent. Then we restore the healthy one and run it again.",
+      "fallback": "If a run ends in ERROR, say the run is incomplete, retain its assertions and failures, and do not claim a complete pass. Use prerecorded material only if a real indexed recording matches the exact candidate/profile/time; otherwise state that evidence is unavailable.",
+      "limitation": "Covers the synthetic scenario only."
+    },
+    {
+      "step": 12,
+      "title": "Recovery: worker restart and quarantined target-only restore",
+      "actor": "Human operator using Codex-supplied procedures",
+      "precondition": "Isolated synthetic profile; human approval for interruption and restore.",
+      "screen": "W-WORKFLOW-DETAIL, W-SYSTEMS; operator transcript",
+      "screen_status": "MISSING",
+      "action": "Show the recorded restart and restore evidence (prefer recorded evidence to live interruption).",
+      "expected_fact": "Same workflow continues with one logical effect; restored target stays blocked until reconciled with the current withdrawal.",
+      "tests": [
+        "T11",
+        "T25"
+      ],
+      "evidence_needed": "T11 and T25 records (scenario 'Quarantined target restore'); operator transcripts with exit codes.",
+      "evidence_status": "MISSING",
+      "presenter_words": "We stopped the worker after a request was accepted; it carried on without losing or repeating the action. An old copy of the CRM was restored into quarantine and stayed blocked until reconciled.",
+      "fallback": "Show the labelled recording or transcripts; do not interrupt services live without rehearsal.",
+      "limitation": "Target-only synthetic restore; not control-plane backup recovery or enterprise disaster recovery."
+    }
+  ],
+  "revision": "c00-c02-r4-completion",
+  "documentation_base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+}
