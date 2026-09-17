@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+  "source_tree_sha256": "325d54daad807f5da2f45b182ce88bd39d914c3b01d5fb4c44e59bc311db4135",
+  "contract_version": "0.4.1",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "tls.spec.ts",
+        "B06 real browser validates rehearsal HTTPS without certificate bypass"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 1774,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\tls.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [],
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

@@ -1,0 +1,7 @@
+PASSED B01 real staff MFA, refresh, actor separation and logout
+PASSED B01 rejected login and read-only authority
+PASSED B01 expired browser session is rechecked and protected content disappears
+PASSED B01 configure purpose/notice/system/policy and distinct reviewer publication persists
+PASSED B02 principal consent, immutable receipt, withdrawal, history and refresh
+PASSED B02 lost committed response retains exact request across read and replays one event
+PASSED B02 stale interaction denial has no extra event and withdrawal modal supports Escape

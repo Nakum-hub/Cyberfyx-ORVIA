@@ -25,7 +25,7 @@ test('UI never verifies provider ACK, future/expired reads or mismatched current
 
 test('UI empty obligations, provider receipts and manual closure retain their different meanings',()=>{
   assert.match(obligationTotals({...workflow,obligations:[]},now).statement,/No obligations recorded/);
-  const obligation=schemas.Obligation.parse({id:observation.id,required:true,completion_criterion:'CURRENT_SCOPED_OBSERVATION',execution_state:'ACKNOWLEDGED',observation:{...observation,method:'PROVIDER_RECEIPT'},attestation:null,scope_still_current:true,skip_reason:null});
+  const obligation=schemas.Obligation.parse({id:observation.id,task_version:0,required:true,completion_criterion:'CURRENT_SCOPED_OBSERVATION',execution_state:'ACKNOWLEDGED',observation:{...observation,method:'PROVIDER_RECEIPT'},attestation:null,scope_still_current:true,skip_reason:null});
   assert.equal(obligationStatus(obligation,action,now).resolved,false);
   const timeline=buildTimeline({...workflow,actions:[{...action,observations:[obligation.observation!]}]});
   assert.equal(timeline.find(e=>e.category==='OBSERVATION')!.tone,'warn');

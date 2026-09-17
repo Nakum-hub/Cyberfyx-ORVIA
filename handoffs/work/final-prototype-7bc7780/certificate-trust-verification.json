@@ -1,0 +1,8 @@
+{
+  "recorded_at": "2026-09-17T10:05:44.8565367Z",
+  "command": "certutil -user -store Root 8C592FC41BBD6AA18F42234085F6B8155466A190",
+  "exit_code": 0,
+  "result": "Exact subject, issuer, and SHA-1 thumbprint present in CurrentUser Root",
+  "supersedes_immediate_provider_check": true,
+  "machine_trust_changed": false
+}

@@ -1,0 +1,2 @@
+PASSED B01 real staff MFA, refresh, actor separation and logout
+FAILED B01 rejected login and read-only authority

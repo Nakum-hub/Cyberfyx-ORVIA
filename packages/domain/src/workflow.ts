@@ -82,7 +82,7 @@ export async function readWorkflow(c: Context, id: string) {
    const check=(await c.tx.query(`SELECT supports_read,checked_at FROM app.system_checks WHERE ${predicate} AND system_id=$4 ORDER BY checked_at DESC,id DESC LIMIT 1`,[...scope,action.plan.scope.system_id])).rows[0];
    if(check&&!check.supports_read&&(!observation?.observed_at||check.checked_at.getTime()>=Date.parse(observation.observed_at)))current=false;
   }
-  obligations.push(S.Obligation.parse({id:row.id,required:row.required,completion_criterion:row.criterion,execution_state:action?.execution_state??'MANUAL_REQUIRED',observation,attestation:row.attestation,scope_still_current:current,skip_reason:null}));
+  obligations.push(S.Obligation.parse({id:row.id,task_version:Number(row.manual_version),required:row.required,completion_criterion:row.criterion,execution_state:action?.execution_state??'MANUAL_REQUIRED',observation,attestation:row.attestation,scope_still_current:current,skip_reason:null}));
  }
  const state=workflow.state==='ACCEPTED'||workflow.state==='RUNNING'?workflow.state:workflowCompletion(obligations,new Date());
  return S.Workflow.parse({id,event_id:workflow.event_id,purpose_id:workflow.purpose_id,state,accepted_at:workflow.accepted_at.toISOString(),updated_at:workflow.updated_at.toISOString(),actions,obligations});

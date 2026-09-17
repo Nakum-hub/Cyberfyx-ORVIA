@@ -12,7 +12,7 @@ const providerReceipt=schemas.Observation.parse({
   limits:['Provider assertion only; no independent target read performed.'],
 });
 const obligation=schemas.Obligation.parse({
-  id:id(1),required:true,completion_criterion:'CURRENT_SCOPED_OBSERVATION',execution_state:'ACKNOWLEDGED',
+  id:id(1),task_version:0,required:true,completion_criterion:'CURRENT_SCOPED_OBSERVATION',execution_state:'ACKNOWLEDGED',
   attestation:null,scope_still_current:true,skip_reason:null,observation:providerReceipt,
 });
 const scopedRead=schemas.Observation.parse({...providerReceipt,method:'SCOPED_READ',limits:['Exact synthetic resource read.']});

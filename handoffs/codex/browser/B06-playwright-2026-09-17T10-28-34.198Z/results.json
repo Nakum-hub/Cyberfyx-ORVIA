@@ -1,0 +1,56 @@
+{
+  "result": "failed",
+  "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+  "source_tree_sha256": "c05e546ce182f9352506ad41fdfb8ece8f0751be15d27742111036ee5fc55b6f",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 manual task uses its read version, preserves replay and rejects a stale tab"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 104843,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 38,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "0fcc6f60c0f97002c8233cea5499e43d9e0e80680e5db7d375ee351d72806428",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-28-34.198Z\\raw\\workflow-B03-manual-task-u-14a8a-lay-and-rejects-a-stale-tab\\test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "edf8508bfc1709414666e910e0caea4b383b2370322f067138d8abd1faa837c5",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-28-34.198Z\\raw\\workflow-B03-manual-task-u-14a8a-lay-and-rejects-a-stale-tab\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "792b37eb73f481fc34f1ab61b967e3e2b8f3bfc33ebf0f0b7f5eed344d2bdfe4",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T10-28-34.198Z\\raw\\workflow-B03-manual-task-u-14a8a-lay-and-rejects-a-stale-tab\\trace.zip"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

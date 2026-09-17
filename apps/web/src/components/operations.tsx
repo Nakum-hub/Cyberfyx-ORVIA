@@ -7,7 +7,7 @@ import { actionVerification, buildTimeline, obligationAction, obligationStatus, 
 import { describeFailure, type UiFailure } from './errors.ts';
 import { hasCapability, type StaffSession } from './session-context.tsx';
 import { EXECUTION_LABELS, WORKFLOW_LABELS, CONSENT_LABELS, DECISION_LABELS, formatTime } from './state-labels.ts';
-import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, Pagination, QueryBoundary, StateBadge, TextField } from './ui.tsx';
+import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, Pagination, QueryBoundary, StateBadge, TextField, TextAreaField } from './ui.tsx';
 import { MutationFeedback } from './mutation-feedback.tsx';
 import { Select } from './configuration.tsx';
 
@@ -39,7 +39,7 @@ function WorkflowFacts({workflow,session,refresh}:{workflow:Workflow;session:Sta
     {term:'Event',value:<code>{workflow.event_id}</code>},{term:'Purpose',value:<code>{workflow.purpose_id}</code>},{term:'Accepted',value:formatTime(workflow.accepted_at)},{term:'Updated',value:formatTime(workflow.updated_at)},
   ]}/><p>{totals.statement}</p><p>Recorded workflow status and current evidence freshness are separate. This API does not expose every outbox, dispatch or worker timestamp; absent stages are not invented.</p></section>
     <section aria-label="Workflow actions"><h3>Actions and independent observations</h3>{!workflow.actions.length?<p>No action is recorded yet. Acceptance alone does not establish a target effect.</p>:workflow.actions.map(action=><ActionCard key={action.id} action={action} workflow={workflow} session={session} refresh={refresh} now={now}/>)}</section>
-    <section aria-label="Workflow obligations"><h3>Obligations</h3>{!workflow.obligations.length?<p>No obligation is recorded yet.</p>:workflow.obligations.map(obligation=><ObligationCard key={obligation.id} obligation={obligation} action={obligationAction(obligation,workflow)} now={now}/>)}</section>
+    <section aria-label="Workflow obligations"><h3>Obligations</h3>{!workflow.obligations.length?<p>No obligation is recorded yet.</p>:workflow.obligations.map(obligation=><ObligationCard key={obligation.id} obligation={obligation} action={obligationAction(obligation,workflow)} now={now}>{hasCapability(session,'manual.attest')&&obligation.completion_criterion==='ATTRIBUTED_MANUAL_ATTESTATION'?<ManualTaskForm obligation={obligation} refresh={refresh}/>:null}</ObligationCard>)}</section>
     <section className="panel"><h3>Recorded timeline</h3><ol className="timeline">{timeline.map((entry,index)=><li key={index}><time>{formatTime(entry.at)}</time><Badge label={entry.title} tone={entry.tone}/><p>{entry.detail}</p></li>)}</ol></section></>;
 }
 
@@ -60,7 +60,31 @@ function ActionCard({action,workflow,session,refresh,now}:{action:Action;workflo
 function ObligationCard({obligation,action,now,children}:{obligation:Obligation;action:Action|null;now:number;children?:ReactNode}) {
   const status=obligationStatus(obligation,action,now);
   return <article className="panel"><h4>Obligation {obligation.id}</h4><Badge label={status.resolved?'Criterion satisfied':'Unresolved'} tone={status.tone}/>{' '}<StateBadge dictionary={EXECUTION_LABELS} value={obligation.execution_state}/><p>{status.summary}</p><p>{obligation.required?'Required':'Optional'} · {obligation.completion_criterion} · scope {obligation.scope_still_current?'current':'superseded'}</p>{obligation.skip_reason?<p>Skip reason: {obligation.skip_reason}</p>:null}
-    {obligation.attestation?<><h5>Attributed manual closure</h5><p>Actor {obligation.attestation.actor_id} · {formatTime(obligation.attestation.recorded_at)}</p><p>{obligation.attestation.statement}</p><p>Evidence {obligation.attestation.evidence_record_ids.join(', ')}</p><p>This is administrative closure, not automated observation.</p></>:obligation.completion_criterion==='ATTRIBUTED_MANUAL_ATTESTATION'?<NoticeBox tone="warn" title="Manual action required"><p>The current read contract does not expose the task version required to submit a safe attestation. Browser submission is unavailable until that binding is supplied. The obligation remains open; no version is guessed.</p></NoticeBox>:null}{children}</article>;
+    {obligation.attestation?<><h5>Attributed manual closure</h5><p>Actor {obligation.attestation.actor_id} · {formatTime(obligation.attestation.recorded_at)}</p><p>{obligation.attestation.statement}</p><p>Evidence {obligation.attestation.evidence_record_ids.join(', ')}</p><p>This is administrative closure, not automated observation.</p></>:obligation.completion_criterion==='ATTRIBUTED_MANUAL_ATTESTATION'?<NoticeBox tone="warn" title="Manual action required"><p>An authorized operator may record the action in the owning workflow. A statement is administrative evidence, not an independent observation; this obligation stays open until the server accepts it.</p></NoticeBox>:null}{children}</article>;
+}
+
+function ManualTaskForm({obligation,refresh}:{obligation:Obligation;refresh:()=>void}) {
+  const mutation=useMutation('attest',true);
+  const [statement,setStatement]=useState('');const [references,setReferences]=useState('');
+  const submit=async(event:FormEvent)=>{
+    event.preventDefault();
+    const accepted=await mutation.run({statement:statement.trim(),evidence_record_ids:references.trim().split(/[\s,]+/).filter(Boolean),expected_task_version:obligation.task_version},{params:{id:obligation.id}});
+    if(accepted)refresh();
+  };
+  // A background read can reveal a committed effect before the original reply
+  // arrives. Preserve the exact request holder until replay settles it.
+  if((obligation.attestation||!obligation.scope_still_current)&&mutation.status!=='pending'&&!mutation.unsettled)return null;
+  return <form aria-label="Record manual attestation" onSubmit={submit}>
+    <h5>Record manual attestation</h5><p>Describe the action you performed and reference this workflow's accepted receipt. The server checks assignment, current scope, evidence and task revision.</p>
+    <fieldset disabled={mutation.status==='pending'||mutation.unsettled||mutation.status==='done'||!!obligation.attestation||!obligation.scope_still_current}>
+      <TextAreaField label="Action statement" value={statement} onChange={setStatement} required maxLength={2000}/>
+      <TextField label="Receipt evidence IDs" value={references} onChange={setReferences} required maxLength={369} hint="Use this workflow's receipt ID. Separate multiple IDs with commas."/>
+      <button type="submit">Record attributed action</button>
+    </fieldset>
+    <MutationFeedback mutation={mutation} onReplayed={refresh}/>
+    {mutation.result?<p role="status">Attestation accepted. Reading the recorded result.</p>:null}
+    <button type="button" disabled={mutation.status==='pending'} onClick={refresh}>Read current task</button>
+  </form>;
 }
 
 export function Failures() {

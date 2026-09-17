@@ -1,0 +1,50 @@
+$ tsx scripts/web.ts build
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 135ms
+- Experiments (use with caution):
+  · cpus: 1
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 13.5s
+  Running TypeScript ...
+  Finished TypeScript in 39.7s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/18) ...
+  Generating static pages using 1 worker (4/18) 
+  Generating static pages using 1 worker (8/18) 
+  Generating static pages using 1 worker (13/18) 
+✓ Generating static pages using 1 worker (18/18) in 868ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/principal/[...all]
+├ ƒ /api/auth/staff/[...all]
+├ ƒ /api/v1/[...segments]
+├ ƒ /api/v1/admin/principals
+├ ƒ /api/v1/session
+├ ƒ /healthz
+├ ○ /privacy
+├ ƒ /privacy/receipt/[id]
+├ ○ /privacy/receipts
+├ ○ /privacy/sign-in
+├ ○ /workspace
+├ ○ /workspace/capabilities
+├ ○ /workspace/configuration
+├ ○ /workspace/control-map
+├ ○ /workspace/evidence
+├ ƒ /workspace/evidence/[id]
+├ ○ /workspace/failures
+├ ○ /workspace/policy-preview
+├ ○ /workspace/principals
+├ ○ /workspace/sign-in
+├ ○ /workspace/test-lab
+├ ƒ /workspace/test-lab/[id]
+├ ○ /workspace/workflows
+└ ƒ /workspace/workflows/[id]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

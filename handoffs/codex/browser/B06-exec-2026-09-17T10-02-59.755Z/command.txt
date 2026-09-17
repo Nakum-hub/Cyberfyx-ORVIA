@@ -1,0 +1,1 @@
+FAILED B06 real browser validates rehearsal HTTPS without certificate bypass

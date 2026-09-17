@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "source_commit": "7bc7780de51c095ccd808ef5d01e423106c65f30",
+  "source_tree_sha256": "b21c83ac2e868507bbd4c9dec1262a857341225e73a31443b9df629b466ce4f6",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 manual task uses its read version, preserves replay and rejects a stale tab"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 43132,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 38,
+        "column": 1
+      },
+      "errors": [],
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

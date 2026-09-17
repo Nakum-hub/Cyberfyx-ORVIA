@@ -23,21 +23,24 @@ const archive=resolve(directory,'orvia-browser-evidence.zip');await run('tar',['
 const entries=(await run('tar',['-tf',archive],{windowsHide:true,maxBuffer:8*1024*1024})).stdout.trim().split(/\r?\n/).sort();
 if(JSON.stringify(entries)!==JSON.stringify(files))throw new Error('Browser evidence archive inventory mismatch');
 const sha=async(path:string)=>{const h=createHash('sha256');for await(const chunk of createReadStream(path))h.update(chunk);return h.digest('hex');};
-type Outcome={result:string;source_commit:string;source_tree_sha256:string;tests:{status:string;location:{file:string};errors:{category:string}[]}[]};
+type Outcome={result:string;source_commit:string;source_tree_sha256:string;tests:{title:string[];status:string;location:{file:string};errors:{category:string}[]}[]};
 const reports=files.filter(path=>path.endsWith('/results.json')).map(path=>({path,value:JSON.parse(readFileSync(path,'utf8')) as Outcome}));
 const required=['auth.spec.ts','configuration.spec.ts','consent.spec.ts','workflow.spec.ts','test-lab.spec.ts','candidate.spec.ts','tls.spec.ts'];
-const full=reports.findLast(({value:v})=>v.source_tree_sha256===source.sha256&&v.result==='passed'&&v.tests.length>=15&&v.tests.every(t=>t.status==='passed')&&required.every(file=>v.tests.some(t=>t.location.file.replaceAll('\\','/').endsWith('/'+file))));
-const certificateBlocked=reports.some(({value:v})=>v.tests.some(t=>t.errors.some(e=>e.category==='BROWSER_CERTIFICATE_NOT_TRUSTED')));
+const current=reports.filter(({value:v})=>v.source_commit===source.commit&&v.source_tree_sha256===source.sha256);
+const complete=current.findLast(({value:v})=>v.tests.length>=16&&required.every(file=>v.tests.some(t=>t.location.file.replaceAll('\\','/').endsWith('/'+file)))&&v.tests.some(t=>t.title.at(-1)==='B03 manual task uses its read version, preserves replay and rejects a stale tab'));
+const full=complete&&complete.value.result==='passed'&&complete.value.tests.every(t=>t.status==='passed')&&!current.slice(current.indexOf(complete)+1).some(({value:v})=>v.result!=='passed')?complete:undefined;
+const latestTls=current.flatMap(({value:v})=>v.tests).findLast(t=>t.location.file.replaceAll('\\','/').endsWith('/tls.spec.ts'));
+const certificateBlocked=latestTls?.errors.some(e=>e.category==='BROWSER_CERTIFICATE_NOT_TRUSTED')??false;
 manifest.task_id='B06';manifest.candidate_kind='LOCAL_SYNTHETIC_UI_ENGINEERING_CANDIDATE_PENDING_REVIEW';
-manifest.gates.browser_acceptance=full?'PASS_ENGINEERING':certificateBlocked?'BLOCKED_CERTIFICATE_TRUST':'NOT_RUN';
+manifest.gates.browser_acceptance=full?'PASS_ENGINEERING':certificateBlocked?'BLOCKED_CERTIFICATE_TRUST':current.some(({value:v})=>v.result!=='passed')?'FAILED_ENGINEERING':'NOT_RUN';
 manifest.gates.work_review='PENDING';manifest.gates.human_rehearsals='NOT_RUN';manifest.gates.release='NOT_APPROVED';
 manifest.ui={base_backend_commit:'7f4f7010a908f77c036ab31951ed89fa200f722c',tickets:['B00','B01','B02','B03','B04','B06'],playwright_version:JSON.parse(readFileSync('node_modules/@playwright/test/package.json','utf8')).version,
   full_browser_evidence:full?.path??null,browser_runs:reports.map(({path,value:v})=>({path,result:v.result,source_commit:v.source_commit,current_source:v.source_tree_sha256===source.sha256,sha256:createHash('sha256').update(readFileSync(path)).digest('hex')})),
   mandatory_browser_suites:required,raw_authenticated_artifacts:'Protected .local/browser-evidence only; excluded from all packages and Git.'};
 manifest.package_artifacts.push({path:relative(process.cwd(),archive).replaceAll('\\','/'),sha256:await sha(archive)});
-manifest.limitations=manifest.limitations.filter((l:string)=>!l.startsWith('Partial preserved UI:'));
-manifest.limitations.unshift(full?'Mandatory UI browser suites passed engineering execution; Work and human acceptance remain separate.':'Mandatory UI screens and executable suites are implemented; authenticated browser journeys and screenshots are NOT_RUN pending certificate trust.');
-manifest.limitations.push('Manual attestation submission remains unavailable: canonical Obligation reads omit the required current task version. No version is guessed.');
+manifest.limitations=manifest.limitations.filter((l:string)=>!l.startsWith('Partial preserved UI:')&&!l.startsWith('Local CA is not installed'));
+manifest.limitations.unshift(full?'Mandatory UI suites, including manual-task revision/replay, passed on this exact engineering source; Work and human acceptance remain separate.':'Complete matching-candidate browser qualification is not established; consult retained run outcomes for actual failures and unexecuted coverage.');
+manifest.limitations.push(latestTls?.status==='passed'?'Normal Chromium HTTPS validation passed for this source; temporary user trust and its cleanup are recorded separately.':'Normal Chromium HTTPS qualification is not established for this exact source.');
 manifest.created_at=new Date().toISOString();
 const text=JSON.stringify(manifest,null,2)+'\n';writeFileSync('artifacts/release-manifest.json',text);writeFileSync(resolve(directory,'release-manifest.json'),text);
 console.log(JSON.stringify({source_commit:source.commit,source_tree_sha256:source.sha256,manifest:'artifacts/release-manifest.json',manifest_sha256:await sha('artifacts/release-manifest.json'),browser_gate:manifest.gates.browser_acceptance,browser_archive_files:files.length,package_result:'PASS'},null,2));
