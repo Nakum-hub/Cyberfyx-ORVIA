@@ -1,0 +1,29 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-17T14:51:10.546Z",
+  "profile": "rehearsal",
+  "checks": {
+    "postgres": {
+      "result": "PASS",
+      "database": "orvia_rehearsal",
+      "version": "17.11 (Debian 17.11-1.pgdg12+2)",
+      "installation_id": "b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+      "profile": "rehearsal"
+    },
+    "opa": {
+      "result": "PASS",
+      "readiness": true,
+      "arbitrary_operation": false,
+      "policy_scope": "bootstrap readiness only"
+    },
+    "temporal": {
+      "result": "PASS",
+      "namespace": "orvia-rehearsal",
+      "server": "persistent single-node CLI development server"
+    }
+  },
+  "limitations": [
+    "No business auth, consent, send, CRM or agent operation is exercised."
+  ]
+}

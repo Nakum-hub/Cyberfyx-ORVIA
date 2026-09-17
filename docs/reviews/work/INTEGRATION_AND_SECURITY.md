@@ -77,7 +77,7 @@ Current executed full scenarios: **T01–T34 NOT_RUN**. No application services,
 
 ## W02 consolidated review — 2026-09-17
 
-**Review content: ACCEPTED** at candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, tree
+**Review content: ACCEPTED** at candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, source inventory SHA-256
 `e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437`, contract 0.5.0 / signed command 0.3.0.
 **The canonical W02 ticket stays BLOCKED** for one reason only: its acceptance dependency B04 sits behind
 `B00 ← C00`, and C00 acceptance is an outstanding human decision. The engineering under review is merged
@@ -90,7 +90,7 @@ and qualified. Everything above this line is retained unchanged.
 | Observation, completion, manual action, reconciliation, export, counts | PASS, exit 0, 69 assertions | `B06-exec-2026-09-17T11-45-47.355Z`; `A07-evidence-integration-1789645594362-…` |
 | Regression detection, quarantined restore, interrupted recovery | PASS, exit 0, 70 assertions (T23–T25) | `B06-exec-2026-09-17T11-58-46.926Z`; `A07-regression-integration-1789646604777-…` |
 | Transport and lifecycle | PASS, exit 0 (12 and 17 assertions, two full supervised cycles) | `…T12-06-43.711Z`; `…T12-05-05.401Z` |
-| Runtime egress (T26) | PASS, exit 0, 13 assertions at this exact candidate; image label matches the candidate source tree, internal-only network, no published host ports, canary never reached, deny-all DNS saw only the controlled query | `B06-exec-2026-09-17T12-50-28.741Z`; `A07-network-qualification-1789649464712-…` |
+| Runtime egress (T26) | PASS, exit 0, 13 assertions at this exact candidate; image label matches the candidate source inventory, internal-only network, no published host ports, canary never reached, deny-all DNS saw only the controlled query | `B06-exec-2026-09-17T12-50-28.741Z`; `A07-network-qualification-1789649464712-…` |
 | Integrated browser flow | **16/16 PASS, exit 0** over 9 min 59 s at the exact candidate commit and tree; all seven mandatory suites; Chromium over normal trusted HTTPS with no bypass; per-context network records assert no request leaves the application origin | `handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/results.json` |
 
 ### Findings closed

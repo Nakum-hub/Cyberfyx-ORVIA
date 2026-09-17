@@ -12,7 +12,7 @@ recording, are not two rehearsals.**
 | Field | Value |
 |---|---|
 | `code_under_test_commit` | `81431d64afb8dd613c96d942402d8c0d8cc07ac0` |
-| source tree | `e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437` |
+| source inventory SHA-256 (sourceState, not a Git tree ID) | `e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437` |
 | `build_id` | `mtRrfhGjl22jabwoImHIf` |
 | `contract_version` | `0.5.0` (signed command `0.3.0`) |
 | `profile` | `rehearsal` |

@@ -153,3 +153,70 @@ control keeps perturbing its input whichever way the real screens are recorded. 
 
 The failing run is retained in this session's record; it is a stale test fixture, not a regression in the
 evidence rules.
+
+---
+
+## FINAL-CONT-F11 — HIGH, browser suite at `0ff33e9` failed 5 PASS / 11 FAIL (OPEN)
+
+**Severity** HIGH · **Owner** environment / to be determined · **Source** run
+`B06-exec-2026-09-17T13-46-47.048Z`, results `B06-playwright-2026-09-17T13-46-58.203Z/results.json`
+
+Exit **1**, `13:46:47Z → 14:12:13Z` (25 m 26 s, against 9 m 59 s for the passing run at `81431d6`),
+commit `0ff33e9a`, build `pKS-S9WY5IsMrwB9DecCI`, `source_changed_during_run=false`.
+
+**Why this run existed.** `scripts/source-state.ts:6` excludes `handoffs/`, `artifacts/` and `docs/` but
+**not `tracking/`**. Commit `0ff33e9` edited `tracking/tasks.json` and `tracking/acceptance.json`, so the
+qualified source inventory moved from `e949d8c4…` to `fa3bec7e…`, and `tests/e2e/package.ts:29` only counts
+browser reports whose commit **and** inventory hash match the candidate. Work's own acceptance bookkeeping
+therefore invalidates the candidate it is recording.
+
+**First causal failure (PROVEN).** `configuration.spec.ts`, 74,149 ms:
+`TimeoutError: locator.selectOption: Timeout 20000ms exceeded` waiting for
+`locator('form').filter({has: getByRole('heading',{name:'Create target mapping', exact:true})}).getByLabel('Mapping principal')`
+on `/workspace/principals`.
+
+**Consequential failures (PROVEN).** The remaining 10 share one signature,
+`Error: Connection terminated due to connection timeout` (one `Connection terminated unexpectedly`) —
+**57 occurrences** across the protected traces. `tls.spec.ts` failed in **1,095 ms**, and it only navigates
+to `/` and expects 200, so the application was unreachable within a second. Ordering: `auth` 3/3 PASS
+(16.5/6.2/9.0 s), `candidate` 2/2 PASS (158.0/19.7 s), then `configuration` FAIL at 74 s, then everything
+else FAIL in 1.1–7.2 s.
+
+**Environment state observed afterwards (PROVEN).** The Docker daemon was unreachable
+(`npipe:////./pipe/dockerDesktopLinuxEngine … system cannot find the file specified`) and none of
+`55433 / 57235 / 58183 / 4330` were listening, though all four were listening earlier in the session.
+
+**Hypothesis, not proven.** That the backing layer collapsed mid-run and the empty `Mapping principal`
+select was a symptom rather than a UI regression. Not excluded: a genuine data/UI defect. `0ff33e9`
+changed only `docs/`, `tracking/`, `artifacts/` and `CURRENT_STATE.md`, and `candidate.spec.ts` had just
+exercised the workspace successfully for 158 s, which makes a regression unlikely but not impossible.
+
+**Smallest next diagnostic.** Restore services, confirm the four ports, then run `configuration.spec.ts`
+**alone**. Pass ⇒ environmental. Reproduce ⇒ real defect, and that single spec is the targeted retest.
+
+**Do not** present the 16/16 run at `81431d6` as qualification of `0ff33e9` or of any later build.
+
+---
+
+## FINAL-CONT-F12 — MEDIUM, documentation defects found by audit (CORRECTED)
+
+**Severity** MEDIUM · **Owner** Work · **Source** this directory plus `CURRENT_STATE.md`,
+`docs/reviews/work/FINAL_GATE_REPORT.md`
+
+1. **Arithmetic.** The reconciliation summary claimed "25 of 30 … 5 PARTIAL" while its own table held 26
+   COMPONENT_PASS and 4 PARTIAL. Both figures were wrong. Corrected to **24 / 6** after item 2, and the
+   total is now checked against the table rows.
+2. **Two scenarios were mislabelled COMPONENT_PASS against their canonical `expected` text.**
+   **T26** requires "**browser and backend** observations"; only the backend run happened, and its own
+   artifact says browser egress is unqualified. **T27** requires "**dependency**/secret scan findings
+   triaged"; only the secret/pattern scan ran, and the newest dependency-advisory artifact
+   (`A07-dependency-advisories-1789613793192.json`) predates this work and carries no `source_commit`.
+   Both are now **PARTIAL**.
+3. **Tree-ID labelling.** `e949d8c43c0d…` was written as "tree". It is `sourceState().sha256`, a custom
+   SHA-256 over a filtered file inventory — **not** a Git tree ID. The real Git trees are
+   `81431d6 → e69c35f8636e…` and `0ff33e9 → 67553e1062…`. All occurrences now read
+   "source inventory SHA-256".
+
+T01, T02, T28 and T30 were already PARTIAL for the right reasons: restarting retained services is not a
+fresh-profile start, and `fixture-isolation.ts` only *refused* the rehearsal profile, so cross-lane store
+isolation stays unproven.

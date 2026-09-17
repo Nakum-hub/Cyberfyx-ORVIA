@@ -1,6 +1,6 @@
 # T01–T30 reconciliation against the frozen final candidate
 
-**Candidate:** `81431d64afb8dd613c96d942402d8c0d8cc07ac0` · tree
+**Candidate:** `81431d64afb8dd613c96d942402d8c0d8cc07ac0` · source inventory SHA-256
 `e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437` · manifest SHA-256
 `95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026` · contract 0.5.0 / signed command 0.3.0
 · profile `rehearsal` · fixture `aster-birch-v1` · host build `mtRrfhGjl22jabwoImHIf` · container build
@@ -86,19 +86,22 @@ rather than smoothed over.
 | T23 | Healthy regression run | E8 (runs `cb9e07b8…`, `4840d1fe…` → PASS), E12 `test-lab.spec.ts` | **COMPONENT_PASS** | Canonical record. |
 | T24 | Broken fixture detection and repair | E8 (run `7f48cebe…` stored **FAIL** with `expected_fault_detection: true`, synthetic send count 1, `expected fault flag does not turn FAIL into PASS`, `terminal outcome cannot be rewritten`), E12 `test-lab.spec.ts` | **COMPONENT_PASS** | Canonical record. The FAIL is preserved as a FAIL; it is the detection that passes. |
 | T25 | Quarantined target restore | E8 (run `59335f6a…` → PASS with quarantine-first, premature-activation denial, stale-generation denial, reconciled activation, unchanged consent ledger, recovery journal), E12 `test-lab.spec.ts` | **COMPONENT_PASS** | Canonical record. Target-only recovery; no control-plane disaster recovery is claimed. |
-| T26 | No runtime vendor/model egress | E11 at this exact candidate: image label matches candidate source tree, internal-only network, no published host ports, blocked-egress backend core succeeds, canary never reached, deny-all DNS observed only the controlled query | **COMPONENT_PASS** | Canonical record. Host-wide and browser egress remain explicitly unqualified. |
-| T27 | Input/session and secret hygiene | E2 (`role field cannot grant authority`, `machine bearer cannot become human`, `HttpOnly and strict SameSite cookies`, `application cannot read auth credentials`, `revoked cookie rejected`), E13 (0 findings over 1659 files / 81 generated credential values) | **COMPONENT_PASS** | Canonical record. E13 is pattern and exact-value scope only, not a comprehensive security scan. |
+| T26 | No runtime vendor/model egress | E11 at this exact candidate: image label matches the candidate source inventory, internal-only network, no published host ports, blocked-egress backend core succeeds, canary never reached, deny-all DNS observed only the controlled query | **PARTIAL** | The canonical expectation is "**browser and backend** observations show no unapproved traffic/assets/telemetry". E11 is backend-only and its own artifact states "Browser/network and host development egress remain unqualified". The browser half exists only as the per-context `networkAudit` records inside E12, which must be qualified at the final candidate and explicitly accepted as satisfying the browser observation. |
+| T27 | Input/session and secret hygiene | E2 (`role field cannot grant authority`, `machine bearer cannot become human`, `HttpOnly and strict SameSite cookies`, `application cannot read auth credentials`, `revoked cookie rejected`), E13 (0 findings over 1659 files / 81 generated credential values) | **PARTIAL** | The canonical expectation requires "**dependency**/secret scan findings **triaged**". Only the secret/pattern scan (E13) ran. `pnpm dependencies:check` (`scripts/dependency-advisories.mjs`) was **not executed** in this session; the newest artifact `A07-dependency-advisories-1789613793192.json` predates this work and carries no `source_commit`. |
 | T28 | Reset and fault isolation | E1 (`invalid-reset-denied-probe-preserved`: wrong confirmation and unknown profile both rejected, marker preserved), E9 (business-schema reset refused, state retained across supervised restarts) | **PARTIAL** | The `codex-a00`-scoped `tests/security/fixture-isolation.ts` is **NOT_RUN** here: it is pinned to a different profile (`Only the named Codex fixture profile is permitted`, retained FAIL `B06-exec-2026-09-17T12-07-55.927Z`). Cross-profile isolation at this candidate is therefore not re-established. |
 | T29 | Integrated browser flow and error states | E12 — **16/16 PASS at the exact candidate commit and tree**, all seven mandatory suites, Chromium over normal trusted HTTPS with no bypass; per-context network records assert no request leaves the application origin | **COMPONENT_PASS** | Canonical record. This is the strongest single piece of candidate evidence. |
 | T30 | Frozen-candidate repeatability and claims | E14 (candidate frozen, browser gate `PASS_ENGINEERING`), E15 (242/242 independent integrity checks) | **PARTIAL** | Repeatability across **two independent human rehearsals** (R1, R2) and the C02 claim alignment plus W03 recommendation. By definition this test cannot close before those. |
 
 ## Summary
 
-- **25 of 30** scenarios have every covering component suite passing at this exact candidate
+- **24 of 30** scenarios have every covering component suite passing at this exact candidate
   (COMPONENT_PASS).
-- **5** are PARTIAL with a named, specific gap: **T01** (fresh-profile start), **T02** (organisation/owner
-  creation not re-executed), **T28** (cross-profile isolation suite is `codex-a00`-pinned), **T30**
+- **6** are PARTIAL with a named, specific gap: **T01** (fresh-profile start), **T02** (organisation/owner
+  creation not re-executed), **T26** (browser-side egress observation not qualified), **T27** (dependency
+  advisory triage not executed), **T28** (cross-profile isolation suite is `codex-a00`-pinned), **T30**
   (rehearsals + W03 + C02).
+- 24 + 6 = 30. This arithmetic is checked against the table rows above; an earlier revision of this summary
+  said "25 and 5" while the table held 26 and 4, and both figures were wrong.
 - **0** are FAIL or ERROR.
 - **0** are `PASS` in `tracking/acceptance.json`, because no `APPLICATION_ACCEPTANCE` / `FULL_SCENARIO`
   record exists. Producing those records is what Rehearsal 1 and Rehearsal 2 are for, and the human runs or

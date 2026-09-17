@@ -70,7 +70,7 @@ is recorded as a toolchain note in `docs/runbooks/OPERATOR.md`.
 ## T26 status referenced by the W02 review
 
 `tsx scripts/network-qualification.ts confirm:rehearsal` — **PASS, exit 0, 13 assertions** at candidate
-`81431d64`, tree `e949d8c4…`. Evidence `handoffs/codex/browser/B06-exec-2026-09-17T12-50-28.741Z`, artifact
+`81431d64`, source inventory SHA-256 `e949d8c4…`. Evidence `handoffs/codex/browser/B06-exec-2026-09-17T12-50-28.741Z`, artifact
 `handoffs/codex/artifacts/A07-network-qualification-1789649464712-61fc22c5-8651-4fd8-9679-cf7e0b0aef05.json`.
 Limitation retained verbatim: observed backend core only, private Docker network, local deny-all DNS and a
 controlled external-network canary; browser and host development egress remain unqualified; no real

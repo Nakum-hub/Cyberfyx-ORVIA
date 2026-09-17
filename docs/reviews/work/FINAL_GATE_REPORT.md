@@ -145,7 +145,7 @@ retained at its original date.
 | Browser evidence | **YES** | 16/16 PASS, exit 0, at the exact candidate commit and tree, normal trusted HTTPS |
 | No unresolved blocking finding | **YES** for blocking severity | one LOW open finding, FINAL-CONT-F08 |
 | Limitations documented | **YES** | retained in the manifest, both reviews and `CURRENT_STATE.md` |
-| T01–T30 results | **NO** | all NOT_RUN; 25 of 30 have full component coverage at the candidate, 5 are PARTIAL with named gaps |
+| T01–T30 results | **NO** | all NOT_RUN; 24 of 30 have full component coverage at the candidate, 6 are PARTIAL with named gaps (T01, T02, T26, T27, T28, T30) |
 | C01/C02 aligned | **PARTIAL** | candidate identity and source inspection refreshed; screen-level browser claims blocked by FINAL-CONT-F08 |
 | Two qualifying rehearsals | **NO** | R1 and R2 NOT_RUN |
 | Human sign-off | **NO** | not given |

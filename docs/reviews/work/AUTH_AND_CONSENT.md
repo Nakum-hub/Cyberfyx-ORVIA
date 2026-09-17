@@ -100,7 +100,7 @@ Human reviews/merges this Work review/tracker branch. Codex then starts **A02 on
 
 ## W01 consolidated acceptance — 2026-09-17
 
-**Decision: ACCEPTED.** Candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, tree
+**Decision: ACCEPTED.** Candidate `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, source inventory SHA-256
 `e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437`, contract 0.5.0 / signed command 0.3.0,
 profile `rehearsal`, fixture `aster-birch-v1`. Everything above this line is retained at its original date
 and authorship; nothing is rewritten.

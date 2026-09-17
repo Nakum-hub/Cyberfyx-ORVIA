@@ -1,7 +1,7 @@
 # W02 — consolidated integration, failure, security and recovery review
 
 **Reviewer:** Work integration/review lane (this session). **Date:** 2026-09-17.
-**Candidate source:** `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, source tree
+**Candidate source:** `81431d64afb8dd613c96d942402d8c0d8cc07ac0`, source inventory SHA-256
 `e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437`.
 **Contract:** transport 0.5.0, signed command 0.3.0. **Profile:** `rehearsal`, fixture `aster-birch-v1`.
 

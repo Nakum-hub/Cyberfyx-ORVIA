@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "source_commit": "0ff33e9a2b07fe40aed4e94e99f784186e013574",
+  "source_tree_sha256": "084268bca3ee3eb9db43c68b17763d6ef786c971165ec0c584f3e4d4431b8808",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "configuration.spec.ts",
+        "B01 configure purpose/notice/system/policy and distinct reviewer publication persists"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 17159,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\configuration.spec.ts",
+        "line": 5,
+        "column": 1
+      },
+      "errors": [],
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}
