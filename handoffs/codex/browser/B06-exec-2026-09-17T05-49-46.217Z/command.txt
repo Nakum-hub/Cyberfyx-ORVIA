@@ -1,0 +1,9 @@
+{
+  "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+  "source_tree_sha256": "325d54daad807f5da2f45b182ce88bd39d914c3b01d5fb4c44e59bc311db4135",
+  "manifest": "artifacts/release-manifest.json",
+  "manifest_sha256": "bf1e7a190c808063cf2002d03bc85f506accb05661195654016249764c261d33",
+  "browser_gate": "BLOCKED_CERTIFICATE_TRUST",
+  "browser_archive_files": 75,
+  "package_result": "PASS"
+}

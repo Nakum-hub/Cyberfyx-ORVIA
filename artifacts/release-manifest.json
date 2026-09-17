@@ -1,10 +1,10 @@
 {
-  "task_id": "A07",
-  "candidate_kind": "LOCAL_SYNTHETIC_ENGINEERING_CANDIDATE_PENDING_REVIEW",
-  "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
-  "source_branch": "prototype/codex/A07-package",
+  "task_id": "B06",
+  "candidate_kind": "LOCAL_SYNTHETIC_UI_ENGINEERING_CANDIDATE_PENDING_REVIEW",
+  "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+  "source_branch": "prototype/codex/B00-B06-ui",
   "bundle_verified": true,
-  "source_tree_sha256": "66afd7f85927cb81abe61a23cdcab6c97520f88a76aad8f8403a183768d2b111",
+  "source_tree_sha256": "325d54daad807f5da2f45b182ce88bd39d914c3b01d5fb4c44e59bc311db4135",
   "source_files": [
     {
       "path": ".dockerignore",
@@ -104,7 +104,7 @@
     },
     {
       "path": "apps/web/src/app/globals.css",
-      "sha256": "7b9bf3a8003ba4bfbabe47bc0fac674caa61a6c66eb88f74b1bb69c561f5cdd7"
+      "sha256": "3f24201a4900dd9be55245cfe3852720af5b408a6f4df323c33d008b499ddc7f"
     },
     {
       "path": "apps/web/src/app/healthz/route.ts",
@@ -124,7 +124,7 @@
     },
     {
       "path": "apps/web/src/app/privacy/page.tsx",
-      "sha256": "69659931d4f911a2a6903fc34779d0d926a270a2b3ef66f03b70aa96b51e47be"
+      "sha256": "c20a188fc5cc0fe312a7282d60174708166a47b5becec2dd07ec2b8d68d34cb1"
     },
     {
       "path": "apps/web/src/app/privacy/receipt/[id]/page.tsx",
@@ -132,43 +132,119 @@
     },
     {
       "path": "apps/web/src/app/privacy/receipts/page.tsx",
-      "sha256": "746647ec3423aa93901811c49bb2271ecf4edb03896c7ec22cb2bed629d3345e"
+      "sha256": "28e18a060d7927b7465dedaf41b0fb6836aaf30a9cd22441986d9e3b74734656"
     },
     {
       "path": "apps/web/src/app/privacy/sign-in/page.tsx",
-      "sha256": "da811f6fcb789516652af4031599dab2ec315ca1a8fb98a8471d89275e59ffc5"
+      "sha256": "53ffa5de99ba3f0e26d8240e4ee1b6ba7348eea600d1789569729513089d8691"
+    },
+    {
+      "path": "apps/web/src/app/workspace/capabilities/page.tsx",
+      "sha256": "a555db3e95bd5922977d5de914933fe44d6d9b11fb38b118e57d2b9779f22519"
+    },
+    {
+      "path": "apps/web/src/app/workspace/configuration/page.tsx",
+      "sha256": "2d6dd7db831bdd337b0246ed9e4db40c3fb27085f10a5628ed73f1dbe513c645"
+    },
+    {
+      "path": "apps/web/src/app/workspace/control-map/page.tsx",
+      "sha256": "291af2a346dbffd48747c310973717cdb4b46b45683cd2986713fa13ef888e04"
+    },
+    {
+      "path": "apps/web/src/app/workspace/evidence/[id]/page.tsx",
+      "sha256": "1dbc7abf9ee9e65c672761f15ba3af83cd6202aac555d4e1a1d813163b4946cb"
+    },
+    {
+      "path": "apps/web/src/app/workspace/evidence/page.tsx",
+      "sha256": "22c03ef434838fd25a86abecbebef6909a650dcae0bbfdefca377afb90324ba0"
+    },
+    {
+      "path": "apps/web/src/app/workspace/failures/page.tsx",
+      "sha256": "4200d4e7d389f0f5607250b72638b5087ae55daddb74115292051a9cdd4179aa"
     },
     {
       "path": "apps/web/src/app/workspace/layout.tsx",
       "sha256": "3a30bc81ec4fc71188f8ef10f9c0ebcaf5a4188cc7b90306f6677f6fa0570826"
     },
     {
+      "path": "apps/web/src/app/workspace/page.tsx",
+      "sha256": "90f7a8e2e7226ec7a0bd16e0943d29c9daba62cfdfb9b2f2bd9d7b46d359aef1"
+    },
+    {
+      "path": "apps/web/src/app/workspace/policy-preview/page.tsx",
+      "sha256": "1a6b3159904ac0c08fddb73b7de8b07a014bda1510a7f45b39d2ee90211ab3cb"
+    },
+    {
+      "path": "apps/web/src/app/workspace/principals/page.tsx",
+      "sha256": "fa4c11e4e1f7412b56e07462b7403954eb1ac15b0551dedd44f83475c97f946e"
+    },
+    {
+      "path": "apps/web/src/app/workspace/sign-in/page.tsx",
+      "sha256": "c60ca94e40599ea366bcbdeb6e232e2f4dc2cf4ce8462a12899b8d893dba1af4"
+    },
+    {
+      "path": "apps/web/src/app/workspace/test-lab/[id]/page.tsx",
+      "sha256": "5487969dc7866230323169adb4d9237c63f319002608e79153585540d7eb4229"
+    },
+    {
+      "path": "apps/web/src/app/workspace/test-lab/page.tsx",
+      "sha256": "6e8566b97b0b5380b7599e3e67b963472e83822ddbb17d40e83bd29ebe535b46"
+    },
+    {
+      "path": "apps/web/src/app/workspace/workflows/[id]/page.tsx",
+      "sha256": "7a31987070673d35ba14052c19652581985272bf0f468d36afb65c377ace2681"
+    },
+    {
+      "path": "apps/web/src/app/workspace/workflows/page.tsx",
+      "sha256": "6bd0a5cd0e1cd1076836f9c41bec15b7b0d5a6c9adf39ca10b0c49fdf50a3f2b"
+    },
+    {
       "path": "apps/web/src/components/api.ts",
-      "sha256": "7fbabfca5a4b4a2af5c43e556d26ed98ba58ba5f761e09464847e3b2503c3118"
+      "sha256": "b7cf1513d4757e184dbfe51b38fb21b6c7f1d84b3533089dbe4db2e1d1a281e9"
+    },
+    {
+      "path": "apps/web/src/components/configuration.tsx",
+      "sha256": "6ec7c9ee78057604446ab254a0080a1d6fca31fc09749e6ff2ae228f552c53e1"
     },
     {
       "path": "apps/web/src/components/derive.ts",
-      "sha256": "bfac1b76e732506df7cb40ffb12f700a2c5a82e957c58936dca85c524d694b45"
+      "sha256": "f7d4d9da26cafee5c72d07b8c2b1665901d50d2c6beb9aa633a1c25ac37a05c0"
     },
     {
       "path": "apps/web/src/components/errors.ts",
-      "sha256": "65904a7881fc201834af4e178afc258bcfa6145885c124508e65a3fa4955dee3"
+      "sha256": "0a593d713710a57084c47b531846a8ff7a286d74bca2e321bdd8517222773514"
+    },
+    {
+      "path": "apps/web/src/components/mutation-feedback.tsx",
+      "sha256": "f4bd3434dc605212d3e49902ea6178788b86e90f832741c156082b09487156c5"
+    },
+    {
+      "path": "apps/web/src/components/operations.tsx",
+      "sha256": "01109476f37276d9b20436f9d0189e50f3c3df8be2c7305e4b3260a3cd456bf0"
     },
     {
       "path": "apps/web/src/components/session-context.tsx",
-      "sha256": "995e62ab650f0f3278b5d03f0e224705ff046c64f343e5457c6d1cb8c9045ef4"
+      "sha256": "6e89b2a18ff4ac2d32eb259754fcdcc1f2845101ae06da4d74dd854a826f1d9d"
     },
     {
       "path": "apps/web/src/components/shell.tsx",
-      "sha256": "e50a64d11737a256dc9fffb5cd3807564885b28be6955f558491fe7c372cfedc"
+      "sha256": "8d26a008255d53430a112fea0949d5a4f3215264f1578563ba36c8ae02b7a306"
     },
     {
       "path": "apps/web/src/components/state-labels.ts",
-      "sha256": "3f1f0f439712f43ed390661d0d70ec03dfd6c0f7e342212028fda690dfda24d7"
+      "sha256": "37edc50003570e56ef56d6e5806ab328dd8e385a14cf3b99f2f73ec3ab25db4e"
+    },
+    {
+      "path": "apps/web/src/components/test-lab.tsx",
+      "sha256": "7fcb77bb91b9004b1a08205d4975e285438582d0ac1551e628fe98a0218af484"
     },
     {
       "path": "apps/web/src/components/ui.tsx",
-      "sha256": "f70ec31bf18f97e275ac10c7ab523da6426c9aca0818cf489a53846707d4db2d"
+      "sha256": "28d5b7420f7d228d3b4a1b1b10c82dde8c596d4578e411012523850d64240d88"
+    },
+    {
+      "path": "apps/web/src/components/workspace.tsx",
+      "sha256": "057785f5c056271747313ce79f1e0a678be2e5348c15fe39a85e370749510755"
     },
     {
       "path": "apps/web/src/server/business.ts",
@@ -340,7 +416,7 @@
     },
     {
       "path": "packages/contracts/src/client.ts",
-      "sha256": "9ba572bf3764430434b641bd4162db2bb857d5564183772d4ec62c974f340a46"
+      "sha256": "91bada26627bdaf418d4bc283f1f5835435445988b30be753b40fb2f8052b790"
     },
     {
       "path": "packages/contracts/src/crypto.ts",
@@ -683,6 +759,58 @@
       "sha256": "2d586fac42672ea0bb346765b3dd39f047fd21dcd2af9839313428511ff38c04"
     },
     {
+      "path": "tests/e2e/auth.spec.ts",
+      "sha256": "c69707e5d278a7bc0e49e7ac3f05015fc5f329d1e6b0c49ad67a452c9fee56ab"
+    },
+    {
+      "path": "tests/e2e/candidate.spec.ts",
+      "sha256": "cb6cad133a6814114fe7036ad8dfb427738e334a8b498a885bf96469baeca1ca"
+    },
+    {
+      "path": "tests/e2e/configuration.spec.ts",
+      "sha256": "814ef715501a7955b9ecc9544e2d79ad9ffc795c1a443f15c62689196420ade7"
+    },
+    {
+      "path": "tests/e2e/consent.spec.ts",
+      "sha256": "b4c6e6b9e4f68785484bc22bdafff88d700bc64803993bc88e608b7901fbe3f5"
+    },
+    {
+      "path": "tests/e2e/fixture.ts",
+      "sha256": "ab98db17cdab2791266fe1e1798937ad3d229ef7820d363ca777c467f14439a2"
+    },
+    {
+      "path": "tests/e2e/package.ts",
+      "sha256": "69885683c7cd9cc77fc0cb5950e810768cb7dc8fc8fd04cbbe61284ed05de5b9"
+    },
+    {
+      "path": "tests/e2e/playwright.config.ts",
+      "sha256": "6ee953de5aea9e042f584a295b0f6bd573caf86ef9d1f07288ff2e02ac6798af"
+    },
+    {
+      "path": "tests/e2e/record.mjs",
+      "sha256": "31ea93dbaadaabda70df6d4576d8ed0ab912ca837943d1ec8417bddd004ae9b5"
+    },
+    {
+      "path": "tests/e2e/reporter.ts",
+      "sha256": "f5445d696c42dae785ba9aa3a0d25bee1a483f5b7220ba6dae0cff99bb1133ee"
+    },
+    {
+      "path": "tests/e2e/test-lab.spec.ts",
+      "sha256": "0ee2aac51448dff28b51e903883e0779d76d3b0837c451829144fefa57fedf9a"
+    },
+    {
+      "path": "tests/e2e/tls.spec.ts",
+      "sha256": "567d4789bcd8580d38bf75829e14b963f644a7fb00fc9b02f49eddbf40bfb49b"
+    },
+    {
+      "path": "tests/e2e/transport-preflight.ts",
+      "sha256": "a31cd00701c4ab6d8878c2ca41097754a6a12a1542cdec07643bf11ee6705ec2"
+    },
+    {
+      "path": "tests/e2e/workflow.spec.ts",
+      "sha256": "d386211f5323ab86bfbf89b2071bce1580190a902408d3ec25d481eb13ebe631"
+    },
+    {
       "path": "tests/fault-fixtures/stale-sender.ts",
       "sha256": "01ff002212f5546620cf7142a26878841a20535fe585a1dcc9b84257cae7d655"
     },
@@ -744,11 +872,15 @@
     },
     {
       "path": "tests/unit/contracts.test.ts",
-      "sha256": "de1fa41094b4cc935ca6b35fbaa73aa0a635527b62db7b69b41ce9d663959416"
+      "sha256": "f064db6b822e73c52ee110f336bc5008786088acb456dadf2d5dfab636f795ea"
     },
     {
       "path": "tests/unit/tracking.test.ts",
       "sha256": "4fa2fe59e66f9be4eed36e4aa307918fdcf927eaffcb5de3ed790e279bc6663a"
+    },
+    {
+      "path": "tests/unit/ui-evidence.test.ts",
+      "sha256": "d6872c516e542ba5c34d4ac36ffe67d29b039d2902b9f3d9b4e1367741b39032"
     },
     {
       "path": "tracking/acceptance.json",
@@ -772,7 +904,7 @@
     }
   ],
   "dirty_source": false,
-  "excluded_evidence_dirty_state": "?? handoffs/codex/artifacts/A07-application-lifecycle-1789617018311-8e42c970-1637-4fe6-ae74-080b9c1bfd11.json\n?? handoffs/codex/artifacts/A07-application-lifecycle-1789617047073-fdb468da-946b-413c-b113-5aeac4d4f37b.json\n?? handoffs/codex/artifacts/A07-auth-security-1789616852357-8e78561f-1eea-4b1d-b711-d3999e424809.json\n?? handoffs/codex/artifacts/A07-build-2026-09-17T03-45-20.163Z.json\n?? handoffs/codex/artifacts/A07-build-2026-09-17T03-45-20.163Z.log\n?? handoffs/codex/artifacts/A07-lifecycle-integration-1789617047440-555b379c-efd6-4e3f-9ce3-8051c83c37fa.json\n?? handoffs/codex/artifacts/A07-network-core-1789617242997-1d7e84fa-bd3b-441a-8a80-147febf7ea8c.json\n?? handoffs/codex/artifacts/A07-network-observations-2b45d71b-3327-419e-b2f5-5eb0eca1f7ac.json\n?? handoffs/codex/artifacts/A07-network-qualification-1789617245884-fef601b0-dd29-4ded-aba5-7edd2acd5e25.json\n?? handoffs/codex/artifacts/A07-package-verifier.py\n?? handoffs/codex/artifacts/A07-regression-run-1789617242822-6ebb392d-6dba-4d60-bbbb-491fc9ebb57d.json\n?? handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-50-48.067Z.json\n?? handoffs/codex/artifacts/A07-runtime-build-2026-09-17T03-50-48.067Z.log\n?? handoffs/codex/artifacts/A07-runtime-image-1789617173722-d7214a1b-4bca-4284-a5b8-31c2dcf50559.json\n?? handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-47-07.677Z.json\n?? handoffs/codex/artifacts/A07-test-auth-2026-09-17T03-47-07.677Z.log\n?? handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-49-53.472Z.json\n?? handoffs/codex/artifacts/A07-test-lifecycle-2026-09-17T03-49-53.472Z.log\n?? handoffs/codex/artifacts/A07-test-network-2026-09-17T03-52-57.312Z.json\n?? handoffs/codex/artifacts/A07-test-network-2026-09-17T03-52-57.312Z.log\n?? handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-45-52.215Z.json\n?? handoffs/codex/artifacts/A07-test-tls-2026-09-17T03-45-52.215Z.log\n?? handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-48-22.990Z.json\n?? handoffs/codex/artifacts/A07-test-workflows-2026-09-17T03-48-22.990Z.log\n?? handoffs/codex/artifacts/A07-tls-integration-1789616766098-d6730dca-8a23-4ae8-8946-be6617743289.json\n?? handoffs/codex/artifacts/A07-workflow-integration-1789616977175-b6236db9-76be-4998-8c8a-0d210652ca62.json",
+  "excluded_evidence_dirty_state": "?? handoffs/codex/artifacts/A07-network-core-1789624071292-448aa714-e426-447f-a17e-4c17df76c54e.json\n?? handoffs/codex/artifacts/A07-network-observations-27eb7afa-aa09-44d3-a0e9-2fe1663ac73c.json\n?? handoffs/codex/artifacts/A07-network-qualification-1789624073916-7220c127-6ece-460b-a1db-1096c1303599.json\n?? handoffs/codex/artifacts/A07-regression-run-1789624071114-baf89556-6639-4c41-887b-e7e973c453a0.json\n?? handoffs/codex/artifacts/A07-runtime-image-1789623923985-842cdc14-88f9-4a6f-a60f-61d5e5bba16d.json\n?? handoffs/codex/browser/B06-build-2026-09-17T05-43-31.138Z/command.json\n?? handoffs/codex/browser/B06-build-2026-09-17T05-43-31.138Z/command.txt\n?? handoffs/codex/browser/B06-exec-2026-09-17T05-44-03.461Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T05-44-03.461Z/command.txt\n?? handoffs/codex/browser/B06-exec-2026-09-17T05-46-18.750Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T05-46-18.750Z/command.txt\n?? handoffs/codex/browser/B06-exec-2026-09-17T05-47-25.058Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T05-47-25.058Z/command.txt\n?? handoffs/codex/browser/B06-operator-instructions.txt\n?? handoffs/codex/browser/B06-playwright-2026-09-17T05-46-23.690Z/network-31b1dc50484557b5f5a0-1217b9d06f657a933476.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T05-46-23.690Z/results.json",
   "master": {
     "path": "docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md",
     "sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6"
@@ -784,10 +916,10 @@
   },
   "lockfile_sha256": "b2694da120310a26a6ae377ebecbd4dafcac6711b60377c4ff308fe4fc91a5c8",
   "build": {
-    "host": "kIB5gxhIwn42T6Dqsburh",
-    "container": "lBTMG6QFakbJa4pG--aN9",
-    "runtime_image_id": "sha256:a5f61ea21a6bb667955ac208d0874ca58fb10487e257ac53e2a7553cf69389ed",
-    "runtime_image_source_commit": "e3740308fe217a59d21a68e899a93d07a4829463"
+    "host": "3rYXcWGOXlCdf_7d4FhiG",
+    "container": "JjG0h1a-8c8foyjBZDrjl",
+    "runtime_image_id": "sha256:53710a76d66eeda8ffca6da64774551a5b34488dc2bb226763e019d33d7bc1cb",
+    "runtime_image_source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd"
   },
   "profile": {
     "name": "rehearsal",
@@ -842,20 +974,24 @@
   ],
   "package_artifacts": [
     {
-      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-source.bundle",
-      "sha256": "f6475e9a99b3d6bbc67aadbee7792f2472607c88e2b01d9df1c800290f93ae20"
+      "path": ".local/releases/766854399d411c551c4d3f657ea2b4f3f189a4bd/orvia-source.bundle",
+      "sha256": "cc53c0aad4bfd23b1bf7a7be013472aeefabb594f8eaf0e2797db9dd8915c8cc"
     },
     {
-      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-source.zip",
-      "sha256": "c5504f986945de41e3682422b6325a442425fd9bfcd6c858a6d9b8e4ebf28ff2"
+      "path": ".local/releases/766854399d411c551c4d3f657ea2b4f3f189a4bd/orvia-source.zip",
+      "sha256": "e61f10f7eb677bb77bb642ec4a8d355b47f2f3146f65cfd8b15b59ae32467d0c"
     },
     {
-      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-evidence.zip",
-      "sha256": "ea8a82c36a492403c89fb6dcb124cf1c46d4ffe54a8d6d5208a0c5885a76ce11"
+      "path": ".local/releases/766854399d411c551c4d3f657ea2b4f3f189a4bd/orvia-evidence.zip",
+      "sha256": "75a04d557a02b5384cd3288b7c5cc509743d34f9cf528cc3e8e97b2f7c6db121"
     },
     {
-      "path": ".local/releases/e3740308fe217a59d21a68e899a93d07a4829463/orvia-local-images.tar",
-      "sha256": "0bbb39b9db24943f69c4e013e344ca9b1114a8be112ebf765a928d1c6d93d662"
+      "path": ".local/releases/766854399d411c551c4d3f657ea2b4f3f189a4bd/orvia-local-images.tar",
+      "sha256": "d58d55506d180b908646df1d58683d7df116e0e6c54096cbd40a7114a555270d"
+    },
+    {
+      "path": ".local/releases/766854399d411c551c4d3f657ea2b4f3f189a4bd/orvia-browser-evidence.zip",
+      "sha256": "54e690cb12a8188336828963ba6af49f553b1207a3d557be2d8a9d552c4f684c"
     }
   ],
   "executed_evidence": [
@@ -933,6 +1069,20 @@
         "node",
         "scripts/record.mjs",
         "build"
+      ],
+      "exit_code": 0,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "profile": "rehearsal"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-candidate-package-2026-09-17T03-54-38.325Z.json",
+      "sha256": "b644cafba1ab3c4cd213ef1c9f1c0a2c9b319583c55b3d0b45c874a1d126b4bc",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "candidate:package",
+        "confirm:rehearsal"
       ],
       "exit_code": 0,
       "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
@@ -1100,6 +1250,32 @@
       "profile": "rehearsal"
     },
     {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T03-58-58.848Z.json",
+      "sha256": "82e3146394c4955923407af2951098773069abd59c5fe9f27c82e6bb9bbabf08",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "profile": "rehearsal"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-hygiene-check-2026-09-17T04-02-38.510Z.json",
+      "sha256": "dcb99e005ebd17d78fcb3d8a232cbb2328aa792079229087b7b94964301576b7",
+      "command": [
+        "node",
+        "scripts/record.mjs",
+        "hygiene:check"
+      ],
+      "exit_code": 0,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "source_tree_sha256": "aa984eb36151ea1b473d6e522bdf1d68c33c0a70a5c3ebc9548d8bfdcbade7a5",
+      "profile": "rehearsal"
+    },
+    {
       "path": "handoffs/codex/artifacts/A07-install-2026-09-17T02-38-52.628Z.json",
       "sha256": "77ab3ef0d2c65693abb4a0cdf78e54e0a85bb7d16aafa330748c3b176e981627",
       "command": [
@@ -1232,6 +1408,27 @@
       "source_commit": "04a16669e3634cff5c6f4f46769287182a1a4275",
       "source_tree_sha256": "1df64428571238678795661385bf100485b9d292b9a57395a56a2fdb1c97ebec",
       "profile": "rehearsal"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-verifier-execution.json",
+      "sha256": "28dca9b105bd54116cb26704a22498a5140a99d0c68a01608668ce303af5588f",
+      "command": [
+        "python",
+        "handoffs/codex/artifacts/A07-package-verifier.py"
+      ],
+      "exit_code": 0,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463",
+      "profile": "rehearsal"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-package-verifier-original-failure.json",
+      "sha256": "94dfb23371996261402298ca486a62bf417fda1a2aa9a96024e57ff79529de70",
+      "command": [
+        "python",
+        "handoffs/codex/artifacts/A07-package-verifier.py"
+      ],
+      "exit_code": 1,
+      "source_commit": "e3740308fe217a59d21a68e899a93d07a4829463"
     },
     {
       "path": "handoffs/codex/artifacts/A07-preflight-2026-09-17T02-48-45.312Z.json",
@@ -1740,19 +1937,59 @@
     }
   ],
   "signing": "Development SHA-256 checksums only; not production release signing.",
-  "created_at": "2026-09-17T03:56:12.336Z",
+  "created_at": "2026-09-17T05:51:03.481Z",
   "gates": {
     "work_review": "PENDING",
-    "browser_acceptance": "NOT_RUN",
+    "browser_acceptance": "BLOCKED_CERTIFICATE_TRUST",
     "human_rehearsals": "NOT_RUN",
     "release": "NOT_APPROVED"
   },
   "limitations": [
-    "Partial preserved UI: unfinished staff workspace and B-task/browser acceptance.",
+    "Mandatory UI screens and executable suites are implemented; authenticated browser journeys and screenshots are NOT_RUN pending certificate trust.",
     "Source package requires the pinned Node/pnpm install and local Docker; dependency provisioning may require authorized network access.",
     "Bundled runtime image defaults to backend network qualification, not an independently approved production hosting configuration.",
     "Local CA is not installed in OS/browser trust; only verified per-process clients qualified.",
     "Full control-plane disaster recovery, production signing/security/legal acceptance and human rehearsals are not claimed.",
-    "Reset is bootstrap-probe-only and refuses business schema. Existing consent/withdrawal history is retained."
-  ]
+    "Reset is bootstrap-probe-only and refuses business schema. Existing consent/withdrawal history is retained.",
+    "Manual attestation submission remains unavailable: canonical Obligation reads omit the required current task version. No version is guessed."
+  ],
+  "ui": {
+    "base_backend_commit": "7f4f7010a908f77c036ab31951ed89fa200f722c",
+    "tickets": [
+      "B00",
+      "B01",
+      "B02",
+      "B03",
+      "B04",
+      "B06"
+    ],
+    "playwright_version": "1.63.0",
+    "full_browser_evidence": null,
+    "browser_runs": [
+      {
+        "path": "handoffs/codex/browser/B06-playwright-2026-09-17T05-36-05.334Z/results.json",
+        "result": "failed",
+        "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+        "current_source": false,
+        "sha256": "6f070203b72a694a543e46f17935e23895840effea00e685a69a09e6633c99ad"
+      },
+      {
+        "path": "handoffs/codex/browser/B06-playwright-2026-09-17T05-46-23.690Z/results.json",
+        "result": "failed",
+        "source_commit": "766854399d411c551c4d3f657ea2b4f3f189a4bd",
+        "current_source": true,
+        "sha256": "b871b7abf039394371eb943a2506abe04156bee9f098cd95a915e15ab15d52bb"
+      }
+    ],
+    "mandatory_browser_suites": [
+      "auth.spec.ts",
+      "configuration.spec.ts",
+      "consent.spec.ts",
+      "workflow.spec.ts",
+      "test-lab.spec.ts",
+      "candidate.spec.ts",
+      "tls.spec.ts"
+    ],
+    "raw_authenticated_artifacts": "Protected .local/browser-evidence only; excluded from all packages and Git."
+  }
 }
