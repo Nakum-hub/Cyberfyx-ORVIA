@@ -11,8 +11,19 @@ export function writeEvidence(kind:string, data:Record<string,unknown>){
   console.log(`Artifact: ${path}`);
   return path;
 }
+/**
+ * Static operator guidance keyed by error code. The text is a literal from this
+ * table and is never taken from the error itself, so an actionable message can
+ * be surfaced without any path for a credential, connection setting or raw
+ * service error to reach an operator console or an evidence artifact.
+ */
+const OPERATOR_GUIDANCE:Record<string,string>={
+  MACHINE_ENROLLMENT_EXPIRED:'Machine enrollment expired; renew through protected local setup (machine:init confirm:<profile>) before starting the application.',
+};
 // Do not serialize SQL clients, connection settings or raw service errors.
 export function safeError(error:unknown){
   const code=typeof error==='object'&&error!==null&&'code'in error?String(error.code):'UNCLASSIFIED';
-  return {name:error instanceof Error?error.name:'Error',code:/^[A-Za-z0-9_]{1,50}$/.test(code)?code:'UNCLASSIFIED'};
+  const resolved=/^[A-Za-z0-9_]{1,50}$/.test(code)?code:'UNCLASSIFIED';
+  const guidance=OPERATOR_GUIDANCE[resolved];
+  return {name:error instanceof Error?error.name:'Error',code:resolved,...guidance?{operator_guidance:guidance}:{}};
 }

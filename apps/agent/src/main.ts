@@ -11,7 +11,7 @@ let stopped=false;process.on('SIGINT',()=>{stopped=true;});process.on('SIGTERM',
 try {
  while(!stopped) {
   for(const identity of enrollment.identities) {
-   if(Date.parse(identity.expires_at)<=Date.now())throw new Error('Agent enrollment expired; renew through protected local setup');
+   if(Date.parse(identity.expires_at)<=Date.now())throw Object.assign(new Error('Agent enrollment expired; renew through protected local setup'),{code:'MACHINE_ENROLLMENT_EXPIRED'});
    const headers={'content-type':'application/json',authorization:`Bearer ${identity.token}`};
    const response=await fetch(config.origin+'/api/v1/machine/commands/poll',{method:'POST',headers,body:JSON.stringify({installation_id:config.installation_id,environment_id:identity.scope.environment_id,maximum_commands:10}),signal:AbortSignal.timeout(5000)});
    if(!response.ok)throw new Error('Machine poll denied or unavailable');

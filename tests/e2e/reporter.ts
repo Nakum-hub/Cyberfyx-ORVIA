@@ -1,5 +1,5 @@
 import type { Reporter, TestCase, TestResult, FullResult } from '@playwright/test/reporter';
-import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -10,9 +10,24 @@ import { CONTRACT_VERSION } from '../../packages/contracts/src/index.ts';
 // Published outcomes carry exact identities/statuses, never raw auth call logs.
 export default class EvidenceReporter implements Reporter {
   results:unknown[]=[];
+  /**
+   * Published browser health. The console/page-error audit is summarised here so
+   * qualification evidence shows it; previously it existed only as a Playwright
+   * annotation that this record discarded.
+   */
+  browser(testId:string){
+    const path=resolve('handoffs/codex/browser',`B06-playwright-${process.env.ORVIA_BROWSER_RUN_ID}`,`console-${testId}.json`);
+    if(!existsSync(path))return {recorded:false as const};
+    const audit=JSON.parse(readFileSync(path,'utf8')) as {counts:Record<string,number>;unexpected:number;deliberate_errors_captured:number;entries:{kind:string;text:string}[]};
+    return {recorded:true as const,counts:audit.counts,unexpected:audit.unexpected,deliberate_errors_captured:audit.deliberate_errors_captured,
+      // Deliberate HTTP statuses stay as counts; only genuine faults are quoted.
+      faults:audit.entries.filter(e=>e.kind==='PAGE_ERROR'||e.kind==='CONSOLE_ERROR'||e.kind==='REACT_WARNING').map(e=>({kind:e.kind,text:e.text}))};
+  }
   onTestEnd(test:TestCase,result:TestResult){
     const record={title:test.titlePath(),status:result.status,expected_status:test.expectedStatus,duration_ms:result.duration,retry:result.retry,location:test.location,
       errors:result.errors.map(e=>({category:/ERR_CERT/.test(e.message??'')?'BROWSER_CERTIFICATE_NOT_TRUSTED':'EXECUTION_OR_ASSERTION_FAILURE',private_detail:true})),
+      annotations:result.annotations?.map(a=>({type:a.type,description:a.description}))??[],
+      browser_health:this.browser(test.id),
       attachments:result.attachments.filter(a=>a.path).map(a=>({name:a.name,sha256:createHash('sha256').update(readFileSync(a.path!)).digest('hex'),private_path:a.path}))};
     this.results.push(record);console.log(`${result.status.toUpperCase()} ${test.title}`);
     const dir=resolve('.local/browser-evidence',process.env.ORVIA_BROWSER_RUN_ID!);mkdirSync(dir,{recursive:true});

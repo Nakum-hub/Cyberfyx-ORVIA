@@ -13,8 +13,11 @@ export async function createMarketingScenario(harness: HttpFixture, connector: '
  const notice=S.Notice.parse(await create('/api/v1/admin/notices',{purpose_id:purpose.id,language:'en',title:'Optional synthetic marketing',content:'This fixture permits only synthetic marketing; withdraw in this portal.'}));
  const system=S.System.parse(await create('/api/v1/admin/systems',{...selectors,name:connector,connector}));
  const policy=S.Policy.parse(await create('/api/v1/admin/policies',{purpose_id:purpose.id,notice_version_id:notice.version_id,condition:purposeCode==='promotional_marketing'?'AFFIRMATIVE_MARKETING_CONSENT':'APPROVED_SYNTHETIC_ORDER_SERVICE',system_ids:[system.id],required_observation:requiredObservation}));
+ // Publication re-verifies the reviewer's authenticator, so this consumes the
+ // same /two-factor/* budget as a sign-in and needs the same idle window.
+ await harness.authWindow();
  const proofResponse=await owner.call(`/api/v1/admin/policies/${policy.id}/reauthenticate`,{version_id:policy.version_id,digest:policy.digest,code:authenticatorCode(harness.users.owner!.totp_uri!)});
- if(proofResponse.status!==201)throw new Error('Synthetic reviewer reauthentication failed');
+ if(proofResponse.status!==201)throw new Error(`Synthetic reviewer reauthentication failed (${proofResponse.status})`);
  const proof=S.PublicationProof.parse(await proofResponse.json());
  const published=await owner.call(`/api/v1/admin/policies/${policy.id}/publish`,{version_id:policy.version_id,digest:policy.digest,reauthentication_id:proof.reauthentication_id},{'idempotency-key':randomUUID()});
  if(!published.ok)throw new Error('Synthetic publication failed');

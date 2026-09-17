@@ -6,7 +6,12 @@ import { CONTRACT_REVIEW_STATUS, CONTRACT_VERSION } from './api.ts';
 import { useSession } from './session-context.tsx';
 import { ROLE_LABELS, formatTime } from './state-labels.ts';
 
-export type NavItem = { href: string; label: string };
+/**
+ * `whenSignedOut` marks a destination that only makes sense without a session
+ * in this area's actor domain, so an authenticated operator is not offered
+ * "Staff sign in" beside their own actor summary and Sign out control.
+ */
+export type NavItem = { href: string; label: string; whenSignedOut?: boolean };
 
 /**
  * Profile identity is derived from the port this browser is actually talking to,
@@ -77,9 +82,15 @@ function Nav({ items }: { items: NavItem[] }) {
   );
 }
 
-function Shell({ area, lane, items, detailedActor, children }: {
-  area: string; lane: string; items: NavItem[]; detailedActor: boolean; children: ReactNode;
+function Shell({ area, lane, items, domain, detailedActor, children }: {
+  area: string; lane: string; items: NavItem[]; domain: 'STAFF' | 'PRINCIPAL'; detailedActor: boolean; children: ReactNode;
 }) {
+  const { session } = useSession();
+  // Server-derived session only. Hiding a destination is presentation; the
+  // sign-in route itself stays reachable and every request is still authorized
+  // by the server.
+  const signedIn = session?.actor_domain === domain;
+  const visible = items.filter(item => !item.whenSignedOut || !signedIn);
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>
@@ -91,7 +102,7 @@ function Shell({ area, lane, items, detailedActor, children }: {
         </div>
         <ActorSummary detailed={detailedActor} />
       </header>
-      <Nav items={items} />
+      <Nav items={visible} />
       <main className="shell-main" id="main" tabIndex={-1}>{children}</main>
       <footer className="shell-foot">
         Customer-local prototype on fictional Aster/Birch data. No production system, real recipient or vendor service is contacted from this interface.
@@ -111,7 +122,7 @@ export const WORKSPACE_NAV: NavItem[] = [
   { href: '/workspace/policy-preview', label: 'Policy preview' },
   { href: '/workspace/capabilities', label: 'Capabilities' },
   { href: '/workspace/test-lab', label: 'Test Lab' },
-  { href: '/workspace/sign-in', label: 'Staff sign in' },
+  { href: '/workspace/sign-in', label: 'Staff sign in', whenSignedOut: true },
 ];
 
 export const PRIVACY_NAV: NavItem[] = [
@@ -121,7 +132,7 @@ export const PRIVACY_NAV: NavItem[] = [
 
 /** Staff workspace: shows organisation, role and MFA context. */
 export function WorkspaceShell({ children }: { children: ReactNode }) {
-  return <Shell area="Staff workspace" lane="Workspace" items={WORKSPACE_NAV} detailedActor>{children}</Shell>;
+  return <Shell area="Staff workspace" lane="Workspace" items={WORKSPACE_NAV} domain="STAFF" detailedActor>{children}</Shell>;
 }
 
 /**
@@ -129,5 +140,5 @@ export function WorkspaceShell({ children }: { children: ReactNode }) {
  * internals, connector details or another principal's data in this layout.
  */
 export function PrivacyShell({ children }: { children: ReactNode }) {
-  return <Shell area="Privacy Centre" lane="Privacy Centre" items={PRIVACY_NAV} detailedActor={false}>{children}</Shell>;
+  return <Shell area="Privacy Centre" lane="Privacy Centre" items={PRIVACY_NAV} domain="PRINCIPAL" detailedActor={false}>{children}</Shell>;
 }

@@ -9,6 +9,7 @@ import { resolve } from 'node:path';
 import { runtimeConfig } from '../../auth/src/config.ts';
 import type { AuthFixture } from '../../../scripts/auth-bootstrap.ts';
 import { writePrivateJson } from '../../../scripts/local-private.ts';
+import { guardAuthWindow } from './auth-window.ts';
 
 export function authenticatorCode(uri: string) {
   const secret=new URL(uri).searchParams.get('secret')!;const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -46,8 +47,11 @@ export class HttpFixture {
       },
     };
   }
+  /** Overridden by fixtures that already hold a pool; see guardAuthWindow. */
+  async authWindow(){await guardAuthWindow();}
   async login(name: string) {
     const user=this.users[name]!;const browser=this.browser();const base=`/api/auth/${user.domain}`;
+    if(user.domain==='staff')await this.authWindow();
     if((await browser.call(base+'/sign-in/email',{email:user.email,password:user.password,rememberMe:false})).status!==200)throw new Error(`Synthetic ${name} login failed`);
     if(user.domain==='staff'&&user.role!=='AUDITOR') {
       if(!user.totp_uri) {

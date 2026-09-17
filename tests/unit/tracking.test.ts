@@ -1,17 +1,47 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { validateTracking,renderTasks,renderAcceptance,assertViewRows,assertTaskDetails,taskRows,acceptanceRows,type Tracking,type AcceptanceTracking } from '../../scripts/tracking.ts';
+import { validateTracking,renderTasks,renderAcceptance,assertViewRows,assertTaskDetails,taskRows,acceptanceRows,type Task,type Tracking,type AcceptanceTracking } from '../../scripts/tracking.ts';
 const load=()=>({tasks:JSON.parse(readFileSync('tracking/tasks.json','utf8')) as Tracking,acceptance:JSON.parse(readFileSync('tracking/acceptance.json','utf8')) as AcceptanceTracking});
+const progressed=new Set(['IN_PROGRESS','IN_REVIEW','COMPLETED']);
+/**
+ * A downgrade is only a legitimate progression when no already-progressed task
+ * still depends on the task being downgraded. Deriving the targets from the
+ * board keeps this fixture correct as the board advances; hard-coded ids went
+ * stale once their dependants reached COMPLETED.
+ */
+function downgradable(tasks:Tracking):Task[]{
+  const needed=new Set(tasks.tasks.filter(t=>progressed.has(t.status)).flatMap(t=>[...t.start_dependencies,...t.acceptance_dependencies]));
+  return tasks.tasks.filter(t=>t.status==='COMPLETED'&&!needed.has(t.id));
+}
 test('current and legitimately progressed/BLOCKED tracking remain valid',()=>{
   const {tasks,acceptance}=load();validateTracking(tasks,acceptance,()=>true);
   tasks.tasks.find(t=>t.id==='W00')!.status='COMPLETED';tasks.tasks.find(t=>t.id==='W00')!.commit='e5cdef3';
-  const a00=tasks.tasks.find(t=>t.id==='A00')!;a00.status='IN_PROGRESS';
-  const a01=tasks.tasks.find(t=>t.id==='A01')!;a01.status='BLOCKED';
+  const targets=downgradable(tasks);
+  assert.ok(targets.length>=2,'the board must offer two completed tasks with no progressed dependant');
+  // Independent of each other, so neither downgrade invalidates the other.
+  const running=targets[0]!;const blocked=targets.find(t=>t.id!==running.id&&![...running.start_dependencies,...running.acceptance_dependencies].includes(t.id)&&![...t.start_dependencies,...t.acceptance_dependencies].includes(running.id))!;
+  assert.ok(blocked,'two mutually independent downgradable tasks are required');
+  running.status='IN_PROGRESS';blocked.status='BLOCKED';
   const t01=acceptance.tests.find(t=>t.id==='T01')!;t01.status='FAIL';t01.evidence=['handoffs/codex/example-failure.json'];
   validateTracking(tasks,acceptance,()=>true);
   assertViewRows(renderTasks(tasks),taskRows(tasks));assertViewRows(renderAcceptance(acceptance),acceptanceRows(acceptance));
   assertTaskDetails(renderTasks(tasks),tasks);
+});
+test('downgrading a prerequisite that a progressed task still depends on is rejected',()=>{
+  // The defect this covers: a fixture downgraded A01 while A02 was already
+  // COMPLETED, leaving a completed task depending on a blocked prerequisite.
+  for(const status of ['BLOCKED','IN_PROGRESS','NOT_STARTED'] as const){
+    const {tasks,acceptance}=load();
+    const dependant=tasks.tasks.find(t=>t.status==='COMPLETED'&&t.start_dependencies.length>0)!;
+    const prerequisite=tasks.tasks.find(t=>t.id===dependant.start_dependencies[0])!;
+    prerequisite.status=status;
+    assert.throws(()=>validateTracking(tasks,acceptance,()=>true),/Unmet start dependency/);
+  }
+  const {tasks,acceptance}=load();
+  const accepting=tasks.tasks.find(t=>t.status==='COMPLETED'&&t.acceptance_dependencies.length>0)!;
+  tasks.tasks.find(t=>t.id===accepting.acceptance_dependencies.at(-1))!.status='BLOCKED';
+  assert.throws(()=>validateTracking(tasks,acceptance,()=>true),/Unmet (start|acceptance) dependency/);
 });
 test('application PASS cannot be manufactured from a document or bootstrap subset',()=>{
   const {tasks,acceptance}=load();const t01=acceptance.tests[0]!;t01.status='PASS';t01.evidence=['handoffs/codex/test.json'];

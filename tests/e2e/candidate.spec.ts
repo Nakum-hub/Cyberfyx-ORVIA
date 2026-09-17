@@ -1,5 +1,33 @@
-import { test, expect, loginUi, grantUi, withdrawUi } from './fixture.ts';
+import { test, expect, loginUi, grantUi, withdrawUi, expectPageError } from './fixture.ts';
 import { schemas } from '../../packages/contracts/src/index.ts';
+
+test('B06 branded route fallback, session-aware navigation and captured page errors',async({page,h})=>{
+  // F-06: an unmatched route stays HTTP 404 but is presented inside the product.
+  const missing=await page.goto('/workspace/does-not-exist');
+  expect(missing?.status()).toBe(404);
+  await expect(page.getByRole('heading',{name:'This page does not exist',exact:true})).toBeVisible();
+  await expect(page.getByText('Synthetic demonstration',{exact:true})).toBeVisible();
+  await expect(page.getByRole('link',{name:'Return to the ORVIA entry page',exact:true})).toBeVisible();
+  await expect(page.getByText(/at\s|stack|\.tsx:/i).filter({hasText:/\bat\s+\w+\s*\(/})).toHaveCount(0);
+  await h.screenshot(page,'route-not-found');
+
+  // F-09: signed out the sign-in destination is offered; signed in it is not.
+  await page.goto('/workspace/sign-in');
+  const nav=page.getByRole('navigation',{name:'Primary'});
+  await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toBeVisible();
+  await loginUi(page,h,'owner');
+  await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toHaveCount(0);
+  await expect(nav.getByRole('link',{name:'Overview',exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Sign out',exact:true}).click();
+  await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toBeVisible();
+
+  // F-08: prove the audit actually captures an uncaught page error. Without the
+  // capture the assertion inside the browserAudit fixture fails this test.
+  expectPageError(test.info(),'ORVIA_SYNTHETIC_AUDIT_PROBE');
+  await page.evaluate(()=>{globalThis.setTimeout(()=>{throw new Error('ORVIA_SYNTHETIC_AUDIT_PROBE');},0);});
+  await expect.poll(async()=>page.url()).toContain('/workspace');
+  await page.waitForTimeout(250);
+});
 
 test('B06 candidate walkthrough across staff, privacy, enforcement and evidence',async({page,browser,h})=>{
   const scenario=await h.scenario();await loginUi(page,h,'owner');await page.goto('/workspace/configuration');await page.getByLabel('Search purpose versions').fill(scenario.purpose.id);await expect(page.getByRole('heading',{name:scenario.purpose.name,exact:true})).toBeVisible();

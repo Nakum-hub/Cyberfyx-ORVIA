@@ -26,26 +26,61 @@ If any source file under `apps`, `packages`, `scripts`, `tests`, `infrastructure
 
 ## Before you start
 
+Run these in order. Every step is expected to succeed as written; if one does not, stop and record it
+rather than working around it.
+
 ```powershell
 $env:ORVIA_PROFILE = 'rehearsal'
 
-# 1. Confirm the candidate is still intact (expects 242 checks, 0 failures).
-python handoffs/work/final-prototype-continuation/verify-candidate.py   # writes a new dated report
+# 1. Bring the profile services up and confirm all three are healthy.
+.\scripts\dev.ps1 services up
+.\scripts\dev.ps1 preflight
 
-# 2. Confirm the reviewed CA is trusted for normal Chromium HTTPS.
+# 2. Confirm the candidate is still intact.
+#    Writes a new timestamped report each run and never overwrites an earlier one,
+#    so this is safe to repeat before R1 and again before R2.
+python handoffs/work/final-prototype-continuation/verify-candidate.py
+
+# 3. Confirm the reviewed CA is trusted for normal Chromium HTTPS.
 certutil -user -store Root 8C592FC41BBD6AA18F42234085F6B8155466A190
 
-# 3. Confirm nothing is queued or half-run, and no worker/agent is active.
+# 4. Renew the protected machine enrollments.
+#    These expire one hour after they are issued. Renewal is idempotent: it keeps
+#    the same machine identities, preserves existing target restrictions and does
+#    not reset any business state. Skipping this is the single most common cause
+#    of a failed rehearsal start.
+.\scripts\dev.ps1 machine:init confirm:rehearsal
+
+# 5. Confirm nothing is queued or half-run, and no worker/agent is active.
 node --import tsx handoffs/work/final-prototype-continuation/inspect-state.ts
 ```
 
-Step 3 must report `pending_or_running_runs: 0` and no `orvia_worker` / `orvia_agent_control` entry in
+Step 5 must report `pending_or_running_runs: 0` and no `orvia_worker` / `orvia_agent_control` entry in
 `database_activity`. If a run is pending, execute it through the existing operator — never delete it and
 never mark it passed by hand.
+
+If the application later fails to start and the console reports
+`code: MACHINE_ENROLLMENT_EXPIRED` with
+`Machine enrollment expired; renew through protected local setup`, the rehearsal has simply run past the
+one-hour enrollment window. Re-run step 4 and start again. Nothing needs to be reset.
+
+If `.local/profiles/rehearsal/supervisor/run.json` exists but no `node` process is serving port 4330, a
+previous supervisor was killed abruptly. Confirm there is no live process and no listener on 4330, then
+delete that journal file before starting. Never delete it while a process is still running.
 
 Use **two independent browser profiles**: one for staff (`/workspace/*`), one for the principal
 (`/privacy/*`). Another window in the same profile shares cookies and invalidates the separation the
 scenario is demonstrating.
+
+### Credentials
+
+Synthetic staff and principal credentials live only in the protected local fixture journal at
+`.local/profiles/rehearsal/auth/bootstrap.json`. Open that file on the rehearsal machine when you need
+them. They are deliberately absent from this runbook, from the repository and from every evidence
+artifact, and they must not be pasted into a chat, a screenshot, a recording or a report.
+
+Staff accounts require an authenticator. The first privileged sign-in walks through enrollment in the UI
+and shows the `otpauth://` URI once; keep it in your authenticator for the rest of the rehearsal.
 
 ## Capture the start state first
 
@@ -84,6 +119,13 @@ active**. For those steps only:
 
 `regression:run` exits **0** for any completed execution, including the broken control whose stored result
 is FAIL. Read the outcome from the Test Lab run record, not from the exit code.
+
+**Write the run ID down.** The Test Lab is read by exact run ID; this build has no run-history list, which
+is an accepted prototype limitation. The screen tells you the same thing. After a refresh, a run you did
+not record cannot be found again through the interface.
+
+If a rehearsal step spans more than an hour, re-run step 4 of *Before you start* before restarting the
+application.
 
 ## The twelve canonical steps
 

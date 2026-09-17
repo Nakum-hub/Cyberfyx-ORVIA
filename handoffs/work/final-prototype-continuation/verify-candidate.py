@@ -14,10 +14,16 @@ import subprocess
 import zipfile
 
 root = pathlib.Path.cwd()
-output = root / 'handoffs/work/final-prototype-continuation/candidate-verification-c383b9d.json'
+started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+# One report per execution, named by run start. Earlier reports are never
+# overwritten, and a repeat verification is always possible: a fixed filename
+# made the documented pre-rehearsal step impossible to run a second time.
+output = root / (
+    'handoffs/work/final-prototype-continuation/'
+    f"candidate-verification-{started.replace(':', '-').replace('+00-00', 'Z')}.json"
+)
 if output.exists():
     raise RuntimeError('Preserve the previous execution report')
-started = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
 def sha(path):
