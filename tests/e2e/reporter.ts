@@ -18,10 +18,14 @@ export default class EvidenceReporter implements Reporter {
   browser(testId:string){
     const path=resolve('handoffs/codex/browser',`B06-playwright-${process.env.ORVIA_BROWSER_RUN_ID}`,`console-${testId}.json`);
     if(!existsSync(path))return {recorded:false as const};
-    const audit=JSON.parse(readFileSync(path,'utf8')) as {counts:Record<string,number>;unexpected:number;deliberate_errors_captured:number;entries:{kind:string;text:string}[]};
+    const audit=JSON.parse(readFileSync(path,'utf8')) as {counts:Record<string,number>;unexpected:number;deliberate_errors_captured:number;entries:{kind:string;text:string;deliberate:boolean}[]};
+    const isFault=(kind:string)=>kind==='PAGE_ERROR'||kind==='CONSOLE_ERROR'||kind==='REACT_WARNING';
+    // Deliberate HTTP statuses stay as counts. `faults` holds only genuine
+    // problems, so a non-empty `faults` always means the interface misbehaved;
+    // a probe this test provoked on purpose is listed separately.
     return {recorded:true as const,counts:audit.counts,unexpected:audit.unexpected,deliberate_errors_captured:audit.deliberate_errors_captured,
-      // Deliberate HTTP statuses stay as counts; only genuine faults are quoted.
-      faults:audit.entries.filter(e=>e.kind==='PAGE_ERROR'||e.kind==='CONSOLE_ERROR'||e.kind==='REACT_WARNING').map(e=>({kind:e.kind,text:e.text}))};
+      faults:audit.entries.filter(e=>isFault(e.kind)&&!e.deliberate).map(e=>({kind:e.kind,text:e.text})),
+      deliberate_faults:audit.entries.filter(e=>isFault(e.kind)&&e.deliberate).map(e=>({kind:e.kind,text:e.text}))};
   }
   onTestEnd(test:TestCase,result:TestResult){
     const record={title:test.titlePath(),status:result.status,expected_status:test.expectedStatus,duration_ms:result.duration,retry:result.retry,location:test.location,

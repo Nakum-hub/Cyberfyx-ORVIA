@@ -101,7 +101,11 @@ export const test=base.extend<{networkAudit:void;browserAudit:void},{h:BrowserHa
     const isExpected=(entry:BrowserLogEntry)=>expected.some(fragment=>fragment&&entry.text.includes(fragment));
     const failing=entries.filter(e=>(e.kind==='PAGE_ERROR'||e.kind==='CONSOLE_ERROR'||e.kind==='REACT_WARNING')&&!isExpected(e));
     const matched=entries.filter(isExpected);
-    writeFileSync(resolve(h.publicDirectory,`console-${info.testId}.json`),JSON.stringify({test:info.title,entries,expected,
+    writeFileSync(resolve(h.publicDirectory,`console-${info.testId}.json`),JSON.stringify({test:info.title,expected,
+      // Every entry carries whether this test deliberately provoked it, so a
+      // reader of the published evidence can never mistake the audit's own
+      // capture probe for a real fault.
+      entries:entries.map(entry=>({...entry,deliberate:isExpected(entry)})),
       counts:Object.fromEntries(['PAGE_ERROR','CONSOLE_ERROR','REACT_WARNING','HTTP_STATUS','WARNING'].map(k=>[k,entries.filter(e=>e.kind===k).length])),
       deliberate_errors_captured:matched.length,unexpected:failing.length,
       scope:'Console and page errors for this Playwright context only. Deliberate HTTP 401/403/404/503 responses are recorded as HTTP_STATUS and do not fail a run.'},null,2));
