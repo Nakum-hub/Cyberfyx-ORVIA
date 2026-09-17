@@ -1,0 +1,39 @@
+$ tsx --test tests/unit/*.test.ts
+✔ W00-F07: provider-only evidence cannot complete an independent-observation obligation (3.5714ms)
+✔ W00-F07 controls: only a fresh, satisfied independent read in current scope completes (2.3528ms)
+✔ W00-F07: provider receipts remain valid reconciliation evidence and manual work stays distinct (2.6289ms)
+✔ canonical digest is order-independent for objects and strict for unsupported values (1.4011ms)
+✔ signed envelope rejects altered bindings, signature, trust and expiry (12.9451ms)
+✔ portal-safe immutable acceptance and refreshed current status remain distinct (2.6894ms)
+✔ ACK and manual work do not fabricate automated observation; unknown history is retained (2.6185ms)
+✔ browser transport enforces request validation, parses errors, and never retries writes (23.2615ms)
+✔ current and legitimately progressed/BLOCKED tracking remain valid (12.6977ms)
+✔ application PASS cannot be manufactured from a document or bootstrap subset (6.0446ms)
+✔ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (6.2673ms)
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\tests\unit\ui-evidence.test.ts:10
+const observation=schemas.Observation.parse({id:'00000000-0000-4000-8000-000000000010',action_id:workflow.actions[0]!.id,system_id:workflow.actions[0]!.plan.scope.system_id,resource_id:workflow.actions[0]!.plan.scope.resource_id,target_generation:workflow.actions[0]!.plan.scope.target_generation,state:'OBSERVED_SATISFIED',method:'SCOPED_READ',observed_at:'2026-09-17T00:00:00Z',fresh_until:'2026-09-17T00:05:00Z',desired_state:'MARKETING_RESTRICTED',observed_state:'MARKETING_RESTRICTED',limits:['Synthetic unit input only']});
+                                                                                                                      ^
+
+TypeError: Cannot read properties of undefined (reading 'id')
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\tests\unit\ui-evidence.test.ts:10:119)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.21.0
+✖ tests\unit\ui-evidence.test.ts (2421.5052ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 11
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2615.3234
+
+✖ failing tests:
+
+test at tests\unit\ui-evidence.test.ts:1:1
+✖ tests\unit\ui-evidence.test.ts (2421.5052ms)
+  'test failed'
+[ELIFECYCLE] Test failed. See above for more details.

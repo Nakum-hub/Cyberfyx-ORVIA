@@ -1,4 +1,5 @@
 'use client';
+import { Workflows } from '../../components/operations.tsx';
 import { useQuery } from '../../components/api.ts';
 import { StaffArea } from '../../components/workspace.tsx';
 import { Facts, Freshness, QueryBoundary } from '../../components/ui.tsx';
@@ -23,5 +24,5 @@ function Overview({ capabilities }: { capabilities: string[] }) {
         {term:'Build',value:<code>{data.build_id}</code>},{term:'Contract',value:data.contract_version},{term:'Profile',value:data.profile},
         {term:'Tenant',value:<code>{data.scope.tenant_id}</code>},{term:'Environment',value:<code>{data.scope.environment_id}</code>},
       ]} /><details><summary>My server-derived capabilities</summary><ul>{capabilities.map(c => <li key={c}><code>{c}</code></li>)}</ul></details></section>
-    </>}</QueryBoundary></>;
+    </>}</QueryBoundary><Workflows/></>;
 }

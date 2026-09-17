@@ -22,7 +22,7 @@ export type Freshness = 'NONE' | 'FRESH' | 'EXPIRED';
 
 export function observationFreshness(observation: Observation | null, now: number): Freshness {
   if (!observation || !observation.fresh_until) return 'NONE';
-  return Date.parse(observation.fresh_until) > now ? 'FRESH' : 'EXPIRED';
+  return observation.observed_at && Date.parse(observation.observed_at) <= now && Date.parse(observation.fresh_until) > now ? 'FRESH' : 'EXPIRED';
 }
 
 export type Verification = {
@@ -36,11 +36,13 @@ export type Verification = {
  * An acknowledgement, a completed attempt or a manual closure never yields
  * `verified: true`. Only a fresh, satisfied, current-generation scoped read does.
  */
-export function actionVerification(action: Action, now: number): Verification {
+export function actionVerification(action: Action, now: number, scopeStillCurrent = false): Verification {
   const latest = action.observations.at(-1) ?? null;
   const freshness = observationFreshness(latest, now);
   const generationMatches = latest ? latest.target_generation === action.plan.scope.target_generation : false;
-  if (latest && latest.state === 'OBSERVED_SATISFIED' && latest.method === 'SCOPED_READ' && freshness === 'FRESH' && generationMatches) {
+  const exactTarget = latest && latest.action_id === action.id && latest.system_id === action.plan.scope.system_id && latest.resource_id === action.plan.scope.resource_id;
+  if (!scopeStillCurrent) return {verified:false,claim:'Current scope unconfirmed',detail:'No linked obligation confirms that this plan still matches the current consent epoch and target generation.'};
+  if (latest && latest.state === 'OBSERVED_SATISFIED' && latest.method === 'SCOPED_READ' && freshness === 'FRESH' && generationMatches && exactTarget) {
     return { verified: true, claim: 'Independently observed',
       detail: 'A separate scoped read of this exact synthetic resource and generation observed the desired restriction, within its freshness window.' };
   }
@@ -120,7 +122,7 @@ export function obligationTotals(workflow: Workflow, now: number): ObligationTot
       if (status.tone === 'unknown') uncertain += 1;
     }
   }
-  const statement = unresolved === 0
+  const statement = workflow.obligations.length === 0 ? 'No obligations recorded yet; no completion claim can be made.' : unresolved === 0
     ? `All ${workflow.obligations.length} recorded obligation(s) in this workflow are closed by their own criterion. This covers only the systems configured in this synthetic scope.`
     : `${satisfied} of ${workflow.obligations.length} recorded obligation(s) closed; ${unresolved} unresolved (${manualOutstanding} manual, ${uncertain} uncertain). Unresolved work stays visible and is not counted as done.`;
   return { required, optional, satisfied, unresolved, manualOutstanding, uncertain, statement };
@@ -164,8 +166,8 @@ export function buildTimeline(workflow: Workflow): TimelineEntry[] {
     for (const observation of action.observations) {
       entries.push({
         at: observation.observed_at,
-        title: `Independent observation: ${observation.state}`,
-        tone: observation.state === 'OBSERVED_SATISFIED' ? 'ok' : observation.state === 'OBSERVED_NOT_SATISFIED' ? 'stop' : 'unknown',
+        title: `${observation.method === 'SCOPED_READ' ? 'Scoped observation' : 'Provider evidence (not independent)'}: ${observation.state}`,
+        tone: observation.method !== 'SCOPED_READ' ? 'warn' : observation.state === 'OBSERVED_SATISFIED' ? 'ok' : observation.state === 'OBSERVED_NOT_SATISFIED' ? 'stop' : 'unknown',
         category: 'OBSERVATION',
         detail: `Observation fact only. Method ${observation.method}; observed state ${observation.observed_state}; generation ${observation.target_generation}; fresh until ${observation.fresh_until ?? 'n/a'}.`,
       });
@@ -173,8 +175,8 @@ export function buildTimeline(workflow: Workflow): TimelineEntry[] {
     for (const reconciliation of action.reconciliations) {
       entries.push({
         at: reconciliation.finished_at ?? reconciliation.started_at,
-        title: `Reconciliation ${reconciliation.state}`,
-        tone: reconciliation.state === 'RESOLVED' ? 'ok' : reconciliation.state === 'FAILED' ? 'stop' : 'unknown',
+        title: `Reconciliation ${reconciliation.state} (${reconciliation.method})`,
+        tone: reconciliation.state === 'RESOLVED' && reconciliation.method === 'SCOPED_READ' ? 'ok' : reconciliation.state === 'FAILED' ? 'stop' : 'unknown',
         category: 'RECONCILIATION',
         detail: `Resolving uncertain attempt ${reconciliation.uncertain_attempt_id} by ${reconciliation.method}${reconciliation.reason_code ? `; reason ${reconciliation.reason_code}` : ''}.`,
       });
