@@ -16,6 +16,7 @@ if(p.profile!=='rehearsal'||process.argv[2]!=='confirm:rehearsal')throw new Erro
 const directory=resolve(p.directory,'supervisor');privateDirectory(directory);const journal=resolve(directory,'run.json');const stopFile=resolve(directory,'stop.json');
 if(existsSync(journal)||existsSync(stopFile))throw new Error('Existing supervisor journal requires operator inspection; no automatic takeover');
 const db=connectDatabase(p).pool;const lock=await db.connect();const children:ChildProcess[]=[];let stopping=false;let created=false;let stopReason='ERROR';
+const forced=new Set<number>();
 const identity={run_id:randomUUID(),installation_id:p.installation_id,profile:p.profile,pid:process.pid,started_at:new Date().toISOString()};
 const start=(args:string[],cwd=process.cwd())=>{const child=spawn(process.execPath,args,{cwd,windowsHide:true,stdio:['ignore','inherit','inherit','ipc'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});children.push(child);return child;};
 const requestStop=()=>{stopping=true;stopReason='OPERATOR_STOP';};process.on('SIGINT',requestStop);process.on('SIGTERM',requestStop);
@@ -34,8 +35,9 @@ try{
   await new Promise(r=>setTimeout(r,500));
  }
 }catch(error){console.error(safeError(error));process.exitCode=1;}finally{
- for(const child of children.reverse())if(child.exitCode===null&&child.signalCode===null){const closed=once(child,'close');if(child.connected)child.send('orvia-stop');else child.kill();const force=setTimeout(()=>child.kill(),10000);await closed;clearTimeout(force);}
+ for(const child of children.reverse())if(child.exitCode===null&&child.signalCode===null){const closed=once(child,'close');if(child.connected)child.send('orvia-stop');else child.kill();const force=setTimeout(()=>{if(child.pid)forced.add(child.pid);child.kill();},10000);await closed;clearTimeout(force);}
+ if(children.some(child=>child.exitCode!==0||child.signalCode!==null)||forced.size)process.exitCode=1;
  if(created&&existsSync(journal)){const actual=JSON.parse(readFileSync(journal,'utf8'));if(actual.run_id===identity.run_id)unlinkSync(journal);else process.exitCode=1;}
  if(created&&existsSync(stopFile)){const actual=JSON.parse(readFileSync(stopFile,'utf8'));if(actual.run_id===identity.run_id)unlinkSync(stopFile);else process.exitCode=1;}
- lock.release();await db.end();writeEvidence('application-lifecycle',{profile:p.profile,installation_id:p.installation_id,run_id:identity.run_id,started_at:identity.started_at,finished_at:new Date().toISOString(),stop_reason:stopReason,children:children.map(c=>({pid:c.pid,exit_code:c.exitCode,signal:c.signalCode})),result:process.exitCode?'FAIL':'PASS',limitations:['Only direct children owned by this foreground supervisor are stopped. Abrupt supervisor/host death requires operator inspection of its journal; no arbitrary PID killing or store deletion.']});
+ lock.release();await db.end();writeEvidence('application-lifecycle',{profile:p.profile,installation_id:p.installation_id,run_id:identity.run_id,started_at:identity.started_at,finished_at:new Date().toISOString(),stop_reason:stopReason,children:children.map(c=>({pid:c.pid,exit_code:c.exitCode,signal:c.signalCode,forced:c.pid?forced.has(c.pid):false})),result:process.exitCode?'FAIL':'PASS',limitations:['Only direct children owned by this foreground supervisor are stopped. Abrupt supervisor/host death requires operator inspection of its journal; no arbitrary PID killing or store deletion. Nonzero/forced child shutdown is a failure, including during an operator stop.']});
 }

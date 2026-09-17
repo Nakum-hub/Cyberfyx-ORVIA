@@ -1,0 +1,2 @@
+$ tsx scripts/migrate.ts "bootstrap-only"
+Artifact: handoffs/codex/artifacts/A07-migration-1789613324404-798a0b5f-64bb-4cb6-8e22-ab5f553f197b.json

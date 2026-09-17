@@ -1,0 +1,16 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T02:47:29.844Z",
+  "profile": "rehearsal",
+  "installation_id": "b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "ca_fingerprint256": "57:23:37:44:A0:3B:87:37:F9:CD:0A:C5:6E:51:28:93:36:68:F7:DD:6C:AF:62:1D:AE:0E:36:5F:10:BB:6F:3F",
+  "leaf_fingerprint256": "8C:69:FD:AB:68:37:42:28:FC:A9:ED:EA:AB:9D:90:6D:93:D1:BB:4F:58:FD:A7:85:9E:0E:54:81:3C:53:90:36",
+  "not_after": "Oct 17 02:47:29 2026 GMT",
+  "tool": "@peculiar/x509 2.1.0 with native Node WebCrypto",
+  "openssl": "3.5.8",
+  "result": "GENERATED",
+  "limitations": [
+    "Local development CA; no OS/browser trust modification or production signing. Certificates expire after 30 days; replacement is an explicit operator task."
+  ]
+}

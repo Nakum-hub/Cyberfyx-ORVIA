@@ -1,14 +1,21 @@
 # A07 engineering package and local operation
 
-This is a customer-local synthetic engineering candidate pending Work review and human acceptance. A04â€“A06 backend implementation is supplied; the preserved Claude UI is partial, including no implemented staff workspace page/sign-in. Its source is retained with provenance in `handoffs/codex/A07-ui-preservation.json`. No B-task/browser completion, two human rehearsals, legal/production readiness or release approval follows from these commands. A08 is excluded.
+This is a customer-local synthetic engineering candidate pending Work review and human acceptance. A04-A06 backend implementation is supplied; the preserved Claude UI is partial, including no implemented staff workspace page/sign-in. Its source is retained with provenance in `handoffs/codex/A07-ui-preservation.json`. No B-task/browser completion, two human rehearsals, legal/production readiness or release approval follows from these commands. A08 is excluded.
 
 ## Prerequisites and installation
 
 The tested host is Windows x64 with Docker Desktop Linux containers, Git, Node **24.21.0** and pnpm **12.4.2**. Repository bootstrap downloads those exact public tools using HTTPS and checks the Node archive hash. Docker images are pinned by digest in `infrastructure/compose.yaml`; services remain on an internal network behind fixed loopback relays. Authorized provisioning downloads are distinct from runtime network qualification. No public deployment, account change or paid service is needed.
 
-Extract the actual `orvia-source.zip` to a new local directory. Keep the supplied manifest beside it. `orvia-local-images.tar` contains the pinned service images and the backend qualification image; `docker load --input <the-local-image-archive>` imports them without runtime data. The qualification image defaults to the network test harness, not an approved production server. Host application startup uses the source package below. Initial dependency/tool provisioning can require authorized network access; an air-gapped fresh host is not claimed.
+Clone the supplied offline Git bundle so recorder/build tools retain exact repository provenance; the ZIP is an additional source snapshot. Keep the supplied manifest and evidence archive beside the checkout.
 
-From the extracted repository root, with Docker running and rehearsal ports **4330 / 55433 / 58183 / 57235** unused:
+```powershell
+git clone --config core.autocrlf=false --branch prototype/codex/A07-package <local-path-to-orvia-source.bundle> orvia-local
+cd orvia-local
+```
+
+`orvia-evidence.zip` contains the actual A07 report/log files indexed by the manifest. The bundle contains project history, never ignored local credentials or stores. `orvia-local-images.tar` contains the pinned service images and the backend qualification image; `docker load --input <the-local-image-archive>` imports them without runtime data. The qualification image defaults to the network test harness, not an approved production server. Host application startup uses the source package below. Initial dependency/tool provisioning can require authorized network access; an air-gapped fresh host is not claimed.
+
+From the cloned repository root, with Docker running and rehearsal ports **4330 / 55433 / 58183 / 57235** unused:
 
 ```powershell
 ./scripts/setup-rehearsal.ps1
@@ -76,6 +83,6 @@ Bootstrap qualification uses `db:migrate bootstrap-only`, `services:smoke`, then
 ./scripts/dev.ps1 candidate:package confirm:rehearsal
 ```
 
-Package only committed source after required checks. The script rejects dirty source/documents, compares every archive file to the Git tree, verifies the qualification image source label, inspects owned pinned service images, and excludes ignored credentials/keys/populated stores. Large archives stay in `.local/releases/<candidate-commit>/`; publishable provenance is `artifacts/release-manifest.json`. The manifest records exact source/master/contract/lock/build/profile/image identities, package hashes, executed command evidence and open gates. SHA-256 checksums are development integrity references, not production release signatures. Any candidate-changing fix needs a new commit and relevant reruns.
+Package only committed source after required checks. The script rejects dirty source/documents, verifies the offline Git bundle, compares every source/evidence archive entry to its inventory, verifies the qualification image source label, inspects owned pinned service images, and excludes ignored credentials/keys/populated stores. Large archives stay in `.local/releases/<candidate-commit>/`; publishable provenance is `artifacts/release-manifest.json`. The manifest records exact source/master/contract/lock/build/profile/image identities, package hashes, executed command evidence and open gates. SHA-256 checksums are development integrity references, not production release signatures. Any candidate-changing fix needs a new commit and relevant reruns.
 
 The final handoff names actual executed commands, original failures, corrected results and package locations. Work alone consolidates accepted state and C/W review documents. W02/W03, remaining B/UI/browser work and two real human T30 rehearsals remain open until their actual evidence and human decisions exist.

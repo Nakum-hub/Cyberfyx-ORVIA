@@ -1,0 +1,32 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T03:22:22.193Z",
+  "profile": "rehearsal",
+  "installation_id": "b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "run_id": "e0ac21eb-37d7-4e23-8849-fd5e2c0aeef7",
+  "started_at": "2026-09-17T03:21:16.552Z",
+  "finished_at": "2026-09-17T03:22:22.190Z",
+  "stop_reason": "OPERATOR_STOP",
+  "children": [
+    {
+      "pid": 17032,
+      "exit_code": 0,
+      "signal": null
+    },
+    {
+      "pid": 40684,
+      "exit_code": 0,
+      "signal": null
+    },
+    {
+      "pid": 5948,
+      "exit_code": 0,
+      "signal": null
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Only direct children owned by this foreground supervisor are stopped. Abrupt supervisor/host death requires operator inspection of its journal; no arbitrary PID killing or store deletion."
+  ]
+}

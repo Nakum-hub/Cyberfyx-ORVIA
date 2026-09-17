@@ -1,0 +1,3 @@
+$ tsx scripts/reset-bootstrap.ts "rehearsal" "rehearsal-bootstrap-only"
+Artifact: handoffs/codex/artifacts/A07-reset-intent-1789613503288-9ff4662a-0913-487d-a874-13333c14f1e0.json
+Artifact: handoffs/codex/artifacts/A07-reset-result-1789613503418-4000f8ab-056b-4444-9bcb-1936ce201203.json

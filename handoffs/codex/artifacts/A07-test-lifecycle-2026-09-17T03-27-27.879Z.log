@@ -1,0 +1,11 @@
+$ tsx tests/integration/lifecycle.test.ts
+PASS business fixture exists before restart
+PASS named bootstrap reset refuses business schema
+PASS reset denial preserves business state
+{ name: 'Error', code: 'UNCLASSIFIED' }
+✓ Running next.config.ts took 336ms
+Rehearsal HTTPS ready at https://127.0.0.1:4330; local CA verification required.
+Application supervisor running: https://127.0.0.1:4330. Stop with app:stop confirm:rehearsal.
+
+Artifact: handoffs/codex/artifacts/A07-lifecycle-integration-1789615729112-3a2ef0e4-b1dc-4eb6-a3c4-2c85a2d71092.json
+[ELIFECYCLE] Command failed with exit code 1.

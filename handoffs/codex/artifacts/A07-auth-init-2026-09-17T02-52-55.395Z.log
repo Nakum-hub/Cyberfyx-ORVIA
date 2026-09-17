@@ -1,0 +1,2 @@
+$ tsx scripts/auth-init.ts "confirm:rehearsal"
+Runtime roles provisioned; generated credentials remain in the protected local auth directory.
