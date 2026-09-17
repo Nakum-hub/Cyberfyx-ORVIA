@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { useQuery } from '../../../components/api.ts';
+import { useCollection, usePagedQuery } from '../../../components/api.ts';
 import { DomainGuard } from '../../../components/session-context.tsx';
 import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime } from '../../../components/state-labels.ts';
-import { DataTable, EmptyState, Freshness, QueryBoundary, SelectField, StateBadge } from '../../../components/ui.tsx';
+import { DataTable, EmptyState, Freshness, Pagination, QueryBoundary, SelectField, StateBadge } from '../../../components/ui.tsx';
 
 export default function ReceiptsPage() {
   return (
@@ -14,9 +14,9 @@ export default function ReceiptsPage() {
 }
 
 function History() {
-  const choices = useQuery('own_consents', { limit: 25 });
+  const choices = useCollection('own_consents');
   const [purposeId, setPurposeId] = useState('');
-  const history = useQuery('own_history', { params: purposeId ? { purpose_id: purposeId } : undefined, enabled: purposeId !== '', limit: 50 });
+  const history = usePagedQuery('own_history', { params: purposeId ? { purpose_id: purposeId } : undefined, enabled: purposeId !== '', limit: 50 });
 
   return (
     <>
@@ -51,7 +51,7 @@ function History() {
             {data => (
               <>
                 <DataTable
-                  caption="Decisions recorded for this purpose, oldest first by receipt identifier"
+                  caption="This page of recorded decisions, sorted by consent epoch"
                   rows={[...data.items].sort((a, b) => a.consent_epoch - b.consent_epoch)}
                   rowKey={row => row.receipt_id}
                   columns={[
@@ -62,10 +62,11 @@ function History() {
                     { key: 'receipt', header: 'Receipt', cell: row => <a className="mono" href={`/privacy/receipt/${row.receipt_id}`}>{row.receipt_id}</a> },
                   ]}
                 />
-                {data.next_cursor ? <p className="muted">More receipts exist beyond this page.</p> : null}
+
               </>
             )}
           </QueryBoundary>
+          <Pagination query={history}/>
         </section>
       ) : null}
     </>

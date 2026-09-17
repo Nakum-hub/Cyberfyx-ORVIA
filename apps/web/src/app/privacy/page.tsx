@@ -1,12 +1,13 @@
 'use client';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { schemas } from '@orvia/contracts';
-import { useMutation, useQuery } from '../../components/api.ts';
+import { useMutation, usePagedQuery } from '../../components/api.ts';
+import { MutationFeedback } from '../../components/mutation-feedback.tsx';
 import { newerReceipt } from '../../components/derive.ts';
 import { DomainGuard } from '../../components/session-context.tsx';
 import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime } from '../../components/state-labels.ts';
 import {
-  CheckboxField, ConfirmDialog, EmptyState, Facts, FailureState, Freshness,
+  CheckboxField, ConfirmDialog, EmptyState, Facts, Freshness, Pagination,
   NoticeBox, QueryBoundary, StateBadge,
 } from '../../components/ui.tsx';
 
@@ -22,7 +23,7 @@ export default function PrivacyCentrePage() {
 }
 
 function Choices() {
-  const choices = useQuery('own_consents', { limit: 25 });
+  const choices = usePagedQuery('own_consents', { limit: 25 });
   const [receipts, setReceipts] = useState<Record<string, Receipt>>({});
 
   // Every accepted decision consumes its interaction, so authoritative choices
@@ -66,10 +67,11 @@ function Choices() {
                 onRecover={() => choices.refresh()}
               />
             ))}
-            {data.next_cursor ? <p className="muted">More purposes exist beyond this page.</p> : null}
+
           </>
         )}
       </QueryBoundary>
+      <Pagination query={choices}/>
     </>
   );
 }
@@ -81,11 +83,12 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
   const withdraw = useMutation('withdraw', true);
   const [affirmed, setAffirmed] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  const busy = grant.status === 'pending' || withdraw.status === 'pending';
+  const busy = grant.status === 'pending' || withdraw.status === 'pending' || grant.unsettled || withdraw.unsettled;
   const failure = grant.failure ?? withdraw.failure;
+  useEffect(()=>{setAffirmed(false);grant.reset();withdraw.reset();},[choice.interaction_id,grant.reset,withdraw.reset]);
 
   const submitGrant = async () => {
-    if (!choice.notice || !affirmed) return;
+    if (!choice.notice || !affirmed || busy) return;
     const result = await grant.run(
       { expected_epoch: choice.consent_epoch, notice_version_id: choice.notice.version_id, interaction_id: choice.interaction_id, affirmative: true },
       { params: { purpose_id: choice.purpose_id } });
@@ -93,6 +96,7 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
   };
 
   const submitWithdraw = async () => {
+    if(busy)return;
     const result = await withdraw.run(
       { expected_epoch: choice.consent_epoch, interaction_id: choice.interaction_id },
       { params: { purpose_id: choice.purpose_id } });
@@ -126,31 +130,16 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
         </NoticeBox>
       )}
 
-      {failure ? (
-        <>
-          <FailureState failure={failure} />
-          {failure.code === 'EPOCH_CONFLICT' ? (
-            <p>
-              <button type="button" onClick={onRecover}>Read my current decision again</button>
-            </p>
-          ) : null}
-          {failure.outcomeUnknown ? (
-            <NoticeBox tone="warn" title="Outcome unknown — do not assume this failed">
-              <p>
-                The request left this browser but no answer was seen. It may already have been recorded. Read the
-                authoritative state before deciding again.
-              </p>
-              <p><button type="button" onClick={onRecover}>Read my authoritative current state</button></p>
-            </NoticeBox>
-          ) : null}
-        </>
-      ) : null}
+      <MutationFeedback mutation={grant} onReplayed={result=>onReceipt(result as Receipt)}/>
+      <MutationFeedback mutation={withdraw} onReplayed={result=>onReceipt(result as Receipt)}/>
+      {failure?.code === 'EPOCH_CONFLICT' ? <p><button type="button" onClick={onRecover}>Read my current decision again</button> The epoch, notice or interaction may have changed or expired. Read again before making a new decision.</p> : null}
+      {grant.unsettled || withdraw.unsettled ? <p><button type="button" onClick={onRecover}>Read my authoritative current state</button> Reading current state does not settle the preserved request.</p> : null}
 
       {choice.consent_status === 'GRANTED' ? (
         <>
           <p>
             You can withdraw at any time. Withdrawal takes one confirmation and does not ask you to accept
-            anything new.
+            anything new. Downstream restriction and independent observation are tracked separately.
           </p>
           <button type="button" className="danger" disabled={busy} onClick={() => setConfirming(true)}>
             Withdraw consent
@@ -182,7 +171,7 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
           onConfirm={() => void submitWithdraw()}
         >
           <p>
-            Withdrawing stops future processing for <strong>{choice.purpose_name}</strong>. You are not being asked
+            Withdrawing records your refusal of future marketing for <strong>{choice.purpose_name}</strong>. You are not being asked
             to accept a new notice.
           </p>
           <p className="muted">Your existing receipts stay unchanged; withdrawal adds a new one.</p>

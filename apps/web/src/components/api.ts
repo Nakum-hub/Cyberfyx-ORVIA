@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import { createClient } from '@orvia/contracts/client';
 import type { EndpointMap } from '../../../../packages/contracts/generated/endpoint-types.ts';
 import interfaces from '../../../../packages/contracts/generated/interfaces.json';
@@ -34,6 +34,16 @@ export function call<K extends Operation>(operation: K, input: EndpointMap[K]['r
  * ------------------------------------------------------------------ */
 
 let identity = 'anonymous';
+const activeRequests = new Set<string>();
+const requestListeners = new Set<() => void>();
+function markRequest(id:string, blocked:boolean) {
+  if(blocked) activeRequests.add(id); else activeRequests.delete(id);
+  for(const listener of requestListeners) listener();
+}
+/** Prevent screen switches from dropping a pending or unresolved same-tab request. */
+export function useRequestGuard() {
+  return useSyncExternalStore(listener=>{requestListeners.add(listener);return ()=>{requestListeners.delete(listener);};},()=>activeRequests.size>0,()=>false);
+}
 const listeners = new Set<() => void>();
 
 /** Stable key for the authenticated actor, organisation scope and environment. */
@@ -50,6 +60,8 @@ export function identityKey(session: { actor_domain: string; actor_id: string; s
 export function setIdentity(next: string) {
   if (next === identity) return;
   identity = next;
+  activeRequests.clear();
+  for(const listener of requestListeners) listener();
   for (const listener of listeners) listener();
 }
 
@@ -200,6 +212,7 @@ export function newIdempotencyKey(): string {
  */
 export function useMutation<K extends Operation>(operation: K, needsKey: boolean): Mutation<K> {
   type Result = EndpointMap[K]['response'];
+  const requestId=useId();
   const [state, setState] = useState<{ status: MutationStatus; result: Result | null; failure: UiFailure | null }>(
     { status: 'idle', result: null, failure: null });
   const keyRef = useRef<{ digest: string; key: string } | null>(null);
@@ -215,7 +228,11 @@ export function useMutation<K extends Operation>(operation: K, needsKey: boolean
     unsettled.current = false;
     setState({ status: 'idle', result: null, failure: null });
   }), []);
-  useEffect(() => () => { generation.current += 1; }, []);
+  useEffect(() => {
+    const warn = (event:BeforeUnloadEvent) => {if(unsettled.current || inFlight.current){event.preventDefault();event.returnValue='';}};
+    globalThis.addEventListener('beforeunload',warn);
+    return ()=>{generation.current+=1;markRequest(requestId,false);globalThis.removeEventListener('beforeunload',warn);};
+  },[requestId]);
 
   const run = useCallback(async (input: EndpointMap[K]['request'], options: { params?: Record<string, string> } = {}) => {
     if (inFlight.current) return null; // duplicate submit while pending is ignored
@@ -224,6 +241,7 @@ export function useMutation<K extends Operation>(operation: K, needsKey: boolean
     const requestIdentity = identity;
     const requestGeneration = generation.current;
     inFlight.current = true;
+    markRequest(requestId,true);
     requestRef.current = { input: structuredClone(input), options: structuredClone(options) };
     setState({ status: 'pending', result: null, failure: null });
     let key: string | undefined;
@@ -246,8 +264,9 @@ export function useMutation<K extends Operation>(operation: K, needsKey: boolean
       return null;
     } finally {
       inFlight.current = false;
+      markRequest(requestId,unsettled.current);
     }
-  }, [operation, needsKey]);
+  }, [operation, needsKey, requestId]);
 
   const reset = useCallback(() => { if (!unsettled.current) setState({ status: 'idle', result: null, failure: null }); }, []);
   const newInteraction = useCallback(() => { if (unsettled.current || inFlight.current) return; keyRef.current = null; requestRef.current = null; setState({ status: 'idle', result: null, failure: null }); }, []);

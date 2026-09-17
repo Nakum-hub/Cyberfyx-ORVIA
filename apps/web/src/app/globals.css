@@ -251,3 +251,7 @@ ol.timeline time { display: block; font-size: 12px; color: var(--ink-faint); fon
   dl.facts { grid-template-columns: 1fr; }
   dl.facts dd { margin-bottom: 6px; }
 }
+
+/* Native modal provides focus containment and background inertness. */
+dialog.dialog { margin: auto; color: var(--ink); max-height: 90vh; overflow: auto; }
+dialog.dialog::backdrop { background: rgb(0 0 0 / 55%); }

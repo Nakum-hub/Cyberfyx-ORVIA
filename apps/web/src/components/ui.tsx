@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useRequestGuard } from './api.ts';
 import type { Query } from './api.ts';
 import { failureTone, type UiFailure } from './errors.ts';
 import { describeState, formatTime, type Label, type Tone } from './state-labels.ts';
@@ -282,27 +283,19 @@ export function ConfirmDialog({ title, confirmLabel, tone = 'primary', onConfirm
   title: string; confirmLabel: string; tone?: 'primary' | 'danger';
   onConfirm: () => void; onCancel: () => void; busy?: boolean; children: ReactNode;
 }) {
-  const ref = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLDialogElement>(null);
+  const cancelRef=useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    ref.current?.focus();
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onCancel(); };
-    globalThis.addEventListener('keydown', onKey);
-    return () => globalThis.removeEventListener('keydown', onKey);
-  }, [onCancel]);
-  return (
-    <div className="dialog-backdrop">
-      <div className="dialog" role="dialog" aria-modal="true" aria-label={title}>
-        <h2>{title}</h2>
-        {children}
-        <div className="row row-end">
-          <button type="button" onClick={onCancel} disabled={busy}>Cancel</button>
-          <button type="button" ref={ref} className={tone} onClick={onConfirm} disabled={busy}>
-            {busy ? 'Working…' : confirmLabel}
-          </button>
-        </div>
-      </div>
+    const previous=document.activeElement;const dialog=ref.current;
+    dialog?.showModal();cancelRef.current?.focus();
+    return ()=>{dialog?.close();if(previous instanceof HTMLElement)previous.focus();};
+  }, []);
+  return <dialog className="dialog" ref={ref} aria-label={title} onCancel={event=>{event.preventDefault();if(!busy)onCancel();}}>
+    <h2>{title}</h2>{children}<div className="row row-end">
+      <button type="button" ref={cancelRef} onClick={onCancel} disabled={busy}>Cancel</button>
+      <button type="button" className={tone} onClick={onConfirm} disabled={busy}>{busy?'Working...':confirmLabel}</button>
     </div>
-  );
+  </dialog>;
 }
 
 export function PendingHint({ children }: { children: ReactNode }) {
@@ -310,5 +303,6 @@ export function PendingHint({ children }: { children: ReactNode }) {
 }
 
 export function Pagination({ query }: { query: { data: { next_cursor: string | null } | null; status: string; page: number; hasPrevious: boolean; next: (cursor:string) => void; previous: () => void } }) {
-  return <nav aria-label="Result pages" className="row"><button type="button" disabled={!query.hasPrevious || query.status === 'loading'} onClick={query.previous}>Previous page</button><span>Page {query.page}</span><button type="button" disabled={!query.data?.next_cursor || query.status === 'loading'} onClick={() => { if(query.data?.next_cursor) query.next(query.data.next_cursor); }}>Next page</button></nav>;
+  const blocked=useRequestGuard();
+  return <nav aria-label="Result pages" className="row"><button type="button" disabled={blocked || !query.hasPrevious || query.status === 'loading'} onClick={query.previous}>Previous page</button><span>Page {query.page}</span><button type="button" disabled={blocked || !query.data?.next_cursor || query.status === 'loading'} onClick={() => { if(query.data?.next_cursor) query.next(query.data.next_cursor); }}>Next page</button></nav>;
 }

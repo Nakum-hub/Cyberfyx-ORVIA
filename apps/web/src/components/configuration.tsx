@@ -2,7 +2,8 @@
 import { useState, type ReactNode, type FormEvent } from 'react';
 import type { schemas } from '@orvia/contracts';
 import type { EndpointMap } from '../../../../packages/contracts/generated/endpoint-types.ts';
-import { call, useCollection, useMutation } from './api.ts';
+import { call, useCollection, useMutation, useRequestGuard } from './api.ts';
+import { MutationFeedback } from './mutation-feedback.tsx';
 import { describeFailure, type UiFailure } from './errors.ts';
 import { hasCapability, type StaffSession } from './session-context.tsx';
 import { CONFIGURATION_STATUS_LABELS, formatTime } from './state-labels.ts';
@@ -16,10 +17,6 @@ export function Input({label,name,type='text',maxLength=120}:{label:string;name:
 export function Select({label,name,options}:{label:string;name:string;options:{id:string;name:string}[]}) {
   return <label className="field"><span className="label">{label}</span><select name={name} required defaultValue=""><option value="">Select…</option>{options.map(o=><option key={o.id} value={o.id}>{o.name}</option>)}</select></label>;
 }
-export function MutationFeedback({mutation,onReplayed}:{mutation:{failure:UiFailure|null;status:string;unsettled:boolean;retry:()=>Promise<unknown>};onReplayed:()=>void}) {
-  if(!mutation.failure)return null;
-  return <><FailureState failure={mutation.failure} />{mutation.unsettled?<NoticeBox tone="warn" title="Original request preserved"><p>A current-state read does not settle this request. Stay on this page. Replay uses the same payload and key; no new mutation is allowed while its outcome is unresolved.</p>{mutation.failure.code!=='IDEMPOTENCY_CONFLICT'?<button type="button" disabled={mutation.status==='pending'} onClick={async()=>{if(await mutation.retry())onReplayed();}}>Replay original request</button>:<p>The server rejected conflicting key reuse. Preserve the request for operator investigation.</p>}</NoticeBox>:null}</>;
-}
 function CreateRecord<K extends CreateOperation>({operation,label,allowed,build,onSaved,children}:{operation:K;label:string;allowed:boolean;build:(form:FormData)=>EndpointMap[K]['request'];onSaved:()=>void;children:ReactNode}) {
   const mutation=useMutation(operation,true);
   const [localError,setLocalError]=useState<UiFailure|null>(null);
@@ -29,7 +26,7 @@ function CreateRecord<K extends CreateOperation>({operation,label,allowed,build,
 }
 
 export function Configuration({session}:{session:StaffSession}) {
-  const [tab,setTab]=useState('purposes');
+  const [tab,setTab]=useState('purposes'); const blocked=useRequestGuard();
   const purposes=useCollection('list_purposes');const notices=useCollection('list_notices');
   const policies=useCollection('list_policies');const systems=useCollection('list_systems');
   const canWrite=hasCapability(session,'configuration.write');
@@ -38,7 +35,7 @@ export function Configuration({session}:{session:StaffSession}) {
   const systemOptions=systems.data?.items.map(s=>({id:s.id,name:s.name}))??[];
   const reload=()=>{purposes.refresh();notices.refresh();policies.refresh();systems.refresh();};
   return <><div className="page-head"><h2>Configuration</h2><p>Versioned purposes, notices, policies and allowlisted synthetic systems. Only distinct-reviewer policy publication publishes its notice.</p></div>
-    <nav className="row" aria-label="Configuration sections">{['purposes','notices','policies','systems'].map(t=><button key={t} type="button" aria-pressed={tab===t} onClick={()=>setTab(t)}>{t[0]!.toUpperCase()+t.slice(1)}</button>)}</nav>
+    <nav className="row" aria-label="Configuration sections">{['purposes','notices','policies','systems'].map(t=><button key={t} type="button" disabled={blocked} aria-pressed={tab===t} onClick={()=>setTab(t)}>{t[0]!.toUpperCase()+t.slice(1)}</button>)}</nav>
     {tab==='purposes'?<><Freshness query={purposes}/><QueryBoundary query={purposes} label="purposes" isEmpty={d=>!d.items.length}>{d=><RecordList label="Purpose versions" items={d.items} render={p=><><h3>{p.name}</h3><p><code>{p.id}</code> · {p.code} · version {p.version}</p><StateBadge dictionary={CONFIGURATION_STATUS_LABELS} value={p.status}/><p>{p.description}</p></>}/>}</QueryBoundary><CreateRecord operation="create_purposes" label="Create purpose" allowed={canWrite} onSaved={reload} build={f=>({...selectors,code:value(f,'code') as 'promotional_marketing'|'order_service_demo',name:value(f,'name'),description:value(f,'description')})}><Input label="Purpose name" name="name"/><Select label="Purpose condition" name="code" options={[{id:'promotional_marketing',name:'Promotional marketing'},{id:'order_service_demo',name:'Separate synthetic order service'}]}/><Input label="Description" name="description" maxLength={500}/></CreateRecord></>:null}
     {tab==='notices'?<><Freshness query={notices}/><QueryBoundary query={notices} label="notices" isEmpty={d=>!d.items.length}>{d=><RecordList label="Notice versions" items={d.items} render={n=><><h3>{n.title}</h3><p>Purpose <code>{n.purpose_id}</code> · version <code>{n.version_id}</code></p><p>{n.published_at?'Published '+formatTime(n.published_at):'Draft; publish through its policy'}</p><details><summary>Read notice content</summary><p className="notice-body">{n.content}</p><code>{n.content_digest}</code></details></>}/>}</QueryBoundary><QueryBoundary query={purposes} label="purpose choices">{()=> <CreateRecord operation="create_notices" label="Create notice" allowed={canWrite} onSaved={reload} build={f=>({purpose_id:value(f,'purpose_id'),language:'en',title:value(f,'title'),content:value(f,'content')})}><Select label="Notice purpose" name="purpose_id" options={purposeOptions}/><Input label="Notice title" name="title"/><label className="field"><span className="label">Notice content</span><textarea name="content" required maxLength={10000}/></label></CreateRecord>}</QueryBoundary></>:null}
     {tab==='policies'?<><Freshness query={policies}/><QueryBoundary query={policies} label="policies" isEmpty={d=>!d.items.length}>{d=><RecordList label="Policy versions" items={d.items} render={p=><PolicyCard policy={p} session={session} onSaved={reload}/>}/>}</QueryBoundary><QueryBoundary query={purposes} label="policy purposes">{()=> <QueryBoundary query={notices} label="policy notices">{()=> <QueryBoundary query={systems} label="policy systems">{()=> <CreateRecord operation="create_policies" label="Create policy draft" allowed={canWrite} onSaved={reload} build={f=>({purpose_id:value(f,'purpose_id'),notice_version_id:value(f,'notice_version_id'),condition:value(f,'condition') as 'AFFIRMATIVE_MARKETING_CONSENT'|'APPROVED_SYNTHETIC_ORDER_SERVICE',system_ids:f.getAll('system_ids').map(String),required_observation:true})}><Select label="Policy purpose" name="purpose_id" options={purposeOptions}/><Select label="Notice version" name="notice_version_id" options={notices.data!.items.map(n=>({id:n.version_id,name:n.title+' · '+n.version_id}))}/><Select label="Policy condition" name="condition" options={[{id:'AFFIRMATIVE_MARKETING_CONSENT',name:'Affirmative marketing consent'},{id:'APPROVED_SYNTHETIC_ORDER_SERVICE',name:'Independent synthetic order-service condition'}]}/><fieldset><legend>Systems (one to three)</legend>{systemOptions.map(s=><label className="checkbox" key={s.id}><input name="system_ids" type="checkbox" value={s.id}/>{s.name} · {s.id}</label>)}</fieldset><p>Supported automated obligations require independent observation. Manual targets remain explicit manual obligations.</p></CreateRecord>}</QueryBoundary>}</QueryBoundary>}</QueryBoundary></>:null}
@@ -57,9 +54,9 @@ function SystemCard({system,session,onSaved}:{system:ReturnType<typeof schemas.S
 }
 
 export function RecordList<T extends {id:string}>({label,items,render}:{label:string;items:T[];render:(item:T)=>ReactNode}) {
-  const [page,setPage]=useState(0);const [filter,setFilter]=useState('');
+  const [page,setPage]=useState(0);const [filter,setFilter]=useState(''); const blocked=useRequestGuard();
   const filtered=items.filter(item=>JSON.stringify(item).toLowerCase().includes(filter.toLowerCase()));const current=Math.min(page,Math.max(0,Math.ceil(filtered.length/10)-1));
-  return <section aria-label={label}><TextField label={'Search '+label.toLowerCase()} value={filter} onChange={value=>{setFilter(value);setPage(0);}}/><p>{filtered.length} recorded result(s). Page {current+1}.</p>{filtered.slice(current*10,current*10+10).map(item=><article className="panel" key={item.id}>{render(item)}</article>)}{!filtered.length?<p>No matching records.</p>:null}<div className="row"><button type="button" disabled={current===0} onClick={()=>setPage(current-1)}>Previous records</button><button type="button" disabled={(current+1)*10>=filtered.length} onClick={()=>setPage(current+1)}>Next records</button></div></section>;
+  return <section aria-label={label}><TextField label={'Search '+label.toLowerCase()} value={filter} onChange={value=>{if(!blocked){setFilter(value);setPage(0);}}}/><p>{filtered.length} recorded result(s). Page {current+1}.</p>{filtered.slice(current*10,current*10+10).map(item=><article className="panel" key={item.id}>{render(item)}</article>)}{!filtered.length?<p>No matching records.</p>:null}<div className="row"><button type="button" disabled={blocked||current===0} onClick={()=>setPage(current-1)}>Previous records</button><button type="button" disabled={blocked||(current+1)*10>=filtered.length} onClick={()=>setPage(current+1)}>Next records</button></div></section>;
 }
 
 export function Principals({session}:{session:StaffSession}) {
