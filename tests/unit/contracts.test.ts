@@ -75,3 +75,14 @@ test('browser transport enforces request validation, parses errors, and never re
   await assert.rejects(client.call('withdraw',{expected_epoch:2,interaction_id:uuid(3)},{params:{purpose_id:uuid(1)},idempotency_key:'synthetic_test_key_0001'}),error=>error instanceof ApiError&&error.status===409);
   assert.equal(calls,1);
 });
+
+test('no-input browser POST uses the actual server JSON boundary without inventing a DTO',async()=>{
+  let calls=0;
+  const client=createClient(async(_input,init)=>{
+    calls++;assert.equal(init?.method,'POST');assert.equal(new Headers(init.headers).get('content-type'),'application/json');assert.equal(init?.body,'{}');
+    return new Response(JSON.stringify({error:{code:'SERVICE_UNAVAILABLE',message:'Synthetic unavailable dependency',retry:'AFTER_DELAY'},request_id:uuid(2)}),{status:503});
+  });
+  await assert.rejects(client.call('check_system',undefined,{params:{id:uuid(1)}}),e=>e instanceof ApiError&&e.status===503);
+  await assert.rejects(client.call('reconcile',undefined,{params:{id:uuid(1)},idempotency_key:'synthetic_reconcile_0001'}),e=>e instanceof ApiError&&e.status===503);
+  assert.equal(calls,2,'Each explicit call dispatches once; no mutation is automatically retried');
+});

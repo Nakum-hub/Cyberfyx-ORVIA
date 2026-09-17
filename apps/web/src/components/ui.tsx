@@ -139,6 +139,7 @@ export function Freshness({ query, asOf }: { query: Query<unknown>; asOf?: strin
     <p className="muted" aria-live="polite">
       {asOf ? <>Server as of <strong>{formatTime(asOf)}</strong>. </> : null}
       {query.loadedAt ? <>Read into this screen at <strong>{formatTime(new Date(query.loadedAt).toISOString())}</strong>. </> : <>Not yet read. </>}
+      {query.failure && query.data ? 'Displayed snapshot is stale; the latest read failed. ' : null}
       {query.status === 'refreshing' ? 'Refreshing…' : null}
       {' '}
       <button type="button" className="link" onClick={query.refresh}>Refresh now</button>

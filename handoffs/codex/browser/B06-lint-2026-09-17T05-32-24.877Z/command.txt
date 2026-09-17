@@ -1,0 +1,8 @@
+$ eslint packages apps scripts tests --max-warnings 0
+
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\tests\e2e\fixture.ts
+  47:12  error  Unexpected empty object pattern  no-empty-pattern
+
+✖ 1 problem (1 error, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

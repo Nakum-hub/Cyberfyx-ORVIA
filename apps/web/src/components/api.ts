@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
+import { routes, schemas } from '@orvia/contracts';
 import { createClient } from '@orvia/contracts/client';
 import type { EndpointMap } from '../../../../packages/contracts/generated/endpoint-types.ts';
 import interfaces from '../../../../packages/contracts/generated/interfaces.json';
@@ -173,7 +174,8 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
   }, [operation, enabled, paramsKey, limit, cursor, allPages, tick]);
 
   const refresh = useCallback(() => setTick(value => value + 1), []);
-  return { ...state, refresh };
+  const bound=sourceRef.current===JSON.stringify([identity,operation,paramsKey,limit,cursor,allPages]);
+  return bound ? {...state,refresh} : {status:enabled?'loading':'idle',data:null,failure:null,loadedAt:null,refresh};
 }
 
 /* ------------------------------------------------------------------ *
@@ -236,6 +238,18 @@ export function useMutation<K extends Operation>(operation: K, needsKey: boolean
 
   const run = useCallback(async (input: EndpointMap[K]['request'], options: { params?: Record<string, string> } = {}) => {
     if (inFlight.current) return null; // duplicate submit while pending is ignored
+    // Canonical validation before dispatch distinguishes invalid input from a
+    // malformed response after a possibly committed request.
+    try {
+      const route=routes.find(candidate=>candidate.id===operation)!;
+      if(route.request)schemas[route.request].parse(input);
+      if(route.params)schemas[route.params].parse(options.params);
+    } catch(error) {
+      if(unsettled.current)return null;
+      const failure=describeFailure(error);
+      if(error instanceof Error && 'issues' in error && Array.isArray(error.issues)) failure.fieldErrors=error.issues.slice(0,32).map(issue=>({field:issue.path.join('.'),code:issue.code}));
+      setState({status:'error',result:null,failure});return null;
+    }
     const digest = stableStringify({ input: input ?? null, params: options.params ?? null });
     if (unsettled.current && keyRef.current?.digest !== digest) return null;
     const requestIdentity = identity;

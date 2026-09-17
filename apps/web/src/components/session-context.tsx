@@ -59,6 +59,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         if (cancelled) return;
         const failure = describeFailure(error);
         if (failure.kind === 'ABORTED') return;
+        if(failure.kind==='NETWORK'||failure.kind==='MALFORMED'||(failure.status!==null&&failure.status>=500)){
+          setState(previous=>previous.session ? {...previous,failure} : {status:'error',session:null,failure});
+          return;
+        }
         setIdentity('anonymous');
         setState({
           status: failure.code === 'UNAUTHENTICATED' ? 'unauthenticated' : failure.code === 'FORBIDDEN' ? 'authenticated' : 'error',
@@ -131,5 +135,5 @@ export function DomainGuard({ domain, signInHref, children }: { domain: 'STAFF' 
       </NoticeBox>
     );
   }
-  return <div key={identityKey(session)}>{children(session)}</div>;
+  return <div key={identityKey(session)}>{failure?<FailureState failure={failure} onRetry={reload}/>:null}{failure?<p role="status">Session recheck failed. Previously read content may be stale; every action still requires current server authorization.</p>:null}{children(session)}</div>;
 }

@@ -1,0 +1,11 @@
+{
+  "test": "B06 real browser validates rehearsal HTTPS without certificate bypass",
+  "requests": [
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/",
+      "method": "GET"
+    }
+  ],
+  "scope": "This Playwright context only; not host-wide egress."
+}

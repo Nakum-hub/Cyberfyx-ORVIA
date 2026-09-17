@@ -38,6 +38,8 @@ export default function PrincipalSignInPage() {
     }
   };
 
+  if(session?.actor_domain==='STAFF')return <NoticeBox tone="stop" title="Separate principal session required"><p>Sign out of the staff session or use a separate browser context before signing in as a principal.</p></NoticeBox>;
+
   if (status === 'authenticated' && session?.actor_domain === 'PRINCIPAL') {
     return (
       <NoticeBox tone="ok" title="Signed in">

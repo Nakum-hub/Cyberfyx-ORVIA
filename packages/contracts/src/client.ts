@@ -17,9 +17,9 @@ export function createClient(fetcher:typeof fetch=fetch){
     if(options.cursor)query.set('cursor',options.cursor);
     if(options.limit)query.set('limit',String(options.limit));
     const headers:Record<string,string>={'Accept':'application/json'};
-    if(route.request)headers['Content-Type']='application/json';
+    if(route.method==='post')headers['Content-Type']='application/json';
     if(route.idempotency)headers['Idempotency-Key']=options.idempotency_key!;
-    const response=await fetcher(`${path}${query.size?'?'+query.toString():''}`,{method:route.method.toUpperCase(),credentials:'same-origin',cache:'no-store',headers,body:route.request?JSON.stringify(input):undefined,signal:options.signal});
+    const response=await fetcher(`${path}${query.size?'?'+query.toString():''}`,{method:route.method.toUpperCase(),credentials:'same-origin',cache:'no-store',headers,body:route.method==='post'?JSON.stringify(route.request?input:{}):undefined,signal:options.signal});
     const result:unknown=await response.json();
     if(!response.ok)throw new ApiError(response.status,schemas.ErrorResponse.parse(result));
     return schemas[route.response].parse(result) as EndpointMap[K]['response'];

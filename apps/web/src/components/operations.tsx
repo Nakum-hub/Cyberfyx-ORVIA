@@ -6,7 +6,7 @@ import { call, currentIdentity, useCollection, useMutation, useNow, usePagedQuer
 import { actionVerification, buildTimeline, obligationAction, obligationStatus, obligationTotals } from './derive.ts';
 import { describeFailure, type UiFailure } from './errors.ts';
 import { hasCapability, type StaffSession } from './session-context.tsx';
-import { EXECUTION_LABELS, OBSERVATION_LABELS, WORKFLOW_LABELS, CONSENT_LABELS, DECISION_LABELS, formatTime } from './state-labels.ts';
+import { EXECUTION_LABELS, WORKFLOW_LABELS, CONSENT_LABELS, DECISION_LABELS, formatTime } from './state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, Pagination, QueryBoundary, StateBadge, TextField } from './ui.tsx';
 import { MutationFeedback } from './mutation-feedback.tsx';
 import { Select } from './configuration.tsx';
@@ -28,7 +28,7 @@ export function Workflows({evidence=false}:{evidence?:boolean}) {
 }
 
 export function WorkflowDetail({id,session}:{id:string;session:StaffSession}) {
-  const query=useQuery('workflow',{params:{id},pollWhile:d=>!POLL.workflowTerminal.includes(d.state)});
+  const query=useQuery('workflow',{params:{id},pollWhile:d=>!POLL.workflowTerminal.includes(d.state)||d.actions.some(a=>a.reconciliations.some(r=>r.state==='PENDING'||r.state==='RECONCILING'))});
   return <><div className="page-head"><h2>Workflow detail</h2><p><code>{id}</code></p></div><p><a href="/workspace/workflows">All workflows</a>{hasCapability(session,'evidence.read')?<> · <a href={`/workspace/evidence/${id}`}>Evidence for this workflow</a></>:null}</p>
     <Freshness query={query}/><QueryBoundary query={query} label="workflow">{workflow=><WorkflowFacts workflow={workflow} session={session} refresh={query.refresh}/>}</QueryBoundary></>;
 }
@@ -51,7 +51,7 @@ function ActionCard({action,workflow,session,refresh,now}:{action:Action;workflo
     <Facts items={Object.entries(action.plan.scope).map(([term,value])=>({term:term.replaceAll('_',' '),value:<code>{value}</code>}))}/>
     <p>Capability {action.plan.capability} · version {action.plan.capability_version} · maximum attempts {action.plan.operation_budget.maximum_attempts}</p>
     <h4>Execution receipts</h4>{!action.attempts.length?<p>No target response recorded.</p>:action.attempts.map(attempt=><p key={attempt.attempt_id}><code>{attempt.attempt_id}</code> · <StateBadge dictionary={EXECUTION_LABELS} value={attempt.execution_state}/> · {attempt.reason_code} · {formatTime(attempt.recorded_at)} · command <code>{attempt.command_id}</code></p>)}
-    <h4>Observation records</h4>{!action.observations.length?<p>No observation recorded.</p>:action.observations.map(o=><div key={o.id}><p><code>{o.id}</code> · {o.method} · <StateBadge dictionary={OBSERVATION_LABELS} value={o.state}/></p><p>Observed {formatTime(o.observed_at)}; fresh until {formatTime(o.fresh_until)}; generation {o.target_generation}; target state {o.observed_state}.</p>{o.method!=='SCOPED_READ'?<p>Provider evidence is not independent observation.</p>:null}<ul>{o.limits.map(limit=><li key={limit}>{limit}</li>)}</ul></div>)}
+    <h4>Observation records</h4>{!action.observations.length?<p>No observation recorded.</p>:action.observations.map(o=><div key={o.id}><p><code>{o.id}</code> · {o.method} · <Badge label={o.state.replaceAll('_',' ')} tone={verification.verified&&o.id===action.observations.at(-1)?.id?'ok':o.state==='OBSERVED_NOT_SATISFIED'?'stop':'warn'}/></p><p>Observed {formatTime(o.observed_at)}; fresh until {formatTime(o.fresh_until)}; generation {o.target_generation}; target state {o.observed_state}.</p>{o.method!=='SCOPED_READ'?<p>Provider evidence is not independent observation.</p>:null}<ul>{o.limits.map(limit=><li key={limit}>{limit}</li>)}</ul></div>)}
     {hasCapability(session,'action.reconcile')?<><button type="button" disabled={reconcile.status==='pending'||reconcile.unsettled} onClick={async()=>{if(await reconcile.run(undefined,{params:{id:action.id}}))refresh();}}>Request scoped read reconciliation</button><p>This requests a read, never replays the target effect. The server checks current scope and action eligibility.</p></>:null}
     <MutationFeedback mutation={reconcile} onReplayed={refresh}/>{reconcile.result?<p role="status">Reconciliation accepted at {formatTime(reconcile.result.accepted_at)}. Acceptance is not resolution. <button type="button" onClick={refresh}>Read recorded outcome</button></p>:null}
   </article>;
@@ -84,7 +84,7 @@ function FindWorkflow({obligationId}:{obligationId:string}) {
 }
 
 export function EvidenceDetail({id,session}:{id:string;session:StaffSession}) {
-  const query=useQuery('evidence',{params:{workflow_id:id}});const [error,setError]=useState<UiFailure|null>(null);const [busy,setBusy]=useState(false);
+  const query=useQuery('evidence',{params:{workflow_id:id},pollWhile:e=>e.workflow.actions.some(a=>a.reconciliations.some(r=>r.state==='PENDING'||r.state==='RECONCILING'))});const [error,setError]=useState<UiFailure|null>(null);const [busy,setBusy]=useState(false);
   const download=async()=>{setBusy(true);setError(null);const actor=currentIdentity();try{const data=await call('export',undefined,{params:{workflow_id:id}});if(actor!==currentIdentity())return;const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`orvia-evidence-${id}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){if(actor===currentIdentity())setError(describeFailure(error));}finally{if(actor===currentIdentity())setBusy(false);}};
   return <><div className="page-head"><h2>Workflow evidence</h2><p><code>{id}</code> · <a href={`/workspace/workflows/${id}`}>Open operational workflow</a></p></div><Freshness query={query}/><QueryBoundary query={query} label="workflow evidence">{e=><>
     <section className="panel"><h3>Evidence scope and integrity</h3><p>Exported at {formatTime(e.exported_at)}</p><p>Digest <code>{e.integrity_digest}</code></p><p>{e.integrity_limit}</p><ul>{e.coverage_limits.map(limit=><li key={limit}>{limit}</li>)}</ul><p>Policy versions {e.policy_version_ids.join(', ')||'None recorded'}.</p><p>Notice versions {e.notice_version_ids.join(', ')||'None recorded'}.</p>{hasCapability(session,'evidence.export')?<button type="button" disabled={busy} onClick={()=>void download()}>Download local evidence JSON</button>:null}{error?<FailureState failure={error}/>:null}</section>
