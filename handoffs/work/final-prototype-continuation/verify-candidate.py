@@ -14,7 +14,7 @@ import subprocess
 import zipfile
 
 root = pathlib.Path.cwd()
-output = root / 'handoffs/work/final-prototype-continuation/candidate-verification.json'
+output = root / 'handoffs/work/final-prototype-continuation/candidate-verification-c383b9d.json'
 if output.exists():
     raise RuntimeError('Preserve the previous execution report')
 started = datetime.datetime.now(datetime.timezone.utc).isoformat()

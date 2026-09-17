@@ -11,14 +11,14 @@ recording, are not two rehearsals.**
 
 | Field | Value |
 |---|---|
-| `code_under_test_commit` | `81431d64afb8dd613c96d942402d8c0d8cc07ac0` |
-| source inventory SHA-256 (sourceState, not a Git tree ID) | `e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437` |
-| `build_id` | `mtRrfhGjl22jabwoImHIf` |
+| `code_under_test_commit` | `c383b9d9a1b5c26ade00d987c714ec889e27934b` |
+| source inventory SHA-256 (sourceState, not a Git tree ID) | `66381551e28c17a2e9d479f4cb7dd9fc188d05adc35366c0cbd04c1ac033ff63` |
+| `build_id` | `pKS-S9WY5IsMrwB9DecCI` |
 | `contract_version` | `0.5.0` (signed command `0.3.0`) |
 | `profile` | `rehearsal` |
 | `fixture_id` | `aster-birch-v1` |
 | origin | `https://127.0.0.1:4330` |
-| manifest SHA-256 | `95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026` |
+| manifest SHA-256 | `b23ad8015f9bb062e700ca955f6b4ef380e8b8b9a896f5f77c60cc2bcc6dee35` |
 
 If any source file under `apps`, `packages`, `scripts`, `tests`, `infrastructure`, `policy`,
 `pnpm-lock.yaml` or `package.json` changes, this candidate is void: a new candidate must be frozen and
@@ -30,7 +30,7 @@ If any source file under `apps`, `packages`, `scripts`, `tests`, `infrastructure
 $env:ORVIA_PROFILE = 'rehearsal'
 
 # 1. Confirm the candidate is still intact (expects 242 checks, 0 failures).
-python handoffs/work/final-prototype-continuation/verify-candidate.py
+python handoffs/work/final-prototype-continuation/verify-candidate.py   # writes a new dated report
 
 # 2. Confirm the reviewed CA is trusted for normal Chromium HTTPS.
 certutil -user -store Root 8C592FC41BBD6AA18F42234085F6B8155466A190
@@ -56,8 +56,8 @@ and its identity must equal the run's exactly.
 {
   "kind": "REHEARSAL_START_STATE",
   "rehearsal_id": "R1",
-  "code_under_test_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
-  "build_id": "mtRrfhGjl22jabwoImHIf",
+  "code_under_test_commit": "c383b9d9a1b5c26ade00d987c714ec889e27934b",
+  "build_id": "pKS-S9WY5IsMrwB9DecCI",
   "contract_version": "0.5.0",
   "profile": "rehearsal",
   "fixture_id": "aster-birch-v1",

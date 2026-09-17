@@ -1,10 +1,22 @@
 # T01–T30 reconciliation against the frozen final candidate
 
-**Candidate:** `81431d64afb8dd613c96d942402d8c0d8cc07ac0` · source inventory SHA-256
-`e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437` · manifest SHA-256
-`95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026` · contract 0.5.0 / signed command 0.3.0
-· profile `rehearsal` · fixture `aster-birch-v1` · host build `mtRrfhGjl22jabwoImHIf` · container build
-`aMloAQd7rLFKm0GE_Sge1` · runtime image `sha256:48c3b41e…` · Playwright 1.63.0.
+**Candidate:** `c383b9d9a1b5c26ade00d987c714ec889e27934b` · source inventory SHA-256
+`66381551e28c17a2e9d479f4cb7dd9fc188d05adc35366c0cbd04c1ac033ff63` · manifest `artifacts/release-manifest.json`
+SHA-256 `b23ad8015f9bb062e700ca955f6b4ef380e8b8b9a896f5f77c60cc2bcc6dee35` · contract 0.5.0 / signed command
+0.3.0 · profile `rehearsal` · fixture `aster-birch-v1` · runtime image label and revision both match the
+candidate · Playwright 1.63.0.
+
+> **Superseded identities.** Two earlier candidates were frozen today and are retained as history:
+> `81431d64` (fully qualified, 16/16) and `0ff33e9a` (browser run failed 5/11 on collapsed services,
+> never packaged). `scripts/source-state.ts` counts `tracking/` and `CURRENT_STATE.md` inside the qualified
+> inventory, which is why Work bookkeeping forced each re-freeze; `CURRENT_STATE.md` no longer embeds the
+> candidate identity, so this loop is closed.
+
+> **One known stale row.** `CURRENT_STATE.md` at this candidate still reads "24 of the 30 … T01, T02, T26,
+> T27, T28 and T30 are PARTIAL". T26 and T27 were upgraded to COMPONENT_PASS **after** that commit, on the
+> evidence recorded below. It is deliberately not edited: doing so would change the source inventory that
+> this very candidate names. The table below is authoritative; correct it in the same commit as the
+> rehearsal results, then re-freeze once.
 
 ## How status was decided
 
@@ -86,8 +98,8 @@ rather than smoothed over.
 | T23 | Healthy regression run | E8 (runs `cb9e07b8…`, `4840d1fe…` → PASS), E12 `test-lab.spec.ts` | **COMPONENT_PASS** | Canonical record. |
 | T24 | Broken fixture detection and repair | E8 (run `7f48cebe…` stored **FAIL** with `expected_fault_detection: true`, synthetic send count 1, `expected fault flag does not turn FAIL into PASS`, `terminal outcome cannot be rewritten`), E12 `test-lab.spec.ts` | **COMPONENT_PASS** | Canonical record. The FAIL is preserved as a FAIL; it is the detection that passes. |
 | T25 | Quarantined target restore | E8 (run `59335f6a…` → PASS with quarantine-first, premature-activation denial, stale-generation denial, reconciled activation, unchanged consent ledger, recovery journal), E12 `test-lab.spec.ts` | **COMPONENT_PASS** | Canonical record. Target-only recovery; no control-plane disaster recovery is claimed. |
-| T26 | No runtime vendor/model egress | E11 at this exact candidate: image label matches the candidate source inventory, internal-only network, no published host ports, blocked-egress backend core succeeds, canary never reached, deny-all DNS observed only the controlled query | **PARTIAL** | The canonical expectation is "**browser and backend** observations show no unapproved traffic/assets/telemetry". E11 is backend-only and its own artifact states "Browser/network and host development egress remain unqualified". The browser half exists only as the per-context `networkAudit` records inside E12, which must be qualified at the final candidate and explicitly accepted as satisfying the browser observation. |
-| T27 | Input/session and secret hygiene | E2 (`role field cannot grant authority`, `machine bearer cannot become human`, `HttpOnly and strict SameSite cookies`, `application cannot read auth credentials`, `revoked cookie rejected`), E13 (0 findings over 1659 files / 81 generated credential values) | **PARTIAL** | The canonical expectation requires "**dependency**/secret scan findings **triaged**". Only the secret/pattern scan (E13) ran. `pnpm dependencies:check` (`scripts/dependency-advisories.mjs`) was **not executed** in this session; the newest artifact `A07-dependency-advisories-1789613793192.json` predates this work and carries no `source_commit`. |
+| T26 | No runtime vendor/model egress | **Backend:** E11 at candidate — image label matches the candidate source inventory, internal-only network, no published host ports, blocked-egress backend core succeeds, canary never reached, deny-all DNS observed only the controlled query. **Browser:** E12b per-context `networkAudit` records — 16 files, **1,133 requests observed, 0 foreign-origin**, single origin `https://127.0.0.1:4330` | **COMPONENT_PASS** | Canonical record. Both halves of the canonical expectation are now evidenced for the tested interval. Scope limit retained verbatim: each browser record states "This Playwright context only; not host-wide egress", and the backend artifact excludes host development egress. No air-gap or whole-host claim. |
+| T27 | Input/session and secret hygiene | E2 (`role field cannot grant authority`, `machine bearer cannot become human`, `HttpOnly and strict SameSite cookies`, `application cannot read auth credentials`, `revoked cookie rejected`), E13 secret/pattern scan (0 findings, 1659 files, 81 generated credential values), **E16 dependency advisory triage — 498 lock packages against 7,408 reviewed advisories, 0 findings, lockfile `b2694da1…` unchanged** | **COMPONENT_PASS** | Canonical record. E16 limitation retained: reviewed npm advisory snapshot only; excludes unreviewed advisories, malware and container OS advisories. No vulnerability-free claim. |
 | T28 | Reset and fault isolation | E1 (`invalid-reset-denied-probe-preserved`: wrong confirmation and unknown profile both rejected, marker preserved), E9 (business-schema reset refused, state retained across supervised restarts) | **PARTIAL** | The `codex-a00`-scoped `tests/security/fixture-isolation.ts` is **NOT_RUN** here: it is pinned to a different profile (`Only the named Codex fixture profile is permitted`, retained FAIL `B06-exec-2026-09-17T12-07-55.927Z`). Cross-profile isolation at this candidate is therefore not re-established. |
 | T29 | Integrated browser flow and error states | E12 — **16/16 PASS at the exact candidate commit and tree**, all seven mandatory suites, Chromium over normal trusted HTTPS with no bypass; per-context network records assert no request leaves the application origin | **COMPONENT_PASS** | Canonical record. This is the strongest single piece of candidate evidence. |
 | T30 | Frozen-candidate repeatability and claims | E14 (candidate frozen, browser gate `PASS_ENGINEERING`), E15 (242/242 independent integrity checks) | **PARTIAL** | Repeatability across **two independent human rehearsals** (R1, R2) and the C02 claim alignment plus W03 recommendation. By definition this test cannot close before those. |

@@ -1,10 +1,10 @@
 {
   "task_id": "B06",
   "candidate_kind": "LOCAL_SYNTHETIC_UI_ENGINEERING_CANDIDATE_PENDING_REVIEW",
-  "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+  "source_commit": "c383b9d9a1b5c26ade00d987c714ec889e27934b",
   "source_branch": "prototype/work/final-prototype-continuation",
   "bundle_verified": true,
-  "source_tree_sha256": "e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437",
+  "source_tree_sha256": "66381551e28c17a2e9d479f4cb7dd9fc188d05adc35366c0cbd04c1ac033ff63",
   "source_files": [
     {
       "path": ".dockerignore",
@@ -36,7 +36,7 @@
     },
     {
       "path": "CURRENT_STATE.md",
-      "sha256": "ba11bc4979c6a13eac2fea299a2b34b36de636dd28ef53d7131ba8695e942ee7"
+      "sha256": "74567d93bfa20207bce84ae287606932325ef1b392980265309851acc3a39053"
     },
     {
       "path": "README.md",
@@ -884,7 +884,7 @@
     },
     {
       "path": "tracking/acceptance.json",
-      "sha256": "477949910fb48fa750a74124aed751911401802310b7e2c0dcf75716f1f801be"
+      "sha256": "3812dc5643a074b6707d2084cfab4b666f07fa332d8c7d1c12826ba81ab6c340"
     },
     {
       "path": "tracking/capabilities.json",
@@ -896,7 +896,7 @@
     },
     {
       "path": "tracking/tasks.json",
-      "sha256": "4e3da53ea5d55470ebc34f493eed504af8c7ac09bb739c9d5402cea841b7f6d6"
+      "sha256": "3417cf88e5060a6ca3130b9e96d7768d336651d1b10d93856f11d08575c430e7"
     },
     {
       "path": "tsconfig.json",
@@ -904,7 +904,7 @@
     }
   ],
   "dirty_source": false,
-  "excluded_evidence_dirty_state": "?? handoffs/codex/artifacts/A00-runtime-image-1789648554795-c878caf4-e46c-45c0-8324-0900e807fd9a.json\n?? handoffs/codex/artifacts/A07-network-core-1789649460539-21c84475-ae56-4bd3-9a0a-e069c25092f3.json\n?? handoffs/codex/artifacts/A07-network-observations-e4e27822-f468-4c1f-b920-7aed8cd26884.json\n?? handoffs/codex/artifacts/A07-network-qualification-1789649464712-61fc22c5-8651-4fd8-9679-cf7e0b0aef05.json\n?? handoffs/codex/artifacts/A07-recovery-journal-1789648997446-b7db4200-9e41-4666-b3f7-fb326995d592.json\n?? handoffs/codex/artifacts/A07-regression-run-1789648846397-5e54244a-af9b-4497-941a-45320e069990.json\n?? handoffs/codex/artifacts/A07-regression-run-1789648910167-f2537174-640b-410b-9bb5-d52ca7c286fa.json\n?? handoffs/codex/artifacts/A07-regression-run-1789648930551-c6e2bf30-578a-492f-8b96-9cd40f4bacd3.json\n?? handoffs/codex/artifacts/A07-regression-run-1789648997616-536a35fd-60d7-45dd-a5f2-239142ed48c9.json\n?? handoffs/codex/artifacts/A07-regression-run-1789649460147-2aed4081-1df0-429b-be70-09181695ddb2.json\n?? handoffs/codex/artifacts/A07-service-integration-1789649409037-6566c019-04f8-4ad9-b2e1-7e3cc92e3dff.json\n?? handoffs/codex/browser/B06-build-2026-09-17T12-32-15.454Z/command.json\n?? handoffs/codex/browser/B06-build-2026-09-17T12-32-15.454Z/command.txt\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-36-13.063Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-36-13.063Z/command.txt\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-49-54.324Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-49-54.324Z/command.txt\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-50-28.741Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-50-28.741Z/command.txt\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-51-36.045Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T12-51-36.045Z/command.txt\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/acknowledgement-without-effect.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/candidate-test-lab.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/configuration.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/consent-receipt.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/failure-state.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/manual-attributed-not-observed.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/manual-unresolved.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/mobile-capability-register.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-25ec19131209813c24ae-a06b66a23a1db84823df.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-25ec19131209813c24ae-ba5aae134c021cfdd5a7.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-31b1dc50484557b5f5a0-1217b9d06f657a933476.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-6cc628a4d74492a2b51c-0ba7153abf9ad16da1d1.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-6cc628a4d74492a2b51c-804f5751032a64da11f3.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c3655b771a06a90fa845-5f47bb175cd70500a82e.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c3655b771a06a90fa845-89a2baf21224fcc29529.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c3655b771a06a90fa845-bf7c7c87a2a6afb2916b.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c601ceb5ecfc8efa4a14-16a206e1a0944b87e226.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c601ceb5ecfc8efa4a14-4acb48c18629e69f10e3.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c601ceb5ecfc8efa4a14-587bcdaefd0c53b3e9ed.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c601ceb5ecfc8efa4a14-d21c3c75385e66f7606e.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-c9271d8ec6470e516d84-06ad8eecef60eddb1381.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-d748ac400d08b85935ef-ab5c8281ef102245b2fa.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-d748ac400d08b85935ef-ee2fa0e660d2126f8a6a.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/network-d748ac400d08b85935ef-f83218082b9d171e3105.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/privacy-centre.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/results.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/staff-workspace.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/synthetic-evidence-a76a54ad-b051-4213-9553-03bfa11f4642.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/test-lab-MARKETING_WITHDRAWAL_BROKEN_CONTROL-ee1ebac4-f724-422a-9bf6-2723b7de1ca9.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/test-lab-MARKETING_WITHDRAWAL_HEALTHY-21926803-ce7c-4bd7-a2fb-2c74ffd2df29.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/test-lab-MARKETING_WITHDRAWAL_HEALTHY-b5b4789f-6c33-44be-92f2-3cdbee14e3e2.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/test-lab-TARGET_RESTORE_QUARANTINE-7d7e2f9f-6d1d-4c6b-b5da-329b079b1329.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/test-lab-interrupted-error.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/workflow-evidence.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/workflow.png\n?? handoffs/work/final-prototype-continuation/W01-consolidated-review.md\n?? handoffs/work/final-prototype-continuation/W02-consolidated-review.md",
+  "excluded_evidence_dirty_state": "?? handoffs/codex/artifacts/A00-runtime-image-1789656881921-73d42dbc-e9fb-4d57-b981-33059bcad199.json\n?? handoffs/codex/artifacts/A07-recovery-journal-1789657352132-cf7ffdb3-83e4-4293-a97d-0a9f517705cd.json\n?? handoffs/codex/artifacts/A07-regression-run-1789657159927-469b57fa-837a-43e9-88c0-971e1b6a4d3b.json\n?? handoffs/codex/artifacts/A07-regression-run-1789657224559-88af1b37-5982-4919-acd5-0aa9bb85696a.json\n?? handoffs/codex/artifacts/A07-regression-run-1789657257639-60b821c0-b508-4807-aae5-5f28ba065a21.json\n?? handoffs/codex/artifacts/A07-regression-run-1789657352281-fa382158-f630-49db-be63-79a4a30bcd9f.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T14-54-50.457Z/command.json\n?? handoffs/codex/browser/B06-exec-2026-09-17T14-54-50.457Z/command.txt\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/acknowledgement-without-effect.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/candidate-test-lab.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/configuration.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/consent-receipt.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/failure-state.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/manual-attributed-not-observed.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/manual-unresolved.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/mobile-capability-register.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-25ec19131209813c24ae-a06b66a23a1db84823df.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-25ec19131209813c24ae-ba5aae134c021cfdd5a7.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-31b1dc50484557b5f5a0-1217b9d06f657a933476.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-6cc628a4d74492a2b51c-0ba7153abf9ad16da1d1.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-6cc628a4d74492a2b51c-804f5751032a64da11f3.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c3655b771a06a90fa845-5f47bb175cd70500a82e.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c3655b771a06a90fa845-89a2baf21224fcc29529.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c3655b771a06a90fa845-bf7c7c87a2a6afb2916b.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c601ceb5ecfc8efa4a14-16a206e1a0944b87e226.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c601ceb5ecfc8efa4a14-4acb48c18629e69f10e3.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c601ceb5ecfc8efa4a14-587bcdaefd0c53b3e9ed.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c601ceb5ecfc8efa4a14-d21c3c75385e66f7606e.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-c9271d8ec6470e516d84-06ad8eecef60eddb1381.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-d748ac400d08b85935ef-ab5c8281ef102245b2fa.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-d748ac400d08b85935ef-ee2fa0e660d2126f8a6a.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/network-d748ac400d08b85935ef-f83218082b9d171e3105.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/privacy-centre.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/results.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/staff-workspace.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/synthetic-evidence-343097ce-d28f-40be-a641-af025b67a129.json\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/test-lab-MARKETING_WITHDRAWAL_BROKEN_CONTROL-dc0c09bd-905e-48c2-8ace-349d80df3a66.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/test-lab-MARKETING_WITHDRAWAL_HEALTHY-09e85a57-cc31-46df-bbc7-320ac0ecf68a.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/test-lab-MARKETING_WITHDRAWAL_HEALTHY-9865c0c9-6ff7-4080-a610-288d995604e5.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/test-lab-TARGET_RESTORE_QUARANTINE-97bc5a93-9d8f-45dc-a8ee-044eda703a76.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/test-lab-interrupted-error.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/workflow-evidence.png\n?? handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/workflow.png",
   "master": {
     "path": "docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md",
     "sha256": "527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6"
@@ -916,10 +916,10 @@
   },
   "lockfile_sha256": "b2694da120310a26a6ae377ebecbd4dafcac6711b60377c4ff308fe4fc91a5c8",
   "build": {
-    "host": "mtRrfhGjl22jabwoImHIf",
-    "container": "aMloAQd7rLFKm0GE_Sge1",
-    "runtime_image_id": "sha256:48c3b41efb3d5d409dd49f44b422f7c034339af2ecd5ff3915d707b1189d7bf2",
-    "runtime_image_source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0"
+    "host": "pKS-S9WY5IsMrwB9DecCI",
+    "container": "_0RpzKYtSU-1DlxDFtAO3",
+    "runtime_image_id": "sha256:59b08ad64c76922f1e876b04d25971551435de3925f84be352bc569150d59be7",
+    "runtime_image_source_commit": "c383b9d9a1b5c26ade00d987c714ec889e27934b"
   },
   "profile": {
     "name": "rehearsal",
@@ -974,24 +974,24 @@
   ],
   "package_artifacts": [
     {
-      "path": ".local/releases/81431d64afb8dd613c96d942402d8c0d8cc07ac0/orvia-source.bundle",
-      "sha256": "205584c5a2fa2770a8fac2a9257174447085ddf40a204bc3d84eeebfb0f696d6"
+      "path": ".local/releases/c383b9d9a1b5c26ade00d987c714ec889e27934b/orvia-source.bundle",
+      "sha256": "49e251ba489eb7b60e8d3956192b5f55f413726c310d9290dab2c6bf7e70a446"
     },
     {
-      "path": ".local/releases/81431d64afb8dd613c96d942402d8c0d8cc07ac0/orvia-source.zip",
-      "sha256": "ef7154e6382e204bbb7eae103e454c2e94346c2fb02abda105ea0dcef06aff7a"
+      "path": ".local/releases/c383b9d9a1b5c26ade00d987c714ec889e27934b/orvia-source.zip",
+      "sha256": "a2581062d241d579e9a2c30d557af961b4ca46122023441880a5375af148b7bd"
     },
     {
-      "path": ".local/releases/81431d64afb8dd613c96d942402d8c0d8cc07ac0/orvia-evidence.zip",
-      "sha256": "d94745dad468a27c6dab23132cb055a6091ffc146b3215c88c11f5a2909dc667"
+      "path": ".local/releases/c383b9d9a1b5c26ade00d987c714ec889e27934b/orvia-evidence.zip",
+      "sha256": "5e9c90a5efcccd797609bb40207f3f96fcf2cd933bacc1de8eef738477dfa809"
     },
     {
-      "path": ".local/releases/81431d64afb8dd613c96d942402d8c0d8cc07ac0/orvia-local-images.tar",
-      "sha256": "1a3252d75561eeba7c6a6718839d84f6af95256ac9a17e67906c91b9f4120826"
+      "path": ".local/releases/c383b9d9a1b5c26ade00d987c714ec889e27934b/orvia-local-images.tar",
+      "sha256": "4d9875dbf79e55e658792295cb4cba0fcdc2555632cfbe358ee8ac217b245edb"
     },
     {
-      "path": ".local/releases/81431d64afb8dd613c96d942402d8c0d8cc07ac0/orvia-browser-evidence.zip",
-      "sha256": "285bf109decd7404a42a37ef11760f6f3fa1a7881a94a27ed6a441946ca433e3"
+      "path": ".local/releases/c383b9d9a1b5c26ade00d987c714ec889e27934b/orvia-browser-evidence.zip",
+      "sha256": "a1c475772f3df6fa50383aeecdd0e6a0850f51cb2aef3ab28684e9ffa0d54d3e"
     }
   ],
   "executed_evidence": [
@@ -1950,7 +1950,7 @@
     }
   ],
   "signing": "Development SHA-256 checksums only; not production release signing.",
-  "created_at": "2026-09-17T12:53:42.750Z",
+  "created_at": "2026-09-17T15:11:48.888Z",
   "gates": {
     "work_review": "PENDING",
     "browser_acceptance": "PASS_ENGINEERING",
@@ -1976,7 +1976,7 @@
       "B06"
     ],
     "playwright_version": "1.63.0",
-    "full_browser_evidence": "handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/results.json",
+    "full_browser_evidence": "handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/results.json",
     "browser_runs": [
       {
         "path": "handoffs/codex/browser/B06-playwright-2026-09-17T05-36-05.334Z/results.json",
@@ -2066,22 +2066,43 @@
         "path": "handoffs/codex/browser/B06-playwright-2026-09-17T12-11-00.000Z/results.json",
         "result": "passed",
         "source_commit": "b909be896084da21f2c9d69e8e88dbb4a36d58d4",
-        "current_source": true,
+        "current_source": false,
         "sha256": "fd35ee181ec766ec53540aab34c6bf22312e333d00d8f696006935a76b1ebdec"
       },
       {
         "path": "handoffs/codex/browser/B06-playwright-2026-09-17T12-16-06.473Z/results.json",
         "result": "passed",
         "source_commit": "b909be896084da21f2c9d69e8e88dbb4a36d58d4",
-        "current_source": true,
+        "current_source": false,
         "sha256": "3a03d2caffa438054c8d8e15d1dcfe5b25a66b2ae1f6636bd8eae601ed9e43e4"
       },
       {
         "path": "handoffs/codex/browser/B06-playwright-2026-09-17T12-36-17.847Z/results.json",
         "result": "passed",
         "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
-        "current_source": true,
+        "current_source": false,
         "sha256": "68a655027fac17c1b5a4ed6365ab974dd106521e01aba0fefdc8fa249e0ef707"
+      },
+      {
+        "path": "handoffs/codex/browser/B06-playwright-2026-09-17T13-46-58.203Z/results.json",
+        "result": "failed",
+        "source_commit": "0ff33e9a2b07fe40aed4e94e99f784186e013574",
+        "current_source": false,
+        "sha256": "338c9998c7f973ac2e15e781740db2d3437a91f13168fdedf90941faaf191a6d"
+      },
+      {
+        "path": "handoffs/codex/browser/B06-playwright-2026-09-17T14-51-31.067Z/results.json",
+        "result": "passed",
+        "source_commit": "0ff33e9a2b07fe40aed4e94e99f784186e013574",
+        "current_source": false,
+        "sha256": "bc916fcc268c15aeb64286d32705169528645b76ba181de441c81866955eff53"
+      },
+      {
+        "path": "handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/results.json",
+        "result": "passed",
+        "source_commit": "c383b9d9a1b5c26ade00d987c714ec889e27934b",
+        "current_source": true,
+        "sha256": "ad62116c6c7f3ffc9aa5fe0bfec4beec4f49d5c2694b887d50bb15754f18fe99"
       }
     ],
     "mandatory_browser_suites": [

@@ -75,3 +75,27 @@ is recorded as a toolchain note in `docs/runbooks/OPERATOR.md`.
 Limitation retained verbatim: observed backend core only, private Docker network, local deny-all DNS and a
 controlled external-network canary; browser and host development egress remain unqualified; no real
 vendor or model call.
+
+---
+
+## Recovery and final re-qualification — 2026-09-17 (after the session restart)
+
+The browser run at `0ff33e9` failed 5 PASS / 11 FAIL. The cause is recorded as FINAL-CONT-F11 and is
+**environmental, now demonstrated rather than assumed**:
+
+| Step | Command | Result |
+|---|---|---|
+| Diagnose | `docker info` | daemon unreachable; none of `55433 / 57235 / 58183 / 4330` listening |
+| Restore | `tsx scripts/services.ts up` | all four retained containers started from `Exited (255)`; volumes untouched, no reset |
+| Confirm | `tsx scripts/preflight.ts` | PASS; ports listening on relay PID 16036 |
+| Confirm | `inspect-state.ts` | `pending_or_running_runs: 0`, no active worker/agent |
+| **Decisive diagnostic** | `playwright test configuration.spec.ts` alone | **PASS, exit 0** at `0ff33e9` — the first causal failure does not reproduce on healthy services |
+| T27 gap | `node scripts/dependency-advisories.mjs` | **PASS**, 498 lock packages vs 7,408 reviewed advisories, **0 findings**, lockfile `b2694da1…` unchanged → `A07-dependency-advisories-1789656759904.json` |
+| Re-freeze | `tsx scripts/runtime-image.ts confirm:rehearsal` | image label `66381551…`, revision `c383b9d9…` |
+| Re-qualify | `playwright test` (all) | **16/16 PASS, exit 0**, `14:54:50Z → 15:08:01Z`, `B06-exec-2026-09-17T14-54-50.457Z` |
+| Package | `tsx tests/e2e/package.ts confirm:rehearsal` | PASS, `browser_acceptance: PASS_ENGINEERING`, 398 browser evidence files, manifest `b23ad801…` |
+| Verify | `verify-candidate.py` | **PASS — 242 checks, 0 failures** → `candidate-verification-c383b9d.json` |
+| T26 browser half | per-context `networkAudit` records in the qualifying run | 16 files, **1,133 requests, 0 foreign-origin**, single origin `https://127.0.0.1:4330` |
+
+The failing run at `0ff33e9` is retained in full. The 16/16 result at `81431d6` is **not** carried forward
+to it, and neither older run is presented as qualification of the final candidate.

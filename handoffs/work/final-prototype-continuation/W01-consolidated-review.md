@@ -83,3 +83,24 @@ The rerun after the window cleared is the PASS recorded above. Suites are now sp
   qualifies a different profile's environment and is out of scope for this rehearsal candidate.
 - Normal Chromium HTTPS depended on a temporary, human-approved CurrentUser CA trust recorded in
   `certificate-trust.json`; no validation bypass was used.
+
+---
+
+## Candidate re-identification — 2026-09-17
+
+This review was authored against source `81431d64…`. The final frozen candidate is
+**`c383b9d9a1b5c26ade00d987c714ec889e27934b`**, source inventory SHA-256
+`66381551e28c17a2e9d479f4cb7dd9fc188d05adc35366c0cbd04c1ac033ff63`, manifest SHA-256
+`b23ad8015f9bb062e700ca955f6b4ef380e8b8b9a896f5f77c60cc2bcc6dee35`.
+
+**Every conclusion above transfers unchanged**, and this is verified rather than asserted:
+`verify-candidate.py` check *"no runtime change since candidate"* compares `apps`, `packages`, `scripts`,
+`tests`, `infrastructure`, `policy`, `pnpm-lock.yaml` and `package.json` and returns empty. The two later
+commits changed only `docs/`, `tracking/`, `artifacts/`, `handoffs/` and `CURRENT_STATE.md`. The reviewed
+application source is byte-identical.
+
+The complete browser suite was re-executed at this exact candidate: **16/16 PASS, exit 0**,
+`14:54:50Z → 15:08:01Z`, evidence `handoffs/codex/browser/B06-exec-2026-09-17T14-54-50.457Z` and
+`handoffs/codex/browser/B06-playwright-2026-09-17T14-54-52.055Z/results.json`. Independent package
+verification at this candidate: **242 checks, 0 failures**
+(`candidate-verification-c383b9d.json`).
