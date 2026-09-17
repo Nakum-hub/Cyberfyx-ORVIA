@@ -9,10 +9,11 @@ import { readWorkflow,workflowList } from '../../../../packages/domain/src/workf
 import { preview } from '../../../../packages/domain/src/processing.ts';
 import { servicePool } from '../../../../packages/auth/src/machine.ts';
 import { requestReconciliation,attest,failures,overview,evidence,checkSystem,capabilities } from '../../../../packages/domain/src/evidence.ts';
+import { startTest,readTest } from '../../../../packages/domain/src/test-runs.ts';
 import { runtime } from './runtime.ts';
 import { safeRoute } from './http.ts';
 
-const implemented=new Set(['list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow','evaluate','reconcile','attest','failures','overview','evidence','export','check_system','capabilities']);
+const implemented=new Set(['list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow','evaluate','reconcile','attest','failures','overview','evidence','export','check_system','capabilities','start_test','test_run']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -90,6 +91,8 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'evidence':case 'export':return evidence(c,id!,route.id==='export');
         case 'check_system':return checkSystem(c,id!,observerPool??=servicePool(r.config,'orvia_target_observer'));
         case 'capabilities':return capabilities(c,page);
+        case 'start_test':return startTest(c,r.config,input);
+        case 'test_run':return readTest(c,id!);
         default:throw new AccessError(404,'NOT_FOUND');
       }
     };

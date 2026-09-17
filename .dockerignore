@@ -1,0 +1,16 @@
+.git
+.local
+.codex
+.agents
+**/.local
+**/.env
+**/.env.*
+**/node_modules
+**/.next
+**/*.tsbuildinfo
+handoffs
+artifacts
+coverage
+.env
+.env.*
+**/*.log

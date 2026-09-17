@@ -5,7 +5,7 @@
   "review_commit": null,
   "integration_commit": null,
   "artifacts": {
-    "openapi.json": "d7230c0fa213b8d06645a9a1abbd72d8c163a9ed05538081f5774179f57fe99d",
+    "openapi.json": "3a9af094821e13bc89b627b082b28953256ce7aaedca0a44f82a62e183404c10",
     "examples.json": "3c0a08e342ab4a69fa694f3da59a7bfa68ef744a24e55dfeedc7bd8df2c78c47",
     "client-types.d.ts": "59eba36a1ac1e297a50e0cd48de5d63b27ef2d84f148a4259042549950e1f13e",
     "interfaces.json": "63bc812e95138c3e15a228de0fdf85db5cc75322fa1e0624e5d051c20bf4bf19",
