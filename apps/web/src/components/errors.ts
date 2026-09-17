@@ -26,12 +26,12 @@ export type UiFailure = {
 const GUIDANCE: Record<string, string> = {
   UNAUTHENTICATED: 'This session is not authenticated. Sign in again to continue.',
   FORBIDDEN: 'This session does not carry the required authority. Privileged staff must complete MFA, and each actor sees only its own organisation and scope.',
-  NOT_FOUND: 'The server reports no such resource in this scope. In this prototype build it also answers NOT_FOUND for routes whose producing backend ticket is not implemented yet.',
+  NOT_FOUND: 'The server reports no such resource in this scope. Use an exact authorized resource ID; no cross-scope resource is disclosed.',
   VALIDATION_ERROR: 'The server rejected the submitted values. Correct the highlighted fields and submit again.',
-  EPOCH_CONFLICT: 'The authoritative state moved on since this screen loaded. Refresh to read the current state before deciding again.',
-  IDEMPOTENCY_CONFLICT: 'A previous submission used this submission key with different content. Start a new interaction rather than reusing it.',
+  EPOCH_CONFLICT: 'The consent epoch, notice or interaction changed or expired. Read current state and review the current notice before a new decision.',
+  IDEMPOTENCY_CONFLICT: 'The server rejected the request boundary or conflicting key reuse. Preserve the original request for investigation; do not blindly create a new key.',
   RATE_LIMITED: 'The server is rate limiting this operation. Wait before retrying.',
-  SERVICE_UNAVAILABLE: 'A required server dependency was unavailable. The request was not confirmed; read the authoritative state before deciding again.',
+  SERVICE_UNAVAILABLE: 'A required server dependency was unavailable. The request was not confirmed. For a write, preserve and settle the original request before starting another decision.',
   UNSUPPORTED_VERSION: 'This interface and the server disagree on the contract version. Do not continue until both sides are on one version.',
   STALE_GENERATION: 'The target generation moved on; earlier plan data no longer applies.',
   INVALID_COMMAND: 'The server rejected the command as invalid.',
@@ -77,17 +77,20 @@ export function describeFailure(error: unknown, options: { write?: boolean } = {
       retry: envelope.retry,
       requestId: error.envelope.request_id,
       fieldErrors: envelope.field_errors ? [...envelope.field_errors] : [],
-      outcomeUnknown: false,
+      outcomeUnknown: write && error.status >= 500,
       sameKeyRetry: envelope.retry === 'SAME_IDEMPOTENCY_KEY',
       needsReauthentication: envelope.retry === 'REAUTHENTICATE' || error.status === 401,
     };
+  }
+  if (error instanceof DOMException && (error.name === 'TimeoutError' || (write && error.name === 'AbortError'))) {
+    return blank('NETWORK', write ? 'Outcome unknown' : 'Request timed out', 'No authoritative response was received. Preserve this request; read current state and replay the same request before starting another decision.', write);
   }
   if (error instanceof DOMException && error.name === 'AbortError') {
     return blank('ABORTED', 'Request cancelled', 'This request was superseded and its response was discarded.', false);
   }
   if (error instanceof SyntaxError || (error instanceof Error && error.name === 'ZodError')) {
     return blank('MALFORMED', 'Contract validation failed',
-      'A request or response value did not validate against contract 0.3.0. The outcome is unverified and must not be read as success.', write);
+      'A request or response did not validate against the current generated contract. The outcome is unverified and must not be read as success.', write);
   }
   if (error instanceof TypeError) {
     return blank('NETWORK', write ? 'Outcome unknown' : 'Server unreachable',

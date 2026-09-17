@@ -42,7 +42,7 @@ export const WORKFLOW_LABELS: Record<string, Label> = {
 export const CONSENT_LABELS: Record<string, Label> = {
   NOT_GIVEN: { label: 'Not given', tone: 'neutral', meaning: 'No affirmative consent has been recorded for this purpose.' },
   GRANTED: { label: 'Granted', tone: 'ok', meaning: 'Affirmative, purpose-specific consent is currently recorded.' },
-  WITHDRAWN: { label: 'Withdrawn', tone: 'stop', meaning: 'Consent is currently withdrawn. Later processing for this purpose must be refused.' },
+  WITHDRAWN: { label: 'Withdrawn', tone: 'stop', meaning: 'Consent-based marketing for this purpose is refused; separately approved service conditions remain separate.' },
 };
 
 export const PROPAGATION_LABELS: Record<string, Label> = {
@@ -62,7 +62,7 @@ export const RECONCILIATION_LABELS: Record<string, Label> = {
 };
 
 export const DECISION_LABELS: Record<string, Label> = {
-  ALLOW: { label: 'Allow', tone: 'ok', meaning: 'Current authority permits this processing.' },
+  ALLOW: { label: 'Allow', tone: 'ok', meaning: 'This preview evaluated to allow at its recorded time; actual admission must recheck current authority.' },
   BLOCK: { label: 'Block', tone: 'stop', meaning: 'Current authority refuses this processing.' },
   INDETERMINATE: { label: 'Indeterminate', tone: 'unknown', meaning: 'No decision could be established. Fail closed: treat as not permitted.' },
 };
@@ -107,7 +107,7 @@ export function formatTime(value: string | null | undefined): string {
   if (!value) return '—';
   const parsed = Date.parse(value);
   if (Number.isNaN(parsed)) return value;
-  return new Date(parsed).toLocaleString(undefined, { hour12: false });
+  return new Date(parsed).toLocaleString(undefined, { hour12: false, timeZoneName: 'short' });
 }
 
 export function formatId(value: string | null | undefined): string {

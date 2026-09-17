@@ -1,0 +1,3 @@
+$ tsc --noEmit
+apps/web/src/components/test-lab.tsx(21,154): error TS2322: Type '"CUSTOMER_LOCAL_SYNTHETIC"' is not assignable to type '"aster-birch-v1"'.
+[ELIFECYCLE] Command failed with exit code 2.

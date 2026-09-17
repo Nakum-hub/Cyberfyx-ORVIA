@@ -103,11 +103,15 @@ function Shell({ area, lane, items, detailedActor, children }: {
 export const WORKSPACE_NAV: NavItem[] = [
   { href: '/workspace', label: 'Overview' },
   { href: '/workspace/configuration', label: 'Configuration' },
-  { href: '/workspace/principals', label: 'Principals & mapping' },
+  { href: '/workspace/principals', label: 'Principals' },
   { href: '/workspace/workflows', label: 'Workflows' },
-  { href: '/workspace/failures', label: 'Unresolved obligations' },
+  { href: '/workspace/failures', label: 'Failures' },
+  { href: '/workspace/evidence', label: 'Evidence' },
+  { href: '/workspace/control-map', label: 'Control map' },
+  { href: '/workspace/policy-preview', label: 'Policy preview' },
+  { href: '/workspace/capabilities', label: 'Capabilities' },
   { href: '/workspace/test-lab', label: 'Test Lab' },
-  { href: '/workspace/capabilities', label: 'Capability register' },
+  { href: '/workspace/sign-in', label: 'Staff sign in' },
 ];
 
 export const PRIVACY_NAV: NavItem[] = [

@@ -1,0 +1,56 @@
+{
+  "result": "failed",
+  "source_commit": "a7189dcd7e9da5ab13017ac4978fc9a41ec81075",
+  "source_tree_sha256": "89a1d6a0f60fed03814ba41c86ae83f519b604272fd7b8de0b54eb3f37318cba",
+  "contract_version": "0.4.1",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "tls.spec.ts",
+        "B06 real browser validates rehearsal HTTPS without certificate bypass"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 1043,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\tls.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "BROWSER_CERTIFICATE_NOT_TRUSTED",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "cb9c3b8047859412e8abcaed51ad9ecefb4bd820c8849af4992e593d500d1836",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T05-36-05.334Z\\raw\\tls-B06-real-browser-valid-a349e--without-certificate-bypass\\test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "572bef18a20adc564d13da968bbb05cc22710754abffb84a0c152c8f51d3e50a",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T05-36-05.334Z\\raw\\tls-B06-real-browser-valid-a349e--without-certificate-bypass\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "bf817f61f3ee0adcb56f1aaf9d18392a45482760e2928444ca02c64202998101",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T05-36-05.334Z\\raw\\tls-B06-real-browser-valid-a349e--without-certificate-bypass\\trace.zip"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}
