@@ -14,7 +14,7 @@ if(existsSync('.local/profiles'))for(const name of readdirSync('.local/profiles'
       credentials.push(user.password);if(user.totp_uri){credentials.push(user.totp_uri);credentials.push(new URL(user.totp_uri).searchParams.get('secret'));}
     }
   }
-  for(const folder of ['worker','agent','observer','machine-auth','sender']) {
+  for(const folder of ['worker','agent','observer','machine-auth','sender','tls']) {
     const directory=join('.local/profiles',name,folder);
     if(!existsSync(directory))continue;
     for(const file of readdirSync(directory)) {

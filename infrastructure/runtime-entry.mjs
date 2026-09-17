@@ -7,7 +7,7 @@ import { writeFileSync } from 'node:fs';
 const ports={'codex-a00':[55431,58181,57233],'ui-b00':[55432,58182,57234],rehearsal:[55433,58183,57235]};
 const profile=process.env.ORVIA_PROFILE;
 if(!Object.hasOwn(ports,profile??''))throw new Error('Named profile required');
-if(!/^A06-network-observations-[a-f0-9-]+\.json$/.test(process.env.ORVIA_NETWORK_ARTIFACT??''))throw new Error('Named network observation artifact required');
+if(!/^A0[67]-network-observations-[a-f0-9-]+\.json$/.test(process.env.ORVIA_NETWORK_ARTIFACT??''))throw new Error('Named network observation artifact required');
 const peers=JSON.parse(process.env.ORVIA_SERVICE_IPS??'null');
 const services=['postgres','opa','temporal'];
 if(!peers||Object.keys(peers).sort().join(',')!=='opa,postgres,temporal'||services.some(s=>isIP(peers[s])!==4||!/^10\.|^172\.(1[6-9]|2\d|3[01])\.|^192\.168\./.test(peers[s])))throw new Error('Private named peer addresses required');

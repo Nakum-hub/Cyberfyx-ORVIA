@@ -12,7 +12,7 @@ import { loadProfile } from '../../../packages/testing/src/config.ts';
 import { connectDatabase } from '../../../packages/db/src/index.ts';
 
 const harness=new HttpFixture();const profile=loadProfile();
-if(profile.profile!=='codex-a00')throw new Error('Expiry regression is restricted to codex-a00');
+if(!['codex-a00','rehearsal'].includes(profile.profile))throw new Error('Expiry regression is restricted to codex-a00/rehearsal');
 const db=connectDatabase(profile).pool;
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];
 const waits:Record<string,unknown>[]=[];

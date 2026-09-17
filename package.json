@@ -49,7 +49,15 @@
     "start": "tsx scripts/web.ts start",
     "web:smoke": "tsx tests/integration/web.test.ts",
     "test:isolation": "tsx tests/security/fixture-isolation.ts",
-    "dependencies:check": "node scripts/dependency-advisories.mjs"
+    "dependencies:check": "node scripts/dependency-advisories.mjs",
+    "tls:init": "tsx scripts/tls-init.ts",
+    "test:tls": "tsx tests/security/tls.test.ts",
+    "app:run": "tsx scripts/app-run.ts",
+    "app:stop": "tsx scripts/app-stop.ts",
+    "demo:run": "tsx scripts/demo-run.ts",
+    "evidence:export": "tsx scripts/evidence-export.ts",
+    "candidate:package": "tsx scripts/package-candidate.ts",
+    "test:lifecycle": "tsx tests/integration/lifecycle.test.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -62,6 +70,8 @@
     "openapi-typescript": "7.13.0",
     "tsx": "4.23.13",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.70.0"
+    "typescript-eslint": "8.70.0",
+    "@peculiar/x509": "2.1.0",
+    "reflect-metadata": "0.2.2"
   }
 }

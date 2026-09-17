@@ -18,6 +18,6 @@ export function runtimeConfig() {
     return value;
   };
   return { ...PROFILES[profile], profile, installation_id, directory, secret,
-    origin: `http://127.0.0.1:${PROFILES[profile].app_port}` };
+    origin: `${profile==='rehearsal'?'https':'http'}://127.0.0.1:${PROFILES[profile].app_port}` };
 }
 export type RuntimeConfig = ReturnType<typeof runtimeConfig>;

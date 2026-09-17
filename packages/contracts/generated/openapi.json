@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.4.0",
-    "description": "Contract 0.4.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.4.1",
+    "description": "Contract 0.4.1 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -165,6 +165,12 @@
           },
           {
             "principalSession": []
+          },
+          {
+            "staffSecureSession": []
+          },
+          {
+            "principalSecureSession": []
           }
         ],
         "parameters": [],
@@ -329,6 +335,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [],
@@ -502,6 +511,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -675,6 +687,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -867,6 +882,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -1040,6 +1058,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -1230,6 +1251,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -1403,6 +1427,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -1601,6 +1628,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -1774,6 +1804,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -1965,6 +1998,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -2138,6 +2174,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -2326,6 +2365,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -2529,6 +2571,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -2712,6 +2757,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -2897,6 +2945,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -3072,6 +3123,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -3247,6 +3301,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -3420,6 +3477,9 @@
         "security": [
           {
             "principalSession": []
+          },
+          {
+            "principalSecureSession": []
           }
         ],
         "parameters": [
@@ -3595,6 +3655,9 @@
         "security": [
           {
             "principalSession": []
+          },
+          {
+            "principalSecureSession": []
           }
         ],
         "parameters": [
@@ -3779,6 +3842,9 @@
         "security": [
           {
             "principalSession": []
+          },
+          {
+            "principalSecureSession": []
           }
         ],
         "parameters": [
@@ -3978,6 +4044,9 @@
         "security": [
           {
             "principalSession": []
+          },
+          {
+            "principalSecureSession": []
           }
         ],
         "parameters": [
@@ -4175,6 +4244,9 @@
         "security": [
           {
             "principalSession": []
+          },
+          {
+            "principalSecureSession": []
           }
         ],
         "parameters": [
@@ -4355,6 +4427,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -4530,6 +4605,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -4702,6 +4780,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -4880,6 +4961,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -5075,6 +5159,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -5250,6 +5337,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -5432,6 +5522,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -5614,6 +5707,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [],
@@ -5793,6 +5889,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -5987,6 +6086,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -6164,6 +6266,9 @@
         "security": [
           {
             "staffSession": []
+          },
+          {
+            "staffSecureSession": []
           }
         ],
         "parameters": [
@@ -14616,6 +14721,18 @@
       }
     },
     "securitySchemes": {
+      "staffSecureSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Secure-orvia.staff.session_token",
+        "description": "Verified HTTPS rehearsal profile."
+      },
+      "principalSecureSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Secure-orvia.principal.session_token",
+        "description": "Verified HTTPS rehearsal profile."
+      },
       "staffSession": {
         "type": "apiKey",
         "in": "cookie",

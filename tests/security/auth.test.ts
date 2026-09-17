@@ -3,7 +3,7 @@ import { createHmac, randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
-import { createRequire } from 'node:module';
+import { webProcess } from '../../scripts/web-process.ts';
 import { once } from 'node:events';
 import { runtimeConfig } from '../../packages/auth/src/config.ts';
 import { createAuth } from '../../packages/auth/src/server.ts';
@@ -17,12 +17,12 @@ import type { AuthFixture, FixtureUser } from '../../scripts/auth-bootstrap.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
 
 const config = runtimeConfig();
-if (config.profile !== 'codex-a00') throw new Error('This suite owns only codex-a00 synthetic fixtures');
+if (!['codex-a00','rehearsal'].includes(config.profile)) throw new Error('This suite owns only codex-a00/rehearsal synthetic fixtures');
 const credentialPath = resolve(config.directory,'auth/bootstrap.json');
 const fixture: AuthFixture = JSON.parse(readFileSync(credentialPath,'utf8'));
 if (fixture.installation_id !== config.installation_id || fixture.fixture_id !== 'aster-birch-v1' || !fixture.users.birch) throw new Error('Run protected fixture seed first');
 const root = process.cwd();
-const require = createRequire(new URL('../../apps/web/package.json',import.meta.url));
+const command=webProcess(config);
 const staff = createAuth(config,'staff'); const principal = createAuth(config,'principal');
 const app = runtimePool(config,'orvia_app'); const admin = connectDatabase(loadProfile()).pool;
 const assertions: { name: string; result: 'PASS' | 'FAIL'; expected: unknown; actual: unknown }[] = [];
@@ -33,8 +33,8 @@ function check(name: string, actual: unknown, expected: unknown) {
   catch { assertions.push({ name,result:'FAIL',expected,actual }); throw new Error(`Assertion failed: ${name}`); }
 }
 async function start() {
-  child = spawn(process.execPath,[require.resolve('next/dist/bin/next'),'start','--hostname','127.0.0.1','--port',String(config.app_port)], {
-    cwd:resolve('apps/web'),windowsHide:true,stdio:['ignore','pipe','pipe'],
+  child = spawn(process.execPath,command.args, {
+    cwd:command.cwd,windowsHide:true,stdio:['ignore','pipe','pipe'],
     env:{...process.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'},
   });
   child.stdout?.on('data',chunk=>{serverOutput+=chunk;}); child.stderr?.on('data',chunk=>{serverOutput+=chunk;});
@@ -181,14 +181,14 @@ try {
   check('protected tables force RLS and are not app-owned',tables.rows[0].count,0);
   await databaseDenial('tenant-aware foreign key rejects sibling parent',()=>admin.query('INSERT INTO app.environments VALUES ($1,$2,$3,$4)',[fixture.users.birch!.scope.tenant_id,fixture.users.owner!.scope.legal_entity_id,randomUUID(),'Invalid synthetic reference']),'23503');
   const faultInput=inputFor(fixture.users.owner!);
-  const stopped=spawnSync('docker',['stop','orvia-codex-a00-opa-1'],{encoding:'utf8',windowsHide:true});
-  check('docker stop orvia-codex-a00-opa-1 exit',stopped.status,0);
+  const stopped=spawnSync('docker',['stop',`${config.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});
+  check('docker stop named profile OPA exit',stopped.status,0);
   try {
     check('administrative policy outage blocks mutation',(await owner.call('/api/v1/admin/principals',faultInput,{'idempotency-key':randomUUID()})).status,503);
     check('policy outage creates no principal',(await admin.query('SELECT id FROM app.principal_references WHERE email=$1',[faultInput.email])).rowCount,0);
   } finally {
-    const restarted=spawnSync('docker',['start','orvia-codex-a00-opa-1'],{encoding:'utf8',windowsHide:true});
-    check('docker start orvia-codex-a00-opa-1 exit',restarted.status,0);
+    const restarted=spawnSync('docker',['start',`${config.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});
+    check('docker start named profile OPA exit',restarted.status,0);
     let restored=false;
     for(let attempt=0;attempt<30;attempt++) {
       try { if((await owner.call('/api/v1/admin/principals')).status===200){restored=true;break;} }catch{/* bounded service readiness */}

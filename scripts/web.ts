@@ -1,3 +1,4 @@
+import { webProcess } from './web-process.ts';
 import { spawn } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -8,7 +9,9 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 process.chdir(root);
 const require=createRequire(new URL('../apps/web/package.json',import.meta.url));
 const args=mode==='build'?['build']:[mode,'--hostname','127.0.0.1','--port',String(loadProfile().app_port)];
-const child=spawn(process.execPath,[require.resolve('next/dist/bin/next'),...args],{cwd:fileURLToPath(new URL('../apps/web/',import.meta.url)),stdio:'inherit',windowsHide:true,env:{...process.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
+if(mode==='dev'&&loadProfile().profile==='rehearsal')throw new Error('Rehearsal requires production build and verified HTTPS start');
+const command=mode==='start'?webProcess(loadProfile()):{args:[require.resolve('next/dist/bin/next'),...args],cwd:fileURLToPath(new URL('../apps/web/',import.meta.url))};
+const child=spawn(process.execPath,command.args,{cwd:command.cwd,stdio:'inherit',windowsHide:true,env:{...process.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
 child.on('error',()=>{process.exitCode=1;});
 child.on('close',code=>{process.exitCode=code??1;});
 process.on('SIGTERM',()=>child.kill('SIGTERM'));

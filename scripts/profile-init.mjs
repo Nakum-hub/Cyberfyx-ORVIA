@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -6,6 +7,7 @@ if (!['codex-a00','ui-b00','rehearsal'].includes(profile)) throw new Error('Name
 const directory=resolve('.local','profiles',profile);
 mkdirSync(directory,{recursive:true,mode:0o700});
 if (existsSync(resolve(directory,'config.json')) || existsSync(resolve(directory,'postgres-password'))) throw new Error('Profile already initialized or partially initialized; do not overwrite its credentials');
+if(process.platform==='win32'){const user=execFileSync('whoami',{encoding:'utf8',windowsHide:true}).trim();execFileSync('icacls',[directory,'/inheritance:r','/grant:r',`${user}:(OI)(CI)F`,'*S-1-5-18:(OI)(CI)F'],{stdio:'pipe',windowsHide:true});}
 writeFileSync(resolve(directory,'postgres-password'),randomBytes(32).toString('hex'),{flag:'wx',mode:0o600});
 writeFileSync(resolve(directory,'config.json'),JSON.stringify({profile,installation_id:randomUUID(),fixture_id:'bootstrap-probe-v1',created_at:new Date().toISOString()},null,2)+'\n',{flag:'wx',mode:0o600});
 console.log(`Initialized local synthetic profile ${profile}; credentials remain in the ignored profile directory.`);

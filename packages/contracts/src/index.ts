@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 /** A02 additions pending consolidated Work review; accepted baseline was 0.2.1. */
-export const CONTRACT_VERSION = '0.4.0' as const;
+export const CONTRACT_VERSION = '0.4.1' as const;
 // Transport pagination does not change the signed command wire format.
 export const COMMAND_SCHEMA_VERSION = '0.3.0' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
 export const AUTH = {
-  staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff' },
-  principal: { base_path: '/api/auth/principal', cookie_prefix: 'orvia.principal' },
+  staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff', secure_cookie_prefix: '__Secure-orvia.staff' },
+  principal: { base_path: '/api/auth/principal', cookie_prefix: 'orvia.principal', secure_cookie_prefix: '__Secure-orvia.principal' },
 } as const;
 export const PROFILES = {
   'codex-a00': { compose_project: 'orvia-codex-a00', app_port: 4310, postgres_port: 55431, opa_port: 58181, temporal_port: 57233, database: 'orvia_codex_a00', temporal_namespace: 'orvia-codex-a00', seed: 'aster-birch-v1', reset: 'codex-a00-bootstrap-only' },
