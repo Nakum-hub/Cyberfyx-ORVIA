@@ -1,6 +1,6 @@
 # ORVIA prototype: demo script
 
-**Owner:** GPT Work, successor to Cowork (C00, finalised in C02) · **Status:** REVISED_FOR_REVIEW (C02: prepared, not frozen) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
+**Owner:** GPT Work, successor to Cowork (C00, finalised in C02) · **Status:** REVISED_FOR_REVIEW (C02: prepared, not frozen) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 **Live demo readiness: NOT_READY.** Source: current `CURRENT_STATE.md`; exact revision/hash/time are in DELIVERY_STATUS.json. This presentation does not independently establish readiness.
 
@@ -72,7 +72,7 @@ The following names/emails are **scenario specifications, not existing login cre
 
 | System | Kind | Declared capability | Expected coverage label |
 |---|---|---|---|
-| Aster CRM (synthetic) | Separate synthetic CRM database | Remove from audience "Autumn offers (synthetic)"; read membership and generation | Automated and observable |
+| Aster CRM (synthetic) | Separate synthetic CRM database | Set the scoped membership marketing restriction; independently read restriction, applied epoch and generation | Automated and observable |
 | Aster Messaging Simulator | Local REST provider simulator | Restrict, read, receipt; faults `HEALTHY`, `UNAVAILABLE`, `APPLY_THEN_TIMEOUT`, `ACK_WITHOUT_EFFECT` | Automated and observable |
 | Aster Loyalty Ledger (no API) | Declared legacy target, explicitly unsupported | None | Manual only |
 | Aster Send Gateway (simulator) | Local send-admission boundary, reached through the private machine send interface. **Not a configured system** in the accepted 0.2.1 shape. | Current-authority decision at admission | Explained as the enforcement point; not shown as a system row (F-018) |
@@ -92,7 +92,7 @@ The following names/emails are **scenario specifications, not existing login cre
   - The `rehearsal` profile has been reset with the Codex-supplied, human-approved procedure. At the current base, only the bootstrap-only reset exists and refuses business migrations; a full application reset is A06/A07.
   - Evidence was exported **before** the reset.
 - [ ] **Browser profiles are separate.** Karan (workspace, MFA done), Asha (Privacy Centre), Meera (auditor), Bo (Birch).
-- [ ] **Fault modes are set** only through the documented private-profile procedure (not yet supplied; F-020).
+- [ ] **Fault modes are set** only through the supplied A05 protected simulator commands in OPERATOR.md, with separate profile authorization. Full clean-start/reset/recovery qualification remains A06/A07 (F-020).
 - [ ] **Recordings are ready.** Fallback recordings, if any, are open and labelled (§6). None exist yet.
 - [ ] **Network.** Outbound internet is blocked if the egress beat is shown (T26).
 
@@ -170,7 +170,7 @@ The target is 15 minutes live plus questions. The timings are guidance; they are
 | Honest fallback | If the receipt does not appear, say the outcome is unconfirmed. Use 'Retry the same request' (same key, payload and epoch) or 'Check my current choice'; never start a fresh withdrawal while the first is unsettled. |
 | Limitation to state | Marketing withdrawal is not erasure of Asha's data and cannot recall messages already sent. |
 
-### Step 5. The CRM audience actually changes, and ORVIA reads it back separately
+### Step 5. The CRM marketing restriction changes, and ORVIA reads it back separately
 
 | Field | Content |
 |---|---|

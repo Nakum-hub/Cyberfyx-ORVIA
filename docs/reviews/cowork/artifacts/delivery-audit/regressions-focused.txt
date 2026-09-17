@@ -1,0 +1,15 @@
+test_duplicate_record_cannot_increase_candidate_count (test_delivery_audit.DeliveryAuditTests.test_duplicate_record_cannot_increase_candidate_count) ... ok
+test_enclosing_scenario_cannot_borrow_another_scenarios_pass (test_delivery_audit.DeliveryAuditTests.test_enclosing_scenario_cannot_borrow_another_scenarios_pass) ... ok
+test_generated_claim_fails_closed_and_allows_supported_control (test_delivery_audit.DeliveryAuditTests.test_generated_claim_fails_closed_and_allows_supported_control) ... ok
+test_overview_predicate_and_unresolved_claim_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_overview_predicate_and_unresolved_claim_match_reviewed_source) ... ok
+test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) ... ok
+test_raw_required_child_artifact_must_be_indexed_and_verified (test_delivery_audit.DeliveryAuditTests.test_raw_required_child_artifact_must_be_indexed_and_verified) ... ok
+test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) ... ok
+test_rehearsal_log_must_name_actual_performer (test_delivery_audit.DeliveryAuditTests.test_rehearsal_log_must_name_actual_performer) ... ok
+test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) ... ok
+test_tested_consumer_needs_scoped_candidate_execution (test_delivery_audit.DeliveryAuditTests.test_tested_consumer_needs_scoped_candidate_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.154s
+
+OK

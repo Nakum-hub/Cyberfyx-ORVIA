@@ -122,7 +122,7 @@ def summary_counts(ev, root=None):
     return {
         "p0_total": sum(t["priority"] == "P0" for t in te),
         "p0_with_records": sum(1 for t in te if t["priority"] == "P0" and t.get("records")),
-        "p0_with_inspected_pass_on_candidate": sum(1 for t in te if t["priority"] == "P0" and rules.test_qualifies(root, t, cand)),
+        "p0_with_inspected_pass_on_candidate": sum(1 for t in te if t["priority"] == "P0" and rules.test_qualifies(root, t, cand, te)),
         "p1_selected": sum(1 for t in te if t["priority"] == "P1" and t.get("selected")),
         "records": len(recs),
         "screenshots": sum(m.get("kind") == "SCREENSHOT" for m in media),
@@ -148,6 +148,18 @@ def binding_caption(S, entry):
 def display_readiness(S, key):
     original = S.status[key]
     return dict(original, value="INVALID_SOURCE") if rules.readiness_errors(S.root, key, original) else original
+
+
+def display_claim_status(S, claim):
+    declared = re.sub(r"\*", "", claim["status"]).split(":")[0].split(" ")[0]
+    if declared != "EVIDENCED":
+        return claim["status"]
+    tests = re.findall(r"\bT\d\d\b", claim["tests"])
+    indexed = S.ev.get("test_evidence", [])
+    by_id = {t["test_id"]: t for t in indexed}
+    if not tests or not all(rules.test_qualifies(S.root, by_id.get(t, {}), S.ev.get("frozen_candidate", {}), indexed) for t in tests):
+        return "UNSUPPORTED_EVIDENCED_CLAIM"
+    return claim["status"]
 
 
 def ux_status_copy(S):
@@ -233,7 +245,7 @@ def handover_evidence(S):
         ids = [f"T{i:02d}" for i in range(a, b + 1)]
         canon = sorted({te[i]["canonical_status"]["value"] for i in ids})
         wr = sum(1 for i in ids if te[i].get("records"))
-        ip = sum(1 for i in ids if rules.test_qualifies(S.root, te[i], cand))
+        ip = sum(1 for i in ids if rules.test_qualifies(S.root, te[i], cand, S.ev["test_evidence"]))
         tot[0] += len(ids); tot[1] += wr; tot[2] += ip
         out.append(f"| {name} | {ids[0]}–{ids[-1]} | {', '.join(canon)} | {wr} / {len(ids)} | {ip} / {len(ids)} |")
     out.append(f"| **Total P0** | **T01–T30** | — | **{tot[1]} / {tot[0]}** | **{tot[2]} / {tot[0]}** |")
@@ -393,7 +405,7 @@ def build_html(S, source_hashes):
     a('<details class="group"><summary>Show all engineering runs</summary>' + table(["Report", "Command", "Exit", "Started", "Profile"], rows) + "</details></section>")
     # claims
     a('<section id="claims" aria-labelledby="h-cl"><h2 id="h-cl">Claims register</h2><p class="intro">A claim is presented only when its status is EVIDENCED and the validator confirms candidate-matched, inspected PASS evidence.</p>')
-    rows = [f"<tr><td><code>{c['id']}</code></td><td>{esc(c['area'])}</td><td>{esc(c['wording'].strip('*'))}</td><td>{esc(c['tests'])}</td><td>{pill(c['status'])}</td><td>{esc(c['limitation'])}</td><td>{esc(c['avoid'])}</td></tr>" for c in S.claims]
+    rows = [f"<tr><td><code>{c['id']}</code></td><td>{esc(c['area'])}</td><td>{esc(c['wording'].strip('*'))}</td><td>{esc(c['tests'])}</td><td>{pill(display_claim_status(S, c))}</td><td>{esc(c['limitation'])}</td><td>{esc(c['avoid'])}</td></tr>" for c in S.claims]
     a(table(["ID", "Area", "Permitted wording (once evidenced)", "Evidence", "Status", "Limitation", "Must not say"], rows) + "</section>")
     # findings
     a('<section id="findings" aria-labelledby="h-fi"><h2 id="h-fi">Findings</h2><p class="intro">Forwarding a finding does not close it. History is kept in FINDINGS.csv.</p>'

@@ -1,0 +1,225 @@
+test_duplicate_record_cannot_increase_candidate_count (test_delivery_audit.DeliveryAuditTests.test_duplicate_record_cannot_increase_candidate_count) ... FAIL
+test_enclosing_scenario_cannot_borrow_another_scenarios_pass (test_delivery_audit.DeliveryAuditTests.test_enclosing_scenario_cannot_borrow_another_scenarios_pass) ... FAIL
+test_overview_predicate_and_unresolved_claim_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_overview_predicate_and_unresolved_claim_match_reviewed_source) ...
+  test_overview_predicate_and_unresolved_claim_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_overview_predicate_and_unresolved_claim_match_reviewed_source) (key='unverified_predicate') ... FAIL
+  test_overview_predicate_and_unresolved_claim_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_overview_predicate_and_unresolved_claim_match_reviewed_source) (key='execution_counts_are_unresolved_counts') ... FAIL
+test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) ...
+  test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='record_id') ... FAIL
+  test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='task_id') ... FAIL
+  test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='producing_lane') ... FAIL
+  test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='source_handoff') ... FAIL
+test_raw_required_child_artifact_must_be_indexed_and_verified (test_delivery_audit.DeliveryAuditTests.test_raw_required_child_artifact_must_be_indexed_and_verified) ... FAIL
+test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) ...
+  test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='decision', field='required_state') ... FAIL
+  test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='decision', field='copy_id') ... FAIL
+  test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='command', field='required_state') ... FAIL
+  test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='command', field='copy_id') ... FAIL
+  test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='reconciliation', field='required_state') ... FAIL
+  test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='reconciliation', field='copy_id') ... FAIL
+test_rehearsal_log_must_name_actual_performer (test_delivery_audit.DeliveryAuditTests.test_rehearsal_log_must_name_actual_performer) ... FAIL
+test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) ...
+  test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='rehearsal_id') ... FAIL
+  test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='code_under_test_commit') ... FAIL
+  test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='build_id') ... FAIL
+  test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='contract_version') ... FAIL
+  test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='profile') ... FAIL
+  test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='fixture_id') ... FAIL
+  test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='scenario_scope') ... FAIL
+test_tested_consumer_needs_scoped_candidate_execution (test_delivery_audit.DeliveryAuditTests.test_tested_consumer_needs_scoped_candidate_execution) ... FAIL
+
+======================================================================
+FAIL: test_duplicate_record_cannot_increase_candidate_count (test_delivery_audit.DeliveryAuditTests.test_duplicate_record_cannot_increase_candidate_count)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 22, in test_duplicate_record_cannot_increase_candidate_count
+    self.assertEqual(build_pack.summary_counts(ev, self.root)['p0_with_inspected_pass_on_candidate'], 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_enclosing_scenario_cannot_borrow_another_scenarios_pass (test_delivery_audit.DeliveryAuditTests.test_enclosing_scenario_cannot_borrow_another_scenarios_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 14, in test_enclosing_scenario_cannot_borrow_another_scenarios_pass
+    self.assertFalse(rules.test_qualifies(self.root, {'test_id': 'T22', 'records': [r]}, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_overview_predicate_and_unresolved_claim_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_overview_predicate_and_unresolved_claim_match_reviewed_source) (key='unverified_predicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 82, in test_overview_predicate_and_unresolved_claim_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_overview_predicate_and_unresolved_claim_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_overview_predicate_and_unresolved_claim_match_reviewed_source) (key='execution_counts_are_unresolved_counts')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 82, in test_overview_predicate_and_unresolved_claim_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='record_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 32, in test_raw_report_identity_cannot_disagree_with_index
+    self.assertIn('report content mismatch: ' + key, rules.record_errors(self.root, r))
+AssertionError: 'report content mismatch: record_id' not found in []
+
+======================================================================
+FAIL: test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='task_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 32, in test_raw_report_identity_cannot_disagree_with_index
+    self.assertIn('report content mismatch: ' + key, rules.record_errors(self.root, r))
+AssertionError: 'report content mismatch: task_id' not found in []
+
+======================================================================
+FAIL: test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='producing_lane')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 32, in test_raw_report_identity_cannot_disagree_with_index
+    self.assertIn('report content mismatch: ' + key, rules.record_errors(self.root, r))
+AssertionError: 'report content mismatch: producing_lane' not found in []
+
+======================================================================
+FAIL: test_raw_report_identity_cannot_disagree_with_index (test_delivery_audit.DeliveryAuditTests.test_raw_report_identity_cannot_disagree_with_index) (key='source_handoff')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 32, in test_raw_report_identity_cannot_disagree_with_index
+    self.assertIn('report content mismatch: ' + key, rules.record_errors(self.root, r))
+AssertionError: 'report content mismatch: source_handoff' not found in []
+
+======================================================================
+FAIL: test_raw_required_child_artifact_must_be_indexed_and_verified (test_delivery_audit.DeliveryAuditTests.test_raw_required_child_artifact_must_be_indexed_and_verified)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 40, in test_raw_required_child_artifact_must_be_indexed_and_verified
+    self.assertIn('report required child artifact not indexed', rules.record_errors(self.root, r))
+AssertionError: 'report required child artifact not indexed' not found in []
+
+======================================================================
+FAIL: test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='decision', field='required_state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 72, in test_reason_state_and_copy_association_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='decision', field='copy_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 72, in test_reason_state_and_copy_association_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='command', field='required_state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 72, in test_reason_state_and_copy_association_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='command', field='copy_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 72, in test_reason_state_and_copy_association_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='reconciliation', field='required_state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 72, in test_reason_state_and_copy_association_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source) (kind='reconciliation', field='copy_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 72, in test_reason_state_and_copy_association_match_reviewed_source
+    self.assertTrue(rules.copy_safety_errors(self.root, bad))
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_rehearsal_log_must_name_actual_performer (test_delivery_audit.DeliveryAuditTests.test_rehearsal_log_must_name_actual_performer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 101, in test_rehearsal_log_must_name_actual_performer
+    self.assertIn('rehearsal log content mismatch: performed_by', rules.rehearsal_errors(self.root, r))
+AssertionError: 'rehearsal log content mismatch: performed_by' not found in []
+
+======================================================================
+FAIL: test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='rehearsal_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 93, in test_rehearsal_start_document_must_match_candidate_and_run
+    self.assertFalse(rules.rehearsal_qualifies(self.root, r, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='code_under_test_commit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 93, in test_rehearsal_start_document_must_match_candidate_and_run
+    self.assertFalse(rules.rehearsal_qualifies(self.root, r, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='build_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 93, in test_rehearsal_start_document_must_match_candidate_and_run
+    self.assertFalse(rules.rehearsal_qualifies(self.root, r, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='contract_version')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 93, in test_rehearsal_start_document_must_match_candidate_and_run
+    self.assertFalse(rules.rehearsal_qualifies(self.root, r, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='profile')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 93, in test_rehearsal_start_document_must_match_candidate_and_run
+    self.assertFalse(rules.rehearsal_qualifies(self.root, r, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='fixture_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 93, in test_rehearsal_start_document_must_match_candidate_and_run
+    self.assertFalse(rules.rehearsal_qualifies(self.root, r, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_rehearsal_start_document_must_match_candidate_and_run (test_delivery_audit.DeliveryAuditTests.test_rehearsal_start_document_must_match_candidate_and_run) (key='scenario_scope')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 93, in test_rehearsal_start_document_must_match_candidate_and_run
+    self.assertFalse(rules.rehearsal_qualifies(self.root, r, c))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_tested_consumer_needs_scoped_candidate_execution (test_delivery_audit.DeliveryAuditTests.test_tested_consumer_needs_scoped_candidate_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b68847421ce2/orvia-r4/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 51, in test_tested_consumer_needs_scoped_candidate_execution
+    self.assertTrue(rules.approval_errors(self.root, cp))
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.966s
+
+FAILED (failures=24)

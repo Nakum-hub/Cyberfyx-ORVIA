@@ -35,3 +35,12 @@ Work specified these recovery rules; B01/B02 have not implemented or browser-tes
 ## Review result
 
 The source questions above have concrete bindings or deliberate display exclusions. UX brief, copy catalogue, all 28 journeys and the 12-step synthetic scenario are delivered as C00 implementation inputs. Document-tool regression execution is recorded in `docs/reviews/cowork/VALIDATION.md`. C00 remains submitted for acceptance with this self-review; external cross-check and human acceptance are not fabricated. C01's independent register, source mapping, commands and evidence intake are completed to the inspected source; B00 acceptance remains open. C02 cannot qualify without A07/B06 and two real candidate rehearsals.
+
+
+## Delivery cross-verification — exact display definition
+
+Work self-review against merged main `9bb8f2900909997f63db864eeea1211523aa5819`; application sources are byte-identical to the A05 source inspected above. The code/state pairs were rechecked against the actual Rego decision, SDK fallbacks, admission transaction, command receipt, simulator and reconciliation producers. ALLOW maps only to CURRENT_MARKETING_AUTHORITY / EXPLICIT_SYNTHETIC_ORDER_CONDITION; BLOCK to CONDITIONS_NOT_SATISFIED / SERVICE_CONDITION_EXPIRED; unavailable policy/target results to INDETERMINATE. APPLIED means ACKNOWLEDGED, provider uncertainty means EFFECT_UNKNOWN, remaining command codes mean FAILED. The three unsuccessful reconciliation reasons mean INCONCLUSIVE. Copy IDs retain their exact code association; unknown or incompatible values use the neutral fallback.
+
+The overview counts use the inspected `evidence.ts` / `completion.ts` predicate and mixed units described above. Execution-state counts are not unresolved-obligation counts. The following fingerprint binds the full `reason_mappings` and `overview_bindings` objects, including exact source hashes, states, copy IDs, fallbacks, predicates and limits, serialized as UTF-8 JSON with sorted keys and compact separators. Changing any binding requires an explicit source cross-check and refreshed review; merely keeping a valid source hash is insufficient. This is Work's authored display decision and self-review, not consumer execution or independent acceptance.
+
+Reviewed display-rule SHA-256: `dab2f46bd20f6657548067e8c8784f626de102448616591eb71d1ae6a2a9d3ec`

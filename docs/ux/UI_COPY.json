@@ -7,7 +7,7 @@
     "Human (acceptance)"
   ],
   "prepared_at": "2026-09-16T19:12:37Z",
-  "base_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac",
+  "base_commit": "9bb8f2900909997f63db864eeea1211523aa5819",
   "contract_reference": "Accepted semantic baseline 0.2.1; executable transport 0.4.0 and signed command 0.3.0 pending consolidated Work review. Source-backed Work display decisions are scoped in docs/reviews/work/C00-copy-source-review.md. Consumer implementation/tests remain separate.",
   "rules": [
     "Stored enum values come from the contract; this file supplies display text only. Work adds no canonical enum values.",
@@ -2600,7 +2600,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §6",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "The send gateway is not a configurable System in accepted 0.2.1 / current 0.3.0 candidate (connectors: SYNTHETIC_CRM, ORVIA_REST_SIMULATOR, LEGACY_MANUAL). Use only in explanatory text, not as a system row.",
+      "unresolved_binding": "The send gateway is not a configurable System in accepted 0.2.1 / current transport 0.4.0 candidate (connectors: SYNTHETIC_CRM, ORVIA_REST_SIMULATOR, LEGACY_MANUAL). Use only in explanatory text, not as a system row.",
       "finding_ref": "F-018",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -2635,7 +2635,7 @@
       "placeholders": [],
       "source_ref": "docs/prototype/CONTRACT.md §6",
       "binding_status": "UNRESOLVED",
-      "unresolved_binding": "No representation for permission-loss coverage change in accepted 0.2.1 / current 0.3.0 candidate.",
+      "unresolved_binding": "No representation for permission-loss coverage change in accepted 0.2.1 / current transport 0.4.0 candidate.",
       "finding_ref": "F-008",
       "contract_proposal_ref": null,
       "error_code": null,
@@ -7811,7 +7811,7 @@
       "prior_unresolved_binding_r3": "Register schema and status vocabulary are defined by tracking/capabilities.json, which is absent from the repository."
     }
   ],
-  "revision": "c00-r4-completion",
+  "revision": "c00-r4-delivery-audit",
   "status": "REVISED_FOR_REVIEW",
   "accepted_contract_version": "0.2.1",
   "executable_contract_version": "0.4.0",
@@ -7885,7 +7885,7 @@
       "version": "0.2.1",
       "accepted_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
       "decision_path": "docs/reviews/work/C00-copy-source-review.md",
-      "decision_sha256": "c6430a6119a4f7d3d6511bbd5ae202933ac6d13a2fca84ec878ff5eb6962f727",
+      "decision_sha256": "61b085a33898d710eaa2d51df3a4b28d928a247cff15c97bd41a3e43d7546732",
       "quoted_text": "Work accepts the display bindings listed below to the already accepted contract **0.2.1**",
       "copy_ids": [
         "permission.action.setup_mfa",
@@ -8116,5 +8116,11 @@
     "consumer_test_status": "NOT_RUN",
     "execution_counts_are_unresolved_counts": false,
     "execution_count_limit": "Execution-state counts retain manual/failed/unknown states even when a separate completion criterion is satisfied; do not label them outstanding work or link to a supposedly matching failures count."
+  },
+  "display_rules_review": {
+    "path": "docs/reviews/work/C00-copy-source-review.md",
+    "sha256": "61b085a33898d710eaa2d51df3a4b28d928a247cff15c97bd41a3e43d7546732",
+    "review_kind": "WORK_AUTHORED_SEMANTIC_DECISION_AND_SELF_REVIEW",
+    "application_acceptance": false
   }
 }

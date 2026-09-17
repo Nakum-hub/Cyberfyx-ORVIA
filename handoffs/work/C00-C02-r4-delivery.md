@@ -1,8 +1,8 @@
 # Work r4 delivery — C00, C01 and C02
 
 **Author:** GPT Work, successor to Cowork. **Date:** 2026-09-16 UTC.
-**Inspected base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac` (PR #19 A05 and PR #18 r4 delivery human-merged; earlier work preserved).
-**Branch:** `prototype/work/cowork-c-completion`. **Delivery commit:** the containing Git commit and review PR; no application candidate is identified by this documentary commit.
+**Inspected base:** `9bb8f2900909997f63db864eeea1211523aa5819` (PR20 human-merged; A05 source unchanged, earlier work preserved).
+**Branch:** `prototype/work/cowork-delivery-audit`. **Delivery commit:** the containing Git commit and review PR; no application candidate is identified by this documentary commit.
 **Master:** rev 1.3; 850752 bytes; SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`.
 **Contract:** accepted 0.2.1; present executable transport 0.4.0 (signed command 0.3.0) and merged expiry correction await consolidated Work review.
 **Profile:** document fixtures only; no ORVIA runtime profile started.
@@ -61,3 +61,21 @@ C01's independent source map, actual commands, operator limits and claims/eviden
 C02's script, leadership answers, index, release checklist and offline pack are regenerated from these facts. There is still no A07 packaged candidate, B06 browser evidence or actual rehearsal. C02 completion would be false without them. No application test, deployment, merge or release was performed by Work.
 
 New document regressions reproduce the remaining unsafe reload instruction, unguarded loaded-current/withdrawal text, missing/stale reason bindings and mixed count units in disposable DOCUMENT-TOOL TEST DATA, with valid paired controls. Exact executions and limitations are in `docs/reviews/cowork/artifacts/c-completion/validation-run.json` and VALIDATION.md. Complete published file inventory and byte hashes are supplied in the delivery manifest; readback verification is separate from local validation.
+
+
+## User-requested delivery cross-verification
+
+PR20's 31-file payload, complete tree, original document-test counts and source provenance were rechecked against its actual merge. The earlier document-completion statement was too broad to imply all Cowork task acceptance or prototype completion. The following owned defects were reproduced and repaired before publishing this audit:
+
+| Scope | Correction and proof |
+|---|---|
+| r4 5A — readiness | Existing exact value/source/hash/time mapping retained; original paired regression rerun. No readiness promotion. |
+| r4 5B — claims and candidate | Enclosing scenario and globally unique record IDs now participate in qualification. Generated HTML explicitly rejects unsupported EVIDENCED declarations. Full candidate/profile/build checks and later-failure controls retained. |
+| r4 5C — artifacts | Raw record/task/producer/handoff identity must match the index; every named raw child artifact must be indexed and hash verified. Missing children fail the paired control. |
+| r4 5D — rehearsals | Start-state JSON must match the actual run and full candidate identity, describe its start and be captured before execution; raw log performer must match. All existing two-run, dates, failures, aborted/duplicate/history controls retained. Actual qualifying rehearsals remain zero. |
+| r4 5E — bindings | TESTED consumer status needs a unique candidate-qualified execution covering that exact copy ID. Exact reason/state/copy associations and overview predicates are bound to the source-checked Work display decision. This remains self-review, not independent approval. |
+| r4 5F / C documents | Existing uncertainty/session/ERROR safeguards retained. CRM example now says marketing restriction and scoped readback; settled notice/manual rules and actual A05 fault command availability are consistent across documents. Active routing no longer directs unavailable Claude sessions. |
+
+Validation: 62 regression methods (52 retained plus 10 audit), 98 current checks, deterministic generation/hash parity and canonical tracking. Nine baseline methods produced 24 failed assertions/subcases, retained before repair. See VALIDATION.md and `artifacts/delivery-audit/validation-run.json`; the complete preceding delivery inventory is in `source-verification.json`.
+
+No application, contract, manifest, producer evidence or canonical task/test result changed. C00 is submitted with authored source/copy review; external consistency review/acceptance remains. C01 independent content exists, with C00/B00 gates open and A00 accepted. C02 still requires C01, A07/B06, a real frozen candidate and two genuine qualifying T30 rehearsals. Offline document browser QA is still NOT_RUN. The exact audit publication commit, complete changed-file inventory/hashes and verified PR are supplied in the delivery manifest; publication is not merge or acceptance.
