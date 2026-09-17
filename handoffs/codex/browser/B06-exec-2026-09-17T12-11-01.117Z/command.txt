@@ -1,0 +1,2 @@
+PASSED B04 real healthy, broken detection, repaired and target restoration results
+PASSED B04 actual interrupted operator is recovered as ERROR without fabricated pass

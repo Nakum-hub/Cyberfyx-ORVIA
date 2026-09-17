@@ -1,0 +1,99 @@
+{
+  "kind": "EXECUTION_OF_PAUSE_QUEUED_RUN",
+  "started_at": "2026-09-17T11:44:07.178Z",
+  "finished_at": "2026-09-17T11:45:34.064Z",
+  "profile": "rehearsal",
+  "fixture_id": "aster-birch-v1",
+  "run_id": "09c0701c-bf82-4c69-9198-dd98b8208834",
+  "command": "node --import tsx scripts/regression-runner.ts confirm:rehearsal",
+  "exit_code": 0,
+  "before": [
+    {
+      "id": "09c0701c-bf82-4c69-9198-dd98b8208834",
+      "state": "NOT_RUN",
+      "document": {
+        "id": "09c0701c-bf82-4c69-9198-dd98b8208834",
+        "state": "NOT_RUN",
+        "request": {
+          "profile": "rehearsal",
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "fixture_id": "aster-birch-v1"
+        },
+        "build_id": "bnT12a1F-IJPzS63CNXqZ",
+        "assertions": [],
+        "started_at": null,
+        "finished_at": null,
+        "contract_version": "0.5.0",
+        "expected_fault_detection": false
+      }
+    }
+  ],
+  "after": {
+    "id": "09c0701c-bf82-4c69-9198-dd98b8208834",
+    "state": "PASS",
+    "document": {
+      "id": "09c0701c-bf82-4c69-9198-dd98b8208834",
+      "state": "PASS",
+      "request": {
+        "profile": "rehearsal",
+        "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+        "fixture_id": "aster-birch-v1"
+      },
+      "build_id": "bnT12a1F-IJPzS63CNXqZ",
+      "assertions": [
+        {
+          "id": "fresh_permission_admits",
+          "actual": "\"ALLOW\"",
+          "result": "PASS",
+          "expected": "\"ALLOW\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "durable_workflow_completed",
+          "actual": "\"COMPLETED\"",
+          "result": "PASS",
+          "expected": "\"COMPLETED\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_read_restriction",
+          "actual": "true",
+          "result": "PASS",
+          "expected": "true",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_observation_method",
+          "actual": "\"SCOPED_READ\"",
+          "result": "PASS",
+          "expected": "\"SCOPED_READ\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "current_boundary_blocks_withdrawal",
+          "actual": "\"BLOCK\"",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "no_post_withdrawal_send",
+          "actual": "0",
+          "result": "PASS",
+          "expected": "0",
+          "artifact_paths": []
+        }
+      ],
+      "started_at": "2026-09-17T11:44:34.873Z",
+      "finished_at": "2026-09-17T11:45:33.859Z",
+      "contract_version": "0.5.0",
+      "expected_fault_detection": false
+    }
+  },
+  "remaining_pending_or_running": 0,
+  "stdout": "PASS fresh_permission_admits\nPASS durable_workflow_completed\nPASS independent_read_restriction\nPASS independent_observation_method\nPASS current_boundary_blocks_withdrawal\nPASS no_post_withdrawal_send\nArtifact: handoffs/codex/artifacts/A07-regression-run-1789645533944-83994c20-0362-4474-b429-c08712ea8f5f.json\n",
+  "stderr": "",
+  "limitations": [
+    "Existing protected operator executed the retained queued record. Whatever terminal state it reached is recorded as-is; nothing was reset, deleted or marked passed. This is engineering execution, not Work acceptance or a human rehearsal."
+  ]
+}

@@ -1,0 +1,87 @@
+# Continuation bounded corrections and findings
+
+Base: `b909be896084da21f2c9d69e8e88dbb4a36d58d4` (merged checkpoint). Continues the recorded scope in
+`handoffs/work/final-prototype-7bc7780/bounded-corrections.md`; FINAL-B06-F01 … F05 remain as written.
+
+Allowed paths for this session's corrections are the already-recorded browser-harness paths
+`tests/e2e/{fixture,auth,configuration,consent,workflow,candidate,test-lab}.spec.ts` plus this directory's
+review/handoff records. No dependency, lockfile, migration, contract-version or product redesign change is
+authorized here. Any further verified defect receives its own finding below before the edit.
+
+---
+
+## FINAL-CONT-F06 — MEDIUM Test Lab operator exit-code expectation contradicts the documented CLI contract
+
+**Severity** MEDIUM · **Owner** browser harness (test) · **Source** `tests/e2e/test-lab.spec.ts:16,18`
+
+**Reproduction.** Targeted rerun `B06-playwright-2026-09-17T10-50-33.688Z` (checkpoint evidence) fails at
+`tests/e2e/test-lab.spec.ts:18` with `Expected exit 1, Received 0` for the
+`MARKETING_WITHDRAWAL_BROKEN_CONTROL` case.
+
+**Actual runner behaviour** (`scripts/regression-runner.ts`). `process.exitCode=1` is set only in the
+top-level `catch` (line 95), i.e. when the operator could not complete the enqueued execution and records
+an `execution_error` / `ERROR` terminal state. A scenario that completes and stores
+`run.state='FAIL'` (line 91) leaves the exit code at 0.
+
+**Three independent existing consumers require exit 0 for a completed broken-control detection:**
+
+| consumer | mechanism | requirement |
+|---|---|---|
+| `tests/integration/regression/regression.test.ts:30` | `promisify(execFile)` (rejects on non-zero) | runs all four scenarios including `MARKETING_WITHDRAWAL_BROKEN_CONTROL`, then asserts stored state `FAIL` at line 33 |
+| `scripts/demo-run.ts:16` | `promisify(execFile)` | `MARKETING_WITHDRAWAL_BROKEN_CONTROL` is an allowlisted scenario (line 11); line 17 expects stored `FAIL` and writes `expected_fault_detected:true` with `result:'PASS'` |
+| `tests/security/network-core.ts:16` | `promisify(execFile)` | healthy scenario only, but same completion semantics |
+
+**Documented contract, decided from that real behaviour.** The operator CLI exit code reports whether the
+*operator run completed*, not the business outcome of the scenario:
+
+```
+exit 0  the enqueued run reached a recorded terminal result (PASS or FAIL), or there was
+        nothing pending / only an interrupted run to recover as ERROR
+exit 1  the runner itself could not complete the execution (top-level error, run stored ERROR)
+```
+
+An expected broken-control detection is a **successful operator execution** whose durable business result
+is FAIL. Conflating it with operator failure would contradict `AGENTS.md` ("expected regression detection
+is distinguished from an ordinary passing control") and would break the three consumers above.
+
+**Correction.** Change the expectation in `tests/e2e/test-lab.spec.ts` only: the broken control expects
+exit 0, with the contract recorded inline. **No product assertion is weakened.** The case still requires
+stored `state==='FAIL'`, non-empty stored assertions, `expected_fault_detection===true`, the visible `Fail`
+result and the `Expected broken-control detection` heading. `scripts/regression-runner.ts` is not changed,
+so no already-executed backend evidence is invalidated.
+
+**Retest.** `tests/e2e/test-lab.spec.ts` both cases, then the complete browser suite.
+
+---
+
+## FINAL-CONT-F07 — MEDIUM interruption barrier references a nonexistent table and leaks a pooled connection
+
+**Severity** MEDIUM · **Owner** browser harness (test) · **Source** `tests/e2e/test-lab.spec.ts:30,34`
+
+**Reproduction.** Same run `B06-playwright-2026-09-17T10-50-33.688Z`: the second case fails at line 30,
+`LOCK TABLE app.purposes IN SHARE MODE`, because `app.purposes` does not exist. The failure is raised
+before the `try` on line 32, so the `finally` on line 34 never runs; the checked-out `h.db` client stays
+held in an aborted transaction and the worker fixture's teardown (`h.db.end()`) times out at 240000 ms.
+
+**Schema evidence.** `packages/db/migrations/0004_configuration_consent.sql:2` creates
+`app.purpose_versions`; no migration creates `app.purposes`. `packages/domain/src/configuration.ts:21`
+(`INSERT INTO app.purpose_versions VALUES(...)`) is the first configuration write performed by
+`createMarketingScenario` (`packages/testing/src/scenario.ts:12` → `POST /api/v1/admin/purposes`), which
+`scripts/regression-runner.ts:51` calls immediately after persisting `state='RUNNING'` (line 47). A
+SHARE-mode lock conflicts with the ROW EXCLUSIVE lock that INSERT takes, so the runner blocks in RUNNING
+exactly as the case intends.
+
+**Correction.** Use `app.purpose_versions`, and protect acquisition, barrier setup, operator termination,
+`ROLLBACK` and `release()` so that a failure at any step still releases the pooled connection and does not
+leave an operator child registered with the harness. The interruption remains a real process kill; no run
+state is manufactured and the recovery path is unchanged.
+
+**Retest.** `tests/e2e/test-lab.spec.ts` both cases, then the complete browser suite beyond five minutes
+(which also completes the outstanding FINAL-B06-F05 heartbeat verification).
+
+---
+
+## Carried-forward blocking prerequisite
+
+Browser execution of the retests above is **BLOCKED** pending fresh explicit human approval to reinstall
+the reviewed rehearsal CA in `CurrentUser\Root`; see `START.md` for the re-verified certificate identity.

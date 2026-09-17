@@ -1,0 +1,54 @@
+{
+  "result": "passed",
+  "source_commit": "b909be896084da21f2c9d69e8e88dbb4a36d58d4",
+  "source_tree_sha256": "e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 real healthy, broken detection, repaired and target restoration results"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 119206,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [],
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 actual interrupted operator is recovered as ERROR without fabricated pass"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 55677,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 33,
+        "column": 1
+      },
+      "errors": [],
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

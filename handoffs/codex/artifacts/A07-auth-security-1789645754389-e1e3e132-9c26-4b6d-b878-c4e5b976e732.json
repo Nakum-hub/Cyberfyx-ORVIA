@@ -1,0 +1,573 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T11:49:14.389Z",
+  "result": "PASS",
+  "test_ids": [
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T27"
+  ],
+  "profile": "rehearsal",
+  "origin": "https://127.0.0.1:4330",
+  "fixture_id": "aster-birch-v1",
+  "build_id": "bnT12a1F-IJPzS63CNXqZ",
+  "assertions": [
+    {
+      "name": "unauthenticated session denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "anonymous denial is persistently audited",
+      "result": "PASS",
+      "expected": {
+        "operation": "SESSION_READ",
+        "status": 401
+      },
+      "actual": {
+        "operation": "SESSION_READ",
+        "status": 401
+      }
+    },
+    {
+      "name": "public signup unavailable",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "foreign origin denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "role field cannot grant authority",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "machine bearer cannot become human",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "wrong password denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "unknown identity has same denial",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "login errors resist enumeration",
+      "result": "PASS",
+      "expected": "INVALID_EMAIL_OR_PASSWORD",
+      "actual": "INVALID_EMAIL_OR_PASSWORD"
+    },
+    {
+      "name": "owner: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "owner: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "owner: MFA challenge required",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "wrong MFA code rejected",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "failed MFA does not grant authority",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "owner: real TOTP verification",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "owner: password-only or pending cookie remains denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "server-derived owner scope",
+      "result": "PASS",
+      "expected": {
+        "tenant_id": "14faded1-62ce-4160-9c7e-77ef728da531",
+        "legal_entity_id": "35febaeb-d1b7-4dde-a625-f7d272575dd4",
+        "environment_id": "e6f3f27c-2ebd-4395-a0ad-281acafc1eac"
+      },
+      "actual": {
+        "tenant_id": "14faded1-62ce-4160-9c7e-77ef728da531",
+        "legal_entity_id": "35febaeb-d1b7-4dde-a625-f7d272575dd4",
+        "environment_id": "e6f3f27c-2ebd-4395-a0ad-281acafc1eac"
+      }
+    },
+    {
+      "name": "owner MFA proof is session-specific",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "staff cookie namespace",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "authenticated persistent creation",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "idempotent principal retry",
+      "result": "PASS",
+      "expected": "0aa21d17-68b6-4036-a492-5626115b2402",
+      "actual": "0aa21d17-68b6-4036-a492-5626115b2402"
+    },
+    {
+      "name": "conflicting key denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "duplicate principal is safe validation failure",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "accepted maximum idempotency-key length",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "wrong tenant body denied",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "sibling environment body denied",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "unexpected scope selector denied",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "malformed cursor denied",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "over-limit page denied",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "created resource is persisted and listed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "directory excludes other tenant principal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "auditor: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "auditor: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "auditor read allowed",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "auditor mutation denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "reviewer: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "reviewer: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "separate enrollment fixture started",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "unverified enrollment backup code cannot establish MFA",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "enrollment bypass attempt leaves privileged access denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "member: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "member: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "member: MFA challenge required",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "member: real TOTP verification",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "member: password-only or pending cookie remains denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "member directory denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "member mutation denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "admin: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "admin: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "admin: MFA challenge required",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "admin: real TOTP verification",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "admin: password-only or pending cookie remains denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "delegated admin can prepare scoped principals",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "delegated admin cannot acquire reviewer capability",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor direct SQL mutation denied by RLS",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "alice: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "alice: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "principal server binding",
+      "result": "PASS",
+      "expected": "3a3c2f86-5a53-4eda-b75d-d72b72ff40ba",
+      "actual": "3a3c2f86-5a53-4eda-b75d-d72b72ff40ba"
+    },
+    {
+      "name": "principal cannot read staff directory",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "staff denied by own-principal authority guard",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "ambiguous dual-domain session denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "staff cookie cannot authenticate principal mount",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "principal RLS exposes only own reference",
+      "result": "PASS",
+      "expected": [
+        "3a3c2f86-5a53-4eda-b75d-d72b72ff40ba"
+      ],
+      "actual": [
+        "3a3c2f86-5a53-4eda-b75d-d72b72ff40ba"
+      ]
+    },
+    {
+      "name": "wrong-principal direct SQL denied",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "unscoped SQL cannot cross tenant",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "unscoped SQL cannot cross sibling environment",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "pool clears successful transaction scope",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "pool clears failed transaction scope",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "application cannot read auth credentials",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "application cannot enumerate global transport audit",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "application cannot assume migrator",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "auth role cannot alter authority",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "staff auth cannot read principal store",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "application role has no privileged bypass",
+      "result": "PASS",
+      "expected": {
+        "rolsuper": false,
+        "rolbypassrls": false,
+        "rolcreatedb": false,
+        "rolcreaterole": false
+      },
+      "actual": {
+        "rolsuper": false,
+        "rolbypassrls": false,
+        "rolcreatedb": false,
+        "rolcreaterole": false
+      }
+    },
+    {
+      "name": "protected tables force RLS and are not app-owned",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "tenant-aware foreign key rejects sibling parent",
+      "result": "PASS",
+      "expected": "23503",
+      "actual": "23503"
+    },
+    {
+      "name": "docker stop named profile OPA exit",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "administrative policy outage blocks mutation",
+      "result": "PASS",
+      "expected": 503,
+      "actual": 503
+    },
+    {
+      "name": "policy outage creates no principal",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "docker start named profile OPA exit",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "administrative policy recovered",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "persisted session survives application restart",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "persisted record survives application restart",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "library revocation succeeds",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "revoked cookie rejected",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "principal logout succeeds",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "logged-out principal cookie rejected",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    }
+  ],
+  "limitations": [
+    "This suite covers API/database authentication and authority; other suites cover consent, workflows, exports and runtime egress. Browser flows are not covered here.",
+    "Verified HTTPS rehearsal with per-process local CA trust; OS/browser trust is not installed."
+  ]
+}

@@ -1,0 +1,14 @@
+PASS unauthenticated session denied
+PASS anonymous denial is persistently audited
+PASS public signup unavailable
+PASS foreign origin denied
+PASS role field cannot grant authority
+PASS machine bearer cannot become human
+PASS wrong password denied
+PASS unknown identity has same denial
+PASS login errors resist enumeration
+PASS owner: real password sign-in
+PASS owner: HttpOnly and strict SameSite cookies
+PASS owner: MFA challenge required
+{ name: 'Error', code: 'UNCLASSIFIED' }
+Artifact: handoffs/codex/artifacts/A07-auth-security-1789645629908-3cafb2e3-9a2e-4f7b-82be-e62535824373.json

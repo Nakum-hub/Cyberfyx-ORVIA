@@ -1,0 +1,124 @@
+{
+  "workflow": {
+    "id": "091df631-7cbd-4b9c-b56b-1666ccdd794f",
+    "event_id": "0f463d12-6536-467c-b782-c33020ab0457",
+    "purpose_id": "7994ff39-5e8d-4514-8f78-c230c77d3acb",
+    "state": "COMPLETED",
+    "accepted_at": "2026-09-17T12:24:38.630Z",
+    "updated_at": "2026-09-17T12:24:41.934Z",
+    "actions": [
+      {
+        "id": "41ece748-d516-4fa3-8e12-b4cc389bc27c",
+        "plan": {
+          "workflow_id": "091df631-7cbd-4b9c-b56b-1666ccdd794f",
+          "action_id": "41ece748-d516-4fa3-8e12-b4cc389bc27c",
+          "scope": {
+            "tenant_id": "14faded1-62ce-4160-9c7e-77ef728da531",
+            "legal_entity_id": "35febaeb-d1b7-4dde-a625-f7d272575dd4",
+            "environment_id": "e6f3f27c-2ebd-4395-a0ad-281acafc1eac",
+            "principal_reference_id": "3a3c2f86-5a53-4eda-b75d-d72b72ff40ba",
+            "system_id": "b0021782-9aa9-486d-9480-3ab85d10ae40",
+            "resource_id": "6cec4e3a-7bf1-41ea-888e-f3233a68deb9",
+            "target_subject_reference": "syn_6cec4e3a7bf141ea888ef3233a68deb9",
+            "purpose_id": "7994ff39-5e8d-4514-8f78-c230c77d3acb",
+            "policy_version_id": "0df0c42c-cc84-4870-9f37-ee9286fcaac3",
+            "consent_epoch": 2,
+            "target_generation": 1,
+            "operation": "CRM_REMOVE_MARKETING_MEMBERSHIP"
+          },
+          "capability": "restrict_exact_synthetic_subject",
+          "capability_version": "1.0.0",
+          "operation_budget": {
+            "maximum_records": 1,
+            "maximum_attempts": 1
+          }
+        },
+        "execution_state": "ACKNOWLEDGED",
+        "attempts": [
+          {
+            "command_id": "d4656e3c-cc67-4cca-bfb9-ca126aadd575",
+            "command_digest": "0fab83465f0cc6b0fc5f5056b7b5218977d2e06e159c82c3dd20ddbbf98b54eb",
+            "attempt_id": "8ff9a0f2-344f-4db4-9c64-303e1687149e",
+            "execution_state": "ACKNOWLEDGED",
+            "recorded_at": "2026-09-17T12:24:41.284Z",
+            "reason_code": "APPLIED",
+            "target_generation": 1
+          }
+        ],
+        "observations": [
+          {
+            "id": "0ab5a053-1e1e-4e73-a74d-f1e2e6867a1f",
+            "action_id": "41ece748-d516-4fa3-8e12-b4cc389bc27c",
+            "system_id": "b0021782-9aa9-486d-9480-3ab85d10ae40",
+            "resource_id": "6cec4e3a-7bf1-41ea-888e-f3233a68deb9",
+            "target_generation": 1,
+            "state": "OBSERVED_SATISFIED",
+            "method": "SCOPED_READ",
+            "observed_at": "2026-09-17T12:24:41.773Z",
+            "fresh_until": "2026-09-17T12:29:41.773Z",
+            "desired_state": "MARKETING_RESTRICTED",
+            "observed_state": "MARKETING_RESTRICTED",
+            "limits": [
+              "Separate read of this exact synthetic resource and generation; no estate-wide coverage."
+            ]
+          }
+        ],
+        "reconciliations": []
+      }
+    ],
+    "obligations": [
+      {
+        "id": "429d0557-54a5-491b-b85c-3040c2c367f5",
+        "task_version": 0,
+        "required": true,
+        "completion_criterion": "CURRENT_SCOPED_OBSERVATION",
+        "execution_state": "ACKNOWLEDGED",
+        "observation": {
+          "id": "0ab5a053-1e1e-4e73-a74d-f1e2e6867a1f",
+          "action_id": "41ece748-d516-4fa3-8e12-b4cc389bc27c",
+          "system_id": "b0021782-9aa9-486d-9480-3ab85d10ae40",
+          "resource_id": "6cec4e3a-7bf1-41ea-888e-f3233a68deb9",
+          "target_generation": 1,
+          "state": "OBSERVED_SATISFIED",
+          "method": "SCOPED_READ",
+          "observed_at": "2026-09-17T12:24:41.773Z",
+          "fresh_until": "2026-09-17T12:29:41.773Z",
+          "desired_state": "MARKETING_RESTRICTED",
+          "observed_state": "MARKETING_RESTRICTED",
+          "limits": [
+            "Separate read of this exact synthetic resource and generation; no estate-wide coverage."
+          ]
+        },
+        "attestation": null,
+        "scope_still_current": true,
+        "skip_reason": null
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "receipt_id": "bc45361a-0988-4784-9dfd-cf9509fcf713",
+      "event_id": "0f463d12-6536-467c-b782-c33020ab0457",
+      "purpose_id": "7994ff39-5e8d-4514-8f78-c230c77d3acb",
+      "consent_status": "WITHDRAWN",
+      "consent_epoch": 2,
+      "accepted_at": "2026-09-17T12:24:38.630Z",
+      "workflow_id": "091df631-7cbd-4b9c-b56b-1666ccdd794f",
+      "propagation_status": "ACCEPTED"
+    }
+  ],
+  "policy_version_ids": [
+    "0df0c42c-cc84-4870-9f37-ee9286fcaac3"
+  ],
+  "notice_version_ids": [
+    "f4b44fe2-36c3-47ad-9dcd-4be427be6cd6"
+  ],
+  "tests": [],
+  "exported_at": "2026-09-17T12:24:45.203Z",
+  "coverage_limits": [
+    "Customer-local synthetic mapped resources only; no real-vendor or estate-wide coverage.",
+    "Execution receipts are not independent observations. Unknown attempts and manual attestations retain their distinct meanings."
+  ],
+  "integrity_digest": "645d5c7aa25c3d82d499d4a8959a7c1e7f7c92435e9cc6ffa9d8ee814d4372be",
+  "integrity_limit": "Digest detects change relative to a trusted reference; it does not prove external effects or prevent privileged rewriting."
+}

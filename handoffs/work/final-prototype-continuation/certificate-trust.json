@@ -1,0 +1,31 @@
+{
+  "recorded_at": "2026-09-17T12:10:00Z",
+  "action": "REINSTALL_AFTER_PAUSE_REMOVAL",
+  "authority": "Human granted fresh explicit approval in this session after the exact certificate identity, issuer, fingerprints and validity were re-presented; the human chose to have this session run certutil and accepted the Windows prompt.",
+  "store": "CurrentUser\\Root",
+  "machine_trust_changed": false,
+  "bypass_flags_used": [],
+  "source_file": ".local/profiles/rehearsal/tls/ca-cert.pem",
+  "subject": "CN=ORVIA synthetic rehearsal b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "issuer": "CN=ORVIA synthetic rehearsal b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "self_signed_ca": true,
+  "serial": "011AFADC1D924EE44DC7C8D8C5C77CE2",
+  "sha1": "8C592FC41BBD6AA18F42234085F6B8155466A190",
+  "sha256": "57233744A03B8737F9CD0AC56E5128933668F7DD6CAF621DAE0E365F10BB6F3F",
+  "not_before": "Sep 17 02:46:29 2026 GMT",
+  "not_after": "Oct 17 02:47:29 2026 GMT",
+  "signs_only": {
+    "subject": "CN=localhost",
+    "subject_alt_name": "DNS:localhost, IP Address:127.0.0.1",
+    "chain_verified_against_this_ca": true
+  },
+  "before_state": "certutil -user -store Root 8C592FC41BBD6AA18F42234085F6B8155466A190 -> 0x80090011 NTE_NOT_FOUND (absent after the documented pause removal)",
+  "install_command": "certutil -user -addstore Root .local/profiles/rehearsal/tls/ca-cert.pem",
+  "install_result": "Certificate \"ORVIA synthetic rehearsal b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4\" added to store. CertUtil: -addstore command completed successfully.",
+  "independent_verification": "certutil -user -store Root 8C592FC41BBD6AA18F42234085F6B8155466A190 returned the exact certificate; Serial Number 011afadc1d924ee44dc7c8d8c5c77ce2, Cert Hash(sha1) 8c592fc41bbd6aa18f42234085f6b8155466a190, Root Certificate: Subject matches Issuer.",
+  "removal_obligation": "Temporary. Remove with certutil -user -delstore Root 8C592FC41BBD6AA18F42234085F6B8155466A190 when browser qualification and rehearsals are complete, then re-verify absence and record the result.",
+  "limitations": [
+    "Per-process Node CA use (NODE_EXTRA_CA_CERTS in tests/e2e/record.mjs) is separate from this OS/browser trust and is unaffected by removal.",
+    "No --ignore-certificate-errors, ignoreHTTPSErrors, plaintext fallback or machine-wide trust was used or proposed."
+  ]
+}
