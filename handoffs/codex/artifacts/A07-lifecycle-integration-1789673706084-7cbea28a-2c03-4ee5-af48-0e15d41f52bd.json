@@ -1,0 +1,158 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T19:35:06.084Z",
+  "profile": "rehearsal",
+  "assertions": [
+    {
+      "name": "business fixture exists before restart",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "named bootstrap reset refuses business schema",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "reset denial preserves business state",
+      "actual": {
+        "events": 348,
+        "runs": 59,
+        "mappings": 190
+      },
+      "expected": {
+        "events": 348,
+        "runs": 59,
+        "mappings": 190
+      },
+      "result": "PASS"
+    },
+    {
+      "name": "web worker and agent actually active cycle 0",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "verified HTTPS health cycle 0",
+      "actual": 200,
+      "expected": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "unauthenticated authority denied cycle 0",
+      "actual": 401,
+      "expected": 401,
+      "result": "PASS"
+    },
+    {
+      "name": "wrong profile stop refused cycle 0",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "supervisor stopped normally cycle 0",
+      "actual": 0,
+      "expected": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "owned worker and agent connections gone cycle 0",
+      "actual": 0,
+      "expected": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "business state retained cycle 0",
+      "actual": {
+        "events": 348,
+        "runs": 59,
+        "mappings": 190
+      },
+      "expected": {
+        "events": 348,
+        "runs": 59,
+        "mappings": 190
+      },
+      "result": "PASS"
+    },
+    {
+      "name": "web worker and agent actually active cycle 1",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "verified HTTPS health cycle 1",
+      "actual": 200,
+      "expected": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "unauthenticated authority denied cycle 1",
+      "actual": 401,
+      "expected": 401,
+      "result": "PASS"
+    },
+    {
+      "name": "wrong profile stop refused cycle 1",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "supervisor stopped normally cycle 1",
+      "actual": 0,
+      "expected": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "owned worker and agent connections gone cycle 1",
+      "actual": 0,
+      "expected": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "business state retained cycle 1",
+      "actual": {
+        "events": 348,
+        "runs": 59,
+        "mappings": 190
+      },
+      "expected": {
+        "events": 348,
+        "runs": 59,
+        "mappings": 190
+      },
+      "result": "PASS"
+    }
+  ],
+  "readiness": [
+    {
+      "cycle": 0,
+      "since": "2026-09-17T19:34:41.292Z",
+      "last_observed": {
+        "worker": true,
+        "agent": true
+      },
+      "supervisor_exit_code": null
+    },
+    {
+      "cycle": 1,
+      "since": "2026-09-17T19:34:54.956Z",
+      "last_observed": {
+        "worker": true,
+        "agent": true
+      },
+      "supervisor_exit_code": null
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Application process restarts with existing synthetic database. Host crash recovery and human demonstration are not inferred."
+  ]
+}

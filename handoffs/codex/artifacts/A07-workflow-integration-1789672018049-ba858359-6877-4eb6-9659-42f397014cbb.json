@@ -1,0 +1,18 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T19:06:58.050Z",
+  "test_ids": [
+    "T10",
+    "T11",
+    "T12",
+    "T13"
+  ],
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic CRM only; simulator faults, send admission and target restore are later increments. No browser acceptance claim."
+  ]
+}

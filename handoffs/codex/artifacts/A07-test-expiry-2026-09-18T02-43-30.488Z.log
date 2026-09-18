@@ -1,0 +1,24 @@
+$ tsx tests/integration/consent/expiry.test.ts
+PASS publication/fresh: HTTP status
+PASS publication: fresh proof consumed before expiry with one approval and idempotency
+PASS publication: committed replay after expiry status
+PASS publication: committed replay response
+PASS publication: replay preserves business rows
+PASS publication: replay still requires authentication
+PASS publication/expired: HTTP status
+PASS publication/expired: proof remains unused
+PASS publication/expired: all business rows unchanged
+PASS publication/expired: no approval or success idempotency
+PASS publication/expired: policy remains draft
+{
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  message: 'Proof setup failed: HTTP 503',
+  sites: [
+    '    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\integration\\consent\\expiry.test.ts:84:41)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/A07-expiry-integration-1789699419549-9c19a99e-cb6f-48ac-8734-c778a576e6ce.json
+[ELIFECYCLE] Command failed with exit code 1.

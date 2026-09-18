@@ -1,0 +1,75 @@
+$ tsx tests/integration/evidence/evidence.test.ts
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS HEALTHY: one bounded attempt
+PASS HEALTHY: plan attempt budget
+PASS HEALTHY: actual target effect
+PASS HEALTHY: execution state
+PASS HEALTHY: aggregate truth
+PASS UNAVAILABLE: one bounded attempt
+PASS UNAVAILABLE: plan attempt budget
+PASS UNAVAILABLE: actual target effect
+PASS UNAVAILABLE: execution state
+PASS UNAVAILABLE: aggregate truth
+PASS unavailable read is explicitly unverifiable
+PASS APPLY_THEN_TIMEOUT: one bounded attempt
+PASS APPLY_THEN_TIMEOUT: plan attempt budget
+PASS APPLY_THEN_TIMEOUT: actual target effect
+PASS APPLY_THEN_TIMEOUT: execution state
+PASS APPLY_THEN_TIMEOUT: aggregate truth
+PASS ACK_WITHOUT_EFFECT: one bounded attempt
+PASS ACK_WITHOUT_EFFECT: plan attempt budget
+PASS ACK_WITHOUT_EFFECT: actual target effect
+PASS ACK_WITHOUT_EFFECT: execution state
+PASS ACK_WITHOUT_EFFECT: aggregate truth
+PASS ACK without effect has a separate mismatching read
+PASS uncertain outcome has no fabricated observation
+PASS executor cannot use observer mount
+PASS observer read sees real applied effect
+PASS observer cannot execute restriction
+PASS reconciliation accepted with worker stopped
+PASS reconciliation persisted pending
+PASS reconciliation committed replay stable
+PASS read reconciliation completes observed obligation
+PASS original uncertain attempt remains immutable
+PASS reconciliation never invents recovered ACK
+PASS capability loss becomes effective read=false
+PASS failed capability check immediately invalidates prior completion
+PASS portal immediately reflects failed read capability
+PASS new failed read supersedes prior satisfied read
+PASS permission loss removes current completion
+PASS REST read permission loss also fails closed at admission
+PASS unverifiable REST admission has no send
+Authentication fixture idle window: 30s remaining; controls unchanged.
+PASS unassigned member cannot see workflow
+PASS member sees only exact assigned workflow
+PASS member still cannot see other workflow
+PASS member list equals exact persisted assignments
+PASS manual task read exposes authoritative stored version
+PASS foreign evidence reference denied
+PASS concurrent current-version attestations accept exactly one
+PASS manual identical replay accepted
+PASS manual identical replay preserves original operation
+PASS manual conflicting replay denied
+PASS manual stale version denied on a new request
+PASS declared manual criterion completes administratively
+PASS manual attestation attributed
+PASS manual attestation creates no automated observation
+PASS manual task revision increments once
+PASS old manual attestation is not current after fresh consent
+PASS manual cannot satisfy independent-read criterion
+PASS auditor local export allowed
+PASS export is attachment with no-store
+PASS export integrity digest matches actual document
+PASS export retains unresolved coverage
+PASS export retains exact immutable acceptance
+PASS foreign tenant cannot export
+PASS principal cannot export
+PASS member has no export capability
+PASS export action persisted in audit
+PASS overview workflow counts come from scoped persisted rows
+PASS overview exposes unknown and manual axes
+PASS failure projection includes unmet observation
+PASS filtered failure pagination does not duplicate obligations
+Artifact: handoffs/codex/artifacts/A07-evidence-integration-1789677601365-9110709a-637f-4352-8ddf-3200599df776.json

@@ -1,0 +1,1416 @@
+{
+  "test": "B04 real healthy, broken detection, repaired and target restoration results",
+  "requests": [
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/sign-in",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0uj7fpgtwdf4c.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/auth/staff/sign-in/email",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/auth/staff/two-factor/verify-totp",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/38nb0on5qeo9y.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/73fb70f4-4b0f-4b2a-bd1b-1cd726f43aec",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/38nb0on5qeo9y.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/5b9179f0-9ae5-48f3-8705-bd101ae0de18",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/38nb0on5qeo9y.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/cf396ee5-1199-4a34-b750-c229ac160086",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/38nb0on5qeo9y.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/test-lab/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/36-xe3i88ahrb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/test-runs/523085e8-e0ed-4655-8582-9144d5fdc31c",
+      "method": "GET"
+    }
+  ],
+  "scope": "This Playwright context only; not host-wide egress."
+}

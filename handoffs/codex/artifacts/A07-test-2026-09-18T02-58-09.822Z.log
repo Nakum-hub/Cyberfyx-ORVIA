@@ -1,0 +1,29 @@
+$ tsx --test tests/unit/*.test.ts
+✔ the published capability register is internally consistent and its evidence resolves (7.9567ms)
+✔ a module cannot claim it is built without evidence that actually resolves (5.0898ms)
+✔ an unbuilt or deferred module cannot borrow coverage it does not have (12.0894ms)
+✔ the register cannot quietly lose a master module or invent a status (3.5495ms)
+✔ W00-F07: provider-only evidence cannot complete an independent-observation obligation (3.3167ms)
+✔ W00-F07 controls: only a fresh, satisfied independent read in current scope completes (1.6576ms)
+✔ W00-F07: provider receipts remain valid reconciliation evidence and manual work stays distinct (2.1245ms)
+✔ canonical digest is order-independent for objects and strict for unsupported values (2.0525ms)
+✔ signed envelope rejects altered bindings, signature, trust and expiry (29.8537ms)
+✔ portal-safe immutable acceptance and refreshed current status remain distinct (5.3433ms)
+✔ ACK and manual work do not fabricate automated observation; unknown history is retained (3.5703ms)
+✔ browser transport enforces request validation, parses errors, and never retries writes (30.7202ms)
+✔ no-input browser POST uses the actual server JSON boundary without inventing a DTO (2.6211ms)
+✔ current and legitimately progressed/BLOCKED tracking remain valid (25.6636ms)
+✔ downgrading a prerequisite that a progressed task still depends on is rejected (5.0489ms)
+✔ application PASS cannot be manufactured from a document or bootstrap subset (6.8995ms)
+✔ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (8.0696ms)
+✔ UI never verifies provider ACK, future/expired reads or mismatched current target (2.1727ms)
+✔ UI empty obligations, provider receipts and manual closure retain their different meanings (1.7429ms)
+✔ UI reports receipt/current epoch contradictions without rewriting immutable receipt (2.5589ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 849.17

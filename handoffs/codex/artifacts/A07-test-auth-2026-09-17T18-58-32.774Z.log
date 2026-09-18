@@ -1,0 +1,89 @@
+$ tsx tests/security/auth.test.ts
+PASS unauthenticated session denied
+PASS anonymous denial is persistently audited
+PASS public signup unavailable
+PASS foreign origin denied
+PASS role field cannot grant authority
+PASS machine bearer cannot become human
+PASS wrong password denied
+PASS unknown identity has same denial
+PASS login errors resist enumeration
+PASS owner: real password sign-in
+PASS owner: HttpOnly and strict SameSite cookies
+PASS owner: MFA challenge required
+PASS wrong MFA code rejected
+PASS failed MFA does not grant authority
+PASS owner: real TOTP verification
+PASS owner: password-only or pending cookie remains denied
+PASS server-derived owner scope
+PASS owner MFA proof is session-specific
+PASS staff cookie namespace
+PASS authenticated persistent creation
+PASS idempotent principal retry
+PASS conflicting key denied
+PASS duplicate principal is safe validation failure
+PASS accepted maximum idempotency-key length
+PASS wrong tenant body denied
+PASS sibling environment body denied
+PASS unexpected scope selector denied
+PASS malformed cursor denied
+PASS over-limit page denied
+PASS created resource is persisted and listed
+PASS directory excludes other tenant principal
+PASS auditor: real password sign-in
+PASS auditor: HttpOnly and strict SameSite cookies
+PASS auditor read allowed
+PASS auditor mutation denied
+PASS reviewer: real password sign-in
+PASS reviewer: HttpOnly and strict SameSite cookies
+PASS separate enrollment fixture started
+PASS unverified enrollment backup code cannot establish MFA
+PASS enrollment bypass attempt leaves privileged access denied
+PASS member: real password sign-in
+PASS member: HttpOnly and strict SameSite cookies
+PASS member: MFA challenge required
+PASS member: real TOTP verification
+PASS member: password-only or pending cookie remains denied
+PASS member directory denied
+PASS member mutation denied
+PASS admin: real password sign-in
+PASS admin: HttpOnly and strict SameSite cookies
+PASS admin: MFA challenge required
+PASS admin: real TOTP verification
+PASS admin: password-only or pending cookie remains denied
+PASS delegated admin can prepare scoped principals
+PASS delegated admin cannot acquire reviewer capability
+PASS auditor direct SQL mutation denied by RLS
+PASS alice: real password sign-in
+PASS alice: HttpOnly and strict SameSite cookies
+PASS principal server binding
+PASS principal cannot read staff directory
+PASS staff denied by own-principal authority guard
+PASS ambiguous dual-domain session denied
+PASS staff cookie cannot authenticate principal mount
+PASS principal RLS exposes only own reference
+PASS wrong-principal direct SQL denied
+PASS unscoped SQL cannot cross tenant
+PASS unscoped SQL cannot cross sibling environment
+PASS pool clears successful transaction scope
+PASS pool clears failed transaction scope
+PASS application cannot read auth credentials
+PASS application cannot enumerate global transport audit
+PASS application cannot assume migrator
+PASS auth role cannot alter authority
+PASS staff auth cannot read principal store
+PASS application role has no privileged bypass
+PASS protected tables force RLS and are not app-owned
+PASS tenant-aware foreign key rejects sibling parent
+PASS docker stop named profile OPA exit
+PASS administrative policy outage blocks mutation
+PASS policy outage creates no principal
+PASS docker start named profile OPA exit
+PASS administrative policy recovered
+PASS persisted session survives application restart
+PASS persisted record survives application restart
+PASS library revocation succeeds
+PASS revoked cookie rejected
+PASS principal logout succeeds
+PASS logged-out principal cookie rejected
+Artifact: handoffs/codex/artifacts/A07-auth-security-1789671527707-2eb09449-f114-4ace-b7e1-33b35a5c191c.json

@@ -1,0 +1,24 @@
+$ tsx scripts/package-candidate.ts "confirm:rehearsal"
+node:internal/errors:986
+  const err = new Error(message);
+              ^
+
+Error: Command failed: tar -tf C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\releases\9a0b657624b63141b15cfb3f7d1fc48d29691755\orvia-source.zip
+tar: Cannot connect to C: resolve failed
+
+    at genericNodeError (node:internal/errors:986:15)
+    at wrappedFn (node:internal/errors:540:14)
+    at ChildProcess.exithandler (node:child_process:417:12)
+    at ChildProcess.emit (node:events:514:28)
+    at maybeClose (node:internal/child_process:1141:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:306:5) {
+  code: 128,
+  killed: false,
+  signal: null,
+  cmd: 'tar -tf C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\releases\\9a0b657624b63141b15cfb3f7d1fc48d29691755\\orvia-source.zip',
+  stdout: '',
+  stderr: 'tar: Cannot connect to C: resolve failed\n'
+}
+
+Node.js v24.21.0
+[ELIFECYCLE] Command failed with exit code 1.

@@ -1,0 +1,38 @@
+node:internal/errors:986
+  const err = new Error(message);
+              ^
+
+Error: Command failed: C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\tools\node-v24.21.0-win-x64\node.exe --import tsx scripts/package-candidate.ts confirm:rehearsal
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\scripts\package-candidate.ts:15
+if(dirty.length)throw new Error('Commit candidate source/document changes before packaging');
+                      ^
+
+Error: Commit candidate source/document changes before packaging
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\scripts\package-candidate.ts:15:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.21.0
+
+    at genericNodeError (node:internal/errors:986:15)
+    at wrappedFn (node:internal/errors:540:14)
+    at ChildProcess.exithandler (node:child_process:417:12)
+    at ChildProcess.emit (node:events:514:28)
+    at maybeClose (node:internal/child_process:1141:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:306:5) {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe --import tsx scripts/package-candidate.ts confirm:rehearsal',
+  stdout: '',
+  stderr: 'C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\scripts\\package-candidate.ts:15\r\n' +
+    "if(dirty.length)throw new Error('Commit candidate source/document changes before packaging');\r\n" +
+    '                      ^\r\n' +
+    '\r\n' +
+    'Error: Commit candidate source/document changes before packaging\r\n' +
+    '    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\scripts\\package-candidate.ts:15:23)\r\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\r\n' +
+    '\r\n' +
+    'Node.js v24.21.0\r\n'
+}
+
+Node.js v24.21.0

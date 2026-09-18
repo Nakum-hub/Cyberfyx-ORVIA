@@ -1,0 +1,51 @@
+$ tsx tests/integration/enforcement/send.test.ts
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS agent cannot authenticate as sender
+PASS foreign tenant sender cannot select target
+PASS human session cannot admit sends
+PASS unallowlisted body fields denied
+PASS machine send transport status
+PASS fresh grant admits synthetic send
+PASS one actual send row created
+PASS machine send transport status
+PASS stable attempt replay even with different transport key
+PASS replay has no additional send
+PASS attempt ID with changed payload denied
+PASS preview is current but not admission
+PASS queued attempt durable with no early send
+PASS withdrawal waits on shared consent boundary
+PASS withdrawal commits before drain
+PASS queued attempt sees current withdrawal
+PASS withdrawn queued attempt creates no send
+PASS machine send transport status
+PASS new post-withdrawal attempt blocked
+PASS post-withdrawal no effect
+PASS machine send transport status
+PASS committed old admission replay preserves original response
+PASS old admission replay does not send again
+PASS machine send transport status
+PASS separately approved synthetic order service works
+PASS machine send transport status
+PASS service class cannot reuse marketing purpose
+PASS machine send transport status
+PASS order requires its own exact condition
+PASS machine send transport status
+PASS expired service condition blocked
+PASS remove actual policy module for missing-result fixture
+PASS machine send transport status
+PASS missing OPA result is indeterminate
+PASS missing OPA creates no send
+PASS install malformed decision fixture
+PASS machine send transport status
+PASS malformed OPA result is indeterminate
+PASS malformed OPA creates no send
+PASS restore processing policy
+PASS machine send transport status
+PASS OPA outage is indeterminate
+PASS OPA outage creates no send
+PASS OPA recovered
+PASS machine send transport status
+PASS recovered policy still blocks withdrawal
+Artifact: handoffs/codex/artifacts/A07-send-enforcement-1789699362317-e5707293-dcb7-4552-81d3-06a54a7e8372.json

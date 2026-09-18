@@ -1,0 +1,29 @@
+$ tsx --test tests/unit/*.test.ts
+✔ the published capability register is internally consistent and its evidence resolves (15.2502ms)
+✔ a module cannot claim it is built without evidence that actually resolves (8.1219ms)
+✔ an unbuilt or deferred module cannot borrow coverage it does not have (12.8752ms)
+✔ the register cannot quietly lose a master module or invent a status (6.6083ms)
+✔ W00-F07: provider-only evidence cannot complete an independent-observation obligation (10.0184ms)
+✔ W00-F07 controls: only a fresh, satisfied independent read in current scope completes (3.7034ms)
+✔ W00-F07: provider receipts remain valid reconciliation evidence and manual work stays distinct (5.8178ms)
+✔ canonical digest is order-independent for objects and strict for unsupported values (3.3962ms)
+✔ signed envelope rejects altered bindings, signature, trust and expiry (27.4267ms)
+✔ portal-safe immutable acceptance and refreshed current status remain distinct (3.7839ms)
+✔ ACK and manual work do not fabricate automated observation; unknown history is retained (3.8615ms)
+✔ browser transport enforces request validation, parses errors, and never retries writes (39.3721ms)
+✔ no-input browser POST uses the actual server JSON boundary without inventing a DTO (3.0882ms)
+✔ current and legitimately progressed/BLOCKED tracking remain valid (91.3257ms)
+✔ downgrading a prerequisite that a progressed task still depends on is rejected (12.7591ms)
+✔ application PASS cannot be manufactured from a document or bootstrap subset (12.9495ms)
+✔ unknown dependencies, cycles, invalid statuses, missing evidence, and view drift fail (15.3869ms)
+✔ UI never verifies provider ACK, future/expired reads or mismatched current target (3.783ms)
+✔ UI empty obligations, provider receipts and manual closure retain their different meanings (5.5265ms)
+✔ UI reports receipt/current epoch contradictions without rewriting immutable receipt (5.8111ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1234.8067

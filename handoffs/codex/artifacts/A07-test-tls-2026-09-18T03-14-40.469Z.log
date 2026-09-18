@@ -1,0 +1,15 @@
+$ tsx tests/security/tls.test.ts
+PASS trusted HTTPS chain and hostname accepted
+PASS untrusted CA rejected
+PASS wrong hostname rejected
+PASS plaintext application transport refused
+Authentication fixture idle window: 8s remaining; controls unchanged.
+PASS real principal HTTPS sign-in
+PASS principal secure cookie namespace
+PASS principal Secure HttpOnly strict cookies
+PASS principal scoped session over TLS
+PASS principal cannot read staff overview
+PASS staff MFA session over TLS
+PASS staff secure cookie namespace
+PASS staff cannot read principal consent
+Artifact: handoffs/codex/artifacts/A07-tls-integration-1789701292816-c9a2f99d-f1c9-4c60-af67-cef3cd90deb8.json

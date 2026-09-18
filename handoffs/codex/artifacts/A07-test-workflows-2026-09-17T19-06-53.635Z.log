@@ -1,0 +1,16 @@
+$ tsx tests/integration/workflows/workflow.test.ts
+{
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  message: 'Synthetic admin MFA failed (429, UNKNOWN)',
+  sites: [
+    '    at HttpFixture.login (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\packages\\testing\\src\\http-fixture.ts:64:168)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)',
+    '    at async createMarketingScenario (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\packages\\testing\\src\\scenario.ts:6:56)',
+    '    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\integration\\workflows\\workflow.test.ts:34:39)'
+  ]
+}
+
+
+Artifact: handoffs/codex/artifacts/A07-workflow-integration-1789672018049-ba858359-6877-4eb6-9659-42f397014cbb.json
+[ELIFECYCLE] Command failed with exit code 1.

@@ -1,0 +1,16 @@
+$ tsx scripts/network-qualification.ts "confirm:rehearsal"
+PASS runtime image matches current source
+PASS service network is internal
+PASS postgres belongs to named profile
+PASS opa belongs to named profile
+PASS temporal belongs to named profile
+PASS controlled canary is reachable in positive control
+PASS runtime has only the internal service network
+PASS runtime publishes no host ports
+Artifact: handoffs/codex/artifacts/A07-network-core-1789699879712-f01b4fc4-ee5c-4ee2-aba0-58d86ad5a654.json
+PASS actual backend core succeeds under blocked egress
+PASS isolated runtime never reached controlled external endpoint
+PASS deny-all DNS observed controlled query
+PASS no unexpected DNS queries
+PASS core used PostgreSQL OPA and Temporal
+Artifact: handoffs/codex/artifacts/A07-network-qualification-1789699883115-522a4d6d-a006-4671-b871-b007ad8a0360.json

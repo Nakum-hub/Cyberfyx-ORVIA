@@ -1,0 +1,89 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T19:13:17.223Z",
+  "test_ids": [
+    "T02",
+    "T05"
+  ],
+  "profile": "rehearsal",
+  "origin": "https://127.0.0.1:4330",
+  "assertions": [
+    {
+      "name": "trusted HTTPS chain and hostname accepted",
+      "actual": 200,
+      "expected": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "untrusted CA rejected",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "wrong hostname rejected",
+      "actual": "ERR_TLS_CERT_ALTNAME_INVALID",
+      "expected": "ERR_TLS_CERT_ALTNAME_INVALID",
+      "result": "PASS"
+    },
+    {
+      "name": "plaintext application transport refused",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "real principal HTTPS sign-in",
+      "actual": 200,
+      "expected": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "principal secure cookie namespace",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "principal Secure HttpOnly strict cookies",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "principal scoped session over TLS",
+      "actual": 200,
+      "expected": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "principal cannot read staff overview",
+      "actual": 403,
+      "expected": 403,
+      "result": "PASS"
+    },
+    {
+      "name": "staff MFA session over TLS",
+      "actual": 200,
+      "expected": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "staff secure cookie namespace",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "staff cannot read principal consent",
+      "actual": 403,
+      "expected": 403,
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Real verified Node HTTPS clients. No OS/browser trust installation, browser UI qualification or human rehearsal is inferred. Other development profiles remain HTTP."
+  ]
+}

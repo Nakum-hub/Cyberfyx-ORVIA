@@ -1,0 +1,98 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-17T17:17:18.611Z",
+  "result": "FAIL",
+  "profile": "rehearsal",
+  "assertions": [
+    {
+      "name": "unauthenticated session denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "anonymous denial is persistently audited",
+      "result": "PASS",
+      "expected": {
+        "operation": "SESSION_READ",
+        "status": 401
+      },
+      "actual": {
+        "operation": "SESSION_READ",
+        "status": 401
+      }
+    },
+    {
+      "name": "public signup unavailable",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "foreign origin denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "role field cannot grant authority",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "machine bearer cannot become human",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "wrong password denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "unknown identity has same denial",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "login errors resist enumeration",
+      "result": "PASS",
+      "expected": "INVALID_EMAIL_OR_PASSWORD",
+      "actual": "INVALID_EMAIL_OR_PASSWORD"
+    },
+    {
+      "name": "owner: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "owner: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "owner: MFA challenge required",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "wrong MFA code rejected",
+      "result": "FAIL",
+      "expected": 401,
+      "actual": 429
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "server_output": "✓ Running next.config.ts took 66ms\nRehearsal HTTPS ready at https://127.0.0.1:4330; local CA verification required.\n"
+}

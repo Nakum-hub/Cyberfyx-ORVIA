@@ -1,0 +1,36 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T20:27:04.724Z",
+  "source_commit": "9a0b657624b63141b15cfb3f7d1fc48d29691755",
+  "manifest": "artifacts/release-manifest.json",
+  "manifest_sha256": "3829302a6651f19efa164bb9ea4894172caa1317adf2003a35cb84302e1b67d3",
+  "package_artifacts": [
+    {
+      "path": ".local/releases/9a0b657624b63141b15cfb3f7d1fc48d29691755/orvia-source.bundle",
+      "sha256": "4696b846a0fd83154e32a522313f3838402a282bc99f2397c465ff3df1160a7f"
+    },
+    {
+      "path": ".local/releases/9a0b657624b63141b15cfb3f7d1fc48d29691755/orvia-source.zip",
+      "sha256": "e7444dbb868479b708085ca306ebc393b1bc19a878e39fcc1a7870b8cfb63e46"
+    },
+    {
+      "path": ".local/releases/9a0b657624b63141b15cfb3f7d1fc48d29691755/orvia-evidence.zip",
+      "sha256": "8f4d9fe5633ed82cfae69b6c62f1a9c374ff834b92815005ae5c8c0e8c3826c7"
+    },
+    {
+      "path": ".local/releases/9a0b657624b63141b15cfb3f7d1fc48d29691755/orvia-local-images.tar",
+      "sha256": "cd719d9097003ebbc02c2b0712353fedbed6950e91020c7fa5abd2a6eaebbde4"
+    }
+  ],
+  "source_archive_files": 1806,
+  "result": "PASS",
+  "limitations": [
+    "Partial preserved UI: unfinished staff workspace and B-task/browser acceptance.",
+    "Source package requires the pinned Node/pnpm install and local Docker; dependency provisioning may require authorized network access.",
+    "Bundled runtime image defaults to backend network qualification, not an independently approved production hosting configuration.",
+    "Local CA is not installed in OS/browser trust; only verified per-process clients qualified.",
+    "Full control-plane disaster recovery, production signing/security/legal acceptance and human rehearsals are not claimed.",
+    "Reset is bootstrap-probe-only and refuses business schema. Existing consent/withdrawal history is retained."
+  ]
+}

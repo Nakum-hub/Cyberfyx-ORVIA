@@ -1,0 +1,176 @@
+{
+  "test": "B03 acknowledgement without effect remains unresolved and never verified",
+  "requests": [
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/sign-in",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0uj7fpgtwdf4c.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/auth/staff/sign-in/email",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/auth/staff/two-factor/verify-totp",
+      "method": "POST"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/workspace/workflows/742bc5c3-32a0-45ae-8a73-7f3694f935a6",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/28moftflqgi3l.css",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/0l4t8txgljum4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1mjlymhj3_88i.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2zj5kpkymdnab.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/19sz5w7_rk605.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/turbopack-203dwwbuu5zf4.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3b8pnbbsqnsu-.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/3z7ykuhq55b6x.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/253bqo_wd7dc7.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/2becntiwgxpwk.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/1u7ae_l77szzl.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/_next/static/chunks/4305fww6uxunb.js",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/session",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/workflows/742bc5c3-32a0-45ae-8a73-7f3694f935a6",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/workflows/742bc5c3-32a0-45ae-8a73-7f3694f935a6",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/workflows/742bc5c3-32a0-45ae-8a73-7f3694f935a6",
+      "method": "GET"
+    },
+    {
+      "origin": "https://127.0.0.1:4330",
+      "path": "/api/v1/admin/workflows/742bc5c3-32a0-45ae-8a73-7f3694f935a6",
+      "method": "GET"
+    }
+  ],
+  "scope": "This Playwright context only; not host-wide egress."
+}

@@ -1,0 +1,22 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-17T17:10:30.319Z",
+  "test_ids": [
+    "T13",
+    "T17",
+    "T18",
+    "T19",
+    "T20",
+    "T21",
+    "T22"
+  ],
+  "profile": "rehearsal",
+  "contract_version": "0.5.0",
+  "build_id": "pKS-S9WY5IsMrwB9DecCI",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+  ]
+}

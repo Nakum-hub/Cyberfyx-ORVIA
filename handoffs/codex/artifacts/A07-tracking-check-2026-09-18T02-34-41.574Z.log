@@ -1,0 +1,2 @@
+$ tsx scripts/validate-tracking.ts
+Validated 23 tasks, 34 acceptance definitions, 33 capability modules and Markdown tables; no results promoted.

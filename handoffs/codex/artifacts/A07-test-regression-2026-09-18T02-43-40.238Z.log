@@ -1,0 +1,83 @@
+$ tsx tests/integration/regression/regression.test.ts
+Authentication fixture idle window: 55s remaining; controls unchanged.
+Authentication fixture idle window: 25s remaining; controls unchanged.
+PASS anonymous test start denied
+PASS principal test start denied
+PASS auditor test start denied
+PASS delegated admin cannot run privileged faults
+PASS unenrolled tenant cannot run Aster fixture
+PASS another lane profile denied
+PASS arbitrary scenario rejected
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 45s remaining; controls unchanged.
+Authentication fixture idle window: 15s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 43s remaining; controls unchanged.
+Authentication fixture idle window: 13s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 40s remaining; controls unchanged.
+Authentication fixture idle window: 10s remaining; controls unchanged.
+PASS TARGET_RESTORE_QUARANTINE accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS TARGET_RESTORE_QUARANTINE actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS recovery journal artifact exists
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS runner actually began before interruption
+PASS interrupted run remains durable
+PASS interrupted run becomes explicit ERROR
+PASS interruption creates no success fallback
+PASS interruption assertion separately persisted
+PASS terminal outcome cannot be rewritten
+Artifact: handoffs/codex/artifacts/A07-regression-integration-1789699774923-a8904d72-d593-48dd-a220-c055aced9f7d.json

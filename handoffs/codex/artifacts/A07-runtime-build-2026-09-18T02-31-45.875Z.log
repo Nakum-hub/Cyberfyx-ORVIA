@@ -1,0 +1,137 @@
+$ tsx scripts/runtime-image.ts
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from runtime.Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 1.15kB 0.1s done
+#1 DONE 0.3s
+
+#2 [internal] load metadata for docker.io/library/node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553
+#2 DONE 3.4s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 33B
+#3 transferring context: 188B 0.0s done
+#3 DONE 0.1s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [stage-0  1/15] FROM docker.io/library/node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553
+#5 resolve docker.io/library/node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553 0.1s done
+#5 DONE 0.1s
+
+#4 [internal] load build context
+#4 transferring context: 1.98MB 0.6s done
+#4 DONE 0.7s
+
+#6 [stage-0  3/15] WORKDIR /app
+#6 CACHED
+
+#7 [stage-0  7/15] COPY packages/auth/package.json packages/auth/package.json
+#7 CACHED
+
+#8 [stage-0  6/15] COPY apps/worker/package.json apps/worker/package.json
+#8 CACHED
+
+#9 [stage-0  8/15] COPY packages/contracts/package.json packages/contracts/package.json
+#9 CACHED
+
+#10 [stage-0 12/15] COPY packages/testing/package.json packages/testing/package.json
+#10 CACHED
+
+#11 [stage-0  5/15] COPY apps/web/package.json apps/web/package.json
+#11 CACHED
+
+#12 [stage-0  9/15] COPY packages/db/package.json packages/db/package.json
+#12 CACHED
+
+#13 [stage-0 11/15] COPY packages/policy-sdk/package.json packages/policy-sdk/package.json
+#13 CACHED
+
+#14 [stage-0  2/15] RUN npm install --prefix /opt/orvia-tools --ignore-scripts --no-audit --no-fund pnpm@12.4.2
+#14 CACHED
+
+#15 [stage-0  4/15] COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+#15 CACHED
+
+#16 [stage-0 10/15] COPY packages/domain/package.json packages/domain/package.json
+#16 CACHED
+
+#17 [stage-0 13/15] RUN --mount=type=cache,target=/root/.local/share/pnpm/store node /opt/orvia-tools/node_modules/pnpm/bin/pnpm.mjs install --frozen-lockfile
+#17 CACHED
+
+#18 [stage-0 14/15] COPY . .
+#18 DONE 0.6s
+
+#19 [stage-0 15/15] RUN node /opt/orvia-tools/node_modules/pnpm/bin/pnpm.mjs build
+#19 2.749 $ tsx scripts/web.ts build
+#19 5.667 ▲ Next.js 16.3.5 (Turbopack)
+#19 5.971 ✓ Running next.config.ts took 294ms
+#19 6.033 - Experiments (use with caution):
+#19 6.033   · cpus: 1
+#19 6.033 
+#19 6.188   Creating an optimized production build ...
+#19 27.34 ✓ Compiled successfully in 20.3s
+#19 27.42   Running TypeScript ...
+#19 43.26   Finished TypeScript in 15.8s ...
+#19 44.19   Collecting page data using 1 worker ...
+#19 54.24   Generating static pages using 1 worker (0/18) ...
+#19 54.83   Generating static pages using 1 worker (4/18) 
+#19 54.83   Generating static pages using 1 worker (8/18) 
+#19 55.03   Generating static pages using 1 worker (13/18) 
+#19 55.08 ✓ Generating static pages using 1 worker (18/18) in 846ms
+#19 55.10   Finalizing page optimization ...
+#19 55.12 
+#19 55.15 Route (app)
+#19 55.15 ┌ ○ /
+#19 55.15 ├ ○ /_not-found
+#19 55.15 ├ ƒ /api/auth/principal/[...all]
+#19 55.15 ├ ƒ /api/auth/staff/[...all]
+#19 55.15 ├ ƒ /api/v1/[...segments]
+#19 55.15 ├ ƒ /api/v1/admin/principals
+#19 55.15 ├ ƒ /api/v1/session
+#19 55.15 ├ ƒ /healthz
+#19 55.15 ├ ○ /privacy
+#19 55.15 ├ ƒ /privacy/receipt/[id]
+#19 55.15 ├ ○ /privacy/receipts
+#19 55.15 ├ ○ /privacy/sign-in
+#19 55.15 ├ ○ /workspace
+#19 55.15 ├ ○ /workspace/capabilities
+#19 55.15 ├ ○ /workspace/configuration
+#19 55.15 ├ ○ /workspace/control-map
+#19 55.15 ├ ○ /workspace/evidence
+#19 55.15 ├ ƒ /workspace/evidence/[id]
+#19 55.15 ├ ○ /workspace/failures
+#19 55.15 ├ ○ /workspace/policy-preview
+#19 55.15 ├ ○ /workspace/principals
+#19 55.15 ├ ○ /workspace/sign-in
+#19 55.15 ├ ○ /workspace/test-lab
+#19 55.15 ├ ƒ /workspace/test-lab/[id]
+#19 55.15 ├ ○ /workspace/workflows
+#19 55.15 └ ƒ /workspace/workflows/[id]
+#19 55.15 
+#19 55.15 
+#19 55.15 ○  (Static)   prerendered as static content
+#19 55.15 ƒ  (Dynamic)  server-rendered on demand
+#19 55.15 
+#19 DONE 57.7s
+
+#20 exporting to image
+#20 exporting layers
+#20 exporting layers 10.5s done
+#20 exporting manifest sha256:4546a7f22fb4b1cbd1b9c5ed792c1fe1271ba42df88e60516e77643fa4522886 0.1s done
+#20 exporting config sha256:96aff1c646432239635af68835431acd169bc560ff2784eadd365566ffe19c79 0.1s done
+#20 exporting attestation manifest sha256:e78767ff67cd5e516432e51431e76b107f2d7f65f9aed03e467b13c4584bb9b2
+#20 exporting attestation manifest sha256:e78767ff67cd5e516432e51431e76b107f2d7f65f9aed03e467b13c4584bb9b2 0.1s done
+#20 exporting manifest list sha256:97072b761afa4bab69daaca9398f65ba87e1b5aabb641f05d731a9684d4f3f52 0.1s done
+#20 naming to docker.io/library/orvia-local:prototype 0.0s done
+#20 unpacking to docker.io/library/orvia-local:prototype
+#20 unpacking to docker.io/library/orvia-local:prototype 13.2s done
+#20 DONE 24.2s
+
+ [33m1 warning found (use docker --debug to expand):
+[0m - SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "BETTER_AUTH_TELEMETRY") (line 2)
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/2x1fim8676rrvvrci6ohuudbx
+Artifact: handoffs/codex/artifacts/A07-runtime-image-1789698801348-e2647482-740a-4250-8cfc-f637aac667ae.json

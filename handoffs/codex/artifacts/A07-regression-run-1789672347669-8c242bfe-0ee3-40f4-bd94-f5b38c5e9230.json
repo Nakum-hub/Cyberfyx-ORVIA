@@ -1,0 +1,140 @@
+{
+  "task_id": "A07",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-17T19:12:27.669Z",
+  "run": {
+    "id": "3e3847b9-f33a-4629-8ba0-c0dc5a73ad49",
+    "request": {
+      "scenario": "TARGET_RESTORE_QUARANTINE",
+      "profile": "rehearsal",
+      "fixture_id": "aster-birch-v1"
+    },
+    "state": "PASS",
+    "build_id": "nlChCJ4l5FXx-SG7FDwyO",
+    "contract_version": "0.5.0",
+    "started_at": "2026-09-17T19:12:14.325Z",
+    "finished_at": "2026-09-17T19:12:27.590Z",
+    "assertions": [
+      {
+        "id": "fresh_permission_admits",
+        "result": "PASS",
+        "expected": "\"ALLOW\"",
+        "actual": "\"ALLOW\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "durable_workflow_completed",
+        "result": "PASS",
+        "expected": "\"COMPLETED\"",
+        "actual": "\"COMPLETED\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "independent_read_restriction",
+        "result": "PASS",
+        "expected": "true",
+        "actual": "true",
+        "artifact_paths": []
+      },
+      {
+        "id": "independent_observation_method",
+        "result": "PASS",
+        "expected": "\"SCOPED_READ\"",
+        "actual": "\"SCOPED_READ\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "current_boundary_blocks_withdrawal",
+        "result": "PASS",
+        "expected": "\"BLOCK\"",
+        "actual": "\"BLOCK\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "no_post_withdrawal_send",
+        "result": "PASS",
+        "expected": "0",
+        "actual": "0",
+        "artifact_paths": []
+      },
+      {
+        "id": "old_target_snapshot_quarantined",
+        "result": "PASS",
+        "expected": "true",
+        "actual": "true",
+        "artifact_paths": []
+      },
+      {
+        "id": "actual_old_snapshot_restored",
+        "result": "PASS",
+        "expected": "false",
+        "actual": "false",
+        "artifact_paths": []
+      },
+      {
+        "id": "quarantined_processing_blocked",
+        "result": "PASS",
+        "expected": "\"BLOCK\"",
+        "actual": "\"BLOCK\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "premature_activation_denied",
+        "result": "PASS",
+        "expected": "true",
+        "actual": "true",
+        "artifact_paths": []
+      },
+      {
+        "id": "old_generation_command_denied",
+        "result": "PASS",
+        "expected": "\"STALE_GENERATION\"",
+        "actual": "\"STALE_GENERATION\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "current_restriction_independently_observed",
+        "result": "PASS",
+        "expected": "[true,2,2]",
+        "actual": "[true,2,2]",
+        "artifact_paths": []
+      },
+      {
+        "id": "reconciled_target_activated",
+        "result": "PASS",
+        "expected": "false",
+        "actual": "false",
+        "artifact_paths": []
+      },
+      {
+        "id": "restriction_survives_activation",
+        "result": "PASS",
+        "expected": "\"BLOCK\"",
+        "actual": "\"BLOCK\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "authoritative_consent_ledger_unchanged",
+        "result": "PASS",
+        "expected": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+        "actual": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+        "artifact_paths": []
+      },
+      {
+        "id": "recovery_journal_recorded",
+        "result": "PASS",
+        "expected": "\"RECONCILED_ACTIVE\"",
+        "actual": "\"RECONCILED_ACTIVE\"",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/A07-recovery-journal-1789672347580-3f1eb3bc-a244-4dcc-8380-206a5bbba6e0.json"
+        ]
+      }
+    ],
+    "expected_fault_detection": false
+  },
+  "profile": "rehearsal",
+  "fixture_id": "aster-birch-v1",
+  "limitations": [
+    "Protected synthetic operator runner; actual HTTP/PG/OPA/Temporal/agent/target only. No browser acceptance or full control-plane recovery."
+  ]
+}

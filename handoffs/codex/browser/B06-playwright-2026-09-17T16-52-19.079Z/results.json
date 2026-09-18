@@ -1,0 +1,576 @@
+{
+  "result": "failed",
+  "source_commit": "e26bde8c3c05ec2e3cc87bcab851ca2f26031a82",
+  "source_tree_sha256": "4c198217c8c8eea7b7956aa0e2023e8ca30be696bb09e9c6fa23fb5b93e7e78d",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 real staff MFA, refresh, actor separation and logout"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 145,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "60684fab7c942ce88988323b8baf3edfed87dabd9d6fb36364e10b64ae85b926",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\auth-B01-real-staff-MFA-refresh-actor-separation-and-logout\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "1f6f24e6143db359a3d0f42027c952221e29c9e5e646fb18143f79b7887868b9",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\auth-B01-real-staff-MFA-refresh-actor-separation-and-logout\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 rejected login and read-only authority"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 83,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "0ec553e1e3d0d95a454b1ab41a0bcbea26eb9bb5e2de81d321d7d89fa47262f0",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\auth-B01-rejected-login-and-read-only-authority\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "cc105ab4f80412124a028a88e287c62fd8e304f36339737d9cab669f30bc58cf",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\auth-B01-rejected-login-and-read-only-authority\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 expired browser session is rechecked and protected content disappears"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 76,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 19,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "e14b5a73ee2d50282378f2e657898d588a1f3d5f829fdb022aa7d0989c86b11f",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\auth-B01-expired-browser-s-4fa95-rotected-content-disappears\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "76096d02e0af8644a33e52208ec6c669938dabd2c497e8af6c3749395c939178",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\auth-B01-expired-browser-s-4fa95-rotected-content-disappears\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 candidate walkthrough across staff, privacy, enforcement and evidence"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 90,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 4,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "aad1d55fcfafdb96721f7871fde99abf3d1a98e51f975916a4634cbc0112e53c",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\candidate-B06-candidate-wa-8366c-cy-enforcement-and-evidence\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "a89a3399396b5379f1e398539228d95c93b26b2eef37543074077a7c2cdc981f",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\candidate-B06-candidate-wa-8366c-cy-enforcement-and-evidence\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 real dependency outage, malformed ID, denied scope and responsive navigation"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 72,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 13,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "e0922d005cc031d31896e30394da992edc767a4adbafc5d4cab6bc15141993f2",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\candidate-B06-real-depende-bd518-e-and-responsive-navigation\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "78ea8ebd25f87ba9e53833f6eb235f5463eb87b2f14db8ce6f6adadbc3f0500a",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\candidate-B06-real-depende-bd518-e-and-responsive-navigation\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "configuration.spec.ts",
+        "B01 configure purpose/notice/system/policy and distinct reviewer publication persists"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 81,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\configuration.spec.ts",
+        "line": 5,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "b247812161552d74417b409ba26bb031c5ce871098f644b2c18cbf6b155c3127",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\configuration-B01-configur-e33a6-viewer-publication-persists\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "3749ae7d2229a9a4f5ceaac69a7c52349d94d7b72663db1f205e511124103b8f",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\configuration-B01-configur-e33a6-viewer-publication-persists\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "consent.spec.ts",
+        "B02 principal consent, immutable receipt, withdrawal, history and refresh"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 86,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\consent.spec.ts",
+        "line": 4,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "13a9427d80bcdc67252310444bc268b1dba5a623465658af25b2ffa5d0b54ed5",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\consent-B02-principal-cons-07c86-hdrawal-history-and-refresh\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "db7adfaed0f0f89968a1567a562da2223d1511fd34b968807c70d2335aa0ccfe",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\consent-B02-principal-cons-07c86-hdrawal-history-and-refresh\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "consent.spec.ts",
+        "B02 lost committed response retains exact request across read and replays one event"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 82,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\consent.spec.ts",
+        "line": 15,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "02833ed817669104a5789ec05ff42a0eb1395d4e5f90d21a3cd7a2bda691143c",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\consent-B02-lost-committed-d5fa6--read-and-replays-one-event\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "01cbe196c9f2491301db8322e403437ab06a6e4f560d1ca6aa795c142d8d556e",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\consent-B02-lost-committed-d5fa6--read-and-replays-one-event\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "consent.spec.ts",
+        "B02 stale interaction denial has no extra event and withdrawal modal supports Escape"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 98,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\consent.spec.ts",
+        "line": 29,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "c0c5c9d484f53a1ee654acb52c06cc5f30cb5483360a4928f8835ad4d789ed14",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\consent-B02-stale-interact-47c2a-rawal-modal-supports-Escape\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "2d1adf2619bb634988dd377c3fd46a51bfb15f4026fef29f5cadfcec02ebd66e",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\consent-B02-stale-interact-47c2a-rawal-modal-supports-Escape\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 real healthy, broken detection, repaired and target restoration results"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 79,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "629b0a51e38f8cc2983f507d5fc44d5351aef24f5794638f2cf846f268731795",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\test-lab-B04-real-healthy--09b59--target-restoration-results\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "4ea93163e1cbc5c0438a8dcec9e5235e2d47e5ebcea73f55c5fa4ee57c175073",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\test-lab-B04-real-healthy--09b59--target-restoration-results\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 actual interrupted operator is recovered as ERROR without fabricated pass"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 71,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 33,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "e84631c12f7763bf9f9dc5d9c98c653e8a54f5fc72fb57f5b10a847733ef80ec",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "c7ca8583ef26477a9cc6bf339e4af98fac5487de028460be3ebd8e36d626ddcd",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "tls.spec.ts",
+        "B06 real browser validates rehearsal HTTPS without certificate bypass"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 64,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\tls.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "c9555068dab4e06b9d1811ddb32c55b92c12fcd89fd6ec6c2b1cf190f3719213",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\tls-B06-real-browser-valid-a349e--without-certificate-bypass\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "b00e1e70925d9f0050a4aac2de658fb0125215fdda4c929f367c04a1680544a9",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\tls-B06-real-browser-valid-a349e--without-certificate-bypass\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 real target effect, independent read, workflow persistence and evidence export"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 138,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 7,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "111e3115125635b739a7a0298519941e722e44a8a8b4a797ef7ea4d1ab160047",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-real-target-e-1bc71-istence-and-evidence-export\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "d2cada09f4847b3990500c1777f6d48707c4ed330dda8f5de49091fe9b1f354b",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-real-target-e-1bc71-istence-and-evidence-export\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 applied response lost, read reconciliation and visible manual obligation"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 70,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 19,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "a1435c22413f70e018d7d4fffa635d59dbb2ca3b5a6b6470e1a62086113820d4",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-applied-respo-7a05c-d-visible-manual-obligation\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "54ce815f2428caaf801ce52e92ee0f88921339e96fab1db753e19341b6076e84",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-applied-respo-7a05c-d-visible-manual-obligation\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 acknowledgement without effect remains unresolved and never verified"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 86,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 33,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "566423d6260ad296fb12fc665824be552aaa0d7dc6f4dbe499e80317924e3d52",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-acknowledgeme-10e3f-resolved-and-never-verified\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "57d701ad6b1ef900b5aed8b34693e23744ef8dc8e82e9852e2b7ebd3851ed2d1",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-acknowledgeme-10e3f-resolved-and-never-verified\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 manual task uses its read version, preserves replay and rejects a stale tab"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 138,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 38,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "attachments": [
+        {
+          "name": "error-context",
+          "sha256": "52fba175d96e0510b0f2871b8e135d9ed01f481dac7d413077ff925468a103fe",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-manual-task-u-14a8a-lay-and-rejects-a-stale-tab\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "8531ff2c86a3ebc4b28df87b0ac9e67ae7b3edf1ae10dad35a45ad4ac1f92e4c",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-17T16-52-19.079Z\\raw\\workflow-B03-manual-task-u-14a8a-lay-and-rejects-a-stale-tab\\trace.zip"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

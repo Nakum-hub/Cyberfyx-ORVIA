@@ -1,0 +1,68 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-17T17:23:48.943Z",
+  "run": {
+    "id": "d20c766a-161e-4d00-b555-2fc294cd926e",
+    "request": {
+      "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+      "profile": "rehearsal",
+      "fixture_id": "aster-birch-v1"
+    },
+    "state": "FAIL",
+    "build_id": "pKS-S9WY5IsMrwB9DecCI",
+    "contract_version": "0.5.0",
+    "started_at": "2026-09-17T17:23:35.245Z",
+    "finished_at": "2026-09-17T17:23:48.860Z",
+    "assertions": [
+      {
+        "id": "fresh_permission_admits",
+        "result": "PASS",
+        "expected": "\"ALLOW\"",
+        "actual": "\"ALLOW\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "durable_workflow_completed",
+        "result": "PASS",
+        "expected": "\"COMPLETED\"",
+        "actual": "\"COMPLETED\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "independent_read_restriction",
+        "result": "PASS",
+        "expected": "true",
+        "actual": "true",
+        "artifact_paths": []
+      },
+      {
+        "id": "independent_observation_method",
+        "result": "PASS",
+        "expected": "\"SCOPED_READ\"",
+        "actual": "\"SCOPED_READ\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "current_boundary_blocks_withdrawal",
+        "result": "PASS",
+        "expected": "\"BLOCK\"",
+        "actual": "\"BLOCK\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "no_post_withdrawal_send",
+        "result": "FAIL",
+        "expected": "0",
+        "actual": "1",
+        "artifact_paths": []
+      }
+    ],
+    "expected_fault_detection": true
+  },
+  "profile": "rehearsal",
+  "fixture_id": "aster-birch-v1",
+  "limitations": [
+    "Protected synthetic operator runner; actual HTTP/PG/OPA/Temporal/agent/target only. No browser acceptance or full control-plane recovery."
+  ]
+}

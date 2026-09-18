@@ -1,0 +1,604 @@
+{
+  "result": "passed",
+  "source_commit": "c5655eacf86a68e4aa76ae3b79a1328517c0d23d",
+  "source_tree_sha256": "6a90215df79e8a04612927bbe059c6f167551155e0908f555525c3399b2f249d",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 real staff MFA, refresh, actor separation and logout"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 10157,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 rejected login and read-only authority"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 2265,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 3,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 expired browser session is rechecked and protected content disappears"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 6762,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 19,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 branded route fallback, session-aware navigation and captured page errors"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 1919,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 4,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [
+        {
+          "type": "expect-page-error",
+          "description": "ORVIA_SYNTHETIC_AUDIT_PROBE"
+        }
+      ],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 1,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 5,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 1,
+        "faults": [],
+        "deliberate_faults": [
+          {
+            "kind": "PAGE_ERROR",
+            "text": "Error: ORVIA_SYNTHETIC_AUDIT_PROBE"
+          }
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 candidate walkthrough across staff, privacy, enforcement and evidence"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 88445,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 32,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 real dependency outage, malformed ID, denied scope and responsive navigation"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 11397,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 41,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "configuration.spec.ts",
+        "B01 configure purpose/notice/system/policy and distinct reviewer publication persists"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 71952,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\configuration.spec.ts",
+        "line": 5,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "consent.spec.ts",
+        "B02 principal consent, immutable receipt, withdrawal, history and refresh"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 12110,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\consent.spec.ts",
+        "line": 4,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "consent.spec.ts",
+        "B02 lost committed response retains exact request across read and replays one event"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 5154,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\consent.spec.ts",
+        "line": 15,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "consent.spec.ts",
+        "B02 stale interaction denial has no extra event and withdrawal modal supports Escape"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 70342,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\consent.spec.ts",
+        "line": 29,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 real healthy, broken detection, repaired and target restoration results"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 198777,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 actual interrupted operator is recovered as ERROR without fabricated pass"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 6129,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\test-lab.spec.ts",
+        "line": 33,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "tls.spec.ts",
+        "B06 real browser validates rehearsal HTTPS without certificate bypass"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 528,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\tls.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 real target effect, independent read, workflow persistence and evidence export"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 73649,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 7,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 applied response lost, read reconciliation and visible manual obligation"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 23815,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 19,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 acknowledgement without effect remains unresolved and never verified"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 17845,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 33,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 manual task uses its read version, preserves replay and rejects a stale tab"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 67025,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\workflow.spec.ts",
+        "line": 38,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 3,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}
