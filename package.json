@@ -9,6 +9,10 @@
     "pnpm": "12.4.2"
   },
   "scripts": {
+    "setup": "tsx scripts/setup-orvia.ts",
+    "start": "tsx scripts/start-orvia.ts",
+    "stop": "tsx scripts/stop-orvia.ts",
+    "status": "tsx scripts/orvia-status.ts",
     "contracts:generate": "tsx packages/contracts/src/generate.ts",
     "contracts:check": "tsx packages/contracts/src/generate.ts --check",
     "typecheck": "tsc --noEmit",
@@ -46,7 +50,7 @@
     "services:smoke": "tsx tests/integration/bootstrap.test.ts",
     "build": "tsx scripts/web.ts build",
     "dev": "tsx scripts/web.ts dev",
-    "start": "tsx scripts/web.ts start",
+    "web:start": "tsx scripts/web.ts start",
     "web:smoke": "tsx tests/integration/web.test.ts",
     "test:isolation": "tsx tests/security/fixture-isolation.ts",
     "dependencies:check": "node scripts/dependency-advisories.mjs",
@@ -55,6 +59,7 @@
     "app:run": "tsx scripts/app-run.ts",
     "app:stop": "tsx scripts/app-stop.ts",
     "demo:run": "tsx scripts/demo-run.ts",
+    "demo:fixture": "tsx scripts/demo-fixture.ts",
     "evidence:export": "tsx scripts/evidence-export.ts",
     "candidate:package": "tsx scripts/package-candidate.ts",
     "test:lifecycle": "tsx tests/integration/lifecycle.test.ts"
