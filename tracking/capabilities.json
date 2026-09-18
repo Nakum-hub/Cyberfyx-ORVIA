@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "plan_version": "1.0",
-  "note": "All original 33 top-level modules remain accounted for. Target depth is not implementation evidence. Additional cross-cutting master requirements remain authoritative.",
+  "note": "All original 33 top-level modules remain accounted for. Target depth is a plan, not implementation evidence. Status vocabulary: IMPLEMENTED_SANDBOX_SUBSET means the named behaviour is built and exercised in the customer-local synthetic profile, never that the master module is delivered; PARTIAL_SANDBOX means only the stated part exists; NOT_IMPLEMENTED means nothing is built. COVERED_AT_CANDIDATE means executing suites covered the behaviour at the frozen candidate and is engineering evidence only. It is not canonical acceptance, which requires APPLICATION_ACCEPTANCE and FULL_SCENARIO records from the two human rehearsals; every canonical test T01-T34 remains NOT_RUN. Evidence names the suites and browser specs that cover the module. The exact executed artefacts for the frozen candidate are listed in artifacts/release-manifest.json under exact_candidate_evidence.",
   "capabilities": [
     {
       "module_id": "M01",
@@ -9,13 +9,16 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Scoped auth/MFA/session subset; not full enterprise identity",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Real library-backed staff and principal sessions, scoped roles, privileged MFA and server-side capability checks against OPA. No enterprise SSO, SCIM or directory federation.",
+      "evidence": [
+        "test:auth",
+        "tests/e2e/auth.spec.ts"
+      ]
     },
     {
       "module_id": "M02",
@@ -23,13 +26,16 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Organisation/environment scope and negative isolation tests",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Tenant, legal entity and environment scoping enforced by explicit predicates and row-level security, proven by cross-tenant and sibling-environment denial. Two synthetic organisations only; no tenant lifecycle administration.",
+      "evidence": [
+        "test:auth",
+        "test:consent"
+      ]
     },
     {
       "module_id": "M03",
@@ -37,13 +43,16 @@
       "sprint_priority": "P0",
       "target_depth": "LIGHT",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Persisted declared relationships; no estate-wide discovery",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Relational control abstraction: registered systems, explicit principal-to-target mappings and a scoped control map. A relationship list and detail view, not a graph database and not autonomous estate discovery.",
+      "evidence": [
+        "test:evidence",
+        "tests/e2e/workflow.spec.ts"
+      ]
     },
     {
       "module_id": "M04",
@@ -51,13 +60,17 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Supported deterministic decisions; versioned approval",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Separate administrative and processing policy namespaces in OPA, immutable published policy versions, distinct-reviewer re-authentication, and a preview that is explicitly not an admission decision. Fixed condition forms, not arbitrary policy authoring. Fails closed on policy outage.",
+      "evidence": [
+        "test:enforcement",
+        "test:consent",
+        "tests/e2e/configuration.spec.ts"
+      ]
     },
     {
       "module_id": "M05",
@@ -65,13 +78,17 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Withdrawal workflow, durability and reconciliation",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Transactional outbox, durable Temporal worker and bounded retry and reconciliation, surviving worker and application restart. One withdrawal workflow family; no workflow designer.",
+      "evidence": [
+        "test:workflows",
+        "test:lifecycle",
+        "tests/e2e/workflow.spec.ts"
+      ]
     },
     {
       "module_id": "M06",
@@ -79,13 +96,16 @@
       "sprint_priority": "P0",
       "target_depth": "SANDBOX",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Typed scoped agent, manifests and sandbox adapters",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Locally signed, scope-bound agent commands against three declared connector kinds: synthetic CRM, local REST simulator and an explicitly unsupported legacy target. Synthetic targets only; no real vendor connectors.",
+      "evidence": [
+        "test:workflows",
+        "test:enforcement"
+      ]
     },
     {
       "module_id": "M07",
@@ -93,13 +113,17 @@
       "sprint_priority": "P0",
       "target_depth": "SANDBOX",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Independent scoped target observations",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Independent scoped reads recording method, observed target generation, freshness and scope, kept separate from execution receipts, with explicit EFFECT_UNKNOWN and read-based reconciliation. An acknowledgement is never treated as verification.",
+      "evidence": [
+        "test:evidence",
+        "test:workflows",
+        "tests/e2e/workflow.spec.ts"
+      ]
     },
     {
       "module_id": "M08",
@@ -107,13 +131,16 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Local history/view/export; limits explicit",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Persisted receipt, action and observation timeline with authenticated JSON export carrying an integrity digest and explicit coverage limits, including unresolved obligations. Local evidence only; the digest detects change against a trusted reference and does not prove external effects.",
+      "evidence": [
+        "test:evidence",
+        "tests/e2e/workflow.spec.ts"
+      ]
     },
     {
       "module_id": "M09",
@@ -121,13 +148,16 @@
       "sprint_priority": "P0",
       "target_depth": "SANDBOX",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Real assertions, known-bad detection and healthy rerun",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Executable regression scenarios with real assertions: a healthy run passes, a deliberately broken control is detected and keeps its real FAIL, a repaired run passes, and an interrupted run is recovered as ERROR with no fabricated pass. Read by exact run identifier; no run-history list.",
+      "evidence": [
+        "test:regression",
+        "tests/e2e/test-lab.spec.ts"
+      ]
     },
     {
       "module_id": "M10",
@@ -135,13 +165,15 @@
       "sprint_priority": "P0",
       "target_depth": "LIGHT",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "PARTIAL_SANDBOX",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "In-app failure/manual notifications; no real messages",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "A synthetic send-admission boundary with queue, admission decision and send records exists and is enforced against current authority. No notification delivery, templating, channel or recipient management is built, and no real message is ever transmitted.",
+      "evidence": [
+        "test:enforcement"
+      ]
     },
     {
       "module_id": "M11",
@@ -149,13 +181,17 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Purpose-specific receipt, epoch, withdrawal and replay safety",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Affirmative purpose-specific grant against an exact notice version, monotonically increasing epoch, immutable receipt, withdrawal that never requires accepting a new notice, and replay and freshness safety at consumption.",
+      "evidence": [
+        "test:consent",
+        "test:expiry",
+        "tests/e2e/consent.spec.ts"
+      ]
     },
     {
       "module_id": "M12",
@@ -163,13 +199,16 @@
       "sprint_priority": "P0",
       "target_depth": "LIGHT",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Versioned published demo notice; no full localisation workflow",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Immutable published notice versions with content digest and publication time, referenced by exact version at the moment of consent. Single language; no notice translation or delivery management.",
+      "evidence": [
+        "test:consent",
+        "tests/e2e/configuration.spec.ts"
+      ]
     },
     {
       "module_id": "M13",
@@ -177,13 +216,17 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Own-identity consent subset; private demo packaging",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Separate data principal authentication domain and portal showing own choices, notice, receipts and history, with grant and withdrawal. A principal cannot reach the workspace and sees no other principal, staff identifier or workflow internal.",
+      "evidence": [
+        "test:consent",
+        "test:auth",
+        "tests/e2e/consent.spec.ts"
+      ]
     },
     {
       "module_id": "M14",
@@ -191,12 +234,12 @@
       "sprint_priority": "P1",
       "target_depth": "COORDINATION_OPTIONAL",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Optional scoped intake/status only; no unimplemented fulfilment claims",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Not implemented. The optional rights-intake slice was not promoted for this sprint. Marketing consent withdrawal is a purpose restriction and must never be described as erasure or as a rights request.",
       "evidence": []
     },
     {
@@ -205,12 +248,12 @@
       "sprint_priority": "P1",
       "target_depth": "COORDINATION_OPTIONAL",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Optional review/hold only; no actual destructive retention engine",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Not implemented. The optional retention and hold review slice was not promoted for this sprint. No retention schedule, hold or destructive execution exists.",
       "evidence": []
     },
     {
@@ -219,13 +262,16 @@
       "sprint_priority": "P0",
       "target_depth": "LIGHT",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "PARTIAL_SANDBOX",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Declared sandbox/legacy target and assigned task; not full vendor risk suite",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Synthetic systems are registered, scoped and mapped to principals and purposes, and their declared adapter capability is exposed. No processor or vendor registry, contract, assessment or data-processing agreement tracking is built.",
+      "evidence": [
+        "test:evidence",
+        "test:workflows"
+      ]
     },
     {
       "module_id": "M17",
@@ -233,12 +279,12 @@
       "sprint_priority": "OUT_OF_SPRINT",
       "target_depth": "ROADMAP",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Broader incident investigation remains Version 1 programme",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Not implemented. No incident intake, triage, investigation or regulatory notification workflow exists in this prototype.",
       "evidence": []
     },
     {
@@ -247,13 +293,16 @@
       "sprint_priority": "P0",
       "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Unknown/failed/manual/unverifiable states and capability gaps",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Unresolved obligations across unknown effect, failed execution, unsupported or manual control and missing current verification, surfaced with counts that deliberately overlap and are never summed into a single score.",
+      "evidence": [
+        "test:evidence",
+        "tests/e2e/workflow.spec.ts"
+      ]
     },
     {
       "module_id": "M19",
@@ -265,7 +314,7 @@
       "test_status": "DEFERRED_V2",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
+      "enabled_state": "NOT_ENABLED",
       "limitation": "No learned model/runtime/import workbench in this sprint",
       "evidence": []
     },
@@ -279,7 +328,7 @@
       "test_status": "DEFERRED_V2",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
+      "enabled_state": "NOT_ENABLED",
       "limitation": "Retained custom-model future function",
       "evidence": []
     },
@@ -293,7 +342,7 @@
       "test_status": "DEFERRED_V2",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
+      "enabled_state": "NOT_ENABLED",
       "limitation": "Retained custom-model future function",
       "evidence": []
     },
@@ -307,7 +356,7 @@
       "test_status": "DEFERRED_V2",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
+      "enabled_state": "NOT_ENABLED",
       "limitation": "Retained custom-model future function",
       "evidence": []
     },
@@ -321,7 +370,7 @@
       "test_status": "DEFERRED_V2",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
+      "enabled_state": "NOT_ENABLED",
       "limitation": "Retained custom-model future function; deterministic regression remains V1",
       "evidence": []
     },
@@ -335,7 +384,7 @@
       "test_status": "DEFERRED_V2",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
+      "enabled_state": "NOT_ENABLED",
       "limitation": "No generation needed for deterministic test engine",
       "evidence": []
     },
@@ -349,7 +398,7 @@
       "test_status": "DEFERRED_V2",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
+      "enabled_state": "NOT_ENABLED",
       "limitation": "Retained custom-model future function",
       "evidence": []
     },
@@ -359,12 +408,12 @@
       "sprint_priority": "OUT_OF_SPRINT",
       "target_depth": "ROADMAP",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Website commerce deferred to separate implementation; no live payment claim",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Out of sprint scope. No billing, metering, invoicing or payment capability exists.",
       "evidence": []
     },
     {
@@ -373,12 +422,12 @@
       "sprint_priority": "P1",
       "target_depth": "DEVELOPMENT_FIXTURE_OPTIONAL",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Optional local signed dev fixture, not production commerce/signing",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Not implemented. The optional signed development-licence import demonstration was not promoted for this sprint.",
       "evidence": []
     },
     {
@@ -387,12 +436,12 @@
       "sprint_priority": "P1",
       "target_depth": "DEVELOPMENT_FIXTURE_OPTIONAL",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Only implemented supported capability subset; never unlock V2 by flag",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Not implemented. The edition entitlement field on every row of this register maps to the approved master and is a plan reference, not an enforced entitlement.",
       "evidence": []
     },
     {
@@ -401,13 +450,16 @@
       "sprint_priority": "P0",
       "target_depth": "LIGHT",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "PARTIAL_SANDBOX",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Protected local bootstrap and documented setup, not every platform installer",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "A protected local bootstrap provisions one organisation and a unique generated owner credential, and initialises the profile, roles and synthetic fixtures. Command line only: there is no onboarding wizard, and the interface does not pretend one exists.",
+      "evidence": [
+        "services:smoke",
+        "test:auth"
+      ]
     },
     {
       "module_id": "M30",
@@ -415,12 +467,12 @@
       "sprint_priority": "P0",
       "target_depth": "DOCUMENTED_LOCAL_ONLY",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Local runbook/direct human route; vendor export automation unimplemented",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Not implemented as a customer support bundle. Release packaging produces source, evidence, browser evidence and runtime image archives for this candidate, which is a different artefact and is not a diagnostic bundle for customer support.",
       "evidence": []
     },
     {
@@ -429,12 +481,12 @@
       "sprint_priority": "P0",
       "target_depth": "MANIFEST_ONLY",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Actual build manifest and limitations; no production signed-update system",
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Not implemented. No update channel, version check or upgrade mechanism exists.",
       "evidence": []
     },
     {
@@ -443,13 +495,16 @@
       "sprint_priority": "P0",
       "target_depth": "LIGHT",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "PARTIAL_SANDBOX",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Local health and actual workflow outcomes; no vendor telemetry",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Local service preflight and an application health endpoint report PostgreSQL, OPA and Temporal status, and every request is audited with a correlation identifier. No metrics, alerting, tracing or uptime monitoring is built.",
+      "evidence": [
+        "services:smoke",
+        "test:network"
+      ]
     },
     {
       "module_id": "M33",
@@ -457,13 +512,16 @@
       "sprint_priority": "P0",
       "target_depth": "LIGHT",
       "target_product": "V1",
-      "implementation_status": "NOT_INSPECTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "PARTIAL_SANDBOX",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_VERIFIED",
-      "limitation": "Scoped history/access/export audit subset",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Administrative, authentication and request audit records are persisted and are readable by the auditor role, which cannot mutate. No audit administration interface, retention policy or export scheduler is built.",
+      "evidence": [
+        "test:auth",
+        "test:evidence"
+      ]
     }
   ]
 }

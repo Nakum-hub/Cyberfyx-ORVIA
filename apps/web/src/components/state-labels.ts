@@ -113,3 +113,21 @@ export function formatTime(value: string | null | undefined): string {
 export function formatId(value: string | null | undefined): string {
   return value ?? '—';
 }
+
+/**
+ * Capability register vocabulary. A sandbox subset is never presented as a
+ * delivered master module, and coverage at the candidate is engineering
+ * evidence, never canonical acceptance.
+ */
+export const CAPABILITY_LABELS: Record<string, Label> = {
+  IMPLEMENTED_SANDBOX_SUBSET: { label: 'Built (synthetic subset)', tone: 'ok', meaning: 'The named behaviour is built and runs in the customer-local synthetic profile. This is a subset of the master module, not a delivered module.' },
+  PARTIAL_SANDBOX: { label: 'Partly built', tone: 'warn', meaning: 'Only the part named in the limitation exists. The rest of the module is not built.' },
+  NOT_IMPLEMENTED: { label: 'Not built', tone: 'neutral', meaning: 'Nothing is built for this module in this prototype.' },
+  DEFERRED_V2: { label: 'Deferred to Version 2', tone: 'neutral', meaning: 'Retained in the programme as future learned-model work; nothing is built or claimed here.' },
+};
+
+export const CAPABILITY_TEST_LABELS: Record<string, Label> = {
+  COVERED_AT_CANDIDATE: { label: 'Covered at candidate', tone: 'ok', meaning: 'Executing suites covered this behaviour at the frozen candidate. Engineering evidence only: canonical acceptance needs the two human rehearsals, and every canonical test remains NOT_RUN.' },
+  NOT_RUN: { label: 'Not run', tone: 'neutral', meaning: 'No suite covers this module in this build.' },
+  DEFERRED_V2: { label: 'Deferred to Version 2', tone: 'neutral', meaning: 'Not tested because nothing is built.' },
+};

@@ -6,7 +6,7 @@ import { call, currentIdentity, useCollection, useMutation, useNow, usePagedQuer
 import { actionVerification, buildTimeline, obligationAction, obligationStatus, obligationTotals } from './derive.ts';
 import { describeFailure, type UiFailure } from './errors.ts';
 import { hasCapability, type StaffSession } from './session-context.tsx';
-import { EXECUTION_LABELS, WORKFLOW_LABELS, CONSENT_LABELS, DECISION_LABELS, formatTime } from './state-labels.ts';
+import { EXECUTION_LABELS, WORKFLOW_LABELS, CONSENT_LABELS, DECISION_LABELS, CAPABILITY_LABELS, CAPABILITY_TEST_LABELS, formatTime } from './state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, Pagination, QueryBoundary, StateBadge, TextField, TextAreaField } from './ui.tsx';
 import { MutationFeedback } from './mutation-feedback.tsx';
 import { Select } from './configuration.tsx';
@@ -121,7 +121,13 @@ export function EvidenceDetail({id,session}:{id:string;session:StaffSession}) {
 export function Capabilities() {
   const query=usePagedQuery('capabilities',{limit:20});
   return <><div className="page-head"><h2>Capability register</h2><p>The programme register retains all 33 master modules. Target depth is a plan, not evidence of implementation, entitlement or successful testing.</p></div>
-    <section><h3>Programme modules</h3>{programme.capabilities.map(c=><article className="panel" key={c.module_id}><h4>{c.module_id} — {c.name}</h4><p>{c.target_product} · target depth {c.target_depth} · {c.sprint_priority}</p><p>Implementation: {c.implementation_status}; tests: {c.test_status}; enabled: {c.enabled_state}; profile: {c.supported_profile}.</p><p>Entitlement: {c.edition_entitlement}</p><p>{c.limitation}</p><p>Evidence: {c.evidence.length?JSON.stringify(c.evidence):'None recorded in programme register'}</p></article>)}</section>
+    <NoticeBox tone="info" title="How to read this register"><p>{programme.note}</p></NoticeBox>
+    <section><h3>Programme modules</h3>{programme.capabilities.map(c=><article className="panel" key={c.module_id}><h4>{c.module_id} — {c.name}</h4>
+      <StateBadge dictionary={CAPABILITY_LABELS} value={c.implementation_status}/>{' '}<StateBadge dictionary={CAPABILITY_TEST_LABELS} value={c.test_status}/>
+      <p>{c.target_product} · target depth {c.target_depth} · {c.sprint_priority}</p>
+      <p>Implementation: {c.implementation_status}; tests: {c.test_status}; enabled: {c.enabled_state}; profile: {c.supported_profile}.</p>
+      <p>Entitlement: {c.edition_entitlement}</p><p>{c.limitation}</p>
+      {c.evidence.length?<><p>Covering suites and specs:</p><ul>{c.evidence.map(e=><li key={e}><code>{e}</code></li>)}</ul></>:<p>Evidence: none recorded in the programme register.</p>}</article>)}</section>
     <h3>Runtime connector records</h3><p>These records cover the synthetic connector subset, not the full module register above.</p><Freshness query={query}/><QueryBoundary query={query} label="runtime capabilities" isEmpty={d=>!d.items.length}>{d=>d.items.map(c=><article className="panel" key={c.code}><h4>{c.code}</h4><p>{c.target_release} · {c.implementation_status} · test {c.test_status} · {c.supported_profile}</p><ul>{c.limitations.map(l=><li key={l}>{l}</li>)}</ul></article>)}</QueryBoundary><Pagination query={query}/></>;
 }
 

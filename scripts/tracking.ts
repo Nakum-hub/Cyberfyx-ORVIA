@@ -80,3 +80,58 @@ export function assertTaskDetails(actual:string,input:Tracking){
   if(!countLine)fail('Missing status counts');
   for(const status of new Set(input.tasks.map(t=>t.status)))if(!countLine.includes(`${status}: ${input.tasks.filter(t=>t.status===status).length}`))fail('Status count drift');
 }
+
+/* ------------------------------------------------------------------ *
+ * Capability register
+ * ------------------------------------------------------------------ */
+
+export type Capability={module_id:string;name:string;sprint_priority:string;target_depth:string;target_product:string;
+  implementation_status:string;test_status:string;supported_profile:string;edition_entitlement:string;enabled_state:string;
+  limitation:string;evidence:string[]};
+export type CapabilityRegister={schema_version:number;plan_version:string;note:string;capabilities:Capability[]};
+export const implementationStatuses=['IMPLEMENTED_SANDBOX_SUBSET','PARTIAL_SANDBOX','NOT_IMPLEMENTED','DEFERRED_V2'] as const;
+export const capabilityTestStatuses=['COVERED_AT_CANDIDATE','NOT_RUN','DEFERRED_V2'] as const;
+const built=(status:string)=>status==='IMPLEMENTED_SANDBOX_SUBSET'||status==='PARTIAL_SANDBOX';
+
+/**
+ * The register is read by the capability screen and is the only place the wider
+ * programme is described to a reader, so an unsupported claim here is a claim
+ * the product makes. It previously sat at its inspection-time baseline while the
+ * modules around it were built and qualified, which understated the build.
+ *
+ * Every status is therefore constrained, and any module that claims to be built
+ * must name evidence that actually resolves — a package script that exists or a
+ * repository path that exists. A module that claims nothing must claim nothing
+ * consistently.
+ */
+export function validateCapabilities(register:CapabilityRegister,exists:(path:string)=>boolean,scripts:string[]){
+  if(register.schema_version!==1)fail('Unsupported capability register version');
+  if(!Array.isArray(register.capabilities)||register.capabilities.length!==33)fail('The register must retain all 33 master modules');
+  if(!register.note)fail('Missing capability register note');
+  unique(register.capabilities.map(c=>c.module_id),'capability module');
+  for(const c of register.capabilities){
+    if(!/^M\d{2}$/.test(c.module_id)||!c.name||!c.limitation)fail(`Invalid capability metadata: ${c.module_id}`);
+    if(!(implementationStatuses as readonly string[]).includes(c.implementation_status))fail(`Invalid implementation status ${c.module_id}`);
+    if(!(capabilityTestStatuses as readonly string[]).includes(c.test_status))fail(`Invalid capability test status ${c.module_id}`);
+    if(!Array.isArray(c.evidence))fail(`Capability evidence must be an array ${c.module_id}`);
+    unique(c.evidence,'capability evidence');
+    // Deferred work may not claim implementation, coverage or an enabled state.
+    if(c.target_product==='V2'&&(c.implementation_status!=='DEFERRED_V2'||c.test_status!=='DEFERRED_V2'||c.evidence.length||c.enabled_state!=='NOT_ENABLED'))fail(`Deferred module claims delivery ${c.module_id}`);
+    if(c.target_product!=='V2'&&(c.implementation_status==='DEFERRED_V2'||c.test_status==='DEFERRED_V2'))fail(`Non-deferred module marked deferred ${c.module_id}`);
+    if(built(c.implementation_status)){
+      if(c.evidence.length===0)fail(`Built module must name evidence ${c.module_id}`);
+      if(c.supported_profile!=='CUSTOMER_LOCAL_SYNTHETIC')fail(`Built module must name its profile ${c.module_id}`);
+      if(c.enabled_state!=='ENABLED_SYNTHETIC')fail(`Built module must declare its enabled state ${c.module_id}`);
+    }
+    if(c.implementation_status==='NOT_IMPLEMENTED'){
+      if(c.evidence.length)fail(`Unbuilt module cannot carry evidence ${c.module_id}`);
+      if(c.test_status!=='NOT_RUN'||c.enabled_state!=='NOT_ENABLED'||c.supported_profile!=='NOT_VERIFIED')fail(`Unbuilt module claims coverage ${c.module_id}`);
+    }
+    if(c.test_status==='COVERED_AT_CANDIDATE'&&!built(c.implementation_status))fail(`Coverage claimed without implementation ${c.module_id}`);
+    // Teeth: a named suite or path must actually resolve, so evidence cannot rot.
+    for(const item of c.evidence){
+      const resolves=item.includes('/')?exists(item):scripts.includes(item);
+      if(!resolves)fail(`Capability evidence does not resolve: ${c.module_id} ${item}`);
+    }
+  }
+}
