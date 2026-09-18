@@ -8,6 +8,7 @@
  */
 import { spawn, spawnSync, type SpawnOptions } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import { request } from 'node:https';
 import { createServer } from 'node:net';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
@@ -116,13 +117,33 @@ export async function portFree(port: number) {
 }
 
 /** The supervisor's protected journal, when one is present. Never contains a secret. */
-export function supervisorRun(): { run_id: string; profile: string; started_at: string } | null {
+export type SupervisorRun = { run_id: string; profile: string; pid: number; started_at: string };
+export function supervisorRun(): SupervisorRun | null {
   if (!existsSync(SUPERVISOR_JOURNAL)) return null;
   try { return JSON.parse(readFileSync(SUPERVISOR_JOURNAL, 'utf8')); } catch { return null; }
 }
 
+/** A journal is ownership evidence only while its exact recorded process lives. */
+export function supervisorAlive(run: SupervisorRun | null = supervisorRun()) {
+  if (!run || !Number.isSafeInteger(run.pid) || run.pid <= 0) return false;
+  try { process.kill(run.pid, 0); return true; } catch { return false; }
+}
+
 export async function httpsHealthy() {
-  try { return (await fetch(`${ORIGIN}/healthz`, { signal: AbortSignal.timeout(2000) })).ok; } catch { return false; }
+  if (!existsSync(CA_CERTIFICATE)) return false;
+  return await new Promise<boolean>(done => {
+    const probe = request(`${ORIGIN}/healthz`, {
+      ca: readFileSync(CA_CERTIFICATE),
+      rejectUnauthorized: true,
+      timeout: 2000,
+    }, response => {
+      response.resume();
+      done(Boolean(response.statusCode && response.statusCode >= 200 && response.statusCode < 300));
+    });
+    probe.once('timeout', () => probe.destroy(new Error('ORVIA health probe timed out')));
+    probe.once('error', () => done(false));
+    probe.end();
+  });
 }
 
 export const line = (label: string, value: string) => `  ${label.padEnd(17)}${value}`;

@@ -9,7 +9,7 @@
 import { existsSync } from 'node:fs';
 import {
   ORIGIN, PROFILE, PROFILE_DIRECTORY, REPOSITORY_ROOT, dockerAvailable,
-  httpsHealthy, line, profileState, reportOperatorError, runningServices, supervisorRun,
+  httpsHealthy, line, profileState, reportOperatorError, runningServices, supervisorAlive, supervisorRun,
 } from './orvia-cli.ts';
 
 process.chdir(REPOSITORY_ROOT);
@@ -37,13 +37,23 @@ try {
   service('OPA', 'opa');
 
   const run = supervisorRun();
-  const healthy = run ? await httpsHealthy() : false;
-  report.push(line('Web', run ? (healthy ? 'ready' : 'starting or not responding') : 'not running'));
-  report.push(line('Worker', run ? 'owned by the supervisor' : 'not running'));
-  report.push(line('Agent', run ? 'owned by the supervisor' : 'not running'));
-  report.push(line('Supervisor', run ? `running since ${run.started_at}` : 'no run journal'));
+  const liveSupervisor = supervisorAlive(run);
+  const healthy = liveSupervisor ? await httpsHealthy() : false;
+  let worker = false; let agent = false;
+  if (profile && probes.postgres?.result === 'PASS') {
+    const { connectDatabase } = await import('../packages/db/src/index.ts');
+    const db = connectDatabase(profile).pool;
+    try {
+      const activity = (await db.query("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name='orvia_worker') worker, EXISTS(SELECT 1 FROM app.audit_events a JOIN app.request_audit r ON r.id=a.request_id WHERE a.operation='machine.poll' AND a.actor_domain='MACHINE' AND r.status=200 AND a.created_at>clock_timestamp()-interval '10 seconds') agent")).rows[0];
+      worker = Boolean(activity.worker); agent = Boolean(activity.agent);
+    } finally { await db.end(); }
+  }
+  report.push(line('Web', liveSupervisor ? (healthy ? 'ready' : 'starting or not responding') : 'not running'));
+  report.push(line('Worker', worker ? 'running' : 'not running'));
+  report.push(line('Agent', agent ? 'running' : 'not running'));
+  report.push(line('Supervisor', liveSupervisor && run ? `running since ${run.started_at}` : run ? 'stale run journal; inspect before restart' : 'no run journal'));
   report.push(line('Production build', existsSync('apps/web/.next/BUILD_ID') ? 'present' : 'absent'));
-  report.push(line('Application URL', run && healthy ? ORIGIN : `${ORIGIN} (not serving)`));
+  report.push(line('Application URL', liveSupervisor && healthy ? ORIGIN : `${ORIGIN} (not serving)`));
   report.push(line('Credentials', `generated locally, kept in ${PROFILE_DIRECTORY.replace(REPOSITORY_ROOT, '')}; never printed`));
 
   process.stdout.write(`\n  ORVIA status\n  ------------------------------------------------------------\n${report.join('\n')}\n\n  Start with:  npm start\n  Stop with:   npm stop\n\n`);

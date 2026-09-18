@@ -7,13 +7,15 @@
  * `docker compose stop`, which keeps the PostgreSQL volume and Temporal state.
  * Nothing is deleted or reset.
  */
-import { PROFILE, OperatorError, dockerAvailable, reportOperatorError, runScript, stage, supervisorRun, REPOSITORY_ROOT } from './orvia-cli.ts';
+import { PROFILE, OperatorError, dockerAvailable, reportOperatorError, runScript, stage, supervisorAlive, supervisorRun, REPOSITORY_ROOT } from './orvia-cli.ts';
 
 process.chdir(REPOSITORY_ROOT);
 process.env.ORVIA_PROFILE = PROFILE;
 
 try {
-  if (supervisorRun()) {
+  const run = supervisorRun();
+  if (run && !supervisorAlive(run)) throw new OperatorError('A stale ORVIA supervisor journal requires inspection.', 'No arbitrary process is stopped and the journal is not deleted automatically.\n\nInspect .local/profiles/rehearsal/supervisor/run.json and follow docs/engineering/A07-PACKAGE.md.');
+  if (run) {
     stage('Stopping the application (web, worker, agent)...');
     const stopped = await runScript('scripts/app-stop.ts', [`confirm:${PROFILE}`], { quiet: true });
     if (stopped.code !== 0) { process.stdout.write(stopped.output); throw new OperatorError('The application supervisor did not acknowledge the stop request.', 'No process was force-terminated and no store was removed.\n\nInspect the protected supervisor journal and the running processes, then see:\n  docs/engineering/A07-PACKAGE.md'); }

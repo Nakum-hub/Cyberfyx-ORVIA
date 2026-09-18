@@ -15,7 +15,7 @@
  *   - it never prints a password, TOTP secret, machine token or private key;
  *   - it never disables certificate verification.
  */
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { once } from 'node:events';
 import { existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -36,10 +36,26 @@ process.chdir(REPOSITORY_ROOT);
  */
 if (process.env.ORVIA_START_REEXEC !== '1') {
   try {
-    const child = spawn(toolchainExecutable(), ['--import', 'tsx', fileURLToPath(import.meta.url)], { cwd: REPOSITORY_ROOT, windowsHide: true, stdio: 'inherit', env: { ...childEnvironment(), ORVIA_START_REEXEC: '1' } });
-    // The console delivers Ctrl+C to the child as well; the launcher must simply
-    // wait for it rather than tearing the supervisor down from underneath.
-    process.on('SIGINT', () => {}); process.on('SIGTERM', () => {});
+    const child = spawn(toolchainExecutable(), ['--import', 'tsx', fileURLToPath(import.meta.url)], {
+      cwd: REPOSITORY_ROOT,
+      windowsHide: true,
+      stdio: 'inherit',
+      env: { ...childEnvironment(), ORVIA_START_REEXEC: '1' },
+    });
+    let interrupting = false;
+    const bridgeInterrupt = () => {
+      if (interrupting) return;
+      interrupting = true;
+      // npm's Windows launcher can close the console immediately after a
+      // signal handler returns. Block here until the protected supervisor has
+      // acknowledged the exact run identity; the pinned child then performs
+      // its normal owned-service cleanup and exits.
+      if (supervisorRun()) spawnSync(toolchainExecutable(), ['--import', 'tsx', resolve(REPOSITORY_ROOT, 'scripts/app-stop.ts'), `confirm:${PROFILE}`], {
+        cwd: REPOSITORY_ROOT, windowsHide: true, stdio: 'inherit', env: childEnvironment(),
+      });
+      else child.kill('SIGTERM');
+    };
+    process.on('SIGINT', bridgeInterrupt); process.on('SIGTERM', bridgeInterrupt);
     const [code] = await once(child, 'close') as [number | null];
     process.exit(code ?? 1);
   } catch (error) { reportOperatorError(error); process.exit(1); }
@@ -76,7 +92,12 @@ try {
   done(`Rehearsal profile ready (${PROFILE_DIRECTORY.replace(REPOSITORY_ROOT, '')})`);
 
   // 2. Single instance ------------------------------------------------------
-  if (supervisorRun()) { process.stdout.write(`\n  ORVIA is already running for profile ${PROFILE}.\n\n  Workspace        ${ORIGIN}/workspace\n  Privacy Centre   ${ORIGIN}/privacy\n\n  Inspect it with:   npm run status\n  Stop it with:      npm stop\n\n`); process.exit(0); }
+  const existingRun = supervisorRun();
+  if (existingRun) {
+    const { supervisorAlive } = await import('./orvia-cli.ts');
+    if (!supervisorAlive(existingRun)) throw new OperatorError('A stale ORVIA supervisor journal requires inspection.', 'No automatic takeover or journal deletion is allowed.\n\nRun:\n  npm run status\n\nThen inspect .local/profiles/rehearsal/supervisor/run.json and follow docs/engineering/A07-PACKAGE.md.');
+    process.stdout.write(`\n  ORVIA is already running for profile ${PROFILE}.\n\n  Workspace        ${ORIGIN}/workspace\n  Privacy Centre   ${ORIGIN}/privacy\n\n  Inspect it with:   npm run status\n  Stop it with:      npm stop\n\n`); process.exit(0);
+  }
   if (!(await portFree(4330))) throw new OperatorError('Port 4330 is already in use, and it is not an ORVIA supervisor this command owns.', 'Something else is bound to the application port.\n\nCheck what ORVIA thinks is running:\n  npm run status\n\nThen stop the other listener, or stop ORVIA with:\n  npm stop');
 
   // 3. Backing services -----------------------------------------------------
@@ -149,7 +170,18 @@ try {
   // until ORVIA is ready so the operator sees stages rather than a log wall; on
   // failure the held output is printed in full.
   stage('Starting the application...');
-  const supervisor = spawn(toolchainExecutable(), ['--import', 'tsx', resolve(REPOSITORY_ROOT, 'scripts/app-run.ts'), `confirm:${PROFILE}`], { cwd: REPOSITORY_ROOT, windowsHide: true, env: childEnvironment(), stdio: ['ignore', 'pipe', 'pipe'] });
+  const supervisor = spawn(toolchainExecutable(), ['--import', 'tsx', resolve(REPOSITORY_ROOT, 'scripts/app-run.ts'), `confirm:${PROFILE}`], {
+    cwd: REPOSITORY_ROOT,
+    windowsHide: true,
+    // Windows sends Ctrl+C to every process sharing the console process group.
+    // Keep the protected supervisor in its own group so only this top-level
+    // command receives the interrupt and asks the supervisor to stop through
+    // app-stop.ts. Otherwise web/worker/agent can die before their owner has a
+    // chance to shut them down and remove its journal.
+    detached: process.platform === 'win32',
+    env: childEnvironment(),
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
   const collect = (chunk: Buffer) => { if (streaming) process.stdout.write(chunk); else supervisorLog += chunk; };
   supervisor.stdout?.on('data', collect); supervisor.stderr?.on('data', collect);
   const supervisorClosed = once(supervisor, 'close') as Promise<[number | null]>;
@@ -157,10 +189,19 @@ try {
   void supervisorClosed.then(([code]) => { closedWith = code; });
 
   let ready = false;
-  for (let attempt = 0; attempt < 180 && closedWith === undefined && !ready; attempt++) {
-    ready = Boolean(supervisorRun()) && await httpsHealthy();
-    if (!ready) await new Promise(r => setTimeout(r, 1000));
-  }
+  const readinessDb = connectDatabase(profile).pool;
+  try {
+    for (let attempt = 0; attempt < 180 && closedWith === undefined && !ready; attempt++) {
+      let worker = false; let agent = false;
+      try {
+        const currentRun = supervisorRun();
+        const activity = currentRun ? (await readinessDb.query("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name='orvia_worker') worker, EXISTS(SELECT 1 FROM app.audit_events a JOIN app.request_audit r ON r.id=a.request_id WHERE a.operation='machine.poll' AND a.actor_domain='MACHINE' AND r.status=200 AND a.created_at>$1) agent", [currentRun.started_at])).rows[0] : {};
+        worker = Boolean(activity.worker); agent = Boolean(activity.agent);
+      } catch { /* bounded startup; the supervisor output is printed on failure */ }
+      ready = Boolean(supervisorRun()) && await httpsHealthy() && worker && agent;
+      if (!ready) await new Promise(r => setTimeout(r, 1000));
+    }
+  } finally { await readinessDb.end(); }
   if (!ready) { process.stdout.write(supervisorLog); throw new OperatorError('The application did not become ready.', 'Owned processes were stopped and every store, credential and volume is retained.\n\nInspect the state with:\n  npm run status'); }
   streaming = true;
   done('Web ready'); done('Worker running'); done('Agent running');
@@ -171,13 +212,11 @@ try {
     if (stopping) return;
     stopping = true;
     process.stdout.write('\n  [ORVIA] Stopping the application...\n');
-    void (async () => {
-      // The console usually delivers Ctrl+C to the supervisor too. Give it a
-      // moment to stop itself, then fall back to the protected stop request,
-      // which is a signed local file rather than a signal to an arbitrary PID.
-      for (let attempt = 0; attempt < 6 && closedWith === undefined; attempt++) await new Promise(r => setTimeout(r, 500));
-      if (closedWith === undefined && supervisorRun()) await runScript('scripts/app-stop.ts', [`confirm:${PROFILE}`], { quiet: true });
-    })();
+    // Windows npm can close the console as soon as this handler returns. Block
+    // until the protected supervisor acknowledges its exact run identity.
+    if (closedWith === undefined && supervisorRun()) spawnSync(toolchainExecutable(), ['--import', 'tsx', resolve(REPOSITORY_ROOT, 'scripts/app-stop.ts'), `confirm:${PROFILE}`], {
+      cwd: REPOSITORY_ROOT, windowsHide: true, stdio: 'inherit', env: childEnvironment(),
+    });
   };
   process.on('SIGINT', requestStop); process.on('SIGTERM', requestStop);
 
