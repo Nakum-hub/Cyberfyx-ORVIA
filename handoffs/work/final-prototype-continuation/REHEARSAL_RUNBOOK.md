@@ -11,18 +11,27 @@ recording, are not two rehearsals.**
 
 | Field | Value |
 |---|---|
-| `code_under_test_commit` | `c383b9d9a1b5c26ade00d987c714ec889e27934b` |
-| source inventory SHA-256 (sourceState, not a Git tree ID) | `66381551e28c17a2e9d479f4cb7dd9fc188d05adc35366c0cbd04c1ac033ff63` |
-| `build_id` | `pKS-S9WY5IsMrwB9DecCI` |
+| `code_under_test_commit` | `d1e5bc56ecac7255e8e37fbb355b70e635c27e76` |
+| source inventory SHA-256 (sourceState, not a Git tree ID) | `fd63ae1c374c5c160374c3c976c470c89c59d77cdd0e322ad8040a835ee26778` |
+| qualified source inventory | 223 tracked files |
+| `build_id` | `ePN-omDrKiUUVSVwJq0B8` |
 | `contract_version` | `0.5.0` (signed command `0.3.0`) |
 | `profile` | `rehearsal` |
 | `fixture_id` | `aster-birch-v1` |
 | origin | `https://127.0.0.1:4330` |
-| manifest SHA-256 | `b23ad8015f9bb062e700ca955f6b4ef380e8b8b9a896f5f77c60cc2bcc6dee35` |
+| manifest SHA-256 | `9dc1b68a7f89408503bb0f2cf54a6cc773b33fe6d0e5a8665f871435ecc9d95e` |
 
-If any source file under `apps`, `packages`, `scripts`, `tests`, `infrastructure`, `policy`,
-`pnpm-lock.yaml` or `package.json` changes, this candidate is void: a new candidate must be frozen and
-**both** rehearsals repeated.
+The historical candidates `766854399d…`, `81431d64…` and `c383b9d9…` are superseded and must not be
+described as covering this work.
+
+If any file in the **qualified source inventory** changes, this candidate is void: a new candidate must be
+frozen and **both** rehearsals repeated. That inventory is every tracked path outside `handoffs/`,
+`artifacts/` and `docs/`, minus the live state documents `CURRENT_STATE.md`, `README.md`,
+`README_START_HERE.md`, `AGENTS.md`, `tracking/tasks.json` and `tracking/acceptance.json`. Those six are
+deliberately outside the candidate identity — they record where the programme has got to and change
+whenever a gate moves, so editing them does **not** void this candidate. Their hashes at packaging time
+are recorded in the manifest under `gate_state`. The single definition lives in
+`scripts/source-paths.mjs`.
 
 ## Before you start
 
