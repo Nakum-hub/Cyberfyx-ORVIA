@@ -80,6 +80,10 @@ try {
   for(const mode of ['fresh','expired','publication','purpose','policy','proof','idempotency'] as const) {
     const draftResponse=await author.call('/api/v1/admin/policies',{purpose_id:purpose.id,notice_version_id:notice.version_id,condition:'AFFIRMATIVE_MARKETING_CONSENT',system_ids:[system.id],required_observation:true},{'idempotency-key':randomUUID()});
     if(draftResponse.status!==201)throw new Error('Draft setup failed');const draft=S.Policy.parse(await draftResponse.json());
+    // Seven reviewer re-authentications in this loop share the real
+    // /two-factor/* budget with every preceding suite; wait for the genuine
+    // idle window rather than letting a 429 surface as a product failure.
+    await harness.authWindow();
     const proofResponse=await owner.call(`/api/v1/admin/policies/${draft.id}/reauthenticate`,{version_id:draft.version_id,digest:draft.digest,code:authenticatorCode(harness.users.owner!.totp_uri!)});
     if(proofResponse.status!==201)throw new Error(`Proof setup failed: HTTP ${proofResponse.status}`);const proof=S.PublicationProof.parse(await proofResponse.json());
     const request={browser:owner,path:`/api/v1/admin/policies/${draft.id}/publish`,input:{version_id:draft.version_id,digest:draft.digest,reauthentication_id:proof.reauthentication_id},key:randomUUID()};

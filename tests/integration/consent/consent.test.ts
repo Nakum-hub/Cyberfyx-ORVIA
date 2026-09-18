@@ -44,6 +44,7 @@ try {
   check('publication requires actual proof',(await owner.call(publishPath,approval,key())).status,403);
   check('wrong digest denied',(await owner.call(publishPath,{...approval,digest:'0'.repeat(64)},key())).status,409);
   const correctCode=authenticatorCode(harness.users.owner!.totp_uri!);const badCode=correctCode.slice(0,5)+((Number(correctCode[5])+1)%10);
+  await harness.authWindow();
   check('reauthentication rejects wrong TOTP',(await owner.call(reauthPath,{version_id:policy.version_id,digest:policy.digest,code:badCode})).status,403);
   const proofResponse=await owner.call(reauthPath,{version_id:policy.version_id,digest:policy.digest,code:authenticatorCode(harness.users.owner!.totp_uri!)});
   check('real MFA creates exact publication proof',proofResponse.status,201);const proof=S.PublicationProof.parse(await proofResponse.json());

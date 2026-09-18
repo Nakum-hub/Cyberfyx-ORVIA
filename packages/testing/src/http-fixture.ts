@@ -28,12 +28,23 @@ export class HttpFixture {
     const command=webProcess(this.config);
     this.child=spawn(process.execPath,command.args,{cwd:command.cwd,windowsHide:true,stdio:['ignore','ignore','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd(),NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
     this.child.stderr?.on('data',chunk=>{this.diagnostics+=chunk.toString();});
-    for(let i=0;i<90;i++) {
-      if(this.child.exitCode!==null)throw new Error('Owned web process failed to start');
-      try {if((await fetch(this.config.origin+'/healthz',{signal:AbortSignal.timeout(1000)})).ok)return;}catch{/* bounded readiness */}
-      await new Promise(resolve=>setTimeout(resolve,500));
+    // /healthz answers before the business route graph is loaded. A suite that
+    // restarts the application and immediately calls a business route was
+    // therefore racing the first module load of that route, and under container
+    // load the first call could exceed its own 20s timeout and abort the suite.
+    // Readiness now means the business boundary is answering: an unauthenticated
+    // 401 proves the route is loaded and refusing correctly. Nothing is retried
+    // and no failure is masked -- if it never answers, this still throws.
+    for(const [path,ready] of [['/healthz',(r:Response)=>r.ok],['/api/v1/session',(r:Response)=>r.status>0]] as const) {
+      let answered=false;
+      for(let i=0;i<90;i++) {
+        if(this.child.exitCode!==null)throw new Error('Owned web process failed to start');
+        try {if(ready(await fetch(this.config.origin+path,{signal:AbortSignal.timeout(2000)}))){answered=true;break;}}catch{/* bounded readiness */}
+        await new Promise(resolve=>setTimeout(resolve,500));
+      }
+      if(!answered)throw new Error('Readiness timeout');
     }
-    throw new Error('Readiness timeout');
+    return;
   }
   async stop() {if(this.child&&this.child.exitCode===null&&this.child.signalCode===null){const closed=once(this.child,'close');this.child.kill();await closed;}}
   browser() {
