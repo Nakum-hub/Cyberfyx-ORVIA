@@ -11,15 +11,15 @@ recording, are not two rehearsals.**
 
 | Field | Value |
 |---|---|
-| `code_under_test_commit` | `d1e5bc56ecac7255e8e37fbb355b70e635c27e76` |
-| source inventory SHA-256 (sourceState, not a Git tree ID) | `fd63ae1c374c5c160374c3c976c470c89c59d77cdd0e322ad8040a835ee26778` |
-| qualified source inventory | 223 tracked files |
-| `build_id` | `ePN-omDrKiUUVSVwJq0B8` |
+| `code_under_test_commit` | `c5655eacf86a68e4aa76ae3b79a1328517c0d23d` |
+| source inventory SHA-256 (sourceState, not a Git tree ID) | `6a90215df79e8a04612927bbe059c6f167551155e0908f555525c3399b2f249d` |
+| qualified source inventory | 224 tracked files |
+| `build_id` | `sd85T6NMjOMCYlF94AaeS` |
 | `contract_version` | `0.5.0` (signed command `0.3.0`) |
 | `profile` | `rehearsal` |
 | `fixture_id` | `aster-birch-v1` |
 | origin | `https://127.0.0.1:4330` |
-| manifest SHA-256 | `9dc1b68a7f89408503bb0f2cf54a6cc773b33fe6d0e5a8665f871435ecc9d95e` |
+| manifest SHA-256 | `281810f57ae03338d5a65c6b16fb1db6cf4477215e44e9e5b672f6a25de964fc` |
 
 The historical candidates `766854399d…`, `81431d64…` and `c383b9d9…` are superseded and must not be
 described as covering this work.
@@ -100,8 +100,8 @@ and its identity must equal the run's exactly.
 {
   "kind": "REHEARSAL_START_STATE",
   "rehearsal_id": "R1",
-  "code_under_test_commit": "c383b9d9a1b5c26ade00d987c714ec889e27934b",
-  "build_id": "pKS-S9WY5IsMrwB9DecCI",
+  "code_under_test_commit": "c5655eacf86a68e4aa76ae3b79a1328517c0d23d",
+  "build_id": "sd85T6NMjOMCYlF94AaeS",
   "contract_version": "0.5.0",
   "profile": "rehearsal",
   "fixture_id": "aster-birch-v1",
