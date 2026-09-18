@@ -1,0 +1,35 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-18T04:54:18.549Z",
+  "profile": "rehearsal",
+  "installation_id": "b4a58f9b-7f5e-4e7b-b057-2fa6d68352f4",
+  "run_id": "120d336c-f2f2-4abd-896a-409edb11293c",
+  "started_at": "2026-09-18T04:52:28.845Z",
+  "finished_at": "2026-09-18T04:54:18.547Z",
+  "stop_reason": "ERROR",
+  "children": [
+    {
+      "pid": 8540,
+      "exit_code": 1,
+      "signal": null,
+      "forced": false
+    },
+    {
+      "pid": 9208,
+      "exit_code": 1,
+      "signal": null,
+      "forced": false
+    },
+    {
+      "pid": 4972,
+      "exit_code": 0,
+      "signal": null,
+      "forced": false
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Only direct children owned by this foreground supervisor are stopped. Abrupt supervisor/host death requires operator inspection of its journal; no arbitrary PID killing or store deletion. Nonzero/forced child shutdown is a failure, including during an operator stop."
+  ]
+}

@@ -20,8 +20,27 @@ export const POLL = {
 export const CONTRACT_VERSION = interfaces.contract_version;
 export const CONTRACT_REVIEW_STATUS = interfaces.review_status;
 
-const client = createClient((input, init) => fetch(input, { ...init, signal: init?.signal
-  ? AbortSignal.any([init.signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000) }));
+/**
+ * One request at a time from this tab.
+ *
+ * The customer-local runtime keeps a deliberately tiny database pool, so a
+ * screen that fans out several paginated reads can starve it and make an
+ * unrelated request — including the session read on the next screen — fail with
+ * SERVICE_UNAVAILABLE. Serialising here bounds the pressure this interface can
+ * put on the server no matter how many components a screen composes. It changes
+ * no semantics: each request still carries its own timeout, abort signal and
+ * idempotency key, and a cancelled request leaves the queue immediately.
+ */
+let gate: Promise<unknown> = Promise.resolve();
+function queued(input: RequestInfo | URL, init?: RequestInit) {
+  const run = gate.then(
+    () => fetch(input, { ...init, signal: init?.signal
+      ? AbortSignal.any([init.signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000) }),
+  );
+  gate = run.then(() => undefined, () => undefined);
+  return run;
+}
+const client = createClient(queued);
 
 export type Operation = keyof EndpointMap;
 export type CallOptions = { params?: Record<string, string>; cursor?: string; limit?: number; idempotency_key?: string; signal?: AbortSignal };

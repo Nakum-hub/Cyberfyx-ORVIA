@@ -26,7 +26,7 @@ test('B03 applied response lost, read reconciliation and visible manual obligati
     await page.getByRole('button',{name:'Request scoped read reconciliation'}).click();await expect(page.getByText('Independently observed',{exact:true})).toBeVisible({timeout:100000});await expect(page.getByText('Effect unknown',{exact:true}).first()).toBeVisible();
     const after=schemas.Workflow.parse(await (await scenario.owner.call('/api/v1/admin/workflows/'+receipt.workflow_id)).json());expect(after.actions[0]!.attempts).toEqual(before.actions[0]!.attempts);expect(after.actions[0]!.reconciliations.at(-1)?.state).toBe('RESOLVED');
     await page.goto('/workspace/workflows/'+manualReceipt.workflow_id);await expect(page.getByRole('heading',{name:'Manual action required'})).toBeVisible({timeout:100000});await expect(page.getByText('Unresolved',{exact:true})).toBeVisible();await h.screenshot(page,'manual-unresolved');
-    await page.goto('/workspace/failures');await expect(page.getByRole('heading',{name:'Failure Centre'})).toBeVisible();await expect(page.locator('.state-block').filter({hasText:'Loading'})).toHaveCount(0);await h.screenshot(page,'failure-state');
+    await page.goto('/workspace/failures');await expect(page.getByRole('heading',{name:'Attention',exact:true})).toBeVisible();await expect(page.locator('.state-block').filter({hasText:'Loading'})).toHaveCount(0);await h.screenshot(page,'failure-state');
   }finally{await stop();}
 });
 

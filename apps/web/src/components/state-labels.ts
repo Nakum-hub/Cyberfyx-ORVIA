@@ -8,6 +8,14 @@
 export type Tone = 'ok' | 'warn' | 'stop' | 'unknown' | 'neutral' | 'info';
 export type Label = { label: string; tone: Tone; meaning: string };
 
+/**
+ * Every status carries a shape as well as a colour and its own words, so the
+ * state survives greyscale printing, a projector and colour vision deficiency.
+ */
+export const TONE_GLYPH: Record<Tone, string> = {
+  ok: '✓', warn: '!', stop: '×', unknown: '?', neutral: '–', info: '•',
+};
+
 const unknownLabel = (value: string): Label => ({
   label: value,
   tone: 'unknown',
@@ -113,6 +121,115 @@ export function formatTime(value: string | null | undefined): string {
 export function formatId(value: string | null | undefined): string {
   return value ?? '—';
 }
+
+/** Reading form of an identifier. The full value always stays available nearby. */
+export function shortId(value: string | null | undefined): string {
+  if (!value) return '—';
+  return value.length > 12 ? `${value.slice(0, 8)}…` : value;
+}
+
+/** Relative age in words, for judging whether an observation is worth trusting. */
+export function formatAge(value: string | null | undefined, now: number): string {
+  if (!value) return 'never';
+  const parsed = Date.parse(value);
+  if (Number.isNaN(parsed)) return value;
+  const seconds = Math.max(0, Math.round((now - parsed) / 1000));
+  if (seconds < 60) return `${seconds}s ago`;
+  if (seconds < 3600) return `${Math.round(seconds / 60)} min ago`;
+  if (seconds < 86_400) return `${Math.round(seconds / 3600)} h ago`;
+  return `${Math.round(seconds / 86_400)} d ago`;
+}
+
+/* ------------------------------------------------------------------ *
+ * Business vocabulary for canonical enum values
+ *
+ * These translate a contract enum into the words a privacy leader uses. The
+ * exact technical value is always still rendered somewhere on the same screen,
+ * usually inside "Technical details".
+ * ------------------------------------------------------------------ */
+
+export const CONNECTOR_LABELS: Record<string, string> = {
+  SYNTHETIC_CRM: 'Synthetic CRM',
+  ORVIA_REST_SIMULATOR: 'Messaging simulator',
+  LEGACY_MANUAL: 'Manual legacy system',
+};
+
+export const CONNECTOR_NOTES: Record<string, string> = {
+  SYNTHETIC_CRM: 'Supports an automated restriction and an independent scoped read.',
+  ORVIA_REST_SIMULATOR: 'Local REST target used to rehearse lost responses and acknowledgement without effect.',
+  LEGACY_MANUAL: 'Exposes no supported automated control, so its obligations close only by an attributed manual action.',
+};
+
+export const OPERATION_LABELS: Record<string, string> = {
+  CRM_REMOVE_MARKETING_MEMBERSHIP: 'Remove marketing membership',
+  SIMULATOR_RESTRICT: 'Apply marketing restriction',
+};
+
+export const CRITERION_LABELS: Record<string, Label> = {
+  CURRENT_SCOPED_OBSERVATION: { label: 'Closes on independent verification', tone: 'info', meaning: 'A fresh, satisfied scoped read of the exact target and generation is required. A provider receipt cannot close this.' },
+  ATTRIBUTED_MANUAL_ATTESTATION: { label: 'Closes on attributed manual action', tone: 'warn', meaning: 'This system exposes no supported automated control, so a named person must act and attest. Administrative closure, not automated verification.' },
+};
+
+export const CONDITION_LABELS: Record<string, string> = {
+  AFFIRMATIVE_MARKETING_CONSENT: 'Affirmative consent',
+  APPROVED_SYNTHETIC_ORDER_SERVICE: 'Separately approved service condition',
+};
+
+export const PURPOSE_CODE_LABELS: Record<string, string> = {
+  promotional_marketing: 'Promotional marketing',
+  order_service_demo: 'Order service',
+};
+
+export const METHOD_LABELS: Record<string, Label> = {
+  SCOPED_READ: { label: 'Independent scoped read', tone: 'info', meaning: 'ORVIA read the exact target resource itself, separately from the command it sent.' },
+  PROVIDER_RECEIPT: { label: 'Provider receipt', tone: 'warn', meaning: 'The target’s own response about its own work. Attributable evidence, but not independent observation.' },
+  NONE: { label: 'No method recorded', tone: 'neutral', meaning: 'No observation method is recorded for this entry.' },
+};
+
+/** What the viewer should take away when an action has no verified effect. */
+export const UNCERTAINTY_COPY: Record<string, { title: string; body: string; next: string }> = {
+  EFFECT_UNKNOWN: {
+    title: 'Outcome unknown',
+    body: 'The action may have been applied, but ORVIA did not receive a reliable response. ORVIA will not blindly repeat the change, because repeating an already-applied change is itself a risk.',
+    next: 'Next action: perform an independent read reconciliation.',
+  },
+  ACKNOWLEDGED: {
+    title: 'Acknowledged — not verified',
+    body: 'The target accepted the request. Acceptance is the target talking about itself; it is not proof that the required state is now in place.',
+    next: 'Next action: read the target independently before treating this as done.',
+  },
+  MANUAL_REQUIRED: {
+    title: 'Manual action required',
+    body: 'This system exposes no supported automated control. A named operator must perform the action and record an attributed statement.',
+    next: 'Next action: an authorised operator records the attributed action in the owning workflow.',
+  },
+  FAILED: {
+    title: 'Action failed',
+    body: 'The target reported a definite failure. Nothing was applied by this attempt, and no required state has been established.',
+    next: 'Next action: review the reason code and the target configuration.',
+  },
+};
+
+export const SCENARIO_LABELS: Record<string, { name: string; proves: string; expected: string[]; expectedResult: 'PASS' | 'FAIL' }> = {
+  MARKETING_WITHDRAWAL_HEALTHY: {
+    name: 'Marketing withdrawal — healthy control',
+    proves: 'The whole control works end to end when nothing is broken. Also used for the repaired rerun.',
+    expected: ['Withdrawal accepted', 'Marketing restriction applied at the target', 'A current marketing send is blocked', 'An independent read confirms the restriction'],
+    expectedResult: 'PASS',
+  },
+  MARKETING_WITHDRAWAL_BROKEN_CONTROL: {
+    name: 'Marketing withdrawal — deliberately broken control',
+    proves: 'A controlled defect stops the expected privacy outcome. The value of the test is that ORVIA reports FAIL instead of green.',
+    expected: ['Withdrawal accepted', 'The injected defect prevents the required restriction', 'The independent read does not confirm the restriction', 'The run is stored as a real business FAIL'],
+    expectedResult: 'FAIL',
+  },
+  TARGET_RESTORE_QUARANTINE: {
+    name: 'Old target restoration and safe recovery',
+    proves: 'Restoring an old copy of a target cannot silently re-enable marketing: the restored target is quarantined and a stale generation is refused.',
+    expected: ['Restored target enters quarantine', 'Premature activation is denied', 'A stale generation is denied', 'The consent ledger is unchanged'],
+    expectedResult: 'PASS',
+  },
+};
 
 /**
  * Capability register vocabulary. A sandbox subset is never presented as a

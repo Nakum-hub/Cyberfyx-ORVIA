@@ -5,10 +5,10 @@ import { useMutation, usePagedQuery } from '../../components/api.ts';
 import { MutationFeedback } from '../../components/mutation-feedback.tsx';
 import { newerReceipt } from '../../components/derive.ts';
 import { DomainGuard } from '../../components/session-context.tsx';
-import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime } from '../../components/state-labels.ts';
+import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime, shortId } from '../../components/state-labels.ts';
 import {
-  CheckboxField, ConfirmDialog, EmptyState, Facts, Freshness, Pagination,
-  NoticeBox, QueryBoundary, StateBadge,
+  Badge, CheckboxField, ConfirmDialog, EmptyState, Facts, Freshness, Pagination,
+  NoticeBox, PageHead, QueryBoundary, StateBadge, StoryCell, TechnicalDetails, TextField,
 } from '../../components/ui.tsx';
 
 type Choice = ReturnType<typeof schemas.ConsentChoice.parse>;
@@ -22,9 +22,12 @@ export default function PrivacyCentrePage() {
   );
 }
 
+const DECISION_ORDER: Record<string, number> = { GRANTED: 0, WITHDRAWN: 1, NOT_GIVEN: 2 };
+
 function Choices() {
   const choices = usePagedQuery('own_consents', { limit: 25 });
   const [receipts, setReceipts] = useState<Record<string, Receipt>>({});
+  const [filter, setFilter] = useState('');
 
   // Every accepted decision consumes its interaction, so authoritative choices
   // are re-read before the next decision can be made.
@@ -35,13 +38,11 @@ function Choices() {
 
   return (
     <>
-      <div className="page-head">
-        <h2>My choices</h2>
-        <p>
-          These are the consent decisions recorded for you in this organisation. Granting is an affirmative,
-          purpose-specific act. Withdrawing is always available and never requires accepting a new notice.
-        </p>
-      </div>
+      <PageHead
+        eyebrow="Privacy Centre"
+        title="My choices"
+        lede="These are the consent decisions recorded for you in this organisation. Granting is an affirmative, purpose-specific act. Withdrawing is always available, takes one confirmation and never requires accepting a new notice."
+      />
       <Freshness query={choices} />
       <QueryBoundary
         query={choices}
@@ -56,20 +57,45 @@ function Choices() {
           </EmptyState>
         }
       >
-        {data => (
-          <>
-            {data.items.map(choice => (
-              <ChoiceCard
-                key={choice.purpose_id}
-                choice={choice}
-                receipt={receipts[choice.purpose_id] ?? null}
-                onReceipt={receipt => recordReceipt(choice.purpose_id, receipt)}
-                onRecover={() => choices.refresh()}
-              />
-            ))}
-
-          </>
-        )}
+        {data => {
+          const counts = data.items.reduce<Record<string, number>>((totals, item) => {
+            totals[item.consent_status] = (totals[item.consent_status] ?? 0) + 1;
+            return totals;
+          }, {});
+          const needle = filter.trim().toLowerCase();
+          // Decisions this person has actually made are shown first, and the
+          // filter only narrows the page already read into this screen.
+          const visible = [...data.items]
+            .filter(item => !needle || item.purpose_name.toLowerCase().includes(needle))
+            .sort((a, b) => (DECISION_ORDER[a.consent_status] ?? 3) - (DECISION_ORDER[b.consent_status] ?? 3));
+          return (
+            <>
+              <div className="panel panel-quiet">
+                <div className="row row-between">
+                  <div className="row" style={{ gap: 'var(--s4)' }}>
+                    <span><strong>{counts['GRANTED'] ?? 0}</strong> granted</span>
+                    <span><strong>{counts['WITHDRAWN'] ?? 0}</strong> withdrawn</span>
+                    <span><strong>{counts['NOT_GIVEN'] ?? 0}</strong> not decided</span>
+                  </div>
+                  <span className="muted" style={{ fontSize: 12.5 }}>on this page of {data.items.length} purpose(s)</span>
+                </div>
+                <div style={{ marginTop: 'var(--s3)', maxWidth: 420 }}>
+                  <TextField label="Find a purpose" value={filter} onChange={setFilter} hint="Filters the purposes already read into this screen." />
+                </div>
+              </div>
+              {visible.map(choice => (
+                <ChoiceCard
+                  key={choice.purpose_id}
+                  choice={choice}
+                  receipt={receipts[choice.purpose_id] ?? null}
+                  onReceipt={receipt => recordReceipt(choice.purpose_id, receipt)}
+                  onRecover={() => choices.refresh()}
+                />
+              ))}
+              {!visible.length ? <EmptyState title="No purpose on this page matches that text"><p>Clear the filter, or use the pages below to read more of your record.</p></EmptyState> : null}
+            </>
+          );
+        }}
       </QueryBoundary>
       <Pagination query={choices}/>
     </>
@@ -106,22 +132,24 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
 
   return (
     <section className="panel" aria-labelledby={`purpose-${choice.purpose_id}`}>
-      <div className="row" style={{ justifyContent: 'space-between' }}>
-        <h3 id={`purpose-${choice.purpose_id}`}>{choice.purpose_name}</h3>
-        <StateBadge dictionary={CONSENT_LABELS} value={choice.consent_status} />
+      <div className="row row-between" style={{ marginBottom: 'var(--s4)' }}>
+        <h3 id={`purpose-${choice.purpose_id}`} style={{ fontSize: 18, margin: 0 }}>{choice.purpose_name}</h3>
+        <StateBadge dictionary={CONSENT_LABELS} value={choice.consent_status} large />
       </div>
 
-      <Facts items={[
-        { term: 'Current decision', value: <StateBadge dictionary={CONSENT_LABELS} value={choice.consent_status} /> },
-        { term: 'Consent version (epoch)', value: <span className="mono">{choice.consent_epoch}</span> },
-        { term: 'Notice version', value: <span className="mono">{choice.notice ? choice.notice.version_id : 'No published notice'}</span> },
-        { term: 'Notice published', value: formatTime(choice.notice?.published_at ?? null) },
-      ]} />
+      <div className="story" style={{ marginBottom: 'var(--s4)' }}>
+        <div className="story-grid">
+          <StoryCell term="Your current choice" value={<StateBadge dictionary={CONSENT_LABELS} value={choice.consent_status} />} />
+          <StoryCell term="Notice version" value={choice.notice ? shortId(choice.notice.version_id) : 'No published notice'} small />
+          <StoryCell term="Notice published" value={formatTime(choice.notice?.published_at ?? null)} small />
+          <StoryCell term="Decision version" value={`Change ${choice.consent_epoch}`} small />
+        </div>
+      </div>
 
       {choice.notice ? (
-        <details style={{ marginTop: 12 }}>
+        <details className="reveal" style={{ marginBottom: 'var(--s4)' }}>
           <summary><strong>{choice.notice.title}</strong> — read the notice you are being asked about</summary>
-          <div className="notice-body" style={{ marginTop: 8 }}>{choice.notice.content}</div>
+          <div className="notice-body" style={{ marginTop: 'var(--s3)' }}>{choice.notice.content}</div>
           <p className="muted mono">content_digest {choice.notice.content_digest}</p>
         </details>
       ) : (
@@ -139,9 +167,10 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
         <>
           <p>
             You can withdraw at any time. Withdrawal takes one confirmation and does not ask you to accept
-            anything new. Downstream restriction and independent observation are tracked separately.
+            anything new. Downstream restriction and independent verification are tracked separately and are
+            shown on your receipt.
           </p>
-          <button type="button" className="danger" disabled={busy} onClick={() => setConfirming(true)}>
+          <button type="button" className="primary" disabled={busy} onClick={() => setConfirming(true)}>
             Withdraw consent
           </button>
         </>
@@ -165,7 +194,7 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
         <ConfirmDialog
           title="Withdraw consent"
           confirmLabel="Withdraw consent"
-          tone="danger"
+          tone="primary"
           busy={withdraw.status === 'pending'}
           onCancel={() => setConfirming(false)}
           onConfirm={() => void submitWithdraw()}
@@ -190,20 +219,29 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
  */
 function ReceiptSummary({ receipt }: { receipt: Receipt }) {
   return (
-    <div className="notice notice-ok" role="status">
+    <div className="notice notice-ok" role="status" style={{ marginTop: 'var(--s4)' }}>
       <h3>Decision recorded — receipt {receipt.receipt_id}</h3>
-      <Facts items={[
+      <p>This is your proof. These facts never change, even if you change your mind again later.</p>
+      <Facts tight items={[
         { term: 'Recorded decision', value: <StateBadge dictionary={CONSENT_LABELS} value={receipt.consent_status} /> },
-        { term: 'Consent version (epoch)', value: <span className="mono">{receipt.consent_epoch}</span> },
+        { term: 'Decision version', value: <>Change {receipt.consent_epoch}</> },
         { term: 'Accepted at', value: formatTime(receipt.accepted_at) },
-        { term: 'Propagation at acceptance', value: <StateBadge dictionary={PROPAGATION_LABELS} value={receipt.propagation_status} /> },
-        { term: 'Receipt id', value: <span className="mono">{receipt.receipt_id}</span> },
-        { term: 'Event id', value: <span className="mono">{receipt.event_id}</span> },
+        { term: 'Downstream work', value: <StateBadge dictionary={PROPAGATION_LABELS} value={receipt.propagation_status} /> },
       ]} />
-      <p>
-        These receipt facts never change. <a href={`/privacy/receipt/${receipt.receipt_id}`}>Open this receipt</a> to
-        see it beside the separately refreshed current state.
+      <p style={{ marginTop: 'var(--s3)' }}>
+        <a href={`/privacy/receipt/${receipt.receipt_id}`}>Open this receipt</a> to see it beside the separately
+        refreshed current state.
       </p>
+      <p className="muted" style={{ marginBottom: 0, fontSize: 12.5 }}>
+        <Badge label="Receipt is immutable" tone="info" meaning="ORVIA never rewrites an accepted receipt. A later decision adds a new one." />
+      </p>
+      <TechnicalDetails items={[
+        { term: 'Receipt id', value: receipt.receipt_id },
+        { term: 'Consent event id', value: receipt.event_id },
+        { term: 'Purpose', value: receipt.purpose_id },
+        { term: 'Consent epoch', value: String(receipt.consent_epoch) },
+        { term: 'Workflow', value: receipt.workflow_id ?? 'none — no propagation was required' },
+      ]} />
     </div>
   );
 }

@@ -19,6 +19,9 @@ export function writeEvidence(kind:string, data:Record<string,unknown>){
  */
 const OPERATOR_GUIDANCE:Record<string,string>={
   MACHINE_ENROLLMENT_EXPIRED:'Machine enrollment expired; renew through protected local setup (machine:init confirm:<profile>) before starting the application.',
+  AGENT_PROCESS_EXITED:'The connector agent stopped, so the application supervisor stopped with it. An expired machine enrollment is the usual cause: renew it with machine:init confirm:<profile>, then start the application again. No business state is reset by a restart.',
+  WORKER_PROCESS_EXITED:'The withdrawal worker stopped, so the application supervisor stopped with it. Confirm the profile services are healthy (services status, preflight) before starting the application again.',
+  WEB_PROCESS_EXITED:'The web process stopped, so the application supervisor stopped with it. Confirm the production build is present and the profile services are healthy before starting again.',
 };
 // Do not serialize SQL clients, connection settings or raw service errors.
 export function safeError(error:unknown){

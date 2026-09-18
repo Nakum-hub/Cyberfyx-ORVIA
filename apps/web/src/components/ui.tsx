@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { useRequestGuard } from './api.ts';
 import type { Query } from './api.ts';
 import { failureTone, type UiFailure } from './errors.ts';
-import { describeState, formatTime, type Label, type Tone } from './state-labels.ts';
+import { describeState, formatTime, TONE_GLYPH, type Label, type Tone } from './state-labels.ts';
 
 /* ------------------------------------------------------------------ *
  * Status primitives
@@ -14,22 +14,98 @@ const toneClass: Record<Tone, string> = {
   unknown: 'badge-unknown', neutral: 'badge-neutral', info: 'badge-info',
 };
 
-export function Badge({ label, tone, meaning }: { label: string; tone: Tone; meaning?: string }) {
-  return <span className={`badge ${toneClass[tone]}`} title={meaning}>{label}</span>;
+/**
+ * Status is never colour alone: each pill carries a glyph and its own words, so
+ * it survives greyscale, a projector and colour vision deficiency.
+ */
+export function Badge({ label, tone, meaning, large }: { label: string; tone: Tone; meaning?: string; large?: boolean }) {
+  return (
+    <span className={`badge ${toneClass[tone]}${large ? ' badge-lg' : ''}`} title={meaning}>
+      <span className="glyph" aria-hidden="true">{TONE_GLYPH[tone]}</span>
+      <span>{label}</span>
+    </span>
+  );
 }
 
 /** Badge bound to a canonical enum dictionary, with its meaning as the title. */
-export function StateBadge({ dictionary, value }: { dictionary: Record<string, Label>; value: string | null | undefined }) {
+export function StateBadge({ dictionary, value, large }: { dictionary: Record<string, Label>; value: string | null | undefined; large?: boolean }) {
   const state = describeState(dictionary, value);
-  return <Badge label={state.label} tone={state.tone} meaning={state.meaning} />;
+  return <Badge label={state.label} tone={state.tone} meaning={state.meaning} large={large} />;
 }
 
-export function NoticeBox({ tone, title, children }: { tone: 'info' | 'ok' | 'warn' | 'stop' | 'neutral'; title: string; children?: ReactNode }) {
+export function NoticeBox({ tone, title, children }: { tone: 'info' | 'ok' | 'warn' | 'stop' | 'unknown' | 'neutral'; title: string; children?: ReactNode }) {
+  const glyph = tone === 'neutral' ? TONE_GLYPH.neutral : TONE_GLYPH[tone];
   return (
     <div className={`notice notice-${tone}`}>
-      <h3>{title}</h3>
+      <h3><span aria-hidden="true">{glyph}</span>{title}</h3>
       {children}
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Page and section structure
+ * ------------------------------------------------------------------ */
+
+export function PageHead({ eyebrow, title, lede, actions }: { eyebrow?: string; title: string; lede?: ReactNode; actions?: ReactNode }) {
+  return (
+    <div className="page-head">
+      <div className="head-row">
+        <div style={{ minWidth: 0 }}>
+          {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+          <h2>{title}</h2>
+          {lede ? <p>{lede}</p> : null}
+        </div>
+        {actions ? <div className="row">{actions}</div> : null}
+      </div>
+    </div>
+  );
+}
+
+export function Section({ title, aside, children }: { title: string; aside?: ReactNode; children: ReactNode }) {
+  return (
+    <section className="section" aria-label={title}>
+      <div className="section-head">
+        <h3>{title}</h3>
+        {aside ? <div className="aside">{aside}</div> : null}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/**
+ * One real measurement. There is no trend, no target and no percentage: the
+ * backend does not produce them, so this component cannot display them.
+ */
+export function Metric({ label, value, note, tone = 'neutral', text, link }: {
+  label: string; value: ReactNode; note?: ReactNode; tone?: Tone; text?: boolean; link?: { href: string; label: string };
+}) {
+  return (
+    <div className={`metric metric-${tone}`}>
+      <span className="metric-label">{label}</span>
+      <span className={text ? 'metric-value text' : 'metric-value'}>{value}</span>
+      {note ? <span className="metric-note">{note}</span> : null}
+      {link ? <a href={link.href}>{link.label}</a> : null}
+    </div>
+  );
+}
+
+/**
+ * Identifiers, digests and versions belong on the screen but not in front of the
+ * business meaning. They always stay one disclosure away, never removed.
+ */
+export function TechnicalDetails({ summary = 'Technical details', items, children }: {
+  summary?: string; items?: { term: string; value: ReactNode }[]; children?: ReactNode;
+}) {
+  return (
+    <details className="technical">
+      <summary>{summary}</summary>
+      <div className="technical-body">
+        {items?.length ? <Facts items={items} /> : null}
+        {children}
+      </div>
+    </details>
   );
 }
 
@@ -63,7 +139,7 @@ export function FailureState({ failure, onRetry, dependency }: { failure: UiFail
   const tone = failureTone(failure);
   return (
     <div className={`notice notice-${tone === 'unknown' ? 'warn' : tone}`} role="alert">
-      <h3>{failure.title}</h3>
+      <h3><span aria-hidden="true">{TONE_GLYPH[tone === 'unknown' ? 'unknown' : tone]}</span>{failure.title}</h3>
       <p>{failure.guidance}</p>
       {failure.serverMessage ? <p><strong>Server message:</strong> {failure.serverMessage}</p> : null}
       {failure.fieldErrors.length ? (
@@ -136,7 +212,7 @@ export function QueryBoundary<T>({ query, label, dependency, isEmpty, empty, chi
 
 export function Freshness({ query, asOf }: { query: Query<unknown>; asOf?: string | null }) {
   return (
-    <p className="muted" aria-live="polite">
+    <p className="muted" aria-live="polite" style={{ fontSize: 12.5 }}>
       {asOf ? <>Server as of <strong>{formatTime(asOf)}</strong>. </> : null}
       {query.loadedAt ? <>Read into this screen at <strong>{formatTime(new Date(query.loadedAt).toISOString())}</strong>. </> : <>Not yet read. </>}
       {query.failure && query.data ? 'Displayed snapshot is stale; the latest read failed. ' : null}
@@ -263,9 +339,9 @@ export function DataTable<T>({ caption, columns, rows, rowKey }: {
   );
 }
 
-export function Facts({ items }: { items: { term: string; value: ReactNode }[] }) {
+export function Facts({ items, tight }: { items: { term: string; value: ReactNode }[]; tight?: boolean }) {
   return (
-    <dl className="facts">
+    <dl className={tight ? 'facts tight' : 'facts'}>
       {items.map(item => (
         <div key={item.term} style={{ display: 'contents' }}>
           <dt>{item.term}</dt>
@@ -273,6 +349,70 @@ export function Facts({ items }: { items: { term: string; value: ReactNode }[] }
         </div>
       ))}
     </dl>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Story, lifecycle and relationship presentation
+ * ------------------------------------------------------------------ */
+
+export type Stage = { step: string; name: string; note: string; href?: string };
+
+/**
+ * Explanatory navigation, not runtime state. Each stage links to the screen that
+ * actually holds that part of the record; nothing here asserts progress.
+ */
+export function Lifecycle({ stages }: { stages: Stage[] }) {
+  return (
+    <ol className="lifecycle">
+      {stages.map((stage, index) => (
+        <li key={stage.name}>
+          {stage.href ? (
+            <a href={stage.href}>
+              <span className="step">{index + 1}. {stage.step}</span>
+              <span className="stage-name">{stage.name}</span>
+              <span className="stage-note">{stage.note}</span>
+            </a>
+          ) : (
+            <span className="stage-static">
+              <span className="step">{index + 1}. {stage.step}</span>
+              <span className="stage-name">{stage.name}</span>
+              <span className="stage-note">{stage.note}</span>
+            </span>
+          )}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+export type FlowStep = { kind: string; name: ReactNode; note?: ReactNode; tone?: Tone; extra?: ReactNode };
+
+/** A declared relationship read downwards. Connectors are drawn, not asserted. */
+export function Flow({ steps }: { steps: FlowStep[] }) {
+  return (
+    <ol className="flow">
+      {steps.map((step, index) => (
+        <li key={index} className={`tone-${step.tone ?? 'neutral'}`}>
+          <span className="node-dot" aria-hidden="true" />
+          <div className="flow-node">
+            <span className="node-kind">{step.kind}</span>
+            <div className="node-name">{step.name}</div>
+            {step.note ? <div className="node-note">{step.note}</div> : null}
+            {step.extra}
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+export function StoryCell({ term, value, small }: { term: string; value: ReactNode; small?: boolean }) {
+  return (
+    <div className="story-cell">
+      <span className="k">{term}</span>
+      <span className={small ? 'v small' : 'v'}>{value}</span>
+    </div>
   );
 }
 
@@ -305,5 +445,5 @@ export function PendingHint({ children }: { children: ReactNode }) {
 
 export function Pagination({ query }: { query: { data: { next_cursor: string | null } | null; status: string; page: number; hasPrevious: boolean; next: (cursor:string) => void; previous: () => void } }) {
   const blocked=useRequestGuard();
-  return <nav aria-label="Result pages" className="row"><button type="button" disabled={blocked || !query.hasPrevious || query.status === 'loading'} onClick={query.previous}>Previous page</button><span>Page {query.page}</span><button type="button" disabled={blocked || !query.data?.next_cursor || query.status === 'loading'} onClick={() => { if(query.data?.next_cursor) query.next(query.data.next_cursor); }}>Next page</button></nav>;
+  return <nav aria-label="Result pages" className="row" style={{marginTop:'var(--s4)'}}><button type="button" disabled={blocked || !query.hasPrevious || query.status === 'loading'} onClick={query.previous}>Previous page</button><span className="muted">Page {query.page}</span><button type="button" disabled={blocked || !query.data?.next_cursor || query.status === 'loading'} onClick={() => { if(query.data?.next_cursor) query.next(query.data.next_cursor); }}>Next page</button></nav>;
 }

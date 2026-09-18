@@ -144,41 +144,70 @@ export type TimelineEntry = {
   title: string;
   tone: 'ok' | 'warn' | 'stop' | 'unknown' | 'neutral';
   detail: string;
+  /** Identifiers behind this entry, shown only inside a technical disclosure. */
+  technical: string;
   category: 'WORKFLOW' | 'EXECUTION' | 'OBSERVATION' | 'RECONCILIATION';
+  /** Short reading label for the category shown beside the entry. */
+  kind: string;
 };
 
-/** Execution facts and observation facts are separate entries, never merged. */
+/**
+ * Execution facts and observation facts are separate entries, never merged.
+ *
+ * Only stages the API actually reports appear here. ORVIA does not expose every
+ * outbox, dispatch or worker timestamp, and an absent stage is left absent
+ * rather than drawn as if it had happened.
+ */
 export function buildTimeline(workflow: Workflow): TimelineEntry[] {
   const entries: TimelineEntry[] = [
-    { at: workflow.accepted_at, title: 'Consent decision accepted', tone: 'neutral', category: 'WORKFLOW',
-      detail: `Workflow ${workflow.id} was created from consent event ${workflow.event_id}.` },
+    { at: workflow.accepted_at, title: 'Consent decision accepted', tone: 'neutral', category: 'WORKFLOW', kind: 'Decision',
+      detail: 'ORVIA durably recorded the person’s decision and accepted the downstream work it creates.',
+      technical: `workflow ${workflow.id}; consent event ${workflow.event_id}` },
   ];
   for (const action of workflow.actions) {
     for (const attempt of action.attempts) {
       entries.push({
         at: attempt.recorded_at,
-        title: `Attempt ${attempt.execution_state === 'ACKNOWLEDGED' ? 'acknowledged by target' : attempt.execution_state === 'EFFECT_UNKNOWN' ? 'returned no definite result' : 'failed'}`,
+        title: attempt.execution_state === 'ACKNOWLEDGED' ? 'Target acknowledged the requested change'
+          : attempt.execution_state === 'EFFECT_UNKNOWN' ? 'Target returned no definite result'
+            : 'Target reported a failure',
         tone: attempt.execution_state === 'ACKNOWLEDGED' ? 'warn' : attempt.execution_state === 'EFFECT_UNKNOWN' ? 'unknown' : 'stop',
         category: 'EXECUTION',
-        detail: `Execution fact only. Operation ${action.plan.scope.operation} on system ${action.plan.scope.system_id}; reason ${attempt.reason_code}; target generation ${attempt.target_generation}.`,
+        kind: 'Action',
+        detail: attempt.execution_state === 'ACKNOWLEDGED'
+          ? 'Execution fact only. The target accepted the command; the effect is not established by this entry.'
+          : attempt.execution_state === 'EFFECT_UNKNOWN'
+            ? 'Execution fact only. The change may or may not have been applied; it is resolved by reading the target, not by repeating the command.'
+            : 'Execution fact only. The target refused or could not apply this attempt.',
+        technical: `attempt ${attempt.attempt_id}; command ${attempt.command_id}; operation ${action.plan.scope.operation}; system ${action.plan.scope.system_id}; reason ${attempt.reason_code}; target generation ${attempt.target_generation}`,
       });
     }
     for (const observation of action.observations) {
+      const independent = observation.method === 'SCOPED_READ';
       entries.push({
         at: observation.observed_at,
-        title: `${observation.method === 'SCOPED_READ' ? 'Scoped observation' : 'Provider evidence (not independent)'}: ${observation.state}`,
-        tone: observation.method !== 'SCOPED_READ' ? 'warn' : observation.state === 'OBSERVED_SATISFIED' ? 'ok' : observation.state === 'OBSERVED_NOT_SATISFIED' ? 'stop' : 'unknown',
+        title: `${independent ? 'Independent read of the target' : 'Provider evidence (not independent)'}: ${observation.state.replaceAll('_', ' ').toLowerCase()}`,
+        tone: !independent ? 'warn' : observation.state === 'OBSERVED_SATISFIED' ? 'ok' : observation.state === 'OBSERVED_NOT_SATISFIED' ? 'stop' : 'unknown',
         category: 'OBSERVATION',
-        detail: `Observation fact only. Method ${observation.method}; observed state ${observation.observed_state}; generation ${observation.target_generation}; fresh until ${observation.fresh_until ?? 'n/a'}.`,
+        kind: 'Verification',
+        detail: independent
+          ? 'Observation fact only. ORVIA read the exact target resource itself, separately from the command it sent.'
+          : 'Observation fact only. This is the target describing its own work, which cannot establish the effect independently.',
+        technical: `observation ${observation.id}; method ${observation.method}; observed state ${observation.observed_state}; generation ${observation.target_generation}; fresh until ${observation.fresh_until ?? 'n/a'}`,
       });
     }
     for (const reconciliation of action.reconciliations) {
       entries.push({
         at: reconciliation.finished_at ?? reconciliation.started_at,
-        title: `Reconciliation ${reconciliation.state} (${reconciliation.method})`,
+        title: reconciliation.state === 'RESOLVED' ? 'Uncertain attempt resolved by reading the target'
+          : reconciliation.state === 'FAILED' ? 'Reconciliation itself failed'
+            : reconciliation.state === 'INCONCLUSIVE' ? 'Reconciliation finished without establishing the effect'
+              : 'Reconciliation requested',
         tone: reconciliation.state === 'RESOLVED' && reconciliation.method === 'SCOPED_READ' ? 'ok' : reconciliation.state === 'FAILED' ? 'stop' : 'unknown',
         category: 'RECONCILIATION',
-        detail: `Resolving uncertain attempt ${reconciliation.uncertain_attempt_id} by ${reconciliation.method}${reconciliation.reason_code ? `; reason ${reconciliation.reason_code}` : ''}.`,
+        kind: 'Reconciliation',
+        detail: 'Reconciliation reads the target. It never replays the change, because a replay of an already applied change is itself a risk.',
+        technical: `reconciliation ${reconciliation.id}; uncertain attempt ${reconciliation.uncertain_attempt_id}; method ${reconciliation.method}${reconciliation.reason_code ? `; reason ${reconciliation.reason_code}` : ''}`,
       });
     }
   }
