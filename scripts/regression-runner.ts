@@ -15,11 +15,11 @@ import { restoreTarget,activateRestoredTarget,type TargetSnapshot } from '../pac
 import { stalePreviewSender } from '../tests/fault-fixtures/stale-sender.ts';
 import { agentEnrollment,senderEnrollment } from '../packages/auth/src/machine-profile.ts';
 import { servicePool,machineAuthority } from '../packages/auth/src/machine.ts';
-import { targetTransaction } from '../packages/connectors/src/target-db.ts';
+import { targetTransaction } from '../packages/connectors/src/shared/target-db.ts';
 import { executeCommand } from '../apps/agent/src/execute.ts';
 import { signCommand,digest } from '../packages/contracts/src/crypto.ts';
 import * as S from '../packages/contracts/src/index.ts';
-import { buildId } from '../packages/domain/src/evidence.ts';
+import { buildId } from '../packages/domain/src/evidence/evidence.ts';
 const profile=loadProfile();if(process.argv[2]!==`confirm:${profile.profile}`||process.argv.length!==3)throw new Error('Named synthetic profile confirmation required');
 const db=connectDatabase(profile).pool;const target=connectDatabase({...profile,database:profile.database+'_targets'}).pool;
 const h=new HttpFixture();const processes:ChildProcess[]=[];const runFile=promisify(execFile);let processOutput='';

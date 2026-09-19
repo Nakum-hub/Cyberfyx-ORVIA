@@ -4,7 +4,7 @@ import { servicePool,machineAuthority } from '../../../packages/auth/src/machine
 import { schemas } from '../../../packages/contracts/src/index.ts';
 import { executeCommand } from './execute.ts';
 import { safeError } from '../../../packages/testing/src/evidence.ts';
-import { deliverSimulator } from '../../../packages/connectors/src/simulator.ts';
+import { deliverSimulator } from '../../../packages/connectors/src/crm-synthetic/simulator.ts';
 const config=runtimeConfig();const enrollment=agentEnrollment(config);
 const control=servicePool(config,'orvia_agent_control');const target=servicePool(config,'orvia_target_agent');
 let stopped=false;process.on('SIGINT',()=>{stopped=true;});process.on('SIGTERM',()=>{stopped=true;});process.on('message',message=>{if(message==='orvia-stop')stopped=true;});

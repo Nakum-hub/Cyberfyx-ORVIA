@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { schemas } from '../../packages/contracts/src/index.ts';
-import { obligationSatisfied,workflowCompletion } from '../../packages/domain/src/completion.ts';
+import { obligationSatisfied,workflowCompletion } from '../../packages/domain/src/shared/completion.ts';
 
 const id=(n:number)=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const now=new Date('2026-09-16T10:01:00Z');

@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto';
-import { TestRunCreate,TestRun,CONTRACT_VERSION } from '../../contracts/src/index.ts';
-import type { RuntimeConfig } from '../../auth/src/config.ts';
-import { AccessError } from '../../authz/src/index.ts';
-import { predicate,scopeValues,requireOne,audit,type Context } from './transaction.ts';
-import { buildId } from './evidence.ts';
+import { TestRunCreate,TestRun,CONTRACT_VERSION } from '../../../contracts/src/index.ts';
+import type { RuntimeConfig } from '../../../auth/src/config.ts';
+import { AccessError } from '../../../authz/src/index.ts';
+import { predicate,scopeValues,requireOne,audit,type Context } from '../shared/transaction.ts';
+import { buildId } from '../evidence/evidence.ts';
 export async function startTest(c:Context,config:RuntimeConfig,input:unknown){
  const request=TestRunCreate.parse(input);if(request.profile!==config.profile)throw new AccessError(403,'FORBIDDEN');
  const scope=scopeValues(c.actor);

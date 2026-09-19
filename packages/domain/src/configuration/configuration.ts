@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
-import * as S from '../../contracts/src/index.ts';
-import { digest } from '../../contracts/src/crypto.ts';
-import { AccessError } from '../../authz/src/index.ts';
-import { audit, predicate, scopeValues, requireOne, selectorScope, paged, type Context, type Page } from './transaction.ts';
+import * as S from '../../../contracts/src/index.ts';
+import { digest } from '../../../contracts/src/crypto.ts';
+import { AccessError } from '../../../authz/src/index.ts';
+import { audit, predicate, scopeValues, requireOne, selectorScope, paged, type Context, type Page } from '../shared/transaction.ts';
 
 const configurations={purposes:{table:'purpose_versions',schema:S.Purpose},notices:{table:'notice_versions',schema:S.Notice},policies:{table:'policy_versions',schema:S.Policy},systems:{table:'systems',schema:S.System}} as const;
 export type ConfigurationKind=keyof typeof configurations;

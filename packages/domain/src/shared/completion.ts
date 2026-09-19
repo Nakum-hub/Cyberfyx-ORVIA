@@ -1,4 +1,4 @@
-import { Obligation, ReconciliationState } from '../../contracts/src/index.ts';
+import { Obligation, ReconciliationState } from '../../../contracts/src/index.ts';
 export function obligationSatisfied(value:unknown, now:Date){
   const o=Obligation.parse(value);
   if(!o.required)return Boolean(o.skip_reason);

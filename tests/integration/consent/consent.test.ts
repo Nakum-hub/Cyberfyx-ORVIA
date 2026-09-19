@@ -8,8 +8,8 @@ import { loadProfile } from '../../../packages/testing/src/config.ts';
 import { runtimePool, scopedTransaction } from '../../../packages/db/src/runtime.ts';
 import { authorityFor } from '../../../packages/authz/src/index.ts';
 import { createAuth } from '../../../packages/auth/src/server.ts';
-import { changeConsent } from '../../../packages/domain/src/consent.ts';
-import { idempotent } from '../../../packages/domain/src/transaction.ts';
+import { changeConsent } from '../../../packages/domain/src/consent/consent.ts';
+import { idempotent } from '../../../packages/domain/src/shared/transaction.ts';
 
 const harness=new HttpFixture();const config=harness.config;
 const adminDb=connectDatabase(loadProfile()).pool;const app=runtimePool(config,'orvia_app');

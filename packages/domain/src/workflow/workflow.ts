@@ -1,13 +1,13 @@
 import { randomUUID,randomBytes,type KeyObject } from 'node:crypto';
 import type pg from 'pg';
-import * as S from '../../contracts/src/index.ts';
-import { signCommand,digest } from '../../contracts/src/crypto.ts';
-import { workflowCompletion } from './completion.ts';
-import { predicate,scopeValues,requireOne,audit,paged,type Context,type Page } from './transaction.ts';
-import { targetTransaction } from '../../connectors/src/target-db.ts';
-import { runtimeConfig } from '../../auth/src/config.ts';
-import { observerEnrollment } from '../../auth/src/machine-profile.ts';
-import { readSimulator } from '../../connectors/src/simulator.ts';
+import * as S from '../../../contracts/src/index.ts';
+import { signCommand,digest } from '../../../contracts/src/crypto.ts';
+import { workflowCompletion } from '../shared/completion.ts';
+import { predicate,scopeValues,requireOne,audit,paged,type Context,type Page } from '../shared/transaction.ts';
+import { targetTransaction } from '../../../connectors/src/shared/target-db.ts';
+import { runtimeConfig } from '../../../auth/src/config.ts';
+import { observerEnrollment } from '../../../auth/src/machine-profile.ts';
+import { readSimulator } from '../../../connectors/src/crm-synthetic/simulator.ts';
 
 export async function prepareWorkflow(c: Context, id: string, signer: {key:KeyObject;key_id:string;installation_id:string;agent_id:string}) {
  const scope=scopeValues(c.actor);

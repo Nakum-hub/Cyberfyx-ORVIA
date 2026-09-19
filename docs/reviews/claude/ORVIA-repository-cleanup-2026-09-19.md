@@ -1,6 +1,60 @@
 # ORVIA repository cleanup — 2026-09-19
 
-**Writer:** Claude Code · **Scope:** Workspace hygiene only. No product code, contract, migration, policy or master-document content was changed.
+**Writer:** Claude Code · **Scope:** Workspace hygiene and domain-module boundary reorganization (two passes, same day). No business logic was rewritten, no contract/migration/policy semantics changed, no master document touched.
+
+## Pass 2 — domain and connector module boundaries
+
+The prototype implements one real, tested module (identity → consent → policy → durable
+workflow → signed connector command → independent verification → evidence → regression).
+The rest of ORVIA's ~218-section master is still to be built as sibling modules (Privacy
+Control Graph, DSR, retention, processors/incidents, vendor/billing, ...). Before that
+work starts, `packages/domain/src` and `packages/connectors/src` — the two places actual
+business logic accumulates — were flat single-file-per-concern directories, which would
+have mixed new modules' files in with this one's as they were added. Reorganized into
+per-concern subfolders, with cross-cutting primitives kept separate from domain-specific
+logic, using `git mv` (history preserved) and updating every import site:
+
+| Old path | New path |
+|---|---|
+| `packages/domain/src/transaction.ts` | `packages/domain/src/shared/transaction.ts` |
+| `packages/domain/src/completion.ts` | `packages/domain/src/shared/completion.ts` |
+| `packages/domain/src/consent.ts` | `packages/domain/src/consent/consent.ts` |
+| `packages/domain/src/configuration.ts` | `packages/domain/src/configuration/configuration.ts` |
+| `packages/domain/src/workflow.ts` | `packages/domain/src/workflow/workflow.ts` |
+| `packages/domain/src/processing.ts` | `packages/domain/src/processing/processing.ts` |
+| `packages/domain/src/evidence.ts` | `packages/domain/src/evidence/evidence.ts` |
+| `packages/domain/src/test-runs.ts` | `packages/domain/src/test-runs/test-runs.ts` |
+| `packages/connectors/src/target-db.ts` | `packages/connectors/src/shared/target-db.ts` |
+| `packages/connectors/src/simulator.ts` | `packages/connectors/src/crm-synthetic/simulator.ts` |
+
+`transaction.ts` and `completion.ts` have zero internal-domain dependencies and are
+imported by nearly every other domain file, so they stay in `shared/` rather than any one
+concern's folder. `target-db.ts` (`targetTransaction`, a generic scoped-transaction
+helper) is genuinely reusable by future connectors, so it moved to `connectors/shared/`;
+`simulator.ts` is specific to the one synthetic demo-CRM target, so it moved to
+`connectors/crm-synthetic/`. A future real connector gets its own sibling folder under
+`connectors/src/`; a future domain module gets its own sibling folder under
+`domain/src/` — neither touches this module's files. `packages/domain/package.json`'s
+`exports` field and `README.md` §17 were updated to match (`README.md` now documents the
+sub-module layout explicitly, as the pattern future modules should follow).
+
+No other package was restructured: `auth`, `authz`, `policy-sdk`, `testing`, `contracts`
+and `db` are already correctly single-purpose, cross-cutting infrastructure shared by
+every future module, not something that needs per-domain splitting. `apps/*` (deployable
+processes) and `apps/web/src/app/workspace/*` (already one folder per screen) were left
+as-is for the same reason — they already match the target shape.
+
+Every import site across `apps/`, `packages/`, `scripts/` and `tests/` referencing the
+ten moved files (30 import lines across 15 consumer files, enumerated by grep before any
+file was touched) was updated to the new path. A follow-up grep for the old bare
+filenames after the edits found zero remaining references. Historical evidence documents
+under `docs/reviews/` and `docs/demo/` that cite the old paths (dated reports, claims
+registers) were deliberately **not** edited — they are frozen point-in-time records, not
+live references, and rewriting them would falsify the audit trail they exist to provide.
+
+Re-validated after the move: typecheck, lint, unit tests (20/20), `contracts:check`
+(identical output: 8 artifacts, 41 route examples, 7 error examples — confirming no
+generated-contract drift) and `tracking:check` all still pass.
 
 ## What was inspected
 

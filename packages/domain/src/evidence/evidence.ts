@@ -2,16 +2,16 @@ import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type pg from 'pg';
-import * as S from '../../contracts/src/index.ts';
-import { digest } from '../../contracts/src/crypto.ts';
-import { AccessError } from '../../authz/src/index.ts';
-import { predicate,scopeValues,requireOne,audit,type Context,type Page,lockConsent } from './transaction.ts';
-import { readWorkflow,observeAction,finishWorkflow } from './workflow.ts';
-import { obligationSatisfied } from './completion.ts';
-import { runtimeConfig } from '../../auth/src/config.ts';
-import { observerEnrollment } from '../../auth/src/machine-profile.ts';
-import { readSimulator } from '../../connectors/src/simulator.ts';
-import { targetTransaction } from '../../connectors/src/target-db.ts';
+import * as S from '../../../contracts/src/index.ts';
+import { digest } from '../../../contracts/src/crypto.ts';
+import { AccessError } from '../../../authz/src/index.ts';
+import { predicate,scopeValues,requireOne,audit,type Context,type Page,lockConsent } from '../shared/transaction.ts';
+import { readWorkflow,observeAction,finishWorkflow } from '../workflow/workflow.ts';
+import { obligationSatisfied } from '../shared/completion.ts';
+import { runtimeConfig } from '../../../auth/src/config.ts';
+import { observerEnrollment } from '../../../auth/src/machine-profile.ts';
+import { readSimulator } from '../../../connectors/src/crm-synthetic/simulator.ts';
+import { targetTransaction } from '../../../connectors/src/shared/target-db.ts';
 
 export function buildId(){try{return readFileSync(resolve(process.env.ORVIA_WORKSPACE_ROOT??process.cwd(),'apps/web/.next/BUILD_ID'),'utf8').trim();}catch{return 'development-unqualified';}}
 export async function requestReconciliation(c:Context,actionId:string) {

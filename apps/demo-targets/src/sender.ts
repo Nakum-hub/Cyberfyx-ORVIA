@@ -6,7 +6,7 @@ import type { RuntimeConfig } from '../../../packages/auth/src/config.ts';
 import type { SenderEnrollmentConfig } from '../../../packages/auth/src/machine-profile.ts';
 import { machineAuthority } from '../../../packages/auth/src/machine.ts';
 import { scopedTransaction } from '../../../packages/db/src/runtime.ts';
-import { scopeValues,predicate,audit } from '../../../packages/domain/src/transaction.ts';
+import { scopeValues,predicate,audit } from '../../../packages/domain/src/shared/transaction.ts';
 type Sender=SenderEnrollmentConfig['identities'][number];
 export async function enqueue(pool: pg.Pool, identity: Sender, input: unknown) {
  const value=SendRequest.parse(input);const actor=machineAuthority(identity);

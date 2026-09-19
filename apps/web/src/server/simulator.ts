@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { SignedCommand,SimulatorState,CommandReceipt,Id } from '../../../../packages/contracts/src/index.ts';
 import { machineFor,machineAuthority,servicePool } from '../../../../packages/auth/src/machine.ts';
 import { agentEnrollment,observerEnrollment } from '../../../../packages/auth/src/machine-profile.ts';
-import { targetTransaction } from '../../../../packages/connectors/src/target-db.ts';
+import { targetTransaction } from '../../../../packages/connectors/src/shared/target-db.ts';
 import { executeCommand } from '../../../agent/src/execute.ts';
 import { limitedBody } from '../../../../packages/auth/src/server.ts';
 import { AccessError } from '../../../../packages/authz/src/index.ts';

@@ -1,8 +1,8 @@
 import type pg from 'pg';
 import { randomUUID } from 'node:crypto';
-import type { Authority } from '../../db/src/runtime.ts';
-import { AccessError } from '../../authz/src/index.ts';
-import { digest } from '../../contracts/src/crypto.ts';
+import type { Authority } from '../../../db/src/runtime.ts';
+import { AccessError } from '../../../authz/src/index.ts';
+import { digest } from '../../../contracts/src/crypto.ts';
 
 export type Context = { tx: pg.PoolClient; actor: Authority; requestId: string };
 export const predicate = 'tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3';

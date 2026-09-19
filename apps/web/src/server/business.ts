@@ -2,14 +2,14 @@ import { routes, schemas, Pagination, Id, PolicyReauthenticate, type RouteDefini
 import { authorityFor, requireCapability, AccessError } from '../../../../packages/authz/src/index.ts';
 import { limitedBody, authHandler } from '../../../../packages/auth/src/server.ts';
 import { scopedTransaction } from '../../../../packages/db/src/runtime.ts';
-import { audit, idempotent, type Page } from '../../../../packages/domain/src/transaction.ts';
-import { configurationList, createConfiguration, createMapping, mappingList, controlMap, publishPolicy, recordPublicationProof, publicationCandidate, type ConfigurationKind } from '../../../../packages/domain/src/configuration.ts';
-import { ownChoices, changeConsent, ownReceipt, ownHistory } from '../../../../packages/domain/src/consent.ts';
-import { readWorkflow,workflowList } from '../../../../packages/domain/src/workflow.ts';
-import { preview } from '../../../../packages/domain/src/processing.ts';
+import { audit, idempotent, type Page } from '../../../../packages/domain/src/shared/transaction.ts';
+import { configurationList, createConfiguration, createMapping, mappingList, controlMap, publishPolicy, recordPublicationProof, publicationCandidate, type ConfigurationKind } from '../../../../packages/domain/src/configuration/configuration.ts';
+import { ownChoices, changeConsent, ownReceipt, ownHistory } from '../../../../packages/domain/src/consent/consent.ts';
+import { readWorkflow,workflowList } from '../../../../packages/domain/src/workflow/workflow.ts';
+import { preview } from '../../../../packages/domain/src/processing/processing.ts';
 import { servicePool } from '../../../../packages/auth/src/machine.ts';
-import { requestReconciliation,attest,failures,overview,evidence,checkSystem,capabilities } from '../../../../packages/domain/src/evidence.ts';
-import { startTest,readTest } from '../../../../packages/domain/src/test-runs.ts';
+import { requestReconciliation,attest,failures,overview,evidence,checkSystem,capabilities } from '../../../../packages/domain/src/evidence/evidence.ts';
+import { startTest,readTest } from '../../../../packages/domain/src/test-runs/test-runs.ts';
 import { runtime } from './runtime.ts';
 import { safeRoute } from './http.ts';
 

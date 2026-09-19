@@ -9,10 +9,10 @@ import { runtimeConfig } from '../../../packages/auth/src/config.ts';
 import { workerEnrollment } from '../../../packages/auth/src/machine-profile.ts';
 import { servicePool,machineAuthority } from '../../../packages/auth/src/machine.ts';
 import { scopedTransaction } from '../../../packages/db/src/runtime.ts';
-import { prepareWorkflow,actionReceipt,observeAction,finishWorkflow } from '../../../packages/domain/src/workflow.ts';
-import { predicate,scopeValues,audit,type Context } from '../../../packages/domain/src/transaction.ts';
+import { prepareWorkflow,actionReceipt,observeAction,finishWorkflow } from '../../../packages/domain/src/workflow/workflow.ts';
+import { predicate,scopeValues,audit,type Context } from '../../../packages/domain/src/shared/transaction.ts';
 import { connectTemporal } from './probe-client.ts';
-import { reconcile } from '../../../packages/domain/src/evidence.ts';
+import { reconcile } from '../../../packages/domain/src/evidence/evidence.ts';
 
 export function workflowActivities() {
  const config=runtimeConfig();const enrollment=workerEnrollment(config);

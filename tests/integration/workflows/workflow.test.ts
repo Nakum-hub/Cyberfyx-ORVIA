@@ -12,7 +12,7 @@ import { connectDatabase } from '../../../packages/db/src/index.ts';
 import { loadProfile } from '../../../packages/testing/src/config.ts';
 import { servicePool,machineAuthority } from '../../../packages/auth/src/machine.ts';
 import { agentEnrollment } from '../../../packages/auth/src/machine-profile.ts';
-import { targetTransaction } from '../../../packages/connectors/src/target-db.ts';
+import { targetTransaction } from '../../../packages/connectors/src/shared/target-db.ts';
 import { executeCommand } from '../../../apps/agent/src/execute.ts';
 import { workflowActivities,dispatchOutbox } from '../../../apps/worker/src/withdrawal-worker.ts';
 import { connectTemporal } from '../../../apps/worker/src/probe-client.ts';

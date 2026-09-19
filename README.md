@@ -436,8 +436,21 @@ packages/
   authz/          Capability checks against OPA decisions
   contracts/      Generated API contracts and shared types
   db/             Schema, migrations and row-level security
-  domain/         Consent, policy, workflow, evidence and configuration logic
-  connectors/     Target adapters and declared connector capabilities
+  domain/         Business logic, one sub-module per domain concern:
+                    src/shared/         Cross-cutting primitives (transactional outbox, workflow-completion semantics)
+                    src/consent/        Grant, withdraw, receipts, epoch
+                    src/configuration/  Purposes, notices, systems, policy publication
+                    src/workflow/       Durable withdrawal workflow and signed action delivery
+                    src/processing/     Send-admission enforcement and policy preview
+                    src/evidence/       Evidence timeline, failures, capabilities, reconciliation
+                    src/test-runs/      Test Lab / privacy regression runs
+                  Future domain modules (Privacy Control Graph, DSR, retention, processors,
+                  incidents, ...) get their own sibling folder under src/ — never merged into
+                  an existing module's folder.
+  connectors/     Target adapters, one sub-module per connector:
+                    src/shared/         Cross-connector primitives (scoped target transaction)
+                    src/crm-synthetic/  The synthetic demo CRM connector (Test Lab / regression target)
+                  A real connector gets its own sibling folder under src/, e.g. src/<system-name>/.
   policy-sdk/     Policy decision client
   testing/        Profiles, evidence recording and safe error reporting
 

@@ -6,7 +6,7 @@ import { canonicalJson,digest,signCommand,verifyCommand } from '../../packages/c
 import { examplePayload,exampleReceipt,receiptReplayExample,uuid,sampleTime } from '../../packages/contracts/src/examples.ts';
 import { schemas } from '../../packages/contracts/src/index.ts';
 import { createClient,ApiError } from '../../packages/contracts/src/client.ts';
-import { obligationSatisfied,workflowCompletion,assertReconciliationTransition } from '../../packages/domain/src/completion.ts';
+import { obligationSatisfied,workflowCompletion,assertReconciliationTransition } from '../../packages/domain/src/shared/completion.ts';
 
 test('canonical digest is order-independent for objects and strict for unsupported values',()=>{
   assert.equal(canonicalJson({b:2,a:[true,null,1]}),'{"a":[true,null,1],"b":2}');

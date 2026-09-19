@@ -3,7 +3,7 @@ import type pg from 'pg';
 import type { loadProfile } from './config.ts';
 import { digest } from '../../contracts/src/crypto.ts';
 import { randomUUID } from 'node:crypto';
-import { lockConsent } from '../../domain/src/transaction.ts';
+import { lockConsent } from '../../domain/src/shared/transaction.ts';
 export type TargetSnapshot={resource_id:string;generation:number;last_applied_epoch:number;marketing_restricted:boolean};
 type Profile=ReturnType<typeof loadProfile>;
 async function context(db:pg.PoolClient,target:pg.PoolClient,profile:Profile,run:string){

@@ -1,5 +1,5 @@
 import type pg from 'pg';
-import type { Authority } from '../../db/src/runtime.ts';
+import type { Authority } from '../../../db/src/runtime.ts';
 export async function targetTransaction<T>(pool: pg.Pool, actor: Authority, work: (tx: pg.PoolClient)=>Promise<T>) {
  const tx=await pool.connect();try {
   await tx.query('BEGIN');

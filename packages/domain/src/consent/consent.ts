@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
-import * as S from '../../contracts/src/index.ts';
-import { AccessError } from '../../authz/src/index.ts';
-import { audit, predicate, scopeValues, requireOne, lockConsent, type Context, type Page } from './transaction.ts';
+import * as S from '../../../contracts/src/index.ts';
+import { AccessError } from '../../../authz/src/index.ts';
+import { audit, predicate, scopeValues, requireOne, lockConsent, type Context, type Page } from '../shared/transaction.ts';
 
 export async function ownChoices(c: Context, page: Page) {
   const scope=scopeValues(c.actor);

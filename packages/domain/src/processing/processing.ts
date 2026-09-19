@@ -1,14 +1,14 @@
 import { randomUUID } from 'node:crypto';
 import type pg from 'pg';
-import type { RuntimeConfig } from '../../auth/src/config.ts';
-import { Evaluate,Decision,SendRequest,SendResult } from '../../contracts/src/index.ts';
-import { digest } from '../../contracts/src/crypto.ts';
-import { processingDecision } from '../../policy-sdk/src/index.ts';
-import { targetTransaction } from '../../connectors/src/target-db.ts';
-import { AccessError } from '../../authz/src/index.ts';
-import { observerEnrollment } from '../../auth/src/machine-profile.ts';
-import { readSimulator } from '../../connectors/src/simulator.ts';
-import { lockConsent,predicate,scopeValues,requireOne,audit,type Context } from './transaction.ts';
+import type { RuntimeConfig } from '../../../auth/src/config.ts';
+import { Evaluate,Decision,SendRequest,SendResult } from '../../../contracts/src/index.ts';
+import { digest } from '../../../contracts/src/crypto.ts';
+import { processingDecision } from '../../../policy-sdk/src/index.ts';
+import { targetTransaction } from '../../../connectors/src/shared/target-db.ts';
+import { AccessError } from '../../../authz/src/index.ts';
+import { observerEnrollment } from '../../../auth/src/machine-profile.ts';
+import { readSimulator } from '../../../connectors/src/crm-synthetic/simulator.ts';
+import { lockConsent,predicate,scopeValues,requireOne,audit,type Context } from '../shared/transaction.ts';
 
 async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.Pool, value: {principal_reference_id:string;purpose_id:string;system_id:string;message_class:'MARKETING'|'ORDER_SERVICE';order_reference:string|null}, preview: boolean) {
  const scope=scopeValues(c.actor);

@@ -5,8 +5,8 @@ import { verifyCommand,digest } from '../../../packages/contracts/src/crypto.ts'
 import { machineAuthority } from '../../../packages/auth/src/machine.ts';
 import type { AgentEnrollmentConfig } from '../../../packages/auth/src/machine-profile.ts';
 import { scopedTransaction } from '../../../packages/db/src/runtime.ts';
-import { lockConsent,audit } from '../../../packages/domain/src/transaction.ts';
-import { targetTransaction } from '../../../packages/connectors/src/target-db.ts';
+import { lockConsent,audit } from '../../../packages/domain/src/shared/transaction.ts';
+import { targetTransaction } from '../../../packages/connectors/src/shared/target-db.ts';
 
 type Enrollment=AgentEnrollmentConfig;
 export async function executeCommand(value: unknown, enrollment: Enrollment, identity: Enrollment['identities'][number], control: pg.Pool, target: pg.Pool) {

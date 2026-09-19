@@ -1,10 +1,10 @@
 import { randomUUID } from 'node:crypto';
-import { CommandReceipt,SignedCommand,SimulatorState } from '../../contracts/src/index.ts';
-import { digest } from '../../contracts/src/crypto.ts';
-import type { RuntimeConfig } from '../../auth/src/config.ts';
+import { CommandReceipt,SignedCommand,SimulatorState } from '../../../contracts/src/index.ts';
+import { digest } from '../../../contracts/src/crypto.ts';
+import type { RuntimeConfig } from '../../../auth/src/config.ts';
 import type pg from 'pg';
-import type { Authority } from '../../db/src/runtime.ts';
-import { targetTransaction } from './target-db.ts';
+import type { Authority } from '../../../db/src/runtime.ts';
+import { targetTransaction } from '../shared/target-db.ts';
 export async function restrictSimulator(config:RuntimeConfig,token:string,command:ReturnType<typeof SignedCommand.parse>) {
  let state:'FAILED'|'EFFECT_UNKNOWN'='EFFECT_UNKNOWN';let reason='PROVIDER_RESPONSE_UNKNOWN';
  try {
