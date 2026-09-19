@@ -37,8 +37,53 @@ export function sample(schema:JsonSchema,key=''):unknown {
   if(schema.pattern==='^[0-9]{6}$')return '123456';
   return 'Synthetic example'.padEnd(schema.minLength??1,'x');
 }
+/** A relationship type fixes both endpoint kinds, so the generic sampler cannot build a valid edge. */
+const exampleRelationshipCreate={relationship_type:'ASSET_PROCESSED_BY_ACTIVITY' as const,from:{kind:'DATA_ASSET' as const,id:uuid(40)},to:{kind:'PROCESSING_ACTIVITY' as const,id:uuid(41)},provenance:'ASSERTED' as const,valid_from:sampleTime,confidence_basis:'Reviewed customer declaration'};
+export const exampleRelationship={...exampleRelationshipCreate,id:uuid(42),review_state:'UNREVIEWED' as const,recorded_at:sampleTime,valid_to:null,last_seen_at:null,owner_actor_id:uuid(43)};
 export function example(name:SchemaName):unknown {
   if(name==='CommandPayload')return examplePayload;
+  if(name==='GraphRelationshipCreate')return exampleRelationshipCreate;
+  if(name==='GraphRelationship')return exampleRelationship;
+  // An exact match resolves to exactly one reference, so the generic sampler's
+  // zero-count minimum cannot produce a coherent review.
+  if(name==='IdentityReview')return {grade:'EXACT',basis:'Verified against the recorded portal identity.',matched_reference_count:1};
+  // A successful outcome must name its method and evidence, which the generic
+  // sampler's null-for-nullable rule cannot produce.
+  // The sampler picks null for every nullable, which a constraint that must bound
+  // something, an eligible copy and a verifiable copy class all reject.
+  const constraintExample={data_asset_id:uuid(60),purpose_id:uuid(61),trigger:'RECORD_CREATED' as const,basis:'STATUTORY_OBLIGATION' as const,source_reference:'Reviewed statutory retention schedule.',minimum_days:365,maximum_days:2555,permitted_use:'Retained only to satisfy the stated obligation.',owner_reference:'Records management',review_at:sampleTime,release_condition:'Released when the obligation lapses.'};
+  if(name==='RetentionConstraintCreate')return constraintExample;
+  if(name==='RetentionConstraint')return {...constraintExample,id:uuid(62),recorded_at:sampleTime,recorded_by:uuid(63)};
+  if(name==='Eligibility')return {data_asset_id:uuid(60),evaluated_at:sampleTime,eligible:false,blockers:['NO_RECORDED_BASIS'],applicable_constraint_ids:[],active_hold_ids:[],governing_constraint_id:null,earliest_deletion_at:null,reasons:['No reviewed retention basis is recorded for this copy, so deletion is not permitted.'],limits:['Absence of a recorded constraint is not permission to delete.']};
+  if(name==='RetentionOutcomeRecord')return {result:'SUPPRESSED' as const,method:'MANUAL_ATTESTATION' as const,evidence_reference:'Signed suppression confirmation.',note:'Suppressed in the live store.'};
+  if(name==='RetentionOutcome')return {data_asset_id:uuid(60),copy_class:'DATASET' as const,result:'SUPPRESSED' as const,method:'MANUAL_ATTESTATION' as const,evidence_reference:'Signed suppression confirmation.',note:'Suppressed in the live store.',recorded_at:sampleTime,recorded_by:uuid(63)};
+  // Notification, acknowledgement and verification each fix their own method,
+  // which the generic sampler's first-enum-value rule cannot satisfy together.
+  if(name==='CoordinationRecord')return {processor_id:uuid(80),fact:'NOTIFIED' as const,subject:'Withdrawal propagation request.',method:'RECORDED_MESSAGE' as const,evidence_reference:'Message reference SYN-MSG-0001.',note:'Sent to the designated contact.'};
+  if(name==='Coordination')return {processor_id:uuid(80),fact:'NOTIFIED' as const,subject:'Withdrawal propagation request.',method:'RECORDED_MESSAGE' as const,evidence_reference:'Message reference SYN-MSG-0001.',note:'Sent to the designated contact.',id:uuid(81),recorded_at:sampleTime,recorded_by:uuid(82)};
+  if(name==='FindingClosure')return {state:'REMEDIATED' as const,closure_evidence:'Retest report SYN-RT-0001.',retest_reference:null,note:'Control re-tested and confirmed working.'};
+  if(name==='Finding')return {assessment_id:uuid(83),severity:'MEDIUM' as const,description:'Sub-processor list was out of date.',affected_system_ids:[],owner_reference:'Vendor management',due_at:sampleTime,id:uuid(84),state:'OPEN' as const,recorded_at:sampleTime,recorded_by:uuid(82),closed_at:null,closure_evidence:null,retest_reference:null,closure_note:null};
+  const templateExample={code:'GAP_OVERDUE_NOTICE',channel:'IN_APP' as const,recipient_scope:'CUSTOMER_STAFF' as const,subject:'A recorded gap has passed its deadline.',body:'A gap assigned to you passed its agreed deadline. The deadline has not been changed.',purpose_note:'Operational escalation only; never a marketing opportunity.'};
+  if(name==='TemplateCreate')return templateExample;
+  if(name==='Template')return {...templateExample,id:uuid(90),version:1,content_digest:'a'.repeat(64),recorded_at:sampleTime,recorded_by:uuid(91)};
+  if(name==='DeliveryRecord')return {fact:'QUEUED' as const,evidence_reference:null,note:'Queued for in-app delivery.'};
+  if(name==='Delivery')return {id:uuid(92),task_id:uuid(93),fact:'QUEUED' as const,evidence_reference:null,note:'Queued for in-app delivery.',recorded_at:sampleTime,recorded_by:uuid(91)};
+  if(name==='NotificationTask')return {id:uuid(93),template_id:uuid(90),template_code:'GAP_OVERDUE_NOTICE',channel:'IN_APP' as const,recipient_scope:'CUSTOMER_STAFF' as const,recipient_reference:'Records management',source:'COVERAGE_GAP' as const,source_id:uuid(94),source_due_at:sampleTime,created_at:sampleTime,queued:true,sent:false,delivered:false,failed:false,acknowledged:false,attempts:0,channel_available:true,escalated_at:null,escalation_reason:null,deliveries:[]};
+  const licenceClaims={licence_id:uuid(95),edition:'CONTROL' as const,entitlements:['PRIVACY_GRAPH' as const],installation_id:uuid(96),audience:'ORVIA_CUSTOMER_INSTALLATION' as const,valid_from:sampleTime,valid_to:'2027-09-16T10:00:00.000Z',licensed_limits:{environments:3,staff_members:25}};
+  if(name==='LicenceClaims')return licenceClaims;
+  if(name==='SignedLicence')return {algorithm:'Ed25519' as const,claims:licenceClaims,signing_key_id:uuid(97),signature:'A'.repeat(86)};
+  if(name==='LicenceImport')return {licence:{algorithm:'Ed25519' as const,claims:licenceClaims,signing_key_id:uuid(97),signature:'A'.repeat(86)}};
+  if(name==='LicenceState')return {licence_id:uuid(95),edition:'CONTROL' as const,entitlements:['PRIVACY_GRAPH' as const],installation_id:uuid(96),valid_from:sampleTime,valid_to:'2027-09-16T10:00:00.000Z',licensed_limits:{environments:3,staff_members:25},imported_at:sampleTime,imported_by:uuid(98),active:true,expired:false,continuity_note:'Expiry restricts new work and never removes recorded evidence or the ability to read and export it.'};
+  if(name==='FeatureAvailability')return {feature:'PRIVACY_GRAPH' as const,usable:false,gates:[
+    {gate:'RELEASE_AVAILABILITY' as const,satisfied:true,reason:'Shipped in this release.'},
+    {gate:'DEPLOYMENT_SUPPORT' as const,satisfied:true,reason:'Supported on this deployment profile.'},
+    {gate:'CONTROLLED_ROLLOUT' as const,satisfied:true,reason:'Not held back by a rollout control.'},
+    {gate:'LICENCE_ENTITLEMENT' as const,satisfied:false,reason:'No active licence names this entitlement.'},
+    {gate:'ACTOR_AUTHORISATION' as const,satisfied:true,reason:'This actor holds the capability.'}],limits:[]};
+  if(name==='GapClosure')return {state:'RESOLVED' as const,note:'Observation restored and confirmed against the copy.',evidence_reference:'Observation record SYN-OBS-0001.'};
+  if(name==='Gap')return {id:uuid(70),source:'NEVER_OBSERVED' as const,subject_kind:'DATA_ASSET' as const,subject_id:uuid(71),detected_at:sampleTime,last_seen_at:sampleTime,state:'OPEN' as const,severity:'MEDIUM' as const,owner_reference:null,due_at:null,evidence_reference:null,resolution_note:null,description:'This copy has never been independently observed.'};
+  if(name==='SystemOutcomeRecord')return {system_id:uuid(50),result:'SUCCEEDED',method:'CONNECTOR_OPERATION',evidence_reference:'Synthetic connector receipt.',note:'Restriction applied to the exact synthetic subject.'};
+  if(name==='SystemOutcome')return {system_id:uuid(50),result:'SUCCEEDED',method:'CONNECTOR_OPERATION',evidence_reference:'Synthetic connector receipt.',note:'Restriction applied to the exact synthetic subject.',recorded_at:sampleTime,recorded_by:uuid(51)};
   if(name==='SignedCommand')return signatureVector.command;
   if(name==='Receipt')return exampleReceipt;
   if(name==='ReceiptView')return receiptReplayExample.current_get;

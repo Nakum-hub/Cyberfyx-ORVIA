@@ -43,7 +43,7 @@ function queued(input: RequestInfo | URL, init?: RequestInit) {
 const client = createClient(queued);
 
 export type Operation = keyof EndpointMap;
-export type CallOptions = { params?: Record<string, string>; cursor?: string; limit?: number; idempotency_key?: string; signal?: AbortSignal };
+export type CallOptions = { params?: Record<string, string>; query?: Record<string, string>; cursor?: string; limit?: number; idempotency_key?: string; signal?: AbortSignal };
 
 export function call<K extends Operation>(operation: K, input: EndpointMap[K]['request'], options: CallOptions = {}) {
   return client.call(operation, input, options);
@@ -109,6 +109,8 @@ export type Query<T> = {
 export type QueryOptions<T> = {
   enabled?: boolean;
   params?: Record<string, string>;
+  /** Declared query parameters for routes that accept them; validated by the client. */
+  query?: Record<string, string>;
   limit?: number;
   cursor?: string;
   /** Internal collection reader: each page is contract-validated before combining. */
@@ -123,11 +125,12 @@ export type QueryOptions<T> = {
  */
 export function useQuery<K extends Operation>(operation: K, options: QueryOptions<EndpointMap[K]['response']> = {}): Query<EndpointMap[K]['response']> {
   type Result = EndpointMap[K]['response'];
-  const { enabled = true, params, limit, cursor, allPages = false, pollWhile } = options;
+  const { enabled = true, params, query, limit, cursor, allPages = false, pollWhile } = options;
   const [state, setState] = useState<{ status: QueryStatus; data: Result | null; failure: UiFailure | null; loadedAt: number | null }>(
     { status: 'idle', data: null, failure: null, loadedAt: null });
   const [tick, setTick] = useState(0);
   const paramsKey = JSON.stringify(params ?? null);
+  const queryKey = JSON.stringify(query ?? null);
   const sourceRef = useRef<string | null>(null);
   const pollRef = useRef(pollWhile);
   pollRef.current = pollWhile;
@@ -141,7 +144,7 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     if (!enabled) { setState({ status: 'idle', data: null, failure: null, loadedAt: null }); return; }
     const controller = new AbortController();
     const requestIdentity = identity;
-    const sourceKey = JSON.stringify([identity,operation,paramsKey,limit,cursor,allPages]);
+    const sourceKey = JSON.stringify([identity,operation,paramsKey,queryKey,limit,cursor,allPages]);
     const sameSource = sourceRef.current === sourceKey;
     sourceRef.current = sourceKey;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -151,12 +154,13 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     // Rebuilt from the serialised key so an inline object literal from the
     // caller cannot retrigger this effect on every render.
     const effectiveParams = JSON.parse(paramsKey) as Record<string, string> | null;
+    const effectiveQuery = JSON.parse(queryKey) as Record<string, string> | null;
 
     const read = async (isRefresh: boolean) => {
       setState(previous => isRefresh ? { ...previous, status: 'refreshing' } : { status: 'loading', data: null, failure: null, loadedAt: null });
       try {
         let data = await client.call(operation, undefined as EndpointMap[K]['request'],
-          { ...(effectiveParams ? { params: effectiveParams } : {}), ...(limit ? { limit } : {}), cursor, signal: controller.signal }) as Result;
+          { ...(effectiveParams ? { params: effectiveParams } : {}), ...(effectiveQuery ? { query: effectiveQuery } : {}), ...(limit ? { limit } : {}), cursor, signal: controller.signal }) as Result;
         if (allPages) {
           const collection = data as Result & {items:unknown[];next_cursor:string|null};
           const items = [...collection.items]; const seen = new Set<string>();
@@ -190,10 +194,10 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     };
     void read(sameSource);
     return () => { cancelled = true; controller.abort(); if (timer) clearTimeout(timer); };
-  }, [operation, enabled, paramsKey, limit, cursor, allPages, tick]);
+  }, [operation, enabled, paramsKey, queryKey, limit, cursor, allPages, tick]);
 
   const refresh = useCallback(() => setTick(value => value + 1), []);
-  const bound=sourceRef.current===JSON.stringify([identity,operation,paramsKey,limit,cursor,allPages]);
+  const bound=sourceRef.current===JSON.stringify([identity,operation,paramsKey,queryKey,limit,cursor,allPages]);
   return bound ? {...state,refresh} : {status:enabled?'loading':'idle',data:null,failure:null,loadedAt:null,refresh};
 }
 
