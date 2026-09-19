@@ -41,17 +41,19 @@
       "module_id": "M03",
       "name": "Privacy Control Graph",
       "sprint_priority": "P0",
-      "target_depth": "LIGHT",
+      "target_depth": "CORE",
       "target_product": "V1",
       "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
       "test_status": "COVERED_AT_CANDIDATE",
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Relational control abstraction: registered systems, explicit principal-to-target mappings and a scoped control map. A relationship list and detail view, not a graph database and not autonomous estate discovery.",
+      "limitation": "Relational inventory over PostgreSQL: data assets with parent/child structure, reviewed category assignments, processing activities, typed foreign-key-backed relationships, distinct ASSERTED/OBSERVED provenance with freshness bounds, bounded keyword search, bounded traversal to depth three, change impact over policies, workflows, tests, assets and owners, and justified payload erasure that preserves historical links. Not an autonomous estate discovery scan and not a graph database. Impact does not cover assessments, processor relationships or retention plans, which are not implemented in this release and are reported as explicitly unavailable rather than empty.",
       "evidence": [
+        "test:graph",
         "test:evidence",
-        "tests/e2e/workflow.spec.ts"
+        "tests/e2e/workflow.spec.ts",
+        "packages/db/migrations/0015_privacy_graph.sql"
       ]
     },
     {
@@ -163,16 +165,18 @@
       "module_id": "M10",
       "name": "Notification Engine",
       "sprint_priority": "P0",
-      "target_depth": "LIGHT",
+      "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "PARTIAL_SANDBOX",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
       "test_status": "COVERED_AT_CANDIDATE",
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "A synthetic send-admission boundary with queue, admission decision and send records exists and is enforced against current authority. No notification delivery, templating, channel or recipient management is built, and no real message is ever transmitted.",
+      "limitation": "Versioned templates with content digests and a stated purpose; notification tasks raised only against a record that exists (coverage gap, notification obligation or assessment finding); and an append-only delivery log in which queued, sent, delivered, failed and acknowledged are five independent facts that keep their real order. Only queueing is performed by ORVIA and needs no evidence; every later fact is a recorded claim that must name evidence, and a channel with no configured transport is declared unavailable and cannot be claimed as sent. A failure and a later success are both retained. Escalation raises attention on overdue undelivered tasks and never moves the deadline that caused it, enforced by a database trigger and by a literal-zero field in the sweep result. Not included: any actual transport (no mail, no webhook egress, no in-app inbox delivery), recipient preference rules, per-principal notification, scheduled sweeps (escalation runs on demand) and vendor billing notifications.",
       "evidence": [
-        "test:enforcement"
+        "test:notifications",
+        "packages/db/migrations/0022_notifications.sql",
+        "tests/unit/notifications.test.ts"
       ]
     },
     {
@@ -232,60 +236,74 @@
       "module_id": "M14",
       "name": "Rights Management",
       "sprint_priority": "P1",
-      "target_depth": "COORDINATION_OPTIONAL",
+      "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_IMPLEMENTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_ENABLED",
-      "limitation": "Not implemented. The optional rights-intake slice was not promoted for this sprint. Marketing consent withdrawal is a purpose restriction and must never be described as erasure or as a rights request.",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Rights request lifecycle using the master state vocabulary and its exact transition map, with identity, authority, execution, response and scope held as five independent dimensions. Identity match grading (exact/strong/probable/ambiguous/no-match) blocks disclosure and destructive execution while unresolved. Nomination and guardian mandates are separate authorities with permitted-right scope, validity windows and revocation that immediately withdraws authority from open requests. Execution is computed only from recorded per-system outcomes, never from a lifecycle transition: success must name its method and evidence, an unsupported connector operation cannot be claimed, and a system with a recorded outcome cannot be dropped or re-actioned by re-scoping. CLOSED is administrative closure that cannot rewrite what execution achieved. Not included: portal self-service intake, automatic dispatch of planned actions through the durable workflow engine (outcomes are recorded by an operator or an external process, not driven by ORVIA), age assurance, and response package generation beyond the reviewed release record.",
+      "evidence": [
+        "test:rights",
+        "packages/db/migrations/0016_rights_requests.sql",
+        "packages/db/migrations/0017_rights_outcomes.sql",
+        "tests/unit/rights.test.ts"
+      ]
     },
     {
       "module_id": "M15",
       "name": "Retention Management",
       "sprint_priority": "P1",
-      "target_depth": "COORDINATION_OPTIONAL",
+      "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_IMPLEMENTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_ENABLED",
-      "limitation": "Not implemented. The optional retention and hold review slice was not promoted for this sprint. No retention schedule, hold or destructive execution exists.",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Retention evaluated per copy against the M03 inventory, with reviewed constraints (trigger, basis, source reference, minimum/maximum, permitted use, owner, review and release condition), exact-scope legal holds that name the copies they cover, and reviewed conflict decisions. Three refusals are enforced end to end: a copy with no recorded basis is never eligible for deletion; constraints that disagree block until a reviewer records which governs, rather than applying the longest duration; and a backup copy can never be reported as suppressed or deleted because backup erasure is not independently verifiable. Outcomes are recorded per copy class and are append-only. Not included: execution through connector adapters (outcomes are attested, not dispatched), crypto-shredding, backup-expiry tracking, and automatic reconciliation of a quarantined restore, which is surfaced as a blocker for an operator to clear.",
+      "evidence": [
+        "test:retention",
+        "packages/db/migrations/0018_retention.sql",
+        "tests/unit/retention.test.ts"
+      ]
     },
     {
       "module_id": "M16",
       "name": "Processor/Vendor Management",
       "sprint_priority": "P0",
-      "target_depth": "LIGHT",
+      "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "PARTIAL_SANDBOX",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
       "test_status": "COVERED_AT_CANDIDATE",
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Synthetic systems are registered, scoped and mapped to principals and purposes, and their declared adapter capability is exposed. No processor or vendor registry, contract, assessment or data-processing agreement tracking is built.",
+      "limitation": "Processor relationships with authorised purposes and categories, region, contract reference, owner and incident contact; declared processor-to-system links; assessments activated by a reviewed applicability basis; and findings with owner, severity and deadline. The defining rule is enforced at every layer: notification, acknowledgement and verification are three separate append-only facts, only an independent check with named evidence can record verification, and a processor statement is always an attributable claim. Standing reports the three facts separately with no combined score, and derives systems serving purposes the processor was never authorised for. An assessment cannot complete while its findings are open, and a finding closes only with defined evidence or a retest. Not included: any automated exchange with a processor (every fact is recorded locally by a person), SDF or sector-specific rule packs beyond the assessment kind, sub-processor chain discovery, and contract document storage.",
       "evidence": [
-        "test:evidence",
-        "test:workflows"
+        "test:processors",
+        "packages/db/migrations/0020_processors.sql",
+        "tests/unit/processors.test.ts"
       ]
     },
     {
       "module_id": "M17",
       "name": "Privacy Incident Explorer",
       "sprint_priority": "OUT_OF_SPRINT",
-      "target_depth": "ROADMAP",
+      "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_IMPLEMENTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_ENABLED",
-      "limitation": "Not implemented. No incident intake, triage, investigation or regulatory notification workflow exists in this prototype.",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Incidents recording occurrence, detection and awareness as three separate moments whose real ordering is enforced at the boundary and in the database, with unknown kept as unknown rather than filled in from another moment. Notification obligations are computed per recipient from rule packs the customer recorded and activated: ORVIA ships no notification periods, and each rule names its own reviewed source, the moment its clock runs from and how long it allows. A duty whose clock has not started has no deadline rather than a guessed one, and a rule that does not apply while the affected scope is uncertain is recorded as not applicable rather than skipped. Corrections append with their previous value and name every deadline they moved. A dispatch is a recorded claim that must name evidence, a dispatched notification cannot be withdrawn, and where no supported channel exists a manual package is required. Not included: any actual filing or message transport (ORVIA sends nothing), regulator API integration, notification content drafting, and scheduled escalation of overdue duties, which are visible but trigger no alert.",
+      "evidence": [
+        "test:incidents",
+        "packages/db/migrations/0021_incidents.sql",
+        "tests/unit/incidents.test.ts"
+      ]
     },
     {
       "module_id": "M18",
@@ -298,10 +316,11 @@
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Unresolved obligations across unknown effect, failed execution, unsupported or manual control and missing current verification, surfaced with counts that deliberately overlap and are never summed into a single score.",
+      "limitation": "Coverage computed at read time over the recorded inventory across five dimensions, each reporting its own numerator, denominator and explained exclusions. Attention states are reported as overlapping sets that name what they overlap with and are never summed into a headline figure. Gaps are derived from real rows (missing retention basis, never observed, stale observation, unreviewed inventory, unresolved destination, failed execution), refreshed rather than duplicated on re-derivation, keep their original detection date, and close only through named evidence or an owned and reasoned acceptance of risk; a recurrence opens a new gap. Runbook guidance is advisory only and cannot establish a cause, close an action or produce a decision. Not included: coverage over systems nobody declared, scheduled derivation, notification of overdue gaps, and connector-capability change detection as a gap source.",
       "evidence": [
-        "test:evidence",
-        "tests/e2e/workflow.spec.ts"
+        "test:coverage",
+        "packages/db/migrations/0019_coverage_gaps.sql",
+        "tests/unit/coverage.test.ts"
       ]
     },
     {
@@ -420,29 +439,37 @@
       "module_id": "M27",
       "name": "Licensing",
       "sprint_priority": "P1",
-      "target_depth": "DEVELOPMENT_FIXTURE_OPTIONAL",
+      "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_IMPLEMENTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_ENABLED",
-      "limitation": "Not implemented. The optional signed development-licence import demonstration was not promoted for this sprint.",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Immutable signed licences carrying only edition, entitlements, validity, licensed limits and an installation binding. The claims schema is closed, so a licence cannot carry a command, an endpoint or an authority grant, and the entitlement vocabulary cannot express a capability this product will not sell. Local verification covers trusted signer, audience, signature over canonical JSON, schema, installation binding and validity window, and every failure returns a named reason. Re-importing the same licence is refused as a replay; a stored licence can be superseded but its terms and validity cannot be edited and it is never deleted. Not included: offline renewal flows, revocation lists and freshness policy, trusted-time handling beyond the local clock, and any vendor-side issuance. The signing key is supplied by configuration with no default: without it nothing verifies.",
+      "evidence": [
+        "test:licensing",
+        "packages/db/migrations/0023_licences.sql",
+        "tests/unit/licensing.test.ts"
+      ]
     },
     {
       "module_id": "M28",
       "name": "Entitlements",
       "sprint_priority": "P1",
-      "target_depth": "DEVELOPMENT_FIXTURE_OPTIONAL",
+      "target_depth": "CORE",
       "target_product": "V1",
-      "implementation_status": "NOT_IMPLEMENTED",
-      "test_status": "NOT_RUN",
-      "supported_profile": "NOT_VERIFIED",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "COVERED_AT_CANDIDATE",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "NOT_ENABLED",
-      "limitation": "Not implemented. The edition entitlement field on every row of this register maps to the approved master and is a plan reference, not an enforced entitlement.",
-      "evidence": []
+      "enabled_state": "ENABLED_SYNTHETIC",
+      "limitation": "Five independent gates — release availability, deployment support, controlled rollout, licence entitlement and actor authorisation — every one of which must pass before a feature is usable, each reported separately with its own reason so the blocking gate is identifiable. One shared capability vocabulary rather than scattered price checks. Expiry restricts new work and never removes recorded evidence or the ability to read and export. Capabilities that no edition, licence or flag can enable (model features, vendor remote access, staff directory sync, proactive diagnostics, runtime replication) are stated to the operator as commitments rather than withheld features. Not included: per-operation enforcement of licensed limits (environments and staff counts are recorded but not enforced at creation time), downgrade hand-off workflows, and edition-differentiated behaviour beyond entitlement membership.",
+      "evidence": [
+        "test:licensing",
+        "packages/db/migrations/0023_licences.sql",
+        "tests/unit/licensing.test.ts"
+      ]
     },
     {
       "module_id": "M29",

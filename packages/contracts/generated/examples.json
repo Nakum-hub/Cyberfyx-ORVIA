@@ -690,13 +690,1745 @@
       }
     },
     {
+      "operation_id": "list_data_assets",
+      "method": "GET",
+      "path": "/api/v1/admin/data-assets",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "data_asset",
+      "method": "GET",
+      "path": "/api/v1/admin/data-assets/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "system_id": "00000000-0000-4000-8000-0000000000b2",
+        "kind": "DATASET",
+        "parent_id": null,
+        "name": "Synthetic example",
+        "description": "Synthetic example",
+        "provenance": "ASSERTED",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "categories": [],
+        "id": "00000000-0000-4000-8000-0000000000b3",
+        "review_state": "UNREVIEWED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "last_seen_at": null,
+        "fresh_until": null,
+        "owner_actor_id": "00000000-0000-4000-8000-0000000000b4",
+        "tombstoned_at": null,
+        "tombstone_reason": null
+      }
+    },
+    {
+      "operation_id": "create_data_asset",
+      "method": "POST",
+      "path": "/api/v1/admin/data-assets",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "system_id": "00000000-0000-4000-8000-0000000000b5",
+        "kind": "DATASET",
+        "parent_id": null,
+        "name": "Synthetic example",
+        "description": "Synthetic example",
+        "provenance": "ASSERTED",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "categories": []
+      },
+      "response_status": 201,
+      "response": {
+        "system_id": "00000000-0000-4000-8000-0000000000b6",
+        "kind": "DATASET",
+        "parent_id": null,
+        "name": "Synthetic example",
+        "description": "Synthetic example",
+        "provenance": "ASSERTED",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "categories": [],
+        "id": "00000000-0000-4000-8000-0000000000b7",
+        "review_state": "UNREVIEWED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "last_seen_at": null,
+        "fresh_until": null,
+        "owner_actor_id": "00000000-0000-4000-8000-0000000000b8",
+        "tombstoned_at": null,
+        "tombstone_reason": null
+      }
+    },
+    {
+      "operation_id": "tombstone_data_asset",
+      "method": "POST",
+      "path": "/api/v1/admin/data-assets/{id}/tombstone",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example",
+        "integrity_reference": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "system_id": "00000000-0000-4000-8000-0000000000b9",
+        "kind": "DATASET",
+        "parent_id": null,
+        "name": "Synthetic example",
+        "description": "Synthetic example",
+        "provenance": "ASSERTED",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "categories": [],
+        "id": "00000000-0000-4000-8000-0000000000ba",
+        "review_state": "UNREVIEWED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "last_seen_at": null,
+        "fresh_until": null,
+        "owner_actor_id": "00000000-0000-4000-8000-0000000000bb",
+        "tombstoned_at": null,
+        "tombstone_reason": null
+      }
+    },
+    {
+      "operation_id": "list_activities",
+      "method": "GET",
+      "path": "/api/v1/admin/processing-activities",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_activity",
+      "method": "POST",
+      "path": "/api/v1/admin/processing-activities",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "purpose_id": "00000000-0000-4000-8000-0000000000bc",
+        "name": "Synthetic example",
+        "description": "Synthetic example",
+        "lawful_condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "owner_reference": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "purpose_id": "00000000-0000-4000-8000-0000000000bd",
+        "name": "Synthetic example",
+        "description": "Synthetic example",
+        "lawful_condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "owner_reference": "Synthetic example",
+        "id": "00000000-0000-4000-8000-0000000000be",
+        "review_state": "UNREVIEWED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "owner_actor_id": "00000000-0000-4000-8000-0000000000bf"
+      }
+    },
+    {
+      "operation_id": "list_relationships",
+      "method": "GET",
+      "path": "/api/v1/admin/graph/relationships",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_relationship",
+      "method": "POST",
+      "path": "/api/v1/admin/graph/relationships",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "relationship_type": "ASSET_PROCESSED_BY_ACTIVITY",
+        "from": {
+          "kind": "DATA_ASSET",
+          "id": "00000000-0000-4000-8000-000000000028"
+        },
+        "to": {
+          "kind": "PROCESSING_ACTIVITY",
+          "id": "00000000-0000-4000-8000-000000000029"
+        },
+        "provenance": "ASSERTED",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "confidence_basis": "Reviewed customer declaration"
+      },
+      "response_status": 201,
+      "response": {
+        "relationship_type": "ASSET_PROCESSED_BY_ACTIVITY",
+        "from": {
+          "kind": "DATA_ASSET",
+          "id": "00000000-0000-4000-8000-000000000028"
+        },
+        "to": {
+          "kind": "PROCESSING_ACTIVITY",
+          "id": "00000000-0000-4000-8000-000000000029"
+        },
+        "provenance": "ASSERTED",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "confidence_basis": "Reviewed customer declaration",
+        "id": "00000000-0000-4000-8000-00000000002a",
+        "review_state": "UNREVIEWED",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "last_seen_at": null,
+        "owner_actor_id": "00000000-0000-4000-8000-00000000002b"
+      }
+    },
+    {
+      "operation_id": "graph_search",
+      "method": "GET",
+      "path": "/api/v1/admin/graph/search",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "query_terms": [],
+        "hits": [],
+        "truncated": false,
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "graph_neighbourhood",
+      "method": "GET",
+      "path": "/api/v1/admin/graph/nodes/{id}/neighbourhood",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "root": {
+          "kind": "DATA_ASSET",
+          "id": "00000000-0000-4000-8000-0000000000c0"
+        },
+        "depth": 1,
+        "nodes": [],
+        "edges": [],
+        "truncated": false,
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "graph_impact",
+      "method": "GET",
+      "path": "/api/v1/admin/graph/nodes/{id}/impact",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "node": {
+          "kind": "DATA_ASSET",
+          "id": "00000000-0000-4000-8000-0000000000c1"
+        },
+        "assessed_at": "2026-09-16T10:00:00.000Z",
+        "affected": {
+          "policy_version_ids": [],
+          "workflow_ids": [],
+          "test_run_ids": [],
+          "data_asset_ids": [],
+          "owner_actor_ids": [],
+          "processor_ids": [],
+          "retention_constraint_ids": [],
+          "incident_ids": []
+        },
+        "truncated_dimensions": [],
+        "unavailable_dimensions": [],
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "list_rights_requests",
+      "method": "GET",
+      "path": "/api/v1/admin/rights-requests",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_rights_request",
+      "method": "POST",
+      "path": "/api/v1/admin/rights-requests",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000c2",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000c3",
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000c4",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example",
+        "state": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "identity": "NOT_ASSESSED",
+        "identity_grade": null,
+        "authority": "NOT_ESTABLISHED",
+        "execution": "NOT_STARTED",
+        "response": "NOT_PREPARED",
+        "scope": "NOT_DETERMINED",
+        "plan": [],
+        "unresolved_destinations": [],
+        "outcomes": [],
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "rights_request",
+      "method": "GET",
+      "path": "/api/v1/admin/rights-requests/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000c5",
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000c6",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example",
+        "state": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "identity": "NOT_ASSESSED",
+        "identity_grade": null,
+        "authority": "NOT_ESTABLISHED",
+        "execution": "NOT_STARTED",
+        "response": "NOT_PREPARED",
+        "scope": "NOT_DETERMINED",
+        "plan": [],
+        "unresolved_destinations": [],
+        "outcomes": [],
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "review_identity",
+      "method": "POST",
+      "path": "/api/v1/admin/rights-requests/{id}/identity-review",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "grade": "EXACT",
+        "basis": "Verified against the recorded portal identity.",
+        "matched_reference_count": 1
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000c7",
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000c8",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example",
+        "state": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "identity": "NOT_ASSESSED",
+        "identity_grade": null,
+        "authority": "NOT_ESTABLISHED",
+        "execution": "NOT_STARTED",
+        "response": "NOT_PREPARED",
+        "scope": "NOT_DETERMINED",
+        "plan": [],
+        "unresolved_destinations": [],
+        "outcomes": [],
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "scope_request",
+      "method": "POST",
+      "path": "/api/v1/admin/rights-requests/{id}/scope",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "items": [
+          {
+            "system_id": "00000000-0000-4000-8000-0000000000c9",
+            "action": "DISCLOSE_COPY",
+            "retention_exception": null,
+            "note": "Synthetic example"
+          }
+        ],
+        "unresolved_destinations": []
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000ca",
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000cb",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example",
+        "state": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "identity": "NOT_ASSESSED",
+        "identity_grade": null,
+        "authority": "NOT_ESTABLISHED",
+        "execution": "NOT_STARTED",
+        "response": "NOT_PREPARED",
+        "scope": "NOT_DETERMINED",
+        "plan": [],
+        "unresolved_destinations": [],
+        "outcomes": [],
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "transition_request",
+      "method": "POST",
+      "path": "/api/v1/admin/rights-requests/{id}/transition",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "to": "RECEIVED",
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000cc",
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000cd",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example",
+        "state": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "identity": "NOT_ASSESSED",
+        "identity_grade": null,
+        "authority": "NOT_ESTABLISHED",
+        "execution": "NOT_STARTED",
+        "response": "NOT_PREPARED",
+        "scope": "NOT_DETERMINED",
+        "plan": [],
+        "unresolved_destinations": [],
+        "outcomes": [],
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "release_response",
+      "method": "POST",
+      "path": "/api/v1/admin/rights-requests/{id}/response",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "third_party_redaction_reviewed": true,
+        "delivery_reference": "Synthetic example",
+        "expires_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000ce",
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000cf",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example",
+        "state": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "identity": "NOT_ASSESSED",
+        "identity_grade": null,
+        "authority": "NOT_ESTABLISHED",
+        "execution": "NOT_STARTED",
+        "response": "NOT_PREPARED",
+        "scope": "NOT_DETERMINED",
+        "plan": [],
+        "unresolved_destinations": [],
+        "outcomes": [],
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "record_outcome",
+      "method": "POST",
+      "path": "/api/v1/admin/rights-requests/{id}/outcomes",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "system_id": "00000000-0000-4000-8000-000000000032",
+        "result": "SUCCEEDED",
+        "method": "CONNECTOR_OPERATION",
+        "evidence_reference": "Synthetic connector receipt.",
+        "note": "Restriction applied to the exact synthetic subject."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000d0",
+        "right_type": "ACCESS",
+        "principal_id": "00000000-0000-4000-8000-0000000000d1",
+        "submitted_channel": "PORTAL",
+        "mandate_id": null,
+        "description": "Synthetic example",
+        "state": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "identity": "NOT_ASSESSED",
+        "identity_grade": null,
+        "authority": "NOT_ESTABLISHED",
+        "execution": "NOT_STARTED",
+        "response": "NOT_PREPARED",
+        "scope": "NOT_DETERMINED",
+        "plan": [],
+        "unresolved_destinations": [],
+        "outcomes": [],
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "list_constraints",
+      "method": "GET",
+      "path": "/api/v1/admin/retention/constraints",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_constraint",
+      "method": "POST",
+      "path": "/api/v1/admin/retention/constraints",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "data_asset_id": "00000000-0000-4000-8000-00000000003c",
+        "purpose_id": "00000000-0000-4000-8000-00000000003d",
+        "trigger": "RECORD_CREATED",
+        "basis": "STATUTORY_OBLIGATION",
+        "source_reference": "Reviewed statutory retention schedule.",
+        "minimum_days": 365,
+        "maximum_days": 2555,
+        "permitted_use": "Retained only to satisfy the stated obligation.",
+        "owner_reference": "Records management",
+        "review_at": "2026-09-16T10:00:00.000Z",
+        "release_condition": "Released when the obligation lapses."
+      },
+      "response_status": 201,
+      "response": {
+        "data_asset_id": "00000000-0000-4000-8000-00000000003c",
+        "purpose_id": "00000000-0000-4000-8000-00000000003d",
+        "trigger": "RECORD_CREATED",
+        "basis": "STATUTORY_OBLIGATION",
+        "source_reference": "Reviewed statutory retention schedule.",
+        "minimum_days": 365,
+        "maximum_days": 2555,
+        "permitted_use": "Retained only to satisfy the stated obligation.",
+        "owner_reference": "Records management",
+        "review_at": "2026-09-16T10:00:00.000Z",
+        "release_condition": "Released when the obligation lapses.",
+        "id": "00000000-0000-4000-8000-00000000003e",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-00000000003f"
+      }
+    },
+    {
+      "operation_id": "list_holds",
+      "method": "GET",
+      "path": "/api/v1/admin/retention/holds",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_hold",
+      "method": "POST",
+      "path": "/api/v1/admin/retention/holds",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "data_asset_ids": [
+          "00000000-0000-4000-8000-0000000000d2"
+        ],
+        "reason": "Synthetic example",
+        "authority_reference": "Synthetic example",
+        "issued_at": "2026-09-16T10:00:00.000Z",
+        "review_at": "2026-09-16T10:00:00.000Z",
+        "release_criterion": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "data_asset_ids": [
+          "00000000-0000-4000-8000-0000000000d3"
+        ],
+        "reason": "Synthetic example",
+        "authority_reference": "Synthetic example",
+        "issued_at": "2026-09-16T10:00:00.000Z",
+        "review_at": "2026-09-16T10:00:00.000Z",
+        "release_criterion": "Synthetic example",
+        "id": "00000000-0000-4000-8000-0000000000d4",
+        "state": "ACTIVE",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000d5",
+        "released_at": null,
+        "release_reason": null
+      }
+    },
+    {
+      "operation_id": "release_hold",
+      "method": "POST",
+      "path": "/api/v1/admin/retention/holds/{id}/release",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "data_asset_ids": [
+          "00000000-0000-4000-8000-0000000000d6"
+        ],
+        "reason": "Synthetic example",
+        "authority_reference": "Synthetic example",
+        "issued_at": "2026-09-16T10:00:00.000Z",
+        "review_at": "2026-09-16T10:00:00.000Z",
+        "release_criterion": "Synthetic example",
+        "id": "00000000-0000-4000-8000-0000000000d7",
+        "state": "ACTIVE",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000d8",
+        "released_at": null,
+        "release_reason": null
+      }
+    },
+    {
+      "operation_id": "asset_eligibility",
+      "method": "GET",
+      "path": "/api/v1/admin/data-assets/{id}/eligibility",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "data_asset_id": "00000000-0000-4000-8000-00000000003c",
+        "evaluated_at": "2026-09-16T10:00:00.000Z",
+        "eligible": false,
+        "blockers": [
+          "NO_RECORDED_BASIS"
+        ],
+        "applicable_constraint_ids": [],
+        "active_hold_ids": [],
+        "governing_constraint_id": null,
+        "earliest_deletion_at": null,
+        "reasons": [
+          "No reviewed retention basis is recorded for this copy, so deletion is not permitted."
+        ],
+        "limits": [
+          "Absence of a recorded constraint is not permission to delete."
+        ]
+      }
+    },
+    {
+      "operation_id": "retention_decision",
+      "method": "POST",
+      "path": "/api/v1/admin/data-assets/{id}/retention-decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "governing_constraint_id": "00000000-0000-4000-8000-0000000000d9",
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "data_asset_id": "00000000-0000-4000-8000-00000000003c",
+        "evaluated_at": "2026-09-16T10:00:00.000Z",
+        "eligible": false,
+        "blockers": [
+          "NO_RECORDED_BASIS"
+        ],
+        "applicable_constraint_ids": [],
+        "active_hold_ids": [],
+        "governing_constraint_id": null,
+        "earliest_deletion_at": null,
+        "reasons": [
+          "No reviewed retention basis is recorded for this copy, so deletion is not permitted."
+        ],
+        "limits": [
+          "Absence of a recorded constraint is not permission to delete."
+        ]
+      }
+    },
+    {
+      "operation_id": "retention_outcome",
+      "method": "POST",
+      "path": "/api/v1/admin/data-assets/{id}/retention-outcome",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "result": "SUPPRESSED",
+        "method": "MANUAL_ATTESTATION",
+        "evidence_reference": "Signed suppression confirmation.",
+        "note": "Suppressed in the live store."
+      },
+      "response_status": 200,
+      "response": {
+        "data_asset_id": "00000000-0000-4000-8000-00000000003c",
+        "copy_class": "DATASET",
+        "result": "SUPPRESSED",
+        "method": "MANUAL_ATTESTATION",
+        "evidence_reference": "Signed suppression confirmation.",
+        "note": "Suppressed in the live store.",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-00000000003f"
+      }
+    },
+    {
+      "operation_id": "list_retention_outcomes",
+      "method": "GET",
+      "path": "/api/v1/admin/retention/outcomes",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "coverage",
+      "method": "GET",
+      "path": "/api/v1/admin/coverage",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "scope": {
+          "tenant_id": "00000000-0000-4000-8000-0000000000da",
+          "legal_entity_id": "00000000-0000-4000-8000-0000000000db",
+          "environment_id": "00000000-0000-4000-8000-0000000000dc"
+        },
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "measures": [],
+        "attention": [],
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "list_gaps",
+      "method": "GET",
+      "path": "/api/v1/admin/gaps",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "derive_gaps",
+      "method": "POST",
+      "path": "/api/v1/admin/gaps/derive",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "derived_at": "2026-09-16T10:00:00.000Z",
+        "opened": 0,
+        "refreshed": 0,
+        "examined": 0,
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "assign_gap",
+      "method": "POST",
+      "path": "/api/v1/admin/gaps/{id}/assignment",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000046",
+        "source": "NEVER_OBSERVED",
+        "subject_kind": "DATA_ASSET",
+        "subject_id": "00000000-0000-4000-8000-000000000047",
+        "detected_at": "2026-09-16T10:00:00.000Z",
+        "last_seen_at": "2026-09-16T10:00:00.000Z",
+        "state": "OPEN",
+        "severity": "MEDIUM",
+        "owner_reference": null,
+        "due_at": null,
+        "evidence_reference": null,
+        "resolution_note": null,
+        "description": "This copy has never been independently observed."
+      }
+    },
+    {
+      "operation_id": "close_gap",
+      "method": "POST",
+      "path": "/api/v1/admin/gaps/{id}/closure",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "state": "RESOLVED",
+        "note": "Observation restored and confirmed against the copy.",
+        "evidence_reference": "Observation record SYN-OBS-0001."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000046",
+        "source": "NEVER_OBSERVED",
+        "subject_kind": "DATA_ASSET",
+        "subject_id": "00000000-0000-4000-8000-000000000047",
+        "detected_at": "2026-09-16T10:00:00.000Z",
+        "last_seen_at": "2026-09-16T10:00:00.000Z",
+        "state": "OPEN",
+        "severity": "MEDIUM",
+        "owner_reference": null,
+        "due_at": null,
+        "evidence_reference": null,
+        "resolution_note": null,
+        "description": "This copy has never been independently observed."
+      }
+    },
+    {
+      "operation_id": "gap_guidance",
+      "method": "GET",
+      "path": "/api/v1/admin/gaps/{id}/guidance",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "gap_id": "00000000-0000-4000-8000-0000000000dd",
+        "matched_rule": null,
+        "suggestion": null,
+        "authority": "ADVISORY_ONLY",
+        "caveats": [
+          "Synthetic example"
+        ]
+      }
+    },
+    {
+      "operation_id": "list_processors",
+      "method": "GET",
+      "path": "/api/v1/admin/processors",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_processor",
+      "method": "POST",
+      "path": "/api/v1/admin/processors",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "name": "Synthetic example",
+        "role": "PROCESSOR",
+        "authorised_purpose_ids": [
+          "00000000-0000-4000-8000-0000000000de"
+        ],
+        "authorised_categories": [
+          "CONTACT_DETAILS"
+        ],
+        "region": "Synthetic example",
+        "contract_reference": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "incident_contact": "Synthetic example",
+        "subprocessors_permitted": false
+      },
+      "response_status": 201,
+      "response": {
+        "name": "Synthetic example",
+        "role": "PROCESSOR",
+        "authorised_purpose_ids": [
+          "00000000-0000-4000-8000-0000000000df"
+        ],
+        "authorised_categories": [
+          "CONTACT_DETAILS"
+        ],
+        "region": "Synthetic example",
+        "contract_reference": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "incident_contact": "Synthetic example",
+        "subprocessors_permitted": false,
+        "id": "00000000-0000-4000-8000-0000000000e0",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000e1"
+      }
+    },
+    {
+      "operation_id": "link_processor_system",
+      "method": "POST",
+      "path": "/api/v1/admin/processors/{id}/systems",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "system_id": "00000000-0000-4000-8000-0000000000e2",
+        "basis": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "name": "Synthetic example",
+        "role": "PROCESSOR",
+        "authorised_purpose_ids": [
+          "00000000-0000-4000-8000-0000000000e3"
+        ],
+        "authorised_categories": [
+          "CONTACT_DETAILS"
+        ],
+        "region": "Synthetic example",
+        "contract_reference": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "incident_contact": "Synthetic example",
+        "subprocessors_permitted": false,
+        "id": "00000000-0000-4000-8000-0000000000e4",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000e5"
+      }
+    },
+    {
+      "operation_id": "processor_standing",
+      "method": "GET",
+      "path": "/api/v1/admin/processors/{id}/standing",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "processor_id": "00000000-0000-4000-8000-0000000000e6",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "notified": false,
+        "acknowledged": false,
+        "verified": false,
+        "open_findings": 0,
+        "overdue_remediations": 0,
+        "unauthorised_system_links": [],
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "record_coordination",
+      "method": "POST",
+      "path": "/api/v1/admin/processors/{id}/coordination",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "processor_id": "00000000-0000-4000-8000-000000000050",
+        "fact": "NOTIFIED",
+        "subject": "Withdrawal propagation request.",
+        "method": "RECORDED_MESSAGE",
+        "evidence_reference": "Message reference SYN-MSG-0001.",
+        "note": "Sent to the designated contact."
+      },
+      "response_status": 201,
+      "response": {
+        "processor_id": "00000000-0000-4000-8000-000000000050",
+        "fact": "NOTIFIED",
+        "subject": "Withdrawal propagation request.",
+        "method": "RECORDED_MESSAGE",
+        "evidence_reference": "Message reference SYN-MSG-0001.",
+        "note": "Sent to the designated contact.",
+        "id": "00000000-0000-4000-8000-000000000051",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000052"
+      }
+    },
+    {
+      "operation_id": "list_assessments",
+      "method": "GET",
+      "path": "/api/v1/admin/assessments",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/assessments",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "processor_id": "00000000-0000-4000-8000-0000000000e7",
+        "kind": "DATA_PROTECTION_IMPACT",
+        "applicability_basis": "Synthetic example",
+        "scope_system_ids": [],
+        "reviewer_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "processor_id": "00000000-0000-4000-8000-0000000000e8",
+        "kind": "DATA_PROTECTION_IMPACT",
+        "applicability_basis": "Synthetic example",
+        "scope_system_ids": [],
+        "reviewer_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "id": "00000000-0000-4000-8000-0000000000e9",
+        "state": "OPEN",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000ea",
+        "completed_at": null,
+        "conclusion": null
+      }
+    },
+    {
+      "operation_id": "complete_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/assessments/{id}/completion",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "conclusion": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "processor_id": "00000000-0000-4000-8000-0000000000eb",
+        "kind": "DATA_PROTECTION_IMPACT",
+        "applicability_basis": "Synthetic example",
+        "scope_system_ids": [],
+        "reviewer_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "id": "00000000-0000-4000-8000-0000000000ec",
+        "state": "OPEN",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000ed",
+        "completed_at": null,
+        "conclusion": null
+      }
+    },
+    {
+      "operation_id": "list_findings",
+      "method": "GET",
+      "path": "/api/v1/admin/findings",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_finding",
+      "method": "POST",
+      "path": "/api/v1/admin/findings",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "assessment_id": "00000000-0000-4000-8000-0000000000ee",
+        "severity": "LOW",
+        "description": "Synthetic example",
+        "affected_system_ids": [],
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "assessment_id": "00000000-0000-4000-8000-000000000053",
+        "severity": "MEDIUM",
+        "description": "Sub-processor list was out of date.",
+        "affected_system_ids": [],
+        "owner_reference": "Vendor management",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "id": "00000000-0000-4000-8000-000000000054",
+        "state": "OPEN",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000052",
+        "closed_at": null,
+        "closure_evidence": null,
+        "retest_reference": null,
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "close_finding",
+      "method": "POST",
+      "path": "/api/v1/admin/findings/{id}/closure",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "state": "REMEDIATED",
+        "closure_evidence": "Retest report SYN-RT-0001.",
+        "retest_reference": null,
+        "note": "Control re-tested and confirmed working."
+      },
+      "response_status": 200,
+      "response": {
+        "assessment_id": "00000000-0000-4000-8000-000000000053",
+        "severity": "MEDIUM",
+        "description": "Sub-processor list was out of date.",
+        "affected_system_ids": [],
+        "owner_reference": "Vendor management",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "id": "00000000-0000-4000-8000-000000000054",
+        "state": "OPEN",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000052",
+        "closed_at": null,
+        "closure_evidence": null,
+        "retest_reference": null,
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "list_incidents",
+      "method": "GET",
+      "path": "/api/v1/admin/incidents",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_incident",
+      "method": "POST",
+      "path": "/api/v1/admin/incidents",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "summary": "Synthetic example",
+        "occurred_at": null,
+        "detected_at": "2026-09-16T10:00:00.000Z",
+        "became_aware_at": null,
+        "occurrence_basis": "Synthetic example",
+        "severity": "NEGLIGIBLE",
+        "severity_basis": "Synthetic example",
+        "affected_system_ids": [],
+        "affected_purpose_ids": [],
+        "affected_processor_ids": [],
+        "principal_scope": "Synthetic example",
+        "principal_scope_certain": false
+      },
+      "response_status": 201,
+      "response": {
+        "summary": "Synthetic example",
+        "occurred_at": null,
+        "detected_at": "2026-09-16T10:00:00.000Z",
+        "became_aware_at": null,
+        "occurrence_basis": "Synthetic example",
+        "severity": "NEGLIGIBLE",
+        "severity_basis": "Synthetic example",
+        "affected_system_ids": [],
+        "affected_purpose_ids": [],
+        "affected_processor_ids": [],
+        "principal_scope": "Synthetic example",
+        "principal_scope_certain": false,
+        "id": "00000000-0000-4000-8000-0000000000ef",
+        "state": "OPEN",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000f0",
+        "contained_at": null,
+        "closed_at": null,
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "incident_assessment",
+      "method": "GET",
+      "path": "/api/v1/admin/incidents/{id}/assessment",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "incident": {
+          "summary": "Synthetic example",
+          "occurred_at": null,
+          "detected_at": "2026-09-16T10:00:00.000Z",
+          "became_aware_at": null,
+          "occurrence_basis": "Synthetic example",
+          "severity": "NEGLIGIBLE",
+          "severity_basis": "Synthetic example",
+          "affected_system_ids": [],
+          "affected_purpose_ids": [],
+          "affected_processor_ids": [],
+          "principal_scope": "Synthetic example",
+          "principal_scope_certain": false,
+          "id": "00000000-0000-4000-8000-0000000000f1",
+          "state": "OPEN",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "recorded_by": "00000000-0000-4000-8000-0000000000f2",
+          "contained_at": null,
+          "closed_at": null,
+          "closure_note": null
+        },
+        "obligations": [],
+        "corrections": [],
+        "assessed_at": "2026-09-16T10:00:00.000Z",
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "correct_incident",
+      "method": "POST",
+      "path": "/api/v1/admin/incidents/{id}/corrections",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "field": "OCCURRED_AT",
+        "new_value": "Synthetic example",
+        "reason": "Synthetic example",
+        "reviewer_reference": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "incident": {
+          "summary": "Synthetic example",
+          "occurred_at": null,
+          "detected_at": "2026-09-16T10:00:00.000Z",
+          "became_aware_at": null,
+          "occurrence_basis": "Synthetic example",
+          "severity": "NEGLIGIBLE",
+          "severity_basis": "Synthetic example",
+          "affected_system_ids": [],
+          "affected_purpose_ids": [],
+          "affected_processor_ids": [],
+          "principal_scope": "Synthetic example",
+          "principal_scope_certain": false,
+          "id": "00000000-0000-4000-8000-0000000000f3",
+          "state": "OPEN",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "recorded_by": "00000000-0000-4000-8000-0000000000f4",
+          "contained_at": null,
+          "closed_at": null,
+          "closure_note": null
+        },
+        "obligations": [],
+        "corrections": [],
+        "assessed_at": "2026-09-16T10:00:00.000Z",
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "contain_incident",
+      "method": "POST",
+      "path": "/api/v1/admin/incidents/{id}/containment",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "summary": "Synthetic example",
+        "occurred_at": null,
+        "detected_at": "2026-09-16T10:00:00.000Z",
+        "became_aware_at": null,
+        "occurrence_basis": "Synthetic example",
+        "severity": "NEGLIGIBLE",
+        "severity_basis": "Synthetic example",
+        "affected_system_ids": [],
+        "affected_purpose_ids": [],
+        "affected_processor_ids": [],
+        "principal_scope": "Synthetic example",
+        "principal_scope_certain": false,
+        "id": "00000000-0000-4000-8000-0000000000f5",
+        "state": "OPEN",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000f6",
+        "contained_at": null,
+        "closed_at": null,
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "close_incident",
+      "method": "POST",
+      "path": "/api/v1/admin/incidents/{id}/closure",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "summary": "Synthetic example",
+        "occurred_at": null,
+        "detected_at": "2026-09-16T10:00:00.000Z",
+        "became_aware_at": null,
+        "occurrence_basis": "Synthetic example",
+        "severity": "NEGLIGIBLE",
+        "severity_basis": "Synthetic example",
+        "affected_system_ids": [],
+        "affected_purpose_ids": [],
+        "affected_processor_ids": [],
+        "principal_scope": "Synthetic example",
+        "principal_scope_certain": false,
+        "id": "00000000-0000-4000-8000-0000000000f7",
+        "state": "OPEN",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000f8",
+        "contained_at": null,
+        "closed_at": null,
+        "closure_note": null
+      }
+    },
+    {
+      "operation_id": "transition_notification",
+      "method": "POST",
+      "path": "/api/v1/admin/notification-obligations/{id}/transition",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "to": "NOT_APPLICABLE",
+        "note": "Synthetic example",
+        "dispatch_evidence": null,
+        "unavailable_reason": null
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000f9",
+        "incident_id": "00000000-0000-4000-8000-0000000000fa",
+        "rule_id": "00000000-0000-4000-8000-0000000000fb",
+        "recipient": "Synthetic example",
+        "regime_reference": "Synthetic example",
+        "state": "NOT_APPLICABLE",
+        "runs_from": "OCCURRED_AT",
+        "clock_started_at": null,
+        "due_at": null,
+        "overdue": false,
+        "dispatch_evidence": null,
+        "unavailable_reason": null
+      }
+    },
+    {
+      "operation_id": "list_obligation_rules",
+      "method": "GET",
+      "path": "/api/v1/admin/obligation-rules",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_obligation_rule",
+      "method": "POST",
+      "path": "/api/v1/admin/obligation-rules",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "recipient": "Synthetic example",
+        "regime_reference": "Synthetic example",
+        "runs_from": "OCCURRED_AT",
+        "hours": 1,
+        "minimum_severity": "NEGLIGIBLE",
+        "applies_when_scope_uncertain": false
+      },
+      "response_status": 201,
+      "response": {
+        "recipient": "Synthetic example",
+        "regime_reference": "Synthetic example",
+        "runs_from": "OCCURRED_AT",
+        "hours": 1,
+        "minimum_severity": "NEGLIGIBLE",
+        "applies_when_scope_uncertain": false,
+        "id": "00000000-0000-4000-8000-0000000000fc",
+        "active": false,
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-0000000000fd"
+      }
+    },
+    {
+      "operation_id": "list_templates",
+      "method": "GET",
+      "path": "/api/v1/admin/notification-templates",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_template",
+      "method": "POST",
+      "path": "/api/v1/admin/notification-templates",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "code": "GAP_OVERDUE_NOTICE",
+        "channel": "IN_APP",
+        "recipient_scope": "CUSTOMER_STAFF",
+        "subject": "A recorded gap has passed its deadline.",
+        "body": "A gap assigned to you passed its agreed deadline. The deadline has not been changed.",
+        "purpose_note": "Operational escalation only; never a marketing opportunity."
+      },
+      "response_status": 201,
+      "response": {
+        "code": "GAP_OVERDUE_NOTICE",
+        "channel": "IN_APP",
+        "recipient_scope": "CUSTOMER_STAFF",
+        "subject": "A recorded gap has passed its deadline.",
+        "body": "A gap assigned to you passed its agreed deadline. The deadline has not been changed.",
+        "purpose_note": "Operational escalation only; never a marketing opportunity.",
+        "id": "00000000-0000-4000-8000-00000000005a",
+        "version": 1,
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-00000000005b"
+      }
+    },
+    {
+      "operation_id": "list_notification_tasks",
+      "method": "GET",
+      "path": "/api/v1/admin/notification-tasks",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_notification_task",
+      "method": "POST",
+      "path": "/api/v1/admin/notification-tasks",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "template_id": "00000000-0000-4000-8000-0000000000fe",
+        "source": "COVERAGE_GAP",
+        "source_id": "00000000-0000-4000-8000-0000000000ff",
+        "recipient_reference": "Synthetic example",
+        "source_due_at": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000005d",
+        "template_id": "00000000-0000-4000-8000-00000000005a",
+        "template_code": "GAP_OVERDUE_NOTICE",
+        "channel": "IN_APP",
+        "recipient_scope": "CUSTOMER_STAFF",
+        "recipient_reference": "Records management",
+        "source": "COVERAGE_GAP",
+        "source_id": "00000000-0000-4000-8000-00000000005e",
+        "source_due_at": "2026-09-16T10:00:00.000Z",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "queued": true,
+        "sent": false,
+        "delivered": false,
+        "failed": false,
+        "acknowledged": false,
+        "attempts": 0,
+        "channel_available": true,
+        "escalated_at": null,
+        "escalation_reason": null,
+        "deliveries": []
+      }
+    },
+    {
+      "operation_id": "notification_task",
+      "method": "GET",
+      "path": "/api/v1/admin/notification-tasks/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000005d",
+        "template_id": "00000000-0000-4000-8000-00000000005a",
+        "template_code": "GAP_OVERDUE_NOTICE",
+        "channel": "IN_APP",
+        "recipient_scope": "CUSTOMER_STAFF",
+        "recipient_reference": "Records management",
+        "source": "COVERAGE_GAP",
+        "source_id": "00000000-0000-4000-8000-00000000005e",
+        "source_due_at": "2026-09-16T10:00:00.000Z",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "queued": true,
+        "sent": false,
+        "delivered": false,
+        "failed": false,
+        "acknowledged": false,
+        "attempts": 0,
+        "channel_available": true,
+        "escalated_at": null,
+        "escalation_reason": null,
+        "deliveries": []
+      }
+    },
+    {
+      "operation_id": "record_delivery",
+      "method": "POST",
+      "path": "/api/v1/admin/notification-tasks/{id}/deliveries",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "fact": "QUEUED",
+        "evidence_reference": null,
+        "note": "Queued for in-app delivery."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000005d",
+        "template_id": "00000000-0000-4000-8000-00000000005a",
+        "template_code": "GAP_OVERDUE_NOTICE",
+        "channel": "IN_APP",
+        "recipient_scope": "CUSTOMER_STAFF",
+        "recipient_reference": "Records management",
+        "source": "COVERAGE_GAP",
+        "source_id": "00000000-0000-4000-8000-00000000005e",
+        "source_due_at": "2026-09-16T10:00:00.000Z",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "queued": true,
+        "sent": false,
+        "delivered": false,
+        "failed": false,
+        "acknowledged": false,
+        "attempts": 0,
+        "channel_available": true,
+        "escalated_at": null,
+        "escalation_reason": null,
+        "deliveries": []
+      }
+    },
+    {
+      "operation_id": "escalation_sweep",
+      "method": "POST",
+      "path": "/api/v1/admin/notification-tasks/escalate",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "swept_at": "2026-09-16T10:00:00.000Z",
+        "examined": 0,
+        "escalated": 0,
+        "deadlines_changed": 0,
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "entitlements",
+      "method": "GET",
+      "path": "/api/v1/admin/entitlements",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "licence": null,
+        "features": [],
+        "never_licensable": [
+          "Synthetic example"
+        ],
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "import_licence",
+      "method": "POST",
+      "path": "/api/v1/admin/licences",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "licence": {
+          "algorithm": "Ed25519",
+          "claims": {
+            "licence_id": "00000000-0000-4000-8000-00000000005f",
+            "edition": "CONTROL",
+            "entitlements": [
+              "PRIVACY_GRAPH"
+            ],
+            "installation_id": "00000000-0000-4000-8000-000000000060",
+            "audience": "ORVIA_CUSTOMER_INSTALLATION",
+            "valid_from": "2026-09-16T10:00:00.000Z",
+            "valid_to": "2027-09-16T10:00:00.000Z",
+            "licensed_limits": {
+              "environments": 3,
+              "staff_members": 25
+            }
+          },
+          "signing_key_id": "00000000-0000-4000-8000-000000000061",
+          "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      },
+      "response_status": 201,
+      "response": {
+        "licence_id": "00000000-0000-4000-8000-00000000005f",
+        "edition": "CONTROL",
+        "entitlements": [
+          "PRIVACY_GRAPH"
+        ],
+        "installation_id": "00000000-0000-4000-8000-000000000060",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": "2027-09-16T10:00:00.000Z",
+        "licensed_limits": {
+          "environments": 3,
+          "staff_members": 25
+        },
+        "imported_at": "2026-09-16T10:00:00.000Z",
+        "imported_by": "00000000-0000-4000-8000-000000000062",
+        "active": true,
+        "expired": false,
+        "continuity_note": "Expiry restricts new work and never removes recorded evidence or the ability to read and export it."
+      }
+    },
+    {
+      "operation_id": "list_mandates",
+      "method": "GET",
+      "path": "/api/v1/admin/mandates",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_mandate",
+      "method": "POST",
+      "path": "/api/v1/admin/mandates",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "NOMINATION",
+        "principal_id": "00000000-0000-4000-8000-000000000100",
+        "representative_reference": "Synthetic example",
+        "permitted_rights": [
+          "ACCESS"
+        ],
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "evidence_reference": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "kind": "NOMINATION",
+        "principal_id": "00000000-0000-4000-8000-000000000101",
+        "representative_reference": "Synthetic example",
+        "permitted_rights": [
+          "ACCESS"
+        ],
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "evidence_reference": "Synthetic example",
+        "id": "00000000-0000-4000-8000-000000000102",
+        "state": "ACTIVE",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000103",
+        "revoked_at": null,
+        "revocation_reason": null
+      }
+    },
+    {
+      "operation_id": "revoke_mandate",
+      "method": "POST",
+      "path": "/api/v1/admin/mandates/{id}/revoke",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "kind": "NOMINATION",
+        "principal_id": "00000000-0000-4000-8000-000000000104",
+        "representative_reference": "Synthetic example",
+        "permitted_rights": [
+          "ACCESS"
+        ],
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "evidence_reference": "Synthetic example",
+        "id": "00000000-0000-4000-8000-000000000105",
+        "state": "ACTIVE",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000106",
+        "revoked_at": null,
+        "revocation_reason": null
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-0000000000b2",
-        "environment_id": "00000000-0000-4000-8000-0000000000b3",
+        "installation_id": "00000000-0000-4000-8000-000000000107",
+        "environment_id": "00000000-0000-4000-8000-000000000108",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -713,9 +2445,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-0000000000b4",
+        "command_id": "00000000-0000-4000-8000-000000000109",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-0000000000b5",
+        "attempt_id": "00000000-0000-4000-8000-00000000010a",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -723,7 +2455,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-0000000000b6",
+        "operation_id": "00000000-0000-4000-8000-00000000010b",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -736,10 +2468,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-0000000000b7",
-        "principal_reference_id": "00000000-0000-4000-8000-0000000000b8",
-        "purpose_id": "00000000-0000-4000-8000-0000000000b9",
-        "system_id": "00000000-0000-4000-8000-0000000000ba",
+        "attempt_id": "00000000-0000-4000-8000-00000000010c",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000010d",
+        "purpose_id": "00000000-0000-4000-8000-00000000010e",
+        "system_id": "00000000-0000-4000-8000-00000000010f",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -812,9 +2544,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-0000000000bb",
+        "command_id": "00000000-0000-4000-8000-000000000110",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-0000000000bc",
+        "attempt_id": "00000000-0000-4000-8000-000000000111",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -829,7 +2561,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-0000000000bd",
+        "resource_id": "00000000-0000-4000-8000-000000000112",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -844,9 +2576,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-0000000000be",
+        "command_id": "00000000-0000-4000-8000-000000000113",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-0000000000bf",
+        "attempt_id": "00000000-0000-4000-8000-000000000114",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

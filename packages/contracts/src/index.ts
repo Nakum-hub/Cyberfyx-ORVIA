@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
-/** A02 additions pending consolidated Work review; accepted baseline was 0.2.1. */
-export const CONTRACT_VERSION = '0.5.0' as const;
+/** Pending consolidated Work review; accepted baseline was 0.2.1.
+ *  0.6.0 added the WP04 privacy-control graph; 0.7.0 adds WP07 rights management.
+ *  Both are additive: no existing route, schema or wire meaning changed. */
+export const CONTRACT_VERSION = '0.7.0' as const;
 // Transport pagination does not change the signed command wire format.
 export const COMMAND_SCHEMA_VERSION = '0.3.0' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
@@ -28,7 +30,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
+export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -124,16 +126,702 @@ export const CapabilityRecord = z.strictObject({ code: z.string().max(100), targ
 export const Overview = z.strictObject({ scope: Scope, build_id: z.string().max(100), contract_version: Version, profile: z.literal(PROFILE), as_of: Time, counts: z.strictObject({ accepted: Epoch, running: Epoch, needs_attention: Epoch, completed: Epoch, effect_unknown: Epoch, manual_required: Epoch, failed: Epoch, unverified: Epoch }) });
 export const Evidence = z.strictObject({ workflow: Workflow, receipts: z.array(Receipt).max(100), policy_version_ids: z.array(Id).max(100), notice_version_ids: z.array(Id).max(100), tests: z.array(TestRun).max(100), exported_at: Time, coverage_limits: z.array(SafeText).max(100), integrity_digest: Digest, integrity_limit: z.literal('Digest detects change relative to a trusted reference; it does not prove external effects or prevent privileged rewriting.') });
 export const ControlMap = z.strictObject({ edges: z.array(z.strictObject({ purpose_id: Id, system_id: Id, resource_id: Id, capability_version: Version, declared_restrict: z.boolean(), observed_restrict: z.boolean().nullable(), as_of: Time.nullable() })).max(100), next_cursor: z.string().max(200).nullable() });
+// ---------------------------------------------------------------------------
+// M03 Privacy Control Graph (WP04). Relational inventory and typed relationships
+// over PostgreSQL. Provenance separates what the customer declared (ASSERTED)
+// from what a scoped connector read actually saw (OBSERVED); the two never merge
+// into a single "known" state, and a field name alone never implies a purpose.
+// ---------------------------------------------------------------------------
+export const Provenance = z.enum(['ASSERTED', 'OBSERVED']);
+export const ReviewState = z.enum(['UNREVIEWED', 'IN_REVIEW', 'ACCEPTED', 'REJECTED']);
+export const GraphNodeKind = z.enum(['DATA_ASSET', 'PROCESSING_ACTIVITY', 'SYSTEM', 'PURPOSE']);
+export const DataAssetKind = z.enum(['DATASET', 'FIELD', 'DERIVED_COPY', 'EXPORT', 'BACKUP_COPY']);
+/** Categories are reviewed, explicitly assigned relationships, never derived from a name. */
+export const DataCategoryCode = z.enum(['CONTACT_DETAILS', 'IDENTIFIERS', 'MARKETING_PREFERENCES', 'ORDER_RECORDS', 'SUPPORT_NOTES']);
+export const LawfulCondition = z.enum(['AFFIRMATIVE_MARKETING_CONSENT', 'APPROVED_SYNTHETIC_ORDER_SERVICE']);
+export const CategoryAssignment = z.strictObject({ code: DataCategoryCode, basis: SafeText, review_state: ReviewState });
+export const DataAssetCreate = z.strictObject({
+  system_id: Id, kind: DataAssetKind, parent_id: Id.nullable(), name: z.string().min(1).max(120), description: SafeText,
+  provenance: Provenance, valid_from: Time, categories: z.array(CategoryAssignment).max(16),
+});
+export const DataAsset = DataAssetCreate.extend({
+  id: Id, review_state: ReviewState, recorded_at: Time, valid_to: Time.nullable(),
+  last_seen_at: Time.nullable(), fresh_until: Time.nullable(), owner_actor_id: Id,
+  tombstoned_at: Time.nullable(), tombstone_reason: SafeText.nullable(),
+}).superRefine((a, c) => {
+  // An observation is only an observation when it names when it was seen and how
+  // long that reading may be trusted. A declaration carries neither.
+  if ((a.provenance === 'OBSERVED') !== (a.last_seen_at !== null && a.fresh_until !== null)) c.addIssue({ code: 'custom', message: 'Only an OBSERVED asset carries observation time and freshness' });
+  if (a.last_seen_at && a.fresh_until && Date.parse(a.fresh_until) <= Date.parse(a.last_seen_at)) c.addIssue({ code: 'custom', message: 'Invalid asset freshness interval' });
+  if (a.valid_to && Date.parse(a.valid_to) <= Date.parse(a.valid_from)) c.addIssue({ code: 'custom', message: 'Asset validity ends before it starts' });
+  if ((a.tombstoned_at === null) !== (a.tombstone_reason === null)) c.addIssue({ code: 'custom', message: 'A tombstone must state its justification' });
+});
+export const ProcessingActivityCreate = z.strictObject({ purpose_id: Id, name: z.string().min(1).max(120), description: SafeText, lawful_condition: LawfulCondition, owner_reference: SafeText });
+export const ProcessingActivity = ProcessingActivityCreate.extend({ id: Id, review_state: ReviewState, recorded_at: Time, owner_actor_id: Id });
+export const RelationshipType = z.enum(['ASSET_STORED_IN_SYSTEM', 'ASSET_PROCESSED_BY_ACTIVITY', 'ACTIVITY_SERVES_PURPOSE', 'ASSET_COPIED_TO']);
+export const GraphEndpoint = z.strictObject({ kind: GraphNodeKind, id: Id });
+/** Each relationship type fixes the kind of both endpoints, so an edge cannot connect arbitrary nodes. */
+export const RELATIONSHIP_ENDPOINTS: Record<z.infer<typeof RelationshipType>, { from: z.infer<typeof GraphNodeKind>; to: z.infer<typeof GraphNodeKind> }> = {
+  ASSET_STORED_IN_SYSTEM: { from: 'DATA_ASSET', to: 'SYSTEM' },
+  ASSET_PROCESSED_BY_ACTIVITY: { from: 'DATA_ASSET', to: 'PROCESSING_ACTIVITY' },
+  ACTIVITY_SERVES_PURPOSE: { from: 'PROCESSING_ACTIVITY', to: 'PURPOSE' },
+  ASSET_COPIED_TO: { from: 'DATA_ASSET', to: 'DATA_ASSET' },
+};
+const endpointRule = (r: { relationship_type: z.infer<typeof RelationshipType>; from: z.infer<typeof GraphEndpoint>; to: z.infer<typeof GraphEndpoint> }, c: z.RefinementCtx) => {
+  const expected = RELATIONSHIP_ENDPOINTS[r.relationship_type];
+  if (r.from.kind !== expected.from || r.to.kind !== expected.to) c.addIssue({ code: 'custom', message: 'Relationship endpoints do not match the declared relationship type' });
+  if (r.from.kind === r.to.kind && r.from.id === r.to.id) c.addIssue({ code: 'custom', message: 'A node cannot relate to itself' });
+};
+export const GraphRelationshipCreate = z.strictObject({ relationship_type: RelationshipType, from: GraphEndpoint, to: GraphEndpoint, provenance: Provenance, valid_from: Time, confidence_basis: SafeText }).superRefine(endpointRule);
+export const GraphRelationship = z.strictObject({
+  relationship_type: RelationshipType, from: GraphEndpoint, to: GraphEndpoint, provenance: Provenance, valid_from: Time, confidence_basis: SafeText,
+  id: Id, review_state: ReviewState, recorded_at: Time, valid_to: Time.nullable(), last_seen_at: Time.nullable(), owner_actor_id: Id,
+}).superRefine((r, c) => {
+  endpointRule(r, c);
+  if ((r.provenance === 'OBSERVED') !== (r.last_seen_at !== null)) c.addIssue({ code: 'custom', message: 'Only an OBSERVED relationship carries an observation time' });
+  if (r.valid_to && Date.parse(r.valid_to) <= Date.parse(r.valid_from)) c.addIssue({ code: 'custom', message: 'Relationship validity ends before it starts' });
+});
+export const AssetTombstone = z.strictObject({ reason: z.string().min(10).max(500), integrity_reference: SafeText });
+export const GraphNode = z.strictObject({ kind: GraphNodeKind, id: Id, label: SafeText, provenance: Provenance.nullable(), review_state: ReviewState.nullable(), tombstoned: z.boolean() });
+export const GraphSearchQuery = z.strictObject({ q: z.string().min(2).max(120) });
+export const GraphSearchHit = GraphNode.extend({ rank: z.number().min(0).max(1) });
+export const GraphSearchResult = z.strictObject({
+  query_terms: z.array(z.string().min(1).max(120)).max(16), hits: z.array(GraphSearchHit).max(50),
+  truncated: z.boolean().describe('The bounded result limit was reached; this is not an exhaustive estate search.'), limits: z.array(SafeText).max(8),
+});
+export const NeighbourhoodQuery = z.strictObject({ depth: z.enum(['1', '2', '3']).default('1') });
+export const GraphNeighbourhood = z.strictObject({
+  root: GraphEndpoint, depth: z.number().int().min(1).max(3), nodes: z.array(GraphNode).max(200),
+  edges: z.array(GraphRelationship).max(200), truncated: z.boolean(), limits: z.array(SafeText).max(8),
+});
+export type LicenceRejectionValue = z.infer<typeof LicenceRejection>;
+export type RightTypeValue = z.infer<typeof RightType>;
+export type RequestStateValue = z.infer<typeof RequestState>;
+export type GraphNodeKindValue = z.infer<typeof GraphNodeKind>;
+export type GraphNodeValue = z.infer<typeof GraphNode>;
+export type GraphRelationshipValue = z.infer<typeof GraphRelationship>;
+export const ImpactDimension = z.enum(['POLICY_VERSIONS', 'WORKFLOWS', 'TEST_RUNS', 'DATA_ASSETS', 'OWNERS', 'PROCESSORS', 'RETENTION_CONSTRAINTS', 'INCIDENTS']);
+export const ImpactAssessment = z.strictObject({
+  node: GraphEndpoint, assessed_at: Time,
+  affected: z.strictObject({ policy_version_ids: z.array(Id).max(100), workflow_ids: z.array(Id).max(100), test_run_ids: z.array(Id).max(100), data_asset_ids: z.array(Id).max(100), owner_actor_ids: z.array(Id).max(100), processor_ids: z.array(Id).max(100), retention_constraint_ids: z.array(Id).max(100), incident_ids: z.array(Id).max(100) }),
+  truncated_dimensions: z.array(ImpactDimension).max(8).describe('Reached the bounded limit; the listed dimension is incomplete, not empty.'),
+  unavailable_dimensions: z.array(z.enum(['NOTIFICATION_OBLIGATIONS'])).max(1).describe('Not implemented in this release. An unavailable dimension is explicitly not the same as an assessed-and-empty one.'),
+  limits: z.array(SafeText).max(8),
+});
+// ---------------------------------------------------------------------------
+// M14 Rights Management (WP07). The lifecycle state is the master's exact
+// vocabulary. It is deliberately NOT the whole truth about a request: identity,
+// authority, execution, response and scope are independent dimensions, because
+// a request can be administratively CLOSED while its execution is still partial
+// and its response was never delivered. Collapsing those into one state is how
+// a system ends up claiming erasure it never performed.
+// ---------------------------------------------------------------------------
+export const RequestState = z.enum(['RECEIVED', 'PENDING_VERIFICATION', 'VERIFIED', 'SCOPING', 'AWAITING_APPROVAL', 'EXECUTING', 'PARTIALLY_COMPLETED', 'COMPLETED', 'FAILED', 'ESCALATED', 'REJECTED', 'CLOSED']);
+export const RightType = z.enum(['ACCESS', 'CORRECTION', 'ERASURE', 'GRIEVANCE', 'NOMINATION']);
+/** Rights whose execution destroys or discloses, and which an unresolved identity must block. */
+export const DESTRUCTIVE_OR_DISCLOSING: readonly z.infer<typeof RightType>[] = ['ACCESS', 'CORRECTION', 'ERASURE'];
+export const IdentityMatchGrade = z.enum(['EXACT', 'STRONG', 'PROBABLE', 'AMBIGUOUS', 'NO_MATCH']);
+/** Grades that may not authorise disclosure or destructive automation. */
+export const BLOCKING_GRADES: readonly z.infer<typeof IdentityMatchGrade>[] = ['AMBIGUOUS', 'NO_MATCH'];
+export const IdentityDimension = z.enum(['NOT_ASSESSED', 'UNDER_REVIEW', 'ESTABLISHED', 'AMBIGUOUS', 'NO_MATCH']);
+export const AuthorityDimension = z.enum(['NOT_ESTABLISHED', 'SELF', 'MANDATED', 'MANDATE_EXPIRED', 'MANDATE_REVOKED']);
+export const ExecutionDimension = z.enum(['NOT_STARTED', 'RUNNING', 'PARTIAL', 'COMPLETE', 'FAILED', 'MANUAL_REQUIRED']);
+export const ResponseDimension = z.enum(['NOT_PREPARED', 'IN_REVIEW', 'RELEASED', 'DELIVERY_FAILED', 'EXPIRED', 'WITHHELD']);
+export const ScopeDimension = z.enum(['NOT_DETERMINED', 'DETERMINED', 'UNRESOLVED_DESTINATIONS']);
+/** The master's exact transition map. CLOSED is terminal administrative closure. */
+export const REQUEST_TRANSITIONS: Record<z.infer<typeof RequestState>, readonly z.infer<typeof RequestState>[]> = {
+  RECEIVED: ['PENDING_VERIFICATION', 'REJECTED'],
+  PENDING_VERIFICATION: ['VERIFIED', 'REJECTED', 'ESCALATED'],
+  VERIFIED: ['SCOPING', 'REJECTED', 'ESCALATED'],
+  SCOPING: ['AWAITING_APPROVAL', 'ESCALATED', 'REJECTED'],
+  // A scope change after approval returns here and invalidates the approval.
+  AWAITING_APPROVAL: ['EXECUTING', 'SCOPING', 'REJECTED', 'ESCALATED'],
+  EXECUTING: ['PARTIALLY_COMPLETED', 'COMPLETED', 'FAILED', 'ESCALATED'],
+  PARTIALLY_COMPLETED: ['EXECUTING', 'COMPLETED', 'FAILED', 'ESCALATED', 'CLOSED'],
+  COMPLETED: ['CLOSED'],
+  FAILED: ['ESCALATED', 'CLOSED'],
+  ESCALATED: ['SCOPING', 'EXECUTING', 'REJECTED', 'FAILED', 'CLOSED'],
+  REJECTED: ['CLOSED'],
+  CLOSED: [],
+};
+export const MandateKind = z.enum(['NOMINATION', 'GUARDIAN']);
+export const MandateState = z.enum(['ACTIVE', 'REVOKED', 'EXPIRED', 'SUPERSEDED']);
+export const MandateCreate = z.strictObject({
+  kind: MandateKind, principal_id: Id, representative_reference: SafeText,
+  permitted_rights: z.array(RightType).min(1).max(5), valid_from: Time, valid_to: Time.nullable(),
+  evidence_reference: SafeText,
+}).superRefine((m, c) => {
+  if (m.valid_to && Date.parse(m.valid_to) <= Date.parse(m.valid_from)) c.addIssue({ code: 'custom', message: 'Mandate validity ends before it starts' });
+});
+export const Mandate = z.strictObject({
+  kind: MandateKind, principal_id: Id, representative_reference: SafeText,
+  permitted_rights: z.array(RightType).min(1).max(5), valid_from: Time, valid_to: Time.nullable(), evidence_reference: SafeText,
+  id: Id, state: MandateState, recorded_at: Time, recorded_by: Id, revoked_at: Time.nullable(), revocation_reason: SafeText.nullable(),
+}).superRefine((m, c) => {
+  if ((m.state === 'REVOKED') !== (m.revoked_at !== null)) c.addIssue({ code: 'custom', message: 'A revoked mandate records when it was revoked' });
+  if ((m.revoked_at === null) !== (m.revocation_reason === null)) c.addIssue({ code: 'custom', message: 'A revocation must state its reason' });
+});
+export const MandateRevoke = z.strictObject({ reason: z.string().min(10).max(500) });
+export const RightsRequestCreate = z.strictObject({
+  right_type: RightType, principal_id: Id, submitted_channel: z.enum(['PORTAL', 'RECORDED_MANUAL_INTAKE']),
+  mandate_id: Id.nullable(), description: SafeText,
+});
+export const IdentityReview = z.strictObject({
+  grade: IdentityMatchGrade, basis: z.string().min(10).max(500),
+  matched_reference_count: z.number().int().min(0).max(1000),
+}).superRefine((r, c) => {
+  if (r.grade === 'NO_MATCH' && r.matched_reference_count !== 0) c.addIssue({ code: 'custom', message: 'A no-match review cannot name matched references' });
+  if (r.grade === 'AMBIGUOUS' && r.matched_reference_count < 2) c.addIssue({ code: 'custom', message: 'An ambiguous review means more than one candidate matched' });
+  if (['EXACT', 'STRONG'].includes(r.grade) && r.matched_reference_count !== 1) c.addIssue({ code: 'custom', message: 'An exact or strong match resolves to exactly one reference' });
+});
+/** One planned action per system. A destination ORVIA cannot act on stays visible. */
+export const PlanAction = z.enum(['DISCLOSE_COPY', 'CORRECT_RECORD', 'ERASE_RECORD', 'RESTRICT_PROCESSING', 'NO_ACTION_REQUIRED']);
+/** What an operator may propose. Whether it can actually be automated is not
+ *  theirs to assert: the server derives that from the system's real connector. */
+export const RequestPlanItemInput = z.strictObject({
+  system_id: Id, action: PlanAction, retention_exception: SafeText.nullable(), note: SafeText,
+});
+export const RequestPlanItem = RequestPlanItemInput.extend({ automatable: z.boolean() });
+export const RequestScope = z.strictObject({
+  items: z.array(RequestPlanItemInput).min(1).max(50),
+  unresolved_destinations: z.array(SafeText).max(50).describe('Known destinations this plan cannot reach. They remain unresolved; they are never counted as done.'),
+});
+// --- WP08: execution outcomes ------------------------------------------------
+// The execution dimension is computed from these rows. It is never set by an
+// operator moving the request along, because moving a ticket is not an effect.
+export const OutcomeResult = z.enum(['SUCCEEDED', 'FAILED', 'EFFECT_UNKNOWN', 'MANUAL_REQUIRED', 'NOT_SUPPORTED']);
+export const OutcomeMethod = z.enum(['CONNECTOR_OPERATION', 'MANUAL_ATTESTATION', 'NONE']);
+const outcomeRule = (o: { result: z.infer<typeof OutcomeResult>; method: z.infer<typeof OutcomeMethod>; evidence_reference: string | null }, c: z.RefinementCtx) => {
+  // Success is a claim about the outside world, so it must name how it was done
+  // and what evidence supports it.
+  if (o.result === 'SUCCEEDED' && (o.method === 'NONE' || o.evidence_reference === null)) c.addIssue({ code: 'custom', message: 'A successful outcome must name its method and its evidence' });
+  if (o.result === 'EFFECT_UNKNOWN' && o.method !== 'CONNECTOR_OPERATION') c.addIssue({ code: 'custom', message: 'An effect is only unknown after an attempt through a connector' });
+  if (o.result === 'FAILED' && o.method === 'NONE') c.addIssue({ code: 'custom', message: 'A failure must name what was attempted' });
+  // Work that has not happened yet cannot carry a method or evidence.
+  if (['MANUAL_REQUIRED', 'NOT_SUPPORTED'].includes(o.result) && (o.method !== 'NONE' || o.evidence_reference !== null)) c.addIssue({ code: 'custom', message: 'Outstanding work carries no method and no evidence' });
+};
+export const SystemOutcomeRecord = z.strictObject({
+  system_id: Id, result: OutcomeResult, method: OutcomeMethod, evidence_reference: SafeText.nullable(), note: SafeText,
+}).superRefine(outcomeRule);
+export const SystemOutcome = z.strictObject({
+  system_id: Id, result: OutcomeResult, method: OutcomeMethod, evidence_reference: SafeText.nullable(), note: SafeText,
+  recorded_at: Time, recorded_by: Id,
+}).superRefine(outcomeRule);
+export const RequestTransition = z.strictObject({ to: RequestState, reason: z.string().min(10).max(500) });
+export const ResponseRelease = z.strictObject({
+  third_party_redaction_reviewed: z.literal(true).describe('An access or correction response may only be released after a reviewer confirms unrelated persons are excluded.'),
+  delivery_reference: SafeText, expires_at: Time,
+});
+export const RightsRequest = z.strictObject({
+  id: Id, right_type: RightType, principal_id: Id, submitted_channel: z.enum(['PORTAL', 'RECORDED_MANUAL_INTAKE']),
+  mandate_id: Id.nullable(), description: SafeText, state: RequestState, received_at: Time, updated_at: Time,
+  identity: IdentityDimension, identity_grade: IdentityMatchGrade.nullable(),
+  authority: AuthorityDimension, execution: ExecutionDimension, response: ResponseDimension, scope: ScopeDimension,
+  plan: z.array(RequestPlanItem).max(50), unresolved_destinations: z.array(SafeText).max(50),
+  outcomes: z.array(SystemOutcome).max(50), closure_note: SafeText.nullable(),
+}).superRefine((r, c) => {
+  // Complete means every planned system actually succeeded. Nothing else counts.
+  if (r.execution === 'COMPLETE') {
+    const succeeded = new Set(r.outcomes.filter(o => o.result === 'SUCCEEDED').map(o => o.system_id));
+    if (r.plan.some(item => item.action !== 'NO_ACTION_REQUIRED' && !succeeded.has(item.system_id))) c.addIssue({ code: 'custom', message: 'Execution cannot be complete while a planned system has no successful outcome' });
+  }
+  if ((r.identity === 'NOT_ASSESSED') !== (r.identity_grade === null)) c.addIssue({ code: 'custom', message: 'An assessed identity records its grade' });
+  // The invariant the whole module exists to protect: administrative closure
+  // never implies that every system was reached.
+  if (r.state === 'CLOSED' && r.execution === 'COMPLETE' && r.unresolved_destinations.length) c.addIssue({ code: 'custom', message: 'Execution cannot be complete while destinations remain unresolved' });
+  if (r.scope === 'UNRESOLVED_DESTINATIONS' && !r.unresolved_destinations.length) c.addIssue({ code: 'custom', message: 'Unresolved scope must name its unresolved destinations' });
+  if (r.response === 'RELEASED' && BLOCKING_GRADES.includes(r.identity_grade!)) c.addIssue({ code: 'custom', message: 'An unresolved identity cannot have received a disclosure' });
+});
+// ---------------------------------------------------------------------------
+// M15 Retention Management (WP15). Retention is evaluated per copy, because a
+// live record, a derived copy and a backup have different reachability and
+// different truths. Three rules drive the design: no recorded basis is not
+// permission to delete; conflicting constraints need a reviewed decision rather
+// than an automatic longest-wins; and backup erasure is never reported verified.
+// ---------------------------------------------------------------------------
+export const RetentionTrigger = z.enum(['RECORD_CREATED', 'LAST_INTERACTION', 'CONSENT_WITHDRAWN', 'CONTRACT_ENDED', 'LEGAL_EVENT']);
+export const RetentionBasis = z.enum(['STATUTORY_OBLIGATION', 'CONTRACTUAL_NECESSITY', 'REVIEWED_BUSINESS_NEED', 'CONSENT']);
+const constraintShape = {
+  data_asset_id: Id, purpose_id: Id, trigger: RetentionTrigger, basis: RetentionBasis,
+  source_reference: SafeText.describe('The reviewed source this constraint comes from. A constraint is never inferred from usage.'),
+  minimum_days: z.number().int().min(0).max(36500).nullable(),
+  maximum_days: z.number().int().min(0).max(36500).nullable(),
+  permitted_use: SafeText, owner_reference: SafeText, review_at: Time, release_condition: SafeText,
+};
+const constraintRule = (r: { minimum_days: number | null; maximum_days: number | null }, c: z.RefinementCtx) => {
+  // A constraint that bounds nothing is not a constraint.
+  if (r.minimum_days === null && r.maximum_days === null) c.addIssue({ code: 'custom', message: 'A retention constraint must state a minimum, a maximum, or both' });
+  if (r.minimum_days !== null && r.maximum_days !== null && r.minimum_days > r.maximum_days) c.addIssue({ code: 'custom', message: 'Minimum retention cannot exceed maximum retention' });
+};
+export const RetentionConstraintCreate = z.strictObject(constraintShape).superRefine(constraintRule);
+export const RetentionConstraint = z.strictObject({ ...constraintShape, id: Id, recorded_at: Time, recorded_by: Id }).superRefine(constraintRule);
+/** A hold names the exact copies it covers. There is no hold-everything flag. */
+const holdShape = {
+  data_asset_ids: z.array(Id).min(1).max(50), reason: z.string().min(10).max(500),
+  authority_reference: SafeText, issued_at: Time, review_at: Time,
+  release_criterion: z.string().min(10).max(500),
+};
+export const LegalHoldCreate = z.strictObject(holdShape);
+export const LegalHold = z.strictObject({
+  ...holdShape, id: Id, state: z.enum(['ACTIVE', 'RELEASED']), recorded_at: Time, recorded_by: Id,
+  released_at: Time.nullable(), release_reason: SafeText.nullable(),
+}).superRefine((h, c) => {
+  if ((h.state === 'RELEASED') !== (h.released_at !== null)) c.addIssue({ code: 'custom', message: 'A released hold records when it was released' });
+  if ((h.released_at === null) !== (h.release_reason === null)) c.addIssue({ code: 'custom', message: 'A release must state its reason' });
+});
+export const HoldRelease = z.strictObject({ reason: z.string().min(10).max(500) });
+/** A reviewed choice between constraints that disagree. Never computed automatically. */
+export const RetentionDecisionRecord = z.strictObject({ governing_constraint_id: Id, reason: z.string().min(10).max(500) });
+export const EligibilityBlocker = z.enum(['NO_RECORDED_BASIS', 'ACTIVE_LEGAL_HOLD', 'MINIMUM_NOT_ELAPSED', 'MAXIMUM_NOT_REACHED', 'UNRESOLVED_CONSTRAINT_CONFLICT', 'AWAITING_QUARANTINE_RECONCILIATION', 'ALREADY_TOMBSTONED']);
+export const Eligibility = z.strictObject({
+  data_asset_id: Id, evaluated_at: Time, eligible: z.boolean(),
+  blockers: z.array(EligibilityBlocker).max(8),
+  applicable_constraint_ids: z.array(Id).max(20), active_hold_ids: z.array(Id).max(20),
+  governing_constraint_id: Id.nullable(), earliest_deletion_at: Time.nullable(),
+  reasons: z.array(SafeText).min(1).max(16), limits: z.array(SafeText).max(8),
+}).superRefine((e, c) => {
+  // Eligibility and the blocker list are the same fact stated twice; they cannot disagree.
+  if (e.eligible !== (e.blockers.length === 0)) c.addIssue({ code: 'custom', message: 'A copy is eligible exactly when nothing blocks it' });
+  if (e.eligible && e.governing_constraint_id === null) c.addIssue({ code: 'custom', message: 'An eligible copy names the constraint that permits deletion' });
+});
+export const RetentionResult = z.enum(['SUPPRESSED', 'DELETED', 'FAILED', 'EFFECT_UNKNOWN', 'NOT_SUPPORTED', 'RESTORED_TO_QUARANTINE']);
+const retentionOutcomeRule = (o: { result: z.infer<typeof RetentionResult>; method: z.infer<typeof OutcomeMethod>; evidence_reference: string | null }, c: z.RefinementCtx) => {
+  if (['SUPPRESSED', 'DELETED'].includes(o.result) && (o.method === 'NONE' || o.evidence_reference === null)) c.addIssue({ code: 'custom', message: 'A completed retention action must name its method and its evidence' });
+  if (o.result === 'EFFECT_UNKNOWN' && o.method === 'NONE') c.addIssue({ code: 'custom', message: 'An effect is only unknown after an attempt' });
+  if (o.result === 'NOT_SUPPORTED' && (o.method !== 'NONE' || o.evidence_reference !== null)) c.addIssue({ code: 'custom', message: 'An unsupported action carries no method and no evidence' });
+};
+export const RetentionOutcomeRecord = z.strictObject({
+  result: RetentionResult, method: OutcomeMethod, evidence_reference: SafeText.nullable(), note: SafeText,
+}).superRefine(retentionOutcomeRule);
+export const RetentionOutcome = z.strictObject({
+  data_asset_id: Id, copy_class: DataAssetKind, result: RetentionResult, method: OutcomeMethod,
+  evidence_reference: SafeText.nullable(), note: SafeText, recorded_at: Time, recorded_by: Id,
+}).superRefine((o, c) => {
+  retentionOutcomeRule(o, c);
+  // A backup is not reachable for verification. A future expiry date is not
+  // current proof of erasure, so a backup copy may never be reported as done.
+  if (o.copy_class === 'BACKUP_COPY' && ['SUPPRESSED', 'DELETED'].includes(o.result)) c.addIssue({ code: 'custom', message: 'A backup copy cannot be reported as suppressed or deleted; backup erasure is not independently verifiable' });
+});
+// ---------------------------------------------------------------------------
+// M18 Coverage and Failure Center (WP13). Two habits this module refuses:
+// reporting a percentage without saying what was counted, and adding up states
+// that overlap. Every measure carries its numerator, denominator and exclusions;
+// every state names the states it can co-occur with, so nothing here can be
+// summed into a single reassuring number.
+// ---------------------------------------------------------------------------
+export const CoverageDimension = z.enum(['INVENTORY_REVIEWED', 'INVENTORY_OBSERVED', 'RETENTION_BASIS', 'CONTROL_OBSERVATION', 'RIGHTS_EXECUTION']);
+export const CoverageMeasure = z.strictObject({
+  dimension: CoverageDimension,
+  counted: SafeText.describe('Exactly what the denominator is a count of.'),
+  numerator: Epoch, denominator: Epoch,
+  excluded: Epoch, exclusion_reasons: z.array(SafeText).max(8),
+  as_of: Time,
+}).superRefine((m, c) => {
+  if (m.numerator > m.denominator) c.addIssue({ code: 'custom', message: 'A coverage numerator cannot exceed its denominator' });
+  // An exclusion that nobody can explain is indistinguishable from a silent drop.
+  if ((m.excluded > 0) !== (m.exclusion_reasons.length > 0)) c.addIssue({ code: 'custom', message: 'Excluded records must be explained' });
+});
+export const AttentionState = z.enum(['FAILED', 'MANUAL_REQUIRED', 'EFFECT_UNKNOWN', 'PENDING', 'UNVERIFIED']);
+export const AttentionCount = z.strictObject({
+  state: AttentionState, count: Epoch,
+  overlaps_with: z.array(AttentionState).max(5).describe('States a record in this count may also be in. These counts describe overlapping sets and must never be added together.'),
+});
+export const CoverageReport = z.strictObject({
+  scope: Scope, as_of: Time,
+  measures: z.array(CoverageMeasure).max(10),
+  attention: z.array(AttentionCount).max(8),
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  // A state cannot overlap with itself; that would make the warning meaningless.
+  for (const entry of r.attention) if (entry.overlaps_with.includes(entry.state)) c.addIssue({ code: 'custom', message: 'A state cannot overlap with itself' });
+});
+export const GapSource = z.enum(['NO_RETENTION_BASIS', 'NEVER_OBSERVED', 'STALE_OBSERVATION', 'UNREVIEWED_INVENTORY', 'UNRESOLVED_DESTINATION', 'FAILED_EXECUTION']);
+export const GapSeverity = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
+export const GapState = z.enum(['OPEN', 'IN_PROGRESS', 'RESOLVED', 'ACCEPTED_RISK']);
+export const Gap = z.strictObject({
+  id: Id, source: GapSource, subject_kind: z.enum(['DATA_ASSET', 'RIGHTS_REQUEST']), subject_id: Id,
+  detected_at: Time, last_seen_at: Time, state: GapState, severity: GapSeverity,
+  owner_reference: SafeText.nullable(), due_at: Time.nullable(),
+  evidence_reference: SafeText.nullable(), resolution_note: SafeText.nullable(), description: SafeText,
+}).superRefine((g, c) => {
+  // A gap is only closed by evidence or by a recorded, owned acceptance of risk.
+  if (g.state === 'RESOLVED' && g.evidence_reference === null) c.addIssue({ code: 'custom', message: 'A resolved gap must name the evidence that resolved it' });
+  if (g.state === 'ACCEPTED_RISK' && (g.owner_reference === null || g.resolution_note === null)) c.addIssue({ code: 'custom', message: 'Accepted risk must name an owner and a reason' });
+  if (Date.parse(g.last_seen_at) < Date.parse(g.detected_at)) c.addIssue({ code: 'custom', message: 'A gap cannot be last seen before it was detected' });
+});
+export const GapAssignment = z.strictObject({
+  severity: GapSeverity, owner_reference: SafeText, due_at: Time,
+});
+export const GapClosure = z.strictObject({
+  state: z.enum(['RESOLVED', 'ACCEPTED_RISK']), note: z.string().min(10).max(500), evidence_reference: SafeText.nullable(),
+}).superRefine((g, c) => {
+  if (g.state === 'RESOLVED' && g.evidence_reference === null) c.addIssue({ code: 'custom', message: 'Resolving a gap requires evidence' });
+});
+export const GapDerivation = z.strictObject({
+  derived_at: Time, opened: Epoch, refreshed: Epoch, examined: Epoch,
+  limits: z.array(SafeText).max(8),
+});
+/** Advisory only. A rule match never certifies a cause or closes anything. */
+export const Guidance = z.strictObject({
+  gap_id: Id, matched_rule: z.string().max(80).nullable(),
+  suggestion: SafeText.nullable(),
+  authority: z.literal('ADVISORY_ONLY').describe('Guidance is a suggestion for a person. It does not establish a root cause, close an action, or produce a decision.'),
+  caveats: z.array(SafeText).min(1).max(8),
+});
+// ---------------------------------------------------------------------------
+// M16 Processor and Vendor Management (WP16). The distinction this module is
+// built to hold: telling a processor something, that processor acknowledging it,
+// and somebody independently verifying it are three different facts. Collapsing
+// them is how an organisation ends up believing a control it never checked.
+// ---------------------------------------------------------------------------
+export const ProcessorRole = z.enum(['PROCESSOR', 'SUB_PROCESSOR', 'JOINT_CONTROLLER', 'INDEPENDENT_CONTROLLER']);
+export const ProcessorCreate = z.strictObject({
+  name: z.string().min(1).max(120), role: ProcessorRole,
+  authorised_purpose_ids: z.array(Id).min(1).max(20),
+  authorised_categories: z.array(DataCategoryCode).min(1).max(16),
+  region: SafeText, contract_reference: SafeText,
+  owner_reference: SafeText, incident_contact: SafeText,
+  subprocessors_permitted: z.boolean(),
+});
+export const Processor = z.strictObject({
+  name: z.string().min(1).max(120), role: ProcessorRole,
+  authorised_purpose_ids: z.array(Id).min(1).max(20), authorised_categories: z.array(DataCategoryCode).min(1).max(16),
+  region: SafeText, contract_reference: SafeText, owner_reference: SafeText, incident_contact: SafeText,
+  subprocessors_permitted: z.boolean(), id: Id, recorded_at: Time, recorded_by: Id,
+});
+/** A system may be operated by a processor. The link is declared, never inferred. */
+export const ProcessorLinkCreate = z.strictObject({ system_id: Id, basis: SafeText });
+/**
+ * Three separate facts about one coordination step, deliberately not merged.
+ * NOTIFIED means ORVIA recorded that the processor was told. ACKNOWLEDGED means
+ * the processor said something back. VERIFIED means somebody independently
+ * checked. Only the third is evidence that anything actually happened.
+ */
+export const CoordinationFact = z.enum(['NOTIFIED', 'ACKNOWLEDGED', 'VERIFIED']);
+export const CoordinationRecord = z.strictObject({
+  processor_id: Id, fact: CoordinationFact, subject: SafeText,
+  method: z.enum(['RECORDED_MESSAGE', 'RECORDED_REPLY', 'INDEPENDENT_CHECK', 'ATTRIBUTED_STATEMENT']),
+  evidence_reference: SafeText.nullable(), note: SafeText,
+}).superRefine((r, c) => {
+  // Verification means somebody looked. A statement from the processor is an
+  // attributable claim, not an independent check, and can never be verification.
+  if (r.fact === 'VERIFIED' && r.method !== 'INDEPENDENT_CHECK') c.addIssue({ code: 'custom', message: 'Only an independent check can record verification; a processor statement is an attributable claim' });
+  if (r.fact === 'VERIFIED' && r.evidence_reference === null) c.addIssue({ code: 'custom', message: 'Verification must name its evidence' });
+  if (r.fact === 'NOTIFIED' && r.method !== 'RECORDED_MESSAGE') c.addIssue({ code: 'custom', message: 'Notification records the message that was sent' });
+  if (r.fact === 'ACKNOWLEDGED' && !['RECORDED_REPLY', 'ATTRIBUTED_STATEMENT'].includes(r.method)) c.addIssue({ code: 'custom', message: 'An acknowledgement is something the processor said' });
+});
+export const Coordination = z.strictObject({
+  processor_id: Id, fact: CoordinationFact, subject: SafeText,
+  method: z.enum(['RECORDED_MESSAGE', 'RECORDED_REPLY', 'INDEPENDENT_CHECK', 'ATTRIBUTED_STATEMENT']),
+  evidence_reference: SafeText.nullable(), note: SafeText, id: Id, recorded_at: Time, recorded_by: Id,
+});
+/** What is actually established about a processor, per fact, never as one score. */
+export const ProcessorStanding = z.strictObject({
+  processor_id: Id, as_of: Time,
+  notified: z.boolean(), acknowledged: z.boolean(), verified: z.boolean(),
+  open_findings: Epoch, overdue_remediations: Epoch,
+  unauthorised_system_links: z.array(Id).max(20).describe('Systems linked to this processor that serve a purpose the processor is not authorised for.'),
+  limits: z.array(SafeText).max(8),
+}).superRefine((p, c) => {
+  // Acknowledgement without notification, or verification presented as though it
+  // followed from either, are the exact confusions this module exists to prevent.
+  if (p.verified && !p.notified) c.addIssue({ code: 'custom', message: 'A verification cannot exist for a coordination that was never recorded as notified' });
+});
+export const AssessmentKind = z.enum(['DATA_PROTECTION_IMPACT', 'TRANSFER_RISK', 'SECTOR_SPECIFIC', 'VENDOR_DUE_DILIGENCE']);
+export const AssessmentCreate = z.strictObject({
+  processor_id: Id, kind: AssessmentKind,
+  applicability_basis: z.string().min(10).max(500).describe('The reviewed reason this assessment applies. An assessment is never activated by a questionnaire alone.'),
+  scope_system_ids: z.array(Id).max(20), reviewer_reference: SafeText, due_at: Time,
+});
+export const Assessment = z.strictObject({
+  processor_id: Id, kind: AssessmentKind, applicability_basis: z.string().min(10).max(500),
+  scope_system_ids: z.array(Id).max(20), reviewer_reference: SafeText, due_at: Time,
+  id: Id, state: z.enum(['OPEN', 'COMPLETED', 'SUPERSEDED']), recorded_at: Time, recorded_by: Id,
+  completed_at: Time.nullable(), conclusion: SafeText.nullable(),
+}).superRefine((a, c) => {
+  if ((a.state === 'COMPLETED') !== (a.completed_at !== null)) c.addIssue({ code: 'custom', message: 'A completed assessment records when it completed' });
+  if ((a.completed_at === null) !== (a.conclusion === null)) c.addIssue({ code: 'custom', message: 'A completed assessment states its conclusion' });
+});
+export const FindingCreate = z.strictObject({
+  assessment_id: Id, severity: GapSeverity, description: SafeText,
+  affected_system_ids: z.array(Id).max(20), owner_reference: SafeText, due_at: Time,
+});
+export const Finding = z.strictObject({
+  assessment_id: Id, severity: GapSeverity, description: SafeText, affected_system_ids: z.array(Id).max(20),
+  owner_reference: SafeText, due_at: Time, id: Id, state: z.enum(['OPEN', 'REMEDIATED', 'ACCEPTED_RISK']),
+  recorded_at: Time, recorded_by: Id, closed_at: Time.nullable(),
+  closure_evidence: SafeText.nullable(), retest_reference: SafeText.nullable(), closure_note: SafeText.nullable(),
+}).superRefine((f, c) => {
+  if ((f.state === 'OPEN') === (f.closed_at !== null)) c.addIssue({ code: 'custom', message: 'A closed finding records when it closed' });
+  // FR-M16-03: closure needs defined evidence or a retest. Neither is optional.
+  if (f.state === 'REMEDIATED' && f.closure_evidence === null && f.retest_reference === null) c.addIssue({ code: 'custom', message: 'A remediated finding must name closure evidence or a retest' });
+  if (f.state === 'ACCEPTED_RISK' && f.closure_note === null) c.addIssue({ code: 'custom', message: 'Accepted risk must state its reason' });
+});
+export const FindingClosure = z.strictObject({
+  state: z.enum(['REMEDIATED', 'ACCEPTED_RISK']),
+  closure_evidence: SafeText.nullable(), retest_reference: SafeText.nullable(), note: z.string().min(10).max(500),
+}).superRefine((f, c) => {
+  if (f.state === 'REMEDIATED' && f.closure_evidence === null && f.retest_reference === null) c.addIssue({ code: 'custom', message: 'Remediation requires closure evidence or a retest' });
+});
+export const AssessmentCompletion = z.strictObject({ conclusion: z.string().min(10).max(500) });
+// ---------------------------------------------------------------------------
+// M17 Privacy Incident Explorer (WP17). Occurrence, detection and awareness are
+// three different moments and are recorded separately, because obligations run
+// from different ones and conflating them silently moves a deadline. Deadlines
+// come from a reviewed rule pack the customer activated, never from hours
+// hard-coded into the product, and severity is deterministic configured policy
+// rather than an inference about what the law requires.
+// ---------------------------------------------------------------------------
+export const IncidentSeverity = z.enum(['NEGLIGIBLE', 'LOW', 'MEDIUM', 'HIGH', 'SEVERE']);
+export const IncidentState = z.enum(['OPEN', 'CONTAINED', 'CLOSED']);
+export const IncidentCreate = z.strictObject({
+  summary: z.string().min(10).max(500),
+  occurred_at: Time.nullable().describe('When the incident actually happened, if established. Unknown is a real answer and is not replaced by the detection time.'),
+  detected_at: Time.describe('When the organisation first detected something was wrong.'),
+  became_aware_at: Time.nullable().describe('When the organisation became aware in the sense a reviewed rule pack means. Often later than detection, and never assumed equal to it.'),
+  occurrence_basis: SafeText, severity: IncidentSeverity, severity_basis: SafeText,
+  affected_system_ids: z.array(Id).max(20), affected_purpose_ids: z.array(Id).max(20),
+  affected_processor_ids: z.array(Id).max(20),
+  principal_scope: SafeText.describe('What is known about who is affected, including that it is not yet known.'),
+  principal_scope_certain: z.boolean(),
+}).superRefine((i, c) => {
+  // Checked at the boundary as well as in the database, so a caller gets a named
+  // validation error rather than a bare failure from a constraint.
+  if (i.occurred_at && Date.parse(i.detected_at) < Date.parse(i.occurred_at)) c.addIssue({ code: 'custom', message: 'An incident cannot be detected before it occurred' });
+  if (i.became_aware_at && Date.parse(i.became_aware_at) < Date.parse(i.detected_at)) c.addIssue({ code: 'custom', message: 'Awareness cannot precede detection' });
+});
+export const Incident = z.strictObject({
+  summary: z.string().min(10).max(500), occurred_at: Time.nullable(), detected_at: Time, became_aware_at: Time.nullable(),
+  occurrence_basis: SafeText, severity: IncidentSeverity, severity_basis: SafeText,
+  affected_system_ids: z.array(Id).max(20), affected_purpose_ids: z.array(Id).max(20), affected_processor_ids: z.array(Id).max(20),
+  principal_scope: SafeText, principal_scope_certain: z.boolean(),
+  id: Id, state: IncidentState, recorded_at: Time, recorded_by: Id,
+  contained_at: Time.nullable(), closed_at: Time.nullable(), closure_note: SafeText.nullable(),
+}).superRefine((i, c) => {
+  // An incident cannot be detected before it happened, nor become known before
+  // it was detected. These orderings are the whole point of keeping them apart.
+  if (i.occurred_at && Date.parse(i.detected_at) < Date.parse(i.occurred_at)) c.addIssue({ code: 'custom', message: 'An incident cannot be detected before it occurred' });
+  if (i.became_aware_at && Date.parse(i.became_aware_at) < Date.parse(i.detected_at)) c.addIssue({ code: 'custom', message: 'Awareness cannot precede detection' });
+  if ((i.state === 'CLOSED') !== (i.closed_at !== null)) c.addIssue({ code: 'custom', message: 'A closed incident records when it closed' });
+  if ((i.closed_at === null) !== (i.closure_note === null)) c.addIssue({ code: 'custom', message: 'Closing an incident requires a reason' });
+  if (i.state === 'OPEN' && i.contained_at !== null) c.addIssue({ code: 'custom', message: 'An open incident has not been contained' });
+});
+/** Corrections append. A correction never silently restarts a clock. */
+export const IncidentCorrection = z.strictObject({
+  field: z.enum(['OCCURRED_AT', 'BECAME_AWARE_AT', 'SEVERITY', 'PRINCIPAL_SCOPE']),
+  new_value: SafeText, reason: z.string().min(10).max(500), reviewer_reference: SafeText,
+});
+export const IncidentCorrectionRecord = z.strictObject({
+  id: Id, incident_id: Id, field: z.enum(['OCCURRED_AT', 'BECAME_AWARE_AT', 'SEVERITY', 'PRINCIPAL_SCOPE']),
+  previous_value: SafeText.nullable(), new_value: SafeText, reason: z.string().min(10).max(500),
+  reviewer_reference: SafeText, recorded_at: Time, recorded_by: Id,
+  affected_deadlines: z.array(Id).max(20).describe('Obligations whose deadline was recomputed. A correction changes them openly or not at all.'),
+});
+/**
+ * A reviewed rule pack the customer activated. ORVIA ships no universal hours:
+ * the duration and the clock it runs from are configuration with a named source,
+ * and activating a pack is a separate reviewed decision from recording it.
+ */
+export const ObligationRuleCreate = z.strictObject({
+  recipient: SafeText.describe('Who must be told. A regulator, a class of principals, or a named counterparty.'),
+  regime_reference: SafeText.describe('The reviewed source this duty comes from.'),
+  runs_from: z.enum(['OCCURRED_AT', 'DETECTED_AT', 'BECAME_AWARE_AT']),
+  hours: z.number().int().min(1).max(8760),
+  minimum_severity: IncidentSeverity,
+  applies_when_scope_uncertain: z.boolean(),
+});
+export const ObligationRule = z.strictObject({
+  recipient: SafeText, regime_reference: SafeText, runs_from: z.enum(['OCCURRED_AT', 'DETECTED_AT', 'BECAME_AWARE_AT']),
+  hours: z.number().int().min(1).max(8760), minimum_severity: IncidentSeverity, applies_when_scope_uncertain: z.boolean(),
+  id: Id, active: z.boolean(), recorded_at: Time, recorded_by: Id,
+});
+export const NotificationState = z.enum(['NOT_APPLICABLE', 'PENDING_REVIEW', 'DRAFTED', 'APPROVED', 'DISPATCHED', 'DELIVERY_UNCONFIRMED', 'MANUAL_PACKAGE_REQUIRED']);
+export const NotificationObligation = z.strictObject({
+  id: Id, incident_id: Id, rule_id: Id, recipient: SafeText, regime_reference: SafeText,
+  state: NotificationState, runs_from: z.enum(['OCCURRED_AT', 'DETECTED_AT', 'BECAME_AWARE_AT']),
+  clock_started_at: Time.nullable(), due_at: Time.nullable(), overdue: z.boolean(),
+  dispatch_evidence: SafeText.nullable(), unavailable_reason: SafeText.nullable(),
+}).superRefine((o, c) => {
+  // A clock that has not started has no deadline, and a deadline with no clock
+  // is a number somebody invented.
+  if ((o.clock_started_at === null) !== (o.due_at === null)) c.addIssue({ code: 'custom', message: 'A deadline exists exactly when its clock has started' });
+  if (o.overdue && o.due_at === null) c.addIssue({ code: 'custom', message: 'Nothing can be overdue without a deadline' });
+  if (o.state === 'DISPATCHED' && o.dispatch_evidence === null) c.addIssue({ code: 'custom', message: 'A dispatch must name its evidence' });
+  if (o.state === 'MANUAL_PACKAGE_REQUIRED' && o.unavailable_reason === null) c.addIssue({ code: 'custom', message: 'A manual package must state why no supported channel exists' });
+});
+export const IncidentAssessment = z.strictObject({
+  incident: Incident, obligations: z.array(NotificationObligation).max(50),
+  corrections: z.array(IncidentCorrectionRecord).max(50),
+  assessed_at: Time, limits: z.array(SafeText).max(8),
+});
+export const NotificationTransition = z.strictObject({
+  to: NotificationState, note: z.string().min(10).max(500),
+  dispatch_evidence: SafeText.nullable(), unavailable_reason: SafeText.nullable(),
+}).superRefine((t, c) => {
+  if (t.to === 'DISPATCHED' && t.dispatch_evidence === null) c.addIssue({ code: 'custom', message: 'Dispatch requires evidence' });
+  if (t.to === 'MANUAL_PACKAGE_REQUIRED' && t.unavailable_reason === null) c.addIssue({ code: 'custom', message: 'A manual package must state why no supported channel exists' });
+});
+export const IncidentClosure = z.strictObject({ note: z.string().min(10).max(500) });
+export const IncidentContainment = z.strictObject({ note: z.string().min(10).max(500) });
+// ---------------------------------------------------------------------------
+// M10 Notification Engine (WP11). Queued, sent, delivered, failed and
+// acknowledged are five different facts about one message and are recorded
+// separately, because "we sent it" is not "they got it" and neither is "they
+// read it". Escalation raises attention without ever moving the deadline that
+// caused it: silently resetting a clock is how a breach of it disappears.
+// ---------------------------------------------------------------------------
+export const NotificationChannel = z.enum(['IN_APP', 'EMAIL', 'APPROVED_WEBHOOK']);
+export const NotificationSource = z.enum(['COVERAGE_GAP', 'NOTIFICATION_OBLIGATION', 'ASSESSMENT_FINDING']);
+export const RecipientScope = z.enum(['CUSTOMER_STAFF', 'DATA_PRINCIPAL', 'DESIGNATED_BUSINESS_CONTACT']);
+export const TemplateCreate = z.strictObject({
+  code: z.string().regex(/^[A-Z][A-Z0-9_]{2,60}$/), channel: NotificationChannel,
+  recipient_scope: RecipientScope, subject: SafeText, body: z.string().min(10).max(4000),
+  purpose_note: SafeText.describe('Why this message is sent at all. An operational message is not a marketing opportunity.'),
+});
+export const Template = z.strictObject({
+  code: z.string().regex(/^[A-Z][A-Z0-9_]{2,60}$/), channel: NotificationChannel, recipient_scope: RecipientScope,
+  subject: SafeText, body: z.string().min(10).max(4000), purpose_note: SafeText,
+  id: Id, version: z.number().int().positive(), content_digest: Digest, recorded_at: Time, recorded_by: Id,
+});
+export const NotificationTaskCreate = z.strictObject({
+  template_id: Id, source: NotificationSource, source_id: Id,
+  recipient_reference: SafeText.describe('Who this goes to, as the customer records them. ORVIA holds no directory.'),
+  /** The deadline that made this necessary. Escalation never changes it. */
+  source_due_at: Time.nullable(),
+});
+export const DeliveryFact = z.enum(['QUEUED', 'SENT', 'DELIVERED', 'FAILED', 'ACKNOWLEDGED']);
+export const DeliveryRecord = z.strictObject({
+  fact: DeliveryFact,
+  evidence_reference: SafeText.nullable(), note: SafeText,
+}).superRefine((d, c) => {
+  // Every fact after queueing is a claim about the outside world and must be
+  // evidenced. Queueing is the one thing ORVIA does itself.
+  if (d.fact !== 'QUEUED' && d.evidence_reference === null) c.addIssue({ code: 'custom', message: 'Anything beyond queueing is a claim about the outside world and must name its evidence' });
+});
+export const Delivery = z.strictObject({
+  id: Id, task_id: Id, fact: DeliveryFact, evidence_reference: SafeText.nullable(), note: SafeText,
+  recorded_at: Time, recorded_by: Id,
+});
+export const NotificationTask = z.strictObject({
+  id: Id, template_id: Id, template_code: z.string().max(64), channel: NotificationChannel,
+  recipient_scope: RecipientScope, recipient_reference: SafeText,
+  source: NotificationSource, source_id: Id, source_due_at: Time.nullable(),
+  created_at: Time,
+  /** Each fact recorded independently. They are not a single progress bar. */
+  queued: z.boolean(), sent: z.boolean(), delivered: z.boolean(), failed: z.boolean(), acknowledged: z.boolean(),
+  attempts: z.number().int().min(0).max(1000),
+  channel_available: z.boolean().describe('Whether this deployment can actually deliver on this channel. A message on an unavailable channel is queued and nothing more.'),
+  escalated_at: Time.nullable(), escalation_reason: SafeText.nullable(),
+  deliveries: z.array(Delivery).max(100),
+}).superRefine((t, c) => {
+  // Delivery presupposes sending; acknowledgement presupposes delivery. Claiming
+  // a later fact without the earlier one is the confusion this prevents.
+  if (t.delivered && !t.sent) c.addIssue({ code: 'custom', message: 'Something cannot be delivered without having been sent' });
+  if (t.acknowledged && !t.delivered) c.addIssue({ code: 'custom', message: 'Something cannot be acknowledged without having been delivered' });
+  if (t.sent && !t.queued) c.addIssue({ code: 'custom', message: 'Something cannot be sent without having been queued' });
+  if ((t.escalated_at === null) !== (t.escalation_reason === null)) c.addIssue({ code: 'custom', message: 'An escalation must state its reason' });
+  if (t.channel_available === false && t.sent) c.addIssue({ code: 'custom', message: 'A message cannot have been sent on a channel this deployment cannot deliver' });
+});
+export const EscalationSweep = z.strictObject({
+  swept_at: Time, examined: Epoch, escalated: Epoch,
+  deadlines_changed: z.literal(0).describe('Escalation never alters a deadline. This is asserted, not merely intended.'),
+  limits: z.array(SafeText).max(8),
+});
+// ---------------------------------------------------------------------------
+// M27 Licensing and M28 Entitlements (WP25). A licence says what was bought. It
+// is not a channel for instructions: it carries no commands, no endpoints and no
+// authority grants, and a licence that names a capability this product will not
+// sell is rejected outright rather than quietly ignored. Five independent gates
+// must all be satisfied before a feature is usable, so no single flag can open
+// anything on its own.
+// ---------------------------------------------------------------------------
+export const Edition = z.enum(['FOUNDATION', 'CONTROL', 'ENTERPRISE']);
+/** Features that can be licensed. One closed vocabulary, shared by every gate. */
+export const EntitlementCode = z.enum([
+  'PRIVACY_GRAPH', 'RIGHTS_MANAGEMENT', 'RETENTION_MANAGEMENT', 'PROCESSOR_MANAGEMENT',
+  'INCIDENT_MANAGEMENT', 'COVERAGE_REPORTING', 'NOTIFICATIONS', 'PRIVACY_TEST_ENGINE',
+]);
+/**
+ * Capabilities no edition and no licence may ever enable. These are not priced
+ * features being withheld: they are commitments about what this product does not
+ * do, and a licence naming one is rejected rather than ignored.
+ */
+export const NEVER_LICENSABLE: readonly string[] = ['AI_COPILOT', 'AI_DISCOVERY', 'AI_POLICY_BUILDER', 'VENDOR_REMOTE_ACCESS', 'STAFF_DIRECTORY_SYNC', 'PROACTIVE_DIAGNOSTICS', 'CUSTOMER_RUNTIME_REPLICATION'];
+export const LicenceClaims = z.strictObject({
+  licence_id: Id, edition: Edition,
+  entitlements: z.array(EntitlementCode).min(1).max(16),
+  installation_id: Id.describe('The installation this licence is bound to. A licence is not transferable by copying it.'),
+  audience: z.literal('ORVIA_CUSTOMER_INSTALLATION'),
+  valid_from: Time, valid_to: Time,
+  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000) }),
+}).superRefine((l, c) => {
+  if (Date.parse(l.valid_to) <= Date.parse(l.valid_from)) c.addIssue({ code: 'custom', message: 'A licence validity window must be positive' });
+  if (new Set(l.entitlements).size !== l.entitlements.length) c.addIssue({ code: 'custom', message: 'A licence cannot name the same entitlement twice' });
+});
+export const SignedLicence = z.strictObject({
+  algorithm: z.literal('Ed25519'), claims: LicenceClaims,
+  signing_key_id: Id, signature: z.string().regex(/^[A-Za-z0-9_-]{86}$/),
+});
+export const LicenceImport = z.strictObject({ licence: SignedLicence });
+export const LicenceRejection = z.enum([
+  'UNTRUSTED_SIGNER', 'INVALID_SIGNATURE', 'WRONG_AUDIENCE', 'WRONG_INSTALLATION',
+  'NOT_YET_VALID', 'EXPIRED', 'MALFORMED', 'FORBIDDEN_CAPABILITY', 'REPLAYED',
+]);
+export const LicenceState = z.strictObject({
+  licence_id: Id, edition: Edition, entitlements: z.array(EntitlementCode).max(16),
+  installation_id: Id, valid_from: Time, valid_to: Time,
+  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000) }),
+  imported_at: Time, imported_by: Id, active: z.boolean(),
+  /** Set when the window has passed. Expiry restricts new work; it never removes
+   *  recorded evidence or the ability to read and export what already exists. */
+  expired: z.boolean(), continuity_note: SafeText,
+});
+export const EntitlementGate = z.enum(['RELEASE_AVAILABILITY', 'DEPLOYMENT_SUPPORT', 'CONTROLLED_ROLLOUT', 'LICENCE_ENTITLEMENT', 'ACTOR_AUTHORISATION']);
+export const FeatureAvailability = z.strictObject({
+  feature: EntitlementCode, usable: z.boolean(),
+  gates: z.array(z.strictObject({ gate: EntitlementGate, satisfied: z.boolean(), reason: SafeText })).length(5)
+    .describe('All five gates must be satisfied. They are reported individually because knowing which one blocks is the whole point.'),
+  limits: z.array(SafeText).max(8),
+}).superRefine((f, c) => {
+  // Usable exactly when every gate passes. A feature cannot be usable because
+  // one gate happened to be generous.
+  if (f.usable !== f.gates.every(gate => gate.satisfied)) c.addIssue({ code: 'custom', message: 'A feature is usable exactly when every gate is satisfied' });
+  const named = new Set(f.gates.map(gate => gate.gate));
+  if (named.size !== 5) c.addIssue({ code: 'custom', message: 'Every gate must be reported exactly once' });
+});
+export const EntitlementReport = z.strictObject({
+  as_of: Time, licence: LicenceState.nullable(),
+  features: z.array(FeatureAvailability).max(16),
+  never_licensable: z.array(SafeText).min(1).max(16).describe('Capabilities no licence or edition can enable, stated so that their absence is not read as an upsell.'),
+  limits: z.array(SafeText).max(8),
+});
 export const IdPath = z.strictObject({ id: Id });
 export const PurposePath = z.strictObject({ purpose_id: Id });
 export const WorkflowPath = z.strictObject({ workflow_id: Id });
 export const PollRequest = z.strictObject({ installation_id: Id, environment_id: Id, maximum_commands: z.number().int().min(1).max(10) });
 
 export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+  DataAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
+  GraphSearchQuery, GraphSearchResult, NeighbourhoodQuery, GraphNeighbourhood, ImpactAssessment,
+  RightsRequestCreate, RightsRequest, IdentityReview, RequestScope, RequestTransition, ResponseRelease, MandateCreate, Mandate, MandateRevoke, SystemOutcomeRecord, SystemOutcome,
+  RetentionConstraintCreate, RetentionConstraint, LegalHoldCreate, LegalHold, HoldRelease, RetentionDecisionRecord, Eligibility, RetentionOutcomeRecord, RetentionOutcome,
+  CoverageMeasure, CoverageReport, AttentionCount, Gap, GapAssignment, GapClosure, GapDerivation, Guidance,
+  ProcessorCreate, Processor, ProcessorLinkCreate, CoordinationRecord, Coordination, ProcessorStanding, AssessmentCreate, Assessment, AssessmentCompletion, FindingCreate, Finding, FindingClosure,
+  IncidentCreate, Incident, IncidentCorrection, IncidentCorrectionRecord, ObligationRuleCreate, ObligationRule, NotificationObligation, IncidentAssessment, NotificationTransition, IncidentClosure, IncidentContainment,
+  TemplateCreate, Template, NotificationTaskCreate, NotificationTask, DeliveryRecord, Delivery, EscalationSweep,
+  LicenceClaims, SignedLicence, LicenceImport, LicenceState, FeatureAvailability, EntitlementReport,
+  DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
+  RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
+  GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
+  IncidentList: page(Incident), ObligationRuleList: page(ObligationRule),
+  TemplateList: page(Template), NotificationTaskList: page(NotificationTask),
+  RetentionConstraintList: page(RetentionConstraint), LegalHoldList: page(LegalHold), RetentionOutcomeList: z.strictObject({ items: z.array(RetentionOutcome).max(100), next_cursor: z.string().max(200).nullable() }),
   ReceiptList: page(Receipt), MappingList: page(TargetMapping),
   PurposeList: page(Purpose), NoticeList: page(Notice), PolicyList: page(Policy), SystemList: page(System), PrincipalList: page(Principal), ConsentList: page(ConsentChoice), WorkflowList: page(WorkflowSummary), FailureList: page(Obligation), CapabilityList: page(CapabilityRecord), CommandList: z.strictObject({commands:z.array(SignedCommand).max(10), poll_after_ms:z.literal(2000)}), Health: z.strictObject({status:z.literal('alive')}) };
 export type SchemaName = keyof typeof schemas;
-export type RouteDefinition = { id: string; method: 'get'|'post'; path:string; authority:'PUBLIC'|'STAFF'|'PRINCIPAL'|'STAFF_OR_PRINCIPAL'|'MACHINE'; request?:SchemaName; response:SchemaName; status:200|201|202; params?:SchemaName; paginated?:boolean; idempotency?:boolean; capability?:z.infer<typeof Capability> };
+export type RouteDefinition = { id: string; method: 'get'|'post'; path:string; authority:'PUBLIC'|'STAFF'|'PRINCIPAL'|'STAFF_OR_PRINCIPAL'|'MACHINE'; request?:SchemaName; response:SchemaName; status:200|201|202; params?:SchemaName; query?:SchemaName; paginated?:boolean; idempotency?:boolean; capability?:z.infer<typeof Capability> };
+/** Declared query keys for a route. The dispatcher rejects any parameter not listed here. */
+export function queryKeys(name: SchemaName): string[] { return Object.keys((schemas[name] as unknown as z.ZodObject<z.ZodRawShape>).shape); }
 export const routes: RouteDefinition[] = [
   {id:'health',method:'get',path:'/healthz',authority:'PUBLIC',response:'Health',status:200},
   {id:'session',method:'get',path:'/api/v1/session',authority:'STAFF_OR_PRINCIPAL',response:'Session',status:200},
@@ -164,6 +852,72 @@ export const routes: RouteDefinition[] = [
   {id:'start_test',method:'post',path:'/api/v1/admin/test-runs',authority:'STAFF',capability:'tests.run',request:'TestRunCreate',response:'TestRun',status:202,idempotency:true},
   {id:'test_run',method:'get',path:'/api/v1/admin/test-runs/{id}',authority:'STAFF',capability:'tests.read',params:'IdPath',response:'TestRun',status:200},
   {id:'capabilities',method:'get',path:'/api/v1/admin/capabilities',authority:'STAFF',capability:'capabilities.read',response:'CapabilityList',status:200,paginated:true},
+  {id:'list_data_assets',method:'get',path:'/api/v1/admin/data-assets',authority:'STAFF',capability:'graph.read',response:'DataAssetList',status:200,paginated:true},
+  {id:'data_asset',method:'get',path:'/api/v1/admin/data-assets/{id}',authority:'STAFF',capability:'graph.read',params:'IdPath',response:'DataAsset',status:200},
+  {id:'create_data_asset',method:'post',path:'/api/v1/admin/data-assets',authority:'STAFF',capability:'graph.write',request:'DataAssetCreate',response:'DataAsset',status:201,idempotency:true},
+  {id:'tombstone_data_asset',method:'post',path:'/api/v1/admin/data-assets/{id}/tombstone',authority:'STAFF',capability:'graph.write',params:'IdPath',request:'AssetTombstone',response:'DataAsset',status:200,idempotency:true},
+  {id:'list_activities',method:'get',path:'/api/v1/admin/processing-activities',authority:'STAFF',capability:'graph.read',response:'ProcessingActivityList',status:200,paginated:true},
+  {id:'create_activity',method:'post',path:'/api/v1/admin/processing-activities',authority:'STAFF',capability:'graph.write',request:'ProcessingActivityCreate',response:'ProcessingActivity',status:201,idempotency:true},
+  {id:'list_relationships',method:'get',path:'/api/v1/admin/graph/relationships',authority:'STAFF',capability:'graph.read',response:'GraphRelationshipList',status:200,paginated:true},
+  {id:'create_relationship',method:'post',path:'/api/v1/admin/graph/relationships',authority:'STAFF',capability:'graph.write',request:'GraphRelationshipCreate',response:'GraphRelationship',status:201,idempotency:true},
+  {id:'graph_search',method:'get',path:'/api/v1/admin/graph/search',authority:'STAFF',capability:'graph.read',query:'GraphSearchQuery',response:'GraphSearchResult',status:200},
+  {id:'graph_neighbourhood',method:'get',path:'/api/v1/admin/graph/nodes/{id}/neighbourhood',authority:'STAFF',capability:'graph.read',params:'IdPath',query:'NeighbourhoodQuery',response:'GraphNeighbourhood',status:200},
+  {id:'graph_impact',method:'get',path:'/api/v1/admin/graph/nodes/{id}/impact',authority:'STAFF',capability:'graph.read',params:'IdPath',response:'ImpactAssessment',status:200},
+  {id:'list_rights_requests',method:'get',path:'/api/v1/admin/rights-requests',authority:'STAFF',capability:'rights.read',response:'RightsRequestList',status:200,paginated:true},
+  {id:'create_rights_request',method:'post',path:'/api/v1/admin/rights-requests',authority:'STAFF',capability:'rights.write',request:'RightsRequestCreate',response:'RightsRequest',status:201,idempotency:true},
+  {id:'rights_request',method:'get',path:'/api/v1/admin/rights-requests/{id}',authority:'STAFF',capability:'rights.read',params:'IdPath',response:'RightsRequest',status:200},
+  {id:'review_identity',method:'post',path:'/api/v1/admin/rights-requests/{id}/identity-review',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'IdentityReview',response:'RightsRequest',status:200,idempotency:true},
+  {id:'scope_request',method:'post',path:'/api/v1/admin/rights-requests/{id}/scope',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'RequestScope',response:'RightsRequest',status:200,idempotency:true},
+  {id:'transition_request',method:'post',path:'/api/v1/admin/rights-requests/{id}/transition',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'RequestTransition',response:'RightsRequest',status:200,idempotency:true},
+  {id:'release_response',method:'post',path:'/api/v1/admin/rights-requests/{id}/response',authority:'STAFF',capability:'rights.release',params:'IdPath',request:'ResponseRelease',response:'RightsRequest',status:200,idempotency:true},
+  {id:'record_outcome',method:'post',path:'/api/v1/admin/rights-requests/{id}/outcomes',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'SystemOutcomeRecord',response:'RightsRequest',status:200,idempotency:true},
+  {id:'list_constraints',method:'get',path:'/api/v1/admin/retention/constraints',authority:'STAFF',capability:'retention.read',response:'RetentionConstraintList',status:200,paginated:true},
+  {id:'create_constraint',method:'post',path:'/api/v1/admin/retention/constraints',authority:'STAFF',capability:'retention.write',request:'RetentionConstraintCreate',response:'RetentionConstraint',status:201,idempotency:true},
+  {id:'list_holds',method:'get',path:'/api/v1/admin/retention/holds',authority:'STAFF',capability:'retention.read',response:'LegalHoldList',status:200,paginated:true},
+  {id:'create_hold',method:'post',path:'/api/v1/admin/retention/holds',authority:'STAFF',capability:'retention.write',request:'LegalHoldCreate',response:'LegalHold',status:201,idempotency:true},
+  {id:'release_hold',method:'post',path:'/api/v1/admin/retention/holds/{id}/release',authority:'STAFF',capability:'retention.approve',params:'IdPath',request:'HoldRelease',response:'LegalHold',status:200,idempotency:true},
+  {id:'asset_eligibility',method:'get',path:'/api/v1/admin/data-assets/{id}/eligibility',authority:'STAFF',capability:'retention.read',params:'IdPath',response:'Eligibility',status:200},
+  {id:'retention_decision',method:'post',path:'/api/v1/admin/data-assets/{id}/retention-decision',authority:'STAFF',capability:'retention.approve',params:'IdPath',request:'RetentionDecisionRecord',response:'Eligibility',status:200,idempotency:true},
+  {id:'retention_outcome',method:'post',path:'/api/v1/admin/data-assets/{id}/retention-outcome',authority:'STAFF',capability:'retention.write',params:'IdPath',request:'RetentionOutcomeRecord',response:'RetentionOutcome',status:200,idempotency:true},
+  {id:'list_retention_outcomes',method:'get',path:'/api/v1/admin/retention/outcomes',authority:'STAFF',capability:'retention.read',response:'RetentionOutcomeList',status:200,paginated:true},
+  {id:'coverage',method:'get',path:'/api/v1/admin/coverage',authority:'STAFF',capability:'coverage.read',response:'CoverageReport',status:200},
+  {id:'list_gaps',method:'get',path:'/api/v1/admin/gaps',authority:'STAFF',capability:'coverage.read',response:'GapList',status:200,paginated:true},
+  {id:'derive_gaps',method:'post',path:'/api/v1/admin/gaps/derive',authority:'STAFF',capability:'coverage.manage',response:'GapDerivation',status:200,idempotency:true},
+  {id:'assign_gap',method:'post',path:'/api/v1/admin/gaps/{id}/assignment',authority:'STAFF',capability:'coverage.manage',params:'IdPath',request:'GapAssignment',response:'Gap',status:200,idempotency:true},
+  {id:'close_gap',method:'post',path:'/api/v1/admin/gaps/{id}/closure',authority:'STAFF',capability:'coverage.manage',params:'IdPath',request:'GapClosure',response:'Gap',status:200,idempotency:true},
+  {id:'gap_guidance',method:'get',path:'/api/v1/admin/gaps/{id}/guidance',authority:'STAFF',capability:'coverage.read',params:'IdPath',response:'Guidance',status:200},
+  {id:'list_processors',method:'get',path:'/api/v1/admin/processors',authority:'STAFF',capability:'processor.read',response:'ProcessorList',status:200,paginated:true},
+  {id:'create_processor',method:'post',path:'/api/v1/admin/processors',authority:'STAFF',capability:'processor.write',request:'ProcessorCreate',response:'Processor',status:201,idempotency:true},
+  {id:'link_processor_system',method:'post',path:'/api/v1/admin/processors/{id}/systems',authority:'STAFF',capability:'processor.write',params:'IdPath',request:'ProcessorLinkCreate',response:'Processor',status:200,idempotency:true},
+  {id:'processor_standing',method:'get',path:'/api/v1/admin/processors/{id}/standing',authority:'STAFF',capability:'processor.read',params:'IdPath',response:'ProcessorStanding',status:200},
+  {id:'record_coordination',method:'post',path:'/api/v1/admin/processors/{id}/coordination',authority:'STAFF',capability:'processor.write',params:'IdPath',request:'CoordinationRecord',response:'Coordination',status:201,idempotency:true},
+  {id:'list_assessments',method:'get',path:'/api/v1/admin/assessments',authority:'STAFF',capability:'processor.read',response:'AssessmentList',status:200,paginated:true},
+  {id:'create_assessment',method:'post',path:'/api/v1/admin/assessments',authority:'STAFF',capability:'processor.write',request:'AssessmentCreate',response:'Assessment',status:201,idempotency:true},
+  {id:'complete_assessment',method:'post',path:'/api/v1/admin/assessments/{id}/completion',authority:'STAFF',capability:'processor.write',params:'IdPath',request:'AssessmentCompletion',response:'Assessment',status:200,idempotency:true},
+  {id:'list_findings',method:'get',path:'/api/v1/admin/findings',authority:'STAFF',capability:'processor.read',response:'FindingList',status:200,paginated:true},
+  {id:'create_finding',method:'post',path:'/api/v1/admin/findings',authority:'STAFF',capability:'processor.write',request:'FindingCreate',response:'Finding',status:201,idempotency:true},
+  {id:'close_finding',method:'post',path:'/api/v1/admin/findings/{id}/closure',authority:'STAFF',capability:'processor.write',params:'IdPath',request:'FindingClosure',response:'Finding',status:200,idempotency:true},
+  {id:'list_incidents',method:'get',path:'/api/v1/admin/incidents',authority:'STAFF',capability:'incident.read',response:'IncidentList',status:200,paginated:true},
+  {id:'create_incident',method:'post',path:'/api/v1/admin/incidents',authority:'STAFF',capability:'incident.write',request:'IncidentCreate',response:'Incident',status:201,idempotency:true},
+  {id:'incident_assessment',method:'get',path:'/api/v1/admin/incidents/{id}/assessment',authority:'STAFF',capability:'incident.read',params:'IdPath',response:'IncidentAssessment',status:200},
+  {id:'correct_incident',method:'post',path:'/api/v1/admin/incidents/{id}/corrections',authority:'STAFF',capability:'incident.write',params:'IdPath',request:'IncidentCorrection',response:'IncidentAssessment',status:200,idempotency:true},
+  {id:'contain_incident',method:'post',path:'/api/v1/admin/incidents/{id}/containment',authority:'STAFF',capability:'incident.write',params:'IdPath',request:'IncidentContainment',response:'Incident',status:200,idempotency:true},
+  {id:'close_incident',method:'post',path:'/api/v1/admin/incidents/{id}/closure',authority:'STAFF',capability:'incident.approve',params:'IdPath',request:'IncidentClosure',response:'Incident',status:200,idempotency:true},
+  {id:'transition_notification',method:'post',path:'/api/v1/admin/notification-obligations/{id}/transition',authority:'STAFF',capability:'incident.write',params:'IdPath',request:'NotificationTransition',response:'NotificationObligation',status:200,idempotency:true},
+  {id:'list_obligation_rules',method:'get',path:'/api/v1/admin/obligation-rules',authority:'STAFF',capability:'incident.read',response:'ObligationRuleList',status:200,paginated:true},
+  {id:'create_obligation_rule',method:'post',path:'/api/v1/admin/obligation-rules',authority:'STAFF',capability:'incident.approve',request:'ObligationRuleCreate',response:'ObligationRule',status:201,idempotency:true},
+  {id:'list_templates',method:'get',path:'/api/v1/admin/notification-templates',authority:'STAFF',capability:'notification.read',response:'TemplateList',status:200,paginated:true},
+  {id:'create_template',method:'post',path:'/api/v1/admin/notification-templates',authority:'STAFF',capability:'notification.manage',request:'TemplateCreate',response:'Template',status:201,idempotency:true},
+  {id:'list_notification_tasks',method:'get',path:'/api/v1/admin/notification-tasks',authority:'STAFF',capability:'notification.read',response:'NotificationTaskList',status:200,paginated:true},
+  {id:'create_notification_task',method:'post',path:'/api/v1/admin/notification-tasks',authority:'STAFF',capability:'notification.manage',request:'NotificationTaskCreate',response:'NotificationTask',status:201,idempotency:true},
+  {id:'notification_task',method:'get',path:'/api/v1/admin/notification-tasks/{id}',authority:'STAFF',capability:'notification.read',params:'IdPath',response:'NotificationTask',status:200},
+  {id:'record_delivery',method:'post',path:'/api/v1/admin/notification-tasks/{id}/deliveries',authority:'STAFF',capability:'notification.manage',params:'IdPath',request:'DeliveryRecord',response:'NotificationTask',status:200,idempotency:true},
+  {id:'escalation_sweep',method:'post',path:'/api/v1/admin/notification-tasks/escalate',authority:'STAFF',capability:'notification.manage',response:'EscalationSweep',status:200,idempotency:true},
+  {id:'entitlements',method:'get',path:'/api/v1/admin/entitlements',authority:'STAFF',capability:'licence.read',response:'EntitlementReport',status:200},
+  {id:'import_licence',method:'post',path:'/api/v1/admin/licences',authority:'STAFF',capability:'licence.manage',request:'LicenceImport',response:'LicenceState',status:201,idempotency:true},
+  {id:'list_mandates',method:'get',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.read',response:'MandateList',status:200,paginated:true},
+  {id:'create_mandate',method:'post',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.write',request:'MandateCreate',response:'Mandate',status:201,idempotency:true},
+  {id:'revoke_mandate',method:'post',path:'/api/v1/admin/mandates/{id}/revoke',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'MandateRevoke',response:'Mandate',status:200,idempotency:true},
   {id:'poll_commands',method:'post',path:'/api/v1/machine/commands/poll',authority:'MACHINE',request:'PollRequest',response:'CommandList',status:200},
   {id:'command_receipt',method:'post',path:'/api/v1/machine/commands/{id}/receipts',authority:'MACHINE',params:'IdPath',request:'CommandReceipt',response:'AcceptedOperation',status:202,idempotency:true},
   {id:'send',method:'post',path:'/api/v1/machine/simulator/send',authority:'MACHINE',request:'SendRequest',response:'SendResult',status:200,idempotency:true},

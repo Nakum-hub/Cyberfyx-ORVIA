@@ -6,6 +6,10 @@ import { audit, predicate, scopeValues, requireOne, selectorScope, paged, type C
 
 const configurations={purposes:{table:'purpose_versions',schema:S.Purpose},notices:{table:'notice_versions',schema:S.Notice},policies:{table:'policy_versions',schema:S.Policy},systems:{table:'systems',schema:S.System}} as const;
 export type ConfigurationKind=keyof typeof configurations;
+/** The resources this module owns. The dispatcher matches these exactly rather
+ *  than by route-id prefix, so an unrelated list_/create_ route cannot be routed
+ *  here by accident. */
+export const configurationKinds=new Set<string>(Object.keys(configurations));
 export async function configurationList(c: Context, kind: ConfigurationKind, page: Page) {
   const {table,schema}=configurations[kind];
   const result=await c.tx.query(`SELECT * FROM app.${table} WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
