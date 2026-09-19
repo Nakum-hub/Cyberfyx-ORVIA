@@ -1,15 +1,15 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
 import type { schemas } from '@orvia/contracts';
-import { useMutation, usePagedQuery } from '../../components/api.ts';
-import { MutationFeedback } from '../../components/mutation-feedback.tsx';
-import { newerReceipt } from '../../components/derive.ts';
-import { DomainGuard } from '../../components/session-context.tsx';
-import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime, shortId } from '../../components/state-labels.ts';
+import { useMutation, usePagedQuery } from '../../components/shared/api.ts';
+import { MutationFeedback } from '../../components/shared/mutation-feedback.tsx';
+import { newerReceipt } from '../../components/shared/derive.ts';
+import { DomainGuard } from '../../components/shared/session-context.tsx';
+import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime, shortId } from '../../components/shared/state-labels.ts';
 import {
   Badge, CheckboxField, ConfirmDialog, EmptyState, Facts, Freshness, Pagination,
   NoticeBox, PageHead, QueryBoundary, StateBadge, StoryCell, TechnicalDetails, TextField,
-} from '../../components/ui.tsx';
+} from '../../components/shared/ui.tsx';
 
 type Choice = ReturnType<typeof schemas.ConsentChoice.parse>;
 type Receipt = ReturnType<typeof schemas.Receipt.parse>;

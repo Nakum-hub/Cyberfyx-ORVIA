@@ -7,7 +7,9 @@
     ".": "./src/index.ts",
     "./client": "./src/client.ts",
     "./crypto": "./src/crypto.ts",
-    "./generated": "./generated/client-types.d.ts"
+    "./generated": "./generated/client-types.d.ts",
+    "./generated/endpoint-types": "./generated/endpoint-types.ts",
+    "./generated/interfaces.json": "./generated/interfaces.json"
   },
   "dependencies": {
     "zod": "4.6.5"

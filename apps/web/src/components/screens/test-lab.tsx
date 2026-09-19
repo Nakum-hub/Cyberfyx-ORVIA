@@ -1,14 +1,14 @@
 'use client';
 import { useEffect, useState, type FormEvent } from 'react';
 import { PROFILES, type schemas } from '@orvia/contracts';
-import { POLL, useMutation, useQuery } from './api.ts';
-import { hasCapability, type StaffSession } from './session-context.tsx';
-import { ASSERTION_LABELS, SCENARIO_LABELS, TEST_LABELS, formatTime } from './state-labels.ts';
+import { POLL, useMutation, useQuery } from '../shared/api.ts';
+import { hasCapability, type StaffSession } from '../shared/session-context.tsx';
+import { ASSERTION_LABELS, SCENARIO_LABELS, TEST_LABELS, formatTime } from '../shared/state-labels.ts';
 import {
   Badge, Facts, Freshness, NoticeBox, PageHead, QueryBoundary, Section, SelectField,
   StateBadge, TechnicalDetails,
-} from './ui.tsx';
-import { MutationFeedback } from './mutation-feedback.tsx';
+} from '../shared/ui.tsx';
+import { MutationFeedback } from '../shared/mutation-feedback.tsx';
 import { OpenRecord } from './operations.tsx';
 
 type Request=ReturnType<typeof schemas.TestRunCreate.parse>;

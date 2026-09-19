@@ -1,19 +1,19 @@
 'use client';
 import { useState, type ReactNode, type FormEvent } from 'react';
 import type { schemas } from '@orvia/contracts';
-import type { EndpointMap } from '../../../../packages/contracts/generated/endpoint-types.ts';
-import { call, useCollection, useMutation, useRequestGuard } from './api.ts';
-import { MutationFeedback } from './mutation-feedback.tsx';
-import { describeFailure, type UiFailure } from './errors.ts';
-import { hasCapability, type StaffSession } from './session-context.tsx';
+import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
+import { call, useCollection, useMutation, useRequestGuard } from '../shared/api.ts';
+import { MutationFeedback } from '../shared/mutation-feedback.tsx';
+import { describeFailure, type UiFailure } from '../shared/errors.ts';
+import { hasCapability, type StaffSession } from '../shared/session-context.tsx';
 import {
   CONFIGURATION_STATUS_LABELS, CONNECTOR_LABELS, CONNECTOR_NOTES, CONDITION_LABELS,
   PURPOSE_CODE_LABELS, formatTime, shortId,
-} from './state-labels.ts';
+} from '../shared/state-labels.ts';
 import {
   Badge, FailureState, Facts, Flow, Freshness, NoticeBox, PageHead, QueryBoundary, Section,
   StateBadge, StoryCell, TechnicalDetails, TextField,
-} from './ui.tsx';
+} from '../shared/ui.tsx';
 
 type Purpose = ReturnType<typeof schemas.Purpose.parse>;
 type Notice = ReturnType<typeof schemas.Notice.parse>;

@@ -1,22 +1,22 @@
 'use client';
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import type { schemas } from '@orvia/contracts';
-import programme from '../../../../tracking/capabilities.json';
-import { call, currentIdentity, useCollection, useMutation, useNow, usePagedQuery, useQuery, POLL } from './api.ts';
-import { useDirectory, type Directory } from './directory.ts';
-import { actionVerification, buildTimeline, obligationAction, obligationStatus, obligationTotals, observationFreshness } from './derive.ts';
-import { describeFailure, type UiFailure } from './errors.ts';
-import { hasCapability, type StaffSession } from './session-context.tsx';
+import programme from '../../../../../tracking/capabilities.json';
+import { call, currentIdentity, useCollection, useMutation, useNow, usePagedQuery, useQuery, POLL } from '../shared/api.ts';
+import { useDirectory, type Directory } from '../shared/directory.ts';
+import { actionVerification, buildTimeline, obligationAction, obligationStatus, obligationTotals, observationFreshness } from '../shared/derive.ts';
+import { describeFailure, type UiFailure } from '../shared/errors.ts';
+import { hasCapability, type StaffSession } from '../shared/session-context.tsx';
 import {
   EXECUTION_LABELS, WORKFLOW_LABELS, CONSENT_LABELS, DECISION_LABELS, CAPABILITY_LABELS, CAPABILITY_TEST_LABELS,
   CONNECTOR_LABELS, CONNECTOR_NOTES, CRITERION_LABELS, METHOD_LABELS, OPERATION_LABELS, PURPOSE_CODE_LABELS,
   UNCERTAINTY_COPY, formatAge, formatTime, shortId,
-} from './state-labels.ts';
+} from '../shared/state-labels.ts';
 import {
   Badge, DataTable, Facts, FailureState, Flow, Freshness, Metric, NoticeBox, PageHead, Pagination,
   QueryBoundary, Section, StateBadge, StoryCell, TechnicalDetails, TextField, TextAreaField,
-} from './ui.tsx';
-import { MutationFeedback } from './mutation-feedback.tsx';
+} from '../shared/ui.tsx';
+import { MutationFeedback } from '../shared/mutation-feedback.tsx';
 import { Select } from './configuration.tsx';
 
 type Workflow = ReturnType<typeof schemas.Workflow.parse>;

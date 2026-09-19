@@ -2,8 +2,8 @@
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import { routes, schemas } from '@orvia/contracts';
 import { createClient } from '@orvia/contracts/client';
-import type { EndpointMap } from '../../../../packages/contracts/generated/endpoint-types.ts';
-import interfaces from '../../../../packages/contracts/generated/interfaces.json';
+import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
+import interfaces from '@orvia/contracts/generated/interfaces.json';
 import { describeFailure, type UiFailure } from './errors.ts';
 
 /**

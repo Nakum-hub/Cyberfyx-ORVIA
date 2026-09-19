@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { useCollection, usePagedQuery } from '../../../components/api.ts';
-import { DomainGuard } from '../../../components/session-context.tsx';
-import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime } from '../../../components/state-labels.ts';
-import { DataTable, EmptyState, Freshness, Pagination, QueryBoundary, SelectField, StateBadge } from '../../../components/ui.tsx';
+import { useCollection, usePagedQuery } from '../../../components/shared/api.ts';
+import { DomainGuard } from '../../../components/shared/session-context.tsx';
+import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime } from '../../../components/shared/state-labels.ts';
+import { DataTable, EmptyState, Freshness, Pagination, QueryBoundary, SelectField, StateBadge } from '../../../components/shared/ui.tsx';
 
 export default function ReceiptsPage() {
   return (

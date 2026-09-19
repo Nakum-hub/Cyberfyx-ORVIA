@@ -1,10 +1,10 @@
 'use client';
 import { useState, type FormEvent } from 'react';
 import { staffAuthClient } from '@orvia/auth/client';
-import { describeFailure } from '../../../components/errors.ts';
-import { call } from '../../../components/api.ts';
-import { useSession } from '../../../components/session-context.tsx';
-import { NoticeBox, TextField } from '../../../components/ui.tsx';
+import { describeFailure } from '../../../components/shared/errors.ts';
+import { call } from '../../../components/shared/api.ts';
+import { useSession } from '../../../components/shared/session-context.tsx';
+import { NoticeBox, TextField } from '../../../components/shared/ui.tsx';
 
 export default function StaffSignIn() {
   const { session, reload } = useSession();

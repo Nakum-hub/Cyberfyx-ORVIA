@@ -1,11 +1,11 @@
 'use client';
 import { useMemo } from 'react';
-import { useCollection } from './api.ts';
-import { useDirectory } from './directory.ts';
+import { useCollection } from '../shared/api.ts';
+import { useDirectory } from '../shared/directory.ts';
 import { LIFECYCLE } from './overview.tsx';
-import { hasCapability, type StaffSession } from './session-context.tsx';
-import { formatTime } from './state-labels.ts';
-import { Lifecycle, NoticeBox, PageHead, Section, StoryCell } from './ui.tsx';
+import { hasCapability, type StaffSession } from '../shared/session-context.tsx';
+import { formatTime } from '../shared/state-labels.ts';
+import { Lifecycle, NoticeBox, PageHead, Section, StoryCell } from '../shared/ui.tsx';
 
 type Step = {
   title: string;

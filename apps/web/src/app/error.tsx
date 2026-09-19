@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { RouteFallback } from '../components/fallback.tsx';
+import { RouteFallback } from '../components/shared/fallback.tsx';
 
 /**
  * Uncaught render error inside the application shell. The error's own message,

@@ -1,4 +1,4 @@
-import { RouteFallback } from '../components/fallback.tsx';
+import { RouteFallback } from '../components/shared/fallback.tsx';
 
 export const metadata = { title: 'ORVIA — page not found' };
 

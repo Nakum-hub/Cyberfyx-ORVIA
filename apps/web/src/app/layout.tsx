@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import './globals.css';
-import { SessionProvider } from '../components/session-context.tsx';
+import { SessionProvider } from '../components/shared/session-context.tsx';
 
 export const metadata = { title: 'ORVIA — synthetic prototype' };
 

@@ -1,10 +1,10 @@
 'use client';
 import { useParams } from 'next/navigation';
-import { useQuery } from '../../../../components/api.ts';
-import { receiptIntegrity } from '../../../../components/derive.ts';
-import { DomainGuard } from '../../../../components/session-context.tsx';
-import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime } from '../../../../components/state-labels.ts';
-import { Facts, Freshness, NoticeBox, QueryBoundary, StateBadge } from '../../../../components/ui.tsx';
+import { useQuery } from '../../../../components/shared/api.ts';
+import { receiptIntegrity } from '../../../../components/shared/derive.ts';
+import { DomainGuard } from '../../../../components/shared/session-context.tsx';
+import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime } from '../../../../components/shared/state-labels.ts';
+import { Facts, Freshness, NoticeBox, QueryBoundary, StateBadge } from '../../../../components/shared/ui.tsx';
 
 export default function ReceiptPage() {
   const params = useParams<{ id: string }>();

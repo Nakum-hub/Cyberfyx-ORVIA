@@ -1,19 +1,19 @@
 'use client';
 import { useMemo, useState } from 'react';
 import type { schemas } from '@orvia/contracts';
-import { useCollection, useNow, useQuery } from './api.ts';
-import { useDirectory } from './directory.ts';
-import { actionVerification, obligationTotals } from './derive.ts';
-import type { StaffSession } from './session-context.tsx';
-import { hasCapability } from './session-context.tsx';
+import { useCollection, useNow, useQuery } from '../shared/api.ts';
+import { useDirectory } from '../shared/directory.ts';
+import { actionVerification, obligationTotals } from '../shared/derive.ts';
+import type { StaffSession } from '../shared/session-context.tsx';
+import { hasCapability } from '../shared/session-context.tsx';
 import {
   OPERATION_LABELS, PURPOSE_CODE_LABELS, WORKFLOW_LABELS, EXECUTION_LABELS,
   formatAge, formatTime, shortId,
-} from './state-labels.ts';
+} from '../shared/state-labels.ts';
 import {
   Badge, Facts, Freshness, Lifecycle, Loading, Metric, NoticeBox, PageHead,
   QueryBoundary, Section, StateBadge, StoryCell, TechnicalDetails, type Stage,
-} from './ui.tsx';
+} from '../shared/ui.tsx';
 
 type WorkflowSummary = ReturnType<typeof schemas.WorkflowSummary.parse>;
 

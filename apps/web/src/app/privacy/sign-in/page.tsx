@@ -1,8 +1,8 @@
 'use client';
 import { useState, type FormEvent } from 'react';
 import { principalAuthClient } from '@orvia/auth/client';
-import { useSession } from '../../../components/session-context.tsx';
-import { NoticeBox, TextField } from '../../../components/ui.tsx';
+import { useSession } from '../../../components/shared/session-context.tsx';
+import { NoticeBox, TextField } from '../../../components/shared/ui.tsx';
 
 /**
  * Data principal sign in. Credentials go to the local Better Auth principal

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { schemas } from '../../packages/contracts/src/index.ts';
-import { actionVerification, buildTimeline, obligationStatus, obligationTotals, receiptIntegrity } from '../../apps/web/src/components/derive.ts';
+import { actionVerification, buildTimeline, obligationStatus, obligationTotals, receiptIntegrity } from '../../apps/web/src/components/shared/derive.ts';
 
 // Schema examples are unit inputs only, never served as runtime/browser evidence.
 const examples=JSON.parse(readFileSync('packages/contracts/generated/examples.json','utf8'));
