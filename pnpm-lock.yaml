@@ -214,6 +214,9 @@ importers:
       '@orvia/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@orvia/backend':
+        specifier: workspace:*
+        version: link:../../packages/backend
       '@orvia/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
@@ -279,6 +282,30 @@ importers:
         specifier: 4.6.5
         version: 4.6.5
 
+  packages/backend:
+    dependencies:
+      '@orvia/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@orvia/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@orvia/db':
+        specifier: workspace:*
+        version: link:../db
+      '@orvia/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@orvia/policy-sdk':
+        specifier: workspace:*
+        version: link:../policy-sdk
+      '@orvia/privacy-control':
+        specifier: workspace:*
+        version: link:../privacy-control
+      '@orvia/testing':
+        specifier: workspace:*
+        version: link:../testing
+
   packages/contracts:
     dependencies:
       zod:
@@ -312,6 +339,18 @@ importers:
       zod:
         specifier: 4.6.5
         version: 4.6.5
+
+  packages/privacy-control:
+    dependencies:
+      '@orvia/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@orvia/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@orvia/policy-sdk':
+        specifier: workspace:*
+        version: link:../policy-sdk
 
   packages/testing:
     dependencies:

@@ -1,16 +1,15 @@
 import { randomUUID } from 'node:crypto';
 import type pg from 'pg';
-import type { RuntimeConfig } from '../../../auth/src/config.ts';
-import { Evaluate,Decision,SendRequest,SendResult } from '../../../contracts/src/index.ts';
-import { digest } from '../../../contracts/src/crypto.ts';
-import { processingDecision } from '../../../policy-sdk/src/index.ts';
-import { targetTransaction } from '../../../connectors/src/shared/target-db.ts';
-import { AccessError } from '../../../authz/src/index.ts';
-import { observerEnrollment } from '../../../auth/src/machine-profile.ts';
-import { readSimulator } from '../../../connectors/src/crm-synthetic/simulator.ts';
-import { lockConsent,predicate,scopeValues,requireOne,audit,type Context } from '../shared/transaction.ts';
+import type { RuntimeConfig } from '../../auth/src/config.ts';
+import { Evaluate,Decision,SendRequest,SendResult } from '../../contracts/src/index.ts';
+import { digest } from '../../contracts/src/crypto.ts';
+import { processingDecision } from '../../policy-sdk/src/index.ts';
+import { targetTransaction } from '../../connectors/src/shared/target-db.ts';
+import { AccessError } from '../../authz/src/index.ts';
+import { lockConsent,predicate,scopeValues,requireOne,audit,type Context } from '@orvia/domain/transaction';
+import type { TargetObserver } from './target-observer.ts';
 
-async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.Pool, value: {principal_reference_id:string;purpose_id:string;system_id:string;message_class:'MARKETING'|'ORDER_SERVICE';order_reference:string|null}, preview: boolean) {
+async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.Pool, observe: TargetObserver, value: {principal_reference_id:string;purpose_id:string;system_id:string;message_class:'MARKETING'|'ORDER_SERVICE';order_reference:string|null}, preview: boolean) {
  const scope=scopeValues(c.actor);
  await lockConsent(c.tx,c.actor.scope,value.principal_reference_id,value.purpose_id);
  await c.tx.query('SELECT pg_advisory_xact_lock_shared(hashtextextended($1,0))',[JSON.stringify([...scope,'publication',value.purpose_id])]);
@@ -25,8 +24,11 @@ async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.P
   target=await targetTransaction(observer,c.actor,async tx=>(await tx.query(`SELECT generation,marketing_restricted,quarantined FROM marketing_memberships WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND resource_id=$4 AND principal_id=$5 AND purpose_id=$6 AND system_id=$7 AND subject_reference=$8`,[...scope,mapping.id,value.principal_reference_id,value.purpose_id,value.system_id,mapping.target_subject_reference])).rows[0]);
   const system=requireOne((await c.tx.query(`SELECT connector FROM app.systems WHERE ${predicate} AND id=$4`,[...scope,value.system_id])).rows);
   if(system.connector==='ORVIA_REST_SIMULATOR') {
-   const identity=observerEnrollment(config).identities.find(i=>i.scope.tenant_id===c.actor.scope.tenant_id&&i.scope.legal_entity_id===c.actor.scope.legal_entity_id&&i.scope.environment_id===c.actor.scope.environment_id);if(!identity)throw new Error('Observer not enrolled');
-   const observed=await readSimulator(config,identity.token,mapping.id);if(target)target={...target,generation:String(observed.generation),marketing_restricted:observed.marketing_restricted};
+   // The only connector implemented today. A future real connector adds its
+   // own case here and supplies its own TargetObserver at the wiring layer;
+   // this module never hard-codes a specific connector's client.
+   const observed=await observe(config,c.actor.scope,mapping.id);
+   if(target)target={...target,generation:String(observed.generation),marketing_restricted:observed.marketing_restricted};
   }
  }
  catch{targetUnavailable=true;}
@@ -40,18 +42,18 @@ async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.P
  await audit(c,preview?'policy.preview':'send.decision',decisionId);
  return {...result,decision_id:decisionId,policy_version_id:policy?.version_id??null,consent_epoch:epoch,evaluated_at:now};
 }
-export async function preview(c: Context, config: RuntimeConfig, observer: pg.Pool, input: unknown) {
+export async function preview(c: Context, config: RuntimeConfig, observer: pg.Pool, observe: TargetObserver, input: unknown) {
  const value=Evaluate.parse(input);
- const result=await evaluateCurrent(c,config,observer,{principal_reference_id:value.principal_id,purpose_id:value.purpose_id,system_id:value.system_id,message_class:value.action==='MARKETING_SEND'?'MARKETING':'ORDER_SERVICE',order_reference:null},true);
+ const result=await evaluateCurrent(c,config,observer,observe,{principal_reference_id:value.principal_id,purpose_id:value.purpose_id,system_id:value.system_id,message_class:value.action==='MARKETING_SEND'?'MARKETING':'ORDER_SERVICE',order_reference:null},true);
  return Decision.parse({...result,preview_only:true});
 }
-export async function admitSend(c: Context, config: RuntimeConfig, observer: pg.Pool, input: unknown) {
+export async function admitSend(c: Context, config: RuntimeConfig, observer: pg.Pool, observe: TargetObserver, input: unknown) {
  const value=SendRequest.parse(input);const scope=scopeValues(c.actor);
  requireOne((await c.tx.query(`SELECT system_id FROM machine_auth.sender_systems WHERE ${predicate} AND identity_id=$4 AND system_id=$5`,[...scope,c.actor.actor_id,value.system_id])).rows);
  await c.tx.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[JSON.stringify([...scope,c.actor.actor_id,'send-attempt',value.attempt_id])]);
  const old=(await c.tx.query(`SELECT digest,result FROM app.send_attempts WHERE ${predicate} AND actor_id=$4 AND id=$5`,[...scope,c.actor.actor_id,value.attempt_id])).rows[0];
  if(old){if(old.digest!==digest(value))throw new AccessError(409,'IDEMPOTENCY_CONFLICT');await audit(c,'send.replayed',value.attempt_id);return SendResult.parse(old.result);}
- const decision=await evaluateCurrent(c,config,observer,value,false);const sendId=decision.decision==='ALLOW'?randomUUID():null;
+ const decision=await evaluateCurrent(c,config,observer,observe,value,false);const sendId=decision.decision==='ALLOW'?randomUUID():null;
  if(sendId)await c.tx.query(`INSERT INTO app.send_records VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,true)`,[...scope,sendId,decision.decision_id,c.actor.actor_id,value.principal_reference_id,value.purpose_id,value.system_id,value.attempt_id,value.message_class,decision.evaluated_at]);
  const result=SendResult.parse({attempt_id:value.attempt_id,decision:decision.decision,send_record_id:sendId,admitted_at:sendId?decision.evaluated_at:null,evaluated_epoch:decision.consent_epoch,reason_codes:decision.reason_codes});
  await c.tx.query(`INSERT INTO app.send_attempts(tenant_id,legal_entity_id,environment_id,id,actor_id,principal_id,purpose_id,system_id,digest,result) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,[...scope,value.attempt_id,c.actor.actor_id,value.principal_reference_id,value.purpose_id,value.system_id,digest(value),result]);

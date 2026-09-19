@@ -1,6 +1,6 @@
 {
   "name": "@orvia/web", "version": "0.0.0", "private": true, "type": "module",
   "scripts": { "dev": "tsx ../../scripts/web.ts dev", "build": "tsx ../../scripts/web.ts build", "start": "tsx ../../scripts/web.ts start" },
-  "dependencies": { "@orvia/contracts": "workspace:*", "@orvia/auth": "workspace:*", "next": "16.3.5", "react": "19.3.0", "react-dom": "19.3.0" },
+  "dependencies": { "@orvia/contracts": "workspace:*", "@orvia/auth": "workspace:*", "@orvia/backend": "workspace:*", "next": "16.3.5", "react": "19.3.0", "react-dom": "19.3.0" },
   "devDependencies": { "tailwindcss": "4.3.3", "@tailwindcss/postcss": "4.3.3" }
 }

@@ -1,6 +1,6 @@
-import { runtimeConfig } from '../../../../packages/auth/src/config.ts';
-import { createAuth } from '../../../../packages/auth/src/server.ts';
-import { runtimePool } from '../../../../packages/db/src/runtime.ts';
+import { runtimeConfig } from '../../auth/src/config.ts';
+import { createAuth } from '../../auth/src/server.ts';
+import { runtimePool } from '../../db/src/runtime.ts';
 
 function createRuntime() {
   const config = runtimeConfig();

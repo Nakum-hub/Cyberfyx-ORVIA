@@ -1,13 +1,13 @@
 import { randomUUID } from 'node:crypto';
-import { SignedCommand,SimulatorState,CommandReceipt,Id } from '../../../../packages/contracts/src/index.ts';
-import { machineFor,machineAuthority,servicePool } from '../../../../packages/auth/src/machine.ts';
-import { agentEnrollment,observerEnrollment } from '../../../../packages/auth/src/machine-profile.ts';
-import { targetTransaction } from '../../../../packages/connectors/src/shared/target-db.ts';
-import { executeCommand } from '../../../agent/src/execute.ts';
-import { limitedBody } from '../../../../packages/auth/src/server.ts';
-import { AccessError } from '../../../../packages/authz/src/index.ts';
-import { runtime } from './runtime.ts';
-import { safeRoute } from './http.ts';
+import { SignedCommand,SimulatorState,CommandReceipt,Id } from '../../../contracts/src/index.ts';
+import { machineFor,machineAuthority,servicePool } from '../../../auth/src/machine.ts';
+import { agentEnrollment,observerEnrollment } from '../../../auth/src/machine-profile.ts';
+import { targetTransaction } from '../../../connectors/src/shared/target-db.ts';
+import { executeCommand } from '../../../../apps/agent/src/execute.ts';
+import { limitedBody } from '../../../auth/src/server.ts';
+import { AccessError } from '../../../authz/src/index.ts';
+import { runtime } from '../runtime.ts';
+import { safeRoute } from '../http.ts';
 let pools: {auth:ReturnType<typeof servicePool>;control:ReturnType<typeof servicePool>;target:ReturnType<typeof servicePool>;observer:ReturnType<typeof servicePool>}|undefined;
 export function simulatorRoute(request:Request) {return safeRoute(async()=>{
  const config=runtime().config;const p=pools??={auth:servicePool(config,'orvia_machine_auth'),control:servicePool(config,'orvia_agent_control'),target:servicePool(config,'orvia_target_agent'),observer:servicePool(config,'orvia_target_observer')};

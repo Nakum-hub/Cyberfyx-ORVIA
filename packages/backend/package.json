@@ -1,0 +1,13 @@
+{
+  "name": "@orvia/backend", "version": "0.0.0", "private": true, "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@orvia/auth": "workspace:*",
+    "@orvia/contracts": "workspace:*",
+    "@orvia/db": "workspace:*",
+    "@orvia/domain": "workspace:*",
+    "@orvia/policy-sdk": "workspace:*",
+    "@orvia/privacy-control": "workspace:*",
+    "@orvia/testing": "workspace:*"
+  }
+}

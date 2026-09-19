@@ -1,0 +1,5 @@
+{
+  "name": "@orvia/privacy-control", "version": "0.0.0", "private": true, "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": { "@orvia/contracts": "workspace:*", "@orvia/domain": "workspace:*", "@orvia/policy-sdk": "workspace:*" }
+}

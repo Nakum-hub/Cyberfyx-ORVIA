@@ -1,16 +1,17 @@
 import { randomUUID } from 'node:crypto';
-import { Id,PollRequest,CommandReceipt,AcceptedOperation,schemas } from '../../../../packages/contracts/src/index.ts';
-import { digest } from '../../../../packages/contracts/src/crypto.ts';
-import { machineFor,machineAuthority,servicePool } from '../../../../packages/auth/src/machine.ts';
-import { limitedBody } from '../../../../packages/auth/src/server.ts';
-import { AccessError } from '../../../../packages/authz/src/index.ts';
-import { scopedTransaction } from '../../../../packages/db/src/runtime.ts';
-import { audit,idempotent,predicate,scopeValues,requireOne } from '../../../../packages/domain/src/shared/transaction.ts';
+import { Id,PollRequest,CommandReceipt,AcceptedOperation,schemas } from '../../contracts/src/index.ts';
+import { digest } from '../../contracts/src/crypto.ts';
+import { machineFor,machineAuthority,servicePool } from '../../auth/src/machine.ts';
+import { limitedBody } from '../../auth/src/server.ts';
+import { AccessError } from '../../authz/src/index.ts';
+import { scopedTransaction } from '../../db/src/runtime.ts';
+import { audit,idempotent,predicate,scopeValues,requireOne } from '@orvia/domain/transaction';
 import { runtime } from './runtime.ts';
-import { SendRequest } from '../../../../packages/contracts/src/index.ts';
-import { admitSend } from '../../../../packages/domain/src/processing/processing.ts';
+import { SendRequest } from '../../contracts/src/index.ts';
+import { admitSend } from '@orvia/privacy-control';
 import { safeRoute } from './http.ts';
-import { simulatorRoute } from './simulator.ts';
+import { simulatorRoute } from './synthetic/simulator-route.ts';
+import { syntheticTargetObserver } from './synthetic/target-observer.ts';
 let identityPool: ReturnType<typeof servicePool>|undefined;
 let observerPool: ReturnType<typeof servicePool>|undefined;
 export function machineRoute(request: Request) {
@@ -30,7 +31,7 @@ export function machineRoute(request: Request) {
    const parsed=SendRequest.safeParse(input);if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR');
    const key=request.headers.get('idempotency-key');if(!key||!/^[A-Za-z0-9_-]{16,128}$/.test(key))throw new AccessError(400,'VALIDATION_ERROR');
    await machineFor(request,identityPool!,r.config,'SENDER');
-   const result=await idempotent(c,'send',key,parsed.data,()=>admitSend(c,r.config,observerPool??=servicePool(r.config,'orvia_target_observer'),parsed.data));
+   const result=await idempotent(c,'send',key,parsed.data,()=>admitSend(c,r.config,observerPool??=servicePool(r.config,'orvia_target_observer'),syntheticTargetObserver,parsed.data));
    await machineFor(request,identityPool!,r.config,'SENDER');
    return result;
   }

@@ -3,8 +3,8 @@
 ## Authority and objective
 
 Build one customer-local, non-model ORVIA Version 1 prototype for the Cyberfyx internal demonstration. Read, in order:
-1. `docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md` — approved product baseline.
-2. `docs/prototype/SOURCE_ALIGNMENT.md` and `docs/prototype/EXECUTION_PLAN.md` — bounded sprint addendum.
+1. `ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md` (repository root) — approved product baseline, **document revision 1.4** (vendor support and data onboarding update, 19 September 2026). This supersedes `docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md` and `ORVIA_V1_Master_with_Engineering_Breakdown(full idea).md`, both still revision 1.3 and kept only as historical reference — do not treat either as the current baseline for new work.
+2. `docs/prototype/SOURCE_ALIGNMENT.md` and `docs/prototype/EXECUTION_PLAN.md` — bounded sprint addendum, written against revision 1.3; re-check any section they cite against the 1.4 master before relying on it.
 3. `CURRENT_STATE.md`, `docs/prototype/CONTRACT.md`, `docs/prototype/FILE_OWNERSHIP.md`.
 4. Your role prompt and one assigned task from `tracking/tasks.json`.
 

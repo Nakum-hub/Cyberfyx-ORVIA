@@ -426,7 +426,11 @@ The complete browser qualification runs under the established Playwright harness
 
 ```
 apps/
-  web/            Staff Workspace + Privacy Centre (Next.js App Router)
+  web/            Staff Workspace + Privacy Centre (Next.js App Router; thin route
+                   adapters only — request handling lives in packages/backend)
+                    src/app/            Routes, layouts; app/api/**/route.ts call @orvia/backend
+                    src/components/screens/  Full-page screen content (one file per screen area)
+                    src/components/shared/   Generic UI kit, API/query hooks, session context, nav shell
   worker/         Durable Temporal workflow execution
   agent/          Restricted, signed target execution
   demo-targets/   Synthetic CRM target schema
@@ -434,6 +438,11 @@ apps/
 packages/
   auth/           Sessions, MFA, machine identity and enrollment
   authz/          Capability checks against OPA decisions
+  backend/        Backend request handlers for apps/web's API routes (business rules,
+                   machine/service auth boundary, session, admin, HTTP/audit wrapper).
+                   src/synthetic/ holds the synthetic demo CRM's own route handler and
+                   its TargetObserver adapter — isolated so a real connector's adapter
+                   can be added there later without touching privacy-control's logic.
   contracts/      Generated API contracts and shared types
   db/             Schema, migrations and row-level security
   domain/         Business logic, one sub-module per domain concern:
@@ -441,12 +450,18 @@ packages/
                     src/consent/        Grant, withdraw, receipts, epoch
                     src/configuration/  Purposes, notices, systems, policy publication
                     src/workflow/       Durable withdrawal workflow and signed action delivery
-                    src/processing/     Send-admission enforcement and policy preview
                     src/evidence/       Evidence timeline, failures, capabilities, reconciliation
                     src/test-runs/      Test Lab / privacy regression runs
-                  Future domain modules (Privacy Control Graph, DSR, retention, processors,
-                  incidents, ...) get their own sibling folder under src/ — never merged into
-                  an existing module's folder.
+                  Future domain modules (DSR, retention, processors, incidents, ...) get
+                  their own sibling folder under src/ — never merged into an existing
+                  module's folder. Policy/control evaluation is its own bounded package,
+                  packages/privacy-control/, not a domain sub-module (see below).
+  privacy-control/  Policy and control evaluation — policy preview and send-admission
+                   control (moved out of packages/domain/src/processing/ 2026-09-19 as
+                   the first bounded feature module). Depends only on a TargetObserver
+                   adapter contract for independent target reads, never on a specific
+                   connector; packages/backend/src/synthetic/ supplies today's (synthetic)
+                   implementation of that adapter.
   connectors/     Target adapters, one sub-module per connector:
                     src/shared/         Cross-connector primitives (scoped target transaction)
                     src/crm-synthetic/  The synthetic demo CRM connector (Test Lab / regression target)

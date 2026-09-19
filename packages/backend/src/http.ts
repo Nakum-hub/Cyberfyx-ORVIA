@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
-import { ErrorResponse } from '../../../../packages/contracts/src/index.ts';
-import { AccessError } from '../../../../packages/authz/src/index.ts';
+import { ErrorResponse } from '../../contracts/src/index.ts';
+import { AccessError } from '../../authz/src/index.ts';
 import { runtime } from './runtime.ts';
-import { safeError } from '../../../../packages/testing/src/evidence.ts';
+import { safeError } from '../../testing/src/evidence.ts';
 
 export async function safeRoute(work: (requestId: string) => Promise<Response>, operation: 'AUTH_STAFF' | 'AUTH_PRINCIPAL' | 'SESSION_READ' | 'PRINCIPAL_LIST' | 'PRINCIPAL_CREATE' | 'BUSINESS') {
   const requestId = randomUUID();
