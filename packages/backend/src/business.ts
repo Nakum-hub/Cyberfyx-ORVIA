@@ -6,6 +6,8 @@ import { audit, idempotent, type Page } from '@orvia/domain/transaction';
 import { configurationList, createConfiguration, createMapping, mappingList, controlMap, publishPolicy, recordPublicationProof, publicationCandidate, configurationKinds, type ConfigurationKind } from '../../domain/src/configuration/configuration.ts';
 import { createDataAsset, dataAssetList, readDataAsset, tombstoneAsset, createActivity, activityList, createRelationship, relationshipList, graphSearch, neighbourhood, impact } from '../../domain/src/graph/graph.ts';
 import { importLicence, entitlementReport } from '../../domain/src/licensing/licensing.ts';
+import { createSupportCase, supportCaseList, readSupportCase, recordResolution, registerCanary, canaryList, generateDiagnostic, approveDiagnostic, recordTransfer, validateIngressSubmission } from '../../domain/src/support/support.ts';
+import { importRelease, releaseList, updateEligibility, planUpdate, readUpdatePlan, recordUpdateStep, installationVersionList } from '../../domain/src/updates/updates.ts';
 import { createTemplate, templateList, createNotificationTask, notificationTaskList, readNotificationTask, recordDelivery, escalationSweep } from '../../domain/src/notifications/notifications.ts';
 import { createIncident, incidentList, incidentAssessment, correctIncident, containIncident, closeIncident, transitionNotification, createObligationRule, obligationRuleList } from '../../domain/src/incidents/incidents.ts';
 import { createProcessor, processorList, linkProcessorSystem, recordCoordination, processorStanding, createAssessment, assessmentList, completeAssessment, createFinding, findingList, closeFinding } from '../../domain/src/processors/processors.ts';
@@ -29,7 +31,9 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
   'coverage','list_gaps','derive_gaps','assign_gap','close_gap','gap_guidance',
   'list_processors','create_processor','link_processor_system','processor_standing','record_coordination','list_assessments','create_assessment','complete_assessment','list_findings','create_finding','close_finding',
   'list_incidents','create_incident','incident_assessment','correct_incident','contain_incident','close_incident','transition_notification','list_obligation_rules','create_obligation_rule',
-  'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','import_licence']);
+  'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','import_licence',
+  'list_support_cases','create_support_case','support_case','generate_diagnostic','record_resolution','approve_diagnostic','record_transfer','validate_submission','list_canaries','register_canary',
+  'list_releases','import_release','update_eligibility','plan_update','update_plan','record_update_step','installation_versions']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -164,6 +168,23 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'escalation_sweep':return escalationSweep(c);
         case 'entitlements':return entitlementReport(c);
         case 'import_licence':return importLicence(c,input,r.config.installation_id);
+        case 'list_support_cases':return supportCaseList(c,page);
+        case 'create_support_case':return createSupportCase(c,input);
+        case 'support_case':return readSupportCase(c,id!);
+        case 'generate_diagnostic':return generateDiagnostic(c,id!,r.config.installation_id);
+        case 'record_resolution':return recordResolution(c,id!,input);
+        case 'approve_diagnostic':return approveDiagnostic(c,id!,input);
+        case 'record_transfer':return recordTransfer(c,id!,input);
+        case 'validate_submission':return validateIngressSubmission(c,input);
+        case 'list_canaries':return canaryList(c,page);
+        case 'register_canary':return registerCanary(c,input);
+        case 'list_releases':return releaseList(c,page);
+        case 'import_release':return importRelease(c,input);
+        case 'update_eligibility':return updateEligibility(c,id!);
+        case 'plan_update':return planUpdate(c,id!,input);
+        case 'update_plan':return readUpdatePlan(c,id!);
+        case 'record_update_step':return recordUpdateStep(c,id!,input);
+        case 'installation_versions':return installationVersionList(c,page);
         case 'list_mandates':return mandateList(c,page);
         case 'create_mandate':return createMandate(c,input);
         case 'revoke_mandate':return revokeMandate(c,id!,input);

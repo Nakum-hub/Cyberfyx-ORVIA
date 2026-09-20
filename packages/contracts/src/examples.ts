@@ -80,6 +80,37 @@ export function example(name:SchemaName):unknown {
     {gate:'CONTROLLED_ROLLOUT' as const,satisfied:true,reason:'Not held back by a rollout control.'},
     {gate:'LICENCE_ENTITLEMENT' as const,satisfied:false,reason:'No active licence names this entitlement.'},
     {gate:'ACTOR_AUTHORISATION' as const,satisfied:true,reason:'This actor holds the capability.'}],limits:[]};
+  // A submission is accepted exactly when nothing rejected it, which the
+  // sampler's false-for-boolean and null-for-nullable rules cannot agree on.
+  if(name==='IngressValidation')return {validated_at:sampleTime,accepted:true,rejection_code:null,byte_length:612,body_persisted:false,
+    limits:['A rejected body is never stored. Only its size and the reason are kept.','Validation is the check a vendor ingress would run. This product performs no transfer.']};
+  if(name==='IngressSubmission')return {case_reference:'SYNTHETIC_EXAMPLE',body_base64:Buffer.from('{"report_id":"'+uuid(200)+'"}').toString('base64')};
+  const releaseClaims={release_id:uuid(201),version:'0.1.0',published_at:sampleTime,audience:'ORVIA_CUSTOMER_INSTALLATION' as const,
+    minimum_upgradable_from:'0.0.0',supported_profiles:['CUSTOMER_LOCAL_SYNTHETIC' as const],artifact_digest:'a'.repeat(64),artifact_bytes:52428800,
+    archive:[{path:'orvia/packages/db/migrations/0024_support_bundles.sql',bytes:4096}],
+    dependencies:[{name:'zod',version:'4.1.13',digest:'b'.repeat(64)}],
+    provenance:{source_commit:'0'.repeat(40),built_at:sampleTime,builder_reference:'Internal release pipeline, reproducible build.',reviewed_by_reference:'Release review record SYN-REL-0001.'},
+    migrations:[{migration:'0024_support_bundles',irreversible:true,note:'Creates append-only support tables; reversing it would discard recorded approvals.'}],
+    introduces_network_egress:false as const,requires_model_runtime:false as const,introduces_capabilities:['support.read' as const]};
+  if(name==='ReleaseClaims')return releaseClaims;
+  if(name==='SignedRelease')return {algorithm:'Ed25519' as const,claims:releaseClaims,signing_key_id:uuid(202),signature:'A'.repeat(86)};
+  if(name==='ReleaseImport')return {release:{algorithm:'Ed25519' as const,claims:releaseClaims,signing_key_id:uuid(202),signature:'A'.repeat(86)}};
+  if(name==='ReleaseState')return {id:uuid(203),release_id:uuid(201),version:'0.1.0',published_at:sampleTime,artifact_digest:'a'.repeat(64),artifact_bytes:52428800,
+    signing_key_id:uuid(202),imported_at:sampleTime,imported_by:uuid(204),dependency_count:1,migration_count:1,
+    irreversible_migrations:['0024_support_bundles'],provenance:releaseClaims.provenance};
+  // Every check must be named once, which eight copies of the first enum value
+  // cannot do, and rollback must agree with the recovery mode.
+  if(name==='UpdateEligibility')return {release_id:uuid(201),release_version:'0.1.0',installed_version:'0.0.0',evaluated_at:sampleTime,eligible:true,
+    checks:[{check:'TRUSTED_ORIGIN' as const,satisfied:true,reason:'Signed by the configured release key.'},
+      {check:'SIGNATURE_VALID' as const,satisfied:true,reason:'The signature verifies over the exact claims.'},
+      {check:'AUDIENCE_MATCH' as const,satisfied:true,reason:'Issued for a customer installation.'},
+      {check:'PROFILE_SUPPORTED' as const,satisfied:true,reason:'This deployment profile is named as supported.'},
+      {check:'UPGRADE_PATH_SUPPORTED' as const,satisfied:true,reason:'The installed version is at or above the declared minimum.'},
+      {check:'ARCHIVE_ENTRIES_SAFE' as const,satisfied:true,reason:'Every archive path is relative and contained.'},
+      {check:'NO_PROHIBITED_CHANGE' as const,satisfied:true,reason:'No egress, model runtime or excluded capability is introduced.'},
+      {check:'NO_UNSAFE_DOWNGRADE' as const,satisfied:true,reason:'The release is newer than the installed version.'}],
+    recovery_mode:'FORWARD_RECOVERY_ONLY' as const,rollback_available:false,eligibility_is_not_permission_to_execute:true,
+    limits:['An irreversible migration is declared, so recovery is forward only and rollback is not offered.','Being eligible is not permission to apply. Applying is a separate approval.']};
   if(name==='GapClosure')return {state:'RESOLVED' as const,note:'Observation restored and confirmed against the copy.',evidence_reference:'Observation record SYN-OBS-0001.'};
   if(name==='Gap')return {id:uuid(70),source:'NEVER_OBSERVED' as const,subject_kind:'DATA_ASSET' as const,subject_id:uuid(71),detected_at:sampleTime,last_seen_at:sampleTime,state:'OPEN' as const,severity:'MEDIUM' as const,owner_reference:null,due_at:null,evidence_reference:null,resolution_note:null,description:'This copy has never been independently observed.'};
   if(name==='SystemOutcomeRecord')return {system_id:uuid(50),result:'SUCCEEDED',method:'CONNECTOR_OPERATION',evidence_reference:'Synthetic connector receipt.',note:'Restriction applied to the exact synthetic subject.'};
