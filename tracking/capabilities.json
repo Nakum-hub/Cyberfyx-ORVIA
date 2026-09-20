@@ -499,7 +499,7 @@
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "NOT_ENABLED",
-      "limitation": "Not implemented as a customer support bundle. Release packaging produces source, evidence, browser evidence and runtime image archives for this candidate, which is a different artefact and is not a diagnostic bundle for customer support.",
+      "limitation": "Status remains NOT_IMPLEMENTED because nothing here has ever run. Source exists and typechecks (packages/db/migrations/0024_support_bundles.sql, packages/domain/src/support/support.ts, ten routes in packages/contracts/src/index.ts, dispatcher and OPA wiring) covering local support cases, fixed-schema diagnostic generation, digest-bound approval, operator-recorded transfer, canary registration and the vendor ingress validator. Migration 0024 has never been applied to any database and no route has ever been called, because Docker was unavailable when this was written; there is no integration suite yet, so this status cannot advance. What did run: tests/unit/support.test.ts, ten tests covering the schema invariants and the two pure functions. Absent by design and not merely unbuilt: there is no support transport at all, so a recorded transfer is an operator attestation rather than an observed delivery.",
       "evidence": []
     },
     {
@@ -513,7 +513,7 @@
       "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "NOT_ENABLED",
-      "limitation": "Not implemented. No update channel, version check or upgrade mechanism exists.",
+      "limitation": "Status remains NOT_IMPLEMENTED because nothing here has ever run. Source exists and typechecks (packages/db/migrations/0025_updates.sql, packages/domain/src/updates/updates.ts, seven routes in packages/contracts/src/index.ts, dispatcher and OPA wiring) covering immutable signed release manifests, eight named eligibility checks reported separately from permission to execute, a recovery mode derived from declared irreversible migrations, an append-only migration ledger and an applied state the database refuses without all seven steps. Migration 0025 has never been applied to any database and no route has ever been called, because Docker was unavailable when this was written; there is no integration suite yet, so this status cannot advance. What did run: tests/unit/updates.test.ts, nine tests covering the schema invariants and the pure eligibility, recovery-mode and archive-safety functions. Absent: any artifact fetch, unpack or execution. This module would record and gate an update a customer performs; it does not download, unpack or run anything.",
       "evidence": []
     },
     {

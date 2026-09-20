@@ -1,9 +1,14 @@
 import { z } from 'zod';
 
 /** Pending consolidated Work review; accepted baseline was 0.2.1.
- *  0.6.0 added the WP04 privacy-control graph; 0.7.0 adds WP07 rights management.
- *  Both are additive: no existing route, schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.7.0' as const;
+ *  0.6.0 added the WP04 privacy-control graph; 0.7.0 adds WP07 rights management;
+ *  0.8.0 adds WP26 support bundles and WP27 updates.
+ *  All are additive: no existing route, schema or wire meaning changed. */
+export const CONTRACT_VERSION = '0.8.0' as const;
+/** The version this build declares of itself. It is what a diagnostic report and
+ *  a release manifest are compared against, so it must match package.json; a unit
+ *  test asserts that rather than trusting it. */
+export const PRODUCT_VERSION = '0.0.0' as const;
 // Transport pagination does not change the signed command wire format.
 export const COMMAND_SCHEMA_VERSION = '0.3.0' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
@@ -30,7 +35,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
+export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -795,6 +800,257 @@ export const EntitlementReport = z.strictObject({
   never_licensable: z.array(SafeText).min(1).max(16).describe('Capabilities no licence or edition can enable, stated so that their absence is not read as an upsell.'),
   limits: z.array(SafeText).max(8),
 });
+// ---------------------------------------------------------------------------
+// M30 Support Bundle System (WP26). A diagnostic report is assembled from a
+// closed vocabulary: every field is an enum, an integer, a timestamp, a version
+// or a digest, so there is no field in which a log line, an operational summary
+// or a directory listing could be written. Minimisation is a property of the
+// schema rather than a promise about behaviour.
+//
+// Approval is bound to one exact payload digest, and carries no authority to
+// generate anything: a changed report needs a new approval, and an old approval
+// can never produce a fresh report. The vendor case and the local control are
+// reported as two separate facts, because closing the first does not close the
+// second.
+// ---------------------------------------------------------------------------
+/** Why a support case was opened. Closed, so the reason cannot become prose. */
+export const SupportSubject = z.enum([
+  'INSTALLATION_FAILURE', 'MIGRATION_FAILURE', 'POLICY_DECISION_UNAVAILABLE', 'CONNECTOR_OBSERVATION_FAILURE',
+  'EVIDENCE_EXPORT_FAILURE', 'LICENCE_VERIFICATION_FAILURE', 'UPDATE_FAILURE', 'PERFORMANCE_DEGRADATION',
+]);
+/** Everything a diagnostic report is able to say. Adding a code is a contract
+ *  change that goes through review; writing a sentence is not possible at all. */
+export const DiagnosticCode = z.enum([
+  'WORKFLOW_NEEDS_ATTENTION', 'CONNECTOR_OBSERVATION_FAILED', 'STALE_OBSERVATION_BACKLOG',
+  'NOTIFICATION_DELIVERY_FAILED', 'RIGHTS_EXECUTION_FAILED', 'RETENTION_DELETION_UNVERIFIED',
+  'OPEN_CRITICAL_GAP', 'LICENCE_ABSENT_OR_EXPIRED', 'UPDATE_STEP_INTERRUPTED',
+]);
+export const DiagnosticObservation = z.strictObject({
+  code: DiagnosticCode, occurrences: z.number().int().min(1).max(100000),
+  first_seen_at: Time, last_seen_at: Time,
+}).superRefine((o, c) => {
+  if (Date.parse(o.last_seen_at) < Date.parse(o.first_seen_at)) c.addIssue({ code: 'custom', message: 'An observation cannot last be seen before it was first seen' });
+});
+export const DiagnosticReport = z.strictObject({
+  report_id: Id, generated_at: Time,
+  /** A one-way reference derived from the installation id, so a vendor can
+   *  correlate two reports without ever learning the installation identity. */
+  installation_reference: Digest,
+  product_version: Version, contract_version: Version, command_schema_version: Version,
+  deployment_profile: z.enum(['CUSTOMER_LOCAL_SYNTHETIC']),
+  schema_revision: Epoch.describe('How many migrations this installation has applied.'),
+  subject: SupportSubject,
+  observations: z.array(DiagnosticObservation).max(32),
+  /** Deliberately counts of configuration and backlog, never of people. */
+  counts: z.strictObject({ systems_configured: Epoch, open_gaps: Epoch, workflows_needing_attention: Epoch, failed_notification_deliveries: Epoch }),
+});
+export const DiagnosticDraft = z.strictObject({
+  id: Id, case_id: Id, report: DiagnosticReport, payload_digest: Digest,
+  generated_at: Time, generated_by: Id,
+  superseded: z.boolean().describe('A newer draft exists for this case. The approval that named this one is not transferable to it.'),
+  /** A draft that fails the scan is never stored, so every stored draft has zero
+   *  findings. This is a structural guarantee, not a reassuring default. */
+  forbidden_content_scan: z.strictObject({ ran: z.literal(true), canaries_checked: Epoch, findings: z.literal(0) }),
+});
+export const DiagnosticApprovalCreate = z.strictObject({
+  approved_digest: Digest.describe('The digest of the exact payload the approver previewed. A different payload is refused, not substituted.'),
+  destination: z.enum(['VENDOR_SUPPORT_INGRESS', 'MANUAL_OFFLINE_TRANSFER']),
+  purpose: z.literal('DIAGNOSE_REPORTED_FAILURE'),
+  retention_days: z.number().int().min(1).max(365),
+});
+export const DiagnosticApproval = z.strictObject({
+  id: Id, draft_id: Id, approved_digest: Digest,
+  destination: z.enum(['VENDOR_SUPPORT_INGRESS', 'MANUAL_OFFLINE_TRANSFER']),
+  purpose: z.literal('DIAGNOSE_REPORTED_FAILURE'), retention_days: z.number().int().min(1).max(365),
+  approved_at: Time, approved_by: Id,
+  /** An approval covers one payload that already exists. It is never a standing
+   *  rule, and it can never cause a report to be generated. */
+  authorises_generation: z.literal(false),
+  limits: z.array(SafeText).max(8),
+});
+export const TransferRecord = z.strictObject({
+  method: z.literal('MANUAL_OFFLINE_TRANSFER'),
+  outcome: z.enum(['NOT_ATTEMPTED', 'ACCEPTED', 'REJECTED']),
+  rejection_code: SafeText.nullable(), evidence_reference: SafeText.nullable(), note: SafeText,
+});
+export const DiagnosticTransfer = z.strictObject({
+  id: Id, approval_id: Id, digest_at_transfer: Digest,
+  method: z.literal('MANUAL_OFFLINE_TRANSFER'),
+  outcome: z.enum(['NOT_ATTEMPTED', 'ACCEPTED', 'REJECTED']),
+  rejection_code: SafeText.nullable(), evidence_reference: SafeText.nullable(), note: SafeText,
+  recorded_at: Time, recorded_by: Id,
+  /** This product has no support transport. An operator carried the payload and
+   *  is recording that they did; ORVIA neither sent it nor observed it arrive. */
+  transported_by_orvia: z.literal(false),
+});
+export const IngressSubmission = z.strictObject({
+  case_reference: z.string().regex(/^[A-Z_][A-Z0-9_-]{3,39}$/),
+  body_base64: z.string().regex(/^[A-Za-z0-9+/]{4,26000}={0,2}$/).describe('The exact bytes that would be transferred. A rejected body is never stored: only its size and the reason are kept.'),
+});
+export const IngressValidation = z.strictObject({
+  validated_at: Time, accepted: z.boolean(),
+  rejection_code: z.enum(['MALFORMED_JSON', 'UNKNOWN_FIELD', 'SCHEMA_MISMATCH', 'OVERSIZED', 'FORBIDDEN_CONTENT', 'UNKNOWN_CASE_REFERENCE']).nullable(),
+  byte_length: Epoch,
+  /** There is no column in which a submitted body could be kept, rejected or not. */
+  body_persisted: z.literal(false),
+  limits: z.array(SafeText).max(8),
+}).superRefine((v, c) => {
+  if (v.accepted !== (v.rejection_code === null)) c.addIssue({ code: 'custom', message: 'A submission is accepted exactly when no rejection reason was found' });
+});
+export const CanaryRegister = z.strictObject({ token: z.string().min(8).max(200), note: SafeText });
+export const Canary = z.strictObject({
+  id: Id, token_digest: Digest.describe('The token itself is stored so payloads can be searched for it, and is never returned.'),
+  note: SafeText, registered_at: Time, registered_by: Id,
+});
+export const SupportCaseCreate = z.strictObject({
+  subject: SupportSubject,
+  gap_id: Id.nullable().describe('The recorded coverage gap this case is about, when there is one. The gap is what closes locally; the case is not.'),
+});
+export const SupportCase = z.strictObject({
+  id: Id, subject: SupportSubject,
+  state: z.enum(['OPEN', 'AWAITING_VENDOR', 'AWAITING_CUSTOMER', 'CLOSED']),
+  gap_id: Id.nullable(), vendor_case_reference: z.string().regex(/^[A-Z_][A-Z0-9_-]{3,39}$/).nullable(),
+  opened_at: Time, opened_by: Id,
+});
+export const SupportResolution = z.strictObject({
+  kind: z.enum(['REVIEWED_INSTRUCTIONS', 'SIGNED_CUSTOMER_APPLIED_PATCH', 'NO_FIX_REQUIRED']),
+  reference: SafeText, vendor_case_state: z.enum(['VENDOR_RESOLVED', 'VENDOR_CLOSED']),
+  vendor_case_reference: z.string().regex(/^[A-Z_][A-Z0-9_-]{3,39}$/),
+});
+export const SupportCaseStanding = z.strictObject({
+  support_case: SupportCase,
+  vendor_case_state: z.enum(['NOT_SUBMITTED', 'SUBMITTED', 'VENDOR_RESOLVED', 'VENDOR_CLOSED']),
+  /** Read from the linked coverage gap, never written here. */
+  local_control_state: z.enum(['NO_LINKED_GAP', 'GAP_OPEN', 'GAP_IN_PROGRESS', 'GAP_RESOLVED', 'GAP_RISK_ACCEPTED']),
+  local_control_verified: z.boolean(),
+  drafts: z.array(DiagnosticDraft).max(20),
+  /** Structural, in the manner of a literal zero: whatever the vendor does to
+   *  their case, this product never derives a local control state from it. */
+  vendor_resolution_closes_local_gaps: z.literal(false),
+  limits: z.array(SafeText).max(8),
+}).superRefine((s, c) => {
+  // The only thing that makes a local control verified is a resolved gap with
+  // recorded evidence. An accepted risk is a decision, not a verification.
+  if (s.local_control_verified !== (s.local_control_state === 'GAP_RESOLVED')) c.addIssue({ code: 'custom', message: 'A local control is verified exactly when its gap is resolved with evidence' });
+});
+// ---------------------------------------------------------------------------
+// M31 Updates (WP27). A release manifest is immutable and signed, and states its
+// own provenance, dependencies and migrations. Eligibility to download is
+// computed and reported separately from permission to execute, which is a second
+// explicit act by a second capability.
+//
+// The invariant that matters most: this product does not claim rollback when the
+// schema cannot give it. An irreversible migration in the manifest forces
+// forward recovery, and the schema refuses to express the reassuring answer.
+// ---------------------------------------------------------------------------
+export const MigrationNote = z.strictObject({
+  migration: z.string().regex(/^\d{4}_[a-z0-9_]{1,60}$/),
+  irreversible: z.boolean().describe('True when the migration cannot be undone by reversing it. One of these decides the recovery mode for the whole update.'),
+  note: SafeText,
+});
+export const ArchiveEntry = z.strictObject({ path: z.string().min(1).max(200), bytes: z.number().int().min(0).max(4000000000) });
+export const ReleaseClaims = z.strictObject({
+  release_id: Id, version: Version, published_at: Time,
+  audience: z.literal('ORVIA_CUSTOMER_INSTALLATION'),
+  minimum_upgradable_from: Version,
+  supported_profiles: z.array(z.literal('CUSTOMER_LOCAL_SYNTHETIC')).min(1).max(4),
+  artifact_digest: Digest, artifact_bytes: z.number().int().min(1).max(4000000000),
+  archive: z.array(ArchiveEntry).min(1).max(500),
+  dependencies: z.array(z.strictObject({ name: z.string().min(1).max(120), version: Version, digest: Digest })).max(300),
+  provenance: z.strictObject({
+    source_commit: z.string().regex(/^[a-f0-9]{40}$/), built_at: Time,
+    builder_reference: SafeText, reviewed_by_reference: SafeText,
+  }),
+  migrations: z.array(MigrationNote).max(64),
+  /** FR-M31-04, written as literals so a manifest cannot quietly say otherwise.
+   *  An update that needed any of these would have to be a different product. */
+  introduces_network_egress: z.literal(false),
+  requires_model_runtime: z.literal(false),
+  /** Closed to this contract's own capability vocabulary, so a release cannot
+   *  introduce an authority that does not already exist here. */
+  introduces_capabilities: z.array(Capability).max(32),
+}).superRefine((r, c) => {
+  if (Date.parse(r.provenance.built_at) > Date.parse(r.published_at)) c.addIssue({ code: 'custom', message: 'A release cannot be published before it was built' });
+  if (new Set(r.archive.map(entry => entry.path)).size !== r.archive.length) c.addIssue({ code: 'custom', message: 'An archive cannot name the same path twice' });
+  if (new Set(r.migrations.map(m => m.migration)).size !== r.migrations.length) c.addIssue({ code: 'custom', message: 'A manifest cannot name the same migration twice' });
+});
+export const SignedRelease = z.strictObject({
+  algorithm: z.literal('Ed25519'), claims: ReleaseClaims,
+  signing_key_id: Id, signature: z.string().regex(/^[A-Za-z0-9_-]{86}$/),
+});
+export const ReleaseImport = z.strictObject({ release: SignedRelease });
+export const ReleaseRejection = z.enum([
+  'UNTRUSTED_ORIGIN', 'INVALID_SIGNATURE', 'WRONG_AUDIENCE', 'MALFORMED', 'REPLAYED', 'PROHIBITED_CHANGE',
+]);
+export const ReleaseState = z.strictObject({
+  id: Id, release_id: Id, version: Version, published_at: Time,
+  artifact_digest: Digest, artifact_bytes: z.number().int().min(1).max(4000000000),
+  signing_key_id: Id, imported_at: Time, imported_by: Id,
+  dependency_count: Epoch, migration_count: Epoch,
+  irreversible_migrations: z.array(z.string().regex(/^\d{4}_[a-z0-9_]{1,60}$/)).max(64),
+  provenance: z.strictObject({ source_commit: z.string().regex(/^[a-f0-9]{40}$/), built_at: Time, builder_reference: SafeText, reviewed_by_reference: SafeText }),
+});
+export const UpdateCheck = z.enum([
+  'TRUSTED_ORIGIN', 'SIGNATURE_VALID', 'AUDIENCE_MATCH', 'PROFILE_SUPPORTED',
+  'UPGRADE_PATH_SUPPORTED', 'ARCHIVE_ENTRIES_SAFE', 'NO_PROHIBITED_CHANGE', 'NO_UNSAFE_DOWNGRADE',
+]);
+export const UpdateEligibility = z.strictObject({
+  release_id: Id, release_version: Version, installed_version: Version, evaluated_at: Time,
+  eligible: z.boolean(),
+  checks: z.array(z.strictObject({ check: UpdateCheck, satisfied: z.boolean(), reason: SafeText })).length(8),
+  recovery_mode: z.enum(['FORWARD_RECOVERY_ONLY', 'REVERSIBLE']),
+  rollback_available: z.boolean(),
+  /** Being allowed to fetch a release is not being allowed to run it. Applying
+   *  is a separate act, by a separate capability, that re-runs every check. */
+  eligibility_is_not_permission_to_execute: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((e, c) => {
+  if (e.eligible !== e.checks.every(check => check.satisfied)) c.addIssue({ code: 'custom', message: 'A release is eligible exactly when every check is satisfied' });
+  if (new Set(e.checks.map(check => check.check)).size !== 8) c.addIssue({ code: 'custom', message: 'Every update check must be reported exactly once' });
+  // The rule this module exists to keep: no reassuring rollback claim when the
+  // applied schema cannot be reversed.
+  if (e.rollback_available !== (e.recovery_mode === 'REVERSIBLE')) c.addIssue({ code: 'custom', message: 'Rollback is available exactly when the recovery mode is reversible' });
+});
+export const UpdateStepName = z.enum([
+  'VERIFY_TRUSTED_ORIGIN', 'VERIFY_ARTIFACT_DIGEST', 'UNPACK_ARTIFACT', 'APPLY_MIGRATIONS',
+  'RESTART_SERVICES', 'REVALIDATE_BOUNDARIES', 'RUN_CORE_REGRESSION',
+]);
+export const UpdateStepRecord = z.strictObject({
+  step: UpdateStepName, state: z.enum(['RUNNING', 'SUCCEEDED', 'FAILED']),
+  evidence_reference: SafeText.nullable(), note: SafeText,
+}).superRefine((s, c) => {
+  if (s.state === 'SUCCEEDED' && s.evidence_reference === null) c.addIssue({ code: 'custom', message: 'A step that succeeded must name the evidence for that claim' });
+});
+export const UpdateStep = z.strictObject({
+  id: Id, step: UpdateStepName, state: z.enum(['RUNNING', 'SUCCEEDED', 'FAILED']),
+  evidence_reference: SafeText.nullable(), note: SafeText, recorded_at: Time, recorded_by: Id,
+});
+export const UpdatePlanCreate = z.strictObject({ approval_note: SafeText, acknowledged_recovery_mode: z.enum(['FORWARD_RECOVERY_ONLY', 'REVERSIBLE']) });
+export const UpdatePlan = z.strictObject({
+  id: Id, release_id: Id, from_version: Version, to_version: Version,
+  state: z.enum(['APPROVED', 'APPLYING', 'INTERRUPTED', 'APPLIED', 'FAILED']),
+  recovery_mode: z.enum(['FORWARD_RECOVERY_ONLY', 'REVERSIBLE']), rollback_available: z.boolean(),
+  approved_at: Time, approved_by: Id, approval_note: SafeText,
+  steps: z.array(UpdateStep).max(64),
+  outstanding_steps: z.array(UpdateStepName).max(7),
+  /** FR-M31-04. The two checks that must run after the change, reported as facts
+   *  rather than folded into the plan state. */
+  post_change_verification: z.strictObject({ boundaries_revalidated: z.boolean(), core_regression_passed: z.boolean() }),
+  recovery_instruction: SafeText,
+  limits: z.array(SafeText).max(8),
+}).superRefine((p, c) => {
+  if (p.rollback_available !== (p.recovery_mode === 'REVERSIBLE')) c.addIssue({ code: 'custom', message: 'Rollback is available exactly when the recovery mode is reversible' });
+  // An update is applied only when nothing is outstanding and both post-change
+  // checks passed. A restarted service is not a verified installation.
+  const verified = p.post_change_verification.boundaries_revalidated && p.post_change_verification.core_regression_passed;
+  if (p.state === 'APPLIED' && (p.outstanding_steps.length > 0 || !verified)) c.addIssue({ code: 'custom', message: 'An update is applied only when every step succeeded and both post-change checks passed' });
+  if (p.state !== 'APPLIED' && p.outstanding_steps.length === 0 && verified) c.addIssue({ code: 'custom', message: 'A plan with nothing outstanding and both checks passed is applied' });
+});
+export const InstallationVersion = z.strictObject({ id: Id, version: Version, applied_at: Time, plan_id: Id.nullable(), note: SafeText });
+export type DiagnosticObservationValue = z.infer<typeof DiagnosticObservation>;
+export type ReleaseClaimsValue = z.infer<typeof ReleaseClaims>;
+export type ReleaseRejectionValue = z.infer<typeof ReleaseRejection>;
+export type LocalControlStateValue = z.infer<typeof SupportCaseStanding>['local_control_state'];
 export const IdPath = z.strictObject({ id: Id });
 export const PurposePath = z.strictObject({ purpose_id: Id });
 export const WorkflowPath = z.strictObject({ workflow_id: Id });
@@ -810,6 +1066,10 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   IncidentCreate, Incident, IncidentCorrection, IncidentCorrectionRecord, ObligationRuleCreate, ObligationRule, NotificationObligation, IncidentAssessment, NotificationTransition, IncidentClosure, IncidentContainment,
   TemplateCreate, Template, NotificationTaskCreate, NotificationTask, DeliveryRecord, Delivery, EscalationSweep,
   LicenceClaims, SignedLicence, LicenceImport, LicenceState, FeatureAvailability, EntitlementReport,
+  SupportCaseCreate, SupportCase, SupportCaseStanding, DiagnosticReport, DiagnosticDraft, DiagnosticApprovalCreate, DiagnosticApproval,
+  TransferRecord, DiagnosticTransfer, IngressSubmission, IngressValidation, CanaryRegister, Canary, SupportResolution,
+  ReleaseClaims, SignedRelease, ReleaseImport, ReleaseState, UpdateEligibility, UpdatePlanCreate, UpdatePlan, UpdateStepRecord, UpdateStep, InstallationVersion,
+  SupportCaseList: page(SupportCase), CanaryList: page(Canary), ReleaseList: page(ReleaseState), InstallationVersionList: page(InstallationVersion),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -915,6 +1175,23 @@ export const routes: RouteDefinition[] = [
   {id:'escalation_sweep',method:'post',path:'/api/v1/admin/notification-tasks/escalate',authority:'STAFF',capability:'notification.manage',response:'EscalationSweep',status:200,idempotency:true},
   {id:'entitlements',method:'get',path:'/api/v1/admin/entitlements',authority:'STAFF',capability:'licence.read',response:'EntitlementReport',status:200},
   {id:'import_licence',method:'post',path:'/api/v1/admin/licences',authority:'STAFF',capability:'licence.manage',request:'LicenceImport',response:'LicenceState',status:201,idempotency:true},
+  {id:'list_support_cases',method:'get',path:'/api/v1/admin/support-cases',authority:'STAFF',capability:'support.read',response:'SupportCaseList',status:200,paginated:true},
+  {id:'create_support_case',method:'post',path:'/api/v1/admin/support-cases',authority:'STAFF',capability:'support.manage',request:'SupportCaseCreate',response:'SupportCase',status:201,idempotency:true},
+  {id:'support_case',method:'get',path:'/api/v1/admin/support-cases/{id}',authority:'STAFF',capability:'support.read',params:'IdPath',response:'SupportCaseStanding',status:200},
+  {id:'generate_diagnostic',method:'post',path:'/api/v1/admin/support-cases/{id}/diagnostics',authority:'STAFF',capability:'support.manage',params:'IdPath',response:'DiagnosticDraft',status:201,idempotency:true},
+  {id:'record_resolution',method:'post',path:'/api/v1/admin/support-cases/{id}/resolution',authority:'STAFF',capability:'support.manage',params:'IdPath',request:'SupportResolution',response:'SupportCaseStanding',status:200,idempotency:true},
+  {id:'approve_diagnostic',method:'post',path:'/api/v1/admin/diagnostics/{id}/approval',authority:'STAFF',capability:'support.approve',params:'IdPath',request:'DiagnosticApprovalCreate',response:'DiagnosticApproval',status:201,idempotency:true},
+  {id:'record_transfer',method:'post',path:'/api/v1/admin/diagnostic-approvals/{id}/transfers',authority:'STAFF',capability:'support.manage',params:'IdPath',request:'TransferRecord',response:'DiagnosticTransfer',status:201,idempotency:true},
+  {id:'validate_submission',method:'post',path:'/api/v1/admin/support-ingress/validation',authority:'STAFF',capability:'support.manage',request:'IngressSubmission',response:'IngressValidation',status:200,idempotency:true},
+  {id:'list_canaries',method:'get',path:'/api/v1/admin/support-canaries',authority:'STAFF',capability:'support.read',response:'CanaryList',status:200,paginated:true},
+  {id:'register_canary',method:'post',path:'/api/v1/admin/support-canaries',authority:'STAFF',capability:'support.manage',request:'CanaryRegister',response:'Canary',status:201,idempotency:true},
+  {id:'list_releases',method:'get',path:'/api/v1/admin/releases',authority:'STAFF',capability:'update.read',response:'ReleaseList',status:200,paginated:true},
+  {id:'import_release',method:'post',path:'/api/v1/admin/releases',authority:'STAFF',capability:'update.approve',request:'ReleaseImport',response:'ReleaseState',status:201,idempotency:true},
+  {id:'update_eligibility',method:'get',path:'/api/v1/admin/releases/{id}/eligibility',authority:'STAFF',capability:'update.read',params:'IdPath',response:'UpdateEligibility',status:200},
+  {id:'plan_update',method:'post',path:'/api/v1/admin/releases/{id}/plan',authority:'STAFF',capability:'update.approve',params:'IdPath',request:'UpdatePlanCreate',response:'UpdatePlan',status:201,idempotency:true},
+  {id:'update_plan',method:'get',path:'/api/v1/admin/update-plans/{id}',authority:'STAFF',capability:'update.read',params:'IdPath',response:'UpdatePlan',status:200},
+  {id:'record_update_step',method:'post',path:'/api/v1/admin/update-plans/{id}/steps',authority:'STAFF',capability:'update.approve',params:'IdPath',request:'UpdateStepRecord',response:'UpdatePlan',status:200,idempotency:true},
+  {id:'installation_versions',method:'get',path:'/api/v1/admin/installation-versions',authority:'STAFF',capability:'update.read',response:'InstallationVersionList',status:200,paginated:true},
   {id:'list_mandates',method:'get',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.read',response:'MandateList',status:200,paginated:true},
   {id:'create_mandate',method:'post',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.write',request:'MandateCreate',response:'Mandate',status:201,idempotency:true},
   {id:'revoke_mandate',method:'post',path:'/api/v1/admin/mandates/{id}/revoke',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'MandateRevoke',response:'Mandate',status:200,idempotency:true},

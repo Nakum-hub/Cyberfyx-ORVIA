@@ -2344,6 +2344,515 @@
       }
     },
     {
+      "operation_id": "list_support_cases",
+      "method": "GET",
+      "path": "/api/v1/admin/support-cases",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_support_case",
+      "method": "POST",
+      "path": "/api/v1/admin/support-cases",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "subject": "INSTALLATION_FAILURE",
+        "gap_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000100",
+        "subject": "INSTALLATION_FAILURE",
+        "state": "OPEN",
+        "gap_id": null,
+        "vendor_case_reference": null,
+        "opened_at": "2026-09-16T10:00:00.000Z",
+        "opened_by": "00000000-0000-4000-8000-000000000101"
+      }
+    },
+    {
+      "operation_id": "support_case",
+      "method": "GET",
+      "path": "/api/v1/admin/support-cases/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "support_case": {
+          "id": "00000000-0000-4000-8000-000000000102",
+          "subject": "INSTALLATION_FAILURE",
+          "state": "OPEN",
+          "gap_id": null,
+          "vendor_case_reference": null,
+          "opened_at": "2026-09-16T10:00:00.000Z",
+          "opened_by": "00000000-0000-4000-8000-000000000103"
+        },
+        "vendor_case_state": "NOT_SUBMITTED",
+        "local_control_state": "NO_LINKED_GAP",
+        "local_control_verified": false,
+        "drafts": [],
+        "vendor_resolution_closes_local_gaps": false,
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "generate_diagnostic",
+      "method": "POST",
+      "path": "/api/v1/admin/support-cases/{id}/diagnostics",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000104",
+        "case_id": "00000000-0000-4000-8000-000000000105",
+        "report": {
+          "report_id": "00000000-0000-4000-8000-000000000106",
+          "generated_at": "2026-09-16T10:00:00.000Z",
+          "installation_reference": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "product_version": "1.0.0",
+          "contract_version": "1.0.0",
+          "command_schema_version": "1.0.0",
+          "deployment_profile": "CUSTOMER_LOCAL_SYNTHETIC",
+          "schema_revision": 0,
+          "subject": "INSTALLATION_FAILURE",
+          "observations": [],
+          "counts": {
+            "systems_configured": 0,
+            "open_gaps": 0,
+            "workflows_needing_attention": 0,
+            "failed_notification_deliveries": 0
+          }
+        },
+        "payload_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "generated_at": "2026-09-16T10:00:00.000Z",
+        "generated_by": "00000000-0000-4000-8000-000000000107",
+        "superseded": false,
+        "forbidden_content_scan": {
+          "ran": true,
+          "canaries_checked": 0,
+          "findings": 0
+        }
+      }
+    },
+    {
+      "operation_id": "record_resolution",
+      "method": "POST",
+      "path": "/api/v1/admin/support-cases/{id}/resolution",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "REVIEWED_INSTRUCTIONS",
+        "reference": "Synthetic example",
+        "vendor_case_state": "VENDOR_RESOLVED",
+        "vendor_case_reference": "SYNTHETIC_EXAMPLE"
+      },
+      "response_status": 200,
+      "response": {
+        "support_case": {
+          "id": "00000000-0000-4000-8000-000000000108",
+          "subject": "INSTALLATION_FAILURE",
+          "state": "OPEN",
+          "gap_id": null,
+          "vendor_case_reference": null,
+          "opened_at": "2026-09-16T10:00:00.000Z",
+          "opened_by": "00000000-0000-4000-8000-000000000109"
+        },
+        "vendor_case_state": "NOT_SUBMITTED",
+        "local_control_state": "NO_LINKED_GAP",
+        "local_control_verified": false,
+        "drafts": [],
+        "vendor_resolution_closes_local_gaps": false,
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "approve_diagnostic",
+      "method": "POST",
+      "path": "/api/v1/admin/diagnostics/{id}/approval",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "approved_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "destination": "VENDOR_SUPPORT_INGRESS",
+        "purpose": "DIAGNOSE_REPORTED_FAILURE",
+        "retention_days": 1
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000010a",
+        "draft_id": "00000000-0000-4000-8000-00000000010b",
+        "approved_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "destination": "VENDOR_SUPPORT_INGRESS",
+        "purpose": "DIAGNOSE_REPORTED_FAILURE",
+        "retention_days": 1,
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-00000000010c",
+        "authorises_generation": false,
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "record_transfer",
+      "method": "POST",
+      "path": "/api/v1/admin/diagnostic-approvals/{id}/transfers",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "method": "MANUAL_OFFLINE_TRANSFER",
+        "outcome": "NOT_ATTEMPTED",
+        "rejection_code": null,
+        "evidence_reference": null,
+        "note": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000010d",
+        "approval_id": "00000000-0000-4000-8000-00000000010e",
+        "digest_at_transfer": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "method": "MANUAL_OFFLINE_TRANSFER",
+        "outcome": "NOT_ATTEMPTED",
+        "rejection_code": null,
+        "evidence_reference": null,
+        "note": "Synthetic example",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-00000000010f",
+        "transported_by_orvia": false
+      }
+    },
+    {
+      "operation_id": "validate_submission",
+      "method": "POST",
+      "path": "/api/v1/admin/support-ingress/validation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "case_reference": "SYNTHETIC_EXAMPLE",
+        "body_base64": "eyJyZXBvcnRfaWQiOiIwMDAwMDAwMC0wMDAwLTQwMDAtODAwMC0wMDAwMDAwMDAwYzgifQ=="
+      },
+      "response_status": 200,
+      "response": {
+        "validated_at": "2026-09-16T10:00:00.000Z",
+        "accepted": true,
+        "rejection_code": null,
+        "byte_length": 612,
+        "body_persisted": false,
+        "limits": [
+          "A rejected body is never stored. Only its size and the reason are kept.",
+          "Validation is the check a vendor ingress would run. This product performs no transfer."
+        ]
+      }
+    },
+    {
+      "operation_id": "list_canaries",
+      "method": "GET",
+      "path": "/api/v1/admin/support-canaries",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "register_canary",
+      "method": "POST",
+      "path": "/api/v1/admin/support-canaries",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "token": "Synthetic example",
+        "note": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000110",
+        "token_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "note": "Synthetic example",
+        "registered_at": "2026-09-16T10:00:00.000Z",
+        "registered_by": "00000000-0000-4000-8000-000000000111"
+      }
+    },
+    {
+      "operation_id": "list_releases",
+      "method": "GET",
+      "path": "/api/v1/admin/releases",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "import_release",
+      "method": "POST",
+      "path": "/api/v1/admin/releases",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "release": {
+          "algorithm": "Ed25519",
+          "claims": {
+            "release_id": "00000000-0000-4000-8000-0000000000c9",
+            "version": "0.1.0",
+            "published_at": "2026-09-16T10:00:00.000Z",
+            "audience": "ORVIA_CUSTOMER_INSTALLATION",
+            "minimum_upgradable_from": "0.0.0",
+            "supported_profiles": [
+              "CUSTOMER_LOCAL_SYNTHETIC"
+            ],
+            "artifact_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "artifact_bytes": 52428800,
+            "archive": [
+              {
+                "path": "orvia/packages/db/migrations/0024_support_bundles.sql",
+                "bytes": 4096
+              }
+            ],
+            "dependencies": [
+              {
+                "name": "zod",
+                "version": "4.1.13",
+                "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+              }
+            ],
+            "provenance": {
+              "source_commit": "0000000000000000000000000000000000000000",
+              "built_at": "2026-09-16T10:00:00.000Z",
+              "builder_reference": "Internal release pipeline, reproducible build.",
+              "reviewed_by_reference": "Release review record SYN-REL-0001."
+            },
+            "migrations": [
+              {
+                "migration": "0024_support_bundles",
+                "irreversible": true,
+                "note": "Creates append-only support tables; reversing it would discard recorded approvals."
+              }
+            ],
+            "introduces_network_egress": false,
+            "requires_model_runtime": false,
+            "introduces_capabilities": [
+              "support.read"
+            ]
+          },
+          "signing_key_id": "00000000-0000-4000-8000-0000000000ca",
+          "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000000cb",
+        "release_id": "00000000-0000-4000-8000-0000000000c9",
+        "version": "0.1.0",
+        "published_at": "2026-09-16T10:00:00.000Z",
+        "artifact_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "artifact_bytes": 52428800,
+        "signing_key_id": "00000000-0000-4000-8000-0000000000ca",
+        "imported_at": "2026-09-16T10:00:00.000Z",
+        "imported_by": "00000000-0000-4000-8000-0000000000cc",
+        "dependency_count": 1,
+        "migration_count": 1,
+        "irreversible_migrations": [
+          "0024_support_bundles"
+        ],
+        "provenance": {
+          "source_commit": "0000000000000000000000000000000000000000",
+          "built_at": "2026-09-16T10:00:00.000Z",
+          "builder_reference": "Internal release pipeline, reproducible build.",
+          "reviewed_by_reference": "Release review record SYN-REL-0001."
+        }
+      }
+    },
+    {
+      "operation_id": "update_eligibility",
+      "method": "GET",
+      "path": "/api/v1/admin/releases/{id}/eligibility",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "release_id": "00000000-0000-4000-8000-0000000000c9",
+        "release_version": "0.1.0",
+        "installed_version": "0.0.0",
+        "evaluated_at": "2026-09-16T10:00:00.000Z",
+        "eligible": true,
+        "checks": [
+          {
+            "check": "TRUSTED_ORIGIN",
+            "satisfied": true,
+            "reason": "Signed by the configured release key."
+          },
+          {
+            "check": "SIGNATURE_VALID",
+            "satisfied": true,
+            "reason": "The signature verifies over the exact claims."
+          },
+          {
+            "check": "AUDIENCE_MATCH",
+            "satisfied": true,
+            "reason": "Issued for a customer installation."
+          },
+          {
+            "check": "PROFILE_SUPPORTED",
+            "satisfied": true,
+            "reason": "This deployment profile is named as supported."
+          },
+          {
+            "check": "UPGRADE_PATH_SUPPORTED",
+            "satisfied": true,
+            "reason": "The installed version is at or above the declared minimum."
+          },
+          {
+            "check": "ARCHIVE_ENTRIES_SAFE",
+            "satisfied": true,
+            "reason": "Every archive path is relative and contained."
+          },
+          {
+            "check": "NO_PROHIBITED_CHANGE",
+            "satisfied": true,
+            "reason": "No egress, model runtime or excluded capability is introduced."
+          },
+          {
+            "check": "NO_UNSAFE_DOWNGRADE",
+            "satisfied": true,
+            "reason": "The release is newer than the installed version."
+          }
+        ],
+        "recovery_mode": "FORWARD_RECOVERY_ONLY",
+        "rollback_available": false,
+        "eligibility_is_not_permission_to_execute": true,
+        "limits": [
+          "An irreversible migration is declared, so recovery is forward only and rollback is not offered.",
+          "Being eligible is not permission to apply. Applying is a separate approval."
+        ]
+      }
+    },
+    {
+      "operation_id": "plan_update",
+      "method": "POST",
+      "path": "/api/v1/admin/releases/{id}/plan",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "approval_note": "Synthetic example",
+        "acknowledged_recovery_mode": "FORWARD_RECOVERY_ONLY"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000112",
+        "release_id": "00000000-0000-4000-8000-000000000113",
+        "from_version": "1.0.0",
+        "to_version": "1.0.0",
+        "state": "APPROVED",
+        "recovery_mode": "FORWARD_RECOVERY_ONLY",
+        "rollback_available": false,
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000114",
+        "approval_note": "Synthetic example",
+        "steps": [],
+        "outstanding_steps": [],
+        "post_change_verification": {
+          "boundaries_revalidated": false,
+          "core_regression_passed": false
+        },
+        "recovery_instruction": "Synthetic example",
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "update_plan",
+      "method": "GET",
+      "path": "/api/v1/admin/update-plans/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000115",
+        "release_id": "00000000-0000-4000-8000-000000000116",
+        "from_version": "1.0.0",
+        "to_version": "1.0.0",
+        "state": "APPROVED",
+        "recovery_mode": "FORWARD_RECOVERY_ONLY",
+        "rollback_available": false,
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000117",
+        "approval_note": "Synthetic example",
+        "steps": [],
+        "outstanding_steps": [],
+        "post_change_verification": {
+          "boundaries_revalidated": false,
+          "core_regression_passed": false
+        },
+        "recovery_instruction": "Synthetic example",
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "record_update_step",
+      "method": "POST",
+      "path": "/api/v1/admin/update-plans/{id}/steps",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "step": "VERIFY_TRUSTED_ORIGIN",
+        "state": "RUNNING",
+        "evidence_reference": null,
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000118",
+        "release_id": "00000000-0000-4000-8000-000000000119",
+        "from_version": "1.0.0",
+        "to_version": "1.0.0",
+        "state": "APPROVED",
+        "recovery_mode": "FORWARD_RECOVERY_ONLY",
+        "rollback_available": false,
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-00000000011a",
+        "approval_note": "Synthetic example",
+        "steps": [],
+        "outstanding_steps": [],
+        "post_change_verification": {
+          "boundaries_revalidated": false,
+          "core_regression_passed": false
+        },
+        "recovery_instruction": "Synthetic example",
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "installation_versions",
+      "method": "GET",
+      "path": "/api/v1/admin/installation-versions",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
       "operation_id": "list_mandates",
       "method": "GET",
       "path": "/api/v1/admin/mandates",
@@ -2364,7 +2873,7 @@
       },
       "request": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000100",
+        "principal_id": "00000000-0000-4000-8000-00000000011b",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -2376,7 +2885,7 @@
       "response_status": 201,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000101",
+        "principal_id": "00000000-0000-4000-8000-00000000011c",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -2384,10 +2893,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000102",
+        "id": "00000000-0000-4000-8000-00000000011d",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000103",
+        "recorded_by": "00000000-0000-4000-8000-00000000011e",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -2405,7 +2914,7 @@
       "response_status": 200,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000104",
+        "principal_id": "00000000-0000-4000-8000-00000000011f",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -2413,10 +2922,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000105",
+        "id": "00000000-0000-4000-8000-000000000120",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000106",
+        "recorded_by": "00000000-0000-4000-8000-000000000121",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -2427,8 +2936,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000107",
-        "environment_id": "00000000-0000-4000-8000-000000000108",
+        "installation_id": "00000000-0000-4000-8000-000000000122",
+        "environment_id": "00000000-0000-4000-8000-000000000123",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -2445,9 +2954,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000109",
+        "command_id": "00000000-0000-4000-8000-000000000124",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000010a",
+        "attempt_id": "00000000-0000-4000-8000-000000000125",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -2455,7 +2964,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-00000000010b",
+        "operation_id": "00000000-0000-4000-8000-000000000126",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -2468,10 +2977,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-00000000010c",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000010d",
-        "purpose_id": "00000000-0000-4000-8000-00000000010e",
-        "system_id": "00000000-0000-4000-8000-00000000010f",
+        "attempt_id": "00000000-0000-4000-8000-000000000127",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000128",
+        "purpose_id": "00000000-0000-4000-8000-000000000129",
+        "system_id": "00000000-0000-4000-8000-00000000012a",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -2544,9 +3053,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000110",
+        "command_id": "00000000-0000-4000-8000-00000000012b",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000111",
+        "attempt_id": "00000000-0000-4000-8000-00000000012c",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -2561,7 +3070,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000112",
+        "resource_id": "00000000-0000-4000-8000-00000000012d",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -2576,9 +3085,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000113",
+        "command_id": "00000000-0000-4000-8000-00000000012e",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000114",
+        "attempt_id": "00000000-0000-4000-8000-00000000012f",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
