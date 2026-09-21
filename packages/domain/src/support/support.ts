@@ -175,7 +175,9 @@ async function assembleReport(c: Context, row: CaseRow, installationId: string) 
   await add('NOTIFICATION_DELIVERY_FAILED', `SELECT count(*)::int AS n,min(recorded_at) AS first,max(recorded_at) AS last FROM app.notification_deliveries WHERE ${predicate} AND fact='FAILED'`);
   await add('RETENTION_DELETION_UNVERIFIED', `SELECT count(*)::int AS n,min(recorded_at) AS first,max(recorded_at) AS last FROM app.retention_outcomes WHERE ${predicate} AND result='NOT_VERIFIABLE'`);
   await add('UPDATE_STEP_INTERRUPTED', `SELECT count(*)::int AS n,min(approved_at) AS first,max(approved_at) AS last FROM app.update_plans WHERE ${predicate} AND state='INTERRUPTED'`);
-  const revision = await c.tx.query('SELECT count(*)::int AS n FROM bootstrap_migrations');
+  // A count and nothing else. The application role cannot read the ledger
+  // itself; see 0026_schema_revision.
+  const revision = await c.tx.query('SELECT revision AS n FROM app.schema_revision');
   return S.DiagnosticReport.parse({
     report_id: randomUUID(), generated_at: new Date().toISOString(),
     installation_reference: installationReference(installationId),
