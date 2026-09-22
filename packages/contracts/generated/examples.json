@@ -3030,8 +3030,8 @@
             "measured": false,
             "value": null,
             "unit": null,
-            "counted": "Age and outcome of the most recent verified backup.",
-            "unavailable_reason": "This build has no backup or restore capability, so there is no backup whose status could be reported."
+            "counted": "Age of the most recently declared backup snapshot.",
+            "unavailable_reason": "No backup snapshot has ever been declared for this installation, so there is no age to report. This is not a backup that failed; it is the absence of any record that one was taken."
           }
         ],
         "combined_status_is_not_reported": true,
@@ -3192,6 +3192,229 @@
       }
     },
     {
+      "operation_id": "list_backup_snapshots",
+      "method": "GET",
+      "path": "/api/v1/admin/backup-snapshots",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "declare_snapshot",
+      "method": "POST",
+      "path": "/api/v1/admin/backup-snapshots",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "key_reference": "vault://synthetic/backup-key",
+        "covers": [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ],
+        "note": "Nightly archive taken by the customer database tooling."
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000334",
+        "taken_at": "2026-09-16T10:00:00.000Z",
+        "key_reference": "vault://synthetic/backup-key",
+        "covers": [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ],
+        "counts": [
+          {
+            "domain": "CONFIGURATION",
+            "rows": 12
+          },
+          {
+            "domain": "DOMAIN_RECORDS",
+            "rows": 340
+          }
+        ],
+        "state_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "note": "Nightly archive taken by the customer database tooling.",
+        "taken_by": "00000000-0000-4000-8000-000000000335",
+        "archive_is_held_by_the_customer": true,
+        "encryption_was_not_verified_by_this_product": true,
+        "limits": [
+          "This product did not make the archive, does not hold it and cannot read it.",
+          "Whether the archive is encrypted with the referenced key is not something this product observed."
+        ]
+      }
+    },
+    {
+      "operation_id": "start_restore",
+      "method": "POST",
+      "path": "/api/v1/admin/restore-runs",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "snapshot_id": "00000000-0000-4000-8000-000000000123",
+        "note": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000336",
+        "snapshot_id": "00000000-0000-4000-8000-000000000334",
+        "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+        "reconciled_at": "2026-09-16T10:00:00.000Z",
+        "state": "QUARANTINED",
+        "conflicts": [
+          {
+            "principal_id": "00000000-0000-4000-8000-000000000337",
+            "purpose_id": "00000000-0000-4000-8000-000000000338",
+            "state_at_snapshot": "GRANTED",
+            "state_now": "WITHDRAWN",
+            "decisions_since_snapshot": 1,
+            "decision": null,
+            "acknowledged_by": null,
+            "acknowledged_at": null
+          }
+        ],
+        "outstanding": 1,
+        "released_at": null,
+        "releasing_never_reinstates_a_withdrawal": true,
+        "note": "Restored from the nightly archive into an isolated environment.",
+        "limits": [
+          "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+          "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+        ]
+      }
+    },
+    {
+      "operation_id": "list_restore_runs",
+      "method": "GET",
+      "path": "/api/v1/admin/restore-runs",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "restore_run",
+      "method": "GET",
+      "path": "/api/v1/admin/restore-runs/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000336",
+        "snapshot_id": "00000000-0000-4000-8000-000000000334",
+        "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+        "reconciled_at": "2026-09-16T10:00:00.000Z",
+        "state": "QUARANTINED",
+        "conflicts": [
+          {
+            "principal_id": "00000000-0000-4000-8000-000000000337",
+            "purpose_id": "00000000-0000-4000-8000-000000000338",
+            "state_at_snapshot": "GRANTED",
+            "state_now": "WITHDRAWN",
+            "decisions_since_snapshot": 1,
+            "decision": null,
+            "acknowledged_by": null,
+            "acknowledged_at": null
+          }
+        ],
+        "outstanding": 1,
+        "released_at": null,
+        "releasing_never_reinstates_a_withdrawal": true,
+        "note": "Restored from the nightly archive into an isolated environment.",
+        "limits": [
+          "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+          "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+        ]
+      }
+    },
+    {
+      "operation_id": "acknowledge_conflict",
+      "method": "POST",
+      "path": "/api/v1/admin/restore-runs/{id}/acknowledgements",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "principal_id": "00000000-0000-4000-8000-000000000124",
+        "purpose_id": "00000000-0000-4000-8000-000000000125",
+        "decision": "CURRENT_STATE_PREVAILS",
+        "basis": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000336",
+        "snapshot_id": "00000000-0000-4000-8000-000000000334",
+        "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+        "reconciled_at": "2026-09-16T10:00:00.000Z",
+        "state": "QUARANTINED",
+        "conflicts": [
+          {
+            "principal_id": "00000000-0000-4000-8000-000000000337",
+            "purpose_id": "00000000-0000-4000-8000-000000000338",
+            "state_at_snapshot": "GRANTED",
+            "state_now": "WITHDRAWN",
+            "decisions_since_snapshot": 1,
+            "decision": null,
+            "acknowledged_by": null,
+            "acknowledged_at": null
+          }
+        ],
+        "outstanding": 1,
+        "released_at": null,
+        "releasing_never_reinstates_a_withdrawal": true,
+        "note": "Restored from the nightly archive into an isolated environment.",
+        "limits": [
+          "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+          "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+        ]
+      }
+    },
+    {
+      "operation_id": "release_restore",
+      "method": "POST",
+      "path": "/api/v1/admin/restore-runs/{id}/release",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000336",
+        "snapshot_id": "00000000-0000-4000-8000-000000000334",
+        "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+        "reconciled_at": "2026-09-16T10:00:00.000Z",
+        "state": "QUARANTINED",
+        "conflicts": [
+          {
+            "principal_id": "00000000-0000-4000-8000-000000000337",
+            "purpose_id": "00000000-0000-4000-8000-000000000338",
+            "state_at_snapshot": "GRANTED",
+            "state_now": "WITHDRAWN",
+            "decisions_since_snapshot": 1,
+            "decision": null,
+            "acknowledged_by": null,
+            "acknowledged_at": null
+          }
+        ],
+        "outstanding": 1,
+        "released_at": null,
+        "releasing_never_reinstates_a_withdrawal": true,
+        "note": "Restored from the nightly archive into an isolated environment.",
+        "limits": [
+          "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+          "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+        ]
+      }
+    },
+    {
       "operation_id": "preflight",
       "method": "GET",
       "path": "/api/v1/admin/preflight",
@@ -3252,11 +3475,11 @@
           },
           {
             "kind": "BACKUP_TARGET",
-            "verdict": "NOT_VERIFIABLE_HERE",
-            "checked": "Whether a backup exists, is reachable, and has been restored from successfully.",
-            "observed": null,
-            "unverifiable_reason": "This build has no backup subsystem, so nothing here could observe a backup target. It must be verified outside this product.",
-            "remedy": null
+            "verdict": "FAILED",
+            "checked": "Whether a backup snapshot has been declared for this installation and whether a restore from one has been reconciled against current consent and released from quarantine. This product does not make, hold or read the archive, so it is not evidence that the archive exists or can be read -- only that a snapshot was declared and a restore was carried through.",
+            "observed": "No snapshot has ever been declared. No restore has been reconciled and released.",
+            "unverifiable_reason": null,
+            "remedy": "Declare a snapshot when the archive is taken, and carry a restore through quarantine and reconciliation at least once. An untested restore is the failure this gate exists to catch, and this product cannot see the archive itself: reading it back is still a job for the customer’s own tooling."
           },
           {
             "kind": "PERMITTED_EGRESS",
@@ -3292,11 +3515,10 @@
           }
         ],
         "failing": [
+          "BACKUP_TARGET",
           "PACKAGE_SIGNATURE"
         ],
-        "not_verifiable": [
-          "BACKUP_TARGET"
-        ],
+        "not_verifiable": [],
         "an_unverified_gate_is_not_a_passed_gate": true,
         "passing_every_gate_is_not_a_statement_about_the_law": true,
         "limits": [
@@ -3325,7 +3547,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "system_id": "00000000-0000-4000-8000-000000000123",
+        "system_id": "00000000-0000-4000-8000-000000000126",
         "environment_kind": "TEST",
         "requested_capabilities": [
           "DISCOVER"
@@ -3755,7 +3977,7 @@
       },
       "request": {
         "data_asset_ids": [
-          "00000000-0000-4000-8000-000000000124"
+          "00000000-0000-4000-8000-000000000127"
         ]
       },
       "response_status": 200,
@@ -3970,18 +4192,18 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "event_id": "00000000-0000-4000-8000-000000000125",
+        "event_id": "00000000-0000-4000-8000-000000000128",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example"
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000126",
-        "event_id": "00000000-0000-4000-8000-000000000127",
+        "id": "00000000-0000-4000-8000-000000000129",
+        "event_id": "00000000-0000-4000-8000-00000000012a",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000128",
+        "recorded_by": "00000000-0000-4000-8000-00000000012b",
         "original_event_unchanged": true,
         "limits": []
       }
@@ -4007,7 +4229,7 @@
       },
       "request": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000129",
+        "principal_id": "00000000-0000-4000-8000-00000000012c",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -4017,35 +4239,6 @@
         "evidence_reference": "Synthetic example"
       },
       "response_status": 201,
-      "response": {
-        "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000012a",
-        "representative_reference": "Synthetic example",
-        "permitted_rights": [
-          "ACCESS"
-        ],
-        "valid_from": "2026-09-16T10:00:00.000Z",
-        "valid_to": null,
-        "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-00000000012b",
-        "state": "ACTIVE",
-        "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-00000000012c",
-        "revoked_at": null,
-        "revocation_reason": null
-      }
-    },
-    {
-      "operation_id": "revoke_mandate",
-      "method": "POST",
-      "path": "/api/v1/admin/mandates/{id}/revoke",
-      "headers": {
-        "Idempotency-Key": "synthetic_example_key_0001"
-      },
-      "request": {
-        "reason": "Synthetic example"
-      },
-      "response_status": 200,
       "response": {
         "kind": "NOMINATION",
         "principal_id": "00000000-0000-4000-8000-00000000012d",
@@ -4065,13 +4258,42 @@
       }
     },
     {
+      "operation_id": "revoke_mandate",
+      "method": "POST",
+      "path": "/api/v1/admin/mandates/{id}/revoke",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "kind": "NOMINATION",
+        "principal_id": "00000000-0000-4000-8000-000000000130",
+        "representative_reference": "Synthetic example",
+        "permitted_rights": [
+          "ACCESS"
+        ],
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "evidence_reference": "Synthetic example",
+        "id": "00000000-0000-4000-8000-000000000131",
+        "state": "ACTIVE",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000132",
+        "revoked_at": null,
+        "revocation_reason": null
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000130",
-        "environment_id": "00000000-0000-4000-8000-000000000131",
+        "installation_id": "00000000-0000-4000-8000-000000000133",
+        "environment_id": "00000000-0000-4000-8000-000000000134",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -4088,9 +4310,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000132",
+        "command_id": "00000000-0000-4000-8000-000000000135",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000133",
+        "attempt_id": "00000000-0000-4000-8000-000000000136",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -4098,7 +4320,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000134",
+        "operation_id": "00000000-0000-4000-8000-000000000137",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -4111,10 +4333,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000135",
-        "principal_reference_id": "00000000-0000-4000-8000-000000000136",
-        "purpose_id": "00000000-0000-4000-8000-000000000137",
-        "system_id": "00000000-0000-4000-8000-000000000138",
+        "attempt_id": "00000000-0000-4000-8000-000000000138",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000139",
+        "purpose_id": "00000000-0000-4000-8000-00000000013a",
+        "system_id": "00000000-0000-4000-8000-00000000013b",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -4187,9 +4409,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000139",
+        "command_id": "00000000-0000-4000-8000-00000000013c",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000013a",
+        "attempt_id": "00000000-0000-4000-8000-00000000013d",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -4204,7 +4426,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-00000000013b",
+        "resource_id": "00000000-0000-4000-8000-00000000013e",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -4219,9 +4441,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000013c",
+        "command_id": "00000000-0000-4000-8000-00000000013f",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000013d",
+        "attempt_id": "00000000-0000-4000-8000-000000000140",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

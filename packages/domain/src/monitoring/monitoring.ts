@@ -10,11 +10,13 @@ import { predicate, scopeValues, type Context } from '../shared/transaction.ts';
  * verdicts with three separate reasons, and there is deliberately no field that
  * combines them into one.
  *
- * Two of the seven signals the requirement names cannot be measured by this
- * build: there is no connector load budget to have headroom against, and there
- * is no backup capability to report the status of. They say so, and say why,
- * rather than reporting a comfortable zero. A signal measured at zero and a
- * signal that was never measured are different facts and never share a shape.
+ * One of the seven signals the requirement names cannot be measured by this
+ * build: there is no connector load budget to have headroom against. It says
+ * so, and says why, rather than reporting a comfortable zero. A signal measured
+ * at zero and a signal that was never measured are different facts and never
+ * share a shape. Backup status joined the measured set when FR-M32-03 gave this
+ * installation a record of declared snapshots, and it reverts to unavailable
+ * -- not to zero -- on an installation where none has ever been declared.
  *
  * Everything collected here is a count or a duration read from tables this
  * installation already keeps. Nothing reads a payload, a message body, a
@@ -61,6 +63,7 @@ export async function operationalReadiness(c: Context): Promise<unknown> {
   const freshness = await one(`SELECT max(checked_at) AS newest, count(*)::int AS n FROM app.system_checks WHERE ${predicate}`);
   const systems = await one(`SELECT count(*)::int AS n FROM app.systems WHERE ${predicate}`);
   const storage = await unscoped('SELECT pg_database_size(current_database())::bigint AS bytes');
+  const lastSnapshot = (await c.tx.query(`SELECT taken_at FROM app.backup_snapshots WHERE ${predicate} ORDER BY taken_at DESC LIMIT 1`, scope)).rows[0];
 
   const now = Date.now();
   const age = (value: unknown) => (value ? Math.max(0, Math.round((now - new Date(value as string).getTime()) / 1000)) : null);
@@ -103,11 +106,18 @@ export async function operationalReadiness(c: Context): Promise<unknown> {
       unit: 'BYTES',
       counted: 'Total size of this installation’s database, including indexes and every environment it holds. It is not a per-tenant figure.',
     }),
-    // The requirement names backup status. This build has no backup capability
-    // at all, which is a fact about the product and belongs in the report.
-    unavailable('BACKUP_STATUS',
-      'Age and outcome of the most recent verified backup.',
-      'This build has no backup or restore capability, so there is no backup whose status could be reported. Nothing here should be read as a backup having succeeded.'),
+    // FR-M32-03 gave this installation a record of declared snapshots, so the
+    // age of the most recent one is now a real measurement. What it measures is
+    // narrow and the sentence says so: this product does not make or read the
+    // archive, so a recent declaration is not a recent *verified* backup.
+    lastSnapshot
+      ? measured('BACKUP_STATUS', {
+        value: seconds((Date.now() - (lastSnapshot.taken_at as Date).getTime()) / 1000)!, unit: 'SECONDS',
+        counted: 'Age of the most recently declared backup snapshot. A declaration records what this installation saw when the archive was taken; it is not evidence that the archive exists, is readable or was restored from.',
+      })
+      : unavailable('BACKUP_STATUS',
+        'Age of the most recently declared backup snapshot.',
+        'No backup snapshot has ever been declared for this installation, so there is no age to report. This is not a backup that failed; it is the absence of any record that one was taken.'),
   ];
 
   // --- FR-M32-01: three verdicts that never merge -----------------------------

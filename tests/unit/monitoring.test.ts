@@ -93,7 +93,8 @@ test('installation health is a read, and everything held by that capability is o
   // preflight is the second, and both are reads of this installation's own
   // state: the capability must never come to carry anything that acts.
   const readiness = routes.filter(route => route.capability === 'health.read');
-  assert.deepEqual(readiness.map(route => route.id).sort(), ['operational_readiness', 'preflight']);
+  assert.deepEqual(readiness.map(route => route.id).sort(),
+    ['list_backup_snapshots', 'list_restore_runs', 'operational_readiness', 'preflight', 'restore_run']);
   for (const route of readiness) {
     assert.equal(route.method, 'get', `${route.id} is not a read`);
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);

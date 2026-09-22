@@ -19,15 +19,22 @@ test('every gate the requirement names is reported exactly once', () => {
 
 test('a gate that could not be checked is never a gate that passed', () => {
   assert.deepEqual([...PreflightVerdict.options], ['PASSED', 'FAILED', 'NOT_VERIFIABLE_HERE']);
-  const parsed = PreflightReport.parse(report());
-  const backup = parsed.gates.find(g => g.kind === 'BACKUP_TARGET')!;
-  assert.deepEqual([backup.verdict, backup.observed], ['NOT_VERIFIABLE_HERE', null]);
-  assert.ok(backup.unverifiable_reason && backup.unverifiable_reason.length > 40);
+  // Every gate this build reports is now decidable -- BACKUP_TARGET was the
+  // last unverifiable one, and FR-M32-03 gave it a record to decide over. The
+  // verdict stays in the vocabulary and is exercised here rather than through a
+  // live gate, because a report that cannot say "I could not check this" will
+  // eventually be asked to pass something it never looked at.
+  const unchecked = PreflightGate.parse({ ...ok, verdict: 'NOT_VERIFIABLE_HERE', observed: null,
+    unverifiable_reason: 'Nothing in this process can observe the address the host forwards to it.' });
+  assert.deepEqual([unchecked.verdict, unchecked.observed, unchecked.remedy], ['NOT_VERIFIABLE_HERE', null, null]);
   // The two shapes can never be confused: an unverifiable gate observing
   // something, or a passing gate claiming it could not be checked.
   assert.throws(() => PreflightGate.parse({ ...ok, verdict: 'NOT_VERIFIABLE_HERE', unverifiable_reason: 'No subsystem exists.' }));
   assert.throws(() => PreflightGate.parse({ ...ok, unverifiable_reason: 'No subsystem exists.' }));
   assert.throws(() => PreflightGate.parse({ ...ok, verdict: 'NOT_VERIFIABLE_HERE', observed: null, unverifiable_reason: null }));
+  // And an unverifiable gate is never quietly counted as passed.
+  const parsed = PreflightReport.parse(report());
+  assert.equal(parsed.gates.filter(g => g.verdict === 'NOT_VERIFIABLE_HERE').length, parsed.not_verifiable.length);
 });
 
 test('a failing gate says what to do, and a passing one has nothing to remedy', () => {
@@ -40,13 +47,18 @@ test('a failing gate says what to do, and a passing one has nothing to remedy', 
 
 test('the two lists are derived from the gates and cannot disagree with them', () => {
   const parsed = PreflightReport.parse(report());
-  assert.deepEqual(parsed.not_verifiable, ['BACKUP_TARGET']);
-  assert.deepEqual(parsed.failing, ['PACKAGE_SIGNATURE']);
-  // Quietly emptying either list while the gates still say otherwise.
-  assert.throws(() => PreflightReport.parse({ ...report(), not_verifiable: [] }));
+  assert.deepEqual(parsed.not_verifiable, []);
+  assert.deepEqual(parsed.failing, ['BACKUP_TARGET', 'PACKAGE_SIGNATURE']);
+  // Quietly emptying a list while the gates still say otherwise. The
+  // unverifiable case is built here because no gate in this build produces one.
+  const unchecked = { ...gates()[0], verdict: 'NOT_VERIFIABLE_HERE', observed: null, remedy: null,
+    unverifiable_reason: 'Nothing in this process can observe the address the host forwards to it.' };
+  const withUnchecked = { ...report(), gates: [unchecked, ...gates().slice(1)] };
+  assert.deepEqual(PreflightReport.parse({ ...withUnchecked, not_verifiable: ['RUNTIME_LOCATION'] }).not_verifiable, ['RUNTIME_LOCATION']);
+  assert.throws(() => PreflightReport.parse(withUnchecked));
   assert.throws(() => PreflightReport.parse({ ...report(), failing: [] }));
   // Or claiming a failure that no gate reports.
-  assert.throws(() => PreflightReport.parse({ ...report(), failing: ['PACKAGE_SIGNATURE', 'DURABLE_STORAGE'] }));
+  assert.throws(() => PreflightReport.parse({ ...report(), failing: ['BACKUP_TARGET', 'PACKAGE_SIGNATURE', 'DURABLE_STORAGE'] }));
 });
 
 test('the report refuses to become a clearance to go live', () => {

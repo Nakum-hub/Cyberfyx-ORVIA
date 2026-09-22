@@ -12,6 +12,7 @@ import { operationalReadiness } from '../../domain/src/monitoring/monitoring.ts'
 import { auditEventList, exportAuditEvents, auditCoverage, correctAuditEvent } from '../../domain/src/audit/audit.ts';
 import { noticeAvailability, setPreferredLanguage, recordNoticeRevision, noticeRevisionList } from '../../domain/src/notices/languages.ts';
 import { preflight } from '../../domain/src/onboarding/preflight.ts';
+import { declareSnapshot, snapshotList, startRestore, readRestore, restoreList, acknowledgeConflict, releaseRestore } from '../../domain/src/monitoring/restore.ts';
 import { connectionList, readGuidedConnection, startConnection, recordConnectivity, recordScopedIdentity, approveResources, changeEnablement } from '../../domain/src/onboarding/connection.ts';
 import { createTemplate, templateList, createNotificationTask, notificationTaskList, readNotificationTask, recordDelivery, escalationSweep } from '../../domain/src/notifications/notifications.ts';
 import { createIncident, incidentList, incidentAssessment, correctIncident, containIncident, closeIncident, transitionNotification, createObligationRule, obligationRuleList } from '../../domain/src/incidents/incidents.ts';
@@ -41,7 +42,8 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
   'list_releases','import_release','update_eligibility','plan_update','update_plan','list_update_plans','record_update_step','installation_versions',
   'operational_readiness','list_audit_events','export_audit_events','audit_coverage','correct_audit_event',
   'list_connections','start_connection','connection','record_connectivity','record_scoped_identity','approve_resources','change_enablement',
-  'record_notice_revision','list_notice_revisions','notice_languages','set_language','preflight']);
+  'record_notice_revision','list_notice_revisions','notice_languages','set_language','preflight',
+  'list_backup_snapshots','declare_snapshot','start_restore','list_restore_runs','restore_run','acknowledge_conflict','release_restore']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -200,6 +202,13 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'audit_coverage':return auditCoverage(c);
         case 'correct_audit_event':return correctAuditEvent(c,input);
         case 'preflight':return preflight(c,r.config);
+        case 'list_backup_snapshots':return snapshotList(c,page);
+        case 'declare_snapshot':return declareSnapshot(c,input);
+        case 'start_restore':return startRestore(c,input);
+        case 'list_restore_runs':return restoreList(c,page);
+        case 'restore_run':return readRestore(c,id!);
+        case 'acknowledge_conflict':return acknowledgeConflict(c,id!,input);
+        case 'release_restore':return releaseRestore(c,id!);
         case 'list_connections':return connectionList(c,page);
         case 'start_connection':return startConnection(c,input);
         case 'connection':return readGuidedConnection(c,id!);

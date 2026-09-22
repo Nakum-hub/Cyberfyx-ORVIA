@@ -199,6 +199,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/preflight', label: 'Before go-live' },
     { href: '/workspace/connections', label: 'Guided connections' },
     { href: '/workspace/readiness', label: 'Operational readiness' },
+    { href: '/workspace/restores', label: 'Backups and restores' },
     { href: '/workspace/releases', label: 'Releases' },
     { href: '/workspace/updates', label: 'Updates' },
     { href: '/workspace/installed-versions', label: 'Installed versions' },

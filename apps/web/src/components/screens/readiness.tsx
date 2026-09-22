@@ -12,9 +12,11 @@ import { Badge, DataTable, Freshness, NoticeBox, PageHead, QueryBoundary, Sectio
  * installation that answers every probe while being unable to carry out a
  * single privacy decision.
  *
- * Two of the seven signals cannot be measured by this build. They are shown as
- * not measured, with the reason, rather than as zero — a reader who cannot tell
- * those apart has been told something false.
+ * A signal this build cannot measure is shown as not measured, with the reason,
+ * rather than as zero — a reader who cannot tell those apart has been told
+ * something false. Which signals those are is read from the report rather than
+ * written into this page, because the set shrinks as the product grows: backup
+ * status left it when FR-M32-03 gave this installation a record of snapshots.
  */
 
 const KIND_LABELS: Record<string, string> = {
@@ -106,7 +108,10 @@ export function Readiness() {
                 />
                 {data.signals.some(signal => !signal.measured) && (
                   <NoticeBox tone="warn" title="Some signals were not measured">
-                    <p>Two of the signals this report is required to carry cannot be produced by this build: there is no connector load budget to have headroom against, and there is no backup capability whose status could be reported. They are shown as not measured rather than as zero, because a reader who cannot tell those apart has been told something false.</p>
+                    <p>These are shown as not measured rather than as zero, because a reader who cannot tell those apart has been told something false. The reason each gives is the reason it cannot be measured here, not a transient fault:</p>
+                    <ul>{data.signals.filter(signal => !signal.measured).map(signal => (
+                      <li key={signal.signal}>{SIGNAL_LABELS[signal.signal] ?? signal.signal} — {signal.unavailable_reason}</li>
+                    ))}</ul>
                   </NoticeBox>
                 )}
               </Section>

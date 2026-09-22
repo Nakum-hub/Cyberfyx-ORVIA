@@ -47,15 +47,29 @@ try {
     [report.gates.filter(g => g.verdict === 'FAILED').map(g => g.kind).sort(),
       report.gates.filter(g => g.verdict === 'NOT_VERIFIABLE_HERE').map(g => g.kind).sort()]);
 
-  // --- the gate this build cannot answer ---------------------------------------
+  // --- the gate answered from the record, never from its absence -----------------
   phase = 'honesty';
-  check('the backup gate says it cannot be checked here, and says why, rather than passing',
-    [gate('BACKUP_TARGET').verdict, gate('BACKUP_TARGET').observed, gate('BACKUP_TARGET').unverifiable_reason!.length > 80],
-    ['NOT_VERIFIABLE_HERE', null, true]);
-  check('an unverified gate is kept out of the passed set and named in its own list',
-    [report.not_verifiable.includes('BACKUP_TARGET'), report.failing.includes('BACKUP_TARGET'),
+  // FR-M32-03 made this gate decidable, so it is checked the way the storage
+  // gate is: against what the tables actually hold, rather than against a
+  // verdict written into the test. Whether a snapshot exists here depends on
+  // whether the restore suite has run against this database, and the gate has
+  // to be right either way.
+  const backupRecord = (await db.query(
+    `SELECT (SELECT count(*) FROM app.backup_snapshots)::int AS snapshots,
+            (SELECT count(*) FROM app.restore_runs WHERE state='RELEASED')::int AS released`)).rows[0];
+  const earned = backupRecord.snapshots > 0 && backupRecord.released > 0;
+  check('the backup gate answers from the declared record and never from its absence',
+    [gate('BACKUP_TARGET').verdict, gate('BACKUP_TARGET').unverifiable_reason,
+      earned ? null : Boolean(gate('BACKUP_TARGET').remedy)],
+    [earned ? 'PASSED' : 'FAILED', null, earned ? null : true]);
+  // The point of the gate: an absent record is a failure with something to do
+  // about it, never a pass and never a claim that the archive itself was seen.
+  check('a missing backup record fails the gate rather than passing it',
+    [report.failing.includes('BACKUP_TARGET'), report.not_verifiable.includes('BACKUP_TARGET'),
       report.an_unverified_gate_is_not_a_passed_gate],
-    [true, false, true]);
+    [!earned, false, true]);
+  check('the gate never claims to have seen the archive itself',
+    /does not make, hold or read the archive/.test(gate('BACKUP_TARGET').checked), true);
   check('passing the technical gates is never stated as a legal conclusion',
     [report.passing_every_gate_is_not_a_statement_about_the_law,
       Object.keys(report).some(k => /ready|compliant|approved|score/.test(k))],

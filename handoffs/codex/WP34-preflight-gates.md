@@ -16,11 +16,20 @@ asserting it.
 | `DURABLE_STORAGE` | The database's own `fsync` and `synchronous_commit` settings. |
 | `CUSTOMER_CONTROLLED_IDENTITY` | Active primary owners in this organisation's local identity store. |
 | `SIGNING_KEYS` | The verification key identifiers present in the running environment. |
-| `BACKUP_TARGET` | **Nothing — reports `NOT_VERIFIABLE_HERE` with the reason.** |
+| `BACKUP_TARGET` | ~~Nothing — reports `NOT_VERIFIABLE_HERE` with the reason.~~ **Superseded by FR-M32-03:** whether a snapshot has been declared and a restore reconciled and released. See `WP29-WP32-backup-restore-quarantine.md`. |
 | `PERMITTED_EGRESS` | Configured connection endpoints outside loopback. Not the firewall, and it says so. |
 | `VENDOR_TELEMETRY_DISABLED` | The telemetry switches of every third-party component. |
 | `LICENCE_VALIDITY` | Whether a signed licence is inside its validity window. |
 | `PACKAGE_SIGNATURE` | FR-M29-01: whether the installed version has a verified manifest behind it. |
+
+> **Amended after FR-M32-03.** The seventh row was the design point of this
+> work package: at the time this build had no backup subsystem, so the gate
+> reported that it could not check rather than passing. FR-M32-03 later gave
+> the installation a record of declared snapshots and reconciled restores, and
+> the gate is decidable over that record now. No gate in the current build
+> returns `NOT_VERIFIABLE_HERE`; the verdict remains in the vocabulary and is
+> exercised by the unit suite. The paragraph below is kept as written because
+> the reasoning still governs any future gate that cannot examine anything.
 
 The design point is the seventh row. This build has no backup subsystem, so a
 gate reporting a backup target as verified would be a claim about infrastructure

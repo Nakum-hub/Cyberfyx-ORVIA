@@ -6,12 +6,15 @@ import { predicate, scopeValues, type Context } from '../shared/transaction.ts';
  * M29 Customer Onboarding, FR-M29-01 and FR-M29-02.
  *
  * The eleven gates the master requires before go-live, each answered by
- * examining something rather than by asserting it. Ten of them this build can
- * genuinely check from inside itself. One -- the backup target -- it cannot,
- * and it says so with a reason instead of reporting a comfortable pass. That
- * single honest gap is the reason this report is worth reading: a preflight
- * that passes everything is indistinguishable from a preflight that checked
- * nothing.
+ * examining something rather than by asserting it.
+ *
+ * The backup gate was `NOT_VERIFIABLE_HERE` until FR-M32-03 gave this
+ * installation a record of declared snapshots and reconciled restores. It is
+ * decidable now, but only over that record: this product still does not make,
+ * hold or read the archive, and the gate says so in the sentence naming what it
+ * examined. The shape keeps `NOT_VERIFIABLE_HERE` for the next gate that needs
+ * it, because a report that cannot say "I could not check this" will eventually
+ * be asked to pass something it never looked at.
  *
  * Every gate carries the sentence describing exactly what was examined, because
  * several of these checks are narrower than their names suggest. The egress
@@ -25,8 +28,6 @@ const passed = (kind: Gate['kind'], checked: string, observed: string): Gate =>
   ({ kind, verdict: 'PASSED', checked, observed, unverifiable_reason: null, remedy: null });
 const failed = (kind: Gate['kind'], checked: string, observed: string, remedy: string): Gate =>
   ({ kind, verdict: 'FAILED', checked, observed, unverifiable_reason: null, remedy });
-const unverifiable = (kind: Gate['kind'], checked: string, reason: string): Gate =>
-  ({ kind, verdict: 'NOT_VERIFIABLE_HERE', checked, observed: null, unverifiable_reason: reason, remedy: null });
 const decide = (kind: Gate['kind'], ok: boolean, checked: string, observed: string, remedy: string) =>
   ok ? passed(kind, checked, observed) : failed(kind, checked, observed, remedy);
 
@@ -93,10 +94,19 @@ export async function preflight(c: Context, config: RuntimeConfig): Promise<unkn
     keyIds.length ? `Configured: ${keyIds.join(', ')}.` : 'No release or licence signing key identifier is configured.',
     'Supply the release and licence signing key identifiers. Without them a manifest cannot be verified and import will refuse rather than trust it.');
 
-  // --- the one this build cannot answer -------------------------------------------
-  const backupTarget = unverifiable('BACKUP_TARGET',
-    'Whether a backup of this installation’s data exists, is reachable, and has been restored from successfully.',
-    'This build has no backup subsystem, no backup configuration and no restore path, so there is nothing here that could observe a backup target. Reporting this gate as passed would be a claim about infrastructure this product has never seen. It must be verified outside this product before real personal data is processed.');
+  // The narrow thing this build can honestly check, and the wider thing it
+  // cannot. FR-M32-03 gave this installation a record of declared snapshots and
+  // of restores that were reconciled before resuming; it did not give it sight
+  // of the archive, so the gate reports the record and says what the record is
+  // not evidence of.
+  const snapshot = await one(
+    `SELECT taken_at FROM app.backup_snapshots WHERE ${predicate} ORDER BY taken_at DESC LIMIT 1`);
+  const restored = await one(
+    `SELECT released_at FROM app.restore_runs WHERE ${predicate} AND state='RELEASED' ORDER BY released_at DESC LIMIT 1`);
+  const backupTarget = decide('BACKUP_TARGET', Boolean(snapshot) && Boolean(restored),
+    'Whether a backup snapshot has been declared for this installation and whether a restore from one has been reconciled against current consent and released from quarantine. This product does not make, hold or read the archive, so it is not evidence that the archive exists or can be read -- only that a snapshot was declared and a restore was carried through.',
+    `${snapshot ? `Last snapshot declared ${(snapshot.taken_at as Date).toISOString()}.` : 'No snapshot has ever been declared.'} ${restored ? `Last restore released from quarantine ${(restored.released_at as Date).toISOString()}.` : 'No restore has been reconciled and released.'}`,
+    'Declare a snapshot when the archive is taken, and carry a restore through quarantine and reconciliation at least once. An untested restore is the failure this gate exists to catch, and this product cannot see the archive itself: reading it back is still a job for the customer’s own tooling.');
 
   // --- egress and telemetry --------------------------------------------------------
   const external = await one(

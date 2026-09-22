@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.13.0",
-    "description": "Contract 0.13.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.14.0",
+    "description": "Contract 0.14.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -23067,8 +23067,8 @@
                       "measured": false,
                       "value": null,
                       "unit": null,
-                      "counted": "Age and outcome of the most recent verified backup.",
-                      "unavailable_reason": "This build has no backup or restore capability, so there is no backup whose status could be reported."
+                      "counted": "Age of the most recently declared backup snapshot.",
+                      "unavailable_reason": "No backup snapshot has ever been declared for this installation, so there is no age to report. This is not a backup that failed; it is the absence of any record that one was taken."
                     }
                   ],
                   "combined_status_is_not_reported": true,
@@ -23929,6 +23929,1393 @@
         "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
       }
     },
+    "/api/v1/admin/backup-snapshots": {
+      "get": {
+        "operationId": "list_backup_snapshots",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackupSnapshotList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "health.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      },
+      "post": {
+        "operationId": "declare_snapshot",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackupSnapshot"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000334",
+                  "taken_at": "2026-09-16T10:00:00.000Z",
+                  "key_reference": "vault://synthetic/backup-key",
+                  "covers": [
+                    "CONFIGURATION",
+                    "DOMAIN_RECORDS"
+                  ],
+                  "counts": [
+                    {
+                      "domain": "CONFIGURATION",
+                      "rows": 12
+                    },
+                    {
+                      "domain": "DOMAIN_RECORDS",
+                      "rows": 340
+                    }
+                  ],
+                  "state_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                  "note": "Nightly archive taken by the customer database tooling.",
+                  "taken_by": "00000000-0000-4000-8000-000000000335",
+                  "archive_is_held_by_the_customer": true,
+                  "encryption_was_not_verified_by_this_product": true,
+                  "limits": [
+                    "This product did not make the archive, does not hold it and cannot read it.",
+                    "Whether the archive is encrypted with the referenced key is not something this product observed."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BackupSnapshotCreate"
+              },
+              "example": {
+                "key_reference": "vault://synthetic/backup-key",
+                "covers": [
+                  "CONFIGURATION",
+                  "DOMAIN_RECORDS"
+                ],
+                "note": "Nightly archive taken by the customer database tooling."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/restore-runs": {
+      "post": {
+        "operationId": "start_restore",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreReconciliation"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000336",
+                  "snapshot_id": "00000000-0000-4000-8000-000000000334",
+                  "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+                  "reconciled_at": "2026-09-16T10:00:00.000Z",
+                  "state": "QUARANTINED",
+                  "conflicts": [
+                    {
+                      "principal_id": "00000000-0000-4000-8000-000000000337",
+                      "purpose_id": "00000000-0000-4000-8000-000000000338",
+                      "state_at_snapshot": "GRANTED",
+                      "state_now": "WITHDRAWN",
+                      "decisions_since_snapshot": 1,
+                      "decision": null,
+                      "acknowledged_by": null,
+                      "acknowledged_at": null
+                    }
+                  ],
+                  "outstanding": 1,
+                  "released_at": null,
+                  "releasing_never_reinstates_a_withdrawal": true,
+                  "note": "Restored from the nightly archive into an isolated environment.",
+                  "limits": [
+                    "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+                    "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreRunCreate"
+              },
+              "example": {
+                "snapshot_id": "00000000-0000-4000-8000-000000000123",
+                "note": "Synthetic example"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "list_restore_runs",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreRunList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "health.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/restore-runs/{id}": {
+      "get": {
+        "operationId": "restore_run",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreReconciliation"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000336",
+                  "snapshot_id": "00000000-0000-4000-8000-000000000334",
+                  "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+                  "reconciled_at": "2026-09-16T10:00:00.000Z",
+                  "state": "QUARANTINED",
+                  "conflicts": [
+                    {
+                      "principal_id": "00000000-0000-4000-8000-000000000337",
+                      "purpose_id": "00000000-0000-4000-8000-000000000338",
+                      "state_at_snapshot": "GRANTED",
+                      "state_now": "WITHDRAWN",
+                      "decisions_since_snapshot": 1,
+                      "decision": null,
+                      "acknowledged_by": null,
+                      "acknowledged_at": null
+                    }
+                  ],
+                  "outstanding": 1,
+                  "released_at": null,
+                  "releasing_never_reinstates_a_withdrawal": true,
+                  "note": "Restored from the nightly archive into an isolated environment.",
+                  "limits": [
+                    "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+                    "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "health.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/restore-runs/{id}/acknowledgements": {
+      "post": {
+        "operationId": "acknowledge_conflict",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreReconciliation"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000336",
+                  "snapshot_id": "00000000-0000-4000-8000-000000000334",
+                  "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+                  "reconciled_at": "2026-09-16T10:00:00.000Z",
+                  "state": "QUARANTINED",
+                  "conflicts": [
+                    {
+                      "principal_id": "00000000-0000-4000-8000-000000000337",
+                      "purpose_id": "00000000-0000-4000-8000-000000000338",
+                      "state_at_snapshot": "GRANTED",
+                      "state_now": "WITHDRAWN",
+                      "decisions_since_snapshot": 1,
+                      "decision": null,
+                      "acknowledged_by": null,
+                      "acknowledged_at": null
+                    }
+                  ],
+                  "outstanding": 1,
+                  "released_at": null,
+                  "releasing_never_reinstates_a_withdrawal": true,
+                  "note": "Restored from the nightly archive into an isolated environment.",
+                  "limits": [
+                    "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+                    "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentConflictAcknowledge"
+              },
+              "example": {
+                "principal_id": "00000000-0000-4000-8000-000000000124",
+                "purpose_id": "00000000-0000-4000-8000-000000000125",
+                "decision": "CURRENT_STATE_PREVAILS",
+                "basis": "Synthetic example"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/restore-runs/{id}/release": {
+      "post": {
+        "operationId": "release_restore",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreReconciliation"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000336",
+                  "snapshot_id": "00000000-0000-4000-8000-000000000334",
+                  "snapshot_taken_at": "2026-09-16T10:00:00.000Z",
+                  "reconciled_at": "2026-09-16T10:00:00.000Z",
+                  "state": "QUARANTINED",
+                  "conflicts": [
+                    {
+                      "principal_id": "00000000-0000-4000-8000-000000000337",
+                      "purpose_id": "00000000-0000-4000-8000-000000000338",
+                      "state_at_snapshot": "GRANTED",
+                      "state_now": "WITHDRAWN",
+                      "decisions_since_snapshot": 1,
+                      "decision": null,
+                      "acknowledged_by": null,
+                      "acknowledged_at": null
+                    }
+                  ],
+                  "outstanding": 1,
+                  "released_at": null,
+                  "releasing_never_reinstates_a_withdrawal": true,
+                  "note": "Restored from the nightly archive into an isolated environment.",
+                  "limits": [
+                    "A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.",
+                    "Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "restore.release",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
     "/api/v1/admin/preflight": {
       "get": {
         "operationId": "preflight",
@@ -24003,11 +25390,11 @@
                     },
                     {
                       "kind": "BACKUP_TARGET",
-                      "verdict": "NOT_VERIFIABLE_HERE",
-                      "checked": "Whether a backup exists, is reachable, and has been restored from successfully.",
-                      "observed": null,
-                      "unverifiable_reason": "This build has no backup subsystem, so nothing here could observe a backup target. It must be verified outside this product.",
-                      "remedy": null
+                      "verdict": "FAILED",
+                      "checked": "Whether a backup snapshot has been declared for this installation and whether a restore from one has been reconciled against current consent and released from quarantine. This product does not make, hold or read the archive, so it is not evidence that the archive exists or can be read -- only that a snapshot was declared and a restore was carried through.",
+                      "observed": "No snapshot has ever been declared. No restore has been reconciled and released.",
+                      "unverifiable_reason": null,
+                      "remedy": "Declare a snapshot when the archive is taken, and carry a restore through quarantine and reconciliation at least once. An untested restore is the failure this gate exists to catch, and this product cannot see the archive itself: reading it back is still a job for the customer’s own tooling."
                     },
                     {
                       "kind": "PERMITTED_EGRESS",
@@ -24043,11 +25430,10 @@
                     }
                   ],
                   "failing": [
+                    "BACKUP_TARGET",
                     "PACKAGE_SIGNATURE"
                   ],
-                  "not_verifiable": [
-                    "BACKUP_TARGET"
-                  ],
+                  "not_verifiable": [],
                   "an_unverified_gate_is_not_a_passed_gate": true,
                   "passing_every_gate_is_not_a_statement_about_the_law": true,
                   "limits": [
@@ -24634,7 +26020,7 @@
                 "$ref": "#/components/schemas/ConnectionStart"
               },
               "example": {
-                "system_id": "00000000-0000-4000-8000-000000000123",
+                "system_id": "00000000-0000-4000-8000-000000000126",
                 "environment_kind": "TEST",
                 "requested_capabilities": [
                   "DISCOVER"
@@ -25752,7 +27138,7 @@
               },
               "example": {
                 "data_asset_ids": [
-                  "00000000-0000-4000-8000-000000000124"
+                  "00000000-0000-4000-8000-000000000127"
                 ]
               }
             }
@@ -26077,12 +27463,12 @@
                   "$ref": "#/components/schemas/AuditCorrection"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000126",
-                  "event_id": "00000000-0000-4000-8000-000000000127",
+                  "id": "00000000-0000-4000-8000-000000000129",
+                  "event_id": "00000000-0000-4000-8000-00000000012a",
                   "disputed": "WRONG_ACTOR",
                   "correction": "Synthetic example",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-000000000128",
+                  "recorded_by": "00000000-0000-4000-8000-00000000012b",
                   "original_event_unchanged": true,
                   "limits": []
                 }
@@ -26227,7 +27613,7 @@
                 "$ref": "#/components/schemas/AuditCorrectionCreate"
               },
               "example": {
-                "event_id": "00000000-0000-4000-8000-000000000125",
+                "event_id": "00000000-0000-4000-8000-000000000128",
                 "disputed": "WRONG_ACTOR",
                 "correction": "Synthetic example"
               }
@@ -26446,7 +27832,7 @@
                 },
                 "example": {
                   "kind": "NOMINATION",
-                  "principal_id": "00000000-0000-4000-8000-00000000012a",
+                  "principal_id": "00000000-0000-4000-8000-00000000012d",
                   "representative_reference": "Synthetic example",
                   "permitted_rights": [
                     "ACCESS"
@@ -26454,10 +27840,10 @@
                   "valid_from": "2026-09-16T10:00:00.000Z",
                   "valid_to": null,
                   "evidence_reference": "Synthetic example",
-                  "id": "00000000-0000-4000-8000-00000000012b",
+                  "id": "00000000-0000-4000-8000-00000000012e",
                   "state": "ACTIVE",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-00000000012c",
+                  "recorded_by": "00000000-0000-4000-8000-00000000012f",
                   "revoked_at": null,
                   "revocation_reason": null
                 }
@@ -26603,7 +27989,7 @@
               },
               "example": {
                 "kind": "NOMINATION",
-                "principal_id": "00000000-0000-4000-8000-000000000129",
+                "principal_id": "00000000-0000-4000-8000-00000000012c",
                 "representative_reference": "Synthetic example",
                 "permitted_rights": [
                   "ACCESS"
@@ -26660,7 +28046,7 @@
                 },
                 "example": {
                   "kind": "NOMINATION",
-                  "principal_id": "00000000-0000-4000-8000-00000000012d",
+                  "principal_id": "00000000-0000-4000-8000-000000000130",
                   "representative_reference": "Synthetic example",
                   "permitted_rights": [
                     "ACCESS"
@@ -26668,10 +28054,10 @@
                   "valid_from": "2026-09-16T10:00:00.000Z",
                   "valid_to": null,
                   "evidence_reference": "Synthetic example",
-                  "id": "00000000-0000-4000-8000-00000000012e",
+                  "id": "00000000-0000-4000-8000-000000000131",
                   "state": "ACTIVE",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-00000000012f",
+                  "recorded_by": "00000000-0000-4000-8000-000000000132",
                   "revoked_at": null,
                   "revocation_reason": null
                 }
@@ -26984,8 +28370,8 @@
                 "$ref": "#/components/schemas/PollRequest"
               },
               "example": {
-                "installation_id": "00000000-0000-4000-8000-000000000130",
-                "environment_id": "00000000-0000-4000-8000-000000000131",
+                "installation_id": "00000000-0000-4000-8000-000000000133",
+                "environment_id": "00000000-0000-4000-8000-000000000134",
                 "maximum_commands": 1
               }
             }
@@ -27032,7 +28418,7 @@
                   "$ref": "#/components/schemas/AcceptedOperation"
                 },
                 "example": {
-                  "operation_id": "00000000-0000-4000-8000-000000000134",
+                  "operation_id": "00000000-0000-4000-8000-000000000137",
                   "status": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z"
                 }
@@ -27176,9 +28562,9 @@
                 "$ref": "#/components/schemas/CommandReceipt"
               },
               "example": {
-                "command_id": "00000000-0000-4000-8000-000000000132",
+                "command_id": "00000000-0000-4000-8000-000000000135",
                 "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "attempt_id": "00000000-0000-4000-8000-000000000133",
+                "attempt_id": "00000000-0000-4000-8000-000000000136",
                 "execution_state": "ACKNOWLEDGED",
                 "recorded_at": "2026-09-16T10:00:00.000Z",
                 "reason_code": "SYNTHETIC_EXAMPLE",
@@ -27368,10 +28754,10 @@
                 "$ref": "#/components/schemas/SendRequest"
               },
               "example": {
-                "attempt_id": "00000000-0000-4000-8000-000000000135",
-                "principal_reference_id": "00000000-0000-4000-8000-000000000136",
-                "purpose_id": "00000000-0000-4000-8000-000000000137",
-                "system_id": "00000000-0000-4000-8000-000000000138",
+                "attempt_id": "00000000-0000-4000-8000-000000000138",
+                "principal_reference_id": "00000000-0000-4000-8000-000000000139",
+                "purpose_id": "00000000-0000-4000-8000-00000000013a",
+                "system_id": "00000000-0000-4000-8000-00000000013b",
                 "message_class": "MARKETING",
                 "order_reference": null
               }
@@ -27419,9 +28805,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-000000000139",
+                  "command_id": "00000000-0000-4000-8000-00000000013c",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-00000000013a",
+                  "attempt_id": "00000000-0000-4000-8000-00000000013d",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -27647,7 +29033,7 @@
                   "$ref": "#/components/schemas/SimulatorState"
                 },
                 "example": {
-                  "resource_id": "00000000-0000-4000-8000-00000000013b",
+                  "resource_id": "00000000-0000-4000-8000-00000000013e",
                   "generation": 0,
                   "last_applied_epoch": 0,
                   "marketing_restricted": false,
@@ -27815,9 +29201,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-00000000013c",
+                  "command_id": "00000000-0000-4000-8000-00000000013f",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-00000000013d",
+                  "attempt_id": "00000000-0000-4000-8000-000000000140",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -28156,6 +29542,7 @@
                     "audit.export",
                     "audit.administer",
                     "connection.enable",
+                    "restore.release",
                     "consent.own.read",
                     "consent.own.write",
                     "receipt.own.read",
@@ -41753,6 +43140,7 @@
                 "audit.export",
                 "audit.administer",
                 "connection.enable",
+                "restore.release",
                 "consent.own.read",
                 "consent.own.write",
                 "receipt.own.read",
@@ -42003,6 +43391,7 @@
                     "audit.export",
                     "audit.administer",
                     "connection.enable",
+                    "restore.release",
                     "consent.own.read",
                     "consent.own.write",
                     "receipt.own.read",
@@ -42274,6 +43663,7 @@
                         "audit.export",
                         "audit.administer",
                         "connection.enable",
+                        "restore.release",
                         "consent.own.read",
                         "consent.own.write",
                         "receipt.own.read",
@@ -45398,6 +46788,700 @@
           "an_unverified_gate_is_not_a_passed_gate",
           "passing_every_gate_is_not_a_statement_about_the_law",
           "limits"
+        ],
+        "additionalProperties": false
+      },
+      "BackupSnapshotCreate": {
+        "type": "object",
+        "properties": {
+          "key_reference": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "covers": {
+            "minItems": 1,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONFIGURATION",
+                "WORKFLOW",
+                "EVIDENCE",
+                "DOMAIN_RECORDS"
+              ]
+            }
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "key_reference",
+          "covers",
+          "note"
+        ],
+        "additionalProperties": false
+      },
+      "BackupSnapshot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "taken_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "key_reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "covers": {
+            "minItems": 1,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONFIGURATION",
+                "WORKFLOW",
+                "EVIDENCE",
+                "DOMAIN_RECORDS"
+              ]
+            }
+          },
+          "counts": {
+            "minItems": 1,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "domain": {
+                  "type": "string",
+                  "enum": [
+                    "CONFIGURATION",
+                    "WORKFLOW",
+                    "EVIDENCE",
+                    "DOMAIN_RECORDS"
+                  ]
+                },
+                "rows": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "domain",
+                "rows"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "state_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "taken_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "archive_is_held_by_the_customer": {
+            "type": "boolean",
+            "const": true
+          },
+          "encryption_was_not_verified_by_this_product": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "id",
+          "taken_at",
+          "key_reference",
+          "covers",
+          "counts",
+          "state_digest",
+          "note",
+          "taken_by",
+          "archive_is_held_by_the_customer",
+          "encryption_was_not_verified_by_this_product",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "RestoreRunCreate": {
+        "type": "object",
+        "properties": {
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "snapshot_id",
+          "note"
+        ],
+        "additionalProperties": false
+      },
+      "RestoreReconciliation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshot_taken_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "reconciled_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUARANTINED",
+              "RELEASED"
+            ]
+          },
+          "conflicts": {
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "principal_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "purpose_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "state_at_snapshot": {
+                  "type": "string",
+                  "enum": [
+                    "GRANTED",
+                    "WITHDRAWN"
+                  ]
+                },
+                "state_now": {
+                  "type": "string",
+                  "enum": [
+                    "NOT_GIVEN",
+                    "GRANTED",
+                    "WITHDRAWN"
+                  ]
+                },
+                "decisions_since_snapshot": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "decision": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "CURRENT_STATE_PREVAILS",
+                        "RESTORED_STATE_PREVAILS"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "acknowledged_by": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "acknowledged_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "principal_id",
+                "purpose_id",
+                "state_at_snapshot",
+                "state_now",
+                "decisions_since_snapshot",
+                "decision",
+                "acknowledged_by",
+                "acknowledged_at"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "outstanding": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "released_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "releasing_never_reinstates_a_withdrawal": {
+            "type": "boolean",
+            "const": true
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "id",
+          "snapshot_id",
+          "snapshot_taken_at",
+          "reconciled_at",
+          "state",
+          "conflicts",
+          "outstanding",
+          "released_at",
+          "releasing_never_reinstates_a_withdrawal",
+          "note",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "ConsentConflictAcknowledge": {
+        "type": "object",
+        "properties": {
+          "principal_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "purpose_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "CURRENT_STATE_PREVAILS",
+              "RESTORED_STATE_PREVAILS"
+            ]
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "principal_id",
+          "purpose_id",
+          "decision",
+          "basis"
+        ],
+        "additionalProperties": false
+      },
+      "BackupSnapshotList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "taken_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "key_reference": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "covers": {
+                  "minItems": 1,
+                  "maxItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "CONFIGURATION",
+                      "WORKFLOW",
+                      "EVIDENCE",
+                      "DOMAIN_RECORDS"
+                    ]
+                  }
+                },
+                "counts": {
+                  "minItems": 1,
+                  "maxItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "domain": {
+                        "type": "string",
+                        "enum": [
+                          "CONFIGURATION",
+                          "WORKFLOW",
+                          "EVIDENCE",
+                          "DOMAIN_RECORDS"
+                        ]
+                      },
+                      "rows": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "domain",
+                      "rows"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "state_digest": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "taken_by": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "archive_is_held_by_the_customer": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "encryption_was_not_verified_by_this_product": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "limits": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "taken_at",
+                "key_reference",
+                "covers",
+                "counts",
+                "state_digest",
+                "note",
+                "taken_by",
+                "archive_is_held_by_the_customer",
+                "encryption_was_not_verified_by_this_product",
+                "limits"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "RestoreRunList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "snapshot_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "snapshot_taken_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "reconciled_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "QUARANTINED",
+                    "RELEASED"
+                  ]
+                },
+                "conflicts": {
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "principal_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      "purpose_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      "state_at_snapshot": {
+                        "type": "string",
+                        "enum": [
+                          "GRANTED",
+                          "WITHDRAWN"
+                        ]
+                      },
+                      "state_now": {
+                        "type": "string",
+                        "enum": [
+                          "NOT_GIVEN",
+                          "GRANTED",
+                          "WITHDRAWN"
+                        ]
+                      },
+                      "decisions_since_snapshot": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "decision": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "CURRENT_STATE_PREVAILS",
+                              "RESTORED_STATE_PREVAILS"
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "acknowledged_by": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "acknowledged_at": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "principal_id",
+                      "purpose_id",
+                      "state_at_snapshot",
+                      "state_now",
+                      "decisions_since_snapshot",
+                      "decision",
+                      "acknowledged_by",
+                      "acknowledged_at"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "outstanding": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "released_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "releasing_never_reinstates_a_withdrawal": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "limits": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "snapshot_id",
+                "snapshot_taken_at",
+                "reconciled_at",
+                "state",
+                "conflicts",
+                "outstanding",
+                "released_at",
+                "releasing_never_reinstates_a_withdrawal",
+                "note",
+                "limits"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
         ],
         "additionalProperties": false
       },

@@ -127,9 +127,32 @@ export function example(name:SchemaName):unknown {
     return {exported_at:sampleTime,filter:{operation:'evidence.export'},events,matched:events.length,complete:true,
       digest:digest(events),
       limits:['This artifact carries every event the stated filter matched.','Producing this export is itself an audited event.']};}
+  // The same reference pattern as a connection secret, for the same reason: it
+  // refuses the whitespace a pasted key would carry.
+  if(name==='BackupSnapshotCreate')return {key_reference:'vault://synthetic/backup-key',covers:['CONFIGURATION' as const,'DOMAIN_RECORDS' as const],
+    note:'Nightly archive taken by the customer database tooling.'};
+  if(name==='BackupSnapshot')return {id:uuid(820),taken_at:sampleTime,key_reference:'vault://synthetic/backup-key',
+    covers:['CONFIGURATION' as const,'DOMAIN_RECORDS' as const],
+    counts:[{domain:'CONFIGURATION' as const,rows:12},{domain:'DOMAIN_RECORDS' as const,rows:340}],
+    state_digest:'b'.repeat(64),note:'Nightly archive taken by the customer database tooling.',taken_by:uuid(821),
+    archive_is_held_by_the_customer:true,encryption_was_not_verified_by_this_product:true,
+    limits:['This product did not make the archive, does not hold it and cannot read it.',
+      'Whether the archive is encrypted with the referenced key is not something this product observed.']};
+  // The case the module exists for: somebody withdrew consent after the
+  // snapshot, and the restore is held in quarantine until that is decided.
+  if(name==='RestoreReconciliation')return {id:uuid(822),snapshot_id:uuid(820),snapshot_taken_at:sampleTime,
+    reconciled_at:sampleTime,state:'QUARANTINED' as const,
+    conflicts:[{principal_id:uuid(823),purpose_id:uuid(824),state_at_snapshot:'GRANTED' as const,state_now:'WITHDRAWN' as const,
+      decisions_since_snapshot:1,decision:null,acknowledged_by:null,acknowledged_at:null}],
+    outstanding:1,released_at:null,releasing_never_reinstates_a_withdrawal:true,
+    note:'Restored from the nightly archive into an isolated environment.',
+    limits:['A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.',
+      'Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent.']};
   // Eleven gates, each exactly once, and the two lists derived from them. The
-  // example keeps the backup gate unverifiable because that is the fact the
-  // shape exists to carry: a preflight that passes everything is
+  // backup gate was unverifiable until FR-M32-03 gave this installation a record
+  // of declared snapshots and reconciled restores; it is decidable now, and on a
+  // fresh installation it fails rather than passing on an absent record. Two
+  // gates fail on purpose: a preflight example that passed everything would be
   // indistinguishable from one that checked nothing.
   if(name==='PreflightReport'){
     const gate=(kind:string,verdict:'PASSED'|'FAILED'|'NOT_VERIFIABLE_HERE',checked:string,observed:string|null,unverifiable_reason:string|null,remedy:string|null)=>
@@ -141,8 +164,8 @@ export function example(name:SchemaName):unknown {
       gate('DURABLE_STORAGE','PASSED','Whether the database is configured to survive a power loss.','fsync=on, synchronous_commit=on.',null,null),
       gate('CUSTOMER_CONTROLLED_IDENTITY','PASSED','Whether an active primary owner exists in the local identity store.','1 active primary owner, held locally.',null,null),
       gate('SIGNING_KEYS','PASSED','Whether the public key identifiers needed to verify trusted input are configured.','Configured: ORVIA_RELEASE_KEY_ID.',null,null),
-      gate('BACKUP_TARGET','NOT_VERIFIABLE_HERE','Whether a backup exists, is reachable, and has been restored from successfully.',null,
-        'This build has no backup subsystem, so nothing here could observe a backup target. It must be verified outside this product.',null),
+      gate('BACKUP_TARGET','FAILED','Whether a backup snapshot has been declared for this installation and whether a restore from one has been reconciled against current consent and released from quarantine. This product does not make, hold or read the archive, so it is not evidence that the archive exists or can be read -- only that a snapshot was declared and a restore was carried through.','No snapshot has ever been declared. No restore has been reconciled and released.',null,
+        'Declare a snapshot when the archive is taken, and carry a restore through quarantine and reconciliation at least once. An untested restore is the failure this gate exists to catch, and this product cannot see the archive itself: reading it back is still a job for the customer’s own tooling.'),
       gate('PERMITTED_EGRESS','PASSED','That no guided connection records an endpoint outside loopback, and that this build declares no vendor egress.','0 endpoints outside loopback.',null,null),
       gate('VENDOR_TELEMETRY_DISABLED','PASSED','The telemetry switches of every third-party component, read from the running environment.','Disabled: NEXT_TELEMETRY_DISABLED, DO_NOT_TRACK, BETTER_AUTH_TELEMETRY.',null,null),
       gate('LICENCE_VALIDITY','PASSED','Whether a signed licence is within its validity window.','CONTROL licence valid until 2027-09-16T10:00:00.000Z.',null,null),
@@ -150,7 +173,7 @@ export function example(name:SchemaName):unknown {
         'Record the installed version through the update path so the package behind it can be named and its signature checked.'),
     ];
     return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,gates,
-      failing:['PACKAGE_SIGNATURE'],not_verifiable:['BACKUP_TARGET'],
+      failing:['BACKUP_TARGET','PACKAGE_SIGNATURE'],not_verifiable:[],
       an_unverified_gate_is_not_a_passed_gate:true,
       passing_every_gate_is_not_a_statement_about_the_law:true,
       limits:['A gate this build cannot check reports that it could not, with the reason, and is not counted as passed.',
@@ -218,8 +241,11 @@ export function example(name:SchemaName):unknown {
       {signal:'CONNECTOR_LIMIT_HEADROOM' as const,measured:false,value:null,unit:null,counted:'Remaining headroom against a connector load budget.',
         unavailable_reason:'No connector load budget has been measured for this deployment, so there is nothing to report headroom against.'},
       {signal:'STORAGE_FOOTPRINT' as const,measured:true,value:36476595,unit:'BYTES' as const,counted:'Total size of this installation database, including indexes and every environment it holds.',unavailable_reason:null},
-      {signal:'BACKUP_STATUS' as const,measured:false,value:null,unit:null,counted:'Age and outcome of the most recent verified backup.',
-        unavailable_reason:'This build has no backup or restore capability, so there is no backup whose status could be reported.'}],
+      // FR-M32-03 made this measurable, but only over declared snapshots. On an
+      // installation where none has been declared it reverts to unavailable --
+      // never to zero, which would read as a backup taken this instant.
+      {signal:'BACKUP_STATUS' as const,measured:false,value:null,unit:null,counted:'Age of the most recently declared backup snapshot.',
+        unavailable_reason:'No backup snapshot has ever been declared for this installation, so there is no age to report. This is not a backup that failed; it is the absence of any record that one was taken.'}],
     combined_status_is_not_reported:true,uptime_is_not_evidence_of_correct_operation:true,
     limits:['These are three separate verdicts and they are not combined. A live process with reachable dependencies can still carry out no decision at all.',
       'Two of the seven signals were not measured. An unmeasured signal is not a signal at zero.']};

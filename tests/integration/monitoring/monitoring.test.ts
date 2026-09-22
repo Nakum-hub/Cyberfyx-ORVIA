@@ -90,12 +90,27 @@ try {
   check('all seven signals are reported, each exactly once',
     restored.signals.map(s => s.signal).sort(), [...S.OperationalSignalName.options].sort());
   check('every signal says what it counted', restored.signals.every(s => s.counted.length > 20), true);
-  check('the two signals this build cannot produce say so rather than reporting zero',
-    restored.signals.filter(s => !s.measured).map(s => [s.signal, s.value, s.unit]),
-    [['CONNECTOR_LIMIT_HEADROOM', null, null], ['BACKUP_STATUS', null, null]]);
-  check('each names why it could not be measured, and the reason is the product, not a fault',
-    [signal(restored, 'BACKUP_STATUS').unavailable_reason!.includes('no backup or restore capability'),
-      signal(restored, 'CONNECTOR_LIMIT_HEADROOM').unavailable_reason!.includes('No connector load budget')], [true, true]);
+  // The signal this build still cannot produce says so rather than reporting a
+  // comfortable zero, which is the fault an operator would act on.
+  check('the signal this build cannot produce says so rather than reporting zero',
+    [signal(restored, 'CONNECTOR_LIMIT_HEADROOM').measured, signal(restored, 'CONNECTOR_LIMIT_HEADROOM').value,
+      signal(restored, 'CONNECTOR_LIMIT_HEADROOM').unit], [false, null, null]);
+  check('and it names why, in terms of the product rather than a transient fault',
+    signal(restored, 'CONNECTOR_LIMIT_HEADROOM').unavailable_reason!.includes('No connector load budget'), true);
+  // Backup status joined the measured set when FR-M32-03 gave this installation
+  // a record of declared snapshots. Which branch applies depends on whether a
+  // snapshot has ever been declared here, so it is checked against the record
+  // rather than against a verdict written into this test.
+  const declaredSnapshots = Number((await db.query(
+    `SELECT count(*)::int AS n FROM app.backup_snapshots WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3`, scope)).rows[0].n);
+  const backupStatus = signal(restored, 'BACKUP_STATUS');
+  check('backup status reports the declared record, and its absence is never a zero',
+    [backupStatus.measured, backupStatus.value === null, backupStatus.unit],
+    [declaredSnapshots > 0, declaredSnapshots === 0, declaredSnapshots > 0 ? 'SECONDS' : null]);
+  check('whichever branch applies, it says what it is and is not evidence of',
+    declaredSnapshots > 0
+      ? backupStatus.counted.includes('not evidence that the archive exists')
+      : backupStatus.unavailable_reason!.includes('is the absence of any record'), true);
   check('the measured signals carry a unit and a value',
     restored.signals.filter(s => s.measured).every(s => s.unit !== null && s.value !== null), true);
   const storage = signal(restored, 'STORAGE_FOOTPRINT');
