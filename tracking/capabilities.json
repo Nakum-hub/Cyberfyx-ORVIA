@@ -482,10 +482,16 @@
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "A protected local bootstrap provisions one organisation and a unique generated owner credential, and initialises the profile, roles and synthetic fixtures. Command line only: there is no onboarding wizard, and the interface does not pretend one exists.",
+      "limitation": "FR-M29-03 is built; FR-M29-01, FR-M29-02 and FR-M29-04 are not, which is why this stays partial. A protected local bootstrap still provisions one organisation and a unique generated owner credential, initialises the profile, roles and synthetic fixtures, and remains command line only. New in this pass: the nine-step guided connection, run inside the customer workspace. A step is never a tick -- four steps record a decision the customer made and the other five are answered by reading evidence kept elsewhere for its own reasons (a recorded capability check, an approved resource, a target mapping, a preview decision), so a step that was done stops being done when the evidence behind it is withdrawn, and each step states what it was measured from. A connection cannot be started asking for a right to change the connected system: the requested-capability vocabulary is closed to DISCOVER, READ and VERIFY, and production scope is stated rather than inferred from an omission. What was requested and what a check observed are separate fields, and an unchecked system reports both observations as unknown rather than as denied. The secret is never held here -- only a reference to where the customer keeps it, behind a pattern that refuses whitespace and anything long enough to be a pasted credential, and there is no column on the table in which one could be written. Enablement is a three-rung ladder that climbs one rung at a time and never descends; approved enforcement is refused outright for a system no recorded check found able to restrict, in the application and again in a trigger, so a role bypassing row-level security cannot set it by hand either. Enabling is a separate capability from configuring. Two workspace screens read this: the connection list and a per-connection step view. Not included: FR-M29-01's package verification before privileged setup and FR-M29-02's runtime, TLS, storage, identity, key, backup and egress preflight gates have no code here; FR-M29-04's local imports, quarantine, preview, conflict handling, provenance and purge have none either, and OPEN-11 leaves the supported import formats undecided. Also absent: there is no wizard for the earlier organisation, industry, admin and deployment steps; connectivity and certificate verification are recorded as the customer performed them rather than observed by this product; and a connection's scope is narrowed by withdrawing approved resources, not by deleting the connection, which is kept.",
       "evidence": [
         "services:smoke",
-        "test:auth"
+        "test:auth",
+        "test:onboarding",
+        "packages/db/migrations/0029_guided_connection.sql",
+        "packages/domain/src/onboarding/connection.ts",
+        "tests/unit/connection.test.ts",
+        "tests/integration/onboarding/connection.test.ts",
+        "apps/web/src/components/screens/onboarding.tsx"
       ]
     },
     {

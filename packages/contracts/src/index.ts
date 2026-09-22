@@ -8,9 +8,10 @@ import { z } from 'zod';
  *  installed version history, and an interrupted one could be found by nobody.
  *  0.10.0 adds the M32 operational readiness report; 0.11.0 adds M33 audit
  *  administration: a scoped, filtered read of the trail and append-only
- *  corrections.
+ *  corrections. 0.12.0 adds M29's nine-step guided connection, whose step
+ *  states are measured from existing evidence rather than stored as ticks.
  *  All are additive: no existing route, schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.11.0' as const;
+export const CONTRACT_VERSION = '0.12.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -41,7 +42,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
+export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -1154,6 +1155,86 @@ export type AuditCoverageValue = z.infer<typeof AuditCoverage>;
 export type AuditQueryValue = z.infer<typeof AuditQuery>;
 export type AuditEventValue = z.infer<typeof AuditEvent>;
 // ---------------------------------------------------------------------------
+// M29 Customer Onboarding (WP03, WP27, WP34), FR-M29-03.
+//
+// The nine-step guided connection, run inside the customer's own workspace.
+// Two things the schema will not let this product say.
+//
+// It will not say a step is done because somebody ticked it. Five of the nine
+// are answered from evidence recorded elsewhere -- a capability check, an
+// approved resource, a mapping, a preview decision -- and each step states what
+// it was measured from, so the claim is checkable and stops being true when the
+// evidence goes away.
+//
+// And it will not let connected be read as safe to mutate. Those are two fields
+// that never collapse into one, `enablement_stage` only climbs, and enforcement
+// is refused unless a real check found the system able to restrict.
+// ---------------------------------------------------------------------------
+export const ConnectionStep = z.enum([
+  'SELECT_SYSTEM', 'CHOOSE_CAPABILITIES', 'CONFIGURE_CONNECTIVITY', 'SCOPED_IDENTITY',
+  'TEST_PERMISSIONS', 'SELECT_RESOURCES', 'REVIEW_MAPPINGS', 'PREVIEW_AND_TEST', 'ENABLE_PROGRESSIVELY',
+]);
+export const ConnectionCapability = z.enum(['DISCOVER', 'READ', 'VERIFY']);
+export const EnablementStage = z.enum(['OBSERVE', 'COORDINATE', 'ENFORCE']);
+export const ConnectionStepState = z.strictObject({
+  step: ConnectionStep,
+  /** Ordinal, so an operator always knows which of the nine they are on. */
+  position: z.number().int().min(1).max(9),
+  done: z.boolean(),
+  /** What this answer was measured from. A step that reports done names the
+   *  record it read; a step that does not names what is still missing. */
+  measured_from: SafeText,
+  outstanding: z.array(SafeText).max(4),
+}).superRefine((s, c) => {
+  if (s.done !== (s.outstanding.length === 0)) c.addIssue({ code: 'custom', message: 'A step is done exactly when nothing is outstanding' });
+});
+export const GuidedConnection = z.strictObject({
+  id: Id, system_id: Id, environment_kind: z.enum(['TEST', 'PRODUCTION']),
+  requested_capabilities: z.array(ConnectionCapability).min(1).max(3),
+  endpoint_reference: SafeText.nullable(), tls_verified: z.boolean().nullable(),
+  /** The reference to a secret the customer holds. This product never holds
+   *  the secret, and there is no field here in which one could be returned. */
+  secret_reference: SafeText.nullable(),
+  steps: z.array(ConnectionStepState).length(9),
+  /** The first step that is not done, or null when all nine are. */
+  current_step: ConnectionStep.nullable(),
+  enablement_stage: EnablementStage,
+  /** Structural. A successful connection is never an approval to change
+   *  anything in the connected system. */
+  connection_is_not_permission_to_mutate: z.literal(true),
+  /** What this connection could actually be observed to do, from the recorded
+   *  capability check rather than from what was requested. Null before a check. */
+  observed_read: z.boolean().nullable(), observed_restrict: z.boolean().nullable(),
+  started_at: Time,
+  limits: z.array(SafeText).max(8),
+}).superRefine((c2, c) => {
+  if (new Set(c2.steps.map(s => s.step)).size !== 9) c.addIssue({ code: 'custom', message: 'Every step is reported exactly once' });
+  const first = c2.steps.find(s => !s.done)?.step ?? null;
+  if (c2.current_step !== first) c.addIssue({ code: 'custom', message: 'The current step is the first one that is not done' });
+  if (c2.enablement_stage === 'ENFORCE' && c2.observed_restrict !== true) c.addIssue({ code: 'custom', message: 'Enforcement is only expressible where a check observed the system able to restrict' });
+  if ((c2.observed_read === null) !== (c2.observed_restrict === null)) c.addIssue({ code: 'custom', message: 'A capability check reports both observations or neither' });
+});
+export const ConnectionStart = z.strictObject({
+  system_id: Id, environment_kind: z.enum(['TEST', 'PRODUCTION']),
+  requested_capabilities: z.array(ConnectionCapability).min(1).max(3),
+}).superRefine((v, c) => {
+  if (new Set(v.requested_capabilities).size !== v.requested_capabilities.length) c.addIssue({ code: 'custom', message: 'Each capability is requested once' });
+});
+export const ConnectivityRecord = z.strictObject({
+  endpoint_reference: z.string().min(3).max(200).regex(/^[A-Za-z0-9 ._:/-]+$/),
+  tls_verified: z.boolean(),
+});
+export const ScopedIdentityRecord = z.strictObject({
+  /** A reference to where the customer keeps the secret, not the secret. The
+   *  pattern refuses anything long enough to be one by accident. */
+  secret_reference: z.string().min(3).max(120).regex(/^[A-Za-z0-9._:/-]+$/),
+});
+export const ResourceApproval = z.strictObject({ data_asset_ids: z.array(Id).min(1).max(100) });
+export const EnablementChange = z.strictObject({ to: EnablementStage });
+export type ConnectionStepValue = z.infer<typeof ConnectionStep>;
+export type EnablementStageValue = z.infer<typeof EnablementStage>;
+export type GuidedConnectionValue = z.infer<typeof GuidedConnection>;
+// ---------------------------------------------------------------------------
 // M32 Monitoring (WP29, WP32). Two requirements are met here and the schema is
 // shaped so neither can be quietly softened.
 //
@@ -1248,6 +1329,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   UpdatePlanList: page(UpdatePlan),
   OperationalReadiness,
   AuditEvent, AuditQuery, AuditCoverage, AuditExport, AuditCorrectionCreate, AuditCorrection, AuditEventList: page(AuditEvent),
+  GuidedConnection, ConnectionStart, ConnectivityRecord, ScopedIdentityRecord, ResourceApproval, EnablementChange, GuidedConnectionList: page(GuidedConnection),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1375,6 +1457,13 @@ export const routes: RouteDefinition[] = [
   {id:'list_audit_events',method:'get',path:'/api/v1/admin/audit-events',authority:'STAFF',capability:'audit.read',query:'AuditQuery',response:'AuditEventList',status:200,paginated:true},
   {id:'export_audit_events',method:'get',path:'/api/v1/admin/audit-events/export',authority:'STAFF',capability:'audit.export',query:'AuditQuery',response:'AuditExport',status:200},
   {id:'audit_coverage',method:'get',path:'/api/v1/admin/audit-coverage',authority:'STAFF',capability:'audit.read',response:'AuditCoverage',status:200},
+  {id:'list_connections',method:'get',path:'/api/v1/admin/connections',authority:'STAFF',capability:'configuration.read',response:'GuidedConnectionList',status:200,paginated:true},
+  {id:'start_connection',method:'post',path:'/api/v1/admin/connections',authority:'STAFF',capability:'configuration.write',request:'ConnectionStart',response:'GuidedConnection',status:201,idempotency:true},
+  {id:'connection',method:'get',path:'/api/v1/admin/connections/{id}',authority:'STAFF',capability:'configuration.read',params:'IdPath',response:'GuidedConnection',status:200},
+  {id:'record_connectivity',method:'post',path:'/api/v1/admin/connections/{id}/connectivity',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'ConnectivityRecord',response:'GuidedConnection',status:200,idempotency:true},
+  {id:'record_scoped_identity',method:'post',path:'/api/v1/admin/connections/{id}/identity',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'ScopedIdentityRecord',response:'GuidedConnection',status:200,idempotency:true},
+  {id:'approve_resources',method:'post',path:'/api/v1/admin/connections/{id}/resources',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'ResourceApproval',response:'GuidedConnection',status:200,idempotency:true},
+  {id:'change_enablement',method:'post',path:'/api/v1/admin/connections/{id}/enablement',authority:'STAFF',capability:'connection.enable',params:'IdPath',request:'EnablementChange',response:'GuidedConnection',status:200,idempotency:true},
   {id:'correct_audit_event',method:'post',path:'/api/v1/admin/audit-corrections',authority:'STAFF',capability:'audit.administer',request:'AuditCorrectionCreate',response:'AuditCorrection',status:201,idempotency:true},
   {id:'list_mandates',method:'get',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.read',response:'MandateList',status:200,paginated:true},
   {id:'create_mandate',method:'post',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.write',request:'MandateCreate',response:'Mandate',status:201,idempotency:true},

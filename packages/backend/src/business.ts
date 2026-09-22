@@ -10,6 +10,7 @@ import { createSupportCase, supportCaseList, readSupportCase, recordResolution, 
 import { importRelease, releaseList, updateEligibility, planUpdate, readUpdatePlan, updatePlanList, recordUpdateStep, installationVersionList } from '../../domain/src/updates/updates.ts';
 import { operationalReadiness } from '../../domain/src/monitoring/monitoring.ts';
 import { auditEventList, exportAuditEvents, auditCoverage, correctAuditEvent } from '../../domain/src/audit/audit.ts';
+import { connectionList, readGuidedConnection, startConnection, recordConnectivity, recordScopedIdentity, approveResources, changeEnablement } from '../../domain/src/onboarding/connection.ts';
 import { createTemplate, templateList, createNotificationTask, notificationTaskList, readNotificationTask, recordDelivery, escalationSweep } from '../../domain/src/notifications/notifications.ts';
 import { createIncident, incidentList, incidentAssessment, correctIncident, containIncident, closeIncident, transitionNotification, createObligationRule, obligationRuleList } from '../../domain/src/incidents/incidents.ts';
 import { createProcessor, processorList, linkProcessorSystem, recordCoordination, processorStanding, createAssessment, assessmentList, completeAssessment, createFinding, findingList, closeFinding } from '../../domain/src/processors/processors.ts';
@@ -36,7 +37,8 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
   'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','import_licence',
   'list_support_cases','create_support_case','support_case','generate_diagnostic','record_resolution','approve_diagnostic','record_transfer','validate_submission','list_canaries','register_canary',
   'list_releases','import_release','update_eligibility','plan_update','update_plan','list_update_plans','record_update_step','installation_versions',
-  'operational_readiness','list_audit_events','export_audit_events','audit_coverage','correct_audit_event']);
+  'operational_readiness','list_audit_events','export_audit_events','audit_coverage','correct_audit_event',
+  'list_connections','start_connection','connection','record_connectivity','record_scoped_identity','approve_resources','change_enablement']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -194,6 +196,13 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'export_audit_events':return exportAuditEvents(c,query);
         case 'audit_coverage':return auditCoverage(c);
         case 'correct_audit_event':return correctAuditEvent(c,input);
+        case 'list_connections':return connectionList(c,page);
+        case 'start_connection':return startConnection(c,input);
+        case 'connection':return readGuidedConnection(c,id!);
+        case 'record_connectivity':return recordConnectivity(c,id!,input);
+        case 'record_scoped_identity':return recordScopedIdentity(c,id!,input);
+        case 'approve_resources':return approveResources(c,id!,input);
+        case 'change_enablement':return changeEnablement(c,id!,input);
         case 'list_mandates':return mandateList(c,page);
         case 'create_mandate':return createMandate(c,input);
         case 'revoke_mandate':return revokeMandate(c,id!,input);

@@ -3112,6 +3112,663 @@
       }
     },
     {
+      "operation_id": "list_connections",
+      "method": "GET",
+      "path": "/api/v1/admin/connections",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "start_connection",
+      "method": "POST",
+      "path": "/api/v1/admin/connections",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "system_id": "00000000-0000-4000-8000-00000000011e",
+        "environment_kind": "TEST",
+        "requested_capabilities": [
+          "DISCOVER"
+        ]
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002da",
+        "system_id": "00000000-0000-4000-8000-0000000002db",
+        "environment_kind": "TEST",
+        "requested_capabilities": [
+          "DISCOVER",
+          "READ"
+        ],
+        "endpoint_reference": "crm.internal:5432",
+        "tls_verified": true,
+        "secret_reference": "vault://synthetic/crm-reader",
+        "steps": [
+          {
+            "step": "SELECT_SYSTEM",
+            "position": 1,
+            "done": true,
+            "measured_from": "The connection names a configured system and is marked test.",
+            "outstanding": []
+          },
+          {
+            "step": "CHOOSE_CAPABILITIES",
+            "position": 2,
+            "done": true,
+            "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+            "outstanding": []
+          },
+          {
+            "step": "CONFIGURE_CONNECTIVITY",
+            "position": 3,
+            "done": true,
+            "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+            "outstanding": []
+          },
+          {
+            "step": "SCOPED_IDENTITY",
+            "position": 4,
+            "done": true,
+            "measured_from": "A reference to a customer-held secret is recorded.",
+            "outstanding": []
+          },
+          {
+            "step": "TEST_PERMISSIONS",
+            "position": 5,
+            "done": true,
+            "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+            "outstanding": []
+          },
+          {
+            "step": "SELECT_RESOURCES",
+            "position": 6,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Approve the specific assets in scope. Discovering an asset does not approve it."
+            ]
+          },
+          {
+            "step": "REVIEW_MAPPINGS",
+            "position": 7,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Map the source references, identities and purposes this connection will act on."
+            ]
+          },
+          {
+            "step": "PREVIEW_AND_TEST",
+            "position": 8,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Run a decision preview so the planned effect is examined before anything is enabled."
+            ]
+          },
+          {
+            "step": "ENABLE_PROGRESSIVELY",
+            "position": 9,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+            ]
+          }
+        ],
+        "current_step": "SELECT_RESOURCES",
+        "enablement_stage": "OBSERVE",
+        "connection_is_not_permission_to_mutate": true,
+        "observed_read": true,
+        "observed_restrict": false,
+        "started_at": "2026-09-16T10:00:00.000Z",
+        "limits": [
+          "A completed connection is not permission to change anything in the connected system.",
+          "This product never holds the connection secret, only a reference to where the customer keeps it."
+        ]
+      }
+    },
+    {
+      "operation_id": "connection",
+      "method": "GET",
+      "path": "/api/v1/admin/connections/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002da",
+        "system_id": "00000000-0000-4000-8000-0000000002db",
+        "environment_kind": "TEST",
+        "requested_capabilities": [
+          "DISCOVER",
+          "READ"
+        ],
+        "endpoint_reference": "crm.internal:5432",
+        "tls_verified": true,
+        "secret_reference": "vault://synthetic/crm-reader",
+        "steps": [
+          {
+            "step": "SELECT_SYSTEM",
+            "position": 1,
+            "done": true,
+            "measured_from": "The connection names a configured system and is marked test.",
+            "outstanding": []
+          },
+          {
+            "step": "CHOOSE_CAPABILITIES",
+            "position": 2,
+            "done": true,
+            "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+            "outstanding": []
+          },
+          {
+            "step": "CONFIGURE_CONNECTIVITY",
+            "position": 3,
+            "done": true,
+            "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+            "outstanding": []
+          },
+          {
+            "step": "SCOPED_IDENTITY",
+            "position": 4,
+            "done": true,
+            "measured_from": "A reference to a customer-held secret is recorded.",
+            "outstanding": []
+          },
+          {
+            "step": "TEST_PERMISSIONS",
+            "position": 5,
+            "done": true,
+            "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+            "outstanding": []
+          },
+          {
+            "step": "SELECT_RESOURCES",
+            "position": 6,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Approve the specific assets in scope. Discovering an asset does not approve it."
+            ]
+          },
+          {
+            "step": "REVIEW_MAPPINGS",
+            "position": 7,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Map the source references, identities and purposes this connection will act on."
+            ]
+          },
+          {
+            "step": "PREVIEW_AND_TEST",
+            "position": 8,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Run a decision preview so the planned effect is examined before anything is enabled."
+            ]
+          },
+          {
+            "step": "ENABLE_PROGRESSIVELY",
+            "position": 9,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+            ]
+          }
+        ],
+        "current_step": "SELECT_RESOURCES",
+        "enablement_stage": "OBSERVE",
+        "connection_is_not_permission_to_mutate": true,
+        "observed_read": true,
+        "observed_restrict": false,
+        "started_at": "2026-09-16T10:00:00.000Z",
+        "limits": [
+          "A completed connection is not permission to change anything in the connected system.",
+          "This product never holds the connection secret, only a reference to where the customer keeps it."
+        ]
+      }
+    },
+    {
+      "operation_id": "record_connectivity",
+      "method": "POST",
+      "path": "/api/v1/admin/connections/{id}/connectivity",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "endpoint_reference": "Synthetic example",
+        "tls_verified": false
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002da",
+        "system_id": "00000000-0000-4000-8000-0000000002db",
+        "environment_kind": "TEST",
+        "requested_capabilities": [
+          "DISCOVER",
+          "READ"
+        ],
+        "endpoint_reference": "crm.internal:5432",
+        "tls_verified": true,
+        "secret_reference": "vault://synthetic/crm-reader",
+        "steps": [
+          {
+            "step": "SELECT_SYSTEM",
+            "position": 1,
+            "done": true,
+            "measured_from": "The connection names a configured system and is marked test.",
+            "outstanding": []
+          },
+          {
+            "step": "CHOOSE_CAPABILITIES",
+            "position": 2,
+            "done": true,
+            "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+            "outstanding": []
+          },
+          {
+            "step": "CONFIGURE_CONNECTIVITY",
+            "position": 3,
+            "done": true,
+            "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+            "outstanding": []
+          },
+          {
+            "step": "SCOPED_IDENTITY",
+            "position": 4,
+            "done": true,
+            "measured_from": "A reference to a customer-held secret is recorded.",
+            "outstanding": []
+          },
+          {
+            "step": "TEST_PERMISSIONS",
+            "position": 5,
+            "done": true,
+            "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+            "outstanding": []
+          },
+          {
+            "step": "SELECT_RESOURCES",
+            "position": 6,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Approve the specific assets in scope. Discovering an asset does not approve it."
+            ]
+          },
+          {
+            "step": "REVIEW_MAPPINGS",
+            "position": 7,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Map the source references, identities and purposes this connection will act on."
+            ]
+          },
+          {
+            "step": "PREVIEW_AND_TEST",
+            "position": 8,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Run a decision preview so the planned effect is examined before anything is enabled."
+            ]
+          },
+          {
+            "step": "ENABLE_PROGRESSIVELY",
+            "position": 9,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+            ]
+          }
+        ],
+        "current_step": "SELECT_RESOURCES",
+        "enablement_stage": "OBSERVE",
+        "connection_is_not_permission_to_mutate": true,
+        "observed_read": true,
+        "observed_restrict": false,
+        "started_at": "2026-09-16T10:00:00.000Z",
+        "limits": [
+          "A completed connection is not permission to change anything in the connected system.",
+          "This product never holds the connection secret, only a reference to where the customer keeps it."
+        ]
+      }
+    },
+    {
+      "operation_id": "record_scoped_identity",
+      "method": "POST",
+      "path": "/api/v1/admin/connections/{id}/identity",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "secret_reference": "vault://synthetic/crm-reader"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002da",
+        "system_id": "00000000-0000-4000-8000-0000000002db",
+        "environment_kind": "TEST",
+        "requested_capabilities": [
+          "DISCOVER",
+          "READ"
+        ],
+        "endpoint_reference": "crm.internal:5432",
+        "tls_verified": true,
+        "secret_reference": "vault://synthetic/crm-reader",
+        "steps": [
+          {
+            "step": "SELECT_SYSTEM",
+            "position": 1,
+            "done": true,
+            "measured_from": "The connection names a configured system and is marked test.",
+            "outstanding": []
+          },
+          {
+            "step": "CHOOSE_CAPABILITIES",
+            "position": 2,
+            "done": true,
+            "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+            "outstanding": []
+          },
+          {
+            "step": "CONFIGURE_CONNECTIVITY",
+            "position": 3,
+            "done": true,
+            "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+            "outstanding": []
+          },
+          {
+            "step": "SCOPED_IDENTITY",
+            "position": 4,
+            "done": true,
+            "measured_from": "A reference to a customer-held secret is recorded.",
+            "outstanding": []
+          },
+          {
+            "step": "TEST_PERMISSIONS",
+            "position": 5,
+            "done": true,
+            "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+            "outstanding": []
+          },
+          {
+            "step": "SELECT_RESOURCES",
+            "position": 6,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Approve the specific assets in scope. Discovering an asset does not approve it."
+            ]
+          },
+          {
+            "step": "REVIEW_MAPPINGS",
+            "position": 7,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Map the source references, identities and purposes this connection will act on."
+            ]
+          },
+          {
+            "step": "PREVIEW_AND_TEST",
+            "position": 8,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Run a decision preview so the planned effect is examined before anything is enabled."
+            ]
+          },
+          {
+            "step": "ENABLE_PROGRESSIVELY",
+            "position": 9,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+            ]
+          }
+        ],
+        "current_step": "SELECT_RESOURCES",
+        "enablement_stage": "OBSERVE",
+        "connection_is_not_permission_to_mutate": true,
+        "observed_read": true,
+        "observed_restrict": false,
+        "started_at": "2026-09-16T10:00:00.000Z",
+        "limits": [
+          "A completed connection is not permission to change anything in the connected system.",
+          "This product never holds the connection secret, only a reference to where the customer keeps it."
+        ]
+      }
+    },
+    {
+      "operation_id": "approve_resources",
+      "method": "POST",
+      "path": "/api/v1/admin/connections/{id}/resources",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "data_asset_ids": [
+          "00000000-0000-4000-8000-00000000011f"
+        ]
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002da",
+        "system_id": "00000000-0000-4000-8000-0000000002db",
+        "environment_kind": "TEST",
+        "requested_capabilities": [
+          "DISCOVER",
+          "READ"
+        ],
+        "endpoint_reference": "crm.internal:5432",
+        "tls_verified": true,
+        "secret_reference": "vault://synthetic/crm-reader",
+        "steps": [
+          {
+            "step": "SELECT_SYSTEM",
+            "position": 1,
+            "done": true,
+            "measured_from": "The connection names a configured system and is marked test.",
+            "outstanding": []
+          },
+          {
+            "step": "CHOOSE_CAPABILITIES",
+            "position": 2,
+            "done": true,
+            "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+            "outstanding": []
+          },
+          {
+            "step": "CONFIGURE_CONNECTIVITY",
+            "position": 3,
+            "done": true,
+            "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+            "outstanding": []
+          },
+          {
+            "step": "SCOPED_IDENTITY",
+            "position": 4,
+            "done": true,
+            "measured_from": "A reference to a customer-held secret is recorded.",
+            "outstanding": []
+          },
+          {
+            "step": "TEST_PERMISSIONS",
+            "position": 5,
+            "done": true,
+            "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+            "outstanding": []
+          },
+          {
+            "step": "SELECT_RESOURCES",
+            "position": 6,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Approve the specific assets in scope. Discovering an asset does not approve it."
+            ]
+          },
+          {
+            "step": "REVIEW_MAPPINGS",
+            "position": 7,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Map the source references, identities and purposes this connection will act on."
+            ]
+          },
+          {
+            "step": "PREVIEW_AND_TEST",
+            "position": 8,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Run a decision preview so the planned effect is examined before anything is enabled."
+            ]
+          },
+          {
+            "step": "ENABLE_PROGRESSIVELY",
+            "position": 9,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+            ]
+          }
+        ],
+        "current_step": "SELECT_RESOURCES",
+        "enablement_stage": "OBSERVE",
+        "connection_is_not_permission_to_mutate": true,
+        "observed_read": true,
+        "observed_restrict": false,
+        "started_at": "2026-09-16T10:00:00.000Z",
+        "limits": [
+          "A completed connection is not permission to change anything in the connected system.",
+          "This product never holds the connection secret, only a reference to where the customer keeps it."
+        ]
+      }
+    },
+    {
+      "operation_id": "change_enablement",
+      "method": "POST",
+      "path": "/api/v1/admin/connections/{id}/enablement",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "to": "OBSERVE"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002da",
+        "system_id": "00000000-0000-4000-8000-0000000002db",
+        "environment_kind": "TEST",
+        "requested_capabilities": [
+          "DISCOVER",
+          "READ"
+        ],
+        "endpoint_reference": "crm.internal:5432",
+        "tls_verified": true,
+        "secret_reference": "vault://synthetic/crm-reader",
+        "steps": [
+          {
+            "step": "SELECT_SYSTEM",
+            "position": 1,
+            "done": true,
+            "measured_from": "The connection names a configured system and is marked test.",
+            "outstanding": []
+          },
+          {
+            "step": "CHOOSE_CAPABILITIES",
+            "position": 2,
+            "done": true,
+            "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+            "outstanding": []
+          },
+          {
+            "step": "CONFIGURE_CONNECTIVITY",
+            "position": 3,
+            "done": true,
+            "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+            "outstanding": []
+          },
+          {
+            "step": "SCOPED_IDENTITY",
+            "position": 4,
+            "done": true,
+            "measured_from": "A reference to a customer-held secret is recorded.",
+            "outstanding": []
+          },
+          {
+            "step": "TEST_PERMISSIONS",
+            "position": 5,
+            "done": true,
+            "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+            "outstanding": []
+          },
+          {
+            "step": "SELECT_RESOURCES",
+            "position": 6,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Approve the specific assets in scope. Discovering an asset does not approve it."
+            ]
+          },
+          {
+            "step": "REVIEW_MAPPINGS",
+            "position": 7,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Map the source references, identities and purposes this connection will act on."
+            ]
+          },
+          {
+            "step": "PREVIEW_AND_TEST",
+            "position": 8,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Run a decision preview so the planned effect is examined before anything is enabled."
+            ]
+          },
+          {
+            "step": "ENABLE_PROGRESSIVELY",
+            "position": 9,
+            "done": false,
+            "measured_from": "Nothing has been recorded for this step yet.",
+            "outstanding": [
+              "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+            ]
+          }
+        ],
+        "current_step": "SELECT_RESOURCES",
+        "enablement_stage": "OBSERVE",
+        "connection_is_not_permission_to_mutate": true,
+        "observed_read": true,
+        "observed_restrict": false,
+        "started_at": "2026-09-16T10:00:00.000Z",
+        "limits": [
+          "A completed connection is not permission to change anything in the connected system.",
+          "This product never holds the connection secret, only a reference to where the customer keeps it."
+        ]
+      }
+    },
+    {
       "operation_id": "correct_audit_event",
       "method": "POST",
       "path": "/api/v1/admin/audit-corrections",
@@ -3119,18 +3776,18 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "event_id": "00000000-0000-4000-8000-00000000011e",
+        "event_id": "00000000-0000-4000-8000-000000000120",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example"
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000011f",
-        "event_id": "00000000-0000-4000-8000-000000000120",
+        "id": "00000000-0000-4000-8000-000000000121",
+        "event_id": "00000000-0000-4000-8000-000000000122",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000121",
+        "recorded_by": "00000000-0000-4000-8000-000000000123",
         "original_event_unchanged": true,
         "limits": []
       }
@@ -3156,7 +3813,7 @@
       },
       "request": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000122",
+        "principal_id": "00000000-0000-4000-8000-000000000124",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -3168,7 +3825,7 @@
       "response_status": 201,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000123",
+        "principal_id": "00000000-0000-4000-8000-000000000125",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -3176,10 +3833,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000124",
+        "id": "00000000-0000-4000-8000-000000000126",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000125",
+        "recorded_by": "00000000-0000-4000-8000-000000000127",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -3197,7 +3854,7 @@
       "response_status": 200,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000126",
+        "principal_id": "00000000-0000-4000-8000-000000000128",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -3205,10 +3862,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000127",
+        "id": "00000000-0000-4000-8000-000000000129",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000128",
+        "recorded_by": "00000000-0000-4000-8000-00000000012a",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -3219,8 +3876,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000129",
-        "environment_id": "00000000-0000-4000-8000-00000000012a",
+        "installation_id": "00000000-0000-4000-8000-00000000012b",
+        "environment_id": "00000000-0000-4000-8000-00000000012c",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -3237,9 +3894,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-00000000012b",
+        "command_id": "00000000-0000-4000-8000-00000000012d",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000012c",
+        "attempt_id": "00000000-0000-4000-8000-00000000012e",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -3247,7 +3904,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-00000000012d",
+        "operation_id": "00000000-0000-4000-8000-00000000012f",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -3260,10 +3917,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-00000000012e",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000012f",
-        "purpose_id": "00000000-0000-4000-8000-000000000130",
-        "system_id": "00000000-0000-4000-8000-000000000131",
+        "attempt_id": "00000000-0000-4000-8000-000000000130",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000131",
+        "purpose_id": "00000000-0000-4000-8000-000000000132",
+        "system_id": "00000000-0000-4000-8000-000000000133",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -3336,9 +3993,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000132",
+        "command_id": "00000000-0000-4000-8000-000000000134",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000133",
+        "attempt_id": "00000000-0000-4000-8000-000000000135",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -3353,7 +4010,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000134",
+        "resource_id": "00000000-0000-4000-8000-000000000136",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -3368,9 +4025,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000135",
+        "command_id": "00000000-0000-4000-8000-000000000137",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000136",
+        "attempt_id": "00000000-0000-4000-8000-000000000138",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

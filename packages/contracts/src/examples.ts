@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { COMMAND_SCHEMA_VERSION, AuditCategory, CommandPayload, schemas, type SchemaName } from './index.ts';
+import { COMMAND_SCHEMA_VERSION, AuditCategory, CommandPayload, ConnectionStep, schemas, type SchemaName } from './index.ts';
 import { digest } from './crypto.ts';
 import signatureVector from '../fixtures/command-vector.json' with { type:'json' };
 export const uuid = (n:number) => `00000000-0000-4000-8000-${n.toString(16).padStart(12,'0')}`;
@@ -127,6 +127,43 @@ export function example(name:SchemaName):unknown {
     return {exported_at:sampleTime,filter:{operation:'evidence.export'},events,matched:events.length,complete:true,
       digest:digest(events),
       limits:['This artifact carries every event the stated filter matched.','Producing this export is itself an audited event.']};}
+  // A reference to where the customer keeps the secret. The generic sampler's
+  // filler contains a space, which the reference pattern refuses -- and should,
+  // because the pattern is what stops a pasted secret fitting in this field.
+  if(name==='ScopedIdentityRecord')return {secret_reference:'vault://synthetic/crm-reader'};
+  // Nine steps, each exactly once and in order, with the current step being the
+  // first that is not done. The example stops at step 6 on purpose: a finished
+  // example would hide the field the schema exists for, which is what a step
+  // that is not done says is still outstanding.
+  if(name==='GuidedConnection'){
+    const answered=[
+      ['SELECT_SYSTEM','The connection names a configured system and is marked test.'],
+      ['CHOOSE_CAPABILITIES','DISCOVER, READ requested. Neither is a right to update or delete.'],
+      ['CONFIGURE_CONNECTIVITY','Endpoint crm.internal:5432 recorded, with its certificate verified.'],
+      ['SCOPED_IDENTITY','A reference to a customer-held secret is recorded.'],
+      ['TEST_PERMISSIONS','A recorded capability check observed read allowed and restrict denied.'],
+    ] as const;
+    const pending: Record<string,string[]>={
+      SELECT_RESOURCES:['Approve the specific assets in scope. Discovering an asset does not approve it.'],
+      REVIEW_MAPPINGS:['Map the source references, identities and purposes this connection will act on.'],
+      PREVIEW_AND_TEST:['Run a decision preview so the planned effect is examined before anything is enabled.'],
+      ENABLE_PROGRESSIVELY:['Move to coordination, and then to approved enforcement, as a separate decision under its own authority.'],
+    };
+    return {id:uuid(730),system_id:uuid(731),environment_kind:'TEST' as const,
+      requested_capabilities:['DISCOVER' as const,'READ' as const],
+      endpoint_reference:'crm.internal:5432',tls_verified:true,secret_reference:'vault://synthetic/crm-reader',
+      steps:ConnectionStep.options.map((step,index)=>{
+        const hit=answered.find(([name])=>name===step);
+        return hit
+          ? {step,position:index+1,done:true,measured_from:hit[1],outstanding:[]}
+          : {step,position:index+1,done:false,measured_from:'Nothing has been recorded for this step yet.',outstanding:pending[step]!};
+      }),
+      current_step:'SELECT_RESOURCES' as const,enablement_stage:'OBSERVE' as const,
+      connection_is_not_permission_to_mutate:true,observed_read:true,observed_restrict:false,
+      started_at:sampleTime,
+      limits:['A completed connection is not permission to change anything in the connected system.',
+        'This product never holds the connection secret, only a reference to where the customer keeps it.']};
+  }
   // Three kinds and seven signals, each exactly once, which repeated copies of
   // the first enum value cannot satisfy. The example also has to show the thing
   // the schema exists for: two signals that were not measured, and a business
