@@ -1,0 +1,12 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-21T23:25:26.329Z",
+  "profile": "codex-a00",
+  "migrations": [
+    "0024_support_bundles",
+    "0025_updates"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner"
+}

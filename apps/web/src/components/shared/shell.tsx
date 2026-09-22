@@ -190,6 +190,13 @@ export const WORKSPACE_NAV: NavGroup[] = [
   ] },
   { group: 'Assurance', items: [
     { href: '/workspace/test-lab', label: 'Test Lab' },
+    { href: '/workspace/support-cases', label: 'Support cases' },
+    { href: '/workspace/support-canaries', label: 'Forbidden content' },
+  ] },
+  { group: 'Installation', items: [
+    { href: '/workspace/releases', label: 'Releases' },
+    { href: '/workspace/updates', label: 'Updates' },
+    { href: '/workspace/installed-versions', label: 'Installed versions' },
   ] },
 ];
 

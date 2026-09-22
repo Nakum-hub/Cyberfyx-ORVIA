@@ -1,7 +1,12 @@
 node_modules/
 .next/
 dist/
-coverage/
+# Anchored, and it has to stay anchored. Unanchored, this matched every
+# directory named "coverage" anywhere in the tree, which silently excluded the
+# whole of M18 -- its domain module, its screen and its integration suite -- from
+# the repository. The build passed locally because the files were on disk and
+# failed anywhere else because they were never committed.
+/coverage/
 .local/
 .env
 .env.*

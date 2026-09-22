@@ -2,9 +2,12 @@ import { z } from 'zod';
 
 /** Pending consolidated Work review; accepted baseline was 0.2.1.
  *  0.6.0 added the WP04 privacy-control graph; 0.7.0 adds WP07 rights management;
- *  0.8.0 adds WP26 support bundles and WP27 updates.
+ *  0.8.0 adds WP26 support bundles and WP27 updates; 0.9.0 adds the update plan
+ *  list, without which FR-M31-03's promise that an interrupted update stays
+ *  visible is not keepable — only applied plans were reachable, through the
+ *  installed version history, and an interrupted one could be found by nobody.
  *  All are additive: no existing route, schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.8.0' as const;
+export const CONTRACT_VERSION = '0.9.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -1070,6 +1073,11 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   TransferRecord, DiagnosticTransfer, IngressSubmission, IngressValidation, CanaryRegister, Canary, SupportResolution,
   ReleaseClaims, SignedRelease, ReleaseImport, ReleaseState, UpdateEligibility, UpdatePlanCreate, UpdatePlan, UpdateStepRecord, UpdateStep, InstallationVersion,
   SupportCaseList: page(SupportCase), CanaryList: page(Canary), ReleaseList: page(ReleaseState), InstallationVersionList: page(InstallationVersion),
+  // The full plan, not a summary: an operator looking for an interrupted update
+  // needs the outstanding steps and both post-change facts, which are the whole
+  // reason the list exists. A parallel summary shape would be one more thing to
+  // drift away from the truth.
+  UpdatePlanList: page(UpdatePlan),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1189,6 +1197,7 @@ export const routes: RouteDefinition[] = [
   {id:'import_release',method:'post',path:'/api/v1/admin/releases',authority:'STAFF',capability:'update.approve',request:'ReleaseImport',response:'ReleaseState',status:201,idempotency:true},
   {id:'update_eligibility',method:'get',path:'/api/v1/admin/releases/{id}/eligibility',authority:'STAFF',capability:'update.read',params:'IdPath',response:'UpdateEligibility',status:200},
   {id:'plan_update',method:'post',path:'/api/v1/admin/releases/{id}/plan',authority:'STAFF',capability:'update.approve',params:'IdPath',request:'UpdatePlanCreate',response:'UpdatePlan',status:201,idempotency:true},
+  {id:'list_update_plans',method:'get',path:'/api/v1/admin/update-plans',authority:'STAFF',capability:'update.read',response:'UpdatePlanList',status:200,paginated:true},
   {id:'update_plan',method:'get',path:'/api/v1/admin/update-plans/{id}',authority:'STAFF',capability:'update.read',params:'IdPath',response:'UpdatePlan',status:200},
   {id:'record_update_step',method:'post',path:'/api/v1/admin/update-plans/{id}/steps',authority:'STAFF',capability:'update.approve',params:'IdPath',request:'UpdateStepRecord',response:'UpdatePlan',status:200,idempotency:true},
   {id:'installation_versions',method:'get',path:'/api/v1/admin/installation-versions',authority:'STAFF',capability:'update.read',response:'InstallationVersionList',status:200,paginated:true},

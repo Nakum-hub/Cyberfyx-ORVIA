@@ -7,7 +7,7 @@ import { configurationList, createConfiguration, createMapping, mappingList, con
 import { createDataAsset, dataAssetList, readDataAsset, tombstoneAsset, createActivity, activityList, createRelationship, relationshipList, graphSearch, neighbourhood, impact } from '../../domain/src/graph/graph.ts';
 import { importLicence, entitlementReport } from '../../domain/src/licensing/licensing.ts';
 import { createSupportCase, supportCaseList, readSupportCase, recordResolution, registerCanary, canaryList, generateDiagnostic, approveDiagnostic, recordTransfer, validateIngressSubmission } from '../../domain/src/support/support.ts';
-import { importRelease, releaseList, updateEligibility, planUpdate, readUpdatePlan, recordUpdateStep, installationVersionList } from '../../domain/src/updates/updates.ts';
+import { importRelease, releaseList, updateEligibility, planUpdate, readUpdatePlan, updatePlanList, recordUpdateStep, installationVersionList } from '../../domain/src/updates/updates.ts';
 import { createTemplate, templateList, createNotificationTask, notificationTaskList, readNotificationTask, recordDelivery, escalationSweep } from '../../domain/src/notifications/notifications.ts';
 import { createIncident, incidentList, incidentAssessment, correctIncident, containIncident, closeIncident, transitionNotification, createObligationRule, obligationRuleList } from '../../domain/src/incidents/incidents.ts';
 import { createProcessor, processorList, linkProcessorSystem, recordCoordination, processorStanding, createAssessment, assessmentList, completeAssessment, createFinding, findingList, closeFinding } from '../../domain/src/processors/processors.ts';
@@ -33,7 +33,7 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
   'list_incidents','create_incident','incident_assessment','correct_incident','contain_incident','close_incident','transition_notification','list_obligation_rules','create_obligation_rule',
   'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','import_licence',
   'list_support_cases','create_support_case','support_case','generate_diagnostic','record_resolution','approve_diagnostic','record_transfer','validate_submission','list_canaries','register_canary',
-  'list_releases','import_release','update_eligibility','plan_update','update_plan','record_update_step','installation_versions']);
+  'list_releases','import_release','update_eligibility','plan_update','update_plan','list_update_plans','record_update_step','installation_versions']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -183,6 +183,7 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'update_eligibility':return updateEligibility(c,id!);
         case 'plan_update':return planUpdate(c,id!,input);
         case 'update_plan':return readUpdatePlan(c,id!);
+        case 'list_update_plans':return updatePlanList(c,page);
         case 'record_update_step':return recordUpdateStep(c,id!,input);
         case 'installation_versions':return installationVersionList(c,page);
         case 'list_mandates':return mandateList(c,page);

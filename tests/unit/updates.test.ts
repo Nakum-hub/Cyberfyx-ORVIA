@@ -146,9 +146,13 @@ test('a step that claims success must name the evidence for the claim', () => {
 
 test('executing an update needs its own authority, separate from reading about one', () => {
   const update = routes.filter(route => route.capability?.startsWith('update.'));
-  assert.equal(update.length, 7);
+  assert.equal(update.length, 8);
   assert.deepEqual(update.filter(route => route.capability === 'update.approve').map(route => route.id).sort(),
     ['import_release', 'plan_update', 'record_update_step']);
+  // An interrupted update has to be findable by somebody who was not there when
+  // it stopped, which is the only reason the plan list exists. Reading it is a
+  // read, so it must never have drifted into the approval set above.
+  assert.equal(update.find(route => route.id === 'list_update_plans')?.capability, 'update.read');
   for (const route of update) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     if (route.method === 'post') assert.ok(route.idempotency, `${route.id} is a write without idempotency`);

@@ -263,6 +263,17 @@ async function assemblePlan(c: Context, row: PlanRow) {
   });
 }
 
+/** FR-M31-03. Without this an interrupted plan is reachable by nobody: only an
+ *  applied one leaves a row in the installed version history. A plan that stays
+ *  visibly interrupted has to be findable. */
+export async function updatePlanList(c: Context, page: Page) {
+  const rows = await c.tx.query(`SELECT * FROM app.update_plans WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+    [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const plans = [];
+  for (const row of rows.rows as PlanRow[]) plans.push(await assemblePlan(c, row));
+  return paged(plans, page);
+}
+
 export async function readUpdatePlan(c: Context, id: string) {
   const row = requireOne((await c.tx.query(`SELECT * FROM app.update_plans WHERE ${predicate} AND id=$4`, [...scopeValues(c.actor), id])).rows) as PlanRow;
   return assemblePlan(c, row);

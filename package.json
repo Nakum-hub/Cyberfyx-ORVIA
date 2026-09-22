@@ -32,6 +32,8 @@
     "test:incidents": "tsx tests/integration/incidents/incidents.test.ts",
     "test:notifications": "tsx tests/integration/notifications/notifications.test.ts",
     "test:licensing": "tsx tests/integration/licensing/licensing.test.ts",
+    "test:support": "tsx tests/integration/support/support.test.ts",
+    "test:updates": "tsx tests/integration/updates/updates.test.ts",
     "test:regression": "tsx tests/integration/regression/regression.test.ts",
     "regression:init": "tsx scripts/regression-init.ts",
     "regression:run": "tsx scripts/regression-runner.ts",

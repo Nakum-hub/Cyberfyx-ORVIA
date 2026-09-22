@@ -2778,6 +2778,18 @@
       }
     },
     {
+      "operation_id": "list_update_plans",
+      "method": "GET",
+      "path": "/api/v1/admin/update-plans",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
       "operation_id": "update_plan",
       "method": "GET",
       "path": "/api/v1/admin/update-plans/{id}",
