@@ -3371,6 +3371,104 @@
       }
     },
     {
+      "operation_id": "audit_retention",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-retention",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+        "lines": [
+          {
+            "purpose": "SECURITY_INVESTIGATION",
+            "categories": [
+              "ROLE_GRANTS",
+              "OWNER_CHANGES",
+              "CONNECTOR_CREDENTIALS_AND_SCOPE"
+            ],
+            "rule": {
+              "purpose": "SECURITY_INVESTIGATION",
+              "days": 365,
+              "source_reference": "Reviewed internal security incident investigation window, approved by the organisation’s privacy reviewer.",
+              "recorded_at": "2026-09-16T10:00:00.000Z",
+              "recorded_by": "00000000-0000-4000-8000-000000000348"
+            },
+            "events_held": 42,
+            "oldest_event_at": "2026-09-16T10:00:00.000Z",
+            "beyond_period": 3,
+            "period_is_not_configured_here": false
+          },
+          {
+            "purpose": "REGULATORY_ACCOUNTABILITY",
+            "categories": [
+              "POLICY_PUBLICATION",
+              "EXPORTS"
+            ],
+            "rule": null,
+            "events_held": 11,
+            "oldest_event_at": "2026-09-16T10:00:00.000Z",
+            "beyond_period": 0,
+            "period_is_not_configured_here": true
+          },
+          {
+            "purpose": "COMMERCIAL_OBLIGATION",
+            "categories": [
+              "SUPPORT_APPROVAL",
+              "LICENCES"
+            ],
+            "rule": null,
+            "events_held": 4,
+            "oldest_event_at": "2026-09-16T10:00:00.000Z",
+            "beyond_period": 0,
+            "period_is_not_configured_here": true
+          },
+          {
+            "purpose": "CHANGE_TRACEABILITY",
+            "categories": [
+              "UPDATES"
+            ],
+            "rule": null,
+            "events_held": 0,
+            "oldest_event_at": null,
+            "beyond_period": 0,
+            "period_is_not_configured_here": true
+          }
+        ],
+        "payload_columns_found": 0,
+        "payload_is_not_recorded_so_none_can_be_deleted": true,
+        "envelopes_are_never_deleted_by_this_product": true,
+        "snapshots_covering_evidence": 1,
+        "a_declared_snapshot_is_not_reached_by_anything_here": true,
+        "limits": [
+          "This is a schedule and a disclosure. Nothing here deletes anything: the audit trail is append-only against every role including the migrator.",
+          "No retention period ships with this product. A purpose with none configured reports that, rather than defaulting to a number nobody chose."
+        ]
+      }
+    },
+    {
+      "operation_id": "set_audit_retention",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-retention-rules",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "purpose": "SECURITY_INVESTIGATION",
+        "days": 1,
+        "source_reference": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "purpose": "SECURITY_INVESTIGATION",
+        "days": 1,
+        "source_reference": "Synthetic example",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000124"
+      }
+    },
+    {
       "operation_id": "restore_run",
       "method": "GET",
       "path": "/api/v1/admin/restore-runs/{id}",
@@ -3413,8 +3511,8 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "principal_id": "00000000-0000-4000-8000-000000000124",
-        "purpose_id": "00000000-0000-4000-8000-000000000125",
+        "principal_id": "00000000-0000-4000-8000-000000000125",
+        "purpose_id": "00000000-0000-4000-8000-000000000126",
         "decision": "CURRENT_STATE_PREVAILS",
         "basis": "Synthetic example"
       },
@@ -3617,7 +3715,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "system_id": "00000000-0000-4000-8000-000000000126",
+        "system_id": "00000000-0000-4000-8000-000000000127",
         "environment_kind": "TEST",
         "requested_capabilities": [
           "DISCOVER"
@@ -4047,7 +4145,7 @@
       },
       "request": {
         "data_asset_ids": [
-          "00000000-0000-4000-8000-000000000127"
+          "00000000-0000-4000-8000-000000000128"
         ]
       },
       "response_status": 200,
@@ -4262,18 +4360,18 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "event_id": "00000000-0000-4000-8000-000000000128",
+        "event_id": "00000000-0000-4000-8000-000000000129",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example"
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000129",
-        "event_id": "00000000-0000-4000-8000-00000000012a",
+        "id": "00000000-0000-4000-8000-00000000012a",
+        "event_id": "00000000-0000-4000-8000-00000000012b",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-00000000012b",
+        "recorded_by": "00000000-0000-4000-8000-00000000012c",
         "original_event_unchanged": true,
         "limits": []
       }
@@ -4299,7 +4397,7 @@
       },
       "request": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000012c",
+        "principal_id": "00000000-0000-4000-8000-00000000012d",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -4311,7 +4409,7 @@
       "response_status": 201,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000012d",
+        "principal_id": "00000000-0000-4000-8000-00000000012e",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -4319,10 +4417,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-00000000012e",
+        "id": "00000000-0000-4000-8000-00000000012f",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-00000000012f",
+        "recorded_by": "00000000-0000-4000-8000-000000000130",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -4340,7 +4438,7 @@
       "response_status": 200,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000130",
+        "principal_id": "00000000-0000-4000-8000-000000000131",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -4348,10 +4446,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000131",
+        "id": "00000000-0000-4000-8000-000000000132",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000132",
+        "recorded_by": "00000000-0000-4000-8000-000000000133",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -4362,8 +4460,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000133",
-        "environment_id": "00000000-0000-4000-8000-000000000134",
+        "installation_id": "00000000-0000-4000-8000-000000000134",
+        "environment_id": "00000000-0000-4000-8000-000000000135",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -4380,9 +4478,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000135",
+        "command_id": "00000000-0000-4000-8000-000000000136",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000136",
+        "attempt_id": "00000000-0000-4000-8000-000000000137",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -4390,7 +4488,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000137",
+        "operation_id": "00000000-0000-4000-8000-000000000138",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -4403,10 +4501,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000138",
-        "principal_reference_id": "00000000-0000-4000-8000-000000000139",
-        "purpose_id": "00000000-0000-4000-8000-00000000013a",
-        "system_id": "00000000-0000-4000-8000-00000000013b",
+        "attempt_id": "00000000-0000-4000-8000-000000000139",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000013a",
+        "purpose_id": "00000000-0000-4000-8000-00000000013b",
+        "system_id": "00000000-0000-4000-8000-00000000013c",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -4479,9 +4577,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000013c",
+        "command_id": "00000000-0000-4000-8000-00000000013d",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000013d",
+        "attempt_id": "00000000-0000-4000-8000-00000000013e",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -4496,7 +4594,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-00000000013e",
+        "resource_id": "00000000-0000-4000-8000-00000000013f",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -4511,9 +4609,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000013f",
+        "command_id": "00000000-0000-4000-8000-000000000140",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000140",
+        "attempt_id": "00000000-0000-4000-8000-000000000141",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

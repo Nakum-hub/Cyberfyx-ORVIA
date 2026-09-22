@@ -148,6 +148,32 @@ export function example(name:SchemaName):unknown {
     note:'Restored from the nightly archive into an isolated environment.',
     limits:['A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.',
       'Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent.']};
+  // Four purposes covering all eight audited categories exactly once. One has a
+  // configured period with events past it; the other three have none, because
+  // no period ships with this product and an unconfigured purpose must stay
+  // distinguishable from one somebody deliberately set to a long number.
+  if(name==='AuditRetentionReport')return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,
+    lines:[
+      {purpose:'SECURITY_INVESTIGATION' as const,
+        categories:['ROLE_GRANTS' as const,'OWNER_CHANGES' as const,'CONNECTOR_CREDENTIALS_AND_SCOPE' as const],
+        rule:{purpose:'SECURITY_INVESTIGATION' as const,days:365,
+          source_reference:'Reviewed internal security incident investigation window, approved by the organisation’s privacy reviewer.',
+          recorded_at:sampleTime,recorded_by:uuid(840)},
+        events_held:42,oldest_event_at:sampleTime,beyond_period:3,period_is_not_configured_here:false},
+      {purpose:'REGULATORY_ACCOUNTABILITY' as const,categories:['POLICY_PUBLICATION' as const,'EXPORTS' as const],
+        rule:null,events_held:11,oldest_event_at:sampleTime,beyond_period:0,period_is_not_configured_here:true},
+      {purpose:'COMMERCIAL_OBLIGATION' as const,categories:['SUPPORT_APPROVAL' as const,'LICENCES' as const],
+        rule:null,events_held:4,oldest_event_at:sampleTime,beyond_period:0,period_is_not_configured_here:true},
+      {purpose:'CHANGE_TRACEABILITY' as const,categories:['UPDATES' as const],
+        rule:null,events_held:0,oldest_event_at:null,beyond_period:0,period_is_not_configured_here:true}],
+    payload_columns_found:0 as const,
+    payload_is_not_recorded_so_none_can_be_deleted:true as const,
+    envelopes_are_never_deleted_by_this_product:true as const,
+    snapshots_covering_evidence:1,
+    a_declared_snapshot_is_not_reached_by_anything_here:true as const,
+    limits:['This is a schedule and a disclosure. Nothing here deletes anything: the audit trail is append-only against every role including the migrator.',
+      'No retention period ships with this product. A purpose with none configured reports that, rather than defaulting to a number nobody chose.']};
+
   // Two disclosures on purpose: one approved and carried, one approved and not.
   // A sampled empty list would hide the field this report exists for -- the
   // account of what actually left -- and would make an installation that

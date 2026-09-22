@@ -1450,7 +1450,81 @@ export const PreflightReport = z.strictObject({
   if (JSON.stringify(r.failing.slice().sort()) !== JSON.stringify(listed('FAILED'))) c.addIssue({ code: 'custom', message: 'The failing list is exactly the gates that failed' });
   if (JSON.stringify(r.not_verifiable.slice().sort()) !== JSON.stringify(listed('NOT_VERIFIABLE_HERE'))) c.addIssue({ code: 'custom', message: 'The unverifiable list is exactly the gates that could not be checked' });
 });
+// ---------------------------------------------------------------------------
+// M33 Audit Administration, FR-M33-04 — purpose-based retention of the trail.
+//
+// Three facts shape this. `app.audit_events` has no payload column and never
+// had one, so payload minimisation is the absence of a place to put anything
+// rather than a policy that could lapse, and justified payload deletion cannot
+// occur because there is no payload. Migration 0027 made the trail append-only
+// against the migrator itself, so retention is a schedule and a disclosure and
+// never an automatic purge. And OPEN-10 forbids universal statutory retention
+// numbers, so no period ships: a purpose with none configured says so.
+// ---------------------------------------------------------------------------
+/** Why a record is kept. Closed, so a retention reason cannot become prose. */
+export const AuditRetentionPurpose = z.enum([
+  'SECURITY_INVESTIGATION', 'REGULATORY_ACCOUNTABILITY', 'COMMERCIAL_OBLIGATION', 'CHANGE_TRACEABILITY']);
+export const AuditRetentionRuleCreate = z.strictObject({
+  purpose: AuditRetentionPurpose,
+  days: z.number().int().min(1).max(3650),
+  /** Where the number came from. There is no default and no way to record a
+   *  period without saying what it rests on. */
+  source_reference: z.string().min(10).max(500),
+});
+export const AuditRetentionRule = z.strictObject({
+  purpose: AuditRetentionPurpose, days: z.number().int().min(1).max(3650),
+  source_reference: SafeText, recorded_at: Time, recorded_by: Id,
+});
+export const AuditRetentionLine = z.strictObject({
+  purpose: AuditRetentionPurpose,
+  /** The audited categories kept for this purpose. Every category appears
+   *  under exactly one purpose, so nothing is retained for no stated reason. */
+  categories: z.array(AuditCategory).min(1).max(8),
+  rule: AuditRetentionRule.nullable(),
+  events_held: Epoch, oldest_event_at: Time.nullable(),
+  /** Events older than the configured period. Zero when no period is
+   *  configured, because nothing can be beyond a period that does not exist --
+   *  which is a different fact from nothing being overdue. */
+  beyond_period: Epoch,
+  /** Literal-true companion to a null rule, so an unconfigured period is
+   *  never read as an unlimited one that somebody chose. */
+  period_is_not_configured_here: z.boolean(),
+}).superRefine((l, c) => {
+  if (l.period_is_not_configured_here !== (l.rule === null)) c.addIssue({ code: 'custom', message: 'A purpose has a configured period or says it has none' });
+  if (l.rule === null && l.beyond_period !== 0) c.addIssue({ code: 'custom', message: 'Nothing is beyond a period that was never configured' });
+  if ((l.events_held === 0) !== (l.oldest_event_at === null)) c.addIssue({ code: 'custom', message: 'A purpose holding events has an oldest one, and one holding none does not' });
+  if (l.beyond_period > l.events_held) c.addIssue({ code: 'custom', message: 'More events cannot be overdue than are held' });
+});
+export const AuditRetentionReport = z.strictObject({
+  as_of: Time, profile: z.literal(PROFILE),
+  lines: z.array(AuditRetentionLine).length(4),
+  /** Measured, not asserted: the number of payload-shaped columns found on the
+   *  audit table. The only permitted value is zero, so if one is ever added
+   *  this report refuses to render rather than quietly describing a trail that
+   *  now carries content it says it does not. */
+  payload_columns_found: z.literal(0),
+  /** Structural. There is no payload, so there is no justified payload deletion
+   *  to preserve an envelope through -- the envelope is the whole record. */
+  payload_is_not_recorded_so_none_can_be_deleted: z.literal(true),
+  /** Structural. The trail is append-only against the migrator itself, so an
+   *  expired period never becomes authority to shorten it. */
+  envelopes_are_never_deleted_by_this_product: z.literal(true),
+  /** Declared snapshots whose coverage includes the audit trail. */
+  snapshots_covering_evidence: Epoch,
+  /** Structural, and the honest limit of any retention claim: the customer's
+   *  archive is outside this product, so nothing done here reaches a copy in it. */
+  a_declared_snapshot_is_not_reached_by_anything_here: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  if (new Set(r.lines.map(l => l.purpose)).size !== 4) c.addIssue({ code: 'custom', message: 'Every retention purpose is reported exactly once' });
+  const covered = r.lines.flatMap(l => l.categories);
+  if (new Set(covered).size !== covered.length) c.addIssue({ code: 'custom', message: 'A category is retained under exactly one purpose' });
+  if (covered.length !== AuditCategory.options.length) c.addIssue({ code: 'custom', message: 'Every audited category is retained for a stated purpose' });
+});
+
 export type PreflightGateValue = z.infer<typeof PreflightGate>;
+export type AuditRetentionPurposeValue = z.infer<typeof AuditRetentionPurpose>;
+export type AuditRetentionReportValue = z.infer<typeof AuditRetentionReport>;
 
 // ---------------------------------------------------------------------------
 // M32 Monitoring, FR-M32-04 — what the vendor side can see.
@@ -1643,6 +1717,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   PreflightReport,
   BackupSnapshotCreate, BackupSnapshot, RestoreRunCreate, RestoreReconciliation, ConsentConflictAcknowledge,
   BackupSnapshotList: page(BackupSnapshot), RestoreRunList: page(RestoreReconciliation), VendorVisibility,
+  AuditRetentionRuleCreate, AuditRetentionRule, AuditRetentionReport,
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1783,6 +1858,10 @@ export const routes: RouteDefinition[] = [
   // FR-M32-04. A read of what this installation disclosed, held by the same
   // capability as its other installation reads so an auditor can see it too.
   {id:'vendor_visibility',method:'get',path:'/api/v1/admin/vendor-visibility',authority:'STAFF',capability:'health.read',response:'VendorVisibility',status:200},
+  // FR-M33-04. Reading the schedule is an audit read; setting how long the
+  // trail is kept is audit administration, which is a different authority.
+  {id:'audit_retention',method:'get',path:'/api/v1/admin/audit-retention',authority:'STAFF',capability:'audit.read',response:'AuditRetentionReport',status:200},
+  {id:'set_audit_retention',method:'post',path:'/api/v1/admin/audit-retention-rules',authority:'STAFF',capability:'audit.administer',request:'AuditRetentionRuleCreate',response:'AuditRetentionRule',status:201,idempotency:true},
   {id:'restore_run',method:'get',path:'/api/v1/admin/restore-runs/{id}',authority:'STAFF',capability:'health.read',params:'IdPath',response:'RestoreReconciliation',status:200},
   {id:'acknowledge_conflict',method:'post',path:'/api/v1/admin/restore-runs/{id}/acknowledgements',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'ConsentConflictAcknowledge',response:'RestoreReconciliation',status:200,idempotency:true},
   {id:'release_restore',method:'post',path:'/api/v1/admin/restore-runs/{id}/release',authority:'STAFF',capability:'restore.release',params:'IdPath',response:'RestoreReconciliation',status:200,idempotency:true},

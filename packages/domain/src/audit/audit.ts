@@ -63,6 +63,14 @@ const CATEGORY_NOTES: Record<S.AuditCategoryValue, string> = {
 /** A replay is a real event in the trail and belongs to the same category. */
 const withReplays = (operations: string[]) => operations.flatMap(name => [name, `${name}.replayed`]);
 
+/**
+ * Every operation name that constitutes a category, replays included. Exported
+ * so FR-M33-04's retention report counts the same events this coverage report
+ * does: two reports disagreeing about what an operation is would make both
+ * worthless.
+ */
+export const operationsFor = (category: S.AuditCategoryValue) => withReplays(CATEGORY_OPERATIONS[category]);
+
 type EventRow = {
   id: string; operation: string; actor_id: string; actor_domain: string;
   resource_id: string | null; request_id: string; created_at: Date; corrections: string | number;
@@ -160,7 +168,7 @@ export async function auditCoverage(c: Context) {
   const entries: S.AuditCoverageEntryValue[] = [];
   for (const category of S.AuditCategory.options) {
     const operations = CATEGORY_OPERATIONS[category];
-    const names = withReplays(operations);
+    const names = operationsFor(category);
     const found = names.length
       ? (await c.tx.query(
         `SELECT count(*)::int AS n, min(created_at) AS first, max(created_at) AS last
