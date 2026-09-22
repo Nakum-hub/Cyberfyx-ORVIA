@@ -112,6 +112,7 @@ export interface EndpointMap {
   import_release: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ReleaseImport>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ReleaseState> };
   update_eligibility: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdateEligibility> };
   plan_update: { request: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlanCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlan> };
+  list_update_plans: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlanList> };
   update_plan: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlan> };
   record_update_step: { request: import('zod').infer<typeof import('../src/index.ts').schemas.UpdateStepRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlan> };
   installation_versions: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.InstallationVersionList> };

@@ -30,7 +30,7 @@ registered canary matched, and stores nothing.
 | FR-M31-01 | `ReleaseClaims` carries provenance (source commit, build time, builder and reviewer references), a dependency inventory with digests, per-migration notes and the supported profile list. The manifest row is immutable: a trigger refuses every UPDATE and DELETE. |
 | FR-M31-02 | Eligibility is eight separately named checks, reported individually, and `eligibility_is_not_permission_to_execute` is a literal `true`. Applying is a second act under a second capability (`update.approve`) that re-runs every check. Trust is re-evaluated at eligibility rather than inherited from import: the suite writes a manifest straight to the table with an untrusted signer, and it comes back ineligible on `TRUSTED_ORIGIN` and `SIGNATURE_VALID`. `unsafeArchiveEntry` refuses traversal, absolute, drive-qualified, backslash, empty-segment and null-embedded paths; a declared expansion over 100× the artifact is refused as a bomb. |
 | FR-M31-03 | `recoveryMode` is derived from the manifest, never chosen: one irreversible migration forces `FORWARD_RECOVERY_ONLY`, both `UpdateEligibility` and `UpdatePlan` refuse to parse if `rollback_available` disagrees, and the database refuses to relax `recovery_mode` after approval. The ledger is append-only, so a failed run leaves its evidence rather than being tidied away by the next attempt. |
-| FR-M31-04 | `introduces_network_egress` and `requires_model_runtime` are literal `false`, and `introduces_capabilities` is closed to this contract's own vocabulary, so a release cannot introduce an authority that does not already exist. `NO_UNSAFE_DOWNGRADE` refuses a release that is not strictly newer — asserted after a real apply moved the installed version to 0.2.0. `REVALIDATE_BOUNDARIES` and `RUN_CORE_REGRESSION` are two of the seven required steps, and the database refuses to record an update as applied until all seven have succeeded. |
+| FR-M31-04 | `introduces_network_egress` and `requires_model_runtime` are literal `false`, and `introduces_capabilities` is closed to this contract's own vocabulary, so a release cannot introduce an authority that does not already exist. `NO_UNSAFE_DOWNGRADE` refuses a release that is not strictly newer — asserted after a real apply moved the installed version on. `REVALIDATE_BOUNDARIES` and `RUN_CORE_REGRESSION` are two of the seven required steps, and the database refuses to record an update as applied until all seven have succeeded. |
 
 ## Evidence
 
@@ -42,19 +42,21 @@ Commit under test: working tree at the time of the run, on branch
 | Typecheck | `npx tsc --noEmit` | clean, exit 0 |
 | Unit tests | `npm test` | 104 passed, 0 failed |
 | Lint | `npm run lint` | 0 findings, exit 0 |
-| Contract check | `npm run contracts:check` | 124 route examples validated, contract 0.8.0 |
+| Contract check | `npm run contracts:check` | 125 route examples validated, contract 0.9.0 |
 | Hygiene | `npm run hygiene:check` | 0 findings, 2869 files examined |
 | Tracking | `npm run tracking:check` | 33 capability modules validated |
 | Migrations | `npm run db:migrate` | `0024`, `0025` then `0026` applied; artifacts `A00-migration-1790033126328-*`, `A00-migration-1790034211682-*` |
 | Policy | `npm run services -- up` then OPA queried directly | all five new capabilities decided correctly for `ORG_SUPER_ADMIN`, `ORG_ADMIN` and `AUDITOR` |
-| M30 integration | `npm run test:support` | **57 assertions, 0 failures**; artifact `A00-support-integration-1790034241457-*` |
-| M31 integration | `npm run test:updates` | **52 assertions, 0 failures**; artifact `A00-updates-integration-1790034317372-*` |
+| M30 integration | `npm run test:support` | **57 assertions, 0 failures**, run three times against the same database; artifact `A00-support-integration-1790035643533-*` |
+| M31 integration | `npm run test:updates` | **54 assertions, 0 failures**, run twice against the same database; artifact `A00-updates-integration-1790035651228-*` |
 | Core regression | `npm run test:regression` | 70 assertions, 0 failures; artifact `A00-regression-integration-1790034659889-*` |
+| Web smoke | `npm run web:smoke` | PASS; artifact `A00-web-integration-1790035772445-*` |
+| Screens | driven through the real fixture with an authenticated owner | all five render 200 with the new navigation group; all five endpoints answer 200 |
 
-## What the first run actually found
+## What running it actually found
 
-Two real defects, both of which the previous revision of this document had
-flagged as unverified assumptions rather than known-good:
+Four things, the first of which the previous revision of this document had
+flagged as an unverified assumption rather than known-good:
 
 1. **`GRANT SELECT ON bootstrap_migrations TO orvia_app` in 0024 was
    ineffective.** The grant succeeded and did nothing: the ledger lives in
@@ -71,11 +73,48 @@ flagged as unverified assumptions rather than known-good:
    error envelope. This is a fixture hazard rather than a product defect, but it
    is worth recording: a stale build makes a missing route look like a missing
    row. `npm run build` is a prerequisite for either suite.
+3. **Neither suite was re-runnable at first.** Both passed once and were then
+   refused by the state they had left. `test:updates` hardcoded manifest
+   versions, which are unique per environment whether or not they were ever
+   applied, so an earlier run's rejected candidates occupied them; versions are
+   now derived from the highest version the environment has seen. `test:support`
+   registered a canary matching a value present in every report this
+   installation can produce, and the product cannot withdraw a canary, so every
+   later generation was refused; the suite now removes that one row directly and
+   says in the code that having to bypass the product is itself the finding.
+   Both suites were then run repeatedly against the same database to prove it.
+4. **`web:smoke` had been failing since before this work.** It matched the
+   landing page on wording the page has not carried since it was rewritten, and
+   asserted that `/api/v1/admin/overview` returns 404 on the grounds that the
+   route was unbuilt — an assertion that turned into a test that the product was
+   incomplete, and that started failing the moment the overview module landed at
+   `9742271`. The last recorded pass was 2026-09-16. Repaired to assert what is
+   actually worth proving at bootstrap: the landing page is labelled synthetic,
+   and a business endpoint started without its profile environment refuses with
+   503 rather than answering anyway.
+
+## Screens
+
+Five read-only screens were added under two navigation groups, built so the
+separations each module exists to keep cannot be smudged by the interface:
+
+| Screen | What it refuses to do |
+|---|---|
+| Support cases | Put the vendor's case state and the local control state in one column. They are two rows, and when a vendor has closed their case while the local control is unverified the screen says so in as many words. |
+| Forbidden content | Show a canary token. Only the digest is displayed, so the page that checks for a secret does not become a place to read one. |
+| Releases | Present eligibility as a single verdict. Every one of the eight checks is a row with its own reason, and the page states that eligible means fetch and verify, not run. |
+| Updates | Offer rollback when the manifest says it would not work. A forward-recovery release says plainly why, and both post-change checks are separate columns from the plan state. |
+| Installed versions | Move when an update starts. A row appears when one finishes, because an installation that has restarted its services is not one whose boundaries have been rechecked. |
+
+The `list_update_plans` route was added for these (contract 0.9.0): without it
+only an applied plan was reachable, through the installed version history, so
+FR-M31-03's promise that an interrupted update stays visible was not keepable.
 
 ## What is not done, plainly
 
-1. **No UI.** Neither module has a screen. The routes exist and the workspace
-   navigation does not. This is the largest remaining gap for both.
+1. **The screens report and do not act.** Generating, approving, transferring,
+   registering a canary, importing a release, planning an update and recording a
+   step are all API-only. This is the largest remaining gap for both modules.
 2. **Nothing is fetched, unpacked or executed by M31.** Archive safety and the
    expansion ratio are decided from the signed manifest before anything would be
    written, but this module records and gates an update a customer performs; it
@@ -87,7 +126,8 @@ flagged as unverified assumptions rather than known-good:
    (git-ignored, generated in this pass, equivalent to the licence fixture) and
    both it and the private half must be exported for `npm run test:updates`.
 4. **No retention enforcement against a recorded approval window**, and no way
-   to withdraw a registered canary.
+   to withdraw a registered canary — the second is why `test:support` has to
+   delete a row directly to stay re-runnable.
 5. **M26 Billing remains at zero** and is partly blocked: the payment provider
    is an OPEN decision the build pack forbids inventing.
 

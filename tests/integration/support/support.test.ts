@@ -249,6 +249,14 @@ try {
     [refused.status, (await fieldCodes(refused)).map(c => c.startsWith('forbidden_content:'))], [409, [true]]);
   check('nothing was stored for the refused generation',
     (await db.query('SELECT count(*)::int AS n FROM app.diagnostic_drafts WHERE case_id=$1', [other.id])).rows[0].n, 0);
+  // Fixture teardown, reaching past the product deliberately. The token above
+  // appears in every report this installation can produce, and the product has
+  // no way to withdraw a canary, so leaving it registered would refuse every
+  // generation on the next run and this suite would pass exactly once. The row
+  // removed is the one the suite registered seconds earlier and nothing else.
+  // That the teardown has to bypass the product is itself the finding: canary
+  // withdrawal is a missing capability, recorded as such.
+  await db.query('DELETE FROM app.support_canaries WHERE token=$1', [report.installation_reference]);
 
   // --- authority -----------------------------------------------------------------
   phase = 'authority';

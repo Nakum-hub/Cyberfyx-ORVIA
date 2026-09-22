@@ -70,6 +70,34 @@ try {
   const staff = scenario.author;   // ORG_ADMIN: update.read only
   const owner = scenario.owner;    // ORG_SUPER_ADMIN: also update.approve
 
+  // Versions are derived from what this installation is actually on, not
+  // hardcoded. A manifest version is unique per environment and an applied
+  // update raises the installed version, so a suite with fixed versions passes
+  // once and is refused as a replay ever afterwards. This one is re-runnable
+  // against a database it has already run against, which is the only kind of
+  // suite worth keeping.
+  const installedNow = (await db.query(
+    `SELECT version FROM app.installation_versions WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 ORDER BY applied_at DESC,id DESC LIMIT 1`,
+    [scenario.scope.tenant_id, scenario.scope.legal_entity_id, scenario.scope.environment_id])).rows[0]?.version ?? S.PRODUCT_VERSION;
+  // Above everything already imported, not merely above what is installed: a
+  // manifest version is unique per environment whether or not it was ever
+  // applied, so an earlier run's rejected candidates occupy versions too.
+  const highestImported = (await db.query(
+    `SELECT version FROM app.release_manifests WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3
+     ORDER BY string_to_array(version,'.')::int[] DESC LIMIT 1`,
+    [scenario.scope.tenant_id, scenario.scope.legal_entity_id, scenario.scope.environment_id])).rows[0]?.version ?? installedNow;
+  const ordinal = (version: string) => version.split('.').map(Number) as [number, number, number];
+  // Component by component. Comparing the arrays directly would compare them as
+  // strings, and "0,10,0" sorts below "0,9,0".
+  const newer = (a: string, b: string) => {
+    const [left, right] = [ordinal(a), ordinal(b)];
+    for (let i = 0; i < 3; i += 1) if (left[i] !== right[i]) return left[i]! > right[i]!;
+    return false;
+  };
+  const [major, minor] = ordinal(newer(highestImported, installedNow) ? highestImported : installedNow);
+  /** A version strictly above anything this environment has seen. */
+  const v = (step: number) => `${major}.${minor + step}.0`;
+
   const importIt = (claims: Record<string, unknown>, options: { signer?: 'untrusted'; tamper?: boolean } = {}, as = owner) =>
     as.call('/api/v1/admin/releases', { release: signRelease(claims, options) }, key());
   const eligibilityOf = async (id: string) => S.UpdateEligibility.parse(await (await staff.call(`/api/v1/admin/releases/${id}/eligibility`)).json());
@@ -83,18 +111,18 @@ try {
     ['an authority that does not exist in this contract', { introduces_capabilities: ['vendor.remote.access'] }],
     ['an audience other than a customer installation', { audience: 'ORVIA_VENDOR_FLEET' }],
   ] as const) check(`a release declaring ${what} is refused before any signature is considered`,
-    (await importIt(claimsFor('1.0.0', overrides))).status, 400);
+    (await importIt(claimsFor(v(20), overrides))).status, 400);
   check('a release published before it was built is refused',
-    (await importIt(claimsFor('1.0.0', { published_at: new Date(Date.parse(builtAt) - 60_000).toISOString() }))).status, 400);
+    (await importIt(claimsFor(v(20), { published_at: new Date(Date.parse(builtAt) - 60_000).toISOString() }))).status, 400);
 
   // --- FR-M31-01: provenance, and a manifest that cannot be edited -------------
   phase = 'import';
   check('importing a release needs its own authority, not merely read access',
-    (await importIt(claimsFor('0.1.0'), {}, staff)).status, 403);
-  check('a release from an untrusted signer is refused', await fieldCodes(await importIt(claimsFor('0.1.0'), { signer: 'untrusted' })), ['untrusted_origin']);
-  check('a release whose claims were altered after signing is refused', await fieldCodes(await importIt(claimsFor('0.1.0'), { tamper: true })), ['invalid_signature']);
+    (await importIt(claimsFor(v(1)), {}, staff)).status, 403);
+  check('a release from an untrusted signer is refused', await fieldCodes(await importIt(claimsFor(v(1)), { signer: 'untrusted' })), ['untrusted_origin']);
+  check('a release whose claims were altered after signing is refused', await fieldCodes(await importIt(claimsFor(v(1)), { tamper: true })), ['invalid_signature']);
 
-  const irreversibleClaims = claimsFor('0.1.0', {
+  const irreversibleClaims = claimsFor(v(1), {
     migrations: [{ migration: '0026_example', irreversible: false, note: 'Adds a nullable column.' },
       { migration: '0027_rewrite', irreversible: true, note: 'Rewrites a column in place; the previous values are not retained.' }],
   });
@@ -104,7 +132,7 @@ try {
     [commit, 1, 2, ['0027_rewrite']]);
   check('re-importing the same release is a replay, not a new release', await fieldCodes(await importIt(irreversibleClaims)), ['replayed']);
   check('a different release claiming a version already imported is refused',
-    await fieldCodes(await importIt(claimsFor('0.1.0'))), ['replayed']);
+    await fieldCodes(await importIt(claimsFor(v(1)))), ['replayed']);
   check('a release manifest is never edited',
     await direct(`UPDATE app.release_manifests SET artifact_bytes=1 WHERE id=$1`, [releaseA.id]), 'REJECTED');
   check('a release manifest is never removed', await direct('DELETE FROM app.release_manifests WHERE id=$1', [releaseA.id]), 'REJECTED');
@@ -118,7 +146,7 @@ try {
   check('every check reports its own reason', eligibleA.checks.every(c => c.reason.length > 10), true);
   check('an eligible release says so, and says that is not permission to execute',
     [eligibleA.eligible, eligibleA.eligibility_is_not_permission_to_execute, eligibleA.installed_version],
-    [true, true, S.PRODUCT_VERSION]);
+    [true, true, installedNow]);
   check('trust is re-evaluated here rather than inherited from the import',
     eligibleA.limits.some(l => l.includes('withdrawn key')), true);
 
@@ -128,15 +156,15 @@ try {
     return blocking(await eligibilityOf(state.id));
   };
   check('a release whose archive escapes the target directory is blocked on that gate alone',
-    await gate('0.3.0', { archive: [{ path: '../../etc/orvia.conf', bytes: 100 }] }), ['ARCHIVE_ENTRIES_SAFE']);
+    await gate(v(3), { archive: [{ path: '../../etc/orvia.conf', bytes: 100 }] }), ['ARCHIVE_ENTRIES_SAFE']);
   check('an absolute archive path is blocked the same way',
-    await gate('0.4.0', { archive: [{ path: '/etc/orvia.conf', bytes: 100 }] }), ['ARCHIVE_ENTRIES_SAFE']);
+    await gate(v(4), { archive: [{ path: '/etc/orvia.conf', bytes: 100 }] }), ['ARCHIVE_ENTRIES_SAFE']);
   check('a declared expansion implausibly larger than the artifact is refused as a bomb',
-    await gate('0.5.0', { artifact_bytes: 1000, archive: [{ path: 'payload.bin', bytes: 900_000_000 }] }), ['ARCHIVE_ENTRIES_SAFE']);
+    await gate(v(5), { artifact_bytes: 1000, archive: [{ path: 'payload.bin', bytes: 900_000_000 }] }), ['ARCHIVE_ENTRIES_SAFE']);
   check('a release that cannot be applied from this version names the upgrade path',
-    await gate('0.6.0', { minimum_upgradable_from: '9.0.0' }), ['UPGRADE_PATH_SUPPORTED']);
+    await gate(v(6), { minimum_upgradable_from: '9999.0.0' }), ['UPGRADE_PATH_SUPPORTED']);
   check('the only deployment profile this contract admits is the one that is supported',
-    S.ReleaseClaims.safeParse(claimsFor('0.7.0', { supported_profiles: ['VENDOR_HOSTED'] })).success, false);
+    S.ReleaseClaims.safeParse(claimsFor(v(7), { supported_profiles: ['VENDOR_HOSTED'] })).success, false);
 
   phase = 'withdrawn key';
   // Written straight to the table as the migrator, so it never passed import.
@@ -146,8 +174,8 @@ try {
   const strangerId = randomUUID();
   await db.query(
     `INSERT INTO app.release_manifests(tenant_id,legal_entity_id,environment_id,id,release_id,version,published_at,artifact_digest,artifact_bytes,signing_key_id,signature,claims,imported_by)
-     SELECT tenant_id,legal_entity_id,environment_id,$1,$2,'0.8.0',now(),$3,4000000,$4,$5,$6::jsonb,imported_by FROM app.release_manifests WHERE id=$7`,
-    [strangerId, randomUUID(), 'e'.repeat(64), randomUUID(), 'x'.repeat(86), JSON.stringify(claimsFor('0.8.0')), releaseA.id]);
+     SELECT tenant_id,legal_entity_id,environment_id,$1,$2,$8,now(),$3,4000000,$4,$5,$6::jsonb,imported_by FROM app.release_manifests WHERE id=$7`,
+    [strangerId, randomUUID(), 'e'.repeat(64), randomUUID(), 'x'.repeat(86), JSON.stringify(claimsFor(v(8))), releaseA.id, v(8)]);
   check('a manifest signed by a key this installation does not trust is ineligible, however it got here',
     (await eligibilityOf(strangerId)).checks.filter(c => !c.satisfied).map(c => c.check).sort(), ['SIGNATURE_VALID', 'TRUSTED_ORIGIN']);
 
@@ -209,10 +237,18 @@ try {
     await direct(`UPDATE app.update_plans SET state='APPLYING' WHERE id=$1`, [planA.id]), 'REJECTED');
   check('a failed update recorded no new installed version',
     (await db.query('SELECT count(*)::int AS n FROM app.installation_versions WHERE plan_id=$1', [planA.id])).rows[0].n, 0);
+  // FR-M31-03 in the only form that matters to an operator: a plan that did not
+  // finish has to be findable by somebody who was not there when it stopped.
+  // Only an applied plan leaves a row in the installed version history.
+  const listed = S.schemas.UpdatePlanList.parse(await (await staff.call('/api/v1/admin/update-plans')).json());
+  check('an unfinished update is findable without knowing its identifier',
+    listed.items.filter(p => p.id === planA.id).map(p => [p.state, p.outstanding_steps.length]), [['FAILED', 5]]);
+  check('reading the list of updates is a read, not an approval',
+    (await staff.call('/api/v1/admin/update-plans')).status, 200);
 
   // --- an update that actually completes ---------------------------------------
   phase = 'apply';
-  const releaseB = S.ReleaseState.parse(await (await importIt(claimsFor('0.2.0'))).json());
+  const releaseB = S.ReleaseState.parse(await (await importIt(claimsFor(v(2)))).json());
   const eligibleB = await eligibilityOf(releaseB.id);
   check('a release with no irreversible migration is reversible and offers rollback',
     [eligibleB.eligible, eligibleB.recovery_mode, eligibleB.rollback_available], [true, 'REVERSIBLE', true]);
@@ -223,8 +259,9 @@ try {
     [latest.state, latest.outstanding_steps, latest.post_change_verification],
     ['APPLIED', [], { boundaries_revalidated: true, core_regression_passed: true }]);
   check('the applied update recorded the version this installation is now on',
-    S.schemas.InstallationVersionList.parse(await (await staff.call('/api/v1/admin/installation-versions')).json()).items.map(v => [v.version, v.plan_id]),
-    [['0.2.0', planB.id]]);
+    S.schemas.InstallationVersionList.parse(await (await staff.call('/api/v1/admin/installation-versions')).json())
+      .items.filter(row => row.plan_id === planB.id).map(row => row.version),
+    [v(2)]);
   const afterwards = await eligibilityOf(releaseA.id);
   check('a release older than what is now installed is refused as a downgrade rather than attempted',
     [afterwards.eligible, blocking(afterwards)], [false, ['NO_UNSAFE_DOWNGRADE']]);
@@ -236,7 +273,7 @@ try {
   const auditor = await h.login('auditor');
   check('an auditor holding update.read may read the release list',
     (await auditor.call('/api/v1/admin/releases')).status, 200);
-  check('an auditor may not import a release', (await importIt(claimsFor('0.9.0'), {}, auditor)).status, 403);
+  check('an auditor may not import a release', (await importIt(claimsFor(v(9)), {}, auditor)).status, 403);
   const member = await h.login('member');
   check('a member holding neither capability is refused', (await member.call('/api/v1/admin/releases')).status, 403);
 

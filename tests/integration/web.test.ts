@@ -21,8 +21,17 @@ try{
   assert.equal(healthy,true);
   const page=await fetch(`http://127.0.0.1:${profile.app_port}/`);
   assert.equal(page.status,200);assert.equal(page.headers.get('x-content-type-options'),'nosniff');
-  assert.match(await page.text(),/foundation build/);
-  assert.equal((await fetch(`http://127.0.0.1:${profile.app_port}/api/v1/admin/overview`)).status,404);
-  writeEvidence('web-integration',{profile:profile.profile,result:'PASS',assertions:['liveness 200 with exact body','foundation page 200 and nosniff','unimplemented business endpoint 404'],limitations:['HTTP bootstrap smoke only; not UI browser acceptance or authenticated API tests.']});
+  // This matched "foundation build", wording the landing page has not carried
+  // since it was rewritten, and asserted 404 for /api/v1/admin/overview on the
+  // grounds that the route was unbuilt. Both drifted into asserting that the
+  // product was less finished than it is, and the suite has been failing since
+  // the overview module landed rather than reporting anything real.
+  assert.match(await page.text(),/Synthetic demonstration/);
+  // This process is started without the profile environment on purpose, so the
+  // business boundary has no database, policy engine or audit sink to reach.
+  // What is worth proving at bootstrap is that it then refuses: a route that
+  // cannot do its work says so rather than answering anyway.
+  assert.equal((await fetch(`http://127.0.0.1:${profile.app_port}/api/v1/admin/overview`)).status,503);
+  writeEvidence('web-integration',{profile:profile.profile,result:'PASS',assertions:['liveness 200 with exact body','landing page 200, nosniff, and labelled synthetic','business endpoint without its dependencies refuses with 503 rather than answering'],limitations:['HTTP bootstrap smoke only, with no profile environment; not UI browser acceptance and not an authenticated API test.']});
 }catch(error){console.error(safeError(error));writeEvidence('web-integration',{profile:profile.profile,result:'FAIL',error:safeError(error),server_output:output});process.exitCode=1;}
 finally{if(child.exitCode===null){const closed=once(child,'close');child.kill();await closed;}}

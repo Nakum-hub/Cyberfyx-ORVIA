@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.8.0",
+  "contract_version": "0.9.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -1252,6 +1252,16 @@
       "response": "UpdatePlan",
       "status": 201,
       "idempotency": true
+    },
+    {
+      "id": "list_update_plans",
+      "method": "get",
+      "path": "/api/v1/admin/update-plans",
+      "authority": "STAFF",
+      "capability": "update.read",
+      "response": "UpdatePlanList",
+      "status": 200,
+      "paginated": true
     },
     {
       "id": "update_plan",

@@ -1439,6 +1439,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/update-plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_update_plans"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/update-plans/{id}": {
         parameters: {
             query?: never;
@@ -4783,6 +4799,48 @@ export interface components {
                 applied_at: string;
                 plan_id: string | null;
                 note: string;
+            }[];
+            next_cursor: string | null;
+        };
+        UpdatePlanList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                release_id: string;
+                from_version: string;
+                to_version: string;
+                /** @enum {string} */
+                state: "APPROVED" | "APPLYING" | "INTERRUPTED" | "APPLIED" | "FAILED";
+                /** @enum {string} */
+                recovery_mode: "FORWARD_RECOVERY_ONLY" | "REVERSIBLE";
+                rollback_available: boolean;
+                /** Format: date-time */
+                approved_at: string;
+                /** Format: uuid */
+                approved_by: string;
+                approval_note: string;
+                steps: {
+                    /** Format: uuid */
+                    id: string;
+                    /** @enum {string} */
+                    step: "VERIFY_TRUSTED_ORIGIN" | "VERIFY_ARTIFACT_DIGEST" | "UNPACK_ARTIFACT" | "APPLY_MIGRATIONS" | "RESTART_SERVICES" | "REVALIDATE_BOUNDARIES" | "RUN_CORE_REGRESSION";
+                    /** @enum {string} */
+                    state: "RUNNING" | "SUCCEEDED" | "FAILED";
+                    evidence_reference: string | null;
+                    note: string;
+                    /** Format: date-time */
+                    recorded_at: string;
+                    /** Format: uuid */
+                    recorded_by: string;
+                }[];
+                outstanding_steps: ("VERIFY_TRUSTED_ORIGIN" | "VERIFY_ARTIFACT_DIGEST" | "UNPACK_ARTIFACT" | "APPLY_MIGRATIONS" | "RESTART_SERVICES" | "REVALIDATE_BOUNDARIES" | "RUN_CORE_REGRESSION")[];
+                post_change_verification: {
+                    boundaries_revalidated: boolean;
+                    core_regression_passed: boolean;
+                };
+                recovery_instruction: string;
+                limits: string[];
             }[];
             next_cursor: string | null;
         };
@@ -25260,6 +25318,168 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["UpdatePlan"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_update_plans: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["UpdatePlanList"];
                 };
             };
             /** @description VALIDATION_ERROR */
