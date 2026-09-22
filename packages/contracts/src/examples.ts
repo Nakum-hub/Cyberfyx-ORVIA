@@ -127,6 +127,13 @@ export function example(name:SchemaName):unknown {
     return {exported_at:sampleTime,filter:{operation:'evidence.export'},events,matched:events.length,complete:true,
       digest:digest(events),
       limits:['This artifact carries every event the stated filter matched.','Producing this export is itself an audited event.']};}
+  // The case FR-M12-04 exists for: a principal who asked for Tamil, an
+  // installation that has only published English and Hindi, and a response that
+  // says so instead of presenting English as though the request had been met.
+  if(name==='NoticeAvailability')return {purpose_id:uuid(810),requested_language:'ta' as const,served_language:'en' as const,
+    available_in_requested_language:false,published_languages:['en' as const,'hi' as const],
+    limits:['The language a principal chose and the language they were shown are separate facts.',
+      'This product does not translate. A notice in a language is one somebody authored in that language.']};
   // A reference to where the customer keeps the secret. The generic sampler's
   // filler contains a space, which the reference pattern refuses -- and should,
   // because the pattern is what stops a pasted secret fitting in this field.

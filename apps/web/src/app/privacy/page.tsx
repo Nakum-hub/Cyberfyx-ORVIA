@@ -5,7 +5,7 @@ import { useMutation, usePagedQuery } from '../../components/shared/api.ts';
 import { MutationFeedback } from '../../components/shared/mutation-feedback.tsx';
 import { newerReceipt } from '../../components/shared/derive.ts';
 import { DomainGuard } from '../../components/shared/session-context.tsx';
-import { CONSENT_LABELS, PROPAGATION_LABELS, formatTime, shortId } from '../../components/shared/state-labels.ts';
+import { CONSENT_LABELS, LANGUAGE_NAMES, PROPAGATION_LABELS, formatTime, shortId } from '../../components/shared/state-labels.ts';
 import {
   Badge, CheckboxField, ConfirmDialog, EmptyState, Facts, Freshness, Pagination,
   NoticeBox, PageHead, QueryBoundary, StateBadge, StoryCell, TechnicalDetails, TextField,
@@ -146,11 +146,26 @@ function ChoiceCard({ choice, receipt, onReceipt, onRecover }: {
         </div>
       </div>
 
+      {/* The Act gives the choice of language to you, so where this installation
+          cannot meet that choice it says so rather than presenting whatever it
+          has as though you had asked for it. */}
+      {choice.notice && !choice.language.available_in_requested_language ? (
+        <NoticeBox tone="warn" title={`This notice is not available in ${LANGUAGE_NAMES[choice.language.requested_language] ?? choice.language.requested_language}`}>
+          <p>
+            You asked to read notices in {LANGUAGE_NAMES[choice.language.requested_language] ?? choice.language.requested_language}, and this organisation has not published one for this purpose in that language.
+            What is shown below is in {LANGUAGE_NAMES[choice.language.served_language ?? 'en'] ?? choice.language.served_language}.
+            {choice.language.published_languages.length > 1
+              ? ` It is published in ${choice.language.published_languages.map(code => LANGUAGE_NAMES[code] ?? code).join(', ')}.`
+              : null}
+          </p>
+        </NoticeBox>
+      ) : null}
+
       {choice.notice ? (
         <details className="reveal" style={{ marginBottom: 'var(--s4)' }}>
           <summary><strong>{choice.notice.title}</strong> — read the notice you are being asked about</summary>
           <div className="notice-body" style={{ marginTop: 'var(--s3)' }}>{choice.notice.content}</div>
-          <p className="muted mono">content_digest {choice.notice.content_digest}</p>
+          <p className="muted mono">content_digest {choice.notice.content_digest} · language {choice.notice.language}</p>
         </details>
       ) : (
         <NoticeBox tone="warn" title="No published notice">

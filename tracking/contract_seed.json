@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.12.0",
+  "contract_version": "0.13.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -183,6 +183,51 @@
       "status": 201,
       "idempotency": true,
       "capability": "principals.create"
+    },
+    {
+      "id": "record_notice_revision",
+      "method": "post",
+      "path": "/api/v1/admin/notices/{id}/revisions",
+      "authority": "STAFF",
+      "capability": "configuration.write",
+      "params": "IdPath",
+      "request": "NoticeRevisionCreate",
+      "response": "NoticeRevision",
+      "status": 201,
+      "idempotency": true
+    },
+    {
+      "id": "list_notice_revisions",
+      "method": "get",
+      "path": "/api/v1/admin/notices/{id}/revisions",
+      "authority": "STAFF",
+      "capability": "configuration.read",
+      "params": "IdPath",
+      "response": "NoticeRevisionList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "notice_languages",
+      "method": "get",
+      "path": "/api/v1/admin/purposes/{id}/notice-languages",
+      "authority": "STAFF",
+      "capability": "configuration.read",
+      "params": "IdPath",
+      "query": "LanguageQuery",
+      "response": "NoticeAvailability",
+      "status": 200
+    },
+    {
+      "id": "set_language",
+      "method": "post",
+      "path": "/api/v1/portal/me/language",
+      "authority": "PRINCIPAL",
+      "capability": "consent.own.write",
+      "request": "LanguageChoice",
+      "response": "LanguageChoice",
+      "status": 200,
+      "idempotency": true
     },
     {
       "id": "publish_policy",

@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import * as S from '../../../contracts/src/index.ts';
 import { AccessError } from '../../../authz/src/index.ts';
 import { audit, predicate, scopeValues, requireOne, lockConsent, type Context, type Page } from '../shared/transaction.ts';
+import { languageFor } from '../notices/languages.ts';
 
 export async function ownChoices(c: Context, page: Page) {
   const scope=scopeValues(c.actor);
@@ -16,7 +17,11 @@ export async function ownChoices(c: Context, page: Page) {
     const state=aggregate?.state??'NOT_GIVEN';const epoch=Number(aggregate?.epoch??0);const interaction=randomUUID();
     await c.tx.query(`INSERT INTO app.consent_interactions VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,now()+interval '10 minutes',NULL)`,[...scope,interaction,c.actor.principal_id,row.id,c.actor.actor_id,epoch,row.notice.version_id]);
     const notice=requireOne((await c.tx.query(`SELECT published_at FROM app.notice_versions WHERE ${predicate} AND version_id=$4`,[...scope,row.notice.version_id])).rows);
-    items.push(S.ConsentChoice.parse({purpose_id:row.id,purpose_name:row.document.name,consent_status:state,consent_epoch:epoch,notice:{...row.notice,published_at:notice.published_at.toISOString()},interaction_id:interaction}));
+    // FR-M12-04. The notice this principal is shown, and separately whether it
+    // is in the language they chose. A single field here would erase the choice.
+    const chosen=requireOne((await c.tx.query(`SELECT preferred_language FROM app.principal_references WHERE ${predicate} AND id=$4`,[...scope,c.actor.principal_id])).rows);
+    const language=await languageFor(c,row.id,chosen.preferred_language);
+    items.push(S.ConsentChoice.parse({purpose_id:row.id,purpose_name:row.document.name,consent_status:state,consent_epoch:epoch,notice:{...row.notice,published_at:notice.published_at.toISOString()},language,interaction_id:interaction}));
   }
   return {items,next_cursor:purposes.rows.length>page.limit?Buffer.from(items.at(-1)!.purpose_id).toString('base64url'):null};
 }
