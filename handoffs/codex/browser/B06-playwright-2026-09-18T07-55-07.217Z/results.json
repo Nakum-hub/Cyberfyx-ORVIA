@@ -1,0 +1,277 @@
+{
+  "result": "failed",
+  "source_commit": "dbe3e305f449ed0a401518bf6ee3f0f8815fa5aa",
+  "source_tree_sha256": "5f736fb428a39a06d7c0dec6ad57fed4185d92d3e79dd790cfaf6576f7b2e8d9",
+  "contract_version": "0.5.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 real staff MFA, refresh, actor separation and logout"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 23460,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "26210128ee8dbb4a3f1eacdaffaeef1a1d11e44b8d4413974aa998e2b0778a60",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-18T07-55-07.217Z\\raw\\auth-B01-real-staff-MFA-refresh-actor-separation-and-logout\\test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "b30668bc4ec6563dda46a9d45ab8fad3368af26de0f19c8aa1e58aec26e55cfd",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-18T07-55-07.217Z\\raw\\auth-B01-real-staff-MFA-refresh-actor-separation-and-logout\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "138e2c209650daac710eb42075f7bba06dc356dadf057b3bfb48eda3933a2546",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-18T07-55-07.217Z\\raw\\auth-B01-real-staff-MFA-refresh-actor-separation-and-logout\\trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 rejected login and read-only authority"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 4236,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 3,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 expired browser session is rechecked and protected content disappears"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 1845,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\auth.spec.ts",
+        "line": 19,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 branded route fallback, session-aware navigation and captured page errors"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 2721,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 4,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [
+        {
+          "type": "expect-page-error",
+          "description": "ORVIA_SYNTHETIC_AUDIT_PROBE"
+        }
+      ],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 1,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 5,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 1,
+        "faults": [],
+        "deliberate_faults": [
+          {
+            "kind": "PAGE_ERROR",
+            "text": "Error: ORVIA_SYNTHETIC_AUDIT_PROBE"
+          }
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 candidate walkthrough across staff, privacy, enforcement and evidence"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 143509,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 32,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 real dependency outage, malformed ID, denied scope and responsive navigation"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 29433,
+      "retry": 0,
+      "location": {
+        "file": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\tests\\e2e\\candidate.spec.ts",
+        "line": 41,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 3,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "efa5ca217b13279b46cb1f6da0d8acf3f8ba2936499eb28d51adb1817c29149e",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-18T07-55-07.217Z\\raw\\candidate-B06-real-depende-bd518-e-and-responsive-navigation\\test-failed-1.png"
+        },
+        {
+          "name": "screenshot",
+          "sha256": "bf4b2510f53c0ff8d9b1ef068b9d11237d996baa8ccbe8f8682dba407736c51c",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-18T07-55-07.217Z\\raw\\candidate-B06-real-depende-bd518-e-and-responsive-navigation\\test-failed-2.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "e77a8b03bac866fecf1e0fe5d969471997d5f47ebe1ff594e1317d46128789ad",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-18T07-55-07.217Z\\raw\\candidate-B06-real-depende-bd518-e-and-responsive-navigation\\error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "d11357dadcaf1a7319f10bfc6faebe6f6b0e301933304808e46a84f8b210d798",
+          "private_path": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\browser-evidence\\2026-09-18T07-55-07.217Z\\raw\\candidate-B06-real-depende-bd518-e-and-responsive-navigation\\trace.zip"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

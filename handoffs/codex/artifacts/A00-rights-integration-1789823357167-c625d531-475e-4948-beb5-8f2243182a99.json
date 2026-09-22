@@ -1,0 +1,98 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-19T13:09:17.167Z",
+  "profile": "codex-a00",
+  "phase": "identity",
+  "assertions": [
+    {
+      "name": "a new request starts in the master vocabulary",
+      "result": "PASS",
+      "expected": "RECEIVED",
+      "actual": "RECEIVED"
+    },
+    {
+      "name": "nothing is assessed or executed merely because a request exists",
+      "result": "PASS",
+      "expected": [
+        "NOT_ASSESSED",
+        null,
+        "NOT_STARTED",
+        "NOT_PREPARED",
+        "NOT_DETERMINED"
+      ],
+      "actual": [
+        "NOT_ASSESSED",
+        null,
+        "NOT_STARTED",
+        "NOT_PREPARED",
+        "NOT_DETERMINED"
+      ]
+    },
+    {
+      "name": "a request made by the principal themselves has self authority",
+      "result": "PASS",
+      "expected": "SELF",
+      "actual": "SELF"
+    },
+    {
+      "name": "a transition outside the canonical map is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a lifecycle state that does not exist is rejected by the contract",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the declared first step is permitted",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an exact match cannot claim two references",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an ambiguous review must actually be ambiguous",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a no-match review cannot name matched references",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an ambiguous grade is recorded truthfully, not softened",
+      "result": "PASS",
+      "expected": [
+        "AMBIGUOUS",
+        "AMBIGUOUS"
+      ],
+      "actual": [
+        "AMBIGUOUS",
+        "AMBIGUOUS"
+      ]
+    },
+    {
+      "name": "an ambiguous identity cannot begin a disclosing execution",
+      "result": "FAIL",
+      "expected": 403,
+      "actual": 409
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

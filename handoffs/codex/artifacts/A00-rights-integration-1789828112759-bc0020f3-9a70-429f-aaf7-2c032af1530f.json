@@ -1,0 +1,192 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-19T14:28:32.759Z",
+  "profile": "codex-a00",
+  "phase": "closure",
+  "assertions": [
+    {
+      "name": "a new request starts in the master vocabulary",
+      "result": "PASS",
+      "expected": "RECEIVED",
+      "actual": "RECEIVED"
+    },
+    {
+      "name": "nothing is assessed or executed merely because a request exists",
+      "result": "PASS",
+      "expected": [
+        "NOT_ASSESSED",
+        null,
+        "NOT_STARTED",
+        "NOT_PREPARED",
+        "NOT_DETERMINED"
+      ],
+      "actual": [
+        "NOT_ASSESSED",
+        null,
+        "NOT_STARTED",
+        "NOT_PREPARED",
+        "NOT_DETERMINED"
+      ]
+    },
+    {
+      "name": "a request made by the principal themselves has self authority",
+      "result": "PASS",
+      "expected": "SELF",
+      "actual": "SELF"
+    },
+    {
+      "name": "a transition outside the canonical map is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a lifecycle state that does not exist is rejected by the contract",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the declared first step is permitted",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an exact match cannot claim two references",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an ambiguous review must actually be ambiguous",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a no-match review cannot name matched references",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an ambiguous grade is recorded truthfully, not softened",
+      "result": "PASS",
+      "expected": [
+        "AMBIGUOUS",
+        "AMBIGUOUS"
+      ],
+      "actual": [
+        "AMBIGUOUS",
+        "AMBIGUOUS"
+      ]
+    },
+    {
+      "name": "an ambiguous identity cannot begin a disclosing execution",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an ambiguous identity cannot receive a disclosure",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a later exact review resolves the identity",
+      "result": "PASS",
+      "expected": [
+        "ESTABLISHED",
+        "EXACT"
+      ],
+      "actual": [
+        "ESTABLISHED",
+        "EXACT"
+      ]
+    },
+    {
+      "name": "an established identity may now execute",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "releasing a response needs its own capability, not merely write access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an already-expired delivery is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "redaction review cannot be declined and still release",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the response dimension moves without changing the lifecycle state",
+      "result": "PASS",
+      "expected": [
+        "RELEASED",
+        "EXECUTING"
+      ],
+      "actual": [
+        "RELEASED",
+        "EXECUTING"
+      ]
+    },
+    {
+      "name": "a response cannot be released twice",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an unreachable destination is recorded, not dropped",
+      "result": "PASS",
+      "expected": [
+        "Offline archive tapes held by facilities"
+      ],
+      "actual": [
+        "Offline archive tapes held by facilities"
+      ]
+    },
+    {
+      "name": "unresolved destinations are visible in the scope dimension",
+      "result": "PASS",
+      "expected": "UNRESOLVED_DESTINATIONS",
+      "actual": "UNRESOLVED_DESTINATIONS"
+    },
+    {
+      "name": "entering execution claims nothing until an outcome is recorded",
+      "result": "PASS",
+      "expected": "RUNNING",
+      "actual": "RUNNING"
+    },
+    {
+      "name": "a request with no recorded outcome cannot claim completion",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a recorded success is reflected in the execution dimension",
+      "result": "FAIL",
+      "expected": "COMPLETE",
+      "actual": "PARTIAL"
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

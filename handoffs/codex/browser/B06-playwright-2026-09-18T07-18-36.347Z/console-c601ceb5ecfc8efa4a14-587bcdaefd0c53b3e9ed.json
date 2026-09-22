@@ -1,0 +1,70 @@
+{
+  "test": "B03 manual task uses its read version, preserves replay and rejects a stale tab",
+  "expected": [],
+  "entries": [
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "url": "https://127.0.0.1:4330/workspace/sign-in",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+      "url": "https://127.0.0.1:4330/workspace/workflows/db43fd73-e2b2-4399-b567-eb342c730ad1",
+      "deliberate": false
+    }
+  ],
+  "counts": {
+    "PAGE_ERROR": 0,
+    "CONSOLE_ERROR": 0,
+    "REACT_WARNING": 0,
+    "HTTP_STATUS": 9,
+    "WARNING": 0
+  },
+  "deliberate_errors_captured": 0,
+  "unexpected": 0,
+  "scope": "Console and page errors for this Playwright context only. Deliberate HTTP 401/403/404/503 responses are recorded as HTTP_STATUS and do not fail a run."
+}

@@ -1,0 +1,50 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-21T23:42:11.436Z",
+  "profile": "codex-a00",
+  "phase": "generation",
+  "assertions": [
+    {
+      "name": "a case naming a gap that does not exist is refused rather than opened",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new case is open and has been submitted nowhere",
+      "result": "PASS",
+      "expected": [
+        "OPEN",
+        null
+      ],
+      "actual": [
+        "OPEN",
+        null
+      ]
+    },
+    {
+      "name": "a registered canary is returned by its digest and never by its token",
+      "result": "PASS",
+      "expected": [
+        "ace5aa5147cbcc0940ab8cb03d16e742bbfec7b7d4d0369458696053879b4b61",
+        false
+      ],
+      "actual": [
+        "ace5aa5147cbcc0940ab8cb03d16e742bbfec7b7d4d0369458696053879b4b61",
+        false
+      ]
+    },
+    {
+      "name": "registering the same token twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

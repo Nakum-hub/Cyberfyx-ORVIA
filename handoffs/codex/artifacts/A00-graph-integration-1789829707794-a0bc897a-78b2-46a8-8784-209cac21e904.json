@@ -1,0 +1,350 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-19T14:55:07.794Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "declared asset is stored with its reviewed category",
+      "result": "PASS",
+      "expected": [
+        {
+          "code": "CONTACT_DETAILS",
+          "basis": "Reviewed against the declared CRM schema.",
+          "review_state": "ACCEPTED"
+        }
+      ],
+      "actual": [
+        {
+          "code": "CONTACT_DETAILS",
+          "basis": "Reviewed against the declared CRM schema.",
+          "review_state": "ACCEPTED"
+        }
+      ]
+    },
+    {
+      "name": "a declaration carries no observation time",
+      "result": "PASS",
+      "expected": [
+        null,
+        null
+      ],
+      "actual": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "a new record is not silently treated as reviewed",
+      "result": "PASS",
+      "expected": "UNREVIEWED",
+      "actual": "UNREVIEWED"
+    },
+    {
+      "name": "an observation records when it was read and how long it is trusted",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "observation freshness ends after the reading",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a field name alone assigns no category",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a child asset cannot claim a parent in another system",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an asset cannot be recorded against an unknown system",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "activity records its owner and stays unreviewed",
+      "result": "PASS",
+      "expected": [
+        true,
+        "UNREVIEWED"
+      ],
+      "actual": [
+        true,
+        "UNREVIEWED"
+      ]
+    },
+    {
+      "name": "an activity cannot claim a condition its purpose does not support",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a stored-in edge resolves both typed endpoints",
+      "result": "PASS",
+      "expected": [
+        "DATA_ASSET",
+        "SYSTEM"
+      ],
+      "actual": [
+        "DATA_ASSET",
+        "SYSTEM"
+      ]
+    },
+    {
+      "name": "an edge whose endpoints contradict its type is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an edge cannot point at a node that does not exist in scope",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a second live edge of the same type between the same nodes is rejected",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "search finds the declared asset",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "search states that it is not an estate discovery scan",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an undeclared query parameter is rejected, not ignored",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a query below the declared minimum length is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "depth one reaches the directly related nodes only",
+      "result": "PASS",
+      "expected": [
+        "DATA_ASSET",
+        "PROCESSING_ACTIVITY",
+        "SYSTEM"
+      ],
+      "actual": [
+        "DATA_ASSET",
+        "PROCESSING_ACTIVITY",
+        "SYSTEM"
+      ]
+    },
+    {
+      "name": "depth two reaches the purpose the activity serves",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "traversal says absence of an edge is not proof of no flow",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a traversal depth outside the declared bound is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the impact endpoint resolves the node kind from its identifier",
+      "result": "PASS",
+      "expected": "SYSTEM",
+      "actual": "SYSTEM"
+    },
+    {
+      "name": "changing a system identifies the policy version bound to it",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "changing a system identifies the assets stored in it",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "changing a purpose identifies the workflow it produced",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "dimensions this release does not model are named, not returned empty",
+      "result": "PASS",
+      "expected": [
+        "ASSESSMENTS",
+        "PROCESSOR_RELATIONSHIPS",
+        "RETENTION_PLANS"
+      ],
+      "actual": [
+        "ASSESSMENTS",
+        "PROCESSOR_RELATIONSHIPS",
+        "RETENTION_PLANS"
+      ]
+    },
+    {
+      "name": "an owner is attributed to the affected assets",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "impact for an identifier that is not a node in scope is not found",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "the detail endpoint returns the same record as the list",
+      "result": "PASS",
+      "expected": [
+        "0c824b06-56db-4aaf-8702-68cc8ca2596e",
+        "crm_contacts"
+      ],
+      "actual": [
+        "0c824b06-56db-4aaf-8702-68cc8ca2596e",
+        "crm_contacts"
+      ]
+    },
+    {
+      "name": "an unknown asset identifier is not found",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "the personal payload is gone",
+      "result": "PASS",
+      "expected": [
+        "[REDACTED]",
+        "[REDACTED]"
+      ],
+      "actual": [
+        "[REDACTED]",
+        "[REDACTED]"
+      ]
+    },
+    {
+      "name": "the tombstone states its justification",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "category assignments are erased with the payload",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "every relationship that referenced the asset still resolves",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "the tombstoned node is still reachable and is labelled as a tombstone",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the erased payload is no longer searchable",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a recorded tombstone cannot be rewritten",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the maintenance role does bypass row-level security, so the trigger is what is being tested",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the trigger refuses to rewrite a recorded tombstone even for a superuser",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the trigger refuses to delete graph history even for a superuser",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the trigger refuses to delete a relationship older evidence may reference",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the original tombstone justification is intact after every attempt",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an auditor may read the inventory",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot write the inventory",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member without the graph capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}

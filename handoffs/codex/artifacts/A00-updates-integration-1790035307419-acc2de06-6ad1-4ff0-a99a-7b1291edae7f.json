@@ -1,0 +1,70 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-22T00:01:47.419Z",
+  "profile": "codex-a00",
+  "phase": "import",
+  "assertions": [
+    {
+      "name": "a release declaring new network egress is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release declaring a model runtime is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release declaring an authority that does not exist in this contract is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release declaring an audience other than a customer installation is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release published before it was built is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "importing a release needs its own authority, not merely read access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a release from an untrusted signer is refused",
+      "result": "PASS",
+      "expected": [
+        "untrusted_origin"
+      ],
+      "actual": [
+        "untrusted_origin"
+      ]
+    },
+    {
+      "name": "a release whose claims were altered after signing is refused",
+      "result": "PASS",
+      "expected": [
+        "invalid_signature"
+      ],
+      "actual": [
+        "invalid_signature"
+      ]
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "ZodError",
+    "code": "UNCLASSIFIED"
+  }
+}

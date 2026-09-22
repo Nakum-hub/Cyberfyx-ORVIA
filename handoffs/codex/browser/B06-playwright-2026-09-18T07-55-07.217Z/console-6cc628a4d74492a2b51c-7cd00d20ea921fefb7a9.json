@@ -1,0 +1,54 @@
+{
+  "test": "B06 branded route fallback, session-aware navigation and captured page errors",
+  "expected": [
+    "ORVIA_SYNTHETIC_AUDIT_PROBE"
+  ],
+  "entries": [
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "https://127.0.0.1:4330/workspace/does-not-exist",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "url": "https://127.0.0.1:4330/workspace/does-not-exist",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "url": "https://127.0.0.1:4330/workspace/sign-in",
+      "deliberate": false
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "url": "https://127.0.0.1:4330/workspace/sign-in",
+      "deliberate": false
+    },
+    {
+      "kind": "PAGE_ERROR",
+      "text": "Error: ORVIA_SYNTHETIC_AUDIT_PROBE",
+      "url": "https://127.0.0.1:4330/workspace/sign-in",
+      "deliberate": true
+    },
+    {
+      "kind": "HTTP_STATUS",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "url": "https://127.0.0.1:4330/workspace/sign-in",
+      "deliberate": false
+    }
+  ],
+  "counts": {
+    "PAGE_ERROR": 1,
+    "CONSOLE_ERROR": 0,
+    "REACT_WARNING": 0,
+    "HTTP_STATUS": 5,
+    "WARNING": 0
+  },
+  "deliberate_errors_captured": 1,
+  "unexpected": 0,
+  "scope": "Console and page errors for this Playwright context only. Deliberate HTTP 401/403/404/503 responses are recorded as HTTP_STATUS and do not fail a run."
+}
