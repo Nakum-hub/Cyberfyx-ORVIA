@@ -124,6 +124,7 @@ export interface EndpointMap {
   list_audit_events: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEventList> };
   export_audit_events: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditExport> };
   audit_coverage: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditCoverage> };
+  preflight: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreflightReport> };
   list_connections: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GuidedConnectionList> };
   start_connection: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConnectionStart>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GuidedConnection> };
   connection: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GuidedConnection> };

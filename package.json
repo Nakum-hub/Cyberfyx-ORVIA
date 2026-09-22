@@ -38,6 +38,7 @@
     "test:audit": "tsx tests/integration/audit/audit.test.ts",
     "test:onboarding": "tsx tests/integration/onboarding/connection.test.ts",
     "test:languages": "tsx tests/integration/notices/languages.test.ts",
+    "test:preflight": "tsx tests/integration/onboarding/preflight.test.ts",
     "test:regression": "tsx tests/integration/regression/regression.test.ts",
     "regression:init": "tsx scripts/regression-init.ts",
     "regression:run": "tsx scripts/regression-runner.ts",

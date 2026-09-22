@@ -127,6 +127,35 @@ export function example(name:SchemaName):unknown {
     return {exported_at:sampleTime,filter:{operation:'evidence.export'},events,matched:events.length,complete:true,
       digest:digest(events),
       limits:['This artifact carries every event the stated filter matched.','Producing this export is itself an audited event.']};}
+  // Eleven gates, each exactly once, and the two lists derived from them. The
+  // example keeps the backup gate unverifiable because that is the fact the
+  // shape exists to carry: a preflight that passes everything is
+  // indistinguishable from one that checked nothing.
+  if(name==='PreflightReport'){
+    const gate=(kind:string,verdict:'PASSED'|'FAILED'|'NOT_VERIFIABLE_HERE',checked:string,observed:string|null,unverifiable_reason:string|null,remedy:string|null)=>
+      ({kind,verdict,checked,observed,unverifiable_reason,remedy});
+    const gates=[
+      gate('RUNTIME_LOCATION','PASSED','The address this application is actually serving on.','Serving on 127.0.0.1:4310.',null,null),
+      gate('RUNTIME_AND_ARCHITECTURE','PASSED','The Node major version, platform and architecture this process is executing on.','Node 24.21.0 on linux/x64.',null,null),
+      gate('TRANSPORT_SECURITY','PASSED','The scheme this application serves on, and whether it can be reached from off the host.','Serving HTTP on loopback, so no request crosses a network.',null,null),
+      gate('DURABLE_STORAGE','PASSED','Whether the database is configured to survive a power loss.','fsync=on, synchronous_commit=on.',null,null),
+      gate('CUSTOMER_CONTROLLED_IDENTITY','PASSED','Whether an active primary owner exists in the local identity store.','1 active primary owner, held locally.',null,null),
+      gate('SIGNING_KEYS','PASSED','Whether the public key identifiers needed to verify trusted input are configured.','Configured: ORVIA_RELEASE_KEY_ID.',null,null),
+      gate('BACKUP_TARGET','NOT_VERIFIABLE_HERE','Whether a backup exists, is reachable, and has been restored from successfully.',null,
+        'This build has no backup subsystem, so nothing here could observe a backup target. It must be verified outside this product.',null),
+      gate('PERMITTED_EGRESS','PASSED','That no guided connection records an endpoint outside loopback, and that this build declares no vendor egress.','0 endpoints outside loopback.',null,null),
+      gate('VENDOR_TELEMETRY_DISABLED','PASSED','The telemetry switches of every third-party component, read from the running environment.','Disabled: NEXT_TELEMETRY_DISABLED, DO_NOT_TRACK, BETTER_AUTH_TELEMETRY.',null,null),
+      gate('LICENCE_VALIDITY','PASSED','Whether a signed licence is within its validity window.','CONTROL licence valid until 2027-09-16T10:00:00.000Z.',null,null),
+      gate('PACKAGE_SIGNATURE','FAILED','Whether the installed version has a signed release manifest verified at import.','No installed version is recorded.',null,
+        'Record the installed version through the update path so the package behind it can be named and its signature checked.'),
+    ];
+    return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,gates,
+      failing:['PACKAGE_SIGNATURE'],not_verifiable:['BACKUP_TARGET'],
+      an_unverified_gate_is_not_a_passed_gate:true,
+      passing_every_gate_is_not_a_statement_about_the_law:true,
+      limits:['A gate this build cannot check reports that it could not, with the reason, and is not counted as passed.',
+        'These are eleven technical checks against this installation. Passing them is not a statement that any legal obligation has been met.']};
+  }
   // The case FR-M12-04 exists for: a principal who asked for Tamil, an
   // installation that has only published English and Hindi, and a response that
   // says so instead of presenting English as though the request had been met.

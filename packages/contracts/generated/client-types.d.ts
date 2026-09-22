@@ -1615,6 +1615,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/preflight": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["preflight"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/connections": {
         parameters: {
             query?: never;
@@ -5381,6 +5397,29 @@ export interface components {
                 limits: string[];
             }[];
             next_cursor: string | null;
+        };
+        PreflightReport: {
+            /** Format: date-time */
+            as_of: string;
+            /** @constant */
+            profile: "CUSTOMER_LOCAL_SYNTHETIC";
+            gates: {
+                /** @enum {string} */
+                kind: "RUNTIME_LOCATION" | "RUNTIME_AND_ARCHITECTURE" | "TRANSPORT_SECURITY" | "DURABLE_STORAGE" | "CUSTOMER_CONTROLLED_IDENTITY" | "SIGNING_KEYS" | "BACKUP_TARGET" | "PERMITTED_EGRESS" | "VENDOR_TELEMETRY_DISABLED" | "LICENCE_VALIDITY" | "PACKAGE_SIGNATURE";
+                /** @enum {string} */
+                verdict: "PASSED" | "FAILED" | "NOT_VERIFIABLE_HERE";
+                checked: string;
+                observed: string | null;
+                unverifiable_reason: string | null;
+                remedy: string | null;
+            }[];
+            failing: ("RUNTIME_LOCATION" | "RUNTIME_AND_ARCHITECTURE" | "TRANSPORT_SECURITY" | "DURABLE_STORAGE" | "CUSTOMER_CONTROLLED_IDENTITY" | "SIGNING_KEYS" | "BACKUP_TARGET" | "PERMITTED_EGRESS" | "VENDOR_TELEMETRY_DISABLED" | "LICENCE_VALIDITY" | "PACKAGE_SIGNATURE")[];
+            not_verifiable: ("RUNTIME_LOCATION" | "RUNTIME_AND_ARCHITECTURE" | "TRANSPORT_SECURITY" | "DURABLE_STORAGE" | "CUSTOMER_CONTROLLED_IDENTITY" | "SIGNING_KEYS" | "BACKUP_TARGET" | "PERMITTED_EGRESS" | "VENDOR_TELEMETRY_DISABLED" | "LICENCE_VALIDITY" | "PACKAGE_SIGNATURE")[];
+            /** @constant */
+            an_unverified_gate_is_not_a_passed_gate: true;
+            /** @constant */
+            passing_every_gate_is_not_a_statement_about_the_law: true;
+            limits: string[];
         };
         DataAssetList: {
             items: {
@@ -28097,6 +28136,267 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["AuditCoverage"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    preflight: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                     *       "gates": [
+                     *         {
+                     *           "kind": "RUNTIME_LOCATION",
+                     *           "verdict": "PASSED",
+                     *           "checked": "The address this application is actually serving on.",
+                     *           "observed": "Serving on 127.0.0.1:4310.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "RUNTIME_AND_ARCHITECTURE",
+                     *           "verdict": "PASSED",
+                     *           "checked": "The Node major version, platform and architecture this process is executing on.",
+                     *           "observed": "Node 24.21.0 on linux/x64.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "TRANSPORT_SECURITY",
+                     *           "verdict": "PASSED",
+                     *           "checked": "The scheme this application serves on, and whether it can be reached from off the host.",
+                     *           "observed": "Serving HTTP on loopback, so no request crosses a network.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "DURABLE_STORAGE",
+                     *           "verdict": "PASSED",
+                     *           "checked": "Whether the database is configured to survive a power loss.",
+                     *           "observed": "fsync=on, synchronous_commit=on.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "CUSTOMER_CONTROLLED_IDENTITY",
+                     *           "verdict": "PASSED",
+                     *           "checked": "Whether an active primary owner exists in the local identity store.",
+                     *           "observed": "1 active primary owner, held locally.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "SIGNING_KEYS",
+                     *           "verdict": "PASSED",
+                     *           "checked": "Whether the public key identifiers needed to verify trusted input are configured.",
+                     *           "observed": "Configured: ORVIA_RELEASE_KEY_ID.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "BACKUP_TARGET",
+                     *           "verdict": "NOT_VERIFIABLE_HERE",
+                     *           "checked": "Whether a backup exists, is reachable, and has been restored from successfully.",
+                     *           "observed": null,
+                     *           "unverifiable_reason": "This build has no backup subsystem, so nothing here could observe a backup target. It must be verified outside this product.",
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "PERMITTED_EGRESS",
+                     *           "verdict": "PASSED",
+                     *           "checked": "That no guided connection records an endpoint outside loopback, and that this build declares no vendor egress.",
+                     *           "observed": "0 endpoints outside loopback.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "VENDOR_TELEMETRY_DISABLED",
+                     *           "verdict": "PASSED",
+                     *           "checked": "The telemetry switches of every third-party component, read from the running environment.",
+                     *           "observed": "Disabled: NEXT_TELEMETRY_DISABLED, DO_NOT_TRACK, BETTER_AUTH_TELEMETRY.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "LICENCE_VALIDITY",
+                     *           "verdict": "PASSED",
+                     *           "checked": "Whether a signed licence is within its validity window.",
+                     *           "observed": "CONTROL licence valid until 2027-09-16T10:00:00.000Z.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": null
+                     *         },
+                     *         {
+                     *           "kind": "PACKAGE_SIGNATURE",
+                     *           "verdict": "FAILED",
+                     *           "checked": "Whether the installed version has a signed release manifest verified at import.",
+                     *           "observed": "No installed version is recorded.",
+                     *           "unverifiable_reason": null,
+                     *           "remedy": "Record the installed version through the update path so the package behind it can be named and its signature checked."
+                     *         }
+                     *       ],
+                     *       "failing": [
+                     *         "PACKAGE_SIGNATURE"
+                     *       ],
+                     *       "not_verifiable": [
+                     *         "BACKUP_TARGET"
+                     *       ],
+                     *       "an_unverified_gate_is_not_a_passed_gate": true,
+                     *       "passing_every_gate_is_not_a_statement_about_the_law": true,
+                     *       "limits": [
+                     *         "A gate this build cannot check reports that it could not, with the reason, and is not counted as passed.",
+                     *         "These are eleven technical checks against this installation. Passing them is not a statement that any legal obligation has been met."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["PreflightReport"];
                 };
             };
             /** @description VALIDATION_ERROR */

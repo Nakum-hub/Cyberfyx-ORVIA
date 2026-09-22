@@ -23929,6 +23929,267 @@
         "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
       }
     },
+    "/api/v1/admin/preflight": {
+      "get": {
+        "operationId": "preflight",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreflightReport"
+                },
+                "example": {
+                  "as_of": "2026-09-16T10:00:00.000Z",
+                  "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                  "gates": [
+                    {
+                      "kind": "RUNTIME_LOCATION",
+                      "verdict": "PASSED",
+                      "checked": "The address this application is actually serving on.",
+                      "observed": "Serving on 127.0.0.1:4310.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "RUNTIME_AND_ARCHITECTURE",
+                      "verdict": "PASSED",
+                      "checked": "The Node major version, platform and architecture this process is executing on.",
+                      "observed": "Node 24.21.0 on linux/x64.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "TRANSPORT_SECURITY",
+                      "verdict": "PASSED",
+                      "checked": "The scheme this application serves on, and whether it can be reached from off the host.",
+                      "observed": "Serving HTTP on loopback, so no request crosses a network.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "DURABLE_STORAGE",
+                      "verdict": "PASSED",
+                      "checked": "Whether the database is configured to survive a power loss.",
+                      "observed": "fsync=on, synchronous_commit=on.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "CUSTOMER_CONTROLLED_IDENTITY",
+                      "verdict": "PASSED",
+                      "checked": "Whether an active primary owner exists in the local identity store.",
+                      "observed": "1 active primary owner, held locally.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "SIGNING_KEYS",
+                      "verdict": "PASSED",
+                      "checked": "Whether the public key identifiers needed to verify trusted input are configured.",
+                      "observed": "Configured: ORVIA_RELEASE_KEY_ID.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "BACKUP_TARGET",
+                      "verdict": "NOT_VERIFIABLE_HERE",
+                      "checked": "Whether a backup exists, is reachable, and has been restored from successfully.",
+                      "observed": null,
+                      "unverifiable_reason": "This build has no backup subsystem, so nothing here could observe a backup target. It must be verified outside this product.",
+                      "remedy": null
+                    },
+                    {
+                      "kind": "PERMITTED_EGRESS",
+                      "verdict": "PASSED",
+                      "checked": "That no guided connection records an endpoint outside loopback, and that this build declares no vendor egress.",
+                      "observed": "0 endpoints outside loopback.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "VENDOR_TELEMETRY_DISABLED",
+                      "verdict": "PASSED",
+                      "checked": "The telemetry switches of every third-party component, read from the running environment.",
+                      "observed": "Disabled: NEXT_TELEMETRY_DISABLED, DO_NOT_TRACK, BETTER_AUTH_TELEMETRY.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "LICENCE_VALIDITY",
+                      "verdict": "PASSED",
+                      "checked": "Whether a signed licence is within its validity window.",
+                      "observed": "CONTROL licence valid until 2027-09-16T10:00:00.000Z.",
+                      "unverifiable_reason": null,
+                      "remedy": null
+                    },
+                    {
+                      "kind": "PACKAGE_SIGNATURE",
+                      "verdict": "FAILED",
+                      "checked": "Whether the installed version has a signed release manifest verified at import.",
+                      "observed": "No installed version is recorded.",
+                      "unverifiable_reason": null,
+                      "remedy": "Record the installed version through the update path so the package behind it can be named and its signature checked."
+                    }
+                  ],
+                  "failing": [
+                    "PACKAGE_SIGNATURE"
+                  ],
+                  "not_verifiable": [
+                    "BACKUP_TARGET"
+                  ],
+                  "an_unverified_gate_is_not_a_passed_gate": true,
+                  "passing_every_gate_is_not_a_statement_about_the_law": true,
+                  "limits": [
+                    "A gate this build cannot check reports that it could not, with the reason, and is not counted as passed.",
+                    "These are eleven technical checks against this installation. Passing them is not a statement that any legal obligation has been met."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "health.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
     "/api/v1/admin/connections": {
       "get": {
         "operationId": "list_connections",
@@ -44971,6 +45232,172 @@
         "required": [
           "items",
           "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "PreflightReport": {
+        "type": "object",
+        "properties": {
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "profile": {
+            "type": "string",
+            "const": "CUSTOMER_LOCAL_SYNTHETIC"
+          },
+          "gates": {
+            "minItems": 11,
+            "maxItems": 11,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "RUNTIME_LOCATION",
+                    "RUNTIME_AND_ARCHITECTURE",
+                    "TRANSPORT_SECURITY",
+                    "DURABLE_STORAGE",
+                    "CUSTOMER_CONTROLLED_IDENTITY",
+                    "SIGNING_KEYS",
+                    "BACKUP_TARGET",
+                    "PERMITTED_EGRESS",
+                    "VENDOR_TELEMETRY_DISABLED",
+                    "LICENCE_VALIDITY",
+                    "PACKAGE_SIGNATURE"
+                  ]
+                },
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "PASSED",
+                    "FAILED",
+                    "NOT_VERIFIABLE_HERE"
+                  ]
+                },
+                "checked": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "observed": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "unverifiable_reason": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "remedy": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "verdict",
+                "checked",
+                "observed",
+                "unverifiable_reason",
+                "remedy"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "failing": {
+            "maxItems": 11,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RUNTIME_LOCATION",
+                "RUNTIME_AND_ARCHITECTURE",
+                "TRANSPORT_SECURITY",
+                "DURABLE_STORAGE",
+                "CUSTOMER_CONTROLLED_IDENTITY",
+                "SIGNING_KEYS",
+                "BACKUP_TARGET",
+                "PERMITTED_EGRESS",
+                "VENDOR_TELEMETRY_DISABLED",
+                "LICENCE_VALIDITY",
+                "PACKAGE_SIGNATURE"
+              ]
+            }
+          },
+          "not_verifiable": {
+            "maxItems": 11,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RUNTIME_LOCATION",
+                "RUNTIME_AND_ARCHITECTURE",
+                "TRANSPORT_SECURITY",
+                "DURABLE_STORAGE",
+                "CUSTOMER_CONTROLLED_IDENTITY",
+                "SIGNING_KEYS",
+                "BACKUP_TARGET",
+                "PERMITTED_EGRESS",
+                "VENDOR_TELEMETRY_DISABLED",
+                "LICENCE_VALIDITY",
+                "PACKAGE_SIGNATURE"
+              ]
+            }
+          },
+          "an_unverified_gate_is_not_a_passed_gate": {
+            "type": "boolean",
+            "const": true
+          },
+          "passing_every_gate_is_not_a_statement_about_the_law": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "as_of",
+          "profile",
+          "gates",
+          "failing",
+          "not_verifiable",
+          "an_unverified_gate_is_not_a_passed_gate",
+          "passing_every_gate_is_not_a_statement_about_the_law",
+          "limits"
         ],
         "additionalProperties": false
       },

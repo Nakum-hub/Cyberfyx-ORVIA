@@ -1317,6 +1317,59 @@ export const GuidedConnection = z.strictObject({
   if (c2.enablement_stage === 'ENFORCE' && c2.observed_restrict !== true) c.addIssue({ code: 'custom', message: 'Enforcement is only expressible where a check observed the system able to restrict' });
   if ((c2.observed_read === null) !== (c2.observed_restrict === null)) c.addIssue({ code: 'custom', message: 'A capability check reports both observations or neither' });
 });
+/**
+ * M29 Customer Onboarding, FR-M29-01 and FR-M29-02: the gates an installer runs
+ * before privileged setup and before real personal data is processed.
+ *
+ * The failure this shape exists to prevent is a green checklist. Eleven things
+ * must be verified, and this build cannot verify all of them from inside
+ * itself. A gate it cannot check says so and says why -- it never reports a
+ * comfortable pass. `NOT_VERIFIABLE_HERE` and `PASSED` can never share a shape,
+ * and the report carries the unverified list separately from the failing one,
+ * because an installer who cannot tell those apart has been told nothing.
+ *
+ * There is also no field meaning "ready for production" or "compliant". Passing
+ * every gate this product can measure is a statement about eleven specific
+ * technical checks and about nothing else.
+ */
+export const PreflightGateKind = z.enum([
+  'RUNTIME_LOCATION', 'RUNTIME_AND_ARCHITECTURE', 'TRANSPORT_SECURITY', 'DURABLE_STORAGE',
+  'CUSTOMER_CONTROLLED_IDENTITY', 'SIGNING_KEYS', 'BACKUP_TARGET', 'PERMITTED_EGRESS',
+  'VENDOR_TELEMETRY_DISABLED', 'LICENCE_VALIDITY', 'PACKAGE_SIGNATURE',
+]);
+export const PreflightVerdict = z.enum(['PASSED', 'FAILED', 'NOT_VERIFIABLE_HERE']);
+export const PreflightGate = z.strictObject({
+  kind: PreflightGateKind,
+  verdict: PreflightVerdict,
+  /** Exactly what was examined, so the verdict can be checked rather than taken. */
+  checked: SafeText,
+  /** What the examination found. Null only when nothing was examined. */
+  observed: SafeText.nullable(),
+  unverifiable_reason: SafeText.nullable(),
+  /** What to do about a failure. Present only on a failure. */
+  remedy: SafeText.nullable(),
+}).superRefine((g, c) => {
+  if ((g.verdict === 'NOT_VERIFIABLE_HERE') !== (g.unverifiable_reason !== null)) c.addIssue({ code: 'custom', message: 'A gate is unverifiable exactly when it says why' });
+  if ((g.verdict === 'NOT_VERIFIABLE_HERE') !== (g.observed === null)) c.addIssue({ code: 'custom', message: 'A gate that was examined reports what it found, and one that was not reports nothing' });
+  if ((g.verdict === 'FAILED') !== (g.remedy !== null)) c.addIssue({ code: 'custom', message: 'A failing gate names what to do about it, and a passing one has nothing to remedy' });
+});
+export const PreflightReport = z.strictObject({
+  as_of: Time, profile: z.literal(PROFILE),
+  gates: z.array(PreflightGate).length(11),
+  failing: z.array(PreflightGateKind).max(11),
+  not_verifiable: z.array(PreflightGateKind).max(11),
+  /** Structural. The whole point of separating the two lists. */
+  an_unverified_gate_is_not_a_passed_gate: z.literal(true),
+  /** Structural. Eleven technical checks are not a legal conclusion. */
+  passing_every_gate_is_not_a_statement_about_the_law: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  if (new Set(r.gates.map(g => g.kind)).size !== 11) c.addIssue({ code: 'custom', message: 'Every gate is reported exactly once' });
+  const listed = (verdict: string) => r.gates.filter(g => g.verdict === verdict).map(g => g.kind).sort();
+  if (JSON.stringify(r.failing.slice().sort()) !== JSON.stringify(listed('FAILED'))) c.addIssue({ code: 'custom', message: 'The failing list is exactly the gates that failed' });
+  if (JSON.stringify(r.not_verifiable.slice().sort()) !== JSON.stringify(listed('NOT_VERIFIABLE_HERE'))) c.addIssue({ code: 'custom', message: 'The unverifiable list is exactly the gates that could not be checked' });
+});
+export type PreflightGateValue = z.infer<typeof PreflightGate>;
 export const ConnectionStart = z.strictObject({
   system_id: Id, environment_kind: z.enum(['TEST', 'PRODUCTION']),
   requested_capabilities: z.array(ConnectionCapability).min(1).max(3),
@@ -1434,6 +1487,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   AuditEvent, AuditQuery, AuditCoverage, AuditExport, AuditCorrectionCreate, AuditCorrection, AuditEventList: page(AuditEvent),
   GuidedConnection, ConnectionStart, ConnectivityRecord, ScopedIdentityRecord, ResourceApproval, EnablementChange, GuidedConnectionList: page(GuidedConnection),
   NoticeRevisionCreate, NoticeRevision, NoticeAvailability, LanguageChoice, LanguageQuery, NoticeRevisionList: page(NoticeRevision),
+  PreflightReport,
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1565,6 +1619,7 @@ export const routes: RouteDefinition[] = [
   {id:'list_audit_events',method:'get',path:'/api/v1/admin/audit-events',authority:'STAFF',capability:'audit.read',query:'AuditQuery',response:'AuditEventList',status:200,paginated:true},
   {id:'export_audit_events',method:'get',path:'/api/v1/admin/audit-events/export',authority:'STAFF',capability:'audit.export',query:'AuditQuery',response:'AuditExport',status:200},
   {id:'audit_coverage',method:'get',path:'/api/v1/admin/audit-coverage',authority:'STAFF',capability:'audit.read',response:'AuditCoverage',status:200},
+  {id:'preflight',method:'get',path:'/api/v1/admin/preflight',authority:'STAFF',capability:'health.read',response:'PreflightReport',status:200},
   {id:'list_connections',method:'get',path:'/api/v1/admin/connections',authority:'STAFF',capability:'configuration.read',response:'GuidedConnectionList',status:200,paginated:true},
   {id:'start_connection',method:'post',path:'/api/v1/admin/connections',authority:'STAFF',capability:'configuration.write',request:'ConnectionStart',response:'GuidedConnection',status:201,idempotency:true},
   {id:'connection',method:'get',path:'/api/v1/admin/connections/{id}',authority:'STAFF',capability:'configuration.read',params:'IdPath',response:'GuidedConnection',status:200},
