@@ -1,24 +1,26 @@
 # ORVIA — current execution state
 
-**Writer:** Work · **Checkpoint:** qualification defects F-01–F-11 closed; new candidate `c5655eac…` frozen and fully re-qualified; C00 and both rehearsals outstanding · **Date:** 2026-09-18
+**Writer:** Work · **Checkpoint:** engineering continuation complete — M12, M29, M32 and M33 requirements built; candidate `c5655eac…` is **VOID** because qualified source changed; a new candidate must be frozen before the rehearsals can run · **Date:** 2026-09-22
+
+> **Read the 2026-09-22 section first.** The table below was written at candidate `c5655eac…`. Rows that are no longer true have been corrected in place and are marked; the dated sections beneath are historical and are deliberately unchanged.
 
 | Field | Current evidence / decision |
 |---|---|
 | Current integration / reviewed runtime | Continuation branch `prototype/work/final-prototype-continuation`. Five source commits close the qualification defects found in the final engineering review: `596a275` (F-01/F-02/F-03/F-04/F-06/F-08/F-09/F-10/F-11), `ba2a0d5` (capability register and contract seed kept inside runtime source), `f025861` (per-bucket authentication window), `9a0b657` (deliberate audit probes separated from genuine faults) `d1e5bc5` (git status parsed by status column), `b6313cc` (capability register made truthful and given a validator) and `c5655ea` (business-boundary readiness on restart, and spacing for every reviewer proof). Everything before them is superseded as a candidate but retained as history. |
-| Frozen final candidate | **`c5655eacf86a68e4aa76ae3b79a1328517c0d23d`**, qualified source inventory SHA-256 `6a90215df79e8a04612927bbe059c6f167551155e0908f555525c3399b2f249d` over **224 tracked files**, host build `sd85T6NMjOMCYlF94AaeS`, manifest SHA-256 `281810f57ae03338d5a65c6b16fb1db6cf4477215e44e9e5b672f6a25de964fc`. `artifacts/release-manifest.json` remains the full authority for container build, runtime image digest, service digests and package hashes. **This row can now safely name the candidate.** The identity was circular before: `CURRENT_STATE.md` and `tracking/` were inside the qualified inventory, so recording a result about a candidate changed the inventory that result named. Live state documents are now hashed separately as `gate_state` and are outside the candidate identity — see `scripts/source-paths.mjs`. Independent verification at this candidate reports **242 checks, 0 failures**; every earlier dated report is preserved beside it in `handoffs/work/final-prototype-continuation/`. Historical candidates `766854399d…`, `81431d64…` and `c383b9d9…` are superseded. |
-| Source / contract | Master rev 1.3 SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6` unchanged. Executable transport **0.5.0**, signed command **0.3.0**. `contracts:check` validates 8 artifacts, the canonical seed, 41 route examples and 7 error examples. Lockfile SHA-256 `b2694da120310a26a6ae377ebecbd4dafcac6711b60377c4ff308fe4fc91a5c8` unchanged; no dependency or migration change. |
+| Frozen final candidate | **VOID as of 2026-09-22.** `c5655eacf86a68e4aa76ae3b79a1328517c0d23d` was frozen over a **224-file** qualified inventory (`6a90215d…`). Engineering has continued since: the qualified inventory is now **376 files** with SHA-256 `cf5ee5a9e2f18f8f87823cdb0e90f9e57af0f30581993fede9366cbcbf6ec831` at commit `f521e16e1105e8c4127dbc8c37cf06e96c4a62a2`. `REHEARSAL_RUNBOOK.md` states the rule plainly: *if any file in the qualified source inventory changes, this candidate is void; a new candidate must be frozen and both rehearsals repeated.* That has happened, so the candidate identity, the manifest SHA-256 and the host build id recorded here no longer describe this repository and must not be quoted as if they did. Nothing is being claimed in their place: freezing a new candidate runs on the `rehearsal` profile via `candidate:package` and is part of the same human gate as the rehearsals. The preconditions for it are now met — see the 2026-09-22 section. Historical candidates `766854399d…`, `81431d64…`, `c383b9d9…` and now `c5655eac…` are superseded and retained as history. |
+| Source / contract | The Rev 1.4 master that controls V1 is now in the repository: `ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md` SHA-256 `c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b`. The rev 1.3 source remains at `docs/source/…` SHA-256 `527daa1d6a2a7564a61d0375e540ca66b1bc8f33f4e71d327b0f6cb0bf6dbef6`, unchanged. Executable transport is now **0.14.0** (was 0.5.0); signed command **0.3.0** unchanged. `contracts:check` validates 8 artifacts, the canonical seed, **158 route examples** and 7 error examples. Nine migrations were added since the void candidate (`0027`–`0035`), so the schema is **36 migrations**. Lockfile SHA-256 `04bd68db874dc585ea83bf38e830dba8aa13248de88a4590dcba3b8f5a38a51e`; no dependency change. |
 | Owners | Work: sole canonical writer, review/state/tracking documents and the transferred former-Cowork UX/copy/capability/demo/runbook/document-tool paths and C00–C02. Codex: all application engineering plus transferred UI/component/browser B IDs. Human: approvals, merge, release and final sign-off. |
 | Accepted tasks | W00, A00, A01 (historical) plus **A02 `3242521e…`, A03 `03410094…`, A04 `94d3e722…`, A05 `d94f525e…`, A06 `3c2ee18f…` and W01 `81431d64…`**, accepted on executed evidence at the frozen candidate. |
 | W01 — authority and consent | **ACCEPTED.** Historical MEDIUM W01-A02-F01 (freshness/expiry not enforced at consumption after lock waits) is **CLOSED** on executed evidence: `tests/integration/consent/expiry.test.ts` 87/87 assertions including 15 real "transaction and wait began before expiry" controls. Full review: `handoffs/work/final-prototype-continuation/W01-consolidated-review.md` and `docs/reviews/work/AUTH_AND_CONSENT.md`. |
 | W02 — integration, failure, security, recovery | **Review content ACCEPTED** on executed evidence; the canonical ticket remains BLOCKED only by its board dependency chain (see the blocking gate row). FINAL-B06-F02 (manual-attestation contract gap), FINAL-B06-F05 (browser fixture ownership timeout) and FINAL-CONT-F06/F07 (Test Lab harness) are closed. Full review: `handoffs/work/final-prototype-continuation/W02-consolidated-review.md` and `docs/reviews/work/INTEGRATION_AND_SECURITY.md`. |
-| Executed results at the candidate | All executed at the exact candidate and recorded in the manifest under `exact_candidate_evidence`, with **`failures_at_candidate` empty** and a single clean browser run at the candidate; 175 earlier records are retained separately as `historical_engineering_evidence` and are never relabelled. Static: `contracts:check` (8 artifacts, canonical seed, 41 route and 7 error examples), typecheck, lint, **20/20 unit tests**, `tracking:check` (23 tasks, 34 acceptance definitions, 33 capability modules), production build, hygiene (**0 findings**). Backend: auth 87, consent 50, evidence 69, enforcement 46, workflows 32, expiry 87, regression 70, lifecycle 17, TLS 12, services smoke 4, network qualification 13 — **every suite PASS, exit 0**, and dependency advisories 498 lock packages against 7408 reviewed advisories, 0 findings. Browser: **17/17 PASS, exit 0** at the exact candidate commit and inventory, `dirty` false, all seven mandatory suites, Chromium over normal trusted HTTPS with no bypass; **0 console errors, 0 React/hydration warnings, 0 genuine page errors**, and 1306 requests across 17 contexts all to `https://127.0.0.1:4330` with **0 foreign origins**. |
+| Executed results at the candidate | The figures that stood at `c5655eac…` are superseded; see the 2026-09-22 section for what was executed at commit `f521e16…` over the clean 376-file inventory. In summary: every check runnable on the `codex-a00` profile passes — static battery, **173 unit tests**, **24 integration suites totalling 1,005 assertions**, regression 70, network qualification 13, security auth and isolation, services and web smoke, hygiene 0 findings, and `runtime:build` PASS with the image source label matching the candidate inventory. `test:lifecycle` and `test:tls` are `rehearsal`-profile-only by their own guards and remain NOT_RUN here, which is the design rather than a failure. |
 | Retained failures | Retained, not overwritten, and each explained rather than hidden. From the review session: a browser run that failed 16/16 with `EADDRINUSE` because an operator left `app:run` holding port 4330 while the suite tried to start its own server; auth/evidence/enforcement runs that hit a real 429 before the authentication-window guard existed; and an `app:run` that failed because machine enrollments had expired. From this session: `B06-exec-2026-09-18T01-27-55…` failed at the candidate because Docker services were down (`ECONNREFUSED` on PostgreSQL), and the following run at the same candidate passed 17/17. One `test:auth` run failed mid-sequence on a post-restart request timeout under container load and passed unchanged in isolation and on the next sequence. All earlier checkpoint failures remain in place. |
 | Canonical acceptance | T01–T34 remain **NOT_RUN**; nothing is promoted. Component coverage is now stronger than it has ever been — every mandatory suite passes at one exact candidate — but component success is still not application acceptance. Promotion requires genuine `APPLICATION_ACCEPTANCE` / `FULL_SCENARIO` records, which only the two human rehearsals produce. Per-scenario detail: `handoffs/work/final-prototype-continuation/T01-T30-reconciliation.md`, whose per-suite references now resolve against this candidate. |
 | Blocking gate | The canonical board chain `C00 → B00 → B01/B02 → B03 → B04 → W02 → A07 → B06 → C02 → W03` still cannot advance because **C00 acceptance is a documented human decision** that has not been made. The engineering is merged, qualified and now free of every known blocking defect; only the acceptance act is outstanding. |
 | Scope / isolation / time | `CUSTOMER_LOCAL_SYNTHETIC` marketing withdrawal; AI DEFERRED_V2; no P1 promoted; no public deployment. Synthetic Aster/Birch fixtures only. `codex-a00`, `ui-b00` and `rehearsal` stores remain separate; `.local` credentials, keys and raw authenticated traces stay off GitHub. |
 | Certificate trust | The reviewed rehearsal CA `8C592FC41BBD6AA18F42234085F6B8155466A190` was reinstalled in `CurrentUser\Root` under fresh explicit human approval and independently verified with `certutil`. It is temporary and must be removed after the rehearsals; record: `handoffs/work/final-prototype-continuation/certificate-trust.json`. No validation bypass, plaintext fallback or machine-wide trust was used. |
-| Readiness | Internal-demo **NOT_READY** pending human acts only. Candidate frozen and fully re-qualified; rehearsal procedure verified executable as written; two rehearsals NOT_RUN; W03 BLOCKED; human NOT_SIGNED. Production security, legal, supply-chain and full disaster recovery remain NOT_ASSESSED and governed separately by the master. |
-| Next action | Human accepts or returns C00; human runs or supervises Rehearsal 1 and Rehearsal 2 on candidate `c5655eac…` using `handoffs/work/final-prototype-continuation/REHEARSAL_RUNBOOK.md`, whose preparation steps now include the machine-enrollment renewal that previously blocked startup; Work then completes C02 and W03. Remove the temporary CA trust after the rehearsals and record its absence. Human retains merge, release and sign-off. |
+| Readiness | Internal-demo **NOT_READY**, and further from a frozen state than on 2026-09-18 rather than closer: the candidate that was frozen is void. Component coverage is broader than it has ever been and every mandatory check on this profile passes, but component success is still not application acceptance. Two rehearsals NOT_RUN; T01–T34 NOT_RUN; W03 BLOCKED; human NOT_SIGNED. Production security, legal, supply-chain and full disaster recovery remain NOT_ASSESSED and governed separately by the master. |
+| Next action | Human accepts or returns C00. Then, on the `rehearsal` profile, freeze a **new** candidate (`candidate:package confirm:rehearsal`) over the current 376-file inventory and run or supervise Rehearsal 1 and Rehearsal 2 against it using `handoffs/work/final-prototype-continuation/REHEARSAL_RUNBOOK.md` — whose *Fixed identity* table names the void candidate and must be re-stated for the new one before it is followed. Work then completes C02 and W03. Remove the temporary CA trust after the rehearsals and record its absence. Human retains merge, release and sign-off. |
 
 | Work ticket | Document deliverable | Acceptance / remaining gate |
 |---|---|---|
@@ -41,6 +43,89 @@ the historical 0.4.1 candidate. Earlier r3/r4 delivery, takeover and delivery-au
 `docs/reviews/cowork/VALIDATION.md` and the C-lane handoffs at their original identities. Source presence,
 engineering PASS, Work acceptance, full canonical scenario acceptance and human rehearsal remain five
 different facts.
+
+## Engineering continuation — 2026-09-22
+
+Written by the engineering lane. This section records what changed after candidate `c5655eac…` was frozen, why
+that candidate is void, and what is now true. Nothing here promotes a gate, and no acceptance result is claimed.
+
+### What was built
+
+Ten requirements across four modules, each with a migration where it needed one, contract invariants, an
+integration suite that drives the real product, a workspace screen and a handoff:
+
+| Requirement | What it added |
+|---|---|
+| FR-M33-01, FR-M33-03 | Audit administration: append-only trail with corrections, scoped read/export, export ceiling. |
+| FR-M29-03 | The nine-step guided connection, five steps derived from evidence kept elsewhere. |
+| FR-M12-03, FR-M12-04 | Notices in the Eighth Schedule languages, and classified notice changes. |
+| FR-M29-01, FR-M29-02 | Eleven preflight gates, each answered by examining something rather than asserting it. |
+| FR-M32-03 | Backup declaration and restore quarantine with consent reconciliation. |
+| FR-M32-04 | An account of everything ever disclosed to the vendor, derived from records already kept. |
+| FR-M33-04 | Purpose-based audit retention; payload absence measured rather than promised. |
+| FR-M29-04 | One typed local import path — quarantine, preview, conflict handling, provenance, purge. |
+
+**100 of the 104 routed requirements now have built and exercised code.** The remaining four are M26 Billing,
+which is out of sprint scope and blocked by OPEN-03 — no payment vendor, price or tax semantics may be invented.
+
+Three modules stay `PARTIAL_SANDBOX` even though every routed requirement under them now has code, because in
+each case one clause is satisfied by an absence rather than by built behaviour, and promoting on that basis would
+overstate what exists:
+
+- **M29** — FR-M29-02's customer-held recovery route is not built. Building one would pre-empt OPEN-07, whose
+  interim rule is *reuse existing safe identity implementation; no custom auth/backdoor*.
+- **M32** — FR-M32-04 has no vendor-side surface to render because no vendor service exists anywhere in this
+  build. Vendor service health is reported as unobserved with the reason, never as healthy.
+- **M33** — FR-M33-02's separation holds because there is no vendor-facing audit surface at all, not because this
+  module built one.
+
+### Why the frozen candidate is void, and what unblocked freezing a new one
+
+`REHEARSAL_RUNBOOK.md` voids a candidate when any file in the qualified source inventory changes. That inventory
+went from **224 files** to **376**, so `c5655eac…` is void and both rehearsals must be repeated against a new
+candidate. Two preconditions for freezing one were broken and are now fixed:
+
+1. **The inventory was permanently dirty.** `pnpm-lock.yaml` is qualified source, and it had been carrying an
+   uncommitted `@pnpm/exe` entry — a Windows-local toolchain artefact no manifest declares. While it stood, every
+   `sourceState()` read `dirty: true`, and `candidate:package` refuses to package a dirty tree, so no candidate
+   could ever have been frozen. The entry was reverted rather than committed, because committing it would put a
+   platform-specific binary reference into a delivered lockfile. `dirty` is now `false`.
+2. **The runtime image did not match source.** `test:network` compares the image's `orvia.source-tree` label
+   against the live inventory and failed, correctly, because the image had been built from the dirty tree. The
+   image was rebuilt; the label now matches `cf5ee5a9…`. `candidate:package` makes the same comparison and would
+   have refused.
+
+Freezing the new candidate is deliberately **not** done here: `candidate:package` requires the `rehearsal` profile
+and an explicit `confirm:rehearsal`, which places it inside the same human gate as the rehearsals themselves.
+
+### Executed at commit `f521e16e1105e8c4127dbc8c37cf06e96c4a62a2`
+
+Qualified inventory `cf5ee5a9e2f18f8f87823cdb0e90f9e57af0f30581993fede9366cbcbf6ec831`, 376 files, `dirty: false`,
+profile `codex-a00`, contract 0.14.0 / signed command 0.3.0.
+
+**Static.** `contracts:check` 8 artifacts, canonical seed, 158 route examples, 7 error examples · typecheck clean ·
+lint clean · **173 unit tests, 0 failures** · `tracking:check` 23 tasks, 34 acceptance definitions, 33 capability
+modules · hygiene **0 findings** · dependency advisories 0 findings · production build · `runtime:build` **PASS**.
+
+**Integration — 24 suites, 1,005 assertions, 0 failures.** consent 50 · expiry 87 · enforcement 46 · evidence 69 ·
+graph 48 · rights 64 · retention 45 · coverage 52 · processors 35 · incidents 42 · notifications 32 · licensing 33 ·
+monitoring 31 · restore 33 · vendor-visibility 18 · support 57 · updates 54 · audit 51 · audit-retention 24 ·
+connection 33 · languages 19 · preflight 19 · imports 31 · workflows 32.
+
+**Regression** 70 assertions · **network qualification** 13 assertions · **security** auth and fixture isolation ·
+**services smoke** and **web smoke** — all PASS, exit 0.
+
+**Not run here, by design.** `test:lifecycle` and `test:tls` guard themselves to the `rehearsal` profile and refuse
+to run on `codex-a00`. That is the product being honest about where it may execute, not a failure, and they are
+recorded as NOT_RUN rather than skipped quietly.
+
+### What this does not change
+
+**T01–T34 remain `NOT_RUN` and nothing is promoted.** `scripts/tracking.ts` will only accept a `PASS` backed by an
+`APPLICATION_ACCEPTANCE` / `FULL_SCENARIO` record, and `T01-T30-reconciliation.md` is explicit that transcribing a
+component artifact into one *would manufacture the exact claim the validator and the brief forbid*. Every suite
+above is component-scoped. The two human-run or human-supervised rehearsals remain the only designed producer of
+those records, and the browser acceptance gate is unchanged.
 
 ## Qualification defect closure — 2026-09-18
 
