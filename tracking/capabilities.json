@@ -208,9 +208,15 @@
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Immutable published notice versions with content digest and publication time, referenced by exact version at the moment of consent. Single language; no notice translation or delivery management.",
+      "limitation": "Immutable published notice versions with content digest and publication time, referenced by exact version at the moment of consent. A notice may be authored in English or any of the twenty-two Eighth Schedule languages, which is the set Act s5 permits; the closed list is enforced by the contract and again by a database check, and the language column is generated from the notice document so the two cannot drift apart. A data principal records the language they chose, and only the principal may set it. The language asked for and the language served are separate fields everywhere they appear: where this installation has no notice in the chosen language it serves English and reports the request as unmet, which the schema makes the only expressible answer -- reporting a fallback as though the choice had been honoured is refused at parse time. A change to a notice is classified as editorial, a translation or a material change to scope. An editorial fix or a translation cannot carry a consent decision because nothing material changed; a material change cannot be recorded without one; and a translation must name the version it translates and be in a different language from it. The number of grants affected is counted from the consent records at the moment of the decision and the record says so structurally, so the figure can never be asserted. Every classification is append-only and one per version. Previously recorded as fully implemented while FR-M12-03 and FR-M12-04 had no code at all; that was wrong and is corrected here. Not included: this product does not translate, so a notice in a language is one somebody authored in it; there is no translation-staleness detector beyond the recorded source version; requiring fresh consent records the decision and does not itself withdraw anything; notice delivery management is still absent; and the workspace has no screen for classifying a change, so FR-M12-03 is API-only.",
       "evidence": [
         "test:consent",
+        "test:languages",
+        "packages/db/migrations/0030_notice_languages.sql",
+        "packages/db/migrations/0031_generated_language_immutability.sql",
+        "packages/domain/src/notices/languages.ts",
+        "tests/unit/notice-language.test.ts",
+        "tests/integration/notices/languages.test.ts",
         "tests/e2e/configuration.spec.ts"
       ]
     },

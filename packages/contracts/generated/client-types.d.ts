@@ -127,6 +127,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/notices/{id}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_notice_revisions"];
+        put?: never;
+        post: operations["record_notice_revision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/purposes/{id}/notice-languages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["notice_languages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/portal/me/language": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["set_language"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/policies/{id}/publish": {
         parameters: {
             query?: never;
@@ -1959,7 +2007,7 @@ export interface components {
             /** Format: uuid */
             purpose_id: string;
             /** @enum {string} */
-            language: "en";
+            language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
             title: string;
             content: string;
         };
@@ -1967,7 +2015,7 @@ export interface components {
             /** Format: uuid */
             purpose_id: string;
             /** @enum {string} */
-            language: "en";
+            language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
             title: string;
             content: string;
             /** Format: uuid */
@@ -2104,7 +2152,7 @@ export interface components {
                 /** Format: uuid */
                 purpose_id: string;
                 /** @enum {string} */
-                language: "en";
+                language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
                 title: string;
                 content: string;
                 /** Format: uuid */
@@ -2114,6 +2162,13 @@ export interface components {
                 content_digest: string;
                 published_at: string | null;
             } | null;
+            language: {
+                /** @enum {string} */
+                requested_language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+                served_language: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur") | null;
+                available_in_requested_language: boolean;
+                published_languages: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur")[];
+            };
             /** Format: uuid */
             interaction_id: string;
         };
@@ -3741,7 +3796,7 @@ export interface components {
         ProcessorCreate: {
             name: string;
             /** @enum {string} */
-            role: "PROCESSOR" | "SUB_PROCESSOR" | "JOINT_CONTROLLER" | "INDEPENDENT_CONTROLLER";
+            role: "PROCESSOR" | "SUB_PROCESSOR" | "JOINT_FIDUCIARY" | "INDEPENDENT_FIDUCIARY";
             authorised_purpose_ids: string[];
             authorised_categories: ("CONTACT_DETAILS" | "IDENTIFIERS" | "MARKETING_PREFERENCES" | "ORDER_RECORDS" | "SUPPORT_NOTES")[];
             region: string;
@@ -3753,7 +3808,7 @@ export interface components {
         Processor: {
             name: string;
             /** @enum {string} */
-            role: "PROCESSOR" | "SUB_PROCESSOR" | "JOINT_CONTROLLER" | "INDEPENDENT_CONTROLLER";
+            role: "PROCESSOR" | "SUB_PROCESSOR" | "JOINT_FIDUCIARY" | "INDEPENDENT_FIDUCIARY";
             authorised_purpose_ids: string[];
             authorised_categories: ("CONTACT_DETAILS" | "IDENTIFIERS" | "MARKETING_PREFERENCES" | "ORDER_RECORDS" | "SUPPORT_NOTES")[];
             region: string;
@@ -5251,6 +5306,82 @@ export interface components {
             }[];
             next_cursor: string | null;
         };
+        NoticeRevisionCreate: {
+            /** @enum {string} */
+            change_kind: "EDITORIAL" | "TRANSLATION" | "MATERIAL_SCOPE_CHANGE";
+            translates_version_id: string | null;
+            consent_decision: ("MIGRATE_EXISTING_GRANTS" | "REQUIRE_FRESH_CONSENT") | null;
+            note: string;
+            /** Format: uuid */
+            version_id: string;
+        };
+        NoticeRevision: {
+            /** @enum {string} */
+            change_kind: "EDITORIAL" | "TRANSLATION" | "MATERIAL_SCOPE_CHANGE";
+            translates_version_id: string | null;
+            consent_decision: ("MIGRATE_EXISTING_GRANTS" | "REQUIRE_FRESH_CONSENT") | null;
+            note: string;
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            notice_id: string;
+            /** Format: uuid */
+            version_id: string;
+            affected_grants: number;
+            /** Format: date-time */
+            counted_at: string;
+            /** Format: date-time */
+            recorded_at: string;
+            /** Format: uuid */
+            recorded_by: string;
+            /** @constant */
+            affected_grants_were_counted: true;
+            limits: string[];
+        };
+        NoticeAvailability: {
+            /** @enum {string} */
+            requested_language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+            served_language: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur") | null;
+            available_in_requested_language: boolean;
+            published_languages: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur")[];
+            /** Format: uuid */
+            purpose_id: string;
+            limits: string[];
+        };
+        LanguageChoice: {
+            /** @enum {string} */
+            preferred_language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+        };
+        LanguageQuery: {
+            /** @enum {string} */
+            language?: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+        };
+        NoticeRevisionList: {
+            items: {
+                /** @enum {string} */
+                change_kind: "EDITORIAL" | "TRANSLATION" | "MATERIAL_SCOPE_CHANGE";
+                translates_version_id: string | null;
+                consent_decision: ("MIGRATE_EXISTING_GRANTS" | "REQUIRE_FRESH_CONSENT") | null;
+                note: string;
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                notice_id: string;
+                /** Format: uuid */
+                version_id: string;
+                affected_grants: number;
+                /** Format: date-time */
+                counted_at: string;
+                /** Format: date-time */
+                recorded_at: string;
+                /** Format: uuid */
+                recorded_by: string;
+                /** @constant */
+                affected_grants_were_counted: true;
+                limits: string[];
+            }[];
+            next_cursor: string | null;
+        };
         DataAssetList: {
             items: {
                 /** Format: uuid */
@@ -5453,7 +5584,7 @@ export interface components {
             items: {
                 name: string;
                 /** @enum {string} */
-                role: "PROCESSOR" | "SUB_PROCESSOR" | "JOINT_CONTROLLER" | "INDEPENDENT_CONTROLLER";
+                role: "PROCESSOR" | "SUB_PROCESSOR" | "JOINT_FIDUCIARY" | "INDEPENDENT_FIDUCIARY";
                 authorised_purpose_ids: string[];
                 authorised_categories: ("CONTACT_DETAILS" | "IDENTIFIERS" | "MARKETING_PREFERENCES" | "ORDER_RECORDS" | "SUPPORT_NOTES")[];
                 region: string;
@@ -5766,7 +5897,7 @@ export interface components {
                 /** Format: uuid */
                 purpose_id: string;
                 /** @enum {string} */
-                language: "en";
+                language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
                 title: string;
                 content: string;
                 /** Format: uuid */
@@ -5846,7 +5977,7 @@ export interface components {
                     /** Format: uuid */
                     purpose_id: string;
                     /** @enum {string} */
-                    language: "en";
+                    language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
                     title: string;
                     content: string;
                     /** Format: uuid */
@@ -5856,6 +5987,13 @@ export interface components {
                     content_digest: string;
                     published_at: string | null;
                 } | null;
+                language: {
+                    /** @enum {string} */
+                    requested_language: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+                    served_language: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur") | null;
+                    available_in_requested_language: boolean;
+                    published_languages: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur")[];
+                };
                 /** Format: uuid */
                 interaction_id: string;
             }[];
@@ -8262,6 +8400,699 @@ export interface operations {
             };
         };
     };
+    list_notice_revisions: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["NoticeRevisionList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    record_notice_revision: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "change_kind": "EDITORIAL",
+                 *       "translates_version_id": null,
+                 *       "consent_decision": null,
+                 *       "note": "Synthetic example",
+                 *       "version_id": "00000000-0000-4000-8000-000000000088"
+                 *     }
+                 */
+                "application/json": components["schemas"]["NoticeRevisionCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "change_kind": "EDITORIAL",
+                     *       "translates_version_id": null,
+                     *       "consent_decision": null,
+                     *       "note": "Synthetic example",
+                     *       "id": "00000000-0000-4000-8000-000000000089",
+                     *       "notice_id": "00000000-0000-4000-8000-00000000008a",
+                     *       "version_id": "00000000-0000-4000-8000-00000000008b",
+                     *       "affected_grants": 0,
+                     *       "counted_at": "2026-09-16T10:00:00.000Z",
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000008c",
+                     *       "affected_grants_were_counted": true,
+                     *       "limits": []
+                     *     }
+                     */
+                    "application/json": components["schemas"]["NoticeRevision"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    notice_languages: {
+        parameters: {
+            query?: {
+                language?: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "purpose_id": "00000000-0000-4000-8000-00000000032a",
+                     *       "requested_language": "ta",
+                     *       "served_language": "en",
+                     *       "available_in_requested_language": false,
+                     *       "published_languages": [
+                     *         "en",
+                     *         "hi"
+                     *       ],
+                     *       "limits": [
+                     *         "The language a principal chose and the language they were shown are separate facts.",
+                     *         "This product does not translate. A notice in a language is one somebody authored in that language."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["NoticeAvailability"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    set_language: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "preferred_language": "en"
+                 *     }
+                 */
+                "application/json": components["schemas"]["LanguageChoice"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "preferred_language": "en"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["LanguageChoice"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     publish_policy: {
         parameters: {
             query?: never;
@@ -8277,9 +9108,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "version_id": "00000000-0000-4000-8000-000000000088",
+                 *       "version_id": "00000000-0000-4000-8000-00000000008d",
                  *       "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                 *       "reauthentication_id": "00000000-0000-4000-8000-000000000089"
+                 *       "reauthentication_id": "00000000-0000-4000-8000-00000000008e"
                  *     }
                  */
                 "application/json": components["schemas"]["PolicyPublish"];
@@ -8294,17 +9125,17 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "purpose_id": "00000000-0000-4000-8000-00000000008a",
-                     *       "notice_version_id": "00000000-0000-4000-8000-00000000008b",
+                     *       "purpose_id": "00000000-0000-4000-8000-00000000008f",
+                     *       "notice_version_id": "00000000-0000-4000-8000-000000000090",
                      *       "condition": "AFFIRMATIVE_MARKETING_CONSENT",
                      *       "system_ids": [
-                     *         "00000000-0000-4000-8000-00000000008c"
+                     *         "00000000-0000-4000-8000-000000000091"
                      *       ],
                      *       "required_observation": false,
-                     *       "id": "00000000-0000-4000-8000-00000000008d",
-                     *       "version_id": "00000000-0000-4000-8000-00000000008e",
+                     *       "id": "00000000-0000-4000-8000-000000000092",
+                     *       "version_id": "00000000-0000-4000-8000-000000000093",
                      *       "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "author_id": "00000000-0000-4000-8000-00000000008f",
+                     *       "author_id": "00000000-0000-4000-8000-000000000094",
                      *       "status": "DRAFT",
                      *       "published_at": null
                      *     }
@@ -8460,7 +9291,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "version_id": "00000000-0000-4000-8000-000000000090",
+                 *       "version_id": "00000000-0000-4000-8000-000000000095",
                  *       "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                  *       "code": "123456"
                  *     }
@@ -8477,8 +9308,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "reauthentication_id": "00000000-0000-4000-8000-000000000091",
-                     *       "version_id": "00000000-0000-4000-8000-000000000092",
+                     *       "reauthentication_id": "00000000-0000-4000-8000-000000000096",
+                     *       "version_id": "00000000-0000-4000-8000-000000000097",
                      *       "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                      *       "expires_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -8796,9 +9627,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "principal_id": "00000000-0000-4000-8000-000000000093",
-                 *       "purpose_id": "00000000-0000-4000-8000-000000000094",
-                 *       "system_id": "00000000-0000-4000-8000-000000000095"
+                 *       "principal_id": "00000000-0000-4000-8000-000000000098",
+                 *       "purpose_id": "00000000-0000-4000-8000-000000000099",
+                 *       "system_id": "00000000-0000-4000-8000-00000000009a"
                  *     }
                  */
                 "application/json": components["schemas"]["MappingCreate"];
@@ -8813,10 +9644,10 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "principal_id": "00000000-0000-4000-8000-000000000096",
-                     *       "purpose_id": "00000000-0000-4000-8000-000000000097",
-                     *       "system_id": "00000000-0000-4000-8000-000000000098",
-                     *       "id": "00000000-0000-4000-8000-000000000099",
+                     *       "principal_id": "00000000-0000-4000-8000-00000000009b",
+                     *       "purpose_id": "00000000-0000-4000-8000-00000000009c",
+                     *       "system_id": "00000000-0000-4000-8000-00000000009d",
+                     *       "id": "00000000-0000-4000-8000-00000000009e",
                      *       "target_subject_reference": "syn_asha_demo",
                      *       "target_generation": 0
                      *     }
@@ -9140,11 +9971,11 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "environment_id": "00000000-0000-4000-8000-00000000009a",
-                     *       "legal_entity_id": "00000000-0000-4000-8000-00000000009b",
+                     *       "environment_id": "00000000-0000-4000-8000-00000000009f",
+                     *       "legal_entity_id": "00000000-0000-4000-8000-0000000000a0",
                      *       "name": "Synthetic example",
                      *       "connector": "SYNTHETIC_CRM",
-                     *       "id": "00000000-0000-4000-8000-00000000009c",
+                     *       "id": "00000000-0000-4000-8000-0000000000a1",
                      *       "capability_version": "1.0.0",
                      *       "supports_restrict": false,
                      *       "supports_read": false,
@@ -9631,8 +10462,8 @@ export interface operations {
                 /**
                  * @example {
                  *       "expected_epoch": 0,
-                 *       "notice_version_id": "00000000-0000-4000-8000-00000000009d",
-                 *       "interaction_id": "00000000-0000-4000-8000-00000000009e",
+                 *       "notice_version_id": "00000000-0000-4000-8000-0000000000a2",
+                 *       "interaction_id": "00000000-0000-4000-8000-0000000000a3",
                  *       "affirmative": true
                  *     }
                  */
@@ -9812,7 +10643,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "expected_epoch": 0,
-                 *       "interaction_id": "00000000-0000-4000-8000-00000000009f"
+                 *       "interaction_id": "00000000-0000-4000-8000-0000000000a4"
                  *     }
                  */
                 "application/json": components["schemas"]["Withdraw"];
@@ -10331,9 +11162,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000a0",
-                     *       "event_id": "00000000-0000-4000-8000-0000000000a1",
-                     *       "purpose_id": "00000000-0000-4000-8000-0000000000a2",
+                     *       "id": "00000000-0000-4000-8000-0000000000a5",
+                     *       "event_id": "00000000-0000-4000-8000-0000000000a6",
+                     *       "purpose_id": "00000000-0000-4000-8000-0000000000a7",
                      *       "state": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z",
                      *       "updated_at": "2026-09-16T10:00:00.000Z",
@@ -10500,7 +11331,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "operation_id": "00000000-0000-4000-8000-0000000000a3",
+                     *       "operation_id": "00000000-0000-4000-8000-0000000000a8",
                      *       "status": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -10660,7 +11491,7 @@ export interface operations {
                  * @example {
                  *       "statement": "Synthetic example",
                  *       "evidence_record_ids": [
-                 *         "00000000-0000-4000-8000-0000000000a4"
+                 *         "00000000-0000-4000-8000-0000000000a9"
                  *       ],
                  *       "expected_task_version": 0
                  *     }
@@ -10677,7 +11508,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "operation_id": "00000000-0000-4000-8000-0000000000a5",
+                     *       "operation_id": "00000000-0000-4000-8000-0000000000aa",
                      *       "status": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -11002,9 +11833,9 @@ export interface operations {
                     /**
                      * @example {
                      *       "workflow": {
-                     *         "id": "00000000-0000-4000-8000-0000000000a6",
-                     *         "event_id": "00000000-0000-4000-8000-0000000000a7",
-                     *         "purpose_id": "00000000-0000-4000-8000-0000000000a8",
+                     *         "id": "00000000-0000-4000-8000-0000000000ab",
+                     *         "event_id": "00000000-0000-4000-8000-0000000000ac",
+                     *         "purpose_id": "00000000-0000-4000-8000-0000000000ad",
                      *         "state": "ACCEPTED",
                      *         "accepted_at": "2026-09-16T10:00:00.000Z",
                      *         "updated_at": "2026-09-16T10:00:00.000Z",
@@ -11179,9 +12010,9 @@ export interface operations {
                     /**
                      * @example {
                      *       "workflow": {
-                     *         "id": "00000000-0000-4000-8000-0000000000a9",
-                     *         "event_id": "00000000-0000-4000-8000-0000000000aa",
-                     *         "purpose_id": "00000000-0000-4000-8000-0000000000ab",
+                     *         "id": "00000000-0000-4000-8000-0000000000ae",
+                     *         "event_id": "00000000-0000-4000-8000-0000000000af",
+                     *         "purpose_id": "00000000-0000-4000-8000-0000000000b0",
                      *         "state": "ACCEPTED",
                      *         "accepted_at": "2026-09-16T10:00:00.000Z",
                      *         "updated_at": "2026-09-16T10:00:00.000Z",
@@ -11347,9 +12178,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "principal_id": "00000000-0000-4000-8000-0000000000ac",
-                 *       "purpose_id": "00000000-0000-4000-8000-0000000000ad",
-                 *       "system_id": "00000000-0000-4000-8000-0000000000ae",
+                 *       "principal_id": "00000000-0000-4000-8000-0000000000b1",
+                 *       "purpose_id": "00000000-0000-4000-8000-0000000000b2",
+                 *       "system_id": "00000000-0000-4000-8000-0000000000b3",
                  *       "action": "MARKETING_SEND"
                  *     }
                  */
@@ -11365,7 +12196,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "decision_id": "00000000-0000-4000-8000-0000000000af",
+                     *       "decision_id": "00000000-0000-4000-8000-0000000000b4",
                      *       "decision": "ALLOW",
                      *       "reason_codes": [
                      *         "SYNTHETIC_EXAMPLE"
@@ -11544,7 +12375,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000b0",
+                     *       "id": "00000000-0000-4000-8000-0000000000b5",
                      *       "request": {
                      *         "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
                      *         "profile": "codex-a00",
@@ -11716,7 +12547,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000b1",
+                     *       "id": "00000000-0000-4000-8000-0000000000b6",
                      *       "request": {
                      *         "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
                      *         "profile": "codex-a00",
@@ -12206,7 +13037,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "system_id": "00000000-0000-4000-8000-0000000000b5",
+                 *       "system_id": "00000000-0000-4000-8000-0000000000ba",
                  *       "kind": "DATASET",
                  *       "parent_id": null,
                  *       "name": "Synthetic example",
@@ -12228,7 +13059,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "system_id": "00000000-0000-4000-8000-0000000000b6",
+                     *       "system_id": "00000000-0000-4000-8000-0000000000bb",
                      *       "kind": "DATASET",
                      *       "parent_id": null,
                      *       "name": "Synthetic example",
@@ -12236,13 +13067,13 @@ export interface operations {
                      *       "provenance": "ASSERTED",
                      *       "valid_from": "2026-09-16T10:00:00.000Z",
                      *       "categories": [],
-                     *       "id": "00000000-0000-4000-8000-0000000000b7",
+                     *       "id": "00000000-0000-4000-8000-0000000000bc",
                      *       "review_state": "UNREVIEWED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "valid_to": null,
                      *       "last_seen_at": null,
                      *       "fresh_until": null,
-                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000b8",
+                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000bd",
                      *       "tombstoned_at": null,
                      *       "tombstone_reason": null
                      *     }
@@ -12404,7 +13235,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "system_id": "00000000-0000-4000-8000-0000000000b2",
+                     *       "system_id": "00000000-0000-4000-8000-0000000000b7",
                      *       "kind": "DATASET",
                      *       "parent_id": null,
                      *       "name": "Synthetic example",
@@ -12412,13 +13243,13 @@ export interface operations {
                      *       "provenance": "ASSERTED",
                      *       "valid_from": "2026-09-16T10:00:00.000Z",
                      *       "categories": [],
-                     *       "id": "00000000-0000-4000-8000-0000000000b3",
+                     *       "id": "00000000-0000-4000-8000-0000000000b8",
                      *       "review_state": "UNREVIEWED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "valid_to": null,
                      *       "last_seen_at": null,
                      *       "fresh_until": null,
-                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000b4",
+                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000b9",
                      *       "tombstoned_at": null,
                      *       "tombstone_reason": null
                      *     }
@@ -12592,7 +13423,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "system_id": "00000000-0000-4000-8000-0000000000b9",
+                     *       "system_id": "00000000-0000-4000-8000-0000000000be",
                      *       "kind": "DATASET",
                      *       "parent_id": null,
                      *       "name": "Synthetic example",
@@ -12600,13 +13431,13 @@ export interface operations {
                      *       "provenance": "ASSERTED",
                      *       "valid_from": "2026-09-16T10:00:00.000Z",
                      *       "categories": [],
-                     *       "id": "00000000-0000-4000-8000-0000000000ba",
+                     *       "id": "00000000-0000-4000-8000-0000000000bf",
                      *       "review_state": "UNREVIEWED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "valid_to": null,
                      *       "last_seen_at": null,
                      *       "fresh_until": null,
-                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000bb",
+                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000c0",
                      *       "tombstoned_at": null,
                      *       "tombstone_reason": null
                      *     }
@@ -12924,7 +13755,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "purpose_id": "00000000-0000-4000-8000-0000000000bc",
+                 *       "purpose_id": "00000000-0000-4000-8000-0000000000c1",
                  *       "name": "Synthetic example",
                  *       "description": "Synthetic example",
                  *       "lawful_condition": "AFFIRMATIVE_MARKETING_CONSENT",
@@ -12943,15 +13774,15 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "purpose_id": "00000000-0000-4000-8000-0000000000bd",
+                     *       "purpose_id": "00000000-0000-4000-8000-0000000000c2",
                      *       "name": "Synthetic example",
                      *       "description": "Synthetic example",
                      *       "lawful_condition": "AFFIRMATIVE_MARKETING_CONSENT",
                      *       "owner_reference": "Synthetic example",
-                     *       "id": "00000000-0000-4000-8000-0000000000be",
+                     *       "id": "00000000-0000-4000-8000-0000000000c3",
                      *       "review_state": "UNREVIEWED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000bf"
+                     *       "owner_actor_id": "00000000-0000-4000-8000-0000000000c4"
                      *     }
                      */
                     "application/json": components["schemas"]["ProcessingActivity"];
@@ -13637,7 +14468,7 @@ export interface operations {
                      * @example {
                      *       "root": {
                      *         "kind": "DATA_ASSET",
-                     *         "id": "00000000-0000-4000-8000-0000000000c0"
+                     *         "id": "00000000-0000-4000-8000-0000000000c5"
                      *       },
                      *       "depth": 1,
                      *       "nodes": [],
@@ -13805,7 +14636,7 @@ export interface operations {
                      * @example {
                      *       "node": {
                      *         "kind": "DATA_ASSET",
-                     *         "id": "00000000-0000-4000-8000-0000000000c1"
+                     *         "id": "00000000-0000-4000-8000-0000000000c6"
                      *       },
                      *       "assessed_at": "2026-09-16T10:00:00.000Z",
                      *       "affected": {
@@ -14137,7 +14968,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "right_type": "ACCESS",
-                 *       "principal_id": "00000000-0000-4000-8000-0000000000c2",
+                 *       "principal_id": "00000000-0000-4000-8000-0000000000c7",
                  *       "submitted_channel": "PORTAL",
                  *       "mandate_id": null,
                  *       "description": "Synthetic example"
@@ -14155,9 +14986,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000c3",
+                     *       "id": "00000000-0000-4000-8000-0000000000c8",
                      *       "right_type": "ACCESS",
-                     *       "principal_id": "00000000-0000-4000-8000-0000000000c4",
+                     *       "principal_id": "00000000-0000-4000-8000-0000000000c9",
                      *       "submitted_channel": "PORTAL",
                      *       "mandate_id": null,
                      *       "description": "Synthetic example",
@@ -14333,9 +15164,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000c5",
+                     *       "id": "00000000-0000-4000-8000-0000000000ca",
                      *       "right_type": "ACCESS",
-                     *       "principal_id": "00000000-0000-4000-8000-0000000000c6",
+                     *       "principal_id": "00000000-0000-4000-8000-0000000000cb",
                      *       "submitted_channel": "PORTAL",
                      *       "mandate_id": null,
                      *       "description": "Synthetic example",
@@ -14524,9 +15355,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000c7",
+                     *       "id": "00000000-0000-4000-8000-0000000000cc",
                      *       "right_type": "ACCESS",
-                     *       "principal_id": "00000000-0000-4000-8000-0000000000c8",
+                     *       "principal_id": "00000000-0000-4000-8000-0000000000cd",
                      *       "submitted_channel": "PORTAL",
                      *       "mandate_id": null,
                      *       "description": "Synthetic example",
@@ -14700,7 +15531,7 @@ export interface operations {
                  * @example {
                  *       "items": [
                  *         {
-                 *           "system_id": "00000000-0000-4000-8000-0000000000c9",
+                 *           "system_id": "00000000-0000-4000-8000-0000000000ce",
                  *           "action": "DISCLOSE_COPY",
                  *           "retention_exception": null,
                  *           "note": "Synthetic example"
@@ -14721,9 +15552,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000ca",
+                     *       "id": "00000000-0000-4000-8000-0000000000cf",
                      *       "right_type": "ACCESS",
-                     *       "principal_id": "00000000-0000-4000-8000-0000000000cb",
+                     *       "principal_id": "00000000-0000-4000-8000-0000000000d0",
                      *       "submitted_channel": "PORTAL",
                      *       "mandate_id": null,
                      *       "description": "Synthetic example",
@@ -14911,9 +15742,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000cc",
+                     *       "id": "00000000-0000-4000-8000-0000000000d1",
                      *       "right_type": "ACCESS",
-                     *       "principal_id": "00000000-0000-4000-8000-0000000000cd",
+                     *       "principal_id": "00000000-0000-4000-8000-0000000000d2",
                      *       "submitted_channel": "PORTAL",
                      *       "mandate_id": null,
                      *       "description": "Synthetic example",
@@ -15102,9 +15933,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000ce",
+                     *       "id": "00000000-0000-4000-8000-0000000000d3",
                      *       "right_type": "ACCESS",
-                     *       "principal_id": "00000000-0000-4000-8000-0000000000cf",
+                     *       "principal_id": "00000000-0000-4000-8000-0000000000d4",
                      *       "submitted_channel": "PORTAL",
                      *       "mandate_id": null,
                      *       "description": "Synthetic example",
@@ -15295,9 +16126,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000d0",
+                     *       "id": "00000000-0000-4000-8000-0000000000d5",
                      *       "right_type": "ACCESS",
-                     *       "principal_id": "00000000-0000-4000-8000-0000000000d1",
+                     *       "principal_id": "00000000-0000-4000-8000-0000000000d6",
                      *       "submitted_channel": "PORTAL",
                      *       "mandate_id": null,
                      *       "description": "Synthetic example",
@@ -15984,7 +16815,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "data_asset_ids": [
-                 *         "00000000-0000-4000-8000-0000000000d2"
+                 *         "00000000-0000-4000-8000-0000000000d7"
                  *       ],
                  *       "reason": "Synthetic example",
                  *       "authority_reference": "Synthetic example",
@@ -16006,17 +16837,17 @@ export interface operations {
                     /**
                      * @example {
                      *       "data_asset_ids": [
-                     *         "00000000-0000-4000-8000-0000000000d3"
+                     *         "00000000-0000-4000-8000-0000000000d8"
                      *       ],
                      *       "reason": "Synthetic example",
                      *       "authority_reference": "Synthetic example",
                      *       "issued_at": "2026-09-16T10:00:00.000Z",
                      *       "review_at": "2026-09-16T10:00:00.000Z",
                      *       "release_criterion": "Synthetic example",
-                     *       "id": "00000000-0000-4000-8000-0000000000d4",
+                     *       "id": "00000000-0000-4000-8000-0000000000d9",
                      *       "state": "ACTIVE",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000d5",
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000da",
                      *       "released_at": null,
                      *       "release_reason": null
                      *     }
@@ -16190,17 +17021,17 @@ export interface operations {
                     /**
                      * @example {
                      *       "data_asset_ids": [
-                     *         "00000000-0000-4000-8000-0000000000d6"
+                     *         "00000000-0000-4000-8000-0000000000db"
                      *       ],
                      *       "reason": "Synthetic example",
                      *       "authority_reference": "Synthetic example",
                      *       "issued_at": "2026-09-16T10:00:00.000Z",
                      *       "review_at": "2026-09-16T10:00:00.000Z",
                      *       "release_criterion": "Synthetic example",
-                     *       "id": "00000000-0000-4000-8000-0000000000d7",
+                     *       "id": "00000000-0000-4000-8000-0000000000dc",
                      *       "state": "ACTIVE",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000d8",
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000dd",
                      *       "released_at": null,
                      *       "release_reason": null
                      *     }
@@ -16533,7 +17364,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "governing_constraint_id": "00000000-0000-4000-8000-0000000000d9",
+                 *       "governing_constraint_id": "00000000-0000-4000-8000-0000000000de",
                  *       "reason": "Synthetic example"
                  *     }
                  */
@@ -17066,9 +17897,9 @@ export interface operations {
                     /**
                      * @example {
                      *       "scope": {
-                     *         "tenant_id": "00000000-0000-4000-8000-0000000000da",
-                     *         "legal_entity_id": "00000000-0000-4000-8000-0000000000db",
-                     *         "environment_id": "00000000-0000-4000-8000-0000000000dc"
+                     *         "tenant_id": "00000000-0000-4000-8000-0000000000df",
+                     *         "legal_entity_id": "00000000-0000-4000-8000-0000000000e0",
+                     *         "environment_id": "00000000-0000-4000-8000-0000000000e1"
                      *       },
                      *       "as_of": "2026-09-16T10:00:00.000Z",
                      *       "measures": [],
@@ -17929,7 +18760,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "gap_id": "00000000-0000-4000-8000-0000000000dd",
+                     *       "gap_id": "00000000-0000-4000-8000-0000000000e2",
                      *       "matched_rule": null,
                      *       "suggestion": null,
                      *       "authority": "ADVISORY_ONLY",
@@ -18254,7 +19085,7 @@ export interface operations {
                  *       "name": "Synthetic example",
                  *       "role": "PROCESSOR",
                  *       "authorised_purpose_ids": [
-                 *         "00000000-0000-4000-8000-0000000000de"
+                 *         "00000000-0000-4000-8000-0000000000e3"
                  *       ],
                  *       "authorised_categories": [
                  *         "CONTACT_DETAILS"
@@ -18281,7 +19112,7 @@ export interface operations {
                      *       "name": "Synthetic example",
                      *       "role": "PROCESSOR",
                      *       "authorised_purpose_ids": [
-                     *         "00000000-0000-4000-8000-0000000000df"
+                     *         "00000000-0000-4000-8000-0000000000e4"
                      *       ],
                      *       "authorised_categories": [
                      *         "CONTACT_DETAILS"
@@ -18291,9 +19122,9 @@ export interface operations {
                      *       "owner_reference": "Synthetic example",
                      *       "incident_contact": "Synthetic example",
                      *       "subprocessors_permitted": false,
-                     *       "id": "00000000-0000-4000-8000-0000000000e0",
+                     *       "id": "00000000-0000-4000-8000-0000000000e5",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000e1"
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000e6"
                      *     }
                      */
                     "application/json": components["schemas"]["Processor"];
@@ -18449,7 +19280,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "system_id": "00000000-0000-4000-8000-0000000000e2",
+                 *       "system_id": "00000000-0000-4000-8000-0000000000e7",
                  *       "basis": "Synthetic example"
                  *     }
                  */
@@ -18468,7 +19299,7 @@ export interface operations {
                      *       "name": "Synthetic example",
                      *       "role": "PROCESSOR",
                      *       "authorised_purpose_ids": [
-                     *         "00000000-0000-4000-8000-0000000000e3"
+                     *         "00000000-0000-4000-8000-0000000000e8"
                      *       ],
                      *       "authorised_categories": [
                      *         "CONTACT_DETAILS"
@@ -18478,9 +19309,9 @@ export interface operations {
                      *       "owner_reference": "Synthetic example",
                      *       "incident_contact": "Synthetic example",
                      *       "subprocessors_permitted": false,
-                     *       "id": "00000000-0000-4000-8000-0000000000e4",
+                     *       "id": "00000000-0000-4000-8000-0000000000e9",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000e5"
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000ea"
                      *     }
                      */
                     "application/json": components["schemas"]["Processor"];
@@ -18640,7 +19471,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "processor_id": "00000000-0000-4000-8000-0000000000e6",
+                     *       "processor_id": "00000000-0000-4000-8000-0000000000eb",
                      *       "as_of": "2026-09-16T10:00:00.000Z",
                      *       "notified": false,
                      *       "acknowledged": false,
@@ -19148,7 +19979,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "processor_id": "00000000-0000-4000-8000-0000000000e7",
+                 *       "processor_id": "00000000-0000-4000-8000-0000000000ec",
                  *       "kind": "DATA_PROTECTION_IMPACT",
                  *       "applicability_basis": "Synthetic example",
                  *       "scope_system_ids": [],
@@ -19168,16 +19999,16 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "processor_id": "00000000-0000-4000-8000-0000000000e8",
+                     *       "processor_id": "00000000-0000-4000-8000-0000000000ed",
                      *       "kind": "DATA_PROTECTION_IMPACT",
                      *       "applicability_basis": "Synthetic example",
                      *       "scope_system_ids": [],
                      *       "reviewer_reference": "Synthetic example",
                      *       "due_at": "2026-09-16T10:00:00.000Z",
-                     *       "id": "00000000-0000-4000-8000-0000000000e9",
+                     *       "id": "00000000-0000-4000-8000-0000000000ee",
                      *       "state": "OPEN",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000ea",
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000ef",
                      *       "completed_at": null,
                      *       "conclusion": null
                      *     }
@@ -19350,16 +20181,16 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "processor_id": "00000000-0000-4000-8000-0000000000eb",
+                     *       "processor_id": "00000000-0000-4000-8000-0000000000f0",
                      *       "kind": "DATA_PROTECTION_IMPACT",
                      *       "applicability_basis": "Synthetic example",
                      *       "scope_system_ids": [],
                      *       "reviewer_reference": "Synthetic example",
                      *       "due_at": "2026-09-16T10:00:00.000Z",
-                     *       "id": "00000000-0000-4000-8000-0000000000ec",
+                     *       "id": "00000000-0000-4000-8000-0000000000f1",
                      *       "state": "OPEN",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000ed",
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000f2",
                      *       "completed_at": null,
                      *       "conclusion": null
                      *     }
@@ -19677,7 +20508,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "assessment_id": "00000000-0000-4000-8000-0000000000ee",
+                 *       "assessment_id": "00000000-0000-4000-8000-0000000000f3",
                  *       "severity": "LOW",
                  *       "description": "Synthetic example",
                  *       "affected_system_ids": [],
@@ -20251,10 +21082,10 @@ export interface operations {
                      *       "affected_processor_ids": [],
                      *       "principal_scope": "Synthetic example",
                      *       "principal_scope_certain": false,
-                     *       "id": "00000000-0000-4000-8000-0000000000ef",
+                     *       "id": "00000000-0000-4000-8000-0000000000f4",
                      *       "state": "OPEN",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000f0",
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000f5",
                      *       "contained_at": null,
                      *       "closed_at": null,
                      *       "closure_note": null
@@ -20430,10 +21261,10 @@ export interface operations {
                      *         "affected_processor_ids": [],
                      *         "principal_scope": "Synthetic example",
                      *         "principal_scope_certain": false,
-                     *         "id": "00000000-0000-4000-8000-0000000000f1",
+                     *         "id": "00000000-0000-4000-8000-0000000000f6",
                      *         "state": "OPEN",
                      *         "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *         "recorded_by": "00000000-0000-4000-8000-0000000000f2",
+                     *         "recorded_by": "00000000-0000-4000-8000-0000000000f7",
                      *         "contained_at": null,
                      *         "closed_at": null,
                      *         "closure_note": null
@@ -20628,10 +21459,10 @@ export interface operations {
                      *         "affected_processor_ids": [],
                      *         "principal_scope": "Synthetic example",
                      *         "principal_scope_certain": false,
-                     *         "id": "00000000-0000-4000-8000-0000000000f3",
+                     *         "id": "00000000-0000-4000-8000-0000000000f8",
                      *         "state": "OPEN",
                      *         "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *         "recorded_by": "00000000-0000-4000-8000-0000000000f4",
+                     *         "recorded_by": "00000000-0000-4000-8000-0000000000f9",
                      *         "contained_at": null,
                      *         "closed_at": null,
                      *         "closure_note": null
@@ -20822,10 +21653,10 @@ export interface operations {
                      *       "affected_processor_ids": [],
                      *       "principal_scope": "Synthetic example",
                      *       "principal_scope_certain": false,
-                     *       "id": "00000000-0000-4000-8000-0000000000f5",
+                     *       "id": "00000000-0000-4000-8000-0000000000fa",
                      *       "state": "OPEN",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000f6",
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000fb",
                      *       "contained_at": null,
                      *       "closed_at": null,
                      *       "closure_note": null
@@ -21011,10 +21842,10 @@ export interface operations {
                      *       "affected_processor_ids": [],
                      *       "principal_scope": "Synthetic example",
                      *       "principal_scope_certain": false,
-                     *       "id": "00000000-0000-4000-8000-0000000000f7",
+                     *       "id": "00000000-0000-4000-8000-0000000000fc",
                      *       "state": "OPEN",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000f8",
+                     *       "recorded_by": "00000000-0000-4000-8000-0000000000fd",
                      *       "contained_at": null,
                      *       "closed_at": null,
                      *       "closure_note": null
@@ -21191,9 +22022,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000000f9",
-                     *       "incident_id": "00000000-0000-4000-8000-0000000000fa",
-                     *       "rule_id": "00000000-0000-4000-8000-0000000000fb",
+                     *       "id": "00000000-0000-4000-8000-0000000000fe",
+                     *       "incident_id": "00000000-0000-4000-8000-0000000000ff",
+                     *       "rule_id": "00000000-0000-4000-8000-000000000100",
                      *       "recipient": "Synthetic example",
                      *       "regime_reference": "Synthetic example",
                      *       "state": "NOT_APPLICABLE",
@@ -21544,10 +22375,10 @@ export interface operations {
                      *       "hours": 1,
                      *       "minimum_severity": "NEGLIGIBLE",
                      *       "applies_when_scope_uncertain": false,
-                     *       "id": "00000000-0000-4000-8000-0000000000fc",
+                     *       "id": "00000000-0000-4000-8000-000000000101",
                      *       "active": false,
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-0000000000fd"
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000102"
                      *     }
                      */
                     "application/json": components["schemas"]["ObligationRule"];
@@ -22209,9 +23040,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "template_id": "00000000-0000-4000-8000-0000000000fe",
+                 *       "template_id": "00000000-0000-4000-8000-000000000103",
                  *       "source": "COVERAGE_GAP",
-                 *       "source_id": "00000000-0000-4000-8000-0000000000ff",
+                 *       "source_id": "00000000-0000-4000-8000-000000000104",
                  *       "recipient_reference": "Synthetic example",
                  *       "source_due_at": null
                  *     }
@@ -23482,13 +24313,13 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000100",
+                     *       "id": "00000000-0000-4000-8000-000000000105",
                      *       "subject": "INSTALLATION_FAILURE",
                      *       "state": "OPEN",
                      *       "gap_id": null,
                      *       "vendor_case_reference": null,
                      *       "opened_at": "2026-09-16T10:00:00.000Z",
-                     *       "opened_by": "00000000-0000-4000-8000-000000000101"
+                     *       "opened_by": "00000000-0000-4000-8000-000000000106"
                      *     }
                      */
                     "application/json": components["schemas"]["SupportCase"];
@@ -23649,13 +24480,13 @@ export interface operations {
                     /**
                      * @example {
                      *       "support_case": {
-                     *         "id": "00000000-0000-4000-8000-000000000102",
+                     *         "id": "00000000-0000-4000-8000-000000000107",
                      *         "subject": "INSTALLATION_FAILURE",
                      *         "state": "OPEN",
                      *         "gap_id": null,
                      *         "vendor_case_reference": null,
                      *         "opened_at": "2026-09-16T10:00:00.000Z",
-                     *         "opened_by": "00000000-0000-4000-8000-000000000103"
+                     *         "opened_by": "00000000-0000-4000-8000-000000000108"
                      *       },
                      *       "vendor_case_state": "NOT_SUBMITTED",
                      *       "local_control_state": "NO_LINKED_GAP",
@@ -23824,10 +24655,10 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000104",
-                     *       "case_id": "00000000-0000-4000-8000-000000000105",
+                     *       "id": "00000000-0000-4000-8000-000000000109",
+                     *       "case_id": "00000000-0000-4000-8000-00000000010a",
                      *       "report": {
-                     *         "report_id": "00000000-0000-4000-8000-000000000106",
+                     *         "report_id": "00000000-0000-4000-8000-00000000010b",
                      *         "generated_at": "2026-09-16T10:00:00.000Z",
                      *         "installation_reference": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                      *         "product_version": "1.0.0",
@@ -23846,7 +24677,7 @@ export interface operations {
                      *       },
                      *       "payload_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                      *       "generated_at": "2026-09-16T10:00:00.000Z",
-                     *       "generated_by": "00000000-0000-4000-8000-000000000107",
+                     *       "generated_by": "00000000-0000-4000-8000-00000000010c",
                      *       "superseded": false,
                      *       "forbidden_content_scan": {
                      *         "ran": true,
@@ -24027,13 +24858,13 @@ export interface operations {
                     /**
                      * @example {
                      *       "support_case": {
-                     *         "id": "00000000-0000-4000-8000-000000000108",
+                     *         "id": "00000000-0000-4000-8000-00000000010d",
                      *         "subject": "INSTALLATION_FAILURE",
                      *         "state": "OPEN",
                      *         "gap_id": null,
                      *         "vendor_case_reference": null,
                      *         "opened_at": "2026-09-16T10:00:00.000Z",
-                     *         "opened_by": "00000000-0000-4000-8000-000000000109"
+                     *         "opened_by": "00000000-0000-4000-8000-00000000010e"
                      *       },
                      *       "vendor_case_state": "NOT_SUBMITTED",
                      *       "local_control_state": "NO_LINKED_GAP",
@@ -24214,14 +25045,14 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000010a",
-                     *       "draft_id": "00000000-0000-4000-8000-00000000010b",
+                     *       "id": "00000000-0000-4000-8000-00000000010f",
+                     *       "draft_id": "00000000-0000-4000-8000-000000000110",
                      *       "approved_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                      *       "destination": "VENDOR_SUPPORT_INGRESS",
                      *       "purpose": "DIAGNOSE_REPORTED_FAILURE",
                      *       "retention_days": 1,
                      *       "approved_at": "2026-09-16T10:00:00.000Z",
-                     *       "approved_by": "00000000-0000-4000-8000-00000000010c",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000111",
                      *       "authorises_generation": false,
                      *       "limits": []
                      *     }
@@ -24398,8 +25229,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000010d",
-                     *       "approval_id": "00000000-0000-4000-8000-00000000010e",
+                     *       "id": "00000000-0000-4000-8000-000000000112",
+                     *       "approval_id": "00000000-0000-4000-8000-000000000113",
                      *       "digest_at_transfer": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                      *       "method": "MANUAL_OFFLINE_TRANSFER",
                      *       "outcome": "NOT_ATTEMPTED",
@@ -24407,7 +25238,7 @@ export interface operations {
                      *       "evidence_reference": null,
                      *       "note": "Synthetic example",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-00000000010f",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000114",
                      *       "transported_by_orvia": false
                      *     }
                      */
@@ -24918,11 +25749,11 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000110",
+                     *       "id": "00000000-0000-4000-8000-000000000115",
                      *       "token_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                      *       "note": "Synthetic example",
                      *       "registered_at": "2026-09-16T10:00:00.000Z",
-                     *       "registered_by": "00000000-0000-4000-8000-000000000111"
+                     *       "registered_by": "00000000-0000-4000-8000-000000000116"
                      *     }
                      */
                     "application/json": components["schemas"]["Canary"];
@@ -25704,15 +26535,15 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000112",
-                     *       "release_id": "00000000-0000-4000-8000-000000000113",
+                     *       "id": "00000000-0000-4000-8000-000000000117",
+                     *       "release_id": "00000000-0000-4000-8000-000000000118",
                      *       "from_version": "1.0.0",
                      *       "to_version": "1.0.0",
                      *       "state": "APPROVED",
                      *       "recovery_mode": "FORWARD_RECOVERY_ONLY",
                      *       "rollback_available": false,
                      *       "approved_at": "2026-09-16T10:00:00.000Z",
-                     *       "approved_by": "00000000-0000-4000-8000-000000000114",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000119",
                      *       "approval_note": "Synthetic example",
                      *       "steps": [],
                      *       "outstanding_steps": [],
@@ -26043,15 +26874,15 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000115",
-                     *       "release_id": "00000000-0000-4000-8000-000000000116",
+                     *       "id": "00000000-0000-4000-8000-00000000011a",
+                     *       "release_id": "00000000-0000-4000-8000-00000000011b",
                      *       "from_version": "1.0.0",
                      *       "to_version": "1.0.0",
                      *       "state": "APPROVED",
                      *       "recovery_mode": "FORWARD_RECOVERY_ONLY",
                      *       "rollback_available": false,
                      *       "approved_at": "2026-09-16T10:00:00.000Z",
-                     *       "approved_by": "00000000-0000-4000-8000-000000000117",
+                     *       "approved_by": "00000000-0000-4000-8000-00000000011c",
                      *       "approval_note": "Synthetic example",
                      *       "steps": [],
                      *       "outstanding_steps": [],
@@ -26234,15 +27065,15 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000118",
-                     *       "release_id": "00000000-0000-4000-8000-000000000119",
+                     *       "id": "00000000-0000-4000-8000-00000000011d",
+                     *       "release_id": "00000000-0000-4000-8000-00000000011e",
                      *       "from_version": "1.0.0",
                      *       "to_version": "1.0.0",
                      *       "state": "APPROVED",
                      *       "recovery_mode": "FORWARD_RECOVERY_ONLY",
                      *       "rollback_available": false,
                      *       "approved_at": "2026-09-16T10:00:00.000Z",
-                     *       "approved_by": "00000000-0000-4000-8000-00000000011a",
+                     *       "approved_by": "00000000-0000-4000-8000-00000000011f",
                      *       "approval_note": "Synthetic example",
                      *       "steps": [],
                      *       "outstanding_steps": [],
@@ -26995,19 +27826,19 @@ export interface operations {
                      *       },
                      *       "events": [
                      *         {
-                     *           "id": "00000000-0000-4000-8000-00000000011b",
+                     *           "id": "00000000-0000-4000-8000-000000000120",
                      *           "operation": "Synthetic example",
-                     *           "actor_id": "00000000-0000-4000-8000-00000000011c",
+                     *           "actor_id": "00000000-0000-4000-8000-000000000121",
                      *           "actor_domain": "STAFF",
                      *           "resource_id": null,
-                     *           "request_id": "00000000-0000-4000-8000-00000000011d",
+                     *           "request_id": "00000000-0000-4000-8000-000000000122",
                      *           "created_at": "2026-09-16T10:00:00.000Z",
                      *           "corrections": 0
                      *         }
                      *       ],
                      *       "matched": 1,
                      *       "complete": true,
-                     *       "digest": "c0ef55eca843cedae8912e12168888fdeaef9652e60e61f5fb0eaf64cb878506",
+                     *       "digest": "650309963a8ddddc369a93a6fc508a4be8993f91c833ba9d43cbf32a1c7959c9",
                      *       "limits": [
                      *         "This artifact carries every event the stated filter matched.",
                      *         "Producing this export is itself an audited event."
@@ -27578,7 +28409,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "system_id": "00000000-0000-4000-8000-00000000011e",
+                 *       "system_id": "00000000-0000-4000-8000-000000000123",
                  *       "environment_kind": "TEST",
                  *       "requested_capabilities": [
                  *         "DISCOVER"
@@ -28625,7 +29456,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "data_asset_ids": [
-                 *         "00000000-0000-4000-8000-00000000011f"
+                 *         "00000000-0000-4000-8000-000000000124"
                  *       ]
                  *     }
                  */
@@ -29150,7 +29981,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "event_id": "00000000-0000-4000-8000-000000000120",
+                 *       "event_id": "00000000-0000-4000-8000-000000000125",
                  *       "disputed": "WRONG_ACTOR",
                  *       "correction": "Synthetic example"
                  *     }
@@ -29167,12 +29998,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000121",
-                     *       "event_id": "00000000-0000-4000-8000-000000000122",
+                     *       "id": "00000000-0000-4000-8000-000000000126",
+                     *       "event_id": "00000000-0000-4000-8000-000000000127",
                      *       "disputed": "WRONG_ACTOR",
                      *       "correction": "Synthetic example",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-000000000123",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000128",
                      *       "original_event_unchanged": true,
                      *       "limits": []
                      *     }
@@ -29491,7 +30322,7 @@ export interface operations {
                 /**
                  * @example {
                  *       "kind": "NOMINATION",
-                 *       "principal_id": "00000000-0000-4000-8000-000000000124",
+                 *       "principal_id": "00000000-0000-4000-8000-000000000129",
                  *       "representative_reference": "Synthetic example",
                  *       "permitted_rights": [
                  *         "ACCESS"
@@ -29514,7 +30345,7 @@ export interface operations {
                     /**
                      * @example {
                      *       "kind": "NOMINATION",
-                     *       "principal_id": "00000000-0000-4000-8000-000000000125",
+                     *       "principal_id": "00000000-0000-4000-8000-00000000012a",
                      *       "representative_reference": "Synthetic example",
                      *       "permitted_rights": [
                      *         "ACCESS"
@@ -29522,10 +30353,10 @@ export interface operations {
                      *       "valid_from": "2026-09-16T10:00:00.000Z",
                      *       "valid_to": null,
                      *       "evidence_reference": "Synthetic example",
-                     *       "id": "00000000-0000-4000-8000-000000000126",
+                     *       "id": "00000000-0000-4000-8000-00000000012b",
                      *       "state": "ACTIVE",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-000000000127",
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000012c",
                      *       "revoked_at": null,
                      *       "revocation_reason": null
                      *     }
@@ -29699,7 +30530,7 @@ export interface operations {
                     /**
                      * @example {
                      *       "kind": "NOMINATION",
-                     *       "principal_id": "00000000-0000-4000-8000-000000000128",
+                     *       "principal_id": "00000000-0000-4000-8000-00000000012d",
                      *       "representative_reference": "Synthetic example",
                      *       "permitted_rights": [
                      *         "ACCESS"
@@ -29707,10 +30538,10 @@ export interface operations {
                      *       "valid_from": "2026-09-16T10:00:00.000Z",
                      *       "valid_to": null,
                      *       "evidence_reference": "Synthetic example",
-                     *       "id": "00000000-0000-4000-8000-000000000129",
+                     *       "id": "00000000-0000-4000-8000-00000000012e",
                      *       "state": "ACTIVE",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-00000000012a",
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000012f",
                      *       "revoked_at": null,
                      *       "revocation_reason": null
                      *     }
@@ -29864,8 +30695,8 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "installation_id": "00000000-0000-4000-8000-00000000012b",
-                 *       "environment_id": "00000000-0000-4000-8000-00000000012c",
+                 *       "installation_id": "00000000-0000-4000-8000-000000000130",
+                 *       "environment_id": "00000000-0000-4000-8000-000000000131",
                  *       "maximum_commands": 1
                  *     }
                  */
@@ -30038,9 +30869,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "command_id": "00000000-0000-4000-8000-00000000012d",
+                 *       "command_id": "00000000-0000-4000-8000-000000000132",
                  *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                 *       "attempt_id": "00000000-0000-4000-8000-00000000012e",
+                 *       "attempt_id": "00000000-0000-4000-8000-000000000133",
                  *       "execution_state": "ACKNOWLEDGED",
                  *       "recorded_at": "2026-09-16T10:00:00.000Z",
                  *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -30059,7 +30890,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "operation_id": "00000000-0000-4000-8000-00000000012f",
+                     *       "operation_id": "00000000-0000-4000-8000-000000000134",
                      *       "status": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -30215,10 +31046,10 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "attempt_id": "00000000-0000-4000-8000-000000000130",
-                 *       "principal_reference_id": "00000000-0000-4000-8000-000000000131",
-                 *       "purpose_id": "00000000-0000-4000-8000-000000000132",
-                 *       "system_id": "00000000-0000-4000-8000-000000000133",
+                 *       "attempt_id": "00000000-0000-4000-8000-000000000135",
+                 *       "principal_reference_id": "00000000-0000-4000-8000-000000000136",
+                 *       "purpose_id": "00000000-0000-4000-8000-000000000137",
+                 *       "system_id": "00000000-0000-4000-8000-000000000138",
                  *       "message_class": "MARKETING",
                  *       "order_reference": null
                  *     }
@@ -30458,9 +31289,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-000000000134",
+                     *       "command_id": "00000000-0000-4000-8000-000000000139",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-000000000135",
+                     *       "attempt_id": "00000000-0000-4000-8000-00000000013a",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -30624,7 +31455,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "resource_id": "00000000-0000-4000-8000-000000000136",
+                     *       "resource_id": "00000000-0000-4000-8000-00000000013b",
                      *       "generation": 0,
                      *       "last_applied_epoch": 0,
                      *       "marketing_restricted": false,
@@ -30788,9 +31619,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-000000000137",
+                     *       "command_id": "00000000-0000-4000-8000-00000000013c",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-000000000138",
+                     *       "attempt_id": "00000000-0000-4000-8000-00000000013d",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",

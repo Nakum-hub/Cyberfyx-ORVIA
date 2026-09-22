@@ -248,3 +248,15 @@ export const CAPABILITY_TEST_LABELS: Record<string, Label> = {
   NOT_RUN: { label: 'Not run', tone: 'neutral', meaning: 'No suite covers this module in this build.' },
   DEFERRED_V2: { label: 'Deferred to Version 2', tone: 'neutral', meaning: 'Not tested because nothing is built.' },
 };
+
+/**
+ * English and the twenty-two Eighth Schedule languages, in their English names.
+ * A code shown raw to a data principal is a code they have to look up, and the
+ * whole point of Act s5 is that the notice reaches them in words they read.
+ */
+export const LANGUAGE_NAMES: Record<string, string> = {
+  en: 'English', as: 'Assamese', bn: 'Bengali', brx: 'Bodo', doi: 'Dogri', gu: 'Gujarati',
+  hi: 'Hindi', kn: 'Kannada', ks: 'Kashmiri', kok: 'Konkani', mai: 'Maithili', ml: 'Malayalam',
+  mni: 'Manipuri', mr: 'Marathi', ne: 'Nepali', or: 'Odia', pa: 'Punjabi', sa: 'Sanskrit',
+  sat: 'Santali', sd: 'Sindhi', ta: 'Tamil', te: 'Telugu', ur: 'Urdu',
+};

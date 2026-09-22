@@ -13,6 +13,10 @@ export interface EndpointMap {
   create_systems: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SystemCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.System> };
   list_principals: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrincipalList> };
   create_principals: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PrincipalCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Principal> };
+  record_notice_revision: { request: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeRevisionCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeRevision> };
+  list_notice_revisions: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeRevisionList> };
+  notice_languages: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeAvailability> };
+  set_language: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LanguageChoice>; response: import('zod').infer<typeof import('../src/index.ts').schemas.LanguageChoice> };
   publish_policy: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyPublish>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Policy> };
   reauthenticate_policy: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyReauthenticate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PublicationProof> };
   create_mapping: { request: import('zod').infer<typeof import('../src/index.ts').schemas.MappingCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.TargetMapping> };

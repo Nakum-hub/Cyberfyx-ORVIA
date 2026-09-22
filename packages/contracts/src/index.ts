@@ -10,8 +10,21 @@ import { z } from 'zod';
  *  administration: a scoped, filtered read of the trail and append-only
  *  corrections. 0.12.0 adds M29's nine-step guided connection, whose step
  *  states are measured from existing evidence rather than stored as ticks.
- *  All are additive: no existing route, schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.12.0' as const;
+ *  0.13.0 closes two gaps against the Act: a notice may be authored in English
+ *  or any Eighth Schedule language (s5), a principal records the language they
+ *  chose, and a notice change is classified so existing consent is not silently
+ *  carried across a material change (FR-M12-03, FR-M12-04).
+ *
+ *  Everything up to 0.12.0 was additive. 0.13.0 is the first release that is
+ *  not, and the two breaks are deliberate. ProcessorRole's JOINT_CONTROLLER and
+ *  INDEPENDENT_CONTROLLER become JOINT_FIDUCIARY and INDEPENDENT_FIDUCIARY,
+ *  because this product is built to the DPDP Act and "controller" is another
+ *  regime's word; migration 0030 rewrites the stored values so no row is left
+ *  naming a role the contract cannot parse. ConsentChoice gains a required
+ *  `language` object, because a portal that returns one language field cannot
+ *  distinguish the language a principal chose from the one they were served,
+ *  and FR-M12-04 turns on exactly that distinction. */
+export const CONTRACT_VERSION = '0.13.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -72,8 +85,83 @@ export const ReceiptView = z.strictObject({ receipt: Receipt, current: z.strictO
 }) });
 export const PurposeCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, code: z.enum(['promotional_marketing', 'order_service_demo']), name: z.string().min(1).max(120), description: SafeText });
 export const Purpose = PurposeCreate.extend({ id: Id, version_id: Id, version: z.number().int().positive(), status: z.enum(['DRAFT', 'PUBLISHED', 'SUPERSEDED']) });
-export const NoticeCreate = z.strictObject({ purpose_id: Id, language: z.enum(['en']), title: z.string().min(1).max(120), content: z.string().min(1).max(10000) });
+/**
+ * English and the twenty-two languages of the Eighth Schedule, which is the set
+ * Act §5 allows a notice to be made available in. The list is closed on purpose:
+ * a language this product cannot name is one a principal cannot be recorded as
+ * having chosen, and silently widening it would let a notice claim a language
+ * nobody agreed was permissible.
+ */
+export const NoticeLanguage = z.enum([
+  'en', 'as', 'bn', 'brx', 'doi', 'gu', 'hi', 'kn', 'ks', 'kok', 'mai', 'ml',
+  'mni', 'mr', 'ne', 'or', 'pa', 'sa', 'sat', 'sd', 'ta', 'te', 'ur',
+]);
+export const NoticeCreate = z.strictObject({ purpose_id: Id, language: NoticeLanguage, title: z.string().min(1).max(120), content: z.string().min(1).max(10000) });
 export const Notice = NoticeCreate.extend({ id: Id, version_id: Id, content_digest: Digest, published_at: Time.nullable() });
+/**
+ * FR-M12-03. What changed between two notice versions, classified by the person
+ * who made the change rather than guessed from a diff.
+ *
+ * The classification decides whether existing consent still stands. An editorial
+ * fix or a translation does not change what anybody agreed to; a material change
+ * to scope does, and it cannot be recorded without saying what happens to the
+ * grants already given. `affected_grants` is counted from the consent records at
+ * the moment of the decision -- it is never a number somebody typed.
+ */
+export const NoticeChangeKind = z.enum(['EDITORIAL', 'TRANSLATION', 'MATERIAL_SCOPE_CHANGE']);
+export const ConsentDecision = z.enum(['MIGRATE_EXISTING_GRANTS', 'REQUIRE_FRESH_CONSENT']);
+const revisionShape = {
+  change_kind: NoticeChangeKind,
+  /** A translation says which version it is a translation of, so a reader can
+   *  tell whether it has fallen behind the text it came from. */
+  translates_version_id: Id.nullable(),
+  consent_decision: ConsentDecision.nullable(),
+  note: SafeText,
+};
+const revisionRules = (r: { change_kind: string; translates_version_id: string | null; consent_decision: string | null }, c: z.RefinementCtx) => {
+  if ((r.change_kind === 'TRANSLATION') !== (r.translates_version_id !== null)) c.addIssue({ code: 'custom', message: 'A translation names the version it translates, and nothing else does' });
+  if ((r.change_kind === 'MATERIAL_SCOPE_CHANGE') !== (r.consent_decision !== null)) c.addIssue({ code: 'custom', message: 'A material change to scope decides what happens to existing grants, and only a material change may' });
+};
+export const NoticeRevisionCreate = z.strictObject({ ...revisionShape, version_id: Id }).superRefine(revisionRules);
+export const NoticeRevision = z.strictObject({
+  ...revisionShape, id: Id, notice_id: Id, version_id: Id,
+  /** Counted from the consent records when the decision was taken. */
+  affected_grants: Epoch,
+  counted_at: Time, recorded_at: Time, recorded_by: Id,
+  /** Structural: this figure was measured, so nothing can assert it instead. */
+  affected_grants_were_counted: z.literal(true),
+  limits: z.array(SafeText).max(6),
+}).superRefine(revisionRules);
+/**
+ * FR-M12-04. Which languages a purpose's notice actually exists in.
+ *
+ * English-first administration must not erase a principal's language choice, so
+ * the shape refuses to let it: a language that was asked for and one that was
+ * served are separate fields, and `available_in_requested_language` is true only
+ * when they are the same. Falling back to English is expressible; reporting the
+ * fallback as though the request had been met is not.
+ */
+const availabilityShape = {
+  requested_language: NoticeLanguage,
+  served_language: NoticeLanguage.nullable(),
+  available_in_requested_language: z.boolean(),
+  /** Every language this purpose has a published notice in. */
+  published_languages: z.array(NoticeLanguage).max(23),
+};
+const availabilityRules = (a: { requested_language: string; served_language: string | null; available_in_requested_language: boolean; published_languages: string[] }, c: z.RefinementCtx) => {
+  if (a.available_in_requested_language !== (a.served_language === a.requested_language)) c.addIssue({ code: 'custom', message: 'A request is met only when the language served is the language asked for' });
+  if (new Set(a.published_languages).size !== a.published_languages.length) c.addIssue({ code: 'custom', message: 'Each language is listed once' });
+  if (a.served_language !== null && !a.published_languages.includes(a.served_language)) c.addIssue({ code: 'custom', message: 'A served language is one this purpose actually has a notice in' });
+};
+/** The same facts as they appear beside a principal's own choice in the portal. */
+export const LanguageAvailability = z.strictObject(availabilityShape).superRefine(availabilityRules);
+export const NoticeAvailability = z.strictObject({
+  ...availabilityShape, purpose_id: Id, limits: z.array(SafeText).max(6),
+}).superRefine(availabilityRules);
+export const LanguageChoice = z.strictObject({ preferred_language: NoticeLanguage });
+/** Which language an operator is asking about. Omitted means English, which is
+ *  the one language Act s5 always permits. */
+export const LanguageQuery = z.strictObject({ language: NoticeLanguage.optional() });
 export const PolicyCreate = z.strictObject({ purpose_id: Id, notice_version_id: Id, condition: z.enum(['AFFIRMATIVE_MARKETING_CONSENT', 'APPROVED_SYNTHETIC_ORDER_SERVICE']), system_ids: z.array(Id).min(1).max(3), required_observation: z.boolean() });
 export const Policy = PolicyCreate.extend({ id: Id, version_id: Id, digest: Digest, author_id: Id, status: z.enum(['DRAFT', 'PUBLISHED', 'SUPERSEDED']), published_at: Time.nullable() });
 export const PolicyPublish = z.strictObject({ version_id: Id, digest: Digest, reauthentication_id: Id });
@@ -85,7 +173,14 @@ export const SystemCreate = z.strictObject({ environment_id: Id, legal_entity_id
 export const System = SystemCreate.extend({ id: Id, capability_version: Version, supports_restrict: z.boolean(), supports_read: z.boolean(), checked_at: Time.nullable() });
 export const PrincipalCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, display_name: z.string().min(1).max(100), email: z.email().regex(/@(?:aster|birch)\.example$/) });
 export const Principal = PrincipalCreate.extend({ id: Id, synthetic: z.literal(true) });
-export const ConsentChoice = z.strictObject({ purpose_id: Id, purpose_name: SafeText, consent_status: ConsentState, consent_epoch: Epoch, notice: Notice.nullable(), interaction_id: Id });
+/**
+ * `notice` is what the principal is actually shown, and `language` says whether
+ * that is the language they chose. The two are separate because Act §5 gives
+ * the choice to the principal: showing an English notice to somebody who asked
+ * for Tamil may be all this installation can do, but reporting it as though
+ * their choice had been honoured is the thing the shape refuses.
+ */
+export const ConsentChoice = z.strictObject({ purpose_id: Id, purpose_name: SafeText, consent_status: ConsentState, consent_epoch: Epoch, notice: Notice.nullable(), language: LanguageAvailability, interaction_id: Id });
 export const Operation = z.enum(['CRM_REMOVE_MARKETING_MEMBERSHIP', 'SIMULATOR_RESTRICT']);
 export const CommandScope = Scope.extend({ principal_reference_id: Id, system_id: Id, resource_id: Id, target_subject_reference: z.string().regex(/^syn_[a-z0-9_]{1,80}$/), purpose_id: Id, policy_version_id: Id, consent_epoch: Epoch, target_generation: Epoch, operation: Operation });
 export const Approval = z.discriminatedUnion('result', [
@@ -486,7 +581,15 @@ export const Guidance = z.strictObject({
 // and somebody independently verifying it are three different facts. Collapsing
 // them is how an organisation ends up believing a control it never checked.
 // ---------------------------------------------------------------------------
-export const ProcessorRole = z.enum(['PROCESSOR', 'SUB_PROCESSOR', 'JOINT_CONTROLLER', 'INDEPENDENT_CONTROLLER']);
+/**
+ * The Act's own role names, not another regime's. A Data Processor processes on
+ * behalf of a Fiduciary (§2(k)); a Data Fiduciary is whoever "alone or in
+ * conjunction with other persons determines the purpose and means" (§2(i)),
+ * which is where the joint case comes from -- there is no "joint controller"
+ * here to borrow. Reading these back against the Act is the point of naming
+ * them this way.
+ */
+export const ProcessorRole = z.enum(['PROCESSOR', 'SUB_PROCESSOR', 'JOINT_FIDUCIARY', 'INDEPENDENT_FIDUCIARY']);
 export const ProcessorCreate = z.strictObject({
   name: z.string().min(1).max(120), role: ProcessorRole,
   authorised_purpose_ids: z.array(Id).min(1).max(20),
@@ -1330,6 +1433,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   OperationalReadiness,
   AuditEvent, AuditQuery, AuditCoverage, AuditExport, AuditCorrectionCreate, AuditCorrection, AuditEventList: page(AuditEvent),
   GuidedConnection, ConnectionStart, ConnectivityRecord, ScopedIdentityRecord, ResourceApproval, EnablementChange, GuidedConnectionList: page(GuidedConnection),
+  NoticeRevisionCreate, NoticeRevision, NoticeAvailability, LanguageChoice, LanguageQuery, NoticeRevisionList: page(NoticeRevision),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1351,6 +1455,10 @@ export const routes: RouteDefinition[] = [
     const [name,read,write] = names[resource];
     return [{id:`list_${resource}`,method:'get',path:`/api/v1/admin/${resource}`,authority:'STAFF',response:`${name}List`,status:200,paginated:true,capability:read}, {id:`create_${resource}`,method:'post',path:`/api/v1/admin/${resource}`,authority:'STAFF',request:`${name}Create`,response:name,status:201,idempotency:true,capability:write}] as RouteDefinition[];
   }),
+  {id:'record_notice_revision',method:'post',path:'/api/v1/admin/notices/{id}/revisions',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'NoticeRevisionCreate',response:'NoticeRevision',status:201,idempotency:true},
+  {id:'list_notice_revisions',method:'get',path:'/api/v1/admin/notices/{id}/revisions',authority:'STAFF',capability:'configuration.read',params:'IdPath',response:'NoticeRevisionList',status:200,paginated:true},
+  {id:'notice_languages',method:'get',path:'/api/v1/admin/purposes/{id}/notice-languages',authority:'STAFF',capability:'configuration.read',params:'IdPath',query:'LanguageQuery',response:'NoticeAvailability',status:200},
+  {id:'set_language',method:'post',path:'/api/v1/portal/me/language',authority:'PRINCIPAL',capability:'consent.own.write',request:'LanguageChoice',response:'LanguageChoice',status:200,idempotency:true},
   {id:'publish_policy',method:'post',path:'/api/v1/admin/policies/{id}/publish',authority:'STAFF',capability:'policy.publish',params:'IdPath',request:'PolicyPublish',response:'Policy',status:200,idempotency:true},
   {id:'reauthenticate_policy',method:'post',path:'/api/v1/admin/policies/{id}/reauthenticate',authority:'STAFF',capability:'policy.publish',params:'IdPath',request:'PolicyReauthenticate',response:'PublicationProof',status:201},
   {id:'create_mapping',method:'post',path:'/api/v1/admin/target-mappings',authority:'STAFF',capability:'configuration.write',request:'MappingCreate',response:'TargetMapping',status:201,idempotency:true},

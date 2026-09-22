@@ -15,9 +15,12 @@ import { Badge, DataTable, Facts, Freshness, NoticeBox, PageHead, Pagination, Qu
  * verified.
  */
 
+// The Act's own words. A Data Processor processes on behalf of a Fiduciary; a
+// Fiduciary may determine purpose and means alone or in conjunction with others,
+// which is the joint case. There is no "controller" in this regime to borrow.
 const ROLE_LABELS: Record<string, string> = {
-  PROCESSOR: 'Processor', SUB_PROCESSOR: 'Sub-processor',
-  JOINT_CONTROLLER: 'Joint controller', INDEPENDENT_CONTROLLER: 'Independent controller',
+  PROCESSOR: 'Data processor', SUB_PROCESSOR: 'Sub-processor',
+  JOINT_FIDUCIARY: 'Joint data fiduciary', INDEPENDENT_FIDUCIARY: 'Independent data fiduciary',
 };
 const FACT_LABELS: Record<string, Label> = {
   NOTIFIED: { label: 'Told', tone: 'info', meaning: 'ORVIA recorded that this was raised with the processor. It says nothing about what they did.' },
