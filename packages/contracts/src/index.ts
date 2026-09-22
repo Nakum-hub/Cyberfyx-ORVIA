@@ -23,8 +23,11 @@ import { z } from 'zod';
  *  naming a role the contract cannot parse. ConsentChoice gains a required
  *  `language` object, because a portal that returns one language field cannot
  *  distinguish the language a principal chose from the one they were served,
- *  and FR-M12-04 turns on exactly that distinction. */
-export const CONTRACT_VERSION = '0.13.0' as const;
+ *  and FR-M12-04 turns on exactly that distinction.
+ *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
+ *  quarantine and consent reconciliation. Additive again: no existing route,
+ *  schema or wire meaning changed. */
+export const CONTRACT_VERSION = '0.14.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -55,7 +58,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
+export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -1317,6 +1320,140 @@ export const GuidedConnection = z.strictObject({
   if (c2.enablement_stage === 'ENFORCE' && c2.observed_restrict !== true) c.addIssue({ code: 'custom', message: 'Enforcement is only expressible where a check observed the system able to restrict' });
   if ((c2.observed_read === null) !== (c2.observed_restrict === null)) c.addIssue({ code: 'custom', message: 'A capability check reports both observations or neither' });
 });
+/**
+ * M29 Customer Onboarding, FR-M29-01 and FR-M29-02: the gates an installer runs
+ * before privileged setup and before real personal data is processed.
+ *
+ * The failure this shape exists to prevent is a green checklist. Eleven things
+ * must be verified, and this build cannot verify all of them from inside
+ * itself. A gate it cannot check says so and says why -- it never reports a
+ * comfortable pass. `NOT_VERIFIABLE_HERE` and `PASSED` can never share a shape,
+ * and the report carries the unverified list separately from the failing one,
+ * because an installer who cannot tell those apart has been told nothing.
+ *
+ * There is also no field meaning "ready for production" or "compliant". Passing
+ * every gate this product can measure is a statement about eleven specific
+ * technical checks and about nothing else.
+ */
+/**
+ * M32 Monitoring, FR-M32-03: backup, restore into quarantine, and reconciling
+ * current authority before anything resumes.
+ *
+ * The failure this exists to prevent is a restore that quietly reinstates
+ * consent somebody has since withdrawn. An archive taken on Monday carries
+ * Monday's answers, and a system that resumes from it on Friday is acting on
+ * permission that no longer exists.
+ *
+ * This is deliberately not a backup tool, and the schema says so out loud.
+ * ORVIA does not create, encrypt, store or move an archive; that is the
+ * customer's own tooling and their own key. What it records is a verifiable
+ * statement of the state at the moment the snapshot was declared, and what it
+ * owns is the refusal: a restore stays in quarantine until every consent
+ * decision that has changed since has been looked at by a named person.
+ */
+export const BackupDomain = z.enum(['CONFIGURATION', 'WORKFLOW', 'EVIDENCE', 'DOMAIN_RECORDS']);
+export const BackupCount = z.strictObject({ domain: BackupDomain, rows: Epoch });
+export const BackupSnapshotCreate = z.strictObject({
+  /** A reference to where the customer keeps the key. Never the key: the
+   *  pattern refuses whitespace and anything long enough to be one. */
+  key_reference: z.string().min(3).max(120).regex(/^[A-Za-z0-9._:/-]+$/),
+  covers: z.array(BackupDomain).min(1).max(4),
+  note: SafeText,
+}).superRefine((v, c) => {
+  if (new Set(v.covers).size !== v.covers.length) c.addIssue({ code: 'custom', message: 'Each domain is covered once' });
+});
+export const BackupSnapshot = z.strictObject({
+  id: Id, taken_at: Time, key_reference: SafeText,
+  covers: z.array(BackupDomain).min(1).max(4),
+  counts: z.array(BackupCount).min(1).max(4),
+  /** Over what this installation actually saw when the snapshot was declared,
+   *  so the record can be checked rather than taken on trust. */
+  state_digest: Digest,
+  note: SafeText, taken_by: Id,
+  /** Structural. This product did not make the archive and does not hold it. */
+  archive_is_held_by_the_customer: z.literal(true),
+  /** Structural. The key reference is recorded; the encryption behind it is
+   *  not something this product observed. */
+  encryption_was_not_verified_by_this_product: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((s, c) => {
+  if (JSON.stringify(s.counts.map(x => x.domain).sort()) !== JSON.stringify(s.covers.slice().sort())) c.addIssue({ code: 'custom', message: 'A count is reported for exactly the domains the snapshot covers' });
+});
+export const RestoreRunCreate = z.strictObject({ snapshot_id: Id, note: SafeText });
+export const ConsentConflictDecision = z.enum(['CURRENT_STATE_PREVAILS', 'RESTORED_STATE_PREVAILS']);
+export const ConsentConflict = z.strictObject({
+  principal_id: Id, purpose_id: Id,
+  state_at_snapshot: z.enum(['GRANTED', 'WITHDRAWN']),
+  state_now: ConsentState,
+  /** How many decisions this person has made about this purpose since. */
+  decisions_since_snapshot: Epoch,
+  decision: ConsentConflictDecision.nullable(),
+  acknowledged_by: Id.nullable(), acknowledged_at: Time.nullable(),
+}).superRefine((x, c) => {
+  const done = x.decision !== null;
+  if (done !== (x.acknowledged_by !== null) || done !== (x.acknowledged_at !== null)) c.addIssue({ code: 'custom', message: 'An acknowledged conflict names who decided and when, and an outstanding one names nobody' });
+  if (x.state_at_snapshot === x.state_now) c.addIssue({ code: 'custom', message: 'A conflict is a decision that changed; an unchanged one is not a conflict' });
+});
+export const ConsentConflictAcknowledge = z.strictObject({
+  principal_id: Id, purpose_id: Id, decision: ConsentConflictDecision, basis: SafeText,
+});
+export const RestoreReconciliation = z.strictObject({
+  id: Id, snapshot_id: Id, snapshot_taken_at: Time, reconciled_at: Time,
+  state: z.enum(['QUARANTINED', 'RELEASED']),
+  conflicts: z.array(ConsentConflict).max(500),
+  outstanding: Epoch,
+  released_at: Time.nullable(),
+  /** Structural. Releasing a restore never re-grants anything: a conflict
+   *  resolved as CURRENT_STATE_PREVAILS leaves the withdrawal standing. */
+  releasing_never_reinstates_a_withdrawal: z.literal(true),
+  note: SafeText,
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  if (r.outstanding !== r.conflicts.filter(x => x.decision === null).length) c.addIssue({ code: 'custom', message: 'The outstanding count is the number of conflicts nobody has decided' });
+  if (r.state === 'RELEASED' && r.outstanding > 0) c.addIssue({ code: 'custom', message: 'A restore leaves quarantine only when nothing is outstanding' });
+  if ((r.state === 'RELEASED') !== (r.released_at !== null)) c.addIssue({ code: 'custom', message: 'A released restore says when, and a quarantined one does not' });
+});
+export const PreflightGateKind = z.enum([
+  'RUNTIME_LOCATION', 'RUNTIME_AND_ARCHITECTURE', 'TRANSPORT_SECURITY', 'DURABLE_STORAGE',
+  'CUSTOMER_CONTROLLED_IDENTITY', 'SIGNING_KEYS', 'BACKUP_TARGET', 'PERMITTED_EGRESS',
+  'VENDOR_TELEMETRY_DISABLED', 'LICENCE_VALIDITY', 'PACKAGE_SIGNATURE',
+]);
+export const PreflightVerdict = z.enum(['PASSED', 'FAILED', 'NOT_VERIFIABLE_HERE']);
+export const PreflightGate = z.strictObject({
+  kind: PreflightGateKind,
+  verdict: PreflightVerdict,
+  /** Exactly what was examined, so the verdict can be checked rather than taken. */
+  checked: SafeText,
+  /** What the examination found. Null only when nothing was examined. */
+  observed: SafeText.nullable(),
+  unverifiable_reason: SafeText.nullable(),
+  /** What to do about a failure. Present only on a failure. */
+  remedy: SafeText.nullable(),
+}).superRefine((g, c) => {
+  if ((g.verdict === 'NOT_VERIFIABLE_HERE') !== (g.unverifiable_reason !== null)) c.addIssue({ code: 'custom', message: 'A gate is unverifiable exactly when it says why' });
+  if ((g.verdict === 'NOT_VERIFIABLE_HERE') !== (g.observed === null)) c.addIssue({ code: 'custom', message: 'A gate that was examined reports what it found, and one that was not reports nothing' });
+  if ((g.verdict === 'FAILED') !== (g.remedy !== null)) c.addIssue({ code: 'custom', message: 'A failing gate names what to do about it, and a passing one has nothing to remedy' });
+});
+export const PreflightReport = z.strictObject({
+  as_of: Time, profile: z.literal(PROFILE),
+  gates: z.array(PreflightGate).length(11),
+  failing: z.array(PreflightGateKind).max(11),
+  not_verifiable: z.array(PreflightGateKind).max(11),
+  /** Structural. The whole point of separating the two lists. */
+  an_unverified_gate_is_not_a_passed_gate: z.literal(true),
+  /** Structural. Eleven technical checks are not a legal conclusion. */
+  passing_every_gate_is_not_a_statement_about_the_law: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  if (new Set(r.gates.map(g => g.kind)).size !== 11) c.addIssue({ code: 'custom', message: 'Every gate is reported exactly once' });
+  const listed = (verdict: string) => r.gates.filter(g => g.verdict === verdict).map(g => g.kind).sort();
+  if (JSON.stringify(r.failing.slice().sort()) !== JSON.stringify(listed('FAILED'))) c.addIssue({ code: 'custom', message: 'The failing list is exactly the gates that failed' });
+  if (JSON.stringify(r.not_verifiable.slice().sort()) !== JSON.stringify(listed('NOT_VERIFIABLE_HERE'))) c.addIssue({ code: 'custom', message: 'The unverifiable list is exactly the gates that could not be checked' });
+});
+export type PreflightGateValue = z.infer<typeof PreflightGate>;
+export type BackupDomainValue = z.infer<typeof BackupDomain>;
+export type BackupSnapshotValue = z.infer<typeof BackupSnapshot>;
+export type RestoreReconciliationValue = z.infer<typeof RestoreReconciliation>;
 export const ConnectionStart = z.strictObject({
   system_id: Id, environment_kind: z.enum(['TEST', 'PRODUCTION']),
   requested_capabilities: z.array(ConnectionCapability).min(1).max(3),
@@ -1434,6 +1571,9 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   AuditEvent, AuditQuery, AuditCoverage, AuditExport, AuditCorrectionCreate, AuditCorrection, AuditEventList: page(AuditEvent),
   GuidedConnection, ConnectionStart, ConnectivityRecord, ScopedIdentityRecord, ResourceApproval, EnablementChange, GuidedConnectionList: page(GuidedConnection),
   NoticeRevisionCreate, NoticeRevision, NoticeAvailability, LanguageChoice, LanguageQuery, NoticeRevisionList: page(NoticeRevision),
+  PreflightReport,
+  BackupSnapshotCreate, BackupSnapshot, RestoreRunCreate, RestoreReconciliation, ConsentConflictAcknowledge,
+  BackupSnapshotList: page(BackupSnapshot), RestoreRunList: page(RestoreReconciliation),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1565,6 +1705,16 @@ export const routes: RouteDefinition[] = [
   {id:'list_audit_events',method:'get',path:'/api/v1/admin/audit-events',authority:'STAFF',capability:'audit.read',query:'AuditQuery',response:'AuditEventList',status:200,paginated:true},
   {id:'export_audit_events',method:'get',path:'/api/v1/admin/audit-events/export',authority:'STAFF',capability:'audit.export',query:'AuditQuery',response:'AuditExport',status:200},
   {id:'audit_coverage',method:'get',path:'/api/v1/admin/audit-coverage',authority:'STAFF',capability:'audit.read',response:'AuditCoverage',status:200},
+  {id:'list_backup_snapshots',method:'get',path:'/api/v1/admin/backup-snapshots',authority:'STAFF',capability:'health.read',response:'BackupSnapshotList',status:200,paginated:true},
+  {id:'declare_snapshot',method:'post',path:'/api/v1/admin/backup-snapshots',authority:'STAFF',capability:'configuration.write',request:'BackupSnapshotCreate',response:'BackupSnapshot',status:201,idempotency:true},
+  {id:'start_restore',method:'post',path:'/api/v1/admin/restore-runs',authority:'STAFF',capability:'configuration.write',request:'RestoreRunCreate',response:'RestoreReconciliation',status:201,idempotency:true},
+  // Quarantine is only a control if the person holding restore.release can find
+  // what is waiting. They are deliberately not the person who started it.
+  {id:'list_restore_runs',method:'get',path:'/api/v1/admin/restore-runs',authority:'STAFF',capability:'health.read',response:'RestoreRunList',status:200,paginated:true},
+  {id:'restore_run',method:'get',path:'/api/v1/admin/restore-runs/{id}',authority:'STAFF',capability:'health.read',params:'IdPath',response:'RestoreReconciliation',status:200},
+  {id:'acknowledge_conflict',method:'post',path:'/api/v1/admin/restore-runs/{id}/acknowledgements',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'ConsentConflictAcknowledge',response:'RestoreReconciliation',status:200,idempotency:true},
+  {id:'release_restore',method:'post',path:'/api/v1/admin/restore-runs/{id}/release',authority:'STAFF',capability:'restore.release',params:'IdPath',response:'RestoreReconciliation',status:200,idempotency:true},
+  {id:'preflight',method:'get',path:'/api/v1/admin/preflight',authority:'STAFF',capability:'health.read',response:'PreflightReport',status:200},
   {id:'list_connections',method:'get',path:'/api/v1/admin/connections',authority:'STAFF',capability:'configuration.read',response:'GuidedConnectionList',status:200,paginated:true},
   {id:'start_connection',method:'post',path:'/api/v1/admin/connections',authority:'STAFF',capability:'configuration.write',request:'ConnectionStart',response:'GuidedConnection',status:201,idempotency:true},
   {id:'connection',method:'get',path:'/api/v1/admin/connections/{id}',authority:'STAFF',capability:'configuration.read',params:'IdPath',response:'GuidedConnection',status:200},

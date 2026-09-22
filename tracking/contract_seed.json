@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.13.0",
+  "contract_version": "0.14.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -1377,6 +1377,90 @@
       "authority": "STAFF",
       "capability": "audit.read",
       "response": "AuditCoverage",
+      "status": 200
+    },
+    {
+      "id": "list_backup_snapshots",
+      "method": "get",
+      "path": "/api/v1/admin/backup-snapshots",
+      "authority": "STAFF",
+      "capability": "health.read",
+      "response": "BackupSnapshotList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "declare_snapshot",
+      "method": "post",
+      "path": "/api/v1/admin/backup-snapshots",
+      "authority": "STAFF",
+      "capability": "configuration.write",
+      "request": "BackupSnapshotCreate",
+      "response": "BackupSnapshot",
+      "status": 201,
+      "idempotency": true
+    },
+    {
+      "id": "start_restore",
+      "method": "post",
+      "path": "/api/v1/admin/restore-runs",
+      "authority": "STAFF",
+      "capability": "configuration.write",
+      "request": "RestoreRunCreate",
+      "response": "RestoreReconciliation",
+      "status": 201,
+      "idempotency": true
+    },
+    {
+      "id": "list_restore_runs",
+      "method": "get",
+      "path": "/api/v1/admin/restore-runs",
+      "authority": "STAFF",
+      "capability": "health.read",
+      "response": "RestoreRunList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "restore_run",
+      "method": "get",
+      "path": "/api/v1/admin/restore-runs/{id}",
+      "authority": "STAFF",
+      "capability": "health.read",
+      "params": "IdPath",
+      "response": "RestoreReconciliation",
+      "status": 200
+    },
+    {
+      "id": "acknowledge_conflict",
+      "method": "post",
+      "path": "/api/v1/admin/restore-runs/{id}/acknowledgements",
+      "authority": "STAFF",
+      "capability": "configuration.write",
+      "params": "IdPath",
+      "request": "ConsentConflictAcknowledge",
+      "response": "RestoreReconciliation",
+      "status": 200,
+      "idempotency": true
+    },
+    {
+      "id": "release_restore",
+      "method": "post",
+      "path": "/api/v1/admin/restore-runs/{id}/release",
+      "authority": "STAFF",
+      "capability": "restore.release",
+      "params": "IdPath",
+      "response": "RestoreReconciliation",
+      "status": 200,
+      "idempotency": true
+    },
+    {
+      "id": "preflight",
+      "method": "get",
+      "path": "/api/v1/admin/preflight",
+      "authority": "STAFF",
+      "capability": "health.read",
+      "response": "PreflightReport",
       "status": 200
     },
     {

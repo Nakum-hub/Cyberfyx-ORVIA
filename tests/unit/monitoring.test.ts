@@ -88,13 +88,18 @@ test('the report has no field in which a payload, a secret or a person could app
   assert.throws(() => OperationalReadiness.parse({ ...report(), as_of: sampleTime.replace('Z', '') }));
 });
 
-test('reading operational readiness is a read, held by the capability that had no route until now', () => {
+test('installation health is a read, and everything held by that capability is one', () => {
+  // `health.read` existed with no route at all until M32 gave it one. M29's
+  // preflight is the second, and both are reads of this installation's own
+  // state: the capability must never come to carry anything that acts.
   const readiness = routes.filter(route => route.capability === 'health.read');
-  assert.deepEqual(readiness.map(route => route.id), ['operational_readiness']);
-  const [route] = readiness;
-  assert.equal(route!.method, 'get');
-  assert.equal(route!.authority, 'STAFF');
-  assert.ok(schemas[route!.response], 'the readiness route has no registered response schema');
+  assert.deepEqual(readiness.map(route => route.id).sort(),
+    ['list_backup_snapshots', 'list_restore_runs', 'operational_readiness', 'preflight', 'restore_run']);
+  for (const route of readiness) {
+    assert.equal(route.method, 'get', `${route.id} is not a read`);
+    assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
+    assert.ok(schemas[route.response], `${route.id} has no registered response schema`);
+  }
   // Nothing here pushes anywhere: this report is read locally and is not a
   // telemetry endpoint under another name.
   assert.ok(!routes.some(r => ['telemetry', 'metrics_push', 'phone_home', 'heartbeat'].some(word => r.id.includes(word))));

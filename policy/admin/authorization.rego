@@ -26,7 +26,7 @@ authorize if {
   input.actor_domain == "STAFF"
   input.role == "ORG_SUPER_ADMIN"
   input.mfa_verified == true
-  input.capability in {"policy.publish", "tests.run", "rights.release", "retention.approve", "incident.approve", "licence.manage", "support.approve", "update.approve", "audit.administer", "connection.enable"} | export_audit_caps
+  input.capability in {"policy.publish", "tests.run", "rights.release", "retention.approve", "incident.approve", "licence.manage", "support.approve", "update.approve", "audit.administer", "connection.enable", "restore.release"} | export_audit_caps
 }
 # Database restrictive policies and resource checks require an exact assignment.
 authorize if {

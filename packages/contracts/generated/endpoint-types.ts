@@ -124,6 +124,14 @@ export interface EndpointMap {
   list_audit_events: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEventList> };
   export_audit_events: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditExport> };
   audit_coverage: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditCoverage> };
+  list_backup_snapshots: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupSnapshotList> };
+  declare_snapshot: { request: import('zod').infer<typeof import('../src/index.ts').schemas.BackupSnapshotCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupSnapshot> };
+  start_restore: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreRunCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
+  list_restore_runs: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreRunList> };
+  restore_run: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
+  acknowledge_conflict: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentConflictAcknowledge>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
+  release_restore: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
+  preflight: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreflightReport> };
   list_connections: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GuidedConnectionList> };
   start_connection: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConnectionStart>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GuidedConnection> };
   connection: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GuidedConnection> };

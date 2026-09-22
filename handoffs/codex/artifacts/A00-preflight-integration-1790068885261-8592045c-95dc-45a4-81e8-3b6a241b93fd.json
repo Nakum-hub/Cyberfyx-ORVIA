@@ -1,0 +1,118 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-22T09:21:25.261Z",
+  "profile": "codex-a00",
+  "phase": "measured",
+  "assertions": [
+    {
+      "name": "every gate the requirement names is reported exactly once",
+      "result": "PASS",
+      "expected": [
+        11,
+        11
+      ],
+      "actual": [
+        11,
+        11
+      ]
+    },
+    {
+      "name": "every gate says what it examined, however it turned out",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the two derived lists agree with the gates they came from",
+      "result": "PASS",
+      "expected": [
+        [
+          "PERMITTED_EGRESS",
+          "SIGNING_KEYS"
+        ],
+        [
+          "BACKUP_TARGET"
+        ]
+      ],
+      "actual": [
+        [
+          "PERMITTED_EGRESS",
+          "SIGNING_KEYS"
+        ],
+        [
+          "BACKUP_TARGET"
+        ]
+      ]
+    },
+    {
+      "name": "the backup gate says it cannot be checked here, and says why, rather than passing",
+      "result": "PASS",
+      "expected": [
+        "NOT_VERIFIABLE_HERE",
+        null,
+        true
+      ],
+      "actual": [
+        "NOT_VERIFIABLE_HERE",
+        null,
+        true
+      ]
+    },
+    {
+      "name": "an unverified gate is kept out of the passed set and named in its own list",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        true
+      ],
+      "actual": [
+        true,
+        false,
+        true
+      ]
+    },
+    {
+      "name": "passing the technical gates is never stated as a legal conclusion",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "the storage gate reports what the database itself is configured to do",
+      "result": "PASS",
+      "expected": [
+        "PASSED",
+        "fsync=on, synchronous_commit=on."
+      ],
+      "actual": [
+        "PASSED",
+        "fsync=on, synchronous_commit=on."
+      ]
+    },
+    {
+      "name": "the identity gate counted the primary owners that actually exist locally",
+      "result": "FAIL",
+      "expected": [
+        "PASSED",
+        true
+      ],
+      "actual": [
+        "PASSED",
+        false
+      ]
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}
