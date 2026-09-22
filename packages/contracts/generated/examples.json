@@ -2963,6 +2963,179 @@
       }
     },
     {
+      "operation_id": "list_audit_events",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-events",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "export_audit_events",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-events/export",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "exported_at": "2026-09-16T10:00:00.000Z",
+        "filter": {
+          "operation": "evidence.export"
+        },
+        "events": [
+          {
+            "id": "00000000-0000-4000-8000-00000000011b",
+            "operation": "Synthetic example",
+            "actor_id": "00000000-0000-4000-8000-00000000011c",
+            "actor_domain": "STAFF",
+            "resource_id": null,
+            "request_id": "00000000-0000-4000-8000-00000000011d",
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "corrections": 0
+          }
+        ],
+        "matched": 1,
+        "complete": true,
+        "digest": "c0ef55eca843cedae8912e12168888fdeaef9652e60e61f5fb0eaf64cb878506",
+        "limits": [
+          "This artifact carries every event the stated filter matched.",
+          "Producing this export is itself an audited event."
+        ]
+      }
+    },
+    {
+      "operation_id": "audit_coverage",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-coverage",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "derived_from_recorded_events": true,
+        "entries": [
+          {
+            "category": "ROLE_GRANTS",
+            "operations": [
+              "role_grants.example"
+            ],
+            "recorded": 3,
+            "first_seen_at": "2026-09-16T10:00:00.000Z",
+            "last_seen_at": "2026-09-16T10:00:00.000Z",
+            "has_a_path": true,
+            "note": "Recorded from the trail rather than declared by configuration."
+          },
+          {
+            "category": "OWNER_CHANGES",
+            "operations": [],
+            "recorded": 0,
+            "first_seen_at": null,
+            "last_seen_at": null,
+            "has_a_path": false,
+            "note": "This build has no ownership-transfer route at all, so there is nothing to audit rather than something unaudited."
+          },
+          {
+            "category": "POLICY_PUBLICATION",
+            "operations": [
+              "policy_publication.example"
+            ],
+            "recorded": 3,
+            "first_seen_at": "2026-09-16T10:00:00.000Z",
+            "last_seen_at": "2026-09-16T10:00:00.000Z",
+            "has_a_path": true,
+            "note": "Recorded from the trail rather than declared by configuration."
+          },
+          {
+            "category": "CONNECTOR_CREDENTIALS_AND_SCOPE",
+            "operations": [
+              "connector_credentials_and_scope.example"
+            ],
+            "recorded": 3,
+            "first_seen_at": "2026-09-16T10:00:00.000Z",
+            "last_seen_at": "2026-09-16T10:00:00.000Z",
+            "has_a_path": true,
+            "note": "Recorded from the trail rather than declared by configuration."
+          },
+          {
+            "category": "SUPPORT_APPROVAL",
+            "operations": [
+              "support_approval.example"
+            ],
+            "recorded": 3,
+            "first_seen_at": "2026-09-16T10:00:00.000Z",
+            "last_seen_at": "2026-09-16T10:00:00.000Z",
+            "has_a_path": true,
+            "note": "Recorded from the trail rather than declared by configuration."
+          },
+          {
+            "category": "EXPORTS",
+            "operations": [
+              "exports.example"
+            ],
+            "recorded": 3,
+            "first_seen_at": "2026-09-16T10:00:00.000Z",
+            "last_seen_at": "2026-09-16T10:00:00.000Z",
+            "has_a_path": true,
+            "note": "Recorded from the trail rather than declared by configuration."
+          },
+          {
+            "category": "LICENCES",
+            "operations": [
+              "licences.example"
+            ],
+            "recorded": 3,
+            "first_seen_at": "2026-09-16T10:00:00.000Z",
+            "last_seen_at": "2026-09-16T10:00:00.000Z",
+            "has_a_path": true,
+            "note": "Recorded from the trail rather than declared by configuration."
+          },
+          {
+            "category": "UPDATES",
+            "operations": [
+              "updates.example"
+            ],
+            "recorded": 3,
+            "first_seen_at": "2026-09-16T10:00:00.000Z",
+            "last_seen_at": "2026-09-16T10:00:00.000Z",
+            "has_a_path": true,
+            "note": "Recorded from the trail rather than declared by configuration."
+          }
+        ],
+        "limits": [
+          "Every count here was measured from the recorded trail.",
+          "Reading this page is itself an audited event."
+        ]
+      }
+    },
+    {
+      "operation_id": "correct_audit_event",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-corrections",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "event_id": "00000000-0000-4000-8000-00000000011e",
+        "disputed": "WRONG_ACTOR",
+        "correction": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000011f",
+        "event_id": "00000000-0000-4000-8000-000000000120",
+        "disputed": "WRONG_ACTOR",
+        "correction": "Synthetic example",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000121",
+        "original_event_unchanged": true,
+        "limits": []
+      }
+    },
+    {
       "operation_id": "list_mandates",
       "method": "GET",
       "path": "/api/v1/admin/mandates",
@@ -2983,7 +3156,7 @@
       },
       "request": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000011b",
+        "principal_id": "00000000-0000-4000-8000-000000000122",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -2995,7 +3168,7 @@
       "response_status": 201,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000011c",
+        "principal_id": "00000000-0000-4000-8000-000000000123",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -3003,10 +3176,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-00000000011d",
+        "id": "00000000-0000-4000-8000-000000000124",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-00000000011e",
+        "recorded_by": "00000000-0000-4000-8000-000000000125",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -3024,7 +3197,7 @@
       "response_status": 200,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000011f",
+        "principal_id": "00000000-0000-4000-8000-000000000126",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -3032,10 +3205,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000120",
+        "id": "00000000-0000-4000-8000-000000000127",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000121",
+        "recorded_by": "00000000-0000-4000-8000-000000000128",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -3046,8 +3219,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000122",
-        "environment_id": "00000000-0000-4000-8000-000000000123",
+        "installation_id": "00000000-0000-4000-8000-000000000129",
+        "environment_id": "00000000-0000-4000-8000-00000000012a",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -3064,9 +3237,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000124",
+        "command_id": "00000000-0000-4000-8000-00000000012b",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000125",
+        "attempt_id": "00000000-0000-4000-8000-00000000012c",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -3074,7 +3247,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000126",
+        "operation_id": "00000000-0000-4000-8000-00000000012d",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -3087,10 +3260,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000127",
-        "principal_reference_id": "00000000-0000-4000-8000-000000000128",
-        "purpose_id": "00000000-0000-4000-8000-000000000129",
-        "system_id": "00000000-0000-4000-8000-00000000012a",
+        "attempt_id": "00000000-0000-4000-8000-00000000012e",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000012f",
+        "purpose_id": "00000000-0000-4000-8000-000000000130",
+        "system_id": "00000000-0000-4000-8000-000000000131",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -3163,9 +3336,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000012b",
+        "command_id": "00000000-0000-4000-8000-000000000132",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000012c",
+        "attempt_id": "00000000-0000-4000-8000-000000000133",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -3180,7 +3353,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-00000000012d",
+        "resource_id": "00000000-0000-4000-8000-000000000134",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -3195,9 +3368,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000012e",
+        "command_id": "00000000-0000-4000-8000-000000000135",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000012f",
+        "attempt_id": "00000000-0000-4000-8000-000000000136",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

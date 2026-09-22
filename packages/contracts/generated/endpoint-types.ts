@@ -117,6 +117,10 @@ export interface EndpointMap {
   record_update_step: { request: import('zod').infer<typeof import('../src/index.ts').schemas.UpdateStepRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlan> };
   installation_versions: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.InstallationVersionList> };
   operational_readiness: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OperationalReadiness> };
+  list_audit_events: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEventList> };
+  export_audit_events: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditExport> };
+  audit_coverage: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditCoverage> };
+  correct_audit_event: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditCorrectionCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditCorrection> };
   list_mandates: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.MandateList> };
   create_mandate: { request: import('zod').infer<typeof import('../src/index.ts').schemas.MandateCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Mandate> };
   revoke_mandate: { request: import('zod').infer<typeof import('../src/index.ts').schemas.MandateRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Mandate> };

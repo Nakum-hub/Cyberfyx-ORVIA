@@ -31,7 +31,7 @@ export function machineRoute(request: Request) {
    const parsed=SendRequest.safeParse(input);if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR');
    const key=request.headers.get('idempotency-key');if(!key||!/^[A-Za-z0-9_-]{16,128}$/.test(key))throw new AccessError(400,'VALIDATION_ERROR');
    await machineFor(request,identityPool!,r.config,'SENDER');
-   const result=await idempotent(c,'send',key,parsed.data,()=>admitSend(c,r.config,observerPool??=servicePool(r.config,'orvia_target_observer'),syntheticTargetObserver,parsed.data));
+   const result=await idempotent(c,'send',null,key,parsed.data,()=>admitSend(c,r.config,observerPool??=servicePool(r.config,'orvia_target_observer'),syntheticTargetObserver,parsed.data));
    await machineFor(request,identityPool!,r.config,'SENDER');
    return result;
   }
@@ -47,7 +47,7 @@ export function machineRoute(request: Request) {
   const parsed=CommandReceipt.safeParse(input);if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR');
   const receipt=parsed.data;const key=request.headers.get('idempotency-key');
   if(!key||!/^[A-Za-z0-9_-]{16,128}$/.test(key))throw new AccessError(400,'VALIDATION_ERROR');
-  return idempotent(c,'machine.receipt:'+id,key,receipt,async()=>{
+  return idempotent(c,'machine.receipt',id,key,receipt,async()=>{
    const command=requireOne((await tx.query(`SELECT * FROM app.agent_commands WHERE ${predicate} AND id=$4 AND agent_id=$5`,[...scope,id,actor.actor_id])).rows);
    if(receipt.command_id!==id||receipt.command_digest!==digest(command.command)||receipt.target_generation!==command.command.payload.binding.scope.target_generation)throw new AccessError(409,'INVALID_COMMAND');
    const existing=(await tx.query(`SELECT receipt FROM app.command_receipts WHERE ${predicate} AND command_id=$4`,[...scope,id])).rows[0];

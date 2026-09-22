@@ -9,6 +9,7 @@ import { importLicence, entitlementReport } from '../../domain/src/licensing/lic
 import { createSupportCase, supportCaseList, readSupportCase, recordResolution, registerCanary, canaryList, generateDiagnostic, approveDiagnostic, recordTransfer, validateIngressSubmission } from '../../domain/src/support/support.ts';
 import { importRelease, releaseList, updateEligibility, planUpdate, readUpdatePlan, updatePlanList, recordUpdateStep, installationVersionList } from '../../domain/src/updates/updates.ts';
 import { operationalReadiness } from '../../domain/src/monitoring/monitoring.ts';
+import { auditEventList, exportAuditEvents, auditCoverage, correctAuditEvent } from '../../domain/src/audit/audit.ts';
 import { createTemplate, templateList, createNotificationTask, notificationTaskList, readNotificationTask, recordDelivery, escalationSweep } from '../../domain/src/notifications/notifications.ts';
 import { createIncident, incidentList, incidentAssessment, correctIncident, containIncident, closeIncident, transitionNotification, createObligationRule, obligationRuleList } from '../../domain/src/incidents/incidents.ts';
 import { createProcessor, processorList, linkProcessorSystem, recordCoordination, processorStanding, createAssessment, assessmentList, completeAssessment, createFinding, findingList, closeFinding } from '../../domain/src/processors/processors.ts';
@@ -35,7 +36,7 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
   'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','import_licence',
   'list_support_cases','create_support_case','support_case','generate_diagnostic','record_resolution','approve_diagnostic','record_transfer','validate_submission','list_canaries','register_canary',
   'list_releases','import_release','update_eligibility','plan_update','update_plan','list_update_plans','record_update_step','installation_versions',
-  'operational_readiness']);
+  'operational_readiness','list_audit_events','export_audit_events','audit_coverage','correct_audit_event']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -189,6 +190,10 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'record_update_step':return recordUpdateStep(c,id!,input);
         case 'installation_versions':return installationVersionList(c,page);
         case 'operational_readiness':return operationalReadiness(c);
+        case 'list_audit_events':return auditEventList(c,page,query);
+        case 'export_audit_events':return exportAuditEvents(c,query);
+        case 'audit_coverage':return auditCoverage(c);
+        case 'correct_audit_event':return correctAuditEvent(c,input);
         case 'list_mandates':return mandateList(c,page);
         case 'create_mandate':return createMandate(c,input);
         case 'revoke_mandate':return revokeMandate(c,id!,input);
@@ -216,9 +221,10 @@ export function businessRoute(request: Request) { return safeRoute(async request
         default:throw new AccessError(404,'NOT_FOUND');
       }
     };
-    const result=route.idempotency?await idempotent(c,route.id+(id?':'+id:''),key!,input??{},execute):await execute();
+    const result=route.idempotency?await idempotent(c,route.id,id??null,key!,input??{},execute):await execute();
     await audit(c,route.id,id);
     return schemas[route.response].parse(result);
   });
-  return Response.json(result,{status:route.status,headers:{'cache-control':'no-store',...route.id==='export'?{'content-disposition':`attachment; filename="orvia-evidence-${id}.json"`}:{}}});
+  const download=route.id==='export'?`orvia-evidence-${id}.json`:route.id==='export_audit_events'?'orvia-audit-trail.json':null;
+  return Response.json(result,{status:route.status,headers:{'cache-control':'no-store',...download?{'content-disposition':`attachment; filename="${download}"`}:{}}});
 },'BUSINESS'); }

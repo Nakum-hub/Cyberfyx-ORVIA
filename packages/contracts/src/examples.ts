@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { COMMAND_SCHEMA_VERSION, CommandPayload, schemas, type SchemaName } from './index.ts';
+import { COMMAND_SCHEMA_VERSION, AuditCategory, CommandPayload, schemas, type SchemaName } from './index.ts';
 import { digest } from './crypto.ts';
 import signatureVector from '../fixtures/command-vector.json' with { type:'json' };
 export const uuid = (n:number) => `00000000-0000-4000-8000-${n.toString(16).padStart(12,'0')}`;
@@ -111,6 +111,22 @@ export function example(name:SchemaName):unknown {
       {check:'NO_UNSAFE_DOWNGRADE' as const,satisfied:true,reason:'The release is newer than the installed version.'}],
     recovery_mode:'FORWARD_RECOVERY_ONLY' as const,rollback_available:false,eligibility_is_not_permission_to_execute:true,
     limits:['An irreversible migration is declared, so recovery is forward only and rollback is not offered.','Being eligible is not permission to apply. Applying is a separate approval.']};
+  // Eight categories, each exactly once. The example shows both of the things
+  // the schema exists to keep apart: a category with a path and recorded events,
+  // and a category with no path in this build at all.
+  if(name==='AuditCoverage')return {as_of:sampleTime,derived_from_recorded_events:true,
+    entries:AuditCategory.options.map(category=>category==='OWNER_CHANGES'
+      ? {category,operations:[],recorded:0,first_seen_at:null,last_seen_at:null,has_a_path:false,
+        note:'This build has no ownership-transfer route at all, so there is nothing to audit rather than something unaudited.'}
+      : {category,operations:[`${category.toLowerCase()}.example`],recorded:3,first_seen_at:sampleTime,last_seen_at:sampleTime,has_a_path:true,
+        note:'Recorded from the trail rather than declared by configuration.'}),
+    limits:['Every count here was measured from the recorded trail.','Reading this page is itself an audited event.']};
+  // The carried events and the matched count are the same number, because an
+  // export that carried fewer than it matched would not be produced at all.
+  if(name==='AuditExport'){const events=[example('AuditEvent')];
+    return {exported_at:sampleTime,filter:{operation:'evidence.export'},events,matched:events.length,complete:true,
+      digest:digest(events),
+      limits:['This artifact carries every event the stated filter matched.','Producing this export is itself an audited event.']};}
   // Three kinds and seven signals, each exactly once, which repeated copies of
   // the first enum value cannot satisfy. The example also has to show the thing
   // the schema exists for: two signals that were not measured, and a business

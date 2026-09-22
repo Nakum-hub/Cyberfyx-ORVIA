@@ -1,16 +1,16 @@
 {
-  "contract_version": "0.10.0",
+  "contract_version": "0.11.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
   "integration_commit": null,
   "artifacts": {
-    "openapi.json": "60912025a0e1e37bff4c3bec81ae03fb2f5b14491c0f499c92e16699dbeacd28",
-    "examples.json": "1e2a34aebcd09d251d1db5c96b6b21992df2feee0d88884b343e96b71c1ca49f",
-    "client-types.d.ts": "a0204ef1f2bc081b6d7aaccec7941b1b6de1c5e21249d6799416be8d16767abc",
-    "interfaces.json": "02ab7a1589494de4e4f1a2b4390bbd3c57c59f336907973faba488f538cc81d2",
+    "openapi.json": "f2665158eeb72b6ebde56e57a5d2dc5109a531571957709d44dda682e183187a",
+    "examples.json": "b72a1c5ea841cc61157a9a88b30132edc602e9959675041b24097cdc69cd94a0",
+    "client-types.d.ts": "1fcc02470fa0471304847f3ba081a8e02003113dfdba5cc12d9e2b742b525b06",
+    "interfaces.json": "38cbb740cadae9f94d023be982cf0126109ba281dfbea2f555525c0bcfa8714a",
     "signature-vector.json": "0d5aabe23afce23fe7af9cb42365179dc44ed028ecdc8e97d2fb82a113904fb2",
-    "contract-seed.proposed.json": "e23a93d1ba45bed168ef6f0fc46e2d256f12459c16c3103e60290dca5d6b1649",
-    "endpoint-types.ts": "72baf46584f4a6770033a9341c572abcac50bd53617ac7033833dabfb8458ee9"
+    "contract-seed.proposed.json": "dccfcb484bb4f90e4b64ecf9e21c726f55c0827b0f8c176b60bbb789b084a51d",
+    "endpoint-types.ts": "3b262b3ec042d121560ea63a584e2d8f68dc2ce386922ea39f15e7d3cd3fe872"
   }
 }

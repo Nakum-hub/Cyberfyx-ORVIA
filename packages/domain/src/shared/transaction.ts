@@ -11,14 +11,23 @@ export async function audit(c: Context, operation: string, resource?: string) {
   await c.tx.query(`INSERT INTO app.audit_events(id,tenant_id,legal_entity_id,environment_id,actor_id,actor_domain,operation,resource_id,request_id)
     VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,[randomUUID(),...scopeValues(c.actor),c.actor.actor_id,c.actor.actor_domain,operation,resource??null,c.requestId]);
 }
-export async function idempotent<T>(c: Context, operation: string, key: string, input: unknown, work: () => Promise<T>): Promise<T> {
-  const scope=[...scopeValues(c.actor),c.actor.actor_id,operation,key];
+/**
+ * `resource` is separate from `operation` on purpose. The idempotency record is
+ * still discriminated by both, so an existing key keeps its exact meaning, but
+ * the audit event now records the operation in `operation` and the resource in
+ * `resource_id`, which is the column that exists for it. Concatenating them put
+ * a UUID inside the operation name, which made the audit operation vocabulary
+ * unbounded and therefore impossible to filter or group by.
+ */
+export async function idempotent<T>(c: Context, operation: string, resource: string|null, key: string, input: unknown, work: () => Promise<T>): Promise<T> {
+  const discriminator=operation+(resource?':'+resource:'');
+  const scope=[...scopeValues(c.actor),c.actor.actor_id,discriminator,key];
   await c.tx.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[JSON.stringify(scope)]);
   const hash=digest(input);
   const existing=await c.tx.query(`SELECT digest,response FROM app.idempotency_records WHERE ${predicate} AND actor_id=$4 AND operation=$5 AND key=$6`,scope);
   if(existing.rowCount) {
     if(existing.rows[0].digest!==hash)throw new AccessError(409,'IDEMPOTENCY_CONFLICT');
-    await audit(c,operation+'.replayed');
+    await audit(c,operation+'.replayed',resource??undefined);
     return existing.rows[0].response as T;
   }
   const result=await work();

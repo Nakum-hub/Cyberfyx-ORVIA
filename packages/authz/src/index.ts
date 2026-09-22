@@ -3,12 +3,16 @@ import type { AuthInstance } from '../../auth/src/server.ts';
 import type { RuntimeConfig } from '../../auth/src/config.ts';
 import type { Authority } from '../../db/src/runtime.ts';
 
-const read = ['overview.read', 'configuration.read', 'principals.read', 'workflow.read', 'evidence.read', 'evidence.export', 'tests.read', 'capabilities.read', 'graph.read', 'rights.read', 'retention.read', 'coverage.read', 'processor.read', 'incident.read', 'notification.read', 'licence.read', 'support.read', 'update.read', 'health.read'];
+const read = ['overview.read', 'configuration.read', 'principals.read', 'workflow.read', 'evidence.read', 'evidence.export', 'tests.read', 'capabilities.read', 'graph.read', 'rights.read', 'retention.read', 'coverage.read', 'processor.read', 'incident.read', 'notification.read', 'licence.read', 'support.read', 'update.read', 'audit.read', 'health.read'];
 export const roleCapabilities: Record<string, string[]> = {
-  ORG_SUPER_ADMIN: [...read, 'configuration.write', 'policy.publish', 'systems.check', 'principals.create', 'action.reconcile', 'manual.attest', 'policy.preview', 'tests.run', 'graph.write', 'rights.write', 'rights.release', 'retention.write', 'retention.approve', 'coverage.manage', 'processor.write', 'incident.write', 'incident.approve', 'notification.manage', 'licence.manage', 'support.manage', 'support.approve', 'update.approve'],
+  ORG_SUPER_ADMIN: [...read, 'configuration.write', 'policy.publish', 'systems.check', 'principals.create', 'action.reconcile', 'manual.attest', 'policy.preview', 'tests.run', 'graph.write', 'rights.write', 'rights.release', 'retention.write', 'retention.approve', 'coverage.manage', 'processor.write', 'incident.write', 'incident.approve', 'notification.manage', 'licence.manage', 'support.manage', 'support.approve', 'update.approve', 'audit.administer', 'audit.export'],
   ORG_ADMIN: [...read, 'configuration.write', 'systems.check', 'principals.create', 'action.reconcile', 'manual.attest', 'policy.preview', 'graph.write', 'rights.write', 'retention.write', 'coverage.manage', 'processor.write', 'incident.write', 'notification.manage', 'support.manage'],
   // Assigned workflow/task permissions require a resource assignment in A03.
-  MEMBER: ['workflow.read', 'action.reconcile', 'manual.attest'], AUDITOR: read,
+  MEMBER: ['workflow.read', 'action.reconcile', 'manual.attest'],
+  // Taking evidence away is what an auditor is for, so the export permission
+  // FR-M33-03 separates from read is held here and by the owner, and by nobody
+  // else who can merely read the trail.
+  AUDITOR: [...read, 'audit.export'],
   DATA_PRINCIPAL: ['consent.own.read', 'consent.own.write', 'receipt.own.read'],
 };
 export class AccessError extends Error {

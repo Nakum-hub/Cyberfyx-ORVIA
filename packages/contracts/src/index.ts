@@ -6,9 +6,11 @@ import { z } from 'zod';
  *  list, without which FR-M31-03's promise that an interrupted update stays
  *  visible is not keepable — only applied plans were reachable, through the
  *  installed version history, and an interrupted one could be found by nobody.
- *  0.10.0 adds the M32 operational readiness report.
+ *  0.10.0 adds the M32 operational readiness report; 0.11.0 adds M33 audit
+ *  administration: a scoped, filtered read of the trail and append-only
+ *  corrections.
  *  All are additive: no existing route, schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.10.0' as const;
+export const CONTRACT_VERSION = '0.11.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -39,7 +41,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
+export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -1052,6 +1054,106 @@ export const UpdatePlan = z.strictObject({
 });
 export const InstallationVersion = z.strictObject({ id: Id, version: Version, applied_at: Time, plan_id: Id.nullable(), note: SafeText });
 // ---------------------------------------------------------------------------
+// M33 Audit Administration (WP02, WP14, WP24).
+//
+// FR-M33-01 names eight things that must be auditable with correct tenant,
+// domain and actor context. The coverage report answers that per category from
+// the trail itself rather than from a list somebody maintained, so a category
+// nothing has ever recorded says so instead of being assumed covered. Two of
+// the eight have no route in this build that could perform them, and the report
+// distinguishes "nothing has happened" from "nothing here could happen".
+//
+// FR-M33-03 asks for scoped read, filtering, restricted administration and
+// append-only correction semantics. An audit event is never edited: a dispute is
+// a new record that names the one it disputes, and the original stays exactly as
+// it was. Reading the trail is itself audited, which is why the read route is a
+// normal business route rather than a side door.
+// ---------------------------------------------------------------------------
+export const AuditCategory = z.enum([
+  'ROLE_GRANTS', 'OWNER_CHANGES', 'POLICY_PUBLICATION', 'CONNECTOR_CREDENTIALS_AND_SCOPE',
+  'SUPPORT_APPROVAL', 'EXPORTS', 'LICENCES', 'UPDATES',
+]);
+export const AuditActorDomain = z.enum(['STAFF', 'PRINCIPAL', 'MACHINE']);
+export const AuditEvent = z.strictObject({
+  id: Id, operation: z.string().min(1).max(120), actor_id: Id, actor_domain: AuditActorDomain,
+  resource_id: Id.nullable(), request_id: Id, created_at: Time,
+  /** Whether a correction has been appended against this event. The event
+   *  itself is unchanged either way; this is a pointer, not an amendment. */
+  corrections: Epoch,
+});
+/** Every value arrives as a query string, so each is optional and narrow. */
+export const AuditQuery = z.strictObject({
+  operation: z.string().min(1).max(120).optional(),
+  actor_id: Id.optional(),
+  actor_domain: AuditActorDomain.optional(),
+  from: Time.optional(), to: Time.optional(),
+});
+export const AuditCoverageEntry = z.strictObject({
+  category: AuditCategory,
+  /** The operation names that constitute this category, so a reader can check
+   *  the claim rather than take it. */
+  operations: z.array(z.string().min(1).max(120)).max(16),
+  recorded: Epoch,
+  first_seen_at: Time.nullable(), last_seen_at: Time.nullable(),
+  /** A category with no route that could produce it is a different fact from a
+   *  category with a route nobody has used, and they never share a shape. */
+  has_a_path: z.boolean(),
+  note: SafeText,
+}).superRefine((e, c) => {
+  if ((e.recorded > 0) !== (e.first_seen_at !== null)) c.addIssue({ code: 'custom', message: 'A category has a first occurrence exactly when something was recorded' });
+  if ((e.first_seen_at !== null) !== (e.last_seen_at !== null)) c.addIssue({ code: 'custom', message: 'A category with a first occurrence has a last one' });
+  if (!e.has_a_path && e.recorded > 0) c.addIssue({ code: 'custom', message: 'A category with no path cannot have recorded anything' });
+});
+export const AuditCoverage = z.strictObject({
+  as_of: Time,
+  entries: z.array(AuditCoverageEntry).length(8),
+  /** Structural: coverage is measured from the trail, so it can never be
+   *  asserted by configuration. */
+  derived_from_recorded_events: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  if (new Set(r.entries.map(e => e.category)).size !== 8) c.addIssue({ code: 'custom', message: 'Every audit category is reported exactly once' });
+});
+/**
+ * FR-M33-03 names export beside read and filter. An export is all of what the
+ * filter matched or it is refused: there is no partial export, because a
+ * truncated file that looks whole is worse than no file. The digest covers the
+ * exact events carried, so a recipient can tell whether the artifact they hold
+ * is the one this installation produced.
+ */
+export const AuditExport = z.strictObject({
+  exported_at: Time,
+  /** The filter this artifact is the answer to, echoed so the file is
+   *  self-describing rather than a bag of rows with no stated scope. */
+  filter: AuditQuery,
+  events: z.array(AuditEvent).max(5000),
+  matched: Epoch,
+  complete: z.literal(true),
+  digest: Digest,
+  limits: z.array(SafeText).max(8),
+}).superRefine((e, c) => {
+  if (e.events.length !== e.matched) c.addIssue({ code: 'custom', message: 'An export carries every event it matched or it is not produced at all' });
+});
+export const AuditCorrectionCreate = z.strictObject({
+  event_id: Id,
+  disputed: z.enum(['WRONG_ACTOR', 'WRONG_RESOURCE', 'WRONG_OPERATION', 'DUPLICATE_RECORD', 'MISLEADING_WITHOUT_CONTEXT']),
+  correction: z.string().min(10).max(500),
+});
+export const AuditCorrection = z.strictObject({
+  id: Id, event_id: Id,
+  disputed: z.enum(['WRONG_ACTOR', 'WRONG_RESOURCE', 'WRONG_OPERATION', 'DUPLICATE_RECORD', 'MISLEADING_WITHOUT_CONTEXT']),
+  correction: SafeText, recorded_at: Time, recorded_by: Id,
+  /** The disputed event is untouched. A correction adds a second record beside
+   *  it and never replaces, hides or supersedes the first. */
+  original_event_unchanged: z.literal(true),
+  limits: z.array(SafeText).max(8),
+});
+export type AuditCategoryValue = z.infer<typeof AuditCategory>;
+export type AuditCoverageEntryValue = z.infer<typeof AuditCoverageEntry>;
+export type AuditCoverageValue = z.infer<typeof AuditCoverage>;
+export type AuditQueryValue = z.infer<typeof AuditQuery>;
+export type AuditEventValue = z.infer<typeof AuditEvent>;
+// ---------------------------------------------------------------------------
 // M32 Monitoring (WP29, WP32). Two requirements are met here and the schema is
 // shaped so neither can be quietly softened.
 //
@@ -1145,6 +1247,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   // drift away from the truth.
   UpdatePlanList: page(UpdatePlan),
   OperationalReadiness,
+  AuditEvent, AuditQuery, AuditCoverage, AuditExport, AuditCorrectionCreate, AuditCorrection, AuditEventList: page(AuditEvent),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1269,6 +1372,10 @@ export const routes: RouteDefinition[] = [
   {id:'record_update_step',method:'post',path:'/api/v1/admin/update-plans/{id}/steps',authority:'STAFF',capability:'update.approve',params:'IdPath',request:'UpdateStepRecord',response:'UpdatePlan',status:200,idempotency:true},
   {id:'installation_versions',method:'get',path:'/api/v1/admin/installation-versions',authority:'STAFF',capability:'update.read',response:'InstallationVersionList',status:200,paginated:true},
   {id:'operational_readiness',method:'get',path:'/api/v1/admin/readiness',authority:'STAFF',capability:'health.read',response:'OperationalReadiness',status:200},
+  {id:'list_audit_events',method:'get',path:'/api/v1/admin/audit-events',authority:'STAFF',capability:'audit.read',query:'AuditQuery',response:'AuditEventList',status:200,paginated:true},
+  {id:'export_audit_events',method:'get',path:'/api/v1/admin/audit-events/export',authority:'STAFF',capability:'audit.export',query:'AuditQuery',response:'AuditExport',status:200},
+  {id:'audit_coverage',method:'get',path:'/api/v1/admin/audit-coverage',authority:'STAFF',capability:'audit.read',response:'AuditCoverage',status:200},
+  {id:'correct_audit_event',method:'post',path:'/api/v1/admin/audit-corrections',authority:'STAFF',capability:'audit.administer',request:'AuditCorrectionCreate',response:'AuditCorrection',status:201,idempotency:true},
   {id:'list_mandates',method:'get',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.read',response:'MandateList',status:200,paginated:true},
   {id:'create_mandate',method:'post',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.write',request:'MandateCreate',response:'Mandate',status:201,idempotency:true},
   {id:'revoke_mandate',method:'post',path:'/api/v1/admin/mandates/{id}/revoke',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'MandateRevoke',response:'Mandate',status:200,idempotency:true},
