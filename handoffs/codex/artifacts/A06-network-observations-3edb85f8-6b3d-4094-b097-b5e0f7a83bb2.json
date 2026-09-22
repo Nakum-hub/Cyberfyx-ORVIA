@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-09-22T15:53:13.137Z",
+  "dns_denied": [
+    {
+      "host": "egress-canary.invalid",
+      "at": "2026-09-22T15:53:19.852Z"
+    }
+  ],
+  "service_connections": {
+    "postgres": 25,
+    "opa": 3,
+    "temporal": 4
+  },
+  "finished_at": "2026-09-22T15:54:10.951Z",
+  "exit_code": 0
+}
