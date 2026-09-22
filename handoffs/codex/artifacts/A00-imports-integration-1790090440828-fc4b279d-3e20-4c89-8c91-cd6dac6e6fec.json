@@ -1,0 +1,326 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-22T15:20:40.828Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "an import naming a system this installation has never configured is refused",
+      "result": "PASS",
+      "expected": [
+        400,
+        [
+          "unknown_system_in_import"
+        ]
+      ],
+      "actual": [
+        400,
+        [
+          "unknown_system_in_import"
+        ]
+      ]
+    },
+    {
+      "name": "a row outside the declared shape is refused rather than partially stored",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "and an import that will not say when it is a snapshot of is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "rows land in quarantine and nothing is applied yet",
+      "result": "PASS",
+      "expected": [
+        "QUARANTINED",
+        null,
+        2
+      ],
+      "actual": [
+        "QUARANTINED",
+        null,
+        2
+      ]
+    },
+    {
+      "name": "neither row collides with anything in this inventory",
+      "result": "PASS",
+      "expected": [
+        [
+          "NEW",
+          "NEW"
+        ],
+        0
+      ],
+      "actual": [
+        [
+          "NEW",
+          "NEW"
+        ],
+        0
+      ]
+    },
+    {
+      "name": "nothing has reached the inventory from quarantine",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the import settles as applied and says when and by whom",
+      "result": "PASS",
+      "expected": [
+        "APPLIED",
+        true,
+        true
+      ],
+      "actual": [
+        "APPLIED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "every row names the asset it became",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an imported asset is asserted, unreviewed, and carries no observation at all",
+      "result": "PASS",
+      "expected": [
+        "ASSERTED",
+        "UNREVIEWED",
+        null,
+        null
+      ],
+      "actual": [
+        "ASSERTED",
+        "UNREVIEWED",
+        null,
+        null
+      ]
+    },
+    {
+      "name": "and the batch says so structurally rather than only in its limits",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "applying twice is refused rather than silently creating the inventory again",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "and the database refuses to move a settled import back to quarantine",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a row that disagrees with an existing asset is reported as a conflict, naming it",
+      "result": "PASS",
+      "expected": [
+        "CONFLICTS_WITH_EXISTING",
+        true,
+        "NEW"
+      ],
+      "actual": [
+        "CONFLICTS_WITH_EXISTING",
+        true,
+        "NEW"
+      ]
+    },
+    {
+      "name": "and the undecided count is what stands between quarantine and inventory",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the import will not apply while a conflict is undecided",
+      "result": "PASS",
+      "expected": [
+        400,
+        [
+          "conflicting_rows_are_undecided"
+        ]
+      ],
+      "actual": [
+        400,
+        [
+          "conflicting_rows_are_undecided"
+        ]
+      ]
+    },
+    {
+      "name": "a row that collides with nothing cannot be decided to clear the queue",
+      "result": "PASS",
+      "expected": [
+        400,
+        [
+          "row_is_not_in_conflict"
+        ]
+      ],
+      "actual": [
+        400,
+        [
+          "row_is_not_in_conflict"
+        ]
+      ]
+    },
+    {
+      "name": "deciding names who decided it and when, and clears the blocker",
+      "result": "PASS",
+      "expected": [
+        "SKIP_ROW",
+        true,
+        0
+      ],
+      "actual": [
+        "SKIP_ROW",
+        true,
+        0
+      ]
+    },
+    {
+      "name": "a decision already taken cannot be quietly replaced",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the skipped row became nothing and the clean row became an asset",
+      "result": "PASS",
+      "expected": [
+        null,
+        true
+      ],
+      "actual": [
+        null,
+        true
+      ]
+    },
+    {
+      "name": "so the duplicate was never created",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the third batch is in quarantine with its rows stored",
+      "result": "PASS",
+      "expected": [
+        "QUARANTINED",
+        1
+      ],
+      "actual": [
+        "QUARANTINED",
+        1
+      ]
+    },
+    {
+      "name": "a purge that will not say why is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "purging removes the rows and states its reason",
+      "result": "PASS",
+      "expected": [
+        "PURGED",
+        0,
+        true
+      ],
+      "actual": [
+        "PURGED",
+        0,
+        true
+      ]
+    },
+    {
+      "name": "the rows really are gone from the database",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "nothing from the purged batch reached the inventory",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "but the record that the import arrived survives, and cannot be deleted",
+      "result": "PASS",
+      "expected": [
+        "PURGED",
+        "23514"
+      ],
+      "actual": [
+        "PURGED",
+        "23514"
+      ]
+    },
+    {
+      "name": "a purged import cannot then be applied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "every batch is listed with the source the customer named and the moment it describes",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an auditor holding graph.read may review what was imported",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "but may not submit one",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "and may not apply or purge one",
+      "result": "PASS",
+      "expected": [
+        403,
+        403
+      ],
+      "actual": [
+        403,
+        403
+      ]
+    }
+  ],
+  "result": "PASS"
+}
