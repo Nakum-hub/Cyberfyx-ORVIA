@@ -148,6 +148,33 @@ export function example(name:SchemaName):unknown {
     note:'Restored from the nightly archive into an isolated environment.',
     limits:['A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.',
       'Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent.']};
+  // Two disclosures on purpose: one approved and carried, one approved and not.
+  // A sampled empty list would hide the field this report exists for -- the
+  // account of what actually left -- and would make an installation that
+  // disclosed nothing indistinguishable from one that never looked.
+  if(name==='VendorVisibility')return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,
+    vendor_service_health:{observed:false as const,
+      reason:'There is no vendor service in this deployment. This build runs entirely on the customer’s own infrastructure and contacts nothing, so there is no service of the vendor’s whose health could be read from here. An unobserved service is not a healthy one.'},
+    disclosures:[
+      {case_id:uuid(830),subject:'CONNECTOR_OBSERVATION_FAILURE' as const,vendor_case_reference:'ORVIA_SUP_4411',
+        approved_at:sampleTime,approved_by:uuid(831),approved_digest:'a'.repeat(64),
+        destination:'MANUAL_OFFLINE_TRANSFER' as const,retention_days:30,
+        carried_at:sampleTime,outcome:'ACCEPTED' as const,
+        facts:[{code:'CONNECTOR_OBSERVATION_FAILED' as const,occurrences:12,first_seen_at:sampleTime,last_seen_at:sampleTime}],
+        transported_by_orvia:false as const},
+      {case_id:uuid(832),subject:'UPDATE_FAILURE' as const,vendor_case_reference:null,
+        approved_at:sampleTime,approved_by:uuid(831),approved_digest:'a'.repeat(64),
+        destination:'MANUAL_OFFLINE_TRANSFER' as const,retention_days:14,
+        carried_at:null,outcome:null,
+        facts:[{code:'UPDATE_STEP_INTERRUPTED' as const,occurrences:1,first_seen_at:sampleTime,last_seen_at:sampleTime}],
+        transported_by_orvia:false as const}],
+    approved_but_not_carried:1,cases_with_nothing_disclosed:3,
+    no_automatic_telemetry_is_collected:true as const,no_employee_activity_is_tracked:true as const,
+    the_absence_of_a_model_is_never_an_incident:true as const,
+    this_states_what_was_disclosed_not_what_the_vendor_holds:true as const,
+    limits:['This is what this installation approved and recorded as carried. What the vendor actually holds is not something this product can see.',
+      'A support case is not a disclosure. Cases that disclosed nothing are counted separately so an open case is never mistaken for something having been sent.']};
+
   // Eleven gates, each exactly once, and the two lists derived from them. The
   // backup gate was unverifiable until FR-M32-03 gave this installation a record
   // of declared snapshots and reconciled restores; it is decidable now, and on a

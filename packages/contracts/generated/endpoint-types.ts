@@ -128,6 +128,7 @@ export interface EndpointMap {
   declare_snapshot: { request: import('zod').infer<typeof import('../src/index.ts').schemas.BackupSnapshotCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupSnapshot> };
   start_restore: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreRunCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
   list_restore_runs: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreRunList> };
+  vendor_visibility: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.VendorVisibility> };
   restore_run: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
   acknowledge_conflict: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentConflictAcknowledge>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
   release_restore: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };

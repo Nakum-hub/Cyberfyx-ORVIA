@@ -1451,6 +1451,75 @@ export const PreflightReport = z.strictObject({
   if (JSON.stringify(r.not_verifiable.slice().sort()) !== JSON.stringify(listed('NOT_VERIFIABLE_HERE'))) c.addIssue({ code: 'custom', message: 'The unverifiable list is exactly the gates that could not be checked' });
 });
 export type PreflightGateValue = z.infer<typeof PreflightGate>;
+
+// ---------------------------------------------------------------------------
+// M32 Monitoring, FR-M32-04 — what the vendor side can see.
+//
+// The requirement is mostly a set of things that must not exist, and things
+// that do not exist are hard to show. So this is built the other way round: it
+// is a customer-facing account of everything that ever left this installation
+// towards the vendor, derived entirely from records this installation already
+// keeps, with nothing new collected to produce it.
+//
+// Every entry is a payload a named person approved and a named person recorded
+// carrying. There is no automatic channel for anything else to travel on, and
+// the report says what it is rather than making a claim about what the vendor
+// holds, which is not something this product could ever observe.
+// ---------------------------------------------------------------------------
+/** The vendor's own service health, which this build genuinely cannot see. */
+export const VendorServiceHealth = z.strictObject({
+  /** Structural. There is no vendor service in this deployment to observe, and
+   *  an unobserved service is never reported as a healthy one. */
+  observed: z.literal(false),
+  reason: SafeText,
+});
+export const VendorDisclosure = z.strictObject({
+  case_id: Id, subject: SupportSubject,
+  vendor_case_reference: z.string().regex(/^[A-Z_][A-Z0-9_-]{3,39}$/).nullable(),
+  approved_at: Time, approved_by: Id, approved_digest: Digest,
+  destination: z.enum(['VENDOR_SUPPORT_INGRESS', 'MANUAL_OFFLINE_TRANSFER']),
+  retention_days: z.number().int().min(1).max(365),
+  /** When an operator recorded carrying the payload, and how that went. Null
+   *  means approved and never carried, which is a different fact from carried
+   *  and rejected. */
+  carried_at: Time.nullable(),
+  outcome: z.enum(['NOT_ATTEMPTED', 'ACCEPTED', 'REJECTED']).nullable(),
+  /** The per-case reported facts themselves: closed codes with occurrence
+   *  counts and the window they were seen in. This is the whole of what the
+   *  vendor was told about this case. */
+  facts: z.array(DiagnosticObservation).max(32),
+  /** Structural. An operator carried this; ORVIA has no transport and did not
+   *  observe it arrive. */
+  transported_by_orvia: z.literal(false),
+}).superRefine((d, c) => {
+  if ((d.carried_at !== null) !== (d.outcome !== null)) c.addIssue({ code: 'custom', message: 'A carried payload records when and how it went, and one never carried records neither' });
+});
+export const VendorVisibility = z.strictObject({
+  as_of: Time, profile: z.literal(PROFILE),
+  vendor_service_health: VendorServiceHealth,
+  disclosures: z.array(VendorDisclosure).max(200),
+  /** Approved and never carried. Counted separately because an approval is not
+   *  a disclosure, and collapsing the two would overstate what left. */
+  approved_but_not_carried: Epoch,
+  /** Cases that have disclosed nothing at all. A support case is not by itself
+   *  a transfer of anything. */
+  cases_with_nothing_disclosed: Epoch,
+  /** Structural. Nothing here was gathered by this product on its own account. */
+  no_automatic_telemetry_is_collected: z.literal(true),
+  /** Structural. Nothing disclosed names, counts or measures a person. */
+  no_employee_activity_is_tracked: z.literal(true),
+  /** Structural. This build has no model, and the absence of one is a property
+   *  of the product rather than something that happened to an installation. */
+  the_absence_of_a_model_is_never_an_incident: z.literal(true),
+  /** Structural, and the honest limit of the whole report: this is what was
+   *  approved and recorded as carried. What the vendor actually holds is not
+   *  something this product can see. */
+  this_states_what_was_disclosed_not_what_the_vendor_holds: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((v, c) => {
+  if (v.approved_but_not_carried !== v.disclosures.filter(d => d.carried_at === null).length) c.addIssue({ code: 'custom', message: 'The uncarried count is the number of approvals nobody recorded carrying' });
+});
+
 export type BackupDomainValue = z.infer<typeof BackupDomain>;
 export type BackupSnapshotValue = z.infer<typeof BackupSnapshot>;
 export type RestoreReconciliationValue = z.infer<typeof RestoreReconciliation>;
@@ -1573,7 +1642,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   NoticeRevisionCreate, NoticeRevision, NoticeAvailability, LanguageChoice, LanguageQuery, NoticeRevisionList: page(NoticeRevision),
   PreflightReport,
   BackupSnapshotCreate, BackupSnapshot, RestoreRunCreate, RestoreReconciliation, ConsentConflictAcknowledge,
-  BackupSnapshotList: page(BackupSnapshot), RestoreRunList: page(RestoreReconciliation),
+  BackupSnapshotList: page(BackupSnapshot), RestoreRunList: page(RestoreReconciliation), VendorVisibility,
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1711,6 +1780,9 @@ export const routes: RouteDefinition[] = [
   // Quarantine is only a control if the person holding restore.release can find
   // what is waiting. They are deliberately not the person who started it.
   {id:'list_restore_runs',method:'get',path:'/api/v1/admin/restore-runs',authority:'STAFF',capability:'health.read',response:'RestoreRunList',status:200,paginated:true},
+  // FR-M32-04. A read of what this installation disclosed, held by the same
+  // capability as its other installation reads so an auditor can see it too.
+  {id:'vendor_visibility',method:'get',path:'/api/v1/admin/vendor-visibility',authority:'STAFF',capability:'health.read',response:'VendorVisibility',status:200},
   {id:'restore_run',method:'get',path:'/api/v1/admin/restore-runs/{id}',authority:'STAFF',capability:'health.read',params:'IdPath',response:'RestoreReconciliation',status:200},
   {id:'acknowledge_conflict',method:'post',path:'/api/v1/admin/restore-runs/{id}/acknowledgements',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'ConsentConflictAcknowledge',response:'RestoreReconciliation',status:200,idempotency:true},
   {id:'release_restore',method:'post',path:'/api/v1/admin/restore-runs/{id}/release',authority:'STAFF',capability:'restore.release',params:'IdPath',response:'RestoreReconciliation',status:200,idempotency:true},

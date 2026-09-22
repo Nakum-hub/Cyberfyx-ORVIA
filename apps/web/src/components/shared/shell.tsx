@@ -200,6 +200,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/connections', label: 'Guided connections' },
     { href: '/workspace/readiness', label: 'Operational readiness' },
     { href: '/workspace/restores', label: 'Backups and restores' },
+    { href: '/workspace/vendor-visibility', label: 'What the vendor can see' },
     { href: '/workspace/releases', label: 'Releases' },
     { href: '/workspace/updates', label: 'Updates' },
     { href: '/workspace/installed-versions', label: 'Installed versions' },

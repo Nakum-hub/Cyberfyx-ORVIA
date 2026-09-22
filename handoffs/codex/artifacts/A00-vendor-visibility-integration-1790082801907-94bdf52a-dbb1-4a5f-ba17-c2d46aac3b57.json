@@ -1,0 +1,60 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-22T13:13:21.908Z",
+  "profile": "codex-a00",
+  "phase": "a disclosure that was carried",
+  "assertions": [
+    {
+      "name": "vendor service health is an absence with a reason, never a clean bill of health",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "the four statements the requirement is made of are all present",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "opening a support case discloses nothing by itself",
+      "result": "PASS",
+      "expected": [
+        6,
+        5
+      ],
+      "actual": [
+        6,
+        5
+      ]
+    },
+    {
+      "name": "and the quiet case appears in no disclosure",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

@@ -24702,6 +24702,223 @@
         "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
       }
     },
+    "/api/v1/admin/vendor-visibility": {
+      "get": {
+        "operationId": "vendor_visibility",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorVisibility"
+                },
+                "example": {
+                  "as_of": "2026-09-16T10:00:00.000Z",
+                  "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                  "vendor_service_health": {
+                    "observed": false,
+                    "reason": "There is no vendor service in this deployment. This build runs entirely on the customer’s own infrastructure and contacts nothing, so there is no service of the vendor’s whose health could be read from here. An unobserved service is not a healthy one."
+                  },
+                  "disclosures": [
+                    {
+                      "case_id": "00000000-0000-4000-8000-00000000033e",
+                      "subject": "CONNECTOR_OBSERVATION_FAILURE",
+                      "vendor_case_reference": "ORVIA_SUP_4411",
+                      "approved_at": "2026-09-16T10:00:00.000Z",
+                      "approved_by": "00000000-0000-4000-8000-00000000033f",
+                      "approved_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "destination": "MANUAL_OFFLINE_TRANSFER",
+                      "retention_days": 30,
+                      "carried_at": "2026-09-16T10:00:00.000Z",
+                      "outcome": "ACCEPTED",
+                      "facts": [
+                        {
+                          "code": "CONNECTOR_OBSERVATION_FAILED",
+                          "occurrences": 12,
+                          "first_seen_at": "2026-09-16T10:00:00.000Z",
+                          "last_seen_at": "2026-09-16T10:00:00.000Z"
+                        }
+                      ],
+                      "transported_by_orvia": false
+                    },
+                    {
+                      "case_id": "00000000-0000-4000-8000-000000000340",
+                      "subject": "UPDATE_FAILURE",
+                      "vendor_case_reference": null,
+                      "approved_at": "2026-09-16T10:00:00.000Z",
+                      "approved_by": "00000000-0000-4000-8000-00000000033f",
+                      "approved_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "destination": "MANUAL_OFFLINE_TRANSFER",
+                      "retention_days": 14,
+                      "carried_at": null,
+                      "outcome": null,
+                      "facts": [
+                        {
+                          "code": "UPDATE_STEP_INTERRUPTED",
+                          "occurrences": 1,
+                          "first_seen_at": "2026-09-16T10:00:00.000Z",
+                          "last_seen_at": "2026-09-16T10:00:00.000Z"
+                        }
+                      ],
+                      "transported_by_orvia": false
+                    }
+                  ],
+                  "approved_but_not_carried": 1,
+                  "cases_with_nothing_disclosed": 3,
+                  "no_automatic_telemetry_is_collected": true,
+                  "no_employee_activity_is_tracked": true,
+                  "the_absence_of_a_model_is_never_an_incident": true,
+                  "this_states_what_was_disclosed_not_what_the_vendor_holds": true,
+                  "limits": [
+                    "This is what this installation approved and recorded as carried. What the vendor actually holds is not something this product can see.",
+                    "A support case is not a disclosure. Cases that disclosed nothing are counted separately so an open case is never mistaken for something having been sent."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "health.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
     "/api/v1/admin/restore-runs/{id}": {
       "get": {
         "operationId": "restore_run",
@@ -47482,6 +47699,243 @@
         "required": [
           "items",
           "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "VendorVisibility": {
+        "type": "object",
+        "properties": {
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "profile": {
+            "type": "string",
+            "const": "CUSTOMER_LOCAL_SYNTHETIC"
+          },
+          "vendor_service_health": {
+            "type": "object",
+            "properties": {
+              "observed": {
+                "type": "boolean",
+                "const": false
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              }
+            },
+            "required": [
+              "observed",
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          "disclosures": {
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "case_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "subject": {
+                  "type": "string",
+                  "enum": [
+                    "INSTALLATION_FAILURE",
+                    "MIGRATION_FAILURE",
+                    "POLICY_DECISION_UNAVAILABLE",
+                    "CONNECTOR_OBSERVATION_FAILURE",
+                    "EVIDENCE_EXPORT_FAILURE",
+                    "LICENCE_VERIFICATION_FAILURE",
+                    "UPDATE_FAILURE",
+                    "PERFORMANCE_DEGRADATION"
+                  ]
+                },
+                "vendor_case_reference": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[A-Z_][A-Z0-9_-]{3,39}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "approved_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "approved_by": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "approved_digest": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "destination": {
+                  "type": "string",
+                  "enum": [
+                    "VENDOR_SUPPORT_INGRESS",
+                    "MANUAL_OFFLINE_TRANSFER"
+                  ]
+                },
+                "retention_days": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 365
+                },
+                "carried_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "outcome": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "NOT_ATTEMPTED",
+                        "ACCEPTED",
+                        "REJECTED"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "facts": {
+                  "maxItems": 32,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "enum": [
+                          "WORKFLOW_NEEDS_ATTENTION",
+                          "CONNECTOR_OBSERVATION_FAILED",
+                          "STALE_OBSERVATION_BACKLOG",
+                          "NOTIFICATION_DELIVERY_FAILED",
+                          "RIGHTS_EXECUTION_FAILED",
+                          "RETENTION_DELETION_UNVERIFIED",
+                          "OPEN_CRITICAL_GAP",
+                          "LICENCE_ABSENT_OR_EXPIRED",
+                          "UPDATE_STEP_INTERRUPTED"
+                        ]
+                      },
+                      "occurrences": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100000
+                      },
+                      "first_seen_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                      },
+                      "last_seen_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "occurrences",
+                      "first_seen_at",
+                      "last_seen_at"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "transported_by_orvia": {
+                  "type": "boolean",
+                  "const": false
+                }
+              },
+              "required": [
+                "case_id",
+                "subject",
+                "vendor_case_reference",
+                "approved_at",
+                "approved_by",
+                "approved_digest",
+                "destination",
+                "retention_days",
+                "carried_at",
+                "outcome",
+                "facts",
+                "transported_by_orvia"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "approved_but_not_carried": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "cases_with_nothing_disclosed": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "no_automatic_telemetry_is_collected": {
+            "type": "boolean",
+            "const": true
+          },
+          "no_employee_activity_is_tracked": {
+            "type": "boolean",
+            "const": true
+          },
+          "the_absence_of_a_model_is_never_an_incident": {
+            "type": "boolean",
+            "const": true
+          },
+          "this_states_what_was_disclosed_not_what_the_vendor_holds": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "as_of",
+          "profile",
+          "vendor_service_health",
+          "disclosures",
+          "approved_but_not_carried",
+          "cases_with_nothing_disclosed",
+          "no_automatic_telemetry_is_collected",
+          "no_employee_activity_is_tracked",
+          "the_absence_of_a_model_is_never_an_incident",
+          "this_states_what_was_disclosed_not_what_the_vendor_holds",
+          "limits"
         ],
         "additionalProperties": false
       },

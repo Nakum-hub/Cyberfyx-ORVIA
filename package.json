@@ -40,6 +40,7 @@
     "test:languages": "tsx tests/integration/notices/languages.test.ts",
     "test:preflight": "tsx tests/integration/onboarding/preflight.test.ts",
     "test:restore": "tsx tests/integration/monitoring/restore.test.ts",
+    "test:vendor-visibility": "tsx tests/integration/monitoring/vendor-visibility.test.ts",
     "test:regression": "tsx tests/integration/regression/regression.test.ts",
     "regression:init": "tsx scripts/regression-init.ts",
     "regression:run": "tsx scripts/regression-runner.ts",

@@ -1647,6 +1647,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/vendor-visibility": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["vendor_visibility"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/restore-runs/{id}": {
         parameters: {
             query?: never;
@@ -5633,6 +5649,56 @@ export interface components {
                 limits: string[];
             }[];
             next_cursor: string | null;
+        };
+        VendorVisibility: {
+            /** Format: date-time */
+            as_of: string;
+            /** @constant */
+            profile: "CUSTOMER_LOCAL_SYNTHETIC";
+            vendor_service_health: {
+                /** @constant */
+                observed: false;
+                reason: string;
+            };
+            disclosures: {
+                /** Format: uuid */
+                case_id: string;
+                /** @enum {string} */
+                subject: "INSTALLATION_FAILURE" | "MIGRATION_FAILURE" | "POLICY_DECISION_UNAVAILABLE" | "CONNECTOR_OBSERVATION_FAILURE" | "EVIDENCE_EXPORT_FAILURE" | "LICENCE_VERIFICATION_FAILURE" | "UPDATE_FAILURE" | "PERFORMANCE_DEGRADATION";
+                vendor_case_reference: string | null;
+                /** Format: date-time */
+                approved_at: string;
+                /** Format: uuid */
+                approved_by: string;
+                approved_digest: string;
+                /** @enum {string} */
+                destination: "VENDOR_SUPPORT_INGRESS" | "MANUAL_OFFLINE_TRANSFER";
+                retention_days: number;
+                carried_at: string | null;
+                outcome: ("NOT_ATTEMPTED" | "ACCEPTED" | "REJECTED") | null;
+                facts: {
+                    /** @enum {string} */
+                    code: "WORKFLOW_NEEDS_ATTENTION" | "CONNECTOR_OBSERVATION_FAILED" | "STALE_OBSERVATION_BACKLOG" | "NOTIFICATION_DELIVERY_FAILED" | "RIGHTS_EXECUTION_FAILED" | "RETENTION_DELETION_UNVERIFIED" | "OPEN_CRITICAL_GAP" | "LICENCE_ABSENT_OR_EXPIRED" | "UPDATE_STEP_INTERRUPTED";
+                    occurrences: number;
+                    /** Format: date-time */
+                    first_seen_at: string;
+                    /** Format: date-time */
+                    last_seen_at: string;
+                }[];
+                /** @constant */
+                transported_by_orvia: false;
+            }[];
+            approved_but_not_carried: number;
+            cases_with_nothing_disclosed: number;
+            /** @constant */
+            no_automatic_telemetry_is_collected: true;
+            /** @constant */
+            no_employee_activity_is_tracked: true;
+            /** @constant */
+            the_absence_of_a_model_is_never_an_incident: true;
+            /** @constant */
+            this_states_what_was_disclosed_not_what_the_vendor_holds: true;
+            limits: string[];
         };
         DataAssetList: {
             items: {
@@ -29066,6 +29132,223 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["RestoreReconciliation"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    vendor_visibility: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                     *       "vendor_service_health": {
+                     *         "observed": false,
+                     *         "reason": "There is no vendor service in this deployment. This build runs entirely on the customer’s own infrastructure and contacts nothing, so there is no service of the vendor’s whose health could be read from here. An unobserved service is not a healthy one."
+                     *       },
+                     *       "disclosures": [
+                     *         {
+                     *           "case_id": "00000000-0000-4000-8000-00000000033e",
+                     *           "subject": "CONNECTOR_OBSERVATION_FAILURE",
+                     *           "vendor_case_reference": "ORVIA_SUP_4411",
+                     *           "approved_at": "2026-09-16T10:00:00.000Z",
+                     *           "approved_by": "00000000-0000-4000-8000-00000000033f",
+                     *           "approved_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                     *           "destination": "MANUAL_OFFLINE_TRANSFER",
+                     *           "retention_days": 30,
+                     *           "carried_at": "2026-09-16T10:00:00.000Z",
+                     *           "outcome": "ACCEPTED",
+                     *           "facts": [
+                     *             {
+                     *               "code": "CONNECTOR_OBSERVATION_FAILED",
+                     *               "occurrences": 12,
+                     *               "first_seen_at": "2026-09-16T10:00:00.000Z",
+                     *               "last_seen_at": "2026-09-16T10:00:00.000Z"
+                     *             }
+                     *           ],
+                     *           "transported_by_orvia": false
+                     *         },
+                     *         {
+                     *           "case_id": "00000000-0000-4000-8000-000000000340",
+                     *           "subject": "UPDATE_FAILURE",
+                     *           "vendor_case_reference": null,
+                     *           "approved_at": "2026-09-16T10:00:00.000Z",
+                     *           "approved_by": "00000000-0000-4000-8000-00000000033f",
+                     *           "approved_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                     *           "destination": "MANUAL_OFFLINE_TRANSFER",
+                     *           "retention_days": 14,
+                     *           "carried_at": null,
+                     *           "outcome": null,
+                     *           "facts": [
+                     *             {
+                     *               "code": "UPDATE_STEP_INTERRUPTED",
+                     *               "occurrences": 1,
+                     *               "first_seen_at": "2026-09-16T10:00:00.000Z",
+                     *               "last_seen_at": "2026-09-16T10:00:00.000Z"
+                     *             }
+                     *           ],
+                     *           "transported_by_orvia": false
+                     *         }
+                     *       ],
+                     *       "approved_but_not_carried": 1,
+                     *       "cases_with_nothing_disclosed": 3,
+                     *       "no_automatic_telemetry_is_collected": true,
+                     *       "no_employee_activity_is_tracked": true,
+                     *       "the_absence_of_a_model_is_never_an_incident": true,
+                     *       "this_states_what_was_disclosed_not_what_the_vendor_holds": true,
+                     *       "limits": [
+                     *         "This is what this installation approved and recorded as carried. What the vendor actually holds is not something this product can see.",
+                     *         "A support case is not a disclosure. Cases that disclosed nothing are counted separately so an open case is never mistaken for something having been sent."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["VendorVisibility"];
                 };
             };
             /** @description VALIDATION_ERROR */

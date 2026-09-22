@@ -1422,6 +1422,15 @@
       "paginated": true
     },
     {
+      "id": "vendor_visibility",
+      "method": "get",
+      "path": "/api/v1/admin/vendor-visibility",
+      "authority": "STAFF",
+      "capability": "health.read",
+      "response": "VendorVisibility",
+      "status": 200
+    },
+    {
       "id": "restore_run",
       "method": "get",
       "path": "/api/v1/admin/restore-runs/{id}",
