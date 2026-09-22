@@ -111,6 +111,29 @@ export function example(name:SchemaName):unknown {
       {check:'NO_UNSAFE_DOWNGRADE' as const,satisfied:true,reason:'The release is newer than the installed version.'}],
     recovery_mode:'FORWARD_RECOVERY_ONLY' as const,rollback_available:false,eligibility_is_not_permission_to_execute:true,
     limits:['An irreversible migration is declared, so recovery is forward only and rollback is not offered.','Being eligible is not permission to apply. Applying is a separate approval.']};
+  // Three kinds and seven signals, each exactly once, which repeated copies of
+  // the first enum value cannot satisfy. The example also has to show the thing
+  // the schema exists for: two signals that were not measured, and a business
+  // readiness verdict that differs from the other two.
+  if(name==='OperationalReadiness')return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,
+    facts:[
+      {kind:'LIVENESS' as const,verdict:'READY' as const,covers:'This process is running and answered this request. It says nothing about any dependency.',blocking:[]},
+      {kind:'DEPENDENCY_READINESS' as const,verdict:'READY' as const,covers:'PostgreSQL answered a scoped query and the policy engine authorised this request.',blocking:[]},
+      {kind:'BUSINESS_READINESS' as const,verdict:'NOT_READY' as const,covers:'Whether a privacy decision could be carried through to a system that can act on it.',
+        blocking:['No configured system has been checked and found able to restrict, so a decision could be recorded and never carried out.']}],
+    signals:[
+      {signal:'PROPAGATION_LAG' as const,measured:true,value:4,unit:'SECONDS' as const,counted:'The longest delay between accepting an event and dispatching it, across 12 dispatched events.',unavailable_reason:null},
+      {signal:'OLDEST_UNRESOLVED_WORK' as const,measured:true,value:1820,unit:'SECONDS' as const,counted:'The age of the oldest workflow that has not reached a terminal state, across 2 unresolved workflows.',unavailable_reason:null},
+      {signal:'OBSERVATION_FRESHNESS' as const,measured:true,value:900,unit:'SECONDS' as const,counted:'The age of the most recent connector capability check, across 3 recorded checks.',unavailable_reason:null},
+      {signal:'QUEUE_DEPTH' as const,measured:true,value:0,unit:'RECORDS' as const,counted:'Accepted events that have not been dispatched. This is a depth, not a rate.',unavailable_reason:null},
+      {signal:'CONNECTOR_LIMIT_HEADROOM' as const,measured:false,value:null,unit:null,counted:'Remaining headroom against a connector load budget.',
+        unavailable_reason:'No connector load budget has been measured for this deployment, so there is nothing to report headroom against.'},
+      {signal:'STORAGE_FOOTPRINT' as const,measured:true,value:36476595,unit:'BYTES' as const,counted:'Total size of this installation database, including indexes and every environment it holds.',unavailable_reason:null},
+      {signal:'BACKUP_STATUS' as const,measured:false,value:null,unit:null,counted:'Age and outcome of the most recent verified backup.',
+        unavailable_reason:'This build has no backup or restore capability, so there is no backup whose status could be reported.'}],
+    combined_status_is_not_reported:true,uptime_is_not_evidence_of_correct_operation:true,
+    limits:['These are three separate verdicts and they are not combined. A live process with reachable dependencies can still carry out no decision at all.',
+      'Two of the seven signals were not measured. An unmeasured signal is not a signal at zero.']};
   if(name==='GapClosure')return {state:'RESOLVED' as const,note:'Observation restored and confirmed against the copy.',evidence_reference:'Observation record SYN-OBS-0001.'};
   if(name==='Gap')return {id:uuid(70),source:'NEVER_OBSERVED' as const,subject_kind:'DATA_ASSET' as const,subject_id:uuid(71),detected_at:sampleTime,last_seen_at:sampleTime,state:'OPEN' as const,severity:'MEDIUM' as const,owner_reference:null,due_at:null,evidence_reference:null,resolution_note:null,description:'This copy has never been independently observed.'};
   if(name==='SystemOutcomeRecord')return {system_id:uuid(50),result:'SUCCEEDED',method:'CONNECTOR_OPERATION',evidence_reference:'Synthetic connector receipt.',note:'Restriction applied to the exact synthetic subject.'};

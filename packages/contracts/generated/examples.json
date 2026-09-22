@@ -2865,6 +2865,104 @@
       }
     },
     {
+      "operation_id": "operational_readiness",
+      "method": "GET",
+      "path": "/api/v1/admin/readiness",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+        "facts": [
+          {
+            "kind": "LIVENESS",
+            "verdict": "READY",
+            "covers": "This process is running and answered this request. It says nothing about any dependency.",
+            "blocking": []
+          },
+          {
+            "kind": "DEPENDENCY_READINESS",
+            "verdict": "READY",
+            "covers": "PostgreSQL answered a scoped query and the policy engine authorised this request.",
+            "blocking": []
+          },
+          {
+            "kind": "BUSINESS_READINESS",
+            "verdict": "NOT_READY",
+            "covers": "Whether a privacy decision could be carried through to a system that can act on it.",
+            "blocking": [
+              "No configured system has been checked and found able to restrict, so a decision could be recorded and never carried out."
+            ]
+          }
+        ],
+        "signals": [
+          {
+            "signal": "PROPAGATION_LAG",
+            "measured": true,
+            "value": 4,
+            "unit": "SECONDS",
+            "counted": "The longest delay between accepting an event and dispatching it, across 12 dispatched events.",
+            "unavailable_reason": null
+          },
+          {
+            "signal": "OLDEST_UNRESOLVED_WORK",
+            "measured": true,
+            "value": 1820,
+            "unit": "SECONDS",
+            "counted": "The age of the oldest workflow that has not reached a terminal state, across 2 unresolved workflows.",
+            "unavailable_reason": null
+          },
+          {
+            "signal": "OBSERVATION_FRESHNESS",
+            "measured": true,
+            "value": 900,
+            "unit": "SECONDS",
+            "counted": "The age of the most recent connector capability check, across 3 recorded checks.",
+            "unavailable_reason": null
+          },
+          {
+            "signal": "QUEUE_DEPTH",
+            "measured": true,
+            "value": 0,
+            "unit": "RECORDS",
+            "counted": "Accepted events that have not been dispatched. This is a depth, not a rate.",
+            "unavailable_reason": null
+          },
+          {
+            "signal": "CONNECTOR_LIMIT_HEADROOM",
+            "measured": false,
+            "value": null,
+            "unit": null,
+            "counted": "Remaining headroom against a connector load budget.",
+            "unavailable_reason": "No connector load budget has been measured for this deployment, so there is nothing to report headroom against."
+          },
+          {
+            "signal": "STORAGE_FOOTPRINT",
+            "measured": true,
+            "value": 36476595,
+            "unit": "BYTES",
+            "counted": "Total size of this installation database, including indexes and every environment it holds.",
+            "unavailable_reason": null
+          },
+          {
+            "signal": "BACKUP_STATUS",
+            "measured": false,
+            "value": null,
+            "unit": null,
+            "counted": "Age and outcome of the most recent verified backup.",
+            "unavailable_reason": "This build has no backup or restore capability, so there is no backup whose status could be reported."
+          }
+        ],
+        "combined_status_is_not_reported": true,
+        "uptime_is_not_evidence_of_correct_operation": true,
+        "limits": [
+          "These are three separate verdicts and they are not combined. A live process with reachable dependencies can still carry out no decision at all.",
+          "Two of the seven signals were not measured. An unmeasured signal is not a signal at zero."
+        ]
+      }
+    },
+    {
       "operation_id": "list_mandates",
       "method": "GET",
       "path": "/api/v1/admin/mandates",

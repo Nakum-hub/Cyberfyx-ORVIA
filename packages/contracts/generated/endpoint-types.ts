@@ -116,6 +116,7 @@ export interface EndpointMap {
   update_plan: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlan> };
   record_update_step: { request: import('zod').infer<typeof import('../src/index.ts').schemas.UpdateStepRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.UpdatePlan> };
   installation_versions: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.InstallationVersionList> };
+  operational_readiness: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OperationalReadiness> };
   list_mandates: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.MandateList> };
   create_mandate: { request: import('zod').infer<typeof import('../src/index.ts').schemas.MandateCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Mandate> };
   revoke_mandate: { request: import('zod').infer<typeof import('../src/index.ts').schemas.MandateRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Mandate> };

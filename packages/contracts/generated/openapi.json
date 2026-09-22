@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.9.0",
-    "description": "Contract 0.9.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.10.0",
+    "description": "Contract 0.10.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -22180,6 +22180,251 @@
         "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
       }
     },
+    "/api/v1/admin/readiness": {
+      "get": {
+        "operationId": "operational_readiness",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationalReadiness"
+                },
+                "example": {
+                  "as_of": "2026-09-16T10:00:00.000Z",
+                  "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                  "facts": [
+                    {
+                      "kind": "LIVENESS",
+                      "verdict": "READY",
+                      "covers": "This process is running and answered this request. It says nothing about any dependency.",
+                      "blocking": []
+                    },
+                    {
+                      "kind": "DEPENDENCY_READINESS",
+                      "verdict": "READY",
+                      "covers": "PostgreSQL answered a scoped query and the policy engine authorised this request.",
+                      "blocking": []
+                    },
+                    {
+                      "kind": "BUSINESS_READINESS",
+                      "verdict": "NOT_READY",
+                      "covers": "Whether a privacy decision could be carried through to a system that can act on it.",
+                      "blocking": [
+                        "No configured system has been checked and found able to restrict, so a decision could be recorded and never carried out."
+                      ]
+                    }
+                  ],
+                  "signals": [
+                    {
+                      "signal": "PROPAGATION_LAG",
+                      "measured": true,
+                      "value": 4,
+                      "unit": "SECONDS",
+                      "counted": "The longest delay between accepting an event and dispatching it, across 12 dispatched events.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "OLDEST_UNRESOLVED_WORK",
+                      "measured": true,
+                      "value": 1820,
+                      "unit": "SECONDS",
+                      "counted": "The age of the oldest workflow that has not reached a terminal state, across 2 unresolved workflows.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "OBSERVATION_FRESHNESS",
+                      "measured": true,
+                      "value": 900,
+                      "unit": "SECONDS",
+                      "counted": "The age of the most recent connector capability check, across 3 recorded checks.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "QUEUE_DEPTH",
+                      "measured": true,
+                      "value": 0,
+                      "unit": "RECORDS",
+                      "counted": "Accepted events that have not been dispatched. This is a depth, not a rate.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "CONNECTOR_LIMIT_HEADROOM",
+                      "measured": false,
+                      "value": null,
+                      "unit": null,
+                      "counted": "Remaining headroom against a connector load budget.",
+                      "unavailable_reason": "No connector load budget has been measured for this deployment, so there is nothing to report headroom against."
+                    },
+                    {
+                      "signal": "STORAGE_FOOTPRINT",
+                      "measured": true,
+                      "value": 36476595,
+                      "unit": "BYTES",
+                      "counted": "Total size of this installation database, including indexes and every environment it holds.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "BACKUP_STATUS",
+                      "measured": false,
+                      "value": null,
+                      "unit": null,
+                      "counted": "Age and outcome of the most recent verified backup.",
+                      "unavailable_reason": "This build has no backup or restore capability, so there is no backup whose status could be reported."
+                    }
+                  ],
+                  "combined_status_is_not_reported": true,
+                  "uptime_is_not_evidence_of_correct_operation": true,
+                  "limits": [
+                    "These are three separate verdicts and they are not combined. A live process with reachable dependencies can still carry out no decision at all.",
+                    "Two of the seven signals were not measured. An unmeasured signal is not a signal at zero."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "health.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
     "/api/v1/admin/mandates": {
       "get": {
         "operationId": "list_mandates",
@@ -39258,6 +39503,172 @@
         "required": [
           "items",
           "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "OperationalReadiness": {
+        "type": "object",
+        "properties": {
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "profile": {
+            "type": "string",
+            "const": "CUSTOMER_LOCAL_SYNTHETIC"
+          },
+          "facts": {
+            "minItems": 3,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "LIVENESS",
+                    "DEPENDENCY_READINESS",
+                    "BUSINESS_READINESS"
+                  ]
+                },
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "READY",
+                    "NOT_READY",
+                    "NOT_ASSESSABLE"
+                  ]
+                },
+                "covers": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "blocking": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "verdict",
+                "covers",
+                "blocking"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "signals": {
+            "minItems": 7,
+            "maxItems": 7,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "signal": {
+                  "type": "string",
+                  "enum": [
+                    "PROPAGATION_LAG",
+                    "OLDEST_UNRESOLVED_WORK",
+                    "OBSERVATION_FRESHNESS",
+                    "QUEUE_DEPTH",
+                    "CONNECTOR_LIMIT_HEADROOM",
+                    "STORAGE_FOOTPRINT",
+                    "BACKUP_STATUS"
+                  ]
+                },
+                "measured": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "unit": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "SECONDS",
+                        "RECORDS",
+                        "BYTES"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "counted": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "unavailable_reason": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "signal",
+                "measured",
+                "value",
+                "unit",
+                "counted",
+                "unavailable_reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "combined_status_is_not_reported": {
+            "type": "boolean",
+            "const": true
+          },
+          "uptime_is_not_evidence_of_correct_operation": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "as_of",
+          "profile",
+          "facts",
+          "signals",
+          "combined_status_is_not_reported",
+          "uptime_is_not_evidence_of_correct_operation",
+          "limits"
         ],
         "additionalProperties": false
       },

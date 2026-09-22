@@ -1503,6 +1503,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/readiness": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["operational_readiness"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/mandates": {
         parameters: {
             query?: never;
@@ -4843,6 +4859,34 @@ export interface components {
                 limits: string[];
             }[];
             next_cursor: string | null;
+        };
+        OperationalReadiness: {
+            /** Format: date-time */
+            as_of: string;
+            /** @constant */
+            profile: "CUSTOMER_LOCAL_SYNTHETIC";
+            facts: {
+                /** @enum {string} */
+                kind: "LIVENESS" | "DEPENDENCY_READINESS" | "BUSINESS_READINESS";
+                /** @enum {string} */
+                verdict: "READY" | "NOT_READY" | "NOT_ASSESSABLE";
+                covers: string;
+                blocking: string[];
+            }[];
+            signals: {
+                /** @enum {string} */
+                signal: "PROPAGATION_LAG" | "OLDEST_UNRESOLVED_WORK" | "OBSERVATION_FRESHNESS" | "QUEUE_DEPTH" | "CONNECTOR_LIMIT_HEADROOM" | "STORAGE_FOOTPRINT" | "BACKUP_STATUS";
+                measured: boolean;
+                value: number | null;
+                unit: ("SECONDS" | "RECORDS" | "BYTES") | null;
+                counted: string;
+                unavailable_reason: string | null;
+            }[];
+            /** @constant */
+            combined_status_is_not_reported: true;
+            /** @constant */
+            uptime_is_not_evidence_of_correct_operation: true;
+            limits: string[];
         };
         DataAssetList: {
             items: {
@@ -26010,6 +26054,251 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["InstallationVersionList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    operational_readiness: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                     *       "facts": [
+                     *         {
+                     *           "kind": "LIVENESS",
+                     *           "verdict": "READY",
+                     *           "covers": "This process is running and answered this request. It says nothing about any dependency.",
+                     *           "blocking": []
+                     *         },
+                     *         {
+                     *           "kind": "DEPENDENCY_READINESS",
+                     *           "verdict": "READY",
+                     *           "covers": "PostgreSQL answered a scoped query and the policy engine authorised this request.",
+                     *           "blocking": []
+                     *         },
+                     *         {
+                     *           "kind": "BUSINESS_READINESS",
+                     *           "verdict": "NOT_READY",
+                     *           "covers": "Whether a privacy decision could be carried through to a system that can act on it.",
+                     *           "blocking": [
+                     *             "No configured system has been checked and found able to restrict, so a decision could be recorded and never carried out."
+                     *           ]
+                     *         }
+                     *       ],
+                     *       "signals": [
+                     *         {
+                     *           "signal": "PROPAGATION_LAG",
+                     *           "measured": true,
+                     *           "value": 4,
+                     *           "unit": "SECONDS",
+                     *           "counted": "The longest delay between accepting an event and dispatching it, across 12 dispatched events.",
+                     *           "unavailable_reason": null
+                     *         },
+                     *         {
+                     *           "signal": "OLDEST_UNRESOLVED_WORK",
+                     *           "measured": true,
+                     *           "value": 1820,
+                     *           "unit": "SECONDS",
+                     *           "counted": "The age of the oldest workflow that has not reached a terminal state, across 2 unresolved workflows.",
+                     *           "unavailable_reason": null
+                     *         },
+                     *         {
+                     *           "signal": "OBSERVATION_FRESHNESS",
+                     *           "measured": true,
+                     *           "value": 900,
+                     *           "unit": "SECONDS",
+                     *           "counted": "The age of the most recent connector capability check, across 3 recorded checks.",
+                     *           "unavailable_reason": null
+                     *         },
+                     *         {
+                     *           "signal": "QUEUE_DEPTH",
+                     *           "measured": true,
+                     *           "value": 0,
+                     *           "unit": "RECORDS",
+                     *           "counted": "Accepted events that have not been dispatched. This is a depth, not a rate.",
+                     *           "unavailable_reason": null
+                     *         },
+                     *         {
+                     *           "signal": "CONNECTOR_LIMIT_HEADROOM",
+                     *           "measured": false,
+                     *           "value": null,
+                     *           "unit": null,
+                     *           "counted": "Remaining headroom against a connector load budget.",
+                     *           "unavailable_reason": "No connector load budget has been measured for this deployment, so there is nothing to report headroom against."
+                     *         },
+                     *         {
+                     *           "signal": "STORAGE_FOOTPRINT",
+                     *           "measured": true,
+                     *           "value": 36476595,
+                     *           "unit": "BYTES",
+                     *           "counted": "Total size of this installation database, including indexes and every environment it holds.",
+                     *           "unavailable_reason": null
+                     *         },
+                     *         {
+                     *           "signal": "BACKUP_STATUS",
+                     *           "measured": false,
+                     *           "value": null,
+                     *           "unit": null,
+                     *           "counted": "Age and outcome of the most recent verified backup.",
+                     *           "unavailable_reason": "This build has no backup or restore capability, so there is no backup whose status could be reported."
+                     *         }
+                     *       ],
+                     *       "combined_status_is_not_reported": true,
+                     *       "uptime_is_not_evidence_of_correct_operation": true,
+                     *       "limits": [
+                     *         "These are three separate verdicts and they are not combined. A live process with reachable dependencies can still carry out no decision at all.",
+                     *         "Two of the seven signals were not measured. An unmeasured signal is not a signal at zero."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["OperationalReadiness"];
                 };
             };
             /** @description VALIDATION_ERROR */

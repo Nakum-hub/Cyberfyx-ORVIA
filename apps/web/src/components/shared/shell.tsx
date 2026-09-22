@@ -194,6 +194,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/support-canaries', label: 'Forbidden content' },
   ] },
   { group: 'Installation', items: [
+    { href: '/workspace/readiness', label: 'Operational readiness' },
     { href: '/workspace/releases', label: 'Releases' },
     { href: '/workspace/updates', label: 'Updates' },
     { href: '/workspace/installed-versions', label: 'Installed versions' },

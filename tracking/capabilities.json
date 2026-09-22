@@ -539,10 +539,14 @@
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Local service preflight and an application health endpoint report PostgreSQL, OPA and Temporal status, and every request is audited with a correlation identifier. No metrics, alerting, tracing or uptime monitoring is built.",
+      "limitation": "FR-M32-01 and FR-M32-02 are built and qualified. Liveness, dependency readiness and business readiness are three separate verdicts with three separate reasons and there is no field that combines them, because the failure worth catching is an installation that answers every probe while being unable to carry out a single privacy decision — the integration suite drives exactly that state and asserts that only the third verdict moves. Seven operational signals are reported: worst propagation delay, oldest unresolved work, observation freshness, undispatched queue depth and database size are measured from this installation's own tables, and connector limit headroom and backup status report that they were not measured and why, because this build has no measured connector load budget and no backup capability at all. An unmeasured signal and a signal measured at zero never share a representation. Everything collected is a count or a duration, so the minimisation is a property of what is selected rather than a promise about redaction. Also present from earlier work: local service preflight, an unauthenticated liveness endpoint, and a correlation identifier on every audited request. Not built, and the reason this remains partial: FR-M32-03, customer-key backup with restore into quarantine and authority reconciliation, needs the persistence and recovery decision that is still OPEN; and FR-M32-04 has no vendor side to show, since no vendor service exists in this build. No metrics series, alerting, tracing or uptime history is retained — nothing here is stored or sent anywhere.",
       "evidence": [
+        "test:monitoring",
         "services:smoke",
-        "test:network"
+        "test:network",
+        "packages/domain/src/monitoring/monitoring.ts",
+        "tests/unit/monitoring.test.ts",
+        "apps/web/src/components/screens/readiness.tsx"
       ]
     },
     {

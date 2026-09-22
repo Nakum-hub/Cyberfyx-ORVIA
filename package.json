@@ -32,6 +32,7 @@
     "test:incidents": "tsx tests/integration/incidents/incidents.test.ts",
     "test:notifications": "tsx tests/integration/notifications/notifications.test.ts",
     "test:licensing": "tsx tests/integration/licensing/licensing.test.ts",
+    "test:monitoring": "tsx tests/integration/monitoring/monitoring.test.ts",
     "test:support": "tsx tests/integration/support/support.test.ts",
     "test:updates": "tsx tests/integration/updates/updates.test.ts",
     "test:regression": "tsx tests/integration/regression/regression.test.ts",

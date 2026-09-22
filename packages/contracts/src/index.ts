@@ -6,8 +6,9 @@ import { z } from 'zod';
  *  list, without which FR-M31-03's promise that an interrupted update stays
  *  visible is not keepable — only applied plans were reachable, through the
  *  installed version history, and an interrupted one could be found by nobody.
+ *  0.10.0 adds the M32 operational readiness report.
  *  All are additive: no existing route, schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.9.0' as const;
+export const CONTRACT_VERSION = '0.10.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -1050,6 +1051,71 @@ export const UpdatePlan = z.strictObject({
   if (p.state !== 'APPLIED' && p.outstanding_steps.length === 0 && verified) c.addIssue({ code: 'custom', message: 'A plan with nothing outstanding and both checks passed is applied' });
 });
 export const InstallationVersion = z.strictObject({ id: Id, version: Version, applied_at: Time, plan_id: Id.nullable(), note: SafeText });
+// ---------------------------------------------------------------------------
+// M32 Monitoring (WP29, WP32). Two requirements are met here and the schema is
+// shaped so neither can be quietly softened.
+//
+// FR-M32-01 asks that liveness, readiness and business readiness be
+// distinguished. They are three separate facts with three separate verdicts and
+// there is no field that combines them, because the whole failure this prevents
+// is an installation that answers every probe while being unable to carry out a
+// single privacy decision.
+//
+// FR-M32-02 asks for propagation lag, oldest unresolved work, freshness, queue
+// saturation, connector limits, storage and backup status, and says plainly:
+// not just uptime. Two of those seven cannot be measured by this build, so they
+// report that they were not measured and why, rather than defaulting to a
+// comfortable zero. Everything measured is a count or a duration: there is no
+// field in which a payload, a secret or a reference to a person could appear.
+// ---------------------------------------------------------------------------
+export const ReadinessKind = z.enum(['LIVENESS', 'DEPENDENCY_READINESS', 'BUSINESS_READINESS']);
+export const ReadinessVerdict = z.enum(['READY', 'NOT_READY', 'NOT_ASSESSABLE']);
+export const ReadinessFact = z.strictObject({
+  kind: ReadinessKind, verdict: ReadinessVerdict,
+  /** What this verdict covers, and what it deliberately says nothing about. */
+  covers: SafeText,
+  /** Named, because "not ready" without a reason is not something anybody can act on. */
+  blocking: z.array(SafeText).max(8),
+}).superRefine((f, c) => {
+  if ((f.verdict === 'NOT_READY') !== (f.blocking.length > 0)) c.addIssue({ code: 'custom', message: 'A readiness verdict is not ready exactly when something is blocking it' });
+});
+export const OperationalSignalName = z.enum([
+  'PROPAGATION_LAG', 'OLDEST_UNRESOLVED_WORK', 'OBSERVATION_FRESHNESS',
+  'QUEUE_DEPTH', 'CONNECTOR_LIMIT_HEADROOM', 'STORAGE_FOOTPRINT', 'BACKUP_STATUS',
+]);
+export const SignalUnit = z.enum(['SECONDS', 'RECORDS', 'BYTES']);
+export const OperationalSignal = z.strictObject({
+  signal: OperationalSignalName,
+  measured: z.boolean(),
+  value: Epoch.nullable(), unit: SignalUnit.nullable(),
+  /** What the number counts. A figure without this is not a measurement. */
+  counted: SafeText,
+  /** Present exactly when the signal was not measured. An unmeasured signal is
+   *  a different fact from a signal measured at zero, and they never share a
+   *  representation here. */
+  unavailable_reason: SafeText.nullable(),
+}).superRefine((s, c) => {
+  if (s.measured !== (s.value !== null)) c.addIssue({ code: 'custom', message: 'A measured signal has a value and an unmeasured one has none' });
+  if (s.measured !== (s.unit !== null)) c.addIssue({ code: 'custom', message: 'A measured signal names its unit' });
+  if (s.measured === (s.unavailable_reason !== null)) c.addIssue({ code: 'custom', message: 'A signal is unavailable exactly when it says why' });
+});
+export const OperationalReadiness = z.strictObject({
+  as_of: Time, profile: z.literal(PROFILE),
+  facts: z.array(ReadinessFact).length(3),
+  signals: z.array(OperationalSignal).length(7),
+  /** Structural. There is no overall verdict field, and adding one later would
+   *  be the change that made this report useless. */
+  combined_status_is_not_reported: z.literal(true),
+  /** Structural. The process answering is not the product working, and this
+   *  report is not allowed to imply otherwise. */
+  uptime_is_not_evidence_of_correct_operation: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  if (new Set(r.facts.map(f => f.kind)).size !== 3) c.addIssue({ code: 'custom', message: 'Each readiness kind is reported exactly once' });
+  if (new Set(r.signals.map(s => s.signal)).size !== 7) c.addIssue({ code: 'custom', message: 'Each operational signal is reported exactly once' });
+});
+export type OperationalSignalValue = z.infer<typeof OperationalSignal>;
+export type ReadinessFactValue = z.infer<typeof ReadinessFact>;
 export type DiagnosticObservationValue = z.infer<typeof DiagnosticObservation>;
 export type ReleaseClaimsValue = z.infer<typeof ReleaseClaims>;
 export type ReleaseRejectionValue = z.infer<typeof ReleaseRejection>;
@@ -1078,6 +1144,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   // reason the list exists. A parallel summary shape would be one more thing to
   // drift away from the truth.
   UpdatePlanList: page(UpdatePlan),
+  OperationalReadiness,
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1201,6 +1268,7 @@ export const routes: RouteDefinition[] = [
   {id:'update_plan',method:'get',path:'/api/v1/admin/update-plans/{id}',authority:'STAFF',capability:'update.read',params:'IdPath',response:'UpdatePlan',status:200},
   {id:'record_update_step',method:'post',path:'/api/v1/admin/update-plans/{id}/steps',authority:'STAFF',capability:'update.approve',params:'IdPath',request:'UpdateStepRecord',response:'UpdatePlan',status:200,idempotency:true},
   {id:'installation_versions',method:'get',path:'/api/v1/admin/installation-versions',authority:'STAFF',capability:'update.read',response:'InstallationVersionList',status:200,paginated:true},
+  {id:'operational_readiness',method:'get',path:'/api/v1/admin/readiness',authority:'STAFF',capability:'health.read',response:'OperationalReadiness',status:200},
   {id:'list_mandates',method:'get',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.read',response:'MandateList',status:200,paginated:true},
   {id:'create_mandate',method:'post',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.write',request:'MandateCreate',response:'Mandate',status:201,idempotency:true},
   {id:'revoke_mandate',method:'post',path:'/api/v1/admin/mandates/{id}/revoke',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'MandateRevoke',response:'Mandate',status:200,idempotency:true},
