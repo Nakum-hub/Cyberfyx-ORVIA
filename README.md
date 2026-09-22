@@ -331,6 +331,39 @@ vendor but **deployed inside the customer's own environment or customer-controll
 cloud**, with operational customer data remaining there. The prototype demonstrates that
 boundary; it does not make the prototype itself production-ready.
 
+**This repository is the customer runtime, and only that.** The Rev 1.4 master puts it in one line
+(§1995): *"Our website manages the commercial relationship. Their installation performs privacy
+operations. Their privacy portal serves their clients."* It separates four locations that are
+routinely collapsed into one "cloud" (§1869): the vendor website, vendor staff, the Lightning
+training workspace and the customer runtime.
+
+The vendor-side interface is **not a second website**. It is built as additional pages and sections
+on the **existing ORVIA website**, whose public marketing site is already "an unauthenticated entry
+point to the first experience" (§1995): sign-in and subscription sit behind that entry point, ORVIA
+Account carries "Account, licences and downloads" (§3796), and the vendor-support console is
+internal staff tooling on the same estate. None of it is part of this installation:
+
+| Pages and sections on the existing ORVIA website | Lives here, in the customer runtime |
+|---|---|
+| Website sign-in and subscription, behind the public marketing entry point (§1995) | The installation's own staff and Data Principal sign-in, held by the customer |
+| ORVIA Account: Commercial Owner, Billing, Download/Licence and Support contacts (§658) | The staff Workspace and the Data Principal privacy portal |
+| Commercial catalogue, pricing, invoicing and payment | Local privacy operations against the customer's own systems |
+| Publishing and distribution of signed releases, connectors and packs (§3827) | Verifying a signed release or licence that was given to this installation |
+| The internal vendor-support console (§1995) | Producing an approved diagnostic payload a person carries to it |
+
+So some things are **absent here on purpose rather than unfinished**. M26 Billing is
+`NOT_IMPLEMENTED` because billing and subscription belong to the website's account pages; there is
+no vendor console screen
+because §1995 places it outside the customer runtime; and there is no vendor actor at all — the
+contract has no such authority, capability or audit domain to author one against.
+
+§3841 is explicit that a vendor console must never gain "a synced local staff list, employee activity
+tab, live operational dashboard, remote-session button, runtime impersonation link or proxy into the
+installed Workspace". `tests/unit/deployment-boundary.test.ts` enforces that: it fails the build if a
+commercial, distribution or vendor reach-in surface is ever added here. The one vendor-named screen,
+*What the vendor can see*, is the inverse of the prohibited thing — the customer's own account of
+everything that has ever left this installation towards the vendor.
+
 ---
 
 ## 14. Architecture
