@@ -148,6 +148,81 @@ export function example(name:SchemaName):unknown {
     note:'Restored from the nightly archive into an isolated environment.',
     limits:['A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.',
       'Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent.']};
+  // Quarantined, with one clean row and one conflict nobody has decided. A
+  // sampled empty list would hide the whole point of a preview: the operator
+  // is looking at this to find out what the import would collide with.
+  if(name==='ImportBatch')return {id:uuid(850),kind:'DATA_ASSET_INVENTORY' as const,
+    source_reference:'Inventory exported from the CRM administration console by the data owner.',
+    captured_at:sampleTime,row_count:2,content_digest:'a'.repeat(64),state:'QUARANTINED' as const,
+    submitted_at:sampleTime,submitted_by:uuid(851),settled_at:null,settled_by:null,purge_reason:null,
+    rows:[
+      {line_number:1,row:{line_number:1,system_id:uuid(852),kind:'DATASET' as const,
+        name:'Marketing contact list',description:'Contact rows used for promotional sends.',categories:[]},
+        conflict:'NEW' as const,existing_asset_id:null,decision:null,decided_by:null,decided_at:null,created_asset_id:null},
+      {line_number:2,row:{line_number:2,system_id:uuid(852),kind:'DERIVED_COPY' as const,
+        name:'Marketing contact list',description:'A nightly extract the source calls by the same name.',categories:[]},
+        conflict:'CONFLICTS_WITH_EXISTING' as const,existing_asset_id:uuid(853),
+        decision:null,decided_by:null,decided_at:null,created_asset_id:null}],
+    undecided_conflicts:1,
+    imported_rows_are_asserted_never_observed:true as const,
+    a_source_snapshot_is_not_evidence_that_any_control_is_in_force:true as const,
+    purging_removes_the_rows_and_keeps_this_record:true as const,
+    limits:['Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.',
+      'Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived.']};
+
+  // Four purposes covering all eight audited categories exactly once. One has a
+  // configured period with events past it; the other three have none, because
+  // no period ships with this product and an unconfigured purpose must stay
+  // distinguishable from one somebody deliberately set to a long number.
+  if(name==='AuditRetentionReport')return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,
+    lines:[
+      {purpose:'SECURITY_INVESTIGATION' as const,
+        categories:['ROLE_GRANTS' as const,'OWNER_CHANGES' as const,'CONNECTOR_CREDENTIALS_AND_SCOPE' as const],
+        rule:{purpose:'SECURITY_INVESTIGATION' as const,days:365,
+          source_reference:'Reviewed internal security incident investigation window, approved by the organisation’s privacy reviewer.',
+          recorded_at:sampleTime,recorded_by:uuid(840)},
+        events_held:42,oldest_event_at:sampleTime,beyond_period:3,period_is_not_configured_here:false},
+      {purpose:'REGULATORY_ACCOUNTABILITY' as const,categories:['POLICY_PUBLICATION' as const,'EXPORTS' as const],
+        rule:null,events_held:11,oldest_event_at:sampleTime,beyond_period:0,period_is_not_configured_here:true},
+      {purpose:'COMMERCIAL_OBLIGATION' as const,categories:['SUPPORT_APPROVAL' as const,'LICENCES' as const],
+        rule:null,events_held:4,oldest_event_at:sampleTime,beyond_period:0,period_is_not_configured_here:true},
+      {purpose:'CHANGE_TRACEABILITY' as const,categories:['UPDATES' as const],
+        rule:null,events_held:0,oldest_event_at:null,beyond_period:0,period_is_not_configured_here:true}],
+    payload_columns_found:0 as const,
+    payload_is_not_recorded_so_none_can_be_deleted:true as const,
+    envelopes_are_never_deleted_by_this_product:true as const,
+    snapshots_covering_evidence:1,
+    a_declared_snapshot_is_not_reached_by_anything_here:true as const,
+    limits:['This is a schedule and a disclosure. Nothing here deletes anything: the audit trail is append-only against every role including the migrator.',
+      'No retention period ships with this product. A purpose with none configured reports that, rather than defaulting to a number nobody chose.']};
+
+  // Two disclosures on purpose: one approved and carried, one approved and not.
+  // A sampled empty list would hide the field this report exists for -- the
+  // account of what actually left -- and would make an installation that
+  // disclosed nothing indistinguishable from one that never looked.
+  if(name==='VendorVisibility')return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,
+    vendor_service_health:{observed:false as const,
+      reason:'There is no vendor service in this deployment. This build runs entirely on the customer’s own infrastructure and contacts nothing, so there is no service of the vendor’s whose health could be read from here. An unobserved service is not a healthy one.'},
+    disclosures:[
+      {case_id:uuid(830),subject:'CONNECTOR_OBSERVATION_FAILURE' as const,vendor_case_reference:'ORVIA_SUP_4411',
+        approved_at:sampleTime,approved_by:uuid(831),approved_digest:'a'.repeat(64),
+        destination:'MANUAL_OFFLINE_TRANSFER' as const,retention_days:30,
+        carried_at:sampleTime,outcome:'ACCEPTED' as const,
+        facts:[{code:'CONNECTOR_OBSERVATION_FAILED' as const,occurrences:12,first_seen_at:sampleTime,last_seen_at:sampleTime}],
+        transported_by_orvia:false as const},
+      {case_id:uuid(832),subject:'UPDATE_FAILURE' as const,vendor_case_reference:null,
+        approved_at:sampleTime,approved_by:uuid(831),approved_digest:'a'.repeat(64),
+        destination:'MANUAL_OFFLINE_TRANSFER' as const,retention_days:14,
+        carried_at:null,outcome:null,
+        facts:[{code:'UPDATE_STEP_INTERRUPTED' as const,occurrences:1,first_seen_at:sampleTime,last_seen_at:sampleTime}],
+        transported_by_orvia:false as const}],
+    approved_but_not_carried:1,cases_with_nothing_disclosed:3,
+    no_automatic_telemetry_is_collected:true as const,no_employee_activity_is_tracked:true as const,
+    the_absence_of_a_model_is_never_an_incident:true as const,
+    this_states_what_was_disclosed_not_what_the_vendor_holds:true as const,
+    limits:['This is what this installation approved and recorded as carried. What the vendor actually holds is not something this product can see.',
+      'A support case is not a disclosure. Cases that disclosed nothing are counted separately so an open case is never mistaken for something having been sent.']};
+
   // Eleven gates, each exactly once, and the two lists derived from them. The
   // backup gate was unverifiable until FR-M32-03 gave this installation a record
   // of declared snapshots and reconciled restores; it is decidable now, and on a

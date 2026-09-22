@@ -106,19 +106,27 @@ test('the trail is filtered only by keys the contract declares', () => {
 
 test('reading, exporting and administering the trail are three separate authorities', () => {
   const trail = routes.filter(route => route.capability?.startsWith('audit.'));
-  assert.deepEqual(trail.map(route => route.id).sort(), ['audit_coverage', 'correct_audit_event', 'export_audit_events', 'list_audit_events']);
+  assert.deepEqual(trail.map(route => route.id).sort(),
+    ['audit_coverage', 'audit_retention', 'correct_audit_event', 'export_audit_events', 'list_audit_events', 'set_audit_retention']);
   // FR-M33-03 names read, export and administration separately, so no two of
   // them are the same permission.
-  assert.deepEqual(trail.filter(route => route.capability === 'audit.administer').map(route => route.id), ['correct_audit_event']);
+  // FR-M33-04 put setting a retention period here rather than under read:
+  // deciding how long the trail is kept is administration of it.
+  assert.deepEqual(trail.filter(route => route.capability === 'audit.administer').map(route => route.id).sort(),
+    ['correct_audit_event', 'set_audit_retention']);
   assert.deepEqual(trail.filter(route => route.capability === 'audit.export').map(route => route.id), ['export_audit_events']);
-  assert.deepEqual(trail.filter(route => route.capability === 'audit.read').map(route => route.id).sort(), ['audit_coverage', 'list_audit_events']);
+  assert.deepEqual(trail.filter(route => route.capability === 'audit.read').map(route => route.id).sort(),
+    ['audit_coverage', 'audit_retention', 'list_audit_events']);
   for (const route of trail) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     if (route.method === 'post') assert.ok(route.idempotency, `${route.id} is a write without idempotency`);
     assert.ok(schemas[route.response], `${route.id} has no registered response schema`);
   }
   // There is no endpoint that edits or removes an audit record, under any name.
-  assert.ok(!routes.some(route => ['delete_audit', 'purge', 'redact_audit', 'amend_audit'].some(word => route.id.includes(word))));
+  // Scoped to routes that touch the trail: FR-M29-04 added a purge for quarantined
+  // import rows, which is a different thing and must not trip this.
+  const touchesTheTrail = routes.filter(route => /audit/.test(route.id) || route.capability?.startsWith('audit.'));
+  assert.ok(!touchesTheTrail.some(route => ['delete', 'purge', 'redact', 'amend', 'expire'].some(word => route.id.includes(word))));
 });
 
 test('an export carries everything it matched or it is not produced at all', () => {

@@ -128,6 +128,15 @@ export interface EndpointMap {
   declare_snapshot: { request: import('zod').infer<typeof import('../src/index.ts').schemas.BackupSnapshotCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupSnapshot> };
   start_restore: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreRunCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
   list_restore_runs: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreRunList> };
+  vendor_visibility: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.VendorVisibility> };
+  audit_retention: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditRetentionReport> };
+  set_audit_retention: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditRetentionRuleCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditRetentionRule> };
+  list_imports: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatchList> };
+  submit_import: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImportSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatch> };
+  import_batch: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatch> };
+  decide_import_row: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImportRowDecide>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatch> };
+  apply_import: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatch> };
+  purge_import: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImportPurge>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatch> };
   restore_run: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
   acknowledge_conflict: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentConflictAcknowledge>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
   release_restore: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreReconciliation> };
