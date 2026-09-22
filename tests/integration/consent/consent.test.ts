@@ -84,7 +84,7 @@ try {
   const rollbackKey=randomUUID();let rollbackObserved=false;
   try {await scopedTransaction(app,aliceActor,async tx=>{
     const c={tx,actor:aliceActor,requestId:randomUUID()};
-    await idempotent(c,'withdraw:'+purpose.id,rollbackKey,{expected_epoch:2,interaction_id:rollbackChoice.interaction_id},()=>changeConsent(c,purpose.id,'withdraw',{expected_epoch:2,interaction_id:rollbackChoice.interaction_id}));
+    await idempotent(c,'withdraw',purpose.id,rollbackKey,{expected_epoch:2,interaction_id:rollbackChoice.interaction_id},()=>changeConsent(c,purpose.id,'withdraw',{expected_epoch:2,interaction_id:rollbackChoice.interaction_id}));
     rollbackObserved=true;
     throw new Error('Test-only interruption after all business writes');
   });}catch{/* rollback assertions below check that every write was reached and undone */}

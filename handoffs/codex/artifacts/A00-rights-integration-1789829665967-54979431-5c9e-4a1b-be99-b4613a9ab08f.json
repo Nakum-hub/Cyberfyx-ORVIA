@@ -1,0 +1,458 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-19T14:54:25.967Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a new request starts in the master vocabulary",
+      "result": "PASS",
+      "expected": "RECEIVED",
+      "actual": "RECEIVED"
+    },
+    {
+      "name": "nothing is assessed or executed merely because a request exists",
+      "result": "PASS",
+      "expected": [
+        "NOT_ASSESSED",
+        null,
+        "NOT_STARTED",
+        "NOT_PREPARED",
+        "NOT_DETERMINED"
+      ],
+      "actual": [
+        "NOT_ASSESSED",
+        null,
+        "NOT_STARTED",
+        "NOT_PREPARED",
+        "NOT_DETERMINED"
+      ]
+    },
+    {
+      "name": "a request made by the principal themselves has self authority",
+      "result": "PASS",
+      "expected": "SELF",
+      "actual": "SELF"
+    },
+    {
+      "name": "a transition outside the canonical map is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a lifecycle state that does not exist is rejected by the contract",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the declared first step is permitted",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an exact match cannot claim two references",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an ambiguous review must actually be ambiguous",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a no-match review cannot name matched references",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an ambiguous grade is recorded truthfully, not softened",
+      "result": "PASS",
+      "expected": [
+        "AMBIGUOUS",
+        "AMBIGUOUS"
+      ],
+      "actual": [
+        "AMBIGUOUS",
+        "AMBIGUOUS"
+      ]
+    },
+    {
+      "name": "an ambiguous identity cannot begin a disclosing execution",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an ambiguous identity cannot receive a disclosure",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a later exact review resolves the identity",
+      "result": "PASS",
+      "expected": [
+        "ESTABLISHED",
+        "EXACT"
+      ],
+      "actual": [
+        "ESTABLISHED",
+        "EXACT"
+      ]
+    },
+    {
+      "name": "an established identity may now execute",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "releasing a response needs its own capability, not merely write access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an already-expired delivery is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "redaction review cannot be declined and still release",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the response dimension moves without changing the lifecycle state",
+      "result": "PASS",
+      "expected": [
+        "RELEASED",
+        "EXECUTING"
+      ],
+      "actual": [
+        "RELEASED",
+        "EXECUTING"
+      ]
+    },
+    {
+      "name": "a response cannot be released twice",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an unreachable destination is recorded, not dropped",
+      "result": "PASS",
+      "expected": [
+        "Offline archive tapes held by facilities"
+      ],
+      "actual": [
+        "Offline archive tapes held by facilities"
+      ]
+    },
+    {
+      "name": "unresolved destinations are visible in the scope dimension",
+      "result": "PASS",
+      "expected": "UNRESOLVED_DESTINATIONS",
+      "actual": "UNRESOLVED_DESTINATIONS"
+    },
+    {
+      "name": "entering execution claims nothing until an outcome is recorded",
+      "result": "PASS",
+      "expected": "RUNNING",
+      "actual": "RUNNING"
+    },
+    {
+      "name": "a request with no recorded outcome cannot claim completion",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a success on every planned system is still partial while a destination is unreached",
+      "result": "PASS",
+      "expected": "PARTIAL",
+      "actual": "PARTIAL"
+    },
+    {
+      "name": "a request with unreachable destinations still cannot claim completion",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the lifecycle move does not change what the outcomes already said",
+      "result": "PASS",
+      "expected": "PARTIAL",
+      "actual": "PARTIAL"
+    },
+    {
+      "name": "the recorded outcome names its method and evidence",
+      "result": "PASS",
+      "expected": [
+        "MANUAL_ATTESTATION",
+        true
+      ],
+      "actual": [
+        "MANUAL_ATTESTATION",
+        true
+      ]
+    },
+    {
+      "name": "closure does not rewrite what execution achieved",
+      "result": "PASS",
+      "expected": "PARTIAL",
+      "actual": "PARTIAL"
+    },
+    {
+      "name": "closure keeps the unresolved destination visible",
+      "result": "PASS",
+      "expected": [
+        "Offline archive tapes held by facilities"
+      ],
+      "actual": [
+        "Offline archive tapes held by facilities"
+      ]
+    },
+    {
+      "name": "closure records why it was closed",
+      "result": "PASS",
+      "expected": "Closed administratively; tape archive remains unreached.",
+      "actual": "Closed administratively; tape archive remains unreached."
+    },
+    {
+      "name": "a closed request is terminal",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database itself refuses to reopen a closed request",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the server marks a supported operation automatable",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an operation no connector implements is not automatable, whatever was asked for",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an outcome cannot be recorded before execution begins",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "success cannot be claimed without evidence",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "outstanding work cannot carry evidence",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an effect is only unknown after a connector attempt",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a connector cannot be credited with an operation it does not implement",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an outcome cannot be recorded for a system the plan does not name",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "outstanding manual work is reported as needing a person",
+      "result": "PASS",
+      "expected": "MANUAL_REQUIRED",
+      "actual": "MANUAL_REQUIRED"
+    },
+    {
+      "name": "a manual request still cannot claim completion",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a recorded outcome cannot be replaced by a second one",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to rewrite a recorded outcome",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a system with a recorded outcome cannot be dropped from the plan",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "re-scoping cannot change the action a system was already executed under",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "re-scoping cannot discard a system whose outcome was recorded",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "re-scoping that keeps the executed system unchanged is permitted",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "a guardian mandate is a distinct kind with its own permitted rights",
+      "result": "PASS",
+      "expected": [
+        "GUARDIAN",
+        [
+          "ACCESS"
+        ],
+        "ACTIVE"
+      ],
+      "actual": [
+        "GUARDIAN",
+        [
+          "ACCESS"
+        ],
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "a mandate cannot end before it begins",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a request under a mandate is not treated as self authority",
+      "result": "PASS",
+      "expected": "MANDATED",
+      "actual": "MANDATED"
+    },
+    {
+      "name": "a mandate does not authorise a right it does not name",
+      "result": "PASS",
+      "expected": "NOT_ESTABLISHED",
+      "actual": "NOT_ESTABLISHED"
+    },
+    {
+      "name": "an expired mandate does not carry authority",
+      "result": "PASS",
+      "expected": "MANDATE_EXPIRED",
+      "actual": "MANDATE_EXPIRED"
+    },
+    {
+      "name": "a revocation records when and why",
+      "result": "PASS",
+      "expected": [
+        "REVOKED",
+        true,
+        true
+      ],
+      "actual": [
+        "REVOKED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "revoking a mandate immediately withdraws authority from its open requests",
+      "result": "PASS",
+      "expected": "MANDATE_REVOKED",
+      "actual": "MANDATE_REVOKED"
+    },
+    {
+      "name": "a revoked authority blocks new execution",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a revoked mandate stays revoked on retry",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "changing scope after approval sends the request back for approval",
+      "result": "PASS",
+      "expected": "SCOPING",
+      "actual": "SCOPING"
+    },
+    {
+      "name": "every transition is recorded in append-only history",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "request history cannot be rewritten",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "request history cannot be deleted",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an auditor may read rights requests",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot create a rights request",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member without the rights capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}

@@ -1,0 +1,1568 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-22T08:03:21.242Z",
+  "test_ids": [
+    "T23",
+    "T24",
+    "T25"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.12.0",
+  "assertions": [
+    {
+      "name": "anonymous test start denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "principal test start denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor test start denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "delegated admin cannot run privileged faults",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "unenrolled tenant cannot run Aster fixture",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another lane profile denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "arbitrary scenario rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_HEALTHY accepted",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "pending run is durably NOT_RUN",
+      "result": "PASS",
+      "expected": "NOT_RUN",
+      "actual": "NOT_RUN"
+    },
+    {
+      "name": "pending request replay stable",
+      "result": "PASS",
+      "expected": {
+        "id": "579dd600-c5ac-4a24-ae7b-82826692bc51",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "579dd600-c5ac-4a24-ae7b-82826692bc51",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "overlapping fixture execution denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "foreign tenant cannot read run",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "principal cannot read run",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "protected runner executed real assertions",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_HEALTHY actual result",
+      "result": "PASS",
+      "expected": "PASS",
+      "actual": "PASS"
+    },
+    {
+      "name": "assertions separately persisted",
+      "result": "PASS",
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "name": "broken fixture actual synthetic send count",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "violation assertion derives from actual effect",
+      "result": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "name": "expected fault flag does not turn FAIL into PASS",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "committed acceptance replay remains immutable",
+      "result": "PASS",
+      "expected": {
+        "id": "579dd600-c5ac-4a24-ae7b-82826692bc51",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "579dd600-c5ac-4a24-ae7b-82826692bc51",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "local evidence links actual test run",
+      "result": "PASS",
+      "expected": {
+        "id": "579dd600-c5ac-4a24-ae7b-82826692bc51",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "PASS",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T07:59:50.862Z",
+        "finished_at": "2026-09-22T08:00:11.124Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "PASS",
+            "expected": "0",
+            "actual": "0",
+            "artifact_paths": []
+          }
+        ],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "579dd600-c5ac-4a24-ae7b-82826692bc51",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "PASS",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T07:59:50.862Z",
+        "finished_at": "2026-09-22T08:00:11.124Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "PASS",
+            "expected": "0",
+            "actual": "0",
+            "artifact_paths": []
+          }
+        ],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_BROKEN_CONTROL accepted",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "pending run is durably NOT_RUN",
+      "result": "PASS",
+      "expected": "NOT_RUN",
+      "actual": "NOT_RUN"
+    },
+    {
+      "name": "pending request replay stable",
+      "result": "PASS",
+      "expected": {
+        "id": "9a48cc3d-0ffc-415d-986d-35371ebd19c6",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": true
+      },
+      "actual": {
+        "id": "9a48cc3d-0ffc-415d-986d-35371ebd19c6",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": true
+      }
+    },
+    {
+      "name": "overlapping fixture execution denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "foreign tenant cannot read run",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "principal cannot read run",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "protected runner executed real assertions",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_BROKEN_CONTROL actual result",
+      "result": "PASS",
+      "expected": "FAIL",
+      "actual": "FAIL"
+    },
+    {
+      "name": "assertions separately persisted",
+      "result": "PASS",
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "name": "broken fixture actual synthetic send count",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "violation assertion derives from actual effect",
+      "result": "PASS",
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "expected fault flag does not turn FAIL into PASS",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "committed acceptance replay remains immutable",
+      "result": "PASS",
+      "expected": {
+        "id": "9a48cc3d-0ffc-415d-986d-35371ebd19c6",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": true
+      },
+      "actual": {
+        "id": "9a48cc3d-0ffc-415d-986d-35371ebd19c6",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": true
+      }
+    },
+    {
+      "name": "local evidence links actual test run",
+      "result": "PASS",
+      "expected": {
+        "id": "9a48cc3d-0ffc-415d-986d-35371ebd19c6",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "FAIL",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T08:00:54.783Z",
+        "finished_at": "2026-09-22T08:01:13.467Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "FAIL",
+            "expected": "0",
+            "actual": "1",
+            "artifact_paths": []
+          }
+        ],
+        "expected_fault_detection": true
+      },
+      "actual": {
+        "id": "9a48cc3d-0ffc-415d-986d-35371ebd19c6",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "FAIL",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T08:00:54.783Z",
+        "finished_at": "2026-09-22T08:01:13.467Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "FAIL",
+            "expected": "0",
+            "actual": "1",
+            "artifact_paths": []
+          }
+        ],
+        "expected_fault_detection": true
+      }
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_HEALTHY accepted",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "pending run is durably NOT_RUN",
+      "result": "PASS",
+      "expected": "NOT_RUN",
+      "actual": "NOT_RUN"
+    },
+    {
+      "name": "pending request replay stable",
+      "result": "PASS",
+      "expected": {
+        "id": "ce2df58f-4b9a-43d2-a7ea-d6ebb99c9e43",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "ce2df58f-4b9a-43d2-a7ea-d6ebb99c9e43",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "overlapping fixture execution denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "foreign tenant cannot read run",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "principal cannot read run",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "protected runner executed real assertions",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_HEALTHY actual result",
+      "result": "PASS",
+      "expected": "PASS",
+      "actual": "PASS"
+    },
+    {
+      "name": "assertions separately persisted",
+      "result": "PASS",
+      "expected": 6,
+      "actual": 6
+    },
+    {
+      "name": "broken fixture actual synthetic send count",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "violation assertion derives from actual effect",
+      "result": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "name": "expected fault flag does not turn FAIL into PASS",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "committed acceptance replay remains immutable",
+      "result": "PASS",
+      "expected": {
+        "id": "ce2df58f-4b9a-43d2-a7ea-d6ebb99c9e43",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "ce2df58f-4b9a-43d2-a7ea-d6ebb99c9e43",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "local evidence links actual test run",
+      "result": "PASS",
+      "expected": {
+        "id": "ce2df58f-4b9a-43d2-a7ea-d6ebb99c9e43",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "PASS",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T08:01:58.494Z",
+        "finished_at": "2026-09-22T08:02:15.843Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "PASS",
+            "expected": "0",
+            "actual": "0",
+            "artifact_paths": []
+          }
+        ],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "ce2df58f-4b9a-43d2-a7ea-d6ebb99c9e43",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "PASS",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T08:01:58.494Z",
+        "finished_at": "2026-09-22T08:02:15.843Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "PASS",
+            "expected": "0",
+            "actual": "0",
+            "artifact_paths": []
+          }
+        ],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "TARGET_RESTORE_QUARANTINE accepted",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "pending run is durably NOT_RUN",
+      "result": "PASS",
+      "expected": "NOT_RUN",
+      "actual": "NOT_RUN"
+    },
+    {
+      "name": "pending request replay stable",
+      "result": "PASS",
+      "expected": {
+        "id": "79eb8a6f-50f6-499c-b3a9-48ad52de4b9b",
+        "request": {
+          "scenario": "TARGET_RESTORE_QUARANTINE",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "79eb8a6f-50f6-499c-b3a9-48ad52de4b9b",
+        "request": {
+          "scenario": "TARGET_RESTORE_QUARANTINE",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "overlapping fixture execution denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "foreign tenant cannot read run",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "principal cannot read run",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "protected runner executed real assertions",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "TARGET_RESTORE_QUARANTINE actual result",
+      "result": "PASS",
+      "expected": "PASS",
+      "actual": "PASS"
+    },
+    {
+      "name": "assertions separately persisted",
+      "result": "PASS",
+      "expected": 16,
+      "actual": 16
+    },
+    {
+      "name": "broken fixture actual synthetic send count",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "violation assertion derives from actual effect",
+      "result": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "name": "recovery journal artifact exists",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "expected fault flag does not turn FAIL into PASS",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "committed acceptance replay remains immutable",
+      "result": "PASS",
+      "expected": {
+        "id": "79eb8a6f-50f6-499c-b3a9-48ad52de4b9b",
+        "request": {
+          "scenario": "TARGET_RESTORE_QUARANTINE",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "79eb8a6f-50f6-499c-b3a9-48ad52de4b9b",
+        "request": {
+          "scenario": "TARGET_RESTORE_QUARANTINE",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "local evidence links actual test run",
+      "result": "PASS",
+      "expected": {
+        "id": "79eb8a6f-50f6-499c-b3a9-48ad52de4b9b",
+        "request": {
+          "scenario": "TARGET_RESTORE_QUARANTINE",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "PASS",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T08:03:02.506Z",
+        "finished_at": "2026-09-22T08:03:18.439Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "PASS",
+            "expected": "0",
+            "actual": "0",
+            "artifact_paths": []
+          },
+          {
+            "id": "old_target_snapshot_quarantined",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "actual_old_snapshot_restored",
+            "result": "PASS",
+            "expected": "false",
+            "actual": "false",
+            "artifact_paths": []
+          },
+          {
+            "id": "quarantined_processing_blocked",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "premature_activation_denied",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "old_generation_command_denied",
+            "result": "PASS",
+            "expected": "\"STALE_GENERATION\"",
+            "actual": "\"STALE_GENERATION\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_restriction_independently_observed",
+            "result": "PASS",
+            "expected": "[true,2,2]",
+            "actual": "[true,2,2]",
+            "artifact_paths": []
+          },
+          {
+            "id": "reconciled_target_activated",
+            "result": "PASS",
+            "expected": "false",
+            "actual": "false",
+            "artifact_paths": []
+          },
+          {
+            "id": "restriction_survives_activation",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "authoritative_consent_ledger_unchanged",
+            "result": "PASS",
+            "expected": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+            "actual": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+            "artifact_paths": []
+          },
+          {
+            "id": "recovery_journal_recorded",
+            "result": "PASS",
+            "expected": "\"RECONCILED_ACTIVE\"",
+            "actual": "\"RECONCILED_ACTIVE\"",
+            "artifact_paths": [
+              "handoffs/codex/artifacts/A00-recovery-journal-1790064198426-7fe105b1-b57c-4362-87d8-a4378f9f93d8.json"
+            ]
+          }
+        ],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "79eb8a6f-50f6-499c-b3a9-48ad52de4b9b",
+        "request": {
+          "scenario": "TARGET_RESTORE_QUARANTINE",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "PASS",
+        "build_id": "hOziJYVPZ8NHKU6saSZra",
+        "contract_version": "0.12.0",
+        "started_at": "2026-09-22T08:03:02.506Z",
+        "finished_at": "2026-09-22T08:03:18.439Z",
+        "assertions": [
+          {
+            "id": "fresh_permission_admits",
+            "result": "PASS",
+            "expected": "\"ALLOW\"",
+            "actual": "\"ALLOW\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "durable_workflow_completed",
+            "result": "PASS",
+            "expected": "\"COMPLETED\"",
+            "actual": "\"COMPLETED\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_read_restriction",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "independent_observation_method",
+            "result": "PASS",
+            "expected": "\"SCOPED_READ\"",
+            "actual": "\"SCOPED_READ\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_boundary_blocks_withdrawal",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "no_post_withdrawal_send",
+            "result": "PASS",
+            "expected": "0",
+            "actual": "0",
+            "artifact_paths": []
+          },
+          {
+            "id": "old_target_snapshot_quarantined",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "actual_old_snapshot_restored",
+            "result": "PASS",
+            "expected": "false",
+            "actual": "false",
+            "artifact_paths": []
+          },
+          {
+            "id": "quarantined_processing_blocked",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "premature_activation_denied",
+            "result": "PASS",
+            "expected": "true",
+            "actual": "true",
+            "artifact_paths": []
+          },
+          {
+            "id": "old_generation_command_denied",
+            "result": "PASS",
+            "expected": "\"STALE_GENERATION\"",
+            "actual": "\"STALE_GENERATION\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "current_restriction_independently_observed",
+            "result": "PASS",
+            "expected": "[true,2,2]",
+            "actual": "[true,2,2]",
+            "artifact_paths": []
+          },
+          {
+            "id": "reconciled_target_activated",
+            "result": "PASS",
+            "expected": "false",
+            "actual": "false",
+            "artifact_paths": []
+          },
+          {
+            "id": "restriction_survives_activation",
+            "result": "PASS",
+            "expected": "\"BLOCK\"",
+            "actual": "\"BLOCK\"",
+            "artifact_paths": []
+          },
+          {
+            "id": "authoritative_consent_ledger_unchanged",
+            "result": "PASS",
+            "expected": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+            "actual": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+            "artifact_paths": []
+          },
+          {
+            "id": "recovery_journal_recorded",
+            "result": "PASS",
+            "expected": "\"RECONCILED_ACTIVE\"",
+            "actual": "\"RECONCILED_ACTIVE\"",
+            "artifact_paths": [
+              "handoffs/codex/artifacts/A00-recovery-journal-1790064198426-7fe105b1-b57c-4362-87d8-a4378f9f93d8.json"
+            ]
+          }
+        ],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "runner actually began before interruption",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "interrupted run remains durable",
+      "result": "PASS",
+      "expected": "RUNNING",
+      "actual": "RUNNING"
+    },
+    {
+      "name": "interrupted run becomes explicit ERROR",
+      "result": "PASS",
+      "expected": "ERROR",
+      "actual": "ERROR"
+    },
+    {
+      "name": "interruption creates no success fallback",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "interruption assertion separately persisted",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "terminal outcome cannot be rewritten",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "runs": [
+    {
+      "id": "579dd600-c5ac-4a24-ae7b-82826692bc51",
+      "request": {
+        "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+        "profile": "codex-a00",
+        "fixture_id": "aster-birch-v1"
+      },
+      "state": "PASS",
+      "build_id": "hOziJYVPZ8NHKU6saSZra",
+      "contract_version": "0.12.0",
+      "started_at": "2026-09-22T07:59:50.862Z",
+      "finished_at": "2026-09-22T08:00:11.124Z",
+      "assertions": [
+        {
+          "id": "fresh_permission_admits",
+          "result": "PASS",
+          "expected": "\"ALLOW\"",
+          "actual": "\"ALLOW\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "durable_workflow_completed",
+          "result": "PASS",
+          "expected": "\"COMPLETED\"",
+          "actual": "\"COMPLETED\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_read_restriction",
+          "result": "PASS",
+          "expected": "true",
+          "actual": "true",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_observation_method",
+          "result": "PASS",
+          "expected": "\"SCOPED_READ\"",
+          "actual": "\"SCOPED_READ\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "current_boundary_blocks_withdrawal",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "actual": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "no_post_withdrawal_send",
+          "result": "PASS",
+          "expected": "0",
+          "actual": "0",
+          "artifact_paths": []
+        }
+      ],
+      "expected_fault_detection": false
+    },
+    {
+      "id": "9a48cc3d-0ffc-415d-986d-35371ebd19c6",
+      "request": {
+        "scenario": "MARKETING_WITHDRAWAL_BROKEN_CONTROL",
+        "profile": "codex-a00",
+        "fixture_id": "aster-birch-v1"
+      },
+      "state": "FAIL",
+      "build_id": "hOziJYVPZ8NHKU6saSZra",
+      "contract_version": "0.12.0",
+      "started_at": "2026-09-22T08:00:54.783Z",
+      "finished_at": "2026-09-22T08:01:13.467Z",
+      "assertions": [
+        {
+          "id": "fresh_permission_admits",
+          "result": "PASS",
+          "expected": "\"ALLOW\"",
+          "actual": "\"ALLOW\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "durable_workflow_completed",
+          "result": "PASS",
+          "expected": "\"COMPLETED\"",
+          "actual": "\"COMPLETED\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_read_restriction",
+          "result": "PASS",
+          "expected": "true",
+          "actual": "true",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_observation_method",
+          "result": "PASS",
+          "expected": "\"SCOPED_READ\"",
+          "actual": "\"SCOPED_READ\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "current_boundary_blocks_withdrawal",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "actual": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "no_post_withdrawal_send",
+          "result": "FAIL",
+          "expected": "0",
+          "actual": "1",
+          "artifact_paths": []
+        }
+      ],
+      "expected_fault_detection": true
+    },
+    {
+      "id": "ce2df58f-4b9a-43d2-a7ea-d6ebb99c9e43",
+      "request": {
+        "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+        "profile": "codex-a00",
+        "fixture_id": "aster-birch-v1"
+      },
+      "state": "PASS",
+      "build_id": "hOziJYVPZ8NHKU6saSZra",
+      "contract_version": "0.12.0",
+      "started_at": "2026-09-22T08:01:58.494Z",
+      "finished_at": "2026-09-22T08:02:15.843Z",
+      "assertions": [
+        {
+          "id": "fresh_permission_admits",
+          "result": "PASS",
+          "expected": "\"ALLOW\"",
+          "actual": "\"ALLOW\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "durable_workflow_completed",
+          "result": "PASS",
+          "expected": "\"COMPLETED\"",
+          "actual": "\"COMPLETED\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_read_restriction",
+          "result": "PASS",
+          "expected": "true",
+          "actual": "true",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_observation_method",
+          "result": "PASS",
+          "expected": "\"SCOPED_READ\"",
+          "actual": "\"SCOPED_READ\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "current_boundary_blocks_withdrawal",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "actual": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "no_post_withdrawal_send",
+          "result": "PASS",
+          "expected": "0",
+          "actual": "0",
+          "artifact_paths": []
+        }
+      ],
+      "expected_fault_detection": false
+    },
+    {
+      "id": "79eb8a6f-50f6-499c-b3a9-48ad52de4b9b",
+      "request": {
+        "scenario": "TARGET_RESTORE_QUARANTINE",
+        "profile": "codex-a00",
+        "fixture_id": "aster-birch-v1"
+      },
+      "state": "PASS",
+      "build_id": "hOziJYVPZ8NHKU6saSZra",
+      "contract_version": "0.12.0",
+      "started_at": "2026-09-22T08:03:02.506Z",
+      "finished_at": "2026-09-22T08:03:18.439Z",
+      "assertions": [
+        {
+          "id": "fresh_permission_admits",
+          "result": "PASS",
+          "expected": "\"ALLOW\"",
+          "actual": "\"ALLOW\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "durable_workflow_completed",
+          "result": "PASS",
+          "expected": "\"COMPLETED\"",
+          "actual": "\"COMPLETED\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_read_restriction",
+          "result": "PASS",
+          "expected": "true",
+          "actual": "true",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_observation_method",
+          "result": "PASS",
+          "expected": "\"SCOPED_READ\"",
+          "actual": "\"SCOPED_READ\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "current_boundary_blocks_withdrawal",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "actual": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "no_post_withdrawal_send",
+          "result": "PASS",
+          "expected": "0",
+          "actual": "0",
+          "artifact_paths": []
+        },
+        {
+          "id": "old_target_snapshot_quarantined",
+          "result": "PASS",
+          "expected": "true",
+          "actual": "true",
+          "artifact_paths": []
+        },
+        {
+          "id": "actual_old_snapshot_restored",
+          "result": "PASS",
+          "expected": "false",
+          "actual": "false",
+          "artifact_paths": []
+        },
+        {
+          "id": "quarantined_processing_blocked",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "actual": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "premature_activation_denied",
+          "result": "PASS",
+          "expected": "true",
+          "actual": "true",
+          "artifact_paths": []
+        },
+        {
+          "id": "old_generation_command_denied",
+          "result": "PASS",
+          "expected": "\"STALE_GENERATION\"",
+          "actual": "\"STALE_GENERATION\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "current_restriction_independently_observed",
+          "result": "PASS",
+          "expected": "[true,2,2]",
+          "actual": "[true,2,2]",
+          "artifact_paths": []
+        },
+        {
+          "id": "reconciled_target_activated",
+          "result": "PASS",
+          "expected": "false",
+          "actual": "false",
+          "artifact_paths": []
+        },
+        {
+          "id": "restriction_survives_activation",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "actual": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "authoritative_consent_ledger_unchanged",
+          "result": "PASS",
+          "expected": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+          "actual": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+          "artifact_paths": []
+        },
+        {
+          "id": "recovery_journal_recorded",
+          "result": "PASS",
+          "expected": "\"RECONCILED_ACTIVE\"",
+          "actual": "\"RECONCILED_ACTIVE\"",
+          "artifact_paths": [
+            "handoffs/codex/artifacts/A00-recovery-journal-1790064198426-7fe105b1-b57c-4362-87d8-a4378f9f93d8.json"
+          ]
+        }
+      ],
+      "expected_fault_detection": false
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Expected broken-control FAIL retained separately; healthy/repaired scenarios must PASS. Target-only recovery, no full control-plane restore or browser acceptance."
+  ]
+}

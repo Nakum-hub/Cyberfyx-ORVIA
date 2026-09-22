@@ -1,0 +1,78 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-19T15:52:41.848Z",
+  "profile": "codex-a00",
+  "phase": "obligations",
+  "assertions": [
+    {
+      "name": "recording an obligation rule requires approval authority",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a rule names its own source and the clock it runs from",
+      "result": "PASS",
+      "expected": [
+        "BECAME_AWARE_AT",
+        72,
+        true
+      ],
+      "actual": [
+        "BECAME_AWARE_AT",
+        72,
+        true
+      ]
+    },
+    {
+      "name": "a second rule can run from a different clock entirely",
+      "result": "PASS",
+      "expected": "DETECTED_AT",
+      "actual": "DETECTED_AT"
+    },
+    {
+      "name": "occurrence, detection and awareness are three separate fields",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        null
+      ],
+      "actual": [
+        true,
+        true,
+        null
+      ]
+    },
+    {
+      "name": "an unknown awareness time is kept as unknown, not filled in from detection",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "an incident cannot be detected before it occurred",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "awareness cannot precede detection",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "one obligation exists per activated rule",
+      "result": "FAIL",
+      "expected": 2,
+      "actual": 4
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { COMMAND_SCHEMA_VERSION, CommandPayload, schemas, type SchemaName } from './index.ts';
+import { COMMAND_SCHEMA_VERSION, AuditCategory, CommandPayload, ConnectionStep, schemas, type SchemaName } from './index.ts';
 import { digest } from './crypto.ts';
 import signatureVector from '../fixtures/command-vector.json' with { type:'json' };
 export const uuid = (n:number) => `00000000-0000-4000-8000-${n.toString(16).padStart(12,'0')}`;
@@ -111,6 +111,82 @@ export function example(name:SchemaName):unknown {
       {check:'NO_UNSAFE_DOWNGRADE' as const,satisfied:true,reason:'The release is newer than the installed version.'}],
     recovery_mode:'FORWARD_RECOVERY_ONLY' as const,rollback_available:false,eligibility_is_not_permission_to_execute:true,
     limits:['An irreversible migration is declared, so recovery is forward only and rollback is not offered.','Being eligible is not permission to apply. Applying is a separate approval.']};
+  // Eight categories, each exactly once. The example shows both of the things
+  // the schema exists to keep apart: a category with a path and recorded events,
+  // and a category with no path in this build at all.
+  if(name==='AuditCoverage')return {as_of:sampleTime,derived_from_recorded_events:true,
+    entries:AuditCategory.options.map(category=>category==='OWNER_CHANGES'
+      ? {category,operations:[],recorded:0,first_seen_at:null,last_seen_at:null,has_a_path:false,
+        note:'This build has no ownership-transfer route at all, so there is nothing to audit rather than something unaudited.'}
+      : {category,operations:[`${category.toLowerCase()}.example`],recorded:3,first_seen_at:sampleTime,last_seen_at:sampleTime,has_a_path:true,
+        note:'Recorded from the trail rather than declared by configuration.'}),
+    limits:['Every count here was measured from the recorded trail.','Reading this page is itself an audited event.']};
+  // The carried events and the matched count are the same number, because an
+  // export that carried fewer than it matched would not be produced at all.
+  if(name==='AuditExport'){const events=[example('AuditEvent')];
+    return {exported_at:sampleTime,filter:{operation:'evidence.export'},events,matched:events.length,complete:true,
+      digest:digest(events),
+      limits:['This artifact carries every event the stated filter matched.','Producing this export is itself an audited event.']};}
+  // A reference to where the customer keeps the secret. The generic sampler's
+  // filler contains a space, which the reference pattern refuses -- and should,
+  // because the pattern is what stops a pasted secret fitting in this field.
+  if(name==='ScopedIdentityRecord')return {secret_reference:'vault://synthetic/crm-reader'};
+  // Nine steps, each exactly once and in order, with the current step being the
+  // first that is not done. The example stops at step 6 on purpose: a finished
+  // example would hide the field the schema exists for, which is what a step
+  // that is not done says is still outstanding.
+  if(name==='GuidedConnection'){
+    const answered=[
+      ['SELECT_SYSTEM','The connection names a configured system and is marked test.'],
+      ['CHOOSE_CAPABILITIES','DISCOVER, READ requested. Neither is a right to update or delete.'],
+      ['CONFIGURE_CONNECTIVITY','Endpoint crm.internal:5432 recorded, with its certificate verified.'],
+      ['SCOPED_IDENTITY','A reference to a customer-held secret is recorded.'],
+      ['TEST_PERMISSIONS','A recorded capability check observed read allowed and restrict denied.'],
+    ] as const;
+    const pending: Record<string,string[]>={
+      SELECT_RESOURCES:['Approve the specific assets in scope. Discovering an asset does not approve it.'],
+      REVIEW_MAPPINGS:['Map the source references, identities and purposes this connection will act on.'],
+      PREVIEW_AND_TEST:['Run a decision preview so the planned effect is examined before anything is enabled.'],
+      ENABLE_PROGRESSIVELY:['Move to coordination, and then to approved enforcement, as a separate decision under its own authority.'],
+    };
+    return {id:uuid(730),system_id:uuid(731),environment_kind:'TEST' as const,
+      requested_capabilities:['DISCOVER' as const,'READ' as const],
+      endpoint_reference:'crm.internal:5432',tls_verified:true,secret_reference:'vault://synthetic/crm-reader',
+      steps:ConnectionStep.options.map((step,index)=>{
+        const hit=answered.find(([name])=>name===step);
+        return hit
+          ? {step,position:index+1,done:true,measured_from:hit[1],outstanding:[]}
+          : {step,position:index+1,done:false,measured_from:'Nothing has been recorded for this step yet.',outstanding:pending[step]!};
+      }),
+      current_step:'SELECT_RESOURCES' as const,enablement_stage:'OBSERVE' as const,
+      connection_is_not_permission_to_mutate:true,observed_read:true,observed_restrict:false,
+      started_at:sampleTime,
+      limits:['A completed connection is not permission to change anything in the connected system.',
+        'This product never holds the connection secret, only a reference to where the customer keeps it.']};
+  }
+  // Three kinds and seven signals, each exactly once, which repeated copies of
+  // the first enum value cannot satisfy. The example also has to show the thing
+  // the schema exists for: two signals that were not measured, and a business
+  // readiness verdict that differs from the other two.
+  if(name==='OperationalReadiness')return {as_of:sampleTime,profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,
+    facts:[
+      {kind:'LIVENESS' as const,verdict:'READY' as const,covers:'This process is running and answered this request. It says nothing about any dependency.',blocking:[]},
+      {kind:'DEPENDENCY_READINESS' as const,verdict:'READY' as const,covers:'PostgreSQL answered a scoped query and the policy engine authorised this request.',blocking:[]},
+      {kind:'BUSINESS_READINESS' as const,verdict:'NOT_READY' as const,covers:'Whether a privacy decision could be carried through to a system that can act on it.',
+        blocking:['No configured system has been checked and found able to restrict, so a decision could be recorded and never carried out.']}],
+    signals:[
+      {signal:'PROPAGATION_LAG' as const,measured:true,value:4,unit:'SECONDS' as const,counted:'The longest delay between accepting an event and dispatching it, across 12 dispatched events.',unavailable_reason:null},
+      {signal:'OLDEST_UNRESOLVED_WORK' as const,measured:true,value:1820,unit:'SECONDS' as const,counted:'The age of the oldest workflow that has not reached a terminal state, across 2 unresolved workflows.',unavailable_reason:null},
+      {signal:'OBSERVATION_FRESHNESS' as const,measured:true,value:900,unit:'SECONDS' as const,counted:'The age of the most recent connector capability check, across 3 recorded checks.',unavailable_reason:null},
+      {signal:'QUEUE_DEPTH' as const,measured:true,value:0,unit:'RECORDS' as const,counted:'Accepted events that have not been dispatched. This is a depth, not a rate.',unavailable_reason:null},
+      {signal:'CONNECTOR_LIMIT_HEADROOM' as const,measured:false,value:null,unit:null,counted:'Remaining headroom against a connector load budget.',
+        unavailable_reason:'No connector load budget has been measured for this deployment, so there is nothing to report headroom against.'},
+      {signal:'STORAGE_FOOTPRINT' as const,measured:true,value:36476595,unit:'BYTES' as const,counted:'Total size of this installation database, including indexes and every environment it holds.',unavailable_reason:null},
+      {signal:'BACKUP_STATUS' as const,measured:false,value:null,unit:null,counted:'Age and outcome of the most recent verified backup.',
+        unavailable_reason:'This build has no backup or restore capability, so there is no backup whose status could be reported.'}],
+    combined_status_is_not_reported:true,uptime_is_not_evidence_of_correct_operation:true,
+    limits:['These are three separate verdicts and they are not combined. A live process with reachable dependencies can still carry out no decision at all.',
+      'Two of the seven signals were not measured. An unmeasured signal is not a signal at zero.']};
   if(name==='GapClosure')return {state:'RESOLVED' as const,note:'Observation restored and confirmed against the copy.',evidence_reference:'Observation record SYN-OBS-0001.'};
   if(name==='Gap')return {id:uuid(70),source:'NEVER_OBSERVED' as const,subject_kind:'DATA_ASSET' as const,subject_id:uuid(71),detected_at:sampleTime,last_seen_at:sampleTime,state:'OPEN' as const,severity:'MEDIUM' as const,owner_reference:null,due_at:null,evidence_reference:null,resolution_note:null,description:'This copy has never been independently observed.'};
   if(name==='SystemOutcomeRecord')return {system_id:uuid(50),result:'SUCCEEDED',method:'CONNECTOR_OPERATION',evidence_reference:'Synthetic connector receipt.',note:'Restriction applied to the exact synthetic subject.'};

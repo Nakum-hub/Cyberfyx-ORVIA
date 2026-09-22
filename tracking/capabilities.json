@@ -482,10 +482,16 @@
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "A protected local bootstrap provisions one organisation and a unique generated owner credential, and initialises the profile, roles and synthetic fixtures. Command line only: there is no onboarding wizard, and the interface does not pretend one exists.",
+      "limitation": "FR-M29-03 is built; FR-M29-01, FR-M29-02 and FR-M29-04 are not, which is why this stays partial. A protected local bootstrap still provisions one organisation and a unique generated owner credential, initialises the profile, roles and synthetic fixtures, and remains command line only. New in this pass: the nine-step guided connection, run inside the customer workspace. A step is never a tick -- four steps record a decision the customer made and the other five are answered by reading evidence kept elsewhere for its own reasons (a recorded capability check, an approved resource, a target mapping, a preview decision), so a step that was done stops being done when the evidence behind it is withdrawn, and each step states what it was measured from. A connection cannot be started asking for a right to change the connected system: the requested-capability vocabulary is closed to DISCOVER, READ and VERIFY, and production scope is stated rather than inferred from an omission. What was requested and what a check observed are separate fields, and an unchecked system reports both observations as unknown rather than as denied. The secret is never held here -- only a reference to where the customer keeps it, behind a pattern that refuses whitespace and anything long enough to be a pasted credential, and there is no column on the table in which one could be written. Enablement is a three-rung ladder that climbs one rung at a time and never descends; approved enforcement is refused outright for a system no recorded check found able to restrict, in the application and again in a trigger, so a role bypassing row-level security cannot set it by hand either. Enabling is a separate capability from configuring. Two workspace screens read this: the connection list and a per-connection step view. Not included: FR-M29-01's package verification before privileged setup and FR-M29-02's runtime, TLS, storage, identity, key, backup and egress preflight gates have no code here; FR-M29-04's local imports, quarantine, preview, conflict handling, provenance and purge have none either, and OPEN-11 leaves the supported import formats undecided. Also absent: there is no wizard for the earlier organisation, industry, admin and deployment steps; connectivity and certificate verification are recorded as the customer performed them rather than observed by this product; and a connection's scope is narrowed by withdrawing approved resources, not by deleting the connection, which is kept.",
       "evidence": [
         "services:smoke",
-        "test:auth"
+        "test:auth",
+        "test:onboarding",
+        "packages/db/migrations/0029_guided_connection.sql",
+        "packages/domain/src/onboarding/connection.ts",
+        "tests/unit/connection.test.ts",
+        "tests/integration/onboarding/connection.test.ts",
+        "apps/web/src/components/screens/onboarding.tsx"
       ]
     },
     {
@@ -539,10 +545,14 @@
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Local service preflight and an application health endpoint report PostgreSQL, OPA and Temporal status, and every request is audited with a correlation identifier. No metrics, alerting, tracing or uptime monitoring is built.",
+      "limitation": "FR-M32-01 and FR-M32-02 are built and qualified. Liveness, dependency readiness and business readiness are three separate verdicts with three separate reasons and there is no field that combines them, because the failure worth catching is an installation that answers every probe while being unable to carry out a single privacy decision — the integration suite drives exactly that state and asserts that only the third verdict moves. Seven operational signals are reported: worst propagation delay, oldest unresolved work, observation freshness, undispatched queue depth and database size are measured from this installation's own tables, and connector limit headroom and backup status report that they were not measured and why, because this build has no measured connector load budget and no backup capability at all. An unmeasured signal and a signal measured at zero never share a representation. Everything collected is a count or a duration, so the minimisation is a property of what is selected rather than a promise about redaction. Also present from earlier work: local service preflight, an unauthenticated liveness endpoint, and a correlation identifier on every audited request. Not built, and the reason this remains partial: FR-M32-03, customer-key backup with restore into quarantine and authority reconciliation, needs the persistence and recovery decision that is still OPEN; and FR-M32-04 has no vendor side to show, since no vendor service exists in this build. No metrics series, alerting, tracing or uptime history is retained — nothing here is stored or sent anywhere.",
       "evidence": [
+        "test:monitoring",
         "services:smoke",
-        "test:network"
+        "test:network",
+        "packages/domain/src/monitoring/monitoring.ts",
+        "tests/unit/monitoring.test.ts",
+        "apps/web/src/components/screens/readiness.tsx"
       ]
     },
     {
@@ -556,10 +566,15 @@
       "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
       "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Administrative, authentication and request audit records are persisted and are readable by the auditor role, which cannot mutate. No audit administration interface, retention policy or export scheduler is built.",
+      "limitation": "FR-M33-01 and FR-M33-03 are built; FR-M33-04 is not, which is why this stays partial. A coverage report answers the eight named categories from the trail itself rather than from a list somebody maintained, so a category cannot be reported as covered because a setting said so, and the two categories this build has no route for say that instead of reading as an auditing gap -- 'nothing has happened' and 'nothing here can happen' never share a shape. The trail is readable scoped to one organisation, filtered only by five declared keys that reach the database as bound parameters, and paginated by id. Reading it is itself an audited event, so a quiet look leaves a trace. Reading, exporting and administering are three separate permissions: an organisation administrator may read the trail but not take it out of the installation, an auditor may do both but may not dispute a record, and only the owner may append a correction. An export carries every event its filter matched or it is refused by name -- there is no partial export, and the digest covers exactly the events carried. Correction is by appending: a dispute names the event, states which of five reasons applies and what the recorder believes, and the original is untouched; PostgreSQL triggers refuse every UPDATE and DELETE on both the trail and the corrections, so a role that bypasses row-level security cannot shorten either. Two workspace screens read this: audit coverage and the audit trail, the latter offering an export of exactly what is displayed. Not included: FR-M33-04 entirely -- there is no purpose-based retention of audit records, no payload minimisation policy, no tested backup handling and no truthful-envelope history for justified payload deletion, and nothing here claims otherwise. FR-M33-02 is met by there being no vendor-facing audit surface at all rather than by a separation this module built. Also absent: a correction cannot be withdrawn once appended, the export ceiling is a fixed count rather than a streamed file, and the screens report and correct but do not schedule anything.",
       "evidence": [
-        "test:auth",
-        "test:evidence"
+        "test:audit",
+        "packages/db/migrations/0027_audit_administration.sql",
+        "packages/db/migrations/0028_audit_export.sql",
+        "packages/domain/src/audit/audit.ts",
+        "tests/unit/audit.test.ts",
+        "tests/integration/audit/audit.test.ts",
+        "apps/web/src/components/screens/audit.tsx"
       ]
     }
   ]

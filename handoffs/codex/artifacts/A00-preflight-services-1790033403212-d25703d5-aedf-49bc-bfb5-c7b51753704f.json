@@ -1,0 +1,29 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-21T23:30:03.212Z",
+  "profile": "codex-a00",
+  "checks": {
+    "postgres": {
+      "result": "PASS",
+      "database": "orvia_codex_a00",
+      "version": "17.11 (Debian 17.11-1.pgdg12+2)",
+      "installation_id": "659aed8e-59f6-422c-89cd-7976f108ecc3",
+      "profile": "codex-a00"
+    },
+    "opa": {
+      "result": "PASS",
+      "readiness": true,
+      "arbitrary_operation": false,
+      "policy_scope": "bootstrap readiness only"
+    },
+    "temporal": {
+      "result": "PASS",
+      "namespace": "orvia-codex-a00",
+      "server": "persistent single-node CLI development server"
+    }
+  },
+  "limitations": [
+    "No business auth, consent, send, CRM or agent operation is exercised."
+  ]
+}

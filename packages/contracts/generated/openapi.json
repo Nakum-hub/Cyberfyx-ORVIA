@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.9.0",
-    "description": "Contract 0.9.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.12.0",
+    "description": "Contract 0.12.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/healthz": {
@@ -22180,6 +22180,3013 @@
         "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
       }
     },
+    "/api/v1/admin/readiness": {
+      "get": {
+        "operationId": "operational_readiness",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationalReadiness"
+                },
+                "example": {
+                  "as_of": "2026-09-16T10:00:00.000Z",
+                  "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                  "facts": [
+                    {
+                      "kind": "LIVENESS",
+                      "verdict": "READY",
+                      "covers": "This process is running and answered this request. It says nothing about any dependency.",
+                      "blocking": []
+                    },
+                    {
+                      "kind": "DEPENDENCY_READINESS",
+                      "verdict": "READY",
+                      "covers": "PostgreSQL answered a scoped query and the policy engine authorised this request.",
+                      "blocking": []
+                    },
+                    {
+                      "kind": "BUSINESS_READINESS",
+                      "verdict": "NOT_READY",
+                      "covers": "Whether a privacy decision could be carried through to a system that can act on it.",
+                      "blocking": [
+                        "No configured system has been checked and found able to restrict, so a decision could be recorded and never carried out."
+                      ]
+                    }
+                  ],
+                  "signals": [
+                    {
+                      "signal": "PROPAGATION_LAG",
+                      "measured": true,
+                      "value": 4,
+                      "unit": "SECONDS",
+                      "counted": "The longest delay between accepting an event and dispatching it, across 12 dispatched events.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "OLDEST_UNRESOLVED_WORK",
+                      "measured": true,
+                      "value": 1820,
+                      "unit": "SECONDS",
+                      "counted": "The age of the oldest workflow that has not reached a terminal state, across 2 unresolved workflows.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "OBSERVATION_FRESHNESS",
+                      "measured": true,
+                      "value": 900,
+                      "unit": "SECONDS",
+                      "counted": "The age of the most recent connector capability check, across 3 recorded checks.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "QUEUE_DEPTH",
+                      "measured": true,
+                      "value": 0,
+                      "unit": "RECORDS",
+                      "counted": "Accepted events that have not been dispatched. This is a depth, not a rate.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "CONNECTOR_LIMIT_HEADROOM",
+                      "measured": false,
+                      "value": null,
+                      "unit": null,
+                      "counted": "Remaining headroom against a connector load budget.",
+                      "unavailable_reason": "No connector load budget has been measured for this deployment, so there is nothing to report headroom against."
+                    },
+                    {
+                      "signal": "STORAGE_FOOTPRINT",
+                      "measured": true,
+                      "value": 36476595,
+                      "unit": "BYTES",
+                      "counted": "Total size of this installation database, including indexes and every environment it holds.",
+                      "unavailable_reason": null
+                    },
+                    {
+                      "signal": "BACKUP_STATUS",
+                      "measured": false,
+                      "value": null,
+                      "unit": null,
+                      "counted": "Age and outcome of the most recent verified backup.",
+                      "unavailable_reason": "This build has no backup or restore capability, so there is no backup whose status could be reported."
+                    }
+                  ],
+                  "combined_status_is_not_reported": true,
+                  "uptime_is_not_evidence_of_correct_operation": true,
+                  "limits": [
+                    "These are three separate verdicts and they are not combined. A live process with reachable dependencies can still carry out no decision at all.",
+                    "Two of the seven signals were not measured. An unmeasured signal is not a signal at zero."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "health.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/audit-events": {
+      "get": {
+        "operationId": "list_audit_events",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          },
+          {
+            "in": "query",
+            "name": "operation",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            }
+          },
+          {
+            "in": "query",
+            "name": "actor_id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "actor_domain",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "STAFF",
+                "PRINCIPAL",
+                "MACHINE"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEventList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "audit.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/audit-events/export": {
+      "get": {
+        "operationId": "export_audit_events",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "operation",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            }
+          },
+          {
+            "in": "query",
+            "name": "actor_id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "actor_domain",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "STAFF",
+                "PRINCIPAL",
+                "MACHINE"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditExport"
+                },
+                "example": {
+                  "exported_at": "2026-09-16T10:00:00.000Z",
+                  "filter": {
+                    "operation": "evidence.export"
+                  },
+                  "events": [
+                    {
+                      "id": "00000000-0000-4000-8000-00000000011b",
+                      "operation": "Synthetic example",
+                      "actor_id": "00000000-0000-4000-8000-00000000011c",
+                      "actor_domain": "STAFF",
+                      "resource_id": null,
+                      "request_id": "00000000-0000-4000-8000-00000000011d",
+                      "created_at": "2026-09-16T10:00:00.000Z",
+                      "corrections": 0
+                    }
+                  ],
+                  "matched": 1,
+                  "complete": true,
+                  "digest": "c0ef55eca843cedae8912e12168888fdeaef9652e60e61f5fb0eaf64cb878506",
+                  "limits": [
+                    "This artifact carries every event the stated filter matched.",
+                    "Producing this export is itself an audited event."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "audit.export",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/audit-coverage": {
+      "get": {
+        "operationId": "audit_coverage",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditCoverage"
+                },
+                "example": {
+                  "as_of": "2026-09-16T10:00:00.000Z",
+                  "derived_from_recorded_events": true,
+                  "entries": [
+                    {
+                      "category": "ROLE_GRANTS",
+                      "operations": [
+                        "role_grants.example"
+                      ],
+                      "recorded": 3,
+                      "first_seen_at": "2026-09-16T10:00:00.000Z",
+                      "last_seen_at": "2026-09-16T10:00:00.000Z",
+                      "has_a_path": true,
+                      "note": "Recorded from the trail rather than declared by configuration."
+                    },
+                    {
+                      "category": "OWNER_CHANGES",
+                      "operations": [],
+                      "recorded": 0,
+                      "first_seen_at": null,
+                      "last_seen_at": null,
+                      "has_a_path": false,
+                      "note": "This build has no ownership-transfer route at all, so there is nothing to audit rather than something unaudited."
+                    },
+                    {
+                      "category": "POLICY_PUBLICATION",
+                      "operations": [
+                        "policy_publication.example"
+                      ],
+                      "recorded": 3,
+                      "first_seen_at": "2026-09-16T10:00:00.000Z",
+                      "last_seen_at": "2026-09-16T10:00:00.000Z",
+                      "has_a_path": true,
+                      "note": "Recorded from the trail rather than declared by configuration."
+                    },
+                    {
+                      "category": "CONNECTOR_CREDENTIALS_AND_SCOPE",
+                      "operations": [
+                        "connector_credentials_and_scope.example"
+                      ],
+                      "recorded": 3,
+                      "first_seen_at": "2026-09-16T10:00:00.000Z",
+                      "last_seen_at": "2026-09-16T10:00:00.000Z",
+                      "has_a_path": true,
+                      "note": "Recorded from the trail rather than declared by configuration."
+                    },
+                    {
+                      "category": "SUPPORT_APPROVAL",
+                      "operations": [
+                        "support_approval.example"
+                      ],
+                      "recorded": 3,
+                      "first_seen_at": "2026-09-16T10:00:00.000Z",
+                      "last_seen_at": "2026-09-16T10:00:00.000Z",
+                      "has_a_path": true,
+                      "note": "Recorded from the trail rather than declared by configuration."
+                    },
+                    {
+                      "category": "EXPORTS",
+                      "operations": [
+                        "exports.example"
+                      ],
+                      "recorded": 3,
+                      "first_seen_at": "2026-09-16T10:00:00.000Z",
+                      "last_seen_at": "2026-09-16T10:00:00.000Z",
+                      "has_a_path": true,
+                      "note": "Recorded from the trail rather than declared by configuration."
+                    },
+                    {
+                      "category": "LICENCES",
+                      "operations": [
+                        "licences.example"
+                      ],
+                      "recorded": 3,
+                      "first_seen_at": "2026-09-16T10:00:00.000Z",
+                      "last_seen_at": "2026-09-16T10:00:00.000Z",
+                      "has_a_path": true,
+                      "note": "Recorded from the trail rather than declared by configuration."
+                    },
+                    {
+                      "category": "UPDATES",
+                      "operations": [
+                        "updates.example"
+                      ],
+                      "recorded": 3,
+                      "first_seen_at": "2026-09-16T10:00:00.000Z",
+                      "last_seen_at": "2026-09-16T10:00:00.000Z",
+                      "has_a_path": true,
+                      "note": "Recorded from the trail rather than declared by configuration."
+                    }
+                  ],
+                  "limits": [
+                    "Every count here was measured from the recorded trail.",
+                    "Reading this page is itself an audited event."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "audit.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/connections": {
+      "get": {
+        "operationId": "list_connections",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidedConnectionList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      },
+      "post": {
+        "operationId": "start_connection",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidedConnection"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000002da",
+                  "system_id": "00000000-0000-4000-8000-0000000002db",
+                  "environment_kind": "TEST",
+                  "requested_capabilities": [
+                    "DISCOVER",
+                    "READ"
+                  ],
+                  "endpoint_reference": "crm.internal:5432",
+                  "tls_verified": true,
+                  "secret_reference": "vault://synthetic/crm-reader",
+                  "steps": [
+                    {
+                      "step": "SELECT_SYSTEM",
+                      "position": 1,
+                      "done": true,
+                      "measured_from": "The connection names a configured system and is marked test.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CHOOSE_CAPABILITIES",
+                      "position": 2,
+                      "done": true,
+                      "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CONFIGURE_CONNECTIVITY",
+                      "position": 3,
+                      "done": true,
+                      "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SCOPED_IDENTITY",
+                      "position": 4,
+                      "done": true,
+                      "measured_from": "A reference to a customer-held secret is recorded.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "TEST_PERMISSIONS",
+                      "position": 5,
+                      "done": true,
+                      "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SELECT_RESOURCES",
+                      "position": 6,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Approve the specific assets in scope. Discovering an asset does not approve it."
+                      ]
+                    },
+                    {
+                      "step": "REVIEW_MAPPINGS",
+                      "position": 7,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Map the source references, identities and purposes this connection will act on."
+                      ]
+                    },
+                    {
+                      "step": "PREVIEW_AND_TEST",
+                      "position": 8,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Run a decision preview so the planned effect is examined before anything is enabled."
+                      ]
+                    },
+                    {
+                      "step": "ENABLE_PROGRESSIVELY",
+                      "position": 9,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+                      ]
+                    }
+                  ],
+                  "current_step": "SELECT_RESOURCES",
+                  "enablement_stage": "OBSERVE",
+                  "connection_is_not_permission_to_mutate": true,
+                  "observed_read": true,
+                  "observed_restrict": false,
+                  "started_at": "2026-09-16T10:00:00.000Z",
+                  "limits": [
+                    "A completed connection is not permission to change anything in the connected system.",
+                    "This product never holds the connection secret, only a reference to where the customer keeps it."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionStart"
+              },
+              "example": {
+                "system_id": "00000000-0000-4000-8000-00000000011e",
+                "environment_kind": "TEST",
+                "requested_capabilities": [
+                  "DISCOVER"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/connections/{id}": {
+      "get": {
+        "operationId": "connection",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidedConnection"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000002da",
+                  "system_id": "00000000-0000-4000-8000-0000000002db",
+                  "environment_kind": "TEST",
+                  "requested_capabilities": [
+                    "DISCOVER",
+                    "READ"
+                  ],
+                  "endpoint_reference": "crm.internal:5432",
+                  "tls_verified": true,
+                  "secret_reference": "vault://synthetic/crm-reader",
+                  "steps": [
+                    {
+                      "step": "SELECT_SYSTEM",
+                      "position": 1,
+                      "done": true,
+                      "measured_from": "The connection names a configured system and is marked test.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CHOOSE_CAPABILITIES",
+                      "position": 2,
+                      "done": true,
+                      "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CONFIGURE_CONNECTIVITY",
+                      "position": 3,
+                      "done": true,
+                      "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SCOPED_IDENTITY",
+                      "position": 4,
+                      "done": true,
+                      "measured_from": "A reference to a customer-held secret is recorded.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "TEST_PERMISSIONS",
+                      "position": 5,
+                      "done": true,
+                      "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SELECT_RESOURCES",
+                      "position": 6,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Approve the specific assets in scope. Discovering an asset does not approve it."
+                      ]
+                    },
+                    {
+                      "step": "REVIEW_MAPPINGS",
+                      "position": 7,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Map the source references, identities and purposes this connection will act on."
+                      ]
+                    },
+                    {
+                      "step": "PREVIEW_AND_TEST",
+                      "position": 8,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Run a decision preview so the planned effect is examined before anything is enabled."
+                      ]
+                    },
+                    {
+                      "step": "ENABLE_PROGRESSIVELY",
+                      "position": 9,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+                      ]
+                    }
+                  ],
+                  "current_step": "SELECT_RESOURCES",
+                  "enablement_stage": "OBSERVE",
+                  "connection_is_not_permission_to_mutate": true,
+                  "observed_read": true,
+                  "observed_restrict": false,
+                  "started_at": "2026-09-16T10:00:00.000Z",
+                  "limits": [
+                    "A completed connection is not permission to change anything in the connected system.",
+                    "This product never holds the connection secret, only a reference to where the customer keeps it."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/connections/{id}/connectivity": {
+      "post": {
+        "operationId": "record_connectivity",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidedConnection"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000002da",
+                  "system_id": "00000000-0000-4000-8000-0000000002db",
+                  "environment_kind": "TEST",
+                  "requested_capabilities": [
+                    "DISCOVER",
+                    "READ"
+                  ],
+                  "endpoint_reference": "crm.internal:5432",
+                  "tls_verified": true,
+                  "secret_reference": "vault://synthetic/crm-reader",
+                  "steps": [
+                    {
+                      "step": "SELECT_SYSTEM",
+                      "position": 1,
+                      "done": true,
+                      "measured_from": "The connection names a configured system and is marked test.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CHOOSE_CAPABILITIES",
+                      "position": 2,
+                      "done": true,
+                      "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CONFIGURE_CONNECTIVITY",
+                      "position": 3,
+                      "done": true,
+                      "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SCOPED_IDENTITY",
+                      "position": 4,
+                      "done": true,
+                      "measured_from": "A reference to a customer-held secret is recorded.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "TEST_PERMISSIONS",
+                      "position": 5,
+                      "done": true,
+                      "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SELECT_RESOURCES",
+                      "position": 6,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Approve the specific assets in scope. Discovering an asset does not approve it."
+                      ]
+                    },
+                    {
+                      "step": "REVIEW_MAPPINGS",
+                      "position": 7,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Map the source references, identities and purposes this connection will act on."
+                      ]
+                    },
+                    {
+                      "step": "PREVIEW_AND_TEST",
+                      "position": 8,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Run a decision preview so the planned effect is examined before anything is enabled."
+                      ]
+                    },
+                    {
+                      "step": "ENABLE_PROGRESSIVELY",
+                      "position": 9,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+                      ]
+                    }
+                  ],
+                  "current_step": "SELECT_RESOURCES",
+                  "enablement_stage": "OBSERVE",
+                  "connection_is_not_permission_to_mutate": true,
+                  "observed_read": true,
+                  "observed_restrict": false,
+                  "started_at": "2026-09-16T10:00:00.000Z",
+                  "limits": [
+                    "A completed connection is not permission to change anything in the connected system.",
+                    "This product never holds the connection secret, only a reference to where the customer keeps it."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectivityRecord"
+              },
+              "example": {
+                "endpoint_reference": "Synthetic example",
+                "tls_verified": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/connections/{id}/identity": {
+      "post": {
+        "operationId": "record_scoped_identity",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidedConnection"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000002da",
+                  "system_id": "00000000-0000-4000-8000-0000000002db",
+                  "environment_kind": "TEST",
+                  "requested_capabilities": [
+                    "DISCOVER",
+                    "READ"
+                  ],
+                  "endpoint_reference": "crm.internal:5432",
+                  "tls_verified": true,
+                  "secret_reference": "vault://synthetic/crm-reader",
+                  "steps": [
+                    {
+                      "step": "SELECT_SYSTEM",
+                      "position": 1,
+                      "done": true,
+                      "measured_from": "The connection names a configured system and is marked test.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CHOOSE_CAPABILITIES",
+                      "position": 2,
+                      "done": true,
+                      "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CONFIGURE_CONNECTIVITY",
+                      "position": 3,
+                      "done": true,
+                      "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SCOPED_IDENTITY",
+                      "position": 4,
+                      "done": true,
+                      "measured_from": "A reference to a customer-held secret is recorded.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "TEST_PERMISSIONS",
+                      "position": 5,
+                      "done": true,
+                      "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SELECT_RESOURCES",
+                      "position": 6,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Approve the specific assets in scope. Discovering an asset does not approve it."
+                      ]
+                    },
+                    {
+                      "step": "REVIEW_MAPPINGS",
+                      "position": 7,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Map the source references, identities and purposes this connection will act on."
+                      ]
+                    },
+                    {
+                      "step": "PREVIEW_AND_TEST",
+                      "position": 8,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Run a decision preview so the planned effect is examined before anything is enabled."
+                      ]
+                    },
+                    {
+                      "step": "ENABLE_PROGRESSIVELY",
+                      "position": 9,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+                      ]
+                    }
+                  ],
+                  "current_step": "SELECT_RESOURCES",
+                  "enablement_stage": "OBSERVE",
+                  "connection_is_not_permission_to_mutate": true,
+                  "observed_read": true,
+                  "observed_restrict": false,
+                  "started_at": "2026-09-16T10:00:00.000Z",
+                  "limits": [
+                    "A completed connection is not permission to change anything in the connected system.",
+                    "This product never holds the connection secret, only a reference to where the customer keeps it."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScopedIdentityRecord"
+              },
+              "example": {
+                "secret_reference": "vault://synthetic/crm-reader"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/connections/{id}/resources": {
+      "post": {
+        "operationId": "approve_resources",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidedConnection"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000002da",
+                  "system_id": "00000000-0000-4000-8000-0000000002db",
+                  "environment_kind": "TEST",
+                  "requested_capabilities": [
+                    "DISCOVER",
+                    "READ"
+                  ],
+                  "endpoint_reference": "crm.internal:5432",
+                  "tls_verified": true,
+                  "secret_reference": "vault://synthetic/crm-reader",
+                  "steps": [
+                    {
+                      "step": "SELECT_SYSTEM",
+                      "position": 1,
+                      "done": true,
+                      "measured_from": "The connection names a configured system and is marked test.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CHOOSE_CAPABILITIES",
+                      "position": 2,
+                      "done": true,
+                      "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CONFIGURE_CONNECTIVITY",
+                      "position": 3,
+                      "done": true,
+                      "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SCOPED_IDENTITY",
+                      "position": 4,
+                      "done": true,
+                      "measured_from": "A reference to a customer-held secret is recorded.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "TEST_PERMISSIONS",
+                      "position": 5,
+                      "done": true,
+                      "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SELECT_RESOURCES",
+                      "position": 6,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Approve the specific assets in scope. Discovering an asset does not approve it."
+                      ]
+                    },
+                    {
+                      "step": "REVIEW_MAPPINGS",
+                      "position": 7,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Map the source references, identities and purposes this connection will act on."
+                      ]
+                    },
+                    {
+                      "step": "PREVIEW_AND_TEST",
+                      "position": 8,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Run a decision preview so the planned effect is examined before anything is enabled."
+                      ]
+                    },
+                    {
+                      "step": "ENABLE_PROGRESSIVELY",
+                      "position": 9,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+                      ]
+                    }
+                  ],
+                  "current_step": "SELECT_RESOURCES",
+                  "enablement_stage": "OBSERVE",
+                  "connection_is_not_permission_to_mutate": true,
+                  "observed_read": true,
+                  "observed_restrict": false,
+                  "started_at": "2026-09-16T10:00:00.000Z",
+                  "limits": [
+                    "A completed connection is not permission to change anything in the connected system.",
+                    "This product never holds the connection secret, only a reference to where the customer keeps it."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "configuration.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResourceApproval"
+              },
+              "example": {
+                "data_asset_ids": [
+                  "00000000-0000-4000-8000-00000000011f"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/connections/{id}/enablement": {
+      "post": {
+        "operationId": "change_enablement",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidedConnection"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000002da",
+                  "system_id": "00000000-0000-4000-8000-0000000002db",
+                  "environment_kind": "TEST",
+                  "requested_capabilities": [
+                    "DISCOVER",
+                    "READ"
+                  ],
+                  "endpoint_reference": "crm.internal:5432",
+                  "tls_verified": true,
+                  "secret_reference": "vault://synthetic/crm-reader",
+                  "steps": [
+                    {
+                      "step": "SELECT_SYSTEM",
+                      "position": 1,
+                      "done": true,
+                      "measured_from": "The connection names a configured system and is marked test.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CHOOSE_CAPABILITIES",
+                      "position": 2,
+                      "done": true,
+                      "measured_from": "DISCOVER, READ requested. Neither is a right to update or delete.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "CONFIGURE_CONNECTIVITY",
+                      "position": 3,
+                      "done": true,
+                      "measured_from": "Endpoint crm.internal:5432 recorded, with its certificate verified.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SCOPED_IDENTITY",
+                      "position": 4,
+                      "done": true,
+                      "measured_from": "A reference to a customer-held secret is recorded.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "TEST_PERMISSIONS",
+                      "position": 5,
+                      "done": true,
+                      "measured_from": "A recorded capability check observed read allowed and restrict denied.",
+                      "outstanding": []
+                    },
+                    {
+                      "step": "SELECT_RESOURCES",
+                      "position": 6,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Approve the specific assets in scope. Discovering an asset does not approve it."
+                      ]
+                    },
+                    {
+                      "step": "REVIEW_MAPPINGS",
+                      "position": 7,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Map the source references, identities and purposes this connection will act on."
+                      ]
+                    },
+                    {
+                      "step": "PREVIEW_AND_TEST",
+                      "position": 8,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Run a decision preview so the planned effect is examined before anything is enabled."
+                      ]
+                    },
+                    {
+                      "step": "ENABLE_PROGRESSIVELY",
+                      "position": 9,
+                      "done": false,
+                      "measured_from": "Nothing has been recorded for this step yet.",
+                      "outstanding": [
+                        "Move to coordination, and then to approved enforcement, as a separate decision under its own authority."
+                      ]
+                    }
+                  ],
+                  "current_step": "SELECT_RESOURCES",
+                  "enablement_stage": "OBSERVE",
+                  "connection_is_not_permission_to_mutate": true,
+                  "observed_read": true,
+                  "observed_restrict": false,
+                  "started_at": "2026-09-16T10:00:00.000Z",
+                  "limits": [
+                    "A completed connection is not permission to change anything in the connected system.",
+                    "This product never holds the connection secret, only a reference to where the customer keeps it."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "connection.enable",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnablementChange"
+              },
+              "example": {
+                "to": "OBSERVE"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/audit-corrections": {
+      "post": {
+        "operationId": "correct_audit_event",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditCorrection"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000121",
+                  "event_id": "00000000-0000-4000-8000-000000000122",
+                  "disputed": "WRONG_ACTOR",
+                  "correction": "Synthetic example",
+                  "recorded_at": "2026-09-16T10:00:00.000Z",
+                  "recorded_by": "00000000-0000-4000-8000-000000000123",
+                  "original_event_unchanged": true,
+                  "limits": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "audit.administer",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuditCorrectionCreate"
+              },
+              "example": {
+                "event_id": "00000000-0000-4000-8000-000000000120",
+                "disputed": "WRONG_ACTOR",
+                "correction": "Synthetic example"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/mandates": {
       "get": {
         "operationId": "list_mandates",
@@ -22390,7 +25397,7 @@
                 },
                 "example": {
                   "kind": "NOMINATION",
-                  "principal_id": "00000000-0000-4000-8000-00000000011c",
+                  "principal_id": "00000000-0000-4000-8000-000000000125",
                   "representative_reference": "Synthetic example",
                   "permitted_rights": [
                     "ACCESS"
@@ -22398,10 +25405,10 @@
                   "valid_from": "2026-09-16T10:00:00.000Z",
                   "valid_to": null,
                   "evidence_reference": "Synthetic example",
-                  "id": "00000000-0000-4000-8000-00000000011d",
+                  "id": "00000000-0000-4000-8000-000000000126",
                   "state": "ACTIVE",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-00000000011e",
+                  "recorded_by": "00000000-0000-4000-8000-000000000127",
                   "revoked_at": null,
                   "revocation_reason": null
                 }
@@ -22547,7 +25554,7 @@
               },
               "example": {
                 "kind": "NOMINATION",
-                "principal_id": "00000000-0000-4000-8000-00000000011b",
+                "principal_id": "00000000-0000-4000-8000-000000000124",
                 "representative_reference": "Synthetic example",
                 "permitted_rights": [
                   "ACCESS"
@@ -22604,7 +25611,7 @@
                 },
                 "example": {
                   "kind": "NOMINATION",
-                  "principal_id": "00000000-0000-4000-8000-00000000011f",
+                  "principal_id": "00000000-0000-4000-8000-000000000128",
                   "representative_reference": "Synthetic example",
                   "permitted_rights": [
                     "ACCESS"
@@ -22612,10 +25619,10 @@
                   "valid_from": "2026-09-16T10:00:00.000Z",
                   "valid_to": null,
                   "evidence_reference": "Synthetic example",
-                  "id": "00000000-0000-4000-8000-000000000120",
+                  "id": "00000000-0000-4000-8000-000000000129",
                   "state": "ACTIVE",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-000000000121",
+                  "recorded_by": "00000000-0000-4000-8000-00000000012a",
                   "revoked_at": null,
                   "revocation_reason": null
                 }
@@ -22928,8 +25935,8 @@
                 "$ref": "#/components/schemas/PollRequest"
               },
               "example": {
-                "installation_id": "00000000-0000-4000-8000-000000000122",
-                "environment_id": "00000000-0000-4000-8000-000000000123",
+                "installation_id": "00000000-0000-4000-8000-00000000012b",
+                "environment_id": "00000000-0000-4000-8000-00000000012c",
                 "maximum_commands": 1
               }
             }
@@ -22976,7 +25983,7 @@
                   "$ref": "#/components/schemas/AcceptedOperation"
                 },
                 "example": {
-                  "operation_id": "00000000-0000-4000-8000-000000000126",
+                  "operation_id": "00000000-0000-4000-8000-00000000012f",
                   "status": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z"
                 }
@@ -23120,9 +26127,9 @@
                 "$ref": "#/components/schemas/CommandReceipt"
               },
               "example": {
-                "command_id": "00000000-0000-4000-8000-000000000124",
+                "command_id": "00000000-0000-4000-8000-00000000012d",
                 "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "attempt_id": "00000000-0000-4000-8000-000000000125",
+                "attempt_id": "00000000-0000-4000-8000-00000000012e",
                 "execution_state": "ACKNOWLEDGED",
                 "recorded_at": "2026-09-16T10:00:00.000Z",
                 "reason_code": "SYNTHETIC_EXAMPLE",
@@ -23312,10 +26319,10 @@
                 "$ref": "#/components/schemas/SendRequest"
               },
               "example": {
-                "attempt_id": "00000000-0000-4000-8000-000000000127",
-                "principal_reference_id": "00000000-0000-4000-8000-000000000128",
-                "purpose_id": "00000000-0000-4000-8000-000000000129",
-                "system_id": "00000000-0000-4000-8000-00000000012a",
+                "attempt_id": "00000000-0000-4000-8000-000000000130",
+                "principal_reference_id": "00000000-0000-4000-8000-000000000131",
+                "purpose_id": "00000000-0000-4000-8000-000000000132",
+                "system_id": "00000000-0000-4000-8000-000000000133",
                 "message_class": "MARKETING",
                 "order_reference": null
               }
@@ -23363,9 +26370,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-00000000012b",
+                  "command_id": "00000000-0000-4000-8000-000000000134",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-00000000012c",
+                  "attempt_id": "00000000-0000-4000-8000-000000000135",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -23591,7 +26598,7 @@
                   "$ref": "#/components/schemas/SimulatorState"
                 },
                 "example": {
-                  "resource_id": "00000000-0000-4000-8000-00000000012d",
+                  "resource_id": "00000000-0000-4000-8000-000000000136",
                   "generation": 0,
                   "last_applied_epoch": 0,
                   "marketing_restricted": false,
@@ -23759,9 +26766,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-00000000012e",
+                  "command_id": "00000000-0000-4000-8000-000000000137",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-00000000012f",
+                  "attempt_id": "00000000-0000-4000-8000-000000000138",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -24096,6 +27103,10 @@
                     "support.approve",
                     "update.read",
                     "update.approve",
+                    "audit.read",
+                    "audit.export",
+                    "audit.administer",
+                    "connection.enable",
                     "consent.own.read",
                     "consent.own.write",
                     "receipt.own.read",
@@ -37512,6 +40523,10 @@
                 "support.approve",
                 "update.read",
                 "update.approve",
+                "audit.read",
+                "audit.export",
+                "audit.administer",
+                "connection.enable",
                 "consent.own.read",
                 "consent.own.write",
                 "receipt.own.read",
@@ -37758,6 +40773,10 @@
                     "support.approve",
                     "update.read",
                     "update.approve",
+                    "audit.read",
+                    "audit.export",
+                    "audit.administer",
+                    "connection.enable",
                     "consent.own.read",
                     "consent.own.write",
                     "receipt.own.read",
@@ -38025,6 +41044,10 @@
                         "support.approve",
                         "update.read",
                         "update.approve",
+                        "audit.read",
+                        "audit.export",
+                        "audit.administer",
+                        "connection.enable",
                         "consent.own.read",
                         "consent.own.write",
                         "receipt.own.read",
@@ -39238,6 +42261,1236 @@
                 "outstanding_steps",
                 "post_change_verification",
                 "recovery_instruction",
+                "limits"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "OperationalReadiness": {
+        "type": "object",
+        "properties": {
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "profile": {
+            "type": "string",
+            "const": "CUSTOMER_LOCAL_SYNTHETIC"
+          },
+          "facts": {
+            "minItems": 3,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "LIVENESS",
+                    "DEPENDENCY_READINESS",
+                    "BUSINESS_READINESS"
+                  ]
+                },
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "READY",
+                    "NOT_READY",
+                    "NOT_ASSESSABLE"
+                  ]
+                },
+                "covers": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "blocking": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "verdict",
+                "covers",
+                "blocking"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "signals": {
+            "minItems": 7,
+            "maxItems": 7,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "signal": {
+                  "type": "string",
+                  "enum": [
+                    "PROPAGATION_LAG",
+                    "OLDEST_UNRESOLVED_WORK",
+                    "OBSERVATION_FRESHNESS",
+                    "QUEUE_DEPTH",
+                    "CONNECTOR_LIMIT_HEADROOM",
+                    "STORAGE_FOOTPRINT",
+                    "BACKUP_STATUS"
+                  ]
+                },
+                "measured": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "unit": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "SECONDS",
+                        "RECORDS",
+                        "BYTES"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "counted": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "unavailable_reason": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "signal",
+                "measured",
+                "value",
+                "unit",
+                "counted",
+                "unavailable_reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "combined_status_is_not_reported": {
+            "type": "boolean",
+            "const": true
+          },
+          "uptime_is_not_evidence_of_correct_operation": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "as_of",
+          "profile",
+          "facts",
+          "signals",
+          "combined_status_is_not_reported",
+          "uptime_is_not_evidence_of_correct_operation",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "AuditEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "operation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "actor_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "actor_domain": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "PRINCIPAL",
+              "MACHINE"
+            ]
+          },
+          "resource_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "corrections": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "operation",
+          "actor_id",
+          "actor_domain",
+          "resource_id",
+          "request_id",
+          "created_at",
+          "corrections"
+        ],
+        "additionalProperties": false
+      },
+      "AuditQuery": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "actor_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "actor_domain": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "PRINCIPAL",
+              "MACHINE"
+            ]
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditCoverage": {
+        "type": "object",
+        "properties": {
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "entries": {
+            "minItems": 8,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "enum": [
+                    "ROLE_GRANTS",
+                    "OWNER_CHANGES",
+                    "POLICY_PUBLICATION",
+                    "CONNECTOR_CREDENTIALS_AND_SCOPE",
+                    "SUPPORT_APPROVAL",
+                    "EXPORTS",
+                    "LICENCES",
+                    "UPDATES"
+                  ]
+                },
+                "operations": {
+                  "maxItems": 16,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120
+                  }
+                },
+                "recorded": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "first_seen_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "last_seen_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "has_a_path": {
+                  "type": "boolean"
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              },
+              "required": [
+                "category",
+                "operations",
+                "recorded",
+                "first_seen_at",
+                "last_seen_at",
+                "has_a_path",
+                "note"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "derived_from_recorded_events": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "as_of",
+          "entries",
+          "derived_from_recorded_events",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "AuditExport": {
+        "type": "object",
+        "properties": {
+          "exported_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "operation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "actor_id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "actor_domain": {
+                "type": "string",
+                "enum": [
+                  "STAFF",
+                  "PRINCIPAL",
+                  "MACHINE"
+                ]
+              },
+              "from": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "to": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              }
+            },
+            "additionalProperties": false
+          },
+          "events": {
+            "maxItems": 5000,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "operation": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 120
+                },
+                "actor_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "actor_domain": {
+                  "type": "string",
+                  "enum": [
+                    "STAFF",
+                    "PRINCIPAL",
+                    "MACHINE"
+                  ]
+                },
+                "resource_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "request_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "corrections": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "operation",
+                "actor_id",
+                "actor_domain",
+                "resource_id",
+                "request_id",
+                "created_at",
+                "corrections"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "matched": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "complete": {
+            "type": "boolean",
+            "const": true
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "exported_at",
+          "filter",
+          "events",
+          "matched",
+          "complete",
+          "digest",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "AuditCorrectionCreate": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disputed": {
+            "type": "string",
+            "enum": [
+              "WRONG_ACTOR",
+              "WRONG_RESOURCE",
+              "WRONG_OPERATION",
+              "DUPLICATE_RECORD",
+              "MISLEADING_WITHOUT_CONTEXT"
+            ]
+          },
+          "correction": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "event_id",
+          "disputed",
+          "correction"
+        ],
+        "additionalProperties": false
+      },
+      "AuditCorrection": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "event_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disputed": {
+            "type": "string",
+            "enum": [
+              "WRONG_ACTOR",
+              "WRONG_RESOURCE",
+              "WRONG_OPERATION",
+              "DUPLICATE_RECORD",
+              "MISLEADING_WITHOUT_CONTEXT"
+            ]
+          },
+          "correction": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "recorded_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "original_event_unchanged": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "id",
+          "event_id",
+          "disputed",
+          "correction",
+          "recorded_at",
+          "recorded_by",
+          "original_event_unchanged",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "AuditEventList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "operation": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 120
+                },
+                "actor_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "actor_domain": {
+                  "type": "string",
+                  "enum": [
+                    "STAFF",
+                    "PRINCIPAL",
+                    "MACHINE"
+                  ]
+                },
+                "resource_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "request_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "corrections": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "operation",
+                "actor_id",
+                "actor_domain",
+                "resource_id",
+                "request_id",
+                "created_at",
+                "corrections"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "GuidedConnection": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "system_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "environment_kind": {
+            "type": "string",
+            "enum": [
+              "TEST",
+              "PRODUCTION"
+            ]
+          },
+          "requested_capabilities": {
+            "minItems": 1,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DISCOVER",
+                "READ",
+                "VERIFY"
+              ]
+            }
+          },
+          "endpoint_reference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tls_verified": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "secret_reference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "steps": {
+            "minItems": 9,
+            "maxItems": 9,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "step": {
+                  "type": "string",
+                  "enum": [
+                    "SELECT_SYSTEM",
+                    "CHOOSE_CAPABILITIES",
+                    "CONFIGURE_CONNECTIVITY",
+                    "SCOPED_IDENTITY",
+                    "TEST_PERMISSIONS",
+                    "SELECT_RESOURCES",
+                    "REVIEW_MAPPINGS",
+                    "PREVIEW_AND_TEST",
+                    "ENABLE_PROGRESSIVELY"
+                  ]
+                },
+                "position": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9
+                },
+                "done": {
+                  "type": "boolean"
+                },
+                "measured_from": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "outstanding": {
+                  "maxItems": 4,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "step",
+                "position",
+                "done",
+                "measured_from",
+                "outstanding"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "current_step": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SELECT_SYSTEM",
+                  "CHOOSE_CAPABILITIES",
+                  "CONFIGURE_CONNECTIVITY",
+                  "SCOPED_IDENTITY",
+                  "TEST_PERMISSIONS",
+                  "SELECT_RESOURCES",
+                  "REVIEW_MAPPINGS",
+                  "PREVIEW_AND_TEST",
+                  "ENABLE_PROGRESSIVELY"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "enablement_stage": {
+            "type": "string",
+            "enum": [
+              "OBSERVE",
+              "COORDINATE",
+              "ENFORCE"
+            ]
+          },
+          "connection_is_not_permission_to_mutate": {
+            "type": "boolean",
+            "const": true
+          },
+          "observed_read": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "observed_restrict": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "id",
+          "system_id",
+          "environment_kind",
+          "requested_capabilities",
+          "endpoint_reference",
+          "tls_verified",
+          "secret_reference",
+          "steps",
+          "current_step",
+          "enablement_stage",
+          "connection_is_not_permission_to_mutate",
+          "observed_read",
+          "observed_restrict",
+          "started_at",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "ConnectionStart": {
+        "type": "object",
+        "properties": {
+          "system_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "environment_kind": {
+            "type": "string",
+            "enum": [
+              "TEST",
+              "PRODUCTION"
+            ]
+          },
+          "requested_capabilities": {
+            "minItems": 1,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DISCOVER",
+                "READ",
+                "VERIFY"
+              ]
+            }
+          }
+        },
+        "required": [
+          "system_id",
+          "environment_kind",
+          "requested_capabilities"
+        ],
+        "additionalProperties": false
+      },
+      "ConnectivityRecord": {
+        "type": "object",
+        "properties": {
+          "endpoint_reference": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9 ._:/-]+$"
+          },
+          "tls_verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "endpoint_reference",
+          "tls_verified"
+        ],
+        "additionalProperties": false
+      },
+      "ScopedIdentityRecord": {
+        "type": "object",
+        "properties": {
+          "secret_reference": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          }
+        },
+        "required": [
+          "secret_reference"
+        ],
+        "additionalProperties": false
+      },
+      "ResourceApproval": {
+        "type": "object",
+        "properties": {
+          "data_asset_ids": {
+            "minItems": 1,
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "required": [
+          "data_asset_ids"
+        ],
+        "additionalProperties": false
+      },
+      "EnablementChange": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "string",
+            "enum": [
+              "OBSERVE",
+              "COORDINATE",
+              "ENFORCE"
+            ]
+          }
+        },
+        "required": [
+          "to"
+        ],
+        "additionalProperties": false
+      },
+      "GuidedConnectionList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "system_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "environment_kind": {
+                  "type": "string",
+                  "enum": [
+                    "TEST",
+                    "PRODUCTION"
+                  ]
+                },
+                "requested_capabilities": {
+                  "minItems": 1,
+                  "maxItems": 3,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "DISCOVER",
+                      "READ",
+                      "VERIFY"
+                    ]
+                  }
+                },
+                "endpoint_reference": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "tls_verified": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "secret_reference": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "steps": {
+                  "minItems": 9,
+                  "maxItems": 9,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "step": {
+                        "type": "string",
+                        "enum": [
+                          "SELECT_SYSTEM",
+                          "CHOOSE_CAPABILITIES",
+                          "CONFIGURE_CONNECTIVITY",
+                          "SCOPED_IDENTITY",
+                          "TEST_PERMISSIONS",
+                          "SELECT_RESOURCES",
+                          "REVIEW_MAPPINGS",
+                          "PREVIEW_AND_TEST",
+                          "ENABLE_PROGRESSIVELY"
+                        ]
+                      },
+                      "position": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9
+                      },
+                      "done": {
+                        "type": "boolean"
+                      },
+                      "measured_from": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "outstanding": {
+                        "maxItems": 4,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "required": [
+                      "step",
+                      "position",
+                      "done",
+                      "measured_from",
+                      "outstanding"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "current_step": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "SELECT_SYSTEM",
+                        "CHOOSE_CAPABILITIES",
+                        "CONFIGURE_CONNECTIVITY",
+                        "SCOPED_IDENTITY",
+                        "TEST_PERMISSIONS",
+                        "SELECT_RESOURCES",
+                        "REVIEW_MAPPINGS",
+                        "PREVIEW_AND_TEST",
+                        "ENABLE_PROGRESSIVELY"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "enablement_stage": {
+                  "type": "string",
+                  "enum": [
+                    "OBSERVE",
+                    "COORDINATE",
+                    "ENFORCE"
+                  ]
+                },
+                "connection_is_not_permission_to_mutate": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "observed_read": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "observed_restrict": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "started_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "limits": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "system_id",
+                "environment_kind",
+                "requested_capabilities",
+                "endpoint_reference",
+                "tls_verified",
+                "secret_reference",
+                "steps",
+                "current_step",
+                "enablement_stage",
+                "connection_is_not_permission_to_mutate",
+                "observed_read",
+                "observed_restrict",
+                "started_at",
                 "limits"
               ],
               "additionalProperties": false

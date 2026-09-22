@@ -1,0 +1,20 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-21T23:39:01.059Z",
+  "profile": "codex-a00",
+  "phase": "cases",
+  "assertions": [
+    {
+      "name": "a case naming a gap that does not exist is refused rather than opened",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}
