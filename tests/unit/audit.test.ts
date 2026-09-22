@@ -123,7 +123,10 @@ test('reading, exporting and administering the trail are three separate authorit
     assert.ok(schemas[route.response], `${route.id} has no registered response schema`);
   }
   // There is no endpoint that edits or removes an audit record, under any name.
-  assert.ok(!routes.some(route => ['delete_audit', 'purge', 'redact_audit', 'amend_audit'].some(word => route.id.includes(word))));
+  // Scoped to routes that touch the trail: FR-M29-04 added a purge for quarantined
+  // import rows, which is a different thing and must not trip this.
+  const touchesTheTrail = routes.filter(route => /audit/.test(route.id) || route.capability?.startsWith('audit.'));
+  assert.ok(!touchesTheTrail.some(route => ['delete', 'purge', 'redact', 'amend', 'expire'].some(word => route.id.includes(word))));
 });
 
 test('an export carries everything it matched or it is not produced at all', () => {

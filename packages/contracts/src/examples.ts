@@ -148,6 +148,28 @@ export function example(name:SchemaName):unknown {
     note:'Restored from the nightly archive into an isolated environment.',
     limits:['A restore stays in quarantine until every consent decision that changed since the snapshot has been decided by a named person.',
       'Deciding that the current state prevails leaves the withdrawal standing. Nothing here re-grants consent.']};
+  // Quarantined, with one clean row and one conflict nobody has decided. A
+  // sampled empty list would hide the whole point of a preview: the operator
+  // is looking at this to find out what the import would collide with.
+  if(name==='ImportBatch')return {id:uuid(850),kind:'DATA_ASSET_INVENTORY' as const,
+    source_reference:'Inventory exported from the CRM administration console by the data owner.',
+    captured_at:sampleTime,row_count:2,content_digest:'a'.repeat(64),state:'QUARANTINED' as const,
+    submitted_at:sampleTime,submitted_by:uuid(851),settled_at:null,settled_by:null,purge_reason:null,
+    rows:[
+      {line_number:1,row:{line_number:1,system_id:uuid(852),kind:'DATASET' as const,
+        name:'Marketing contact list',description:'Contact rows used for promotional sends.',categories:[]},
+        conflict:'NEW' as const,existing_asset_id:null,decision:null,decided_by:null,decided_at:null,created_asset_id:null},
+      {line_number:2,row:{line_number:2,system_id:uuid(852),kind:'DERIVED_COPY' as const,
+        name:'Marketing contact list',description:'A nightly extract the source calls by the same name.',categories:[]},
+        conflict:'CONFLICTS_WITH_EXISTING' as const,existing_asset_id:uuid(853),
+        decision:null,decided_by:null,decided_at:null,created_asset_id:null}],
+    undecided_conflicts:1,
+    imported_rows_are_asserted_never_observed:true as const,
+    a_source_snapshot_is_not_evidence_that_any_control_is_in_force:true as const,
+    purging_removes_the_rows_and_keeps_this_record:true as const,
+    limits:['Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.',
+      'Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived.']};
+
   // Four purposes covering all eight audited categories exactly once. One has a
   // configured period with events past it; the other three have none, because
   // no period ships with this product and an unconfigured purpose must stay

@@ -25332,6 +25332,1384 @@
         }
       }
     },
+    "/api/v1/admin/imports": {
+      "get": {
+        "operationId": "list_imports",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportBatchList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      },
+      "post": {
+        "operationId": "submit_import",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportBatch"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000352",
+                  "kind": "DATA_ASSET_INVENTORY",
+                  "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+                  "captured_at": "2026-09-16T10:00:00.000Z",
+                  "row_count": 2,
+                  "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "state": "QUARANTINED",
+                  "submitted_at": "2026-09-16T10:00:00.000Z",
+                  "submitted_by": "00000000-0000-4000-8000-000000000353",
+                  "settled_at": null,
+                  "settled_by": null,
+                  "purge_reason": null,
+                  "rows": [
+                    {
+                      "line_number": 1,
+                      "row": {
+                        "line_number": 1,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DATASET",
+                        "name": "Marketing contact list",
+                        "description": "Contact rows used for promotional sends.",
+                        "categories": []
+                      },
+                      "conflict": "NEW",
+                      "existing_asset_id": null,
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    },
+                    {
+                      "line_number": 2,
+                      "row": {
+                        "line_number": 2,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DERIVED_COPY",
+                        "name": "Marketing contact list",
+                        "description": "A nightly extract the source calls by the same name.",
+                        "categories": []
+                      },
+                      "conflict": "CONFLICTS_WITH_EXISTING",
+                      "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    }
+                  ],
+                  "undecided_conflicts": 1,
+                  "imported_rows_are_asserted_never_observed": true,
+                  "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+                  "purging_removes_the_rows_and_keeps_this_record": true,
+                  "limits": [
+                    "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+                    "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportSubmit"
+              },
+              "example": {
+                "kind": "DATA_ASSET_INVENTORY",
+                "source_reference": "Synthetic example",
+                "captured_at": "2026-09-16T10:00:00.000Z",
+                "rows": [
+                  {
+                    "line_number": 1,
+                    "system_id": "00000000-0000-4000-8000-000000000125",
+                    "kind": "DATASET",
+                    "name": "Synthetic example",
+                    "description": "Synthetic example",
+                    "categories": []
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/imports/{id}": {
+      "get": {
+        "operationId": "import_batch",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportBatch"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000352",
+                  "kind": "DATA_ASSET_INVENTORY",
+                  "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+                  "captured_at": "2026-09-16T10:00:00.000Z",
+                  "row_count": 2,
+                  "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "state": "QUARANTINED",
+                  "submitted_at": "2026-09-16T10:00:00.000Z",
+                  "submitted_by": "00000000-0000-4000-8000-000000000353",
+                  "settled_at": null,
+                  "settled_by": null,
+                  "purge_reason": null,
+                  "rows": [
+                    {
+                      "line_number": 1,
+                      "row": {
+                        "line_number": 1,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DATASET",
+                        "name": "Marketing contact list",
+                        "description": "Contact rows used for promotional sends.",
+                        "categories": []
+                      },
+                      "conflict": "NEW",
+                      "existing_asset_id": null,
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    },
+                    {
+                      "line_number": 2,
+                      "row": {
+                        "line_number": 2,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DERIVED_COPY",
+                        "name": "Marketing contact list",
+                        "description": "A nightly extract the source calls by the same name.",
+                        "categories": []
+                      },
+                      "conflict": "CONFLICTS_WITH_EXISTING",
+                      "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    }
+                  ],
+                  "undecided_conflicts": 1,
+                  "imported_rows_are_asserted_never_observed": true,
+                  "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+                  "purging_removes_the_rows_and_keeps_this_record": true,
+                  "limits": [
+                    "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+                    "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/imports/{id}/decisions": {
+      "post": {
+        "operationId": "decide_import_row",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportBatch"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000352",
+                  "kind": "DATA_ASSET_INVENTORY",
+                  "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+                  "captured_at": "2026-09-16T10:00:00.000Z",
+                  "row_count": 2,
+                  "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "state": "QUARANTINED",
+                  "submitted_at": "2026-09-16T10:00:00.000Z",
+                  "submitted_by": "00000000-0000-4000-8000-000000000353",
+                  "settled_at": null,
+                  "settled_by": null,
+                  "purge_reason": null,
+                  "rows": [
+                    {
+                      "line_number": 1,
+                      "row": {
+                        "line_number": 1,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DATASET",
+                        "name": "Marketing contact list",
+                        "description": "Contact rows used for promotional sends.",
+                        "categories": []
+                      },
+                      "conflict": "NEW",
+                      "existing_asset_id": null,
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    },
+                    {
+                      "line_number": 2,
+                      "row": {
+                        "line_number": 2,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DERIVED_COPY",
+                        "name": "Marketing contact list",
+                        "description": "A nightly extract the source calls by the same name.",
+                        "categories": []
+                      },
+                      "conflict": "CONFLICTS_WITH_EXISTING",
+                      "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    }
+                  ],
+                  "undecided_conflicts": 1,
+                  "imported_rows_are_asserted_never_observed": true,
+                  "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+                  "purging_removes_the_rows_and_keeps_this_record": true,
+                  "limits": [
+                    "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+                    "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportRowDecide"
+              },
+              "example": {
+                "line_number": 1,
+                "decision": "IMPORT_AS_NEW"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/imports/{id}/apply": {
+      "post": {
+        "operationId": "apply_import",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportBatch"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000352",
+                  "kind": "DATA_ASSET_INVENTORY",
+                  "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+                  "captured_at": "2026-09-16T10:00:00.000Z",
+                  "row_count": 2,
+                  "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "state": "QUARANTINED",
+                  "submitted_at": "2026-09-16T10:00:00.000Z",
+                  "submitted_by": "00000000-0000-4000-8000-000000000353",
+                  "settled_at": null,
+                  "settled_by": null,
+                  "purge_reason": null,
+                  "rows": [
+                    {
+                      "line_number": 1,
+                      "row": {
+                        "line_number": 1,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DATASET",
+                        "name": "Marketing contact list",
+                        "description": "Contact rows used for promotional sends.",
+                        "categories": []
+                      },
+                      "conflict": "NEW",
+                      "existing_asset_id": null,
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    },
+                    {
+                      "line_number": 2,
+                      "row": {
+                        "line_number": 2,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DERIVED_COPY",
+                        "name": "Marketing contact list",
+                        "description": "A nightly extract the source calls by the same name.",
+                        "categories": []
+                      },
+                      "conflict": "CONFLICTS_WITH_EXISTING",
+                      "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    }
+                  ],
+                  "undecided_conflicts": 1,
+                  "imported_rows_are_asserted_never_observed": true,
+                  "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+                  "purging_removes_the_rows_and_keeps_this_record": true,
+                  "limits": [
+                    "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+                    "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
+    "/api/v1/admin/imports/{id}/purge": {
+      "post": {
+        "operationId": "purge_import",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportBatch"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-000000000352",
+                  "kind": "DATA_ASSET_INVENTORY",
+                  "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+                  "captured_at": "2026-09-16T10:00:00.000Z",
+                  "row_count": 2,
+                  "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "state": "QUARANTINED",
+                  "submitted_at": "2026-09-16T10:00:00.000Z",
+                  "submitted_by": "00000000-0000-4000-8000-000000000353",
+                  "settled_at": null,
+                  "settled_by": null,
+                  "purge_reason": null,
+                  "rows": [
+                    {
+                      "line_number": 1,
+                      "row": {
+                        "line_number": 1,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DATASET",
+                        "name": "Marketing contact list",
+                        "description": "Contact rows used for promotional sends.",
+                        "categories": []
+                      },
+                      "conflict": "NEW",
+                      "existing_asset_id": null,
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    },
+                    {
+                      "line_number": 2,
+                      "row": {
+                        "line_number": 2,
+                        "system_id": "00000000-0000-4000-8000-000000000354",
+                        "kind": "DERIVED_COPY",
+                        "name": "Marketing contact list",
+                        "description": "A nightly extract the source calls by the same name.",
+                        "categories": []
+                      },
+                      "conflict": "CONFLICTS_WITH_EXISTING",
+                      "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+                      "decision": null,
+                      "decided_by": null,
+                      "decided_at": null,
+                      "created_asset_id": null
+                    }
+                  ],
+                  "undecided_conflicts": 1,
+                  "imported_rows_are_asserted_never_observed": true,
+                  "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+                  "purging_removes_the_rows_and_keeps_this_record": true,
+                  "limits": [
+                    "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+                    "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.write",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportPurge"
+              },
+              "example": {
+                "reason": "Synthetic example"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/restore-runs/{id}": {
       "get": {
         "operationId": "restore_run",
@@ -25733,8 +27111,8 @@
                 "$ref": "#/components/schemas/ConsentConflictAcknowledge"
               },
               "example": {
-                "principal_id": "00000000-0000-4000-8000-000000000125",
-                "purpose_id": "00000000-0000-4000-8000-000000000126",
+                "principal_id": "00000000-0000-4000-8000-000000000126",
+                "purpose_id": "00000000-0000-4000-8000-000000000127",
                 "decision": "CURRENT_STATE_PREVAILS",
                 "basis": "Synthetic example"
               }
@@ -26650,7 +28028,7 @@
                 "$ref": "#/components/schemas/ConnectionStart"
               },
               "example": {
-                "system_id": "00000000-0000-4000-8000-000000000127",
+                "system_id": "00000000-0000-4000-8000-000000000128",
                 "environment_kind": "TEST",
                 "requested_capabilities": [
                   "DISCOVER"
@@ -27768,7 +29146,7 @@
               },
               "example": {
                 "data_asset_ids": [
-                  "00000000-0000-4000-8000-000000000128"
+                  "00000000-0000-4000-8000-000000000129"
                 ]
               }
             }
@@ -28093,12 +29471,12 @@
                   "$ref": "#/components/schemas/AuditCorrection"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000012a",
-                  "event_id": "00000000-0000-4000-8000-00000000012b",
+                  "id": "00000000-0000-4000-8000-00000000012b",
+                  "event_id": "00000000-0000-4000-8000-00000000012c",
                   "disputed": "WRONG_ACTOR",
                   "correction": "Synthetic example",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-00000000012c",
+                  "recorded_by": "00000000-0000-4000-8000-00000000012d",
                   "original_event_unchanged": true,
                   "limits": []
                 }
@@ -28243,7 +29621,7 @@
                 "$ref": "#/components/schemas/AuditCorrectionCreate"
               },
               "example": {
-                "event_id": "00000000-0000-4000-8000-000000000129",
+                "event_id": "00000000-0000-4000-8000-00000000012a",
                 "disputed": "WRONG_ACTOR",
                 "correction": "Synthetic example"
               }
@@ -28462,7 +29840,7 @@
                 },
                 "example": {
                   "kind": "NOMINATION",
-                  "principal_id": "00000000-0000-4000-8000-00000000012e",
+                  "principal_id": "00000000-0000-4000-8000-00000000012f",
                   "representative_reference": "Synthetic example",
                   "permitted_rights": [
                     "ACCESS"
@@ -28470,10 +29848,10 @@
                   "valid_from": "2026-09-16T10:00:00.000Z",
                   "valid_to": null,
                   "evidence_reference": "Synthetic example",
-                  "id": "00000000-0000-4000-8000-00000000012f",
+                  "id": "00000000-0000-4000-8000-000000000130",
                   "state": "ACTIVE",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-000000000130",
+                  "recorded_by": "00000000-0000-4000-8000-000000000131",
                   "revoked_at": null,
                   "revocation_reason": null
                 }
@@ -28619,7 +29997,7 @@
               },
               "example": {
                 "kind": "NOMINATION",
-                "principal_id": "00000000-0000-4000-8000-00000000012d",
+                "principal_id": "00000000-0000-4000-8000-00000000012e",
                 "representative_reference": "Synthetic example",
                 "permitted_rights": [
                   "ACCESS"
@@ -28676,7 +30054,7 @@
                 },
                 "example": {
                   "kind": "NOMINATION",
-                  "principal_id": "00000000-0000-4000-8000-000000000131",
+                  "principal_id": "00000000-0000-4000-8000-000000000132",
                   "representative_reference": "Synthetic example",
                   "permitted_rights": [
                     "ACCESS"
@@ -28684,10 +30062,10 @@
                   "valid_from": "2026-09-16T10:00:00.000Z",
                   "valid_to": null,
                   "evidence_reference": "Synthetic example",
-                  "id": "00000000-0000-4000-8000-000000000132",
+                  "id": "00000000-0000-4000-8000-000000000133",
                   "state": "ACTIVE",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-000000000133",
+                  "recorded_by": "00000000-0000-4000-8000-000000000134",
                   "revoked_at": null,
                   "revocation_reason": null
                 }
@@ -29000,8 +30378,8 @@
                 "$ref": "#/components/schemas/PollRequest"
               },
               "example": {
-                "installation_id": "00000000-0000-4000-8000-000000000134",
-                "environment_id": "00000000-0000-4000-8000-000000000135",
+                "installation_id": "00000000-0000-4000-8000-000000000135",
+                "environment_id": "00000000-0000-4000-8000-000000000136",
                 "maximum_commands": 1
               }
             }
@@ -29048,7 +30426,7 @@
                   "$ref": "#/components/schemas/AcceptedOperation"
                 },
                 "example": {
-                  "operation_id": "00000000-0000-4000-8000-000000000138",
+                  "operation_id": "00000000-0000-4000-8000-000000000139",
                   "status": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z"
                 }
@@ -29192,9 +30570,9 @@
                 "$ref": "#/components/schemas/CommandReceipt"
               },
               "example": {
-                "command_id": "00000000-0000-4000-8000-000000000136",
+                "command_id": "00000000-0000-4000-8000-000000000137",
                 "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "attempt_id": "00000000-0000-4000-8000-000000000137",
+                "attempt_id": "00000000-0000-4000-8000-000000000138",
                 "execution_state": "ACKNOWLEDGED",
                 "recorded_at": "2026-09-16T10:00:00.000Z",
                 "reason_code": "SYNTHETIC_EXAMPLE",
@@ -29384,10 +30762,10 @@
                 "$ref": "#/components/schemas/SendRequest"
               },
               "example": {
-                "attempt_id": "00000000-0000-4000-8000-000000000139",
-                "principal_reference_id": "00000000-0000-4000-8000-00000000013a",
-                "purpose_id": "00000000-0000-4000-8000-00000000013b",
-                "system_id": "00000000-0000-4000-8000-00000000013c",
+                "attempt_id": "00000000-0000-4000-8000-00000000013a",
+                "principal_reference_id": "00000000-0000-4000-8000-00000000013b",
+                "purpose_id": "00000000-0000-4000-8000-00000000013c",
+                "system_id": "00000000-0000-4000-8000-00000000013d",
                 "message_class": "MARKETING",
                 "order_reference": null
               }
@@ -29435,9 +30813,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-00000000013d",
+                  "command_id": "00000000-0000-4000-8000-00000000013e",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-00000000013e",
+                  "attempt_id": "00000000-0000-4000-8000-00000000013f",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -29663,7 +31041,7 @@
                   "$ref": "#/components/schemas/SimulatorState"
                 },
                 "example": {
-                  "resource_id": "00000000-0000-4000-8000-00000000013f",
+                  "resource_id": "00000000-0000-4000-8000-000000000140",
                   "generation": 0,
                   "last_applied_epoch": 0,
                   "marketing_restricted": false,
@@ -29831,9 +31209,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-000000000140",
+                  "command_id": "00000000-0000-4000-8000-000000000141",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-000000000141",
+                  "attempt_id": "00000000-0000-4000-8000-000000000142",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -48598,6 +49976,811 @@
           "snapshots_covering_evidence",
           "a_declared_snapshot_is_not_reached_by_anything_here",
           "limits"
+        ],
+        "additionalProperties": false
+      },
+      "ImportSubmit": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "DATA_ASSET_INVENTORY"
+            ]
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "rows": {
+            "minItems": 1,
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "line_number": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 500
+                },
+                "system_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "DATASET",
+                    "FIELD",
+                    "DERIVED_COPY",
+                    "EXPORT",
+                    "BACKUP_COPY"
+                  ]
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 120
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "categories": {
+                  "maxItems": 16,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "enum": [
+                          "CONTACT_DETAILS",
+                          "IDENTIFIERS",
+                          "MARKETING_PREFERENCES",
+                          "ORDER_RECORDS",
+                          "SUPPORT_NOTES"
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "review_state": {
+                        "type": "string",
+                        "enum": [
+                          "UNREVIEWED",
+                          "IN_REVIEW",
+                          "ACCEPTED",
+                          "REJECTED"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "basis",
+                      "review_state"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "line_number",
+                "system_id",
+                "kind",
+                "name",
+                "description",
+                "categories"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "source_reference",
+          "captured_at",
+          "rows"
+        ],
+        "additionalProperties": false
+      },
+      "ImportBatch": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "DATA_ASSET_INVENTORY"
+            ]
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "row_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "content_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUARANTINED",
+              "APPLIED",
+              "PURGED"
+            ]
+          },
+          "submitted_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "submitted_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "settled_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "settled_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "purge_reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rows": {
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "line_number": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 500
+                },
+                "row": {
+                  "type": "object",
+                  "properties": {
+                    "line_number": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 500
+                    },
+                    "system_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "DATASET",
+                        "FIELD",
+                        "DERIVED_COPY",
+                        "EXPORT",
+                        "BACKUP_COPY"
+                      ]
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 120
+                    },
+                    "description": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    "categories": {
+                      "maxItems": 16,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "enum": [
+                              "CONTACT_DETAILS",
+                              "IDENTIFIERS",
+                              "MARKETING_PREFERENCES",
+                              "ORDER_RECORDS",
+                              "SUPPORT_NOTES"
+                            ]
+                          },
+                          "basis": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 500
+                          },
+                          "review_state": {
+                            "type": "string",
+                            "enum": [
+                              "UNREVIEWED",
+                              "IN_REVIEW",
+                              "ACCEPTED",
+                              "REJECTED"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "basis",
+                          "review_state"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "line_number",
+                    "system_id",
+                    "kind",
+                    "name",
+                    "description",
+                    "categories"
+                  ],
+                  "additionalProperties": false
+                },
+                "conflict": {
+                  "type": "string",
+                  "enum": [
+                    "NEW",
+                    "MATCHES_EXISTING",
+                    "CONFLICTS_WITH_EXISTING"
+                  ]
+                },
+                "existing_asset_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "decision": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "IMPORT_AS_NEW",
+                        "SKIP_ROW"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "decided_by": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "decided_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "created_asset_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "line_number",
+                "row",
+                "conflict",
+                "existing_asset_id",
+                "decision",
+                "decided_by",
+                "decided_at",
+                "created_asset_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "undecided_conflicts": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "imported_rows_are_asserted_never_observed": {
+            "type": "boolean",
+            "const": true
+          },
+          "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": {
+            "type": "boolean",
+            "const": true
+          },
+          "purging_removes_the_rows_and_keeps_this_record": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "source_reference",
+          "captured_at",
+          "row_count",
+          "content_digest",
+          "state",
+          "submitted_at",
+          "submitted_by",
+          "settled_at",
+          "settled_by",
+          "purge_reason",
+          "rows",
+          "undecided_conflicts",
+          "imported_rows_are_asserted_never_observed",
+          "a_source_snapshot_is_not_evidence_that_any_control_is_in_force",
+          "purging_removes_the_rows_and_keeps_this_record",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "ImportRowDecide": {
+        "type": "object",
+        "properties": {
+          "line_number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "IMPORT_AS_NEW",
+              "SKIP_ROW"
+            ]
+          }
+        },
+        "required": [
+          "line_number",
+          "decision"
+        ],
+        "additionalProperties": false
+      },
+      "ImportPurge": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "ImportBatchList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "DATA_ASSET_INVENTORY"
+                  ]
+                },
+                "source_reference": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "captured_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "row_count": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "content_digest": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "QUARANTINED",
+                    "APPLIED",
+                    "PURGED"
+                  ]
+                },
+                "submitted_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "submitted_by": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "settled_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "settled_by": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "purge_reason": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "rows": {
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "line_number": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 500
+                      },
+                      "row": {
+                        "type": "object",
+                        "properties": {
+                          "line_number": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 500
+                          },
+                          "system_id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "DATASET",
+                              "FIELD",
+                              "DERIVED_COPY",
+                              "EXPORT",
+                              "BACKUP_COPY"
+                            ]
+                          },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 120
+                          },
+                          "description": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 500
+                          },
+                          "categories": {
+                            "maxItems": 16,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                  "enum": [
+                                    "CONTACT_DETAILS",
+                                    "IDENTIFIERS",
+                                    "MARKETING_PREFERENCES",
+                                    "ORDER_RECORDS",
+                                    "SUPPORT_NOTES"
+                                  ]
+                                },
+                                "basis": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 500
+                                },
+                                "review_state": {
+                                  "type": "string",
+                                  "enum": [
+                                    "UNREVIEWED",
+                                    "IN_REVIEW",
+                                    "ACCEPTED",
+                                    "REJECTED"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "code",
+                                "basis",
+                                "review_state"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "line_number",
+                          "system_id",
+                          "kind",
+                          "name",
+                          "description",
+                          "categories"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "conflict": {
+                        "type": "string",
+                        "enum": [
+                          "NEW",
+                          "MATCHES_EXISTING",
+                          "CONFLICTS_WITH_EXISTING"
+                        ]
+                      },
+                      "existing_asset_id": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "decision": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "IMPORT_AS_NEW",
+                              "SKIP_ROW"
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "decided_by": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "decided_at": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "created_asset_id": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "line_number",
+                      "row",
+                      "conflict",
+                      "existing_asset_id",
+                      "decision",
+                      "decided_by",
+                      "decided_at",
+                      "created_asset_id"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "undecided_conflicts": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "imported_rows_are_asserted_never_observed": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "purging_removes_the_rows_and_keeps_this_record": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "limits": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "kind",
+                "source_reference",
+                "captured_at",
+                "row_count",
+                "content_digest",
+                "state",
+                "submitted_at",
+                "submitted_by",
+                "settled_at",
+                "settled_by",
+                "purge_reason",
+                "rows",
+                "undecided_conflicts",
+                "imported_rows_are_asserted_never_observed",
+                "a_source_snapshot_is_not_evidence_that_any_control_is_in_force",
+                "purging_removes_the_rows_and_keeps_this_record",
+                "limits"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
         ],
         "additionalProperties": false
       },

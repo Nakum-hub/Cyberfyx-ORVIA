@@ -170,6 +170,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/control-map', label: 'Control map' },
     { href: '/workspace/inventory', label: 'Data inventory' },
     { href: '/workspace/inventory/search', label: 'Search inventory' },
+    { href: '/workspace/imports', label: 'Local imports' },
     { href: '/workspace/retention', label: 'Retention' },
     { href: '/workspace/retention/holds', label: 'Legal holds' },
     { href: '/workspace/retention/outcomes', label: 'Retention outcomes' },

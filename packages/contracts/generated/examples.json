@@ -3469,6 +3469,375 @@
       }
     },
     {
+      "operation_id": "list_imports",
+      "method": "GET",
+      "path": "/api/v1/admin/imports",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "submit_import",
+      "method": "POST",
+      "path": "/api/v1/admin/imports",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "DATA_ASSET_INVENTORY",
+        "source_reference": "Synthetic example",
+        "captured_at": "2026-09-16T10:00:00.000Z",
+        "rows": [
+          {
+            "line_number": 1,
+            "system_id": "00000000-0000-4000-8000-000000000125",
+            "kind": "DATASET",
+            "name": "Synthetic example",
+            "description": "Synthetic example",
+            "categories": []
+          }
+        ]
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000352",
+        "kind": "DATA_ASSET_INVENTORY",
+        "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+        "captured_at": "2026-09-16T10:00:00.000Z",
+        "row_count": 2,
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "state": "QUARANTINED",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000353",
+        "settled_at": null,
+        "settled_by": null,
+        "purge_reason": null,
+        "rows": [
+          {
+            "line_number": 1,
+            "row": {
+              "line_number": 1,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DATASET",
+              "name": "Marketing contact list",
+              "description": "Contact rows used for promotional sends.",
+              "categories": []
+            },
+            "conflict": "NEW",
+            "existing_asset_id": null,
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          },
+          {
+            "line_number": 2,
+            "row": {
+              "line_number": 2,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DERIVED_COPY",
+              "name": "Marketing contact list",
+              "description": "A nightly extract the source calls by the same name.",
+              "categories": []
+            },
+            "conflict": "CONFLICTS_WITH_EXISTING",
+            "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          }
+        ],
+        "undecided_conflicts": 1,
+        "imported_rows_are_asserted_never_observed": true,
+        "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+        "purging_removes_the_rows_and_keeps_this_record": true,
+        "limits": [
+          "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+          "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+        ]
+      }
+    },
+    {
+      "operation_id": "import_batch",
+      "method": "GET",
+      "path": "/api/v1/admin/imports/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000352",
+        "kind": "DATA_ASSET_INVENTORY",
+        "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+        "captured_at": "2026-09-16T10:00:00.000Z",
+        "row_count": 2,
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "state": "QUARANTINED",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000353",
+        "settled_at": null,
+        "settled_by": null,
+        "purge_reason": null,
+        "rows": [
+          {
+            "line_number": 1,
+            "row": {
+              "line_number": 1,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DATASET",
+              "name": "Marketing contact list",
+              "description": "Contact rows used for promotional sends.",
+              "categories": []
+            },
+            "conflict": "NEW",
+            "existing_asset_id": null,
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          },
+          {
+            "line_number": 2,
+            "row": {
+              "line_number": 2,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DERIVED_COPY",
+              "name": "Marketing contact list",
+              "description": "A nightly extract the source calls by the same name.",
+              "categories": []
+            },
+            "conflict": "CONFLICTS_WITH_EXISTING",
+            "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          }
+        ],
+        "undecided_conflicts": 1,
+        "imported_rows_are_asserted_never_observed": true,
+        "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+        "purging_removes_the_rows_and_keeps_this_record": true,
+        "limits": [
+          "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+          "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+        ]
+      }
+    },
+    {
+      "operation_id": "decide_import_row",
+      "method": "POST",
+      "path": "/api/v1/admin/imports/{id}/decisions",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "line_number": 1,
+        "decision": "IMPORT_AS_NEW"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000352",
+        "kind": "DATA_ASSET_INVENTORY",
+        "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+        "captured_at": "2026-09-16T10:00:00.000Z",
+        "row_count": 2,
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "state": "QUARANTINED",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000353",
+        "settled_at": null,
+        "settled_by": null,
+        "purge_reason": null,
+        "rows": [
+          {
+            "line_number": 1,
+            "row": {
+              "line_number": 1,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DATASET",
+              "name": "Marketing contact list",
+              "description": "Contact rows used for promotional sends.",
+              "categories": []
+            },
+            "conflict": "NEW",
+            "existing_asset_id": null,
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          },
+          {
+            "line_number": 2,
+            "row": {
+              "line_number": 2,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DERIVED_COPY",
+              "name": "Marketing contact list",
+              "description": "A nightly extract the source calls by the same name.",
+              "categories": []
+            },
+            "conflict": "CONFLICTS_WITH_EXISTING",
+            "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          }
+        ],
+        "undecided_conflicts": 1,
+        "imported_rows_are_asserted_never_observed": true,
+        "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+        "purging_removes_the_rows_and_keeps_this_record": true,
+        "limits": [
+          "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+          "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+        ]
+      }
+    },
+    {
+      "operation_id": "apply_import",
+      "method": "POST",
+      "path": "/api/v1/admin/imports/{id}/apply",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000352",
+        "kind": "DATA_ASSET_INVENTORY",
+        "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+        "captured_at": "2026-09-16T10:00:00.000Z",
+        "row_count": 2,
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "state": "QUARANTINED",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000353",
+        "settled_at": null,
+        "settled_by": null,
+        "purge_reason": null,
+        "rows": [
+          {
+            "line_number": 1,
+            "row": {
+              "line_number": 1,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DATASET",
+              "name": "Marketing contact list",
+              "description": "Contact rows used for promotional sends.",
+              "categories": []
+            },
+            "conflict": "NEW",
+            "existing_asset_id": null,
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          },
+          {
+            "line_number": 2,
+            "row": {
+              "line_number": 2,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DERIVED_COPY",
+              "name": "Marketing contact list",
+              "description": "A nightly extract the source calls by the same name.",
+              "categories": []
+            },
+            "conflict": "CONFLICTS_WITH_EXISTING",
+            "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          }
+        ],
+        "undecided_conflicts": 1,
+        "imported_rows_are_asserted_never_observed": true,
+        "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+        "purging_removes_the_rows_and_keeps_this_record": true,
+        "limits": [
+          "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+          "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+        ]
+      }
+    },
+    {
+      "operation_id": "purge_import",
+      "method": "POST",
+      "path": "/api/v1/admin/imports/{id}/purge",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000352",
+        "kind": "DATA_ASSET_INVENTORY",
+        "source_reference": "Inventory exported from the CRM administration console by the data owner.",
+        "captured_at": "2026-09-16T10:00:00.000Z",
+        "row_count": 2,
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "state": "QUARANTINED",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000353",
+        "settled_at": null,
+        "settled_by": null,
+        "purge_reason": null,
+        "rows": [
+          {
+            "line_number": 1,
+            "row": {
+              "line_number": 1,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DATASET",
+              "name": "Marketing contact list",
+              "description": "Contact rows used for promotional sends.",
+              "categories": []
+            },
+            "conflict": "NEW",
+            "existing_asset_id": null,
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          },
+          {
+            "line_number": 2,
+            "row": {
+              "line_number": 2,
+              "system_id": "00000000-0000-4000-8000-000000000354",
+              "kind": "DERIVED_COPY",
+              "name": "Marketing contact list",
+              "description": "A nightly extract the source calls by the same name.",
+              "categories": []
+            },
+            "conflict": "CONFLICTS_WITH_EXISTING",
+            "existing_asset_id": "00000000-0000-4000-8000-000000000355",
+            "decision": null,
+            "decided_by": null,
+            "decided_at": null,
+            "created_asset_id": null
+          }
+        ],
+        "undecided_conflicts": 1,
+        "imported_rows_are_asserted_never_observed": true,
+        "a_source_snapshot_is_not_evidence_that_any_control_is_in_force": true,
+        "purging_removes_the_rows_and_keeps_this_record": true,
+        "limits": [
+          "Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.",
+          "Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived."
+        ]
+      }
+    },
+    {
       "operation_id": "restore_run",
       "method": "GET",
       "path": "/api/v1/admin/restore-runs/{id}",
@@ -3511,8 +3880,8 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "principal_id": "00000000-0000-4000-8000-000000000125",
-        "purpose_id": "00000000-0000-4000-8000-000000000126",
+        "principal_id": "00000000-0000-4000-8000-000000000126",
+        "purpose_id": "00000000-0000-4000-8000-000000000127",
         "decision": "CURRENT_STATE_PREVAILS",
         "basis": "Synthetic example"
       },
@@ -3715,7 +4084,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "system_id": "00000000-0000-4000-8000-000000000127",
+        "system_id": "00000000-0000-4000-8000-000000000128",
         "environment_kind": "TEST",
         "requested_capabilities": [
           "DISCOVER"
@@ -4145,7 +4514,7 @@
       },
       "request": {
         "data_asset_ids": [
-          "00000000-0000-4000-8000-000000000128"
+          "00000000-0000-4000-8000-000000000129"
         ]
       },
       "response_status": 200,
@@ -4360,18 +4729,18 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "event_id": "00000000-0000-4000-8000-000000000129",
+        "event_id": "00000000-0000-4000-8000-00000000012a",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example"
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000012a",
-        "event_id": "00000000-0000-4000-8000-00000000012b",
+        "id": "00000000-0000-4000-8000-00000000012b",
+        "event_id": "00000000-0000-4000-8000-00000000012c",
         "disputed": "WRONG_ACTOR",
         "correction": "Synthetic example",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-00000000012c",
+        "recorded_by": "00000000-0000-4000-8000-00000000012d",
         "original_event_unchanged": true,
         "limits": []
       }
@@ -4397,7 +4766,7 @@
       },
       "request": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000012d",
+        "principal_id": "00000000-0000-4000-8000-00000000012e",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -4409,7 +4778,7 @@
       "response_status": 201,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-00000000012e",
+        "principal_id": "00000000-0000-4000-8000-00000000012f",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -4417,10 +4786,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-00000000012f",
+        "id": "00000000-0000-4000-8000-000000000130",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000130",
+        "recorded_by": "00000000-0000-4000-8000-000000000131",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -4438,7 +4807,7 @@
       "response_status": 200,
       "response": {
         "kind": "NOMINATION",
-        "principal_id": "00000000-0000-4000-8000-000000000131",
+        "principal_id": "00000000-0000-4000-8000-000000000132",
         "representative_reference": "Synthetic example",
         "permitted_rights": [
           "ACCESS"
@@ -4446,10 +4815,10 @@
         "valid_from": "2026-09-16T10:00:00.000Z",
         "valid_to": null,
         "evidence_reference": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000132",
+        "id": "00000000-0000-4000-8000-000000000133",
         "state": "ACTIVE",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000133",
+        "recorded_by": "00000000-0000-4000-8000-000000000134",
         "revoked_at": null,
         "revocation_reason": null
       }
@@ -4460,8 +4829,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000134",
-        "environment_id": "00000000-0000-4000-8000-000000000135",
+        "installation_id": "00000000-0000-4000-8000-000000000135",
+        "environment_id": "00000000-0000-4000-8000-000000000136",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -4478,9 +4847,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000136",
+        "command_id": "00000000-0000-4000-8000-000000000137",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000137",
+        "attempt_id": "00000000-0000-4000-8000-000000000138",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -4488,7 +4857,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000138",
+        "operation_id": "00000000-0000-4000-8000-000000000139",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -4501,10 +4870,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000139",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000013a",
-        "purpose_id": "00000000-0000-4000-8000-00000000013b",
-        "system_id": "00000000-0000-4000-8000-00000000013c",
+        "attempt_id": "00000000-0000-4000-8000-00000000013a",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000013b",
+        "purpose_id": "00000000-0000-4000-8000-00000000013c",
+        "system_id": "00000000-0000-4000-8000-00000000013d",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -4577,9 +4946,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000013d",
+        "command_id": "00000000-0000-4000-8000-00000000013e",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000013e",
+        "attempt_id": "00000000-0000-4000-8000-00000000013f",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -4594,7 +4963,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-00000000013f",
+        "resource_id": "00000000-0000-4000-8000-000000000140",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -4609,9 +4978,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000140",
+        "command_id": "00000000-0000-4000-8000-000000000141",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000141",
+        "attempt_id": "00000000-0000-4000-8000-000000000142",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

@@ -1523,8 +1523,88 @@ export const AuditRetentionReport = z.strictObject({
 });
 
 export type PreflightGateValue = z.infer<typeof PreflightGate>;
+// ---------------------------------------------------------------------------
+// M29 Customer Onboarding, FR-M29-04 - one typed local import path.
+//
+// OPEN-11 is explicit: implement one approved typed path fully before writing
+// another parser, and no arbitrary upload-to-table tool. So there is exactly
+// one import kind, its rows are a declared shape rather than a file, and the
+// schema is the parser.
+//
+// The clause that shapes everything else is the last one: a source snapshot is
+// never live control evidence. An inventory exported from a customer's CRM says
+// what that CRM's operator believed at a moment. It is not an observation ORVIA
+// made and it is not evidence that any restriction is in force, so everything
+// applied from an import is ASSERTED and unreviewed, and the batch says so in
+// fields that cannot be set otherwise.
+// ---------------------------------------------------------------------------
+export const ImportKind = z.enum(['DATA_ASSET_INVENTORY']);
+/** One inventory line. This shape is the parser: nothing outside it is stored. */
+export const ImportedAssetRow = z.strictObject({
+  line_number: z.number().int().min(1).max(500),
+  system_id: Id, kind: DataAssetKind, name: z.string().min(1).max(120), description: SafeText,
+  categories: z.array(CategoryAssignment).max(16),
+});
+export const ImportSubmit = z.strictObject({
+  kind: ImportKind,
+  source_reference: z.string().min(3).max(200),
+  /** What the rows describe as at. An import that will not say which moment it
+   *  is a snapshot of is not a snapshot. */
+  captured_at: Time,
+  rows: z.array(ImportedAssetRow).min(1).max(500),
+}).superRefine((v, c) => {
+  if (new Set(v.rows.map(r => r.line_number)).size !== v.rows.length) c.addIssue({ code: 'custom', message: 'Each line number appears once' });
+});
+export const ImportRowConflict = z.enum(['NEW', 'MATCHES_EXISTING', 'CONFLICTS_WITH_EXISTING']);
+export const ImportRowDecision = z.enum(['IMPORT_AS_NEW', 'SKIP_ROW']);
+export const ImportRowDecide = z.strictObject({ line_number: z.number().int().min(1).max(500), decision: ImportRowDecision });
+export const ImportPurge = z.strictObject({ reason: z.string().min(10).max(500) });
+export const ImportRowPreview = z.strictObject({
+  line_number: z.number().int().min(1).max(500),
+  row: ImportedAssetRow,
+  conflict: ImportRowConflict,
+  existing_asset_id: Id.nullable(),
+  decision: ImportRowDecision.nullable(),
+  decided_by: Id.nullable(), decided_at: Time.nullable(),
+  created_asset_id: Id.nullable(),
+}).superRefine((r, c) => {
+  if ((r.conflict === 'NEW') !== (r.existing_asset_id === null)) c.addIssue({ code: 'custom', message: 'A row that matched something names what, and one that matched nothing names nothing' });
+  const decided = r.decision !== null;
+  if (decided !== (r.decided_by !== null) || decided !== (r.decided_at !== null)) c.addIssue({ code: 'custom', message: 'A decided row names who decided and when' });
+  if (r.created_asset_id !== null && r.decision === 'SKIP_ROW') c.addIssue({ code: 'custom', message: 'A skipped row did not become an asset' });
+});
+export const ImportBatch = z.strictObject({
+  id: Id, kind: ImportKind, source_reference: SafeText, captured_at: Time,
+  row_count: Epoch, content_digest: Digest,
+  state: z.enum(['QUARANTINED', 'APPLIED', 'PURGED']),
+  submitted_at: Time, submitted_by: Id,
+  settled_at: Time.nullable(), settled_by: Id.nullable(), purge_reason: SafeText.nullable(),
+  rows: z.array(ImportRowPreview).max(500),
+  /** Conflicting rows nobody has decided. An import does not apply while any
+   *  remain, so this is the number standing between quarantine and inventory. */
+  undecided_conflicts: Epoch,
+  /** Structural. Anything applied from an import is a customer statement, never
+   *  something this product observed, and the graph refuses to let an ASSERTED
+   *  record carry an observation time at all. */
+  imported_rows_are_asserted_never_observed: z.literal(true),
+  /** Structural, and the clause the whole path exists to honour. */
+  a_source_snapshot_is_not_evidence_that_any_control_is_in_force: z.literal(true),
+  /** Structural. Purging removes the quarantined rows and keeps the record that
+   *  they were submitted, so a purge never looks like nothing having arrived. */
+  purging_removes_the_rows_and_keeps_this_record: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((b, c) => {
+  if (b.undecided_conflicts !== b.rows.filter(r => r.conflict !== 'NEW' && r.decision === null).length) c.addIssue({ code: 'custom', message: 'The undecided count is the conflicting rows nobody has decided' });
+  if ((b.state === 'QUARANTINED') !== (b.settled_at === null)) c.addIssue({ code: 'custom', message: 'A settled import says when it settled' });
+  if ((b.state === 'PURGED') !== (b.purge_reason !== null)) c.addIssue({ code: 'custom', message: 'A purge states its reason' });
+  if (b.state === 'PURGED' && b.rows.length > 0) c.addIssue({ code: 'custom', message: 'A purged import has no rows left; the record of it remains' });
+  if (b.state === 'APPLIED' && b.undecided_conflicts > 0) c.addIssue({ code: 'custom', message: 'An import applies only when every conflict has been decided' });
+});
+
 export type AuditRetentionPurposeValue = z.infer<typeof AuditRetentionPurpose>;
 export type AuditRetentionReportValue = z.infer<typeof AuditRetentionReport>;
+export type ImportedAssetRowValue = z.infer<typeof ImportedAssetRow>;
+export type ImportBatchValue = z.infer<typeof ImportBatch>;
 
 // ---------------------------------------------------------------------------
 // M32 Monitoring, FR-M32-04 — what the vendor side can see.
@@ -1718,6 +1798,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   BackupSnapshotCreate, BackupSnapshot, RestoreRunCreate, RestoreReconciliation, ConsentConflictAcknowledge,
   BackupSnapshotList: page(BackupSnapshot), RestoreRunList: page(RestoreReconciliation), VendorVisibility,
   AuditRetentionRuleCreate, AuditRetentionRule, AuditRetentionReport,
+  ImportSubmit, ImportBatch, ImportRowDecide, ImportPurge, ImportBatchList: page(ImportBatch),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
   GapList: page(Gap), ProcessorList: page(Processor), AssessmentList: page(Assessment), FindingList: page(Finding),
@@ -1862,6 +1943,14 @@ export const routes: RouteDefinition[] = [
   // trail is kept is audit administration, which is a different authority.
   {id:'audit_retention',method:'get',path:'/api/v1/admin/audit-retention',authority:'STAFF',capability:'audit.read',response:'AuditRetentionReport',status:200},
   {id:'set_audit_retention',method:'post',path:'/api/v1/admin/audit-retention-rules',authority:'STAFF',capability:'audit.administer',request:'AuditRetentionRuleCreate',response:'AuditRetentionRule',status:201,idempotency:true},
+  // FR-M29-04. One typed path: submit into quarantine, preview with conflicts,
+  // decide each conflict, then apply as asserted inventory or purge the rows.
+  {id:'list_imports',method:'get',path:'/api/v1/admin/imports',authority:'STAFF',capability:'graph.read',response:'ImportBatchList',status:200,paginated:true},
+  {id:'submit_import',method:'post',path:'/api/v1/admin/imports',authority:'STAFF',capability:'graph.write',request:'ImportSubmit',response:'ImportBatch',status:201,idempotency:true},
+  {id:'import_batch',method:'get',path:'/api/v1/admin/imports/{id}',authority:'STAFF',capability:'graph.read',params:'IdPath',response:'ImportBatch',status:200},
+  {id:'decide_import_row',method:'post',path:'/api/v1/admin/imports/{id}/decisions',authority:'STAFF',capability:'graph.write',params:'IdPath',request:'ImportRowDecide',response:'ImportBatch',status:200,idempotency:true},
+  {id:'apply_import',method:'post',path:'/api/v1/admin/imports/{id}/apply',authority:'STAFF',capability:'graph.write',params:'IdPath',response:'ImportBatch',status:200,idempotency:true},
+  {id:'purge_import',method:'post',path:'/api/v1/admin/imports/{id}/purge',authority:'STAFF',capability:'graph.write',params:'IdPath',request:'ImportPurge',response:'ImportBatch',status:200,idempotency:true},
   {id:'restore_run',method:'get',path:'/api/v1/admin/restore-runs/{id}',authority:'STAFF',capability:'health.read',params:'IdPath',response:'RestoreReconciliation',status:200},
   {id:'acknowledge_conflict',method:'post',path:'/api/v1/admin/restore-runs/{id}/acknowledgements',authority:'STAFF',capability:'configuration.write',params:'IdPath',request:'ConsentConflictAcknowledge',response:'RestoreReconciliation',status:200,idempotency:true},
   {id:'release_restore',method:'post',path:'/api/v1/admin/restore-runs/{id}/release',authority:'STAFF',capability:'restore.release',params:'IdPath',response:'RestoreReconciliation',status:200,idempotency:true},

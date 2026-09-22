@@ -1451,6 +1451,72 @@
       "idempotency": true
     },
     {
+      "id": "list_imports",
+      "method": "get",
+      "path": "/api/v1/admin/imports",
+      "authority": "STAFF",
+      "capability": "graph.read",
+      "response": "ImportBatchList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "submit_import",
+      "method": "post",
+      "path": "/api/v1/admin/imports",
+      "authority": "STAFF",
+      "capability": "graph.write",
+      "request": "ImportSubmit",
+      "response": "ImportBatch",
+      "status": 201,
+      "idempotency": true
+    },
+    {
+      "id": "import_batch",
+      "method": "get",
+      "path": "/api/v1/admin/imports/{id}",
+      "authority": "STAFF",
+      "capability": "graph.read",
+      "params": "IdPath",
+      "response": "ImportBatch",
+      "status": 200
+    },
+    {
+      "id": "decide_import_row",
+      "method": "post",
+      "path": "/api/v1/admin/imports/{id}/decisions",
+      "authority": "STAFF",
+      "capability": "graph.write",
+      "params": "IdPath",
+      "request": "ImportRowDecide",
+      "response": "ImportBatch",
+      "status": 200,
+      "idempotency": true
+    },
+    {
+      "id": "apply_import",
+      "method": "post",
+      "path": "/api/v1/admin/imports/{id}/apply",
+      "authority": "STAFF",
+      "capability": "graph.write",
+      "params": "IdPath",
+      "response": "ImportBatch",
+      "status": 200,
+      "idempotency": true
+    },
+    {
+      "id": "purge_import",
+      "method": "post",
+      "path": "/api/v1/admin/imports/{id}/purge",
+      "authority": "STAFF",
+      "capability": "graph.write",
+      "params": "IdPath",
+      "request": "ImportPurge",
+      "response": "ImportBatch",
+      "status": 200,
+      "idempotency": true
+    },
+    {
       "id": "restore_run",
       "method": "get",
       "path": "/api/v1/admin/restore-runs/{id}",

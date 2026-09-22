@@ -105,7 +105,9 @@ test('declared query parameters are bounded and are the only ones a route accept
 
 test('every graph route is declared, scoped to a graph capability and has a registered schema', () => {
   const graphRoutes = routes.filter(route => route.capability === 'graph.read' || route.capability === 'graph.write');
-  assert.equal(graphRoutes.length, 11);
+  // Eleven until FR-M29-04 added the six-route typed import path, which writes
+  // to the inventory and is therefore held by the same authority.
+  assert.equal(graphRoutes.length, 17);
   for (const route of graphRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     // A write must be idempotent; a read must never be.

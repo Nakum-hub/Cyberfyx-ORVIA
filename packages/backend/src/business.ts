@@ -15,6 +15,7 @@ import { preflight } from '../../domain/src/onboarding/preflight.ts';
 import { declareSnapshot, snapshotList, startRestore, readRestore, restoreList, acknowledgeConflict, releaseRestore } from '../../domain/src/monitoring/restore.ts';
 import { vendorVisibility } from '../../domain/src/monitoring/vendor.ts';
 import { auditRetention, setAuditRetention } from '../../domain/src/audit/retention.ts';
+import { submitImport, importList, readImport, decideImportRow, applyImport, purgeImport } from '../../domain/src/onboarding/imports.ts';
 import { connectionList, readGuidedConnection, startConnection, recordConnectivity, recordScopedIdentity, approveResources, changeEnablement } from '../../domain/src/onboarding/connection.ts';
 import { createTemplate, templateList, createNotificationTask, notificationTaskList, readNotificationTask, recordDelivery, escalationSweep } from '../../domain/src/notifications/notifications.ts';
 import { createIncident, incidentList, incidentAssessment, correctIncident, containIncident, closeIncident, transitionNotification, createObligationRule, obligationRuleList } from '../../domain/src/incidents/incidents.ts';
@@ -45,7 +46,7 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
   'operational_readiness','list_audit_events','export_audit_events','audit_coverage','correct_audit_event',
   'list_connections','start_connection','connection','record_connectivity','record_scoped_identity','approve_resources','change_enablement',
   'record_notice_revision','list_notice_revisions','notice_languages','set_language','preflight',
-  'list_backup_snapshots','declare_snapshot','start_restore','list_restore_runs','restore_run','acknowledge_conflict','release_restore','vendor_visibility','audit_retention','set_audit_retention']);
+  'list_backup_snapshots','declare_snapshot','start_restore','list_restore_runs','restore_run','acknowledge_conflict','release_restore','vendor_visibility','audit_retention','set_audit_retention','list_imports','submit_import','import_batch','decide_import_row','apply_import','purge_import']);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
@@ -211,6 +212,12 @@ export function businessRoute(request: Request) { return safeRoute(async request
         case 'vendor_visibility':return vendorVisibility(c);
         case 'audit_retention':return auditRetention(c);
         case 'set_audit_retention':return setAuditRetention(c,input);
+        case 'list_imports':return importList(c,page);
+        case 'submit_import':return submitImport(c,input);
+        case 'import_batch':return readImport(c,id!);
+        case 'decide_import_row':return decideImportRow(c,id!,input);
+        case 'apply_import':return applyImport(c,id!);
+        case 'purge_import':return purgeImport(c,id!,input);
         case 'restore_run':return readRestore(c,id!);
         case 'acknowledge_conflict':return acknowledgeConflict(c,id!,input);
         case 'release_restore':return releaseRestore(c,id!);
