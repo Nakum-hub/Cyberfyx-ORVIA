@@ -1,5 +1,5 @@
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { writeEvidence } from '../packages/testing/src/evidence.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { writeEvidence } from '../shared/testing/src/evidence.ts';
 import { checkServices } from './service-readiness.ts';
 const profile=loadProfile();
 const checks=await checkServices(profile);

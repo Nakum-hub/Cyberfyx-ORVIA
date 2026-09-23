@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { schemas } from '../../packages/contracts/src/index.ts';
-import { actionVerification, buildTimeline, obligationStatus, obligationTotals, receiptIntegrity } from '../../apps/web/src/components/shared/derive.ts';
+import { schemas } from '../../shared/contracts/src/index.ts';
+import { actionVerification, buildTimeline, obligationStatus, obligationTotals, receiptIntegrity } from '../../frontend/src/components/shared/derive.ts';
 
 // Schema examples are unit inputs only, never served as runtime/browser evidence.
-const examples=JSON.parse(readFileSync('packages/contracts/generated/examples.json','utf8'));
+const examples=JSON.parse(readFileSync('shared/contracts/generated/examples.json','utf8'));
 const workflow=schemas.Workflow.parse(examples.routes.find((r:{operation_id:string})=>r.operation_id==='workflow').response);
 const id=(n:number)=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const plan=schemas.PlanBinding.parse({workflow_id:workflow.id,action_id:id(1),scope:{tenant_id:id(2),legal_entity_id:id(3),environment_id:id(4),principal_reference_id:id(5),system_id:id(6),resource_id:id(7),target_subject_reference:'syn_ui_test',purpose_id:workflow.purpose_id,policy_version_id:id(8),consent_epoch:2,target_generation:1,operation:'CRM_REMOVE_MARKETING_MEMBERSHIP'},capability:'restrict_exact_synthetic_subject',capability_version:'0.3.0',operation_budget:{maximum_records:1,maximum_attempts:1}});

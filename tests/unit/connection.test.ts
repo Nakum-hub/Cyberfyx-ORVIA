@@ -1,8 +1,8 @@
 // M29 Customer Onboarding contract invariants (FR-M29-03). Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ConnectionStart, ConnectionStep, ConnectionStepState, EnablementStage, GuidedConnection, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { example, uuid } from '../../packages/contracts/src/examples.ts';
+import { ConnectionStart, ConnectionStep, ConnectionStepState, EnablementStage, GuidedConnection, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { example, uuid } from '../../shared/contracts/src/examples.ts';
 
 const connection = () => structuredClone(example('GuidedConnection')) as Record<string, unknown>;
 const steps = () => connection().steps as Record<string, unknown>[];

@@ -2,9 +2,9 @@
 // independently of any stored row, and run without Docker.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BLOCKING_GRADES, DESTRUCTIVE_OR_DISCLOSING, IdentityReview, Mandate, MandateCreate, REQUEST_TRANSITIONS, RequestState, RightsRequest, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
-import { rightsExecution } from '../../packages/domain/src/shared/completion.ts';
+import { BLOCKING_GRADES, DESTRUCTIVE_OR_DISCLOSING, IdentityReview, Mandate, MandateCreate, REQUEST_TRANSITIONS, RequestState, RightsRequest, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
+import { rightsExecution } from '../../backend/domain/src/shared/completion.ts';
 
 const request = {
   id: uuid(300), right_type: 'ACCESS' as const, principal_id: uuid(301), submitted_channel: 'PORTAL' as const,

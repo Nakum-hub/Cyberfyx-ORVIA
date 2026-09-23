@@ -1,8 +1,8 @@
 // M12 Notice Management contract invariants (FR-M12-03, FR-M12-04). Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ConsentChoice, LanguageAvailability, NoticeAvailability, NoticeChangeKind, NoticeLanguage, NoticeRevision, NoticeRevisionCreate, ProcessorRole, routes } from '../../packages/contracts/src/index.ts';
-import { example, uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { ConsentChoice, LanguageAvailability, NoticeAvailability, NoticeChangeKind, NoticeLanguage, NoticeRevision, NoticeRevisionCreate, ProcessorRole, routes } from '../../shared/contracts/src/index.ts';
+import { example, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const availability = {
   purpose_id: uuid(800), requested_language: 'ta' as const, served_language: 'en' as const,

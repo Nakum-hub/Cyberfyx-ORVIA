@@ -11,8 +11,8 @@
 // something to look at.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DataCategoryCode, Notice, NoticeContact, NoticeCreate } from '../../packages/contracts/src/index.ts';
-import { example, uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { DataCategoryCode, Notice, NoticeContact, NoticeCreate } from '../../shared/contracts/src/index.ts';
+import { example, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const create = () => structuredClone(example('NoticeCreate')) as Record<string, unknown>;
 const notice = () => structuredClone(example('Notice')) as Record<string, unknown>;

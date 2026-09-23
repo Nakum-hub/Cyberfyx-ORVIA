@@ -4,14 +4,14 @@ import { execFile,spawn,type ChildProcess } from 'node:child_process';
 import { promisify } from 'node:util';
 import { once } from 'node:events';
 import { readFileSync } from 'node:fs';
-import { HttpFixture } from '../../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../../packages/testing/src/scenario.ts';
-import { writeEvidence,safeError } from '../../../packages/testing/src/evidence.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import * as S from '../../../packages/contracts/src/index.ts';
-import { digest } from '../../../packages/contracts/src/crypto.ts';
-import { observerEnrollment,agentEnrollment,senderEnrollment } from '../../../packages/auth/src/machine-profile.ts';
+import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
+import { writeEvidence,safeError } from '../../../shared/testing/src/evidence.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import * as S from '../../../shared/contracts/src/index.ts';
+import { digest } from '../../../shared/contracts/src/crypto.ts';
+import { observerEnrollment,agentEnrollment,senderEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 const h=new HttpFixture();const profile=loadProfile();if(!['codex-a00','rehearsal'].includes(profile.profile))throw new Error('Only codex-a00/rehearsal permitted');
 const db=connectDatabase(profile).pool;const target=connectDatabase({...profile,database:profile.database+'_targets'}).pool;
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];const children:ChildProcess[]=[];let output='';let phase='setup';
@@ -33,7 +33,7 @@ try{
  phase='withdraw manual';const manualWithdrawal=await manual.change('withdraw');phase='withdraw required observation';const mandatoryWithdrawal=await mandatory.change('withdraw');
  const manualId=manualWithdrawal.receipt.workflow_id!;const mandatoryId=mandatoryWithdrawal.receipt.workflow_id!;
  const workflow=async(id:string)=>S.Workflow.parse(await (await manual.owner.call('/api/v1/admin/workflows/'+id)).json());
- phase='durable worker and agent';const worker=start('apps/worker/src/main.ts');const agent=start('apps/agent/src/main.ts');
+ phase='durable worker and agent';const worker=start('services/worker/src/main.ts');const agent=start('services/agent/src/main.ts');
  for(const {mode,s,workflow:id} of scenarios){
   phase='observe '+mode;const w=await until(()=>workflow(id),w=>['COMPLETED','NEEDS_ATTENTION'].includes(w.state));
   const action=w.actions[0]!;check(mode+': one bounded attempt',action.attempts.length,1);check(mode+': plan attempt budget',action.plan.operation_budget.maximum_attempts,1);
@@ -55,7 +55,7 @@ try{
  const acceptedResponse=await manual.owner.call(path,{}, {'idempotency-key':key});check('reconciliation accepted with worker stopped',acceptedResponse.status,202);const accepted=S.AcceptedOperation.parse(await acceptedResponse.json());
  check('reconciliation persisted pending',(await db.query('SELECT document FROM app.reconciliations WHERE id=$1',[accepted.operation_id])).rows[0].document.state,'PENDING');
  check('reconciliation committed replay stable',await (await manual.owner.call(path,{}, {'idempotency-key':key})).json(),accepted);
- start('apps/worker/src/main.ts');const reconciled=await until(()=>workflow(unknown.workflow),w=>w.actions[0]!.reconciliations.at(-1)?.state==='RESOLVED');
+ start('services/worker/src/main.ts');const reconciled=await until(()=>workflow(unknown.workflow),w=>w.actions[0]!.reconciliations.at(-1)?.state==='RESOLVED');
  check('read reconciliation completes observed obligation',reconciled.state,'COMPLETED');check('original uncertain attempt remains immutable',reconciled.actions[0]!.attempts,action.attempts);check('reconciliation never invents recovered ACK',reconciled.actions[0]!.execution_state,'EFFECT_UNKNOWN');
  await cli('scripts/simulator-fixture.ts',[unknown.s.mapping.id,'HEALTHY','deny-read']);
  const checked=await manual.owner.call(`/api/v1/admin/systems/${unknown.s.system.id}/check`,{});check('capability loss becomes effective read=false',S.System.parse(await checked.json()).supports_read,false);
@@ -103,4 +103,4 @@ try{
  check('filtered failure pagination does not duplicate obligations',new Set(failures.map(o=>o.id)).size,failures.length);
  await stop(agent);
 }catch(error){console.error({phase,...safeError(error),cause:safeError(error instanceof Error?error.cause:undefined),sites:error instanceof Error?error.stack?.split('\n').slice(1,6):[]});console.error(h.diagnostics);console.error(output.slice(-14000));process.exitCode=1;}
-finally{for(const c of children)await stop(c);await h.stop();await Promise.all([db.end(),target.end()]);writeEvidence('evidence-integration',{test_ids:['T13','T17','T18','T19','T20','T21','T22'],profile:profile.profile,contract_version:S.CONTRACT_VERSION,build_id:readFileSync('apps/web/.next/BUILD_ID','utf8').trim(),assertions,result:process.exitCode?'FAIL':'PASS',limitations:['Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry.']});}
+finally{for(const c of children)await stop(c);await h.stop();await Promise.all([db.end(),target.end()]);writeEvidence('evidence-integration',{test_ids:['T13','T17','T18','T19','T20','T21','T22'],profile:profile.profile,contract_version:S.CONTRACT_VERSION,build_id:readFileSync('frontend/.next/BUILD_ID','utf8').trim(),assertions,result:process.exitCode?'FAIL':'PASS',limitations:['Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry.']});}

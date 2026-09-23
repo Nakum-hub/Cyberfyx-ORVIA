@@ -5,10 +5,10 @@ import { readFileSync } from 'node:fs';
 import {
   CONTRACT_VERSION, COMMAND_SCHEMA_VERSION, PRODUCT_VERSION, DiagnosticReport, DiagnosticApproval, DiagnosticTransfer,
   IngressValidation, SupportCaseStanding, SupportResolution, routes, schemas,
-} from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
-import { digest } from '../../packages/contracts/src/crypto.ts';
-import { validateSubmission, scanForForbiddenContent } from '../../packages/domain/src/support/support.ts';
+} from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
+import { digest } from '../../shared/contracts/src/crypto.ts';
+import { validateSubmission, scanForForbiddenContent } from '../../backend/domain/src/support/support.ts';
 
 const report = {
   report_id: uuid(600), generated_at: sampleTime, installation_reference: 'a'.repeat(64),

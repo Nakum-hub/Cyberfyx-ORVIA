@@ -24,7 +24,7 @@ if(existsSync('.local/profiles'))for(const name of readdirSync('.local/profiles'
   }
 }
 const findings=[];
-const assets='apps/web/.next/static';
+const assets='frontend/.next/static';
 const bundlePaths=existsSync(assets)?readdirSync(assets,{recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>join(entry.parentPath,entry.name)):[];
 for(const path of [...paths,...bundlePaths]){
   const body=readFileSync(path,'utf8');

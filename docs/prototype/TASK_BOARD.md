@@ -44,9 +44,9 @@ Confirm current source/deadline/access facts; review one selected architecture a
 
 Preserve existing code; pin versions; start actual services; freeze exact schemas, auth/private interfaces and client generation; hand off base commit and UI file transfer.
 
-**Planned files:** `package.json`; `pnpm-lock.yaml`; `packages/contracts/**`; `infrastructure/**`; `scripts/**`; `docs/engineering/REPOSITORY_INVENTORY.md`
+**Planned files:** `package.json`; `pnpm-lock.yaml`; `shared/contracts/**`; `infrastructure/**`; `scripts/**`; `docs/engineering/REPOSITORY_INVENTORY.md`
 
-**Evidence:** `handoffs/codex/A00-e5cdef3.md`; `handoffs/codex/A00-publication.json`; `handoffs/codex/A00-command-index.json`; `docs/engineering/REPOSITORY_INVENTORY.md`; `docs/engineering/A00-CONTRACT-PROPOSAL.md`; `handoffs/codex/A00-F07-e839b1a.md`; `handoffs/codex/A00-F07-results.json`; `docs/reviews/work/W00_A00_ACCEPTANCE.md`; `docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json`; `docs/reviews/work/artifacts/W00-A00-58ceddc/unit.json`; `docs/reviews/work/artifacts/W00-A00-58ceddc/source-audit.json`
+**Evidence:** `handoffs/codex/A00-e5cdef3.md`; `handoffs/codex/A00-publication.json`; `handoffs/codex/A00-command-index.json`; `docs/engineering/REPOSITORY_INVENTORY.md`; `docs/engineering/executable-contract-proposal.md`; `handoffs/codex/A00-F07-e839b1a.md`; `handoffs/codex/A00-F07-results.json`; `docs/reviews/work/W00_A00_ACCEPTANCE.md`; `docs/reviews/work/artifacts/W00-A00-58ceddc/F07-retest.json`; `docs/reviews/work/artifacts/W00-A00-58ceddc/unit.json`; `docs/reviews/work/artifacts/W00-A00-58ceddc/source-audit.json`
 
 ## C00 — Prepare UX and leadership scenario
 
@@ -64,7 +64,7 @@ Define readable screens, state copy and synthetic scenario without waiting for b
 
 One reusable shell, status primitives, accessible loading/error/empty states; no second backend.
 
-**Planned files:** `apps/web/src/app/layout.tsx`; `apps/web/src/app/workspace/**`; `apps/web/src/app/privacy/**`; `packages/ui/**`
+**Planned files:** `frontend/src/app/layout.tsx`; `frontend/src/app/workspace/**`; `frontend/src/app/privacy/**`; `packages/ui/**`
 
 **Evidence:** None recorded
 
@@ -74,7 +74,7 @@ One reusable shell, status primitives, accessible loading/error/empty states; no
 
 Protected organisation bootstrap; staff/principal sessions, MFA and capabilities; tenant DB context and negative tests.
 
-**Planned files:** `packages/auth/**`; `packages/authz/**`; `packages/db/**`; `apps/web/src/app/api/**`; `policy/admin/**`; `tests/security/**`
+**Planned files:** `backend/auth/**`; `backend/authorization/**`; `database/customer/**`; `frontend/src/app/api/**`; `policy/admin/**`; `tests/security/**`
 
 **Evidence:** `handoffs/codex/A01-publication.json`; `docs/reviews/work/AUTH_AND_CONSENT.md`; `docs/reviews/work/W01_A01_EVIDENCE.json`; `handoffs/work/W01-A01-50cb4da.md`
 
@@ -84,7 +84,7 @@ Protected organisation bootstrap; staff/principal sessions, MFA and capabilities
 
 Bind login/configuration forms and current identity to generated client; published states and permission denials real.
 
-**Planned files:** `apps/web/src/app/workspace/**`; `tests/e2e/auth.spec.ts`; `tests/e2e/configuration.spec.ts`
+**Planned files:** `frontend/src/app/workspace/**`; `tests/e2e/auth.spec.ts`; `tests/e2e/configuration.spec.ts`
 
 **Evidence:** None recorded
 
@@ -94,7 +94,7 @@ Bind login/configuration forms and current identity to generated client; publish
 
 Purpose/notice/policy approval, principal/system mapping, consent aggregate/events/idempotency/outbox and receipts.
 
-**Planned files:** `packages/domain/**`; `packages/db/migrations/**`; `apps/web/src/app/api/**`; `policy/processing/**`; `tests/integration/consent/**`
+**Planned files:** `backend/domain/**`; `database/customer/migrations/**`; `frontend/src/app/api/**`; `policy/processing/**`; `tests/integration/consent/**`
 
 **Evidence:** `handoffs/codex/A02-publication.json`; `docs/reviews/work/W01_A02_REVIEW.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/work/W01-A02-a5b6ff7.md`; `handoffs/codex/artifacts/A07-consent-integration-1789645869949-967a9fd6-3087-45da-9b39-0c8e54ae981d.json`; `handoffs/codex/artifacts/A07-expiry-integration-1789646017958-1f369060-4bc5-4689-8500-3fcf40b1045b.json`; `handoffs/work/final-prototype-continuation/W01-consolidated-review.md`
 
@@ -104,7 +104,7 @@ Purpose/notice/policy approval, principal/system mapping, consent aggregate/even
 
 Own choices/notice/history and grant/withdraw receipt with real persisted status and safe duplicate handling.
 
-**Planned files:** `apps/web/src/app/privacy/**`; `tests/e2e/consent.spec.ts`
+**Planned files:** `frontend/src/app/privacy/**`; `tests/e2e/consent.spec.ts`
 
 **Evidence:** None recorded
 
@@ -124,7 +124,7 @@ Review server scope, transaction/replay guarantees, role checks and API/UI compa
 
 Stable workflow and command identities; signed scopes; real CRM remove/read adapter; restart-safe outbox delivery.
 
-**Planned files:** `apps/worker/**`; `apps/agent/**`; `packages/connectors/**`; `packages/db/**`; `tests/integration/workflows/**`
+**Planned files:** `services/worker/**`; `services/agent/**`; `connectors/**`; `database/customer/**`; `tests/integration/workflows/**`
 
 **Evidence:** `handoffs/codex/A02-A07-continuation.md`; `docs/reviews/work/W01_A02_EVIDENCE.json`; `handoffs/codex/artifacts/A07-workflow-integration-1789646136254-11016705-c854-42a4-8acb-b58c356f1873.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
@@ -134,7 +134,7 @@ Stable workflow and command identities; signed scopes; real CRM remove/read adap
 
 Current-epoch send boundary, independent service fixture and fail-closed/queue degraded processing with tested ordering.
 
-**Planned files:** `packages/policy-sdk/**`; `packages/authz/**`; `policy/processing/**`; `apps/demo-targets/**`; `tests/integration/enforcement/**`
+**Planned files:** `backend/policy-sdk/**`; `backend/authorization/**`; `policy/processing/**`; `services/synthetic-target/**`; `tests/integration/enforcement/**`
 
 **Evidence:** `handoffs/codex/artifacts/A07-send-enforcement-1789646240320-8a3a2988-2905-4e96-9af7-dcebdfdc3c09.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
@@ -144,7 +144,7 @@ Current-epoch send boundary, independent service fixture and fail-closed/queue d
 
 REST fault/reconciliation, known failure/manual task, truthful aggregate status, separate observations and audited JSON export.
 
-**Planned files:** `packages/domain/**`; `packages/connectors/**`; `apps/demo-targets/**`; `apps/web/src/app/api/**`; `tests/integration/evidence/**`
+**Planned files:** `backend/domain/**`; `connectors/**`; `services/synthetic-target/**`; `frontend/src/app/api/**`; `tests/integration/evidence/**`
 
 **Evidence:** `handoffs/codex/artifacts/A07-evidence-integration-1789645594362-18028a06-424b-43bf-8363-b2358bb7f8f4.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
@@ -154,7 +154,7 @@ REST fault/reconciliation, known failure/manual task, truthful aggregate status,
 
 Stateful timeline/table/details, real outcome counts, unresolved obligations and local export.
 
-**Planned files:** `apps/web/src/app/workspace/**`; `packages/ui/**`; `tests/e2e/workflow.spec.ts`
+**Planned files:** `frontend/src/app/workspace/**`; `packages/ui/**`; `tests/e2e/workflow.spec.ts`
 
 **Evidence:** None recorded
 
@@ -174,7 +174,7 @@ Map full module vision to actual tested depth; record real setup commands only f
 
 Allowlisted real assertions, broken-fixture detection, worker recovery, target quarantine restore, network/secret/input/command tests; fix failures.
 
-**Planned files:** `packages/testing/**`; `tests/fault-fixtures/**`; `tests/integration/**`; `tests/security/**`; `tests/recovery/**`; `apps/web/src/app/api/**`
+**Planned files:** `shared/testing/**`; `tests/fault-fixtures/**`; `tests/integration/**`; `tests/security/**`; `tests/recovery/**`; `frontend/src/app/api/**`
 
 **Evidence:** `handoffs/codex/artifacts/A07-regression-integration-1789646604777-caac7f33-7580-4dc2-ac9c-171ab199070e.json`; `handoffs/codex/artifacts/A07-network-qualification-1789649464712-61fc22c5-8651-4fd8-9679-cf7e0b0aef05.json`; `handoffs/work/final-prototype-continuation/W02-consolidated-review.md`
 
@@ -184,7 +184,7 @@ Allowlisted real assertions, broken-fixture detection, worker recovery, target q
 
 Run actual allowed scenarios and display assertions; exercise complete UI and negative states; browser traffic evidence and regressions.
 
-**Planned files:** `apps/web/src/app/workspace/**`; `tests/e2e/**`
+**Planned files:** `frontend/src/app/workspace/**`; `tests/e2e/**`
 
 **Evidence:** None recorded
 
@@ -204,7 +204,7 @@ Read exact commit/results, challenge unknown/verified/recovery/egress claims, tr
 
 Only after core-green human promotion: choose one rights/retention/licence/help slice. Otherwise leave NOT_STARTED/OUT_OF_SPRINT.
 
-**Planned files:** `packages/domain/**`; `apps/web/src/app/api/**`; `tests/integration/optional/**`
+**Planned files:** `backend/domain/**`; `frontend/src/app/api/**`; `tests/integration/optional/**`
 
 **Evidence:** None recorded
 
@@ -214,7 +214,7 @@ Only after core-green human promotion: choose one rights/retention/licence/help 
 
 Bind only the promoted tested slice; do not create empty fake modules. Only its matching P1 test is required.
 
-**Planned files:** `apps/web/src/app/workspace/**`; `apps/web/src/app/privacy/**`; `tests/e2e/optional.spec.ts`
+**Planned files:** `frontend/src/app/workspace/**`; `frontend/src/app/privacy/**`; `tests/e2e/optional.spec.ts`
 
 **Evidence:** None recorded
 
@@ -234,7 +234,7 @@ Record locked build/profile, real clean-start/bootstrap/seed/reset commands, pac
 
 Fix only accepted issues after freeze; rerun candidate browser tests, capture actual screenshots and rehearsal artifacts.
 
-**Planned files:** `apps/web/src/app/workspace/**`; `apps/web/src/app/privacy/**`; `packages/ui/**`; `tests/e2e/**`
+**Planned files:** `frontend/src/app/workspace/**`; `frontend/src/app/privacy/**`; `packages/ui/**`; `tests/e2e/**`
 
 **Evidence:** None recorded
 

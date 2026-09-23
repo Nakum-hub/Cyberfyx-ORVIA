@@ -1,5 +1,5 @@
-import { resetBootstrap } from '../packages/testing/src/reset.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import { resetBootstrap } from '../shared/testing/src/reset.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 try{
   if(process.argv.length!==4)throw new Error('Usage: reset:bootstrap <named-profile> <profile-bootstrap-only>');
   await resetBootstrap(process.argv[2]!,process.argv[3]!);

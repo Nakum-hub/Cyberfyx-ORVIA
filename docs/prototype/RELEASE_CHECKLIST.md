@@ -51,7 +51,7 @@ A00–A05 and the merged PR #16 correction supply engineering subsets. Work insp
 |---|---|---|---|---|
 | A1 | The frozen candidate commit is recorded on the integration branch | Commit hash in CURRENT_STATE.md | Human / Work | MISSING |
 | A2 | The build manifest matches the commit and the exact lockfile | Manifest file, lockfile hash | Codex (A07) | MISSING |
-| A3 | The contract version is recorded, and generated artifacts match it | `packages/contracts` version, generation log | Codex | ACCEPTED BASELINE 0.2.1; present executable transport 0.4.0 (signed command 0.3.0) and A02–A05 report intake await consolidated review; candidate match MISSING |
+| A3 | The contract version is recorded, and generated artifacts match it | `shared/contracts` version, generation log | Codex | ACCEPTED BASELINE 0.2.1; present executable transport 0.4.0 (signed command 0.3.0) and A02–A05 report intake await consolidated review; candidate match MISSING |
 | A4 | The on-screen build ID equals the manifest | Screenshot + manifest (J00) | Codex / Human | MISSING |
 | A5 | Development checksums or signatures are labelled as development-only | Manifest note | Codex | MISSING |
 | A6 | The approved master (rev 1.3) is present, with its SHA-256 recorded | Hash comparison (F-001) | Human | DOCUMENT SOURCE VERIFIED: repository bytes match approved master hash; no application gate implied |

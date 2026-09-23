@@ -1,9 +1,9 @@
 // Real HTTPS integration probe for the shared no-input POST transport.
 import { createServer } from 'node:net';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { HttpFixture } from '../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../packages/testing/src/scenario.ts';
-import { createClient, ApiError } from '../../packages/contracts/src/client.ts';
+import { HttpFixture } from '../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../shared/testing/src/scenario.ts';
+import { createClient, ApiError } from '../../shared/contracts/src/client.ts';
 const h=new HttpFixture();if(h.config.profile!=='rehearsal')throw new Error('Named rehearsal only');
 const actualFetch=globalThis.fetch;
 globalThis.fetch=async(input,init)=>{const response=await actualFetch(input,init);const path=new URL(String(input)).pathname;if(path.startsWith('/api/auth/')&&!response.ok)console.log(JSON.stringify({auth_path:path,status:response.status}));return response;};

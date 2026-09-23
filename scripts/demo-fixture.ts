@@ -12,10 +12,10 @@
  * from the server exactly as the worker and agent recorded it.
  */
 import { randomUUID } from 'node:crypto';
-import * as S from '../packages/contracts/src/index.ts';
-import { HttpFixture, authenticatorCode } from '../packages/testing/src/http-fixture.ts';
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import * as S from '../shared/contracts/src/index.ts';
+import { HttpFixture, authenticatorCode } from '../shared/testing/src/http-fixture.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 
 const profile = loadProfile();
 if (profile.profile !== 'rehearsal' || process.argv[2] !== 'confirm:rehearsal') {

@@ -4,13 +4,13 @@
 // only when the ledger says every step succeeded.
 import assert from 'node:assert/strict';
 import { randomUUID, generateKeyPairSync, sign } from 'node:crypto';
-import { HttpFixture } from '../../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../../packages/testing/src/scenario.ts';
-import { writeEvidence, safeError } from '../../../packages/testing/src/evidence.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import { canonicalJson } from '../../../packages/contracts/src/crypto.ts';
-import * as S from '../../../packages/contracts/src/index.ts';
+import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
+import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { canonicalJson } from '../../../shared/contracts/src/crypto.ts';
+import * as S from '../../../shared/contracts/src/index.ts';
 
 const h = new HttpFixture();
 const profile = loadProfile();
@@ -59,7 +59,7 @@ const claimsFor = (version: string, overrides: Record<string, unknown> = {}) => 
   audience: 'ORVIA_CUSTOMER_INSTALLATION', minimum_upgradable_from: '0.0.0',
   supported_profiles: ['CUSTOMER_LOCAL_SYNTHETIC'],
   artifact_digest: 'e'.repeat(64), artifact_bytes: 4_000_000,
-  archive: [{ path: 'packages/domain/src/updates/updates.ts', bytes: 12_000 }, { path: 'packages/db/migrations/0026_example.sql', bytes: 3_000 }],
+  archive: [{ path: 'backend/domain/src/updates/updates.ts', bytes: 12_000 }, { path: 'database/customer/migrations/0026_example.sql', bytes: 3_000 }],
   dependencies: [{ name: 'pg', version: '8.16.3', digest: 'f'.repeat(64) }],
   provenance: { source_commit: commit, built_at: builtAt, builder_reference: 'Synthetic build SYN-BLD-0001.', reviewed_by_reference: 'Synthetic review SYN-REV-0001.' },
   migrations: [{ migration: '0026_example', irreversible: false, note: 'Adds a nullable column.' }],

@@ -1,8 +1,8 @@
 // M33 Audit Administration contract invariants (FR-M33-01, FR-M33-03). Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { AuditCategory, AuditCoverage, AuditCoverageEntry, AuditCorrection, AuditCorrectionCreate, AuditEvent, AuditExport, AuditQuery, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { example, uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { AuditCategory, AuditCoverage, AuditCoverageEntry, AuditCorrection, AuditCorrectionCreate, AuditEvent, AuditExport, AuditQuery, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { example, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const coverage = () => structuredClone(example('AuditCoverage')) as Record<string, unknown>;
 const entries = () => coverage().entries as Record<string, unknown>[];

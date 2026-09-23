@@ -2,11 +2,11 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { loadProfile } from '../../packages/testing/src/config.ts';
-import { resetBootstrap } from '../../packages/testing/src/reset.ts';
-import { connectDatabase } from '../../packages/db/src/index.ts';
-import { connectTemporal } from '../../apps/worker/src/probe-client.ts';
-import { writeEvidence,safeError } from '../../packages/testing/src/evidence.ts';
+import { loadProfile } from '../../shared/testing/src/config.ts';
+import { resetBootstrap } from '../../shared/testing/src/reset.ts';
+import { connectDatabase } from '../../database/customer/src/index.ts';
+import { connectTemporal } from '../../services/worker/src/probe-client.ts';
+import { writeEvidence,safeError } from '../../shared/testing/src/evidence.ts';
 const profile=loadProfile();if(profile.profile!=='codex-a00')throw new Error('Only the named Codex fixture profile is permitted');
 const db=connectDatabase(profile).pool,target=connectDatabase({...profile,database:profile.database+'_targets'}).pool;
 const checks:Record<string,unknown>[]=[];let temporal:Awaited<ReturnType<typeof connectTemporal>>|undefined;let owned:string|undefined;
@@ -46,5 +46,5 @@ try{
  await temporal?.connection.close();await Promise.all([db.end(),target.end()]);
  writeEvidence('fixture-isolation',{test_ids:['T28'],profile:profile.profile,checks,result:process.exitCode?'FAIL':'PASS',limitations:['No business data reset; reset refuses A01+ schema. Other lane databases, profiles and networks were not accessed.']});
 }
-import { PROFILES } from '../../packages/contracts/src/index.ts';
+import { PROFILES } from '../../shared/contracts/src/index.ts';
 function loadProfilePorts(name:string){const p=PROFILES[name as keyof typeof PROFILES];return [p.app_port,p.postgres_port,p.opa_port,p.temporal_port,p.temporal_namespace,p.database];}

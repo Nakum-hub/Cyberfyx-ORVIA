@@ -3,11 +3,11 @@ import { spawn } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { once } from 'node:events';
-import { loadProfile } from '../../packages/testing/src/config.ts';
-import { writeEvidence,safeError } from '../../packages/testing/src/evidence.ts';
+import { loadProfile } from '../../shared/testing/src/config.ts';
+import { writeEvidence,safeError } from '../../shared/testing/src/evidence.ts';
 const profile=loadProfile();
-const require=createRequire(new URL('../../apps/web/package.json',import.meta.url));
-const child=spawn(process.execPath,[require.resolve('next/dist/bin/next'),'start','--hostname','127.0.0.1','--port',String(profile.app_port)],{cwd:fileURLToPath(new URL('../../apps/web/',import.meta.url)),windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1'}});
+const require=createRequire(new URL('../../frontend/package.json',import.meta.url));
+const child=spawn(process.execPath,[require.resolve('next/dist/bin/next'),'start','--hostname','127.0.0.1','--port',String(profile.app_port)],{cwd:fileURLToPath(new URL('../../frontend/',import.meta.url)),windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1'}});
 let output='';child.stdout.on('data',chunk=>{output+=chunk;});child.stderr.on('data',chunk=>{output+=chunk;});
 try{
   let healthy=false;

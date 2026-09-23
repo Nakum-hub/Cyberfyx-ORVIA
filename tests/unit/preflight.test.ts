@@ -1,8 +1,8 @@
 // M29 Customer Onboarding preflight invariants (FR-M29-01, FR-M29-02). Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PreflightGate, PreflightGateKind, PreflightReport, PreflightVerdict, routes } from '../../packages/contracts/src/index.ts';
-import { example } from '../../packages/contracts/src/examples.ts';
+import { PreflightGate, PreflightGateKind, PreflightReport, PreflightVerdict, routes } from '../../shared/contracts/src/index.ts';
+import { example } from '../../shared/contracts/src/examples.ts';
 
 const report = () => structuredClone(example('PreflightReport')) as Record<string, unknown>;
 const gates = () => report().gates as Record<string, unknown>[];

@@ -3,12 +3,12 @@
 // never summable, gaps come from real rows, and guidance closes nothing.
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { HttpFixture } from '../../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../../packages/testing/src/scenario.ts';
-import { writeEvidence, safeError } from '../../../packages/testing/src/evidence.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import * as S from '../../../packages/contracts/src/index.ts';
+import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
+import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import * as S from '../../../shared/contracts/src/index.ts';
 
 const h = new HttpFixture();
 const profile = loadProfile();

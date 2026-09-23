@@ -3,7 +3,7 @@ import { mkdtempSync,mkdirSync,readFileSync,writeFileSync } from 'node:fs';
 import { dirname,resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { sourceState } from './source-state.ts';
-import { writeEvidence } from '../packages/testing/src/evidence.ts';
+import { writeEvidence } from '../shared/testing/src/evidence.ts';
 const source=sourceState();
 const image='orvia-local:prototype';
 // Only enumerated Git candidate source enters the local build context. Ignored

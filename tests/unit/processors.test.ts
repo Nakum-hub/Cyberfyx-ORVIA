@@ -1,8 +1,8 @@
 // WP16 / M16 contract invariants. Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Assessment, CoordinationRecord, Finding, FindingClosure, ProcessorStanding, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { Assessment, CoordinationRecord, Finding, FindingClosure, ProcessorStanding, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const base = { processor_id: uuid(600), subject: 'Withdrawal propagation', note: 'Recorded.' };
 

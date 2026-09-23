@@ -1,5 +1,5 @@
 import { test, expect, loginUi, grantUi, withdrawUi, expectPageError } from './fixture.ts';
-import { schemas } from '../../packages/contracts/src/index.ts';
+import { schemas } from '../../shared/contracts/src/index.ts';
 
 test('B06 branded route fallback, session-aware navigation and captured page errors',async({page,h})=>{
   // F-06: an unmatched route stays HTTP 404 but is presented inside the product.

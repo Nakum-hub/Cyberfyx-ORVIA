@@ -25,8 +25,8 @@ import { promisify } from 'node:util';
 import { randomUUID } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { writeEvidence } from '../packages/testing/src/evidence.ts';
-import { loadProfile } from '../packages/testing/src/config.ts';
+import { writeEvidence } from '../shared/testing/src/evidence.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
 
 const run = promisify(execFile);
 const profile = loadProfile();

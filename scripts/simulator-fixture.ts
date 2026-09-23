@@ -1,7 +1,7 @@
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
-import { Id } from '../packages/contracts/src/index.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
+import { Id } from '../shared/contracts/src/index.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 const profile=loadProfile();if(process.argv[2]!==`confirm:${profile.profile}`)throw new Error('Named synthetic profile confirmation required');
 const resource=Id.parse(process.argv[3]);const mode=process.argv[4];const read=process.argv[5];
 if(!['HEALTHY','UNAVAILABLE','APPLY_THEN_TIMEOUT','ACK_WITHOUT_EFFECT'].includes(mode??'')||!['read','deny-read'].includes(read??''))throw new Error('Allowlisted mode and read state required');

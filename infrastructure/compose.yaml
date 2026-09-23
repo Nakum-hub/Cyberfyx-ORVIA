@@ -19,7 +19,7 @@ services:
   opa:
     image: openpolicyagent/opa@sha256:2de1e6619246955695b982d0bcb6c73bcee22aa34ff96f2455996616ec1d21c1
     command: ['run', '--server', '--addr=0.0.0.0:8181', '--skip-version-check', '/policy']
-    volumes: ['../policy:/policy:ro']
+    volumes: ['../backend/policy:/policy:ro']
     networks: [private]
     read_only: true
     cap_drop: [ALL]

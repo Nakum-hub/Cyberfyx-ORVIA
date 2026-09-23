@@ -4,15 +4,15 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { HttpFixture } from '../../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../../packages/testing/src/scenario.ts';
-import { safeError,writeEvidence } from '../../../packages/testing/src/evidence.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
-import { senderEnrollment,agentEnrollment } from '../../../packages/auth/src/machine-profile.ts';
-import { servicePool } from '../../../packages/auth/src/machine.ts';
-import { SendRequest,SendResult,Decision,CONTRACT_VERSION } from '../../../packages/contracts/src/index.ts';
-import { enqueue,drain } from '../../../apps/demo-targets/src/sender.ts';
+import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
+import { safeError,writeEvidence } from '../../../shared/testing/src/evidence.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { senderEnrollment,agentEnrollment } from '../../../backend/auth/src/machine-profile.ts';
+import { servicePool } from '../../../backend/auth/src/machine.ts';
+import { SendRequest,SendResult,Decision,CONTRACT_VERSION } from '../../../shared/contracts/src/index.ts';
+import { enqueue,drain } from '../../../services/synthetic-target/src/sender.ts';
 
 const h=new HttpFixture();const config=h.config;const db=connectDatabase(loadProfile()).pool;
 if(!['codex-a00','rehearsal'].includes(config.profile))throw new Error('Only isolated codex-a00/rehearsal permitted');
@@ -74,7 +74,7 @@ try {
  const policies=await (await fetch(opa+'/v1/policies')).json() as {result:{id:string}[]};
  const policy=policies.result.find(p=>p.id.includes('processing')&&p.id.endsWith('decision.rego'));
  if(!policy)throw new Error('Actual processing policy module not found');const url=opa+'/v1/policies/'+policy.id;
- const original=readFileSync('policy/processing/decision.rego','utf8');
+ const original=readFileSync('backend/policy/processing/decision.rego','utf8');
  try {
   check('remove actual policy module for missing-result fixture',(await fetch(url,{method:'DELETE'})).status,200);
   const missing=fresh();check('missing OPA result is indeterminate',(await result(missing)).decision,'INDETERMINATE');check('missing OPA creates no send',await count(missing.attempt_id),0);
@@ -89,4 +89,4 @@ try {
  const recovered=await waitForPolicy(url);
  check('OPA recovered',recovered,true);check('recovered policy still blocks withdrawal',(await result(fresh())).decision,'BLOCK');
 }catch(error){console.error({...safeError(error),message:error instanceof Error&&/^(Synthetic|Assertion|Actual)/.test(error.message)?error.message:undefined,cause:safeError(error instanceof Error?error.cause:undefined),sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(h.diagnostics);process.exitCode=1;}
-finally{await h.stop();await db.end();await sender?.end();writeEvidence('send-enforcement',{test_ids:['T14','T15','T16'],profile:config.profile,contract_version:CONTRACT_VERSION,build_id:readFileSync('apps/web/.next/BUILD_ID','utf8').trim(),assertions,result:process.exitCode?'FAIL':'PASS',limitations:['Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06.']});}
+finally{await h.stop();await db.end();await sender?.end();writeEvidence('send-enforcement',{test_ids:['T14','T15','T16'],profile:config.profile,contract_version:CONTRACT_VERSION,build_id:readFileSync('frontend/.next/BUILD_ID','utf8').trim(),assertions,result:process.exitCode?'FAIL':'PASS',limitations:['Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06.']});}

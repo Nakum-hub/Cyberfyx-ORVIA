@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 $taskRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $taskRoot
-if (Test-Path -LiteralPath '.local/profiles/rehearsal') { throw 'Rehearsal already exists; preserve it and use the explicit resume commands in A07-PACKAGE.md.' }
+if (Test-Path -LiteralPath '.local/profiles/rehearsal') { throw 'Rehearsal already exists; preserve it and use the explicit resume commands in local-packaging-and-operation.md.' }
 $env:ORVIA_PROFILE = 'rehearsal'
 $env:ORVIA_TASK_ID = 'A07'
 & "$PSScriptRoot/bootstrap-tools.ps1"
@@ -28,4 +28,4 @@ Invoke-Orvia @('regression:init','confirm:rehearsal')
 Invoke-Orvia @('contracts:check')
 Invoke-Orvia @('build')
 Invoke-Orvia @('test:tls')
-Write-Output 'Fresh rehearsal setup complete. Credentials and TLS material remain in protected .local/profiles/rehearsal. Read docs/engineering/A07-PACKAGE.md for tested commands and current limits.'
+Write-Output 'Fresh rehearsal setup complete. Credentials and TLS material remain in protected .local/profiles/rehearsal. Read docs/engineering/local-packaging-and-operation.md for tested commands and current limits.'

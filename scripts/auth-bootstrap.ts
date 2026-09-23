@@ -1,10 +1,10 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { hashPassword } from '../packages/auth/src/bootstrap-password.ts';
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import { hashPassword } from '../backend/auth/src/bootstrap-password.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 import { privateDirectory, writePrivateJson } from './local-private.ts';
 
 export type FixtureUser = { id: string; email: string; password: string; domain: 'staff' | 'principal'; role: string; principal_id?: string; totp_uri?: string; scope: { tenant_id: string; legal_entity_id: string; environment_id: string } };

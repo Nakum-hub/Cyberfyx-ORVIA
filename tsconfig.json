@@ -7,6 +7,6 @@
     "skipLibCheck": true, "noEmit": true, "jsx": "react-jsx",
     "types": ["node"], "forceConsistentCasingInFileNames": true
   },
-  "include": ["packages/**/*.ts", "apps/**/*.ts", "apps/**/*.tsx", "scripts/**/*.ts", "tests/**/*.ts"],
+  "include": ["frontend/**/*.ts", "frontend/**/*.tsx", "backend/**/*.ts", "database/**/*.ts", "connectors/**/*.ts", "shared/**/*.ts", "services/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules", "**/.next", ".local", "**/dist"]
 }

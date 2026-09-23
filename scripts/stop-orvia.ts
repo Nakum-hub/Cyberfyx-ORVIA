@@ -14,11 +14,11 @@ process.env.ORVIA_PROFILE = PROFILE;
 
 try {
   const run = supervisorRun();
-  if (run && !supervisorAlive(run)) throw new OperatorError('A stale ORVIA supervisor journal requires inspection.', 'No arbitrary process is stopped and the journal is not deleted automatically.\n\nInspect .local/profiles/rehearsal/supervisor/run.json and follow docs/engineering/A07-PACKAGE.md.');
+  if (run && !supervisorAlive(run)) throw new OperatorError('A stale ORVIA supervisor journal requires inspection.', 'No arbitrary process is stopped and the journal is not deleted automatically.\n\nInspect .local/profiles/rehearsal/supervisor/run.json and follow docs/engineering/local-packaging-and-operation.md.');
   if (run) {
     stage('Stopping the application (web, worker, agent)...');
     const stopped = await runScript('scripts/app-stop.ts', [`confirm:${PROFILE}`], { quiet: true });
-    if (stopped.code !== 0) { process.stdout.write(stopped.output); throw new OperatorError('The application supervisor did not acknowledge the stop request.', 'No process was force-terminated and no store was removed.\n\nInspect the protected supervisor journal and the running processes, then see:\n  docs/engineering/A07-PACKAGE.md'); }
+    if (stopped.code !== 0) { process.stdout.write(stopped.output); throw new OperatorError('The application supervisor did not acknowledge the stop request.', 'No process was force-terminated and no store was removed.\n\nInspect the protected supervisor journal and the running processes, then see:\n  docs/engineering/local-packaging-and-operation.md'); }
     process.stdout.write('  ok   Application stopped\n');
   } else process.stdout.write('  ok   No ORVIA application supervisor is running\n');
 

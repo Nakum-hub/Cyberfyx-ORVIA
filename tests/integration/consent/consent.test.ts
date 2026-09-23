@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import * as S from '../../../packages/contracts/src/index.ts';
-import { HttpFixture, authenticatorCode } from '../../../packages/testing/src/http-fixture.ts';
-import { writeEvidence, safeError } from '../../../packages/testing/src/evidence.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import { runtimePool, scopedTransaction } from '../../../packages/db/src/runtime.ts';
-import { authorityFor } from '../../../packages/authz/src/index.ts';
-import { createAuth } from '../../../packages/auth/src/server.ts';
-import { changeConsent } from '../../../packages/domain/src/consent/consent.ts';
-import { idempotent } from '../../../packages/domain/src/shared/transaction.ts';
+import * as S from '../../../shared/contracts/src/index.ts';
+import { HttpFixture, authenticatorCode } from '../../../shared/testing/src/http-fixture.ts';
+import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { runtimePool, scopedTransaction } from '../../../database/customer/src/runtime.ts';
+import { authorityFor } from '../../../backend/authorization/src/index.ts';
+import { createAuth } from '../../../backend/auth/src/server.ts';
+import { changeConsent } from '../../../backend/domain/src/consent/consent.ts';
+import { idempotent } from '../../../backend/domain/src/shared/transaction.ts';
 
 const harness=new HttpFixture();const config=harness.config;
 const adminDb=connectDatabase(loadProfile()).pool;const app=runtimePool(config,'orvia_app');

@@ -1,8 +1,8 @@
 // WP17 / M17 contract invariants. Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Incident, IncidentCreate, NotificationObligation, NotificationTransition, ObligationRuleCreate, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { Incident, IncidentCreate, NotificationObligation, NotificationTransition, ObligationRuleCreate, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const t = (hours: number) => new Date(Date.parse(sampleTime) + hours * 3_600_000).toISOString();
 const create = {

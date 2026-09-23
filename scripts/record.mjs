@@ -13,7 +13,7 @@ const git = args => spawnSync('git', args, { cwd: root, encoding: 'utf8', window
 const files = qualifiedSourcePaths(git(['ls-files','--cached'])).filter(existsSync);
 const source = files.map(path => ({path,sha256:sha(readFileSync(path))}));
 const dirty = qualifiedDirty(git(['status','--porcelain','--untracked-files=all']));
-const contractVersion = JSON.parse(readFileSync('packages/contracts/package.json','utf8')).version;
+const contractVersion = JSON.parse(readFileSync('shared/contracts/package.json','utf8')).version;
 const started = new Date().toISOString();
 const ticket = process.env.ORVIA_TASK_ID ?? 'A00';
 if (!/^A0[0-7]$/.test(ticket)) throw new Error('Invalid evidence task');

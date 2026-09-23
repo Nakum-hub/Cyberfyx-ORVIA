@@ -3,11 +3,11 @@
 // cannot check says so rather than passing, and the report cannot be read as a
 // clearance to go live.
 import assert from 'node:assert/strict';
-import { HttpFixture } from '../../../packages/testing/src/http-fixture.ts';
-import { writeEvidence, safeError } from '../../../packages/testing/src/evidence.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import * as S from '../../../packages/contracts/src/index.ts';
+import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import * as S from '../../../shared/contracts/src/index.ts';
 
 const h = new HttpFixture();
 const profile = loadProfile();

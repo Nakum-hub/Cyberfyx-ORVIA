@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { generateKeyPairSync,createPublicKey } from 'node:crypto';
-import signatureVector from '../../packages/contracts/fixtures/command-vector.json' with { type:'json' };
-import { canonicalJson,digest,signCommand,verifyCommand } from '../../packages/contracts/src/crypto.ts';
-import { examplePayload,exampleReceipt,receiptReplayExample,uuid,sampleTime } from '../../packages/contracts/src/examples.ts';
-import { schemas } from '../../packages/contracts/src/index.ts';
-import { createClient,ApiError } from '../../packages/contracts/src/client.ts';
-import { obligationSatisfied,workflowCompletion,assertReconciliationTransition } from '../../packages/domain/src/shared/completion.ts';
+import signatureVector from '../../shared/contracts/fixtures/command-vector.json' with { type:'json' };
+import { canonicalJson,digest,signCommand,verifyCommand } from '../../shared/contracts/src/crypto.ts';
+import { examplePayload,exampleReceipt,receiptReplayExample,uuid,sampleTime } from '../../shared/contracts/src/examples.ts';
+import { schemas } from '../../shared/contracts/src/index.ts';
+import { createClient,ApiError } from '../../shared/contracts/src/client.ts';
+import { obligationSatisfied,workflowCompletion,assertReconciliationTransition } from '../../backend/domain/src/shared/completion.ts';
 
 test('canonical digest is order-independent for objects and strict for unsupported values',()=>{
   assert.equal(canonicalJson({b:2,a:[true,null,1]}),'{"a":[true,null,1],"b":2}');

@@ -7,7 +7,7 @@
 
 **Implementation checkpoint:** Work accepts A01 at `50cb4daeded9253c4f7cca4f742cb212c10aa5b7`; see [W01 authority review](../reviews/work/AUTH_AND_CONSENT.md). Auth mounts, session and principal list/create now join health as implemented interfaces. This updates implementation status only; contract semantics remain 0.2.1 and W01 awaits A02.
 
-A00 supplies canonical executable Zod schemas and generated OpenAPI/client types/examples in `packages/contracts/`. Consume those exact artifacts and [the coordinated producer proposal](../engineering/A00-CONTRACT-PROPOSAL.md). Do not maintain duplicate UI DTOs or invent endpoints. Producer-generated PENDING_W00 labels describe submission state; the exact acceptance above governs this version. Codex owns metadata refresh and the accepted seed; future semantic changes require coordinated versioning and retest.
+A00 supplies canonical executable Zod schemas and generated OpenAPI/client types/examples in `shared/contracts/`. Consume those exact artifacts and [the coordinated producer proposal](../engineering/executable-contract-proposal.md). Do not maintain duplicate UI DTOs or invent endpoints. Producer-generated PENDING_W00 labels describe submission state; the exact acceptance above governs this version. Codex owns metadata refresh and the accepted seed; future semantic changes require coordinated versioning and retest.
 
 ## 1. Names, scope and identity
 
@@ -134,7 +134,7 @@ Reset requires a named synthetic deployment/namespace, explicit confirmation, an
 
 ## 10. A02 candidate 0.3.0 — correction pending
 
-Producer change [A02-C01](../engineering/A02-CONTRACT-CHANGE.md) supplies the canonical schema/consumer handoff. Work accepts the need for these bounded interfaces; this is not candidate acceptance or a transfer of schema-writing ownership.
+Producer change [A02-C01](../engineering/contract-change-history.md) supplies the canonical schema/consumer handoff. Work accepts the need for these bounded interfaces; this is not candidate acceptance or a transfer of schema-writing ownership.
 
 | Added route | Candidate meaning / required boundary |
 |---|---|

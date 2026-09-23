@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { loadProfile } from '../packages/testing/src/config.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
 const action = process.argv[2];
 const allowed = { pull:['pull'], up:['up','-d'], stop:['stop'], status:['ps'], restart:['restart'], config:['config','--quiet'] } as const;
 if (!action || !(action in allowed)) throw new Error('Use pull, up, stop, status, restart or config; volume deletion is not exposed');

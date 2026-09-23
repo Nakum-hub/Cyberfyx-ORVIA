@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import {
   DiagnosticCode, IncidentSeverity, IncidentState, SupportSubject,
   VendorDisclosure, VendorVisibility, routes, schemas,
-} from '../../packages/contracts/src/index.ts';
-import { example } from '../../packages/contracts/src/examples.ts';
+} from '../../shared/contracts/src/index.ts';
+import { example } from '../../shared/contracts/src/examples.ts';
 
 const report = () => structuredClone(example('VendorVisibility')) as Record<string, unknown>;
 const disclosures = () => report().disclosures as Record<string, unknown>[];

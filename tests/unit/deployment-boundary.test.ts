@@ -21,7 +21,7 @@
 // instead of passing review.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { AuditActorDomain, Capability, routes } from '../../packages/contracts/src/index.ts';
+import { AuditActorDomain, Capability, routes } from '../../shared/contracts/src/index.ts';
 import capabilities from '../../tracking/capabilities.json' with { type: 'json' };
 
 /** §658, §3796: commercial administration is ORVIA Account, on the website. */

@@ -1,8 +1,11 @@
 # Deterministic generated contracts and SQL checksums across isolated worktrees.
-packages/contracts/generated/** text eol=lf
-packages/contracts/fixtures/** text eol=lf
+shared/contracts/generated/** text eol=lf
+shared/contracts/fixtures/** text eol=lf
 tracking/contract_seed.json text eol=lf
-packages/db/migrations/** text eol=lf
+# The capability register is historically committed with CRLF; keep path-only
+# evidence updates reviewable without treating each CR as trailing whitespace.
+tracking/capabilities.json whitespace=cr-at-eol
+database/customer/migrations/** text eol=lf
 # Raw terminal evidence retains CR/progress whitespace exactly as captured.
 handoffs/codex/artifacts/*.log -text -whitespace
 # Approved original: preserve source bytes, including original formatting.

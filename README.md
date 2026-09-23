@@ -30,6 +30,20 @@ consent."* ORVIA is designed to answer the harder questions that follow:
 ORVIA makes no legal or compliance claim. It records what was decided, what was done,
 what was observed, and what remains unresolved.
 
+### Find the code
+
+| Responsibility | Start here |
+|---|---|
+| Staff and principal frontend | [`frontend/src/app`](frontend/src/app) for routes; [`frontend/src/components/screens`](frontend/src/components/screens) for screens grouped into controls, governance, onboarding and operations; [`frontend/src/components/shared`](frontend/src/components/shared) for reused UI and browser API hooks |
+| API request boundary | [`backend/api/src/business.ts`](backend/api/src/business.ts), with domain handlers under `backend/domain` |
+| Domain behavior | [`backend/domain/src`](backend/domain/src), grouped by business capability; [`backend/privacy-control/src`](backend/privacy-control/src) for decision and send admission |
+| Database | [`database/customer/migrations`](database/customer/migrations) for ordered customer schema changes; [`database/customer/src`](database/customer/src) for runtime access |
+| Connector and synthetic target | [`connectors/src`](connectors/src) and [`services/synthetic-target`](services/synthetic-target); the CRM adapter is synthetic |
+| Worker and restricted agent | [`services/worker/src`](services/worker/src) and [`services/agent/src`](services/agent/src) |
+| Tests and operations | [`tests`](tests), [`scripts`](scripts), [`infrastructure`](infrastructure), and the [engineering document index](docs/engineering/README.md) |
+
+The `handoffs/` and review artifacts preserve task and acceptance history; their A00/A01-style identifiers are evidence identifiers, not maintained source module names. Migration numbers preserve applied database order.
+
 ---
 
 ## 2. Quick Start
@@ -59,7 +73,7 @@ npm run setup   # explicit one-time installation (npm start does this automatica
 locally during setup and stay in the protected, git-ignored `.local/profiles/rehearsal`
 directory. No command in this repository prints them, and they must never be committed
 or shared. The operator reads them locally from the protected profile; see
-[A07 package instructions](docs/engineering/A07-PACKAGE.md).
+[A07 package instructions](docs/engineering/local-packaging-and-operation.md).
 
 **The local certificate is a private, one-use CA.** Trusting it in a browser is a
 deliberate, reversible human decision, documented in the operator guidance. Never click
@@ -458,56 +472,30 @@ The complete browser qualification runs under the established Playwright harness
 ## 17. Repository structure
 
 ```
-apps/
-  web/            Staff Workspace + Privacy Centre (Next.js App Router; thin route
-                   adapters only — request handling lives in packages/backend)
-                    src/app/            Routes, layouts; app/api/**/route.ts call @orvia/backend
-                    src/components/screens/  Full-page screen content (one file per screen area)
-                    src/components/shared/   Generic UI kit, API/query hooks, session context, nav shell
-  worker/         Durable Temporal workflow execution
-  agent/          Restricted, signed target execution
-  demo-targets/   Synthetic CRM target schema
-
-packages/
-  auth/           Sessions, MFA, machine identity and enrollment
-  authz/          Capability checks against OPA decisions
-  backend/        Backend request handlers for apps/web's API routes (business rules,
-                   machine/service auth boundary, session, admin, HTTP/audit wrapper).
-                   src/synthetic/ holds the synthetic demo CRM's own route handler and
-                   its TargetObserver adapter — isolated so a real connector's adapter
-                   can be added there later without touching privacy-control's logic.
-  contracts/      Generated API contracts and shared types
-  db/             Schema, migrations and row-level security
-  domain/         Business logic, one sub-module per domain concern:
-                    src/shared/         Cross-cutting primitives (transactional outbox, workflow-completion semantics)
-                    src/consent/        Grant, withdraw, receipts, epoch
-                    src/configuration/  Purposes, notices, systems, policy publication
-                    src/workflow/       Durable withdrawal workflow and signed action delivery
-                    src/evidence/       Evidence timeline, failures, capabilities, reconciliation
-                    src/test-runs/      Test Lab / privacy regression runs
-                  Future domain modules (DSR, retention, processors, incidents, ...) get
-                  their own sibling folder under src/ — never merged into an existing
-                  module's folder. Policy/control evaluation is its own bounded package,
-                  packages/privacy-control/, not a domain sub-module (see below).
-  privacy-control/  Policy and control evaluation — policy preview and send-admission
-                   control (moved out of packages/domain/src/processing/ 2026-09-19 as
-                   the first bounded feature module). Depends only on a TargetObserver
-                   adapter contract for independent target reads, never on a specific
-                   connector; packages/backend/src/synthetic/ supplies today's (synthetic)
-                   implementation of that adapter.
-  connectors/     Target adapters, one sub-module per connector:
-                    src/shared/         Cross-connector primitives (scoped target transaction)
-                    src/crm-synthetic/  The synthetic demo CRM connector (Test Lab / regression target)
-                  A real connector gets its own sibling folder under src/, e.g. src/<system-name>/.
-  policy-sdk/     Policy decision client
-  testing/        Profiles, evidence recording and safe error reporting
-
-policy/           OPA policies (bootstrap, admin authorization, processing decision)
-scripts/          Local operation, lifecycle, packaging and qualification commands
-tests/            unit / integration / security / e2e (Playwright)
-docs/             Architecture, prototype, engineering, review and operator docs
-tracking/         Capability, task and acceptance state
-infrastructure/   Docker Compose definition, digest-pinned
+frontend/               Next.js staff workspace and principal portal
+backend/
+  api/                  Request handlers and server-side authority boundary
+  auth/                 Sessions, MFA and machine identity
+  authorization/        Capability checks and policy decisions
+  domain/               Business modules grouped by capability
+  privacy-control/      Policy evaluation and send admission
+  policy-sdk/           Policy decision client
+  policy/               OPA policy files
+database/
+  customer/             Customer schema, migrations and runtime access
+connectors/             Scoped target adapters
+services/
+  worker/               Durable workflow execution
+  agent/                Restricted signed target execution
+  synthetic-target/     Synthetic CRM schema and demo target
+shared/
+  contracts/            Canonical schemas, generated API types and examples
+  testing/              Test profiles and evidence helpers
+scripts/                Local operations and qualification commands
+tests/                  Unit, integration, security and browser tests
+infrastructure/         Container and deployment configuration
+docs/                   Product, engineering and operator documentation
+tracking/               Capability, task and acceptance state
 ```
 
 ---
@@ -564,7 +552,7 @@ demonstrable claim is held in
 |---|---|
 | [`CURRENT_STATE.md`](CURRENT_STATE.md) | Authoritative current candidate, evidence and open gates |
 | [`docs/prototype/FULL_ORVIA_COVERAGE.md`](docs/prototype/FULL_ORVIA_COVERAGE.md) | 218-section master coverage mapping and methodology |
-| [`docs/engineering/A07-PACKAGE.md`](docs/engineering/A07-PACKAGE.md) | Engineering setup, lifecycle and packaging commands |
+| [`docs/engineering/local-packaging-and-operation.md`](docs/engineering/local-packaging-and-operation.md) | Engineering setup, lifecycle and packaging commands |
 | [`docs/demo/CLAIMS_REGISTER.md`](docs/demo/CLAIMS_REGISTER.md) | What may and may not be claimed, and the required limitations |
 | [`tracking/capabilities.json`](tracking/capabilities.json) | Live capability register: every module, its target depth and its actual status |
 | [`README_START_HERE.md`](README_START_HERE.md) | Sprint execution kit and source precedence |

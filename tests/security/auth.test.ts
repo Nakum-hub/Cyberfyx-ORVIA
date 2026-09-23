@@ -5,14 +5,14 @@ import { resolve } from 'node:path';
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { webProcess } from '../../scripts/web-process.ts';
 import { once } from 'node:events';
-import { runtimeConfig } from '../../packages/auth/src/config.ts';
-import { createAuth } from '../../packages/auth/src/server.ts';
-import { authorityFor, requireCapability, AccessError } from '../../packages/authz/src/index.ts';
-import { runtimePool, scopedTransaction } from '../../packages/db/src/runtime.ts';
-import { connectDatabase } from '../../packages/db/src/index.ts';
-import { loadProfile } from '../../packages/testing/src/config.ts';
-import { writeEvidence, safeError } from '../../packages/testing/src/evidence.ts';
-import { Session, schemas } from '../../packages/contracts/src/index.ts';
+import { runtimeConfig } from '../../backend/auth/src/config.ts';
+import { createAuth } from '../../backend/auth/src/server.ts';
+import { authorityFor, requireCapability, AccessError } from '../../backend/authorization/src/index.ts';
+import { runtimePool, scopedTransaction } from '../../database/customer/src/runtime.ts';
+import { connectDatabase } from '../../database/customer/src/index.ts';
+import { loadProfile } from '../../shared/testing/src/config.ts';
+import { writeEvidence, safeError } from '../../shared/testing/src/evidence.ts';
+import { Session, schemas } from '../../shared/contracts/src/index.ts';
 import type { AuthFixture, FixtureUser } from '../../scripts/auth-bootstrap.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
 
@@ -205,7 +205,7 @@ try {
   check('revoked cookie rejected',(await fetch(config.origin+'/api/v1/session',{headers:{cookie:revokedCookie}})).status,401);
   const aliceCookie=alice.header();check('principal logout succeeds',(await alice.call('/api/auth/principal/sign-out',{})).status,200);
   check('logged-out principal cookie rejected',(await fetch(config.origin+'/api/v1/session',{headers:{cookie:aliceCookie}})).status,401);
-  writeEvidence('auth-security',{result:'PASS',test_ids:['T02','T03','T04','T05','T27'],profile:config.profile,origin:config.origin,fixture_id:fixture.fixture_id,build_id:readFileSync('apps/web/.next/BUILD_ID','utf8').trim(),assertions,
+  writeEvidence('auth-security',{result:'PASS',test_ids:['T02','T03','T04','T05','T27'],profile:config.profile,origin:config.origin,fixture_id:fixture.fixture_id,build_id:readFileSync('frontend/.next/BUILD_ID','utf8').trim(),assertions,
     limitations:['This suite covers API/database authentication and authority; other suites cover consent, workflows, exports and runtime egress. Browser flows are not covered here.',config.profile==='rehearsal'?'Verified HTTPS rehearsal with per-process local CA trust; OS/browser trust is not installed.':'HTTP loopback development; TLS is not qualified in this profile.']});
 } catch(error) {
   console.error(safeError(error));

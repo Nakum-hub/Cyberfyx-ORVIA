@@ -43,7 +43,7 @@ At the documentation base, the application has only the A00 foundation page and 
 
 Staff credentials are generated per installation and held by the human operator. None are written in the repository or in chat.
 
-**Engineering names from A00** (`docs/engineering/A00-LOCAL-DEVELOPMENT.md`):
+**Engineering names from A00** (`docs/engineering/local-development.md`):
 
 | Item | Name | State at the r4 inspected base |
 |---|---|---|

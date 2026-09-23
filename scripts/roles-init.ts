@@ -3,12 +3,12 @@
 import { existsSync,readFileSync,writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
-import { runtimeRoles } from '../packages/auth/src/config.ts';
-import { serviceRoles } from '../packages/auth/src/machine.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
+import { runtimeRoles } from '../backend/auth/src/config.ts';
+import { serviceRoles } from '../backend/auth/src/machine.ts';
 import { privateDirectory } from './local-private.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 const profile=loadProfile();
 if(process.argv[2]!==`confirm:${profile.profile}`)throw new Error('Named synthetic profile confirmation required');
 const folders={orvia_worker:'worker',orvia_agent_control:'agent',orvia_machine_auth:'machine-auth',orvia_target_agent:'agent',orvia_target_observer:'observer',orvia_sender:'sender'} as const;

@@ -1,8 +1,8 @@
 import { test, expect, loginUi, withdrawUi } from './fixture.ts';
-import { schemas } from '../../packages/contracts/src/index.ts';
+import { schemas } from '../../shared/contracts/src/index.ts';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { digest } from '../../packages/contracts/src/crypto.ts';
+import { digest } from '../../shared/contracts/src/crypto.ts';
 
 test('B03 real target effect, independent read, workflow persistence and evidence export',async({page,browser,h})=>{
   const scenario=await h.scenario();await scenario.change('grant');await loginUi(page,h,'owner');const principal=await browser.newContext();const stop=await h.workers();

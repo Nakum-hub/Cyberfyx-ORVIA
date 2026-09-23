@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import {
   AuditCategory, AuditRetentionLine, AuditRetentionPurpose, AuditRetentionReport,
   AuditRetentionRuleCreate, routes, schemas,
-} from '../../packages/contracts/src/index.ts';
-import { example, sampleTime } from '../../packages/contracts/src/examples.ts';
+} from '../../shared/contracts/src/index.ts';
+import { example, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const report = () => structuredClone(example('AuditRetentionReport')) as Record<string, unknown>;
 const lines = () => report().lines as Record<string, unknown>[];

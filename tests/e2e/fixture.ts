@@ -5,11 +5,11 @@ import { promisify } from 'node:util';
 import { createServer } from 'node:net';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { HttpFixture, authenticatorCode } from '../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../packages/testing/src/scenario.ts';
-import { connectDatabase } from '../../packages/db/src/index.ts';
-import { loadProfile } from '../../packages/testing/src/config.ts';
-import { waitForAuthWindow } from '../../packages/testing/src/auth-window.ts';
+import { HttpFixture, authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../shared/testing/src/scenario.ts';
+import { connectDatabase } from '../../database/customer/src/index.ts';
+import { loadProfile } from '../../shared/testing/src/config.ts';
+import { waitForAuthWindow } from '../../shared/testing/src/auth-window.ts';
 import { webProcess } from '../../scripts/web-process.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
 import type { AuthFixture } from '../../scripts/auth-bootstrap.ts';
@@ -42,7 +42,7 @@ export class BrowserHarness extends HttpFixture {
   async stop(){const failures:unknown[]=[];for(const child of [...this.processes].reverse())try{await this.stopProcess(child);}catch(error){failures.push(error);}if(failures.length)throw new AggregateError(failures,'Owned browser fixture cleanup failed');}
   async cli(file:string,args:string[]=[]){await exec(process.execPath,['--import','tsx',file,'confirm:rehearsal',...args],{windowsHide:true,timeout:120000,env:process.env});}
   scenario(connector:'SYNTHETIC_CRM'|'ORVIA_REST_SIMULATOR'|'LEGACY_MANUAL'='SYNTHETIC_CRM',required=true){return createMarketingScenario(this,connector,'promotional_marketing',required);}
-  async workers(){await this.cli('scripts/machine-init.ts');const worker=this.startProcess(['--import','tsx','apps/worker/src/main.ts']);const agent=this.startProcess(['--import','tsx','apps/agent/src/main.ts']);return async()=>{await this.stopProcess(agent);await this.stopProcess(worker);};}
+  async workers(){await this.cli('scripts/machine-init.ts');const worker=this.startProcess(['--import','tsx','services/worker/src/main.ts']);const agent=this.startProcess(['--import','tsx','services/agent/src/main.ts']);return async()=>{await this.stopProcess(agent);await this.stopProcess(worker);};}
   async screenshot(page:Page,name:string){await page.screenshot({path:resolve(this.publicDirectory,name+'.png'),fullPage:false});}
 }
 

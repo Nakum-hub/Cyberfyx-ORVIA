@@ -1,12 +1,12 @@
 import { randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { HttpFixture } from '../packages/testing/src/http-fixture.ts';
-import { waitForAuthWindow } from '../packages/testing/src/auth-window.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { TestRun,Evidence } from '../packages/contracts/src/index.ts';
-import { writeEvidence,safeError } from '../packages/testing/src/evidence.ts';
+import { HttpFixture } from '../shared/testing/src/http-fixture.ts';
+import { waitForAuthWindow } from '../shared/testing/src/auth-window.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { TestRun,Evidence } from '../shared/contracts/src/index.ts';
+import { writeEvidence,safeError } from '../shared/testing/src/evidence.ts';
 const p=loadProfile();if(p.profile!=='rehearsal'||process.argv[2]!=='confirm:rehearsal')throw new Error('Named rehearsal demo required');
 const scenario=process.argv[3]??'MARKETING_WITHDRAWAL_HEALTHY';if(!['MARKETING_WITHDRAWAL_HEALTHY','MARKETING_WITHDRAWAL_BROKEN_CONTROL','TARGET_RESTORE_QUARANTINE'].includes(scenario))throw new Error('Allowlisted synthetic scenario required');
 const h=new HttpFixture();const db=connectDatabase(p).pool;

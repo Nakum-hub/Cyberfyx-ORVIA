@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import { randomBytes,randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { connectDatabase,bootstrapProbes } from '../../packages/db/src/index.ts';
-import { loadProfile } from '../../packages/testing/src/config.ts';
-import { writeEvidence,safeError } from '../../packages/testing/src/evidence.ts';
-import { resetBootstrap } from '../../packages/testing/src/reset.ts';
-import { connectTemporal } from '../../apps/worker/src/probe-client.ts';
-import { createProbeWorker } from '../../apps/worker/src/probe-worker.ts';
+import { connectDatabase,bootstrapProbes } from '../../database/customer/src/index.ts';
+import { loadProfile } from '../../shared/testing/src/config.ts';
+import { writeEvidence,safeError } from '../../shared/testing/src/evidence.ts';
+import { resetBootstrap } from '../../shared/testing/src/reset.ts';
+import { connectTemporal } from '../../services/worker/src/probe-client.ts';
+import { createProbeWorker } from '../../services/worker/src/probe-worker.ts';
 
 const profile=loadProfile();
 const id=randomUUID(),marker=`syn_probe_${randomBytes(16).toString('hex')}`;
