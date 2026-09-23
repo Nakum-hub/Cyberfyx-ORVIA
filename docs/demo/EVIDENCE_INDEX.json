@@ -4,18 +4,18 @@
   "owner_lane": "Work",
   "status": "DRAFT_FOR_REVIEW",
   "revision": "c00-c02-r4-completion",
-  "documentation_base_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
-  "history_note": "r2 (base 96b8bd7) used schema v1 with one source inspection. r3 keeps that inspection as EV-SRC-001 and the e5cdef3 inspection made at 09:09Z (during an interrupted r3 attempt) as EV-SRC-002, both HISTORICAL, and adds EV-SRC-003 at e839b1a. Per-test evidence lives in records lists so real results can be indexed without overwriting history. Work continuation after PR18 merge and PR19 A05 preserves EV-SRC-006 and all former reports; EV-SRC-007 is the current source observation.",
-  "current_source_inspection_id": "EV-SRC-009",
+  "documentation_base_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626",
+  "history_note": "r2 (base 96b8bd7) used schema v1 with one source inspection. r3 keeps that inspection as EV-SRC-001 and the e5cdef3 inspection made at 09:09Z (during an interrupted r3 attempt) as EV-SRC-002, both HISTORICAL, and adds EV-SRC-003 at e839b1a. Per-test evidence lives in records lists so real results can be indexed without overwriting history. Work continuation after PR18 merge and PR19 A05 preserves EV-SRC-006 and all former reports; EV-SRC-007 is the current source observation. Work 2026-09-23: EV-SRC-009 retained as history; EV-SRC-010 inspected. Old candidate void.",
+  "current_source_inspection_id": "EV-SRC-010",
   "frozen_candidate": {
-    "status": "IDENTIFIED",
-    "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
-    "build_id": "mtRrfhGjl22jabwoImHIf",
-    "contract_version": "0.5.0",
-    "profile": "rehearsal",
-    "fixture_id": "aster-birch-v1",
-    "scenario_scope": "CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal on the Aster/Birch fixture",
-    "source": "artifacts/release-manifest.json (SHA-256 95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026), independently verified by handoffs/work/final-prototype-continuation/candidate-verification.json (242 checks, 0 failures)"
+    "status": "NOT_IDENTIFIED",
+    "commit": null,
+    "build_id": null,
+    "contract_version": null,
+    "profile": null,
+    "fixture_id": null,
+    "scenario_scope": null,
+    "source": "Current integration source has no frozen release manifest; see candidate_history."
   },
   "rules": [
     "This index points to evidence and records Cowork's review of it. It never sets canonical results; Work records those in tracking/acceptance.json.",
@@ -1167,7 +1167,7 @@
     {
       "evidence_id": "EV-SRC-009",
       "kind": "source_inspection",
-      "status": "CURRENT",
+      "status": "HISTORICAL",
       "performed_by": "GPT Work continuation lane (Claude Code session)",
       "performed_at": "2026-09-17T13:05:00Z",
       "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
@@ -1364,6 +1364,217 @@
             "scope": "All tracked /workspace and /privacy route files at 81431d64afb8dd613c96d942402d8c0d8cc07ac0 inspected. Each screen names the exact route file(s) implementing it; shared presentation in apps/web/src/components is part of the same candidate source tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437. Route presence is implementation, not browser acceptance.",
             "source_sha256": {
               "apps/web/src/app/privacy/receipts/page.tsx": "28e18a060d7927b7465dedaf41b0fb6836aaf30a9cd22441986d9e3b74734656"
+            }
+          }
+        }
+      },
+      "review_status": "INSPECTED",
+      "limitations": [
+        "Source inspection of tracked route files and their hashes only.",
+        "Implementation is not browser acceptance, canonical scenario acceptance, Work acceptance of the screen or a human rehearsal.",
+        "Screen-level browser claims remain unevidenced pending a BROWSER_ACCEPTANCE producer."
+      ]
+    },
+    {
+      "evidence_id": "EV-SRC-010",
+      "kind": "source_inspection",
+      "status": "CURRENT",
+      "performed_by": "Work",
+      "performed_at": "2026-09-23T11:50:02Z",
+      "commit": "e58b281b21af9398bc879d3a43fc748cc83ba626",
+      "command": "git rev-parse HEAD; git ls-tree -r --name-only HEAD apps/web/src/app; sha256sum inspected route files",
+      "exit_code": 0,
+      "observed": {
+        "tracked_file_count": 1661,
+        "application_code_present": true,
+        "docs_source_master_present": true,
+        "tracking_capabilities_present": true,
+        "executable_contract_version": "0.5.0",
+        "executable_contract_review_status": "W01 historical acceptance; W02 content prepared, canonical status blocked on B04.",
+        "application_scope_note": "Tracked route-file existence and hash inspection at e58b281b21af9398bc879d3a43fc748cc83ba626 only; no build, browser acceptance, candidate, or rehearsal.",
+        "screens": {
+          "W-SIGNIN": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/sign-in/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/sign-in/page.tsx": "5bd52e4a7d8a8a818ce11384983834ba664fbd62a8852459989c057647ebeb87"
+            }
+          },
+          "W-OVERVIEW": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/page.tsx": "6542b21749b0ef5d8fc7a8a53223ee98f0ba588b0638957eeb82535cd99baf19"
+            }
+          },
+          "W-ATTENTION": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/failures/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/failures/page.tsx": "88a44bc002631a8328688c0bca9d9c67e89316553ca342027e82dd790a991184"
+            }
+          },
+          "W-WORKFLOWS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/workflows/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/workflows/page.tsx": "d6a317c488281c2ac5638c2b6fc31b68c1fa4bb5f90c1b821d57f355b049ff06"
+            }
+          },
+          "W-WORKFLOW-DETAIL": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/workflows/[id]/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/workflows/[id]/page.tsx": "2d30d3780c11800722db3cc19be0ce9437c8fd8c3a3e91b83e0f02fbf110136d"
+            }
+          },
+          "W-PURPOSES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "4b6b7393414bd0d23f7e150d62f0313a22885b93554562c644e7b93507b78333"
+            }
+          },
+          "W-NOTICES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "4b6b7393414bd0d23f7e150d62f0313a22885b93554562c644e7b93507b78333"
+            }
+          },
+          "W-POLICIES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "4b6b7393414bd0d23f7e150d62f0313a22885b93554562c644e7b93507b78333"
+            }
+          },
+          "W-SYSTEMS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/configuration/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/configuration/page.tsx": "4b6b7393414bd0d23f7e150d62f0313a22885b93554562c644e7b93507b78333"
+            }
+          },
+          "W-PRINCIPALS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/principals/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/principals/page.tsx": "870abff1d003467380303786a8e2aa57a13b5213cebc9ceb5d8ee6bf9456adce"
+            }
+          },
+          "W-EVIDENCE": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/evidence/page.tsx",
+              "apps/web/src/app/workspace/evidence/[id]/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/evidence/page.tsx": "105f2865a9b4c2913cbe206ad4439c9f86b3c6000e289175a8dea9fd53de57af",
+              "apps/web/src/app/workspace/evidence/[id]/page.tsx": "d0c35e2c6aee1853502bbc368f5369f1cf695267457dc43dff25c0be716fb1a1"
+            }
+          },
+          "W-TESTLAB": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/test-lab/page.tsx",
+              "apps/web/src/app/workspace/test-lab/[id]/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/test-lab/page.tsx": "d06d452c00a031894cf21dba8c6a1ae7f803671756a0542c9641a9f2677aad33",
+              "apps/web/src/app/workspace/test-lab/[id]/page.tsx": "288a6951e72e4f7e579bed0b3043cce3662303e2fd3dc2d59c4d10551718edbf"
+            }
+          },
+          "W-CAPABILITIES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/workspace/capabilities/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/workspace/capabilities/page.tsx": "6ce975e56f426414c46c7d38dd5bf4ba24ba9faec007aca9d7ab6a8be0a49a19"
+            }
+          },
+          "P-SIGNIN": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/sign-in/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/sign-in/page.tsx": "3ec5a50a95bc29640a7ae196c29f239bd181d9b83f4541e0f1b46a313b773e8c"
+            }
+          },
+          "P-CHOICES": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/page.tsx": "19806d652fcf1038b2daeb81cbc5d1a8548d7e2cdd1403ccb71400f31bd8dfd8"
+            }
+          },
+          "P-GRANT": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/page.tsx": "19806d652fcf1038b2daeb81cbc5d1a8548d7e2cdd1403ccb71400f31bd8dfd8"
+            }
+          },
+          "P-RECEIPT": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/receipt/[id]/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/receipt/[id]/page.tsx": "b1a7c74ad52ab45a6889ddeba5844f06ed763e79ce2d57f95be62f2c44d7525b"
+            }
+          },
+          "P-RECEIPTS": {
+            "implementation": "IMPLEMENTED",
+            "source_paths": [
+              "apps/web/src/app/privacy/receipts/page.tsx"
+            ],
+            "scope": "Tracked route presence at e58b281b21af9398bc879d3a43fc748cc83ba626 only; browser behavior not verified.",
+            "source_sha256": {
+              "apps/web/src/app/privacy/receipts/page.tsx": "ae24329e75a1fdfcbb84eab05acd3cbb680c1bd094d4d151f45da2cf058d0e0b"
             }
           }
         }
@@ -8933,5 +9144,20 @@
         "scope": "Supplied A00–A04 and W01 correction command reports; source/byte/content inspection only."
       }
     ]
-  }
+  },
+  "candidate_history": [
+    {
+      "status": "IDENTIFIED",
+      "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+      "build_id": "mtRrfhGjl22jabwoImHIf",
+      "contract_version": "0.5.0",
+      "profile": "rehearsal",
+      "fixture_id": "aster-birch-v1",
+      "scenario_scope": "CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal on the Aster/Birch fixture",
+      "source": "artifacts/release-manifest.json (SHA-256 95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026), independently verified by handoffs/work/final-prototype-continuation/candidate-verification.json (242 checks, 0 failures)",
+      "disposition": "VOID_AFTER_SOURCE_CHANGE",
+      "reviewed_at": "2026-09-23T11:50:02Z",
+      "reason": "Later source changes void this identity; c5655ea candidate also void per CURRENT_STATE.md."
+    }
+  ]
 }

@@ -2,28 +2,28 @@
   "document": "Work successor delivery status inputs",
   "schema": "cowork.delivery_status/2",
   "owner_lane": "Work",
-  "as_of": "2026-09-17T13:05:00Z",
-  "documentation_base_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
-  "current_source_inspection_id": "EV-SRC-009",
+  "as_of": "2026-09-23T11:50:02Z",
+  "documentation_base_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626",
+  "current_source_inspection_id": "EV-SRC-010",
   "note": "Work successor artifact proposal. Canonical task/test acceptance remains distinct; source observation and code-under-test/build/publication identities are not interchangeable.",
   "canonical_readiness": {
     "value": "NOT_READY",
     "source_path": "CURRENT_STATE.md",
-    "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+    "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626",
     "quoted_text": "Internal-demo NOT_READY",
     "owner": "Work (consolidates); human (approves)",
-    "source_sha256": "ecc83ec1166ff1463ea00e79640cd01e6da8c98c9a729a9f7e61a8f9e1b5c4ad",
-    "observed_at": "2026-09-17T13:05:00Z",
-    "source_revision": "Continuation working revision at frozen candidate 81431d64afb8dd613c96d942402d8c0d8cc07ac0; exact authority bytes identified by source_sha256"
+    "source_sha256": "ea4202285c9b08200fcd94ac862633bce913f725fb3eb926af475f5389d6bc67",
+    "observed_at": "2026-09-23T11:50:02Z",
+    "source_revision": "Working Work document over inspected main e58b281b21af9398bc879d3a43fc748cc83ba626; exact bytes identified by source_sha256"
   },
   "production_readiness": {
     "value": "NOT_ASSESSED",
     "source_path": "CURRENT_STATE.md",
-    "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+    "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626",
     "quoted_text": "Production security/legal/supply-chain/full recovery NOT_ASSESSED",
-    "source_sha256": "ecc83ec1166ff1463ea00e79640cd01e6da8c98c9a729a9f7e61a8f9e1b5c4ad",
-    "observed_at": "2026-09-17T13:05:00Z",
-    "source_revision": "Continuation working revision at frozen candidate 81431d64afb8dd613c96d942402d8c0d8cc07ac0; exact authority bytes identified by source_sha256"
+    "source_sha256": "ea4202285c9b08200fcd94ac862633bce913f725fb3eb926af475f5389d6bc67",
+    "observed_at": "2026-09-23T11:50:02Z",
+    "source_revision": "Working Work document over inspected main e58b281b21af9398bc879d3a43fc748cc83ba626; exact bytes identified by source_sha256"
   },
   "tickets": [
     {
@@ -62,8 +62,8 @@
       "journeys": "J01",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/sign-in/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/sign-in/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -73,8 +73,8 @@
       "journeys": "J00, J15",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -84,8 +84,8 @@
       "journeys": "J12, J13, J15",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/failures/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/failures/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -95,8 +95,8 @@
       "journeys": "J08, J15",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/workflows/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/workflows/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -106,8 +106,8 @@
       "journeys": "J07–J14, J18",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/workflows/[id]/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/workflows/[id]/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -117,8 +117,8 @@
       "journeys": "J05",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/configuration/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/configuration/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -128,8 +128,8 @@
       "journeys": "J05",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/configuration/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/configuration/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -139,8 +139,8 @@
       "journeys": "J04, J05, J09",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/configuration/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/configuration/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -150,8 +150,8 @@
       "journeys": "J05, J13, J19",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/configuration/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/configuration/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -161,8 +161,8 @@
       "journeys": "J02, J03",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/principals/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/principals/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -172,8 +172,8 @@
       "journeys": "J16, J02",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/evidence/page.tsx, apps/web/src/app/workspace/evidence/[id]/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/evidence/page.tsx, apps/web/src/app/workspace/evidence/[id]/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -183,8 +183,8 @@
       "journeys": "J17",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/test-lab/page.tsx, apps/web/src/app/workspace/test-lab/[id]/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/test-lab/page.tsx, apps/web/src/app/workspace/test-lab/[id]/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -194,8 +194,8 @@
       "journeys": "J23",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/workspace/capabilities/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/workspace/capabilities/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -205,8 +205,8 @@
       "journeys": "J03",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/privacy/sign-in/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/privacy/sign-in/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -216,8 +216,8 @@
       "journeys": "J06, J07, J14",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/privacy/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/privacy/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -227,8 +227,8 @@
       "journeys": "J06, J14",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/privacy/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/privacy/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -238,8 +238,8 @@
       "journeys": "J07",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/privacy/receipt/[id]/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/privacy/receipt/[id]/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     },
     {
@@ -249,8 +249,8 @@
       "journeys": "J07",
       "implementation": "IMPLEMENTED",
       "tested": "NOT_RUN",
-      "evidence": "EV-SRC-009",
-      "implementation_note": "Implemented as tracked route file(s) apps/web/src/app/privacy/receipts/page.tsx at 81431d64afb8dd613c96d942402d8c0d8cc07ac0, hash verified. The complete Playwright suite passed 16/16 at this exact commit, but no per-screen BROWSER_ACCEPTANCE record exists (FINAL-CONT-F08), so this screen's browser result stays NOT_RUN.",
+      "evidence": "EV-SRC-010",
+      "implementation_note": "Tracked source paths apps/web/src/app/privacy/receipts/page.tsx inspected at e58b281b21af9398bc879d3a43fc748cc83ba626; no browser acceptance or current candidate.",
       "browser_evidence_ref": null
     }
   ],
@@ -270,14 +270,14 @@
     "current_verification": "GPT Work independently rehashed repository master and available v1 kit; original capability bytes restored. Historical available_to_cowork field is retained for schema compatibility, not an active owner."
   },
   "candidate": {
-    "status": "IDENTIFIED",
-    "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
-    "build_id": "mtRrfhGjl22jabwoImHIf",
-    "contract_version": "0.5.0",
-    "profile": "rehearsal",
-    "fixture_id": "aster-birch-v1",
-    "scenario_scope": "CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal on the Aster/Birch fixture",
-    "source": "artifacts/release-manifest.json (SHA-256 95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026), independently verified by handoffs/work/final-prototype-continuation/candidate-verification.json (242 checks, 0 failures)"
+    "status": "NOT_IDENTIFIED",
+    "commit": null,
+    "build_id": null,
+    "contract_version": null,
+    "profile": null,
+    "fixture_id": null,
+    "scenario_scope": null,
+    "source": "Current integration source has no frozen release manifest; see candidate_history."
   },
   "publication": {
     "status": "AUDIT_CORRECTIONS_IN_PREPARATION",
@@ -313,6 +313,21 @@
       "merge_commit": "9bb8f2900909997f63db864eeea1211523aa5819",
       "observed_at": "2026-09-16T21:51:28Z",
       "reason": "Native PR metadata and fetched merged tree verified. All 31 delivered file sizes/hashes match the prior manifest. Merge does not accept unfinished C tasks or application readiness."
+    }
+  ],
+  "candidate_history": [
+    {
+      "status": "IDENTIFIED",
+      "commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
+      "build_id": "mtRrfhGjl22jabwoImHIf",
+      "contract_version": "0.5.0",
+      "profile": "rehearsal",
+      "fixture_id": "aster-birch-v1",
+      "scenario_scope": "CUSTOMER_LOCAL_SYNTHETIC marketing withdrawal on the Aster/Birch fixture",
+      "source": "artifacts/release-manifest.json (SHA-256 95f5acbe94eecc1ef8296779b6ce3c1116c067753fd2e5bd199d6e340d24e026), independently verified by handoffs/work/final-prototype-continuation/candidate-verification.json (242 checks, 0 failures)",
+      "disposition": "VOID_AFTER_SOURCE_CHANGE",
+      "reviewed_at": "2026-09-23T11:50:02Z",
+      "reason": "Later source changes void this identity; c5655ea candidate also void per CURRENT_STATE.md."
     }
   ]
 }
