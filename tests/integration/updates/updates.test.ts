@@ -35,7 +35,20 @@ const direct = (sql: string, values: unknown[] = []) =>
 // the same key, so the suite exercises real verification rather than a bypass.
 const keyId = process.env.ORVIA_RELEASE_KEY_ID;
 const privateKeyPem = process.env.ORVIA_RELEASE_PRIVATE_KEY;
-if (!keyId || !privateKeyPem) throw new Error('This suite requires the fixture release key pair in the environment');
+// Three variables, not two. The suite signs with the private key and the
+// application verifies with the public one, so the untrusted-signer refusal
+// only reaches its real code path when the server was started trusting this
+// same key. Demanding all three here stops a run that looks like it exercised
+// verification but never could have.
+if (!keyId || !privateKeyPem || !process.env.ORVIA_RELEASE_PUBLIC_KEY) {
+  throw new Error([
+    'This suite needs the fixture release key pair in the environment. Run it as:',
+    '  ORVIA_RELEASE_KEY_ID=$(node -p "require(\'./.local/release-fixture.json\').key_id") \\',
+    '  ORVIA_RELEASE_PRIVATE_KEY=$(node -p "require(\'./.local/release-fixture.json\').private") \\',
+    '  ORVIA_RELEASE_PUBLIC_KEY=$(node -p "require(\'./.local/release-fixture.json\').public") \\',
+    '  npm run test:updates',
+  ].join('\n'));
+}
 const privateKey = { key: Buffer.from(privateKeyPem, 'base64'), format: 'der' as const, type: 'pkcs8' as const };
 const untrusted = generateKeyPairSync('ed25519');
 

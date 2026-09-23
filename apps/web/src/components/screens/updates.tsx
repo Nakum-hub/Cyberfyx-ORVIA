@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { useQuery, usePagedQuery } from '../shared/api.ts';
+import { useMutation, useQuery, usePagedQuery } from '../shared/api.ts';
 import { formatTime, shortId, type Label } from '../shared/state-labels.ts';
-import { Badge, DataTable, Facts, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge, TechnicalDetails } from '../shared/ui.tsx';
+import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge, TechnicalDetails } from '../shared/ui.tsx';
 
 /**
  * M31 Updates.
@@ -101,6 +101,100 @@ export function Releases() {
   );
 }
 
+/**
+ * Approving a plan. The recovery mode is acknowledged explicitly rather than
+ * defaulted, because it is the one decision that cannot be taken back later: a
+ * release containing an irreversible migration decides the recovery mode for
+ * the whole update, and an operator who did not notice that before starting has
+ * no way to undo it afterwards.
+ */
+function PlanUpdate({ releaseId, mode, eligible, onDone }: {
+  releaseId: string; mode: string; eligible: boolean; onDone: () => void;
+}) {
+  const mutation = useMutation('plan_update', true);
+  const [note, setNote] = useState('');
+  const [acknowledged, setAcknowledged] = useState(false);
+  if (!eligible) {
+    return <p className="cell-sub">This release is not eligible, so there is nothing to approve. The refusing check is named above.</p>;
+  }
+  return (
+    <form className="inline-form" onSubmit={async event => {
+      event.preventDefault();
+      if (await mutation.run({ approval_note: note, acknowledged_recovery_mode: mode as 'REVERSIBLE' },
+        { params: { id: releaseId } })) onDone();
+    }}>
+      <label><span>Why this update is being approved</span>
+        <input value={note} onChange={e => setNote(e.target.value)} required minLength={3} /></label>
+      <label>
+        <input type="checkbox" checked={acknowledged} onChange={e => setAcknowledged(e.target.checked)} />
+        {' '}
+        {mode === 'FORWARD_RECOVERY_ONLY'
+          ? 'I understand this update cannot be rolled back: recovery is forward-only.'
+          : 'I understand the recorded recovery mode for this update is reversible.'}
+      </label>
+      <button type="submit" disabled={mutation.status === 'pending' || !acknowledged || note.length < 3}>
+        Approve this update plan
+      </button>
+      <p className="cell-sub">
+        Approving records a plan. It does not fetch, unpack or run anything: this product applies no artifact,
+        and each step is recorded by whoever actually carried it out.
+      </p>
+      {mutation.failure && <FailureState failure={mutation.failure} />}
+    </form>
+  );
+}
+
+/**
+ * Recording a step somebody performed. A step claiming success must name its
+ * evidence, which the contract enforces and this form makes visible: the field
+ * appears exactly when the claim needs backing.
+ */
+function RecordStep({ planId, outstanding, onDone }: {
+  planId: string; outstanding: readonly string[]; onDone: () => void;
+}) {
+  const mutation = useMutation('record_update_step', true);
+  const [step, setStep] = useState(outstanding[0] ?? '');
+  const [state, setState] = useState<'RUNNING' | 'SUCCEEDED' | 'FAILED'>('SUCCEEDED');
+  const [evidence, setEvidence] = useState('');
+  const [note, setNote] = useState('');
+  if (!outstanding.length) return <p className="cell-sub">Every step on this plan has been recorded.</p>;
+  return (
+    <form className="inline-form" onSubmit={async event => {
+      event.preventDefault();
+      const done = await mutation.run({
+        step: step as 'VERIFY_TRUSTED_ORIGIN', state,
+        evidence_reference: state === 'SUCCEEDED' ? evidence : null,
+        note,
+      }, { params: { id: planId } });
+      if (done) { setEvidence(''); setNote(''); onDone(); }
+    }}>
+      <label><span>Which step</span>
+        <select value={step} onChange={e => setStep(e.target.value)}>
+          {outstanding.map(name => <option key={name} value={name}>{name.replaceAll('_', ' ').toLowerCase()}</option>)}
+        </select></label>
+      <label><span>How it went</span>
+        <select value={state} onChange={e => setState(e.target.value as typeof state)}>
+          <option value="RUNNING">It is running</option>
+          <option value="SUCCEEDED">It succeeded</option>
+          <option value="FAILED">It failed</option>
+        </select></label>
+      {state === 'SUCCEEDED' && (
+        <label><span>Evidence for the claim that it succeeded</span>
+          <input value={evidence} onChange={e => setEvidence(e.target.value)} required
+            placeholder="What somebody could check to confirm this" /></label>
+      )}
+      <label><span>Note</span>
+        <input value={note} onChange={e => setNote(e.target.value)} required /></label>
+      <button type="submit" disabled={mutation.status === 'pending'}>Record this step</button>
+      <p className="cell-sub">
+        A step recorded as succeeded must name evidence. This records what a person did; ORVIA did not
+        perform the step and did not observe it.
+      </p>
+      {mutation.failure && <FailureState failure={mutation.failure} />}
+    </form>
+  );
+}
+
 function Eligibility({ id, onClose }: { id: string; onClose: () => void }) {
   const query = useQuery('update_eligibility', { params: { id } });
   return (
@@ -132,6 +226,7 @@ function Eligibility({ id, onClose }: { id: string; onClose: () => void }) {
               ]}
             />
             <RecoveryNotice mode={data.recovery_mode} rollback={data.rollback_available} />
+            <PlanUpdate releaseId={id} mode={data.recovery_mode} eligible={data.eligible} onDone={query.refresh} />
             <NoticeBox tone="info" title="What this evaluation does and does not mean">
               <ul>{data.limits.map(limit => <li key={limit}>{limit}</li>)}</ul>
             </NoticeBox>
@@ -245,6 +340,7 @@ function Ledger({ id, onClose }: { id: string; onClose: () => void }) {
                   ]}
                 />
               )}
+            <RecordStep planId={id} outstanding={data.outstanding_steps} onDone={query.refresh} />
             {data.outstanding_steps.length > 0 && (
               <TechnicalDetails
                 summary={`${data.outstanding_steps.length} steps still outstanding`}

@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { useQuery, usePagedQuery } from '../shared/api.ts';
+import { useMutation, useQuery, usePagedQuery } from '../shared/api.ts';
 import { formatTime, shortId, type Label } from '../shared/state-labels.ts';
-import { Badge, DataTable, Facts, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge, TechnicalDetails } from '../shared/ui.tsx';
+import { Badge, DataTable, FailureState, Facts, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge, TechnicalDetails } from '../shared/ui.tsx';
 
 /**
  * M30 Support Bundle System.
@@ -92,7 +92,121 @@ export function SupportCases() {
 }
 
 function Standing({ id, onClose }: { id: string; onClose: () => void }) {
+/**
+ * Generating a draft. Deliberately the whole of what this control does: it
+ * produces a report and stores it, and it cannot approve or carry anything.
+ * A newer draft supersedes the one before it, which is why the button says so
+ * rather than reading as a harmless refresh.
+ */
+function GenerateDraft({ caseId, hasDrafts, onDone }: { caseId: string; hasDrafts: boolean; onDone: () => void }) {
+  const mutation = useMutation('generate_diagnostic', true);
+  return (
+    <>
+      <button type="button" disabled={mutation.status === 'pending'}
+        onClick={async () => { if (await mutation.run(undefined, { params: { id: caseId } })) onDone(); }}>
+        {hasDrafts ? 'Generate a new draft, superseding the current one' : 'Generate a diagnostic draft'}
+      </button>
+      <p className="cell-sub">
+        The report is built from fixed fields only and scanned for forbidden content before it is stored.
+        Generating one sends nothing and approves nothing.
+      </p>
+      {mutation.failure && <FailureState failure={mutation.failure} />}
+    </>
+  );
+}
+
+/**
+ * Approval binds one exact payload. The digest is shown and submitted rather
+ * than typed, because an approval that named a payload the approver had not
+ * actually previewed would be the failure this whole flow exists to prevent.
+ */
+function ApproveDraft({ draftId, digest, superseded, onDone }: {
+  draftId: string; digest: string; superseded: boolean;
+  onDone: (approval: { id: string; approved_digest: string }) => void;
+}) {
+  const mutation = useMutation('approve_diagnostic', true);
+  const [retention, setRetention] = useState('30');
+  if (superseded) {
+    return <p className="cell-sub">A newer draft exists. Approving this one would approve a payload that is no longer current.</p>;
+  }
+  return (
+    <form className="inline-form" onSubmit={async event => {
+      event.preventDefault();
+      const approved = await mutation.run({
+        approved_digest: digest, destination: 'MANUAL_OFFLINE_TRANSFER',
+        purpose: 'DIAGNOSE_REPORTED_FAILURE', retention_days: Number(retention),
+      }, { params: { id: draftId } });
+      if (approved) onDone(approved);
+    }}>
+      <label><span>How long the vendor may keep it (days)</span>
+        <input type="number" min={1} max={365} value={retention} onChange={e => setRetention(e.target.value)} required /></label>
+      <button type="submit" disabled={mutation.status === 'pending'}>
+        Approve this exact payload for offline transfer
+      </button>
+      <p className="cell-sub">
+        You are approving payload <code>{digest.slice(0, 12)}</code> and nothing else. An approval carries no
+        authority to generate a newer report, and it does not send anything.
+      </p>
+      {mutation.failure && <FailureState failure={mutation.failure} />}
+    </form>
+  );
+}
+
+/**
+ * Recording that an operator carried the payload. The wording is the point: a
+ * transfer here is an attestation by a person, not an observed delivery, and
+ * this product neither sent it nor saw it arrive.
+ */
+function RecordTransfer({ approvalId, onDone }: { approvalId: string; onDone: () => void }) {
+  const mutation = useMutation('record_transfer', true);
+  const [outcome, setOutcome] = useState<'ACCEPTED' | 'REJECTED' | 'NOT_ATTEMPTED'>('ACCEPTED');
+  const [evidence, setEvidence] = useState('');
+  const [rejection, setRejection] = useState('');
+  const [note, setNote] = useState('');
+  return (
+    <form className="inline-form" onSubmit={async event => {
+      event.preventDefault();
+      const done = await mutation.run({
+        method: 'MANUAL_OFFLINE_TRANSFER', outcome,
+        rejection_code: outcome === 'REJECTED' ? rejection : null,
+        evidence_reference: outcome === 'ACCEPTED' ? evidence : null,
+        note,
+      }, { params: { id: approvalId } });
+      if (done) onDone();
+    }}>
+      <label><span>What happened when you carried it</span>
+        <select value={outcome} onChange={e => setOutcome(e.target.value as typeof outcome)}>
+          <option value="ACCEPTED">The vendor accepted it</option>
+          <option value="REJECTED">The vendor rejected it</option>
+          <option value="NOT_ATTEMPTED">I did not attempt it</option>
+        </select></label>
+      {outcome === 'ACCEPTED' && (
+        <label><span>Their reference for it</span>
+          <input value={evidence} onChange={e => setEvidence(e.target.value)} required
+            placeholder="A receipt or case reference you were given" /></label>
+      )}
+      {outcome === 'REJECTED' && (
+        <label><span>Why they rejected it</span>
+          <input value={rejection} onChange={e => setRejection(e.target.value)} required /></label>
+      )}
+      <label><span>Note</span>
+        <input value={note} onChange={e => setNote(e.target.value)} required
+          placeholder="How you carried it" /></label>
+      <button type="submit" disabled={mutation.status === 'pending'}>Record what I did</button>
+      <p className="cell-sub">
+        This records that you carried the payload. ORVIA has no support transport: it did not send this and
+        did not observe it arrive.
+      </p>
+      {mutation.failure && <FailureState failure={mutation.failure} />}
+    </form>
+  );
+}
+
   const query = useQuery('support_case', { params: { id } });
+  // Held here rather than read back, because the standing report lists drafts
+  // and not approvals: the approval id only exists in the response that created
+  // it, and the transfer has to name that exact approval.
+  const [approval, setApproval] = useState<{ id: string; approved_digest: string } | null>(null);
   return (
     <Section title="What is actually established" aside={<button type="button" onClick={onClose}>Close</button>}>
       <QueryBoundary query={query} label="support case standing" isEmpty={() => false}>
@@ -119,6 +233,7 @@ function Standing({ id, onClose }: { id: string; onClose: () => void }) {
               </NoticeBox>
             )}
             <Section title="Diagnostic drafts">
+              <GenerateDraft caseId={id} hasDrafts={data.drafts.length > 0} onDone={query.refresh} />
               {data.drafts.length === 0
                 ? <p className="cell-sub">No report has been generated for this case.</p>
                 : (
@@ -138,9 +253,22 @@ function Standing({ id, onClose }: { id: string; onClose: () => void }) {
                       { key: 'superseded', header: 'Current', cell: draft => draft.superseded
                         ? <Badge label="Superseded" tone="neutral" meaning="A newer draft exists. An approval that named this payload cannot transfer the newer one." />
                         : <Badge label="Current" tone="ok" /> },
+                      { key: 'approve', header: '', cell: draft => (
+                        <ApproveDraft draftId={draft.id} digest={draft.payload_digest} superseded={draft.superseded}
+                          onDone={approval => { setApproval(approval); query.refresh(); }} />
+                      ) },
                     ]}
                   />
                 )}
+              {approval && (
+                <Section title="Record how you carried it">
+                  <p className="cell-sub">
+                    Approved payload <code>{approval.approved_digest.slice(0, 12)}</code>. ORVIA has not sent it and
+                    cannot: recording a transfer is you saying what you did with it.
+                  </p>
+                  <RecordTransfer approvalId={approval.id} onDone={() => { setApproval(null); query.refresh(); }} />
+                </Section>
+              )}
               {data.drafts.some(draft => draft.superseded) && (
                 <NoticeBox tone="info" title="Why superseded drafts are still listed">
                   <p>A draft is never edited or deleted. If a report is regenerated the previous one is marked superseded and kept, so an approval that named it is provably an approval of that payload and not of whatever exists now.</p>

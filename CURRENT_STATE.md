@@ -119,6 +119,26 @@ connection 33 · languages 19 · preflight 19 · imports 31 · workflows 32.
 to run on `codex-a00`. That is the product being honest about where it may execute, not a failure, and they are
 recorded as NOT_RUN rather than skipped quietly.
 
+### A correction to the run recorded above
+
+The integration figures in the previous section were collected by running each suite and then reading the
+newest artifact matching its name. That method is unsound, and it misreported one suite. `test:updates`
+requires `ORVIA_RELEASE_KEY_ID`, `ORVIA_RELEASE_PRIVATE_KEY` and `ORVIA_RELEASE_PUBLIC_KEY` in the
+environment; without them it throws before writing any artifact, so the reader picked up a record from a run
+roughly a day earlier and reported it as current. The suite did not pass in that batch, because it did not
+run at all.
+
+It has since been run properly with the fixture key pair and passes **54 assertions, 0 failures**, so the
+figure quoted above is correct — but it was correct by luck rather than by method, and that is worth saying
+plainly rather than leaving a number nobody could reproduce.
+
+Two things changed as a result. The suite's own error message now prints the exact command with all three
+variables, so the next person is not left diagnosing a prerequisite. And the reason all three are needed is
+recorded in the test: the suite signs with the private key while the application verifies with the public
+one, so the untrusted-signer refusal only reaches its real code path when the server was started trusting
+the same key — a run missing the public key could otherwise look like it exercised verification when it
+never could have.
+
 ### What this does not change
 
 **T01–T34 remain `NOT_RUN` and nothing is promoted.** `scripts/tracking.ts` will only accept a `PASS` backed by an
