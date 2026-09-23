@@ -736,9 +736,12 @@ dialog.dialog::backdrop { background: rgb(9 14 20 / 55%); }
 .report-table th, .report-table td { border: 1px solid #c9c9c9; padding: 5px 7px; text-align: left; vertical-align: top; }
 .report-table thead th { background: #f1f1f1; font-weight: 600; }
 .report-foot { margin-top: var(--s5); padding-top: var(--s3); border-top: 1px solid var(--line); }
+.report-export { margin: var(--s2) 0 0; }
 
 @media print {
   .shell-nav, .demo-banner, button, .shell-head, .shell-foot, .report-builder, .skip-link { display: none !important; }
+  /* A download control is meaningless on paper. */
+  .report-export { display: none !important; }
   .panel { box-shadow: none; break-inside: avoid; }
 
   /* A4 with room for the running footer the browser prints. */
