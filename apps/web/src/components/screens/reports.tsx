@@ -52,6 +52,39 @@ const PRESETS: { id: string; label: string; purpose: string; sections: string[] 
     sections: ['DATA_INVENTORY', 'PROCESSORS', 'COVERAGE_GAPS', 'AUDIT_RETENTION', 'OPERATIONAL_READINESS'] },
 ];
 
+/**
+ * §133 also asks for CSV where appropriate, and a section is exactly where it
+ * is appropriate: it is already a header row and data rows of plain strings.
+ *
+ * Built here rather than server-side for the same reason the PDF is: this is a
+ * rendering of the validated, digested report the server already returned, not
+ * a second derivation that could quietly disagree with it. A CSV produced from
+ * a separate query would be a second source of truth.
+ */
+function toCsv(columns: readonly string[], rows: readonly (readonly string[])[]): string {
+  // RFC 4180: quote every field and double any embedded quote. Quoting
+  // unconditionally is what stops a value containing a comma, a newline or a
+  // leading '=' from shifting columns or being read as a spreadsheet formula.
+  const cell = (value: string) => `"${value.replaceAll('"', '""')}"`;
+  return [columns.map(cell).join(','), ...rows.map(row => row.map(cell).join(','))].join('\r\n');
+}
+
+function download(filename: string, csv: string) {
+  // A BOM so spreadsheets open UTF-8 correctly; the Eighth Schedule languages
+  // are unreadable without it in several of them.
+  const blob = new Blob(['\ufeff', csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url; link.download = filename; link.click();
+  URL.revokeObjectURL(url);
+}
+
+/** Section name and report digest in the filename, so a spreadsheet sitting in
+ *  somebody's downloads folder can still be traced back to the report it came
+ *  from and the moment it was taken. */
+const csvName = (kind: string, digest: string) =>
+  `orvia-${kind.toLowerCase().replaceAll('_', '-')}-${digest.slice(0, 8)}.csv`;
+
 export function ReportsScreen() {
   const [title, setTitle] = useState('Privacy record');
   const [from, setFrom] = useState('');
@@ -126,6 +159,20 @@ export function ReportsScreen() {
         {query.data && (
           <NoticeBox tone="info" title="Ready to print">
             <p>Use your browser’s Print command and choose “Save as PDF”. The builder above is hidden in print; what follows is the report.</p>
+            <p>
+              Or take the tables as spreadsheets:
+              {' '}
+              <button type="button" onClick={() => {
+                for (const section of query.data!.sections) {
+                  download(csvName(section.kind, query.data!.content_digest), toCsv(section.columns, section.rows));
+                }
+              }}>Download every section as CSV</button>
+            </p>
+            <p className="cell-sub">
+              A CSV carries the table and nothing else. The period, the scope, the sections left out and each
+              section’s caveats live in the printed report, so a spreadsheet on its own is not the record —
+              which is why the report digest is in every filename.
+            </p>
           </NoticeBox>
         )}
       </div>
@@ -205,6 +252,11 @@ export function ReportsScreen() {
                 </table>
               )}
               <p className="report-counted">{section.counted}</p>
+              <p className="report-export">
+                <button type="button" onClick={() => download(csvName(section.kind, query.data!.content_digest), toCsv(section.columns, section.rows))}>
+                  Download this section as CSV
+                </button>
+              </p>
               {section.limits.length > 0 && (
                 <div className="report-limits">
                   <h3>What this section does not tell you</h3>

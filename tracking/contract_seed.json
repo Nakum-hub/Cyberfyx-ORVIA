@@ -349,6 +349,37 @@
       "status": 200
     },
     {
+      "id": "own_rights_requests",
+      "method": "get",
+      "path": "/api/v1/portal/me/rights-requests",
+      "authority": "PRINCIPAL",
+      "capability": "rights.own.read",
+      "response": "OwnRightsRequestList",
+      "status": 200,
+      "paginated": true
+    },
+    {
+      "id": "raise_own_rights_request",
+      "method": "post",
+      "path": "/api/v1/portal/me/rights-requests",
+      "authority": "PRINCIPAL",
+      "capability": "rights.own.write",
+      "request": "OwnRightsRequestCreate",
+      "response": "OwnRightsRequest",
+      "status": 201,
+      "idempotency": true
+    },
+    {
+      "id": "own_rights_request",
+      "method": "get",
+      "path": "/api/v1/portal/me/rights-requests/{id}",
+      "authority": "PRINCIPAL",
+      "capability": "rights.own.read",
+      "params": "IdPath",
+      "response": "OwnRightsRequest",
+      "status": 200
+    },
+    {
       "id": "workflows",
       "method": "get",
       "path": "/api/v1/admin/workflows",

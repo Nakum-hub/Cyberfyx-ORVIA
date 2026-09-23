@@ -102,8 +102,15 @@ test('a mandate records its window, its revocation and the rights it actually pe
 });
 
 test('releasing a response is separated from ordinary rights write access', () => {
-  const rightsRoutes = routes.filter(route => route.capability?.startsWith('rights.'));
+  // Staff authority over other people's requests. The data principal's own
+  // rights are a deliberately separate capability family (rights.own.*) so
+  // that letting somebody exercise their own rights never grants them
+  // authority over anybody else's; those routes are asserted in
+  // tests/unit/portal-rights.test.ts.
+  const rightsRoutes = routes.filter(route => route.capability?.startsWith('rights.')
+    && !route.capability.startsWith('rights.own.'));
   assert.equal(rightsRoutes.length, 11);
+  assert.equal(routes.filter(r => r.capability?.startsWith('rights.own.')).length, 3);
   const release = rightsRoutes.filter(route => route.capability === 'rights.release');
   // Disclosure to a person is its own authority, held by exactly one route.
   assert.equal(release.length, 1);

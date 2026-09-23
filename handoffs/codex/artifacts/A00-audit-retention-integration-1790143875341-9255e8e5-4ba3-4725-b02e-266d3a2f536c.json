@@ -1,0 +1,244 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T06:11:15.341Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "the product counts zero payload columns on the audit table",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "and the audit table really is an envelope and nothing else",
+      "result": "PASS",
+      "expected": [
+        "actor_domain",
+        "actor_id",
+        "created_at",
+        "environment_id",
+        "id",
+        "legal_entity_id",
+        "operation",
+        "request_id",
+        "resource_id",
+        "tenant_id"
+      ],
+      "actual": [
+        "actor_domain",
+        "actor_id",
+        "created_at",
+        "environment_id",
+        "id",
+        "legal_entity_id",
+        "operation",
+        "request_id",
+        "resource_id",
+        "tenant_id"
+      ]
+    },
+    {
+      "name": "so there is no payload whose justified deletion an envelope would have to survive",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "all eight audited categories are retained under exactly one purpose each",
+      "result": "PASS",
+      "expected": [
+        [
+          "CONNECTOR_CREDENTIALS_AND_SCOPE",
+          "EXPORTS",
+          "LICENCES",
+          "OWNER_CHANGES",
+          "POLICY_PUBLICATION",
+          "ROLE_GRANTS",
+          "SUPPORT_APPROVAL",
+          "UPDATES"
+        ],
+        8
+      ],
+      "actual": [
+        [
+          "CONNECTOR_CREDENTIALS_AND_SCOPE",
+          "EXPORTS",
+          "LICENCES",
+          "OWNER_CHANGES",
+          "POLICY_PUBLICATION",
+          "ROLE_GRANTS",
+          "SUPPORT_APPROVAL",
+          "UPDATES"
+        ],
+        8
+      ]
+    },
+    {
+      "name": "and each of the four purposes is reported once",
+      "result": "PASS",
+      "expected": [
+        "CHANGE_TRACEABILITY",
+        "COMMERCIAL_OBLIGATION",
+        "REGULATORY_ACCOUNTABILITY",
+        "SECURITY_INVESTIGATION"
+      ],
+      "actual": [
+        "CHANGE_TRACEABILITY",
+        "COMMERCIAL_OBLIGATION",
+        "REGULATORY_ACCOUNTABILITY",
+        "SECURITY_INVESTIGATION"
+      ]
+    },
+    {
+      "name": "a purpose nobody has configured reports that, rather than a default number",
+      "result": "PASS",
+      "expected": [
+        null,
+        true,
+        0
+      ],
+      "actual": [
+        null,
+        true,
+        0
+      ]
+    },
+    {
+      "name": "a period cannot be recorded without saying what it rests on",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "and the refusal names the field rather than failing bare",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "recording a period is accepted and attributed",
+      "result": "PASS",
+      "expected": [
+        201,
+        3650,
+        36
+      ],
+      "actual": [
+        201,
+        3650,
+        36
+      ]
+    },
+    {
+      "name": "the purpose now reports its period and stops saying it has none",
+      "result": "PASS",
+      "expected": [
+        3650,
+        false
+      ],
+      "actual": [
+        3650,
+        false
+      ]
+    },
+    {
+      "name": "nothing recorded moments ago is beyond a ten-year period",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a second rule for the same purpose is recorded rather than refused",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "the newest rule is the one in force",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "and the overdue count is measured against it rather than reported as a constant",
+      "result": "PASS",
+      "expected": [
+        993,
+        true
+      ],
+      "actual": [
+        993,
+        true
+      ]
+    },
+    {
+      "name": "the period that was replaced is still on the record",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "and a recorded rule cannot be edited or removed, even by the migrator",
+      "result": "PASS",
+      "expected": [
+        "23514",
+        "23514"
+      ],
+      "actual": [
+        "23514",
+        "23514"
+      ]
+    },
+    {
+      "name": "reading the schedule never removes anything, however overdue the events are",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "and the trail refuses deletion at the database, past its period or not",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "the report says so structurally rather than only in prose",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report counts the declared snapshots that cover the trail",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "and states that nothing it describes reaches a copy held in one",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an auditor holding audit.read may read the schedule",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "but may not set a period, which is audit administration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member may not read the schedule",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}

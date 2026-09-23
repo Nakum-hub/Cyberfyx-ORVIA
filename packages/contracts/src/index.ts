@@ -58,7 +58,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'health.read']);
+export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -70,7 +70,7 @@ export const Pagination = z.strictObject({ cursor: z.string().regex(/^[A-Za-z0-9
 const page = <T extends z.ZodType>(schema: T) => z.strictObject({ items: z.array(schema).max(100), next_cursor: z.string().max(200).nullable() });
 export const Session = z.discriminatedUnion('actor_domain', [
   z.strictObject({ actor_domain: z.literal('STAFF'), actor_id: Id, scope: Scope, role: z.enum(['ORG_SUPER_ADMIN', 'ORG_ADMIN', 'MEMBER', 'AUDITOR']), capabilities: z.array(Capability), mfa_verified: z.boolean(), expires_at: Time }),
-  z.strictObject({ actor_domain: z.literal('PRINCIPAL'), actor_id: Id, principal_id: Id, scope: Scope, role: z.literal('DATA_PRINCIPAL'), capabilities: z.array(z.enum(['consent.own.read', 'consent.own.write', 'receipt.own.read'])), expires_at: Time }),
+  z.strictObject({ actor_domain: z.literal('PRINCIPAL'), actor_id: Id, principal_id: Id, scope: Scope, role: z.literal('DATA_PRINCIPAL'), capabilities: z.array(z.enum(['consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write'])), expires_at: Time }),
 ]);
 export const Grant = z.strictObject({ expected_epoch: Epoch, notice_version_id: Id, interaction_id: Id, affirmative: z.literal(true) });
 export const Withdraw = z.strictObject({ expected_epoch: Epoch, interaction_id: Id });
@@ -416,6 +416,50 @@ export const MandateRevoke = z.strictObject({ reason: z.string().min(10).max(500
 export const RightsRequestCreate = z.strictObject({
   right_type: RightType, principal_id: Id, submitted_channel: z.enum(['PORTAL', 'RECORDED_MANUAL_INTAKE']),
   mandate_id: Id.nullable(), description: SafeText,
+});
+/**
+ * A data principal raising their own request, from the portal.
+ *
+ * There is deliberately no `principal_id`. It is taken from the authenticated
+ * session, so a portal request is always about the person making it and there
+ * is no field through which somebody could raise a request about anybody else.
+ * `submitted_channel` is not a choice here either: a request that arrived
+ * through the portal is a PORTAL request, and letting the caller label it
+ * otherwise would corrupt the one field that records how it actually arrived.
+ */
+export const OwnRightsRequestCreate = z.strictObject({
+  right_type: RightType,
+  description: z.string().min(10).max(2000),
+});
+/**
+ * What the person who made the request is shown about it.
+ *
+ * Deliberately narrower than the staff view. The identity review, the planned
+ * actions per system, the unresolved destinations and the internal scoping are
+ * the organisation's working notes; showing them here would leak how the
+ * organisation is structured and what it could not reach, which is not the
+ * requester's business and is not something they can act on.
+ *
+ * What they do get is what they need to hold the organisation to account: what
+ * they asked for, when, where it has got to, and whether it is finished.
+ */
+export const OwnRightsRequest = z.strictObject({
+  id: Id, right_type: RightType, state: RequestState,
+  submitted_at: Time, description: SafeText,
+  /** Structural: a portal request records the channel it actually arrived on. */
+  submitted_channel: z.literal('PORTAL'),
+  closed_at: Time.nullable(),
+  /** Whether the organisation has released its response. Read from the record
+   *  rather than inferred from the state, because a request can close without
+   *  a response having been released and the two must stay distinguishable. */
+  response_released: z.boolean(),
+  /** Structural, and the honest limit of a status page: a state is where the
+   *  organisation has got to, not a promise about what the outcome will be. */
+  a_state_is_not_a_promise_about_the_outcome: z.literal(true),
+  limits: z.array(SafeText).max(6),
+}).superRefine((r, c) => {
+  if ((r.state === 'CLOSED') !== (r.closed_at !== null)) c.addIssue({ code: 'custom', message: 'A closed request says when it closed, and an open one does not' });
+
 });
 export const IdentityReview = z.strictObject({
   grade: IdentityMatchGrade, basis: z.string().min(10).max(500),
@@ -948,10 +992,38 @@ export const FeatureAvailability = z.strictObject({
   const named = new Set(f.gates.map(gate => gate.gate));
   if (named.size !== 5) c.addIssue({ code: 'custom', message: 'Every gate must be reported exactly once' });
 });
+/**
+ * A licensed limit against what the installation actually holds.
+ *
+ * This build creates neither environments nor staff members through any route:
+ * both come from the protected local bootstrap, so a limit cannot be exceeded
+ * by using the product. That makes enforcement the wrong verb and comparison
+ * the right one -- an installation can still drift past what it is licensed
+ * for, and nothing was telling anybody.
+ *
+ * `within` is derived rather than asserted, so a report cannot say it is inside
+ * a limit it is over.
+ */
+export const LicensedLimitUsage = z.strictObject({
+  limit: z.enum(['ENVIRONMENTS', 'STAFF_MEMBERS']),
+  licensed: z.number().int().min(1).max(10000),
+  observed: Epoch,
+  within: z.boolean(),
+  /** What was counted, so an observed figure is never a bare number. */
+  counted: SafeText,
+}).superRefine((u, c) => {
+  if (u.within !== (u.observed <= u.licensed)) c.addIssue({ code: 'custom', message: 'Whether a limit is met is derived from the counts, not stated separately' });
+});
 export const EntitlementReport = z.strictObject({
   as_of: Time, licence: LicenceState.nullable(),
   features: z.array(FeatureAvailability).max(16),
   never_licensable: z.array(SafeText).min(1).max(16).describe('Capabilities no licence or edition can enable, stated so that their absence is not read as an upsell.'),
+  /** Empty when no licence is imported: there is nothing to compare against,
+   *  which is a different fact from being inside every limit. */
+  limit_usage: z.array(LicensedLimitUsage).max(2),
+  /** Structural. This product creates neither environments nor staff members,
+   *  so it reports drift past a licensed limit and never blocks anything. */
+  a_limit_is_reported_and_never_enforced_here: z.literal(true),
   limits: z.array(SafeText).max(8),
 });
 // ---------------------------------------------------------------------------
@@ -1925,6 +1997,8 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   BackupSnapshotList: page(BackupSnapshot), RestoreRunList: page(RestoreReconciliation), VendorVisibility,
   AuditRetentionRuleCreate, AuditRetentionRule, AuditRetentionReport,
   ReportQuery, Report, ReportSection,
+  OwnRightsRequestCreate, OwnRightsRequest, OwnRightsRequestList: page(OwnRightsRequest),
+  LicensedLimitUsage,
   ImportSubmit, ImportBatch, ImportRowDecide, ImportPurge, ImportBatchList: page(ImportBatch),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
@@ -1962,6 +2036,12 @@ export const routes: RouteDefinition[] = [
   {id:'grant',method:'post',path:'/api/v1/portal/me/consents/{purpose_id}/grant',authority:'PRINCIPAL',capability:'consent.own.write',params:'PurposePath',request:'Grant',response:'Receipt',status:202,idempotency:true},
   {id:'withdraw',method:'post',path:'/api/v1/portal/me/consents/{purpose_id}/withdraw',authority:'PRINCIPAL',capability:'consent.own.write',params:'PurposePath',request:'Withdraw',response:'Receipt',status:202,idempotency:true},
   {id:'own_receipt',method:'get',path:'/api/v1/portal/me/receipts/{id}',authority:'PRINCIPAL',capability:'receipt.own.read',params:'IdPath',response:'ReceiptView',status:200},
+  // §13. A data principal must be able to exercise their rights themselves.
+  // The principal is taken from the session on all three, so none of them can
+  // be pointed at another person.
+  {id:'own_rights_requests',method:'get',path:'/api/v1/portal/me/rights-requests',authority:'PRINCIPAL',capability:'rights.own.read',response:'OwnRightsRequestList',status:200,paginated:true},
+  {id:'raise_own_rights_request',method:'post',path:'/api/v1/portal/me/rights-requests',authority:'PRINCIPAL',capability:'rights.own.write',request:'OwnRightsRequestCreate',response:'OwnRightsRequest',status:201,idempotency:true},
+  {id:'own_rights_request',method:'get',path:'/api/v1/portal/me/rights-requests/{id}',authority:'PRINCIPAL',capability:'rights.own.read',params:'IdPath',response:'OwnRightsRequest',status:200},
   {id:'workflows',method:'get',path:'/api/v1/admin/workflows',authority:'STAFF',capability:'workflow.read',response:'WorkflowList',status:200,paginated:true},
   {id:'workflow',method:'get',path:'/api/v1/admin/workflows/{id}',authority:'STAFF',capability:'workflow.read',params:'IdPath',response:'Workflow',status:200},
   {id:'reconcile',method:'post',path:'/api/v1/admin/actions/{id}/reconcile',authority:'STAFF',capability:'action.reconcile',params:'IdPath',response:'AcceptedOperation',status:202,idempotency:true},

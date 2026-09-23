@@ -28,6 +28,9 @@ export interface EndpointMap {
   grant: { request: import('zod').infer<typeof import('../src/index.ts').schemas.Grant>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Receipt> };
   withdraw: { request: import('zod').infer<typeof import('../src/index.ts').schemas.Withdraw>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Receipt> };
   own_receipt: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ReceiptView> };
+  own_rights_requests: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnRightsRequestList> };
+  raise_own_rights_request: { request: import('zod').infer<typeof import('../src/index.ts').schemas.OwnRightsRequestCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnRightsRequest> };
+  own_rights_request: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnRightsRequest> };
   workflows: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.WorkflowList> };
   workflow: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.Workflow> };
   reconcile: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AcceptedOperation> };

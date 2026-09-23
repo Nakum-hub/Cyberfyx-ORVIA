@@ -143,8 +143,34 @@ export async function entitlementReport(c: Context) {
       limits: ['Every gate is evaluated independently. A feature is usable only when all five pass.'],
     });
   });
+  // Licensed limits against what this installation actually holds. Neither
+  // environments nor staff members are created by any route in this build --
+  // both come from the protected local bootstrap -- so a limit cannot be
+  // exceeded by using the product, and enforcement would have nothing to act
+  // on. Drift past a limit is still real, though, and nothing was reporting it.
+  //
+  // Environments are counted for this organisation; staff come from the scoped
+  // identity view, because orvia_app cannot read staff_auth directly.
+  const limit_usage = [];
+  if (licence) {
+    const environments = Number((await c.tx.query(
+      `SELECT count(*)::int AS n FROM app.environments WHERE tenant_id=$1 AND legal_entity_id=$2`,
+      [c.actor.scope.tenant_id, c.actor.scope.legal_entity_id])).rows[0].n);
+    const staff = Number((await c.tx.query(
+      'SELECT active_identities AS n FROM app.local_identity_summary')).rows[0]?.n ?? 0);
+    limit_usage.push({
+      limit: 'ENVIRONMENTS' as const, licensed: licence.licensed_limits.environments,
+      observed: environments, within: environments <= licence.licensed_limits.environments,
+      counted: 'Environments recorded for this organisation, across every tenant scope it owns.',
+    }, {
+      limit: 'STAFF_MEMBERS' as const, licensed: licence.licensed_limits.staff_members,
+      observed: staff, within: staff <= licence.licensed_limits.staff_members,
+      counted: 'Active staff identities in this scope, read from the scoped identity summary rather than from the identity store directly.',
+    });
+  }
   return S.EntitlementReport.parse({
     as_of: new Date().toISOString(), licence, features,
+    limit_usage, a_limit_is_reported_and_never_enforced_here: true,
     // FR-M28-04. Stated plainly so their absence reads as a commitment rather
     // than as something a bigger plan would unlock.
     never_licensable: S.NEVER_LICENSABLE.map(code => `${code}: no edition, licence or flag enables this. It is not a withheld feature.`),

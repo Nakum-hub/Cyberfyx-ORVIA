@@ -1,0 +1,362 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T06:06:35.980Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "the key reference refuses a PEM body rather than storing it",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the key reference refuses a base64 blob rather than storing it",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the key reference refuses a sentence rather than storing it",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the snapshot never claims this product made, holds or verified the archive",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "it counts exactly the domains it says it covers",
+      "result": "PASS",
+      "expected": [
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ],
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ]
+      ],
+      "actual": [
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ],
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ]
+      ]
+    },
+    {
+      "name": "the counts are read from this installation rather than supplied by the caller",
+      "result": "PASS",
+      "expected": [
+        [
+          "CONFIGURATION",
+          504
+        ],
+        [
+          "DOMAIN_RECORDS",
+          257
+        ]
+      ],
+      "actual": [
+        [
+          "CONFIGURATION",
+          504
+        ],
+        [
+          "DOMAIN_RECORDS",
+          257
+        ]
+      ]
+    },
+    {
+      "name": "and the statement carries a digest over what was read",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the database itself refuses to let a declared snapshot be changed",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a restore begins in quarantine and says so",
+      "result": "PASS",
+      "expected": [
+        "QUARANTINED",
+        null
+      ],
+      "actual": [
+        "QUARANTINED",
+        null
+      ]
+    },
+    {
+      "name": "the withdrawal made after the snapshot is reported as a conflict",
+      "result": "PASS",
+      "expected": [
+        "GRANTED",
+        "WITHDRAWN",
+        true
+      ],
+      "actual": [
+        "GRANTED",
+        "WITHDRAWN",
+        true
+      ]
+    },
+    {
+      "name": "the outstanding count is the conflicts nobody has decided, not a summary",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "and nothing is attributed to anyone yet",
+      "result": "PASS",
+      "expected": [
+        null,
+        null,
+        null
+      ],
+      "actual": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "a restore cannot leave quarantine while a changed decision is outstanding",
+      "result": "PASS",
+      "expected": [
+        400,
+        [
+          "consent_decisions_changed_since_snapshot_are_outstanding"
+        ]
+      ],
+      "actual": [
+        400,
+        [
+          "consent_decisions_changed_since_snapshot_are_outstanding"
+        ]
+      ]
+    },
+    {
+      "name": "an administrator who may record a restore may not release one",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor may read the reconciliation",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "but may not release it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a pair whose decision never changed cannot be acknowledged to clear the queue",
+      "result": "PASS",
+      "expected": [
+        404,
+        [
+          "no_such_conflict_in_this_restore"
+        ]
+      ],
+      "actual": [
+        404,
+        [
+          "no_such_conflict_in_this_restore"
+        ]
+      ]
+    },
+    {
+      "name": "every conflict now names who decided it and when",
+      "result": "PASS",
+      "expected": [
+        0,
+        true
+      ],
+      "actual": [
+        0,
+        true
+      ]
+    },
+    {
+      "name": "a decision already taken cannot be quietly replaced with a different one",
+      "result": "PASS",
+      "expected": [
+        409,
+        [
+          "conflict_already_decided"
+        ]
+      ],
+      "actual": [
+        409,
+        [
+          "conflict_already_decided"
+        ]
+      ]
+    },
+    {
+      "name": "the restore leaves quarantine only once nothing is outstanding, and says when",
+      "result": "PASS",
+      "expected": [
+        "RELEASED",
+        0,
+        true
+      ],
+      "actual": [
+        "RELEASED",
+        0,
+        true
+      ]
+    },
+    {
+      "name": "and it never claims to have reinstated anything",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "releasing twice is refused rather than silently repeated",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to return a released restore to quarantine",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "the withdrawal stands after the restore was released",
+      "result": "PASS",
+      "expected": "WITHDRAWN",
+      "actual": "WITHDRAWN"
+    },
+    {
+      "name": "and the principal is still shown as withdrawn in their own portal",
+      "result": "PASS",
+      "expected": "WITHDRAWN",
+      "actual": "WITHDRAWN"
+    },
+    {
+      "name": "deciding that the current state prevails is recorded as such, not as a restoration",
+      "result": "PASS",
+      "expected": "CURRENT_STATE_PREVAILS",
+      "actual": "CURRENT_STATE_PREVAILS"
+    },
+    {
+      "name": "backup status is now a measurement rather than an absence",
+      "result": "PASS",
+      "expected": [
+        true,
+        "SECONDS",
+        true
+      ],
+      "actual": [
+        true,
+        "SECONDS",
+        true
+      ]
+    },
+    {
+      "name": "and it says what a declaration is not evidence of",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the preflight backup gate is earned by a reconciled restore, not asserted",
+      "result": "PASS",
+      "expected": [
+        "PASSED",
+        null,
+        false
+      ],
+      "actual": [
+        "PASSED",
+        null,
+        false
+      ]
+    },
+    {
+      "name": "the gate still states that this product cannot see the archive",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the snapshot list is a read of statements and carries no archive content",
+      "result": "PASS",
+      "expected": [
+        "archive_is_held_by_the_customer",
+        "counts",
+        "covers",
+        "encryption_was_not_verified_by_this_product",
+        "id",
+        "key_reference",
+        "limits",
+        "note",
+        "state_digest",
+        "taken_at",
+        "taken_by"
+      ],
+      "actual": [
+        "archive_is_held_by_the_customer",
+        "counts",
+        "covers",
+        "encryption_was_not_verified_by_this_product",
+        "id",
+        "key_reference",
+        "limits",
+        "note",
+        "state_digest",
+        "taken_at",
+        "taken_by"
+      ]
+    },
+    {
+      "name": "both declared snapshots are listed for a reader holding health.read",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a member without the capability is refused the list",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}
