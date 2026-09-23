@@ -46,6 +46,7 @@
     "test:reports": "tsx tests/integration/evidence/reports.test.ts",
     "test:portal-rights": "tsx tests/integration/rights/portal.test.ts",
     "test:regression": "tsx tests/integration/regression/regression.test.ts",
+    "verify:suites": "tsx scripts/verify-suites.ts",
     "regression:init": "tsx scripts/regression-init.ts",
     "regression:run": "tsx scripts/regression-runner.ts",
     "runtime:build": "tsx scripts/runtime-image.ts",
