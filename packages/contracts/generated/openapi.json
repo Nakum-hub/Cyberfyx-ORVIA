@@ -25351,6 +25351,330 @@
         }
       }
     },
+    "/api/v1/admin/reports": {
+      "get": {
+        "operationId": "report",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "title",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 120
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sections",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 400
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                },
+                "example": {
+                  "title": "Quarterly privacy record",
+                  "generated_at": "2026-09-16T10:00:00.000Z",
+                  "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                  "scope_label": "Aster Retail Private Limited · production",
+                  "period_from": "2026-04-01T00:00:00.000Z",
+                  "period_to": "2026-06-30T23:59:59.000Z",
+                  "sections": [
+                    {
+                      "kind": "PURPOSES_AND_NOTICES",
+                      "heading": "Purposes and published notices",
+                      "covers": "Every purpose this installation processes for, the notice version published against it, and the personal data that notice itemises.",
+                      "columns": [
+                        "Purpose",
+                        "Status",
+                        "Notice",
+                        "Language",
+                        "Published",
+                        "Personal data itemised"
+                      ],
+                      "rows": [
+                        [
+                          "Promotional marketing",
+                          "PUBLISHED",
+                          "Optional marketing messages",
+                          "en",
+                          "2026-09-16T10:00:00.000Z",
+                          "CONTACT_DETAILS, MARKETING_PREFERENCES"
+                        ]
+                      ],
+                      "counted": "1 purpose-and-notice pairing(s) recorded in this scope.",
+                      "limits": [
+                        "This lists what was published. It does not assess whether the wording of any notice is adequate."
+                      ]
+                    },
+                    {
+                      "kind": "CONSENT_DECISIONS",
+                      "heading": "Consent decisions",
+                      "covers": "Every consent decision a data principal made in the period, as recorded at the moment it was accepted.",
+                      "columns": [
+                        "Accepted",
+                        "Purpose",
+                        "Decision",
+                        "Epoch"
+                      ],
+                      "rows": [
+                        [
+                          "2026-09-16T10:00:00.000Z",
+                          "Promotional marketing",
+                          "WITHDRAWN",
+                          "2"
+                        ],
+                        [
+                          "2026-09-16T10:00:00.000Z",
+                          "Promotional marketing",
+                          "GRANTED",
+                          "1"
+                        ]
+                      ],
+                      "counted": "2 decision(s) in the period: 1 grant(s) and 1 withdrawal(s). Principals are counted by decision, not by person.",
+                      "limits": [
+                        "A decision is recorded once and never edited, so the same person may appear more than once."
+                      ]
+                    },
+                    {
+                      "kind": "COVERAGE_GAPS",
+                      "heading": "Coverage gaps",
+                      "covers": "What this installation records as not covered, not verified, or outside what it can act on.",
+                      "columns": [
+                        "Detected",
+                        "Gap",
+                        "State",
+                        "Severity",
+                        "Owner"
+                      ],
+                      "rows": [
+                        [
+                          "2026-09-16T10:00:00.000Z",
+                          "This copy has no reviewed retention basis.",
+                          "GAP_OPEN",
+                          "MEDIUM",
+                          "Records management"
+                        ]
+                      ],
+                      "counted": "1 recorded gap(s), of which 1 are not resolved.",
+                      "limits": [
+                        "A gap is recorded when somebody notices it. An empty section means none has been recorded, which is a different fact from full coverage."
+                      ]
+                    }
+                  ],
+                  "omitted": [
+                    {
+                      "kind": "AUDIT_TRAIL",
+                      "reason": "WITHHELD_FOR_AUTHORITY"
+                    },
+                    {
+                      "kind": "RIGHTS_REQUESTS",
+                      "reason": "NOT_SELECTED"
+                    },
+                    {
+                      "kind": "DATA_INVENTORY",
+                      "reason": "NOT_SELECTED"
+                    },
+                    {
+                      "kind": "PROCESSORS",
+                      "reason": "NOT_SELECTED"
+                    },
+                    {
+                      "kind": "INCIDENTS_AND_INTIMATIONS",
+                      "reason": "NOT_SELECTED"
+                    },
+                    {
+                      "kind": "AUDIT_RETENTION",
+                      "reason": "NOT_SELECTED"
+                    },
+                    {
+                      "kind": "OPERATIONAL_READINESS",
+                      "reason": "NOT_SELECTED"
+                    }
+                  ],
+                  "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "this_report_is_not_a_compliance_certificate": true,
+                  "every_section_left_out_is_named": true,
+                  "limits": [
+                    "Every section is a table of what this installation recorded. None of it is an opinion about whether an obligation has been met.",
+                    "A section withheld for authority was not read. It is not empty, and it is not evidence that there was nothing to show."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "evidence.export",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
     "/api/v1/admin/imports": {
       "get": {
         "operationId": "list_imports",
@@ -50197,6 +50521,313 @@
           "envelopes_are_never_deleted_by_this_product",
           "snapshots_covering_evidence",
           "a_declared_snapshot_is_not_reached_by_anything_here",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "ReportQuery": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "sections": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 400
+          }
+        },
+        "additionalProperties": false
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "profile": {
+            "type": "string",
+            "const": "CUSTOMER_LOCAL_SYNTHETIC"
+          },
+          "scope_label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "period_from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "period_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sections": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "PURPOSES_AND_NOTICES",
+                    "CONSENT_DECISIONS",
+                    "RIGHTS_REQUESTS",
+                    "DATA_INVENTORY",
+                    "COVERAGE_GAPS",
+                    "PROCESSORS",
+                    "INCIDENTS_AND_INTIMATIONS",
+                    "AUDIT_TRAIL",
+                    "AUDIT_RETENTION",
+                    "OPERATIONAL_READINESS"
+                  ]
+                },
+                "heading": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "covers": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "columns": {
+                  "minItems": 1,
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                },
+                "rows": {
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "minItems": 1,
+                    "maxItems": 8,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    }
+                  }
+                },
+                "counted": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "limits": {
+                  "maxItems": 6,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "heading",
+                "covers",
+                "columns",
+                "rows",
+                "counted",
+                "limits"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "omitted": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "PURPOSES_AND_NOTICES",
+                    "CONSENT_DECISIONS",
+                    "RIGHTS_REQUESTS",
+                    "DATA_INVENTORY",
+                    "COVERAGE_GAPS",
+                    "PROCESSORS",
+                    "INCIDENTS_AND_INTIMATIONS",
+                    "AUDIT_TRAIL",
+                    "AUDIT_RETENTION",
+                    "OPERATIONAL_READINESS"
+                  ]
+                },
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "NOT_SELECTED",
+                    "WITHHELD_FOR_AUTHORITY"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "content_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "this_report_is_not_a_compliance_certificate": {
+            "type": "boolean",
+            "const": true
+          },
+          "every_section_left_out_is_named": {
+            "type": "boolean",
+            "const": true
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "title",
+          "generated_at",
+          "profile",
+          "scope_label",
+          "period_from",
+          "period_to",
+          "sections",
+          "omitted",
+          "content_digest",
+          "this_report_is_not_a_compliance_certificate",
+          "every_section_left_out_is_named",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "ReportSection": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "PURPOSES_AND_NOTICES",
+              "CONSENT_DECISIONS",
+              "RIGHTS_REQUESTS",
+              "DATA_INVENTORY",
+              "COVERAGE_GAPS",
+              "PROCESSORS",
+              "INCIDENTS_AND_INTIMATIONS",
+              "AUDIT_TRAIL",
+              "AUDIT_RETENTION",
+              "OPERATIONAL_READINESS"
+            ]
+          },
+          "heading": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "covers": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "columns": {
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "rows": {
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "minItems": 1,
+              "maxItems": 8,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              }
+            }
+          },
+          "counted": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "limits": {
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "heading",
+          "covers",
+          "columns",
+          "rows",
+          "counted",
           "limits"
         ],
         "additionalProperties": false

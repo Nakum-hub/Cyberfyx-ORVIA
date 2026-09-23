@@ -3488,6 +3488,142 @@
       }
     },
     {
+      "operation_id": "report",
+      "method": "GET",
+      "path": "/api/v1/admin/reports",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "title": "Quarterly privacy record",
+        "generated_at": "2026-09-16T10:00:00.000Z",
+        "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+        "scope_label": "Aster Retail Private Limited · production",
+        "period_from": "2026-04-01T00:00:00.000Z",
+        "period_to": "2026-06-30T23:59:59.000Z",
+        "sections": [
+          {
+            "kind": "PURPOSES_AND_NOTICES",
+            "heading": "Purposes and published notices",
+            "covers": "Every purpose this installation processes for, the notice version published against it, and the personal data that notice itemises.",
+            "columns": [
+              "Purpose",
+              "Status",
+              "Notice",
+              "Language",
+              "Published",
+              "Personal data itemised"
+            ],
+            "rows": [
+              [
+                "Promotional marketing",
+                "PUBLISHED",
+                "Optional marketing messages",
+                "en",
+                "2026-09-16T10:00:00.000Z",
+                "CONTACT_DETAILS, MARKETING_PREFERENCES"
+              ]
+            ],
+            "counted": "1 purpose-and-notice pairing(s) recorded in this scope.",
+            "limits": [
+              "This lists what was published. It does not assess whether the wording of any notice is adequate."
+            ]
+          },
+          {
+            "kind": "CONSENT_DECISIONS",
+            "heading": "Consent decisions",
+            "covers": "Every consent decision a data principal made in the period, as recorded at the moment it was accepted.",
+            "columns": [
+              "Accepted",
+              "Purpose",
+              "Decision",
+              "Epoch"
+            ],
+            "rows": [
+              [
+                "2026-09-16T10:00:00.000Z",
+                "Promotional marketing",
+                "WITHDRAWN",
+                "2"
+              ],
+              [
+                "2026-09-16T10:00:00.000Z",
+                "Promotional marketing",
+                "GRANTED",
+                "1"
+              ]
+            ],
+            "counted": "2 decision(s) in the period: 1 grant(s) and 1 withdrawal(s). Principals are counted by decision, not by person.",
+            "limits": [
+              "A decision is recorded once and never edited, so the same person may appear more than once."
+            ]
+          },
+          {
+            "kind": "COVERAGE_GAPS",
+            "heading": "Coverage gaps",
+            "covers": "What this installation records as not covered, not verified, or outside what it can act on.",
+            "columns": [
+              "Detected",
+              "Gap",
+              "State",
+              "Severity",
+              "Owner"
+            ],
+            "rows": [
+              [
+                "2026-09-16T10:00:00.000Z",
+                "This copy has no reviewed retention basis.",
+                "GAP_OPEN",
+                "MEDIUM",
+                "Records management"
+              ]
+            ],
+            "counted": "1 recorded gap(s), of which 1 are not resolved.",
+            "limits": [
+              "A gap is recorded when somebody notices it. An empty section means none has been recorded, which is a different fact from full coverage."
+            ]
+          }
+        ],
+        "omitted": [
+          {
+            "kind": "AUDIT_TRAIL",
+            "reason": "WITHHELD_FOR_AUTHORITY"
+          },
+          {
+            "kind": "RIGHTS_REQUESTS",
+            "reason": "NOT_SELECTED"
+          },
+          {
+            "kind": "DATA_INVENTORY",
+            "reason": "NOT_SELECTED"
+          },
+          {
+            "kind": "PROCESSORS",
+            "reason": "NOT_SELECTED"
+          },
+          {
+            "kind": "INCIDENTS_AND_INTIMATIONS",
+            "reason": "NOT_SELECTED"
+          },
+          {
+            "kind": "AUDIT_RETENTION",
+            "reason": "NOT_SELECTED"
+          },
+          {
+            "kind": "OPERATIONAL_READINESS",
+            "reason": "NOT_SELECTED"
+          }
+        ],
+        "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "this_report_is_not_a_compliance_certificate": true,
+        "every_section_left_out_is_named": true,
+        "limits": [
+          "Every section is a table of what this installation recorded. None of it is an opinion about whether an obligation has been met.",
+          "A section withheld for authority was not read. It is not empty, and it is not evidence that there was nothing to show."
+        ]
+      }
+    },
+    {
       "operation_id": "list_imports",
       "method": "GET",
       "path": "/api/v1/admin/imports",

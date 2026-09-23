@@ -1451,6 +1451,16 @@
       "idempotency": true
     },
     {
+      "id": "report",
+      "method": "get",
+      "path": "/api/v1/admin/reports",
+      "authority": "STAFF",
+      "capability": "evidence.export",
+      "query": "ReportQuery",
+      "response": "Report",
+      "status": 200
+    },
+    {
       "id": "list_imports",
       "method": "get",
       "path": "/api/v1/admin/imports",

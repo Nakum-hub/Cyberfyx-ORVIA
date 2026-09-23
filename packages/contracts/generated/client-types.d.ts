@@ -1695,6 +1695,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["report"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/imports": {
         parameters: {
             query?: never;
@@ -5898,6 +5914,56 @@ export interface components {
             snapshots_covering_evidence: number;
             /** @constant */
             a_declared_snapshot_is_not_reached_by_anything_here: true;
+            limits: string[];
+        };
+        ReportQuery: {
+            title?: string;
+            /** Format: date-time */
+            from?: string;
+            /** Format: date-time */
+            to?: string;
+            sections?: string;
+        };
+        Report: {
+            title: string;
+            /** Format: date-time */
+            generated_at: string;
+            /** @constant */
+            profile: "CUSTOMER_LOCAL_SYNTHETIC";
+            scope_label: string;
+            period_from: string | null;
+            period_to: string | null;
+            sections: {
+                /** @enum {string} */
+                kind: "PURPOSES_AND_NOTICES" | "CONSENT_DECISIONS" | "RIGHTS_REQUESTS" | "DATA_INVENTORY" | "COVERAGE_GAPS" | "PROCESSORS" | "INCIDENTS_AND_INTIMATIONS" | "AUDIT_TRAIL" | "AUDIT_RETENTION" | "OPERATIONAL_READINESS";
+                heading: string;
+                covers: string;
+                columns: string[];
+                rows: string[][];
+                counted: string;
+                limits: string[];
+            }[];
+            omitted: {
+                /** @enum {string} */
+                kind: "PURPOSES_AND_NOTICES" | "CONSENT_DECISIONS" | "RIGHTS_REQUESTS" | "DATA_INVENTORY" | "COVERAGE_GAPS" | "PROCESSORS" | "INCIDENTS_AND_INTIMATIONS" | "AUDIT_TRAIL" | "AUDIT_RETENTION" | "OPERATIONAL_READINESS";
+                /** @enum {string} */
+                reason: "NOT_SELECTED" | "WITHHELD_FOR_AUTHORITY";
+            }[];
+            content_digest: string;
+            /** @constant */
+            this_report_is_not_a_compliance_certificate: true;
+            /** @constant */
+            every_section_left_out_is_named: true;
+            limits: string[];
+        };
+        ReportSection: {
+            /** @enum {string} */
+            kind: "PURPOSES_AND_NOTICES" | "CONSENT_DECISIONS" | "RIGHTS_REQUESTS" | "DATA_INVENTORY" | "COVERAGE_GAPS" | "PROCESSORS" | "INCIDENTS_AND_INTIMATIONS" | "AUDIT_TRAIL" | "AUDIT_RETENTION" | "OPERATIONAL_READINESS";
+            heading: string;
+            covers: string;
+            columns: string[];
+            rows: string[][];
+            counted: string;
             limits: string[];
         };
         ImportSubmit: {
@@ -30129,6 +30195,294 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["AuditRetentionRule"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    report: {
+        parameters: {
+            query?: {
+                title?: string;
+                from?: string;
+                to?: string;
+                sections?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "title": "Quarterly privacy record",
+                     *       "generated_at": "2026-09-16T10:00:00.000Z",
+                     *       "profile": "CUSTOMER_LOCAL_SYNTHETIC",
+                     *       "scope_label": "Aster Retail Private Limited · production",
+                     *       "period_from": "2026-04-01T00:00:00.000Z",
+                     *       "period_to": "2026-06-30T23:59:59.000Z",
+                     *       "sections": [
+                     *         {
+                     *           "kind": "PURPOSES_AND_NOTICES",
+                     *           "heading": "Purposes and published notices",
+                     *           "covers": "Every purpose this installation processes for, the notice version published against it, and the personal data that notice itemises.",
+                     *           "columns": [
+                     *             "Purpose",
+                     *             "Status",
+                     *             "Notice",
+                     *             "Language",
+                     *             "Published",
+                     *             "Personal data itemised"
+                     *           ],
+                     *           "rows": [
+                     *             [
+                     *               "Promotional marketing",
+                     *               "PUBLISHED",
+                     *               "Optional marketing messages",
+                     *               "en",
+                     *               "2026-09-16T10:00:00.000Z",
+                     *               "CONTACT_DETAILS, MARKETING_PREFERENCES"
+                     *             ]
+                     *           ],
+                     *           "counted": "1 purpose-and-notice pairing(s) recorded in this scope.",
+                     *           "limits": [
+                     *             "This lists what was published. It does not assess whether the wording of any notice is adequate."
+                     *           ]
+                     *         },
+                     *         {
+                     *           "kind": "CONSENT_DECISIONS",
+                     *           "heading": "Consent decisions",
+                     *           "covers": "Every consent decision a data principal made in the period, as recorded at the moment it was accepted.",
+                     *           "columns": [
+                     *             "Accepted",
+                     *             "Purpose",
+                     *             "Decision",
+                     *             "Epoch"
+                     *           ],
+                     *           "rows": [
+                     *             [
+                     *               "2026-09-16T10:00:00.000Z",
+                     *               "Promotional marketing",
+                     *               "WITHDRAWN",
+                     *               "2"
+                     *             ],
+                     *             [
+                     *               "2026-09-16T10:00:00.000Z",
+                     *               "Promotional marketing",
+                     *               "GRANTED",
+                     *               "1"
+                     *             ]
+                     *           ],
+                     *           "counted": "2 decision(s) in the period: 1 grant(s) and 1 withdrawal(s). Principals are counted by decision, not by person.",
+                     *           "limits": [
+                     *             "A decision is recorded once and never edited, so the same person may appear more than once."
+                     *           ]
+                     *         },
+                     *         {
+                     *           "kind": "COVERAGE_GAPS",
+                     *           "heading": "Coverage gaps",
+                     *           "covers": "What this installation records as not covered, not verified, or outside what it can act on.",
+                     *           "columns": [
+                     *             "Detected",
+                     *             "Gap",
+                     *             "State",
+                     *             "Severity",
+                     *             "Owner"
+                     *           ],
+                     *           "rows": [
+                     *             [
+                     *               "2026-09-16T10:00:00.000Z",
+                     *               "This copy has no reviewed retention basis.",
+                     *               "GAP_OPEN",
+                     *               "MEDIUM",
+                     *               "Records management"
+                     *             ]
+                     *           ],
+                     *           "counted": "1 recorded gap(s), of which 1 are not resolved.",
+                     *           "limits": [
+                     *             "A gap is recorded when somebody notices it. An empty section means none has been recorded, which is a different fact from full coverage."
+                     *           ]
+                     *         }
+                     *       ],
+                     *       "omitted": [
+                     *         {
+                     *           "kind": "AUDIT_TRAIL",
+                     *           "reason": "WITHHELD_FOR_AUTHORITY"
+                     *         },
+                     *         {
+                     *           "kind": "RIGHTS_REQUESTS",
+                     *           "reason": "NOT_SELECTED"
+                     *         },
+                     *         {
+                     *           "kind": "DATA_INVENTORY",
+                     *           "reason": "NOT_SELECTED"
+                     *         },
+                     *         {
+                     *           "kind": "PROCESSORS",
+                     *           "reason": "NOT_SELECTED"
+                     *         },
+                     *         {
+                     *           "kind": "INCIDENTS_AND_INTIMATIONS",
+                     *           "reason": "NOT_SELECTED"
+                     *         },
+                     *         {
+                     *           "kind": "AUDIT_RETENTION",
+                     *           "reason": "NOT_SELECTED"
+                     *         },
+                     *         {
+                     *           "kind": "OPERATIONAL_READINESS",
+                     *           "reason": "NOT_SELECTED"
+                     *         }
+                     *       ],
+                     *       "content_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                     *       "this_report_is_not_a_compliance_certificate": true,
+                     *       "every_section_left_out_is_named": true,
+                     *       "limits": [
+                     *         "Every section is a table of what this installation recorded. None of it is an opinion about whether an obligation has been met.",
+                     *         "A section withheld for authority was not read. It is not empty, and it is not evidence that there was nothing to show."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["Report"];
                 };
             };
             /** @description VALIDATION_ERROR */

@@ -1642,8 +1642,93 @@ export const ImportBatch = z.strictObject({
   if (b.state === 'APPLIED' && b.undecided_conflicts > 0) c.addIssue({ code: 'custom', message: 'An import applies only when every conflict has been decided' });
 });
 
+// ---------------------------------------------------------------------------
+// Reporting (§133). "Users should be able to export evidence: JSON, CSV where
+// appropriate, PDF reports, signed evidence packages. Exports themselves must
+// be audited."
+//
+// A report is a period, a scope and an ordered set of sections, each of which
+// is a table this installation can already produce. It is rendered print-ready
+// so the operator saves it as PDF from the browser: no report generator runs
+// server-side, nothing is templated into a binary format this product would
+// then have to promise it had rendered faithfully, and there is no new
+// dependency in the delivered lockfile.
+//
+// Two refusals shape the whole shape. A report cannot quietly present a
+// flattering subset -- every section that exists and was left out is named on
+// the cover. And a section the reader lacks the authority to see is reported as
+// withheld rather than dropped, because a report that silently shrinks to fit
+// the reader's permissions is a report that misleads whoever is handed it.
+// ---------------------------------------------------------------------------
+export const ReportSectionKind = z.enum([
+  'PURPOSES_AND_NOTICES', 'CONSENT_DECISIONS', 'RIGHTS_REQUESTS', 'DATA_INVENTORY',
+  'COVERAGE_GAPS', 'PROCESSORS', 'INCIDENTS_AND_INTIMATIONS', 'AUDIT_TRAIL',
+  'AUDIT_RETENTION', 'OPERATIONAL_READINESS',
+]);
+/** Why a section is not in the report. Closed, so 'it is missing' is never the
+ *  whole answer a reader gets. */
+export const ReportOmission = z.enum(['NOT_SELECTED', 'WITHHELD_FOR_AUTHORITY']);
+export const ReportSectionOmitted = z.strictObject({ kind: ReportSectionKind, reason: ReportOmission });
+export const ReportSection = z.strictObject({
+  kind: ReportSectionKind,
+  heading: SafeText,
+  /** What question this section answers. A table with no stated question is a
+   *  table a reader will invent a question for. */
+  covers: SafeText,
+  columns: z.array(SafeText).min(1).max(8),
+  rows: z.array(z.array(SafeText).min(1).max(8)).max(500),
+  /** What the row count counted, in words, so an empty section is never read as
+   *  a clean one. */
+  counted: SafeText,
+  /** Carried by the section itself, so a section cannot be lifted into a custom
+   *  report while leaving its caveats behind. */
+  limits: z.array(SafeText).max(6),
+}).superRefine((x, c) => {
+  if (x.rows.some(row => row.length !== x.columns.length)) c.addIssue({ code: 'custom', message: 'Every row has one cell per declared column' });
+});
+export const ReportQuery = z.strictObject({
+  title: z.string().min(3).max(120).optional(),
+  from: Time.optional(), to: Time.optional(),
+  /** Comma-separated section kinds, in the order they should appear. */
+  sections: z.string().min(3).max(400).optional(),
+}).superRefine((q, c) => {
+  // Refused here rather than when the assembled report is parsed, so a
+  // reversed period is a named validation error before any section is built
+  // -- not an opaque failure after the work has been done.
+  if (q.from && q.to && Date.parse(q.to) < Date.parse(q.from)) c.addIssue({ code: 'custom', path: ['to'], message: 'A reporting period cannot end before it starts' });
+});
+export const Report = z.strictObject({
+  title: SafeText, generated_at: Time, profile: z.literal(PROFILE),
+  /** The organisation and environment this describes, so a report cannot be
+   *  mistaken for one about a different part of the business. */
+  scope_label: SafeText,
+  period_from: Time.nullable(), period_to: Time.nullable(),
+  sections: z.array(ReportSection).min(1).max(10),
+  /** Every section this installation could have produced and did not, with why.
+   *  Named on the cover, so an omission is a disclosure rather than a silence. */
+  omitted: z.array(ReportSectionOmitted).max(10),
+  /** Over the rendered content, so two copies of a report can be compared. */
+  content_digest: Digest,
+  /** Structural. Sections are tables of what this installation recorded. */
+  this_report_is_not_a_compliance_certificate: z.literal(true),
+  /** Structural. An omitted section is disclosed, never dropped silently. */
+  every_section_left_out_is_named: z.literal(true),
+  limits: z.array(SafeText).max(8),
+}).superRefine((r, c) => {
+  const shown = r.sections.map(x => x.kind);
+  if (new Set(shown).size !== shown.length) c.addIssue({ code: 'custom', message: 'A section appears at most once in a report' });
+  const named = r.omitted.map(x => x.kind);
+  if (new Set(named).size !== named.length) c.addIssue({ code: 'custom', message: 'A section is omitted for one reason' });
+  if (shown.some(kind => named.includes(kind))) c.addIssue({ code: 'custom', message: 'A section is either included or omitted, never both' });
+  if (shown.length + named.length !== ReportSectionKind.options.length) c.addIssue({ code: 'custom', message: 'Every section this product can produce is either included or named as omitted' });
+  if (r.period_from && r.period_to && Date.parse(r.period_to) < Date.parse(r.period_from)) c.addIssue({ code: 'custom', message: 'A reporting period cannot end before it starts' });
+});
+
 export type AuditRetentionPurposeValue = z.infer<typeof AuditRetentionPurpose>;
 export type AuditRetentionReportValue = z.infer<typeof AuditRetentionReport>;
+export type ReportSectionKindValue = z.infer<typeof ReportSectionKind>;
+export type ReportSectionValue = z.infer<typeof ReportSection>;
+export type ReportValue = z.infer<typeof Report>;
 export type ImportedAssetRowValue = z.infer<typeof ImportedAssetRow>;
 export type ImportBatchValue = z.infer<typeof ImportBatch>;
 
@@ -1839,6 +1924,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   BackupSnapshotCreate, BackupSnapshot, RestoreRunCreate, RestoreReconciliation, ConsentConflictAcknowledge,
   BackupSnapshotList: page(BackupSnapshot), RestoreRunList: page(RestoreReconciliation), VendorVisibility,
   AuditRetentionRuleCreate, AuditRetentionRule, AuditRetentionReport,
+  ReportQuery, Report, ReportSection,
   ImportSubmit, ImportBatch, ImportRowDecide, ImportPurge, ImportBatchList: page(ImportBatch),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),
@@ -1984,6 +2070,10 @@ export const routes: RouteDefinition[] = [
   // trail is kept is audit administration, which is a different authority.
   {id:'audit_retention',method:'get',path:'/api/v1/admin/audit-retention',authority:'STAFF',capability:'audit.read',response:'AuditRetentionReport',status:200},
   {id:'set_audit_retention',method:'post',path:'/api/v1/admin/audit-retention-rules',authority:'STAFF',capability:'audit.administer',request:'AuditRetentionRuleCreate',response:'AuditRetentionRule',status:201,idempotency:true},
+  // §133. Held by the export authority, and each section additionally checked
+  // against the capability its own data needs -- a reader without that
+  // capability gets the section named as withheld, never silently removed.
+  {id:'report',method:'get',path:'/api/v1/admin/reports',authority:'STAFF',capability:'evidence.export',query:'ReportQuery',response:'Report',status:200},
   // FR-M29-04. One typed path: submit into quarantine, preview with conflicts,
   // decide each conflict, then apply as asserted inventory or purge the rows.
   {id:'list_imports',method:'get',path:'/api/v1/admin/imports',authority:'STAFF',capability:'graph.read',response:'ImportBatchList',status:200,paginated:true},
