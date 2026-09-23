@@ -992,10 +992,38 @@ export const FeatureAvailability = z.strictObject({
   const named = new Set(f.gates.map(gate => gate.gate));
   if (named.size !== 5) c.addIssue({ code: 'custom', message: 'Every gate must be reported exactly once' });
 });
+/**
+ * A licensed limit against what the installation actually holds.
+ *
+ * This build creates neither environments nor staff members through any route:
+ * both come from the protected local bootstrap, so a limit cannot be exceeded
+ * by using the product. That makes enforcement the wrong verb and comparison
+ * the right one -- an installation can still drift past what it is licensed
+ * for, and nothing was telling anybody.
+ *
+ * `within` is derived rather than asserted, so a report cannot say it is inside
+ * a limit it is over.
+ */
+export const LicensedLimitUsage = z.strictObject({
+  limit: z.enum(['ENVIRONMENTS', 'STAFF_MEMBERS']),
+  licensed: z.number().int().min(1).max(10000),
+  observed: Epoch,
+  within: z.boolean(),
+  /** What was counted, so an observed figure is never a bare number. */
+  counted: SafeText,
+}).superRefine((u, c) => {
+  if (u.within !== (u.observed <= u.licensed)) c.addIssue({ code: 'custom', message: 'Whether a limit is met is derived from the counts, not stated separately' });
+});
 export const EntitlementReport = z.strictObject({
   as_of: Time, licence: LicenceState.nullable(),
   features: z.array(FeatureAvailability).max(16),
   never_licensable: z.array(SafeText).min(1).max(16).describe('Capabilities no licence or edition can enable, stated so that their absence is not read as an upsell.'),
+  /** Empty when no licence is imported: there is nothing to compare against,
+   *  which is a different fact from being inside every limit. */
+  limit_usage: z.array(LicensedLimitUsage).max(2),
+  /** Structural. This product creates neither environments nor staff members,
+   *  so it reports drift past a licensed limit and never blocks anything. */
+  a_limit_is_reported_and_never_enforced_here: z.literal(true),
   limits: z.array(SafeText).max(8),
 });
 // ---------------------------------------------------------------------------
@@ -1970,6 +1998,7 @@ export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Re
   AuditRetentionRuleCreate, AuditRetentionRule, AuditRetentionReport,
   ReportQuery, Report, ReportSection,
   OwnRightsRequestCreate, OwnRightsRequest, OwnRightsRequestList: page(OwnRightsRequest),
+  LicensedLimitUsage,
   ImportSubmit, ImportBatch, ImportRowDecide, ImportPurge, ImportBatchList: page(ImportBatch),
   DataAssetList: page(DataAsset), ProcessingActivityList: page(ProcessingActivity), GraphRelationshipList: page(GraphRelationship),
   RightsRequestList: page(RightsRequest), MandateList: page(Mandate),

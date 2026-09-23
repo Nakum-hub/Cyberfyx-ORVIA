@@ -2446,6 +2446,8 @@
         "never_licensable": [
           "Synthetic example"
         ],
+        "limit_usage": [],
+        "a_limit_is_reported_and_never_enforced_here": true,
         "limits": []
       }
     },

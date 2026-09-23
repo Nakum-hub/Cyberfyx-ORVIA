@@ -122,13 +122,22 @@ recorded as NOT_RUN rather than skipped quietly.
 ### A correction to the run recorded above
 
 The integration figures in the previous section were collected by running each suite and then reading the
-newest artifact matching its name. That method is unsound, and it misreported one suite. `test:updates`
+newest artifact matching its name. That method is unsound, and it misreported two suites. `test:updates`
 requires `ORVIA_RELEASE_KEY_ID`, `ORVIA_RELEASE_PRIVATE_KEY` and `ORVIA_RELEASE_PUBLIC_KEY` in the
 environment; without them it throws before writing any artifact, so the reader picked up a record from a run
 roughly a day earlier and reported it as current. The suite did not pass in that batch, because it did not
 run at all.
 
-It has since been run properly with the fixture key pair and passes **54 assertions, 0 failures**, so the
+`test:licensing` has the same shape: it needs `ORVIA_LICENCE_KEY_ID`, `ORVIA_LICENCE_PRIVATE_KEY` and
+`ORVIA_LICENCE_PUBLIC_KEY`, and without the public key the untrusted-signer refusal arrives as a bare 503
+rather than the named rejection, so a run can fail in a way that looks like a product fault. Run properly it
+passes **33 assertions, 0 failures**.
+
+Both were checked deliberately after the first was found, and those two are the only suites that hard-fail on
+a missing environment variable — `evidence`, `workflow` and the auth security suite reference `ORVIA_` values
+but do not depend on a key pair being supplied.
+
+`test:updates` has since been run properly with the fixture key pair and passes **54 assertions, 0 failures**, so the
 figure quoted above is correct — but it was correct by luck rather than by method, and that is worth saying
 plainly rather than leaving a number nobody could reproduce.
 

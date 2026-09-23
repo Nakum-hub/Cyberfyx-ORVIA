@@ -4736,6 +4736,16 @@ export interface components {
             }[];
             /** @description Capabilities no licence or edition can enable, stated so that their absence is not read as an upsell. */
             never_licensable: string[];
+            limit_usage: {
+                /** @enum {string} */
+                limit: "ENVIRONMENTS" | "STAFF_MEMBERS";
+                licensed: number;
+                observed: number;
+                within: boolean;
+                counted: string;
+            }[];
+            /** @constant */
+            a_limit_is_reported_and_never_enforced_here: true;
             limits: string[];
         };
         SupportCaseCreate: {
@@ -6041,6 +6051,14 @@ export interface components {
                 limits: string[];
             }[];
             next_cursor: string | null;
+        };
+        LicensedLimitUsage: {
+            /** @enum {string} */
+            limit: "ENVIRONMENTS" | "STAFF_MEMBERS";
+            licensed: number;
+            observed: number;
+            within: boolean;
+            counted: string;
         };
         ImportSubmit: {
             /** @enum {string} */
@@ -25128,6 +25146,8 @@ export interface operations {
                      *       "never_licensable": [
                      *         "Synthetic example"
                      *       ],
+                     *       "limit_usage": [],
+                     *       "a_limit_is_reported_and_never_enforced_here": true,
                      *       "limits": []
                      *     }
                      */
