@@ -32,3 +32,7 @@ Integration and browser suites remain NOT_RUN in this pass; the previously attem
 After the user asked to recover the two uncommitted files lost during the failed Windows move, `backend/api/src/governance-routes.ts` and `backend/api/src/platform-routes.ts` were reconstructed from the currently working central switch. `backend/api/src/business.ts` now delegates 64 governance and 57 platform route cases after the existing server authority checks and within the same scoped transaction, idempotency and audit boundary. A case-set comparison with the base Git version found no missing old case; the current `list_test_runs` case is the only addition. No duplicate case labels occur across the three files.
 
 Executed after reconstruction: TypeScript `tsc --noEmit` exit 0; 199 unit tests exit 0; ESLint on the three backend files exit 0; production Next.js build exit 0 with 51 static pages; `git diff --check` exit 0. Integration and browser suites remain NOT_RUN because the Docker runtime was unavailable in this environment. These are reconstructed files, not byte-for-byte recovery of the lost uncommitted versions.
+
+## Git publication
+
+The reviewed source relocation and route reconstruction were committed as `8bda0c69395bbd6cde42701f82edf786cca261d4` on `prototype/codex/A06-evidence-hardening`. This note follows that commit and records its actual hash. Unrelated untracked `500_test_cases/`, `ORVIA_V1_Agent_Build_Pack/`, and `handoffs/codex/artifacts/` files were excluded. The branch is to be pushed to its existing `origin` upstream without merging.
