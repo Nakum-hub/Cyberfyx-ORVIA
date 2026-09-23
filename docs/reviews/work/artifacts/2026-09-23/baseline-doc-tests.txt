@@ -1,0 +1,250 @@
+...F..F.....FF...F.............FF.F........F..FF.FFFFF....FF.FF
+======================================================================
+FAIL: test_overview_predicate_and_unresolved_claim_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_overview_predicate_and_unresolved_claim_match_reviewed_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 89, in test_overview_predicate_and_unresolved_claim_match_reviewed_source
+    self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+AssertionError: Lists differ: ['decision: missing or out-of-root artifac[929 chars].ts'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'decision: missing or out-of-root artifact: packages/domain/src/processing.ts'
+
+Diff is 1059 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_reason_state_and_copy_association_match_reviewed_source (test_delivery_audit.DeliveryAuditTests.test_reason_state_and_copy_association_match_reviewed_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_delivery_audit.py", line 79, in test_reason_state_and_copy_association_match_reviewed_source
+    self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+AssertionError: Lists differ: ['decision: missing or out-of-root artifac[929 chars].ts'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'decision: missing or out-of-root artifact: packages/domain/src/processing.ts'
+
+Diff is 1059 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_changed_copy_makes_generated_output_stale_until_rebuilt (test_document_tools.DocToolCase.test_changed_copy_makes_generated_output_stale_until_rebuilt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_document_tools.py", line 154, in test_changed_copy_makes_generated_output_stale_until_rebuilt
+    self.assertEqual(self.failed(), {})
+AssertionError: {'Copy recovery, reason mappings and count[1726 chars]tio"} != {}
+Diff is 10647 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_claim_supported_on_matching_candidate_passes (test_document_tools.DocToolCase.test_claim_supported_on_matching_candidate_passes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_document_tools.py", line 252, in test_claim_supported_on_matching_candidate_passes
+    self.assertEqual(self.failed("fixture"), {})
+AssertionError: {'Copy recovery, reason mappings and count[1726 chars]tio"} != {}
+Diff is 10647 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_explicit_no_evidence_snapshot_passes_historical_mode (test_document_tools.DocToolCase.test_explicit_no_evidence_snapshot_passes_historical_mode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_document_tools.py", line 94, in test_explicit_no_evidence_snapshot_passes_historical_mode
+    self.assertEqual(self.failed("historical-no-evidence"), {})
+AssertionError: {'Copy recovery, reason mappings and count[1911 chars]n']"} != {}
+Diff is 10995 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_recorded_failure_is_kept_as_a_result (test_document_tools.DocToolCase.test_recorded_failure_is_kept_as_a_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_document_tools.py", line 207, in test_recorded_failure_is_kept_as_a_result
+    self.assertEqual(self.failed("fixture"), {})
+AssertionError: {'Copy recovery, reason mappings and count[1726 chars]tio"} != {}
+Diff is 10647 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_repository_copy_passes_current_mode (test_document_tools.DocToolCase.test_repository_copy_passes_current_mode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_document_tools.py", line 90, in test_repository_copy_passes_current_mode
+    self.assertEqual(self.failed(), {})
+AssertionError: {'Copy recovery, reason mappings and count[1911 chars]n']"} != {}
+Diff is 10995 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_supported_nonempty_record_is_accepted (test_document_tools.DocToolCase.test_supported_nonempty_record_is_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_document_tools.py", line 197, in test_supported_nonempty_record_is_accepted
+    self.assertEqual(self.failed("fixture"), {})
+AssertionError: {'Copy recovery, reason mappings and count[1726 chars]tio"} != {}
+Diff is 10647 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_candidate_dimensions_and_positive (test_r4_regressions.R4Tests.test_candidate_dimensions_and_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 128, in test_candidate_dimensions_and_positive
+    self.rebuild();self.assertEqual(self.failed('fixture'),{})
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'Copy recovery, reason mappings and count[1726 chars]tio"} != {}
+Diff is 10647 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_later_failure_or_unreviewed_run_blocks_older_pass (test_r4_regressions.R4Tests.test_later_failure_or_unreviewed_run_blocks_older_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 151, in test_later_failure_or_unreviewed_run_blocks_older_pass
+    self.record('HEALTHY',role='HEALTHY_RERUN',minute=2);self.rebuild();self.assertEqual(self.failed('fixture'),{})
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'Copy recovery, reason mappings and count[1726 chars]tio"} != {}
+Diff is 10647 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_loaded_latest_requires_actual_conflict_and_scoped_read (test_r4_regressions.R4Tests.test_loaded_latest_requires_actual_conflict_and_scoped_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 41, in test_loaded_latest_requires_actual_conflict_and_scoped_read
+    self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+AssertionError: Lists differ: ['decision: missing or out-of-root artifac[929 chars].ts'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'decision: missing or out-of-root artifact: packages/domain/src/processing.ts'
+
+Diff is 1059 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_overview_does_not_sum_mixed_units_or_ignore_source_change (test_r4_regressions.R4Tests.test_overview_does_not_sum_mixed_units_or_ignore_source_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 69, in test_overview_does_not_sum_mixed_units_or_ignore_source_change
+    self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+AssertionError: Lists differ: ['decision: missing or out-of-root artifac[929 chars].ts'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'decision: missing or out-of-root artifact: packages/domain/src/processing.ts'
+
+Diff is 1059 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_readiness_only_value_mismatch_and_positive (test_r4_regressions.R4Tests.test_readiness_only_value_mismatch_and_positive) (k='canonical_readiness')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 111, in test_readiness_only_value_mismatch_and_positive
+    self.assertEqual(rules.readiness_errors(self.root,k,st[k]),[])
+AssertionError: Lists differ: ['readiness source revision hash mismatch', 'ambiguous readiness field'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'readiness source revision hash mismatch'
+
+- ['readiness source revision hash mismatch', 'ambiguous readiness field']
++ []
+
+======================================================================
+FAIL: test_readiness_only_value_mismatch_and_positive (test_r4_regressions.R4Tests.test_readiness_only_value_mismatch_and_positive) (k='production_readiness')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 111, in test_readiness_only_value_mismatch_and_positive
+    self.assertEqual(rules.readiness_errors(self.root,k,st[k]),[])
+AssertionError: Lists differ: ['readiness source revision hash mismatch', 'ambiguous readiness field'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'readiness source revision hash mismatch'
+
+- ['readiness source revision hash mismatch', 'ambiguous readiness field']
++ []
+
+======================================================================
+FAIL: test_readiness_revision_time_and_positive (test_r4_regressions.R4Tests.test_readiness_revision_time_and_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 124, in test_readiness_revision_time_and_positive
+    self.assertFalse(rules.readiness_errors(self.root,'canonical_readiness',r))
+AssertionError: ['readiness source revision hash mismatch', 'ambiguous readiness field'] is not false
+
+======================================================================
+FAIL: test_reason_catalogue_rejects_unknown_unsafe_and_stale_bindings (test_r4_regressions.R4Tests.test_reason_catalogue_rejects_unknown_unsafe_and_stale_bindings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 57, in test_reason_catalogue_rejects_unknown_unsafe_and_stale_bindings
+    self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+AssertionError: Lists differ: ['decision: missing or out-of-root artifac[929 chars].ts'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'decision: missing or out-of-root artifact: packages/domain/src/processing.ts'
+
+Diff is 1059 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_screen_browser_positive_requires_scope (test_r4_regressions.R4Tests.test_screen_browser_positive_requires_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 217, in test_screen_browser_positive_requires_scope
+    self.assertEqual(rules.screen_errors(self.root,[screen],self.jload(EV)),[])
+AssertionError: Lists differ: ['W-SIGNIN: source inspection hash mismatch'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'W-SIGNIN: source inspection hash mismatch'
+
+- ['W-SIGNIN: source inspection hash mismatch']
++ []
+
+======================================================================
+FAIL: test_screen_unknown_and_source_only_browser_claim_fail (test_r4_regressions.R4Tests.test_screen_unknown_and_source_only_browser_claim_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 198, in test_screen_unknown_and_source_only_browser_claim_fail
+    st=self.jload(ST);ev=self.jload(EV);self.assertEqual(rules.screen_errors(self.root,st['screens'],ev),[])
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['W-SIGNIN: source inspection hash mismatc[895 chars]tch'] != []
+
+First list contains 20 additional elements.
+First extra element 0:
+'W-SIGNIN: source inspection hash mismatch'
+
+Diff is 1007 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_uncertain_write_reload_regression_and_positive (test_r4_regressions.R4Tests.test_uncertain_write_reload_regression_and_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 27, in test_uncertain_write_reload_regression_and_positive
+    self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+AssertionError: Lists differ: ['decision: missing or out-of-root artifac[929 chars].ts'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'decision: missing or out-of-root artifact: packages/domain/src/processing.ts'
+
+Diff is 1059 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_withdrawal_detail_cannot_describe_a_grant (test_r4_regressions.R4Tests.test_withdrawal_detail_cannot_describe_a_grant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/6107f9291043/cyberfyx-orvia-work-current/docs/reviews/cowork/tools/tests/test_r4_regressions.py", line 50, in test_withdrawal_detail_cannot_describe_a_grant
+    self.assertEqual(rules.copy_safety_errors(self.root, original), [])
+AssertionError: Lists differ: ['decision: missing or out-of-root artifac[929 chars].ts'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'decision: missing or out-of-root artifact: packages/domain/src/processing.ts'
+
+Diff is 1059 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 62 tests in 55.465s
+
+FAILED (failures=20)
+STALE docs/prototype/UX_BRIEF.md
+STALE docs/demo/LEADERSHIP_HANDOVER.md
+STALE docs/demo/index.html
+STALE docs/reviews/cowork/GENERATED_MANIFEST.json
+4 generated output(s) stale; run build_pack.py

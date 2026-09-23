@@ -11,15 +11,15 @@ Where a statement depends on evidence, it is written as the claim to be made **o
 ## Readiness at a glance (generated)
 
 <!-- BEGIN GENERATED: handover-readiness -->
-As of 2026-09-17T13:05:00Z (DELIVERY_STATUS.json).
+As of 2026-09-23T11:50:02Z (DELIVERY_STATUS.json).
 
 | Question | Answer |
 |---|---|
-| Documentation base | `81431d6` (current source inspection EV-SRC-009, 2026-09-17T13:05:00Z) |
-| Application at that base | Frozen candidate 81431d64afb8dd613c96d942402d8c0d8cc07ac0, tree e949d8c43c0dfffcea2e332eb7baa7eb2a052f0524709e6d533dcd566304e437, host build mtRrfhGjl22jabwoImHIf. All 18 designed workspace and Privacy Centre screens are implemented as tracked Next routes. A complete Playwright run at this exact commit passed 16/16. Screen-level browser results are still NOT_RUN because the reporter emits no BROWSER_ACCEPTANCE record with screen_ids (finding FINAL-CONT-F08); source inspection is not browser acceptance and neither is Work acceptance or a human rehearsal. |
-| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `81431d6`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
+| Documentation base | `e58b281` (current source inspection EV-SRC-010, 2026-09-23T11:50:02Z) |
+| Application at that base | Tracked route-file existence and hash inspection at e58b281b21af9398bc879d3a43fc748cc83ba626 only; no build, browser acceptance, candidate, or rehearsal. |
+| Internal-demo readiness | **NOT_READY**. Source: `CURRENT_STATE.md` @ `e58b281`, quoted: “Internal-demo NOT_READY”. Owner: Work (consolidates); human (approves). |
 | Production readiness | **NOT_ASSESSED**. Source: `CURRENT_STATE.md`, quoted: “Production security/legal/supply-chain/full recovery NOT_ASSESSED”. |
-| Frozen candidate | IDENTIFIED `81431d64afb8dd613c96d942402d8c0d8cc07ac0` |
+| Frozen candidate | NOT_IDENTIFIED |
 | P0 scenarios with an inspected PASS on the candidate | 0 of 30 (records indexed: 0) |
 | Engineering reports indexed (not acceptance) | 221 (39 with non-zero exit, retained) |
 | Presentation deadline | See F-015 in FINDINGS.csv |

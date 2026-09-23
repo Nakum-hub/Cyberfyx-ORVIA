@@ -1,5 +1,11 @@
 # W03 — final gate report
 
+## Current Work checkpoint — 2026-09-23
+
+**Internal-demo NOT_READY; production security/legal/supply-chain/full recovery NOT_ASSESSED.** Inspected main `e58b281b21af9398bc879d3a43fc748cc83ba626` has later source changes beyond the previously qualified inventory. The executable transport manifest is `0.15.0` with `PENDING_WORK_REVIEW`; its accepted baseline remains `0.2.1`. There is no current frozen candidate. `c5655ea` is void and the older `81431d64` build is historical. EV-SRC-010 inspects route existence and hashes, not browser behavior.
+
+W00, A00–A06 and W01 remain accepted at their recorded historical revisions. C00 is IN_REVIEW awaiting a human decision; C01/C02 and W02/W03 retain their dependencies. T01–T34 complete scenarios remain NOT_RUN and two candidate-matched rehearsals are absent. The Work document checks in `docs/reviews/work/artifacts/2026-09-23/` do not promote application acceptance. Human acceptance or return of C00 is the next decision; Codex can then implement dependency-ready B00. Human alone approves integration and release. The older checkpoint below remains for history.
+
 > r4 current-routing note (Work, 2026-09-16): former Cowork duties now belong to Work; unfinished Claude Code/B-task UI and browser duties now belong to Codex. Historical observations below retain their original dates and authorship. Current main includes PR #16's A02 expiry correction, awaiting consolidated review; see CURRENT_STATE.md and `handoffs/work/C00-C02-r4-delivery.md`.
 
 **Latest intake, not acceptance:** A03 was human-merged in PR #11 at 16:26:17 UTC while this package was being published: implementation `034100943f2c2f2b8e8934921501093746962b9b`, publication `397cb370bedaf45c3f62409e88fb891f7cd3b23e`, main `8a45911be8f86f7a35bfe1153bd40f968f4aecac`. Manifest metadata still says contract 0.3.0/PENDING_WORK_REVIEW. Only commit/path/publication metadata was inspected; A03 implementation and producer results remain queued for the requested consolidated review. This does not close A02 F01 or any Work gate.

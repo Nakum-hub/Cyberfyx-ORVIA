@@ -7885,7 +7885,7 @@
       "version": "0.2.1",
       "accepted_commit": "58ceddcd73b9b9f0717553bbd1e2fff3f7389abe",
       "decision_path": "docs/reviews/work/C00-copy-source-review.md",
-      "decision_sha256": "9060f7ad82ab96ec582157ba6432e81394023a30dfba3e3c5568c8782702d538",
+      "decision_sha256": "d37fb31760efeef3e3defa265ee14fb1b1f03200b225350ed7692c20b728f14b",
       "quoted_text": "Work accepts the display bindings listed below to the already accepted contract **0.2.1**",
       "copy_ids": [
         "permission.action.setup_mfa",
@@ -7940,7 +7940,7 @@
           "required_state": "ALLOW",
           "source_path": "policy/processing/decision.rego",
           "source_sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "EXPLICIT_SYNTHETIC_ORDER_CONDITION",
@@ -7948,7 +7948,7 @@
           "required_state": "ALLOW",
           "source_path": "policy/processing/decision.rego",
           "source_sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "CONDITIONS_NOT_SATISFIED",
@@ -7956,23 +7956,23 @@
           "required_state": "BLOCK",
           "source_path": "policy/processing/decision.rego",
           "source_sha256": "21dcce52e1c507ded51661eec1eff1f1f51f5e8e783ca8f276a9a101cf94f807",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "SERVICE_CONDITION_EXPIRED",
           "copy_id": "reason.decision.SERVICE_CONDITION_EXPIRED",
           "required_state": "BLOCK",
-          "source_path": "packages/domain/src/processing.ts",
-          "source_sha256": "2106e9bb8e209977802ad00ad402adb0943eb0fe1e43a099eb34b92b2d8b847a",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_path": "packages/privacy-control/src/processing.ts",
+          "source_sha256": "4d251ba86b10bd615ef9996d4e1f9b085c3e436d28c79d80ab132d1e2ced5404",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "TARGET_OBSERVATION_UNAVAILABLE",
           "copy_id": "reason.decision.TARGET_OBSERVATION_UNAVAILABLE",
           "required_state": "INDETERMINATE",
-          "source_path": "packages/domain/src/processing.ts",
-          "source_sha256": "2106e9bb8e209977802ad00ad402adb0943eb0fe1e43a099eb34b92b2d8b847a",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_path": "packages/privacy-control/src/processing.ts",
+          "source_sha256": "4d251ba86b10bd615ef9996d4e1f9b085c3e436d28c79d80ab132d1e2ced5404",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "POLICY_UNAVAILABLE",
@@ -7980,7 +7980,7 @@
           "required_state": "INDETERMINATE",
           "source_path": "packages/policy-sdk/src/index.ts",
           "source_sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "POLICY_RESULT_MISSING",
@@ -7988,7 +7988,7 @@
           "required_state": "INDETERMINATE",
           "source_path": "packages/policy-sdk/src/index.ts",
           "source_sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "POLICY_RESULT_INVALID",
@@ -7996,7 +7996,7 @@
           "required_state": "INDETERMINATE",
           "source_path": "packages/policy-sdk/src/index.ts",
           "source_sha256": "ff4e38bd18a77215922a728bef626386b1575395c338a3e9415e24bf03b9217b",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         }
       ]
     },
@@ -8010,56 +8010,56 @@
           "copy_id": "reason.command.APPLIED",
           "required_state": "ACKNOWLEDGED",
           "source_path": "apps/agent/src/execute.ts",
-          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_sha256": "d7214324997f0bd260244529477cd0779450ef84674e27547c63fb63b241e257",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "POLICY_NOT_APPROVED",
           "copy_id": "reason.command.POLICY_NOT_APPROVED",
           "required_state": "FAILED",
           "source_path": "apps/agent/src/execute.ts",
-          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_sha256": "d7214324997f0bd260244529477cd0779450ef84674e27547c63fb63b241e257",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "STALE_EPOCH",
           "copy_id": "reason.command.STALE_EPOCH",
           "required_state": "FAILED",
           "source_path": "apps/agent/src/execute.ts",
-          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_sha256": "d7214324997f0bd260244529477cd0779450ef84674e27547c63fb63b241e257",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "STALE_GENERATION",
           "copy_id": "reason.command.STALE_GENERATION",
           "required_state": "FAILED",
           "source_path": "apps/agent/src/execute.ts",
-          "source_sha256": "832a4a3d298ca0074179ed33887942c949a54c50e2d65fe70cb5563f5c7002b4",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_sha256": "d7214324997f0bd260244529477cd0779450ef84674e27547c63fb63b241e257",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "PROVIDER_UNAVAILABLE",
           "copy_id": "reason.command.PROVIDER_UNAVAILABLE",
           "required_state": "FAILED",
-          "source_path": "packages/connectors/src/simulator.ts",
-          "source_sha256": "9a84ff76ecd58757754c452f6dcbd50c644ac6f695ae1f1e38c5a880059ce00a",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_path": "packages/connectors/src/crm-synthetic/simulator.ts",
+          "source_sha256": "7de37f4676c9640d2c78ea06a6ef910b24fdcd20e75880c0818e40b65be457d9",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "PROVIDER_DENIED",
           "copy_id": "reason.command.PROVIDER_DENIED",
           "required_state": "FAILED",
-          "source_path": "packages/connectors/src/simulator.ts",
-          "source_sha256": "9a84ff76ecd58757754c452f6dcbd50c644ac6f695ae1f1e38c5a880059ce00a",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_path": "packages/connectors/src/crm-synthetic/simulator.ts",
+          "source_sha256": "7de37f4676c9640d2c78ea06a6ef910b24fdcd20e75880c0818e40b65be457d9",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "PROVIDER_RESPONSE_UNKNOWN",
           "copy_id": "reason.command.PROVIDER_RESPONSE_UNKNOWN",
           "required_state": "EFFECT_UNKNOWN",
-          "source_path": "packages/connectors/src/simulator.ts",
-          "source_sha256": "9a84ff76ecd58757754c452f6dcbd50c644ac6f695ae1f1e38c5a880059ce00a",
-          "source_commit": "1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac"
+          "source_path": "packages/connectors/src/crm-synthetic/simulator.ts",
+          "source_sha256": "7de37f4676c9640d2c78ea06a6ef910b24fdcd20e75880c0818e40b65be457d9",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         }
       ]
     },
@@ -8072,33 +8072,33 @@
           "code": "READ_UNAVAILABLE",
           "copy_id": "reason.reconciliation.READ_UNAVAILABLE",
           "required_state": "INCONCLUSIVE",
-          "source_path": "packages/domain/src/evidence.ts",
-          "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
-          "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0"
+          "source_path": "packages/domain/src/evidence/evidence.ts",
+          "source_sha256": "925af8bed8e79629955935103bdbdb142cfaf2b5694250571d19c9be8ea9fdc6",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "STALE_SCOPE",
           "copy_id": "reason.reconciliation.STALE_SCOPE",
           "required_state": "INCONCLUSIVE",
-          "source_path": "packages/domain/src/evidence.ts",
-          "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
-          "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0"
+          "source_path": "packages/domain/src/evidence/evidence.ts",
+          "source_sha256": "925af8bed8e79629955935103bdbdb142cfaf2b5694250571d19c9be8ea9fdc6",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         },
         {
           "code": "DESIRED_STATE_NOT_OBSERVED",
           "copy_id": "reason.reconciliation.DESIRED_STATE_NOT_OBSERVED",
           "required_state": "INCONCLUSIVE",
-          "source_path": "packages/domain/src/evidence.ts",
-          "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
-          "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0"
+          "source_path": "packages/domain/src/evidence/evidence.ts",
+          "source_sha256": "925af8bed8e79629955935103bdbdb142cfaf2b5694250571d19c9be8ea9fdc6",
+          "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626"
         }
       ]
     }
   },
   "overview_bindings": {
-    "source_commit": "81431d64afb8dd613c96d942402d8c0d8cc07ac0",
-    "source_path": "packages/domain/src/evidence.ts",
-    "source_sha256": "5fb0bdd25d4f016094bd206afedc229787a31171953a8b5b6a9a9af826a42770",
+    "source_commit": "e58b281b21af9398bc879d3a43fc748cc83ba626",
+    "source_path": "packages/domain/src/evidence/evidence.ts",
+    "source_sha256": "925af8bed8e79629955935103bdbdb142cfaf2b5694250571d19c9be8ea9fdc6",
     "count_units": {
       "accepted": "WORKFLOWS",
       "running": "WORKFLOWS",
@@ -8111,15 +8111,15 @@
     },
     "may_sum_cards": false,
     "unverified_predicate": "completion_criterion == CURRENT_SCOPED_OBSERVATION and not obligationSatisfied at evaluation time",
-    "source_predicate_path": "packages/domain/src/completion.ts",
-    "source_predicate_sha256": "c5b3622b545de10fd8887b2d8e5488c7d7d9d35360f151e5e98082cb62b98682",
+    "source_predicate_path": "packages/domain/src/shared/completion.ts",
+    "source_predicate_sha256": "4bb600cc006b6bc9151a68cf97ac0f1ef0f6f9f0ee75caeba89cf6e7321f4521",
     "consumer_test_status": "NOT_RUN",
     "execution_counts_are_unresolved_counts": false,
     "execution_count_limit": "Execution-state counts retain manual/failed/unknown states even when a separate completion criterion is satisfied; do not label them outstanding work or link to a supposedly matching failures count."
   },
   "display_rules_review": {
     "path": "docs/reviews/work/C00-copy-source-review.md",
-    "sha256": "9060f7ad82ab96ec582157ba6432e81394023a30dfba3e3c5568c8782702d538",
+    "sha256": "d37fb31760efeef3e3defa265ee14fb1b1f03200b225350ed7692c20b728f14b",
     "review_kind": "WORK_AUTHORED_SEMANTIC_DECISION_AND_SELF_REVIEW",
     "application_acceptance": false
   }

@@ -198,7 +198,7 @@ def readiness_errors(root, key, r):
         data = local_file(root, r['source_path']).read_bytes()
         if hashlib.sha256(data).hexdigest() != r.get('source_sha256'): errors.append('readiness source revision hash mismatch')
         if not HEX40.fullmatch(str(r.get('source_commit',''))) or not date(r.get('observed_at')): errors.append('missing source revision/observation time')
-        rows = re.findall(r'^\| Readiness \| (.+) \|$', data.decode(), re.M)
+        rows = re.findall(r'^\| Readiness \| (.+) \|\r?$', data.decode(), re.M)
         if len(rows) != 1: raise ValueError('ambiguous readiness field')
         pattern = (r'^Internal-demo (NOT_READY|PARTIAL|READY);' if key == 'canonical_readiness'
                    else r'Production security/legal/supply-chain/full recovery (NOT_ASSESSED|NOT_READY|PARTIAL|READY)\b')

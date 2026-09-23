@@ -1,5 +1,7 @@
 # ORVIA prototype: claims register
 
+> Current Work review, 2026-09-23: source inspected at main `e58b281b21af9398bc879d3a43fc748cc83ba626` and master rev 1.4. A02–A06 and W01 have accepted historical task records; subsequent source changes void the frozen candidate. No current candidate identity, complete T01–T34 scenario result, screen-level browser acceptance or two qualifying rehearsals is supplied. The older intake paragraphs below are historical. Every full-demo claim remains NOT_EVIDENCED.
+
 **Owner:** GPT Work, successor to Cowork (C01) · **Status:** REVISED_FOR_REVIEW · **Revision:** c01-r4, 16 Sep 2026 UTC · **Documentation base:** `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac`
 
 ## Rule

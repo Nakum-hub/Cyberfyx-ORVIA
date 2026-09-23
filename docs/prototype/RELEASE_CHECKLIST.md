@@ -1,5 +1,7 @@
 # ORVIA prototype: internal-demo release checklist
 
+> Current checkpoint 2026-09-23: inspected main `e58b281b21af9398bc879d3a43fc748cc83ba626`; accepted engineering tasks through A06/W01 retain their original identities. The current frozen candidate is NOT_IDENTIFIED after source changes. Historical `81431d64` and `c5655ea` builds must not be reused. T01–T34 complete scenarios and two qualifying rehearsals remain NOT_RUN. Old r4 report counts and versions below describe their historical snapshot. Executable transport at this main is 0.15.0, still PENDING_WORK_REVIEW.
+
 **Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 **Internal-demo readiness: NOT_READY.** Source: `CURRENT_STATE.md` at the r4 inspected revision; exact source hash is in DELIVERY_STATUS.json; Work owns this value.

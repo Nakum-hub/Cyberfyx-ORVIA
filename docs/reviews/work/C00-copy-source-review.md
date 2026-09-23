@@ -82,3 +82,9 @@ Reviewed display-rule SHA-256: `e693be70631da7e5728f0838b9e1219e23265fd7a9141584
 
 The earlier digest recorded above this section remains the historical binding for the
 `1e23bbe3b31b4f1d50f096bdcc26bf105d1b1cac` revision of these mappings.
+
+## 2026-09-23 source-move review at e58b281b21af9398bc879d3a43fc748cc83ba626
+
+Checked every recorded reason code against its current source file and hash. Processing lives in packages/privacy-control/src/processing.ts; the CRM simulator in packages/connectors/src/crm-synthetic/simulator.ts; reconciliation and counts in packages/domain/src/evidence/evidence.ts; the completion predicate in packages/domain/src/shared/completion.ts. ACK is distinct from observed effect; an unknown effect is not a safe retry. Source presence is not browser acceptance. C00 human decision remains outstanding.
+
+Reviewed display-rule SHA-256: `4d9bbafee93f7cfd85375f8899a27f475255b1e8aa664082aebbe77010546760`
