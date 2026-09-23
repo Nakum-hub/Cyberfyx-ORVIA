@@ -213,6 +213,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
 export const PRIVACY_NAV: NavGroup[] = [
   { group: 'Your privacy', items: [
     { href: '/privacy', label: 'My choices' },
+    { href: '/privacy/rights', label: 'My rights' },
     { href: '/privacy/receipts', label: 'My receipts' },
   ] },
 ];

@@ -44,6 +44,7 @@
     "test:audit-retention": "tsx tests/integration/audit/retention.test.ts",
     "test:imports": "tsx tests/integration/onboarding/imports.test.ts",
     "test:reports": "tsx tests/integration/evidence/reports.test.ts",
+    "test:portal-rights": "tsx tests/integration/rights/portal.test.ts",
     "test:regression": "tsx tests/integration/regression/regression.test.ts",
     "regression:init": "tsx scripts/regression-init.ts",
     "regression:run": "tsx scripts/regression-runner.ts",

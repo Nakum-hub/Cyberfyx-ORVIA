@@ -13,7 +13,9 @@ export const roleCapabilities: Record<string, string[]> = {
   // FR-M33-03 separates from read is held here and by the owner, and by nobody
   // else who can merely read the trail.
   AUDITOR: [...read, 'audit.export'],
-  DATA_PRINCIPAL: ['consent.own.read', 'consent.own.write', 'receipt.own.read'],
+  // A data principal must be able to exercise their own rights, not only wait
+  // for staff to record a request on their behalf.
+  DATA_PRINCIPAL: ['consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write'],
 };
 export class AccessError extends Error {
   constructor(public status: number, public code: 'UNAUTHENTICATED' | 'FORBIDDEN' | 'NOT_FOUND' | 'SERVICE_UNAVAILABLE' | 'VALIDATION_ERROR' | 'IDEMPOTENCY_CONFLICT' | 'EPOCH_CONFLICT' | 'STALE_GENERATION' | 'INVALID_COMMAND',
