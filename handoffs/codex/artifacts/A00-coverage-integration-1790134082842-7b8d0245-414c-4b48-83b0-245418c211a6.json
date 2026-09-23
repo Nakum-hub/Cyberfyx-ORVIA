@@ -1,0 +1,368 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T03:28:02.843Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "every dimension is reported",
+      "result": "PASS",
+      "expected": [
+        "CONTROL_OBSERVATION",
+        "INVENTORY_OBSERVED",
+        "INVENTORY_REVIEWED",
+        "RETENTION_BASIS",
+        "RIGHTS_EXECUTION"
+      ],
+      "actual": [
+        "CONTROL_OBSERVATION",
+        "INVENTORY_OBSERVED",
+        "INVENTORY_REVIEWED",
+        "RETENTION_BASIS",
+        "RIGHTS_EXECUTION"
+      ]
+    },
+    {
+      "name": "INVENTORY_REVIEWED states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_REVIEWED numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_OBSERVED states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_OBSERVED numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RETENTION_BASIS states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RETENTION_BASIS numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "CONTROL_OBSERVATION states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "CONTROL_OBSERVATION numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RIGHTS_EXECUTION states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RIGHTS_EXECUTION numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "both new copies are inside the inventory denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "coverage says it is not a measure of the estate",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "coverage says it is computed at read time, not stored",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "every attention state is reported",
+      "result": "PASS",
+      "expected": [
+        "EFFECT_UNKNOWN",
+        "FAILED",
+        "MANUAL_REQUIRED",
+        "PENDING",
+        "UNVERIFIED"
+      ],
+      "actual": [
+        "EFFECT_UNKNOWN",
+        "FAILED",
+        "MANUAL_REQUIRED",
+        "PENDING",
+        "UNVERIFIED"
+      ]
+    },
+    {
+      "name": "the report warns that these counts must not be added",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "states that can co-occur name what they overlap with",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "no state claims to overlap with itself",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a declared but unobserved copy counts as unverified",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "derivation examined real records",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "derivation opened gaps for them",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "derivation says an absent gap is not evidence of correctness",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a copy with no retention basis raises that exact gap",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a declared copy that was never read raises that exact gap",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a missing retention basis is treated as a high-severity gap",
+      "result": "PASS",
+      "expected": "HIGH",
+      "actual": "HIGH"
+    },
+    {
+      "name": "a freshly observed copy raises no never-observed gap",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "re-deriving refreshes instead of duplicating",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "re-deriving refreshed the findings it saw again",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a long-standing gap keeps its original detection date",
+      "result": "PASS",
+      "expected": "2026-09-23T03:27:53.471Z",
+      "actual": "2026-09-23T03:27:53.471Z"
+    },
+    {
+      "name": "no duplicate gap was created for the same finding",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "assignment records severity, owner and deadline",
+      "result": "PASS",
+      "expected": [
+        "CRITICAL",
+        "Records management",
+        true
+      ],
+      "actual": [
+        "CRITICAL",
+        "Records management",
+        true
+      ]
+    },
+    {
+      "name": "an assigned gap is in progress",
+      "result": "PASS",
+      "expected": "IN_PROGRESS",
+      "actual": "IN_PROGRESS"
+    },
+    {
+      "name": "guidance declares itself advisory only",
+      "result": "PASS",
+      "expected": "ADVISORY_ONLY",
+      "actual": "ADVISORY_ONLY"
+    },
+    {
+      "name": "guidance matched a runbook rule for this source",
+      "result": "PASS",
+      "expected": "RB-RETENTION-001",
+      "actual": "RB-RETENTION-001"
+    },
+    {
+      "name": "guidance says it does not establish a cause",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "guidance says it does not close the gap",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "reading guidance changed nothing about the gap",
+      "result": "PASS",
+      "expected": "IN_PROGRESS",
+      "actual": "IN_PROGRESS"
+    },
+    {
+      "name": "resolving without evidence is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a resolved gap names the evidence that resolved it",
+      "result": "PASS",
+      "expected": [
+        "RESOLVED",
+        true
+      ],
+      "actual": [
+        "RESOLVED",
+        true
+      ]
+    },
+    {
+      "name": "a closed gap cannot be closed again",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a closed gap cannot be reassigned",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to reopen a closed gap",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an open gap exists to test the detection-date rule against",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the database refuses to change a detection date",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a finding that recurs after closure opens a new gap",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the closed gap and its recurrence are separate records",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "accepting a risk with no assigned owner is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "accepted risk records an owner and a reason",
+      "result": "PASS",
+      "expected": [
+        "ACCEPTED_RISK",
+        true,
+        true
+      ],
+      "actual": [
+        "ACCEPTED_RISK",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an auditor may read coverage",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor may read gaps",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot derive gaps",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member without the coverage capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}

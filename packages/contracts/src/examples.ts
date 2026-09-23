@@ -170,6 +170,24 @@ export function example(name:SchemaName):unknown {
     limits:['Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.',
       'Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived.']};
 
+  // An itemised notice, which is the only kind this product now accepts. The
+  // sampler cannot build one: it picks null for every nullable and false for
+  // every boolean, which is exactly the contradiction the schema refuses.
+  const noticeContact={rights_channel:'Withdraw consent or exercise any right in the privacy portal linked above.',
+    grievance_channel:'Raise a grievance with the privacy team through the portal; a response is due within the recorded window.',
+    board_complaint_channel:'Complain to the Data Protection Board through the channel the Board publishes.'};
+  if(name==='NoticeContact')return noticeContact;
+  if(name==='NoticeCreate')return {purpose_id:uuid(870),language:'en' as const,
+    title:'Optional marketing messages',
+    content:'We send promotional messages only while you have said yes, and you can withdraw at any time.',
+    data_categories:['CONTACT_DETAILS' as const,'MARKETING_PREFERENCES' as const],contact:noticeContact};
+  if(name==='Notice')return {purpose_id:uuid(870),language:'en' as const,
+    title:'Optional marketing messages',
+    content:'We send promotional messages only while you have said yes, and you can withdraw at any time.',
+    id:uuid(871),version_id:uuid(872),content_digest:'a'.repeat(64),published_at:sampleTime,
+    data_categories:['CONTACT_DETAILS' as const,'MARKETING_PREFERENCES' as const],contact:noticeContact,
+    itemisation_was_not_recorded:false};
+
   // Four purposes covering all eight audited categories exactly once. One has a
   // configured period with events past it; the other three have none, because
   // no period ships with this product and an unconfigured purpose must stay

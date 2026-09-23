@@ -27,7 +27,7 @@ import { z } from 'zod';
  *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
  *  quarantine and consent reconciliation. Additive again: no existing route,
  *  schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.14.0' as const;
+export const CONTRACT_VERSION = '0.15.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -99,8 +99,51 @@ export const NoticeLanguage = z.enum([
   'en', 'as', 'bn', 'brx', 'doi', 'gu', 'hi', 'kn', 'ks', 'kok', 'mai', 'ml',
   'mni', 'mr', 'ne', 'or', 'pa', 'sa', 'sat', 'sd', 'ta', 'te', 'ur',
 ]);
-export const NoticeCreate = z.strictObject({ purpose_id: Id, language: NoticeLanguage, title: z.string().min(1).max(120), content: z.string().min(1).max(10000) });
-export const Notice = NoticeCreate.extend({ id: Id, version_id: Id, content_digest: Digest, published_at: Time.nullable() });
+/** Categories are reviewed, explicitly assigned relationships, never derived from a name. */
+export const DataCategoryCode = z.enum(['CONTACT_DETAILS', 'IDENTIFIERS', 'MARKETING_PREFERENCES', 'ORDER_RECORDS', 'SUPPORT_NOTES']);
+/**
+ * Rules 3 and 9 require itemised notice content and appropriate contact
+ * information, and Act §5(1) names what a notice has to let a person do: know
+ * what is collected and why, exercise their rights, and complain to the Board.
+ *
+ * Three separate channels rather than one "contact us" string, because they are
+ * three different acts that routinely have different destinations. A notice that
+ * tells somebody how to withdraw but never how to reach the Board has omitted
+ * §5(1)(c), and a single field would hide that.
+ */
+export const NoticeContact = z.strictObject({
+  rights_channel: z.string().min(10).max(500).describe('How a Data Principal exercises their rights, including withdrawing consent.'),
+  grievance_channel: z.string().min(10).max(500).describe('How a Data Principal raises a grievance with this organisation.'),
+  board_complaint_channel: z.string().min(10).max(500).describe('How a Data Principal makes a complaint to the Data Protection Board.'),
+});
+export const NoticeCreate = z.strictObject({
+  purpose_id: Id, language: NoticeLanguage,
+  title: z.string().min(1).max(120), content: z.string().min(1).max(10000),
+  /** Itemised, from the same closed vocabulary the inventory uses, so what a
+   *  notice claims to collect and what the inventory records can be compared
+   *  instead of being two independent descriptions in prose. */
+  data_categories: z.array(DataCategoryCode).min(1).max(5),
+  contact: NoticeContact,
+}).superRefine((n, c) => {
+  if (new Set(n.data_categories).size !== n.data_categories.length) c.addIssue({ code: 'custom', message: 'Each data category is itemised once' });
+});
+export const Notice = z.strictObject({
+  purpose_id: Id, language: NoticeLanguage,
+  title: z.string().min(1).max(120), content: z.string().min(1).max(10000),
+  id: Id, version_id: Id, content_digest: Digest, published_at: Time.nullable(),
+  /** Null on a notice published before this product required itemisation. The
+   *  items were never recorded, and back-filling them would be inventing the
+   *  content of a notice somebody has already been shown and consented to. */
+  data_categories: z.array(DataCategoryCode).min(1).max(5).nullable(),
+  contact: NoticeContact.nullable(),
+  /** Structural companion, so a notice that itemises nothing is never read as
+   *  one that itemises an empty list. */
+  itemisation_was_not_recorded: z.boolean(),
+}).superRefine((n, c) => {
+  if (n.itemisation_was_not_recorded !== (n.data_categories === null)) c.addIssue({ code: 'custom', message: 'A notice either itemises its content or says that it does not' });
+  if ((n.data_categories === null) !== (n.contact === null)) c.addIssue({ code: 'custom', message: 'Itemised categories and contact information were introduced together and are recorded together' });
+  if (n.data_categories && new Set(n.data_categories).size !== n.data_categories.length) c.addIssue({ code: 'custom', message: 'Each data category is itemised once' });
+});
 /**
  * FR-M12-03. What changed between two notice versions, classified by the person
  * who made the change rather than guessed from a diff.
@@ -246,8 +289,6 @@ export const Provenance = z.enum(['ASSERTED', 'OBSERVED']);
 export const ReviewState = z.enum(['UNREVIEWED', 'IN_REVIEW', 'ACCEPTED', 'REJECTED']);
 export const GraphNodeKind = z.enum(['DATA_ASSET', 'PROCESSING_ACTIVITY', 'SYSTEM', 'PURPOSE']);
 export const DataAssetKind = z.enum(['DATASET', 'FIELD', 'DERIVED_COPY', 'EXPORT', 'BACKUP_COPY']);
-/** Categories are reviewed, explicitly assigned relationships, never derived from a name. */
-export const DataCategoryCode = z.enum(['CONTACT_DETAILS', 'IDENTIFIERS', 'MARKETING_PREFERENCES', 'ORDER_RECORDS', 'SUPPORT_NOTES']);
 export const LawfulCondition = z.enum(['AFFIRMATIVE_MARKETING_CONSENT', 'APPROVED_SYNTHETIC_ORDER_SERVICE']);
 export const CategoryAssignment = z.strictObject({ code: DataCategoryCode, basis: SafeText, review_state: ReviewState });
 export const DataAssetCreate = z.strictObject({
@@ -1771,7 +1812,7 @@ export const PurposePath = z.strictObject({ purpose_id: Id });
 export const WorkflowPath = z.strictObject({ workflow_id: Id });
 export const PollRequest = z.strictObject({ installation_id: Id, environment_id: Id, maximum_commands: z.number().int().min(1).max(10) });
 
-export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+export const schemas = { ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
   DataAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
   GraphSearchQuery, GraphSearchResult, NeighbourhoodQuery, GraphNeighbourhood, ImpactAssessment,
   RightsRequestCreate, RightsRequest, IdentityReview, RequestScope, RequestTransition, ResponseRelease, MandateCreate, Mandate, MandateRevoke, SystemOutcomeRecord, SystemOutcome,

@@ -1,0 +1,18 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-22T18:32:10.374Z",
+  "test_ids": [
+    "T14",
+    "T15",
+    "T16"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.15.0",
+  "build_id": "9plynbZt7DwoGs6Ir96GD",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+  ]
+}

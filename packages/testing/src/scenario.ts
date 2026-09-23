@@ -10,7 +10,7 @@ export async function createMarketingScenario(harness: HttpFixture, connector: '
  }
  const scope=harness.users.owner!.scope;const selectors={legal_entity_id:scope.legal_entity_id,environment_id:scope.environment_id};
  const purpose=S.Purpose.parse(await create('/api/v1/admin/purposes',{...selectors,code:purposeCode,name:'Synthetic workflow '+randomUUID().slice(0,8),description:'Isolated backend integration fixture; no real message transport.'}));
- const notice=S.Notice.parse(await create('/api/v1/admin/notices',{purpose_id:purpose.id,language:'en',title:'Optional synthetic marketing',content:'This fixture permits only synthetic marketing; withdraw in this portal.'}));
+ const notice=S.Notice.parse(await create('/api/v1/admin/notices',{purpose_id:purpose.id,language:'en',title:'Optional synthetic marketing',content:'This fixture permits only synthetic marketing; withdraw in this portal.',data_categories:['CONTACT_DETAILS','MARKETING_PREFERENCES'],contact:{rights_channel:'Withdraw or exercise rights in this privacy portal at any time.',grievance_channel:'Raise a grievance with the synthetic privacy team through this portal.',board_complaint_channel:'Complain to the Data Protection Board using the published Board channel.'}}));
  const system=S.System.parse(await create('/api/v1/admin/systems',{...selectors,name:connector,connector}));
  const policy=S.Policy.parse(await create('/api/v1/admin/policies',{purpose_id:purpose.id,notice_version_id:notice.version_id,condition:purposeCode==='promotional_marketing'?'AFFIRMATIVE_MARKETING_CONSENT':'APPROVED_SYNTHETIC_ORDER_SERVICE',system_ids:[system.id],required_observation:requiredObservation}));
  // Publication re-verifies the reviewer's authenticator, so this consumes the
