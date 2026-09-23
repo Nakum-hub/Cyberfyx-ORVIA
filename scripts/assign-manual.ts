@@ -1,11 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
-import { Id } from '../packages/contracts/src/index.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
+import { Id } from '../shared/contracts/src/index.ts';
 import type { AuthFixture } from './auth-bootstrap.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 const profile=loadProfile();if(process.argv[2]!==`confirm:${profile.profile}`)throw new Error('Named synthetic profile confirmation required');
 const workflow=Id.parse(process.argv[3]);const fixture=JSON.parse(readFileSync(resolve(profile.directory,'auth/bootstrap.json'),'utf8')) as AuthFixture;
 if(fixture.installation_id!==profile.installation_id||fixture.fixture_id!=='aster-birch-v1')throw new Error('Fixture mismatch');const member=fixture.users.member!;const scope=[member.scope.tenant_id,member.scope.legal_entity_id,member.scope.environment_id];const pool=connectDatabase(profile).pool;

@@ -21,7 +21,7 @@ try {
   report.push(line('Profile', `${PROFILE} (${installed.toLowerCase()})`));
   report.push(line('Mode', 'customer-local synthetic'));
 
-  const { loadProfile } = await import('../packages/testing/src/config.ts');
+  const { loadProfile } = await import('../shared/testing/src/config.ts');
   const profile = installed === 'CONFIGURED' ? loadProfile(PROFILE) : null;
   const running = profile ? runningServices(profile) : null;
   const container = (name: string) => running === null ? (dockerAvailable() ? 'unknown' : 'docker unavailable') : running.includes(name) ? 'container running' : 'stopped';
@@ -41,7 +41,7 @@ try {
   const healthy = liveSupervisor ? await httpsHealthy() : false;
   let worker = false; let agent = false;
   if (profile && probes.postgres?.result === 'PASS') {
-    const { connectDatabase } = await import('../packages/db/src/index.ts');
+    const { connectDatabase } = await import('../database/customer/src/index.ts');
     const db = connectDatabase(profile).pool;
     try {
       const activity = (await db.query("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name='orvia_worker') worker, EXISTS(SELECT 1 FROM app.audit_events a JOIN app.request_audit r ON r.id=a.request_id WHERE a.operation='machine.poll' AND a.actor_domain='MACHINE' AND r.status=200 AND a.created_at>clock_timestamp()-interval '10 seconds') agent")).rows[0];
@@ -52,7 +52,7 @@ try {
   report.push(line('Worker', worker ? 'running' : 'not running'));
   report.push(line('Agent', agent ? 'running' : 'not running'));
   report.push(line('Supervisor', liveSupervisor && run ? `running since ${run.started_at}` : run ? 'stale run journal; inspect before restart' : 'no run journal'));
-  report.push(line('Production build', existsSync('apps/web/.next/BUILD_ID') ? 'present' : 'absent'));
+  report.push(line('Production build', existsSync('frontend/.next/BUILD_ID') ? 'present' : 'absent'));
   report.push(line('Application URL', liveSupervisor && healthy ? ORIGIN : `${ORIGIN} (not serving)`));
   report.push(line('Credentials', `generated locally, kept in ${PROFILE_DIRECTORY.replace(REPOSITORY_ROOT, '')}; never printed`));
 

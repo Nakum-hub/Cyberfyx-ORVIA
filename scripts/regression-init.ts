@@ -1,9 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
 import type { AuthFixture } from './auth-bootstrap.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 const profile=loadProfile();if(process.argv[2]!==`confirm:${profile.profile}`)throw new Error('Named synthetic profile confirmation required');
 const fixture=JSON.parse(readFileSync(resolve(profile.directory,'auth/bootstrap.json'),'utf8')) as AuthFixture;
 if(fixture.installation_id!==profile.installation_id||fixture.fixture_id!=='aster-birch-v1'||!fixture.users.alice||!fixture.users.admin)throw new Error('Complete synthetic fixture required');

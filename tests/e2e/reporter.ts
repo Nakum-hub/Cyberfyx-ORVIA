@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { sourceState } from '../../scripts/source-state.ts';
-import { CONTRACT_VERSION } from '../../packages/contracts/src/index.ts';
+import { CONTRACT_VERSION } from '../../shared/contracts/src/index.ts';
 
 // Raw traces/errors may contain credentials or cookies: keep them private.
 // Published outcomes carry exact identities/statuses, never raw auth call logs.

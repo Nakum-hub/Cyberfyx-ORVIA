@@ -1,8 +1,8 @@
 // M32 Monitoring contract invariants (FR-M32-01, FR-M32-02). Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { OperationalReadiness, ReadinessFact, OperationalSignal, OperationalSignalName, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { example, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { OperationalReadiness, ReadinessFact, OperationalSignal, OperationalSignalName, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { example, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const report = () => structuredClone(example('OperationalReadiness')) as Record<string, unknown>;
 const facts = () => report().facts as Record<string, unknown>[];

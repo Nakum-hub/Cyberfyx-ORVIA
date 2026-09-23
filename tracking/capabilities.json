@@ -54,11 +54,11 @@
         "test:evidence",
         "tests/e2e/workflow.spec.ts",
         "test:reports",
-        "packages/domain/src/reporting/reports.ts",
+        "backend/domain/src/reporting/reports.ts",
         "tests/unit/reports.test.ts",
         "tests/integration/evidence/reports.test.ts",
-        "apps/web/src/components/screens/reports.tsx",
-        "packages/db/migrations/0015_privacy_graph.sql"
+        "frontend/src/components/screens/governance/reports.tsx",
+        "database/customer/migrations/0015_privacy_graph.sql"
       ]
     },
     {
@@ -180,7 +180,7 @@
       "limitation": "Versioned templates with content digests and a stated purpose; notification tasks raised only against a record that exists (coverage gap, notification obligation or assessment finding); and an append-only delivery log in which queued, sent, delivered, failed and acknowledged are five independent facts that keep their real order. Only queueing is performed by ORVIA and needs no evidence; every later fact is a recorded claim that must name evidence, and a channel with no configured transport is declared unavailable and cannot be claimed as sent. A failure and a later success are both retained. Escalation raises attention on overdue undelivered tasks and never moves the deadline that caused it, enforced by a database trigger and by a literal-zero field in the sweep result. Not included: any actual transport (no mail, no webhook egress, no in-app inbox delivery), recipient preference rules, per-principal notification, scheduled sweeps (escalation runs on demand) and vendor billing notifications.",
       "evidence": [
         "test:notifications",
-        "packages/db/migrations/0022_notifications.sql",
+        "database/customer/migrations/0022_notifications.sql",
         "tests/unit/notifications.test.ts"
       ]
     },
@@ -217,9 +217,9 @@
       "evidence": [
         "test:consent",
         "test:languages",
-        "packages/db/migrations/0030_notice_languages.sql",
-        "packages/db/migrations/0031_generated_language_immutability.sql",
-        "packages/domain/src/notices/languages.ts",
+        "database/customer/migrations/0030_notice_languages.sql",
+        "database/customer/migrations/0031_generated_language_immutability.sql",
+        "backend/domain/src/notices/languages.ts",
         "tests/unit/notice-language.test.ts",
         "tests/integration/notices/languages.test.ts",
         "tests/e2e/configuration.spec.ts",
@@ -258,15 +258,15 @@
       "limitation": "Rights request lifecycle using the master state vocabulary and its exact transition map, with identity, authority, execution, response and scope held as five independent dimensions. Identity match grading (exact/strong/probable/ambiguous/no-match) blocks disclosure and destructive execution while unresolved. Nomination and guardian mandates are separate authorities with permitted-right scope, validity windows and revocation that immediately withdraws authority from open requests. Execution is computed only from recorded per-system outcomes, never from a lifecycle transition: success must name its method and evidence, an unsupported connector operation cannot be claimed, and a system with a recorded outcome cannot be dropped or re-actioned by re-scoping. CLOSED is administrative closure that cannot rewrite what execution achieved. Portal self-service intake is built. The Act gives these rights to the data principal, so a product where only staff could raise a request made the organisation the gatekeeper of a right it does not own; recording somebody else's request for them is a fallback, not the mechanism. A principal now raises their own request from the privacy portal, and three things are structural rather than procedural. The principal is taken from the authenticated session and never from the body, so there is no field through which one person could raise a request about another -- the contract refuses principal_id, on_behalf_of, subject_id and mandate_id on a portal request, and the database refuses the row as well through app.own_principal. The channel is not the caller's to choose: a row inserted from the portal says PORTAL, because that field is what later tells an auditor how the request actually arrived. And identity is recorded from the authentication that already happened rather than re-graded by a human -- the session binds exactly one principal reference, which is an exact match to one reference as a matter of fact, and asking an operator to review it would replace a fact with an opinion. The principal's own policies are SELECT and INSERT only: a requester can never update or delete a request, because how it moves is the organisation's act and a requester able to edit the record could rewrite what they had asked for. What the requester sees is deliberately narrower than the staff record -- no identity grading, no per-system planned actions, no unresolved destinations -- because those describe how the organisation is built and what it could not reach, which the requester cannot act on. Closed and answered stay separate facts, and the portal says plainly that a state is where a request has got to rather than a promise about the outcome. Still not included: automatic dispatch of planned actions through the durable workflow engine (outcomes are recorded by an operator or an external process, not driven by ORVIA), age assurance, and response package generation beyond the reviewed release record.",
       "evidence": [
         "test:rights",
-        "packages/db/migrations/0016_rights_requests.sql",
-        "packages/db/migrations/0017_rights_outcomes.sql",
+        "database/customer/migrations/0016_rights_requests.sql",
+        "database/customer/migrations/0017_rights_outcomes.sql",
         "tests/unit/rights.test.ts",
         "test:portal-rights",
-        "packages/db/migrations/0036_portal_rights_intake.sql",
-        "packages/domain/src/rights/portal.ts",
+        "database/customer/migrations/0036_portal_rights_intake.sql",
+        "backend/domain/src/rights/portal.ts",
         "tests/unit/portal-rights.test.ts",
         "tests/integration/rights/portal.test.ts",
-        "apps/web/src/app/privacy/rights/page.tsx"
+        "frontend/src/app/privacy/rights/page.tsx"
       ]
     },
     {
@@ -283,7 +283,7 @@
       "limitation": "Retention evaluated per copy against the M03 inventory, with reviewed constraints (trigger, basis, source reference, minimum/maximum, permitted use, owner, review and release condition), exact-scope legal holds that name the copies they cover, and reviewed conflict decisions. Three refusals are enforced end to end: a copy with no recorded basis is never eligible for deletion; constraints that disagree block until a reviewer records which governs, rather than applying the longest duration; and a backup copy can never be reported as suppressed or deleted because backup erasure is not independently verifiable. Outcomes are recorded per copy class and are append-only. Not included: execution through connector adapters (outcomes are attested, not dispatched), crypto-shredding, backup-expiry tracking, and automatic reconciliation of a quarantined restore, which is surfaced as a blocker for an operator to clear.",
       "evidence": [
         "test:retention",
-        "packages/db/migrations/0018_retention.sql",
+        "database/customer/migrations/0018_retention.sql",
         "tests/unit/retention.test.ts"
       ]
     },
@@ -301,7 +301,7 @@
       "limitation": "Processor relationships with authorised purposes and categories, region, contract reference, owner and incident contact; declared processor-to-system links; assessments activated by a reviewed applicability basis; and findings with owner, severity and deadline. The defining rule is enforced at every layer: notification, acknowledgement and verification are three separate append-only facts, only an independent check with named evidence can record verification, and a processor statement is always an attributable claim. Standing reports the three facts separately with no combined score, and derives systems serving purposes the processor was never authorised for. An assessment cannot complete while its findings are open, and a finding closes only with defined evidence or a retest. Not included: any automated exchange with a processor (every fact is recorded locally by a person), SDF or sector-specific rule packs beyond the assessment kind, sub-processor chain discovery, and contract document storage.",
       "evidence": [
         "test:processors",
-        "packages/db/migrations/0020_processors.sql",
+        "database/customer/migrations/0020_processors.sql",
         "tests/unit/processors.test.ts"
       ]
     },
@@ -319,7 +319,7 @@
       "limitation": "Incidents recording occurrence, detection and awareness as three separate moments whose real ordering is enforced at the boundary and in the database, with unknown kept as unknown rather than filled in from another moment. Notification obligations are computed per recipient from rule packs the customer recorded and activated: ORVIA ships no notification periods, and each rule names its own reviewed source, the moment its clock runs from and how long it allows. A duty whose clock has not started has no deadline rather than a guessed one, and a rule that does not apply while the affected scope is uncertain is recorded as not applicable rather than skipped. Corrections append with their previous value and name every deadline they moved. A dispatch is a recorded claim that must name evidence, a dispatched notification cannot be withdrawn, and where no supported channel exists a manual package is required. Not included: any actual filing or message transport (ORVIA sends nothing), regulator API integration, notification content drafting, and scheduled escalation of overdue duties, which are visible but trigger no alert.",
       "evidence": [
         "test:incidents",
-        "packages/db/migrations/0021_incidents.sql",
+        "database/customer/migrations/0021_incidents.sql",
         "tests/unit/incidents.test.ts"
       ]
     },
@@ -337,7 +337,7 @@
       "limitation": "Coverage computed at read time over the recorded inventory across five dimensions, each reporting its own numerator, denominator and explained exclusions. Attention states are reported as overlapping sets that name what they overlap with and are never summed into a headline figure. Gaps are derived from real rows (missing retention basis, never observed, stale observation, unreviewed inventory, unresolved destination, failed execution), refreshed rather than duplicated on re-derivation, keep their original detection date, and close only through named evidence or an owned and reasoned acceptance of risk; a recurrence opens a new gap. Runbook guidance is advisory only and cannot establish a cause, close an action or produce a decision. Not included: coverage over systems nobody declared, scheduled derivation, notification of overdue gaps, and connector-capability change detection as a gap source.",
       "evidence": [
         "test:coverage",
-        "packages/db/migrations/0019_coverage_gaps.sql",
+        "database/customer/migrations/0019_coverage_gaps.sql",
         "tests/unit/coverage.test.ts"
       ]
     },
@@ -467,7 +467,7 @@
       "limitation": "Immutable signed licences carrying only edition, entitlements, validity, licensed limits and an installation binding. The claims schema is closed, so a licence cannot carry a command, an endpoint or an authority grant, and the entitlement vocabulary cannot express a capability this product will not sell. Local verification covers trusted signer, audience, signature over canonical JSON, schema, installation binding and validity window, and every failure returns a named reason. Re-importing the same licence is refused as a replay; a stored licence can be superseded but its terms and validity cannot be edited and it is never deleted. Not included: offline renewal flows, revocation lists and freshness policy, trusted-time handling beyond the local clock, and any vendor-side issuance. The signing key is supplied by configuration with no default: without it nothing verifies.",
       "evidence": [
         "test:licensing",
-        "packages/db/migrations/0023_licences.sql",
+        "database/customer/migrations/0023_licences.sql",
         "tests/unit/licensing.test.ts"
       ]
     },
@@ -485,7 +485,7 @@
       "limitation": "Five independent gates — release availability, deployment support, controlled rollout, licence entitlement and actor authorisation — every one of which must pass before a feature is usable, each reported separately with its own reason so the blocking gate is identifiable. One shared capability vocabulary rather than scattered price checks. Expiry restricts new work and never removes recorded evidence or the ability to read and export. Capabilities that no edition, licence or flag can enable (model features, vendor remote access, staff directory sync, proactive diagnostics, runtime replication) are stated to the operator as commitments rather than withheld features. On licensed limits, the earlier wording here was misleading and is corrected: it read as an unfinished feature when there is in fact no operation to enforce against. Environments and staff members are created only by the protected local bootstrap in scripts/auth-bootstrap.ts; this build exposes no API route that creates either, so the recorded environment and staff limits cannot be exceeded through the product. That comparison is now made and reported: the entitlement report carries each licensed limit beside the count this installation actually holds, with whether it is within the limit derived from the two figures rather than stated separately, so a report cannot claim to be inside a limit it is over. Environments are counted for the organisation and staff from the scoped identity summary, because the application role cannot read the identity store directly. A structural field says the limit is reported and never enforced here, which is the honest verb when the product creates neither resource. With no licence imported the comparison is empty rather than passing, because there is nothing to compare against and that is a different fact from being within every limit. Also not included: downgrade hand-off workflows, and edition-differentiated behaviour beyond entitlement membership.",
       "evidence": [
         "test:licensing",
-        "packages/db/migrations/0023_licences.sql",
+        "database/customer/migrations/0023_licences.sql",
         "tests/unit/licensing.test.ts"
       ]
     },
@@ -506,22 +506,22 @@
         "test:auth",
         "test:onboarding",
         "test:preflight",
-        "packages/db/migrations/0029_guided_connection.sql",
-        "packages/db/migrations/0032_local_identity_summary.sql",
-        "packages/domain/src/onboarding/connection.ts",
-        "packages/domain/src/onboarding/preflight.ts",
+        "database/customer/migrations/0029_guided_connection.sql",
+        "database/customer/migrations/0032_local_identity_summary.sql",
+        "backend/domain/src/onboarding/connection.ts",
+        "backend/domain/src/onboarding/preflight.ts",
         "tests/unit/connection.test.ts",
         "tests/unit/preflight.test.ts",
         "tests/integration/onboarding/connection.test.ts",
         "tests/integration/onboarding/preflight.test.ts",
-        "apps/web/src/components/screens/onboarding.tsx",
-        "apps/web/src/components/screens/preflight.tsx",
+        "frontend/src/components/screens/onboarding/onboarding.tsx",
+        "frontend/src/components/screens/onboarding/preflight.tsx",
         "test:imports",
-        "packages/db/migrations/0035_local_import.sql",
-        "packages/domain/src/onboarding/imports.ts",
+        "database/customer/migrations/0035_local_import.sql",
+        "backend/domain/src/onboarding/imports.ts",
         "tests/unit/imports.test.ts",
         "tests/integration/onboarding/imports.test.ts",
-        "apps/web/src/components/screens/imports.tsx"
+        "frontend/src/components/screens/onboarding/imports.tsx"
       ]
     },
     {
@@ -538,10 +538,10 @@
       "limitation": "Local support cases linked to a coverage gap, fixed-schema diagnostic generation, digest-bound approval, operator-recorded transfer, canary registration and a local copy of the vendor ingress validator. Minimisation is structural rather than procedural: every field of a diagnostic report is an enum, integer, timestamp, version or digest, so a log line, an operational summary or a principal reference has no field to occupy, and the installation is named only by a one-way digest. An approval names the exact payload digest that was previewed and carries no authority to generate; a regenerated report supersedes the previous draft, so an approval cannot travel to it. The ingress validation table has six columns beyond scope and none of them can hold a body, so a rejected submission is not retained. The vendor case state and the local control state are two separate facts: the local state is read from the linked coverage gap on every request and a vendor closing their case leaves it exactly where it was. Absent by design and not merely unbuilt: there is no support transport at all, so a recorded transfer is an operator attestation rather than an observed delivery, and nothing here sends, uploads or receives anything. Two workspace screens read this: support cases, which show the vendor case state and the local control state as two columns that are never combined, and the registered canaries, which show digests and never the tokens themselves. Generating a draft, approving one and recording a transfer are now available from the screen rather than the API alone, so an operator can actually run the flow. Each control is deliberately narrow: generating produces and stores a report and cannot approve or carry anything; approval submits the previewed payload digest rather than a typed one, and refuses outright on a superseded draft, so an approval always names a payload the approver saw; and recording a transfer is worded throughout as an operator attestation, because this product has no support transport and neither sent the payload nor observed it arrive. Still not included: canary registration remains API-only; retention is not enforced against the recorded approval window; and a canary cannot be withdrawn once registered.",
       "evidence": [
         "test:support",
-        "packages/db/migrations/0024_support_bundles.sql",
+        "database/customer/migrations/0024_support_bundles.sql",
         "tests/unit/support.test.ts",
         "tests/integration/support/support.test.ts",
-        "apps/web/src/components/screens/support.tsx"
+        "frontend/src/components/screens/operations/support.tsx"
       ]
     },
     {
@@ -558,10 +558,10 @@
       "limitation": "Immutable signed release manifests carrying provenance, a dependency inventory, per-migration notes and the supported profile list; eight separately named eligibility checks reported individually and stated not to be permission to execute; a recovery mode derived from the declared migrations rather than chosen; and an append-only migration ledger. Trust is re-evaluated at eligibility rather than inherited from import, so a manifest signed by a key this installation no longer trusts becomes ineligible. One irreversible migration forces forward recovery and the schema refuses to express a rollback claim alongside it. An update is recorded as applied only when all seven steps have succeeded, including boundary revalidation and core regression, and the database refuses the applied state otherwise, so an interrupted run stays visibly interrupted. Absent, and this is the main limit: no artifact is fetched, unpacked or executed. Archive safety and expansion ratio are decided from the signed manifest before anything would be written, but this module records and gates an update a customer performs; it does not perform one. Three workspace screens read this: imported releases with their eligibility reported check by check, update plans with everything still outstanding and both post-change facts shown separately, and the installed version history. The plan list exists because without it an interrupted update was reachable by nobody. Approving a plan and recording a step are now available from the screen. Approval requires the recovery mode to be acknowledged explicitly rather than defaulted, because a release carrying an irreversible migration fixes the recovery mode for the whole update and an operator who missed that has no way back; and the evidence field for a step appears exactly when the step is claimed to have succeeded, which is the claim the contract refuses without evidence. Both are worded as recording what a person did: this product fetches, unpacks and runs nothing. Still not included: release import is API-only; rollback is never executed for a reversible release; and the release signing key has no default — without ORVIA_RELEASE_PUBLIC_KEY and ORVIA_RELEASE_KEY_ID nothing imports.",
       "evidence": [
         "test:updates",
-        "packages/db/migrations/0025_updates.sql",
+        "database/customer/migrations/0025_updates.sql",
         "tests/unit/updates.test.ts",
         "tests/integration/updates/updates.test.ts",
-        "apps/web/src/components/screens/updates.tsx"
+        "frontend/src/components/screens/operations/updates.tsx"
       ]
     },
     {
@@ -581,19 +581,19 @@
         "test:restore",
         "services:smoke",
         "test:network",
-        "packages/domain/src/monitoring/monitoring.ts",
-        "packages/domain/src/monitoring/restore.ts",
-        "packages/db/migrations/0033_backup_restore.sql",
+        "backend/domain/src/monitoring/monitoring.ts",
+        "backend/domain/src/monitoring/restore.ts",
+        "database/customer/migrations/0033_backup_restore.sql",
         "tests/unit/monitoring.test.ts",
         "tests/unit/backup-restore.test.ts",
         "tests/integration/monitoring/restore.test.ts",
-        "apps/web/src/components/screens/readiness.tsx",
-        "apps/web/src/components/screens/restores.tsx",
+        "frontend/src/components/screens/operations/readiness.tsx",
+        "frontend/src/components/screens/operations/restores.tsx",
         "test:vendor-visibility",
-        "packages/domain/src/monitoring/vendor.ts",
+        "backend/domain/src/monitoring/vendor.ts",
         "tests/unit/vendor-visibility.test.ts",
         "tests/integration/monitoring/vendor-visibility.test.ts",
-        "apps/web/src/components/screens/vendor-visibility.tsx"
+        "frontend/src/components/screens/operations/vendor-visibility.tsx"
       ]
     },
     {
@@ -610,18 +610,18 @@
       "limitation": "FR-M33-01, FR-M33-03 and FR-M33-04 are built; FR-M33-02 is met by absence rather than by behaviour this module built, which is why this stays partial. A coverage report answers the eight named categories from the trail itself rather than from a list somebody maintained, so a category cannot be reported as covered because a setting said so, and the two categories this build has no route for say that instead of reading as an auditing gap -- 'nothing has happened' and 'nothing here can happen' never share a shape. The trail is readable scoped to one organisation, filtered only by five declared keys that reach the database as bound parameters, and paginated by id. Reading it is itself an audited event, so a quiet look leaves a trace. Reading, exporting and administering are three separate permissions: an organisation administrator may read the trail but not take it out of the installation, an auditor may do both but may not dispute a record, and only the owner may append a correction. An export carries every event its filter matched or it is refused by name -- there is no partial export, and the digest covers exactly the events carried. Correction is by appending: a dispute names the event, states which of five reasons applies and what the recorder believes, and the original is untouched; PostgreSQL triggers refuse every UPDATE and DELETE on both the trail and the corrections, so a role that bypasses row-level security cannot shorten either. Two workspace screens read this: audit coverage and the audit trail, the latter offering an export of exactly what is displayed. FR-M33-04 is built. Each of the eight audited categories is retained under exactly one of four stated purposes, which the contract enforces so no part of the trail is kept for a reason nobody gave. No retention period ships: OPEN-10 forbids universal statutory retention numbers, so a purpose with none configured reports that rather than defaulting to a number or to forever, and recording one is refused unless it names what the period rests on. Rules are superseded rather than edited and the database refuses an UPDATE or DELETE even from the migrator, because shortening a period is exactly the change somebody would make to clear a backlog. Payload minimisation is measured rather than promised: app.audit_events has no payload column and never had one, the report counts payload-shaped columns at read time, and the contract permits only zero -- so adding such a column stops the report rendering instead of letting it keep describing an envelope-only trail. For the same reason there is no justified payload deletion for a truthful envelope history to survive; the envelope is the whole record and 0027's trigger preserves it absolutely. Retention is therefore a schedule and a disclosure, never a purge: an elapsed period is reported and the integration suite proves reading the schedule deletes nothing and that the database still refuses to remove an overdue event. Tested backup handling is the honest half: the report counts declared snapshots covering the trail and states that nothing it describes reaches a copy inside one, because the archive is the customer's and outside this product. What would still need deciding before audit envelopes could be deleted at all is the record-class question OPEN-10 leaves open, and this build does not pre-empt it. FR-M33-02 is met by there being no vendor-facing audit surface at all rather than by a separation this module built. Also absent: a correction cannot be withdrawn once appended, the export ceiling is a fixed count rather than a streamed file, and the screens report and correct but do not schedule anything.",
       "evidence": [
         "test:audit",
-        "packages/db/migrations/0027_audit_administration.sql",
-        "packages/db/migrations/0028_audit_export.sql",
-        "packages/domain/src/audit/audit.ts",
+        "database/customer/migrations/0027_audit_administration.sql",
+        "database/customer/migrations/0028_audit_export.sql",
+        "backend/domain/src/audit/audit.ts",
         "tests/unit/audit.test.ts",
         "tests/integration/audit/audit.test.ts",
-        "apps/web/src/components/screens/audit.tsx",
+        "frontend/src/components/screens/operations/audit.tsx",
         "test:audit-retention",
-        "packages/db/migrations/0034_audit_retention.sql",
-        "packages/domain/src/audit/retention.ts",
+        "database/customer/migrations/0034_audit_retention.sql",
+        "backend/domain/src/audit/retention.ts",
         "tests/unit/audit-retention.test.ts",
         "tests/integration/audit/retention.test.ts",
-        "apps/web/src/components/screens/audit-retention.tsx"
+        "frontend/src/components/screens/operations/audit-retention.tsx"
       ]
     }
   ]

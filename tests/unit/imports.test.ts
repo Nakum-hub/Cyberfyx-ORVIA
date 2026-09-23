@@ -3,8 +3,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   ImportBatch, ImportKind, ImportPurge, ImportRowPreview, ImportSubmit, routes, schemas,
-} from '../../packages/contracts/src/index.ts';
-import { example, uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+} from '../../shared/contracts/src/index.ts';
+import { example, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const batch = () => structuredClone(example('ImportBatch')) as Record<string, unknown>;
 const rows = () => batch().rows as Record<string, unknown>[];

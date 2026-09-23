@@ -1,12 +1,12 @@
 import { randomBytes,randomUUID,generateKeyPairSync,createPublicKey,createHash } from 'node:crypto';
 import { existsSync,readFileSync,writeFileSync,readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { loadProfile } from '../packages/testing/src/config.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
 import { privateDirectory,writePrivateJson } from './local-private.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
-import { serviceRoles,MachineIdentity } from '../packages/auth/src/machine.ts';
-import { WorkerEnrollment,AgentEnrollment,SenderEnrollment,type WorkerEnrollmentConfig,type AgentEnrollmentConfig,type SenderEnrollmentConfig } from '../packages/auth/src/machine-profile.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
+import { serviceRoles,MachineIdentity } from '../backend/auth/src/machine.ts';
+import { WorkerEnrollment,AgentEnrollment,SenderEnrollment,type WorkerEnrollmentConfig,type AgentEnrollmentConfig,type SenderEnrollmentConfig } from '../backend/auth/src/machine-profile.ts';
 import type { AuthFixture } from './auth-bootstrap.ts';
 
 const profile=loadProfile();
@@ -90,16 +90,16 @@ try {
   const tx=await target.connect();try {
    await tx.query('BEGIN');await tx.query('SELECT pg_advisory_xact_lock(728104)');
    const initialized=await tx.query("SELECT to_regclass('public.target_identity') AS name");
-   const migrations=readdirSync('apps/demo-targets/migrations').filter(name=>/^\d{4}_[a-z_]+\.sql$/.test(name)).sort();
+   const migrations=readdirSync('services/synthetic-target/migrations').filter(name=>/^\d{4}_[a-z_]+\.sql$/.test(name)).sort();
    if(!initialized.rows[0].name) {
-    await tx.query(readFileSync('apps/demo-targets/migrations/0001_target.sql','utf8'));
+    await tx.query(readFileSync('services/synthetic-target/migrations/0001_target.sql','utf8'));
     await tx.query('INSERT INTO target_identity VALUES($1,$2)',[profile.installation_id,profile.profile]);
-    await tx.query('INSERT INTO target_migrations VALUES($1,$2)',['0001_target.sql',createHash('sha256').update(readFileSync('apps/demo-targets/migrations/0001_target.sql')).digest('hex')]);
+    await tx.query('INSERT INTO target_migrations VALUES($1,$2)',['0001_target.sql',createHash('sha256').update(readFileSync('services/synthetic-target/migrations/0001_target.sql')).digest('hex')]);
    }
    const identity=await tx.query('SELECT * FROM target_identity');
    if(identity.rowCount!==1||identity.rows[0].installation_id!==profile.installation_id||identity.rows[0].profile!==profile.profile)throw new Error('Target installation mismatch');
    for(const migration of migrations) {
-    const sql=readFileSync(resolve('apps/demo-targets/migrations',migration),'utf8');const checksum=createHash('sha256').update(sql).digest('hex');
+    const sql=readFileSync(resolve('services/synthetic-target/migrations',migration),'utf8');const checksum=createHash('sha256').update(sql).digest('hex');
     const old=(await tx.query('SELECT checksum FROM target_migrations WHERE id=$1',[migration])).rows[0];
     if(old&&old.checksum!==checksum)throw new Error('Target migration drift');
     if(!old){await tx.query(sql);await tx.query('INSERT INTO target_migrations VALUES($1,$2)',[migration,checksum]);}

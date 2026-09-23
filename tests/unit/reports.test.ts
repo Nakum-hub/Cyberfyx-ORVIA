@@ -6,8 +6,31 @@
 // reader rather than the person generating it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Report, ReportQuery, ReportSection, ReportSectionKind, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { example, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { Report, ReportQuery, ReportSection, ReportSectionKind, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { example, sampleTime } from '../../shared/contracts/src/examples.ts';
+import { requireCompleteSection } from '../../backend/domain/src/reporting/reports.ts';
+import { toCsv } from '../../frontend/src/components/screens/governance/reports.tsx';
+
+test('bounded reports refuse a section whose final row cannot be shown', () => {
+  assert.equal(requireCompleteSection(Array(500).fill('row')).length, 500);
+  assert.throws(() => requireCompleteSection(Array(501).fill('row')), /EPOCH_CONFLICT/);
+});
+
+test('CSV escapes formulas even when a spreadsheet reads quoted cells as expressions', () => {
+  const csv = toCsv(['Name', 'Note'], [
+    ['=HYPERLINK("https://example.invalid")', 'plain, text'],
+    ['  +SUM(1,2)', '\t@command'],
+    ['-1', 'normal'],
+    ['＝1+2', '\0hidden'],
+  ]);
+  assert.equal(csv, [
+    '"Name","Note"',
+    '"\'=HYPERLINK(""https://example.invalid"")","plain, text"',
+    '"\'  +SUM(1,2)","\'\t@command"',
+    '"\'-1","normal"',
+    '"\'＝1+2","\'\0hidden"',
+  ].join('\r\n'));
+});
 
 const report = () => structuredClone(example('Report')) as Record<string, unknown>;
 const sections = () => report().sections as Record<string, unknown>[];

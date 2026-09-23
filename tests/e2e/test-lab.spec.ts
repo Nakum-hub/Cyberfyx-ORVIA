@@ -1,7 +1,7 @@
 import { once } from 'node:events';
 import type { Page } from '@playwright/test';
 import { test, expect, loginUi, type BrowserHarness } from './fixture.ts';
-import { schemas } from '../../packages/contracts/src/index.ts';
+import { schemas } from '../../shared/contracts/src/index.ts';
 
 async function queue(page:Page,scenario:string){
   await page.goto('/workspace/test-lab');await page.getByLabel('Scenario',{exact:true}).selectOption(scenario);

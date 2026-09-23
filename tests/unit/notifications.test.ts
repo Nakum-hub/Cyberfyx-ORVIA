@@ -1,8 +1,8 @@
 // WP11 / M10 contract invariants. Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DeliveryRecord, EscalationSweep, NotificationTask, TemplateCreate, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { DeliveryRecord, EscalationSweep, NotificationTask, TemplateCreate, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const task = {
   id: uuid(800), template_id: uuid(801), template_code: 'GAP_OVERDUE_NOTICE', channel: 'IN_APP' as const,
@@ -38,10 +38,10 @@ test('nothing beyond queueing may be claimed without evidence', () => {
   }
 });
 
-test('a message cannot have been sent on a channel that cannot deliver', () => {
+test('current transport loss does not erase a previously recorded send', () => {
   assert.equal(NotificationTask.parse({ ...task, channel_available: false }).channel_available, false);
-  // Queueing on an unavailable channel is honest; claiming a send is not.
-  assert.throws(() => NotificationTask.parse({ ...task, channel_available: false, sent: true }));
+  // The server prevents new sends while unavailable. Old claims remain visible.
+  assert.equal(NotificationTask.parse({ ...task, channel_available: false, sent: true }).sent, true);
 });
 
 test('an escalation states its reason and never stands half-recorded', () => {

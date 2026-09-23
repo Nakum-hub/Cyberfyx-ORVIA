@@ -1,8 +1,8 @@
 // WP15 / M15 contract invariants. Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Eligibility, LegalHold, RetentionConstraintCreate, RetentionOutcome, RetentionOutcomeRecord, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { Eligibility, LegalHold, RetentionConstraintCreate, RetentionOutcome, RetentionOutcomeRecord, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const constraint = {
   data_asset_id: uuid(400), purpose_id: uuid(401), trigger: 'RECORD_CREATED' as const, basis: 'STATUTORY_OBLIGATION' as const,

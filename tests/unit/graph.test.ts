@@ -2,8 +2,8 @@
 // meanings the schema is responsible for, independently of any stored row.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DataAsset, GraphRelationship, GraphRelationshipCreate, GraphSearchQuery, ImpactAssessment, NeighbourhoodQuery, RELATIONSHIP_ENDPOINTS, queryKeys, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { exampleRelationship, uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { DataAsset, GraphRelationship, GraphRelationshipCreate, GraphSearchQuery, ImpactAssessment, NeighbourhoodQuery, RELATIONSHIP_ENDPOINTS, queryKeys, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { exampleRelationship, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const asset = {
   id: uuid(200), system_id: uuid(201), kind: 'DATASET' as const, parent_id: null,

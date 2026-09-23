@@ -21,7 +21,7 @@ import { resolve } from 'node:path';
 import { writePrivateJson } from './local-private.ts';
 
 /** Prefixes whose contents are compiled into, or resolved by, the web build. */
-const BUILD_INPUT_PREFIXES = ['apps/web/', 'packages/', 'tracking/'];
+const BUILD_INPUT_PREFIXES = ['frontend/', 'backend/', 'database/', 'connectors/', 'shared/', 'services/', 'tracking/'];
 const BUILD_INPUT_FILES = ['pnpm-lock.yaml', 'pnpm-workspace.yaml', 'tsconfig.json'];
 const IGNORED = /(^|\/)(node_modules|\.next)\//;
 
@@ -37,7 +37,7 @@ export function buildInputIdentity() {
 }
 
 const markerPath = (directory: string) => resolve(directory, 'web-build.json');
-const buildIdPath = () => resolve('apps/web/.next/BUILD_ID');
+const buildIdPath = () => resolve('frontend/.next/BUILD_ID');
 
 /**
  * True when the existing build was produced from exactly these inputs. A missing

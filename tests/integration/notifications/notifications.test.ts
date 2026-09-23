@@ -3,12 +3,12 @@
 // transport cannot be claimed as sent, and escalation never moves a deadline.
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { HttpFixture } from '../../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../../packages/testing/src/scenario.ts';
-import { writeEvidence, safeError } from '../../../packages/testing/src/evidence.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import * as S from '../../../packages/contracts/src/index.ts';
+import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
+import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import * as S from '../../../shared/contracts/src/index.ts';
 
 const h = new HttpFixture();
 const profile = loadProfile();
@@ -80,7 +80,7 @@ try {
   check('a duplicate task for the same source and template is refused',
     (await staff.call('/api/v1/admin/notification-tasks', { template_id: inApp.id, source: 'COVERAGE_GAP', source_id: gap.id, recipient_reference: 'Records management', source_due_at: hoursAgo(2) }, key())).status, 409);
 
-  // --- FR-M10-03: five separate, ordered facts ------------------------------
+  // --- FR-M10-03: no transport is not a send -------------------------------
   phase = 'delivery facts';
   const record = (id: string, body: Record<string, unknown>) =>
     staff.call(`/api/v1/admin/notification-tasks/${id}/deliveries`, { evidence_reference: null, ...body }, key());
@@ -88,15 +88,13 @@ try {
     (await record(task.id, { fact: 'SENT', note: 'Sent it somehow.' })).status, 400);
   check('delivery cannot be claimed before anything was sent',
     (await record(task.id, { fact: 'DELIVERED', note: 'Arrived.', evidence_reference: 'Receipt.' })).status, 409);
-  const sent = S.NotificationTask.parse(await (await record(task.id, { fact: 'SENT', note: 'Placed in the operator inbox.', evidence_reference: 'In-app message SYN-IA-0001.' })).json());
-  check('sending is recorded as its own fact', [sent.queued, sent.sent, sent.delivered], [true, true, false]);
+  check('this deployment does not claim an in-app inbox it has not built', task.channel_available, false);
+  check('in-app delivery cannot be claimed from a workspace list',
+    (await record(task.id, { fact: 'SENT', note: 'Placed in the operator inbox.', evidence_reference: 'In-app message SYN-IA-0001.' })).status, 409);
   check('acknowledgement cannot be claimed before delivery',
     (await record(task.id, { fact: 'ACKNOWLEDGED', note: 'They read it.', evidence_reference: 'Read receipt.' })).status, 409);
-  const delivered = S.NotificationTask.parse(await (await record(task.id, { fact: 'DELIVERED', note: 'Shown in the operator inbox.', evidence_reference: 'Render confirmation SYN-IA-0002.' })).json());
-  check('delivery is a separate fact from sending', [delivered.sent, delivered.delivered, delivered.acknowledged], [true, true, false]);
-  const acknowledged = S.NotificationTask.parse(await (await record(task.id, { fact: 'ACKNOWLEDGED', note: 'Operator confirmed they read it.', evidence_reference: 'Acknowledgement SYN-IA-0003.' })).json());
-  check('acknowledgement is a separate fact from delivery', [acknowledged.delivered, acknowledged.acknowledged], [true, true]);
-  check('every fact is retained in the log, not overwritten', acknowledged.deliveries.map(d => d.fact), ['QUEUED', 'SENT', 'DELIVERED', 'ACKNOWLEDGED']);
+  const afterRefusal = S.NotificationTask.parse(await (await staff.call(`/api/v1/admin/notification-tasks/${task.id}`)).json());
+  check('the refused claims leave only the real queue fact', afterRefusal.deliveries.map(d => d.fact), ['QUEUED']);
   const rewrite = await db.query(`UPDATE app.notification_deliveries SET fact='ACKNOWLEDGED' WHERE task_id=$1 AND fact='QUEUED'`, [task.id]).then(() => 'ACCEPTED').catch(() => 'REJECTED');
   check('the delivery log cannot be rewritten', rewrite, 'REJECTED');
 
@@ -105,10 +103,9 @@ try {
     template_id: sameCode.id, source: 'COVERAGE_GAP', source_id: gap.id,
     recipient_reference: 'Head of records', source_due_at: hoursAgo(3),
   }, key())).json());
-  await record(failing.id, { fact: 'FAILED', note: 'Recipient inbox unavailable.', evidence_reference: 'Failure SYN-IA-0010.' });
-  const retried = S.NotificationTask.parse(await (await record(failing.id, { fact: 'SENT', note: 'Retried successfully.', evidence_reference: 'In-app message SYN-IA-0011.' })).json());
-  check('a later success does not erase an earlier failure', [retried.failed, retried.sent], [true, true]);
-  check('attempts count both the failure and the retry', retried.attempts, 2);
+  const failed = S.NotificationTask.parse(await (await record(failing.id, { fact: 'FAILED', note: 'Recipient inbox unavailable.', evidence_reference: 'Failure SYN-IA-0010.' })).json());
+  check('a recorded failure does not fabricate success', [failed.failed, failed.sent], [true, false]);
+  check('attempts count the recorded failure', failed.attempts, 1);
 
   // --- FR-M10-02: a channel with no transport cannot be claimed as sent -----
   phase = 'unavailable channel';
@@ -131,8 +128,8 @@ try {
   const afterDue = (await db.query('SELECT source_due_at,escalated_at,escalation_reason FROM app.notification_tasks WHERE id=$1', [emailTask.id])).rows[0];
   check('the deadline is byte-for-byte unchanged after escalation', afterDue.source_due_at.toISOString(), beforeDue);
   check('the escalation states its reason', afterDue.escalation_reason.includes('deadline is unchanged'), true);
-  check('a task that already reached its recipient is not escalated',
-    (await db.query('SELECT escalated_at FROM app.notification_tasks WHERE id=$1', [task.id])).rows[0].escalated_at, null);
+  check('an in-app task that could not be delivered is escalated',
+    (await db.query('SELECT escalated_at FROM app.notification_tasks WHERE id=$1', [task.id])).rows[0].escalated_at !== null, true);
   const second = S.EscalationSweep.parse(await (await staff.call('/api/v1/admin/notification-tasks/escalate', {}, key())).json());
   check('a second sweep does not manufacture new escalations', second.escalated, 0);
   const moveDeadline = await db.query('UPDATE app.notification_tasks SET source_due_at=now() WHERE id=$1', [emailTask.id]).then(() => 'ACCEPTED').catch(() => 'REJECTED');

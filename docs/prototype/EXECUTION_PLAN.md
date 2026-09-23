@@ -81,7 +81,7 @@ Do not add Redis, a graph database, Kubernetes, multiple competing ORMs or a run
 
 ### Prototype-only UI packaging adaptation
 
-Use `apps/web` for both `/workspace/*` and `/privacy/*` layouts in this **private synthetic profile**. Use independently scoped staff/principal sessions and server routes; path names alone provide no security. No vendor website is involved. This does not claim a production public-portal/private-admin exposure design has been qualified. Separate deployment/ingress remains a production requirement before exposing the portal publicly.
+Use `frontend` for both `/workspace/*` and `/privacy/*` layouts in this **private synthetic profile**. Use independently scoped staff/principal sessions and server routes; path names alone provide no security. No vendor website is involved. This does not claim a production public-portal/private-admin exposure design has been qualified. Separate deployment/ingress remains a production requirement before exposing the portal publicly.
 
 ### Deployment and data boundary
 

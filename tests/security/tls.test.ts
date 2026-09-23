@@ -2,11 +2,11 @@ import assert from 'node:assert/strict';
 import { request } from 'node:https';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { HttpFixture } from '../../packages/testing/src/http-fixture.ts';
-import { writeEvidence,safeError } from '../../packages/testing/src/evidence.ts';
-import { waitForAuthWindow } from '../../packages/testing/src/auth-window.ts';
-import { connectDatabase } from '../../packages/db/src/index.ts';
-import { loadProfile } from '../../packages/testing/src/config.ts';
+import { HttpFixture } from '../../shared/testing/src/http-fixture.ts';
+import { writeEvidence,safeError } from '../../shared/testing/src/evidence.ts';
+import { waitForAuthWindow } from '../../shared/testing/src/auth-window.ts';
+import { connectDatabase } from '../../database/customer/src/index.ts';
+import { loadProfile } from '../../shared/testing/src/config.ts';
 const h=new HttpFixture();if(h.config.profile!=='rehearsal')throw new Error('TLS test owns rehearsal only');
 const db=connectDatabase(loadProfile()).pool;const assertions:Record<string,unknown>[]=[];
 function check(name:string,actual:unknown,expected:unknown){const pass=JSON.stringify(actual)===JSON.stringify(expected);assertions.push({name,actual,expected,result:pass?'PASS':'FAIL'});assert.equal(pass,true,name);console.log('PASS '+name);}

@@ -1,8 +1,8 @@
 // WP13 / M18 contract invariants. Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { AttentionCount, CoverageMeasure, CoverageReport, Gap, GapClosure, Guidance, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { AttentionCount, CoverageMeasure, CoverageReport, Gap, GapClosure, Guidance, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const measure = {
   dimension: 'INVENTORY_OBSERVED' as const, counted: 'Recorded data copies with a current independent observation.',

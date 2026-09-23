@@ -2,9 +2,9 @@ import { randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { isIP } from 'node:net';
-import { HttpFixture } from '../../packages/testing/src/http-fixture.ts';
-import { TestRun,CONTRACT_VERSION } from '../../packages/contracts/src/index.ts';
-import { writeEvidence,safeError } from '../../packages/testing/src/evidence.ts';
+import { HttpFixture } from '../../shared/testing/src/http-fixture.ts';
+import { TestRun,CONTRACT_VERSION } from '../../shared/contracts/src/index.ts';
+import { writeEvidence,safeError } from '../../shared/testing/src/evidence.ts';
 const h=new HttpFixture();const results:Record<string,unknown>[]=[];
 const ip=process.env.ORVIA_CANARY_IP;if(!ip||isIP(ip)!==4)throw new Error('Controlled canary address required');
 async function denied(name:string,url:string){let blocked=false;try{await fetch(url,{signal:AbortSignal.timeout(1500)});}catch{blocked=true;}results.push({name,blocked});if(!blocked)throw new Error('Egress unexpectedly allowed');}

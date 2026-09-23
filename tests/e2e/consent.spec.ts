@@ -1,5 +1,5 @@
 import { test, expect, loginUi, grantUi, withdrawUi, choicePanel } from './fixture.ts';
-import { schemas } from '../../packages/contracts/src/index.ts';
+import { schemas } from '../../shared/contracts/src/index.ts';
 
 test('B02 principal consent, immutable receipt, withdrawal, history and refresh',async({page,h})=>{
   const scenario=await h.scenario();await loginUi(page,h,'alice');const grant=schemas.Receipt.parse(await grantUi(page,scenario.purpose));

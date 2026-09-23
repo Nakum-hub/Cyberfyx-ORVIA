@@ -10,9 +10,9 @@
  *
  * Every probe is read-only. None of them creates, migrates or resets state.
  */
-import { connectDatabase } from '../packages/db/src/index.ts';
-import { connectTemporal } from '../apps/worker/src/probe-client.ts';
-import { safeError } from '../packages/testing/src/evidence.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
+import { connectTemporal } from '../services/worker/src/probe-client.ts';
+import { safeError } from '../shared/testing/src/evidence.ts';
 
 export type ServiceProfile = {
   profile: string; database: string; password: string; installation_id: string;

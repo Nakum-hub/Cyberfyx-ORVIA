@@ -5,12 +5,12 @@ import { randomUUID } from 'node:crypto';
 import { createServer } from 'node:net';
 import { existsSync,readFileSync,unlinkSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { runtimeConfig } from '../packages/auth/src/config.ts';
-import { connectDatabase } from '../packages/db/src/index.ts';
-import { loadProfile } from '../packages/testing/src/config.ts';
+import { runtimeConfig } from '../backend/auth/src/config.ts';
+import { connectDatabase } from '../database/customer/src/index.ts';
+import { loadProfile } from '../shared/testing/src/config.ts';
 import { privateDirectory,writePrivateJson } from './local-private.ts';
 import { webProcess } from './web-process.ts';
-import { safeError,writeEvidence } from '../packages/testing/src/evidence.ts';
+import { safeError,writeEvidence } from '../shared/testing/src/evidence.ts';
 const p=loadProfile();const config=runtimeConfig();
 if(p.profile!=='rehearsal'||process.argv[2]!=='confirm:rehearsal')throw new Error('Named rehearsal application confirmation required');
 const directory=resolve(p.directory,'supervisor');privateDirectory(directory);const journal=resolve(directory,'run.json');const stopFile=resolve(directory,'stop.json');
@@ -44,7 +44,7 @@ try{
  const command=webProcess(config);const web=start(command.args,'web',command.cwd);
  let ready=false;for(let i=0;i<90;i++){if(web.exitCode!==null)throw new Error('Owned web process exited before readiness');try{ready=(await fetch(config.origin+'/healthz',{signal:AbortSignal.timeout(1000)})).ok;}catch{/* bounded startup */}if(ready)break;await new Promise(r=>setTimeout(r,500));}
  if(!ready)throw new Error('HTTPS readiness failed');
- start(['--import','tsx','apps/worker/src/main.ts'],'worker');start(['--import','tsx','apps/agent/src/main.ts'],'agent');
+ start(['--import','tsx','services/worker/src/main.ts'],'worker');start(['--import','tsx','services/agent/src/main.ts'],'agent');
  writePrivateJson(journal,identity);created=true;console.log(`Application supervisor running: ${config.origin}. Stop with app:stop confirm:rehearsal.`);
  while(!stopping){
   if(ownership.lost)throw ownership.lost;

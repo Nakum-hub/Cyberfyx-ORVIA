@@ -1,6 +1,10 @@
 packages:
-  - apps/*
-  - packages/*
+  - frontend
+  - backend/*
+  - database/*
+  - connectors
+  - shared/*
+  - services/*
 strictPeerDependencies: true
 autoInstallPeers: false
 minimumReleaseAge: 1440

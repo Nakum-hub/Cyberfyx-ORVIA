@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { authenticatorCode } from '../../packages/testing/src/http-fixture.ts';
+import { authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
 import { test, expect, loginUi } from './fixture.ts';
 
 test('B01 configure purpose/notice/system/policy and distinct reviewer publication persists',async({page,browser,h})=>{

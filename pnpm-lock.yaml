@@ -6,6 +6,9 @@ importers:
   .:
     configDependencies: {}
     packageManagerDependencies:
+      '@pnpm/exe':
+        specifier: 12.4.2
+        version: 12.4.2
       pnpm:
         specifier: 12.4.2
         version: 12.4.2
@@ -89,6 +92,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@pnpm/exe@12.4.2':
+    resolution: {integrity: sha512-cJZ6sFoyDvFD9cZbx0OYt2JtbCcc1fRXDYrnJNE5BB0cXwWGQpj7OZOWamtqiuu8xwPxTtOod5fqxdLLotftDg==}
+    engines: {node: '>=18.*'}
+    hasBin: true
+
   pnpm@12.4.2:
     resolution: {integrity: sha512-CK3GYTGAJ1x8ntraOdzwjJxhrU5+rzMKTzRh8QKw+QdCNFTRF/mOctR/7wYWBwZE17/8lzpqV/UJCm18NosHyQ==}
     engines: {node: '>=18.*'}
@@ -137,6 +145,23 @@ snapshots:
 
   '@pnpm/exe.win32-x64@12.4.2':
     optional: true
+
+  '@pnpm/exe@12.4.2':
+    optionalDependencies:
+      '@pnpm/exe.android-arm64': 12.4.2
+      '@pnpm/exe.android-x64': 12.4.2
+      '@pnpm/exe.darwin-arm64': 12.4.2
+      '@pnpm/exe.darwin-x64': 12.4.2
+      '@pnpm/exe.freebsd-x64': 12.4.2
+      '@pnpm/exe.linux-arm64': 12.4.2
+      '@pnpm/exe.linux-arm64-musl': 12.4.2
+      '@pnpm/exe.linux-ppc64': 12.4.2
+      '@pnpm/exe.linux-riscv64': 12.4.2
+      '@pnpm/exe.linux-s390x': 12.4.2
+      '@pnpm/exe.linux-x64': 12.4.2
+      '@pnpm/exe.linux-x64-musl': 12.4.2
+      '@pnpm/exe.win32-arm64': 12.4.2
+      '@pnpm/exe.win32-x64': 12.4.2
 
   pnpm@12.4.2:
     optionalDependencies:
@@ -209,17 +234,102 @@ importers:
         specifier: 8.70.0
         version: 8.70.0(eslint@10.10.0(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@5.9.3)
 
-  apps/web:
+  backend/api:
     dependencies:
       '@orvia/auth':
         specifier: workspace:*
-        version: link:../../packages/auth
-      '@orvia/backend':
-        specifier: workspace:*
-        version: link:../../packages/backend
+        version: link:../auth
       '@orvia/contracts':
         specifier: workspace:*
-        version: link:../../packages/contracts
+        version: link:../../shared/contracts
+      '@orvia/db':
+        specifier: workspace:*
+        version: link:../../database/customer
+      '@orvia/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@orvia/policy-sdk':
+        specifier: workspace:*
+        version: link:../policy-sdk
+      '@orvia/privacy-control':
+        specifier: workspace:*
+        version: link:../privacy-control
+      '@orvia/testing':
+        specifier: workspace:*
+        version: link:../../shared/testing
+
+  backend/auth:
+    dependencies:
+      '@orvia/contracts':
+        specifier: workspace:*
+        version: link:../../shared/contracts
+      better-auth:
+        specifier: 1.7.5
+        version: 1.7.5(drizzle-kit@0.31.10)(drizzle-orm@0.45.2(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.0))(next@16.3.5(@playwright/test@1.63.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(pg@8.23.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      drizzle-orm:
+        specifier: 0.45.2
+        version: 0.45.2(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.0)
+      pg:
+        specifier: 8.23.0
+        version: 8.23.0
+      react:
+        specifier: 19.3.0
+        version: 19.3.0
+      zod:
+        specifier: 4.6.5
+        version: 4.6.5
+
+  backend/domain:
+    dependencies:
+      '@orvia/contracts':
+        specifier: workspace:*
+        version: link:../../shared/contracts
+
+  backend/policy-sdk:
+    dependencies:
+      '@orvia/contracts':
+        specifier: workspace:*
+        version: link:../../shared/contracts
+      zod:
+        specifier: 4.6.5
+        version: 4.6.5
+
+  backend/privacy-control:
+    dependencies:
+      '@orvia/contracts':
+        specifier: workspace:*
+        version: link:../../shared/contracts
+      '@orvia/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@orvia/policy-sdk':
+        specifier: workspace:*
+        version: link:../policy-sdk
+
+  database/customer:
+    dependencies:
+      drizzle-orm:
+        specifier: 0.45.2
+        version: 0.45.2(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.0)
+      pg:
+        specifier: 8.23.0
+        version: 8.23.0
+    devDependencies:
+      drizzle-kit:
+        specifier: 0.31.10
+        version: 0.31.10
+
+  frontend:
+    dependencies:
+      '@orvia/auth':
+        specifier: workspace:*
+        version: link:../backend/auth
+      '@orvia/backend':
+        specifier: workspace:*
+        version: link:../backend/api
+      '@orvia/contracts':
+        specifier: workspace:*
+        version: link:../shared/contracts
       next:
         specifier: 16.3.5
         version: 16.3.5(@playwright/test@1.63.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -237,14 +347,14 @@ importers:
         specifier: 4.3.3
         version: 4.3.3
 
-  apps/worker:
+  services/worker:
     dependencies:
       '@orvia/contracts':
         specifier: workspace:*
-        version: link:../../packages/contracts
+        version: link:../../shared/contracts
       '@orvia/testing':
         specifier: workspace:*
-        version: link:../../packages/testing
+        version: link:../../shared/testing
       '@temporalio/activity':
         specifier: 1.24.0
         version: 1.24.0
@@ -261,98 +371,13 @@ importers:
         specifier: 1.24.0
         version: 1.24.0
 
-  packages/auth:
-    dependencies:
-      '@orvia/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      better-auth:
-        specifier: 1.7.5
-        version: 1.7.5(drizzle-kit@0.31.10)(drizzle-orm@0.45.2(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.0))(next@16.3.5(@playwright/test@1.63.0)(@types/node@24.13.4)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(pg@8.23.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      drizzle-orm:
-        specifier: 0.45.2
-        version: 0.45.2(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.0)
-      pg:
-        specifier: 8.23.0
-        version: 8.23.0
-      react:
-        specifier: 19.3.0
-        version: 19.3.0
-      zod:
-        specifier: 4.6.5
-        version: 4.6.5
-
-  packages/backend:
-    dependencies:
-      '@orvia/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@orvia/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@orvia/db':
-        specifier: workspace:*
-        version: link:../db
-      '@orvia/domain':
-        specifier: workspace:*
-        version: link:../domain
-      '@orvia/policy-sdk':
-        specifier: workspace:*
-        version: link:../policy-sdk
-      '@orvia/privacy-control':
-        specifier: workspace:*
-        version: link:../privacy-control
-      '@orvia/testing':
-        specifier: workspace:*
-        version: link:../testing
-
-  packages/contracts:
+  shared/contracts:
     dependencies:
       zod:
         specifier: 4.6.5
         version: 4.6.5
 
-  packages/db:
-    dependencies:
-      drizzle-orm:
-        specifier: 0.45.2
-        version: 0.45.2(@types/pg@8.23.1)(kysely@0.29.5)(pg@8.23.0)
-      pg:
-        specifier: 8.23.0
-        version: 8.23.0
-    devDependencies:
-      drizzle-kit:
-        specifier: 0.31.10
-        version: 0.31.10
-
-  packages/domain:
-    dependencies:
-      '@orvia/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-
-  packages/policy-sdk:
-    dependencies:
-      '@orvia/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      zod:
-        specifier: 4.6.5
-        version: 4.6.5
-
-  packages/privacy-control:
-    dependencies:
-      '@orvia/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@orvia/domain':
-        specifier: workspace:*
-        version: link:../domain
-      '@orvia/policy-sdk':
-        specifier: workspace:*
-        version: link:../policy-sdk
-
-  packages/testing:
+  shared/testing:
     dependencies:
       '@orvia/contracts':
         specifier: workspace:*

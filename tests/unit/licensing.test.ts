@@ -1,8 +1,8 @@
 // WP25 / M27 + M28 contract invariants. Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { EntitlementCode, FeatureAvailability, LicenceClaims, NEVER_LICENSABLE, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { EntitlementCode, FeatureAvailability, LicenceClaims, NEVER_LICENSABLE, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const claims = {
   licence_id: uuid(900), edition: 'CONTROL' as const, entitlements: ['PRIVACY_GRAPH' as const],

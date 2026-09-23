@@ -3,13 +3,13 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import * as S from '../../../packages/contracts/src/index.ts';
-import { digest } from '../../../packages/contracts/src/crypto.ts';
-import { HttpFixture, authenticatorCode } from '../../../packages/testing/src/http-fixture.ts';
-import { createMarketingScenario } from '../../../packages/testing/src/scenario.ts';
-import { writeEvidence, safeError } from '../../../packages/testing/src/evidence.ts';
-import { loadProfile } from '../../../packages/testing/src/config.ts';
-import { connectDatabase } from '../../../packages/db/src/index.ts';
+import * as S from '../../../shared/contracts/src/index.ts';
+import { digest } from '../../../shared/contracts/src/crypto.ts';
+import { HttpFixture, authenticatorCode } from '../../../shared/testing/src/http-fixture.ts';
+import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
+import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.ts';
+import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
 
 const harness=new HttpFixture();const profile=loadProfile();
 if(!['codex-a00','rehearsal'].includes(profile.profile))throw new Error('Expiry regression is restricted to codex-a00/rehearsal');
@@ -153,5 +153,5 @@ try {
 } catch(error) {console.error({...safeError(error),message:error instanceof Error&&/^(Proof setup|Draft setup|Synthetic|Expected database|Test deadline|Consent setup)/.test(error.message)?error.message:undefined,sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(harness.diagnostics);process.exitCode=1;}
 finally {
   await harness.stop();await db.end();
-  writeEvidence('expiry-integration',{finding:'W01-A02-F01',phase:process.argv.includes('--observe-original')?'ORIGINAL_SOURCE_REGRESSION_OBSERVATION':'CORRECTED_RETEST',profile:profile.profile,contract_version:S.CONTRACT_VERSION,build_id:readFileSync('apps/web/.next/BUILD_ID','utf8').trim(),assertions,waits,result:process.exitCode?'FAIL':'PASS',limitations:['Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance.']});
+  writeEvidence('expiry-integration',{finding:'W01-A02-F01',phase:process.argv.includes('--observe-original')?'ORIGINAL_SOURCE_REGRESSION_OBSERVATION':'CORRECTED_RETEST',profile:profile.profile,contract_version:S.CONTRACT_VERSION,build_id:readFileSync('frontend/.next/BUILD_ID','utf8').trim(),assertions,waits,result:process.exitCode?'FAIL':'PASS',limitations:['Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance.']});
 }

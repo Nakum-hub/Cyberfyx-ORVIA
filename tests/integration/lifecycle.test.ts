@@ -4,11 +4,11 @@ import { promisify } from 'node:util';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { once } from 'node:events';
-import { loadProfile } from '../../packages/testing/src/config.ts';
-import { runtimeConfig } from '../../packages/auth/src/config.ts';
-import { connectDatabase } from '../../packages/db/src/index.ts';
-import { writeEvidence,safeError } from '../../packages/testing/src/evidence.ts';
-import { resetBootstrap } from '../../packages/testing/src/reset.ts';
+import { loadProfile } from '../../shared/testing/src/config.ts';
+import { runtimeConfig } from '../../backend/auth/src/config.ts';
+import { connectDatabase } from '../../database/customer/src/index.ts';
+import { writeEvidence,safeError } from '../../shared/testing/src/evidence.ts';
+import { resetBootstrap } from '../../shared/testing/src/reset.ts';
 const p=loadProfile();if(p.profile!=='rehearsal')throw new Error('Named rehearsal lifecycle only');
 const db=connectDatabase(p).pool;const config=runtimeConfig();const assertions:Record<string,unknown>[]=[];let child:ChildProcess|undefined;let output='';const cli=promisify(execFile);const readiness:Record<string,unknown>[]=[];
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,actual,expected,result:'PASS'});console.log('PASS '+name);}catch{assertions.push({name,actual,expected,result:'FAIL'});throw new Error(name);}}

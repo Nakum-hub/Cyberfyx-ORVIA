@@ -5,8 +5,8 @@
 // can raise one about them, and that a status page does not imply an outcome.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Capability, OwnRightsRequest, OwnRightsRequestCreate, RightType, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { example, uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
+import { Capability, OwnRightsRequest, OwnRightsRequestCreate, RightType, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { example, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const own = () => structuredClone(example('OwnRightsRequest')) as Record<string, unknown>;
 

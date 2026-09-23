@@ -61,7 +61,7 @@ if (process.env.ORVIA_START_REEXEC !== '1') {
   } catch (error) { reportOperatorError(error); process.exit(1); }
 }
 
-if (process.env.ORVIA_PROFILE && process.env.ORVIA_PROFILE !== PROFILE) throw new OperatorError(`ORVIA_PROFILE is set to "${process.env.ORVIA_PROFILE}".`, `npm start runs the ${PROFILE} profile only.\n\nClear the variable, or use the engineering commands in docs/engineering/A07-PACKAGE.md for another profile.`);
+if (process.env.ORVIA_PROFILE && process.env.ORVIA_PROFILE !== PROFILE) throw new OperatorError(`ORVIA_PROFILE is set to "${process.env.ORVIA_PROFILE}".`, `npm start runs the ${PROFILE} profile only.\n\nClear the variable, or use the engineering commands in docs/engineering/local-packaging-and-operation.md for another profile.`);
 process.env.ORVIA_PROFILE = PROFILE;
 
 const COMPOSE_SERVICES = ['postgres', 'opa', 'temporal', 'loopback'];
@@ -79,23 +79,23 @@ try {
   // 1. Prerequisites and installation state -------------------------------
   stage('Checking environment...');
   const state = profileState();
-  if (state === 'PARTIAL') throw new OperatorError('ORVIA rehearsal profile is partially initialized.', 'Automatic overwrite is disabled, so no credential, key or store is touched.\n\nInspect .local/profiles/rehearsal and resume the individual setup commands.\n\nSee: docs/engineering/A07-PACKAGE.md');
+  if (state === 'PARTIAL') throw new OperatorError('ORVIA rehearsal profile is partially initialized.', 'Automatic overwrite is disabled, so no credential, key or store is touched.\n\nInspect .local/profiles/rehearsal and resume the individual setup commands.\n\nSee: docs/engineering/local-packaging-and-operation.md');
   if (state === 'ABSENT') {
-    if (process.platform !== 'win32') throw new OperatorError('No ORVIA installation was found, and first-run setup is Windows-only.', 'The tested host for this prototype is Windows x64 with Docker Desktop.\n\nSee: docs/engineering/A07-PACKAGE.md');
+    if (process.platform !== 'win32') throw new OperatorError('No ORVIA installation was found, and first-run setup is Windows-only.', 'The tested host for this prototype is Windows x64 with Docker Desktop.\n\nSee: docs/engineering/local-packaging-and-operation.md');
     stage('No installation found. Running one-time rehearsal setup...');
     const setup = spawn('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', resolve(REPOSITORY_ROOT, 'scripts/setup-rehearsal.ps1')], { cwd: REPOSITORY_ROOT, windowsHide: true, stdio: 'inherit', env: childEnvironment() });
     const [setupCode] = await once(setup, 'close') as [number | null];
-    if (setupCode !== 0) throw new OperatorError('First-run setup did not complete.', 'Nothing was reset and any state it did create is retained.\n\nCorrect the cause reported above and resume the individual commands in docs/engineering/A07-PACKAGE.md.');
-    if (profileState() !== 'CONFIGURED') throw new OperatorError('First-run setup finished without producing a complete profile.', 'See: docs/engineering/A07-PACKAGE.md');
+    if (setupCode !== 0) throw new OperatorError('First-run setup did not complete.', 'Nothing was reset and any state it did create is retained.\n\nCorrect the cause reported above and resume the individual commands in docs/engineering/local-packaging-and-operation.md.');
+    if (profileState() !== 'CONFIGURED') throw new OperatorError('First-run setup finished without producing a complete profile.', 'See: docs/engineering/local-packaging-and-operation.md');
   }
-  if (!existsSync(CA_CERTIFICATE)) throw new OperatorError('The local rehearsal certificate authority is missing.', 'Regenerate it with the protected TLS command in docs/engineering/A07-PACKAGE.md.');
+  if (!existsSync(CA_CERTIFICATE)) throw new OperatorError('The local rehearsal certificate authority is missing.', 'Regenerate it with the protected TLS command in docs/engineering/local-packaging-and-operation.md.');
   done(`Rehearsal profile ready (${PROFILE_DIRECTORY.replace(REPOSITORY_ROOT, '')})`);
 
   // 2. Single instance ------------------------------------------------------
   const existingRun = supervisorRun();
   if (existingRun) {
     const { supervisorAlive } = await import('./orvia-cli.ts');
-    if (!supervisorAlive(existingRun)) throw new OperatorError('A stale ORVIA supervisor journal requires inspection.', 'No automatic takeover or journal deletion is allowed.\n\nRun:\n  npm run status\n\nThen inspect .local/profiles/rehearsal/supervisor/run.json and follow docs/engineering/A07-PACKAGE.md.');
+    if (!supervisorAlive(existingRun)) throw new OperatorError('A stale ORVIA supervisor journal requires inspection.', 'No automatic takeover or journal deletion is allowed.\n\nRun:\n  npm run status\n\nThen inspect .local/profiles/rehearsal/supervisor/run.json and follow docs/engineering/local-packaging-and-operation.md.');
     process.stdout.write(`\n  ORVIA is already running for profile ${PROFILE}.\n\n  Workspace        ${ORIGIN}/workspace\n  Privacy Centre   ${ORIGIN}/privacy\n\n  Inspect it with:   npm run status\n  Stop it with:      npm stop\n\n`); process.exit(0);
   }
   if (!(await portFree(4330))) throw new OperatorError('Port 4330 is already in use, and it is not an ORVIA supervisor this command owns.', 'Something else is bound to the application port.\n\nCheck what ORVIA thinks is running:\n  npm run status\n\nThen stop the other listener, or stop ORVIA with:\n  npm stop');
@@ -103,7 +103,7 @@ try {
   // 3. Backing services -----------------------------------------------------
   if (!dockerAvailable()) throw new OperatorError('Docker is not available.', 'ORVIA needs PostgreSQL, Temporal and OPA, which run as pinned Docker containers.\n\nStart Docker Desktop, wait for it to report running, then run:\n  npm start');
   done('Docker available');
-  const { loadProfile } = await import('../packages/testing/src/config.ts');
+  const { loadProfile } = await import('../shared/testing/src/config.ts');
   const profile = loadProfile(PROFILE);
   const running = runningServices(profile) ?? [];
   ownedServices = !COMPOSE_SERVICES.every(service => running.includes(service));
@@ -128,13 +128,13 @@ try {
   // 5. Schema ---------------------------------------------------------------
   // Migrations are applied only when something is genuinely pending, so a normal
   // start neither re-runs them nor records a migration artifact for a no-op.
-  const { connectDatabase } = await import('../packages/db/src/index.ts');
+  const { connectDatabase } = await import('../database/customer/src/index.ts');
   const pool = connectDatabase(profile).pool;
   let pending: string[] = [];
   try {
     const present = await pool.query("SELECT to_regclass('public.bootstrap_migrations') AS name");
     const applied: string[] = present.rows[0].name ? (await pool.query('SELECT id FROM bootstrap_migrations')).rows.map((row: { id: string }) => row.id) : [];
-    pending = readdirSync('packages/db/migrations').filter(file => /^\d{4}_[a-z_]+\.sql$/.test(file)).sort().map(file => file.slice(0, -4)).filter(id => !applied.includes(id));
+    pending = readdirSync('database/customer/migrations').filter(file => /^\d{4}_[a-z_]+\.sql$/.test(file)).sort().map(file => file.slice(0, -4)).filter(id => !applied.includes(id));
   } finally { await pool.end(); }
   if (pending.length) {
     stage(`Applying ${pending.length} pending migration(s)...`);

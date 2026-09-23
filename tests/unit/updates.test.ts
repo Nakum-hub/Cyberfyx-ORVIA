@@ -1,16 +1,16 @@
 // WP27 / M31 contract invariants. Docker-free.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PRODUCT_VERSION, ReleaseClaims, UpdateEligibility, UpdatePlan, UpdateStepName, UpdateStepRecord, routes, schemas } from '../../packages/contracts/src/index.ts';
-import { uuid, sampleTime } from '../../packages/contracts/src/examples.ts';
-import { unsafeArchiveEntry, recoveryMode, eligibilityChecks } from '../../packages/domain/src/updates/updates.ts';
+import { PRODUCT_VERSION, ReleaseClaims, UpdateEligibility, UpdatePlan, UpdateStepName, UpdateStepRecord, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
+import { unsafeArchiveEntry, recoveryMode, eligibilityChecks } from '../../backend/domain/src/updates/updates.ts';
 
 const claims = (overrides: Record<string, unknown> = {}) => ({
   release_id: uuid(700), version: '0.2.0', published_at: sampleTime,
   audience: 'ORVIA_CUSTOMER_INSTALLATION' as const, minimum_upgradable_from: '0.0.0',
   supported_profiles: ['CUSTOMER_LOCAL_SYNTHETIC' as const],
   artifact_digest: 'a'.repeat(64), artifact_bytes: 52428800,
-  archive: [{ path: 'orvia/packages/db/migrations/0026_example.sql', bytes: 4096 }],
+  archive: [{ path: 'orvia/database/customer/migrations/0026_example.sql', bytes: 4096 }],
   dependencies: [{ name: 'zod', version: '4.1.13', digest: 'b'.repeat(64) }],
   provenance: { source_commit: '0'.repeat(40), built_at: sampleTime, builder_reference: 'Reproducible internal build.', reviewed_by_reference: 'Release review SYN-REL-0001.' },
   migrations: [{ migration: '0026_example', irreversible: false, note: 'Adds a nullable column.' }],
@@ -54,7 +54,7 @@ test('a manifest cannot claim to have been published before it was built', () =>
 });
 
 test('an archive path that escapes the target directory is refused before anything is written', () => {
-  assert.equal(unsafeArchiveEntry('orvia/packages/db/migrations/0026_example.sql'), null);
+  assert.equal(unsafeArchiveEntry('orvia/database/customer/migrations/0026_example.sql'), null);
   assert.equal(unsafeArchiveEntry('a/b/c.txt'), null);
   assert.equal(unsafeArchiveEntry('/etc/passwd'), 'absolute path');
   assert.equal(unsafeArchiveEntry('\\\\server\\share'), 'absolute path');

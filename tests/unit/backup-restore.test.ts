@@ -3,8 +3,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   BackupSnapshot, BackupSnapshotCreate, ConsentConflict, RestoreReconciliation, routes, schemas,
-} from '../../packages/contracts/src/index.ts';
-import { example } from '../../packages/contracts/src/examples.ts';
+} from '../../shared/contracts/src/index.ts';
+import { example } from '../../shared/contracts/src/examples.ts';
 
 // The scanner in scripts/local-hygiene.mjs looks for a literal PEM header, and
 // it should: a private key in a source file is exactly what it exists to catch.
