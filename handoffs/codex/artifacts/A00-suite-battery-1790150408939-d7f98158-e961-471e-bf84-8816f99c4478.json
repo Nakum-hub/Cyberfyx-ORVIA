@@ -1,0 +1,232 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T08:00:08.952Z",
+  "profile": "codex-a00",
+  "suites": 27,
+  "assertions": 862,
+  "failures": 7,
+  "results": [
+    {
+      "suite": "test:consent",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 50,
+      "artifact": "A00-consent-integration-1790148668302-e88b35a3-0864-47a5-b3d4-f14f302497bc.json",
+      "reason": null
+    },
+    {
+      "suite": "test:expiry",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 87,
+      "artifact": "A00-expiry-integration-1790148852639-b77529bf-bf3c-4ebc-a1bb-688ae38b7787.json",
+      "reason": null
+    },
+    {
+      "suite": "test:enforcement",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 0,
+      "artifact": "A00-send-enforcement-1790148854763-4cc8f4b6-1b61-4fa3-897c-711aa54333e7.json",
+      "reason": "non-zero exit"
+    },
+    {
+      "suite": "test:evidence",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 0,
+      "artifact": "A00-evidence-integration-1790148856473-c704bf65-d3ff-4509-9275-f1e04e3c8b3d.json",
+      "reason": "non-zero exit"
+    },
+    {
+      "suite": "test:graph",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 48,
+      "artifact": "A00-graph-integration-1790148877858-c41be7b7-5d82-4ee7-a451-4f0a916539ff.json",
+      "reason": null
+    },
+    {
+      "suite": "test:rights",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 64,
+      "artifact": "A00-rights-integration-1790148966510-9d2a9b5d-ed6a-42ce-bc10-8e98533ad6f9.json",
+      "reason": null
+    },
+    {
+      "suite": "test:portal-rights",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 19,
+      "artifact": "A00-portal-rights-integration-1790148990316-947f432c-b673-4a62-9ef9-f1a8b0692d56.json",
+      "reason": null
+    },
+    {
+      "suite": "test:retention",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 45,
+      "artifact": "A00-retention-integration-1790149122282-ef7df862-597f-4ee1-aec8-92b218351dc1.json",
+      "reason": null
+    },
+    {
+      "suite": "test:coverage",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 52,
+      "artifact": "A00-coverage-integration-1790149191661-feafa275-0e50-4733-8eb7-b6cfa5bf6e12.json",
+      "reason": null
+    },
+    {
+      "suite": "test:processors",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 34,
+      "artifact": "A00-processors-integration-1790149226482-7d91d429-61bd-48ad-b0db-01eb511fa6b2.json",
+      "reason": "non-zero exit"
+    },
+    {
+      "suite": "test:incidents",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 42,
+      "artifact": "A00-incidents-integration-1790149320684-65fc0f3b-6019-4bc8-9b8f-55a6bccceab5.json",
+      "reason": null
+    },
+    {
+      "suite": "test:notifications",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 32,
+      "artifact": "A00-notifications-integration-1790149422785-9b3d6f40-fa35-4379-a09b-03fec6946a68.json",
+      "reason": null
+    },
+    {
+      "suite": "test:licensing",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 33,
+      "artifact": "A00-licensing-integration-1790149448850-e41e277f-3858-4a15-815e-a5a42e74de9e.json",
+      "reason": null
+    },
+    {
+      "suite": "test:monitoring",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 0,
+      "artifact": "A00-monitoring-integration-1790149517218-23d66c9b-757f-4d3d-a0ca-10fe930cf59a.json",
+      "reason": "non-zero exit"
+    },
+    {
+      "suite": "test:restore",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 33,
+      "artifact": "A00-restore-integration-1790149592086-2adbf325-6480-4c36-9a56-cef3d30a283e.json",
+      "reason": null
+    },
+    {
+      "suite": "test:vendor-visibility",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 18,
+      "artifact": "A00-vendor-visibility-integration-1790149613782-f2648bab-e17f-4832-b29c-33a96ff346b6.json",
+      "reason": null
+    },
+    {
+      "suite": "test:support",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 57,
+      "artifact": "A00-support-integration-1790149697354-9c52d130-1c9e-45e1-9918-a9e2c995d5c6.json",
+      "reason": null
+    },
+    {
+      "suite": "test:updates",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 54,
+      "artifact": "A00-updates-integration-1790149784483-5a4568f4-7a2b-4994-bb13-372a27b63ef0.json",
+      "reason": null
+    },
+    {
+      "suite": "test:audit",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 51,
+      "artifact": "A00-audit-integration-1790149864973-19bcaea1-1ebd-4eb1-9582-0e3c535fc132.json",
+      "reason": null
+    },
+    {
+      "suite": "test:audit-retention",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 24,
+      "artifact": "A00-audit-retention-integration-1790149885137-25d94762-9c72-405a-bd00-8aa99da2a1de.json",
+      "reason": null
+    },
+    {
+      "suite": "test:onboarding",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 13,
+      "artifact": "A00-onboarding-integration-1790149953493-e87856db-7c39-4542-9ee6-9c2270ebfdb5.json",
+      "reason": "non-zero exit"
+    },
+    {
+      "suite": "test:languages",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 19,
+      "artifact": "A00-notice-language-integration-1790150030762-18ff1a48-d75e-4398-abd7-19ae8c9a4ac2.json",
+      "reason": null
+    },
+    {
+      "suite": "test:preflight",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 19,
+      "artifact": "A00-preflight-integration-1790150047153-45184d0d-2f2a-428f-946d-f2b536da364b.json",
+      "reason": null
+    },
+    {
+      "suite": "test:imports",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 31,
+      "artifact": "A00-imports-integration-1790150130361-b7fe45ae-3c41-4676-a7fc-51151e82b535.json",
+      "reason": null
+    },
+    {
+      "suite": "test:reports",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 24,
+      "artifact": "A00-reports-integration-1790150193026-a263dbf8-e4ab-4d04-ae8a-a51e6411b9b9.json",
+      "reason": null
+    },
+    {
+      "suite": "test:workflows",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 0,
+      "artifact": "A00-workflow-integration-1790150269588-63dfcd9d-42d5-4619-bc0b-23fae7cfb65b.json",
+      "reason": "non-zero exit"
+    },
+    {
+      "suite": "test:regression",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 13,
+      "artifact": "A00-regression-integration-1790150408734-19583163-c83f-414f-a2a9-7f0b90091972.json",
+      "reason": "non-zero exit"
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "A suite is a pass only when it exited zero and wrote an artifact during this run whose assertions all passed. An artifact from an earlier execution is never accepted.",
+    "This is component coverage. It is not application acceptance, which only the human-run rehearsals produce."
+  ]
+}

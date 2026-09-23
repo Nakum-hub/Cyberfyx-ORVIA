@@ -6,8 +6,12 @@ export function writeEvidence(kind:string, data:Record<string,unknown>){
   mkdirSync('handoffs/codex/artifacts',{recursive:true});
   const task=process.env.ORVIA_TASK_ID??'A00';
   if(!/^A0[0-7]$/.test(task))throw new Error('Invalid evidence task');
+  // A battery runner names its execution so it can accept only artifacts that
+  // execution wrote; a modification time cannot tell two concurrent runs apart.
+  const run=process.env.ORVIA_EVIDENCE_RUN;
+  if(run!==undefined&&!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(run))throw new Error('Invalid evidence run');
   const path=`handoffs/codex/artifacts/${task}-${kind}-${Date.now()}-${randomUUID()}.json`;
-  writeFileSync(safeArtifactPath(path),JSON.stringify({task_id:task,fixture_kind:task==='A00'?'SYNTHETIC_BOOTSTRAP_ONLY':'CUSTOMER_LOCAL_SYNTHETIC',recorded_at:new Date().toISOString(),...data},null,2)+'\n',{flag:'wx'});
+  writeFileSync(safeArtifactPath(path),JSON.stringify({task_id:task,fixture_kind:task==='A00'?'SYNTHETIC_BOOTSTRAP_ONLY':'CUSTOMER_LOCAL_SYNTHETIC',recorded_at:new Date().toISOString(),...data,...run?{run_id:run}:{}},null,2)+'\n',{flag:'wx'});
   console.log(`Artifact: ${path}`);
   return path;
 }

@@ -10,13 +10,20 @@
 // So this runner only believes a result it can tie to this execution:
 //
 //   - the process exit code, which a stale file cannot fake; and
-//   - an artifact whose modification time is after the run started.
+//   - an artifact carrying this run's identifier, which each suite receives
+//     through ORVIA_EVIDENCE_RUN and the evidence writer stamps on its record.
 //
-// A suite that exits non-zero, writes nothing, or writes something older than
-// its own start is reported as such and never as a pass. NOT_RUN stays NOT_RUN.
+// A modification time is not enough: two batteries run at once write fresh
+// artifacts of the same names, and each would accept the other's. That also
+// means two batteries at once share one database and fail each other, so a
+// second run is refused while the first holds the lock.
+//
+// A suite that exits non-zero, writes nothing, or writes nothing stamped with
+// this run is reported as such and never as a pass. NOT_RUN stays NOT_RUN.
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { randomUUID } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { writeEvidence } from '../packages/testing/src/evidence.ts';
 import { loadProfile } from '../packages/testing/src/config.ts';
@@ -26,6 +33,26 @@ const profile = loadProfile();
 if (!['codex-a00', 'rehearsal'].includes(profile.profile)) throw new Error('Only codex-a00/rehearsal permitted');
 
 const ARTIFACTS = 'handoffs/codex/artifacts';
+
+/** Refuses to start while another live battery holds the lock. A lock left by a
+ *  process that no longer exists is stale and is taken over. */
+const LOCK = resolve('.local', 'suite-battery.lock');
+function holderIsAlive(pid: number) {
+  try { process.kill(pid, 0); return true; } catch (error) { return (error as { code?: string }).code === 'EPERM'; }
+}
+mkdirSync('.local', { recursive: true });
+try {
+  writeFileSync(LOCK, String(process.pid), { flag: 'wx' });
+} catch {
+  const holder = Number(readFileSync(LOCK, 'utf8'));
+  if (Number.isInteger(holder) && holder > 0 && holderIsAlive(holder)) {
+    throw new Error(`Another suite battery (pid ${holder}) is running against this profile; the two would share one database and fail each other`);
+  }
+  unlinkSync(LOCK);
+  writeFileSync(LOCK, String(process.pid), { flag: 'wx' });
+}
+process.on('exit', () => { try { if (readFileSync(LOCK, 'utf8') === String(process.pid)) unlinkSync(LOCK); } catch { /* already gone */ } });
+const RUN_ID = randomUUID();
 
 /**
  * A fixture key pair some suites need. They sign with the private key while the
@@ -43,7 +70,7 @@ function keyPair(file: string, prefix: string): Record<string, string> {
   };
 }
 
-/** script name, artifact name fragment, and any environment it cannot run without. */
+/** Script name, artifact fragment and any fixture environment the script requires. */
 const SUITES: { script: string; artifact: string; env?: Record<string, string> }[] = [
   { script: 'test:consent', artifact: 'consent-integration' },
   { script: 'test:expiry', artifact: 'expiry-integration' },
@@ -74,13 +101,15 @@ const SUITES: { script: string; artifact: string; env?: Record<string, string> }
   { script: 'test:regression', artifact: 'regression-integration' },
 ];
 
-/** The newest artifact for this suite that was written after the run began. An
- *  older one is a different execution and is deliberately not accepted. */
+/** The newest artifact for this suite stamped with this run's identifier. The
+ *  modification time only narrows the search; the identifier decides, so an
+ *  older record or one written by a concurrent execution is never accepted. */
 function freshArtifact(fragment: string, startedAt: number) {
   const matches = readdirSync(ARTIFACTS)
     .filter(name => name.includes(fragment) && name.endsWith('.json'))
     .map(name => ({ name, at: statSync(resolve(ARTIFACTS, name)).mtimeMs }))
     .filter(entry => entry.at >= startedAt)
+    .filter(entry => (JSON.parse(readFileSync(resolve(ARTIFACTS, entry.name), 'utf8')) as { run_id?: string }).run_id === RUN_ID)
     .sort((a, b) => b.at - a.at);
   return matches[0]?.name ?? null;
 }
@@ -91,9 +120,12 @@ for (const suite of SUITES) {
   let exitCode = 0;
   let failure: string | null = null;
   try {
+    // These are closed, source-controlled script names rather than user input.
+    // On Windows the shell must remain the process owner: invoking npm-cli
+    // directly can return while TSX/Next descendants are still running.
     await run('npm', ['run', suite.script], {
       shell: true, windowsHide: true, maxBuffer: 32 * 1024 * 1024,
-      env: { ...process.env, ...suite.env },
+      env: { ...process.env, ...suite.env, ORVIA_EVIDENCE_RUN: RUN_ID },
     });
   } catch (error) {
     exitCode = (error as { code?: number }).code ?? 1;
@@ -127,7 +159,7 @@ writeEvidence('suite-battery', {
   failures: failed.length, results,
   result: failed.length ? 'FAIL' : 'PASS',
   limitations: [
-    'A suite is a pass only when it exited zero and wrote an artifact during this run whose assertions all passed. An artifact from an earlier execution is never accepted.',
+    'A suite is a pass only when it exited zero and wrote an artifact stamped with this run\'s identifier whose assertions all passed. An artifact from an earlier or a concurrent execution is never accepted.',
     'This is component coverage. It is not application acceptance, which only the human-run rehearsals produce.',
   ],
 });

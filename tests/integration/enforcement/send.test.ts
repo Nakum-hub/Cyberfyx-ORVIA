@@ -21,10 +21,13 @@ const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unkno
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed: '+name);}}
 const run=promisify(execFile);
 const setup=(script:string)=>run(process.execPath,['--import','tsx',script,`confirm:${config.profile}`],{windowsHide:true,encoding:'utf8',timeout:60000});
-const docker=(command:string)=>run('docker',[command,`${config.compose_project}-opa-1`],{windowsHide:true,encoding:'utf8',timeout:30000});
+const docker=(command:string)=>run('docker',[command,`${config.compose_project}-opa-1`],{windowsHide:true,encoding:'utf8',timeout:60000});
 const opa=`http://127.0.0.1:${config.opa_port}`;
+async function waitForPolicy(url:string){for(let i=0;i<60;i++){try{if((await fetch(opa+'/health')).ok&&(await fetch(url)).ok)return true;}catch{/* actual policy readiness */}await new Promise(r=>setTimeout(r,100));}return false;}
 try {
- await docker('restart');await h.start();
+ await docker('restart');
+ if(!await waitForPolicy(opa+'/v1/policies/policy/processing/decision.rego'))throw new Error('Actual processing policy module did not recover');
+ await h.start();
  const marketing=await createMarketingScenario(h);const order=await createMarketingScenario(h,'SYNTHETIC_CRM','order_service_demo');
  await marketing.change('grant');await setup('scripts/machine-init.ts');await setup('scripts/seed-orders.ts');
  const identity=senderEnrollment(config).identities.find(i=>i.scope.environment_id===marketing.scope.environment_id)!;
@@ -80,7 +83,10 @@ try {
  }finally{check('restore processing policy',(await fetch(url,{method:'PUT',body:original,headers:{'content-type':'text/plain'}})).status,200);}
  try{await docker('stop');const outage=fresh();check('OPA outage is indeterminate',(await result(outage)).decision,'INDETERMINATE');check('OPA outage creates no send',await count(outage.attempt_id),0);}
  finally{await docker('start');}
- let recovered=false;for(let i=0;i<60;i++){try{if((await fetch(opa+'/health')).ok){recovered=true;break;}}catch{/* actual readiness */}await new Promise(r=>setTimeout(r,100));}
+ // OPA's process health can turn green before policies from the mounted
+ // directory have finished loading. Wait for the exact module this test
+ // removed and restored; the next send remains a single, non-retried effect.
+ const recovered=await waitForPolicy(url);
  check('OPA recovered',recovered,true);check('recovered policy still blocks withdrawal',(await result(fresh())).decision,'BLOCK');
 }catch(error){console.error({...safeError(error),message:error instanceof Error&&/^(Synthetic|Assertion|Actual)/.test(error.message)?error.message:undefined,cause:safeError(error instanceof Error?error.cause:undefined),sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(h.diagnostics);process.exitCode=1;}
 finally{await h.stop();await db.end();await sender?.end();writeEvidence('send-enforcement',{test_ids:['T14','T15','T16'],profile:config.profile,contract_version:CONTRACT_VERSION,build_id:readFileSync('apps/web/.next/BUILD_ID','utf8').trim(),assertions,result:process.exitCode?'FAIL':'PASS',limitations:['Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06.']});}
