@@ -35,7 +35,7 @@ export class HttpFixture {
     // Readiness now means the business boundary is answering: an unauthenticated
     // 401 proves the route is loaded and refusing correctly. Nothing is retried
     // and no failure is masked -- if it never answers, this still throws.
-    for(const [path,ready] of [['/healthz',(r:Response)=>r.ok],['/api/v1/session',(r:Response)=>r.status>0]] as const) {
+    for(const [path,ready] of [['/healthz',(r:Response)=>r.ok],['/api/v1/session',(r:Response)=>r.status===401]] as const) {
       let answered=false;
       for(let i=0;i<90;i++) {
         if(this.child.exitCode!==null)throw new Error('Owned web process failed to start');
