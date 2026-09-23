@@ -188,6 +188,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/representation', label: 'Representation' },
     { href: '/workspace/workflows', label: 'Workflows' },
     { href: '/workspace/evidence', label: 'Evidence' },
+    { href: '/workspace/reports', label: 'Reports' },
   ] },
   { group: 'Assurance', items: [
     { href: '/workspace/test-lab', label: 'Test Lab' },

@@ -21,7 +21,7 @@ export async function ownChoices(c: Context, page: Page) {
     // is in the language they chose. A single field here would erase the choice.
     const chosen=requireOne((await c.tx.query(`SELECT preferred_language FROM app.principal_references WHERE ${predicate} AND id=$4`,[...scope,c.actor.principal_id])).rows);
     const language=await languageFor(c,row.id,chosen.preferred_language);
-    items.push(S.ConsentChoice.parse({purpose_id:row.id,purpose_name:row.document.name,consent_status:state,consent_epoch:epoch,notice:{...row.notice,published_at:notice.published_at.toISOString()},language,interaction_id:interaction}));
+    items.push(S.ConsentChoice.parse({purpose_id:row.id,purpose_name:row.document.name,consent_status:state,consent_epoch:epoch,notice:{...row.notice,published_at:notice.published_at.toISOString(),data_categories:row.notice.data_categories??null,contact:row.notice.contact??null,itemisation_was_not_recorded:row.notice.data_categories===undefined||row.notice.data_categories===null},language,interaction_id:interaction}));
   }
   return {items,next_cursor:purposes.rows.length>page.limit?Buffer.from(items.at(-1)!.purpose_id).toString('base64url'):null};
 }

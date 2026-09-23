@@ -131,6 +131,7 @@ export interface EndpointMap {
   vendor_visibility: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.VendorVisibility> };
   audit_retention: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditRetentionReport> };
   set_audit_retention: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditRetentionRuleCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditRetentionRule> };
+  report: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.Report> };
   list_imports: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatchList> };
   submit_import: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImportSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatch> };
   import_batch: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImportBatch> };

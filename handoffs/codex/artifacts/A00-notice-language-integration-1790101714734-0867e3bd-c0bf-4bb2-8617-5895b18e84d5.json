@@ -1,0 +1,70 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-22T18:28:34.734Z",
+  "profile": "codex-a00",
+  "phase": "the portal does not erase the choice",
+  "assertions": [
+    {
+      "name": "a language the Act does not permit for a notice is refused",
+      "result": "PASS",
+      "expected": [
+        400,
+        400
+      ],
+      "actual": [
+        400,
+        400
+      ]
+    },
+    {
+      "name": "an Eighth Schedule language is recorded as the principal’s own choice",
+      "result": "PASS",
+      "expected": "ta",
+      "actual": "ta"
+    },
+    {
+      "name": "staff cannot set a principal’s language choice",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the purpose has a published English notice, which is what the scenario made",
+      "result": "PASS",
+      "expected": [
+        true,
+        "en",
+        [
+          "en"
+        ]
+      ],
+      "actual": [
+        true,
+        "en",
+        [
+          "en"
+        ]
+      ]
+    },
+    {
+      "name": "a language with no notice is served English and reported as unmet, not as met",
+      "result": "PASS",
+      "expected": [
+        "ta",
+        "en",
+        false
+      ],
+      "actual": [
+        "ta",
+        "en",
+        false
+      ]
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "ZodError",
+    "code": "UNCLASSIFIED"
+  }
+}

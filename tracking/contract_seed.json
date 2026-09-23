@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.14.0",
+  "contract_version": "0.15.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -1449,6 +1449,16 @@
       "response": "AuditRetentionRule",
       "status": 201,
       "idempotency": true
+    },
+    {
+      "id": "report",
+      "method": "get",
+      "path": "/api/v1/admin/reports",
+      "authority": "STAFF",
+      "capability": "evidence.export",
+      "query": "ReportQuery",
+      "response": "Report",
+      "status": 200
     },
     {
       "id": "list_imports",

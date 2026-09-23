@@ -94,7 +94,11 @@ try {
   phase = 'a second language';
   const hindi = S.Notice.parse(await (await staff.call('/api/v1/admin/notices',
     { purpose_id: purpose, language: 'hi', title: 'वैकल्पिक विपणन सूचना',
-      content: 'यह एक सिंथेटिक सूचना है। इसे कभी भी इस पोर्टल में वापस लिया जा सकता है।' }, key())).json());
+      content: 'यह एक सिंथेटिक सूचना है। इसे कभी भी इस पोर्टल में वापस लिया जा सकता है।',
+      data_categories: ['CONTACT_DETAILS', 'MARKETING_PREFERENCES'],
+      contact: { rights_channel: 'इस पोर्टल में कभी भी सहमति वापस लें या अपने अधिकारों का प्रयोग करें।',
+        grievance_channel: 'इस पोर्टल के माध्यम से सिंथेटिक गोपनीयता टीम के पास शिकायत दर्ज करें।',
+        board_complaint_channel: 'डेटा संरक्षण बोर्ड द्वारा प्रकाशित माध्यम से शिकायत करें।' } }, key())).json());
   check('a draft translation is not yet an available notice',
     (await body(S.NoticeAvailability, await availability('hi'), 200)).published_languages, ['en']);
   // Publishing a notice happens through its policy, so the availability report

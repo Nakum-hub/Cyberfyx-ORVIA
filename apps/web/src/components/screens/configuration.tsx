@@ -1,6 +1,7 @@
 'use client';
 import { useState, type ReactNode, type FormEvent } from 'react';
 import type { schemas } from '@orvia/contracts';
+import { DataCategoryCode } from '@orvia/contracts';
 import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
 import { call, useCollection, useMutation, useRequestGuard } from '../shared/api.ts';
 import { MutationFeedback } from '../shared/mutation-feedback.tsx';
@@ -17,6 +18,7 @@ import {
 
 type Purpose = ReturnType<typeof schemas.Purpose.parse>;
 type Notice = ReturnType<typeof schemas.Notice.parse>;
+const CATEGORY_CODES = DataCategoryCode.options;
 type Policy = ReturnType<typeof schemas.Policy.parse>;
 type System = ReturnType<typeof schemas.System.parse>;
 
@@ -88,15 +90,38 @@ export function Configuration({session}:{session:StaffSession}) {
             <span className="muted" style={{fontSize:13}}>{n.published_at?`Published ${formatTime(n.published_at)}`:'Publish through its policy'}</span>
           </div>
           <details className="reveal"><summary>Read the notice text</summary><p className="notice-body" style={{marginTop:'var(--s3)'}}>{n.content}</p></details>
+          {n.itemisation_was_not_recorded
+            ? <Badge label="Not itemised" tone="warn" meaning="This notice was published before itemised content and contact information were required here. The items were never recorded, and they are not invented now."/>
+            : <TechnicalDetails items={[
+              {term:'Personal data itemised',value:n.data_categories!.map(code=>code.replaceAll('_',' ').toLowerCase()).join(', ')},
+              {term:'Exercising rights',value:n.contact!.rights_channel},
+              {term:'Grievance',value:n.contact!.grievance_channel},
+              {term:'Complaint to the Board',value:n.contact!.board_complaint_channel}]}/>}
           <TechnicalDetails items={[{term:'Notice',value:n.id},{term:'Version',value:n.version_id},{term:'Purpose',value:n.purpose_id},{term:'Content digest',value:n.content_digest}]}/>
         </>}/>
       }</QueryBoundary>
       <QueryBoundary query={purposes} label="purpose choices">{()=>
         <CreateRecord operation="create_notices" label="Create notice" allowed={canWrite} onSaved={reload}
-          build={f=>({purpose_id:value(f,'purpose_id'),language:'en',title:value(f,'title'),content:value(f,'content')})}>
+          build={f=>({purpose_id:value(f,'purpose_id'),language:'en',title:value(f,'title'),content:value(f,'content'),
+            data_categories:CATEGORY_CODES.filter(code=>f.get(`category_${code}`)==='on'),
+            contact:{rights_channel:value(f,'rights_channel'),grievance_channel:value(f,'grievance_channel'),board_complaint_channel:value(f,'board_complaint_channel')}})}>
           <Select label="Notice purpose" name="purpose_id" options={purposeOptions}/>
           <Input label="Notice title" name="title"/>
           <label className="field"><span className="label">Notice content</span><textarea name="content" required maxLength={10000}/></label>
+          {/* Rules 3 and 9: the notice is itemised rather than described in prose,
+              and from the same vocabulary the inventory uses, so the two can be
+              compared instead of being two independent stories. */}
+          <fieldset className="field"><legend className="label">Personal data this notice covers</legend>
+            {CATEGORY_CODES.map(code=>(
+              <label key={code} style={{display:'block'}}>
+                <input type="checkbox" name={`category_${code}`}/> {code.replaceAll('_',' ').toLowerCase()}
+              </label>))}
+          </fieldset>
+          {/* Act §5(1)(b) and (c): how to exercise rights, and how to complain to
+              the Board. Three fields because they are three different acts. */}
+          <Input label="How to exercise rights, including withdrawing consent" name="rights_channel"/>
+          <Input label="How to raise a grievance with this organisation" name="grievance_channel"/>
+          <Input label="How to complain to the Data Protection Board" name="board_complaint_channel"/>
         </CreateRecord>
       }</QueryBoundary>
     </>:null}

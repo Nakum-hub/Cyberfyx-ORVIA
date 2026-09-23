@@ -1,0 +1,331 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T03:24:06.306Z",
+  "test_ids": [
+    "T14",
+    "T15",
+    "T16"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.15.0",
+  "build_id": "Y8QlJW_YeRShfIv227NSg",
+  "assertions": [
+    {
+      "name": "agent cannot authenticate as sender",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "foreign tenant sender cannot select target",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "human session cannot admit sends",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "unallowlisted body fields denied",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "fresh grant admits synthetic send",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    },
+    {
+      "name": "one actual send row created",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "stable attempt replay even with different transport key",
+      "result": "PASS",
+      "expected": {
+        "attempt_id": "c4e62112-4b82-4e0d-9313-7361e895bb20",
+        "decision": "ALLOW",
+        "send_record_id": "d1fe374c-9e52-4f9b-a3af-56f49c84f35c",
+        "admitted_at": "2026-09-23T03:23:53.571Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "actual": {
+        "attempt_id": "c4e62112-4b82-4e0d-9313-7361e895bb20",
+        "decision": "ALLOW",
+        "send_record_id": "d1fe374c-9e52-4f9b-a3af-56f49c84f35c",
+        "admitted_at": "2026-09-23T03:23:53.571Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      }
+    },
+    {
+      "name": "replay has no additional send",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "attempt ID with changed payload denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "preview is current but not admission",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    },
+    {
+      "name": "queued attempt durable with no early send",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "withdrawal waits on shared consent boundary",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "withdrawal commits before drain",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "queued attempt sees current withdrawal",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "withdrawn queued attempt creates no send",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "new post-withdrawal attempt blocked",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "post-withdrawal no effect",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "committed old admission replay preserves original response",
+      "result": "PASS",
+      "expected": {
+        "attempt_id": "c4e62112-4b82-4e0d-9313-7361e895bb20",
+        "decision": "ALLOW",
+        "send_record_id": "d1fe374c-9e52-4f9b-a3af-56f49c84f35c",
+        "admitted_at": "2026-09-23T03:23:53.571Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "actual": {
+        "attempt_id": "c4e62112-4b82-4e0d-9313-7361e895bb20",
+        "decision": "ALLOW",
+        "send_record_id": "d1fe374c-9e52-4f9b-a3af-56f49c84f35c",
+        "admitted_at": "2026-09-23T03:23:53.571Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      }
+    },
+    {
+      "name": "old admission replay does not send again",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "separately approved synthetic order service works",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "service class cannot reuse marketing purpose",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "order requires its own exact condition",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "expired service condition blocked",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "remove actual policy module for missing-result fixture",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "missing OPA result is indeterminate",
+      "result": "PASS",
+      "expected": "INDETERMINATE",
+      "actual": "INDETERMINATE"
+    },
+    {
+      "name": "missing OPA creates no send",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "install malformed decision fixture",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "malformed OPA result is indeterminate",
+      "result": "PASS",
+      "expected": "INDETERMINATE",
+      "actual": "INDETERMINATE"
+    },
+    {
+      "name": "malformed OPA creates no send",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "restore processing policy",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "OPA outage is indeterminate",
+      "result": "PASS",
+      "expected": "INDETERMINATE",
+      "actual": "INDETERMINATE"
+    },
+    {
+      "name": "OPA outage creates no send",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "OPA recovered",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "recovered policy still blocks withdrawal",
+      "result": "FAIL",
+      "expected": "BLOCK",
+      "actual": "INDETERMINATE"
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+  ]
+}

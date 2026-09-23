@@ -704,7 +704,64 @@ dialog.dialog::backdrop { background: rgb(9 14 20 / 55%); }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 
+/* --- Reports (§133) -------------------------------------------------------
+   The report is laid out for paper because paper is what it becomes: the
+   operator prints to PDF and no library renders it server-side. Screen styles
+   here only preview that; the print block below is the real output. */
+
+.report-builder .preset-row { display: flex; flex-wrap: wrap; gap: var(--s3); }
+.report-builder .preset { display: flex; flex-direction: column; gap: 4px; text-align: left;
+  max-width: 20rem; padding: var(--s3); border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.report-builder .preset.chosen { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+.report { background: #fff; color: #111; max-width: 52rem; margin: var(--s5) auto; padding: var(--s5);
+  border: 1px solid var(--line); border-radius: 8px; }
+.report h1 { font-size: 26px; margin: 0 0 var(--s3); }
+.report h2 { font-size: 17px; margin: var(--s4) 0 var(--s2); }
+.report h3 { font-size: 14px; margin: var(--s3) 0 4px; }
+.report-mark { letter-spacing: .18em; font-weight: 600; font-size: 12px; margin: 0 0 var(--s2); }
+.report-facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px var(--s3); margin: 0 0 var(--s4); font-size: 13px; }
+.report-facts > div { display: contents; }
+.report-facts dt { font-weight: 600; }
+.report-facts dd { margin: 0; }
+.report-statement { margin: var(--s4) 0; }
+.report-statement ul, .report-limits ul { margin: 4px 0 0; padding-left: 1.1rem; }
+.report-statement li, .report-limits li { margin: 2px 0; }
+.report-contents ol { margin: 4px 0 0; padding-left: 1.3rem; }
+.report-covers { font-size: 13px; margin: 0 0 var(--s2); }
+.report-counted { font-size: 12px; margin: var(--s2) 0 0; font-weight: 600; }
+.report-empty { font-size: 13px; font-style: italic; }
+.report-limits { font-size: 12px; margin-top: var(--s2); }
+.report-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.report-table th, .report-table td { border: 1px solid #c9c9c9; padding: 5px 7px; text-align: left; vertical-align: top; }
+.report-table thead th { background: #f1f1f1; font-weight: 600; }
+.report-foot { margin-top: var(--s5); padding-top: var(--s3); border-top: 1px solid var(--line); }
+
 @media print {
-  .shell-nav, .demo-banner, button { display: none !important; }
+  .shell-nav, .demo-banner, button, .shell-head, .shell-foot, .report-builder, .skip-link { display: none !important; }
   .panel { box-shadow: none; break-inside: avoid; }
+
+  /* A4 with room for the running footer the browser prints. */
+  @page { size: A4; margin: 16mm 14mm 18mm; }
+  html, body, .shell, .shell-body, .shell-main { background: #fff !important; display: block !important; margin: 0; padding: 0; }
+
+  .report { max-width: none; margin: 0; padding: 0; border: 0; border-radius: 0; font-size: 11pt; }
+  /* The cover is its own page: a reader should meet the scope, the period and
+     what was left out before any table. */
+  .report-cover { break-after: page; }
+  .report-section { break-inside: auto; }
+  /* A heading stranded at the foot of a page, or a caveat separated from the
+     table it qualifies, is how a report gets misread. */
+  .report-section h2, .report-section h3 { break-after: avoid; }
+  .report-covers { break-after: avoid; }
+  .report-limits, .report-counted { break-inside: avoid; }
+  /* Repeat the column headings on every page a long table spills onto. */
+  .report-table { break-inside: auto; }
+  .report-table thead { display: table-header-group; }
+  .report-table tfoot { display: table-footer-group; }
+  .report-table tr { break-inside: avoid; break-after: auto; }
+  .report-foot { break-inside: avoid; }
+  /* Ink, not screen: hairlines print heavier than they look. */
+  .report-table th, .report-table td { border-color: #999; }
+  a[href]::after { content: ''; }
 }

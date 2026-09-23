@@ -9,12 +9,25 @@ export type ConfigurationKind=keyof typeof configurations;
 /** The resources this module owns. The dispatcher matches these exactly rather
  *  than by route-id prefix, so an unrelated list_/create_ route cannot be routed
  *  here by accident. */
+/**
+ * A stored notice, read back. Rules 3 and 9 require itemised content and
+ * contact information, and notices published before this product required them
+ * genuinely do not have them. They say so rather than being back-filled:
+ * inventing the items of a notice somebody has already consented to would
+ * misrepresent what they agreed to.
+ */
+const asNotice=(document: Record<string,unknown>)=>({
+  ...document,
+  data_categories:document.data_categories??null,
+  contact:document.contact??null,
+  itemisation_was_not_recorded:document.data_categories===undefined||document.data_categories===null,
+});
 export const configurationKinds=new Set<string>(Object.keys(configurations));
 export async function configurationList(c: Context, kind: ConfigurationKind, page: Page) {
   const {table,schema}=configurations[kind];
   const result=await c.tx.query(`SELECT * FROM app.${table} WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
   if(kind==='systems')for(const row of result.rows){const checked=(await c.tx.query(`SELECT * FROM app.system_checks WHERE ${predicate} AND system_id=$4 ORDER BY checked_at DESC,id DESC LIMIT 1`,[...scopeValues(c.actor),row.id])).rows[0];if(checked)row.document={...row.document,supports_read:checked.supports_read,supports_restrict:checked.supports_restrict,checked_at:checked.checked_at.toISOString()};}
-  return paged(result.rows.map(row=>schema.parse({...row.document,...(kind==='purposes'||kind==='policies'?{status:row.status}:{}),...(kind==='policies'||kind==='notices'?{published_at:row.published_at?.toISOString()??null}:{})})),page);
+  return paged(result.rows.map(row=>schema.parse({...(kind==='notices'?asNotice(row.document):row.document),...(kind==='purposes'||kind==='policies'?{status:row.status}:{}),...(kind==='policies'||kind==='notices'?{published_at:row.published_at?.toISOString()??null}:{})})),page);
 }
 export async function createConfiguration(c: Context, kind: ConfigurationKind, input: unknown) {
   const scope=scopeValues(c.actor);const id=randomUUID();const version_id=randomUUID();
@@ -26,7 +39,7 @@ export async function createConfiguration(c: Context, kind: ConfigurationKind, i
   } else if(kind==='notices') {
     const value=S.NoticeCreate.parse(input);
     requireOne((await c.tx.query(`SELECT id FROM app.purpose_versions WHERE ${predicate} AND id=$4`,[...scope,value.purpose_id])).rows);
-    document=S.Notice.parse({...value,id,version_id,content_digest:digest(value),published_at:null});
+    document=S.Notice.parse({...value,id,version_id,content_digest:digest(value),published_at:null,itemisation_was_not_recorded:false});
     await c.tx.query('INSERT INTO app.notice_versions VALUES($1,$2,$3,$4,$5,$6,$7,NULL)',[...scope,id,version_id,value.purpose_id,document]);
   } else if(kind==='systems') {
     const value=S.SystemCreate.parse(input);selectorScope(c,value);

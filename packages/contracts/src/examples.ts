@@ -170,6 +170,65 @@ export function example(name:SchemaName):unknown {
     limits:['Everything applied from an import is a customer statement, recorded as asserted and unreviewed. It is not evidence that any control is in force anywhere.',
       'Purging deletes the quarantined rows and keeps the record that they were submitted. A purge is visible; it is not the same as nothing having arrived.']};
 
+  // A report an organisation would actually assemble: three sections chosen, one
+  // withheld because the person generating it may not read the audit trail, and
+  // the rest named as not selected. The sampler cannot build this -- every
+  // section this product can produce has to be accounted for exactly once.
+  if(name==='Report')return {title:'Quarterly privacy record',generated_at:sampleTime,
+    profile:'CUSTOMER_LOCAL_SYNTHETIC' as const,
+    scope_label:'Aster Retail Private Limited · production',
+    period_from:'2026-04-01T00:00:00.000Z',period_to:'2026-06-30T23:59:59.000Z',
+    sections:[
+      {kind:'PURPOSES_AND_NOTICES' as const,heading:'Purposes and published notices',
+        covers:'Every purpose this installation processes for, the notice version published against it, and the personal data that notice itemises.',
+        columns:['Purpose','Status','Notice','Language','Published','Personal data itemised'],
+        rows:[['Promotional marketing','PUBLISHED','Optional marketing messages','en',sampleTime,'CONTACT_DETAILS, MARKETING_PREFERENCES']],
+        counted:'1 purpose-and-notice pairing(s) recorded in this scope.',
+        limits:['This lists what was published. It does not assess whether the wording of any notice is adequate.']},
+      {kind:'CONSENT_DECISIONS' as const,heading:'Consent decisions',
+        covers:'Every consent decision a data principal made in the period, as recorded at the moment it was accepted.',
+        columns:['Accepted','Purpose','Decision','Epoch'],
+        rows:[[sampleTime,'Promotional marketing','WITHDRAWN','2'],[sampleTime,'Promotional marketing','GRANTED','1']],
+        counted:'2 decision(s) in the period: 1 grant(s) and 1 withdrawal(s). Principals are counted by decision, not by person.',
+        limits:['A decision is recorded once and never edited, so the same person may appear more than once.']},
+      {kind:'COVERAGE_GAPS' as const,heading:'Coverage gaps',
+        covers:'What this installation records as not covered, not verified, or outside what it can act on.',
+        columns:['Detected','Gap','State','Severity','Owner'],
+        rows:[[sampleTime,'This copy has no reviewed retention basis.','GAP_OPEN','MEDIUM','Records management']],
+        counted:'1 recorded gap(s), of which 1 are not resolved.',
+        limits:['A gap is recorded when somebody notices it. An empty section means none has been recorded, which is a different fact from full coverage.']}],
+    omitted:[
+      {kind:'AUDIT_TRAIL' as const,reason:'WITHHELD_FOR_AUTHORITY' as const},
+      {kind:'RIGHTS_REQUESTS' as const,reason:'NOT_SELECTED' as const},
+      {kind:'DATA_INVENTORY' as const,reason:'NOT_SELECTED' as const},
+      {kind:'PROCESSORS' as const,reason:'NOT_SELECTED' as const},
+      {kind:'INCIDENTS_AND_INTIMATIONS' as const,reason:'NOT_SELECTED' as const},
+      {kind:'AUDIT_RETENTION' as const,reason:'NOT_SELECTED' as const},
+      {kind:'OPERATIONAL_READINESS' as const,reason:'NOT_SELECTED' as const}],
+    content_digest:'a'.repeat(64),
+    this_report_is_not_a_compliance_certificate:true as const,
+    every_section_left_out_is_named:true as const,
+    limits:['Every section is a table of what this installation recorded. None of it is an opinion about whether an obligation has been met.',
+      'A section withheld for authority was not read. It is not empty, and it is not evidence that there was nothing to show.']};
+
+  // An itemised notice, which is the only kind this product now accepts. The
+  // sampler cannot build one: it picks null for every nullable and false for
+  // every boolean, which is exactly the contradiction the schema refuses.
+  const noticeContact={rights_channel:'Withdraw consent or exercise any right in the privacy portal linked above.',
+    grievance_channel:'Raise a grievance with the privacy team through the portal; a response is due within the recorded window.',
+    board_complaint_channel:'Complain to the Data Protection Board through the channel the Board publishes.'};
+  if(name==='NoticeContact')return noticeContact;
+  if(name==='NoticeCreate')return {purpose_id:uuid(870),language:'en' as const,
+    title:'Optional marketing messages',
+    content:'We send promotional messages only while you have said yes, and you can withdraw at any time.',
+    data_categories:['CONTACT_DETAILS' as const,'MARKETING_PREFERENCES' as const],contact:noticeContact};
+  if(name==='Notice')return {purpose_id:uuid(870),language:'en' as const,
+    title:'Optional marketing messages',
+    content:'We send promotional messages only while you have said yes, and you can withdraw at any time.',
+    id:uuid(871),version_id:uuid(872),content_digest:'a'.repeat(64),published_at:sampleTime,
+    data_categories:['CONTACT_DETAILS' as const,'MARKETING_PREFERENCES' as const],contact:noticeContact,
+    itemisation_was_not_recorded:false};
+
   // Four purposes covering all eight audited categories exactly once. One has a
   // configured period with events past it; the other three have none, because
   // no period ships with this product and an unconfigured purpose must stay
