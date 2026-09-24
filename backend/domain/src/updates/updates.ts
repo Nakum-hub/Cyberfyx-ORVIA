@@ -65,7 +65,7 @@ const MAXIMUM_EXPANSION_RATIO = 100;
 /** The vendor release signing key this installation trusts. Separate from the
  *  licence key on purpose: signing what a customer bought and signing what will
  *  execute on their machine are different trust decisions. */
-function trustedRelease(): { key: KeyObject; keyId: string } | null {
+export function trustedRelease(): { key: KeyObject; keyId: string } | null {
   const spki = process.env.ORVIA_RELEASE_PUBLIC_KEY;
   const keyId = process.env.ORVIA_RELEASE_KEY_ID;
   if (!spki || !keyId) return null;

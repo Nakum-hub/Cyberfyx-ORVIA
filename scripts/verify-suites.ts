@@ -30,7 +30,7 @@ import { loadProfile } from '../shared/testing/src/config.ts';
 
 const run = promisify(execFile);
 const profile = loadProfile();
-if (!['codex-a00', 'rehearsal'].includes(profile.profile)) throw new Error('Only codex-a00/rehearsal permitted');
+if (!['codex-a00', 'ui-b00', 'rehearsal'].includes(profile.profile)) throw new Error('Only codex-a00/ui-b00/rehearsal permitted');
 
 const ARTIFACTS = 'handoffs/codex/artifacts';
 

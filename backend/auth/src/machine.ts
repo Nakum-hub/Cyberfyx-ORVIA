@@ -21,7 +21,7 @@ export function servicePool(config: RuntimeConfig, role: ServiceRole) {
 export function machineAuthority(identity: MachineIdentity): Authority {
   const {id,kind,scope,installation_id,expires_at}=identity;
   const parsed=MachineIdentity.parse({id,kind,scope,installation_id,expires_at});
-  return {actor_domain:'MACHINE',actor_id:parsed.id,scope:parsed.scope,role:parsed.kind,expires_at:parsed.expires_at,capabilities:parsed.kind==='WORKER'?['workflow.execute']:parsed.kind==='AGENT'?['target.execute']:parsed.kind==='OBSERVER'?['target.observe']:['send.admit']};
+  return {actor_domain:'MACHINE',actor_id:parsed.id,scope:parsed.scope,role:parsed.kind,expires_at:parsed.expires_at,capabilities:parsed.kind==='WORKER'?['workflow.execute','operations.execute']:parsed.kind==='AGENT'?['target.execute']:parsed.kind==='OBSERVER'?['target.observe']:['send.admit']};
 }
 export async function machineFor(request: Request, pool: pg.Pool, config: RuntimeConfig, kind: MachineIdentity['kind']) {
   if(request.headers.has('cookie'))throw new AccessError(401,'UNAUTHENTICATED');

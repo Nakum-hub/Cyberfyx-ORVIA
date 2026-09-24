@@ -88,14 +88,20 @@ async function readTaskRow(c: Context, id: string) {
 
 /** The source deadline is copied once, at creation, from the record that caused
  *  this task. Nothing afterwards may change it. */
+/** The record each source points at, and its key. DPDP operations sources were added in 0.18.0. */
+const SOURCE_RECORD: Record<S.NotificationSourceValue, [string, string]> = {
+  COVERAGE_GAP: ['coverage_gaps', 'id'], NOTIFICATION_OBLIGATION: ['notification_obligations', 'id'], ASSESSMENT_FINDING: ['assessment_findings', 'id'],
+  DPDP_BREACH_TASK: ['breach_tasks', 'id'], DPDP_RIGHTS_DEADLINE: ['rights_case_profiles', 'rights_request_id'], DPDP_ACTION_FAILURE: ['downstream_actions', 'id'],
+  DPDP_REGULATORY_CHANGE: ['regulatory_impacts', 'id'], DPDP_SDF_OBLIGATION: ['sdf_obligations', 'id'],
+};
 export async function createNotificationTask(c: Context, input: unknown) {
   const value = S.NotificationTaskCreate.parse(input);
   const scope = scopeValues(c.actor);
   requireOne((await c.tx.query(`SELECT id FROM app.notification_templates WHERE ${predicate} AND id=$4`, [...scope, value.template_id])).rows);
   // A task must point at a record that exists, so a notice can never be raised
   // about something nobody can open.
-  const table = value.source === 'COVERAGE_GAP' ? 'coverage_gaps' : value.source === 'NOTIFICATION_OBLIGATION' ? 'notification_obligations' : 'assessment_findings';
-  requireOne((await c.tx.query(`SELECT id FROM app.${table} WHERE ${predicate} AND id=$4`, [...scope, value.source_id])).rows);
+  const [table, key] = SOURCE_RECORD[value.source];
+  requireOne((await c.tx.query(`SELECT ${key} FROM app.${table} WHERE ${predicate} AND ${key}=$4`, [...scope, value.source_id])).rows);
   const existing = await c.tx.query(`SELECT id FROM app.notification_tasks WHERE ${predicate} AND source=$4 AND source_id=$5 AND template_id=$6`, [...scope, value.source, value.source_id, value.template_id]);
   if (existing.rowCount) throw new AccessError(409, 'IDEMPOTENCY_CONFLICT');
   const id = randomUUID();

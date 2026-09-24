@@ -5,7 +5,7 @@ export function writeEvidence(kind:string, data:Record<string,unknown>){
   if(!/^[a-z-]+$/.test(kind))throw new Error('Invalid evidence kind');
   mkdirSync('handoffs/codex/artifacts',{recursive:true});
   const task=process.env.ORVIA_TASK_ID??'A00';
-  if(!/^A0[0-7]$/.test(task))throw new Error('Invalid evidence task');
+  if(!/^(A0[0-7]|DPDP)$/.test(task))throw new Error('Invalid evidence task');
   // A battery runner names its execution so it can accept only artifacts that
   // execution wrote; a modification time cannot tell two concurrent runs apart.
   const run=process.env.ORVIA_EVIDENCE_RUN;
