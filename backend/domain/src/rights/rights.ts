@@ -3,6 +3,7 @@ import * as S from '../../../../shared/contracts/src/index.ts';
 import { AccessError } from '../../../authorization/src/index.ts';
 import { audit, predicate, scopeValues, requireOne, paged, type Context, type Page } from '../shared/transaction.ts';
 import { rightsExecution } from '../shared/completion.ts';
+import { adapterFor, type ConnectorActionType } from '../../../../connectors/src/shared/connector-adapters.ts';
 
 /**
  * M14 Rights Management.
@@ -47,7 +48,7 @@ async function assemble(c: Context, row: RequestRow) {
 /** What execution achieved, read back from the recorded outcomes rather than
  *  from whatever an operator last clicked. Persisted so the stored row and the
  *  reported row can never disagree. */
-async function settleExecution(c: Context, id: string) {
+export async function settleExecution(c: Context, id: string) {
   const scope = scopeValues(c.actor);
   const row = requireOne((await c.tx.query(`SELECT * FROM app.rights_requests WHERE ${predicate} AND id=$4`, [...scope, id])).rows) as RequestRow;
   const assembled = await assemble(c, row);
@@ -185,9 +186,11 @@ export async function scopeRequest(c: Context, id: string, input: unknown) {
   if (['CLOSED', 'REJECTED'].includes(row.state)) throw new AccessError(409, 'IDEMPOTENCY_CONFLICT');
   if (new Set(value.items.map(item => item.system_id)).size !== value.items.length) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'items', code: 'duplicate_system' }]);
   const connectors = new Map<string, string>();
+  const adapters = new Map<string, string | null>();
   for (const item of value.items) {
     const system = requireOne((await c.tx.query(`SELECT connector FROM app.systems WHERE ${predicate} AND id=$4`, [...scope, item.system_id])).rows);
     connectors.set(item.system_id, system.connector);
+    adapters.set(item.system_id, (await c.tx.query(`SELECT adapter FROM app.connector_bindings WHERE ${predicate} AND system_id=$4 AND valid_to IS NULL`, [...scope, item.system_id])).rows[0]?.adapter ?? null);
   }
   // Work already performed cannot be un-planned. A system with a recorded outcome
   // must still appear, with the same action it was executed under; otherwise the
@@ -206,7 +209,7 @@ export async function scopeRequest(c: Context, id: string, input: unknown) {
   for (const item of value.items) {
     if (locked.has(item.system_id)) continue;
     await c.tx.query(`INSERT INTO app.rights_request_plan_items(tenant_id,legal_entity_id,environment_id,request_id,system_id,action,automatable,retention_exception,note)
-      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`, [...scope, id, item.system_id, item.action, automatable(item.action, connectors.get(item.system_id)!), item.retention_exception, item.note]);
+      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`, [...scope, id, item.system_id, item.action, automatable(item.action, connectors.get(item.system_id)!, adapters.get(item.system_id) ?? null), item.retention_exception, item.note]);
   }
   const scopeDimension = value.unresolved_destinations.length ? 'UNRESOLVED_DESTINATIONS' : 'DETERMINED';
   const document = { ...row.document, unresolved_destinations: value.unresolved_destinations, state: row.state === 'AWAITING_APPROVAL' ? 'SCOPING' : row.state };
@@ -220,12 +223,16 @@ export async function scopeRequest(c: Context, id: string, input: unknown) {
 
 /**
  * WP08. Whether an action can be automated is a property of the connector, not
- * of the operator's opinion. Restriction is the only operation the supported
- * connectors actually implement; erasure, correction and disclosure have no
- * automated path today and are therefore manual work, stated as such.
+ * of the operator's opinion. Restriction is what the V1 connectors implement.
+ * A system bound to a connector adapter (DPDP operations extension) is
+ * automatable for exactly the operations that adapter's code declares; an
+ * unbound system keeps the V1 answer, and a manual system is never automatable.
  */
-function automatable(action: string, connector: string) {
+const PLAN_OPERATION: Record<string, ConnectorActionType | null> = { ERASE_RECORD: 'ERASE', CORRECT_RECORD: 'CORRECT', RESTRICT_PROCESSING: 'SUPPRESS', DISCLOSE_COPY: 'READ_REFERENCE', NO_ACTION_REQUIRED: null };
+function automatable(action: string, connector: string, adapter: string | null) {
   if (connector === 'LEGACY_MANUAL') return false;
+  const operation = PLAN_OPERATION[action];
+  if (adapter && operation) return adapterFor(adapter)?.supports(operation) ?? false;
   return action === 'RESTRICT_PROCESSING';
 }
 

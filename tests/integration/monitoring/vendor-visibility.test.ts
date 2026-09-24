@@ -15,7 +15,7 @@ import * as S from '../../../shared/contracts/src/index.ts';
 
 const h = new HttpFixture();
 const profile = loadProfile();
-if (!['codex-a00', 'rehearsal'].includes(profile.profile)) throw new Error('Only codex-a00/rehearsal permitted');
+if (!['codex-a00', 'ui-b00', 'rehearsal'].includes(profile.profile)) throw new Error('Only codex-a00/ui-b00/rehearsal permitted');
 const db = connectDatabase(profile).pool;
 const assertions: { name: string; result: 'PASS' | 'FAIL'; expected: unknown; actual: unknown }[] = [];
 let phase = 'setup';

@@ -19,5 +19,6 @@ These documents describe the implementation at their recorded task/version. The 
 - [Send admission](send-admission.md)
 - [Evidence and reconciliation](evidence-and-reconciliation.md)
 - [Regression and recovery](regression-and-recovery.md)
+- [DPDP operational extension](dpdp-operations.md) — regulatory core, registry, workflows, connectors, runner and screens; operator steps in [runbooks/DPDP_OPERATIONS.md](../runbooks/DPDP_OPERATIONS.md)
 
 Historical `handoffs/` and review artifacts retain A00/A01-style identifiers because those are task and evidence IDs. Numbered SQL migrations retain order because changing applied filenames would break migration identity.

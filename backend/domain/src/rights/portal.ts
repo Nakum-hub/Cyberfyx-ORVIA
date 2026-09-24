@@ -121,3 +121,18 @@ export async function ownRightsRequest(c: Context, id: string) {
     `SELECT * FROM app.rights_requests WHERE ${MINE} AND id=$5`,
     [...scopeValues(c.actor), c.actor.principal_id, id])).rows) as Row);
 }
+
+/**
+ * Privacy Centre status history: the states the request has moved through and
+ * when. The reason recorded with each transition is the organisation's working
+ * note, so it is deliberately not shown; only the state and its time are.
+ */
+export async function ownRequestHistory(c: Context, id: string, page: Page) {
+  requireOne((await c.tx.query(`SELECT id FROM app.rights_requests WHERE ${MINE} AND id=$5`, [...scopeValues(c.actor), c.actor.principal_id, id])).rows);
+  const rows = (await c.tx.query(`SELECT id,to_state,recorded_at FROM app.rights_request_events WHERE ${predicate} AND request_id=$4
+    AND ($5::uuid IS NULL OR (recorded_at,id)>(SELECT e.recorded_at,e.id FROM app.rights_request_events e WHERE e.id=$5 AND e.request_id=$4)) ORDER BY recorded_at,id LIMIT $6`,
+    [...scopeValues(c.actor), id, page.cursor, page.limit + 1])).rows;
+  const items = rows.slice(0, page.limit);
+  return { items: items.map(r => ({ to_state: r.to_state, recorded_at: r.recorded_at.toISOString(), note: null })),
+    next_cursor: rows.length > page.limit && items.length ? Buffer.from(items.at(-1)!.id).toString('base64url') : null };
+}

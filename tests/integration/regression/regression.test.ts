@@ -10,7 +10,7 @@ import { loadProfile } from '../../../shared/testing/src/config.ts';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { writeEvidence,safeError } from '../../../shared/testing/src/evidence.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
-const profile=loadProfile();if(!['codex-a00','rehearsal'].includes(profile.profile))throw new Error('Only codex-a00/rehearsal regression integration permitted');
+const profile=loadProfile();if(!['codex-a00','ui-b00','rehearsal'].includes(profile.profile))throw new Error('Only codex-a00/ui-b00/rehearsal regression integration permitted');
 const h=new HttpFixture();const db=connectDatabase(profile).pool;const cli=promisify(execFile);
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];let runner:ChildProcess|undefined;let phase='setup';const runs:ReturnType<typeof S.TestRun.parse>[]=[];
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed');}}

@@ -6,7 +6,7 @@ import { resolve } from 'node:path';
 import { loadProfile } from '../shared/testing/src/config.ts';
 import { writeEvidence,safeError } from '../shared/testing/src/evidence.ts';
 import { sourceState } from './source-state.ts';
-const profile=loadProfile();if(!['codex-a00','rehearsal'].includes(profile.profile)||process.argv[2]!==`confirm:${profile.profile}`)throw new Error('Named codex-a00/rehearsal network test required');
+const profile=loadProfile();if(!['codex-a00','ui-b00','rehearsal'].includes(profile.profile)||process.argv[2]!==`confirm:${profile.profile}`)throw new Error('Named codex-a00/ui-b00/rehearsal network test required');
 const docker=async(...args:string[])=>{try{return (await promisify(execFile)('docker',args,{windowsHide:true,maxBuffer:2*1024*1024})).stdout.trim();}catch(error){console.error({docker_operation:args[0],...safeError(error),stderr:typeof error==='object'&&error&&'stderr' in error?String(error.stderr).slice(-3000):undefined});throw error;}};
 const source=sourceState();const nonce=randomUUID();const network=profile.compose_project+'-canary-'+nonce;const canary=network+'-endpoint';const runtime=profile.compose_project+'-runtime-'+nonce;const privateNetwork=profile.compose_project+'_private';
 const task=process.env.ORVIA_TASK_ID??'A06';if(!['A06','A07'].includes(task))throw new Error('Named network task required');

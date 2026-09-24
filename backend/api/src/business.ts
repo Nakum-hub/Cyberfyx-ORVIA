@@ -1,4 +1,8 @@
+import { createHash, createHmac } from 'node:crypto';
 import { governanceRoute } from './governance-routes.ts';
+import { operationsRoute } from './operations-routes.ts';
+import { operationsRoutes } from '../../../shared/contracts/src/operations-routes.ts';
+import type { OperationsEnv } from '../../domain/src/operations/shared.ts';
 import { platformRoute } from './platform-routes.ts';
 import { routes, schemas, Pagination, Id, PolicyReauthenticate, queryKeys, type RouteDefinition } from '../../../shared/contracts/src/index.ts';
 import { authorityFor, requireCapability, AccessError } from '../../authorization/src/index.ts';
@@ -30,7 +34,17 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
   'list_connections','start_connection','connection','record_connectivity','record_scoped_identity','approve_resources','change_enablement',
   'record_notice_revision','list_notice_revisions','notice_languages','set_language','preflight',
   'list_backup_snapshots','declare_snapshot','start_restore','list_restore_runs','restore_run','acknowledge_conflict','release_restore','vendor_visibility','audit_retention','set_audit_retention','list_imports','submit_import','import_batch','decide_import_row','apply_import','purge_import','report','own_rights_requests','raise_own_rights_request','own_rights_request']);
+for(const route of operationsRoutes)implemented.add(route.id);
 let observerPool: ReturnType<typeof servicePool>|undefined;
+let agentPool: ReturnType<typeof servicePool>|undefined;
+/** Routes whose request bodies are legitimately larger than the 16 KiB default: a signed regulatory package and a chunk of estate rows. */
+const LARGE_BODY=new Set(['import_regulatory_package','append_bulk_job_rows']);
+function operationsEnv(r: ReturnType<typeof runtime>): OperationsEnv {
+  // A keyed digest, domain-separated from the auth secret it is derived from, so a raw source identifier is never stored and cannot be reversed by a table reader.
+  const key=createHash('sha256').update('orvia-registry-source-key:'+r.config.secret('principal-secret')).digest();
+  return {sourceKeyDigest:value=>createHmac('sha256',key).update(value,'utf8').digest('hex'),
+    targets:{agent:agentPool??=servicePool(r.config,'orvia_target_agent'),observer:observerPool??=servicePool(r.config,'orvia_target_observer')}};
+}
 function resolveRoute(request: Request) {
   const path=new URL(request.url).pathname;const parts=path.split('/');
   for(const route of routes) {
@@ -72,7 +86,7 @@ export function businessRoute(request: Request) { return safeRoute(async request
   if(request.method==='POST') {
     if(request.headers.get('origin')!==r.config.origin)throw new AccessError(403,'FORBIDDEN');
     if(request.headers.get('content-type')?.split(';')[0]!=='application/json')throw new AccessError(400,'VALIDATION_ERROR');
-    try {input=JSON.parse(await limitedBody(request,16384)??'');}catch{throw new AccessError(400,'VALIDATION_ERROR');}
+    try {input=JSON.parse(await limitedBody(request,LARGE_BODY.has(route.id)?1048576:16384)??'');}catch{throw new AccessError(400,'VALIDATION_ERROR');}
     if(route.request) {
       const parsed=schemas[route.request].safeParse(input);
       if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR',parsed.error.issues.slice(0,32).map(issue=>({field:issue.path.join('.').slice(0,120),code:issue.code})));
@@ -104,6 +118,8 @@ export function businessRoute(request: Request) { return safeRoute(async request
         if(governanceResult!==undefined)return governanceResult;
         const platformResult=await platformRoute(c,route,id,input,page,query,r);
         if(platformResult!==undefined)return platformResult;
+        const operationsResult=await operationsRoute(c,route,id,input,page,query,operationsEnv(r));
+        if(operationsResult!==undefined)return operationsResult;
       switch(route.id) {
         case 'reauthenticate_policy':return recordPublicationProof(c,id!,input,staffSession!.session.id);
         case 'publish_policy':return publishPolicy(c,id!,input,staffSession!.session.id);
@@ -134,6 +150,6 @@ export function businessRoute(request: Request) { return safeRoute(async request
     await audit(c,route.id,id);
     return schemas[route.response].parse(result);
   });
-  const download=route.id==='export'?`orvia-evidence-${id}.json`:route.id==='export_audit_events'?'orvia-audit-trail.json':null;
+  const download=route.id==='export'?`orvia-evidence-${id}.json`:route.id==='export_audit_events'?'orvia-audit-trail.json':route.id==='run_evidence_package'?`orvia-workflow-evidence-${id}.json`:null;
   return Response.json(result,{status:route.status,headers:{'cache-control':'no-store',...download?{'content-disposition':`attachment; filename="${download}"`}:{}}});
 },'BUSINESS'); }
