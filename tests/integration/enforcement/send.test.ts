@@ -15,7 +15,7 @@ import { SendRequest,SendResult,Decision,CONTRACT_VERSION } from '../../../share
 import { enqueue,drain } from '../../../services/synthetic-target/src/sender.ts';
 
 const h=new HttpFixture();const config=h.config;const db=connectDatabase(loadProfile()).pool;
-if(!['codex-a00','rehearsal'].includes(config.profile))throw new Error('Only isolated codex-a00/rehearsal permitted');
+if(!['codex-a00','ui-b00','rehearsal'].includes(config.profile))throw new Error('Only isolated codex-a00/ui-b00/rehearsal permitted');
 let sender:ReturnType<typeof servicePool>|undefined;
 let phase='start';
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];

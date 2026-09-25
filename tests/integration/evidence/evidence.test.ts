@@ -12,7 +12,7 @@ import { loadProfile } from '../../../shared/testing/src/config.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
 import { digest } from '../../../shared/contracts/src/crypto.ts';
 import { observerEnrollment,agentEnrollment,senderEnrollment } from '../../../backend/auth/src/machine-profile.ts';
-const h=new HttpFixture();const profile=loadProfile();if(!['codex-a00','rehearsal'].includes(profile.profile))throw new Error('Only codex-a00/rehearsal permitted');
+const h=new HttpFixture();const profile=loadProfile();if(!['codex-a00','ui-b00','rehearsal'].includes(profile.profile))throw new Error('Only codex-a00/ui-b00/rehearsal permitted');
 const db=connectDatabase(profile).pool;const target=connectDatabase({...profile,database:profile.database+'_targets'}).pool;
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];const children:ChildProcess[]=[];let output='';let phase='setup';
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed');}}

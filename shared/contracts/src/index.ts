@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { grcSchemas } from './grc.ts';
 import { grcAuditSchemas } from './grc-audits.ts';
+import { regulatorySchemas } from './regulatory.ts';
+import { registrySchemas } from './registry.ts';
+import { operationsSchemas } from './operations.ts';
+import { operationsRoutes } from './operations-routes.ts';
 
 /** Pending consolidated Work review; accepted baseline was 0.2.1.
  *  0.6.0 added the WP04 privacy-control graph; 0.7.0 adds WP07 rights management;
@@ -29,7 +33,7 @@ import { grcAuditSchemas } from './grc-audits.ts';
  *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
  *  quarantine and consent reconciliation. Additive again: no existing route,
  *  schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.27.0' as const;
+export const CONTRACT_VERSION = '0.28.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -60,7 +64,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
+export const Capability = z.enum(['registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -879,7 +883,8 @@ export const IncidentContainment = z.strictObject({ note: z.string().min(10).max
 // caused it: silently resetting a clock is how a breach of it disappears.
 // ---------------------------------------------------------------------------
 export const NotificationChannel = z.enum(['IN_APP', 'EMAIL', 'APPROVED_WEBHOOK']);
-export const NotificationSource = z.enum(['COVERAGE_GAP', 'NOTIFICATION_OBLIGATION', 'ASSESSMENT_FINDING']);
+export const NotificationSource = z.enum(['COVERAGE_GAP', 'NOTIFICATION_OBLIGATION', 'ASSESSMENT_FINDING', 'DPDP_BREACH_TASK', 'DPDP_RIGHTS_DEADLINE', 'DPDP_ACTION_FAILURE', 'DPDP_REGULATORY_CHANGE', 'DPDP_SDF_OBLIGATION']);
+export type NotificationSourceValue = z.infer<typeof NotificationSource>;
 export const RecipientScope = z.enum(['CUSTOMER_STAFF', 'DATA_PRINCIPAL', 'DESIGNATED_BUSINESS_CONTACT']);
 export const TemplateCreate = z.strictObject({
   code: z.string().regex(/^[A-Z][A-Z0-9_]{2,60}$/), channel: NotificationChannel,
@@ -2029,7 +2034,7 @@ export const CatalogDiscoveryDetail = z.strictObject({target:CatalogDiscoveryTar
   freshness:z.enum(['CURRENT','STALE','NEVER_OBSERVED','UNKNOWN']),
 });
 
-export const schemas = { ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
   CatalogDiscoveryTargetCreate,CatalogDiscoveryApproval,CatalogDiscoveryTarget,CatalogDiscoveryObservation,CatalogDiscoveryDetail,CatalogDiscoveryTargetList:page(CatalogDiscoveryTarget),
   DataAssetCreate, CatalogAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
   GraphSearchQuery, GraphSearchResult, NeighbourhoodQuery, GraphNeighbourhood, ImpactAssessment,
@@ -2274,6 +2279,7 @@ export const routes: RouteDefinition[] = [
   {id:'list_mandates',method:'get',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.read',response:'MandateList',status:200,paginated:true},
   {id:'create_mandate',method:'post',path:'/api/v1/admin/mandates',authority:'STAFF',capability:'rights.write',request:'MandateCreate',response:'Mandate',status:201,idempotency:true},
   {id:'revoke_mandate',method:'post',path:'/api/v1/admin/mandates/{id}/revoke',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'MandateRevoke',response:'Mandate',status:200,idempotency:true},
+  ...operationsRoutes as RouteDefinition[],
   {id:'poll_commands',method:'post',path:'/api/v1/machine/commands/poll',authority:'MACHINE',request:'PollRequest',response:'CommandList',status:200},
   {id:'command_receipt',method:'post',path:'/api/v1/machine/commands/{id}/receipts',authority:'MACHINE',params:'IdPath',request:'CommandReceipt',response:'AcceptedOperation',status:202,idempotency:true},
   {id:'send',method:'post',path:'/api/v1/machine/simulator/send',authority:'MACHINE',request:'SendRequest',response:'SendResult',status:200,idempotency:true},

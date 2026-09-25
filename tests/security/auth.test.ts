@@ -17,7 +17,7 @@ import type { AuthFixture, FixtureUser } from '../../scripts/auth-bootstrap.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
 
 const config = runtimeConfig();
-if (!['codex-a00','rehearsal'].includes(config.profile)) throw new Error('This suite owns only codex-a00/rehearsal synthetic fixtures');
+if (!['codex-a00','ui-b00','rehearsal'].includes(config.profile)) throw new Error('This suite owns only codex-a00/ui-b00/rehearsal synthetic fixtures');
 const credentialPath = resolve(config.directory,'auth/bootstrap.json');
 const fixture: AuthFixture = JSON.parse(readFileSync(credentialPath,'utf8'));
 if (fixture.installation_id !== config.installation_id || fixture.fixture_id !== 'aster-birch-v1' || !fixture.users.birch) throw new Error('Run protected fixture seed first');

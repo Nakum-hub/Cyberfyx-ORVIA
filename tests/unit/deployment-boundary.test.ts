@@ -48,7 +48,18 @@ test('no commercial surface is served from the customer runtime', () => {
   // §658: Commercial Owner, Billing Contact, Download/Licence Contact and
   // Support Contact are assigned in ORVIA Account on the vendor website, and
   // are explicitly "not customer-runtime administrators".
-  const found = routes.filter(route => COMMERCIAL.test(route.id) || COMMERCIAL.test(route.path));
+  // Cancelling a local privacy workflow is not cancelling a subscription.
+  // Keep this exception bound to its exact authority and contract, so changing
+  // the route into a commercial endpoint cannot evade the boundary check.
+  const cancellation=routes.find(route=>route.id==='cancel_run');
+  assert.ok(cancellation);
+  assert.equal(cancellation.path,'/api/v1/admin/workflow-runs/{id}/cancellation');
+  assert.equal(cancellation.method,'post');
+  assert.equal(cancellation.authority,'STAFF');
+  assert.equal(cancellation.capability,'operations.execute');
+  assert.equal(cancellation.request,'RunCancel');
+  assert.equal(cancellation.response,'WorkflowRun');
+  const found = routes.filter(route => route!==cancellation && (COMMERCIAL.test(route.id) || COMMERCIAL.test(route.path)));
   assert.deepEqual(found.map(r => r.id), [], 'a commercial route was added to the customer runtime');
   // Nor any capability that would gate one.
   assert.deepEqual(Capability.options.filter(c => COMMERCIAL.test(c)), []);

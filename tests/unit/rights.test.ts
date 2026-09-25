@@ -109,8 +109,9 @@ test('releasing a response is separated from ordinary rights write access', () =
   // tests/unit/portal-rights.test.ts.
   const rightsRoutes = routes.filter(route => route.capability?.startsWith('rights.')
     && !route.capability.startsWith('rights.own.'));
-  assert.equal(rightsRoutes.length, 11);
-  assert.equal(routes.filter(r => r.capability?.startsWith('rights.own.')).length, 3);
+  // DPDP adds three staff case-profile routes and the principal's own history.
+  assert.equal(rightsRoutes.length, 14);
+  assert.equal(routes.filter(r => r.capability?.startsWith('rights.own.')).length, 4);
   const release = rightsRoutes.filter(route => route.capability === 'rights.release');
   // Disclosure to a person is its own authority, held by exactly one route.
   assert.equal(release.length, 1);

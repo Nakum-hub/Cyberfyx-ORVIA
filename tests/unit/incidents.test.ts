@@ -86,7 +86,8 @@ test('closure and containment are recorded states, not implied ones', () => {
 
 test('activating a rule pack and closing an incident are approval acts', () => {
   const incidentRoutes = routes.filter(route => route.capability?.startsWith('incident.'));
-  assert.equal(incidentRoutes.length, 9);
+  // Includes the five DPDP personal-data breach routes.
+  assert.equal(incidentRoutes.length, 14);
   const approve = incidentRoutes.filter(route => route.capability === 'incident.approve').map(route => route.id).sort();
   assert.deepEqual(approve, ['close_incident', 'create_obligation_rule']);
   for (const route of incidentRoutes) {

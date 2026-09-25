@@ -6,6 +6,7 @@ import { formatTime } from '../../../components/shared/state-labels.ts';
 import {
   Badge, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section,
 } from '../../../components/shared/ui.tsx';
+import { OwnRequestHistory } from '../../../components/screens/privacy-operations/privacy-centre.tsx';
 
 /**
  * The data principal's own rights, exercised by them.
@@ -136,6 +137,10 @@ function MyRights() {
                         ? 'The organisation has released its response to you.'
                         : 'No response has been released to you yet.'}
                     </p>
+                    <details className="reveal">
+                      <summary>Status history</summary>
+                      <OwnRequestHistory id={item.id} labels={STATES} />
+                    </details>
                     <details className="reveal">
                       <summary>What this page can and cannot tell you</summary>
                       <ul>{item.limits.map(limit => <li key={limit}>{limit}</li>)}</ul>

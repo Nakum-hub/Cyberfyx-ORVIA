@@ -192,6 +192,22 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/evidence', label: 'Evidence' },
     { href: '/workspace/reports', label: 'Reports' },
   ] },
+  { group: 'DPDP operations', items: [
+    { href: '/workspace/operations-attention', label: 'Operations attention' },
+    { href: '/workspace/operations-runs', label: 'Operational runs' },
+    { href: '/workspace/personal-data-breaches', label: 'Personal-data breaches' },
+    { href: '/workspace/data-principals', label: 'Data Principals' },
+    { href: '/workspace/processing-activities', label: 'Processing activities' },
+    { href: '/workspace/registry-retention', label: 'Retention rules & holds' },
+    { href: '/workspace/processor-engagements', label: 'Processor engagements' },
+    { href: '/workspace/estate-imports', label: 'Existing-data onboarding' },
+    { href: '/workspace/organisation-profile', label: 'Organisation profile' },
+  ] },
+  { group: 'Regulatory core', items: [
+    { href: '/workspace/regulatory', label: 'Regulatory packages' },
+    { href: '/workspace/regulatory/applicability', label: 'Applicability' },
+    { href: '/workspace/regulatory/impacts', label: 'Package change impact' },
+  ] },
   { group: 'Assurance', items: [
     { href: '/workspace/test-lab', label: 'Test Lab' },
     { href: '/workspace/support-cases', label: 'Support cases' },
@@ -216,6 +232,7 @@ export const PRIVACY_NAV: NavGroup[] = [
   { group: 'Your privacy', items: [
     { href: '/privacy', label: 'My choices' },
     { href: '/privacy/rights', label: 'My rights' },
+    { href: '/privacy/notices', label: 'Privacy notices' },
     { href: '/privacy/receipts', label: 'My receipts' },
   ] },
 ];

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { COMMAND_SCHEMA_VERSION, AuditCategory, CommandPayload, ConnectionStep, schemas, type SchemaName } from './index.ts';
 import { digest } from './crypto.ts';
+import { operationsExample } from './operations-examples.ts';
 import signatureVector from '../fixtures/command-vector.json' with { type:'json' };
 export const uuid = (n:number) => `00000000-0000-4000-8000-${n.toString(16).padStart(12,'0')}`;
 export const sampleTime='2026-09-16T10:00:00.000Z';
@@ -41,6 +42,8 @@ export function sample(schema:JsonSchema,key=''):unknown {
 const exampleRelationshipCreate={relationship_type:'ASSET_PROCESSED_BY_ACTIVITY' as const,from:{kind:'DATA_ASSET' as const,id:uuid(40)},to:{kind:'PROCESSING_ACTIVITY' as const,id:uuid(41)},provenance:'ASSERTED' as const,valid_from:sampleTime,confidence_basis:'Reviewed customer declaration'};
 export const exampleRelationship={...exampleRelationshipCreate,id:uuid(42),review_state:'UNREVIEWED' as const,recorded_at:sampleTime,valid_to:null,last_seen_at:null,owner_actor_id:uuid(43)};
 export function example(name:SchemaName):unknown {
+  const operations=operationsExample(name);
+  if(operations!==undefined)return operations;
   if(name==='GrcAuditResponse'||name==='GrcAuditResponseHistoryRecord'){const evidence=example('GrcEvidence') as {id:string};return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,evidence_id:evidence.id,evidence_snapshot:evidence};}
   if(name==='GrcEvidenceSubmit'||name==='GrcEvidence'||name==='GrcEvidenceHistoryRecord')return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,valid_until:'2026-10-16T10:00:00.000Z'};
 

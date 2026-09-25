@@ -4,12 +4,12 @@ import rego.v1
 
 default authorize := false
 
-read_caps := {"grc.read", "ai_governance.read", "overview.read", "configuration.read", "principals.read", "workflow.read", "evidence.read", "evidence.export", "tests.read", "capabilities.read", "graph.read", "rights.read", "retention.read", "coverage.read", "processor.read", "incident.read", "notification.read", "licence.read", "support.read", "update.read", "audit.read", "health.read"}
+read_caps := {"grc.read", "ai_governance.read", "overview.read", "configuration.read", "principals.read", "workflow.read", "evidence.read", "evidence.export", "tests.read", "capabilities.read", "graph.read", "rights.read", "retention.read", "coverage.read", "processor.read", "incident.read", "notification.read", "licence.read", "support.read", "update.read", "audit.read", "health.read", "registry.read"}
 # FR-M33-03 names export as a permission of its own, beside read and filter.
 # Taking the trail out of the installation is the act that leaves the building,
 # so it is not something every reader of the trail acquires with the read.
 export_audit_caps := {"audit.export"}
-admin_caps := {"grc.write", "ai_governance.write", "configuration.write", "systems.check", "principals.create", "action.reconcile", "manual.attest", "policy.preview", "graph.write", "rights.write", "retention.write", "coverage.manage", "processor.write", "incident.write", "notification.manage", "support.manage"}
+admin_caps := {"grc.write", "ai_governance.write", "configuration.write", "systems.check", "principals.create", "action.reconcile", "manual.attest", "policy.preview", "graph.write", "rights.write", "retention.write", "coverage.manage", "processor.write", "incident.write", "notification.manage", "support.manage", "registry.write", "operations.execute"}
 
 authorize if {
   input.actor_domain == "STAFF"
@@ -26,7 +26,7 @@ authorize if {
   input.actor_domain == "STAFF"
   input.role == "ORG_SUPER_ADMIN"
   input.mfa_verified == true
-  input.capability in {"grc.approve", "ai_governance.approve", "policy.publish", "tests.run", "rights.release", "retention.approve", "incident.approve", "licence.manage", "support.approve", "update.approve", "audit.administer", "connection.enable", "restore.release"} | export_audit_caps
+  input.capability in {"grc.approve", "ai_governance.approve", "policy.publish", "tests.run", "rights.release", "retention.approve", "incident.approve", "licence.manage", "support.approve", "update.approve", "audit.administer", "connection.enable", "restore.release", "registry.sensitive.read", "registry.sensitive.write", "operations.approve", "regulatory.manage", "sdf.manage"} | export_audit_caps
 }
 # Database restrictive policies and resource checks require an exact assignment.
 authorize if {
