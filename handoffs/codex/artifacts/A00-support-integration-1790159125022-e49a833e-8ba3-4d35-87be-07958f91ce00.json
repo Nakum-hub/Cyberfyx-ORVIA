@@ -1,0 +1,545 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T10:25:25.026Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a case naming a gap that does not exist is refused rather than opened",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new case is open and has been submitted nowhere",
+      "result": "PASS",
+      "expected": [
+        "OPEN",
+        null
+      ],
+      "actual": [
+        "OPEN",
+        null
+      ]
+    },
+    {
+      "name": "a registered canary is returned by its digest and never by its token",
+      "result": "PASS",
+      "expected": [
+        "f5dabbe427a971ce8444d5cb3732b2843d09f257376d9283a9af16c032f765ba",
+        false
+      ],
+      "actual": [
+        "f5dabbe427a971ce8444d5cb3732b2843d09f257376d9283a9af16c032f765ba",
+        false
+      ]
+    },
+    {
+      "name": "registering the same token twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the scan ran against every registered canary and found nothing",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        0
+      ],
+      "actual": [
+        true,
+        true,
+        0
+      ]
+    },
+    {
+      "name": "the report names a correlatable reference rather than the installation",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "the reference is derived from the installation, so two reports correlate",
+      "result": "PASS",
+      "expected": "990812a5a479c4510c60dddbcf0fc862fa9f05423fbe91bff552383b7319b985",
+      "actual": "990812a5a479c4510c60dddbcf0fc862fa9f05423fbe91bff552383b7319b985"
+    },
+    {
+      "name": "the report states the schema revision this installation is actually on",
+      "result": "PASS",
+      "expected": 37,
+      "actual": 37
+    },
+    {
+      "name": "the report declares the versions this build declares of itself",
+      "result": "PASS",
+      "expected": [
+        "0.0.0",
+        "0.15.0"
+      ],
+      "actual": [
+        "0.0.0",
+        "0.15.0"
+      ]
+    },
+    {
+      "name": "the transferred bytes do not contain the installation id",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain the tenant id",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain the environment id",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain a data principal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain a staff member",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain a configured system",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain a data asset",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain the coverage gap",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the transferred bytes do not contain the support case",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the report is a fixed vocabulary, not prose",
+      "result": "PASS",
+      "expected": [
+        "command_schema_version",
+        "contract_version",
+        "counts",
+        "deployment_profile",
+        "generated_at",
+        "installation_reference",
+        "observations",
+        "product_version",
+        "report_id",
+        "schema_revision",
+        "subject"
+      ],
+      "actual": [
+        "command_schema_version",
+        "contract_version",
+        "counts",
+        "deployment_profile",
+        "generated_at",
+        "installation_reference",
+        "observations",
+        "product_version",
+        "report_id",
+        "schema_revision",
+        "subject"
+      ]
+    },
+    {
+      "name": "managing support does not carry the authority to approve a payload for release",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an approval naming a payload this draft never had is refused, not reconciled",
+      "result": "PASS",
+      "expected": [
+        409,
+        [
+          "payload_changed_since_preview"
+        ]
+      ],
+      "actual": [
+        409,
+        [
+          "payload_changed_since_preview"
+        ]
+      ]
+    },
+    {
+      "name": "an approval carries no authority to generate anything",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "approving the same draft again is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses an approval that names a payload the draft never had",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an approval is recorded once and never edited",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an approval is never deleted",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the payload an approver previewed cannot be edited afterwards",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a diagnostic draft is never deleted",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the recorded transfer carries exactly the approved payload and claims no transport",
+      "result": "PASS",
+      "expected": [
+        "772a6777a166892a31131e869ab213ac3052712bb0d16feb822a92b2232ee277",
+        false
+      ],
+      "actual": [
+        "772a6777a166892a31131e869ab213ac3052712bb0d16feb822a92b2232ee277",
+        false
+      ]
+    },
+    {
+      "name": "the database refuses a transfer carrying anything other than the approved payload",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a transfer record is append-only",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a second draft supersedes the first, and the case shows both",
+      "result": "PASS",
+      "expected": [
+        [
+          true,
+          true
+        ],
+        [
+          false,
+          false
+        ]
+      ],
+      "actual": [
+        [
+          true,
+          true
+        ],
+        [
+          false,
+          false
+        ]
+      ]
+    },
+    {
+      "name": "the approval that named the old payload cannot transfer the new one",
+      "result": "PASS",
+      "expected": [
+        "superseded_draft"
+      ],
+      "actual": [
+        "superseded_draft"
+      ]
+    },
+    {
+      "name": "a superseded draft cannot be approved",
+      "result": "PASS",
+      "expected": [
+        "superseded_draft"
+      ],
+      "actual": [
+        "superseded_draft"
+      ]
+    },
+    {
+      "name": "a superseded draft does not become current again",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the newest draft is the one that can still be approved",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "there is no column in which a submitted body could be kept",
+      "result": "PASS",
+      "expected": [
+        "accepted",
+        "byte_length",
+        "environment_id",
+        "id",
+        "legal_entity_id",
+        "rejection_code",
+        "tenant_id",
+        "validated_at",
+        "validated_by"
+      ],
+      "actual": [
+        "accepted",
+        "byte_length",
+        "environment_id",
+        "id",
+        "legal_entity_id",
+        "rejection_code",
+        "tenant_id",
+        "validated_at",
+        "validated_by"
+      ]
+    },
+    {
+      "name": "a submission against a case reference this installation never recorded is refused",
+      "result": "PASS",
+      "expected": [
+        false,
+        "UNKNOWN_CASE_REFERENCE",
+        false
+      ],
+      "actual": [
+        false,
+        "UNKNOWN_CASE_REFERENCE",
+        false
+      ]
+    },
+    {
+      "name": "the refusal recorded the size and nothing else",
+      "result": "PASS",
+      "expected": 941,
+      "actual": 941
+    },
+    {
+      "name": "a vendor closing their case leaves the local control exactly where it was",
+      "result": "PASS",
+      "expected": [
+        "VENDOR_CLOSED",
+        "GAP_OPEN",
+        false,
+        false
+      ],
+      "actual": [
+        "VENDOR_CLOSED",
+        "GAP_OPEN",
+        false,
+        false
+      ]
+    },
+    {
+      "name": "the standing says the two are separate facts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "there is no column on a support case in which local verification could be written",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "resolving the local gap without evidence is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the local control becomes verified only when its own gap is resolved with evidence",
+      "result": "PASS",
+      "expected": [
+        "GAP_RESOLVED",
+        true
+      ],
+      "actual": [
+        "GAP_RESOLVED",
+        true
+      ]
+    },
+    {
+      "name": "a closed case generates nothing further",
+      "result": "PASS",
+      "expected": [
+        "case_already_closed"
+      ],
+      "actual": [
+        "case_already_closed"
+      ]
+    },
+    {
+      "name": "a report that would be accepted is reported as accepted",
+      "result": "PASS",
+      "expected": [
+        true,
+        null
+      ],
+      "actual": [
+        true,
+        null
+      ]
+    },
+    {
+      "name": "a body that is not JSON is refused and the reason is named",
+      "result": "PASS",
+      "expected": [
+        false,
+        "MALFORMED_JSON"
+      ],
+      "actual": [
+        false,
+        "MALFORMED_JSON"
+      ]
+    },
+    {
+      "name": "a body carrying a field the schema does not have is refused and the reason is named",
+      "result": "PASS",
+      "expected": [
+        false,
+        "UNKNOWN_FIELD"
+      ],
+      "actual": [
+        false,
+        "UNKNOWN_FIELD"
+      ]
+    },
+    {
+      "name": "a body whose values are not the declared vocabulary is refused and the reason is named",
+      "result": "PASS",
+      "expected": [
+        false,
+        "SCHEMA_MISMATCH"
+      ],
+      "actual": [
+        false,
+        "SCHEMA_MISMATCH"
+      ]
+    },
+    {
+      "name": "a body larger than the ingress accepts is refused and the reason is named",
+      "result": "PASS",
+      "expected": [
+        false,
+        "OVERSIZED"
+      ],
+      "actual": [
+        false,
+        "OVERSIZED"
+      ]
+    },
+    {
+      "name": "no validation ever recorded a body, because there is nowhere to record one",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a case with no linked gap says so, rather than reporting a verified control",
+      "result": "PASS",
+      "expected": [
+        "NO_LINKED_GAP",
+        false
+      ],
+      "actual": [
+        "NO_LINKED_GAP",
+        false
+      ]
+    },
+    {
+      "name": "a report matching a registered canary is refused, and the refusal names which",
+      "result": "PASS",
+      "expected": [
+        409,
+        [
+          true
+        ]
+      ],
+      "actual": [
+        409,
+        [
+          true
+        ]
+      ]
+    },
+    {
+      "name": "nothing was stored for the refused generation",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "an auditor holding support.read may read a case",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor may not open one",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member holding neither capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "2c78a678-3894-49de-a5ba-18fe4e95a6df"
+}

@@ -1,0 +1,134 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T07:52:33.493Z",
+  "profile": "codex-a00",
+  "phase": "permissions",
+  "assertions": [
+    {
+      "name": "a connection cannot be started asking for a right to change the connected system",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a connection to a system that does not exist is refused rather than created",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new connection has done the two steps it could not exist without, and no more",
+      "result": "PASS",
+      "expected": [
+        [
+          "SELECT_SYSTEM",
+          "CHOOSE_CAPABILITIES"
+        ],
+        "CONFIGURE_CONNECTIVITY"
+      ],
+      "actual": [
+        [
+          "SELECT_SYSTEM",
+          "CHOOSE_CAPABILITIES"
+        ],
+        "CONFIGURE_CONNECTIVITY"
+      ]
+    },
+    {
+      "name": "it starts in observation, with nothing observed about the system yet",
+      "result": "PASS",
+      "expected": [
+        "OBSERVE",
+        null,
+        null,
+        true
+      ],
+      "actual": [
+        "OBSERVE",
+        null,
+        null,
+        true
+      ]
+    },
+    {
+      "name": "a second connection to the same system resumes rather than starting beside it",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an endpoint whose certificate did not verify does not complete the step, and says why",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "a verified endpoint completes the step and moves the wizard on",
+      "result": "PASS",
+      "expected": [
+        true,
+        "SCOPED_IDENTITY"
+      ],
+      "actual": [
+        true,
+        "SCOPED_IDENTITY"
+      ]
+    },
+    {
+      "name": "the database refuses an endpoint recorded without a verification result",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "something that looks like a pasted secret does not fit in the reference field",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a reference containing whitespace, which a copied credential block would, is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a reference to a customer-held secret completes the step",
+      "result": "PASS",
+      "expected": [
+        true,
+        "vault://synthetic/crm-reader",
+        "TEST_PERMISSIONS"
+      ],
+      "actual": [
+        true,
+        "vault://synthetic/crm-reader",
+        "TEST_PERMISSIONS"
+      ]
+    },
+    {
+      "name": "there is no column on a connection in which a secret could be written",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the step is not done because the connection says so; it is not done because no check exists",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "TypeError",
+    "code": "UNCLASSIFIED"
+  }
+}

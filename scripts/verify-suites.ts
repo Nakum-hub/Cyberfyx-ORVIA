@@ -100,6 +100,11 @@ const SUITES: { script: string; artifact: string; env?: Record<string, string> }
   { script: 'test:workflows', artifact: 'workflow-integration' },
   { script: 'test:regression', artifact: 'regression-integration' },
 ];
+const from = process.argv[2] === '--from' ? process.argv[3] : undefined;
+if (process.argv.length > (from ? 4 : 2) || (process.argv[2] && !from))
+  throw new Error('Usage: verify-suites.ts [--from test:script]');
+const firstSuite = from ? SUITES.findIndex(suite => suite.script === from) : 0;
+if (firstSuite < 0) throw new Error('Unknown suite start');
 
 /** The newest artifact for this suite stamped with this run's identifier. The
  *  modification time only narrows the search; the identifier decides, so an
@@ -115,7 +120,7 @@ function freshArtifact(fragment: string, startedAt: number) {
 }
 
 const results: Record<string, unknown>[] = [];
-for (const suite of SUITES) {
+for (const suite of SUITES.slice(firstSuite)) {
   const startedAt = Date.now();
   let exitCode = 0;
   let failure: string | null = null;

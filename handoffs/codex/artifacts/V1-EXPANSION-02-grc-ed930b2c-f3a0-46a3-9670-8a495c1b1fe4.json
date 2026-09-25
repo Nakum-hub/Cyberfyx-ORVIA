@@ -1,0 +1,116 @@
+{
+  "task_id": "V1-EXPANSION-02",
+  "result": "PASS",
+  "database": "orvia_grc_test_ed930b2cf3a046a396708a495c1b1fe4",
+  "recorded_at": "2026-09-25T10:31:42.776Z",
+  "migration_sha256": "60f1ae3c99e08fa1b89585d36304540411067ce435532c8cbf759ff3921656e0",
+  "results": [
+    {
+      "name": "duplicate framework version rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown requirement rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "no evidence reports unknown",
+      "result": "PASS"
+    },
+    {
+      "name": "submission is pending",
+      "result": "PASS"
+    },
+    {
+      "name": "writer cannot review",
+      "result": "PASS"
+    },
+    {
+      "name": "author with approval capability cannot self-review",
+      "result": "PASS"
+    },
+    {
+      "name": "independent review explicitly manual",
+      "result": "PASS"
+    },
+    {
+      "name": "manual review never claims observed effect",
+      "result": "PASS"
+    },
+    {
+      "name": "second contradictory decision rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "replacement evidence removes old acceptance",
+      "result": "PASS"
+    },
+    {
+      "name": "superseded evidence cannot be approved",
+      "result": "PASS"
+    },
+    {
+      "name": "replacement rejection visible",
+      "result": "PASS"
+    },
+    {
+      "name": "future evidence rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "review waits for concurrent replacement transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "review rechecks committed replacement",
+      "result": "PASS"
+    },
+    {
+      "name": "new replacement remains pending",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-tenant control invisible",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-tenant framework cannot be mapped",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot submit evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "RLS denies rows directly across tenant",
+      "result": "PASS"
+    },
+    {
+      "name": "RLS denies principal even with fabricated GRC capability",
+      "result": "PASS"
+    },
+    {
+      "name": "database rejects read-only direct insertion",
+      "result": "PASS"
+    },
+    {
+      "name": "runtime role cannot update history",
+      "result": "PASS"
+    },
+    {
+      "name": "immutable history rejects owner mutation",
+      "result": "PASS"
+    },
+    {
+      "name": "failed decisions did not append reviews",
+      "result": "PASS"
+    },
+    {
+      "name": "successful mutations have audit events",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Synthetic isolated database. Authentication HTTP/OPA/UI and whole-product acceptance are not exercised. Audit prerequisites are reduced; GRC tables, RLS and transaction code are production sources."
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T04:34:41.953Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "every declared section builds against the real schema",
+      "result": "PASS",
+      "expected": [
+        "AUDIT_RETENTION",
+        "AUDIT_TRAIL",
+        "CONSENT_DECISIONS",
+        "COVERAGE_GAPS",
+        "DATA_INVENTORY",
+        "INCIDENTS_AND_INTIMATIONS",
+        "OPERATIONAL_READINESS",
+        "PROCESSORS",
+        "PURPOSES_AND_NOTICES",
+        "RIGHTS_REQUESTS"
+      ],
+      "actual": [
+        "AUDIT_RETENTION",
+        "AUDIT_TRAIL",
+        "CONSENT_DECISIONS",
+        "COVERAGE_GAPS",
+        "DATA_INVENTORY",
+        "INCIDENTS_AND_INTIMATIONS",
+        "OPERATIONAL_READINESS",
+        "PROCESSORS",
+        "PURPOSES_AND_NOTICES",
+        "RIGHTS_REQUESTS"
+      ]
+    },
+    {
+      "name": "and nothing is left unaccounted for",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "every section says what it covers and what it counted",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "every row matches its column count",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the consent section is read from the recorded decisions",
+      "result": "PASS",
+      "expected": 836,
+      "actual": 836
+    },
+    {
+      "name": "the purposes section names the itemised categories of the published notice",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the retention section reports every purpose, configured or not",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "a period after everything on record produces an empty section, not a missing one",
+      "result": "PASS",
+      "expected": [
+        0,
+        true
+      ],
+      "actual": [
+        0,
+        true
+      ]
+    },
+    {
+      "name": "and the empty section still says what it counted",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a period that ends before it starts is refused before any section is built",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a reader without a section’s capability gets it named as withheld, never dropped",
+      "result": "PASS",
+      "expected": [
+        [
+          "AUDIT_TRAIL"
+        ],
+        false
+      ],
+      "actual": [
+        [
+          "AUDIT_TRAIL"
+        ],
+        false
+      ]
+    },
+    {
+      "name": "and the same section is included for a reader who may take the trail away",
+      "result": "PASS",
+      "expected": [
+        [
+          "AUDIT_TRAIL"
+        ],
+        false
+      ],
+      "actual": [
+        [
+          "AUDIT_TRAIL"
+        ],
+        false
+      ]
+    },
+    {
+      "name": "and every section is still accounted for exactly once",
+      "result": "PASS",
+      "expected": [
+        "AUDIT_RETENTION",
+        "AUDIT_TRAIL",
+        "CONSENT_DECISIONS",
+        "COVERAGE_GAPS",
+        "DATA_INVENTORY",
+        "INCIDENTS_AND_INTIMATIONS",
+        "OPERATIONAL_READINESS",
+        "PROCESSORS",
+        "PURPOSES_AND_NOTICES",
+        "RIGHTS_REQUESTS"
+      ],
+      "actual": [
+        "AUDIT_RETENTION",
+        "AUDIT_TRAIL",
+        "CONSENT_DECISIONS",
+        "COVERAGE_GAPS",
+        "DATA_INVENTORY",
+        "INCIDENTS_AND_INTIMATIONS",
+        "OPERATIONAL_READINESS",
+        "PROCESSORS",
+        "PURPOSES_AND_NOTICES",
+        "RIGHTS_REQUESTS"
+      ]
+    },
+    {
+      "name": "the report states structurally that omissions are named",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a chosen subset is built in the order it was asked for",
+      "result": "PASS",
+      "expected": [
+        "PURPOSES_AND_NOTICES",
+        "CONSENT_DECISIONS"
+      ],
+      "actual": [
+        "PURPOSES_AND_NOTICES",
+        "CONSENT_DECISIONS"
+      ]
+    },
+    {
+      "name": "and everything left out is named as not selected",
+      "result": "PASS",
+      "expected": 8,
+      "actual": 8
+    },
+    {
+      "name": "the title and scope are carried so a report cannot be mistaken for another",
+      "result": "PASS",
+      "expected": [
+        "Board pack",
+        true
+      ],
+      "actual": [
+        "Board pack",
+        true
+      ]
+    },
+    {
+      "name": "an unknown section is refused rather than ignored",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a repeated section is refused rather than printed twice",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "generating a report is recorded in the audit trail, as §133 requires",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report does not print the identifier of any data principal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "nor a staff email address",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "and it carries no field beyond the ones the schema declares",
+      "result": "PASS",
+      "expected": [
+        "content_digest",
+        "every_section_left_out_is_named",
+        "generated_at",
+        "limits",
+        "omitted",
+        "period_from",
+        "period_to",
+        "profile",
+        "scope_label",
+        "sections",
+        "this_report_is_not_a_compliance_certificate",
+        "title"
+      ],
+      "actual": [
+        "content_digest",
+        "every_section_left_out_is_named",
+        "generated_at",
+        "limits",
+        "omitted",
+        "period_from",
+        "period_to",
+        "profile",
+        "scope_label",
+        "sections",
+        "this_report_is_not_a_compliance_certificate",
+        "title"
+      ]
+    },
+    {
+      "name": "a member without export authority cannot generate a report",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "4b1bf7c2-3276-4230-b377-f239a231d662"
+}

@@ -12,8 +12,8 @@ import { requireCompleteSection } from '../../backend/domain/src/reporting/repor
 import { toCsv } from '../../frontend/src/components/screens/governance/reports.tsx';
 
 test('bounded reports refuse a section whose final row cannot be shown', () => {
-  assert.equal(requireCompleteSection(Array(500).fill('row')).length, 500);
-  assert.throws(() => requireCompleteSection(Array(501).fill('row')), /EPOCH_CONFLICT/);
+  assert.equal(requireCompleteSection(Array(2000).fill('row')).length, 2000);
+  assert.throws(() => requireCompleteSection(Array(2001).fill('row')), /VALIDATION_ERROR/);
 });
 
 test('CSV escapes formulas even when a spreadsheet reads quoted cells as expressions', () => {

@@ -1,0 +1,19 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T08:35:55.166Z",
+  "profile": "codex-a00",
+  "phase": "registration",
+  "result": "FAIL",
+  "assertions": [
+    {
+      "name": "member cannot register a target",
+      "result": "FAIL"
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "diagnostics": ""
+}

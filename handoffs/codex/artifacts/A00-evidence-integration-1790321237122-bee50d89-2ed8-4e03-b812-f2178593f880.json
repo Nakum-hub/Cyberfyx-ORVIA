@@ -1,0 +1,23 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T07:27:17.123Z",
+  "test_ids": [
+    "T13",
+    "T17",
+    "T18",
+    "T19",
+    "T20",
+    "T21",
+    "T22"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.20.0",
+  "build_id": "z7ZdnC2GuEyrqyZnhwZD3",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+  ],
+  "run_id": "8bd0b0b8-9db5-445e-903b-bf235705d633"
+}

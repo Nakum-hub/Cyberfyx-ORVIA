@@ -1,0 +1,94 @@
+{
+  "task_id": "V1-EXPANSION-01",
+  "recorded_at": "2026-09-25T10:05:10.120Z",
+  "fixture_kind": "ISOLATED_SYNTHETIC_VENDOR_DATABASE",
+  "database": "orvia_vendor_test_e3aebcea8bca4743ac352ad67e5a37af",
+  "result": "FAIL",
+  "phase": "independent order concurrency",
+  "assertions": [
+    {
+      "name": "concurrent identical order creates one durable order",
+      "result": "PASS"
+    },
+    {
+      "name": "price comes from approved server catalogue",
+      "result": "PASS"
+    },
+    {
+      "name": "changed idempotency body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-account read denied",
+      "result": "PASS"
+    },
+    {
+      "name": "forged account authority denied",
+      "result": "PASS"
+    },
+    {
+      "name": "read-only buyer cannot create",
+      "result": "PASS"
+    },
+    {
+      "name": "no entitlement before a verified capture",
+      "result": "PASS"
+    },
+    {
+      "name": "repeated pending checkout retains provider binding",
+      "result": "PASS"
+    },
+    {
+      "name": "repeated checkout does not create another provider order",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent capture yields exactly one original receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "one entitlement request per order",
+      "result": "PASS"
+    },
+    {
+      "name": "verified capture queues but does not issue licence",
+      "result": "PASS"
+    },
+    {
+      "name": "paid order cannot start another checkout",
+      "result": "PASS"
+    },
+    {
+      "name": "plain object cannot impersonate verified provider",
+      "result": "PASS"
+    },
+    {
+      "name": "same provider event ID with changed body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "stale failure cannot downgrade captured order",
+      "result": "PASS"
+    },
+    {
+      "name": "different delivery ID does not duplicate issuance",
+      "result": "PASS"
+    },
+    {
+      "name": "one provider payment cannot pay two orders",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment retained as review required",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment never queues entitlement",
+      "result": "PASS"
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

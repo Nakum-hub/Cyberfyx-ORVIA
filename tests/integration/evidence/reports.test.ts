@@ -56,7 +56,7 @@ try {
   const consentRows = Number((await db.query(
     `SELECT count(*)::int AS n FROM app.consent_events WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3`, scope)).rows[0].n);
   check('the consent section is read from the recorded decisions',
-    section(all, 'CONSENT_DECISIONS')!.rows.length, Math.min(consentRows, 500));
+    section(all, 'CONSENT_DECISIONS')!.rows.length, Math.min(consentRows, 2000));
   check('the purposes section names the itemised categories of the published notice',
     section(all, 'PURPOSES_AND_NOTICES')!.rows.some(row => row.join(' ').includes('CONTACT_DETAILS')), true);
   check('the retention section reports every purpose, configured or not',
@@ -137,7 +137,11 @@ try {
   console.log(`\n${assertions.length} assertions, 0 failures.`);
 } catch (error) {
   writeEvidence('reports-integration', { profile: profile.profile, phase, assertions, result: 'FAIL', error: safeError(error) });
-  console.error(safeError(error));
+  console.error({ ...safeError(error), phase,
+    message: error instanceof Error && /^Report answered \d{3}$/.test(error.message) ? error.message : undefined,
+    schema_issues: error && typeof error === 'object' && 'issues' in error && Array.isArray(error.issues)
+      ? error.issues.map((issue: { code?: string; path?: PropertyKey[] }) => ({ code: issue.code, path: issue.path?.map(String) })) : undefined,
+    sites: error instanceof Error ? error.stack?.split('\n').slice(1, 5) : [] });
   process.exitCode = 1;
 } finally {
   await h.stop();

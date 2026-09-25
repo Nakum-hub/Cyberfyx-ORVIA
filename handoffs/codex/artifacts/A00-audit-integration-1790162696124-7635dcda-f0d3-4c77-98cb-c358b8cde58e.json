@@ -1,0 +1,14 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T11:24:56.124Z",
+  "profile": "codex-a00",
+  "phase": "scenario",
+  "assertions": [],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "run_id": "27a42ea0-33ed-4dbb-b0d2-b0635b1db339"
+}

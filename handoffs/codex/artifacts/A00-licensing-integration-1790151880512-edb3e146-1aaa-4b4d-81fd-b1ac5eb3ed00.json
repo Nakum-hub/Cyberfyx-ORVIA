@@ -1,0 +1,224 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T08:24:40.512Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a licence naming AI_COPILOT is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming VENDOR_REMOTE_ACCESS is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming STAFF_DIRECTORY_SYNC is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming PROACTIVE_DIAGNOSTICS is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence from an untrusted signer is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the refusal names the untrusted signer",
+      "result": "PASS",
+      "expected": "untrusted_signer",
+      "actual": "untrusted_signer"
+    },
+    {
+      "name": "the refusal names an invalid signature when claims were altered after signing",
+      "result": "PASS",
+      "expected": "invalid_signature",
+      "actual": "invalid_signature"
+    },
+    {
+      "name": "a licence bound to another installation is refused",
+      "result": "PASS",
+      "expected": "wrong_installation",
+      "actual": "wrong_installation"
+    },
+    {
+      "name": "a licence that is not yet valid is refused",
+      "result": "PASS",
+      "expected": "not_yet_valid",
+      "actual": "not_yet_valid"
+    },
+    {
+      "name": "an expired licence is refused at import",
+      "result": "PASS",
+      "expected": "expired",
+      "actual": "expired"
+    },
+    {
+      "name": "a licence whose window ends before it starts is rejected by the schema",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "importing a licence needs its own authority, not merely read access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an imported licence records exactly what was bought",
+      "result": "PASS",
+      "expected": [
+        "CONTROL",
+        [
+          "PRIVACY_GRAPH",
+          "RIGHTS_MANAGEMENT"
+        ]
+      ],
+      "actual": [
+        "CONTROL",
+        [
+          "PRIVACY_GRAPH",
+          "RIGHTS_MANAGEMENT"
+        ]
+      ]
+    },
+    {
+      "name": "an active licence says expiry never withdraws reading or export",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "re-importing the same licence is a replay, not a renewal",
+      "result": "PASS",
+      "expected": "replayed",
+      "actual": "replayed"
+    },
+    {
+      "name": "the stored licence can be superseded but its terms cannot be edited",
+      "result": "PASS",
+      "expected": "ACCEPTED",
+      "actual": "ACCEPTED"
+    },
+    {
+      "name": "the database refuses to extend a licence validity window",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a licence record is never deleted",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "every feature reports exactly five gates",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "every gate is named once per feature",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a licensed, released, rolled-out feature the actor may use is usable",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a feature the licence does not name is not usable",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the blocking gate is identified rather than merely reporting a refusal",
+      "result": "PASS",
+      "expected": [
+        "LICENCE_ENTITLEMENT"
+      ],
+      "actual": [
+        "LICENCE_ENTITLEMENT"
+      ]
+    },
+    {
+      "name": "a feature held back by rollout is blocked on that gate specifically",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an auditor holding the read capability passes the actor gate",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the licence gate is the same for every actor",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report states plainly what no licence can enable",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "it says these are commitments, not withheld features",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "it names the model capabilities explicitly",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "it names vendor remote access explicitly",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report says a licence carries no commands or authority grants",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report says security and truthful outcomes are not licensed features",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a member without the licence capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}

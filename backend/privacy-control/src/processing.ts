@@ -4,7 +4,6 @@ import type { RuntimeConfig } from '../../auth/src/config.ts';
 import { Evaluate,Decision,SendRequest,SendResult } from '../../../shared/contracts/src/index.ts';
 import { digest } from '../../../shared/contracts/src/crypto.ts';
 import { processingDecision } from '../../policy-sdk/src/index.ts';
-import { targetTransaction } from '../../../connectors/src/shared/target-db.ts';
 import { AccessError } from '../../authorization/src/index.ts';
 import { lockConsent,predicate,scopeValues,requireOne,audit,type Context } from '@orvia/domain/transaction';
 import type { TargetObserver } from './target-observer.ts';
@@ -19,17 +18,10 @@ async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.P
  const aggregate=(await c.tx.query(`SELECT * FROM app.consent_aggregates WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5`,[...scope,value.principal_reference_id,value.purpose_id])).rows[0];
  const unresolved=await c.tx.query(`SELECT 1 FROM app.workflows WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5 AND state<>'COMPLETED' LIMIT 1`,[...scope,value.principal_reference_id,value.purpose_id]);
  const service=await c.tx.query(`SELECT expires_at FROM app.service_conditions WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5 AND system_id=$6 AND policy_version_id=$7 AND active AND expires_at>clock_timestamp() AND ($8::text IS NULL AND $9 OR order_reference=$8) ORDER BY expires_at DESC LIMIT 1`,[...scope,value.principal_reference_id,value.purpose_id,value.system_id,policy?.version_id??null,value.order_reference,preview]);
- let target: {generation:string;marketing_restricted:boolean;quarantined:boolean}|undefined;let targetUnavailable=false;
+ let target: Awaited<ReturnType<TargetObserver>>;let targetUnavailable=false;
  try {
-  target=await targetTransaction(observer,c.actor,async tx=>(await tx.query(`SELECT generation,marketing_restricted,quarantined FROM marketing_memberships WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND resource_id=$4 AND principal_id=$5 AND purpose_id=$6 AND system_id=$7 AND subject_reference=$8`,[...scope,mapping.id,value.principal_reference_id,value.purpose_id,value.system_id,mapping.target_subject_reference])).rows[0]);
   const system=requireOne((await c.tx.query(`SELECT connector FROM app.systems WHERE ${predicate} AND id=$4`,[...scope,value.system_id])).rows);
-  if(system.connector==='ORVIA_REST_SIMULATOR') {
-   // The only connector implemented today. A future real connector adds its
-   // own case here and supplies its own TargetObserver at the wiring layer;
-   // this module never hard-codes a specific connector's client.
-   const observed=await observe(config,c.actor.scope,mapping.id);
-   if(target)target={...target,generation:String(observed.generation),marketing_restricted:observed.marketing_restricted};
-  }
+  target=await observe(config,observer,c.actor,{resource_id:mapping.id,principal_id:value.principal_reference_id,purpose_id:value.purpose_id,system_id:value.system_id,subject_reference:mapping.target_subject_reference,connector:system.connector});
  }
  catch{targetUnavailable=true;}
  const input={message_class:value.message_class,purpose_code:purpose.code,condition:policy?.document.condition??null,published:!!policy&&policy.document.system_ids.includes(value.system_id),notice_matches:!!aggregate&&!!policy&&aggregate.notice_version_id===policy.notice_version_id,consent_state:aggregate?.state??'NOT_GIVEN',target_current:!!target&&Number(target.generation)===Number(mapping.target_generation),target_restricted:target?.marketing_restricted??true,quarantined:target?.quarantined??true,unresolved_suppression:!!unresolved.rowCount,service_condition_current:!!service.rowCount};

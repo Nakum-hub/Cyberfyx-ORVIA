@@ -1,5 +1,7 @@
 # ORVIA prototype: acceptance journeys
 
+> **Current source checkpoint (2026-09-24):** Browser test source now exists in `tests/e2e/`, but these journey definitions are not execution results. `tracking/acceptance.json` still records every full application scenario as `NOT_RUN`; the r4 source observations below remain historical.
+
 **Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 ## Status

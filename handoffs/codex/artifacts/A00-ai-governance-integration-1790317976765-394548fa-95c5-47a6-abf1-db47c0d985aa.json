@@ -1,0 +1,38 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T06:32:56.766Z",
+  "profile": "codex-a00",
+  "phase": "inventory",
+  "assertions": [
+    {
+      "name": "input-to-activity relationship is created",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "activity-to-purpose relationship is created",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "cross-tenant purpose cannot enter inventory",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "client cannot nominate an arbitrary owner",
+      "result": "FAIL",
+      "expected": 400,
+      "actual": 404
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

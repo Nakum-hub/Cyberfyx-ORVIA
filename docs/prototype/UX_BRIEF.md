@@ -1,5 +1,7 @@
 # ORVIA prototype: UX brief
 
+> **Current source checkpoint (2026-09-24):** Workspace and Privacy Centre routes now exist under `frontend/src/app/`, with screen components under `frontend/src/components/screens/`. The prototype's guided presentation route has been removed from the interface; synthetic testing remains in the Test Lab and operator tooling. The historical r4 observations below describe their 2026-09-16 documentation base. This checkpoint does not establish browser acceptance or accessibility conformance; the full application scenarios remain `NOT_RUN` in `tracking/acceptance.json`.
+
 **Owner:** GPT Work, successor to Cowork (C00) · **Status:** REVISED_FOR_REVIEW · **Revision:** c00-r4-completion, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 **Revision history:**

@@ -26,11 +26,19 @@ try{
   await waitForAuthWindow(db);
   phase=scenario;const input={...request,scenario};const key=randomUUID();const response=await start(owner,input,key);check(scenario+' accepted',response.status,202);const accepted=S.TestRun.parse(await response.json());
   check('pending run is durably NOT_RUN',accepted.state,'NOT_RUN');check('pending request replay stable',await (await start(owner,input,key)).json(),accepted);check('overlapping fixture execution denied',(await start(owner,input)).status,409);
-  const listPath='/api/v1/admin/test-runs?limit=20';
+  const listPath='/api/v1/admin/test-runs?limit=100';
   check('anonymous run history denied',(await h.browser().call(listPath)).status,401);
   check('principal run history denied',(await alice.call(listPath)).status,403);
-  const listed=S.schemas.TestRunList.parse(await (await auditor.call(listPath)).json());
-  check('scoped run history contains queued run',listed.items.some(run=>run.id===accepted.id),true);
+  let cursor:string|null=null;let found=false;let exhausted=false;
+  for(let page=0;page<100;page++){
+   const path=listPath+(cursor?'&cursor='+encodeURIComponent(cursor):'');
+   const listed=S.schemas.TestRunList.parse(await (await auditor.call(path)).json());
+   if(listed.items.some(run=>run.id===accepted.id)){found=true;break;}
+   cursor=listed.next_cursor;
+   if(!cursor){exhausted=true;break;}
+  }
+  check('scoped run history contains queued run',found,true);
+  check('scoped run history paging terminates',found||exhausted,true);
   check('foreign tenant run history excludes queued run',S.schemas.TestRunList.parse(await (await birch.call(listPath)).json()).items.some(run=>run.id===accepted.id),false);
   check('foreign tenant cannot read run',(await birch.call('/api/v1/admin/test-runs/'+accepted.id)).status,404);check('principal cannot read run',(await alice.call('/api/v1/admin/test-runs/'+accepted.id)).status,403);
   const executed=await cli(process.execPath,['--import','tsx','scripts/regression-runner.ts',`confirm:${profile.profile}`],{windowsHide:true,timeout:240000,maxBuffer:2*1024*1024});

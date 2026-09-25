@@ -9,11 +9,16 @@ import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.t
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { workflowActivities } from '../../../services/worker/src/withdrawal-worker.ts';
+import { sweepCatalogDiscovery } from '../../../services/worker/src/catalog-discovery.ts';
+import { observerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
+import { waitForAuthWindow } from '../../../shared/testing/src/auth-window.ts';
 
 const h = new HttpFixture();
 const profile = loadProfile();
 if (!['codex-a00', 'ui-b00', 'rehearsal'].includes(profile.profile)) throw new Error('Only codex-a00/ui-b00/rehearsal permitted');
 const db = connectDatabase(profile).pool;
+let runtime:ReturnType<typeof workflowActivities>|undefined;
 const assertions: { name: string; result: 'PASS' | 'FAIL'; expected: unknown; actual: unknown }[] = [];
 let phase = 'setup';
 function check(name: string, actual: unknown, expected: unknown) {
@@ -28,19 +33,30 @@ const later = (hours: number) => new Date(Date.now() + hours * 3_600_000).toISOS
 
 try {
   await h.start();
+  await waitForAuthWindow(db);
   phase = 'scenario';
   const scenario = await createMarketingScenario(h, 'SYNTHETIC_CRM');
   const staff = scenario.author;
   const marker = randomUUID().slice(0, 8);
-  const asset = async (provenance: 'ASSERTED' | 'OBSERVED') =>
+  const asset = async () =>
     S.DataAsset.parse(await (await staff.call('/api/v1/admin/data-assets', {
       system_id: scenario.system.id, kind: 'DATASET', parent_id: null, name: `coverage_${marker}_${randomUUID().slice(0, 6)}`,
-      description: 'Synthetic copy for coverage measurement.', provenance,
+      description: 'Synthetic copy for coverage measurement.', provenance:'ASSERTED',
       valid_from: new Date().toISOString(), categories: [],
     }, key())).json());
 
-  const declared = await asset('ASSERTED');
-  const seen = await asset('OBSERVED');
+  const declared = await asset();
+  const targetPath='/api/v1/admin/catalog-discovery-targets';
+  const catalogTarget=S.CatalogDiscoveryTarget.parse(await (await staff.call(targetPath,{system_id:scenario.system.id,
+    schema_name:'public',relation_name:'marketing_memberships'},key())).json());
+  check('catalog source approved by separate owner',(await scenario.owner.call(`${targetPath}/${catalogTarget.id}/approve`,{},key())).status,200);
+  runtime=workflowActivities();
+  check('real catalog reader processed the source',await sweepCatalogDiscovery(runtime.scoped,
+    runtime.enrollment.identities.map(x=>x.id),observerEnrollment(runtime.config).identities,runtime.observer)>=1,true);
+  const source=S.CatalogDiscoveryDetail.parse(await (await staff.call(`${targetPath}/${catalogTarget.id}`)).json());
+  const seen=S.DataAsset.parse(await (await staff.call('/api/v1/admin/data-assets/from-catalog',
+    {observation_id:source.observations[0]!.id},key())).json());
+  check('observed copy binds the independent read',seen.source_observation_id,source.observations[0]!.id);
 
   // --- FR-M18-01: a measure always shows what it counted --------------------
   phase = 'coverage';
@@ -84,6 +100,8 @@ try {
   check('a missing retention basis is treated as a high-severity gap', declaredGaps.find(g => g.source === 'NO_RETENTION_BASIS')?.severity, 'HIGH');
   const observedGaps = await gapsFor(seen.id);
   check('a freshly observed copy raises no never-observed gap', observedGaps.some(g => g.source === 'NEVER_OBSERVED'), false);
+  check('an independently seen dataset without an activity raises a mapping gap',
+    observedGaps.some(g => g.source === 'NO_PROCESSING_MAP' && g.severity === 'MEDIUM'), true);
 
   phase = 're-derivation';
   const firstDetection = declaredGaps.find(g => g.source === 'NO_RETENTION_BASIS')!.detected_at.toISOString();
@@ -161,10 +179,12 @@ try {
   writeEvidence('coverage-integration', { profile: profile.profile, phase: 'complete', assertions, result: 'PASS' });
   console.log(`\n${assertions.length} assertions, 0 failures.`);
 } catch (error) {
-  writeEvidence('coverage-integration', { profile: profile.profile, phase, assertions, result: 'FAIL', error: safeError(error) });
+  writeEvidence('coverage-integration', { profile: profile.profile, phase, assertions, result: 'FAIL', error: safeError(error),
+    detail:error instanceof Error?error.message.slice(0,500):'Unknown failure',diagnostics:h.diagnostics.slice(-2000) });
   console.error(safeError(error));
   process.exitCode = 1;
 } finally {
+  if(runtime)await runtime.close();
   await h.stop();
   await db.end();
 }

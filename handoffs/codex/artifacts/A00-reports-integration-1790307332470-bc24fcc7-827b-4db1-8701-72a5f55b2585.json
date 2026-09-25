@@ -1,0 +1,66 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T03:35:32.470Z",
+  "profile": "codex-a00",
+  "phase": "real figures",
+  "assertions": [
+    {
+      "name": "every declared section builds against the real schema",
+      "result": "PASS",
+      "expected": [
+        "AUDIT_RETENTION",
+        "AUDIT_TRAIL",
+        "CONSENT_DECISIONS",
+        "COVERAGE_GAPS",
+        "DATA_INVENTORY",
+        "INCIDENTS_AND_INTIMATIONS",
+        "OPERATIONAL_READINESS",
+        "PROCESSORS",
+        "PURPOSES_AND_NOTICES",
+        "RIGHTS_REQUESTS"
+      ],
+      "actual": [
+        "AUDIT_RETENTION",
+        "AUDIT_TRAIL",
+        "CONSENT_DECISIONS",
+        "COVERAGE_GAPS",
+        "DATA_INVENTORY",
+        "INCIDENTS_AND_INTIMATIONS",
+        "OPERATIONAL_READINESS",
+        "PROCESSORS",
+        "PURPOSES_AND_NOTICES",
+        "RIGHTS_REQUESTS"
+      ]
+    },
+    {
+      "name": "and nothing is left unaccounted for",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "every section says what it covers and what it counted",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "every row matches its column count",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the consent section is read from the recorded decisions",
+      "result": "FAIL",
+      "expected": 500,
+      "actual": 805
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

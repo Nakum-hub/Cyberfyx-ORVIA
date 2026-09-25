@@ -1,0 +1,16 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T07:38:20.504Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "steps": [
+    "admin signed in with MFA",
+    "AI use created through workspace form",
+    "report, inventory and append-only detail rendered from API",
+    "created use shown in scoped detail"
+  ],
+  "external_requests": 0,
+  "console_errors": 0,
+  "screenshot": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\output\\playwright\\ai-governance-codex-a00.png"
+}

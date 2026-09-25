@@ -1,0 +1,64 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T08:21:15.981Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "one allowlisted relation observed",
+      "result": "PASS"
+    },
+    {
+      "name": "catalog result is scoped to the observer",
+      "result": "PASS"
+    },
+    {
+      "name": "metadata is observed but no row values are read",
+      "result": "PASS"
+    },
+    {
+      "name": "known column appears",
+      "result": "PASS"
+    },
+    {
+      "name": "digest binds the exact column inventory",
+      "result": "PASS"
+    },
+    {
+      "name": "limits state that no data values were read",
+      "result": "PASS"
+    },
+    {
+      "name": "unchanged catalog has stable digest",
+      "result": "PASS"
+    },
+    {
+      "name": "missing target is explicit",
+      "result": "PASS"
+    },
+    {
+      "name": "invalid target identifier refused",
+      "result": "PASS"
+    },
+    {
+      "name": "duplicate target refused",
+      "result": "PASS"
+    },
+    {
+      "name": "agent identity cannot use observer reader",
+      "result": "PASS"
+    },
+    {
+      "name": "mutating target role cannot use reader",
+      "result": "PASS"
+    },
+    {
+      "name": "second environment retains its own scope",
+      "result": "PASS"
+    }
+  ],
+  "limits": [
+    "Catalog metadata only; no record values or personal-data classification were read."
+  ]
+}

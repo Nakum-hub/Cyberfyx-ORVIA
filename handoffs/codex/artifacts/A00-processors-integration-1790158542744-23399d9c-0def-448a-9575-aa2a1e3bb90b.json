@@ -1,0 +1,287 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T10:15:42.744Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a processor records its role and authorised scope",
+      "result": "PASS",
+      "expected": [
+        "PROCESSOR",
+        [
+          "d012377a-1d4e-4ce6-b5f4-67cc52634caa"
+        ]
+      ],
+      "actual": [
+        "PROCESSOR",
+        [
+          "d012377a-1d4e-4ce6-b5f4-67cc52634caa"
+        ]
+      ]
+    },
+    {
+      "name": "a processor must be authorised for a purpose that exists",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a sub-processor cannot be permitted to sub-contract further without its own review",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an acknowledgement cannot exist before anything was notified",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "notification records the message that was sent",
+      "result": "PASS",
+      "expected": [
+        "NOTIFIED",
+        "RECORDED_MESSAGE"
+      ],
+      "actual": [
+        "NOTIFIED",
+        "RECORDED_MESSAGE"
+      ]
+    },
+    {
+      "name": "notification cannot claim an independent check as its method",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an acknowledgement is something the processor said",
+      "result": "PASS",
+      "expected": "ACKNOWLEDGED",
+      "actual": "ACKNOWLEDGED"
+    },
+    {
+      "name": "a processor statement can never be recorded as verification",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a processor reply can never be recorded as verification",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "verification must name its own evidence",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "being told and replying is not being checked",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "standing states that only verification is evidence a control was checked",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "standing states nothing is collected from the processor automatically",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "only an independent check records verification",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        "INDEPENDENT_CHECK"
+      ],
+      "actual": [
+        "VERIFIED",
+        "INDEPENDENT_CHECK"
+      ]
+    },
+    {
+      "name": "all three facts are now established and still reported separately",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "coordination history cannot be rewritten to upgrade a claim",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a system serving an unauthorised purpose is surfaced",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "linking the same system twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an assessment records the reviewed reason it applies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an assessment starts open with no conclusion",
+      "result": "PASS",
+      "expected": [
+        "OPEN",
+        null
+      ],
+      "actual": [
+        "OPEN",
+        null
+      ]
+    },
+    {
+      "name": "a finding is linked to a real assessment and system",
+      "result": "PASS",
+      "expected": [
+        "d573ce65-aa6c-4ebe-a72d-333a33dbf29d",
+        [
+          "447a5287-e04e-4796-9bbe-cfc3c4044e45"
+        ]
+      ],
+      "actual": [
+        "d573ce65-aa6c-4ebe-a72d-333a33dbf29d",
+        [
+          "447a5287-e04e-4796-9bbe-cfc3c4044e45"
+        ]
+      ]
+    },
+    {
+      "name": "an open finding is counted against the processor",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "a finding past its deadline is counted as overdue",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "an assessment cannot be completed while its findings are open",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "remediation without evidence or a retest is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a remediated finding names its retest",
+      "result": "PASS",
+      "expected": [
+        "REMEDIATED",
+        "Retest SYN-RT-0007"
+      ],
+      "actual": [
+        "REMEDIATED",
+        "Retest SYN-RT-0007"
+      ]
+    },
+    {
+      "name": "a closed finding cannot be closed again",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to reopen a closed finding",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a completed assessment records when it completed and what it concluded",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        true
+      ],
+      "actual": [
+        "COMPLETED",
+        true
+      ]
+    },
+    {
+      "name": "a new finding cannot be added to a completed assessment",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a conclusion too short to say anything is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a completed assessment cannot be completed again",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an auditor may read processors",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot record a processor",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member without the processor capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "2c78a678-3894-49de-a5ba-18fe4e95a6df"
+}

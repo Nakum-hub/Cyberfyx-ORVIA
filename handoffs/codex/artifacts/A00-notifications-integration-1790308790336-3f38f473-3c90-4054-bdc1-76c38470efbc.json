@@ -1,0 +1,225 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T03:59:50.337Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a real gap exists to notify about",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a template records its version and content digest",
+      "result": "PASS",
+      "expected": [
+        1,
+        64
+      ],
+      "actual": [
+        1,
+        64
+      ]
+    },
+    {
+      "name": "re-issuing a template creates a new version rather than editing one",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "a template code must be a stable identifier",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a task cannot be raised about a record that does not exist",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new task is queued and nothing more",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "actual": [
+        true,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "name": "queueing needs no external evidence because ORVIA did it",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a duplicate task for the same source and template is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "nothing beyond queueing may be recorded without evidence",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "delivery cannot be claimed before anything was sent",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "this deployment does not claim an in-app inbox it has not built",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "in-app delivery cannot be claimed from a workspace list",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "acknowledgement cannot be claimed before delivery",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the refused claims leave only the real queue fact",
+      "result": "PASS",
+      "expected": [
+        "QUEUED"
+      ],
+      "actual": [
+        "QUEUED"
+      ]
+    },
+    {
+      "name": "the delivery log cannot be rewritten",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a recorded failure does not fabricate success",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "attempts count the recorded failure",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "a channel this deployment cannot deliver on is declared unavailable",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the queue note says the message will not be sent",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a message cannot be claimed as sent on an unavailable channel",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the sweep asserts that no deadline changed",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the sweep escalated the overdue undelivered tasks",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the sweep states that a missed deadline stays missed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the deadline is byte-for-byte unchanged after escalation",
+      "result": "PASS",
+      "expected": "2026-09-24T23:59:49.145Z",
+      "actual": "2026-09-24T23:59:49.145Z"
+    },
+    {
+      "name": "the escalation states its reason",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an in-app task that could not be delivered is escalated",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a second sweep does not manufacture new escalations",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the database itself refuses to move a source deadline",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an auditor may read notification tasks",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot record a delivery",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member without the notification capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "90819887-6808-4e41-a138-b1f5cd0a07f5"
+}

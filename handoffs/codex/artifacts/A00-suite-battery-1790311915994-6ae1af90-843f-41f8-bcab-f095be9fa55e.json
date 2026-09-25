@@ -1,0 +1,96 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T04:51:56.002Z",
+  "profile": "codex-a00",
+  "suites": 10,
+  "assertions": 354,
+  "failures": 1,
+  "results": [
+    {
+      "suite": "test:updates",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 54,
+      "artifact": "A00-updates-integration-1790310282862-10e888ab-be3f-4234-be58-9cea5f8a4415.json",
+      "reason": null
+    },
+    {
+      "suite": "test:audit",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 51,
+      "artifact": "A00-audit-integration-1790310420514-9bd76b64-9151-4bf4-973a-39459651e42c.json",
+      "reason": null
+    },
+    {
+      "suite": "test:audit-retention",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 24,
+      "artifact": "A00-audit-retention-integration-1790310476793-60ecb9e0-a7ab-4b1f-9ba4-59450eeecfb3.json",
+      "reason": null
+    },
+    {
+      "suite": "test:onboarding",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 33,
+      "artifact": "A00-onboarding-integration-1790310585173-0f090671-52e7-41b2-b4df-c4077518ff9c.json",
+      "reason": null
+    },
+    {
+      "suite": "test:languages",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 19,
+      "artifact": "A00-notice-language-integration-1790310639398-99d01bbd-f863-4e47-bfc8-4025386db8aa.json",
+      "reason": null
+    },
+    {
+      "suite": "test:preflight",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 19,
+      "artifact": "A00-preflight-integration-1790310666395-6f4dd62e-4ed2-4e02-922f-24dd087113ee.json",
+      "reason": null
+    },
+    {
+      "suite": "test:imports",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 31,
+      "artifact": "A00-imports-integration-1790310780410-c561a046-a14c-4bc1-9589-8a90f7ddc456.json",
+      "reason": null
+    },
+    {
+      "suite": "test:reports",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 24,
+      "artifact": "A00-reports-integration-1790310881953-6a256048-782d-46fc-a6ca-1154a5fb9fa4.json",
+      "reason": null
+    },
+    {
+      "suite": "test:workflows",
+      "outcome": "FAIL",
+      "exit_code": 1,
+      "assertions": 9,
+      "artifact": "A00-workflow-integration-1790311096764-96e294c1-01fc-4876-8112-fa24fcc23d51.json",
+      "reason": "non-zero exit"
+    },
+    {
+      "suite": "test:regression",
+      "outcome": "PASS",
+      "exit_code": 0,
+      "assertions": 90,
+      "artifact": "A00-regression-integration-1790311914862-5b40f21f-488a-4784-a59f-321de8aa6379.json",
+      "reason": null
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "A suite is a pass only when it exited zero and wrote an artifact stamped with this run's identifier whose assertions all passed. An artifact from an earlier or a concurrent execution is never accepted.",
+    "This is component coverage. It is not application acceptance, which only the human-run rehearsals produce."
+  ]
+}

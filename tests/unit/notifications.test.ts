@@ -73,7 +73,8 @@ test('a template code is a stable identifier, not free text', () => {
 
 test('notification routes are staff-only, idempotent on write and fully typed', () => {
   const notificationRoutes = routes.filter(route => route.capability?.startsWith('notification.'));
-  assert.equal(notificationRoutes.length, 7);
+  // Includes the customer-local DPDP notification sweep.
+  assert.equal(notificationRoutes.length, 8);
   for (const route of notificationRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     if (route.method === 'post') assert.ok(route.idempotency, `${route.id} is a write without idempotency`);

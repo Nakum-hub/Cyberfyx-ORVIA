@@ -66,6 +66,7 @@ const REPORT_LIMITS = [
   'A section withheld for authority was not read. It is not empty, and it is not evidence that there was nothing to show.',
   'Figures are read when the report is generated. A record created after that moment appears the next time it is run.',
   'This product renders the report; the operator saves it as PDF from the browser. Nothing here produced or signed a binary file.',
+  'A section above 2,000 rows is refused rather than silently shortened. Narrow the period where the section supports one; larger complete exports need a separate supported path.',
 ];
 
 const text = (value: unknown) => (value === null || value === undefined ? '—' : String(value));
@@ -83,7 +84,8 @@ function window(from: string | undefined, to: string | undefined, column: string
 type Built = Omit<S.ReportSectionValue, 'kind'>;
 
 export function requireCompleteSection<T>(rows: T[]): T[] {
-  if (rows.length > 500) throw new AccessError(409, 'EPOCH_CONFLICT');
+  if (rows.length > 2000) throw new AccessError(400, 'VALIDATION_ERROR',
+    [{ field: 'sections', code: 'report_section_above_print_limit' }]);
   return rows;
 }
 
@@ -100,7 +102,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
          LEFT JOIN app.notice_versions n ON n.tenant_id=p.tenant_id AND n.legal_entity_id=p.legal_entity_id
           AND n.environment_id=p.environment_id AND n.purpose_id=p.id
         WHERE ${predicate.replaceAll('tenant_id', 'p.tenant_id').replaceAll('legal_entity_id', 'p.legal_entity_id').replaceAll('environment_id', 'p.environment_id')}
-        ORDER BY p.document->>'name', n.published_at NULLS LAST LIMIT 501`);
+        ORDER BY p.document->>'name', n.published_at NULLS LAST LIMIT 2001`);
     return {
       heading: 'Purposes and published notices',
       covers: 'Every purpose this installation processes for, the notice version published against it, and the personal data that notice itemises.',
@@ -123,7 +125,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
          JOIN app.purpose_versions p ON p.tenant_id=e.tenant_id AND p.legal_entity_id=e.legal_entity_id
           AND p.environment_id=e.environment_id AND p.id=e.purpose_id
         WHERE ${predicate.replaceAll('tenant_id', 'e.tenant_id').replaceAll('legal_entity_id', 'e.legal_entity_id').replaceAll('environment_id', 'e.environment_id')} ${w.sql}
-        ORDER BY e.accepted_at DESC LIMIT 501`, w.values);
+        ORDER BY e.accepted_at DESC LIMIT 2001`, w.values);
     const granted = rows.filter(r => r.state === 'GRANTED').length;
     return {
       heading: 'Consent decisions',
@@ -142,7 +144,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
     const w = window(from, to, 'received_at', 4);
     const rows = await q(
       `SELECT received_at, right_type, state, updated_at FROM app.rights_requests
-        WHERE ${predicate} ${w.sql} ORDER BY received_at DESC LIMIT 501`, w.values);
+        WHERE ${predicate} ${w.sql} ORDER BY received_at DESC LIMIT 2001`, w.values);
     const open = rows.filter(r => r.state !== 'CLOSED').length;
     return {
       heading: 'Rights requests',
@@ -164,7 +166,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
          JOIN app.systems s ON s.tenant_id=a.tenant_id AND s.legal_entity_id=a.legal_entity_id
           AND s.environment_id=a.environment_id AND s.id=a.system_id
         WHERE ${predicate.replaceAll('tenant_id', 'a.tenant_id').replaceAll('legal_entity_id', 'a.legal_entity_id').replaceAll('environment_id', 'a.environment_id')}
-          AND a.tombstoned_at IS NULL ORDER BY s.document->>'name', a.document->>'name' LIMIT 501`);
+          AND a.tombstoned_at IS NULL ORDER BY s.document->>'name', a.document->>'name' LIMIT 2001`);
     const asserted = rows.filter(r => r.provenance === 'ASSERTED').length;
     return {
       heading: 'Personal data inventory',
@@ -182,7 +184,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
   if (kind === 'COVERAGE_GAPS') {
     const rows = await q(
       `SELECT description, state, severity, detected_at, owner_reference FROM app.coverage_gaps
-        WHERE ${predicate} ORDER BY detected_at DESC LIMIT 501`);
+        WHERE ${predicate} ORDER BY detected_at DESC LIMIT 2001`);
     const openGaps = rows.filter(r => r.state !== 'GAP_RESOLVED').length;
     return {
       heading: 'Coverage gaps',
@@ -201,7 +203,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
     const rows = await q(
       `SELECT document->>'name' AS name, role, document->>'region' AS region,
               subprocessors_permitted, recorded_at
-         FROM app.processors WHERE ${predicate} ORDER BY document->>'name' LIMIT 501`);
+         FROM app.processors WHERE ${predicate} ORDER BY document->>'name' LIMIT 2001`);
     return {
       heading: 'Processors and other fiduciaries',
       covers: 'Who else handles personal data on this organisation’s behalf, and in what role.',
@@ -226,7 +228,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
          LEFT JOIN app.obligation_rules r ON r.tenant_id=n.tenant_id AND r.legal_entity_id=n.legal_entity_id
           AND r.environment_id=n.environment_id AND r.id=n.rule_id
         WHERE ${predicate.replaceAll('tenant_id', 'i.tenant_id').replaceAll('legal_entity_id', 'i.legal_entity_id').replaceAll('environment_id', 'i.environment_id')} ${w.sql}
-        ORDER BY i.detected_at DESC LIMIT 501`, w.values);
+        ORDER BY i.detected_at DESC LIMIT 2001`, w.values);
     return {
       heading: 'Incidents and intimations',
       covers: 'Personal data incidents detected in the period, and the intimations owed for each under the rules the organisation configured.',
@@ -245,7 +247,7 @@ async function build(c: Context, kind: S.ReportSectionKindValue, from?: string, 
     const rows = await q(
       `SELECT operation, actor_domain, count(*)::int AS n, min(created_at) AS first, max(created_at) AS last
          FROM app.audit_events WHERE ${predicate} ${w.sql}
-        GROUP BY operation, actor_domain ORDER BY count(*) DESC LIMIT 501`, w.values);
+        GROUP BY operation, actor_domain ORDER BY count(*) DESC LIMIT 2001`, w.values);
     const total = rows.reduce((sum, r) => sum + Number(r.n), 0);
     return {
       heading: 'Audit trail',

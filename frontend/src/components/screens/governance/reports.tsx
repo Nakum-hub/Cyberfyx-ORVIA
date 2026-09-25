@@ -137,6 +137,7 @@ export function ReportsScreen() {
             <label><span>To</span><input type="date" value={to} onChange={e => setTo(e.target.value)} /></label>
           </div>
           <p className="cell-sub">Leave the dates empty for everything on record. A period narrows the sections that are about events; it does not narrow configuration.</p>
+          <p className="cell-sub">The print view supports up to 2,000 rows in each section. If a section is larger, the report is refused as incomplete; choose a shorter period where the section supports dates. A large-data export is not available in this build.</p>
         </Section>
 
         <Section title="Sections">

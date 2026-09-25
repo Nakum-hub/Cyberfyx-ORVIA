@@ -1,21 +1,11 @@
 'use client';
-import { useMemo, useState } from 'react';
-import type { schemas } from '@orvia/contracts';
-import { useCollection, useNow, useQuery } from '../../shared/api.ts';
-import { useDirectory } from '../../shared/directory.ts';
-import { actionVerification, obligationTotals } from '../../shared/derive.ts';
+import { useQuery } from '../../shared/api.ts';
 import type { StaffSession } from '../../shared/session-context.tsx';
-import { hasCapability } from '../../shared/session-context.tsx';
+import { shortId } from '../../shared/state-labels.ts';
 import {
-  OPERATION_LABELS, PURPOSE_CODE_LABELS, WORKFLOW_LABELS, EXECUTION_LABELS,
-  formatAge, formatTime, shortId,
-} from '../../shared/state-labels.ts';
-import {
-  Badge, Facts, Freshness, Lifecycle, Loading, Metric, NoticeBox, PageHead,
-  QueryBoundary, Section, StateBadge, StoryCell, TechnicalDetails, type Stage,
+  Facts, Freshness, Lifecycle, Metric, PageHead,
+  QueryBoundary, Section, TechnicalDetails, type Stage,
 } from '../../shared/ui.tsx';
-
-type WorkflowSummary = ReturnType<typeof schemas.WorkflowSummary.parse>;
 
 /**
  * The lifecycle strip is explanatory navigation, not runtime state. It names the
@@ -73,8 +63,6 @@ export function Overview({ session }: { session: StaffSession }) {
             <Section title="How ORVIA controls privacy" aside="Each stage opens the screen that holds that part of the record.">
               <Lifecycle stages={LIFECYCLE} />
             </Section>
-
-            <CurrentDemonstration session={session} />
 
             <Section title="Assurance" aside="Regression results are read by exact run ID; this build exposes no run-history list.">
               <div className="grid-2">
@@ -145,136 +133,5 @@ function ProofLink({ href, title, note }: { href: string; title: string; note: s
       <p>{note}</p>
       <p style={{ marginBottom: 0, color: 'var(--accent)', fontWeight: 600, fontSize: 13.5 }}>View proof →</p>
     </a>
-  );
-}
-
-type Focus = 'recent' | 'verified' | 'attention';
-const FOCUS_LABEL: Record<Focus, string> = {
-  recent: 'Most recent', verified: 'Most recent verified', attention: 'Most recent needing attention',
-};
-
-/**
- * One real, currently recorded demonstration, told as a sentence instead of a
- * table. Every value comes from `workflows`, `workflow` and the configuration
- * directory; nothing is chosen to look better than it is, and the operator can
- * switch which real record is being shown.
- */
-function CurrentDemonstration({ session }: { session: StaffSession }) {
-  const [focus, setFocus] = useState<Focus>('recent');
-  const canRead = hasCapability(session, 'workflow.read');
-  const workflows = useCollection('workflows', { enabled: canRead });
-  const directory = useDirectory(['purposes', 'systems', 'principals'], canRead);
-
-  const chosen = useMemo<WorkflowSummary | null>(() => {
-    const items = workflows.data?.items ?? [];
-    if (!items.length) return null;
-    const bytime = [...items].sort((a, b) => Date.parse(b.accepted_at) - Date.parse(a.accepted_at));
-    if (focus === 'verified') return bytime.find(item => item.state === 'COMPLETED') ?? null;
-    if (focus === 'attention') return bytime.find(item => item.state === 'NEEDS_ATTENTION') ?? null;
-    return bytime[0] ?? null;
-  }, [workflows.data, focus]);
-
-  return (
-    <Section
-      title="Current demonstration"
-      aside={
-        <div className="segmented" role="group" aria-label="Which recorded operation to feature">
-          {(['recent', 'verified', 'attention'] as const).map(option => (
-            <button key={option} type="button" aria-pressed={focus === option} onClick={() => setFocus(option)}>
-              {FOCUS_LABEL[option]}
-            </button>
-          ))}
-        </div>
-      }
-    >
-      {!canRead ? (
-        <NoticeBox tone="info" title="Recorded operations are not readable by this session">
-          <p>Your server-derived capabilities do not include <code>workflow.read</code>, so no operation is featured here.</p>
-        </NoticeBox>
-      ) : null}
-      {canRead && workflows.status === 'loading' ? <Loading label="recorded operations in this scope" /> : null}
-      {workflows.failure && !workflows.data ? (
-        <NoticeBox tone="warn" title="Recorded operations could not be read">
-          <p>{workflows.failure.guidance}</p>
-        </NoticeBox>
-      ) : null}
-      {workflows.data && !chosen ? (
-        <NoticeBox tone="neutral" title={`No ${FOCUS_LABEL[focus].toLowerCase()} operation exists in this scope`}>
-          <p>
-            {workflows.data.items.length
-              ? 'Records exist, but none currently matches this selection. Nothing is substituted.'
-              : 'No workflow has been recorded yet. A consent decision that requires downstream work creates one.'}
-          </p>
-        </NoticeBox>
-      ) : null}
-      {chosen ? <DemonstrationCard summary={chosen} directory={directory} /> : null}
-    </Section>
-  );
-}
-
-function DemonstrationCard({ summary, directory }: { summary: WorkflowSummary; directory: ReturnType<typeof useDirectory> }) {
-  const detail = useQuery('workflow', { params: { id: summary.id } });
-  const now = useNow(5000);
-  const purpose = directory.purpose(summary.purpose_id);
-
-  return (
-    <div className="story">
-      <div className="row row-between" style={{ marginBottom: 'var(--s4)' }}>
-        <div>
-          <p className="eyebrow" style={{ margin: 0 }}>{purpose ? PURPOSE_CODE_LABELS[purpose.code] ?? purpose.code : 'Purpose'}</p>
-          <h3 style={{ fontSize: 20, margin: '2px 0 0' }}>{directory.purposeName(summary.purpose_id)}</h3>
-        </div>
-        <StateBadge dictionary={WORKFLOW_LABELS} value={summary.state} large />
-      </div>
-
-      <QueryBoundary query={detail} label="the featured operation">
-        {workflow => {
-          const totals = obligationTotals(workflow, now);
-          const action = workflow.actions[0] ?? null;
-          const scopeCurrent = action
-            ? workflow.obligations.some(item => item.observation?.action_id === action.id && item.scope_still_current)
-            : false;
-          const verification = action ? actionVerification(action, now, scopeCurrent) : null;
-          const latest = action?.observations.at(-1) ?? null;
-          return (
-            <>
-              <div className="story-grid">
-                <StoryCell term="Person" value={action ? directory.principalName(action.plan.scope.principal_reference_id) : 'No action names a person'} />
-                <StoryCell term="Authority" value={purpose?.code === 'promotional_marketing' ? 'Consent-based' : purpose ? 'Separately approved condition' : 'Not resolved'} />
-                <StoryCell term="Connected system" value={action ? directory.systemName(action.plan.scope.system_id) : 'No system action planned'} />
-                <StoryCell term="Control" value={action ? OPERATION_LABELS[action.plan.scope.operation] ?? action.plan.scope.operation : 'No action planned'} />
-                <StoryCell term="Decision accepted" value={formatTime(workflow.accepted_at)} small />
-                <StoryCell term="Action status" value={action ? <StateBadge dictionary={EXECUTION_LABELS} value={action.execution_state} /> : <Badge label="Nothing attempted" tone="neutral" />} />
-                <StoryCell term="Independent verification" value={verification ? <Badge label={verification.claim} tone={verification.verified ? 'ok' : 'warn'} meaning={verification.detail} /> : <Badge label="No action recorded" tone="neutral" />} />
-                <StoryCell term="Last observation" value={latest?.observed_at ? formatAge(latest.observed_at, now) : 'No observation'} small />
-              </div>
-
-              {verification ? <p style={{ marginTop: 'var(--s4)', marginBottom: 'var(--s2)' }}>{verification.detail}</p> : null}
-              <p style={{ marginTop: verification ? 0 : 'var(--s4)', marginBottom: 'var(--s3)' }}>{totals.statement}</p>
-
-              <div className="row">
-                <a className="badge badge-info" style={{ textDecoration: 'none' }} href={`/workspace/workflows/${workflow.id}`}>Open the workflow</a>
-                <a className="badge badge-info" style={{ textDecoration: 'none' }} href={`/workspace/evidence/${workflow.id}`}>View proof</a>
-                <a className="badge badge-neutral" style={{ textDecoration: 'none' }} href="/workspace/demo">Guided demo</a>
-              </div>
-
-              <TechnicalDetails items={[
-                { term: 'Workflow', value: workflow.id },
-                { term: 'Consent event', value: workflow.event_id },
-                { term: 'Purpose', value: workflow.purpose_id },
-                ...(action ? [
-                  { term: 'Action', value: action.id },
-                  { term: 'System', value: action.plan.scope.system_id },
-                  { term: 'Target record', value: action.plan.scope.resource_id },
-                  { term: 'Operation', value: action.plan.scope.operation },
-                  { term: 'Consent epoch', value: String(action.plan.scope.consent_epoch) },
-                  { term: 'Target generation', value: String(action.plan.scope.target_generation) },
-                ] : []),
-              ]} />
-            </>
-          );
-        }}
-      </QueryBoundary>
-    </div>
   );
 }

@@ -1,4 +1,4 @@
-export const metadata = { title: 'ORVIA — synthetic prototype' };
+export const metadata = { title: 'ORVIA — synthetic test environment' };
 
 const STAGES = [
   ['Purpose', 'What processing is being controlled, and under what authority.'],
@@ -13,8 +13,8 @@ const STAGES = [
 export default function EntryPage() {
   return (
     <main className="landing">
-      <div className="demo-banner" style={{ marginBottom: 32, borderRadius: 8 }}>
-        <strong>Synthetic demonstration</strong>
+      <div className="environment-banner" style={{ marginBottom: 32, borderRadius: 8 }}>
+        <strong>Synthetic test environment</strong>
         <span className="meta">Fictional Aster and Birch data only · customer-local · no hosted model, analytics or third-party script</span>
       </div>
 
@@ -29,7 +29,7 @@ export default function EntryPage() {
       </div>
 
       <section className="section" aria-label="What ORVIA does" style={{ marginTop: 'var(--s7)' }}>
-        <div className="section-head"><h3>What this prototype does end to end</h3></div>
+        <div className="section-head"><h3>How this test environment handles a decision</h3></div>
         <ol className="lifecycle">
           {STAGES.map(([name, note], index) => (
             <li key={name}>
@@ -70,9 +70,8 @@ export default function EntryPage() {
       </section>
 
       <p className="muted">
-        Customer-local prototype. No hosted model, analytics, remote font or third-party script is used, and
-        operational data stays inside this profile. Component suites pass at this candidate; that is engineering
-        evidence, not canonical acceptance.
+        Customer-local evaluation build using synthetic records. No hosted model, analytics, remote font or third-party script is used.
+        Application acceptance remains unverified.
       </p>
     </main>
   );

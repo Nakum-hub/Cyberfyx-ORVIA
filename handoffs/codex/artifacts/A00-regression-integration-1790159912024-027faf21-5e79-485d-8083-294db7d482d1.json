@@ -1,0 +1,68 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T10:38:32.028Z",
+  "test_ids": [
+    "T23",
+    "T24",
+    "T25"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.15.0",
+  "assertions": [
+    {
+      "name": "anonymous test start denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "principal test start denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor test start denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "delegated admin cannot run privileged faults",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "unenrolled tenant cannot run Aster fixture",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another lane profile denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "arbitrary scenario rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_HEALTHY accepted",
+      "result": "FAIL",
+      "expected": 202,
+      "actual": 503
+    }
+  ],
+  "runs": [],
+  "result": "FAIL",
+  "limitations": [
+    "Expected broken-control FAIL retained separately; healthy/repaired scenarios must PASS. Target-only recovery, no full control-plane restore or browser acceptance."
+  ],
+  "run_id": "2c78a678-3894-49de-a5ba-18fe4e95a6df"
+}

@@ -95,7 +95,7 @@ try{
   run.state=run.assertions.some(a=>a.result==='FAIL')?'FAIL':'PASS';run.finished_at=new Date().toISOString();await persist();
  }
 }catch(error){
- console.error({...safeError(error),message:error instanceof Error&&/^Synthetic [A-Za-z ()0-9_,.-]+$/.test(error.message)?error.message:undefined,sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(processOutput.slice(-8000));
+ console.error({...safeError(error),message:error instanceof TypeError?error.message.slice(0,240):error instanceof Error&&/^Synthetic [A-Za-z ()0-9_,.-]+$/.test(error.message)?error.message:undefined,sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(processOutput.slice(-8000));
  if(run){run.state='ERROR';run.finished_at=new Date().toISOString();run.assertions.push({id:'execution_error',result:'ERROR',expected:'Complete real scenario execution',actual:safeError(error).code,artifact_paths:[]});await persist();}process.exitCode=1;
 }finally{
  for(const p of processes)await stop(p);if(run)writeEvidence('regression-run',{run,profile:profile.profile,fixture_id:'aster-birch-v1',limitations:['Protected synthetic operator runner; actual HTTP/PG/OPA/Temporal/agent/target only. No browser acceptance or full control-plane recovery.']});

@@ -1,0 +1,135 @@
+{
+  "pack_name": "ORVIA V1 Agent Build Specifications",
+  "pack_version": "1.0",
+  "prepared_date": "2026-09-19",
+  "product_version": 1,
+  "authoritative_master_revision": "1.4",
+  "master_sha256": "c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b",
+  "repository": "Nakum-hub/Cyberfyx-ORVIA",
+  "inspected_commit": "5a07649e5115995406e62de00b73e2c9fc560060",
+  "repository_evidence_scope": "Selected-source read-only review. No checkout build, integration suite, browser test, database migration or security assessment executed in this task.",
+  "artifact_scope": "Requested development specifications; no application code, product-master edits, staffing assignment or calendar schedule.",
+  "integrity_note": "SHA-256 file-integrity inventory, not a signed release, software-security certification or proof of implementation. This manifest excludes itself to avoid a recursive hash.",
+  "files": [
+    {
+      "path": "AGENT_BUILD_RULES.md",
+      "bytes": 11376,
+      "sha256": "8633eec66c2a830595d8df25f5adcbca0ac5db257f414aade7c2d4681dce10e0"
+    },
+    {
+      "path": "API_AND_EVENT_CONTRACTS.md",
+      "bytes": 22562,
+      "sha256": "37d971993794f28515d8fc601a6f5241bd1315286f3762f71e218b8fb83c4712"
+    },
+    {
+      "path": "DATA_MODEL.md",
+      "bytes": 64300,
+      "sha256": "aa12b3f42ea1e68544a98154dc5a84c8d96aae5ee354affafa7135bd3169cf97"
+    },
+    {
+      "path": "DECISIONS_AND_TRACEABILITY.md",
+      "bytes": 64385,
+      "sha256": "46320be86a86581e67080204ef856835d149241354372954bda72c9b5f16644f"
+    },
+    {
+      "path": "DESIGN_BRIEF.md",
+      "bytes": 20600,
+      "sha256": "29ac108594d10e7040953f7e8b79859bbf336098cfc85fed628ca7c85ea77772"
+    },
+    {
+      "path": "ENGINEERING_PLAN.md",
+      "bytes": 112621,
+      "sha256": "a02007fb362a89d65244cafe5e4f512fef2f84ad7f3628b7d17db064ef42340c"
+    },
+    {
+      "path": "PRD.md",
+      "bytes": 97331,
+      "sha256": "009fedb1f8d8fd9807a6936beb211c8dbb9f7d24e4eb9923b2b745ef3c33889c"
+    },
+    {
+      "path": "REPOSITORY_BASELINE_AND_TRANSITION.md",
+      "bytes": 12415,
+      "sha256": "e60b50161506ada7a2e53a7d14610edd72f186c0bd68558d39a73b156b97646b"
+    },
+    {
+      "path": "SECURITY_AND_PRIVACY.md",
+      "bytes": 15563,
+      "sha256": "5d8ae150dd8c9817ba5ac974fabc6425014602a98471ea3c9f06685d03f20b94"
+    },
+    {
+      "path": "START_HERE.md",
+      "bytes": 6108,
+      "sha256": "1474c1338936aeef67eab3679ded8b5b1fb95c9430b69e45e47d3fc15aea71d6"
+    },
+    {
+      "path": "TDD.md",
+      "bytes": 31538,
+      "sha256": "b2b0c9933a5ce60e5746d60499f2497c904ff5f2628ce258923187b06b677afd"
+    },
+    {
+      "path": "TEST_AND_ACCEPTANCE.md",
+      "bytes": 43456,
+      "sha256": "fd1d7e8d5918e65a6c185d324d9c043c32fbcddb95c113d3cbb5026341c948a7"
+    },
+    {
+      "path": "USER_FLOWS.md",
+      "bytes": 54513,
+      "sha256": "a3c5773bfeea37a67c413f6b3986518c83e24b2970bd7123cde3b867d1fa36d3"
+    },
+    {
+      "path": "sources/ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md",
+      "bytes": 1226881,
+      "sha256": "c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b"
+    },
+    {
+      "path": "traceability.json",
+      "bytes": 320380,
+      "sha256": "7c87e468fd6e87cf3c6ae798dcbbd2cf5d38da44b2d69dec23b547bd684a14dd"
+    }
+  ],
+  "document_validation": {
+    "counts": {
+      "roles": 20,
+      "modules": 33,
+      "work_packages": 36,
+      "requirements": 121,
+      "flows": 25,
+      "data_record_families": 44,
+      "source_acceptance": 164,
+      "sections": 218,
+      "open_decisions": 18
+    },
+    "build_acceptance_cases": 22,
+    "checks": {
+      "original_master_unchanged": true,
+      "source_copy_byte_identical": true,
+      "expected_register_counts": true,
+      "roles_unique_ids": true,
+      "modules_unique_ids": true,
+      "work_packages_unique_ids": true,
+      "requirements_unique_ids": true,
+      "flows_unique_ids": true,
+      "data_record_families_unique_ids": true,
+      "source_acceptance_unique_ids": true,
+      "sections_unique_ids": true,
+      "open_decisions_unique_ids": true,
+      "all_218_sections": true,
+      "all_33_modules": true,
+      "all_36_work_packages": true,
+      "all_20_roles": true,
+      "model_acceptance_cases_deferred": true,
+      "source_test_section_preserved_exactly": true,
+      "22_additional_build_scenarios": true,
+      "valid_local_links_and_anchors": true,
+      "all_fences_closed": true,
+      "work_package_dependencies_acyclic": true,
+      "no_day_by_day_schedule": true
+    },
+    "errors": [],
+    "checked_local_links": 2274,
+    "checked_anchors": 1706,
+    "scope": "DOCUMENT_VALIDATION_ONLY; no software tests executed"
+  },
+  "document_validation_limit": "Checks establish source-copy integrity, identifier/coverage consistency, local-link/anchor existence, closed code fences and dependency-reference consistency. They do not prove all engineering designs correct or product tests passed.",
+  "review_requirements": "DESIGN details remain proposed; OPEN decisions require their named owner. Model-only requirements remain DEFERRED_V2."
+}

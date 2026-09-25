@@ -1,0 +1,93 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T09:21:11.592Z",
+  "profile": "codex-a00",
+  "phase": "worker observation",
+  "result": "FAIL",
+  "assertions": [
+    {
+      "name": "member cannot register a target",
+      "result": "PASS",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "name": "unknown system refused",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "target registration succeeds",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "registration remains pending",
+      "result": "PASS",
+      "actual": "PENDING",
+      "expected": "PENDING"
+    },
+    {
+      "name": "other tenant cannot see target",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "other tenant cannot approve target",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "author without enablement permission cannot approve",
+      "result": "PASS",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "name": "separate owner approves",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "approval has a durable due job",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "job ready and no fabricated observation",
+      "result": "PASS",
+      "actual": [
+        "READY",
+        0
+      ],
+      "expected": [
+        "READY",
+        0
+      ]
+    },
+    {
+      "name": "second exact relation can be registered",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "missing relation receives separate approval",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "diagnostics": ""
+}

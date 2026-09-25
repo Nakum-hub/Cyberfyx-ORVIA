@@ -33,7 +33,7 @@ export function workflowActivities() {
   }),
   finish:(id: string,workflow: string)=>scoped(id,c=>finishWorkflow(c,workflow)),
  };
- return {activities,scoped,enrollment,config,close:()=>Promise.all([control.end(),observer.end()])};
+ return {activities,scoped,enrollment,config,observer,close:()=>Promise.all([control.end(),observer.end()])};
 }
 export type Activities=ReturnType<typeof workflowActivities>['activities'];
 export async function createWithdrawalWorker() {

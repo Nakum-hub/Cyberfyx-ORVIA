@@ -1,0 +1,143 @@
+{
+  "task_id": "V1-EXPANSION-03",
+  "result": "PASS",
+  "recorded_at": "2026-09-25T11:15:17.217Z",
+  "database": "orvia_grc_http_1ad1b314c5be469f8140189a6e59f94f",
+  "origin": "http://127.0.0.1:20066",
+  "opa_port": 4494,
+  "contract_version": "0.26.0",
+  "policy_sha256": "7e050210407d23884fa63cf1675607a75171ca7e092467749bb8d624df13650e",
+  "results": [
+    {
+      "name": "privileged session without MFA denied",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous request denied",
+      "result": "PASS"
+    },
+    {
+      "name": "principal denied staff GRC",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor can read controls",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot create framework",
+      "result": "PASS"
+    },
+    {
+      "name": "missing idempotency key denied",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong origin denied",
+      "result": "PASS"
+    },
+    {
+      "name": "unexpected authority fields rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "framework creation succeeds",
+      "result": "PASS"
+    },
+    {
+      "name": "identical retry replays original immutable response",
+      "result": "PASS"
+    },
+    {
+      "name": "changed payload with same key denied",
+      "result": "PASS"
+    },
+    {
+      "name": "mapped control creation succeeds",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-tenant detail denied",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-tenant mapping denied",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown query field denied",
+      "result": "PASS"
+    },
+    {
+      "name": "malformed cursor denied",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence submission succeeds",
+      "result": "PASS"
+    },
+    {
+      "name": "writer cannot impersonate reviewer through header",
+      "result": "PASS"
+    },
+    {
+      "name": "independent reviewer accepts evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "accepted evidence remains manual",
+      "result": "PASS"
+    },
+    {
+      "name": "manual review never verifies effect",
+      "result": "PASS"
+    },
+    {
+      "name": "old evidence cannot be approved after replacement",
+      "result": "PASS"
+    },
+    {
+      "name": "replacement is pending review",
+      "result": "PASS"
+    },
+    {
+      "name": "risk creation succeeds",
+      "result": "PASS"
+    },
+    {
+      "name": "risk treatment proposal succeeds",
+      "result": "PASS"
+    },
+    {
+      "name": "risk author cannot approve own plan",
+      "result": "PASS"
+    },
+    {
+      "name": "independent risk approval succeeds",
+      "result": "PASS"
+    },
+    {
+      "name": "risk acceptance visible",
+      "result": "PASS"
+    },
+    {
+      "name": "risk treatment does not claim mitigation effect",
+      "result": "PASS"
+    },
+    {
+      "name": "revoked authority cannot replay prior success",
+      "result": "PASS"
+    },
+    {
+      "name": "transport denials audited",
+      "result": "PASS"
+    },
+    {
+      "name": "successful changes audited",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Isolated HTTP server exercises production handlers/authentication/MFA/OPA/RLS; Next routing, full application packaging and browser flow are separate acceptance checks. Synthetic accounts only."
+  ]
+}

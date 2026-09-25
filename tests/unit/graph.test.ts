@@ -2,8 +2,8 @@
 // meanings the schema is responsible for, independently of any stored row.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DataAsset, GraphRelationship, GraphRelationshipCreate, GraphSearchQuery, ImpactAssessment, NeighbourhoodQuery, RELATIONSHIP_ENDPOINTS, queryKeys, routes, schemas } from '../../shared/contracts/src/index.ts';
-import { exampleRelationship, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
+import { DataAsset, DataAssetCreate, GraphRelationship, GraphRelationshipCreate, GraphSearchQuery, ImpactAssessment, NeighbourhoodQuery, RELATIONSHIP_ENDPOINTS, queryKeys, routes, schemas } from '../../shared/contracts/src/index.ts';
+import { example,exampleRelationship, uuid, sampleTime } from '../../shared/contracts/src/examples.ts';
 
 const asset = {
   id: uuid(200), system_id: uuid(201), kind: 'DATASET' as const, parent_id: null,
@@ -15,6 +15,9 @@ const asset = {
 const observedTimes = { last_seen_at: sampleTime, fresh_until: '2026-09-16T11:00:00.000Z' };
 
 test('a declaration and an observation cannot be confused for one another', () => {
+  const request={system_id:asset.system_id,kind:asset.kind,parent_id:asset.parent_id,name:asset.name,
+    description:asset.description,provenance:'OBSERVED',valid_from:asset.valid_from,categories:asset.categories};
+  assert.throws(()=>DataAssetCreate.parse(request));
   // A declaration has no reading time and no freshness bound.
   assert.equal(DataAsset.parse(asset).provenance, 'ASSERTED');
   // An observation must carry both, and a declaration must carry neither.
@@ -62,6 +65,7 @@ test('a node cannot relate to itself', () => {
 });
 
 test('only an observed relationship carries an observation time', () => {
+  assert.throws(()=>GraphRelationshipCreate.parse({...example('GraphRelationshipCreate') as object,provenance:'OBSERVED'}));
   assert.throws(() => GraphRelationship.parse({ ...exampleRelationship, provenance: 'OBSERVED' }));
   assert.throws(() => GraphRelationship.parse({ ...exampleRelationship, last_seen_at: sampleTime }));
   assert.equal(GraphRelationship.parse({ ...exampleRelationship, provenance: 'OBSERVED', last_seen_at: sampleTime }).last_seen_at, sampleTime);
@@ -105,9 +109,9 @@ test('declared query parameters are bounded and are the only ones a route accept
 
 test('every graph route is declared, scoped to a graph capability and has a registered schema', () => {
   const graphRoutes = routes.filter(route => route.capability === 'graph.read' || route.capability === 'graph.write');
-  // Eleven until FR-M29-04 added the six-route typed import path, which writes
-  // to the inventory and is therefore held by the same authority.
-  assert.equal(graphRoutes.length, 17);
+  // The typed import path and three catalog discovery read/registration routes
+  // use graph authority. Separate catalog approval uses connection.enable.
+  assert.equal(graphRoutes.length, 21);
   for (const route of graphRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     // A write must be idempotent; a read must never be.

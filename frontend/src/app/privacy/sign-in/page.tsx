@@ -53,7 +53,7 @@ export default function PrincipalSignInPage() {
     <>
       <div className="page-head">
         <h2>Sign in to the Privacy Centre</h2>
-        <p>Use a synthetic data principal account for this demonstration. Staff accounts cannot sign in here.</p>
+        <p>This test environment uses synthetic principal accounts. Staff accounts cannot sign in here.</p>
       </div>
       <form className="panel" onSubmit={submit} noValidate style={{ maxWidth: 460 }}>
         <TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" />

@@ -1,19 +1,35 @@
+import {grcRoute} from './grc-routes.ts';
 import type { Context } from '../../domain/src/shared/transaction.ts';
 import type { Page } from '@orvia/domain/transaction';
 import type { RouteDefinition } from '../../../shared/contracts/src/index.ts';
-import { createDataAsset, dataAssetList, readDataAsset, tombstoneAsset, createActivity, activityList, createRelationship, relationshipList, graphSearch, neighbourhood, impact } from '../../domain/src/graph/graph.ts';
+import { createDataAsset, createCatalogAsset, dataAssetList, readDataAsset, tombstoneAsset, createActivity, activityList, createRelationship, relationshipList, graphSearch, neighbourhood, impact } from '../../domain/src/graph/graph.ts';
 import { createTemplate, templateList, createNotificationTask, notificationTaskList, readNotificationTask, recordDelivery, escalationSweep } from '../../domain/src/notifications/notifications.ts';
 import { createIncident, incidentList, incidentAssessment, correctIncident, containIncident, closeIncident, transitionNotification, createObligationRule, obligationRuleList } from '../../domain/src/incidents/incidents.ts';
 import { createProcessor, processorList, linkProcessorSystem, recordCoordination, processorStanding, createAssessment, assessmentList, completeAssessment, createFinding, findingList, closeFinding } from '../../domain/src/processors/processors.ts';
 import { coverageReport, deriveGaps, gapList, assignGap, closeGap, gapGuidance } from '../../domain/src/coverage/coverage.ts';
 import { createConstraint, constraintList, createHold, holdList, releaseHold, evaluateEligibility, recordRetentionDecision, recordRetentionOutcome, retentionOutcomeList } from '../../domain/src/retention/retention.ts';
 import { createRequest, requestList, readRequest, reviewIdentity, scopeRequest, transitionRequest, releaseResponse, recordOutcome, createMandate, mandateList, revokeMandate } from '../../domain/src/rights/rights.ts';
+import { createAiSystem, aiSystemList, readAiSystem, recordAiEvent, aiGovernanceReport } from '../../domain/src/ai-governance/ai-governance.ts';
+import { createCatalogTarget, catalogTargetList, catalogTargetDetail, approveCatalogTarget,disableCatalogTarget } from '../../domain/src/discovery/catalog.ts';
 
 export async function governanceRoute(c: Context, route: RouteDefinition, id: string | undefined, input: unknown, page: Page, query: unknown): Promise<unknown | undefined> {
+  const grc=await grcRoute(c,route.id,id,input,page);
+  if(grc!==undefined)return grc;
   switch (route.id) {
+    case 'list_catalog_discovery_targets':return catalogTargetList(c,page);
+    case 'create_catalog_discovery_target':return createCatalogTarget(c,input);
+    case 'catalog_discovery_target':return catalogTargetDetail(c,id!);
+    case 'approve_catalog_discovery_target':return approveCatalogTarget(c,id!);
+    case 'disable_catalog_discovery_target':return disableCatalogTarget(c,id!);
+    case 'list_ai_systems':return aiSystemList(c,page);
+    case 'create_ai_system':return createAiSystem(c,input);
+    case 'ai_system':return readAiSystem(c,id!);
+    case 'record_ai_event':return recordAiEvent(c,id!,input);
+    case 'ai_governance_report':return aiGovernanceReport(c);
     case 'list_data_assets':return dataAssetList(c,page);
     case 'data_asset':return readDataAsset(c,id!);
     case 'create_data_asset':return createDataAsset(c,input);
+    case 'create_catalog_asset':return createCatalogAsset(c,input);
     case 'tombstone_data_asset':return tombstoneAsset(c,id!,input);
     case 'list_activities':return activityList(c,page);
     case 'create_activity':return createActivity(c,input);

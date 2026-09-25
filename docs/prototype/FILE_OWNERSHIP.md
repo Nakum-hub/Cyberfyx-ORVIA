@@ -1,5 +1,11 @@
 # File ownership, isolated work and merges
 
+## Current owner transfer (2026-09-23)
+
+The user explicitly assigned Codex all remaining ORVIA work and cancelled the Work/Codex path boundary. Codex is the current writer for paths listed below, including former Work and Cowork documentation, tracking, UX, runbooks, reviews, and C tasks. This overrides the writer column for future edits in this checkout; the table remains a record of the earlier arrangement. The transfer is recorded in `handoffs/codex/2026-09-23-owner-transfer.md`. Historical acceptance and human release authority are unchanged. The approved revision 1.4 master is still read-only.
+
+The 2026-09-24 instruction assigns the DPDP operational extension implementation to Claude Code while Codex continues base V1 work. See `handoffs/codex/2026-09-24-dpdp-lane-boundary.md`. Both efforts may need shared source paths; a path or runtime resource must have one active writer/user at a time.
+
 ## One writer per path
 
 | Path | Writer | Constraint |

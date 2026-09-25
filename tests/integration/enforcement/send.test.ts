@@ -17,19 +17,31 @@ import { enqueue,drain } from '../../../services/synthetic-target/src/sender.ts'
 const h=new HttpFixture();const config=h.config;const db=connectDatabase(loadProfile()).pool;
 if(!['codex-a00','ui-b00','rehearsal'].includes(config.profile))throw new Error('Only isolated codex-a00/ui-b00/rehearsal permitted');
 let sender:ReturnType<typeof servicePool>|undefined;
+let phase='start';
 const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unknown}[]=[];
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed: '+name);}}
 const run=promisify(execFile);
-const setup=(script:string)=>run(process.execPath,['--import','tsx',script,`confirm:${config.profile}`],{windowsHide:true,encoding:'utf8',timeout:60000});
-const docker=(command:string)=>run('docker',[command,`${config.compose_project}-opa-1`],{windowsHide:true,encoding:'utf8',timeout:60000});
+const setup=async(script:string)=>{try{return await run(process.execPath,['--import','tsx',script,`confirm:${config.profile}`],{windowsHide:true,encoding:'utf8',timeout:180000});}catch(error){throw new Error(`Synthetic setup failed: ${script}`,{cause:error});}};
+const docker=async(command:string)=>{try{return await run('docker',[command,`${config.compose_project}-opa-1`],{windowsHide:true,encoding:'utf8',timeout:120000});}catch(error){throw new Error(`Isolated OPA ${command} failed`,{cause:error});}};
 const opa=`http://127.0.0.1:${config.opa_port}`;
-async function waitForPolicy(url:string){for(let i=0;i<60;i++){try{if((await fetch(opa+'/health')).ok&&(await fetch(url)).ok)return true;}catch{/* actual policy readiness */}await new Promise(r=>setTimeout(r,100));}return false;}
+async function waitForPolicy(url:string){for(let i=0;i<60;i++){try{
+  if((await fetch(opa+'/health')).ok&&(await fetch(url)).ok){
+   const response=await fetch(opa+'/v1/data/orvia/processing/decision',{method:'POST',headers:{'content-type':'application/json'},body:'{"input":{}}',signal:AbortSignal.timeout(5000)});
+   if(response.ok){const envelope=await response.json() as {result?:{decision?:string;reason_codes?:string[]}};
+    if(envelope.result?.decision==='BLOCK'&&envelope.result.reason_codes?.includes('CONDITIONS_NOT_SATISFIED'))return true;}
+  }
+ }catch{/* actual policy decision readiness */}await new Promise(r=>setTimeout(r,100));}return false;}
 try {
+ phase='restart OPA';
  await docker('restart');
  if(!await waitForPolicy(opa+'/v1/policies/policy/processing/decision.rego'))throw new Error('Actual processing policy module did not recover');
+ phase='start web';
  await h.start();
+ phase='create scenarios';
  const marketing=await createMarketingScenario(h);const order=await createMarketingScenario(h,'SYNTHETIC_CRM','order_service_demo');
+ phase='grant and sender setup';
  await marketing.change('grant');await setup('scripts/machine-init.ts');await setup('scripts/seed-orders.ts');
+ phase='send assertions';
  const identity=senderEnrollment(config).identities.find(i=>i.scope.environment_id===marketing.scope.environment_id)!;
  const foreign=senderEnrollment(config).identities.find(i=>i.scope.tenant_id!==marketing.scope.tenant_id)!;
  const agent=agentEnrollment(config).identities.find(i=>i.scope.environment_id===marketing.scope.environment_id)!;
@@ -48,6 +60,7 @@ try {
  check('stable attempt replay even with different transport key',await result(initial),allowed);check('replay has no additional send',await count(initial.attempt_id),1);
  check('attempt ID with changed payload denied',(await send({...initial,principal_reference_id:h.users.bob!.principal_id})).status,409);
  const previewResponse=await marketing.owner.call('/api/v1/admin/policy/evaluate',{principal_id:h.users.alice!.principal_id,purpose_id:marketing.purpose.id,system_id:marketing.system.id,action:'MARKETING_SEND'});
+ check('policy preview transport status',previewResponse.status,200);
  check('preview is current but not admission',Decision.parse(await previewResponse.json()).decision,'ALLOW');
  const queued=fresh();await enqueue(sender,identity,queued);check('queued attempt durable with no early send',(await db.query('SELECT result FROM app.send_queue WHERE id=$1',[queued.attempt_id])).rows[0].result,null);
  // Prove ordering using a real uncommitted withdrawal transaction, not sleeps.
@@ -88,5 +101,5 @@ try {
  // removed and restored; the next send remains a single, non-retried effect.
  const recovered=await waitForPolicy(url);
  check('OPA recovered',recovered,true);check('recovered policy still blocks withdrawal',(await result(fresh())).decision,'BLOCK');
-}catch(error){console.error({...safeError(error),message:error instanceof Error&&/^(Synthetic|Assertion|Actual)/.test(error.message)?error.message:undefined,cause:safeError(error instanceof Error?error.cause:undefined),sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(h.diagnostics);process.exitCode=1;}
+}catch(error){console.error({phase,...safeError(error),message:error instanceof Error&&/^(Synthetic|Assertion|Actual)/.test(error.message)?error.message:undefined,cause:safeError(error instanceof Error?error.cause:undefined),sites:error instanceof Error?error.stack?.split('\n').slice(1,5):[]});console.error(h.diagnostics);process.exitCode=1;}
 finally{await h.stop();await db.end();await sender?.end();writeEvidence('send-enforcement',{test_ids:['T14','T15','T16'],profile:config.profile,contract_version:CONTRACT_VERSION,build_id:readFileSync('frontend/.next/BUILD_ID','utf8').trim(),assertions,result:process.exitCode?'FAIL':'PASS',limitations:['Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06.']});}

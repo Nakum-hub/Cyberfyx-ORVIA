@@ -1,0 +1,13 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T09:17:29.037Z",
+  "profile": "codex-a00",
+  "phase": "no recorded basis",
+  "assertions": [],
+  "result": "FAIL",
+  "error": {
+    "name": "ZodError",
+    "code": "UNCLASSIFIED"
+  }
+}

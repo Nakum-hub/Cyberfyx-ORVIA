@@ -1,0 +1,196 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T08:33:30.991Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a language the Act does not permit for a notice is refused",
+      "result": "PASS",
+      "expected": [
+        400,
+        400
+      ],
+      "actual": [
+        400,
+        400
+      ]
+    },
+    {
+      "name": "an Eighth Schedule language is recorded as the principal’s own choice",
+      "result": "PASS",
+      "expected": "ta",
+      "actual": "ta"
+    },
+    {
+      "name": "staff cannot set a principal’s language choice",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the purpose has a published English notice, which is what the scenario made",
+      "result": "PASS",
+      "expected": [
+        true,
+        "en",
+        [
+          "en"
+        ]
+      ],
+      "actual": [
+        true,
+        "en",
+        [
+          "en"
+        ]
+      ]
+    },
+    {
+      "name": "a language with no notice is served English and reported as unmet, not as met",
+      "result": "PASS",
+      "expected": [
+        "ta",
+        "en",
+        false
+      ],
+      "actual": [
+        "ta",
+        "en",
+        false
+      ]
+    },
+    {
+      "name": "the portal carries the language asked for and the language served as two facts",
+      "result": "PASS",
+      "expected": [
+        "ta",
+        "en",
+        false
+      ],
+      "actual": [
+        "ta",
+        "en",
+        false
+      ]
+    },
+    {
+      "name": "the notice the principal is shown is the one that exists, and says which language it is in",
+      "result": "PASS",
+      "expected": "en",
+      "actual": "en"
+    },
+    {
+      "name": "a draft translation is not yet an available notice",
+      "result": "PASS",
+      "expected": [
+        "en"
+      ],
+      "actual": [
+        "en"
+      ]
+    },
+    {
+      "name": "the database refuses a notice in a language the Act does not permit",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an editorial change cannot carry a decision about consent, because nothing material changed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a material change to scope cannot be recorded without deciding what happens to existing grants",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a translation must name the version it translates",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a translation into the language it came from is refused",
+      "result": "PASS",
+      "expected": [
+        "translation_shares_the_source_language"
+      ],
+      "actual": [
+        "translation_shares_the_source_language"
+      ]
+    },
+    {
+      "name": "the revision counted the grants actually standing, and says the figure was measured",
+      "result": "PASS",
+      "expected": [
+        0,
+        true,
+        "TRANSLATION"
+      ],
+      "actual": [
+        0,
+        true,
+        "TRANSLATION"
+      ]
+    },
+    {
+      "name": "a version is classified once; a second attempt is a conflict, not an overwrite",
+      "result": "PASS",
+      "expected": [
+        "version_already_classified"
+      ],
+      "actual": [
+        "version_already_classified"
+      ]
+    },
+    {
+      "name": "a recorded decision is never edited or withdrawn",
+      "result": "PASS",
+      "expected": [
+        "REJECTED",
+        "REJECTED"
+      ],
+      "actual": [
+        "REJECTED",
+        "REJECTED"
+      ]
+    },
+    {
+      "name": "the database refuses a scope change that decided nothing, independently of the application",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the classification is readable against the notice it belongs to",
+      "result": "PASS",
+      "expected": [
+        1,
+        "11b91981-d205-4b86-a3f4-11a7d911b82b"
+      ],
+      "actual": [
+        1,
+        "11b91981-d205-4b86-a3f4-11a7d911b82b"
+      ]
+    },
+    {
+      "name": "an auditor may read classifications but may not record one",
+      "result": "PASS",
+      "expected": [
+        200,
+        403
+      ],
+      "actual": [
+        200,
+        403
+      ]
+    }
+  ],
+  "result": "PASS"
+}

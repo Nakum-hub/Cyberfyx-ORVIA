@@ -624,5 +624,48 @@
         "frontend/src/components/screens/operations/audit-retention.tsx"
       ]
     }
+  ],
+  "v1_non_model_extensions": [
+    {
+      "name": "Approved PostgreSQL catalog discovery",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "NOT_RUN",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
+      "limitation": "An exact synthetic PostgreSQL relation is registered, approved by a separate authorised reviewer, read by the local least-privilege observer, stored as an append-only scoped metadata observation and shown in the workspace. Durable hourly jobs have bounded retries, explicit MISSING/TRUNCATED states and EXHAUSTED failure. Schema digest changes and exhausted retries open scoped, durable review gaps; the synthetic drift test changes and restores a target column, and binds the gap to its observation. An independently observed dataset without a recorded current processing activity raises a human-review mapping gap; set-based derivation preserves first detection and recurrence semantics. A separately authorised disable immediately removes current coverage and causes the AI monitor's next check to record a finding; cross-tenant disable is refused. A current read can create a graph dataset bound to the exact source receipt; old staff-entered OBSERVED labels are treated as unbound and excluded from current coverage. The AI monitor can recognise the bound input metadata without claiming model-behaviour verification. No row values or personal-data classification are read. The adapter has only been exercised on codex-a00, not a customer-controlled sandbox. It does not prove autonomous estate discovery, real-vendor integration or full application acceptance.",
+      "evidence": [
+        "database/customer/migrations/0043_catalog_discovery.sql",
+        "database/customer/migrations/0044_graph_observation_binding.sql",
+        "database/customer/migrations/0045_graph_document_consistency.sql",
+        "database/customer/migrations/0046_catalog_discovery_gaps.sql",
+        "database/customer/migrations/0047_catalog_gap_least_privilege.sql",
+        "database/customer/migrations/0048_processing_map_gap.sql",
+        "connectors/src/discovery/postgres-catalog.ts",
+        "tests/integration/discovery/postgres-catalog.test.ts",
+        "tests/integration/discovery/catalog-flow.test.ts",
+        "tests/e2e/catalog-discovery-local.ts",
+        "handoffs/codex/artifacts/A00-postgres-catalog-discovery-1790328884150-46b1eb77-01d7-4c6d-8c39-0e170a5f3ef0.json",
+        "handoffs/codex/artifacts/A00-catalog-discovery-flow-1790333446631-2e4b4859-528d-4453-a1c1-1beddb542cff.json",
+        "handoffs/codex/artifacts/A00-graph-integration-1790328342955-7d8918ba-f4ed-4a23-844e-a0d2b76a2dc4.json",
+        "handoffs/codex/artifacts/A00-graph-source-binding-1790328360859-a33960c7-2c00-4517-835b-5f9a191f91ee.json",
+        "handoffs/codex/artifacts/A00-coverage-integration-1790332847171-c97594b8-044b-4303-899d-67663db39d54.json",
+        "handoffs/codex/artifacts/A00-catalog-discovery-browser-1790333302159-6fb4c55f-caa2-470e-97f1-f8c1ec5f05ba.json"
+      ]
+    },
+    {
+      "name": "AI governance inventory and review",
+      "implementation_status": "IMPLEMENTED_SANDBOX_SUBSET",
+      "test_status": "NOT_RUN",
+      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
+      "limitation": "Tenant-scoped AI system and use inventory, graph links, human risk/policy/control/evidence/approval records, incident links, reporting and a durable input-inventory check are built. Every current inventory label remains a finding until an independent connector read can be linked. API, browser and actual monitor-worker journeys passed on codex-a00; full application acceptance has not run. No model runtime or automated model assessment exists.",
+      "evidence": [
+        "database/customer/migrations/0041_ai_governance.sql",
+        "database/customer/migrations/0042_ai_monitor_jobs.sql",
+        "tests/integration/ai-governance/ai-governance.test.ts",
+        "tests/unit/ai-governance-monitor.test.ts",
+        "handoffs/codex/artifacts/A00-ai-governance-monitor-1790323509876-7555507f-1bd7-4168-9b4d-46a6b385ff7e.json",
+        "handoffs/codex/artifacts/A00-ai-governance-integration-1790320308386-5ea2cbf0-e3ce-40c5-a01e-45c789732999.json",
+        "handoffs/codex/artifacts/A00-ai-governance-browser-1790323919635-8b577e5a-8a01-413f-ba89-a36514e26dbf.json"
+      ]
+    }
   ]
 }

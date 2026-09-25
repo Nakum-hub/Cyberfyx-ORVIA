@@ -17,6 +17,21 @@ import { audit, predicate, scopeValues, requireOne, paged, type Context, type Pa
 
 const time = (value: Date) => value.toISOString();
 const count = (rows: { n: number }[]) => Number(rows[0]?.n ?? 0);
+// Correlates a graph asset to the latest approved metadata read. A historical
+// OBSERVED label without this link cannot contribute to current coverage.
+const currentCatalogSource = `EXISTS(SELECT 1 FROM app.catalog_discovery_observations o
+  JOIN app.catalog_discovery_targets t ON t.tenant_id=o.tenant_id AND t.legal_entity_id=o.legal_entity_id
+    AND t.environment_id=o.environment_id AND t.id=o.target_id
+  JOIN app.catalog_discovery_jobs j ON j.tenant_id=o.tenant_id AND j.legal_entity_id=o.legal_entity_id
+    AND j.environment_id=o.environment_id AND j.target_id=o.target_id
+  WHERE o.tenant_id=a.tenant_id AND o.legal_entity_id=a.legal_entity_id AND o.environment_id=a.environment_id
+    AND o.id=a.source_observation_id AND o.state='OBSERVED_METADATA' AND o.digest IS NOT NULL
+    AND t.system_id=a.system_id AND t.state='APPROVED' AND j.state='READY' AND j.next_run_at>now()
+    AND o.observed_at+interval '1 hour'>now() AND a.last_seen_at=o.observed_at AND a.fresh_until>now()
+    AND o.id=(SELECT newer.id FROM app.catalog_discovery_observations newer
+      WHERE newer.tenant_id=o.tenant_id AND newer.legal_entity_id=o.legal_entity_id
+        AND newer.environment_id=o.environment_id AND newer.target_id=o.target_id
+      ORDER BY newer.observed_at DESC,newer.id DESC LIMIT 1))`;
 
 // --- coverage ----------------------------------------------------------------
 
@@ -30,7 +45,9 @@ export async function coverageReport(c: Context) {
   const tombstoned = await one(`SELECT count(*)::int AS n FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NOT NULL`);
   const assets = await one(`SELECT count(*)::int AS n FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NULL`);
   const reviewed = await one(`SELECT count(*)::int AS n FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NULL AND review_state='ACCEPTED'`);
-  const observed = await one(`SELECT count(*)::int AS n FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NULL AND provenance='OBSERVED' AND fresh_until>now()`);
+  const observed = await one(`SELECT count(*)::int AS n FROM app.data_assets a
+    WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND a.tombstoned_at IS NULL
+      AND a.provenance='OBSERVED' AND ${currentCatalogSource}`);
   const withBasis = await one(`SELECT count(DISTINCT a.id)::int AS n FROM app.data_assets a
     JOIN app.retention_constraints r ON r.tenant_id=a.tenant_id AND r.legal_entity_id=a.legal_entity_id AND r.environment_id=a.environment_id AND r.data_asset_id=a.id
     WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND a.tombstoned_at IS NULL`);
@@ -96,13 +113,25 @@ async function findings(c: Context): Promise<Finding[]> {
     found.push({ source: 'NO_RETENTION_BASIS', subject_kind: 'DATA_ASSET', subject_id: row.id, severity: 'HIGH',
       description: 'This copy has no reviewed retention basis, so nothing establishes how long it may be kept or when it may be deleted.' });
   }
-  for (const row of await rows(`SELECT id FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NULL AND provenance='ASSERTED' ORDER BY id`)) {
+  for (const row of await rows(`SELECT id FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NULL AND source_observation_id IS NULL ORDER BY id`)) {
     found.push({ source: 'NEVER_OBSERVED', subject_kind: 'DATA_ASSET', subject_id: row.id, severity: 'MEDIUM',
-      description: 'This copy is a declaration that no scoped connector read has ever confirmed.' });
+      description: 'This copy has no independently linked scoped connector read, even if an older record carries an observed label.' });
   }
-  for (const row of await rows(`SELECT id FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NULL AND provenance='OBSERVED' AND fresh_until<=now() ORDER BY id`)) {
+  for (const row of await rows(`SELECT a.id FROM app.data_assets a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2
+    AND a.environment_id=$3 AND a.tombstoned_at IS NULL AND a.source_observation_id IS NOT NULL
+    AND NOT ${currentCatalogSource} ORDER BY a.id`)) {
     found.push({ source: 'STALE_OBSERVATION', subject_kind: 'DATA_ASSET', subject_id: row.id, severity: 'MEDIUM',
-      description: 'The last independent observation of this copy is outside its freshness window and no longer supports a current claim.' });
+      description: 'The linked independent catalog read is stale, superseded or failed and no longer supports a current claim.' });
+  }
+  for (const row of await rows(`SELECT a.id FROM app.data_assets a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2
+    AND a.environment_id=$3 AND a.tombstoned_at IS NULL AND a.source_observation_id IS NOT NULL
+    AND NOT EXISTS(SELECT 1 FROM app.graph_relationships r WHERE r.tenant_id=a.tenant_id
+      AND r.legal_entity_id=a.legal_entity_id AND r.environment_id=a.environment_id
+      AND r.from_asset_id=a.id AND r.relationship_type='ASSET_PROCESSED_BY_ACTIVITY'
+      AND r.review_state<>'REJECTED' AND r.valid_from<=clock_timestamp()
+      AND (r.valid_to IS NULL OR r.valid_to>clock_timestamp())) ORDER BY a.id`)) {
+    found.push({ source: 'NO_PROCESSING_MAP', subject_kind: 'DATA_ASSET', subject_id: row.id, severity: 'MEDIUM',
+      description: 'This independently observed dataset has no current recorded processing activity. A reviewer must map and assess its use.' });
   }
   for (const row of await rows(`SELECT id FROM app.data_assets WHERE ${predicate} AND tombstoned_at IS NULL AND review_state='UNREVIEWED' ORDER BY id`)) {
     found.push({ source: 'UNREVIEWED_INVENTORY', subject_kind: 'DATA_ASSET', subject_id: row.id, severity: 'LOW',
@@ -128,23 +157,23 @@ export async function deriveGaps(c: Context) {
   const scope = scopeValues(c.actor);
   const now = new Date();
   const detected = await findings(c);
-  let opened = 0;
-  let refreshed = 0;
-  for (const finding of detected) {
-    const existing = await c.tx.query(`SELECT id FROM app.coverage_gaps WHERE ${predicate} AND source=$4 AND subject_kind=$5 AND subject_id=$6 AND state IN ('OPEN','IN_PROGRESS')`,
-      [...scope, finding.source, finding.subject_kind, finding.subject_id]);
-    if (existing.rowCount) {
-      await c.tx.query(`UPDATE app.coverage_gaps SET last_seen_at=$4 WHERE ${predicate} AND id=$5`, [...scope, now, existing.rows[0].id]);
-      refreshed += 1;
-      continue;
-    }
-    // A closed gap stays closed. Re-detecting the same finding opens a new one
-    // with its own detection date, which is what makes a recurrence visible.
-    await c.tx.query(`INSERT INTO app.coverage_gaps(tenant_id,legal_entity_id,environment_id,id,source,subject_kind,subject_id,severity,description,detected_at,last_seen_at)
-      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$10)`,
-    [...scope, randomUUID(), finding.source, finding.subject_kind, finding.subject_id, finding.severity, finding.description, now]);
-    opened += 1;
-  }
+  const candidates=JSON.stringify(detected.map(finding=>({...finding,id:randomUUID()})));
+  const schema=`f(id uuid,source text,subject_kind text,subject_id uuid,severity text,description text)`;
+  const refreshedRows=await c.tx.query(`WITH candidates AS (SELECT * FROM jsonb_to_recordset($4::jsonb) AS ${schema})
+    UPDATE app.coverage_gaps g SET last_seen_at=$5 FROM candidates f
+    WHERE g.tenant_id=$1 AND g.legal_entity_id=$2 AND g.environment_id=$3
+      AND g.source=f.source AND g.subject_kind=f.subject_kind AND g.subject_id=f.subject_id
+      AND g.state IN ('OPEN','IN_PROGRESS') RETURNING g.id`,[...scope,candidates,now]);
+  // A closed gap remains terminal. Its recurrence gets a new ID and detection
+  // time. The partial unique index handles concurrent derivations safely.
+  const openedRows=await c.tx.query(`WITH candidates AS (SELECT * FROM jsonb_to_recordset($4::jsonb) AS ${schema})
+    INSERT INTO app.coverage_gaps(tenant_id,legal_entity_id,environment_id,id,source,subject_kind,subject_id,
+      severity,description,detected_at,last_seen_at)
+    SELECT $1,$2,$3,f.id,f.source,f.subject_kind,f.subject_id,f.severity,f.description,$5,$5 FROM candidates f
+    WHERE NOT EXISTS(SELECT 1 FROM app.coverage_gaps g WHERE g.tenant_id=$1 AND g.legal_entity_id=$2
+      AND g.environment_id=$3 AND g.source=f.source AND g.subject_kind=f.subject_kind AND g.subject_id=f.subject_id
+      AND g.state IN ('OPEN','IN_PROGRESS')) ON CONFLICT DO NOTHING RETURNING id`,[...scope,candidates,now]);
+  const refreshed=refreshedRows.rowCount??0,opened=openedRows.rowCount??0;
   await audit(c, 'coverage.derive_gaps');
   return S.GapDerivation.parse({
     derived_at: time(now), opened, refreshed, examined: detected.length,

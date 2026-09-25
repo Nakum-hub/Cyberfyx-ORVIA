@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { grcSchemas } from './grc.ts';
+import { grcAuditSchemas } from './grc-audits.ts';
 import { regulatorySchemas } from './regulatory.ts';
 import { registrySchemas } from './registry.ts';
 import { operationsSchemas } from './operations.ts';
@@ -31,13 +33,7 @@ import { operationsRoutes } from './operations-routes.ts';
  *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
  *  quarantine and consent reconciliation. Additive again: no existing route,
  *  schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.18.0' as const;
-/* 0.18.0 adds the DPDP operations extension: the regulatory core, the data &
- * processing registry, operational workflow runs with independent verification,
- * bulk estate import, the personal-data breach subtype, rights case profiles,
- * attention/coverage, and two Privacy Centre reads. Additive: every existing
- * route, schema and wire meaning is unchanged, and the notification source
- * vocabulary only gains values. */
+export const CONTRACT_VERSION = '0.28.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -68,7 +64,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read', 'registry.read', 'registry.write', 'registry.sensitive.read', 'registry.sensitive.write', 'operations.execute', 'operations.approve', 'regulatory.manage', 'sdf.manage']);
+export const Capability = z.enum(['registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -303,9 +299,11 @@ export const LawfulCondition = z.enum(['AFFIRMATIVE_MARKETING_CONSENT', 'APPROVE
 export const CategoryAssignment = z.strictObject({ code: DataCategoryCode, basis: SafeText, review_state: ReviewState });
 export const DataAssetCreate = z.strictObject({
   system_id: Id, kind: DataAssetKind, parent_id: Id.nullable(), name: z.string().min(1).max(120), description: SafeText,
-  provenance: Provenance, valid_from: Time, categories: z.array(CategoryAssignment).max(16),
+  provenance: z.literal('ASSERTED'), valid_from: Time, categories: z.array(CategoryAssignment).max(16),
 });
-export const DataAsset = DataAssetCreate.extend({
+export const CatalogAssetCreate = z.strictObject({observation_id:Id});
+export const DataAsset = DataAssetCreate.omit({provenance:true}).extend({
+  provenance:Provenance,source_observation_id:Id.nullable().default(null),
   id: Id, review_state: ReviewState, recorded_at: Time, valid_to: Time.nullable(),
   last_seen_at: Time.nullable(), fresh_until: Time.nullable(), owner_actor_id: Id,
   tombstoned_at: Time.nullable(), tombstone_reason: SafeText.nullable(),
@@ -313,6 +311,7 @@ export const DataAsset = DataAssetCreate.extend({
   // An observation is only an observation when it names when it was seen and how
   // long that reading may be trusted. A declaration carries neither.
   if ((a.provenance === 'OBSERVED') !== (a.last_seen_at !== null && a.fresh_until !== null)) c.addIssue({ code: 'custom', message: 'Only an OBSERVED asset carries observation time and freshness' });
+  if(a.provenance==='ASSERTED'&&a.source_observation_id!==null)c.addIssue({code:'custom',message:'A declaration cannot borrow a catalog observation'});
   if (a.last_seen_at && a.fresh_until && Date.parse(a.fresh_until) <= Date.parse(a.last_seen_at)) c.addIssue({ code: 'custom', message: 'Invalid asset freshness interval' });
   if (a.valid_to && Date.parse(a.valid_to) <= Date.parse(a.valid_from)) c.addIssue({ code: 'custom', message: 'Asset validity ends before it starts' });
   if ((a.tombstoned_at === null) !== (a.tombstone_reason === null)) c.addIssue({ code: 'custom', message: 'A tombstone must state its justification' });
@@ -333,7 +332,7 @@ const endpointRule = (r: { relationship_type: z.infer<typeof RelationshipType>; 
   if (r.from.kind !== expected.from || r.to.kind !== expected.to) c.addIssue({ code: 'custom', message: 'Relationship endpoints do not match the declared relationship type' });
   if (r.from.kind === r.to.kind && r.from.id === r.to.id) c.addIssue({ code: 'custom', message: 'A node cannot relate to itself' });
 };
-export const GraphRelationshipCreate = z.strictObject({ relationship_type: RelationshipType, from: GraphEndpoint, to: GraphEndpoint, provenance: Provenance, valid_from: Time, confidence_basis: SafeText }).superRefine(endpointRule);
+export const GraphRelationshipCreate = z.strictObject({ relationship_type: RelationshipType, from: GraphEndpoint, to: GraphEndpoint, provenance: z.literal('ASSERTED'), valid_from: Time, confidence_basis: SafeText }).superRefine(endpointRule);
 export const GraphRelationship = z.strictObject({
   relationship_type: RelationshipType, from: GraphEndpoint, to: GraphEndpoint, provenance: Provenance, valid_from: Time, confidence_basis: SafeText,
   id: Id, review_state: ReviewState, recorded_at: Time, valid_to: Time.nullable(), last_seen_at: Time.nullable(), owner_actor_id: Id,
@@ -640,11 +639,11 @@ export const CoverageReport = z.strictObject({
   // A state cannot overlap with itself; that would make the warning meaningless.
   for (const entry of r.attention) if (entry.overlaps_with.includes(entry.state)) c.addIssue({ code: 'custom', message: 'A state cannot overlap with itself' });
 });
-export const GapSource = z.enum(['NO_RETENTION_BASIS', 'NEVER_OBSERVED', 'STALE_OBSERVATION', 'UNREVIEWED_INVENTORY', 'UNRESOLVED_DESTINATION', 'FAILED_EXECUTION']);
+export const GapSource = z.enum(['NO_RETENTION_BASIS', 'NEVER_OBSERVED', 'STALE_OBSERVATION', 'UNREVIEWED_INVENTORY', 'UNRESOLVED_DESTINATION', 'FAILED_EXECUTION', 'CATALOG_SCHEMA_CHANGED', 'CATALOG_READ_EXHAUSTED', 'NO_PROCESSING_MAP']);
 export const GapSeverity = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
 export const GapState = z.enum(['OPEN', 'IN_PROGRESS', 'RESOLVED', 'ACCEPTED_RISK']);
 export const Gap = z.strictObject({
-  id: Id, source: GapSource, subject_kind: z.enum(['DATA_ASSET', 'RIGHTS_REQUEST']), subject_id: Id,
+  id: Id, source: GapSource, subject_kind: z.enum(['DATA_ASSET', 'RIGHTS_REQUEST', 'CATALOG_TARGET']), subject_id: Id,
   detected_at: Time, last_seen_at: Time, state: GapState, severity: GapSeverity,
   owner_reference: SafeText.nullable(), due_at: Time.nullable(),
   evidence_reference: SafeText.nullable(), resolution_note: SafeText.nullable(), description: SafeText,
@@ -1758,7 +1757,7 @@ export const ReportSection = z.strictObject({
    *  table a reader will invent a question for. */
   covers: SafeText,
   columns: z.array(SafeText).min(1).max(8),
-  rows: z.array(z.array(SafeText).min(1).max(8)).max(500),
+  rows: z.array(z.array(SafeText).min(1).max(8)).max(2000),
   /** What the row count counted, in words, so an empty section is never read as
    *  a clean one. */
   counted: SafeText,
@@ -1978,9 +1977,66 @@ export const IdPath = z.strictObject({ id: Id });
 export const PurposePath = z.strictObject({ purpose_id: Id });
 export const WorkflowPath = z.strictObject({ workflow_id: Id });
 export const PollRequest = z.strictObject({ installation_id: Id, environment_id: Id, maximum_commands: z.number().int().min(1).max(10) });
+/** V1 governance of customer AI uses. These records carry no model runtime. */
+export const AiSystemCreate = z.strictObject({
+  name: z.string().min(1).max(120), use_case: SafeText,
+  purpose_id: Id, processing_activity_id: Id, input_asset_id: Id,
+  output_system_id: Id, processor_id: Id.nullable(),
+});
+export const AiSystem = AiSystemCreate.extend({ id: Id, owner_actor_id: Id, recorded_at: Time, recorded_by: Id });
+export const AiGovernanceEventCreate = z.strictObject({
+  kind: z.enum(['RISK_ASSESSMENT','POLICY','CONTROL','APPROVAL','EVIDENCE','MONITORING','INCIDENT']),
+  state: z.enum(['RECORDED','NEEDS_REVIEW','APPROVED','REJECTED','FINDING']),
+  title: z.string().min(1).max(120), detail: SafeText,
+  source_reference: SafeText.nullable(), policy_version_id: Id.nullable(), incident_id: Id.nullable(),
+}).superRefine((v,c) => {
+  if ((v.kind==='POLICY') !== (v.policy_version_id!==null)) c.addIssue({code:'custom',path:['policy_version_id'],message:'Policy reference required only for a policy record'});
+  if ((v.kind==='INCIDENT') !== (v.incident_id!==null)) c.addIssue({code:'custom',path:['incident_id'],message:'Incident reference required only for an incident record'});
+  if (v.kind!=='APPROVAL' && ['APPROVED','REJECTED'].includes(v.state)) c.addIssue({code:'custom',path:['state'],message:'Only an approval can be approved or rejected'});
+  if (v.kind!=='MONITORING' && v.state==='FINDING') c.addIssue({code:'custom',path:['state'],message:'Only monitoring can create a finding'});
+});
+export const AiGovernanceEvent = z.strictObject({
+  id: Id, ai_system_id: Id, kind: z.enum(['RISK_ASSESSMENT','POLICY','CONTROL','APPROVAL','EVIDENCE','MONITORING','INCIDENT']),
+  state: z.enum(['RECORDED','NEEDS_REVIEW','APPROVED','REJECTED','FINDING']),
+  title: z.string().min(1).max(120), detail: SafeText,
+  source_reference: SafeText.nullable(), policy_version_id: Id.nullable(), incident_id: Id.nullable(),
+  recorded_at: Time, recorded_by: Id,
+});
+export const AiSystemDetail = z.strictObject({ system: AiSystem, events: z.array(AiGovernanceEvent).max(100),
+  event_limit_reached: z.boolean(), assessment_recorded: z.boolean(), approved: z.boolean(),
+  finding_open: z.boolean(), last_monitoring_at: Time.nullable(),
+});
+export const AiGovernanceReport = z.strictObject({ as_of: Time, systems: z.number().int().nonnegative(),
+  approved: z.number().int().nonnegative(), assessment_missing: z.number().int().nonnegative(),
+  monitoring_missing: z.number().int().nonnegative(), findings: z.number().int().nonnegative(),
+  monitor_due: z.number().int().nonnegative(), monitor_exhausted: z.number().int().nonnegative(),
+  limitations: z.array(SafeText),
+});
 
-export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
-  DataAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
+export const CatalogDiscoveryTargetCreate = z.strictObject({
+  system_id: Id,schema_name:z.string().regex(/^[a-z][a-z0-9_]{0,62}$/),relation_name:z.string().regex(/^[a-z][a-z0-9_]{0,62}$/),
+});
+export const CatalogDiscoveryApproval = z.strictObject({});
+export const CatalogDiscoveryTarget = CatalogDiscoveryTargetCreate.extend({
+  id:Id,state:z.enum(['PENDING','APPROVED','DISABLED']),created_by:Id,created_at:Time,
+  approved_by:Id.nullable(),approved_at:Time.nullable(),
+});
+export const CatalogDiscoveryObservation = z.strictObject({
+  id:Id,target_id:Id,state:z.enum(['OBSERVED_METADATA','MISSING','TRUNCATED']),observed_at:Time,
+  digest:z.string().regex(/^[a-f0-9]{64}$/).nullable(),
+  columns:z.array(z.strictObject({name:SafeText,data_type:SafeText,nullable:z.boolean()})).max(200),
+  limits:z.array(SafeText).max(8),recorded_by:Id,
+});
+export const CatalogDiscoveryDetail = z.strictObject({target:CatalogDiscoveryTarget,
+  job:z.strictObject({state:z.enum(['READY','RETRY','EXHAUSTED']),attempts:z.number().int().min(0).max(3),
+    next_run_at:Time,last_run_at:Time.nullable(),last_error_code:SafeText.nullable()}).nullable(),
+  observations:z.array(CatalogDiscoveryObservation).max(100),history_limited:z.boolean(),
+  freshness:z.enum(['CURRENT','STALE','NEVER_OBSERVED','UNKNOWN']),
+});
+
+export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+  CatalogDiscoveryTargetCreate,CatalogDiscoveryApproval,CatalogDiscoveryTarget,CatalogDiscoveryObservation,CatalogDiscoveryDetail,CatalogDiscoveryTargetList:page(CatalogDiscoveryTarget),
+  DataAssetCreate, CatalogAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
   GraphSearchQuery, GraphSearchResult, NeighbourhoodQuery, GraphNeighbourhood, ImpactAssessment,
   RightsRequestCreate, RightsRequest, IdentityReview, RequestScope, RequestTransition, ResponseRelease, MandateCreate, Mandate, MandateRevoke, SystemOutcomeRecord, SystemOutcome,
   RetentionConstraintCreate, RetentionConstraint, LegalHoldCreate, LegalHold, HoldRelease, RetentionDecisionRecord, Eligibility, RetentionOutcomeRecord, RetentionOutcome,
@@ -2019,10 +2075,44 @@ export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operations
   ReceiptList: page(Receipt), MappingList: page(TargetMapping),
   PurposeList: page(Purpose), NoticeList: page(Notice), PolicyList: page(Policy), SystemList: page(System), PrincipalList: page(Principal), ConsentList: page(ConsentChoice), WorkflowList: page(WorkflowSummary), FailureList: page(Obligation), TestRunList: page(TestRun), CapabilityList: page(CapabilityRecord), CommandList: z.strictObject({commands:z.array(SignedCommand).max(10), poll_after_ms:z.literal(2000)}), Health: z.strictObject({status:z.literal('alive')}) };
 export type SchemaName = keyof typeof schemas;
-export type RouteDefinition = { id: string; method: 'get'|'post'; path:string; authority:'PUBLIC'|'STAFF'|'PRINCIPAL'|'STAFF_OR_PRINCIPAL'|'MACHINE'; request?:SchemaName; response:SchemaName; status:200|201|202; params?:SchemaName; query?:SchemaName; paginated?:boolean; idempotency?:boolean; capability?:z.infer<typeof Capability> };
+export type RouteDefinition = { id: string; method: 'get'|'post'; path:string; authority:'PUBLIC'|'STAFF'|'PRINCIPAL'|'STAFF_OR_PRINCIPAL'|'MACHINE'; request?:SchemaName; response:SchemaName; status:200|201|202; params?:SchemaName; query?:SchemaName; paginated?:boolean; idempotency?:boolean; maximum_body_bytes?:number; capability?:z.infer<typeof Capability> };
 /** Declared query keys for a route. The dispatcher rejects any parameter not listed here. */
 export function queryKeys(name: SchemaName): string[] { return Object.keys((schemas[name] as unknown as z.ZodObject<z.ZodRawShape>).shape); }
 export const routes: RouteDefinition[] = [
+  {id:'grc_audit_response_history',method:'get',path:'/api/v1/admin/grc/audit-requests/{id}/responses',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcAuditResponseHistoryList',status:200,paginated:true},
+  {id:'list_grc_audits',method:'get',path:'/api/v1/admin/grc/audits',authority:'STAFF',capability:'grc.read',response:'GrcAuditList',status:200,paginated:true},
+  {id:'create_grc_audit',method:'post',path:'/api/v1/admin/grc/audits',authority:'STAFF',capability:'grc.write',request:'GrcAuditCreate',idempotency:true,response:'GrcAudit',status:201},
+  {id:'grc_audit_detail',method:'get',path:'/api/v1/admin/grc/audits/{id}',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcAuditDetail',status:200},
+  {id:'grc_audit_requests',method:'get',path:'/api/v1/admin/grc/audits/{id}/requests',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcAuditRequestList',status:200,paginated:true},
+  {id:'create_grc_audit_request',method:'post',path:'/api/v1/admin/grc/audits/{id}/requests',authority:'STAFF',capability:'grc.write',params:'IdPath',request:'GrcAuditRequestCreate',idempotency:true,response:'GrcAuditRequest',status:201},
+  {id:'grc_audit_request_detail',method:'get',path:'/api/v1/admin/grc/audit-requests/{id}',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcAuditRequestDetail',status:200},
+  {id:'respond_grc_audit_request',method:'post',path:'/api/v1/admin/grc/audit-requests/{id}/responses',authority:'STAFF',capability:'grc.write',params:'IdPath',request:'GrcAuditResponseCreate',idempotency:true,response:'GrcAuditResponse',status:201},
+  {id:'review_grc_audit_response',method:'post',path:'/api/v1/admin/grc/audit-requests/{id}/reviews',authority:'STAFF',capability:'grc.approve',params:'IdPath',request:'GrcAuditResponseReviewCreate',idempotency:true,response:'GrcAuditResponseReview',status:201},
+  {id:'close_grc_audit',method:'post',path:'/api/v1/admin/grc/audits/{id}/closure',authority:'STAFF',capability:'grc.approve',params:'IdPath',request:'GrcAuditCloseCreate',idempotency:true,response:'GrcAuditClosure',status:201},
+  {id:'grc_evidence_history',method:'get',path:'/api/v1/admin/grc/controls/{id}/evidence',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcEvidenceHistoryList',status:200,paginated:true},
+  {id:'grc_treatment_history',method:'get',path:'/api/v1/admin/grc/risks/{id}/treatments',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcTreatmentHistoryList',status:200,paginated:true},
+  {id:'list_grc_frameworks',method:'get',path:'/api/v1/admin/grc/frameworks',authority:'STAFF',capability:'grc.read',response:'GrcFrameworkList',status:200,paginated:true},
+  {id:'create_grc_framework',maximum_body_bytes:262144,method:'post',path:'/api/v1/admin/grc/frameworks',authority:'STAFF',capability:'grc.write',request:'GrcFrameworkCreate',response:'GrcFramework',status:201,idempotency:true},
+  {id:'list_grc_controls',method:'get',path:'/api/v1/admin/grc/controls',authority:'STAFF',capability:'grc.read',response:'GrcControlList',status:200,paginated:true},
+  {id:'create_grc_control',maximum_body_bytes:65536,method:'post',path:'/api/v1/admin/grc/controls',authority:'STAFF',capability:'grc.write',request:'GrcControlCreate',response:'GrcControl',status:201,idempotency:true},
+  {id:'list_grc_risks',method:'get',path:'/api/v1/admin/grc/risks',authority:'STAFF',capability:'grc.read',response:'GrcRiskList',status:200,paginated:true},
+  {id:'create_grc_risk',method:'post',path:'/api/v1/admin/grc/risks',authority:'STAFF',capability:'grc.write',request:'GrcRiskCreate',response:'GrcRisk',status:201,idempotency:true},
+  {id:'grc_control_detail',method:'get',path:'/api/v1/admin/grc/controls/{id}',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcControlDetail',status:200},
+  {id:'grc_risk_detail',method:'get',path:'/api/v1/admin/grc/risks/{id}',authority:'STAFF',capability:'grc.read',params:'IdPath',response:'GrcRiskDetail',status:200},
+  {id:'submit_grc_evidence',method:'post',path:'/api/v1/admin/grc/controls/{id}/evidence',authority:'STAFF',capability:'grc.write',params:'IdPath',request:'GrcEvidenceSubmit',response:'GrcEvidence',status:201,idempotency:true},
+  {id:'review_grc_evidence',method:'post',path:'/api/v1/admin/grc/controls/{id}/reviews',authority:'STAFF',capability:'grc.approve',params:'IdPath',request:'GrcEvidenceReviewCreate',response:'GrcEvidenceReview',status:201,idempotency:true},
+  {id:'propose_grc_treatment',method:'post',path:'/api/v1/admin/grc/risks/{id}/treatments',authority:'STAFF',capability:'grc.write',params:'IdPath',request:'GrcRiskTreatmentCreate',response:'GrcRiskTreatment',status:201,idempotency:true},
+  {id:'review_grc_treatment',method:'post',path:'/api/v1/admin/grc/risks/{id}/reviews',authority:'STAFF',capability:'grc.approve',params:'IdPath',request:'GrcRiskReviewCreate',response:'GrcRiskReview',status:201,idempotency:true},
+  {id:'list_catalog_discovery_targets',method:'get',path:'/api/v1/admin/catalog-discovery-targets',authority:'STAFF',capability:'graph.read',response:'CatalogDiscoveryTargetList',status:200,paginated:true},
+  {id:'create_catalog_discovery_target',method:'post',path:'/api/v1/admin/catalog-discovery-targets',authority:'STAFF',capability:'graph.write',request:'CatalogDiscoveryTargetCreate',response:'CatalogDiscoveryTarget',status:201,idempotency:true},
+  {id:'catalog_discovery_target',method:'get',path:'/api/v1/admin/catalog-discovery-targets/{id}',authority:'STAFF',capability:'graph.read',params:'IdPath',response:'CatalogDiscoveryDetail',status:200},
+  {id:'approve_catalog_discovery_target',method:'post',path:'/api/v1/admin/catalog-discovery-targets/{id}/approve',authority:'STAFF',capability:'connection.enable',params:'IdPath',request:'CatalogDiscoveryApproval',response:'CatalogDiscoveryTarget',status:200,idempotency:true},
+  {id:'disable_catalog_discovery_target',method:'post',path:'/api/v1/admin/catalog-discovery-targets/{id}/disable',authority:'STAFF',capability:'connection.enable',params:'IdPath',request:'CatalogDiscoveryApproval',response:'CatalogDiscoveryTarget',status:200,idempotency:true},
+  {id:'list_ai_systems',method:'get',path:'/api/v1/admin/ai-systems',authority:'STAFF',capability:'ai_governance.read',response:'AiSystemList',status:200,paginated:true},
+  {id:'create_ai_system',method:'post',path:'/api/v1/admin/ai-systems',authority:'STAFF',capability:'ai_governance.write',request:'AiSystemCreate',response:'AiSystem',status:201,idempotency:true},
+  {id:'ai_system',method:'get',path:'/api/v1/admin/ai-systems/{id}',authority:'STAFF',capability:'ai_governance.read',params:'IdPath',response:'AiSystemDetail',status:200},
+  {id:'record_ai_event',method:'post',path:'/api/v1/admin/ai-systems/{id}/events',authority:'STAFF',capability:'ai_governance.write',params:'IdPath',request:'AiGovernanceEventCreate',response:'AiGovernanceEvent',status:201,idempotency:true},
+  {id:'ai_governance_report',method:'get',path:'/api/v1/admin/ai-governance/report',authority:'STAFF',capability:'ai_governance.read',response:'AiGovernanceReport',status:200},
   {id:'health',method:'get',path:'/healthz',authority:'PUBLIC',response:'Health',status:200},
   {id:'session',method:'get',path:'/api/v1/session',authority:'STAFF_OR_PRINCIPAL',response:'Session',status:200},
   {id:'overview',method:'get',path:'/api/v1/admin/overview',authority:'STAFF',capability:'overview.read',response:'Overview',status:200},
@@ -2066,6 +2156,7 @@ export const routes: RouteDefinition[] = [
   {id:'list_data_assets',method:'get',path:'/api/v1/admin/data-assets',authority:'STAFF',capability:'graph.read',response:'DataAssetList',status:200,paginated:true},
   {id:'data_asset',method:'get',path:'/api/v1/admin/data-assets/{id}',authority:'STAFF',capability:'graph.read',params:'IdPath',response:'DataAsset',status:200},
   {id:'create_data_asset',method:'post',path:'/api/v1/admin/data-assets',authority:'STAFF',capability:'graph.write',request:'DataAssetCreate',response:'DataAsset',status:201,idempotency:true},
+  {id:'create_catalog_asset',method:'post',path:'/api/v1/admin/data-assets/from-catalog',authority:'STAFF',capability:'graph.write',request:'CatalogAssetCreate',response:'DataAsset',status:201,idempotency:true},
   {id:'tombstone_data_asset',method:'post',path:'/api/v1/admin/data-assets/{id}/tombstone',authority:'STAFF',capability:'graph.write',params:'IdPath',request:'AssetTombstone',response:'DataAsset',status:200,idempotency:true},
   {id:'list_activities',method:'get',path:'/api/v1/admin/processing-activities',authority:'STAFF',capability:'graph.read',response:'ProcessingActivityList',status:200,paginated:true},
   {id:'create_activity',method:'post',path:'/api/v1/admin/processing-activities',authority:'STAFF',capability:'graph.write',request:'ProcessingActivityCreate',response:'ProcessingActivity',status:201,idempotency:true},

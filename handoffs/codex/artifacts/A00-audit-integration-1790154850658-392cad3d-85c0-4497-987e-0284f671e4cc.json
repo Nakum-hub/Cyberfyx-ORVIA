@@ -1,0 +1,270 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T09:14:10.658Z",
+  "profile": "codex-a00",
+  "phase": "filtering",
+  "assertions": [
+    {
+      "name": "every category is reported exactly once and the report says it was measured",
+      "result": "PASS",
+      "expected": [
+        8,
+        8,
+        true
+      ],
+      "actual": [
+        8,
+        8,
+        true
+      ]
+    },
+    {
+      "name": "the count reported for ROLE_GRANTS is the count of the operations it names",
+      "result": "PASS",
+      "expected": 7,
+      "actual": 7
+    },
+    {
+      "name": "the count reported for OWNER_CHANGES is the count of the operations it names",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the count reported for POLICY_PUBLICATION is the count of the operations it names",
+      "result": "PASS",
+      "expected": 2325,
+      "actual": 2325
+    },
+    {
+      "name": "the count reported for CONNECTOR_CREDENTIALS_AND_SCOPE is the count of the operations it names",
+      "result": "PASS",
+      "expected": 1190,
+      "actual": 1190
+    },
+    {
+      "name": "the count reported for SUPPORT_APPROVAL is the count of the operations it names",
+      "result": "PASS",
+      "expected": 96,
+      "actual": 96
+    },
+    {
+      "name": "the count reported for EXPORTS is the count of the operations it names",
+      "result": "PASS",
+      "expected": 176,
+      "actual": 176
+    },
+    {
+      "name": "the count reported for LICENCES is the count of the operations it names",
+      "result": "PASS",
+      "expected": 14,
+      "actual": 14
+    },
+    {
+      "name": "the count reported for UPDATES is the count of the operations it names",
+      "result": "PASS",
+      "expected": 252,
+      "actual": 252
+    },
+    {
+      "name": "a category this build has no route for says so, rather than reading as an auditing gap",
+      "result": "PASS",
+      "expected": [
+        false,
+        0,
+        []
+      ],
+      "actual": [
+        false,
+        0,
+        []
+      ]
+    },
+    {
+      "name": "the categories the scenario just exercised have recorded something",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a category with something recorded names when it first and last happened",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "configuring a connector raises exactly the connector category",
+      "result": "PASS",
+      "expected": [
+        "CONNECTOR_CREDENTIALS_AND_SCOPE"
+      ],
+      "actual": [
+        "CONNECTOR_CREDENTIALS_AND_SCOPE"
+      ]
+    },
+    {
+      "name": "the raised count is still exactly the count of the operations it names",
+      "result": "PASS",
+      "expected": 1192,
+      "actual": 1192
+    },
+    {
+      "name": "the report cannot be told a category is covered",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "the trail returns every scoped event that existed when the read began, and only those",
+      "result": "PASS",
+      "expected": [
+        "07fd0ce5-bee4-4675-ba65-f8a1ff8f9657",
+        "1a818f82-af7f-4ee0-ac0a-de88f9530af6",
+        "1fccdae2-70c1-4496-95c1-6fe2a74fb42c",
+        "2490d8ed-7955-411b-badc-2fb9a3c2d7d9",
+        "2a9961b0-19c1-4d15-bc9f-c9ed90f8846a",
+        "2f04be0d-eece-4643-b91e-f7f09d2b0b02",
+        "31aad7ec-e5a6-4530-910b-3eb5098f8bf4",
+        "37aa4a59-3ce9-466a-b710-7bae772110e0",
+        "382bd79d-323e-4073-9032-65c95eafd9d5",
+        "3f68e945-42fa-4668-a35a-4aa1eec74a56",
+        "410d0a59-ff2f-4251-a546-19410be70988",
+        "431ebbc9-0ade-4f86-bda7-a15fb5b48b65",
+        "453fcbd8-566d-42f9-943f-2e5e696063d2",
+        "4e8ccc9d-612a-4e70-a944-22da7db84a07",
+        "572af648-8e79-42ae-9bcf-34af02690fd9",
+        "5b28b8a7-57dc-4aef-9c65-1bd8a482f509",
+        "5c3bf2ff-2bad-4cf4-9867-e8adbeda7ed7",
+        "6a4d61a6-0aa5-42f8-a78a-4b8e7fdf38eb",
+        "7299638e-c89a-4141-8c20-e20b0a2e02c5",
+        "8109f596-b7b3-474f-ac35-63a2e3b2747d",
+        "8ace1113-f096-4653-9983-1c970d1b3638",
+        "8e645d35-f15a-4117-b4e9-f4ac97f32d91",
+        "8ee25979-35d8-413c-8827-3c274d227742",
+        "92b31361-b5ee-4881-9abd-bc704a28c62e",
+        "97ba84fa-15be-4c63-9bee-60ad24d54a8c",
+        "9cca47d0-3f11-423b-aad0-52f511e78e2e",
+        "a1d944e8-7a09-4cb7-b89c-d4f3a1117b30",
+        "a68a97bb-9cd1-458a-a049-36a1abca46de",
+        "ab68de7e-4a95-48ff-a4a2-20ea03fa7716",
+        "af1545ff-2efb-490f-9d84-b6571f0dedf6",
+        "b5d709d1-71eb-4067-890a-b74e67c89c3d",
+        "ba5a36e3-6a6c-4218-b062-3d432b7055d9",
+        "c23e7f95-41ef-43bb-9291-753ee800374d",
+        "d851e93d-8410-48b8-98c7-21d10c173172",
+        "de0bfa08-8c38-4a8a-90e0-a0acb725406c",
+        "def314f5-69a4-44ac-bae4-0247ddc31f78",
+        "e0cade58-6810-4b04-849c-30847e995290",
+        "ef90e47f-5e5e-4779-802a-1cf3e946aa97",
+        "f3737bc7-c3f1-4851-91c5-c6426bf05d73",
+        "fa01aa5c-3dda-4fb2-a440-cbe394a9aeda",
+        "fa256019-809b-4c3f-96c6-664f9f69aad3",
+        "fbce0dd6-54fe-4fdc-861b-a239dd422e62",
+        "fbe7a6a1-70b6-4738-98e2-e71714fb9318",
+        "fbf9135e-567b-4f59-b967-72aafe722302"
+      ],
+      "actual": [
+        "07fd0ce5-bee4-4675-ba65-f8a1ff8f9657",
+        "1a818f82-af7f-4ee0-ac0a-de88f9530af6",
+        "1fccdae2-70c1-4496-95c1-6fe2a74fb42c",
+        "2490d8ed-7955-411b-badc-2fb9a3c2d7d9",
+        "2a9961b0-19c1-4d15-bc9f-c9ed90f8846a",
+        "2f04be0d-eece-4643-b91e-f7f09d2b0b02",
+        "31aad7ec-e5a6-4530-910b-3eb5098f8bf4",
+        "37aa4a59-3ce9-466a-b710-7bae772110e0",
+        "382bd79d-323e-4073-9032-65c95eafd9d5",
+        "3f68e945-42fa-4668-a35a-4aa1eec74a56",
+        "410d0a59-ff2f-4251-a546-19410be70988",
+        "431ebbc9-0ade-4f86-bda7-a15fb5b48b65",
+        "453fcbd8-566d-42f9-943f-2e5e696063d2",
+        "4e8ccc9d-612a-4e70-a944-22da7db84a07",
+        "572af648-8e79-42ae-9bcf-34af02690fd9",
+        "5b28b8a7-57dc-4aef-9c65-1bd8a482f509",
+        "5c3bf2ff-2bad-4cf4-9867-e8adbeda7ed7",
+        "6a4d61a6-0aa5-42f8-a78a-4b8e7fdf38eb",
+        "7299638e-c89a-4141-8c20-e20b0a2e02c5",
+        "8109f596-b7b3-474f-ac35-63a2e3b2747d",
+        "8ace1113-f096-4653-9983-1c970d1b3638",
+        "8e645d35-f15a-4117-b4e9-f4ac97f32d91",
+        "8ee25979-35d8-413c-8827-3c274d227742",
+        "92b31361-b5ee-4881-9abd-bc704a28c62e",
+        "97ba84fa-15be-4c63-9bee-60ad24d54a8c",
+        "9cca47d0-3f11-423b-aad0-52f511e78e2e",
+        "a1d944e8-7a09-4cb7-b89c-d4f3a1117b30",
+        "a68a97bb-9cd1-458a-a049-36a1abca46de",
+        "ab68de7e-4a95-48ff-a4a2-20ea03fa7716",
+        "af1545ff-2efb-490f-9d84-b6571f0dedf6",
+        "b5d709d1-71eb-4067-890a-b74e67c89c3d",
+        "ba5a36e3-6a6c-4218-b062-3d432b7055d9",
+        "c23e7f95-41ef-43bb-9291-753ee800374d",
+        "d851e93d-8410-48b8-98c7-21d10c173172",
+        "de0bfa08-8c38-4a8a-90e0-a0acb725406c",
+        "def314f5-69a4-44ac-bae4-0247ddc31f78",
+        "e0cade58-6810-4b04-849c-30847e995290",
+        "ef90e47f-5e5e-4779-802a-1cf3e946aa97",
+        "f3737bc7-c3f1-4851-91c5-c6426bf05d73",
+        "fa01aa5c-3dda-4fb2-a440-cbe394a9aeda",
+        "fa256019-809b-4c3f-96c6-664f9f69aad3",
+        "fbce0dd6-54fe-4fdc-861b-a239dd422e62",
+        "fbe7a6a1-70b6-4738-98e2-e71714fb9318",
+        "fbf9135e-567b-4f59-b967-72aafe722302"
+      ]
+    },
+    {
+      "name": "every returned event carries its actor, its domain and the request that caused it",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an owner in another organisation holding the same capability sees none of this trail",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "TypeError",
+    "code": "UNCLASSIFIED"
+  }
+}

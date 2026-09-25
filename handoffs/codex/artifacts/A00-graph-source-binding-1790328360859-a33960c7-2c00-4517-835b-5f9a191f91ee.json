@@ -1,0 +1,18 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T09:26:00.860Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "database rejects new observed asset without source",
+      "result": "PASS"
+    },
+    {
+      "name": "database rejects JSON and column provenance disagreement",
+      "result": "PASS"
+    }
+  ]
+}

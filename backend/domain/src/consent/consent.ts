@@ -2,27 +2,41 @@ import { randomUUID } from 'node:crypto';
 import * as S from '../../../../shared/contracts/src/index.ts';
 import { AccessError } from '../../../authorization/src/index.ts';
 import { audit, predicate, scopeValues, requireOne, lockConsent, type Context, type Page } from '../shared/transaction.ts';
-import { languageFor } from '../notices/languages.ts';
 
 export async function ownChoices(c: Context, page: Page) {
   const scope=scopeValues(c.actor);
-  const purposes=await c.tx.query(`SELECT p.id,p.document,n.document notice FROM app.purpose_versions p
+  const purposes=await c.tx.query(`SELECT p.id,p.document,n.document notice,n.published_at,
+      a.state consent_state,a.epoch consent_epoch FROM app.purpose_versions p
     JOIN app.policy_versions v ON (v.tenant_id=p.tenant_id AND v.legal_entity_id=p.legal_entity_id AND v.environment_id=p.environment_id AND v.purpose_id=p.id AND v.status='PUBLISHED')
     JOIN app.notice_versions n ON (n.tenant_id=v.tenant_id AND n.legal_entity_id=v.legal_entity_id AND n.environment_id=v.environment_id AND n.version_id=v.notice_version_id)
+    LEFT JOIN app.consent_aggregates a ON (a.tenant_id=p.tenant_id AND a.legal_entity_id=p.legal_entity_id AND a.environment_id=p.environment_id AND a.purpose_id=p.id AND a.principal_id=$6)
     WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.code='promotional_marketing' AND p.status='PUBLISHED'
-    AND ($4::uuid IS NULL OR p.id>$4) ORDER BY p.id LIMIT $5`,[...scope,page.cursor,page.limit+1]);
-  const items=[];
-  for(const row of purposes.rows.slice(0,page.limit)) {
-    const aggregate=(await c.tx.query(`SELECT state,epoch FROM app.consent_aggregates WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5`,[...scope,c.actor.principal_id,row.id])).rows[0];
-    const state=aggregate?.state??'NOT_GIVEN';const epoch=Number(aggregate?.epoch??0);const interaction=randomUUID();
-    await c.tx.query(`INSERT INTO app.consent_interactions VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,now()+interval '10 minutes',NULL)`,[...scope,interaction,c.actor.principal_id,row.id,c.actor.actor_id,epoch,row.notice.version_id]);
-    const notice=requireOne((await c.tx.query(`SELECT published_at FROM app.notice_versions WHERE ${predicate} AND version_id=$4`,[...scope,row.notice.version_id])).rows);
-    // FR-M12-04. The notice this principal is shown, and separately whether it
-    // is in the language they chose. A single field here would erase the choice.
-    const chosen=requireOne((await c.tx.query(`SELECT preferred_language FROM app.principal_references WHERE ${predicate} AND id=$4`,[...scope,c.actor.principal_id])).rows);
-    const language=await languageFor(c,row.id,chosen.preferred_language);
-    items.push(S.ConsentChoice.parse({purpose_id:row.id,purpose_name:row.document.name,consent_status:state,consent_epoch:epoch,notice:{...row.notice,published_at:notice.published_at.toISOString(),data_categories:row.notice.data_categories??null,contact:row.notice.contact??null,itemisation_was_not_recorded:row.notice.data_categories===undefined||row.notice.data_categories===null},language,interaction_id:interaction}));
-  }
+    AND ($4::uuid IS NULL OR p.id>$4) ORDER BY p.id LIMIT $5`,[...scope,page.cursor,page.limit+1,c.actor.principal_id]);
+  const selected=purposes.rows.slice(0,page.limit);
+  if(!selected.length)return {items:[],next_cursor:null};
+  const chosen=requireOne((await c.tx.query(`SELECT preferred_language FROM app.principal_references WHERE ${predicate} AND id=$4`,[...scope,c.actor.principal_id])).rows);
+  const published=await c.tx.query(`SELECT purpose_id,array_agg(DISTINCT language ORDER BY language) languages
+    FROM app.notice_versions WHERE ${predicate} AND purpose_id=ANY($4::uuid[]) AND published_at IS NOT NULL
+    GROUP BY purpose_id`,[...scope,selected.map(row=>row.id)]);
+  const languages=new Map<string,string[]>(published.rows.map(row=>[row.purpose_id,row.languages]));
+  const interactions=selected.map(row=>({id:randomUUID(),purpose_id:row.id,expected_epoch:Number(row.consent_epoch??0),notice_version_id:row.notice.version_id}));
+  await c.tx.query(`INSERT INTO app.consent_interactions
+    (tenant_id,legal_entity_id,environment_id,id,principal_id,purpose_id,actor_id,expected_epoch,notice_version_id,expires_at,used_at)
+    SELECT $1,$2,$3,i.id,$5,i.purpose_id,$6,i.expected_epoch,i.notice_version_id,now()+interval '10 minutes',NULL
+    FROM jsonb_to_recordset($4::jsonb) AS i(id uuid,purpose_id uuid,expected_epoch bigint,notice_version_id uuid)`,
+    [...scope,JSON.stringify(interactions),c.actor.principal_id,c.actor.actor_id]);
+  const items=selected.map((row,index)=>{
+    const available=languages.get(row.id)??[];const requested=chosen.preferred_language as string;
+    const served=available.includes(requested)?requested:available.includes('en')?'en':null;
+    // Requested and served languages remain distinct when English is a fallback.
+    const language=S.LanguageAvailability.parse({requested_language:requested,served_language:served,
+      available_in_requested_language:served===requested,published_languages:available});
+    return S.ConsentChoice.parse({purpose_id:row.id,purpose_name:row.document.name,
+      consent_status:row.consent_state??'NOT_GIVEN',consent_epoch:Number(row.consent_epoch??0),
+      notice:{...row.notice,published_at:row.published_at.toISOString(),data_categories:row.notice.data_categories??null,
+        contact:row.notice.contact??null,itemisation_was_not_recorded:row.notice.data_categories===undefined||row.notice.data_categories===null},
+      language,interaction_id:interactions[index]!.id});
+  });
   return {items,next_cursor:purposes.rows.length>page.limit?Buffer.from(items.at(-1)!.purpose_id).toString('base64url'):null};
 }
 export async function changeConsent(c: Context, purposeId: string, kind: 'grant'|'withdraw', input: unknown) {

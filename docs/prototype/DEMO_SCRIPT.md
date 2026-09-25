@@ -1,5 +1,7 @@
 # ORVIA prototype: demo script
 
+> **Current source checkpoint (2026-09-24):** The workspace and Privacy Centre routes described below now have implementation source. The prototype's guided presentation route has been removed from the interface; this script is an internal historical/operator document, and synthetic tests remain in the Test Lab and operator tooling. The r4 sentence that the application has only the A00 foundation page is historical to its stated documentation base. A matching frozen candidate and full application acceptance are still absent, so this script remains `NOT_READY` for a verified live demonstration.
+
 **Owner:** GPT Work, successor to Cowork (C00, finalised in C02) · **Status:** REVISED_FOR_REVIEW (C02: prepared, not frozen) · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
 **Live demo readiness: NOT_READY.** Source: current `CURRENT_STATE.md`; exact revision/hash/time are in DELIVERY_STATUS.json. This presentation does not independently establish readiness.

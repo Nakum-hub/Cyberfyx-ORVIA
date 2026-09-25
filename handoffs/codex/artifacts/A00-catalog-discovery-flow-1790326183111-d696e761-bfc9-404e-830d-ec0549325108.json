@@ -1,0 +1,51 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T08:49:43.111Z",
+  "profile": "codex-a00",
+  "phase": "registration",
+  "result": "FAIL",
+  "assertions": [
+    {
+      "name": "member cannot register a target",
+      "result": "PASS",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "name": "unknown system refused",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "target registration succeeds",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "registration remains pending",
+      "result": "PASS",
+      "actual": "PENDING",
+      "expected": "PENDING"
+    },
+    {
+      "name": "other tenant cannot see target",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "same author cannot approve",
+      "result": "FAIL",
+      "actual": 403,
+      "expected": 409
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "diagnostics": ""
+}

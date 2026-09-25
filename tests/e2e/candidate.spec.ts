@@ -6,10 +6,14 @@ test('B06 branded route fallback, session-aware navigation and captured page err
   const missing=await page.goto('/workspace/does-not-exist');
   expect(missing?.status()).toBe(404);
   await expect(page.getByRole('heading',{name:'This page does not exist',exact:true})).toBeVisible();
-  await expect(page.getByText('Synthetic demonstration',{exact:true})).toBeVisible();
+  await expect(page.getByText('Synthetic test environment',{exact:true})).toBeVisible();
   await expect(page.getByRole('link',{name:'Return to the ORVIA entry page',exact:true})).toBeVisible();
   await expect(page.getByText(/at\s|stack|\.tsx:/i).filter({hasText:/\bat\s+\w+\s*\(/})).toHaveCount(0);
   await h.screenshot(page,'route-not-found');
+
+  const retiredDemo=await page.goto('/workspace/demo');
+  expect(retiredDemo?.status()).toBe(404);
+  await expect(page.getByRole('link',{name:'Guided demo',exact:true})).toHaveCount(0);
 
   // F-09: signed out the sign-in destination is offered; signed in it is not.
   await page.goto('/workspace/sign-in');

@@ -239,7 +239,7 @@ export const SCENARIO_LABELS: Record<string, { name: string; proves: string; exp
 export const CAPABILITY_LABELS: Record<string, Label> = {
   IMPLEMENTED_SANDBOX_SUBSET: { label: 'Built (synthetic subset)', tone: 'ok', meaning: 'The named behaviour is built and runs in the customer-local synthetic profile. This is a subset of the master module, not a delivered module.' },
   PARTIAL_SANDBOX: { label: 'Partly built', tone: 'warn', meaning: 'Only the part named in the limitation exists. The rest of the module is not built.' },
-  NOT_IMPLEMENTED: { label: 'Not built', tone: 'neutral', meaning: 'Nothing is built for this module in this prototype.' },
+  NOT_IMPLEMENTED: { label: 'Not built', tone: 'neutral', meaning: 'Nothing is built for this module in this installation.' },
   DEFERRED_V2: { label: 'Deferred to Version 2', tone: 'neutral', meaning: 'Retained in the programme as future learned-model work; nothing is built or claimed here.' },
 };
 

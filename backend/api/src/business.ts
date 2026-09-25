@@ -20,8 +20,8 @@ import { runtime } from './runtime.ts';
 import { safeRoute } from './http.ts';
 import { syntheticTargetObserver } from './synthetic/target-observer.ts';
 
-const implemented=new Set(['list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow','evaluate','reconcile','attest','failures','overview','evidence','export','check_system','capabilities','start_test','list_test_runs','test_run',
-  'list_data_assets','data_asset','create_data_asset','tombstone_data_asset','list_activities','create_activity','list_relationships','create_relationship','graph_search','graph_neighbourhood','graph_impact',
+const implemented=new Set(['grc_audit_response_history','list_grc_audits','create_grc_audit','grc_audit_detail','grc_audit_requests','create_grc_audit_request','grc_audit_request_detail','respond_grc_audit_request','review_grc_audit_response','close_grc_audit','grc_evidence_history','grc_treatment_history','list_grc_frameworks','create_grc_framework','list_grc_controls','create_grc_control','list_grc_risks','create_grc_risk','grc_control_detail','grc_risk_detail','submit_grc_evidence','review_grc_evidence','propose_grc_treatment','review_grc_treatment','list_catalog_discovery_targets','create_catalog_discovery_target','catalog_discovery_target','approve_catalog_discovery_target','disable_catalog_discovery_target','list_ai_systems','create_ai_system','ai_system','record_ai_event','ai_governance_report','list_purposes','create_purposes','list_notices','create_notices','list_policies','create_policies','list_systems','create_systems','publish_policy','reauthenticate_policy','create_mapping','list_mappings','control_map','own_consents','own_receipt','own_history','grant','withdraw','workflows','workflow','evaluate','reconcile','attest','failures','overview','evidence','export','check_system','capabilities','start_test','list_test_runs','test_run',
+  'list_data_assets','data_asset','create_data_asset','create_catalog_asset','tombstone_data_asset','list_activities','create_activity','list_relationships','create_relationship','graph_search','graph_neighbourhood','graph_impact',
   'list_rights_requests','create_rights_request','rights_request','review_identity','scope_request','transition_request','release_response','record_outcome','list_mandates','create_mandate','revoke_mandate',
   'list_constraints','create_constraint','list_holds','create_hold','release_hold','asset_eligibility','retention_decision','retention_outcome','list_retention_outcomes',
   'coverage','list_gaps','derive_gaps','assign_gap','close_gap','gap_guidance',
@@ -37,8 +37,6 @@ const implemented=new Set(['list_purposes','create_purposes','list_notices','cre
 for(const route of operationsRoutes)implemented.add(route.id);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 let agentPool: ReturnType<typeof servicePool>|undefined;
-/** Routes whose request bodies are legitimately larger than the 16 KiB default: a signed regulatory package and a chunk of estate rows. */
-const LARGE_BODY=new Set(['import_regulatory_package','append_bulk_job_rows']);
 function operationsEnv(r: ReturnType<typeof runtime>): OperationsEnv {
   // A keyed digest, domain-separated from the auth secret it is derived from, so a raw source identifier is never stored and cannot be reversed by a table reader.
   const key=createHash('sha256').update('orvia-registry-source-key:'+r.config.secret('principal-secret')).digest();
@@ -78,15 +76,16 @@ function queryString(request: Request, route: RouteDefinition): {page: Page; que
   }
   return {page:{limit:parsed.data.limit,cursor},query};
 }
-export function businessRoute(request: Request) { return safeRoute(async requestId=>{
-  const {route,id}=resolveRoute(request);const r=runtime();const actor=await authorityFor(request,r.staff,r.principal);
+/** Bind server-owned dependencies once; requests cannot select a database or identity provider. */
+export function createBusinessHandler(getRuntime:typeof runtime) { return (request:Request)=>safeRoute(async requestId=>{
+  const {route,id}=resolveRoute(request);const r=getRuntime();const actor=await authorityFor(request,r.staff,r.principal);
   const domain=route.authority==='PRINCIPAL'?'PRINCIPAL':'STAFF';
   await requireCapability(r.config,actor,domain,route.capability!);
   const {page,query}=queryString(request,route);let input: unknown=undefined;
   if(request.method==='POST') {
     if(request.headers.get('origin')!==r.config.origin)throw new AccessError(403,'FORBIDDEN');
     if(request.headers.get('content-type')?.split(';')[0]!=='application/json')throw new AccessError(400,'VALIDATION_ERROR');
-    try {input=JSON.parse(await limitedBody(request,LARGE_BODY.has(route.id)?1048576:16384)??'');}catch{throw new AccessError(400,'VALIDATION_ERROR');}
+    try {input=JSON.parse(await limitedBody(request,route.maximum_body_bytes??16384)??'');}catch{throw new AccessError(400,'VALIDATION_ERROR');}
     if(route.request) {
       const parsed=schemas[route.request].safeParse(input);
       if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR',parsed.error.issues.slice(0,32).map(issue=>({field:issue.path.join('.').slice(0,120),code:issue.code})));
@@ -152,4 +151,5 @@ export function businessRoute(request: Request) { return safeRoute(async request
   });
   const download=route.id==='export'?`orvia-evidence-${id}.json`:route.id==='export_audit_events'?'orvia-audit-trail.json':route.id==='run_evidence_package'?`orvia-workflow-evidence-${id}.json`:null;
   return Response.json(result,{status:route.status,headers:{'cache-control':'no-store',...download?{'content-disposition':`attachment; filename="${download}"`}:{}}});
-},'BUSINESS'); }
+},'BUSINESS',getRuntime); }
+export const businessRoute=createBusinessHandler(runtime);
