@@ -1,0 +1,21 @@
+{
+  "task_id": "V1-EXPANSION-01",
+  "result": "FAIL",
+  "recorded_at": "2026-09-25T09:57:03.645Z",
+  "database": "orvia_assessment_test_cda4134cfe124d96b4edad9345ca7708",
+  "phase": "completion commits before finding",
+  "assertions": [
+    {
+      "name": "competing finding waits on assessment transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "finding rechecks committed completed state",
+      "result": "FAIL"
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

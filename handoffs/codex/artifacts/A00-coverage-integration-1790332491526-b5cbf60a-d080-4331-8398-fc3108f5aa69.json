@@ -1,0 +1,172 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T10:34:51.527Z",
+  "profile": "codex-a00",
+  "phase": "gap derivation",
+  "assertions": [
+    {
+      "name": "catalog source approved by separate owner",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "real catalog reader processed the source",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "observed copy binds the independent read",
+      "result": "PASS",
+      "expected": "8523bf5a-1170-4aef-b20b-9f6594099c52",
+      "actual": "8523bf5a-1170-4aef-b20b-9f6594099c52"
+    },
+    {
+      "name": "every dimension is reported",
+      "result": "PASS",
+      "expected": [
+        "CONTROL_OBSERVATION",
+        "INVENTORY_OBSERVED",
+        "INVENTORY_REVIEWED",
+        "RETENTION_BASIS",
+        "RIGHTS_EXECUTION"
+      ],
+      "actual": [
+        "CONTROL_OBSERVATION",
+        "INVENTORY_OBSERVED",
+        "INVENTORY_REVIEWED",
+        "RETENTION_BASIS",
+        "RIGHTS_EXECUTION"
+      ]
+    },
+    {
+      "name": "INVENTORY_REVIEWED states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_REVIEWED numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_OBSERVED states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_OBSERVED numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RETENTION_BASIS states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RETENTION_BASIS numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "CONTROL_OBSERVATION states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "CONTROL_OBSERVATION numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RIGHTS_EXECUTION states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RIGHTS_EXECUTION numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "both new copies are inside the inventory denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "coverage says it is not a measure of the estate",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "coverage says it is computed at read time, not stored",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "every attention state is reported",
+      "result": "PASS",
+      "expected": [
+        "EFFECT_UNKNOWN",
+        "FAILED",
+        "MANUAL_REQUIRED",
+        "PENDING",
+        "UNVERIFIED"
+      ],
+      "actual": [
+        "EFFECT_UNKNOWN",
+        "FAILED",
+        "MANUAL_REQUIRED",
+        "PENDING",
+        "UNVERIFIED"
+      ]
+    },
+    {
+      "name": "the report warns that these counts must not be added",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "states that can co-occur name what they overlap with",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "no state claims to overlap with itself",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a declared but unobserved copy counts as unverified",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "TimeoutError",
+    "code": "23"
+  },
+  "detail": "The operation was aborted due to timeout",
+  "diagnostics": ""
+}

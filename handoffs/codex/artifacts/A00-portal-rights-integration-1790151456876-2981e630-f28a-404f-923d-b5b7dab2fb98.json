@@ -1,0 +1,178 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T08:17:36.877Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a data principal can raise their own request without any member of staff",
+      "result": "PASS",
+      "expected": [
+        "ACCESS",
+        "RECEIVED",
+        "PORTAL"
+      ],
+      "actual": [
+        "ACCESS",
+        "RECEIVED",
+        "PORTAL"
+      ]
+    },
+    {
+      "name": "and it is recorded as open, with no response released yet",
+      "result": "PASS",
+      "expected": [
+        null,
+        false
+      ],
+      "actual": [
+        null,
+        false
+      ]
+    },
+    {
+      "name": "the status page says a state is not a promise about the outcome",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the request is about the person who made it, taken from their session",
+      "result": "PASS",
+      "expected": "cd5e2b1e-b75b-4b0b-8e10-3a6eac9bd633",
+      "actual": "cd5e2b1e-b75b-4b0b-8e10-3a6eac9bd633"
+    },
+    {
+      "name": "acting for themselves is recorded as self-authority, with no mandate",
+      "result": "PASS",
+      "expected": "SELF",
+      "actual": "SELF"
+    },
+    {
+      "name": "identity is established from the authenticated session rather than re-guessed",
+      "result": "PASS",
+      "expected": [
+        "ESTABLISHED",
+        "EXACT"
+      ],
+      "actual": [
+        "ESTABLISHED",
+        "EXACT"
+      ]
+    },
+    {
+      "name": "and the channel records how the request actually arrived",
+      "result": "PASS",
+      "expected": "PORTAL",
+      "actual": "PORTAL"
+    },
+    {
+      "name": "there is no field through which one person could raise a request about another",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "another principal raising their own request gets their own record",
+      "result": "PASS",
+      "expected": "GRIEVANCE",
+      "actual": "GRIEVANCE"
+    },
+    {
+      "name": "and cannot read the first principal’s request even knowing its identifier",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a principal’s own list contains their request and not the other person’s",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "the requester is not shown the organisation’s internal working notes",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "nor another principal’s identifier",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "and the shape carries only the fields the contract declares",
+      "result": "PASS",
+      "expected": [
+        "a_state_is_not_a_promise_about_the_outcome",
+        "closed_at",
+        "description",
+        "id",
+        "limits",
+        "response_released",
+        "right_type",
+        "state",
+        "submitted_at",
+        "submitted_channel"
+      ],
+      "actual": [
+        "a_state_is_not_a_promise_about_the_outcome",
+        "closed_at",
+        "description",
+        "id",
+        "limits",
+        "response_released",
+        "right_type",
+        "state",
+        "submitted_at",
+        "submitted_channel"
+      ]
+    },
+    {
+      "name": "the portal request is the same record staff handle, not a parallel one",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "raising a request in the portal is recorded in the audit trail",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a request that says almost nothing is refused rather than recorded empty",
+      "result": "PASS",
+      "expected": [
+        400,
+        true
+      ],
+      "actual": [
+        400,
+        true
+      ]
+    },
+    {
+      "name": "a right this Act does not provide cannot be raised",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a member of staff cannot use the portal route to act as a principal",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}

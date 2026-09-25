@@ -1,0 +1,142 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T08:54:35.963Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "member cannot register a target",
+      "result": "PASS",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "name": "unknown system refused",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "target registration succeeds",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "registration remains pending",
+      "result": "PASS",
+      "actual": "PENDING",
+      "expected": "PENDING"
+    },
+    {
+      "name": "other tenant cannot see target",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "other tenant cannot approve target",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "author without enablement permission cannot approve",
+      "result": "PASS",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "name": "separate owner approves",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "approval has a durable due job",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "job ready and no fabricated observation",
+      "result": "PASS",
+      "actual": [
+        "READY",
+        0
+      ],
+      "expected": [
+        "READY",
+        0
+      ]
+    },
+    {
+      "name": "second exact relation can be registered",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "missing relation receives separate approval",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "due catalog jobs processed",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "independent metadata observation persisted",
+      "result": "PASS",
+      "actual": "OBSERVED_METADATA",
+      "expected": "OBSERVED_METADATA"
+    },
+    {
+      "name": "readback has column metadata",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "digest proves a stable schema snapshot",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "no value or classification claim",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "job scheduled for freshness recheck",
+      "result": "PASS",
+      "actual": "READY",
+      "expected": "READY"
+    },
+    {
+      "name": "absent relation is shown as missing rather than observed",
+      "result": "PASS",
+      "actual": [
+        "MISSING",
+        null
+      ],
+      "expected": [
+        "MISSING",
+        null
+      ]
+    },
+    {
+      "name": "other tenant still cannot see observation",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    }
+  ]
+}

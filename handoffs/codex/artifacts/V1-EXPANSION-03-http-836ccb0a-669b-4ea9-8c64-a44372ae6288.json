@@ -1,0 +1,11 @@
+{
+  "task_id": "V1-EXPANSION-03",
+  "result": "FAIL",
+  "database": "orvia_grc_http_836ccb0a669b4ea98c64a44372ae6288",
+  "phase": "real authentication and policy",
+  "results": [],
+  "error": {
+    "name": "error",
+    "code": "42P08"
+  }
+}

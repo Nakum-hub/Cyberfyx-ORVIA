@@ -1,0 +1,15 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T10:48:22.159Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "steps": [
+    "staff MFA sign-in",
+    "approved target and actual column observation shown",
+    "observed metadata dataset linked to inventory through workspace"
+  ],
+  "external_requests": 0,
+  "console_errors": 0,
+  "screenshot": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\output\\playwright\\catalog-discovery-codex-a00.png"
+}

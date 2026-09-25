@@ -1,0 +1,442 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T10:22:47.894Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "member cannot register a target",
+      "result": "PASS",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "name": "unknown system refused",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "target registration succeeds",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "registration remains pending",
+      "result": "PASS",
+      "actual": "PENDING",
+      "expected": "PENDING"
+    },
+    {
+      "name": "other tenant cannot see target",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "other tenant cannot approve target",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "author without enablement permission cannot approve",
+      "result": "PASS",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "name": "separate owner approves",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "approval has a durable due job",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "job ready and no fabricated observation",
+      "result": "PASS",
+      "actual": [
+        "READY",
+        0
+      ],
+      "expected": [
+        "READY",
+        0
+      ]
+    },
+    {
+      "name": "second exact relation can be registered",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "missing relation receives separate approval",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "due catalog jobs processed",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "independent metadata observation persisted",
+      "result": "PASS",
+      "actual": "OBSERVED_METADATA",
+      "expected": "OBSERVED_METADATA"
+    },
+    {
+      "name": "readback has column metadata",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "digest proves a stable schema snapshot",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "no value or classification claim",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "job scheduled for freshness recheck",
+      "result": "PASS",
+      "actual": "READY",
+      "expected": "READY"
+    },
+    {
+      "name": "current source creates an observed graph dataset",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "graph provenance binds the exact independent read",
+      "result": "PASS",
+      "actual": [
+        "OBSERVED",
+        "a27b4895-77a6-44ab-a2e7-68dfe5e83480",
+        "6be1d78d-2668-4b3f-bfc5-ba44a89ec4ef"
+      ],
+      "expected": [
+        "OBSERVED",
+        "a27b4895-77a6-44ab-a2e7-68dfe5e83480",
+        "6be1d78d-2668-4b3f-bfc5-ba44a89ec4ef"
+      ]
+    },
+    {
+      "name": "metadata cannot infer a sensitive category",
+      "result": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "observed asset has bounded freshness",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "other tenant cannot use source observation",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "one observation cannot create duplicate graph assets",
+      "result": "PASS",
+      "actual": 409,
+      "expected": 409
+    },
+    {
+      "name": "staff cannot self-label an asset observed",
+      "result": "PASS",
+      "actual": 400,
+      "expected": 400
+    },
+    {
+      "name": "observed asset mapped to activity",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "activity mapped to purpose",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "AI inventory linked to observed dataset",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "durable AI monitor processed source",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "AI monitor names independently read input but not model behavior",
+      "result": "PASS",
+      "actual": [
+        "RECORDED",
+        "catalog-observation:a27b4895-77a6-44ab-a2e7-68dfe5e83480",
+        true
+      ],
+      "expected": [
+        "RECORDED",
+        "catalog-observation:a27b4895-77a6-44ab-a2e7-68dfe5e83480",
+        true
+      ]
+    },
+    {
+      "name": "absent relation is shown as missing rather than observed",
+      "result": "PASS",
+      "actual": [
+        "MISSING",
+        null
+      ],
+      "expected": [
+        "MISSING",
+        null
+      ]
+    },
+    {
+      "name": "missing relation cannot become observed graph asset",
+      "result": "PASS",
+      "actual": 409,
+      "expected": 409
+    },
+    {
+      "name": "other tenant still cannot see observation",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "owner can request a relation",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "owner cannot approve own request",
+      "result": "PASS",
+      "actual": 409,
+      "expected": 409
+    },
+    {
+      "name": "failure target registered",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "failure target approved",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "failed observer attempt 1 processed",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "failure state after attempt 1",
+      "result": "PASS",
+      "actual": [
+        "RETRY",
+        1,
+        0
+      ],
+      "expected": [
+        "RETRY",
+        1,
+        0
+      ]
+    },
+    {
+      "name": "failed observer attempt 2 processed",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "failure state after attempt 2",
+      "result": "PASS",
+      "actual": [
+        "RETRY",
+        2,
+        0
+      ],
+      "expected": [
+        "RETRY",
+        2,
+        0
+      ]
+    },
+    {
+      "name": "failed observer attempt 3 processed",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "failure state after attempt 3",
+      "result": "PASS",
+      "actual": [
+        "EXHAUSTED",
+        3,
+        0
+      ],
+      "expected": [
+        "EXHAUSTED",
+        3,
+        0
+      ]
+    },
+    {
+      "name": "exhausted observer creates one durable target gap",
+      "result": "PASS",
+      "actual": [
+        {
+          "source": "CATALOG_READ_EXHAUSTED",
+          "subject_kind": "CATALOG_TARGET",
+          "state": "OPEN"
+        }
+      ],
+      "expected": [
+        {
+          "source": "CATALOG_READ_EXHAUSTED",
+          "subject_kind": "CATALOG_TARGET",
+          "state": "OPEN"
+        }
+      ]
+    },
+    {
+      "name": "other tenant cannot see exhausted target gap",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "other tenant gap page excludes target",
+      "result": "PASS",
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "changed relation is rescanned",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "independent read detects synthetic column",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "new source digest differs from prior read",
+      "result": "PASS",
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "schema drift opens durable gap with exact read reference",
+      "result": "PASS",
+      "actual": [
+        {
+          "source": "CATALOG_SCHEMA_CHANGED",
+          "subject_kind": "CATALOG_TARGET",
+          "state": "OPEN",
+          "evidence_reference": "28c1137f-4761-4e86-b27e-9b15ae161f76"
+        }
+      ],
+      "expected": [
+        {
+          "source": "CATALOG_SCHEMA_CHANGED",
+          "subject_kind": "CATALOG_TARGET",
+          "state": "OPEN",
+          "evidence_reference": "28c1137f-4761-4e86-b27e-9b15ae161f76"
+        }
+      ]
+    },
+    {
+      "name": "new independent read can refresh observed inventory",
+      "result": "PASS",
+      "actual": 201,
+      "expected": 201
+    },
+    {
+      "name": "other tenant cannot disable source",
+      "result": "PASS",
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "separate owner disables exact source",
+      "result": "PASS",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "disabled source cannot report current freshness",
+      "result": "PASS",
+      "actual": [
+        "DISABLED",
+        "UNKNOWN"
+      ],
+      "expected": [
+        "DISABLED",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "name": "disabled source cannot be approved again",
+      "result": "PASS",
+      "actual": 409,
+      "expected": 409
+    },
+    {
+      "name": "revoked source immediately leaves observed coverage",
+      "result": "PASS",
+      "actual": 5,
+      "expected": 5
+    },
+    {
+      "name": "AI monitor rechecks revoked source",
+      "result": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "AI monitor downgrades revoked input to finding",
+      "result": "PASS",
+      "actual": "FINDING",
+      "expected": "FINDING"
+    }
+  ]
+}

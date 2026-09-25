@@ -31,16 +31,12 @@ export async function createDataAsset(c: Context, input: unknown) {
   }
   if (new Set(value.categories.map(category => category.code)).size !== value.categories.length) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'categories', code: 'duplicate_category' }]);
   const id = randomUUID();
-  // An OBSERVED record must state when it was read and how long that reading is
-  // trusted. A customer declaration carries neither, and the contract, the column
-  // constraint and this branch all agree on that.
-  const observed = value.provenance === 'OBSERVED';
   const now = new Date();
-  const last_seen_at = observed ? now.toISOString() : null;
-  const fresh_until = observed ? new Date(now.getTime() + 86_400_000).toISOString() : null;
+  const last_seen_at = null;
+  const fresh_until = null;
   const document = S.DataAsset.parse({
     ...value, id, review_state: 'UNREVIEWED', recorded_at: now.toISOString(), valid_to: null,
-    last_seen_at, fresh_until, owner_actor_id: c.actor.actor_id, tombstoned_at: null, tombstone_reason: null,
+    last_seen_at, fresh_until, source_observation_id:null,owner_actor_id: c.actor.actor_id, tombstoned_at: null, tombstone_reason: null,
   });
   await c.tx.query(`INSERT INTO app.data_assets(tenant_id,legal_entity_id,environment_id,id,system_id,parent_id,kind,provenance,owner_actor_id,recorded_at,valid_from,last_seen_at,fresh_until,document,search)
     VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,to_tsvector('${SEARCH_CONFIGURATION}',$15))`,
@@ -50,6 +46,44 @@ export async function createDataAsset(c: Context, input: unknown) {
       [...scope, id, category.code, category.basis, category.review_state, c.actor.actor_id]);
   }
   await audit(c, 'data_asset.create', id);
+  return document;
+}
+
+/** Materialise only a current independent catalog read as a metadata dataset.
+ * Field names do not classify personal data or establish a processing purpose. */
+export async function createCatalogAsset(c:Context,input:unknown) {
+  const {observation_id}=S.CatalogAssetCreate.parse(input),scope=scopeValues(c.actor);
+  await c.tx.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[`catalog-asset:${observation_id}`]);
+  const source=requireOne((await c.tx.query(`SELECT o.id,o.state,o.observed_at,o.digest,t.system_id,t.schema_name,t.relation_name,
+    t.state AS target_state,j.state AS job_state,j.next_run_at
+    FROM app.catalog_discovery_observations o
+    JOIN app.catalog_discovery_targets t ON t.tenant_id=o.tenant_id AND t.legal_entity_id=o.legal_entity_id
+      AND t.environment_id=o.environment_id AND t.id=o.target_id
+    JOIN app.catalog_discovery_jobs j ON j.tenant_id=o.tenant_id AND j.legal_entity_id=o.legal_entity_id
+      AND j.environment_id=o.environment_id AND j.target_id=o.target_id
+    WHERE o.tenant_id=$1 AND o.legal_entity_id=$2 AND o.environment_id=$3 AND o.id=$4`,
+    [...scope,observation_id])).rows);
+  const latest=(await c.tx.query(`SELECT id FROM app.catalog_discovery_observations WHERE ${predicate}
+    AND target_id=(SELECT target_id FROM app.catalog_discovery_observations WHERE ${predicate} AND id=$4)
+    ORDER BY observed_at DESC,id DESC LIMIT 1`,[...scope,observation_id])).rows[0];
+  if(source.state!=='OBSERVED_METADATA'||!source.digest||source.target_state!=='APPROVED'||source.job_state!=='READY'||
+    source.next_run_at.getTime()<=Date.now()||source.observed_at.getTime()+3600000<=Date.now()||latest?.id!==observation_id)
+    throw new AccessError(409,'EPOCH_CONFLICT',[{field:'observation_id',code:'source_not_current'}]);
+  const existing=await c.tx.query(`SELECT id FROM app.data_assets WHERE ${predicate} AND source_observation_id=$4`,[...scope,observation_id]);
+  if(existing.rowCount)throw new AccessError(409,'IDEMPOTENCY_CONFLICT');
+  const id=randomUUID(),recorded_at=new Date().toISOString();
+  const fresh_until=new Date(Math.min(source.next_run_at.getTime(),source.observed_at.getTime()+3600000)).toISOString();
+  const document=S.DataAsset.parse({id,system_id:source.system_id,kind:'DATASET',parent_id:null,
+    name:source.relation_name,description:`Catalog metadata observed for ${source.schema_name}.${source.relation_name}; no row values or sensitivity classification read.`,
+    provenance:'OBSERVED',valid_from:source.observed_at.toISOString(),categories:[],review_state:'UNREVIEWED',
+    recorded_at,valid_to:null,last_seen_at:source.observed_at.toISOString(),fresh_until,
+    source_observation_id:observation_id,owner_actor_id:c.actor.actor_id,tombstoned_at:null,tombstone_reason:null});
+  await c.tx.query(`INSERT INTO app.data_assets(tenant_id,legal_entity_id,environment_id,id,system_id,parent_id,kind,provenance,owner_actor_id,
+    recorded_at,valid_from,last_seen_at,fresh_until,source_observation_id,document,search)
+    VALUES($1,$2,$3,$4,$5,NULL,'DATASET','OBSERVED',$6,$7,$8,$9,$10,$11,$12,to_tsvector('${SEARCH_CONFIGURATION}',$13))`,
+    [...scope,id,source.system_id,c.actor.actor_id,recorded_at,document.valid_from,document.last_seen_at,fresh_until,
+      observation_id,document,`${document.name} ${document.description}`]);
+  await audit(c,'data_asset.create_from_catalog',id);
   return document;
 }
 
@@ -151,7 +185,7 @@ export async function createRelationship(c: Context, input: unknown) {
   const duplicate = await c.tx.query(`SELECT id FROM app.graph_relationships WHERE ${predicate} AND relationship_type=$4 AND ${fromColumn}=$5 AND ${toColumn}=$6 AND valid_to IS NULL`, [...scope, value.relationship_type, value.from.id, value.to.id]);
   if (duplicate.rowCount) throw new AccessError(409, 'IDEMPOTENCY_CONFLICT');
   const id = randomUUID();
-  const last_seen_at = value.provenance === 'OBSERVED' ? new Date().toISOString() : null;
+  const last_seen_at = null;
   const inserted = requireOne((await c.tx.query(`INSERT INTO app.graph_relationships(tenant_id,legal_entity_id,environment_id,id,relationship_type,${fromColumn},${toColumn},provenance,confidence_basis,owner_actor_id,valid_from,last_seen_at)
     VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
   [...scope, id, value.relationship_type, value.from.id, value.to.id, value.provenance, value.confidence_basis, c.actor.actor_id, value.valid_from, last_seen_at])).rows);

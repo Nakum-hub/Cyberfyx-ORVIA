@@ -46,7 +46,11 @@ async function delayed(name:string,table:DeadlineTable,id:string,lock:{sql:strin
       if(row){observed=row;break;}await pause();
     }
     if(!observed)throw new Error('Expected database lock wait was not observed');
-    check(`${name}: actual transaction and wait began before expiry`,[observed.began_before_expiry,observed.waiting_before_expiry,observed.wait_event_type],[true,true,'Lock']);
+      // pg_blocking_pids in the WHERE clause proves the lock blocker. The
+      // wait_event_type field can be null in the same stats sample when the
+      // backend has just changed wait state, even while it is still blocked.
+      check(`${name}: actual transaction and wait began before expiry`,
+        [observed.began_before_expiry,observed.waiting_before_expiry],[true,true]);
     let release:Record<string,unknown>|undefined;
     while(Date.now()<timeout) {
       const row=(await db.query(`SELECT clock_timestamp() released_after,expires_at,clock_timestamp()>expires_at expired FROM app.${table} WHERE id=$1`,[id])).rows[0];

@@ -1,0 +1,2199 @@
+{
+  "schema_version": 1,
+  "source": "ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md",
+  "source_revision": "1.4",
+  "source_sha256": "c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b",
+  "purpose": "Complete numbered-source inventory to prevent silently omitted work. This is not a requirements interpretation or evidence of implementation.",
+  "authority_notes": [
+    "Read the active numbered master with its approved V1/V2 boundaries and expanded baseline E1.",
+    "Custom-model runtime functions remain DEFERRED_V2; applicability is reviewed from the source, never inferred from an AI keyword.",
+    "Appendix history, repeated diffs and role-planning summaries are excluded from this numbered-section inventory.",
+    "UNREVIEWED here does not revoke existing accepted engineering evidence; it means this new complete-source mapping has not received a section-level review.",
+    "A section can contain multiple requirements. Trace each applicable requirement to implementation and exact-build acceptance before marking it covered."
+  ],
+  "expanded_baseline": "docs/engineering/V1_EXPANDED_BASELINE.md",
+  "expanded_register": "tracking/v1-expansion.json",
+  "section_count": 218,
+  "sections": [
+    {
+      "source_section": 1,
+      "title": "PURPOSE OF THIS DOCUMENT",
+      "start_line": 282,
+      "end_line": 342,
+      "normalized_content_sha256": "d2b3ecd1f8d6a45f65ab81fbfbc7f6bd0f18f5de59448773798f6851b76f7760",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 2,
+      "title": "PRODUCT DEFINITION",
+      "start_line": 343,
+      "end_line": 418,
+      "normalized_content_sha256": "5d74120d5b96b2d97d6dc5a855c1f891460ea266f0fc9150fed457d0106a6015",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 3,
+      "title": "CORE PRODUCT PRINCIPLE",
+      "start_line": 419,
+      "end_line": 441,
+      "normalized_content_sha256": "be01b1f2576f04d1ad09f92fe73cc4484c56678db6769df1e654d3dad96df945",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 4,
+      "title": "THE CENTRAL SYSTEM: PRIVACY CONTROL GRAPH",
+      "start_line": 442,
+      "end_line": 505,
+      "normalized_content_sha256": "75b8b6f71b153222d7a5c851b7440eaa5a8915795f9a8a7e33d40cd95cc79b83",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 5,
+      "title": "CORE DOMAIN MODEL",
+      "start_line": 506,
+      "end_line": 584,
+      "normalized_content_sha256": "07d20ec8055547b2d9b069b936fee1f961fe505f7a1e00d04a5539ff79e1aaad",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 6,
+      "title": "USER ROLES",
+      "start_line": 585,
+      "end_line": 671,
+      "normalized_content_sha256": "8a163479955a2f15d570d48264a7677ec3a1b3037e5318bab4871b49724f2364",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 7,
+      "title": "ROLE-BASED ACCESS CONTROL",
+      "start_line": 672,
+      "end_line": 748,
+      "normalized_content_sha256": "9361aee089c4c447b5325cd810a9c5ec9dd18055ba147894c6efdc0ebe63c396",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 8,
+      "title": "PRIVACY CONTROL GRAPH RELATIONSHIP",
+      "start_line": 749,
+      "end_line": 791,
+      "normalized_content_sha256": "5e88c1c698a6944913012af3133338948ef2f6570b2c93a44b91bcfd62cf3fec",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 9,
+      "title": "DATA PROCESSING MODEL",
+      "start_line": 792,
+      "end_line": 830,
+      "normalized_content_sha256": "5500f22e9dc7dbf636e5629ce7bb8327c1ac74edd144b6fadecd21f6d04764b3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 10,
+      "title": "MODULE ARCHITECTURE",
+      "start_line": 831,
+      "end_line": 889,
+      "normalized_content_sha256": "b8d5657ababb3cefde279b0c650cb13c16274a10b0ee5e7aa4a652b8493a5169",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 11,
+      "title": "SERVICE ARCHITECTURE",
+      "start_line": 890,
+      "end_line": 940,
+      "normalized_content_sha256": "aaaf86483551c5edf5bbc5fd5b16cf777d9f524fe05fefca40bb1af872752014",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 12,
+      "title": "RECOMMENDED TECHNOLOGY STACK",
+      "start_line": 941,
+      "end_line": 1032,
+      "normalized_content_sha256": "23f4b808f685b5706c53d5910d45ae695199e93a4c0df2e0695cfe9c4f945f82",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 13,
+      "title": "POLICY ENGINE",
+      "start_line": 1033,
+      "end_line": 1129,
+      "normalized_content_sha256": "836170a45eb8148662e5ae44f4da73843b816b18769633c94157f4788ff6f341",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 14,
+      "title": "POLICY VERSIONING",
+      "start_line": 1130,
+      "end_line": 1155,
+      "normalized_content_sha256": "40c5807d8d41b82b70a6c7f262170472ed07a3ba553199638ea6dfd4d9a77a21",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 15,
+      "title": "POLICY LIFECYCLE",
+      "start_line": 1156,
+      "end_line": 1182,
+      "normalized_content_sha256": "44054a9a36baf2173ad344904a25905a608fd057823664da2d2d5055621b6702",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 16,
+      "title": "CONSENT MANAGEMENT",
+      "start_line": 1183,
+      "end_line": 1241,
+      "normalized_content_sha256": "3a5b00cb74c8fa3128bb4c3e4239f16051f0a892ea56263f3ab5eed740d02266",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 17,
+      "title": "CONSENT WITHDRAWAL",
+      "start_line": 1242,
+      "end_line": 1280,
+      "normalized_content_sha256": "a5e890ee2e80aaa6a66cad64dbcefa51ede5c45fc212c782a8dcbbf19c803b0b",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 18,
+      "title": "CONSENT PROPAGATION",
+      "start_line": 1281,
+      "end_line": 1323,
+      "normalized_content_sha256": "521e0b9c3c1cbb095928215aebb31c41fc377c4a81b03187a0c97a65f6faebd0",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 19,
+      "title": "NOTICE MANAGEMENT",
+      "start_line": 1324,
+      "end_line": 1348,
+      "normalized_content_sha256": "4138acf55e28be3f5664e7448e6c6eb6f2981e7805724538def1bdd0e5b05d11",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 20,
+      "title": "DATA PRINCIPAL PORTAL",
+      "start_line": 1349,
+      "end_line": 1403,
+      "normalized_content_sha256": "07e21c1e0b82a024e43d7acc52b97c2c24073ddcbd3e4e857b00166cd6875a0f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 21,
+      "title": "CROSS-COMPANY DATA PRINCIPAL NETWORK",
+      "start_line": 1404,
+      "end_line": 1415,
+      "normalized_content_sha256": "10a6ad5924b4019cb8115a131d7fddb3497d486df8007060fd4673cd22e60760",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 22,
+      "title": "RIGHTS MANAGEMENT ENGINE",
+      "start_line": 1416,
+      "end_line": 1460,
+      "normalized_content_sha256": "dab2c1e093c5afa4aa2a69e4ef340e9aba20e1c6b1119ba96e8ba8126a969218",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 23,
+      "title": "IDENTITY MATCHING",
+      "start_line": 1461,
+      "end_line": 1498,
+      "normalized_content_sha256": "db16564b831344b84e2382c8a9dbccaaa18f860536f27d556573a6819ae74d2f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 24,
+      "title": "RIGHTS REQUEST STATES",
+      "start_line": 1499,
+      "end_line": 1526,
+      "normalized_content_sha256": "f5a6fbb000df533f232ee9b0eed0b28b5c6cbc6b88c0be67034a9bfcc24e54c8",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 25,
+      "title": "WORKFLOW ENGINE",
+      "start_line": 1527,
+      "end_line": 1568,
+      "normalized_content_sha256": "e04a8d507991606288cafd45ce56a6798dd88713f0b08e83d3029d89792e437b",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 26,
+      "title": "HUMAN-IN-THE-LOOP SUPPORT",
+      "start_line": 1569,
+      "end_line": 1598,
+      "normalized_content_sha256": "09d61ddd97eb3b10e3244147e4365b9cd96759b4b61e8ad1d8458053e8692dc6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 27,
+      "title": "CONNECTOR FRAMEWORK",
+      "start_line": 1599,
+      "end_line": 1643,
+      "normalized_content_sha256": "0ee60e3443f0723fdcb6cc4f52d6246d56d3b70742a653c6e651763d55ac7c4a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 28,
+      "title": "CONNECTOR CAPABILITY DECLARATION",
+      "start_line": 1644,
+      "end_line": 1697,
+      "normalized_content_sha256": "72ec20dc3e474879d6dff64bbe94acd5825f0c508f2961e52bfea3f758a1a6bd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 29,
+      "title": "INITIAL CONNECTORS",
+      "start_line": 1698,
+      "end_line": 1721,
+      "normalized_content_sha256": "9e489fba65d4cbefb5c0d2ee57aeba370174e116cd4b09ea362ac16913627e22",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 30,
+      "title": "CONNECTOR AGENT",
+      "start_line": 1722,
+      "end_line": 1761,
+      "normalized_content_sha256": "a939f95c8c76ec6e7a407990861fd68ee2457291c29faf5d99c786d6f3d133e2",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 31,
+      "title": "CUSTOMER DATA BOUNDARY",
+      "start_line": 1762,
+      "end_line": 1882,
+      "normalized_content_sha256": "55727b03dc86b1e63865e29e87c31b787502bc3e4e99e1564c3b51ffb4b5bbbe",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 32,
+      "title": "PRIVACY-PRESERVING EXECUTION MODEL",
+      "start_line": 1883,
+      "end_line": 1920,
+      "normalized_content_sha256": "a5968112f7bc3f25f8e5af75bbc5260f3a30884e9c2918825aa00ecb3e0c7f15",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 33,
+      "title": "PORTAL DATA BOUNDARY",
+      "start_line": 1921,
+      "end_line": 1938,
+      "normalized_content_sha256": "97e94670e3760401f9086bbf913af81de538e84f4b3e0e3cd56085ecf4ca8fc8",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 34,
+      "title": "CLOUD ARCHITECTURE",
+      "start_line": 1939,
+      "end_line": 2002,
+      "normalized_content_sha256": "273de83d83ba87f26ecd9041eb2925a9bee58418fd868a7bf6f54a862697f43b",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 35,
+      "title": "MULTI-TENANCY",
+      "start_line": 2003,
+      "end_line": 2039,
+      "normalized_content_sha256": "361866e848bdd07ec22ad97e594e69e03043417d14d46306ee8dc26cdeeeecf8",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 36,
+      "title": "DATABASE SECURITY",
+      "start_line": 2040,
+      "end_line": 2064,
+      "normalized_content_sha256": "7ea154c16505a738bdf0c5a33dd504f6e36347f93665734d317eb5beb7a4a3fd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 37,
+      "title": "SECRETS MANAGEMENT",
+      "start_line": 2065,
+      "end_line": 2092,
+      "normalized_content_sha256": "adec345f87702440e09e62ac7fe865574bd6c5600aa0ae8fc566fe97ec4dd39e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 38,
+      "title": "ENCRYPTION",
+      "start_line": 2093,
+      "end_line": 2129,
+      "normalized_content_sha256": "b33652f3764ebe1f11cc24dd9f5cef6acc3ae86491d06ec25ac528c2023d3a9a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 39,
+      "title": "KEY MANAGEMENT",
+      "start_line": 2130,
+      "end_line": 2157,
+      "normalized_content_sha256": "42690f121a26cb6a40cda5ab165b4fd4c1bad5f70d7b6ee95fa55ae18dd8ec17",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 40,
+      "title": "PRIVACY FIREWALL / CONTROL POINT",
+      "start_line": 2158,
+      "end_line": 2188,
+      "normalized_content_sha256": "a0192830bcabdbf8edb9ce2cb9a56243eed75dea153c5006fb199e55c99c4098",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 41,
+      "title": "PRIVACY SDK",
+      "start_line": 2189,
+      "end_line": 2238,
+      "normalized_content_sha256": "36997ed7f3ccb469139701ac3c4c1ae2399995fab9fa7b6433bf15708ec53907",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 42,
+      "title": "LOCAL POLICY CACHE",
+      "start_line": 2239,
+      "end_line": 2262,
+      "normalized_content_sha256": "fa3af203cfe7076d452d458803ea13f99ff9e4fc40c71084398d5d5ed7de8bc3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 43,
+      "title": "OFFLINE / DEGRADED OPERATION",
+      "start_line": 2263,
+      "end_line": 2313,
+      "normalized_content_sha256": "9077a2a87310592f41972bff899b34dbe1f54b7538226064a8c07e473755a0b3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 44,
+      "title": "VERIFICATION ENGINE",
+      "start_line": 2314,
+      "end_line": 2371,
+      "normalized_content_sha256": "f8074509ca88f814a6ae7fb83825914cc6283323b38caf9f190bd915edd54c6d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 45,
+      "title": "EVIDENCE ENGINE",
+      "start_line": 2372,
+      "end_line": 2401,
+      "normalized_content_sha256": "50cfbe3d474f70fb18252b0ad83991652b70c72dc7debbd3544db7f4797e6238",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 46,
+      "title": "AUDIT TRAIL",
+      "start_line": 2402,
+      "end_line": 2446,
+      "normalized_content_sha256": "c6693718000f9a615c5cc610a600ee1a8ca9662d35efa7b6e8420a816a986751",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 47,
+      "title": "EVIDENCE INTEGRITY",
+      "start_line": 2447,
+      "end_line": 2469,
+      "normalized_content_sha256": "3ed5fca2a96f1a7e1d2f1d8898449ead3f643b34ed43850c6760b942dd308b0c",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 48,
+      "title": "PRIVACY FAILURE CENTER",
+      "start_line": 2470,
+      "end_line": 2513,
+      "normalized_content_sha256": "24ebca551b3d6ba55d1e0af6524c84727177a0de3d3cc4b4b060222ed11677e1",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 49,
+      "title": "COVERAGE MAP",
+      "start_line": 2514,
+      "end_line": 2536,
+      "normalized_content_sha256": "bb7b95195918cd67a7f986ff076db928ea2c626b2615150442be040cd2f8dab5",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 50,
+      "title": "RETENTION ENGINE",
+      "start_line": 2537,
+      "end_line": 2593,
+      "normalized_content_sha256": "d270a568e33b196d4955f8de8f4c85cb1dddb14793cb5e5e457342eb5a8122b6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 51,
+      "title": "DELETION ENGINE",
+      "start_line": 2594,
+      "end_line": 2634,
+      "normalized_content_sha256": "31d2d192303e9f2a6501bc580db0bcf964ef0d13f3694f90a945a934c2b556be",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 52,
+      "title": "CRYPTOGRAPHIC DELETION",
+      "start_line": 2635,
+      "end_line": 2661,
+      "normalized_content_sha256": "7d31eb1a874bb8fce1614b4763a288f45bec678c5b80cdb74c4fb4b44e2ac4fd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 53,
+      "title": "PROCESSOR/VENDOR MANAGEMENT",
+      "start_line": 2662,
+      "end_line": 2700,
+      "normalized_content_sha256": "2b06b2ed445f0f4ac1ceb07e0966b8bea61bd6ac1f19a074bbf62f87bf7630eb",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 54,
+      "title": "PRIVACY INCIDENT EXPLORER",
+      "start_line": 2701,
+      "end_line": 2749,
+      "normalized_content_sha256": "b68df112fe620ac4869f73b77e8770b3ff86c8e4b14b441aa28db0cafb04ccd5",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 55,
+      "title": "INCIDENT SEVERITY",
+      "start_line": 2750,
+      "end_line": 2767,
+      "normalized_content_sha256": "e76bc53fee18de747d9b01476c9af39b9d63dfa0174ca229ff1bc626d445e6e9",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 56,
+      "title": "NOTIFICATION SUPPORT",
+      "start_line": 2768,
+      "end_line": 2797,
+      "normalized_content_sha256": "17f3f04833ef63f4189938b8c75eee979c44ccefe5876d3d213b8d47c1137b3f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 57,
+      "title": "PRIVACY TEST ENGINE",
+      "start_line": 2798,
+      "end_line": 2821,
+      "normalized_content_sha256": "4b00015de8d8e3f4b551873101a4f1df911d5f3b4f10de21c463cce8b97b455c",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 58,
+      "title": "SYNTHETIC TESTING",
+      "start_line": 2822,
+      "end_line": 2836,
+      "normalized_content_sha256": "46433444519731f631ee6ac88ac8b03d167d3e29bb031585aa896d93b082d6ae",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 59,
+      "title": "PRIVACY REGRESSION TEST",
+      "start_line": 2837,
+      "end_line": 2867,
+      "normalized_content_sha256": "120dfeda92facdd2596aac8c063aab1214d230cb2329e0131bd8e37ae57b5afe",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 60,
+      "title": "CI/CD INTEGRATION",
+      "start_line": 2868,
+      "end_line": 2897,
+      "normalized_content_sha256": "f45b997a5cb22cceaa6d7642c037d8b62aeae4c7d8d245f6b313a056d5e0c722",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 61,
+      "title": "PRIVACY TEST SUITE",
+      "start_line": 2898,
+      "end_line": 2921,
+      "normalized_content_sha256": "614807966bacd88f99080a7a20c35e7e5c9710fa5d589c49842396394cb54636",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 62,
+      "title": "PRIVACY DRIFT DETECTION",
+      "start_line": 2922,
+      "end_line": 2969,
+      "normalized_content_sha256": "f37f9a28c06e09f2194b6162f4a1194b27e1d48f95c8c2c97de5c96f13776680",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 63,
+      "title": "AI ARCHITECTURE",
+      "start_line": 2970,
+      "end_line": 3074,
+      "normalized_content_sha256": "c47881f39307d86172e4de846bf1091358188dfd78c61a91039dc04dbd9aaa79",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 64,
+      "title": "AI MODEL ABSTRACTION",
+      "start_line": 3075,
+      "end_line": 3191,
+      "normalized_content_sha256": "800dd15c3379f55e1e9d5ce02c4190f1d1c7bcc18d952bc27e02800e8718a9a6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 65,
+      "title": "AI DATA-MINIMISATION",
+      "start_line": 3192,
+      "end_line": 3228,
+      "normalized_content_sha256": "af2c1c76139b703e6c8b1791af99eab1d8bb059d632acf234447b38661012de3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 66,
+      "title": "AI PRIVACY COPILOT",
+      "start_line": 3229,
+      "end_line": 3277,
+      "normalized_content_sha256": "32f8b329e75255c576f4203109420f90269cc967233119ac7b689b62749068a1",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 67,
+      "title": "AI DISCOVERY",
+      "start_line": 3278,
+      "end_line": 3308,
+      "normalized_content_sha256": "f20f4be34d306bd5189acc524185e7cc47781d6e40453f27ddcd699ef3a335f6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 68,
+      "title": "AI POLICY BUILDER",
+      "start_line": 3309,
+      "end_line": 3341,
+      "normalized_content_sha256": "554024e1ae862957155d9a2f8949e15ab8c6d903281ba8a1da3a8a6aab6b8dfd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 69,
+      "title": "AI WORKFLOW BUILDER",
+      "start_line": 3342,
+      "end_line": 3376,
+      "normalized_content_sha256": "142b91cb9f17bb3ad7fe11131b12c36781b54ff0d419cc8901a9d7421006c901",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 70,
+      "title": "AI FAILURE ANALYSIS",
+      "start_line": 3377,
+      "end_line": 3412,
+      "normalized_content_sha256": "9b377092d20a5ad23b4701f072e3a049b36ea9e5029dfeaf44a8f1313020892d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 71,
+      "title": "AI DRIFT ANALYSIS",
+      "start_line": 3413,
+      "end_line": 3440,
+      "normalized_content_sha256": "8381a788c6d43488c3487ddd4e10c9f7cec3c727f3857d5736df2a76442be4dd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 72,
+      "title": "AI INCIDENT ANALYSIS",
+      "start_line": 3441,
+      "end_line": 3459,
+      "normalized_content_sha256": "11043a314fd1064e5884679722e559e20d5cd21b654f397b9ebc1eafe2e89b0a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 73,
+      "title": "AI TEST GENERATION",
+      "start_line": 3460,
+      "end_line": 3486,
+      "normalized_content_sha256": "d51fa8dc3ce48ec9652a18040be1de4f199f8b457a67b5622c93872afddd14ed",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 74,
+      "title": "AI SAFETY RULES",
+      "start_line": 3487,
+      "end_line": 3515,
+      "normalized_content_sha256": "8f449410f2c245de15bb0a02083e5348daeac22ebd31aafbf3733d4488e27498",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 75,
+      "title": "NOTIFICATION ENGINE",
+      "start_line": 3516,
+      "end_line": 3554,
+      "normalized_content_sha256": "5ce1e83fc8189aa57c3e123b50626c3d1bb088719cbdd072d2ddb4a661bf7eb5",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 76,
+      "title": "LICENSING AND ENTITLEMENTS",
+      "start_line": 3555,
+      "end_line": 3591,
+      "normalized_content_sha256": "6e511dc6036c4a0a39308e4efc7d994ad34e3aa5a30cc65756ba462f2b9bb7db",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 77,
+      "title": "FEATURE FLAGS VS ENTITLEMENTS",
+      "start_line": 3592,
+      "end_line": 3623,
+      "normalized_content_sha256": "6fe762d312186d6b1dc2c7805091434a08357dcdb846bcd9a0d46cedfa5050c0",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 78,
+      "title": "ORVIA FOUNDATION",
+      "start_line": 3624,
+      "end_line": 3654,
+      "normalized_content_sha256": "a1295115fd7e735ecf1b99a8299d36f1c2206abe179421c2e9acade8bd19f511",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 79,
+      "title": "ORVIA CONTROL",
+      "start_line": 3655,
+      "end_line": 3683,
+      "normalized_content_sha256": "dcf40acdb1e48e6fc1fb7965add3c8ebc3cd7b8ccafbdf55c6b8da8b291b5e84",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 80,
+      "title": "ORVIA ENTERPRISE",
+      "start_line": 3684,
+      "end_line": 3716,
+      "normalized_content_sha256": "794aa53d534fa980868aa2f0a7d0be1372ed3bf227d6cfcf6955878fa90fcc0a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 81,
+      "title": "ONE CODEBASE, THREE EDITIONS",
+      "start_line": 3717,
+      "end_line": 3767,
+      "normalized_content_sha256": "f752c02e763715935997e7ebe8223a33d3ada1ae5bfbc6fbe4520e00102c58fa",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 82,
+      "title": "WEBSITE",
+      "start_line": 3768,
+      "end_line": 3846,
+      "normalized_content_sha256": "733812a83d09d2a40bcdc8c4cdfe89c0456f445599f2ef13d202d0e40b92a325",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 83,
+      "title": "WEBSITE-TO-CUSTOMER JOURNEY",
+      "start_line": 3847,
+      "end_line": 3895,
+      "normalized_content_sha256": "80b7c79c12ea935b1b588e990c3e97249c72bd20d4d72f83a8a591aa1caa071f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 84,
+      "title": "CUSTOMER ONBOARDING WIZARD",
+      "start_line": 3896,
+      "end_line": 3974,
+      "normalized_content_sha256": "12020d1c884449ceb61c5e2bc3096ab09e7cd739cb2c8d0d6ad05eaea0540a59",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 85,
+      "title": "CONNECTOR INSTALLATION",
+      "start_line": 3975,
+      "end_line": 4095,
+      "normalized_content_sha256": "a1b8f295e1e89c60c537d68c9c38110c013387090a2dcbf053e7d321503d789f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 86,
+      "title": "CUSTOMER-CONTROLLED CLOUD DEPLOYMENT",
+      "start_line": 4096,
+      "end_line": 4165,
+      "normalized_content_sha256": "e48355d77cabfd2bcba390e560cf25b58dc4b85c23e935663d233787ae302ac7",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 87,
+      "title": "CLOUD PROVIDER SECURITY",
+      "start_line": 4166,
+      "end_line": 4186,
+      "normalized_content_sha256": "2b18e11086ba333a94046e8f1efcec1c0f9dbe8ea210cb12dfca6bff153d4865",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 88,
+      "title": "OBSERVABILITY",
+      "start_line": 4187,
+      "end_line": 4217,
+      "normalized_content_sha256": "f526a126950c588be170e137632ffd4ad8126ca243ced018d97644fedb3985bd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 89,
+      "title": "MONITORING DASHBOARD",
+      "start_line": 4218,
+      "end_line": 4258,
+      "normalized_content_sha256": "7b93752fd3db1825ac3b5aca1ad1ea060b26156f6d844151b608f28edd30ea7e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 90,
+      "title": "SECURITY MONITORING",
+      "start_line": 4259,
+      "end_line": 4275,
+      "normalized_content_sha256": "d2eda0fc859a5993cf45560a4bd4fa797dd1dc0543bb71845c33273303df1f7a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 91,
+      "title": "BACKUPS",
+      "start_line": 4276,
+      "end_line": 4306,
+      "normalized_content_sha256": "c4986b0ff3c2b936610afdb6c8c5b88a85c3dcfbe22df8124a5282aeee197f3f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 92,
+      "title": "DISASTER RECOVERY",
+      "start_line": 4307,
+      "end_line": 4349,
+      "normalized_content_sha256": "5551df697876f4ef04fb53fd490379e1e2385031017100e37fd68c63b6092e19",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 93,
+      "title": "UPDATE SYSTEM",
+      "start_line": 4350,
+      "end_line": 4411,
+      "normalized_content_sha256": "0518ea2aecb583ce0a4bddd25bfe58eff21523b10fd027acebfff4820c16a887",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 94,
+      "title": "LICENSE SECURITY",
+      "start_line": 4412,
+      "end_line": 4450,
+      "normalized_content_sha256": "47d1ce3cbc74e326c7c6f81f5076baec29f8f55b43f9a622dce4a8ab10fa399e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 95,
+      "title": "PRIVACY-SAFE SUPPORT",
+      "start_line": 4451,
+      "end_line": 4562,
+      "normalized_content_sha256": "0a8a15e96ec52ae97e2a562da578d3117c572d6584b4d91ddf6d231a831fd118",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 96,
+      "title": "SUPPORT PORTAL",
+      "start_line": 4563,
+      "end_line": 4619,
+      "normalized_content_sha256": "1fd864850c950b8b60ed803684baf09dc6e5968edf7b97c7daad92217d0b7162",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 97,
+      "title": "API ARCHITECTURE",
+      "start_line": 4620,
+      "end_line": 4674,
+      "normalized_content_sha256": "fbe53e5e3b572bfb3838df6c3c1b124c0e140baaf4fca36bd3b6192a06c365e6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 98,
+      "title": "WEBHOOK ARCHITECTURE",
+      "start_line": 4675,
+      "end_line": 4698,
+      "normalized_content_sha256": "e77bb132ede65a793e3ac0deb0992bfc534c6ee75a09b2b5d04f42711d426964",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 99,
+      "title": "IDEMPOTENCY",
+      "start_line": 4699,
+      "end_line": 4727,
+      "normalized_content_sha256": "8f90e6e8ebaba3bf457c618a9fcc7a2efe6b907c42fdf3276b281ad9c04d0d99",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 100,
+      "title": "EVENT ARCHITECTURE",
+      "start_line": 4728,
+      "end_line": 4757,
+      "normalized_content_sha256": "1073e1b09c911c5a76101666938f8699ac532734dddbe1d8ed865269d5ffef8e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 101,
+      "title": "DATA MIGRATION STRATEGY",
+      "start_line": 4758,
+      "end_line": 4775,
+      "normalized_content_sha256": "7be4535661a54318471daae4f002f2b019c85d8e7e8e2567dab1d19933f79c8b",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 102,
+      "title": "FRONTEND ARCHITECTURE",
+      "start_line": 4776,
+      "end_line": 4834,
+      "normalized_content_sha256": "95ac82e8a1bdcd867b8991b8ba62345ad903a226500ac9b3476b27531cf6ff7e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 103,
+      "title": "PRIMARY NAVIGATION",
+      "start_line": 4835,
+      "end_line": 4878,
+      "normalized_content_sha256": "18c5e2ddd5c9cfece692d08f0c1fff23dcd1c3c45444326ce3aeb5fc2fe0b179",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 104,
+      "title": "DASHBOARD",
+      "start_line": 4879,
+      "end_line": 4902,
+      "normalized_content_sha256": "8b5ff9ed436a1b91d5388b3da8c28b9626bfd83c85172ffd7b12f162f1be5417",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 105,
+      "title": "PRIVACY GRAPH UI",
+      "start_line": 4903,
+      "end_line": 4944,
+      "normalized_content_sha256": "8931a5ee88b466569d2fce6200211d16d68878415f595de55c2ce60721de2d1e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 106,
+      "title": "CONTROL DETAIL PAGE",
+      "start_line": 4945,
+      "end_line": 4973,
+      "normalized_content_sha256": "3f50925a716f4d015c8d1591e3b250eaa5a524d000679d24b7a575827508283a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 107,
+      "title": "TEST DETAIL PAGE",
+      "start_line": 4974,
+      "end_line": 4997,
+      "normalized_content_sha256": "6234006ffcdf8516a7862d4842f5b5fd54fb18abf85bbbbb26c67444836dabac",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 108,
+      "title": "INCIDENT DETAIL PAGE",
+      "start_line": 4998,
+      "end_line": 5021,
+      "normalized_content_sha256": "51cb349fcb57aa9e20f3540d9d17ed27e6f19681db92702e3f3e24828aaef443",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 109,
+      "title": "SECURITY REQUIREMENTS",
+      "start_line": 5022,
+      "end_line": 5082,
+      "normalized_content_sha256": "f8e7e97078f6dfc97a77d8aa145b3ef09aa1f908f2f977dc9836bd3381d6fe0d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 110,
+      "title": "API SECURITY",
+      "start_line": 5083,
+      "end_line": 5112,
+      "normalized_content_sha256": "3e484b8572dc4d0afec6c95fcab948bea1bdcee674f8c9cbb95704d3900782e3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 111,
+      "title": "FILE UPLOAD SECURITY",
+      "start_line": 5113,
+      "end_line": 5141,
+      "normalized_content_sha256": "8c89a1bb8beb9e229869b0896dbd9136dece505094a6a419761ebff40d156d2d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 112,
+      "title": "AI SECURITY",
+      "start_line": 5142,
+      "end_line": 5184,
+      "normalized_content_sha256": "bf031605ad98e0e53fd1dfbcaf966fbecfd105498faae5b7bfa305e19978965b",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 113,
+      "title": "AI TOOL-USE MODEL",
+      "start_line": 5185,
+      "end_line": 5224,
+      "normalized_content_sha256": "7b11f83fbfea6a929a19b7ee63f8192f558767d5c65d469e1190166a5f77e620",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 114,
+      "title": "DEVELOPER EXPERIENCE",
+      "start_line": 5225,
+      "end_line": 5243,
+      "normalized_content_sha256": "5f9fb8f089b54e461ff613136f75fa54908b3889703f802617aaf4f11d7518e8",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 115,
+      "title": "CLI",
+      "start_line": 5244,
+      "end_line": 5270,
+      "normalized_content_sha256": "e5649ba47241f8fd7eaf2d30caf9e1c812da3a3b1e2d0cfc3036161cd6281c71",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 116,
+      "title": "REPOSITORY STRUCTURE",
+      "start_line": 5271,
+      "end_line": 5362,
+      "normalized_content_sha256": "3a720d98e6fe23c6f4196c82c03cde17b7bde94566f9dcfe62d87ce78be106d5",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 117,
+      "title": "20-PERSON ENGINEERING TEAM",
+      "start_line": 5363,
+      "end_line": 5675,
+      "normalized_content_sha256": "2fa037bc98928d518ae8d2fb0c0b314bac89e05e5a37db53b968ba0518190d93",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 118,
+      "title": "NON-ENGINEERING EXPERTISE REQUIRED",
+      "start_line": 5676,
+      "end_line": 5697,
+      "normalized_content_sha256": "0b5d92754fad45dae7160a295693f74eb4fa771dd6058df0e958a09d48ac787a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 119,
+      "title": "ENGINEERING TEAM WORKFLOW",
+      "start_line": 5698,
+      "end_line": 5738,
+      "normalized_content_sha256": "dda64273564f7577e696c60b61f9d9784aaff7b85d1da92fe4232c517e54ad82",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 120,
+      "title": "DEFINITION OF DONE",
+      "start_line": 5739,
+      "end_line": 5769,
+      "normalized_content_sha256": "5d061e52bd477a14408de72990d1d5f408fbae990b8f1f3794baa1f20f823d0e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 121,
+      "title": "AI CODING AGENT RULES",
+      "start_line": 5770,
+      "end_line": 5879,
+      "normalized_content_sha256": "01dfaa25964f9950cad090bf342a706ebcf62e65948fe8921c8576188b4d0d85",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 122,
+      "title": "DEVELOPMENT ENVIRONMENTS",
+      "start_line": 5880,
+      "end_line": 5904,
+      "normalized_content_sha256": "3855764a77fd89efd11e2696321f02060dc323238bc166498920b37539470fbd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 123,
+      "title": "CI/CD PIPELINE",
+      "start_line": 5905,
+      "end_line": 5951,
+      "normalized_content_sha256": "936750452b4491a10a46d6f3b5a41b0ece9832a881251ec3273496985d6dd46e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 124,
+      "title": "CODE QUALITY",
+      "start_line": 5952,
+      "end_line": 5967,
+      "normalized_content_sha256": "811b2bd069ee77f77f160a84531b5293fa595b80ab00d630758560345abc78f9",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 125,
+      "title": "TESTING PYRAMID",
+      "start_line": 5968,
+      "end_line": 5990,
+      "normalized_content_sha256": "ac0805b5cc8c57b3822a8a34cbed99579f4b0dce15f25506e72a70f48cde5980",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 126,
+      "title": "SECURITY TESTING",
+      "start_line": 5991,
+      "end_line": 6024,
+      "normalized_content_sha256": "c80708dd4053e6e2d7a51d6504f1204dcd65388be3c18972f7a746be729fa5c2",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 127,
+      "title": "MULTI-TENANT SECURITY TEST",
+      "start_line": 6025,
+      "end_line": 6064,
+      "normalized_content_sha256": "bee0f5b945ecd3178d498df68f83a27eb561e7b005641c79ac7d129789f2eb9f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 128,
+      "title": "CONNECTOR SECURITY TESTING",
+      "start_line": 6065,
+      "end_line": 6089,
+      "normalized_content_sha256": "83b277e28cb0973605592679b80f9f3db9fb23daf3d2c82990b4db024b5d5ec3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 129,
+      "title": "PERFORMANCE TARGETS",
+      "start_line": 6090,
+      "end_line": 6133,
+      "normalized_content_sha256": "28adc3cf60aaa177316c7d9b0cebac4529c1e79d736b7617094095e87a12626e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 130,
+      "title": "SCALABILITY MODEL",
+      "start_line": 6134,
+      "end_line": 6155,
+      "normalized_content_sha256": "899083e1940adca459fad5fbfc8af75e056bae89b5dac27a0196f6db6b7ef261",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 131,
+      "title": "CUSTOMER SCALE",
+      "start_line": 6156,
+      "end_line": 6170,
+      "normalized_content_sha256": "721db7bfa76357b174c6ae90778ddc70bc80aa9eee59e40cc5c6e0e3fe333aeb",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 132,
+      "title": "DATA RETENTION WITHIN ORVIA",
+      "start_line": 6171,
+      "end_line": 6217,
+      "normalized_content_sha256": "80c25d7e199cecc666b48ac71fcc740487bb3118b8d4ac28a58c91e8723fd01a",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 133,
+      "title": "AUDIT EVIDENCE EXPORT",
+      "start_line": 6218,
+      "end_line": 6236,
+      "normalized_content_sha256": "4d8f17e8fd20c77d460185cd4437fd6cd63e558021193343d2c03b74597e0087",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 134,
+      "title": "REPORTING",
+      "start_line": 6237,
+      "end_line": 6256,
+      "normalized_content_sha256": "2b646a01c95a639c69ad2cae0eeef1c663686a53998a1411de6de3e05c5e5c37",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 135,
+      "title": "READINESS SCANNER",
+      "start_line": 6257,
+      "end_line": 6284,
+      "normalized_content_sha256": "5175b0133eeca6078ec45ded1fb83fb1cbe0e538f03f5e26f44717b6e7efdeef",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 136,
+      "title": "INITIAL CUSTOMER TARGET",
+      "start_line": 6285,
+      "end_line": 6308,
+      "normalized_content_sha256": "5637e2de258b6d4b9435bbfdbedf0df6e81261dfa97645820bcee0dccafbd4ad",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 137,
+      "title": "FIRST VERTICAL SLICE",
+      "start_line": 6309,
+      "end_line": 6349,
+      "normalized_content_sha256": "c129d7f7914d0ce7a841d7c5833dbe98c2387af4c2f8590fb0c303b5c04fec0c",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 138,
+      "title": "PHASE 0 — ARCHITECTURAL FOUNDATION",
+      "start_line": 6350,
+      "end_line": 6394,
+      "normalized_content_sha256": "94479fe8bb6534ce4f5f3e25c94cc3a0279645cae2bfc0d9adf517547807f687",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 139,
+      "title": "PHASE 1 — CORE PRIVACY OPERATIONS",
+      "start_line": 6395,
+      "end_line": 6423,
+      "normalized_content_sha256": "a4c77f7cd5b904cfe598b29a5cfa229619c0b47ba1bd73987c8fb51476c16427",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 140,
+      "title": "PHASE 2 — CONTROL",
+      "start_line": 6424,
+      "end_line": 6444,
+      "normalized_content_sha256": "728c5e85bc586b4f89788b649270e4a6bc6079d097677f289ab9c7b6fedbb747",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 141,
+      "title": "PHASE 3 — TESTING",
+      "start_line": 6445,
+      "end_line": 6464,
+      "normalized_content_sha256": "b93e6d4be742643aa9df8df616c5c7851ed22609d77b804ee2ad14415a4a1758",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 142,
+      "title": "PHASE 4 — ENTERPRISE",
+      "start_line": 6465,
+      "end_line": 6482,
+      "normalized_content_sha256": "890bc5f0e22e1bb4b3beae5203d09f112a8c8037b44159959fb81f74e493c4c5",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 143,
+      "title": "PHASE 5 — ADVANCED",
+      "start_line": 6483,
+      "end_line": 6498,
+      "normalized_content_sha256": "8dd9aa1d6bb077a76984cbbad1f0a5b5b114b2ce8c1f4f8766ef954b5278e545",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 144,
+      "title": "THREE EDITIONS MUST EXIST ARCHITECTURALLY FROM THE BEGINNING",
+      "start_line": 6499,
+      "end_line": 6517,
+      "normalized_content_sha256": "6307969b351be43145a4a3fd81761abadab5ea1ac88873ef69515721b6621cab",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 145,
+      "title": "BUT FEATURE DELIVERY MUST STILL BE CONTROLLED",
+      "start_line": 6518,
+      "end_line": 6538,
+      "normalized_content_sha256": "9fd599a81a1460d724f89badc665996699b4354d3378bae4e30f494488c9e1a9",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 146,
+      "title": "RELEASE STRATEGY",
+      "start_line": 6539,
+      "end_line": 6568,
+      "normalized_content_sha256": "d3d9b57e25fb96894e07c32951aa51cc850c8354a1c5f2458382a0132d88c10d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 147,
+      "title": "CONNECTOR VERSIONING",
+      "start_line": 6569,
+      "end_line": 6589,
+      "normalized_content_sha256": "6688494ef6cd7c6bdb586de51dfc312b26ecff8d7b95bab81412e2a1f69f84e1",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 148,
+      "title": "POLICY COMPATIBILITY",
+      "start_line": 6590,
+      "end_line": 6606,
+      "normalized_content_sha256": "7d1de61fdc46242cc4af5f10575762ab138706ed6314163589558e391383f99b",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 149,
+      "title": "WORKFLOW COMPATIBILITY",
+      "start_line": 6607,
+      "end_line": 6620,
+      "normalized_content_sha256": "ff91e7baa1226af96af824bec18c16c797cf2f47e5233580e973dcefc54189d9",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 150,
+      "title": "EVIDENCE IMMUTABILITY",
+      "start_line": 6621,
+      "end_line": 6634,
+      "normalized_content_sha256": "83c47d59c35f7f0c06e81b465a4ab49079d75ac1da7caa9c5f28411e0ebd8642",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 151,
+      "title": "CUSTOMER TRUST MODEL",
+      "start_line": 6635,
+      "end_line": 6661,
+      "normalized_content_sha256": "05caf0bd0c348b3d21ed15b0169a749004bb4ebe4c2dab045c4de7a9b27d8b2f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 152,
+      "title": "ORVIA'S MOST IMPORTANT DIFFERENTIATOR",
+      "start_line": 6662,
+      "end_line": 6683,
+      "normalized_content_sha256": "fecd169d3c18bbb8852448139c783580b8d15819705b47c8883cc602e67146d7",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 153,
+      "title": "FUTURE INTEROPERABILITY",
+      "start_line": 6684,
+      "end_line": 6706,
+      "normalized_content_sha256": "e2c633cdb238af9cef77c249b6f1a5886942e961fdeba9256631bb480e7964c6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 154,
+      "title": "MOBILE AND WEB",
+      "start_line": 6707,
+      "end_line": 6726,
+      "normalized_content_sha256": "09425b5fe7063c7a4db318a1c31dd2505ac9c105f4695b4709e632f54a1c528e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 155,
+      "title": "INTERNATIONALISATION",
+      "start_line": 6727,
+      "end_line": 6742,
+      "normalized_content_sha256": "21686b5e68b093cfc549dea8db8910fdbdbb30448c7f1f2137a89b92c49dc44d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 156,
+      "title": "LOCALISATION",
+      "start_line": 6743,
+      "end_line": 6763,
+      "normalized_content_sha256": "c6f8324ec78ab0224b5597aa54e5d8bf955d812954ecebe583af682cd556a614",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 157,
+      "title": "SEARCH",
+      "start_line": 6764,
+      "end_line": 6783,
+      "normalized_content_sha256": "b72a6231aaa63533cde4602a7e1c76b21cb0f840f2f1c06821cde6db06b1239c",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 158,
+      "title": "ADMIN SETTINGS",
+      "start_line": 6784,
+      "end_line": 6823,
+      "normalized_content_sha256": "4b89490d192cc599a37c99fd64a62f08be2db73ab28fc280ff35f568829a883c",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 159,
+      "title": "BILLING",
+      "start_line": 6824,
+      "end_line": 6849,
+      "normalized_content_sha256": "ac6a2b859978a54aaaa020d5dd8f13ded7f3e950457b6dbd2635d15dee26c86f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 160,
+      "title": "LICENSE EXPIRATION",
+      "start_line": 6850,
+      "end_line": 6883,
+      "normalized_content_sha256": "1b62ffa8495b19beeadceace5682ad3766f4339103f36800e4429c69e20f6d85",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 161,
+      "title": "OFFBOARDING",
+      "start_line": 6884,
+      "end_line": 6913,
+      "normalized_content_sha256": "dbef91b2a56ea25e46cbc4909cf3ee6b407a9f3e324d8f7b1027528b07bb6ddc",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 162,
+      "title": "CUSTOMER DATA EXPORT",
+      "start_line": 6914,
+      "end_line": 6931,
+      "normalized_content_sha256": "3063f072649532af4ed0b1c9916908e29edc100a8e23db1997405ae6920bd2ea",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 163,
+      "title": "SECURITY BASELINE FOR RELEASE",
+      "start_line": 6932,
+      "end_line": 6982,
+      "normalized_content_sha256": "9070e72b99b8798248d2ad681420761459a79cf2a690d4767a876aa313a900fd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 164,
+      "title": "EXTERNAL SECURITY REVIEW",
+      "start_line": 6983,
+      "end_line": 7008,
+      "normalized_content_sha256": "cf8f5285827070fae62accc0dfa35fc89cc4d36d5aaf1f064e567ce24e4aaccb",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 165,
+      "title": "LEGAL / COMPLIANCE CONTROL",
+      "start_line": 7009,
+      "end_line": 7075,
+      "normalized_content_sha256": "7723104f16c27a25521a95a701b5a69164207990443e76375e65b4675daf17fd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 166,
+      "title": "REGULATORY RULE PACK ARCHITECTURE",
+      "start_line": 7076,
+      "end_line": 7118,
+      "normalized_content_sha256": "70edfa832c045432d0b576b03bb06e1ac23bf8467b2b9d5ec11dc6b79cce7f92",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 167,
+      "title": "LEGAL CONTENT VERSIONING",
+      "start_line": 7119,
+      "end_line": 7148,
+      "normalized_content_sha256": "5ce647dc04a5378f8d9512ffcd5b31f8e3f49da6f89499d00b3c58124d62f744",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 168,
+      "title": "PRODUCT CLAIMS",
+      "start_line": 7149,
+      "end_line": 7194,
+      "normalized_content_sha256": "f32b059a15ea15348612352986e8a7543dcf7099781127af9df656f2ade81e12",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 169,
+      "title": "NO FALSE \"PROOF\"",
+      "start_line": 7195,
+      "end_line": 7216,
+      "normalized_content_sha256": "93430dc4658d1fb0e109fbc5181e32a3599c8efa94796571a6356de96f71daca",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 170,
+      "title": "CUSTOMER CONFIGURATION MODEL",
+      "start_line": 7217,
+      "end_line": 7235,
+      "normalized_content_sha256": "80d05f241acc416743d90c9b8bef268b4563827253550bda9ebd53158621d3c3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 171,
+      "title": "PRINCIPLE OF LEAST PRIVILEGE",
+      "start_line": 7236,
+      "end_line": 7267,
+      "normalized_content_sha256": "f49dbf46ae341b288cce2b37889301d1a0464522ef072966a4fb56e470b77f2f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 172,
+      "title": "CONNECTOR CREDENTIAL MODEL",
+      "start_line": 7268,
+      "end_line": 7292,
+      "normalized_content_sha256": "bdd2dd9faeacebbb92a714149419368e91f5c4cb9f49ad5a981f3bf091119aa9",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 173,
+      "title": "CONNECTOR HEALTH",
+      "start_line": 7293,
+      "end_line": 7312,
+      "normalized_content_sha256": "737a303ddda06a2c29fa0c8520806916d95fd3747be635ef79c5e8032efaa85f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 174,
+      "title": "ACTION RETRY STRATEGY",
+      "start_line": 7313,
+      "end_line": 7348,
+      "normalized_content_sha256": "01d50109efa5646e44f769c5ab0dc940e35797c5b2e8d3269a31321a26a50973",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 175,
+      "title": "DEAD-LETTER QUEUES",
+      "start_line": 7349,
+      "end_line": 7368,
+      "normalized_content_sha256": "80edbfb73fa70533dfdbaf663a0dcf9d58f45ee6cf70b61b9d811669796c24ad",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 176,
+      "title": "RATE LIMITS",
+      "start_line": 7369,
+      "end_line": 7386,
+      "normalized_content_sha256": "6a27f67895abe5fd05c0a7cdedf7b2fced19a8f68295ff0adbbd0f03acafe9d1",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 177,
+      "title": "SYSTEM HEALTH PROTECTION",
+      "start_line": 7387,
+      "end_line": 7399,
+      "normalized_content_sha256": "562655b99a5fe648d69e806d67a617be8c839fd8a6f168a9b137206f72a61922",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 178,
+      "title": "CUSTOMER SYSTEM SAFETY",
+      "start_line": 7400,
+      "end_line": 7430,
+      "normalized_content_sha256": "239b829877b6294a50770b1dcda3422c46528f77693616cac8eb8e8f2d1164f8",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 179,
+      "title": "DRY RUN MODE",
+      "start_line": 7431,
+      "end_line": 7456,
+      "normalized_content_sha256": "4942526147f125ffe57becba95a44da2d67bf2d5c5aca0855b87f8f3c4c49a4d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 180,
+      "title": "GRADUAL ENFORCEMENT",
+      "start_line": 7457,
+      "end_line": 7479,
+      "normalized_content_sha256": "ce17a87623e878bbf8030202a7dac94d29d01b526b59f1376b3e974e9e43b422",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 181,
+      "title": "ORVIA OBSERVE MODE",
+      "start_line": 7480,
+      "end_line": 7495,
+      "normalized_content_sha256": "2e23e07165ceed86bacffe452c33645ac6ba19716046a0988d0c68ed071b6ffb",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 182,
+      "title": "ORVIA COORDINATE MODE",
+      "start_line": 7496,
+      "end_line": 7511,
+      "normalized_content_sha256": "4783d6e060021939064b7b2a5418c60ec0039baa422b35a3a18101bc0f3401bb",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 183,
+      "title": "ORVIA ENFORCE MODE",
+      "start_line": 7512,
+      "end_line": 7529,
+      "normalized_content_sha256": "054c71c8453224cf31c268c98eb009f6e2908ec54f30b6b2133d1df84fe5104d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 184,
+      "title": "USER EXPERIENCE RULE",
+      "start_line": 7530,
+      "end_line": 7548,
+      "normalized_content_sha256": "c9549eaf0af00256b0242b9ba51253983f7b3f1ed6ffb7bdf5c20225fc81d9c6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 185,
+      "title": "DASHBOARD SUMMARY EXAMPLE",
+      "start_line": 7549,
+      "end_line": 7590,
+      "normalized_content_sha256": "f24ad4b0fdfb3f72fbfb910f353e2baac5c3d808bb468beda3902b40bf978416",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 186,
+      "title": "ENGINEERING DOCUMENTATION",
+      "start_line": 7591,
+      "end_line": 7608,
+      "normalized_content_sha256": "9a0889b816e0383b902ceae256d8fccfb31aaf3f47dd62256c54fa8fd6ecefef",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 187,
+      "title": "ARCHITECTURE DECISION RECORDS",
+      "start_line": 7609,
+      "end_line": 7670,
+      "normalized_content_sha256": "950c8516c36e2913d4e39f0f1349847e0dc68be1c35fb88faf8246d670f9a180",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 188,
+      "title": "DEVELOPMENT STANDARD",
+      "start_line": 7671,
+      "end_line": 7686,
+      "normalized_content_sha256": "b339d9eefb57935740adf2c05cccb4fa67149ff5d3efec335c5e9e483504021e",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 189,
+      "title": "AI-CODING DEVELOPMENT LOOP",
+      "start_line": 7687,
+      "end_line": 7715,
+      "normalized_content_sha256": "73822103442767ccaf3eb39e0aa791b7637449e5405955da87f70ee5f8c90497",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 190,
+      "title": "AI SHOULD BUILD IN SMALL VERIFIED UNITS",
+      "start_line": 7716,
+      "end_line": 7771,
+      "normalized_content_sha256": "30d2dead7cb131332c3f883fd5b2e9cfdea33d3a23a8f8e99ddac6d1231446a5",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 191,
+      "title": "FIRST DEMO TARGET",
+      "start_line": 7772,
+      "end_line": 7815,
+      "normalized_content_sha256": "9feb77bbfdfded765094c5a00f8ac0c8f536c1eb6108dba72598e6f2c91f79ba",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 192,
+      "title": "FAILURE DEMO",
+      "start_line": 7816,
+      "end_line": 7842,
+      "normalized_content_sha256": "a207b3b4893aa8c7d57f2b596d4f920d9076cf497f9fb623140254822814cf2d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 193,
+      "title": "PRIVACY REGRESSION DEMO",
+      "start_line": 7843,
+      "end_line": 7869,
+      "normalized_content_sha256": "0d3f8faeae4103ce7f7ae65edb9459309774816b17a4cc4e778865f047860829",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 194,
+      "title": "CUSTOMER DEPLOYMENT DEMO",
+      "start_line": 7870,
+      "end_line": 7897,
+      "normalized_content_sha256": "cfd7de4ecb886156e08fd189eef13bf7c40dc9bcb793614f90b42cef82e89330",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 195,
+      "title": "PRODUCT SUCCESS METRICS",
+      "start_line": 7898,
+      "end_line": 7954,
+      "normalized_content_sha256": "bc48b5294a46184d3d669ed09085f99f4ceca37394567dcaf8c4a793b1c59ddb",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 196,
+      "title": "PRIVACY CONTROL METRICS",
+      "start_line": 7955,
+      "end_line": 7978,
+      "normalized_content_sha256": "1238e190530ba733b1646f609d63805a7bef4edcc5e343f6ea9229e7bec175ef",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 197,
+      "title": "CUSTOMER ONBOARDING TARGET",
+      "start_line": 7979,
+      "end_line": 8009,
+      "normalized_content_sha256": "cda5141cf3eb8afa08a8c9d41ab40fdab5d74013734d5808010f02453f9b62b7",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 198,
+      "title": "COMMERCIAL EXPANSION",
+      "start_line": 8010,
+      "end_line": 8038,
+      "normalized_content_sha256": "be57fe779f3af7f3070d799e9fe78d6fad2b6b2711a21db53e59726c67bc7bb8",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 199,
+      "title": "FUTURE MODULE MARKETPLACE",
+      "start_line": 8039,
+      "end_line": 8059,
+      "normalized_content_sha256": "cb426a672f9d3f98c64bcb026701b10f8c0b6971ccebde841c74b2585d8f5c1d",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 200,
+      "title": "LONG-TERM ARCHITECTURE PRINCIPLE",
+      "start_line": 8060,
+      "end_line": 8096,
+      "normalized_content_sha256": "ed2f507d906d4edc3f464c848343250a3a2c9ba44c8c08ceb4d44ee6c72b3829",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 201,
+      "title": "FINAL SYSTEM PRINCIPLE",
+      "start_line": 8097,
+      "end_line": 8106,
+      "normalized_content_sha256": "2aa8bede9cebbd2f80e9af31f05865adeca997dc0a651d2458a0e3a8535ad61c",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 202,
+      "title": "FINAL CUSTOMER ARCHITECTURE",
+      "start_line": 8107,
+      "end_line": 8169,
+      "normalized_content_sha256": "73458141bc5f933b20b320385ece54fb616bbda2b0c3309366dec0ac04ac23e5",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 203,
+      "title": "FINAL DELIVERY MODEL",
+      "start_line": 8170,
+      "end_line": 8211,
+      "normalized_content_sha256": "54726d364dd814f914338c024d4f321a7471e958cee0786723d9aa8451dcbe3b",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 204,
+      "title": "FINAL COMMERCIAL MODEL",
+      "start_line": 8212,
+      "end_line": 8231,
+      "normalized_content_sha256": "ab6a7226cd21ee2f9509e75c64ca457f75cdd28bae3b68f0e49fbf1d64ebc265",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 205,
+      "title": "FINAL AI MODEL",
+      "start_line": 8232,
+      "end_line": 8277,
+      "normalized_content_sha256": "2668634fd4e149c95686f315f491af93571bbf7c7229eda7f4e5be6eaae85a85",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 206,
+      "title": "FINAL SECURITY MODEL",
+      "start_line": 8278,
+      "end_line": 8305,
+      "normalized_content_sha256": "b4299370c2b5033b80047c92f77007984ed0109fc88d7ea63f5f6a3d27714d95",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 207,
+      "title": "FINAL ENGINEERING RULE",
+      "start_line": 8306,
+      "end_line": 8319,
+      "normalized_content_sha256": "f6e59d0ddeaf1360b9c75f0e9f04f6e16d2155e37727b17acfda950f5a72db3c",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 208,
+      "title": "FINAL PRODUCT RULE",
+      "start_line": 8320,
+      "end_line": 8339,
+      "normalized_content_sha256": "16660aff678aa431cf2040e63a43fe3c5b191c8a1bb03256c871331ba9377335",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 209,
+      "title": "FINAL ARCHITECTURAL ADVANTAGE",
+      "start_line": 8340,
+      "end_line": 8379,
+      "normalized_content_sha256": "99dd9fb4a13a4e81d50fb7d24df10bab953a7523659a30373693f9ead8a026d6",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 210,
+      "title": "FINAL MASTER BUILD OBJECTIVE",
+      "start_line": 8380,
+      "end_line": 8401,
+      "normalized_content_sha256": "c6b5cb25a76866af202f8147fdb44827225e9347e50649c46809d63998f90f7f",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 211,
+      "title": "FINAL ENGINEERING COMMAND TO THE AI BUILD SYSTEM",
+      "start_line": 8402,
+      "end_line": 8546,
+      "normalized_content_sha256": "c036d208e86178c9aba2a817bfea653df1eefdc7d03026a968cefc0dfc9995c3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 212,
+      "title": "ORVIA — FINAL PRODUCT IN ONE SENTENCE",
+      "start_line": 8547,
+      "end_line": 8558,
+      "normalized_content_sha256": "dcd6cec4b902961d39e5acab55ca6631d626575d66fbcefb99a0b94931edea63",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 213,
+      "title": "PRIVACY CONTROL PACKAGES AND CHANGE SIMULATION",
+      "start_line": 8559,
+      "end_line": 8574,
+      "normalized_content_sha256": "01a0d52246ffcc1573747a702c742cb131b8bd9965b3d3a2a1fc583ae3b084d3",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 214,
+      "title": "ASSESSMENTS, SDF GOVERNANCE AND REMEDIATION",
+      "start_line": 8575,
+      "end_line": 8588,
+      "normalized_content_sha256": "ac658417c7ebb8543569dea24a5b06ffbe09c0021f31c635e76bb9b44cc69b37",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 215,
+      "title": "CUSTOMER AI-PROCESSING GOVERNANCE EXTENSION",
+      "start_line": 8589,
+      "end_line": 8616,
+      "normalized_content_sha256": "a04ad0307082bf3829bf7a960f6e03238157573ec0bce74a47801b42caaf4c06",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 216,
+      "title": "PRIORITIZED ENGINEERING BACKLOG",
+      "start_line": 8617,
+      "end_line": 8649,
+      "normalized_content_sha256": "e289de3ad6138d4d528a00fb5192f1a3560da8927727d2c3831c5ba6a87502d0",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 217,
+      "title": "MANDATORY ACCEPTANCE AND FAILURE TEST MATRIX",
+      "start_line": 8650,
+      "end_line": 8873,
+      "normalized_content_sha256": "47a21297319be3f54e7a922840355844e3d3dfb37c613fee6fdd3db5e251a236",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    },
+    {
+      "source_section": 218,
+      "title": "PRIMARY SOURCE REGISTER AND REVIEW LIMITS",
+      "start_line": 8874,
+      "end_line": 9003,
+      "normalized_content_sha256": "02bb3e1ea5de7249b98391b83106a1360b1b9b931e2b6e95a978be769ad732bd",
+      "review_status": "UNREVIEWED",
+      "requirement_mappings": [],
+      "acceptance_status": "NOT_ASSESSED"
+    }
+  ]
+}

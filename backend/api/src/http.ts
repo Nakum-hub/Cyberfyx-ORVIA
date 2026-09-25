@@ -4,7 +4,7 @@ import { AccessError } from '../../authorization/src/index.ts';
 import { runtime } from './runtime.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
 
-export async function safeRoute(work: (requestId: string) => Promise<Response>, operation: 'AUTH_STAFF' | 'AUTH_PRINCIPAL' | 'SESSION_READ' | 'PRINCIPAL_LIST' | 'PRINCIPAL_CREATE' | 'BUSINESS') {
+export async function safeRoute(work: (requestId: string) => Promise<Response>, operation: 'AUTH_STAFF' | 'AUTH_PRINCIPAL' | 'SESSION_READ' | 'PRINCIPAL_LIST' | 'PRINCIPAL_CREATE' | 'BUSINESS', getRuntime:typeof runtime = runtime) {
   const requestId = randomUUID();
   let response: Response;
   try {
@@ -19,7 +19,7 @@ export async function safeRoute(work: (requestId: string) => Promise<Response>, 
     { status, headers: { 'Cache-Control': 'no-store', 'X-Request-Id': requestId } });
   }
   try {
-    await runtime().pool.query('INSERT INTO app.request_audit (id,operation,status) VALUES ($1,$2,$3)',[requestId,operation,response.status]);
+    await getRuntime().pool.query('INSERT INTO app.request_audit (id,operation,status) VALUES ($1,$2,$3)',[requestId,operation,response.status]);
   } catch {
     return Response.json(ErrorResponse.parse({error:{code:'SERVICE_UNAVAILABLE',message:'Request audit unavailable.',retry:'AFTER_DELAY'},request_id:requestId}),{status:503,headers:{'Cache-Control':'no-store','X-Request-Id':requestId}});
   }

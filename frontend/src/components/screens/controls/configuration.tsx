@@ -74,7 +74,7 @@ export function Configuration({session}:{session:StaffSession}) {
       <CreateRecord operation="create_purposes" label="Create purpose" allowed={canWrite} onSaved={reload}
         build={f=>({...selectors,code:value(f,'code') as 'promotional_marketing'|'order_service_demo',name:value(f,'name'),description:value(f,'description')})}>
         <Input label="Purpose name" name="name"/>
-        <Select label="Purpose condition" name="code" options={[{id:'promotional_marketing',name:'Promotional marketing'},{id:'order_service_demo',name:'Separate synthetic order service'}]}/>
+        <Select label="Purpose condition" name="code" options={[{id:'promotional_marketing',name:'Promotional marketing'},{id:'order_service_demo',name:'Order service'}]}/>
         <Input label="Description" name="description" maxLength={500}/>
       </CreateRecord>
     </>:null}
@@ -328,7 +328,7 @@ export function Principals({session}:{session:StaffSession}) {
         <RecordList label="Principals" items={d.items} render={p=><>
           <div className="row row-between">
             <div><h3 style={{margin:0}}>{p.display_name}</h3><p className="muted" style={{margin:'2px 0 0',fontSize:13}}>{p.email}</p></div>
-            <Badge label="Synthetic record" tone="neutral" meaning="Fictional data created for this prototype. No real person is represented."/>
+            <Badge label="Synthetic record" tone="neutral" meaning="Fictional data created for testing. No real person is represented."/>
           </div>
           <TechnicalDetails items={[{term:'Principal',value:p.id}]}/>
         </>}/>

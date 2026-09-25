@@ -88,7 +88,8 @@ export function assertTaskDetails(actual:string,input:Tracking){
 export type Capability={module_id:string;name:string;sprint_priority:string;target_depth:string;target_product:string;
   implementation_status:string;test_status:string;supported_profile:string;edition_entitlement:string;enabled_state:string;
   limitation:string;evidence:string[]};
-export type CapabilityRegister={schema_version:number;plan_version:string;note:string;capabilities:Capability[]};
+export type CapabilityExtension={name:string;implementation_status:string;test_status:string;supported_profile:string;limitation:string;evidence:string[]};
+export type CapabilityRegister={schema_version:number;plan_version:string;note:string;capabilities:Capability[];v1_non_model_extensions?:CapabilityExtension[]};
 export const implementationStatuses=['IMPLEMENTED_SANDBOX_SUBSET','PARTIAL_SANDBOX','NOT_IMPLEMENTED','DEFERRED_V2'] as const;
 export const capabilityTestStatuses=['COVERED_AT_CANDIDATE','NOT_RUN','DEFERRED_V2'] as const;
 const built=(status:string)=>status==='IMPLEMENTED_SANDBOX_SUBSET'||status==='PARTIAL_SANDBOX';
@@ -108,6 +109,16 @@ export function validateCapabilities(register:CapabilityRegister,exists:(path:st
   if(register.schema_version!==1)fail('Unsupported capability register version');
   if(!Array.isArray(register.capabilities)||register.capabilities.length!==33)fail('The register must retain all 33 master modules');
   if(!register.note)fail('Missing capability register note');
+  if(register.v1_non_model_extensions){
+    unique(register.v1_non_model_extensions.map(c=>c.name),'capability extension');
+    for(const c of register.v1_non_model_extensions){
+      if(!c.name||!c.limitation||c.supported_profile!=='CUSTOMER_LOCAL_SYNTHETIC'||
+        !(implementationStatuses as readonly string[]).includes(c.implementation_status)||
+        !(capabilityTestStatuses as readonly string[]).includes(c.test_status)||
+        !Array.isArray(c.evidence)||!c.evidence.length)fail(`Invalid capability extension: ${c.name}`);
+      for(const path of c.evidence)if(!exists(path))fail(`Missing capability extension evidence: ${path}`);
+    }
+  }
   unique(register.capabilities.map(c=>c.module_id),'capability module');
   for(const c of register.capabilities){
     if(!/^M\d{2}$/.test(c.module_id)||!c.name||!c.limitation)fail(`Invalid capability metadata: ${c.module_id}`);

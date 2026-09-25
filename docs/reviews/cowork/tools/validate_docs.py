@@ -67,7 +67,7 @@ def require_keys(R, name, obj, keys):
 
 
 def contract_enums(root):
-    """Design enums (CONTRACT.md §3) and executable-proposal enums (packages/contracts, if present)."""
+    """Design enums (CONTRACT.md §3) and current canonical executable enums."""
     design = {}
     c = (root / "docs/prototype/CONTRACT.md").read_text(encoding="utf-8")
     axis = {"Consent": "consent", "Workflow": "workflow", "Action execution": "action", "Observation": "observation",
@@ -75,7 +75,7 @@ def contract_enums(root):
     for k, v in re.findall(r"^\| (Consent|Workflow|Action execution|Observation|Processing decision|Test result) \| (.+) \|$", c, re.M):
         design[axis[k]] = set(re.findall(r"`([A-Z_]+)`", v))
     proposal = {}
-    p = root / "packages/contracts/src/index.ts"
+    p = root / "shared/contracts/src/index.ts"
     if p.exists():
         src = p.read_text(encoding="utf-8")
         names = {"ConsentState": "consent", "WorkflowState": "workflow", "ExecutionState": "action", "ObservationState": "observation",

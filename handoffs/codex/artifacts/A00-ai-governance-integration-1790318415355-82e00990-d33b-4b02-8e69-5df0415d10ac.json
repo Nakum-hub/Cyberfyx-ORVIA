@@ -1,0 +1,68 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T06:40:15.356Z",
+  "profile": "codex-a00",
+  "phase": "inventory",
+  "assertions": [
+    {
+      "name": "input-to-activity relationship is created",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "activity-to-purpose relationship is created",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "cross-tenant purpose cannot enter inventory",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "client cannot nominate an arbitrary owner",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "inventory creation succeeds",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "owner is the authenticated creator",
+      "result": "PASS",
+      "expected": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+      "actual": "db31106d-42e2-478a-bf05-d0b68d2e557c"
+    },
+    {
+      "name": "record remains declared and never calls a model",
+      "result": "PASS",
+      "expected": "string",
+      "actual": "string"
+    },
+    {
+      "name": "other tenant cannot read inventory",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "other tenant cannot add events",
+      "result": "FAIL",
+      "expected": 404,
+      "actual": 503
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

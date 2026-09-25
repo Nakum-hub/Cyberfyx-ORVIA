@@ -1,0 +1,55 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T09:37:13.181Z",
+  "test_ids": [
+    "T14",
+    "T15",
+    "T16"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.15.0",
+  "build_id": "9o1XOX6rFSILGENNCUFXz",
+  "assertions": [
+    {
+      "name": "agent cannot authenticate as sender",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "foreign tenant sender cannot select target",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "human session cannot admit sends",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "unallowlisted body fields denied",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "fresh grant admits synthetic send",
+      "result": "FAIL",
+      "expected": "ALLOW",
+      "actual": "INDETERMINATE"
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+  ]
+}

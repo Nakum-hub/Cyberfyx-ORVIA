@@ -1,0 +1,103 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T18:40:46.088Z",
+  "test_ids": [
+    "T14",
+    "T15",
+    "T16"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.17.0",
+  "build_id": "y6_jUGeT8svYfqyW6aRya",
+  "assertions": [
+    {
+      "name": "agent cannot authenticate as sender",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "foreign tenant sender cannot select target",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "human session cannot admit sends",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "unallowlisted body fields denied",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "fresh grant admits synthetic send",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    },
+    {
+      "name": "one actual send row created",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "machine send transport status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "stable attempt replay even with different transport key",
+      "result": "PASS",
+      "expected": {
+        "attempt_id": "d11f3a9f-1c03-40d6-b2a4-0272b622d9d9",
+        "decision": "ALLOW",
+        "send_record_id": "86eb9c3f-d74a-4437-a1a2-ce8c88e4506e",
+        "admitted_at": "2026-09-23T18:40:38.979Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "actual": {
+        "attempt_id": "d11f3a9f-1c03-40d6-b2a4-0272b622d9d9",
+        "decision": "ALLOW",
+        "send_record_id": "86eb9c3f-d74a-4437-a1a2-ce8c88e4506e",
+        "admitted_at": "2026-09-23T18:40:38.979Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      }
+    },
+    {
+      "name": "replay has no additional send",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "attempt ID with changed payload denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+  ]
+}

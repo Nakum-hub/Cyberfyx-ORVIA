@@ -1,0 +1,224 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T07:11:48.387Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "input-to-activity relationship is created",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "activity-to-purpose relationship is created",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "cross-tenant purpose cannot enter inventory",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "client cannot nominate an arbitrary owner",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "inventory creation succeeds",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "owner is the authenticated creator",
+      "result": "PASS",
+      "expected": "db31106d-42e2-478a-bf05-d0b68d2e557c",
+      "actual": "db31106d-42e2-478a-bf05-d0b68d2e557c"
+    },
+    {
+      "name": "record remains declared and never calls a model",
+      "result": "PASS",
+      "expected": "string",
+      "actual": "string"
+    },
+    {
+      "name": "a durable monitoring check is due after registration",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "check job persisted in PostgreSQL",
+      "result": "PASS",
+      "expected": [
+        1,
+        "READY",
+        0
+      ],
+      "actual": [
+        1,
+        "READY",
+        0
+      ]
+    },
+    {
+      "name": "other tenant cannot read inventory",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "other tenant cannot add events",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "member without governance permission is denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor can read governed inventory",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "auditor cannot write governed inventory",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "approval without prerequisites is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "inventor cannot approve own AI use",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "assessment recorded",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "policy must exist and be published",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "published policy linked",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "control recorded",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "evidence record remains a record, not verification",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "separate reviewer can approve",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "read exposes linked approval and risk record",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "monitoring is missing until recorded",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "finding recorded",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "finding invalidates earlier approval",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "a later assertion cannot silently close finding",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "finding remains open after later assertion",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "approval blocked by open finding",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "report counts the unresolved finding",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "report explains declaration limit",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "append-only event cannot be rewritten",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    }
+  ],
+  "result": "PASS"
+}

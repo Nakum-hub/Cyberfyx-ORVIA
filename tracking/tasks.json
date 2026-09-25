@@ -57,7 +57,7 @@
       "planned_paths": [
         "package.json",
         "pnpm-lock.yaml",
-        "packages/contracts/**",
+        "shared/contracts/**",
         "infrastructure/**",
         "scripts/**",
         "docs/engineering/REPOSITORY_INVENTORY.md"
@@ -115,9 +115,9 @@
         "C00"
       ],
       "planned_paths": [
-        "apps/web/src/app/layout.tsx",
-        "apps/web/src/app/workspace/**",
-        "apps/web/src/app/privacy/**",
+        "frontend/src/app/layout.tsx",
+        "frontend/src/app/workspace/**",
+        "frontend/src/app/privacy/**",
         "packages/ui/**"
       ],
       "deliverable": "One reusable shell, status primitives, accessible loading/error/empty states; no second backend.",
@@ -136,10 +136,10 @@
       ],
       "acceptance_dependencies": [],
       "planned_paths": [
-        "packages/auth/**",
-        "packages/authz/**",
-        "packages/db/**",
-        "apps/web/src/app/api/**",
+        "backend/auth/**",
+        "backend/authorization/**",
+        "database/customer/**",
+        "frontend/src/app/api/**",
         "policy/admin/**",
         "tests/security/**"
       ],
@@ -173,7 +173,7 @@
         "A02"
       ],
       "planned_paths": [
-        "apps/web/src/app/workspace/**",
+        "frontend/src/app/workspace/**",
         "tests/e2e/auth.spec.ts",
         "tests/e2e/configuration.spec.ts"
       ],
@@ -198,9 +198,9 @@
       ],
       "acceptance_dependencies": [],
       "planned_paths": [
-        "packages/domain/**",
-        "packages/db/migrations/**",
-        "apps/web/src/app/api/**",
+        "backend/domain/**",
+        "database/customer/migrations/**",
+        "frontend/src/app/api/**",
         "policy/processing/**",
         "tests/integration/consent/**"
       ],
@@ -236,7 +236,7 @@
         "A02"
       ],
       "planned_paths": [
-        "apps/web/src/app/privacy/**",
+        "frontend/src/app/privacy/**",
         "tests/e2e/consent.spec.ts"
       ],
       "deliverable": "Own choices/notice/history and grant/withdraw receipt with real persisted status and safe duplicate handling.",
@@ -323,10 +323,10 @@
       ],
       "acceptance_dependencies": [],
       "planned_paths": [
-        "apps/worker/**",
-        "apps/agent/**",
-        "packages/connectors/**",
-        "packages/db/**",
+        "services/worker/**",
+        "services/agent/**",
+        "connectors/**",
+        "database/customer/**",
         "tests/integration/workflows/**"
       ],
       "deliverable": "Stable workflow and command identities; signed scopes; real CRM remove/read adapter; restart-safe outbox delivery.",
@@ -355,10 +355,10 @@
       ],
       "acceptance_dependencies": [],
       "planned_paths": [
-        "packages/policy-sdk/**",
-        "packages/authz/**",
+        "backend/policy-sdk/**",
+        "backend/authorization/**",
         "policy/processing/**",
-        "apps/demo-targets/**",
+        "services/synthetic-target/**",
         "tests/integration/enforcement/**"
       ],
       "deliverable": "Current-epoch send boundary, independent service fixture and fail-closed/queue degraded processing with tested ordering.",
@@ -384,10 +384,10 @@
       ],
       "acceptance_dependencies": [],
       "planned_paths": [
-        "packages/domain/**",
-        "packages/connectors/**",
-        "apps/demo-targets/**",
-        "apps/web/src/app/api/**",
+        "backend/domain/**",
+        "connectors/**",
+        "services/synthetic-target/**",
+        "frontend/src/app/api/**",
         "tests/integration/evidence/**"
       ],
       "deliverable": "REST fault/reconciliation, known failure/manual task, truthful aggregate status, separate observations and audited JSON export.",
@@ -421,7 +421,7 @@
         "A05"
       ],
       "planned_paths": [
-        "apps/web/src/app/workspace/**",
+        "frontend/src/app/workspace/**",
         "packages/ui/**",
         "tests/e2e/workflow.spec.ts"
       ],
@@ -475,12 +475,12 @@
       ],
       "acceptance_dependencies": [],
       "planned_paths": [
-        "packages/testing/**",
+        "shared/testing/**",
         "tests/fault-fixtures/**",
         "tests/integration/**",
         "tests/security/**",
         "tests/recovery/**",
-        "apps/web/src/app/api/**"
+        "frontend/src/app/api/**"
       ],
       "deliverable": "Allowlisted real assertions, broken-fixture detection, worker recovery, target quarantine restore, network/secret/input/command tests; fix failures.",
       "test_ids": [
@@ -527,7 +527,7 @@
         "A06"
       ],
       "planned_paths": [
-        "apps/web/src/app/workspace/**",
+        "frontend/src/app/workspace/**",
         "tests/e2e/**"
       ],
       "deliverable": "Run actual allowed scenarios and display assertions; exercise complete UI and negative states; browser traffic evidence and regressions.",
@@ -605,8 +605,8 @@
         "W02"
       ],
       "planned_paths": [
-        "packages/domain/**",
-        "apps/web/src/app/api/**",
+        "backend/domain/**",
+        "frontend/src/app/api/**",
         "tests/integration/optional/**"
       ],
       "deliverable": "Only after core-green human promotion: choose one rights/retention/licence/help slice. Otherwise leave NOT_STARTED/OUT_OF_SPRINT.",
@@ -632,8 +632,8 @@
         "A08"
       ],
       "planned_paths": [
-        "apps/web/src/app/workspace/**",
-        "apps/web/src/app/privacy/**",
+        "frontend/src/app/workspace/**",
+        "frontend/src/app/privacy/**",
         "tests/e2e/optional.spec.ts"
       ],
       "deliverable": "Bind only the promoted tested slice; do not create empty fake modules. Only its matching P1 test is required.",
@@ -685,8 +685,8 @@
         "A07"
       ],
       "planned_paths": [
-        "apps/web/src/app/workspace/**",
-        "apps/web/src/app/privacy/**",
+        "frontend/src/app/workspace/**",
+        "frontend/src/app/privacy/**",
         "packages/ui/**",
         "tests/e2e/**"
       ],

@@ -1,0 +1,15 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T09:27:28.228Z",
+  "profile": "codex-a00",
+  "phase": "scenario",
+  "assertions": [],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "detail": "Synthetic owner login failed",
+  "diagnostics": ""
+}

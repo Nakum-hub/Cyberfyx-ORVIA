@@ -47,6 +47,7 @@
     "test:portal-rights": "tsx tests/integration/rights/portal.test.ts",
     "test:regression": "tsx tests/integration/regression/regression.test.ts",
     "verify:suites": "tsx scripts/verify-suites.ts",
+    "capacity:probe": "tsx scripts/capacity-probe.ts",
     "regression:init": "tsx scripts/regression-init.ts",
     "regression:run": "tsx scripts/regression-runner.ts",
     "runtime:build": "tsx scripts/runtime-image.ts",
@@ -83,6 +84,7 @@
     "demo:run": "tsx scripts/demo-run.ts",
     "demo:fixture": "tsx scripts/demo-fixture.ts",
     "evidence:export": "tsx scripts/evidence-export.ts",
+    "evidence:verify": "tsx scripts/verify-evidence.ts",
     "candidate:package": "tsx scripts/package-candidate.ts",
     "test:lifecycle": "tsx tests/integration/lifecycle.test.ts"
   },

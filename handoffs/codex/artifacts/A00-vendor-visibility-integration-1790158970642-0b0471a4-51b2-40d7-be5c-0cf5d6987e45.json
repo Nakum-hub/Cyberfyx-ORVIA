@@ -1,0 +1,201 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T10:22:50.642Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "vendor service health is an absence with a reason, never a clean bill of health",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "the four statements the requirement is made of are all present",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "opening a support case discloses nothing by itself",
+      "result": "PASS",
+      "expected": [
+        34,
+        21
+      ],
+      "actual": [
+        34,
+        21
+      ]
+    },
+    {
+      "name": "and the quiet case appears in no disclosure",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "both approvals appear, and each says whether anybody carried it",
+      "result": "PASS",
+      "expected": [
+        "ACCEPTED",
+        true,
+        null,
+        null
+      ],
+      "actual": [
+        "ACCEPTED",
+        true,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "an approval nobody carried is counted apart from one that was",
+      "result": "PASS",
+      "expected": 18,
+      "actual": 18
+    },
+    {
+      "name": "neither claims this product moved anything",
+      "result": "PASS",
+      "expected": [
+        false,
+        false
+      ],
+      "actual": [
+        false,
+        false
+      ]
+    },
+    {
+      "name": "each names the exact payload digest that was approved",
+      "result": "PASS",
+      "expected": [
+        "fec4aabb296a279902f8e8f01779894450d31178f009acf041ca15f7a4bf62c6",
+        "605c296ac36ad4066cdc50292da78c778d7d8e6ece10e935193cfd1b5afeba62"
+      ],
+      "actual": [
+        "fec4aabb296a279902f8e8f01779894450d31178f009acf041ca15f7a4bf62c6",
+        "605c296ac36ad4066cdc50292da78c778d7d8e6ece10e935193cfd1b5afeba62"
+      ]
+    },
+    {
+      "name": "every approval this installation holds is accounted for, and nothing else is",
+      "result": "PASS",
+      "expected": 36,
+      "actual": 36
+    },
+    {
+      "name": "the facts disclosed are exactly the observations in the payload that was approved",
+      "result": "PASS",
+      "expected": [
+        "NOTIFICATION_DELIVERY_FAILED",
+        "STALE_OBSERVATION_BACKLOG",
+        "WORKFLOW_NEEDS_ATTENTION"
+      ],
+      "actual": [
+        "NOTIFICATION_DELIVERY_FAILED",
+        "STALE_OBSERVATION_BACKLOG",
+        "WORKFLOW_NEEDS_ATTENTION"
+      ]
+    },
+    {
+      "name": "and every fact is a closed code with a window, never a sentence",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report does not contain a data principal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the report does not contain a staff email address",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "it carries no field beyond the ones the schema declares",
+      "result": "PASS",
+      "expected": [
+        "approved_but_not_carried",
+        "as_of",
+        "cases_with_nothing_disclosed",
+        "disclosures",
+        "limits",
+        "no_automatic_telemetry_is_collected",
+        "no_employee_activity_is_tracked",
+        "profile",
+        "the_absence_of_a_model_is_never_an_incident",
+        "this_states_what_was_disclosed_not_what_the_vendor_holds",
+        "vendor_service_health"
+      ],
+      "actual": [
+        "approved_but_not_carried",
+        "as_of",
+        "cases_with_nothing_disclosed",
+        "disclosures",
+        "limits",
+        "no_automatic_telemetry_is_collected",
+        "no_employee_activity_is_tracked",
+        "profile",
+        "the_absence_of_a_model_is_never_an_incident",
+        "this_states_what_was_disclosed_not_what_the_vendor_holds",
+        "vendor_service_health"
+      ]
+    },
+    {
+      "name": "nothing disclosed mentions a model, and no incident was raised about one lacking",
+      "result": "PASS",
+      "expected": [
+        false,
+        0
+      ],
+      "actual": [
+        false,
+        0
+      ]
+    },
+    {
+      "name": "an auditor may read what the vendor was told",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "a member without installation-health authority is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the route is a read and accepts no body",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "result": "PASS",
+  "run_id": "2c78a678-3894-49de-a5ba-18fe4e95a6df"
+}

@@ -47,15 +47,13 @@ try {
   check('a declaration carries no observation time', [declared.last_seen_at, declared.fresh_until], [null, null]);
   check('a new record is not silently treated as reviewed', declared.review_state, 'UNREVIEWED');
 
-  // FR-M03-02: asserted and observed provenance stay distinct.
-  const observed = S.DataAsset.parse(await (await staff.call('/api/v1/admin/data-assets', {
+  // FR-M03-02: a staff claim cannot create independent provenance.
+  const attemptedObservation = await staff.call('/api/v1/admin/data-assets', {
     system_id: scenario.system.id, kind: 'FIELD', parent_id: declared.id, name: 'marketing_opt_in',
-    description: 'Field seen by a scoped connector read.', provenance: 'OBSERVED',
+    description: 'Staff claim of a connector read.', provenance: 'OBSERVED',
     valid_from: new Date().toISOString(), categories: [],
-  }, key())).json());
-  check('an observation records when it was read and how long it is trusted', [observed.last_seen_at !== null, observed.fresh_until !== null], [true, true]);
-  check('observation freshness ends after the reading', Date.parse(observed.fresh_until!) > Date.parse(observed.last_seen_at!), true);
-  check('a field name alone assigns no category', observed.categories, []);
+  }, key());
+  check('staff claim cannot create an observed asset',attemptedObservation.status,400);
 
   phase = 'inventory rejections';
   const otherSystem = S.System.parse(await (await staff.call('/api/v1/admin/systems', { legal_entity_id: scenario.scope.legal_entity_id, environment_id: scenario.scope.environment_id, name: 'Second synthetic CRM', connector: 'SYNTHETIC_CRM' }, key())).json());

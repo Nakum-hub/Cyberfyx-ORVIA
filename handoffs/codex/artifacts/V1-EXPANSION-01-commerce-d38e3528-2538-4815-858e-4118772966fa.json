@@ -1,0 +1,143 @@
+{
+  "task_id": "V1-EXPANSION-01",
+  "recorded_at": "2026-09-25T09:54:41.853Z",
+  "fixture_kind": "ISOLATED_SYNTHETIC_VENDOR_DATABASE",
+  "database": "orvia_vendor_test_d38e352825384815858e4118772966fa",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "concurrent identical order creates one durable order",
+      "result": "PASS"
+    },
+    {
+      "name": "price comes from approved server catalogue",
+      "result": "PASS"
+    },
+    {
+      "name": "changed idempotency body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-account read denied",
+      "result": "PASS"
+    },
+    {
+      "name": "forged account authority denied",
+      "result": "PASS"
+    },
+    {
+      "name": "read-only buyer cannot create",
+      "result": "PASS"
+    },
+    {
+      "name": "no entitlement before a verified capture",
+      "result": "PASS"
+    },
+    {
+      "name": "provider binding cannot be changed",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent capture yields exactly one original receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "one entitlement request per order",
+      "result": "PASS"
+    },
+    {
+      "name": "verified capture queues but does not issue licence",
+      "result": "PASS"
+    },
+    {
+      "name": "plain object cannot impersonate verified provider",
+      "result": "PASS"
+    },
+    {
+      "name": "same provider event ID with changed body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "stale failure cannot downgrade captured order",
+      "result": "PASS"
+    },
+    {
+      "name": "different delivery ID does not duplicate issuance",
+      "result": "PASS"
+    },
+    {
+      "name": "one provider payment cannot pay two orders",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment retained as review required",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment never queues entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "card capture uses same verified durable path",
+      "result": "PASS"
+    },
+    {
+      "name": "test event cannot credit live merchant binding",
+      "result": "PASS"
+    },
+    {
+      "name": "refund received before capture remains unresolved",
+      "result": "PASS"
+    },
+    {
+      "name": "late capture does not undo refund",
+      "result": "PASS"
+    },
+    {
+      "name": "partial refund holds pending issuance",
+      "result": "PASS"
+    },
+    {
+      "name": "refund after fixture issuance requires review without remote command",
+      "result": "PASS"
+    },
+    {
+      "name": "outbox persistence failure aborts payment transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "failed transaction leaves no payment receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "failed transaction preserves pending order",
+      "result": "PASS"
+    },
+    {
+      "name": "payment ledger cannot be rewritten",
+      "result": "PASS"
+    },
+    {
+      "name": "audit cannot be erased",
+      "result": "PASS"
+    },
+    {
+      "name": "restart retains payment state",
+      "result": "PASS"
+    },
+    {
+      "name": "restart replay retains held entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor database contains no customer operational schema",
+      "result": "PASS"
+    }
+  ],
+  "migration_sha256": "09509c7ab31d62217519a9d948f7d500ef106692625c8fbffffa23799fb91216",
+  "limitations": [
+    "No HTTP/vendor login/checkout transport or actual payment provider used.",
+    "No licence issued; one outbox row set to ISSUED by labelled fixture only.",
+    "Operator identity used in isolated test database; production role deployment not qualified."
+  ]
+}

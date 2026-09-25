@@ -1,0 +1,212 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T09:11:49.278Z",
+  "profile": "codex-a00",
+  "phase": "acknowledgement",
+  "assertions": [
+    {
+      "name": "the key reference refuses a PEM body rather than storing it",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the key reference refuses a base64 blob rather than storing it",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the key reference refuses a sentence rather than storing it",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the snapshot never claims this product made, holds or verified the archive",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "it counts exactly the domains it says it covers",
+      "result": "PASS",
+      "expected": [
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ],
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ]
+      ],
+      "actual": [
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ],
+        [
+          "CONFIGURATION",
+          "DOMAIN_RECORDS"
+        ]
+      ]
+    },
+    {
+      "name": "the counts are read from this installation rather than supplied by the caller",
+      "result": "PASS",
+      "expected": [
+        [
+          "CONFIGURATION",
+          639
+        ],
+        [
+          "DOMAIN_RECORDS",
+          306
+        ]
+      ],
+      "actual": [
+        [
+          "CONFIGURATION",
+          639
+        ],
+        [
+          "DOMAIN_RECORDS",
+          306
+        ]
+      ]
+    },
+    {
+      "name": "and the statement carries a digest over what was read",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the database itself refuses to let a declared snapshot be changed",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a restore begins in quarantine and says so",
+      "result": "PASS",
+      "expected": [
+        "QUARANTINED",
+        null
+      ],
+      "actual": [
+        "QUARANTINED",
+        null
+      ]
+    },
+    {
+      "name": "the withdrawal made after the snapshot is reported as a conflict",
+      "result": "PASS",
+      "expected": [
+        "GRANTED",
+        "WITHDRAWN",
+        true
+      ],
+      "actual": [
+        "GRANTED",
+        "WITHDRAWN",
+        true
+      ]
+    },
+    {
+      "name": "the outstanding count is the conflicts nobody has decided, not a summary",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "and nothing is attributed to anyone yet",
+      "result": "PASS",
+      "expected": [
+        null,
+        null,
+        null
+      ],
+      "actual": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "a restore cannot leave quarantine while a changed decision is outstanding",
+      "result": "PASS",
+      "expected": [
+        400,
+        [
+          "consent_decisions_changed_since_snapshot_are_outstanding"
+        ]
+      ],
+      "actual": [
+        400,
+        [
+          "consent_decisions_changed_since_snapshot_are_outstanding"
+        ]
+      ]
+    },
+    {
+      "name": "an administrator who may record a restore may not release one",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor may read the reconciliation",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "but may not release it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a pair whose decision never changed cannot be acknowledged to clear the queue",
+      "result": "PASS",
+      "expected": [
+        404,
+        [
+          "no_such_conflict_in_this_restore"
+        ]
+      ],
+      "actual": [
+        404,
+        [
+          "no_such_conflict_in_this_restore"
+        ]
+      ]
+    },
+    {
+      "name": "every conflict now names who decided it and when",
+      "result": "FAIL",
+      "expected": [
+        0,
+        true
+      ],
+      "actual": [
+        1,
+        false
+      ]
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

@@ -1,0 +1,135 @@
+- main [ref=e2]:
+  - paragraph [ref=e3]: Synthetic isolated validation
+  - generic [ref=e4]:
+    - generic [ref=e7]:
+      - paragraph [ref=e8]: Governance
+      - heading "Frameworks, controls and risks" [level=2] [ref=e9]
+      - paragraph [ref=e10]: Map requirements to controls, review local evidence and record time-bound risk decisions.
+    - generic [ref=e11]:
+      - heading "Evidence and review stay separate" [level=3] [ref=e12]:
+        - generic [aria-hidden] [ref=e13]: •
+        - text: Evidence and review stay separate
+      - paragraph [ref=e14]: Manual review records a person’s decision. It does not verify an external control effect or certify compliance.
+    - generic [ref=e15]:
+      - button "Add framework" [active] [ref=e16] [cursor=pointer]
+      - button "Add control" [ref=e17] [cursor=pointer]
+      - button "Add risk" [ref=e18] [cursor=pointer]
+    - region "Add framework" [ref=e113]:
+      - generic [ref=e114]:
+        - heading "Add framework" [level=3] [ref=e115]
+        - button "Close form" [ref=e117] [cursor=pointer]
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - text: Framework name
+          - textbox "Framework name" [ref=e120]
+        - generic [ref=e121]:
+          - text: Version
+          - textbox "Version" [ref=e122]
+        - generic [ref=e123]:
+          - text: Source reference
+          - textbox "Source reference" [ref=e124]
+        - group "Requirement 1" [ref=e125]:
+          - generic [ref=e127]:
+            - text: Code
+            - textbox "Code" [ref=e128]
+          - generic [ref=e129]:
+            - text: Description
+            - textbox "Description" [ref=e130]
+        - button "Add requirement" [ref=e131] [cursor=pointer]
+        - button "Save framework version" [ref=e132] [cursor=pointer]
+    - region "Framework versions" [ref=e19]:
+      - heading "Framework versions" [level=3] [ref=e21]
+      - paragraph [ref=e22]:
+        - text: Read into this screen at
+        - strong [ref=e23]: 9/25/2026, 16:57:06 GMT+5:30
+        - text: .
+        - button "Refresh now" [ref=e24] [cursor=pointer]
+      - table [ref=e26]:
+        - caption [ref=e27]: Versioned requirements
+        - rowgroup [ref=e28]:
+          - row [ref=e29]:
+            - columnheader "Framework" [ref=e30]
+            - columnheader "Version" [ref=e31]
+            - columnheader "Source" [ref=e32]
+            - columnheader "Requirements" [ref=e33]
+        - rowgroup [ref=e34]:
+          - row [ref=e35]:
+            - cell "Synthetic complete framework" [ref=e36]
+            - cell "1" [ref=e37]
+            - cell "Synthetic source" [ref=e38]
+            - cell [ref=e39]:
+              - group [ref=e40]:
+                - generic "100 requirements" [ref=e41]
+          - row [ref=e42]:
+            - cell "Synthetic HTTP access framework" [ref=e43]
+            - cell "1" [ref=e44]
+            - cell "Synthetic source" [ref=e45]
+            - cell [ref=e46]:
+              - group [ref=e47]:
+                - generic "1 requirements" [ref=e48]
+      - navigation "Result pages" [ref=e49]:
+        - button "Previous page" [disabled] [ref=e50]
+        - generic [ref=e51]: Page 1
+        - button "Next page" [disabled] [ref=e52]
+    - region "Controls" [ref=e53]:
+      - heading "Controls" [level=3] [ref=e55]
+      - paragraph [ref=e56]:
+        - text: Read into this screen at
+        - strong [ref=e57]: 9/25/2026, 16:57:07 GMT+5:30
+        - text: .
+        - button "Refresh now" [ref=e58] [cursor=pointer]
+      - table [ref=e60]:
+        - caption [ref=e61]: Recorded controls
+        - rowgroup [ref=e62]:
+          - row [ref=e63]:
+            - columnheader "Control" [ref=e64]
+            - columnheader "Owner" [ref=e65]
+            - columnheader "Requirements" [ref=e66]
+            - columnheader "Review interval" [ref=e67]
+            - columnheader "Evidence" [ref=e68]
+        - rowgroup [ref=e69]:
+          - row [ref=e70]:
+            - cell "Synthetic HTTP control Review access" [ref=e71]:
+              - generic [ref=e72]:
+                - text: Synthetic HTTP control
+                - generic [ref=e73]: Review access
+            - cell "Synthetic owner" [ref=e74]
+            - cell "1" [ref=e75]
+            - cell "30 days" [ref=e76]
+            - cell [ref=e77]:
+              - button "Review evidence" [ref=e78] [cursor=pointer]
+      - navigation "Result pages" [ref=e79]:
+        - button "Previous page" [disabled] [ref=e80]
+        - generic [ref=e81]: Page 1
+        - button "Next page" [disabled] [ref=e82]
+    - region "Risk register" [ref=e83]:
+      - heading "Risk register" [level=3] [ref=e85]
+      - paragraph [ref=e86]:
+        - text: Read into this screen at
+        - strong [ref=e87]: 9/25/2026, 16:57:07 GMT+5:30
+        - text: .
+        - button "Refresh now" [ref=e88] [cursor=pointer]
+      - table [ref=e90]:
+        - caption [ref=e91]: Declared risks
+        - rowgroup [ref=e92]:
+          - row [ref=e93]:
+            - columnheader "Risk" [ref=e94]
+            - columnheader "Owner" [ref=e95]
+            - columnheader "Declared likelihood × impact" [ref=e96]
+            - columnheader "Review due" [ref=e97]
+            - columnheader "Treatment" [ref=e98]
+        - rowgroup [ref=e99]:
+          - row [ref=e100]:
+            - cell "Synthetic HTTP risk Excess access" [ref=e101]:
+              - generic [ref=e102]:
+                - text: Synthetic HTTP risk
+                - generic [ref=e103]: Excess access
+            - cell "Synthetic owner" [ref=e104]
+            - cell "3 × 4 = 12" [ref=e105]
+            - cell "9/26/2026, 16:55:40 GMT+5:30" [ref=e106]
+            - cell [ref=e107]:
+              - button "Open risk" [ref=e108] [cursor=pointer]
+      - navigation "Result pages" [ref=e109]:
+        - button "Previous page" [disabled] [ref=e110]
+        - generic [ref=e111]: Page 1
+        - button "Next page" [disabled] [ref=e112]

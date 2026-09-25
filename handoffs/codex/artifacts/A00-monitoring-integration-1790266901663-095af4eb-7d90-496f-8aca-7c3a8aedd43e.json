@@ -1,0 +1,295 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-24T16:21:41.664Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "three readiness kinds are reported, each exactly once",
+      "result": "PASS",
+      "expected": [
+        "LIVENESS",
+        "DEPENDENCY_READINESS",
+        "BUSINESS_READINESS"
+      ],
+      "actual": [
+        "LIVENESS",
+        "DEPENDENCY_READINESS",
+        "BUSINESS_READINESS"
+      ]
+    },
+    {
+      "name": "the report refuses to reduce itself to one status",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "liveness is established and says what it does not cover",
+      "result": "PASS",
+      "expected": [
+        "READY",
+        true
+      ],
+      "actual": [
+        "READY",
+        true
+      ]
+    },
+    {
+      "name": "dependency readiness is established by having done real work, not by a probe",
+      "result": "PASS",
+      "expected": [
+        "READY",
+        true
+      ],
+      "actual": [
+        "READY",
+        true
+      ]
+    },
+    {
+      "name": "business readiness is established once a policy is published and a system can restrict",
+      "result": "PASS",
+      "expected": [
+        "READY",
+        []
+      ],
+      "actual": [
+        "READY",
+        []
+      ]
+    },
+    {
+      "name": "the scenario recorded at least one system able to restrict",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "liveness and dependency readiness are unchanged when the product cannot act",
+      "result": "PASS",
+      "expected": [
+        "READY",
+        "READY"
+      ],
+      "actual": [
+        "READY",
+        "READY"
+      ]
+    },
+    {
+      "name": "business readiness alone reports that no decision could be carried out",
+      "result": "PASS",
+      "expected": "NOT_READY",
+      "actual": "NOT_READY"
+    },
+    {
+      "name": "and it names what is blocking rather than merely refusing",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "there is still no combined status to mislead a reader",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the verdict returns once the installation can act again",
+      "result": "PASS",
+      "expected": "READY",
+      "actual": "READY"
+    },
+    {
+      "name": "all seven signals are reported, each exactly once",
+      "result": "PASS",
+      "expected": [
+        "BACKUP_STATUS",
+        "CONNECTOR_LIMIT_HEADROOM",
+        "OBSERVATION_FRESHNESS",
+        "OLDEST_UNRESOLVED_WORK",
+        "PROPAGATION_LAG",
+        "QUEUE_DEPTH",
+        "STORAGE_FOOTPRINT"
+      ],
+      "actual": [
+        "BACKUP_STATUS",
+        "CONNECTOR_LIMIT_HEADROOM",
+        "OBSERVATION_FRESHNESS",
+        "OLDEST_UNRESOLVED_WORK",
+        "PROPAGATION_LAG",
+        "QUEUE_DEPTH",
+        "STORAGE_FOOTPRINT"
+      ]
+    },
+    {
+      "name": "every signal says what it counted",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the signal this build cannot produce says so rather than reporting zero",
+      "result": "PASS",
+      "expected": [
+        false,
+        null,
+        null
+      ],
+      "actual": [
+        false,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "and it names why, in terms of the product rather than a transient fault",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "backup status reports the declared record, and its absence is never a zero",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        "SECONDS"
+      ],
+      "actual": [
+        true,
+        false,
+        "SECONDS"
+      ]
+    },
+    {
+      "name": "whichever branch applies, it says what it is and is not evidence of",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the measured signals carry a unit and a value",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the database size is a real figure, not a placeholder",
+      "result": "PASS",
+      "expected": [
+        "BYTES",
+        true
+      ],
+      "actual": [
+        "BYTES",
+        true
+      ]
+    },
+    {
+      "name": "the storage figure says it is not a per-tenant number",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the queue depth is read from the outbox rather than reported as a constant",
+      "result": "PASS",
+      "expected": [
+        2,
+        false
+      ],
+      "actual": [
+        2,
+        false
+      ]
+    },
+    {
+      "name": "the report is evaluated at read time, not stored",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the readiness report does not contain a data principal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the readiness report does not contain a staff member",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the readiness report does not contain the tenant",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the readiness report does not contain a purpose",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the readiness report does not contain a system",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "and it carries no free-text operational field the schema did not declare",
+      "result": "PASS",
+      "expected": [
+        "as_of",
+        "combined_status_is_not_reported",
+        "facts",
+        "limits",
+        "profile",
+        "signals",
+        "uptime_is_not_evidence_of_correct_operation"
+      ],
+      "actual": [
+        "as_of",
+        "combined_status_is_not_reported",
+        "facts",
+        "limits",
+        "profile",
+        "signals",
+        "uptime_is_not_evidence_of_correct_operation"
+      ]
+    },
+    {
+      "name": "an auditor holding health.read may read operational readiness",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "a member without the capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the readiness route is a read and accepts no body",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "result": "PASS",
+  "run_id": "33b5c8f8-0a71-48ea-8349-704b44ae170a"
+}

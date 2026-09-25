@@ -2,6 +2,7 @@
 import hashlib
 import json
 import re
+import subprocess
 from datetime import datetime
 from pathlib import Path, PurePosixPath
 
@@ -37,6 +38,35 @@ def local_file(root, value):
     if not f.is_relative_to(root) or not f.is_file():
         raise ValueError('missing or out-of-root artifact: ' + value)
     return f
+
+
+def committed_bytes(root, path, commit):
+    """Read a pinned historical source without relabelling today's moved file.
+
+    Git is called with an argument vector, and both the commit and repository
+    path are validated before the lookup. The caller must still compare the
+    recorded hash or exact quotation.
+    """
+    if not HEX40.fullmatch(str(commit)) or not isinstance(path, str) or not path or '\\' in path or ':' in path:
+        raise ValueError('unsafe historical source reference')
+    candidate = PurePosixPath(path)
+    if candidate.is_absolute() or '..' in candidate.parts or str(candidate) != path:
+        raise ValueError('unsafe historical source reference')
+    result = subprocess.run(['git', 'show', f'{commit}:{path}'], cwd=root, capture_output=True, check=False)
+    if result.returncode != 0:
+        raise ValueError('historical source absent at recorded commit: ' + path)
+    return result.stdout
+
+
+def source_bytes(root, path, commit, expected_hash=None):
+    """Prefer a matching live source; otherwise verify the pinned Git source."""
+    try:
+        current = local_file(root, path).read_bytes()
+        if expected_hash is None or hashlib.sha256(current).hexdigest() == expected_hash:
+            return current
+    except (ValueError, OSError):
+        pass
+    return committed_bytes(root, path, commit)
 
 
 def identity(record, candidate=False):
@@ -253,7 +283,8 @@ def approval_errors(root, copy):
             if not HEX40.fullmatch(str(a.get('accepted_commit',''))) or a['accepted_commit'] not in data.decode():
                 raise ValueError('approval lacks exact accepted source commit')
             if not e.get('accepted_field_ref'): raise ValueError('accepted field source absent')
-            field = e['accepted_field_ref']; content = local_file(root, field.get('path')).read_text()
+            field = e['accepted_field_ref']
+            content = source_bytes(root, field.get('path'), a['accepted_commit']).decode('utf-8')
             if not field.get('quote') or field['quote'] not in content: raise ValueError('accepted field source mismatch')
             if e.get('consumer_binding') not in ('NOT_IMPLEMENTED','NOT_INSPECTED','IMPLEMENTED_UNTESTED','TESTED'):
                 raise ValueError('consumer binding fact absent')
@@ -307,7 +338,7 @@ def copy_safety_errors(root, copy):
                 errors.append(kind + ': duplicate/unbound reason or absent state guard')
             seen.add(code)
             try:
-                data = local_file(root, row.get('source_path')).read_bytes()
+                data = source_bytes(root, row.get('source_path'), row.get('source_commit'), row.get('source_sha256'))
                 if hashlib.sha256(data).hexdigest() != row.get('source_sha256') or not isinstance(code, str) or code not in data.decode():
                     errors.append(kind + ': reason source/hash mismatch')
                 if not HEX40.fullmatch(str(row.get('source_commit', ''))):
@@ -322,7 +353,7 @@ def copy_safety_errors(root, copy):
         errors.append('overview mixes count units or permits an unsupported total')
     for path_key, hash_key in (('source_path', 'source_sha256'), ('source_predicate_path', 'source_predicate_sha256')):
         try:
-            if hashlib.sha256(local_file(root, overview.get(path_key)).read_bytes()).hexdigest() != overview.get(hash_key):
+            if hashlib.sha256(source_bytes(root, overview.get(path_key), overview.get('source_commit'), overview.get(hash_key))).hexdigest() != overview.get(hash_key):
                 errors.append('overview source predicate changed; display definition needs review')
         except (ValueError, OSError, TypeError) as err:
             errors.append('overview: ' + str(err))
@@ -352,7 +383,7 @@ def screen_errors(root, screens, ev):
                 if set(hashes) != set(observed['source_paths']): errors.append(str(sid) + ': source hashes absent')
                 for path in observed['source_paths']:
                     try:
-                        data = local_file(root, path).read_bytes()
+                        data = source_bytes(root, path, source.get('commit'), hashes.get(path))
                         if hashlib.sha256(data).hexdigest() != hashes.get(path): errors.append(str(sid) + ': source inspection hash mismatch')
                     except ValueError as err: errors.append(str(err))
         if s.get('tested') not in ('NOT_RUN', 'SKIPPED'):

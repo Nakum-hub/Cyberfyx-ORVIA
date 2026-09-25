@@ -150,7 +150,10 @@ export async function completeAssessment(c: Context, id: string, input: unknown)
 export async function createFinding(c: Context, input: unknown) {
   const value = S.FindingCreate.parse(input);
   const scope = scopeValues(c.actor);
-  const assessment = requireOne((await c.tx.query(`SELECT state FROM app.assessments WHERE ${predicate} AND id=$4`, [...scope, value.assessment_id])).rows);
+  // Serialize with completeAssessment before reading state. A foreign-key lock
+  // taken by the later INSERT is too late: completion could commit after this
+  // read and the insert would otherwise attach an open finding to a closed review.
+  const assessment = requireOne((await c.tx.query(`SELECT state FROM app.assessments WHERE ${predicate} AND id=$4 FOR UPDATE`, [...scope, value.assessment_id])).rows);
   // A completed assessment is a closed statement. A new finding belongs to a new
   // assessment, so the earlier conclusion is not quietly contradicted.
   if (assessment.state !== 'OPEN') throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'assessment_id', code: 'assessment_is_not_open' }]);

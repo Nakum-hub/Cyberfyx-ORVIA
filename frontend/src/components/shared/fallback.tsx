@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 
 /**
  * Branded shell for route-level outcomes that happen outside an authenticated
- * area: an unmatched URL and an uncaught render error. Both keep the synthetic
- * banner and offer a route back, and neither displays a stack trace, an error
+ * area: an unmatched URL and an uncaught render error. Both keep the test
+ * environment label and offer a route back, and neither displays a stack trace, an error
  * message from the server or any identifier belonging to a record.
  *
  * Record-level outcomes are deliberately not handled here: a missing record
@@ -16,8 +16,8 @@ export function RouteFallback({ title, kind, children, actions }: {
 }) {
   return (
     <main className="landing" id="main" tabIndex={-1}>
-      <div className="demo-banner" style={{ marginBottom: 24 }}>
-        <strong>Synthetic demonstration</strong>
+      <div className="environment-banner" style={{ marginBottom: 24 }}>
+        <strong>Synthetic test environment</strong>
         <span className="meta">Fictional Aster and Birch data only</span>
       </div>
       <h1>ORVIA</h1>
@@ -31,7 +31,7 @@ export function RouteFallback({ title, kind, children, actions }: {
         {actions}
       </div>
       <p className="muted">
-        Customer-local prototype on fictional Aster/Birch data. No production system, real recipient or vendor
+        Customer-local evaluation build with synthetic records. No production system, real recipient or vendor
         service is contacted from this interface.
       </p>
     </main>

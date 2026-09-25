@@ -1,0 +1,13 @@
+{
+  "task_id": "V1-EXPANSION-01",
+  "recorded_at": "2026-09-25T09:51:24.269Z",
+  "fixture_kind": "ISOLATED_SYNTHETIC_VENDOR_DATABASE",
+  "database": "orvia_vendor_test_769e09b94742454a8c4d32fc41eea980",
+  "result": "FAIL",
+  "phase": "create isolated vendor database",
+  "assertions": [],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

@@ -1,0 +1,335 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T11:26:48.920Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a connection cannot be started asking for a right to change the connected system",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a connection to a system that does not exist is refused rather than created",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new connection has done the two steps it could not exist without, and no more",
+      "result": "PASS",
+      "expected": [
+        [
+          "SELECT_SYSTEM",
+          "CHOOSE_CAPABILITIES"
+        ],
+        "CONFIGURE_CONNECTIVITY"
+      ],
+      "actual": [
+        [
+          "SELECT_SYSTEM",
+          "CHOOSE_CAPABILITIES"
+        ],
+        "CONFIGURE_CONNECTIVITY"
+      ]
+    },
+    {
+      "name": "it starts in observation, with nothing observed about the system yet",
+      "result": "PASS",
+      "expected": [
+        "OBSERVE",
+        null,
+        null,
+        true
+      ],
+      "actual": [
+        "OBSERVE",
+        null,
+        null,
+        true
+      ]
+    },
+    {
+      "name": "a second connection to the same system resumes rather than starting beside it",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an endpoint whose certificate did not verify does not complete the step, and says why",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "a verified endpoint completes the step and moves the wizard on",
+      "result": "PASS",
+      "expected": [
+        true,
+        "SCOPED_IDENTITY"
+      ],
+      "actual": [
+        true,
+        "SCOPED_IDENTITY"
+      ]
+    },
+    {
+      "name": "the database refuses an endpoint recorded without a verification result",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "something that looks like a pasted secret does not fit in the reference field",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a reference containing whitespace, which a copied credential block would, is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a reference to a customer-held secret completes the step",
+      "result": "PASS",
+      "expected": [
+        true,
+        "vault://synthetic/crm-reader",
+        "TEST_PERMISSIONS"
+      ],
+      "actual": [
+        true,
+        "vault://synthetic/crm-reader",
+        "TEST_PERMISSIONS"
+      ]
+    },
+    {
+      "name": "there is no column on a connection in which a secret could be written",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the step is not done because the connection says so; it is not done because no check exists",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the step reports exactly what the recorded check observed, not what was requested",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        true
+      ],
+      "actual": [
+        true,
+        false,
+        true
+      ]
+    },
+    {
+      "name": "what was asked for and what was observed stay separate facts",
+      "result": "PASS",
+      "expected": [
+        [
+          "DISCOVER",
+          "READ"
+        ],
+        false
+      ],
+      "actual": [
+        [
+          "DISCOVER",
+          "READ"
+        ],
+        false
+      ]
+    },
+    {
+      "name": "an asset existing on the system does not approve it for the connection",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an asset on another system cannot be approved into this connection",
+      "result": "PASS",
+      "expected": [
+        "asset_not_in_this_connected_system"
+      ],
+      "actual": [
+        "asset_not_in_this_connected_system"
+      ]
+    },
+    {
+      "name": "an explicitly approved asset completes the step",
+      "result": "PASS",
+      "expected": [
+        true,
+        "REVIEW_MAPPINGS"
+      ],
+      "actual": [
+        true,
+        "REVIEW_MAPPINGS"
+      ]
+    },
+    {
+      "name": "withdrawing the approval makes the step undone again, because it was measured rather than stored",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "no mapping to this system means step 7 is outstanding",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a mapping binding a principal and purpose to this system completes step 7",
+      "result": "PASS",
+      "expected": [
+        true,
+        "PREVIEW_AND_TEST"
+      ],
+      "actual": [
+        true,
+        "PREVIEW_AND_TEST"
+      ]
+    },
+    {
+      "name": "configuring a connection does not carry the authority to enable it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the ladder cannot be skipped",
+      "result": "PASS",
+      "expected": [
+        "enablement_moves_one_rung_forward"
+      ],
+      "actual": [
+        "enablement_moves_one_rung_forward"
+      ]
+    },
+    {
+      "name": "a connection with an unfinished step is not enabled, and the refusal names which step",
+      "result": "PASS",
+      "expected": [
+        "incomplete_preview_and_test"
+      ],
+      "actual": [
+        "incomplete_preview_and_test"
+      ]
+    },
+    {
+      "name": "the preview ran and acted on nothing",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a preview evaluated against this system completes step 8 without acting on anything",
+      "result": "PASS",
+      "expected": [
+        true,
+        "ENABLE_PROGRESSIVELY"
+      ],
+      "actual": [
+        true,
+        "ENABLE_PROGRESSIVELY"
+      ]
+    },
+    {
+      "name": "coordination is a stage somebody chose, and it is still not permission to mutate",
+      "result": "PASS",
+      "expected": [
+        "COORDINATE",
+        true,
+        false
+      ],
+      "actual": [
+        "COORDINATE",
+        true,
+        false
+      ]
+    },
+    {
+      "name": "a connection is never quietly returned to observation",
+      "result": "PASS",
+      "expected": [
+        400,
+        "REJECTED"
+      ],
+      "actual": [
+        400,
+        "REJECTED"
+      ]
+    },
+    {
+      "name": "approved enforcement is reached only after every other step, and completes the ninth",
+      "result": "PASS",
+      "expected": [
+        "ENFORCE",
+        true,
+        null,
+        true
+      ],
+      "actual": [
+        "ENFORCE",
+        true,
+        null,
+        true
+      ]
+    },
+    {
+      "name": "the database refuses enforcement for a system no check found able to restrict",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a connection record is kept rather than deleted, so what was connected stays answerable",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an auditor may read a connection but may not start or change one",
+      "result": "PASS",
+      "expected": [
+        200,
+        403,
+        403,
+        403
+      ],
+      "actual": [
+        200,
+        403,
+        403,
+        403
+      ]
+    },
+    {
+      "name": "an actor holding neither capability cannot see the connections at all",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "27a42ea0-33ed-4dbb-b0d2-b0635b1db339"
+}

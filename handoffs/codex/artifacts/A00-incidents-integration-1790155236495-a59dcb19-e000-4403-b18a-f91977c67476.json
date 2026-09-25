@@ -1,0 +1,302 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T09:20:36.496Z",
+  "profile": "codex-a00",
+  "phase": "authority",
+  "assertions": [
+    {
+      "name": "recording an obligation rule requires approval authority",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a rule names its own source and the clock it runs from",
+      "result": "PASS",
+      "expected": [
+        "BECAME_AWARE_AT",
+        72,
+        true
+      ],
+      "actual": [
+        "BECAME_AWARE_AT",
+        72,
+        true
+      ]
+    },
+    {
+      "name": "a second rule can run from a different clock entirely",
+      "result": "PASS",
+      "expected": "DETECTED_AT",
+      "actual": "DETECTED_AT"
+    },
+    {
+      "name": "occurrence, detection and awareness are three separate fields",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        null
+      ],
+      "actual": [
+        true,
+        true,
+        null
+      ]
+    },
+    {
+      "name": "an unknown awareness time is kept as unknown, not filled in from detection",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "an incident cannot be detected before it occurred",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "awareness cannot precede detection",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "exactly one obligation exists for each rule this run activated",
+      "result": "PASS",
+      "expected": [
+        1,
+        1
+      ],
+      "actual": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "every obligation names the recipient and regime its rule came from",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a duty whose clock has not started has no deadline",
+      "result": "PASS",
+      "expected": [
+        null,
+        null
+      ],
+      "actual": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "a duty with no deadline is not overdue",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a rule that does not apply while scope is uncertain says so explicitly",
+      "result": "PASS",
+      "expected": "NOT_APPLICABLE",
+      "actual": "NOT_APPLICABLE"
+    },
+    {
+      "name": "the assessment states that ORVIA ships no notification periods",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the assessment states severity is configured policy, not a legal determination",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a correction is recorded with its previous value",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a correction names its reviewer and reason",
+      "result": "PASS",
+      "expected": [
+        "Incident review board",
+        true
+      ],
+      "actual": [
+        "Incident review board",
+        true
+      ]
+    },
+    {
+      "name": "establishing awareness starts the clock that runs from it",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the deadline is the rule hours after its own clock",
+      "result": "PASS",
+      "expected": "2026-09-26T01:19:38.351Z",
+      "actual": "2026-09-26T01:19:38.351Z"
+    },
+    {
+      "name": "the correction names the deadline it moved",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a correction that would break the orderings is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "corrections cannot be rewritten",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a detection time is never rewritten in place",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a scope correction is appended alongside the first",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "a notification cannot jump straight to dispatched",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "dispatch without evidence is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a dispatch names its evidence",
+      "result": "PASS",
+      "expected": [
+        "DISPATCHED",
+        true
+      ],
+      "actual": [
+        "DISPATCHED",
+        true
+      ]
+    },
+    {
+      "name": "a dispatched notification cannot be walked back",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to withdraw a dispatched notification",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an unknown occurrence time is recorded as unknown",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a duty past its deadline is reported overdue",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a certain scope activates the rule that requires it",
+      "result": "PASS",
+      "expected": "PENDING_REVIEW",
+      "actual": "PENDING_REVIEW"
+    },
+    {
+      "name": "a manual package must say why no supported channel exists",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a manual package records why",
+      "result": "PASS",
+      "expected": [
+        "MANUAL_PACKAGE_REQUIRED",
+        true
+      ],
+      "actual": [
+        "MANUAL_PACKAGE_REQUIRED",
+        true
+      ]
+    },
+    {
+      "name": "containment is recorded before closure",
+      "result": "PASS",
+      "expected": "CONTAINED",
+      "actual": "CONTAINED"
+    },
+    {
+      "name": "closing an incident needs approval authority",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an incident cannot be closed while a notification is still owed",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a closed incident records when and why",
+      "result": "PASS",
+      "expected": [
+        "CLOSED",
+        true,
+        true
+      ],
+      "actual": [
+        "CLOSED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a closed incident cannot be corrected",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to reopen a closed incident",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "TypeError",
+    "code": "UNCLASSIFIED"
+  }
+}

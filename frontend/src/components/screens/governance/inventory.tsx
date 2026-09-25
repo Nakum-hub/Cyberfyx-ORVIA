@@ -84,7 +84,8 @@ export function Inventory() {
                   </a>
                 ) },
                 { key: 'system', header: 'System', cell: asset => directory.systemName(asset.system_id) },
-                { key: 'provenance', header: 'How it is known', cell: asset => <StateBadge dictionary={PROVENANCE_LABELS} value={asset.provenance} /> },
+                { key: 'provenance', header: 'How it is known', cell: asset => asset.provenance==='OBSERVED'&&!asset.source_observation_id
+                  ? <span>Legacy unbound read</span>:<StateBadge dictionary={PROVENANCE_LABELS} value={asset.provenance} /> },
                 { key: 'review', header: 'Review', cell: asset => <StateBadge dictionary={REVIEW_LABELS} value={asset.review_state} /> },
                 { key: 'seen', header: 'Last read', cell: asset => asset.last_seen_at
                   ? formatTime(asset.last_seen_at)
@@ -96,7 +97,7 @@ export function Inventory() {
         )}
       </QueryBoundary>
       <NoticeBox tone="info" title="What this inventory is">
-        <p>This is the inventory your organisation has recorded locally. ORVIA does not scan your estate to discover systems, so an asset that nobody has declared and no connector has read does not appear here. An empty row is not evidence that no such data exists.</p>
+        <p>This is the inventory your organisation has recorded locally. Approved PostgreSQL catalog metadata reads can add observed datasets, while other assets remain declarations. The scanner reads no row values or sensitivity classes. An empty row is not evidence that no such data exists.</p>
       </NoticeBox>
     </>
   );
@@ -133,7 +134,9 @@ export function AssetDetail({ id }: { id: string }) {
           <Facts items={[
             { term: 'Kind', value: ASSET_KIND_LABELS[record.kind] ?? record.kind },
             { term: 'System', value: directory.systemName(record.system_id) },
-            { term: 'How it is known', value: <StateBadge dictionary={PROVENANCE_LABELS} value={record.provenance} /> },
+            { term: 'How it is known', value: record.provenance==='OBSERVED'&&!record.source_observation_id
+              ? 'Legacy unbound read; no independent source receipt linked' : <StateBadge dictionary={PROVENANCE_LABELS} value={record.provenance} /> },
+            { term: 'Catalog source', value: record.source_observation_id?shortId(record.source_observation_id):'No connector receipt linked' },
             { term: 'Review state', value: <StateBadge dictionary={REVIEW_LABELS} value={record.review_state} /> },
             { term: 'Last read', value: record.last_seen_at ? formatTime(record.last_seen_at) : 'Never read — this is a declaration, not an observation' },
             { term: 'Reading trusted until', value: record.fresh_until ? formatTime(record.fresh_until) : 'Not applicable to a declaration' },

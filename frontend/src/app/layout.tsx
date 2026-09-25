@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import { SessionProvider } from '../components/shared/session-context.tsx';
 
-export const metadata = { title: 'ORVIA — synthetic prototype' };
+export const metadata = { title: 'ORVIA — synthetic test environment' };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

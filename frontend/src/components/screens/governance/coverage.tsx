@@ -29,6 +29,8 @@ const ATTENTION_LABELS: Record<string, Label> = {
 const SOURCE_LABELS: Record<string, string> = {
   NO_RETENTION_BASIS: 'No retention basis', NEVER_OBSERVED: 'Never observed', STALE_OBSERVATION: 'Observation is stale',
   UNREVIEWED_INVENTORY: 'Not reviewed', UNRESOLVED_DESTINATION: 'Destination unreachable', FAILED_EXECUTION: 'Execution failed',
+  CATALOG_SCHEMA_CHANGED: 'Catalog schema changed', CATALOG_READ_EXHAUSTED: 'Catalog read exhausted',
+  NO_PROCESSING_MAP: 'No processing map',
 };
 const SEVERITY_LABELS: Record<string, Label> = {
   LOW: { label: 'Low', tone: 'neutral', meaning: 'Worth recording; not urgent.' },
@@ -135,7 +137,9 @@ export function Gaps() {
                 ) },
                 { key: 'subject', header: 'Subject', cell: item => item.subject_kind === 'DATA_ASSET'
                   ? <a href={`/workspace/inventory/${item.subject_id}`}>{shortId(item.subject_id)}</a>
-                  : <a href={`/workspace/rights/${item.subject_id}`}>{shortId(item.subject_id)}</a> },
+                  : item.subject_kind === 'CATALOG_TARGET'
+                    ? <a href={`/workspace/catalog-discovery?target_id=${item.subject_id}`}>{shortId(item.subject_id)}</a>
+                    : <a href={`/workspace/rights/${item.subject_id}`}>{shortId(item.subject_id)}</a> },
                 { key: 'severity', header: 'Severity', cell: item => <StateBadge dictionary={SEVERITY_LABELS} value={item.severity} /> },
                 { key: 'state', header: 'State', cell: item => <StateBadge dictionary={GAP_STATE_LABELS} value={item.state} /> },
                 { key: 'owner', header: 'Owner', cell: item => item.owner_reference ?? <span className="cell-sub">Unassigned</span> },

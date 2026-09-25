@@ -1,0 +1,18 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T07:57:49.588Z",
+  "test_ids": [
+    "T10",
+    "T11",
+    "T12",
+    "T13"
+  ],
+  "contract_version": "0.15.0",
+  "profile": "codex-a00",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic CRM only; simulator faults, send admission and target restore are later increments. No browser acceptance claim."
+  ]
+}

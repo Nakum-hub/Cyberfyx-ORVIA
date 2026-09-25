@@ -1,0 +1,220 @@
+- main [ref=f2e2]:
+  - paragraph [ref=f2e3]: Synthetic isolated validation
+  - generic [ref=f2e4]:
+    - generic [ref=f2e7]:
+      - paragraph [ref=f2e8]: Governance
+      - heading "Frameworks, controls and risks" [level=2] [ref=f2e9]
+      - paragraph [ref=f2e10]: Map requirements to controls, review local evidence and record time-bound risk decisions.
+    - generic [ref=f2e11]:
+      - heading "Evidence and review stay separate" [level=3] [ref=f2e12]:
+        - generic [aria-hidden] [ref=f2e13]: •
+        - text: Evidence and review stay separate
+      - paragraph [ref=f2e14]: Manual review records a person’s decision. It does not verify an external control effect or certify compliance.
+    - generic [ref=f2e15]:
+      - button "Add framework" [ref=f2e16] [cursor=pointer]
+      - button "Add control" [ref=f2e17] [cursor=pointer]
+      - button "Add risk" [active] [ref=f2e18] [cursor=pointer]
+    - region "Add risk" [ref=f2e402]:
+      - generic [ref=f2e403]:
+        - heading "Add risk" [level=3] [ref=f2e404]
+        - button "Close form" [ref=f2e406] [cursor=pointer]
+      - generic [ref=f2e407]:
+        - generic [ref=f2e408]:
+          - text: Risk title
+          - textbox "Risk title" [ref=f2e409]
+        - generic [ref=f2e410]:
+          - text: Description
+          - textbox "Description" [ref=f2e411]
+        - generic [ref=f2e412]:
+          - text: Accountable owner
+          - textbox "Accountable owner" [ref=f2e413]
+        - generic [ref=f2e414]:
+          - text: Declared likelihood (1–5)
+          - spinbutton "Declared likelihood (1–5)" [ref=f2e415]
+        - generic [ref=f2e416]:
+          - text: Declared impact (1–5)
+          - spinbutton "Declared impact (1–5)" [ref=f2e417]
+        - generic [ref=f2e418]:
+          - text: Review due
+          - textbox "Review due" [ref=f2e419]
+        - group "Related controls (optional)" [ref=f2e420]:
+          - generic [ref=f2e422]:
+            - checkbox "Synthetic HTTP control" [ref=f2e423]
+            - text: Synthetic HTTP control
+          - generic [ref=f2e424]:
+            - checkbox "Synthetic browser control" [ref=f2e425]
+            - text: Synthetic browser control
+        - button "Save risk" [ref=f2e426] [cursor=pointer]
+    - region "Framework versions" [ref=f2e19]:
+      - heading "Framework versions" [level=3] [ref=f2e21]
+      - paragraph [ref=f2e22]:
+        - text: Read into this screen at
+        - strong [ref=f2e75]: 9/25/2026, 17:19:55 GMT+5:30
+        - text: .
+        - button "Refresh now" [ref=f2e23] [cursor=pointer]
+      - table [ref=f2e77]:
+        - caption [ref=f2e78]: Versioned requirements
+        - rowgroup [ref=f2e79]:
+          - row [ref=f2e80]:
+            - columnheader "Framework" [ref=f2e81]
+            - columnheader "Version" [ref=f2e82]
+            - columnheader "Source" [ref=f2e83]
+            - columnheader "Requirements" [ref=f2e84]
+        - rowgroup [ref=f2e85]:
+          - row [ref=f2e86]:
+            - cell "Synthetic HTTP access framework" [ref=f2e87]
+            - cell "1" [ref=f2e88]
+            - cell "Synthetic source" [ref=f2e89]
+            - cell [ref=f2e90]:
+              - group [ref=f2e91]:
+                - generic "1 requirements" [ref=f2e92]
+          - row [ref=f2e93]:
+            - cell "Synthetic complete framework" [ref=f2e94]
+            - cell "1" [ref=f2e95]
+            - cell "Synthetic source" [ref=f2e96]
+            - cell [ref=f2e97]:
+              - group [ref=f2e98]:
+                - generic "100 requirements" [ref=f2e99]
+      - navigation "Result pages" [ref=f2e100]:
+        - button "Previous page" [disabled] [ref=f2e101]
+        - generic [ref=f2e102]: Page 1
+        - button "Next page" [disabled] [ref=f2e103]
+    - region "Controls" [ref=f2e32]:
+      - heading "Controls" [level=3] [ref=f2e34]
+      - paragraph [ref=f2e35]:
+        - text: Read into this screen at
+        - strong [ref=f2e104]: 9/25/2026, 17:21:02 GMT+5:30
+        - text: .
+        - button "Refresh now" [ref=f2e36] [cursor=pointer]
+      - table [ref=f2e106]:
+        - caption [ref=f2e107]: Recorded controls
+        - rowgroup [ref=f2e108]:
+          - row [ref=f2e109]:
+            - columnheader "Control" [ref=f2e110]
+            - columnheader "Owner" [ref=f2e111]
+            - columnheader "Requirements" [ref=f2e112]
+            - columnheader "Review interval" [ref=f2e113]
+            - columnheader "Evidence" [ref=f2e114]
+        - rowgroup [ref=f2e115]:
+          - row [ref=f2e116]:
+            - cell "Synthetic HTTP control Review access" [ref=f2e117]:
+              - generic [ref=f2e118]:
+                - text: Synthetic HTTP control
+                - generic [ref=f2e119]: Review access
+            - cell "Synthetic owner" [ref=f2e120]
+            - cell "1" [ref=f2e121]
+            - cell "30 days" [ref=f2e122]
+            - cell [ref=f2e123]:
+              - button "Review evidence" [ref=f2e124] [cursor=pointer]
+          - row [ref=f2e361]:
+            - cell "Synthetic browser control Browser evidence journey" [ref=f2e362]:
+              - generic [ref=f2e363]:
+                - text: Synthetic browser control
+                - generic [ref=f2e364]: Browser evidence journey
+            - cell "Synthetic owner" [ref=f2e365]
+            - cell "1" [ref=f2e366]
+            - cell "30 days" [ref=f2e367]
+            - cell [ref=f2e368]:
+              - button "Review evidence" [ref=f2e369] [cursor=pointer]
+      - navigation "Result pages" [ref=f2e125]:
+        - button "Previous page" [disabled] [ref=f2e126]
+        - generic [ref=f2e127]: Page 1
+        - button "Next page" [disabled] [ref=f2e128]
+    - region "Risk register" [ref=f2e45]:
+      - heading "Risk register" [level=3] [ref=f2e47]
+      - paragraph [ref=f2e48]:
+        - text: Read into this screen at
+        - strong [ref=f2e49]: 9/25/2026, 17:21:02 GMT+5:30
+        - text: .
+        - button "Refresh now" [ref=f2e50] [cursor=pointer]
+      - table [ref=f2e52]:
+        - caption [ref=f2e53]: Declared risks
+        - rowgroup [ref=f2e54]:
+          - row [ref=f2e55]:
+            - columnheader "Risk" [ref=f2e56]
+            - columnheader "Owner" [ref=f2e57]
+            - columnheader "Declared likelihood × impact" [ref=f2e58]
+            - columnheader "Review due" [ref=f2e59]
+            - columnheader "Treatment" [ref=f2e60]
+        - rowgroup [ref=f2e61]:
+          - row [ref=f2e62]:
+            - cell "Synthetic HTTP risk Excess access" [ref=f2e63]:
+              - generic [ref=f2e64]:
+                - text: Synthetic HTTP risk
+                - generic [ref=f2e65]: Excess access
+            - cell "Synthetic owner" [ref=f2e66]
+            - cell "3 × 4 = 12" [ref=f2e67]
+            - cell "9/26/2026, 17:16:43 GMT+5:30" [ref=f2e68]
+            - cell [ref=f2e69]:
+              - button "Open risk" [ref=f2e70] [cursor=pointer]
+      - navigation "Result pages" [ref=f2e71]:
+        - button "Previous page" [disabled] [ref=f2e72]
+        - generic [ref=f2e73]: Page 1
+        - button "Next page" [disabled] [ref=f2e74]
+    - region "Control evidence" [ref=f2e370]:
+      - generic [ref=f2e371]:
+        - heading "Control evidence" [level=3] [ref=f2e372]
+        - button "Close record" [ref=f2e374] [cursor=pointer]
+      - paragraph [ref=f2e375]:
+        - text: Read into this screen at
+        - strong [ref=f2e376]: 9/25/2026, 17:22:02 GMT+5:30
+        - text: .
+        - button "Refresh now" [ref=f2e377] [cursor=pointer]
+      - heading "Synthetic browser control" [level=3] [ref=f2e378]
+      - paragraph [ref=f2e379]: Browser evidence journey
+      - paragraph [ref=f2e380]:
+        - text: "Evidence status:"
+        - strong [ref=f2e381]: PENDING REVIEW
+        - text: · As of 9/25/2026, 17:22:02 GMT+5:30
+      - paragraph [ref=f2e427]: Synthetic browser evidence
+      - generic [ref=f2e428]:
+        - term [ref=f2e429]: Local reference
+        - definition [ref=f2e430]: local:synthetic-browser-evidence
+        - term [ref=f2e431]: Submitted digest (SHA-256)
+        - definition [ref=f2e432]:
+          - code [ref=f2e433]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        - term [ref=f2e434]: Collected / valid until
+        - definition [ref=f2e435]: 9/25/2026, 12:00:00 GMT+5:30 / 10/1/2026, 12:00:00 GMT+5:30
+        - term [ref=f2e436]: Submitted by
+        - definition [ref=f2e437]: f115ac69…
+      - heading "Submit evidence" [level=3] [ref=f2e383]
+      - paragraph [ref=f2e384]: A new submission replaces the current evidence for review. Its contents stay in your local evidence store; this records your reference and declared digest.
+      - generic [ref=f2e385]:
+        - generic [ref=f2e386]:
+          - text: Description
+          - textbox "Description" [ref=f2e387]: Synthetic browser evidence
+        - generic [ref=f2e388]:
+          - text: Local evidence reference
+          - textbox "Local evidence reference" [ref=f2e389]: local:synthetic-browser-evidence
+        - generic [ref=f2e390]:
+          - text: SHA-256 digest
+          - textbox "SHA-256 digest" [ref=f2e391]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        - generic [ref=f2e392]:
+          - text: Collected at
+          - textbox "Collected at" [ref=f2e393]: 2026-09-25T12:00
+        - generic [ref=f2e394]:
+          - text: Valid until
+          - textbox "Valid until" [ref=f2e395]: 2026-10-01T12:00
+        - button "Submit for review" [ref=f2e396] [cursor=pointer]
+      - status [ref=f2e438]: Record saved.
+      - heading "Evidence history" [level=3] [ref=f2e397]
+      - paragraph [ref=f2e398]: Decisions below are historical. Current validity is shown above.
+      - table [ref=f2e440]:
+        - caption [ref=f2e441]: Recorded evidence, newest first
+        - rowgroup [ref=f2e442]:
+          - row [ref=f2e443]:
+            - columnheader "Submitted" [ref=f2e444]
+            - columnheader "Evidence" [ref=f2e445]
+            - columnheader "Decision at review" [ref=f2e446]
+        - rowgroup [ref=f2e447]:
+          - row [ref=f2e448]:
+            - cell "9/25/2026, 17:21:58 GMT+5:30" [ref=f2e449]
+            - cell "Synthetic browser evidence local:synthetic-browser-evidence" [ref=f2e450]:
+              - generic [ref=f2e451]:
+                - text: Synthetic browser evidence
+                - generic [ref=f2e452]: local:synthetic-browser-evidence
+            - cell "No review recorded" [ref=f2e453]
+      - navigation "Result pages" [ref=f2e454]:
+        - button "Previous page" [disabled] [ref=f2e455]
+        - generic [ref=f2e456]: Page 1
+        - button "Next page" [disabled] [ref=f2e457]

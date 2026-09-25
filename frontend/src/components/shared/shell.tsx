@@ -28,11 +28,11 @@ function useProfileName(): string {
   return name;
 }
 
-function DemoBanner({ area }: { area: string }) {
+function TestEnvironmentBanner({ area }: { area: string }) {
   const profile = useProfileName();
   return (
-    <div className="demo-banner">
-      <strong>Synthetic demonstration</strong>
+    <div className="environment-banner">
+      <strong>Synthetic test environment</strong>
       <span className="area">{area}</span>
       <span className="meta">profile={profile}</span>
       <span className="meta">data_profile={PROFILE}</span>
@@ -133,7 +133,7 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>
-      <DemoBanner area={area} />
+      <TestEnvironmentBanner area={area} />
       <header className="shell-head">
         <div className="shell-title">
           <span className="mark">ORVIA</span>
@@ -150,7 +150,7 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
         </main>
       </div>
       <footer className="shell-foot">
-        Customer-local prototype on fictional Aster/Birch data. No production system, real recipient or vendor service is contacted from this interface.
+        Customer-local evaluation build with synthetic records. No production system, real recipient or vendor service is contacted from this interface.
       </footer>
     </div>
   );
@@ -159,7 +159,6 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
 export const WORKSPACE_NAV: NavGroup[] = [
   { group: 'Overview', items: [
     { href: '/workspace', label: 'Overview' },
-    { href: '/workspace/demo', label: 'Guided demo' },
     { href: '/workspace/failures', label: 'Attention' },
     { href: '/workspace/coverage', label: 'Coverage' },
     { href: '/workspace/gaps', label: 'Gaps' },
@@ -169,12 +168,15 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/principals', label: 'People & targets' },
     { href: '/workspace/control-map', label: 'Control map' },
     { href: '/workspace/inventory', label: 'Data inventory' },
+    { href: '/workspace/catalog-discovery', label: 'Catalog observations' },
     { href: '/workspace/inventory/search', label: 'Search inventory' },
     { href: '/workspace/imports', label: 'Local imports' },
     { href: '/workspace/retention', label: 'Retention' },
     { href: '/workspace/retention/holds', label: 'Legal holds' },
     { href: '/workspace/retention/outcomes', label: 'Retention outcomes' },
     { href: '/workspace/processors', label: 'Processors' },
+    { href: '/workspace/ai-governance', label: 'AI governance' },
+    { href: '/workspace/grc', label: 'Frameworks & controls' },
     { href: '/workspace/assessments', label: 'Assessments' },
     { href: '/workspace/findings', label: 'Findings' },
     { href: '/workspace/incidents', label: 'Incidents' },

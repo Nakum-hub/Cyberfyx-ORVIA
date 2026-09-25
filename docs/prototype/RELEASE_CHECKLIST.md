@@ -1,6 +1,8 @@
-# ORVIA prototype: internal-demo release checklist
+# Historical internal demonstration acceptance checklist
 
-> Current checkpoint 2026-09-23: inspected main `e58b281b21af9398bc879d3a43fc748cc83ba626`; accepted engineering tasks through A06/W01 retain their original identities. The current frozen candidate is NOT_IDENTIFIED after source changes. Historical `81431d64` and `c5655ea` builds must not be reused. T01–T34 complete scenarios and two qualifying rehearsals remain NOT_RUN. Old r4 report counts and versions below describe their historical snapshot. Executable transport at this main is 0.15.0, still PENDING_WORK_REVIEW.
+This document records the earlier demonstration gate and its original results. ORVIA Version 1 is now a production-intended build. Use [production readiness](../engineering/PRODUCTION_READINESS.md) for the active release gate; historical `NOT_RUN` results remain unchanged until their complete scenarios are executed and reviewed against an identified candidate.
+
+> Current checkpoint 2026-09-25: base commit `487a77f573fa1afd8a8b250c5303c58f6942cc29` has further uncommitted source changes. The current frozen candidate is NOT_IDENTIFIED. Historical `81431d64` and `c5655ea` builds must not be reused. T01–T34 complete scenarios and two qualifying rehearsals remain NOT_RUN. Old r4 report counts and versions below describe their historical snapshot. The executable transport in this checkout is 0.18.0; source qualification and review remain pending.
 
 **Owner:** GPT Work, successor to Cowork (C02) · **Status:** PREPARED_NOT_FROZEN · **Revision:** c02-r4, 16 Sep 2026 UTC · **Documentation base:** `9bb8f2900909997f63db864eeea1211523aa5819`
 
@@ -54,7 +56,7 @@ A00–A05 and the merged PR #16 correction supply engineering subsets. Work insp
 | A3 | The contract version is recorded, and generated artifacts match it | `shared/contracts` version, generation log | Codex | ACCEPTED BASELINE 0.2.1; present executable transport 0.4.0 (signed command 0.3.0) and A02–A05 report intake await consolidated review; candidate match MISSING |
 | A4 | The on-screen build ID equals the manifest | Screenshot + manifest (J00) | Codex / Human | MISSING |
 | A5 | Development checksums or signatures are labelled as development-only | Manifest note | Codex | MISSING |
-| A6 | The approved master (rev 1.3) is present, with its SHA-256 recorded | Hash comparison (F-001) | Human | DOCUMENT SOURCE VERIFIED: repository bytes match approved master hash; no application gate implied |
+| A6 | The approved master (rev 1.4) is present, with its SHA-256 recorded | Hash comparison (F-001) | Human | DOCUMENT SOURCE VERIFIED: repository bytes match approved master hash; no application gate implied |
 
 ## B. Clean install and start (G1, G5)
 

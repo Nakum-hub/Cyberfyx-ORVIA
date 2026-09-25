@@ -7,7 +7,7 @@ here is ORVIA acceptance evidence, and no fixture is ever written into the real 
 Run from the repository root:
     python3 -m unittest discover -s docs/reviews/cowork/tools/tests -v
 """
-import copy, csv, hashlib, io, json, re, shutil, sys, tempfile, unittest
+import copy, csv, hashlib, io, json, re, shutil, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
 TOOLS = Path(__file__).resolve().parents[1]
@@ -25,7 +25,17 @@ class DocToolCase(unittest.TestCase):
     def setUp(self):
         self._tmp = tempfile.TemporaryDirectory(prefix="doctool-")
         self.root = Path(self._tmp.name) / "repo"
-        shutil.copytree(REPO, self.root, ignore=shutil.ignore_patterns(".git", "node_modules", ".local", "__pycache__"))
+        shutil.copytree(REPO, self.root, ignore=shutil.ignore_patterns(
+            ".git", "node_modules", ".local", "__pycache__", ".next",
+            "ORVIA_V1_Agent_Build_Pack", "ORVIA_V1_DPDP_Operational_Extension_Pack",
+            "500_test_cases",
+        ))
+        # Historical evidence checks read exact commits. Give the disposable
+        # checkout read-only access to the source object's store without
+        # copying Git metadata or allowing test mutations to touch the source.
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True)
+        alternates = self.root / ".git" / "objects" / "info" / "alternates"
+        alternates.write_text(str((REPO / ".git" / "objects").resolve()) + "\n", encoding="utf-8")
 
     def tearDown(self):
         self._tmp.cleanup()

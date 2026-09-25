@@ -1,0 +1,195 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T11:16:21.017Z",
+  "profile": "codex-a00",
+  "phase": "re-derivation",
+  "assertions": [
+    {
+      "name": "every dimension is reported",
+      "result": "PASS",
+      "expected": [
+        "CONTROL_OBSERVATION",
+        "INVENTORY_OBSERVED",
+        "INVENTORY_REVIEWED",
+        "RETENTION_BASIS",
+        "RIGHTS_EXECUTION"
+      ],
+      "actual": [
+        "CONTROL_OBSERVATION",
+        "INVENTORY_OBSERVED",
+        "INVENTORY_REVIEWED",
+        "RETENTION_BASIS",
+        "RIGHTS_EXECUTION"
+      ]
+    },
+    {
+      "name": "INVENTORY_REVIEWED states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_REVIEWED numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_OBSERVED states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "INVENTORY_OBSERVED numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RETENTION_BASIS states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RETENTION_BASIS numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "CONTROL_OBSERVATION states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "CONTROL_OBSERVATION numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RIGHTS_EXECUTION states exactly what its denominator counts",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "RIGHTS_EXECUTION numerator never exceeds its denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "both new copies are inside the inventory denominator",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "coverage says it is not a measure of the estate",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "coverage says it is computed at read time, not stored",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "every attention state is reported",
+      "result": "PASS",
+      "expected": [
+        "EFFECT_UNKNOWN",
+        "FAILED",
+        "MANUAL_REQUIRED",
+        "PENDING",
+        "UNVERIFIED"
+      ],
+      "actual": [
+        "EFFECT_UNKNOWN",
+        "FAILED",
+        "MANUAL_REQUIRED",
+        "PENDING",
+        "UNVERIFIED"
+      ]
+    },
+    {
+      "name": "the report warns that these counts must not be added",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "states that can co-occur name what they overlap with",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "no state claims to overlap with itself",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a declared but unobserved copy counts as unverified",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "derivation examined real records",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "derivation opened gaps for them",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "derivation says an absent gap is not evidence of correctness",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a copy with no retention basis raises that exact gap",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a declared copy that was never read raises that exact gap",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a missing retention basis is treated as a high-severity gap",
+      "result": "PASS",
+      "expected": "HIGH",
+      "actual": "HIGH"
+    },
+    {
+      "name": "a freshly observed copy raises no never-observed gap",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "TimeoutError",
+    "code": "23"
+  },
+  "run_id": "27a42ea0-33ed-4dbb-b0d2-b0635b1db339"
+}

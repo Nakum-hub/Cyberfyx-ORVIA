@@ -1,0 +1,331 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T10:13:21.448Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a copy with no recorded retention basis is not eligible for deletion",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the reason names the missing basis rather than implying permission",
+      "result": "PASS",
+      "expected": [
+        "NO_RECORDED_BASIS"
+      ],
+      "actual": [
+        "NO_RECORDED_BASIS"
+      ]
+    },
+    {
+      "name": "the limits say absence of a rule is not permission",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "deleting a copy with no basis is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a constraint that bounds nothing is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a minimum longer than the maximum is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a copy inside its retention period is not eligible",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the blocker says the minimum has not elapsed",
+      "result": "PASS",
+      "expected": [
+        "MINIMUM_NOT_ELAPSED"
+      ],
+      "actual": [
+        "MINIMUM_NOT_ELAPSED"
+      ]
+    },
+    {
+      "name": "the earliest permissible deletion date is stated",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a copy past its maximum retention with nothing blocking is eligible",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an eligible copy names the constraint that permits deletion",
+      "result": "PASS",
+      "expected": "9356bf43-63b5-44ba-96d2-61a377e2b7ee",
+      "actual": "9356bf43-63b5-44ba-96d2-61a377e2b7ee"
+    },
+    {
+      "name": "an eligible copy carries no blockers",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a hold names the exact copies it covers",
+      "result": "PASS",
+      "expected": [
+        "560739c0-7b93-45bb-a591-51b12e18cf25"
+      ],
+      "actual": [
+        "560739c0-7b93-45bb-a591-51b12e18cf25"
+      ]
+    },
+    {
+      "name": "an active hold makes an otherwise eligible copy ineligible",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the hold that blocks is named",
+      "result": "PASS",
+      "expected": [
+        "594e23cf-fcaa-45bc-a2f3-c851e29cdfec"
+      ],
+      "actual": [
+        "594e23cf-fcaa-45bc-a2f3-c851e29cdfec"
+      ]
+    },
+    {
+      "name": "a hold outranks an expired retention schedule",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE_LEGAL_HOLD"
+      ],
+      "actual": [
+        "ACTIVE_LEGAL_HOLD"
+      ]
+    },
+    {
+      "name": "deleting a held copy is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a hold naming a copy that does not exist is refused",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "releasing a hold needs approval authority, not merely write access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a release records when and why",
+      "result": "PASS",
+      "expected": [
+        "RELEASED",
+        true,
+        true
+      ],
+      "actual": [
+        "RELEASED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "eligibility is re-evaluated after release",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a released hold stays released on retry",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to reopen a released hold",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "constraints that disagree block deletion instead of picking the longest",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the conflict is named as needing a reviewed decision",
+      "result": "PASS",
+      "expected": [
+        "UNRESOLVED_CONSTRAINT_CONFLICT"
+      ],
+      "actual": [
+        "UNRESOLVED_CONSTRAINT_CONFLICT"
+      ]
+    },
+    {
+      "name": "the reason says the longest duration is not applied automatically",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "both constraints are listed as applicable",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "recording the governing constraint needs approval authority",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a decision cannot choose a constraint belonging to another copy",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a reviewed decision resolves the conflict",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the reviewed decision is the recorded governing constraint",
+      "result": "PASS",
+      "expected": "ca32b989-ca2b-4b48-bf54-e151e0579f23",
+      "actual": "ca32b989-ca2b-4b48-bf54-e151e0579f23"
+    },
+    {
+      "name": "a reviewed decision cannot create permission a constraint does not give",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a backup copy is eligible in principle",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a backup copy cannot be reported as deleted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a backup copy cannot be reported as suppressed either",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a backup outcome is recorded as an unknown effect against its copy class",
+      "result": "PASS",
+      "expected": [
+        "EFFECT_UNKNOWN",
+        "BACKUP_COPY"
+      ],
+      "actual": [
+        "EFFECT_UNKNOWN",
+        "BACKUP_COPY"
+      ]
+    },
+    {
+      "name": "a completed action without evidence is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a live-store deletion records its copy class, method and evidence",
+      "result": "PASS",
+      "expected": [
+        "DATASET",
+        "MANUAL_ATTESTATION",
+        true
+      ],
+      "actual": [
+        "DATASET",
+        "MANUAL_ATTESTATION",
+        true
+      ]
+    },
+    {
+      "name": "a recorded retention outcome cannot be rewritten",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the restored copy is eligible before the restore",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a copy restored into quarantine is not eligible until reconciled",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the blocker names the outstanding reconciliation",
+      "result": "PASS",
+      "expected": [
+        "AWAITING_QUARANTINE_RECONCILIATION"
+      ],
+      "actual": [
+        "AWAITING_QUARANTINE_RECONCILIATION"
+      ]
+    },
+    {
+      "name": "an auditor may read retention constraints",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot record a constraint",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member without the retention capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "2c78a678-3894-49de-a5ba-18fe4e95a6df"
+}

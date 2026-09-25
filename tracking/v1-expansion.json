@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "baseline": "docs/engineering/V1_EXPANDED_BASELINE.md",
+  "baseline_revision": "E1",
+  "status": "BUILD_IN_PROGRESS",
+  "release_qualified": false,
+  "source_commit": "487a77f573fa1afd8a8b250c5303c58f6942cc29",
+  "source_tree": "PRE_EXISTING_UNCOMMITTED_CHANGES",
+  "rules": "This is the expanded V1 delivery register, not prototype acceptance. Completion requires exact-build end-to-end evidence, adverse cases, and review. Missing external decisions block activation only.",
+  "families": [
+    {
+      "id": "EX01",
+      "title": "Universal consent and preferences",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX02",
+      "title": "Website CMP and tracker controls",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX03",
+      "title": "Full rights fulfilment",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX04",
+      "title": "Discovery classification and source/code flows",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX05",
+      "title": "Data mapping and RoPA",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX06",
+      "title": "General impact assessments and remediation",
+      "status": "IN_PROGRESS",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "handoffs/codex/artifacts/V1-EXPANSION-01-assessment-race-cdf5da4d-c2fa-4b36-806e-34da3317477b.json"
+      ],
+      "limitations": [
+        "Component evidence only: existing processor assessment completion/finding race fixed. General assessment templates, independent approval and full application acceptance remain incomplete."
+      ]
+    },
+    {
+      "id": "EX07",
+      "title": "Retention holds deletion and backup obligations",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX08",
+      "title": "Third-party lifecycle",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX09",
+      "title": "Incidents and reviewed notification",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX10",
+      "title": "Enterprise GRC and audit",
+      "status": "IN_PROGRESS",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "handoffs/codex/artifacts/V1-EXPANSION-02-grc-1843dd10-c576-4117-a932-b3d2e6fb0728.json",
+        "handoffs/codex/artifacts/V1-EXPANSION-02-unit.log",
+        "handoffs/codex/artifacts/V1-EXPANSION-03-http-41db8841-9921-463c-bc76-840d0229c706.json",
+        "handoffs/codex/2026-09-25-v1-expansion-03.md"
+      ],
+      "limitations": [
+        "Framework/control/risk API and workspace implemented at contract 0.26.0. Forty isolated real HTTP checks pass; browser control/evidence/risk/treatment/reviewer/auditor journeys pass with two initial transient read failures recovered by explicit retry. Full Next runtime integration and release qualification remain open. Audit engagement/request/response workflow, policy lifecycle, regulatory content and mitigation outcome verification remain incomplete."
+      ]
+    },
+    {
+      "id": "EX11",
+      "title": "Continuous compliance and control tests",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX12",
+      "title": "Data security posture and AI governance",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    },
+    {
+      "id": "EX13",
+      "title": "Vendor commerce UPI and cards",
+      "status": "IN_PROGRESS",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "handoffs/codex/artifacts/V1-EXPANSION-01-commerce-0a7deffa-8eee-496d-8f7c-0390073f6f97.json"
+      ],
+      "limitations": [
+        "45 isolated PostgreSQL component assertions; injected synthetic checkout responses and signed payment fixtures. No live provider conformance, vendor HTTP identity/UI, invoices/subscriptions, production role deployment or licence signer. Not release-qualified."
+      ]
+    },
+    {
+      "id": "EX14",
+      "title": "Enterprise delivery and release qualification",
+      "status": "OPEN",
+      "owner": "codex_with_dpdp_lane_coordination",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [],
+      "limitations": []
+    }
+  ]
+}

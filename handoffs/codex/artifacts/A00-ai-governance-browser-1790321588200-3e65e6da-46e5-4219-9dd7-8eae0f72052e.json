@@ -1,0 +1,18 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T07:33:08.200Z",
+  "profile": "codex-a00",
+  "result": "FAIL",
+  "phase": "read AI governance screen",
+  "steps": [
+    "admin signed in with MFA"
+  ],
+  "external_requests": 0,
+  "console_errors": [],
+  "error": {
+    "name": "TimeoutError",
+    "code": "UNCLASSIFIED"
+  },
+  "detail": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('form.ai-governance-form').first().locator('select[name=\"purpose_id\"] option[value=\"a15d3652-2548-4a1d-8868-e6b94d8c8e04\"]') to be visible\u001b[22m\n\u001b[2m    36 × locator resolved to hidden <option value=\"a15d3652-2548-4a1d-8868-e6b94d8c8e04\">Synthetic workflow 4eeb4feb</option>\u001b[22m\n"
+}

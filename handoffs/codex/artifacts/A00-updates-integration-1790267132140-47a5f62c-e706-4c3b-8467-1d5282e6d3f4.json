@@ -1,0 +1,527 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-24T16:25:32.141Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a release declaring new network egress is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release declaring a model runtime is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release declaring an authority that does not exist in this contract is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release declaring an audience other than a customer installation is refused before any signature is considered",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a release published before it was built is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "importing a release needs its own authority, not merely read access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a release from an untrusted signer is refused",
+      "result": "PASS",
+      "expected": [
+        "untrusted_origin"
+      ],
+      "actual": [
+        "untrusted_origin"
+      ]
+    },
+    {
+      "name": "a release whose claims were altered after signing is refused",
+      "result": "PASS",
+      "expected": [
+        "invalid_signature"
+      ],
+      "actual": [
+        "invalid_signature"
+      ]
+    },
+    {
+      "name": "the stored release names its provenance and its irreversible migrations",
+      "result": "PASS",
+      "expected": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        1,
+        2,
+        [
+          "0027_rewrite"
+        ]
+      ],
+      "actual": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        1,
+        2,
+        [
+          "0027_rewrite"
+        ]
+      ]
+    },
+    {
+      "name": "re-importing the same release is a replay, not a new release",
+      "result": "PASS",
+      "expected": [
+        "replayed"
+      ],
+      "actual": [
+        "replayed"
+      ]
+    },
+    {
+      "name": "a different release claiming a version already imported is refused",
+      "result": "PASS",
+      "expected": [
+        "replayed"
+      ],
+      "actual": [
+        "replayed"
+      ]
+    },
+    {
+      "name": "a release manifest is never edited",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a release manifest is never removed",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "every check is named exactly once",
+      "result": "PASS",
+      "expected": [
+        "ARCHIVE_ENTRIES_SAFE",
+        "AUDIENCE_MATCH",
+        "NO_PROHIBITED_CHANGE",
+        "NO_UNSAFE_DOWNGRADE",
+        "PROFILE_SUPPORTED",
+        "SIGNATURE_VALID",
+        "TRUSTED_ORIGIN",
+        "UPGRADE_PATH_SUPPORTED"
+      ],
+      "actual": [
+        "ARCHIVE_ENTRIES_SAFE",
+        "AUDIENCE_MATCH",
+        "NO_PROHIBITED_CHANGE",
+        "NO_UNSAFE_DOWNGRADE",
+        "PROFILE_SUPPORTED",
+        "SIGNATURE_VALID",
+        "TRUSTED_ORIGIN",
+        "UPGRADE_PATH_SUPPORTED"
+      ]
+    },
+    {
+      "name": "every check reports its own reason",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an eligible release says so, and says that is not permission to execute",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        "0.66.0"
+      ],
+      "actual": [
+        true,
+        true,
+        "0.66.0"
+      ]
+    },
+    {
+      "name": "trust is re-evaluated here rather than inherited from the import",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a release whose archive escapes the target directory is blocked on that gate alone",
+      "result": "PASS",
+      "expected": [
+        "ARCHIVE_ENTRIES_SAFE"
+      ],
+      "actual": [
+        "ARCHIVE_ENTRIES_SAFE"
+      ]
+    },
+    {
+      "name": "an absolute archive path is blocked the same way",
+      "result": "PASS",
+      "expected": [
+        "ARCHIVE_ENTRIES_SAFE"
+      ],
+      "actual": [
+        "ARCHIVE_ENTRIES_SAFE"
+      ]
+    },
+    {
+      "name": "a declared expansion implausibly larger than the artifact is refused as a bomb",
+      "result": "PASS",
+      "expected": [
+        "ARCHIVE_ENTRIES_SAFE"
+      ],
+      "actual": [
+        "ARCHIVE_ENTRIES_SAFE"
+      ]
+    },
+    {
+      "name": "a release that cannot be applied from this version names the upgrade path",
+      "result": "PASS",
+      "expected": [
+        "UPGRADE_PATH_SUPPORTED"
+      ],
+      "actual": [
+        "UPGRADE_PATH_SUPPORTED"
+      ]
+    },
+    {
+      "name": "the only deployment profile this contract admits is the one that is supported",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a manifest signed by a key this installation does not trust is ineligible, however it got here",
+      "result": "PASS",
+      "expected": [
+        "SIGNATURE_VALID",
+        "TRUSTED_ORIGIN"
+      ],
+      "actual": [
+        "SIGNATURE_VALID",
+        "TRUSTED_ORIGIN"
+      ]
+    },
+    {
+      "name": "one irreversible migration makes the whole update forward-recovery only",
+      "result": "PASS",
+      "expected": [
+        "FORWARD_RECOVERY_ONLY",
+        false
+      ],
+      "actual": [
+        "FORWARD_RECOVERY_ONLY",
+        false
+      ]
+    },
+    {
+      "name": "the eligibility says plainly why rollback is not offered",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "planning an update needs its own authority, separate from reading eligibility",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an approver who acknowledged the wrong recovery is refused",
+      "result": "PASS",
+      "expected": [
+        "recovery_mode_mismatch"
+      ],
+      "actual": [
+        "recovery_mode_mismatch"
+      ]
+    },
+    {
+      "name": "the approved plan carries the derived recovery mode and offers no rollback",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        "FORWARD_RECOVERY_ONLY",
+        false,
+        7
+      ],
+      "actual": [
+        "APPROVED",
+        "FORWARD_RECOVERY_ONLY",
+        false,
+        7
+      ]
+    },
+    {
+      "name": "the recovery instruction tells the operator to go forward, not back",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a second update while one is in flight is refused",
+      "result": "PASS",
+      "expected": [
+        "update_already_in_flight"
+      ],
+      "actual": [
+        "update_already_in_flight"
+      ]
+    },
+    {
+      "name": "recovery mode cannot be relaxed after approval",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a step claiming success without naming its evidence is refused by the schema",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a step reported before the steps it depends on names what is missing",
+      "result": "PASS",
+      "expected": [
+        "out_of_order:verify_trusted_origin"
+      ],
+      "actual": [
+        "out_of_order:verify_trusted_origin"
+      ]
+    },
+    {
+      "name": "recording a step needs the approval authority, not merely read access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the same step cannot succeed twice",
+      "result": "PASS",
+      "expected": [
+        "step_already_succeeded"
+      ],
+      "actual": [
+        "step_already_succeeded"
+      ]
+    },
+    {
+      "name": "a plan part way through is applying, and says what is still outstanding",
+      "result": "PASS",
+      "expected": [
+        "APPLYING",
+        [
+          "UNPACK_ARTIFACT",
+          "APPLY_MIGRATIONS",
+          "RESTART_SERVICES",
+          "REVALIDATE_BOUNDARIES",
+          "RUN_CORE_REGRESSION"
+        ]
+      ],
+      "actual": [
+        "APPLYING",
+        [
+          "UNPACK_ARTIFACT",
+          "APPLY_MIGRATIONS",
+          "RESTART_SERVICES",
+          "REVALIDATE_BOUNDARIES",
+          "RUN_CORE_REGRESSION"
+        ]
+      ]
+    },
+    {
+      "name": "neither post-change check has passed, and the plan does not pretend otherwise",
+      "result": "PASS",
+      "expected": {
+        "boundaries_revalidated": false,
+        "core_regression_passed": false
+      },
+      "actual": {
+        "boundaries_revalidated": false,
+        "core_regression_passed": false
+      }
+    },
+    {
+      "name": "the database refuses to record an update as applied while the ledger is short",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the migration ledger is append-only",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a recorded step is never deleted",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a failed step leaves the plan failed with its evidence intact",
+      "result": "PASS",
+      "expected": [
+        "FAILED",
+        3,
+        5
+      ],
+      "actual": [
+        "FAILED",
+        3,
+        5
+      ]
+    },
+    {
+      "name": "a finished plan records nothing further",
+      "result": "PASS",
+      "expected": [
+        "plan_already_finished"
+      ],
+      "actual": [
+        "plan_already_finished"
+      ]
+    },
+    {
+      "name": "a finished plan does not change state again",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a failed update recorded no new installed version",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "an unfinished update is findable without knowing its identifier",
+      "result": "PASS",
+      "expected": [
+        [
+          "FAILED",
+          5
+        ]
+      ],
+      "actual": [
+        [
+          "FAILED",
+          5
+        ]
+      ]
+    },
+    {
+      "name": "reading the list of updates is a read, not an approval",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "a release with no irreversible migration is reversible and offers rollback",
+      "result": "PASS",
+      "expected": [
+        true,
+        "REVERSIBLE",
+        true
+      ],
+      "actual": [
+        true,
+        "REVERSIBLE",
+        true
+      ]
+    },
+    {
+      "name": "an update is applied only once every step has succeeded and both post-change checks passed",
+      "result": "PASS",
+      "expected": [
+        "APPLIED",
+        [],
+        {
+          "boundaries_revalidated": true,
+          "core_regression_passed": true
+        }
+      ],
+      "actual": [
+        "APPLIED",
+        [],
+        {
+          "boundaries_revalidated": true,
+          "core_regression_passed": true
+        }
+      ]
+    },
+    {
+      "name": "the applied update recorded the version this installation is now on",
+      "result": "PASS",
+      "expected": [
+        "0.74.0"
+      ],
+      "actual": [
+        "0.74.0"
+      ]
+    },
+    {
+      "name": "a release older than what is now installed is refused as a downgrade rather than attempted",
+      "result": "PASS",
+      "expected": [
+        false,
+        [
+          "NO_UNSAFE_DOWNGRADE"
+        ]
+      ],
+      "actual": [
+        false,
+        [
+          "NO_UNSAFE_DOWNGRADE"
+        ]
+      ]
+    },
+    {
+      "name": "the refusal says a downgrade is refused rather than attempted",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an auditor holding update.read may read the release list",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor may not import a release",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member holding neither capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "33b5c8f8-0a71-48ea-8349-704b44ae170a"
+}

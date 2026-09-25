@@ -14,7 +14,7 @@ export default function NotFound() {
     <RouteFallback title="This page does not exist" kind="application route not found (HTTP 404)">
       <p>
         No screen is published at this address in this build. The link may be mistyped, or it may belong to a
-        capability that is not part of the customer-local prototype.
+        capability that is not available in this build.
       </p>
       <p>
         If you were opening a specific record, use the screen for that record type and enter its exact

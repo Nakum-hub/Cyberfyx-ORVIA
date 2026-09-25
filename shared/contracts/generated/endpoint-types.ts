@@ -1,5 +1,39 @@
 // Generated from canonical routes. Do not edit.
 export interface EndpointMap {
+  grc_audit_response_history: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditResponseHistoryList> };
+  list_grc_audits: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditList> };
+  create_grc_audit: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAudit> };
+  grc_audit_detail: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditDetail> };
+  grc_audit_requests: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditRequestList> };
+  create_grc_audit_request: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditRequestCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditRequest> };
+  grc_audit_request_detail: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditRequestDetail> };
+  respond_grc_audit_request: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditResponseCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditResponse> };
+  review_grc_audit_response: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditResponseReviewCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditResponseReview> };
+  close_grc_audit: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditCloseCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcAuditClosure> };
+  grc_evidence_history: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcEvidenceHistoryList> };
+  grc_treatment_history: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcTreatmentHistoryList> };
+  list_grc_frameworks: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcFrameworkList> };
+  create_grc_framework: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcFrameworkCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcFramework> };
+  list_grc_controls: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcControlList> };
+  create_grc_control: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcControlCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcControl> };
+  list_grc_risks: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRiskList> };
+  create_grc_risk: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRiskCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRisk> };
+  grc_control_detail: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcControlDetail> };
+  grc_risk_detail: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRiskDetail> };
+  submit_grc_evidence: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcEvidenceSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcEvidence> };
+  review_grc_evidence: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcEvidenceReviewCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcEvidenceReview> };
+  propose_grc_treatment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRiskTreatmentCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRiskTreatment> };
+  review_grc_treatment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRiskReviewCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcRiskReview> };
+  list_catalog_discovery_targets: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryTargetList> };
+  create_catalog_discovery_target: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryTargetCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryTarget> };
+  catalog_discovery_target: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryDetail> };
+  approve_catalog_discovery_target: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryApproval>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryTarget> };
+  disable_catalog_discovery_target: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryApproval>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogDiscoveryTarget> };
+  list_ai_systems: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiSystemList> };
+  create_ai_system: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AiSystemCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiSystem> };
+  ai_system: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiSystemDetail> };
+  record_ai_event: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AiGovernanceEventCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiGovernanceEvent> };
+  ai_governance_report: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiGovernanceReport> };
   health: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.Health> };
   session: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.Session> };
   overview: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.Overview> };
@@ -46,6 +80,7 @@ export interface EndpointMap {
   list_data_assets: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataAssetList> };
   data_asset: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataAsset> };
   create_data_asset: { request: import('zod').infer<typeof import('../src/index.ts').schemas.DataAssetCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataAsset> };
+  create_catalog_asset: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CatalogAssetCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataAsset> };
   tombstone_data_asset: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AssetTombstone>; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataAsset> };
   list_activities: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ProcessingActivityList> };
   create_activity: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ProcessingActivityCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ProcessingActivity> };

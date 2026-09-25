@@ -1,0 +1,70 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T08:05:09.876Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "asset/activity mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "activity/purpose mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "no monitoring outcome invented at registration",
+      "expected": null,
+      "actual": null,
+      "result": "PASS"
+    },
+    {
+      "name": "due jobs were processed",
+      "expected": true,
+      "actual": true,
+      "result": "PASS"
+    },
+    {
+      "name": "declared input creates finding without target claim",
+      "expected": [
+        true,
+        "FINDING"
+      ],
+      "actual": [
+        true,
+        "FINDING"
+      ],
+      "result": "PASS"
+    },
+    {
+      "name": "worker identifies local asset reference",
+      "expected": "asset:f6e96262-e550-4479-a434-376b195a72ea",
+      "actual": "asset:f6e96262-e550-4479-a434-376b195a72ea",
+      "result": "PASS"
+    },
+    {
+      "name": "monitor record does not claim verification",
+      "expected": true,
+      "actual": true,
+      "result": "PASS"
+    },
+    {
+      "name": "successful schedule prevents immediate duplicate",
+      "expected": 0,
+      "actual": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "finding appears in scoped report",
+      "expected": true,
+      "actual": true,
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS"
+}

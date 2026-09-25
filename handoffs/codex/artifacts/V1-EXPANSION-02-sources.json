@@ -1,0 +1,47 @@
+{
+  "task_id": "V1-EXPANSION-02",
+  "base_commit": "487a77f573fa1afd8a8b250c5303c58f6942cc29",
+  "source_files": [
+    {
+      "path": "shared/contracts/src/grc.ts",
+      "sha256": "0dee766fea4869dcfadc049416490f85b66dc9e35de8f3ef7f42169fce364bbe"
+    },
+    {
+      "path": "backend/domain/src/grc/grc.ts",
+      "sha256": "5b6986ee23a7d9815d31b834ecd017437faa67b96c9fc7378dcc125e551d5327"
+    },
+    {
+      "path": "backend/domain/src/grc/risks.ts",
+      "sha256": "5543fc665aebd2c96050f911429fce87744346a3ef581c08b7c250b8d9ad3c8d"
+    },
+    {
+      "path": "database/customer/migrations/0049_grc.sql",
+      "sha256": "8fd0153da4c650360d7df99cd203b404060a5d2ce7a9e8c0fb8e8a96a0d72bdd"
+    },
+    {
+      "path": "tests/unit/grc.test.ts",
+      "sha256": "63b1df2c8a6842b14984588989644f36d0de40233706292780f7ca1f27336d6b"
+    },
+    {
+      "path": "tests/integration/grc/grc.test.ts",
+      "sha256": "092af59dc34ba66292bdc783529c9f9392b1e4af1494acd9442c0b58d87cf3ef"
+    },
+    {
+      "path": "scripts/v1-source-inventory.ts",
+      "sha256": "1fbe11025b857b9d8c26e85f4fc81139afff5f8992aa631661a3af3768cf47c6"
+    },
+    {
+      "path": "tracking/v1-source-inventory.json",
+      "sha256": "1c632645c999063fe278642dd71505de98a75f2baebdab96948704ade4bdfc4d"
+    }
+  ],
+  "component_tests": {
+    "integration_assertions": 40,
+    "unit_suite_tests": 242,
+    "grc_unit_tests": 17,
+    "public_api_acceptance": "NOT_RUN",
+    "browser_acceptance": "NOT_RUN",
+    "release_qualified": false
+  },
+  "final_integration_artifact": "handoffs/codex/artifacts/V1-EXPANSION-02-grc-1843dd10-c576-4117-a932-b3d2e6fb0728.json"
+}

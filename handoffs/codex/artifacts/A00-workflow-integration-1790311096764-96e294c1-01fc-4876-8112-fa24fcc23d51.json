@@ -1,0 +1,74 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-25T04:38:16.765Z",
+  "test_ids": [
+    "T10",
+    "T11",
+    "T12",
+    "T13"
+  ],
+  "contract_version": "0.18.0",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "name": "protected machine setup completed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "synthetic target initially has marketing membership",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "observer cannot mutate target",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "withdrawal is accepted with worker stopped",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "injected stop after real Temporal acceptance",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "outbox delivery marker rolled back",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "Temporal retained accepted workflow despite DB rollback",
+      "result": "PASS",
+      "expected": "RUNNING",
+      "actual": "RUNNING"
+    },
+    {
+      "name": "dispatcher resumes stable workflow identity",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "duplicate dispatcher pass creates no new work",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic CRM only; simulator faults, send admission and target restore are later increments. No browser acceptance claim."
+  ],
+  "run_id": "4b1bf7c2-3276-4230-b377-f239a231d662"
+}

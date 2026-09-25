@@ -107,8 +107,8 @@ summary:focus-visible,
 }
 .skip-link:focus { left: 8px; top: 8px; }
 
-/* ================= Synthetic demonstration banner ================= */
-.demo-banner {
+/* ================= Synthetic test environment banner ================= */
+.environment-banner {
   background: var(--panel-inverse);
   color: #e7ecf2;
   padding: 6px var(--s6);
@@ -118,14 +118,14 @@ summary:focus-visible,
   gap: 2px var(--s5);
   align-items: baseline;
 }
-.demo-banner strong {
+.environment-banner strong {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #ffffff;
 }
-.demo-banner .area { letter-spacing: 0.06em; text-transform: uppercase; color: #aebccd; }
-.demo-banner .meta { color: #93a3b6; font-family: var(--font-mono); font-size: 11px; }
+.environment-banner .area { letter-spacing: 0.06em; text-transform: uppercase; color: #aebccd; }
+.environment-banner .meta { color: #93a3b6; font-family: var(--font-mono); font-size: 11px; }
 
 /* ================= Shell ================= */
 .shell { min-height: 100vh; display: flex; flex-direction: column; background: var(--canvas); }
@@ -433,6 +433,13 @@ summary:focus-visible,
 .field textarea { min-height: 110px; resize: vertical; }
 .field-error { color: var(--stop); font-size: 12.5px; margin-top: var(--s1); display: block; font-weight: 600; }
 .field-invalid input, .field-invalid select, .field-invalid textarea { border-color: var(--stop); }
+.ai-governance-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); margin-top: var(--s4); }
+.ai-governance-form h3, .ai-governance-form p { grid-column: 1 / -1; margin: 0; }
+.ai-governance-form label { display: block; font-weight: 600; font-size: 13px; }
+.ai-governance-form input, .ai-governance-form select, .ai-governance-form textarea { display: block; width: 100%; margin-top: var(--s1); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); padding: var(--s2); font: inherit; }
+.ai-governance-form textarea { min-height: 90px; resize: vertical; }
+.ai-governance-form button[type="submit"] { justify-self: start; align-self: end; }
+@media (max-width: 720px) { .ai-governance-form { grid-template-columns: 1fr; } }
 .checkbox { display: flex; gap: var(--s2); align-items: flex-start; margin-bottom: var(--s3); }
 .checkbox input { margin-top: 4px; width: 16px; height: 16px; }
 .checkbox span { font-size: 14px; }
@@ -627,43 +634,10 @@ dialog.dialog::backdrop { background: rgb(9 14 20 / 55%); }
 .entry-card h2 { margin: 0 0 var(--s2); font-size: 17px; color: var(--accent-strong); }
 .entry-card p { color: var(--ink-soft); font-size: 14px; }
 
-/* ================= Demonstration story card ================= */
-.story {
-  background: linear-gradient(180deg, #ffffff 0%, var(--panel-sunken) 100%);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-lg);
-  padding: var(--s5);
-  box-shadow: var(--shadow-sm);
-}
 .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--s4); }
 .story-cell .k { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; display: block; margin-bottom: 3px; }
 .story-cell .v { font-size: 14.5px; font-weight: 600; }
 .story-cell .v.small { font-size: 13px; font-weight: 500; color: var(--ink-soft); }
-
-/* ================= Guided demo ================= */
-.demo-step {
-  display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: var(--s4);
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  padding: var(--s5);
-  margin-bottom: var(--s3);
-  box-shadow: var(--shadow-sm);
-}
-.demo-step .ordinal {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  background: var(--accent-soft);
-  color: var(--accent-strong);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 14px;
-  border: 1px solid var(--accent-line);
-}
-.demo-step h3 { margin: 2px 0 var(--s2); font-size: 16px; }
-.demo-step .why { color: var(--ink-soft); font-size: 13.5px; }
-.demo-step .expect { font-size: 13.5px; }
 
 /* ================= Responsive ================= */
 @media (max-width: 1023px) {
@@ -690,13 +664,12 @@ dialog.dialog::backdrop { background: rgb(9 14 20 / 55%); }
   .shell-head { flex-direction: column; align-items: flex-start; gap: var(--s3); padding: var(--s3) var(--s4); }
   .shell-context { justify-content: flex-start; }
   .context-chip { border-left: 0; padding-left: 0; padding-right: var(--s4); }
-  .demo-banner { padding: 6px var(--s4); }
+  .environment-banner { padding: 6px var(--s4); }
   .page-head h2 { font-size: 21px; }
   dl.facts { grid-template-columns: 1fr; gap: var(--s1); }
   dl.facts dt { font-size: 12px; color: var(--ink-faint); }
   dl.facts dd { margin-bottom: var(--s2); }
   .lifecycle > li + li::before { display: none; }
-  .demo-step { grid-template-columns: 1fr; }
   .metric .metric-value { font-size: 26px; }
 }
 
@@ -739,7 +712,7 @@ dialog.dialog::backdrop { background: rgb(9 14 20 / 55%); }
 .report-export { margin: var(--s2) 0 0; }
 
 @media print {
-  .shell-nav, .demo-banner, button, .shell-head, .shell-foot, .report-builder, .skip-link { display: none !important; }
+  .shell-nav, .environment-banner, button, .shell-head, .shell-foot, .report-builder, .skip-link { display: none !important; }
   /* A download control is meaningless on paper. */
   .report-export { display: none !important; }
   .panel { box-shadow: none; break-inside: avoid; }

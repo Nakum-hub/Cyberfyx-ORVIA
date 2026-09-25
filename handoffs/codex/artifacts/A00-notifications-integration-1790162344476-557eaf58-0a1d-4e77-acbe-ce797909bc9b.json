@@ -1,0 +1,259 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-23T11:19:04.477Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a real gap exists to notify about",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a template records its version and content digest",
+      "result": "PASS",
+      "expected": [
+        1,
+        64
+      ],
+      "actual": [
+        1,
+        64
+      ]
+    },
+    {
+      "name": "re-issuing a template creates a new version rather than editing one",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "a template code must be a stable identifier",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a task cannot be raised about a record that does not exist",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new task is queued and nothing more",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "actual": [
+        true,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "name": "queueing needs no external evidence because ORVIA did it",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a duplicate task for the same source and template is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "nothing beyond queueing may be recorded without evidence",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "delivery cannot be claimed before anything was sent",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "sending is recorded as its own fact",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "acknowledgement cannot be claimed before delivery",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "delivery is a separate fact from sending",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "acknowledgement is a separate fact from delivery",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "every fact is retained in the log, not overwritten",
+      "result": "PASS",
+      "expected": [
+        "QUEUED",
+        "SENT",
+        "DELIVERED",
+        "ACKNOWLEDGED"
+      ],
+      "actual": [
+        "QUEUED",
+        "SENT",
+        "DELIVERED",
+        "ACKNOWLEDGED"
+      ]
+    },
+    {
+      "name": "the delivery log cannot be rewritten",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a later success does not erase an earlier failure",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "attempts count both the failure and the retry",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "a channel this deployment cannot deliver on is declared unavailable",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the queue note says the message will not be sent",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a message cannot be claimed as sent on an unavailable channel",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the sweep asserts that no deadline changed",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the sweep escalated the overdue undelivered tasks",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the sweep states that a missed deadline stays missed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the deadline is byte-for-byte unchanged after escalation",
+      "result": "PASS",
+      "expected": "2026-09-23T07:18:58.276Z",
+      "actual": "2026-09-23T07:18:58.276Z"
+    },
+    {
+      "name": "the escalation states its reason",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a task that already reached its recipient is not escalated",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a second sweep does not manufacture new escalations",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the database itself refuses to move a source deadline",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an auditor may read notification tasks",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot record a delivery",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a member without the notification capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "27a42ea0-33ed-4dbb-b0d2-b0635b1db339"
+}

@@ -41,6 +41,9 @@ export function sample(schema:JsonSchema,key=''):unknown {
 const exampleRelationshipCreate={relationship_type:'ASSET_PROCESSED_BY_ACTIVITY' as const,from:{kind:'DATA_ASSET' as const,id:uuid(40)},to:{kind:'PROCESSING_ACTIVITY' as const,id:uuid(41)},provenance:'ASSERTED' as const,valid_from:sampleTime,confidence_basis:'Reviewed customer declaration'};
 export const exampleRelationship={...exampleRelationshipCreate,id:uuid(42),review_state:'UNREVIEWED' as const,recorded_at:sampleTime,valid_to:null,last_seen_at:null,owner_actor_id:uuid(43)};
 export function example(name:SchemaName):unknown {
+  if(name==='GrcAuditResponse'||name==='GrcAuditResponseHistoryRecord'){const evidence=example('GrcEvidence') as {id:string};return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,evidence_id:evidence.id,evidence_snapshot:evidence};}
+  if(name==='GrcEvidenceSubmit'||name==='GrcEvidence'||name==='GrcEvidenceHistoryRecord')return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,valid_until:'2026-10-16T10:00:00.000Z'};
+
   if(name==='CommandPayload')return examplePayload;
   if(name==='GraphRelationshipCreate')return exampleRelationshipCreate;
   if(name==='GraphRelationship')return exampleRelationship;
@@ -391,6 +394,17 @@ export function example(name:SchemaName):unknown {
   if(name==='Receipt')return exampleReceipt;
   if(name==='ReceiptView')return receiptReplayExample.current_get;
   if(name==='SendResult')return {attempt_id:uuid(30),decision:'BLOCK',send_record_id:null,admitted_at:null,evaluated_epoch:2,reason_codes:['CONSENT_WITHDRAWN']};
+  if(name==='CatalogDiscoveryTargetCreate')return {system_id:uuid(50),schema_name:'public',relation_name:'marketing_memberships'};
+  if(name==='CatalogAssetCreate')return {observation_id:uuid(81)};
+  if(name==='CatalogDiscoveryTarget')return {...example('CatalogDiscoveryTargetCreate') as object,id:uuid(80),state:'APPROVED',
+    created_by:uuid(51),created_at:sampleTime,approved_by:uuid(52),approved_at:sampleTime};
+  if(name==='CatalogDiscoveryObservation')return {id:uuid(81),target_id:uuid(80),state:'OBSERVED_METADATA',
+    observed_at:sampleTime,digest:'a'.repeat(64),columns:[{name:'marketing_restricted',data_type:'boolean',nullable:false}],
+    limits:['Metadata only; no record values were read.'],recorded_by:uuid(53)};
+  if(name==='CatalogDiscoveryDetail')return {target:example('CatalogDiscoveryTarget'),
+    job:{state:'READY',attempts:0,next_run_at:sampleTime,last_run_at:sampleTime,last_error_code:null},
+    observations:[example('CatalogDiscoveryObservation')],history_limited:false,freshness:'CURRENT'};
+  if(name==='CatalogDiscoveryTargetList')return {items:[example('CatalogDiscoveryTarget')],next_cursor:null};
   const result=sample(z.toJSONSchema(schemas[name],{target:'draft-2020-12'}) as JsonSchema);
   return schemas[name].parse(result);
 }

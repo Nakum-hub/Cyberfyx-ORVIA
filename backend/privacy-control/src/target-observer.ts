@@ -1,4 +1,6 @@
 import type { RuntimeConfig } from '../../auth/src/config.ts';
+import type pg from 'pg';
+import type { Authority } from '../../../database/customer/src/runtime.ts';
 
 /**
  * The independently-observed state of a target resource for a system whose
@@ -8,10 +10,20 @@ import type { RuntimeConfig } from '../../auth/src/config.ts';
  * with. Today only the synthetic demo CRM connector implements one; a real
  * connector is not implemented and none is claimed to exist.
  */
-export type TargetObservation = { generation: number; marketing_restricted: boolean };
+export type TargetObservation = { generation: number; marketing_restricted: boolean; quarantined: boolean };
+
+export type TargetBinding = {
+  resource_id: string;
+  principal_id: string;
+  purpose_id: string;
+  system_id: string;
+  subject_reference: string;
+  connector: string;
+};
 
 export type TargetObserver = (
   config: RuntimeConfig,
-  scope: { tenant_id: string; legal_entity_id: string; environment_id: string },
-  resource: string,
-) => Promise<TargetObservation>;
+  pool: pg.Pool,
+  actor: Authority,
+  binding: TargetBinding,
+) => Promise<TargetObservation | undefined>;
