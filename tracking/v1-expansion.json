@@ -103,10 +103,12 @@
         "handoffs/codex/artifacts/V1-EXPANSION-02-grc-1843dd10-c576-4117-a932-b3d2e6fb0728.json",
         "handoffs/codex/artifacts/V1-EXPANSION-02-unit.log",
         "handoffs/codex/artifacts/V1-EXPANSION-03-http-41db8841-9921-463c-bc76-840d0229c706.json",
-        "handoffs/codex/2026-09-25-v1-expansion-03.md"
+        "handoffs/codex/2026-09-25-v1-expansion-03.md",
+        "handoffs/codex/artifacts/V1-EXPANSION-04-grc-640f6ad8-7aaf-4db4-ba9d-82d1218f314f.json",
+        "handoffs/codex/artifacts/V1-EXPANSION-04-http-78638f66-9eda-456f-8443-d413737071a0.json"
       ],
       "limitations": [
-        "Framework/control/risk API and workspace implemented at contract 0.26.0. Forty isolated real HTTP checks pass; browser control/evidence/risk/treatment/reviewer/auditor journeys pass with two initial transient read failures recovered by explicit retry. Full Next runtime integration and release qualification remain open. Audit engagement/request/response workflow, policy lifecycle, regulatory content and mitigation outcome verification remain incomplete."
+        "GRC framework/control/risk workspace and audit engagement/request/response APIs implemented at contract 0.27.0. Audit core: 41 isolated database checks; GRC/audit HTTP: 57 checks. One cold-start policy HTTP run failed closed; subsequent run passed without timeout changes. Audit workspace builds but its browser journey is NOT_RUN. Full Next runtime integration, policy lifecycle, regulatory content, issue management, mitigation effect verification and release qualification remain open. No parity or certification claimed."
       ]
     },
     {

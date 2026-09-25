@@ -96,6 +96,25 @@ try{
   await rejects('database history cannot be updated',()=>db.query('UPDATE app.grc_audits SET document=document WHERE id=$1',[plan.id]),'23514');
   await rejects('database history cannot be deleted',()=>db.query('DELETE FROM app.grc_audit_responses WHERE id=$1',[response.id]),'23514');
   check('old response retained',Number((await db.query('SELECT count(*) n FROM app.grc_audit_responses WHERE request_id=$1',[req.id])).rows[0].n),2);
+  const history=await as(auditor,c=>A.grcAuditResponseHistory(c,req.id,{limit:1,cursor:null}));
+  check('response history starts with replacement',history.items[0]?.id,response2.id);
+  check('response history has continuation',typeof history.next_cursor,'string');
+  const older=await as(auditor,c=>A.grcAuditResponseHistory(c,req.id,{limit:1,cursor:Buffer.from(history.next_cursor!,'base64url').toString()}));
+  check('historical response keeps review',older.items[0]?.review?.response_id,response.id);
+  await rejects('foreign response history denied',()=>as(foreign,c=>A.grcAuditResponseHistory(c,req.id,{limit:1,cursor:null})),'NOT_FOUND');
+  await rejects('unrelated response cursor denied',()=>as(auditor,c=>A.grcAuditResponseHistory(c,req.id,{limit:1,cursor:randomUUID()})),'NOT_FOUND');
+  const independent={...reviewer,actor_id:randomUUID()};
+  const ownedControl=await as(reviewer,c=>G.createGrcControl(c,{title:'Reviewer authored control',description:'Synthetic separation check',owner_reference:'Synthetic owner',review_interval_days:30,mappings:[{framework_id:framework.id,requirement_code:'AC-1'}]}));
+  const ownedEvidence=await as(author,c=>G.submitGrcEvidence(c,ownedControl.id,evidenceInput));
+  await as(independent,c=>G.reviewGrcEvidence(c,ownedControl.id,{evidence_id:ownedEvidence.id,decision:'ACCEPT',reason:'Independent evidence review'}));
+  const ownedPlan=await as(author,c=>A.createGrcAudit(c,{...input,control_ids:[ownedControl.id]}));
+  const ownedRequest=await as(author,c=>A.createGrcAuditRequest(c,ownedPlan.id,{...reqInput,control_id:ownedControl.id}));
+  const ownedResponse=await as(author,c=>A.respondGrcAuditRequest(c,ownedRequest.id,{evidence_id:ownedEvidence.id,explanation:'Synthetic response'}));
+  const ownedReview={response_id:ownedResponse.id,decision:'ACCEPT',reason:'Audit review'};
+  await rejects('control author cannot approve audit response',()=>as(reviewer,c=>A.reviewGrcAuditResponse(c,ownedRequest.id,ownedReview)),'FORBIDDEN');
+  await as(independent,c=>A.reviewGrcAuditResponse(c,ownedRequest.id,ownedReview));
+  await rejects('control author cannot close audit',()=>as(reviewer,c=>A.closeGrcAudit(c,ownedPlan.id,{reason:'Own control'})),'FORBIDDEN');
+  check('independent reviewer can close control-author case',(await as(independent,c=>A.closeGrcAudit(c,ownedPlan.id,{reason:'Independent closure'}))).certification_asserted,false);
   writeFileSync(artifact,JSON.stringify({task_id:'V1-EXPANSION-04',result:'PASS',database,recorded_at:new Date().toISOString(),results,migration_sha256:createHash('sha256').update(readFileSync('database/customer/migrations/0050_grc_audits.sql')).digest('hex'),limitations:['Isolated synthetic database; API/UI and full release acceptance are separate checks. Manual evidence only.']},null,2));
   console.log(`Artifact: ${artifact}`);
 }catch(error){writeFileSync(artifact,JSON.stringify({task_id:'V1-EXPANSION-04',result:'FAIL',database,phase,results,error:{name:error instanceof Error?error.name:'Error',code:String((error as {code?:string}).code??'UNCLASSIFIED')}},null,2));console.error(`FAIL ${phase}; artifact: ${artifact}`);process.exitCode=1;}

@@ -1,0 +1,28 @@
+{
+  "task_id": "V1-EXPANSION-04",
+  "result": "FAIL",
+  "database": "orvia_grc_http_49c5f98e8965488bafbdaf96d3a30efc",
+  "phase": "real authentication and policy",
+  "results": [
+    {
+      "name": "privileged session without MFA denied",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous request denied",
+      "result": "PASS"
+    },
+    {
+      "name": "principal denied staff GRC",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor can read controls",
+      "result": "FAIL"
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

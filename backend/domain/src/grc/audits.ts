@@ -66,6 +66,7 @@ export async function reviewGrcAuditResponse(c:Context,id:string,input:unknown){
   guard(c,'grc.approve');const value=S.GrcAuditResponseReviewCreate.parse(input),req=await request(c,id,true),detail=await responseDetail(c,req.request);
   if(!detail.response||detail.response.id!==value.response_id||detail.review||(value.decision==='ACCEPT'&&detail.state==='STALE'))throw new AccessError(409,'EPOCH_CONFLICT');
   if([req.audit.recorded_by,req.request.recorded_by,detail.response.recorded_by,detail.response.evidence_snapshot.recorded_by].includes(c.actor.actor_id))throw new AccessError(403,'FORBIDDEN');
+  if((await grcDetail(c,req.request.control_id)).control.recorded_by===c.actor.actor_id)throw new AccessError(403,'FORBIDDEN');
   const doc=S.GrcAuditResponseReview.parse({...value,...recorded(c),request_id:id});
   await c.tx.query('INSERT INTO app.grc_audit_response_reviews(tenant_id,legal_entity_id,environment_id,id,response_id,document) VALUES($1,$2,$3,$4,$5,$6)',[...scopeValues(c.actor),doc.id,value.response_id,doc]);
   await audit(c,'grc.audit.response_reviewed',doc.id);return doc;
@@ -74,7 +75,7 @@ export async function closeGrcAudit(c:Context,id:string,input:unknown){
   guard(c,'grc.approve');const value=S.GrcAuditCloseCreate.parse(input),plan=await engagement(c,id,true);
   if(plan.audit.recorded_by===c.actor.actor_id)throw new AccessError(403,'FORBIDDEN');
   // Lock every scoped control in deterministic order before checking evidence.
-  for(const controlId of [...plan.audit.control_ids].sort())await grcDetail(c,controlId);
+  for(const controlId of [...plan.audit.control_ids].sort())if((await grcDetail(c,controlId)).control.recorded_by===c.actor.actor_id)throw new AccessError(403,'FORBIDDEN');
   const rows=await c.tx.query(`SELECT document FROM app.grc_audit_requests WHERE ${predicate} AND audit_id=$4 ORDER BY id`,[...scopeValues(c.actor),id]);
   const requests=rows.rows.map(r=>S.GrcAuditRequest.parse(r.document));
   if(!requests.length||plan.audit.control_ids.some(controlId=>!requests.some(r=>r.control_id===controlId)))throw new AccessError(409,'EPOCH_CONFLICT');
