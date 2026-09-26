@@ -1,0 +1,689 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T12:08:53.629Z",
+  "suite": "expansion-screens-browser",
+  "assertions": [
+    {
+      "name": "a template authored in the builder is recorded as a draft with its questions",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ],
+      "actual": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "an organisation admin sees no publish control",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a super admin who did not author it publishes it from the list",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PUBLISHED"
+      ],
+      "actual": [
+        200,
+        "PUBLISHED"
+      ]
+    },
+    {
+      "name": "an answer without required evidence is named as missing on screen",
+      "result": "PASS",
+      "expected": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ],
+      "actual": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ]
+    },
+    {
+      "name": "after saving, the form shows the stored answer rather than clearing it",
+      "result": "PASS",
+      "expected": "YES",
+      "actual": "YES"
+    },
+    {
+      "name": "with evidence nothing is missing",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "submission raises the answer-rule finding",
+      "result": "PASS",
+      "expected": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ],
+      "actual": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ]
+    },
+    {
+      "name": "the screen cannot approve while a finding is unresolved",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a second person accepts the risk with an expiry",
+      "result": "PASS",
+      "expected": [
+        "RISK_ACCEPTED",
+        false
+      ],
+      "actual": [
+        "RISK_ACCEPTED",
+        false
+      ]
+    },
+    {
+      "name": "an independent reviewer approves on screen",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        true
+      ],
+      "actual": [
+        "APPROVED",
+        true
+      ]
+    },
+    {
+      "name": "a retest is revision 2 with answers carried forward",
+      "result": "PASS",
+      "expected": [
+        2,
+        "e129ae47-0027-42d5-94c8-89772fec4c03",
+        true
+      ],
+      "actual": [
+        2,
+        "e129ae47-0027-42d5-94c8-89772fec4c03",
+        true
+      ]
+    },
+    {
+      "name": "the approved revision is still approved until its retest is approved",
+      "result": "PASS",
+      "expected": "APPROVED",
+      "actual": "APPROVED"
+    },
+    {
+      "name": "an agreement recorded on screen is in force",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the region gap appears on screen",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the link is shown once with its token in the fragment",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the token is removed from the address bar once read",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the supplier saves answers without an account",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "staff see the answer labelled as a supplier attestation",
+      "result": "PASS",
+      "expected": [
+        [
+          "certified",
+          "YES",
+          "SUPPLIER"
+        ]
+      ],
+      "actual": [
+        [
+          "certified",
+          "YES",
+          "SUPPLIER"
+        ]
+      ]
+    },
+    {
+      "name": "a revoked link is refused on the supplier page",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a control test added on screen has never run",
+      "result": "PASS",
+      "expected": "NEVER_RUN",
+      "actual": "NEVER_RUN"
+    },
+    {
+      "name": "running it on screen records a passing manual run",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PASSING"
+      ],
+      "actual": [
+        200,
+        "PASSING"
+      ]
+    },
+    {
+      "name": "the draft is version 1",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        1
+      ],
+      "actual": [
+        "DRAFT",
+        1
+      ]
+    },
+    {
+      "name": "an admin without approval authority sees no publish control",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "another person publishes it from the list",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PUBLISHED"
+      ],
+      "actual": [
+        200,
+        "PUBLISHED"
+      ]
+    },
+    {
+      "name": "a reader acknowledges it",
+      "result": "PASS",
+      "expected": [
+        200,
+        1
+      ],
+      "actual": [
+        200,
+        1
+      ]
+    },
+    {
+      "name": "the issue is remediated on screen with its evidence",
+      "result": "PASS",
+      "expected": [
+        "36df7e42-3245-4224-8d2e-73bea09e32ef",
+        "REMEDIATED"
+      ],
+      "actual": [
+        "36df7e42-3245-4224-8d2e-73bea09e32ef",
+        "REMEDIATED"
+      ]
+    },
+    {
+      "name": "someone other than the remediator verifies it on screen",
+      "result": "PASS",
+      "expected": "VERIFIED",
+      "actual": "VERIFIED"
+    },
+    {
+      "name": "the undeclared location is shown as a gap on screen",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the location is declared on screen",
+      "result": "PASS",
+      "expected": [
+        "15de1523-e40f-48a0-b38e-09d6bfdd155f",
+        "IN-KA"
+      ],
+      "actual": [
+        "15de1523-e40f-48a0-b38e-09d6bfdd155f",
+        "IN-KA"
+      ]
+    },
+    {
+      "name": "the location gap is gone",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a version is recorded from the screen",
+      "result": "PASS",
+      "expected": [
+        true,
+        null
+      ],
+      "actual": [
+        true,
+        null
+      ]
+    },
+    {
+      "name": "another person approves it from the list",
+      "result": "PASS",
+      "expected": [
+        200,
+        true
+      ],
+      "actual": [
+        200,
+        true
+      ]
+    },
+    {
+      "name": "the export driven from the screen completed with a manifest",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        892,
+        true
+      ],
+      "actual": [
+        "COMPLETED",
+        892,
+        true
+      ]
+    },
+    {
+      "name": "the browser saved the file and its manifest",
+      "result": "PASS",
+      "expected": [
+        "orvia-export-ID.csv",
+        "orvia-export-ID.manifest.json"
+      ],
+      "actual": [
+        "orvia-export-ID.csv",
+        "orvia-export-ID.manifest.json"
+      ]
+    },
+    {
+      "name": "the saved CSV has the header and every counted row",
+      "result": "PASS",
+      "expected": [
+        "activity_id,activity,owner,purpose,purpose_version,condition,item_kind,item_id,item_name,detail,provenance",
+        892
+      ],
+      "actual": [
+        "activity_id,activity,owner,purpose,purpose_version,condition,item_kind,item_id,item_name,detail,provenance",
+        892
+      ]
+    },
+    {
+      "name": "the package is prepared from the request screen",
+      "result": "PASS",
+      "expected": [
+        201,
+        "DRAFT"
+      ],
+      "actual": [
+        201,
+        "DRAFT"
+      ]
+    },
+    {
+      "name": "the second person redacts the suggested field on screen",
+      "result": "PASS",
+      "expected": [
+        "REVIEWED",
+        false
+      ],
+      "actual": [
+        "REVIEWED",
+        false
+      ]
+    },
+    {
+      "name": "the package is released on screen",
+      "result": "PASS",
+      "expected": [
+        "RELEASED",
+        "ACTIVE"
+      ],
+      "actual": [
+        "RELEASED",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "the person collects the copy from the portal",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "the collected copy shows the redaction and not the other person",
+      "result": "PASS",
+      "expected": [
+        1,
+        0
+      ],
+      "actual": [
+        1,
+        0
+      ]
+    },
+    {
+      "name": "a sample is requested from the screen and queued for the worker",
+      "result": "PASS",
+      "expected": "QUEUED",
+      "actual": "QUEUED"
+    },
+    {
+      "name": "the screen shows classified columns",
+      "result": "PASS",
+      "expected": [
+        1,
+        1
+      ],
+      "actual": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "the screen shows who can read them",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "no sampled value appears on screen",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "quality is measured from the screen",
+      "result": "PASS",
+      "expected": [
+        201,
+        3
+      ],
+      "actual": [
+        201,
+        3
+      ]
+    },
+    {
+      "name": "the exposure overview lists the relation",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a transport added on screen is pending",
+      "result": "PASS",
+      "expected": "PENDING",
+      "actual": "PENDING"
+    },
+    {
+      "name": "a second person enables it on screen",
+      "result": "PASS",
+      "expected": [
+        200,
+        "ENABLED"
+      ],
+      "actual": [
+        200,
+        "ENABLED"
+      ]
+    },
+    {
+      "name": "the signing key is shown once on screen, and the control is gone",
+      "result": "PASS",
+      "expected": [
+        200,
+        1,
+        0
+      ],
+      "actual": [
+        200,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "the composed message awaits review",
+      "result": "PASS",
+      "expected": "AWAITING_REVIEW",
+      "actual": "AWAITING_REVIEW"
+    },
+    {
+      "name": "the server refuses the author's own approval",
+      "result": "PASS",
+      "expected": [
+        409,
+        [
+          "author_cannot_review"
+        ]
+      ],
+      "actual": [
+        409,
+        [
+          "author_cannot_review"
+        ]
+      ]
+    },
+    {
+      "name": "a second person approves it on screen",
+      "result": "PASS",
+      "expected": [
+        200,
+        "QUEUED"
+      ],
+      "actual": [
+        200,
+        "QUEUED"
+      ]
+    },
+    {
+      "name": "the runner delivered a signed request to the endpoint",
+      "result": "PASS",
+      "expected": [
+        1,
+        true,
+        "Browser delivery 592ed011"
+      ],
+      "actual": [
+        1,
+        true,
+        "Browser delivery 592ed011"
+      ]
+    },
+    {
+      "name": "the screen shows the attempt and its receipt",
+      "result": "PASS",
+      "expected": [
+        true,
+        1
+      ],
+      "actual": [
+        true,
+        1
+      ]
+    },
+    {
+      "name": "a second person approves the site origins on screen",
+      "result": "PASS",
+      "expected": [
+        200,
+        "ENABLED"
+      ],
+      "actual": [
+        200,
+        "ENABLED"
+      ]
+    },
+    {
+      "name": "another approver publishes the banner on screen",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PUBLISHED"
+      ],
+      "actual": [
+        200,
+        "PUBLISHED"
+      ]
+    },
+    {
+      "name": "the banner opens as a labelled modal dialog before anything optional loads",
+      "result": "PASS",
+      "expected": [
+        "true",
+        0
+      ],
+      "actual": [
+        "true",
+        0
+      ]
+    },
+    {
+      "name": "focus starts on the first choice",
+      "result": "PASS",
+      "expected": "Accept all",
+      "actual": "Accept all"
+    },
+    {
+      "name": "keyboard focus moves through the choices and stays in the dialog",
+      "result": "PASS",
+      "expected": [
+        "Reject all",
+        "Accept all"
+      ],
+      "actual": [
+        "Reject all",
+        "Accept all"
+      ]
+    },
+    {
+      "name": "refusing with the keyboard records the choice and loads no tracker",
+      "result": "PASS",
+      "expected": [
+        [
+          201
+        ],
+        0
+      ],
+      "actual": [
+        [
+          201,
+          201,
+          201
+        ],
+        0
+      ]
+    },
+    {
+      "name": "the strictly necessary category is shown on and cannot be turned off",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "granting analytics loads the marked script, and its cookie appears",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "withdrawing clears the declared cookie, reloads, and nothing loads again",
+      "result": "PASS",
+      "expected": [
+        false,
+        1,
+        3
+      ],
+      "actual": [
+        false,
+        1,
+        3
+      ]
+    },
+    {
+      "name": "unexpected failure in EX02 visitor journey",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "page.waitForRequest: Timeout 30000ms exceeded while waiting for event \"request\""
+    }
+  ],
+  "passed": 63,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -1,0 +1,425 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T12:03:22.594Z",
+  "suite": "cmp",
+  "assertions": [
+    {
+      "name": "an origin must be HTTPS or loopback",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a new site is pending with its script path",
+      "result": "PASS",
+      "expected": [
+        "PENDING",
+        "/cmp/a1e2b6fb-ee8f-4b0b-83cb-1916cdbe145b/orvia-cmp.js"
+      ],
+      "actual": [
+        "PENDING",
+        "/cmp/a1e2b6fb-ee8f-4b0b-83cb-1916cdbe145b/orvia-cmp.js"
+      ]
+    },
+    {
+      "name": "an admin without connection authority cannot enable it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "no script is served before a banner is published",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a banner with two strictly necessary categories is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an admin without approval authority cannot publish",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the author cannot publish their own version",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      }
+    },
+    {
+      "name": "another approver publishes it with its rule source",
+      "result": "PASS",
+      "expected": [
+        "PUBLISHED",
+        true
+      ],
+      "actual": [
+        "PUBLISHED",
+        true
+      ]
+    },
+    {
+      "name": "the banner script is served by this installation as JavaScript",
+      "result": "PASS",
+      "expected": [
+        200,
+        "application/javascript; charset=utf-8",
+        "cross-origin"
+      ],
+      "actual": [
+        200,
+        "application/javascript; charset=utf-8",
+        "cross-origin"
+      ]
+    },
+    {
+      "name": "configuration text cannot break out of the script",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "the script loads nothing from anywhere else",
+      "result": "PASS",
+      "expected": [
+        false
+      ],
+      "actual": [
+        false
+      ]
+    },
+    {
+      "name": "the approved origin passes the preflight with an exact-origin grant",
+      "result": "PASS",
+      "expected": [
+        204,
+        "http://127.0.0.1:43891"
+      ],
+      "actual": [
+        204,
+        "http://127.0.0.1:43891"
+      ]
+    },
+    {
+      "name": "another origin is refused without a grant",
+      "result": "PASS",
+      "expected": [
+        403,
+        null
+      ],
+      "actual": [
+        403,
+        null
+      ]
+    },
+    {
+      "name": "a choice from the approved origin is recorded with a receipt",
+      "result": "PASS",
+      "expected": [
+        201,
+        "http://127.0.0.1:43891",
+        1
+      ],
+      "actual": [
+        201,
+        "http://127.0.0.1:43891",
+        1
+      ]
+    },
+    {
+      "name": "a choice from another origin is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a choice with no origin is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a request carrying cookies is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an unknown category is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a missing category is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the strictly necessary category cannot be refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an unknown banner version is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "withdrawal is a new record",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "statistics use each visitor's latest choice",
+      "result": "PASS",
+      "expected": [
+        3,
+        4,
+        1,
+        {
+          "key": "analytics",
+          "granted": 1,
+          "refused": 2
+        }
+      ],
+      "actual": [
+        3,
+        4,
+        1,
+        {
+          "key": "analytics",
+          "granted": 1,
+          "refused": 2
+        }
+      ]
+    },
+    {
+      "name": "one visitor cannot flood the record",
+      "result": "PASS",
+      "expected": [
+        true,
+        503
+      ],
+      "actual": [
+        true,
+        503
+      ]
+    },
+    {
+      "name": "the record holds the choice, origin and a pseudonymous visitor only",
+      "result": "PASS",
+      "expected": [
+        {
+          "necessary": true,
+          "analytics": true
+        },
+        "http://127.0.0.1:43891",
+        "27b02e91-ff05-4920-8a62-4aa341b766f6"
+      ],
+      "actual": [
+        {
+          "analytics": true,
+          "necessary": true
+        },
+        "http://127.0.0.1:43891",
+        "27b02e91-ff05-4920-8a62-4aa341b766f6"
+      ]
+    },
+    {
+      "name": "a page outside the approved origins cannot be scanned",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "origin_not_approved_for_this_site"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "origin_not_approved_for_this_site"
+        ]
+      }
+    },
+    {
+      "name": "the worker carries out queued scans",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the banner loaded and was shown",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        true,
+        true
+      ],
+      "actual": [
+        "COMPLETED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "on a correctly marked page the tracker waits for consent",
+      "result": "PASS",
+      "expected": [
+        false,
+        true,
+        false
+      ],
+      "actual": [
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "its cookie appears only after consent",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "a correctly marked page has no high finding",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a tracker loaded before consent is found",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "it is found again after refusal",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a host the banner does not declare is found",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a cookie set before consent is found",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "scans do not add visitor records",
+      "result": "PASS",
+      "expected": 24,
+      "actual": 24
+    },
+    {
+      "name": "the scan states its limits",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "an auditor reads but cannot change anything",
+      "result": "PASS",
+      "expected": [
+        200,
+        403
+      ],
+      "actual": [
+        200,
+        403
+      ]
+    },
+    {
+      "name": "another tenant sees nothing",
+      "result": "PASS",
+      "expected": [
+        404,
+        false
+      ],
+      "actual": [
+        404,
+        false
+      ]
+    },
+    {
+      "name": "a consent record cannot be altered",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a consent record cannot be deleted",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a published banner cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a site's origins cannot be changed",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a disabled site serves no script and records nothing",
+      "result": "PASS",
+      "expected": [
+        404,
+        404
+      ],
+      "actual": [
+        404,
+        404
+      ]
+    }
+  ],
+  "passed": 44,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

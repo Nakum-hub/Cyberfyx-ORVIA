@@ -9,6 +9,7 @@ import { createExport, advanceExport, stopExport, exportView, exportList, export
 import { preparePackage, reviewPackage, releasePackage, revokePackage, withdrawPackage, packageView, packageList, collectOwnPackage } from '../../domain/src/rights/response-packages.ts';
 import { requestRun, runDetail, runList, recordLabels, labelSet, measureQuality, qualityList, exposureList } from '../../domain/src/discovery/classification.ts';
 import { createTransport, enableTransport, disableTransport, revealSigningSecret, transportList, createRouting, decideRouting, routingList, composeMessage, reviewMessage, cancelMessage, messageDetail, messageList } from '../../domain/src/delivery/delivery.ts';
+import { createSite, enableSite, disableSite, siteList, createConfig, decideConfig, configList, consentStats, requestScan, scanList } from '../../domain/src/cmp/cmp.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
@@ -101,6 +102,16 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'outbound_message': return messageDetail(c, id!);
     case 'review_outbound_message': return reviewMessage(c, id!, input);
     case 'withdraw_outbound_message': return cancelMessage(c, id!);
+    case 'list_cmp_sites': return siteList(c, page);
+    case 'create_cmp_site': return createSite(c, input);
+    case 'enable_cmp_site': return enableSite(c, id!);
+    case 'disable_cmp_site': return disableSite(c, id!);
+    case 'list_cmp_configs': return configList(c, id!, page);
+    case 'create_cmp_config': return createConfig(c, id!, input);
+    case 'decide_cmp_config': return decideConfig(c, id!, input);
+    case 'cmp_consent_stats': return consentStats(c, id!);
+    case 'list_cmp_scans': return scanList(c, id!, page);
+    case 'request_cmp_scan': return requestScan(c, id!, input);
     default: return undefined;
   }
 }

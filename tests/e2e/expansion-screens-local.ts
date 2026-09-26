@@ -12,6 +12,7 @@ import { loadProfile } from '../../shared/testing/src/config.ts';
 import { recordsTarget } from '../../shared/testing/src/records-target.ts';
 import { workflowActivities } from '../../services/worker/src/withdrawal-worker.ts';
 import { sweepClassification } from '../../services/worker/src/classification.ts';
+import { sweepCmpScans } from '../../services/worker/src/cmp-scanner.ts';
 import { observerEnrollment } from '../../backend/auth/src/machine-profile.ts';
 import { operationsRunner } from '../../services/worker/src/operations-runner.ts';
 import http from 'node:http';
@@ -146,7 +147,7 @@ await t.run(async () => {
     await ok(api.call('/api/v1/admin/processor-engagements', { processor_id: proc.id, service_description: `Browser delivery ${suffix}`, subprocessor_of: null, effective_from: new Date(Date.now() - 86_400_000).toISOString(),
       contract_evidence_reference: null, safeguard_evidence_reference: null, links: [] }, { 'idempotency-key': randomUUID() }), S.schemas.Engagement);
     await open(admin, '/workspace/third-parties', 'Third parties');
-    const findRow = async () => { for (let i = 0; i < 20; i++) { const row = admin.getByRole('row').filter({ hasText: `Browser vendor ${suffix}` }); if (await row.count()) return row; await admin.getByRole('button', { name: 'Next' }).first().click(); await admin.waitForLoadState('networkidle'); } throw new Error('Processor row not found'); };
+    const findRow = async () => { const row = admin.getByRole('row').filter({ hasText: `Browser vendor ${suffix}` }); await row.waitFor(); return row; };
     await (await findRow()).getByRole('button', { name: 'Open' }).click();
     await admin.getByRole('heading', { name: `Browser vendor ${suffix}` }).waitFor(); await admin.waitForLoadState('networkidle');
     f = admin.getByRole('form', { name: 'Record an agreement' });
@@ -424,6 +425,112 @@ await t.run(async () => {
       check('the screen shows the attempt and its receipt', [await attemptsTable.getByText('sent').count() > 0, await attemptsTable.getByText(/^HTTP 200 response/).count()], [true, 1]);
       await click(owner, owner.getByRole('table', { name: 'Transports' }).getByRole('row').filter({ hasText: `Browser hook ${suffix}` }), /\/disable$/, S.schemas.DeliveryTransport, 'Disable');
     } finally { hookServer.close(); }
+
+    // ---------------------------------------------------------------- EX02
+    t.setPhase('EX02 banner published and scanned on screen');
+    const trackerHits: string[] = [];
+    const cmpTracker = http.createServer((req, res) => { trackerHits.push(req.url ?? ''); res.writeHead(200, { 'content-type': 'application/javascript' }); res.end("document.cookie='_syn_id=1; path=/';"); });
+    const cmpTrackerPort = await new Promise<number>(r => cmpTracker.listen(0, '127.0.0.1', () => r((cmpTracker.address() as import('node:net').AddressInfo).port)));
+    let cmpKey = '';
+    const shop = http.createServer((req, res) => {
+      const lang = req.url === '/hi' ? 'hi' : 'en';
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      res.end(`<!doctype html><html lang="${lang}"><head><title>Synthetic shop</title><script src="${h.config.origin}/cmp/${cmpKey}/orvia-cmp.js"></script></head><body><h1>Synthetic shop</h1><a href="#" id="choices" onclick="OrviaCMP.open();return false">Privacy choices</a>`
+        + `<script type="text/plain" data-orvia-category="analytics" data-src="http://127.0.0.1:${cmpTrackerPort}/analytics.js"></script></body></html>`);
+    });
+    const shopPort = await new Promise<number>(r => shop.listen(0, '127.0.0.1', () => r((shop.address() as import('node:net').AddressInfo).port)));
+    const shopOrigin = `http://127.0.0.1:${shopPort}`;
+    try {
+      await open(admin, '/workspace/website-consent', 'Website consent');
+      f = admin.getByRole('form', { name: 'Add a site' });
+      await field(f, 'Name').fill(`Browser shop ${suffix}`); await field(f, 'Origins').fill(shopOrigin);
+      const shopSite = await submit(admin, f, /\/cmp-sites$/, S.schemas.CmpSite, 'Add a site');
+      cmpKey = shopSite.site_key;
+      await open(owner, '/workspace/website-consent', 'Website consent');
+      const siteRow = owner.getByRole('table', { name: 'Sites' }).getByRole('row').filter({ hasText: `Browser shop ${suffix}` });
+      const approvedSite = await click(owner, siteRow, /\/enable$/, S.schemas.CmpSite, 'Approve origins');
+      check('a second person approves the site origins on screen', [approvedSite.status, (approvedSite.body as { state?: string }).state], [200, 'ENABLED']);
+      await admin.reload(); await admin.waitForLoadState('networkidle');
+      await admin.getByRole('table', { name: 'Sites' }).getByRole('row').filter({ hasText: `Browser shop ${suffix}` }).getByRole('button', { name: 'Open' }).click();
+      f = admin.getByRole('form', { name: 'Record a banner version' });
+      const bannerDoc = {
+        categories: [{ key: 'necessary', label: 'Necessary', description: 'Needed for the shop to work.', required: true }, { key: 'analytics', label: 'Analytics', description: 'Helps us understand how the shop is used.', required: false }],
+        trackers: [{ name: 'Synthetic analytics', category: 'analytics', hosts: [`127.0.0.1:${cmpTrackerPort}`], cookies: ['_syn*'] }],
+        texts: { en: { title: 'Your privacy choices', body: 'We use analytics cookies only if you agree. You can change your choice at any time.', accept_all: 'Accept all', reject_all: 'Reject all', choose: 'Choose', save: 'Save choices' },
+          hi: { title: 'आपकी गोपनीयता पसंद', body: 'हम केवल आपकी सहमति से एनालिटिक्स कुकीज़ का उपयोग करते हैं।', accept_all: 'सभी स्वीकार करें', reject_all: 'सभी अस्वीकार करें', choose: 'चुनें', save: 'सहेजें' } },
+        rule: { basis: 'OPT_IN', requirement_id: null, source_reference: 'DPDP Act 2023, section 6.', honour_gpc: true },
+      };
+      await field(f, 'Banner definition').fill(JSON.stringify(bannerDoc));
+      const bannerV = await submit(admin, f, /\/configs$/, S.schemas.CmpConfig, 'Record a banner version');
+      await reviewer.goto('/workspace/website-consent'); await reviewer.waitForLoadState('networkidle');
+      await reviewer.getByRole('table', { name: 'Sites' }).getByRole('row').filter({ hasText: `Browser shop ${suffix}` }).getByRole('button', { name: 'Open' }).click();
+      const pub = await click(reviewer, reviewer.getByRole('table', { name: 'Banner versions' }).getByRole('row').filter({ hasText: `Version ${bannerV.version}` }), /\/decision$/, S.schemas.CmpConfig, 'Publish');
+      check('another approver publishes the banner on screen', [pub.status, (pub.body as { state?: string }).state], [200, 'PUBLISHED']);
+
+      t.setPhase('EX02 visitor journey');
+      const visitorContext = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+      const visitorPage = await visitorContext.newPage();
+      visitorPage.on('pageerror', e => errors.push(e.message));
+      const consentPosts: number[] = [];
+      visitorPage.on('response', r => { if (r.url().endsWith('/consents') && r.request().method() === 'POST') consentPosts.push(r.status()); });
+      await visitorPage.goto(`${shopOrigin}/`); await visitorPage.waitForLoadState('networkidle');
+      const banner = visitorPage.getByRole('dialog', { name: 'Your privacy choices' });
+      await banner.waitFor();
+      check('the banner opens as a labelled modal dialog before anything optional loads', [await banner.getAttribute('aria-modal'), trackerHits.length], ['true', 0]);
+      check('focus starts on the first choice', await visitorPage.evaluate(() => document.activeElement?.textContent), 'Accept all');
+      await visitorPage.keyboard.press('Tab'); const second = await visitorPage.evaluate(() => document.activeElement?.textContent);
+      await visitorPage.keyboard.press('Tab'); await visitorPage.keyboard.press('Tab'); const wrapped = await visitorPage.evaluate(() => document.activeElement?.textContent);
+      check('keyboard focus moves through the choices and stays in the dialog', [second, wrapped], ['Reject all', 'Accept all']);
+      await visitorPage.keyboard.press('Tab'); await visitorPage.keyboard.press('Enter');
+      await banner.waitFor({ state: 'detached' }); await visitorPage.waitForTimeout(500);
+      check('refusing with the keyboard records the choice and loads no tracker', [consentPosts, trackerHits.length], [[201], 0]);
+      await visitorPage.getByRole('link', { name: 'Privacy choices' }).click();
+      await banner.getByRole('button', { name: 'Choose' }).click();
+      await banner.getByRole('checkbox', { name: /Analytics/ }).check();
+      check('the strictly necessary category is shown on and cannot be turned off', [await banner.getByRole('checkbox', { name: /Necessary/ }).isChecked(), await banner.getByRole('checkbox', { name: /Necessary/ }).isDisabled()], [true, true]);
+      const loaded = visitorPage.waitForRequest(r => r.url().includes(`:${cmpTrackerPort}/analytics.js`));
+      await banner.getByRole('button', { name: 'Save choices' }).click();
+      await loaded; await visitorPage.waitForTimeout(300);
+      check('granting analytics loads the marked script, and its cookie appears', [trackerHits.includes('/analytics.js'), (await visitorContext.cookies()).some(c => c.name === '_syn_id')], [true, true]);
+      await visitorPage.getByRole('link', { name: 'Privacy choices' }).click();
+      await banner.getByRole('button', { name: 'Choose' }).click();
+      await banner.getByRole('checkbox', { name: /Analytics/ }).uncheck();
+      const reloaded = visitorPage.waitForEvent('load');
+      const hitsBefore = trackerHits.length;
+      await banner.getByRole('button', { name: 'Save choices' }).click();
+      await reloaded; await visitorPage.waitForLoadState('networkidle');
+      check('withdrawing clears the declared cookie, reloads, and nothing loads again', [(await visitorContext.cookies()).some(c => c.name === '_syn_id'), trackerHits.length, consentPosts.length], [false, hitsBefore, 3]);
+      await visitorContext.close();
+      const gpcContext = await browser.newContext();
+      // Plain source, not a transpiled function: the browser receives exactly this.
+      await gpcContext.addInitScript({ content: "Object.defineProperty(navigator, 'globalPrivacyControl', { get: function () { return true; } });" });
+      const gpcPage = await gpcContext.newPage();
+      gpcPage.on('pageerror', e => errors.push(e.message));
+      const gpcBodies: { gpc?: boolean; choices?: Record<string, boolean> }[] = [];
+      gpcPage.on('request', r => { if (r.url().endsWith('/consents') && r.method() === 'POST') gpcBodies.push(JSON.parse(r.postData() ?? '{}')); });
+      const hitsBeforeGpc = trackerHits.length;
+      await gpcPage.goto(`${shopOrigin}/hi`); await gpcPage.waitForLoadState('networkidle');
+      const probe = await gpcPage.evaluate(() => ({ gpc: (navigator as unknown as { globalPrivacyControl?: boolean }).globalPrivacyControl, cookie: document.cookie, sdk: Boolean((window as unknown as { OrviaCMP?: unknown }).OrviaCMP), banner: Boolean(document.getElementById('orvia-cmp')) }));
+      check('the page sees the Global Privacy Control signal', probe.gpc, true);
+      const gpcBody = gpcBodies[0] ?? {};
+      check('a Global Privacy Control signal is applied as a refusal without a banner', [gpcBody.gpc, gpcBody.choices?.analytics, await gpcPage.getByRole('dialog').count(), trackerHits.length], [true, false, 0, hitsBeforeGpc]);
+      await gpcPage.getByRole('link', { name: 'Privacy choices' }).click();
+      check('the banner speaks the page language', await gpcPage.getByRole('dialog', { name: 'आपकी गोपनीयता पसंद' }).count(), 1);
+      await gpcContext.close();
+
+      t.setPhase('EX02 scan from the screen');
+      await admin.reload(); await admin.waitForLoadState('networkidle');
+      await admin.getByRole('table', { name: 'Sites' }).getByRole('row').filter({ hasText: `Browser shop ${suffix}` }).getByRole('button', { name: 'Open' }).click();
+      f = admin.getByRole('form', { name: 'Scan a page' });
+      await submit(admin, f, /\/scans$/, S.schemas.CmpScan, 'Scan a page');
+      const scanner = workflowActivities();
+      try { await sweepCmpScans(scanner.scoped, scanner.enrollment.identities.map(x => x.id)); } finally { await scanner.close(); }
+      await admin.reload(); await admin.waitForLoadState('networkidle');
+      await admin.getByRole('table', { name: 'Sites' }).getByRole('row').filter({ hasText: `Browser shop ${suffix}` }).getByRole('button', { name: 'Open' }).click();
+      await admin.getByText(/Banner shown\. Before a choice: \d+ host\(s\)/).first().waitFor();
+      const stats = await ok(api.call(`/api/v1/admin/cmp-sites/${shopSite.id}/consent-stats`), S.schemas.CmpConsentStats);
+      check('the visitor journey left pseudonymous records and the scan left none', [stats.visitors, stats.gpc_visitors, stats.records], [2, 1, 4]);
+    } finally { shop.close(); cmpTracker.close(); }
 
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);

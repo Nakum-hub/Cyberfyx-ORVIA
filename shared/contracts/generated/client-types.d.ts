@@ -4783,6 +4783,134 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/cmp-sites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_cmp_sites"];
+        put?: never;
+        post: operations["create_cmp_site"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/cmp-sites/{id}/enable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["enable_cmp_site"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/cmp-sites/{id}/disable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["disable_cmp_site"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/cmp-sites/{id}/configs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_cmp_configs"];
+        put?: never;
+        post: operations["create_cmp_config"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/cmp-configs/{id}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["decide_cmp_config"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/cmp-sites/{id}/consent-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["cmp_consent_stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/cmp-sites/{id}/scans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_cmp_scans"];
+        put?: never;
+        post: operations["request_cmp_scan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cmp/{id}/consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["record_cmp_consent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/supplier/questionnaire": {
         parameters: {
             query?: never;
@@ -11497,6 +11625,336 @@ export interface components {
             }[];
             next_cursor: string | null;
         };
+        CmpConfigDocument: {
+            categories: {
+                key: string;
+                label: string;
+                description: string;
+                required: boolean;
+            }[];
+            trackers: {
+                name: string;
+                category: string;
+                hosts: string[];
+                cookies: string[];
+            }[];
+            texts: {
+                [key: string]: {
+                    title: string;
+                    body: string;
+                    accept_all: string;
+                    reject_all: string;
+                    choose: string;
+                    save: string;
+                };
+            };
+            rule: {
+                /** @constant */
+                basis: "OPT_IN";
+                requirement_id: string | null;
+                source_reference: string;
+                honour_gpc: boolean;
+            };
+        };
+        CmpSiteCreate: {
+            name: string;
+            origins: string[];
+        };
+        CmpSite: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            site_key: string;
+            name: string;
+            origins: string[];
+            /** @enum {string} */
+            state: "PENDING" | "ENABLED" | "DISABLED";
+            /** Format: uuid */
+            created_by: string;
+            /** Format: date-time */
+            created_at: string;
+            approved_by: string | null;
+            approved_at: string | null;
+            disabled_at: string | null;
+            sdk_path: string;
+        };
+        CmpSiteList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                site_key: string;
+                name: string;
+                origins: string[];
+                /** @enum {string} */
+                state: "PENDING" | "ENABLED" | "DISABLED";
+                /** Format: uuid */
+                created_by: string;
+                /** Format: date-time */
+                created_at: string;
+                approved_by: string | null;
+                approved_at: string | null;
+                disabled_at: string | null;
+                sdk_path: string;
+            }[];
+            next_cursor: string | null;
+        };
+        CmpConfigCreate: {
+            document: {
+                categories: {
+                    key: string;
+                    label: string;
+                    description: string;
+                    required: boolean;
+                }[];
+                trackers: {
+                    name: string;
+                    category: string;
+                    hosts: string[];
+                    cookies: string[];
+                }[];
+                texts: {
+                    [key: string]: {
+                        title: string;
+                        body: string;
+                        accept_all: string;
+                        reject_all: string;
+                        choose: string;
+                        save: string;
+                    };
+                };
+                rule: {
+                    /** @constant */
+                    basis: "OPT_IN";
+                    requirement_id: string | null;
+                    source_reference: string;
+                    honour_gpc: boolean;
+                };
+            };
+        };
+        CmpConfig: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            site_id: string;
+            version: number;
+            document: {
+                categories: {
+                    key: string;
+                    label: string;
+                    description: string;
+                    required: boolean;
+                }[];
+                trackers: {
+                    name: string;
+                    category: string;
+                    hosts: string[];
+                    cookies: string[];
+                }[];
+                texts: {
+                    [key: string]: {
+                        title: string;
+                        body: string;
+                        accept_all: string;
+                        reject_all: string;
+                        choose: string;
+                        save: string;
+                    };
+                };
+                rule: {
+                    /** @constant */
+                    basis: "OPT_IN";
+                    requirement_id: string | null;
+                    source_reference: string;
+                    honour_gpc: boolean;
+                };
+            };
+            content_digest: string;
+            /** @enum {string} */
+            state: "DRAFT" | "PUBLISHED" | "RETIRED";
+            /** Format: uuid */
+            authored_by: string;
+            /** Format: date-time */
+            authored_at: string;
+            published_by: string | null;
+            published_at: string | null;
+            retired_at: string | null;
+        };
+        CmpConfigList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                site_id: string;
+                version: number;
+                document: {
+                    categories: {
+                        key: string;
+                        label: string;
+                        description: string;
+                        required: boolean;
+                    }[];
+                    trackers: {
+                        name: string;
+                        category: string;
+                        hosts: string[];
+                        cookies: string[];
+                    }[];
+                    texts: {
+                        [key: string]: {
+                            title: string;
+                            body: string;
+                            accept_all: string;
+                            reject_all: string;
+                            choose: string;
+                            save: string;
+                        };
+                    };
+                    rule: {
+                        /** @constant */
+                        basis: "OPT_IN";
+                        requirement_id: string | null;
+                        source_reference: string;
+                        honour_gpc: boolean;
+                    };
+                };
+                content_digest: string;
+                /** @enum {string} */
+                state: "DRAFT" | "PUBLISHED" | "RETIRED";
+                /** Format: uuid */
+                authored_by: string;
+                /** Format: date-time */
+                authored_at: string;
+                published_by: string | null;
+                published_at: string | null;
+                retired_at: string | null;
+            }[];
+            next_cursor: string | null;
+        };
+        CmpConfigDecision: {
+            /** @enum {string} */
+            action: "PUBLISH" | "RETIRE";
+        };
+        CmpConsentSubmit: {
+            /** Format: uuid */
+            visitor_id: string;
+            config_version: number;
+            choices: {
+                [key: string]: boolean;
+            };
+            gpc: boolean;
+            language: string;
+        };
+        CmpConsentReceipt: {
+            /** Format: uuid */
+            receipt_id: string;
+            /** Format: date-time */
+            recorded_at: string;
+            config_version: number;
+        };
+        CmpConsentStats: {
+            /** Format: uuid */
+            site_id: string;
+            visitors: number;
+            records: number;
+            gpc_visitors: number;
+            latest_at: string | null;
+            by_category: {
+                key: string;
+                granted: number;
+                refused: number;
+            }[];
+            limits: string[];
+        };
+        CmpScanRequest: {
+            /** Format: uri */
+            url: string;
+        };
+        CmpScan: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            site_id: string;
+            url: string;
+            /** @enum {string} */
+            state: "QUEUED" | "COMPLETED" | "FAILED";
+            /** Format: uuid */
+            requested_by: string;
+            /** Format: date-time */
+            requested_at: string;
+            observed_at: string | null;
+            config_version: number | null;
+            results: {
+                sdk_loaded: boolean;
+                banner_shown: boolean;
+                before_consent: {
+                    hosts: string[];
+                    cookies: string[];
+                };
+                after_consent: {
+                    hosts: string[];
+                    cookies: string[];
+                };
+                after_refusal: {
+                    hosts: string[];
+                    cookies: string[];
+                };
+            } | null;
+            findings: {
+                /** @enum {string} */
+                kind: "SDK_MISSING" | "TRACKER_BEFORE_CONSENT" | "TRACKER_AFTER_REFUSAL" | "COOKIE_BEFORE_CONSENT" | "UNDECLARED_HOST" | "UNDECLARED_COOKIE" | "DECLARED_NOT_SEEN";
+                /** @enum {string} */
+                severity: "HIGH" | "MEDIUM" | "INFO";
+                subject: string;
+                detail: string;
+            }[];
+            failure_code: string | null;
+            limits: string[];
+        };
+        CmpScanList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                site_id: string;
+                url: string;
+                /** @enum {string} */
+                state: "QUEUED" | "COMPLETED" | "FAILED";
+                /** Format: uuid */
+                requested_by: string;
+                /** Format: date-time */
+                requested_at: string;
+                observed_at: string | null;
+                config_version: number | null;
+                results: {
+                    sdk_loaded: boolean;
+                    banner_shown: boolean;
+                    before_consent: {
+                        hosts: string[];
+                        cookies: string[];
+                    };
+                    after_consent: {
+                        hosts: string[];
+                        cookies: string[];
+                    };
+                    after_refusal: {
+                        hosts: string[];
+                        cookies: string[];
+                    };
+                } | null;
+                findings: {
+                    /** @enum {string} */
+                    kind: "SDK_MISSING" | "TRACKER_BEFORE_CONSENT" | "TRACKER_AFTER_REFUSAL" | "COOKIE_BEFORE_CONSENT" | "UNDECLARED_HOST" | "UNDECLARED_COOKIE" | "DECLARED_NOT_SEEN";
+                    /** @enum {string} */
+                    severity: "HIGH" | "MEDIUM" | "INFO";
+                    subject: string;
+                    detail: string;
+                }[];
+                failure_code: string | null;
+                limits: string[];
+            }[];
+            next_cursor: string | null;
+        };
         GrcFrameworkCreate: {
             name: string;
             version: string;
@@ -12556,7 +13014,7 @@ export interface components {
             };
             /** @enum {string} */
             role: "ORG_SUPER_ADMIN" | "ORG_ADMIN" | "MEMBER" | "AUDITOR";
-            capabilities: ("supplier.respond" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+            capabilities: ("supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
             mfa_verified: boolean;
             /** Format: date-time */
             expires_at: string;
@@ -15564,7 +16022,7 @@ export interface components {
             introduces_network_egress: false;
             /** @constant */
             requires_model_runtime: false;
-            introduces_capabilities: ("supplier.respond" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+            introduces_capabilities: ("supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
         };
         SignedRelease: {
             /** @constant */
@@ -15607,7 +16065,7 @@ export interface components {
                 introduces_network_egress: false;
                 /** @constant */
                 requires_model_runtime: false;
-                introduces_capabilities: ("supplier.respond" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+                introduces_capabilities: ("supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
             };
             /** Format: uuid */
             signing_key_id: string;
@@ -15655,7 +16113,7 @@ export interface components {
                     introduces_network_egress: false;
                     /** @constant */
                     requires_model_runtime: false;
-                    introduces_capabilities: ("supplier.respond" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+                    introduces_capabilities: ("supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
                 };
                 /** Format: uuid */
                 signing_key_id: string;
@@ -87254,6 +87712,2175 @@ export interface operations {
             };
         };
     };
+    list_cmp_sites: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000044c",
+                     *           "site_key": "00000000-0000-4000-8000-00000000044d",
+                     *           "name": "Synthetic site",
+                     *           "origins": [
+                     *             "https://www.customer.example"
+                     *           ],
+                     *           "state": "ENABLED",
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z",
+                     *           "approved_by": "00000000-0000-4000-8000-000000000387",
+                     *           "approved_at": "2026-09-16T10:00:00.000Z",
+                     *           "disabled_at": null,
+                     *           "sdk_path": "/cmp/00000000-0000-4000-8000-00000000044d/orvia-cmp.js"
+                     *         }
+                     *       ],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpSiteList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_cmp_site: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "name": "Synthetic site",
+                 *       "origins": [
+                 *         "https://www.customer.example"
+                 *       ]
+                 *     }
+                 */
+                "application/json": components["schemas"]["CmpSiteCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000044c",
+                     *       "site_key": "00000000-0000-4000-8000-00000000044d",
+                     *       "name": "Synthetic site",
+                     *       "origins": [
+                     *         "https://www.customer.example"
+                     *       ],
+                     *       "state": "ENABLED",
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000387",
+                     *       "approved_at": "2026-09-16T10:00:00.000Z",
+                     *       "disabled_at": null,
+                     *       "sdk_path": "/cmp/00000000-0000-4000-8000-00000000044d/orvia-cmp.js"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpSite"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    enable_cmp_site: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000044c",
+                     *       "site_key": "00000000-0000-4000-8000-00000000044d",
+                     *       "name": "Synthetic site",
+                     *       "origins": [
+                     *         "https://www.customer.example"
+                     *       ],
+                     *       "state": "ENABLED",
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000387",
+                     *       "approved_at": "2026-09-16T10:00:00.000Z",
+                     *       "disabled_at": null,
+                     *       "sdk_path": "/cmp/00000000-0000-4000-8000-00000000044d/orvia-cmp.js"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpSite"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    disable_cmp_site: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000044c",
+                     *       "site_key": "00000000-0000-4000-8000-00000000044d",
+                     *       "name": "Synthetic site",
+                     *       "origins": [
+                     *         "https://www.customer.example"
+                     *       ],
+                     *       "state": "ENABLED",
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000387",
+                     *       "approved_at": "2026-09-16T10:00:00.000Z",
+                     *       "disabled_at": null,
+                     *       "sdk_path": "/cmp/00000000-0000-4000-8000-00000000044d/orvia-cmp.js"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpSite"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_cmp_configs: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000044e",
+                     *           "site_id": "00000000-0000-4000-8000-00000000044c",
+                     *           "version": 1,
+                     *           "document": {
+                     *             "categories": [
+                     *               {
+                     *                 "key": "necessary",
+                     *                 "label": "Necessary",
+                     *                 "description": "Needed for the site to work.",
+                     *                 "required": true
+                     *               },
+                     *               {
+                     *                 "key": "analytics",
+                     *                 "label": "Analytics",
+                     *                 "description": "Helps us understand site use.",
+                     *                 "required": false
+                     *               }
+                     *             ],
+                     *             "trackers": [
+                     *               {
+                     *                 "name": "Synthetic analytics",
+                     *                 "category": "analytics",
+                     *                 "hosts": [
+                     *                   "analytics.example"
+                     *                 ],
+                     *                 "cookies": [
+                     *                   "_syn*"
+                     *                 ]
+                     *               }
+                     *             ],
+                     *             "texts": {
+                     *               "en": {
+                     *                 "title": "Your choices",
+                     *                 "body": "We use cookies only with your consent, except those strictly necessary.",
+                     *                 "accept_all": "Accept all",
+                     *                 "reject_all": "Reject all",
+                     *                 "choose": "Choose",
+                     *                 "save": "Save choices"
+                     *               }
+                     *             },
+                     *             "rule": {
+                     *               "basis": "OPT_IN",
+                     *               "requirement_id": null,
+                     *               "source_reference": "Synthetic source reference",
+                     *               "honour_gpc": true
+                     *             }
+                     *           },
+                     *           "content_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                     *           "state": "PUBLISHED",
+                     *           "authored_by": "00000000-0000-4000-8000-000000000386",
+                     *           "authored_at": "2026-09-16T10:00:00.000Z",
+                     *           "published_by": "00000000-0000-4000-8000-000000000387",
+                     *           "published_at": "2026-09-16T10:00:00.000Z",
+                     *           "retired_at": null
+                     *         }
+                     *       ],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpConfigList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_cmp_config: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "document": {
+                 *         "categories": [
+                 *           {
+                 *             "key": "necessary",
+                 *             "label": "Necessary",
+                 *             "description": "Needed for the site to work.",
+                 *             "required": true
+                 *           },
+                 *           {
+                 *             "key": "analytics",
+                 *             "label": "Analytics",
+                 *             "description": "Helps us understand site use.",
+                 *             "required": false
+                 *           }
+                 *         ],
+                 *         "trackers": [
+                 *           {
+                 *             "name": "Synthetic analytics",
+                 *             "category": "analytics",
+                 *             "hosts": [
+                 *               "analytics.example"
+                 *             ],
+                 *             "cookies": [
+                 *               "_syn*"
+                 *             ]
+                 *           }
+                 *         ],
+                 *         "texts": {
+                 *           "en": {
+                 *             "title": "Your choices",
+                 *             "body": "We use cookies only with your consent, except those strictly necessary.",
+                 *             "accept_all": "Accept all",
+                 *             "reject_all": "Reject all",
+                 *             "choose": "Choose",
+                 *             "save": "Save choices"
+                 *           }
+                 *         },
+                 *         "rule": {
+                 *           "basis": "OPT_IN",
+                 *           "requirement_id": null,
+                 *           "source_reference": "Synthetic source reference",
+                 *           "honour_gpc": true
+                 *         }
+                 *       }
+                 *     }
+                 */
+                "application/json": components["schemas"]["CmpConfigCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000044e",
+                     *       "site_id": "00000000-0000-4000-8000-00000000044c",
+                     *       "version": 1,
+                     *       "document": {
+                     *         "categories": [
+                     *           {
+                     *             "key": "necessary",
+                     *             "label": "Necessary",
+                     *             "description": "Needed for the site to work.",
+                     *             "required": true
+                     *           },
+                     *           {
+                     *             "key": "analytics",
+                     *             "label": "Analytics",
+                     *             "description": "Helps us understand site use.",
+                     *             "required": false
+                     *           }
+                     *         ],
+                     *         "trackers": [
+                     *           {
+                     *             "name": "Synthetic analytics",
+                     *             "category": "analytics",
+                     *             "hosts": [
+                     *               "analytics.example"
+                     *             ],
+                     *             "cookies": [
+                     *               "_syn*"
+                     *             ]
+                     *           }
+                     *         ],
+                     *         "texts": {
+                     *           "en": {
+                     *             "title": "Your choices",
+                     *             "body": "We use cookies only with your consent, except those strictly necessary.",
+                     *             "accept_all": "Accept all",
+                     *             "reject_all": "Reject all",
+                     *             "choose": "Choose",
+                     *             "save": "Save choices"
+                     *           }
+                     *         },
+                     *         "rule": {
+                     *           "basis": "OPT_IN",
+                     *           "requirement_id": null,
+                     *           "source_reference": "Synthetic source reference",
+                     *           "honour_gpc": true
+                     *         }
+                     *       },
+                     *       "content_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                     *       "state": "PUBLISHED",
+                     *       "authored_by": "00000000-0000-4000-8000-000000000386",
+                     *       "authored_at": "2026-09-16T10:00:00.000Z",
+                     *       "published_by": "00000000-0000-4000-8000-000000000387",
+                     *       "published_at": "2026-09-16T10:00:00.000Z",
+                     *       "retired_at": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpConfig"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    decide_cmp_config: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "action": "PUBLISH"
+                 *     }
+                 */
+                "application/json": components["schemas"]["CmpConfigDecision"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000044e",
+                     *       "site_id": "00000000-0000-4000-8000-00000000044c",
+                     *       "version": 1,
+                     *       "document": {
+                     *         "categories": [
+                     *           {
+                     *             "key": "necessary",
+                     *             "label": "Necessary",
+                     *             "description": "Needed for the site to work.",
+                     *             "required": true
+                     *           },
+                     *           {
+                     *             "key": "analytics",
+                     *             "label": "Analytics",
+                     *             "description": "Helps us understand site use.",
+                     *             "required": false
+                     *           }
+                     *         ],
+                     *         "trackers": [
+                     *           {
+                     *             "name": "Synthetic analytics",
+                     *             "category": "analytics",
+                     *             "hosts": [
+                     *               "analytics.example"
+                     *             ],
+                     *             "cookies": [
+                     *               "_syn*"
+                     *             ]
+                     *           }
+                     *         ],
+                     *         "texts": {
+                     *           "en": {
+                     *             "title": "Your choices",
+                     *             "body": "We use cookies only with your consent, except those strictly necessary.",
+                     *             "accept_all": "Accept all",
+                     *             "reject_all": "Reject all",
+                     *             "choose": "Choose",
+                     *             "save": "Save choices"
+                     *           }
+                     *         },
+                     *         "rule": {
+                     *           "basis": "OPT_IN",
+                     *           "requirement_id": null,
+                     *           "source_reference": "Synthetic source reference",
+                     *           "honour_gpc": true
+                     *         }
+                     *       },
+                     *       "content_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                     *       "state": "PUBLISHED",
+                     *       "authored_by": "00000000-0000-4000-8000-000000000386",
+                     *       "authored_at": "2026-09-16T10:00:00.000Z",
+                     *       "published_by": "00000000-0000-4000-8000-000000000387",
+                     *       "published_at": "2026-09-16T10:00:00.000Z",
+                     *       "retired_at": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpConfig"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    cmp_consent_stats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "site_id": "00000000-0000-4000-8000-00000000025b",
+                     *       "visitors": -9007199254740991,
+                     *       "records": -9007199254740991,
+                     *       "gpc_visitors": -9007199254740991,
+                     *       "latest_at": null,
+                     *       "by_category": [],
+                     *       "limits": []
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpConsentStats"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_cmp_scans: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000044f",
+                     *           "site_id": "00000000-0000-4000-8000-00000000044c",
+                     *           "url": "https://www.customer.example/",
+                     *           "state": "COMPLETED",
+                     *           "requested_by": "00000000-0000-4000-8000-000000000386",
+                     *           "requested_at": "2026-09-16T10:00:00.000Z",
+                     *           "observed_at": "2026-09-16T10:00:00.000Z",
+                     *           "config_version": 1,
+                     *           "results": {
+                     *             "sdk_loaded": true,
+                     *             "banner_shown": true,
+                     *             "before_consent": {
+                     *               "hosts": [],
+                     *               "cookies": []
+                     *             },
+                     *             "after_consent": {
+                     *               "hosts": [
+                     *                 "analytics.example"
+                     *               ],
+                     *               "cookies": [
+                     *                 "_syn_id"
+                     *               ]
+                     *             },
+                     *             "after_refusal": {
+                     *               "hosts": [],
+                     *               "cookies": []
+                     *             }
+                     *           },
+                     *           "findings": [],
+                     *           "failure_code": null,
+                     *           "limits": [
+                     *             "Synthetic example."
+                     *           ]
+                     *         }
+                     *       ],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpScanList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    request_cmp_scan: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "url": "https://www.customer.example/"
+                 *     }
+                 */
+                "application/json": components["schemas"]["CmpScanRequest"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000044f",
+                     *       "site_id": "00000000-0000-4000-8000-00000000044c",
+                     *       "url": "https://www.customer.example/",
+                     *       "state": "COMPLETED",
+                     *       "requested_by": "00000000-0000-4000-8000-000000000386",
+                     *       "requested_at": "2026-09-16T10:00:00.000Z",
+                     *       "observed_at": "2026-09-16T10:00:00.000Z",
+                     *       "config_version": 1,
+                     *       "results": {
+                     *         "sdk_loaded": true,
+                     *         "banner_shown": true,
+                     *         "before_consent": {
+                     *           "hosts": [],
+                     *           "cookies": []
+                     *         },
+                     *         "after_consent": {
+                     *           "hosts": [
+                     *             "analytics.example"
+                     *           ],
+                     *           "cookies": [
+                     *             "_syn_id"
+                     *           ]
+                     *         },
+                     *         "after_refusal": {
+                     *           "hosts": [],
+                     *           "cookies": []
+                     *         }
+                     *       },
+                     *       "findings": [],
+                     *       "failure_code": null,
+                     *       "limits": [
+                     *         "Synthetic example."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpScan"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    record_cmp_consent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "visitor_id": "00000000-0000-4000-8000-000000000450",
+                 *       "config_version": 1,
+                 *       "choices": {
+                 *         "necessary": true,
+                 *         "analytics": false
+                 *       },
+                 *       "gpc": false,
+                 *       "language": "en"
+                 *     }
+                 */
+                "application/json": components["schemas"]["CmpConsentSubmit"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "receipt_id": "00000000-0000-4000-8000-00000000025c",
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "config_version": -9007199254740991
+                     *     }
+                     */
+                    "application/json": components["schemas"]["CmpConsentReceipt"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     supplier_questionnaire: {
         parameters: {
             query?: never;
@@ -87606,8 +90233,8 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "installation_id": "00000000-0000-4000-8000-00000000025b",
-                 *       "environment_id": "00000000-0000-4000-8000-00000000025c",
+                 *       "installation_id": "00000000-0000-4000-8000-00000000025d",
+                 *       "environment_id": "00000000-0000-4000-8000-00000000025e",
                  *       "maximum_commands": 1
                  *     }
                  */
@@ -87780,9 +90407,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "command_id": "00000000-0000-4000-8000-00000000025d",
+                 *       "command_id": "00000000-0000-4000-8000-00000000025f",
                  *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                 *       "attempt_id": "00000000-0000-4000-8000-00000000025e",
+                 *       "attempt_id": "00000000-0000-4000-8000-000000000260",
                  *       "execution_state": "ACKNOWLEDGED",
                  *       "recorded_at": "2026-09-16T10:00:00.000Z",
                  *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -87801,7 +90428,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "operation_id": "00000000-0000-4000-8000-00000000025f",
+                     *       "operation_id": "00000000-0000-4000-8000-000000000261",
                      *       "status": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -87957,10 +90584,10 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "attempt_id": "00000000-0000-4000-8000-000000000260",
-                 *       "principal_reference_id": "00000000-0000-4000-8000-000000000261",
-                 *       "purpose_id": "00000000-0000-4000-8000-000000000262",
-                 *       "system_id": "00000000-0000-4000-8000-000000000263",
+                 *       "attempt_id": "00000000-0000-4000-8000-000000000262",
+                 *       "principal_reference_id": "00000000-0000-4000-8000-000000000263",
+                 *       "purpose_id": "00000000-0000-4000-8000-000000000264",
+                 *       "system_id": "00000000-0000-4000-8000-000000000265",
                  *       "message_class": "MARKETING",
                  *       "order_reference": null
                  *     }
@@ -88200,9 +90827,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-000000000264",
+                     *       "command_id": "00000000-0000-4000-8000-000000000266",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-000000000265",
+                     *       "attempt_id": "00000000-0000-4000-8000-000000000267",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -88366,7 +90993,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "resource_id": "00000000-0000-4000-8000-000000000266",
+                     *       "resource_id": "00000000-0000-4000-8000-000000000268",
                      *       "generation": 0,
                      *       "last_applied_epoch": 0,
                      *       "marketing_restricted": false,
@@ -88530,9 +91157,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-000000000267",
+                     *       "command_id": "00000000-0000-4000-8000-000000000269",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-000000000268",
+                     *       "attempt_id": "00000000-0000-4000-8000-00000000026a",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",

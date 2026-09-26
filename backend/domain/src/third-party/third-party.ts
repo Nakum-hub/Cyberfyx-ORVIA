@@ -130,7 +130,10 @@ export async function standing(c: Context, processorId: string) {
 }
 
 export async function standingList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.processors WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  // Newest first, so a processor just recorded is on the first page.
+  const rows = (await c.tx.query(`SELECT x.id FROM app.processors x WHERE x.tenant_id=$1 AND x.legal_entity_id=$2 AND x.environment_id=$3
+    AND ($4::uuid IS NULL OR (x.recorded_at, x.id) < (SELECT k.recorded_at, k.id FROM app.processors k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
+    ORDER BY x.recorded_at DESC, x.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const r of paged.items) {

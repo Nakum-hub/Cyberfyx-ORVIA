@@ -54,6 +54,15 @@ const outbound = { id: uuid(1002), transport_id: uuid(1000), source_kind: 'MANUA
   review_state: 'APPROVED' as const, authored_by: uuid(902), authored_at: at, reviewed_by: uuid(903), reviewed_at: at, review_note: 'Reviewed.', delivery_state: 'SENT' as const, next_attempt_at: null, outcome_at: at,
   attempts: [{ attempt: 1, started_at: at, finished_at: at, outcome: 'SENT' as const, response_code: '250', receipt: '250 OK queued', error_code: null, possible_duplicate: false }] };
 
+const cmpDocument = { categories: [{ key: 'necessary', label: 'Necessary', description: 'Needed for the site to work.', required: true }, { key: 'analytics', label: 'Analytics', description: 'Helps us understand site use.', required: false }],
+  trackers: [{ name: 'Synthetic analytics', category: 'analytics', hosts: ['analytics.example'], cookies: ['_syn*'] }],
+  texts: { en: { title: 'Your choices', body: 'We use cookies only with your consent, except those strictly necessary.', accept_all: 'Accept all', reject_all: 'Reject all', choose: 'Choose', save: 'Save choices' } },
+  rule: { basis: 'OPT_IN' as const, requirement_id: null, source_reference: 'Synthetic source reference', honour_gpc: true } };
+const cmpSite = { id: uuid(1100), site_key: uuid(1101), name: 'Synthetic site', origins: ['https://www.customer.example'], state: 'ENABLED' as const, created_by: uuid(902), created_at: at, approved_by: uuid(903), approved_at: at, disabled_at: null, sdk_path: `/cmp/${uuid(1101)}/orvia-cmp.js` };
+const cmpConfig = { id: uuid(1102), site_id: uuid(1100), version: 1, document: cmpDocument, content_digest: 'f'.repeat(64), state: 'PUBLISHED' as const, authored_by: uuid(902), authored_at: at, published_by: uuid(903), published_at: at, retired_at: null };
+const cmpScan = { id: uuid(1103), site_id: uuid(1100), url: 'https://www.customer.example/', state: 'COMPLETED' as const, requested_by: uuid(902), requested_at: at, observed_at: at, config_version: 1,
+  results: { sdk_loaded: true, banner_shown: true, before_consent: { hosts: [], cookies: [] }, after_consent: { hosts: ['analytics.example'], cookies: ['_syn_id'] }, after_refusal: { hosts: [], cookies: [] } }, findings: [], failure_code: null, limits: ['Synthetic example.'] };
+
 export function expansionExample(name: string): unknown {
   switch (name) {
     case 'ImpactQuestion': return question;
@@ -106,6 +115,17 @@ export function expansionExample(name: string): unknown {
     case 'OutboundMessageCreate': return { transport_id: uuid(1000), source_kind: 'MANUAL', source_id: null, recipient: 'dpo@customer.example', subject: 'Synthetic notice', body: 'Synthetic message body for contract examples.' };
     case 'OutboundMessage': return outbound;
     case 'OutboundMessageList': return { items: [outbound], next_cursor: null };
+    case 'CmpConfigDocument': return cmpDocument;
+    case 'CmpSiteCreate': return { name: 'Synthetic site', origins: ['https://www.customer.example'] };
+    case 'CmpSite': return cmpSite;
+    case 'CmpSiteList': return { items: [cmpSite], next_cursor: null };
+    case 'CmpConfigCreate': return { document: cmpDocument };
+    case 'CmpConfig': return cmpConfig;
+    case 'CmpConfigList': return { items: [cmpConfig], next_cursor: null };
+    case 'CmpConsentSubmit': return { visitor_id: uuid(1104), config_version: 1, choices: { necessary: true, analytics: false }, gpc: false, language: 'en' };
+    case 'CmpScanRequest': return { url: 'https://www.customer.example/' };
+    case 'CmpScan': return cmpScan;
+    case 'CmpScanList': return { items: [cmpScan], next_cursor: null };
     default: return undefined;
   }
 }

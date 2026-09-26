@@ -399,3 +399,61 @@ What the first `ropa-exports` failure was: I assumed a terminated engagement wou
 | `tsx tests/integration/expansion/delivery.test.ts` | 41/41 PASS on the first run. Coverage:<br>• off-loopback plaintext, non-HTTPS and credentials-in-URL refused;<br>• the author cannot enable a transport or approve a message;<br>• unreviewed messages not sent;<br>• SENT with a 250 receipt, and AUTH with the named credential;<br>• no resend;<br>• 451 retried after backoff; 550 exhausted after one attempt;<br>• a hang after DATA recorded as UNKNOWN, then the retry SENT marked possible duplicate (two copies sharing `X-Orvia-Message`);<br>• a missing credential is final;<br>• withdrawal;<br>• a webhook 503 retried, then a signature verified with the once-revealed key and the idempotency key checked;<br>• a notification task SENT fact with the receipt as evidence;<br>• an ERROR alert routed once, with the alert showing SENT;<br>• a disabled transport refuses approval;<br>• auditor, tenant and database immutability. |
 | notifications / grc-lifecycle / runner (rerun) | 31/31, 75/75, 10/10 PASS |
 | `tsx tests/e2e/expansion-screens-local.ts` | 56/56 PASS; the EX09 phase ran against a loopback receiver. Two earlier attempts failed on my test code: a check made before the list refreshed, and a weak check, both replaced. On screen: add a webhook, a second person enables it and sees the key once, compose, the server refuses the author's own approval, a second person approves, the runner delivers a signed request, the receipt shows on screen, and the transport is disabled. |
+
+## EX02 — website consent management (banner script, script blocking, visitor records, allowlisted scanner)
+
+**Built**
+- Migration `0058_cmp.sql`:
+  - `cmp_sites`: a public `site_key` and origins that are HTTPS, or HTTP on loopback only. Origins are approved by someone other than the author; the site is enabled once and disabled once.
+  - `cmp_configs`: versioned and published by someone other than the author, one published version per site.
+  - `cmp_consents`: append-only visitor records, pseudonymous (a random id kept in a first-party cookie). A withdrawal is a new record.
+  - `cmp_scans`.
+  - Two narrow SECURITY DEFINER functions:
+    - `app.cmp_published(key)`;
+    - `app.cmp_record_consent(...)`, which checks that the site is enabled, the origin is approved, and the version is known. Every category must be present and boolean, and the necessary category cannot be refused. A visitor is limited to 20 choices per minute.
+- Banner script, `backend/domain/src/cmp/sdk.ts`, served at `/cmp/{siteKey}/orvia-cmp.js` by this installation. It loads no other resource.
+  - Declarative blocking: scripts marked `type="text/plain" data-orvia-category=… data-src=…`. A MutationObserver catches marked scripts inserted later.
+  - Accessible dialog:
+    - `role=dialog`, `aria-modal`, labelled and described;
+    - focus trapped over visible controls; Escape records a refusal;
+    - accept and refuse carry equal weight;
+    - a Choose view with the necessary category shown on and locked.
+  - Page language: `lang`, falling back to English.
+  - GPC: applied as a refusal, with no banner, when the rule says so.
+  - Withdrawal clears the declared cookies for withdrawn categories and reloads the page.
+  - The configuration is embedded with `<`, `>` and line separators escaped.
+- Public handlers, `backend/api/src/cmp.ts`:
+  - the consent POST goes through `safeRoute`, so it is request-audited;
+  - an origin is required and must be approved; cookies and authorization headers are refused;
+  - preflight and CORS grant only the exact approved origin;
+  - the body is capped at 4 KiB and validated against the schema.
+  - Wiring: the Next catch-all dispatches `/api/v1/cmp/` and exports OPTIONS; `frontend/src/app/cmp/[siteKey]/orvia-cmp.js/route.ts` serves the script.
+- Scanner, `services/worker/src/cmp-scanner.ts`, added to the worker loop:
+  - runs local headless Chromium against the approved origin only;
+  - three visits: no choice; accept all; and refuse in a fresh profile, then reload;
+  - records hosts contacted and cookies set, never content;
+  - the banner's consent posts are fulfilled locally, so scans add no visitor records.
+  - Findings (`scanFindings`): TRACKER_BEFORE_CONSENT, TRACKER_AFTER_REFUSAL, COOKIE_BEFORE_CONSENT, UNDECLARED_HOST, UNDECLARED_COOKIE, DECLARED_NOT_SEEN and SDK_MISSING.
+- Contract 0.37.0:
+  - 10 staff routes, plus the PUBLIC `record_cmp_consent`;
+  - new capability `cmp.record`, like `supplier.respond`: it is held by no role, and the public handler never uses the role path.
+- Screen `/workspace/website-consent` ("Website consent" in the nav):
+  - sites: add, approve origins, and an embed snippet with `OrviaCMP.open()` guidance;
+  - banner versions: a JSON definition editor seeded from the published version or a template, plus publish and retire;
+  - visitor-choice statistics from each visitor's latest choice;
+  - scans with findings.
+- Also changed: the third-party processor list is now newest first. It had the same random-id paging problem.
+
+**Honest limits**
+- The regional rule is opt-in with a recorded source. There is no per-region rule engine, and IAB TCF or other interoperability frameworks are not implemented or certified.
+- The scanner visits one page per scan and needs Chromium on the host (it uses `@playwright/test`, currently a dev dependency). Packaging it for production installs is open.
+- A script already executed before withdrawal is stopped by reloading the page. The SDK cannot unload it in place.
+- Consent posts are request-audited but not written to the audit trail per visitor. The consent record itself is the append-only evidence.
+
+**Executed (codex-a00, loopback test site and tracker)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint / unit | applied 0058; 397 examples; clean; clean; 257/257 |
+| `tsx tests/integration/expansion/cmp.test.ts` | 44/44 PASS on the first run. Coverage:<br>• origin rules and second-person approval;<br>• no script before publication; publication by someone other than the author;<br>• a script-breakout string safely embedded; no external URL in the script;<br>• preflight granted to the exact origin only; foreign or missing origin 403; cookies refused;<br>• unknown, missing or necessary-refused categories and unknown versions refused;<br>• withdrawal as a record; stats from latest choices (3 visitors, 4 records, 1 GPC); a flood capped at 20 per minute;<br>• scans: a correctly marked page has no HIGH finding (tracker only after acceptance, cookie only after acceptance); a leaky page gives tracker before consent, after refusal, an undeclared host and a cookie before consent; scans add no records;<br>• auditor, tenant and immutability; a disabled site serves 404 for the script and the POST. |
+| `tsx tests/e2e/expansion-screens-local.ts` | 69/69 PASS (all expansion families). Coverage in the EX02 phase:<br>• site approved on screen by a second person; banner published on screen by another approver;<br>• visitor opens a modal dialog with nothing optional loaded; focus starts on Accept; Tab moves through and wraps inside the dialog; keyboard refusal is recorded and loads no tracker;<br>• Choose shows Necessary locked on; granting Analytics loads the marked script and sets its cookie; withdrawing clears the cookie, reloads, and nothing loads;<br>• GPC gives an automatic refusal with no banner; the Hindi page gets Hindi text;<br>• a scan requested on screen, run by the worker, with findings shown.<br>Four earlier attempts failed:<br>• one on a real product bug: the focus trap counted hidden checkboxes, so Tab could leave the dialog (fixed in the SDK);<br>• one on the processor list's random-id paging (fixed in the product);<br>• two on test-harness issues: a transpiled init script referencing `__name` in the browser, replaced with plain source, and a brittle wait. |
+| cmp / third-party (rerun) | 44/44, 43/43 PASS |
