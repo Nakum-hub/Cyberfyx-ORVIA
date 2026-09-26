@@ -5,6 +5,7 @@ import { useDirectory } from '../../shared/directory.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge } from '../../shared/ui.tsx';
 import { JOB_STATUS_LABELS } from './operations-labels.ts';
+import { EstateImportUpload } from './operations-extras.tsx';
 import { Choice, Input, Many, WriteForm, all, localNow, nullable, nullableInt, nullableTime, text, time } from './registry-forms.tsx';
 
 /**
@@ -76,6 +77,34 @@ const TRIGGERS = [{ value: 'RELATIONSHIP_ENDED', label: 'The relationship ended'
 const DURATION_SOURCES = [{ value: 'CUSTOMER_CONFIGURATION', label: 'Our own retention schedule' }, { value: 'REGULATORY_REQUIREMENT', label: 'A requirement in the regulatory package' }, { value: 'EXTERNAL_LAW_REFERENCE', label: 'Another law' }];
 const HOLD_TYPES = [{ value: 'OPERATIONAL_HOLD', label: 'Operational hold' }, { value: 'OTHER_LAW_RETENTION', label: 'Retention required by another law' }, { value: 'OFFICIAL_EXEMPTION', label: 'Official exemption' }];
 
+function RuleRevision({ onSaved }: { onSaved: () => void }) {
+  const rules = useCollection('list_retention_rules');
+  const [rule, setRule] = useState('');
+  return (
+    <WriteForm operation="revise_retention_rule" label="Revise a retention rule" params={rule ? { id: rule } : undefined} onSaved={() => { setRule(''); rules.refresh(); onSaved(); }}
+      describe={r => `now version ${r.version}${r.resolved ? '' : '; without a sourced period it makes nothing eligible'}`}
+      build={f => {
+        if (!rule) throw new Error('Choose the rule to revise.');
+        const duration = nullableInt(f, 'days'); const source = nullable(f, 'source');
+        if ((duration === null) !== (source === null)) throw new Error('A retention period and where it comes from are recorded together, or neither is.');
+        if (duration !== null && !nullable(f, 'reference')) throw new Error('A retention period cites its source.');
+        if (source === 'REGULATORY_REQUIREMENT' && !nullable(f, 'requirement')) throw new Error('A regulatory period names the requirement it rests on.');
+        return { duration_days: duration, duration_source: source as 'CUSTOMER_CONFIGURATION' | null, source_reference: nullable(f, 'reference'), requirement_id: nullable(f, 'requirement'),
+          approval_required: f.get('approval') === 'on', erasure_action: text(f, 'action') as 'ERASE', effective_from: time(f, 'from'), reason: text(f, 'reason') };
+      }}>
+      <Choice label="Rule" name="rule" value={rule} onChange={setRule} options={(rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))} />
+      <Input label="Retention period (days)" name="days" type="number" required={false} />
+      <Choice label="Period comes from" name="source" required={false} placeholder="No period sourced" options={DURATION_SOURCES} />
+      <Input label="Source reference" name="reference" required={false} maxLength={500} />
+      <Input label="Requirement identifier" name="requirement" required={false} maxLength={80} />
+      <Choice label="When eligible" name="action" options={[{ value: 'ERASE', label: 'Erase' }, { value: 'ANONYMISE', label: 'Anonymise' }, { value: 'SUPPRESS', label: 'Suppress' }]} />
+      <label className="checkbox"><input type="checkbox" name="approval" defaultChecked /> <span>A second person approves each dry run</span></label>
+      <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+      <Input label="Reason for change" name="reason" minLength={10} maxLength={500} />
+    </WriteForm>
+  );
+}
+
 function RetentionForms({ onSaved }: { onSaved: () => void }) {
   const activities = useCollection('list_registry_activities');
   const principalCategories = useCollection('list_principal_categories');
@@ -92,6 +121,7 @@ function RetentionForms({ onSaved }: { onSaved: () => void }) {
             if ((duration === null) !== (source === null)) throw new Error('A retention period and where it comes from are recorded together, or neither is.');
             if (duration !== null && !nullable(f, 'reference')) throw new Error('A retention period cites its source.');
             if (source === 'REGULATORY_REQUIREMENT' && !nullable(f, 'requirement')) throw new Error('A regulatory period names the requirement it rests on.');
+            if (text(f, 'trigger') !== 'RELATIONSHIP_ENDED' && !nullable(f, 'activity')) throw new Error('A withdrawal or purpose-retirement trigger names the activity it applies to.');
             return { name: text(f, 'name'), activity_id: nullable(f, 'activity'), principal_category_id: text(f, 'principal'), data_category_id: nullable(f, 'category'), system_id: nullable(f, 'system'),
               trigger: text(f, 'trigger') as 'RELATIONSHIP_ENDED', duration_days: duration, duration_source: source as 'CUSTOMER_CONFIGURATION' | null,
               source_reference: nullable(f, 'reference'), requirement_id: nullable(f, 'requirement'), approval_required: f.get('approval') === 'on',
@@ -112,12 +142,15 @@ function RetentionForms({ onSaved }: { onSaved: () => void }) {
           <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
         </WriteForm>
 
+        <RuleRevision onSaved={onSaved} />
+
         <WriteForm operation="create_retention_hold" label="Place a hold" onSaved={onSaved}
           describe={h => `${h.hold_type.replaceAll('_', ' ').toLowerCase()} active until released; review ${formatTime(h.review_at)}`}
           build={f => {
             const scope = { subject_id: nullable(f, 'subject'), activity_id: nullable(f, 'activity'), system_id: nullable(f, 'system'), data_category_id: nullable(f, 'category') };
             if (Object.values(scope).every(v => v === null)) throw new Error('A hold names what it covers; there is no hold on everything.');
             if (text(f, 'type') === 'OFFICIAL_EXEMPTION' && !nullable(f, 'requirement')) throw new Error('An official exemption cites the requirement it rests on.');
+            const ends = nullableTime(f, 'ends'); if (ends && ends < time(f, 'starts')) throw new Error('A hold cannot end before it starts.');
             return { hold_type: text(f, 'type') as 'OPERATIONAL_HOLD', authority_reference: text(f, 'authority'), reason: text(f, 'reason'), ...scope,
               starts_at: time(f, 'starts'), ends_at: nullableTime(f, 'ends'), review_at: time(f, 'review'), owner_reference: text(f, 'owner'),
               evidence_reference: nullable(f, 'evidence'), requirement_id: nullable(f, 'requirement') };
@@ -196,7 +229,76 @@ export function ProcessorEngagements() {
         </QueryBoundary>
       </Section>
       <EngagementForm engagements={engagements.data?.items ?? []} onSaved={() => engagements.refresh()} />
+      <EngagementLifecycle engagements={engagements.data?.items ?? []} onSaved={() => engagements.refresh()} />
+      <SharingForm engagements={engagements.data?.items ?? []} onSaved={() => sharing.refresh()} />
     </>
+  );
+}
+
+/**
+ * Ending an engagement closes its links; when the processor held data, a
+ * disposition run follows. A processor's own statement is recorded as a
+ * confirmation; only independent audit evidence records it as verified.
+ */
+function EngagementLifecycle({ engagements, onSaved }: { engagements: { id: string; service_description: string; status: string; disposition_state: string }[]; onSaved: () => void }) {
+  const [ending, setEnding] = useState('');
+  const [disposing, setDisposing] = useState('');
+  return (
+    <Section title="End an engagement and confirm return or deletion">
+      <div className="grid-2">
+        <WriteForm operation="terminate_processor_engagement" label="Terminate engagement" params={ending ? { id: ending } : undefined} onSaved={() => { setEnding(''); onSaved(); }}
+          describe={e => `terminated; return/deletion ${e.disposition_state.replaceAll('_', ' ').toLowerCase()}`}
+          build={f => { if (!ending) throw new Error('Choose the engagement.'); return { terminated_at: time(f, 'at'), reason: text(f, 'reason'), disposition_required: f.get('disposition') === 'on' }; }}>
+          <Choice label="Engagement" name="engagement" value={ending} onChange={setEnding} options={engagements.filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description }))} />
+          <Input label="Terminated at" name="at" type="datetime-local" defaultValue={localNow()} />
+          <Input label="Reason" name="reason" minLength={10} maxLength={500} />
+          <label className="checkbox"><input type="checkbox" name="disposition" defaultChecked /> <span>The processor must return or delete the data</span></label>
+        </WriteForm>
+        <WriteForm operation="record_engagement_disposition" label="Record return or deletion" params={disposing ? { id: disposing } : undefined} onSaved={() => { setDisposing(''); onSaved(); }}
+          describe={e => DISPOSITION_TEXT[e.disposition_state]?.label ?? e.disposition_state}
+          build={f => {
+            if (!disposing) throw new Error('Choose the engagement.');
+            const method = text(f, 'method') as 'PROCESSOR_STATEMENT' | 'INDEPENDENT_AUDIT_EVIDENCE';
+            return { outcome: method === 'INDEPENDENT_AUDIT_EVIDENCE' ? 'VERIFIED' as const : 'PROCESSOR_CONFIRMED' as const, verification_method: method, evidence_reference: text(f, 'evidence') };
+          }}>
+          <Choice label="Engagement" name="engagement" value={disposing} onChange={setDisposing}
+            options={engagements.filter(e => e.status === 'TERMINATED' && ['PENDING', 'PROCESSOR_CONFIRMED', 'UNKNOWN'].includes(e.disposition_state)).map(e => ({ value: e.id, label: `${e.service_description} (${DISPOSITION_TEXT[e.disposition_state]?.label})` }))} />
+          <Choice label="Evidence kind" name="method" hint="A processor statement is recorded as a confirmation, not verification."
+            options={[{ value: 'PROCESSOR_STATEMENT', label: 'The processor’s own statement' }, { value: 'INDEPENDENT_AUDIT_EVIDENCE', label: 'Independent audit evidence' }]} />
+          <Input label="Evidence reference" name="evidence" minLength={3} maxLength={500} />
+        </WriteForm>
+      </div>
+    </Section>
+  );
+}
+
+function SharingForm({ engagements, onSaved }: { engagements: { id: string; service_description: string; status: string }[]; onSaved: () => void }) {
+  const activities = useCollection('list_registry_activities');
+  const dataCategories = useCollection('list_data_categories');
+  const principalCategories = useCollection('list_principal_categories');
+  const purposes = useCollection('list_registry_purposes');
+  const systems = useCollection('list_systems');
+  const purposeVersions = (purposes.data?.items ?? []).flatMap(p => p.versions.filter(v => v.effective_to === null).map(v => ({ value: v.id, label: `${p.name} (v${v.version})` })));
+  return (
+    <Section title="Record a data share">
+      <WriteForm operation="create_data_sharing_link" label="Record data share" onSaved={onSaved} describe={s => s.engagement_id ? 'shared with an engagement' : `shared with ${s.recipient_reference}`}
+        build={f => {
+          const engagement = nullable(f, 'engagement'); const recipient = nullable(f, 'recipient');
+          if ((engagement === null) === (recipient === null)) throw new Error('A share names exactly one recipient: an engagement or a recorded recipient.');
+          return { activity_id: text(f, 'activity'), data_category_id: text(f, 'category'), principal_category_id: nullable(f, 'principal'), engagement_id: engagement, recipient_reference: recipient,
+            purpose_version_id: text(f, 'purpose'), system_id: nullable(f, 'system'), valid_from: time(f, 'from'), evidence_reference: nullable(f, 'evidence') };
+        }}>
+        <Choice label="Activity" name="activity" options={(activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name }))} />
+        <Choice label="Personal data category" name="category" options={(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))} />
+        <Choice label="Whose data" name="principal" required={false} placeholder="Any" options={(principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))} />
+        <Choice label="Purpose" name="purpose" options={purposeVersions} />
+        <Choice label="Recipient engagement" name="engagement" required={false} placeholder="Not a processor engagement" options={engagements.filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description }))} />
+        <Input label="Other recipient" name="recipient" required={false} maxLength={500} hint="Only when the recipient is not a recorded engagement." />
+        <Choice label="From system" name="system" required={false} placeholder="Not recorded" options={(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))} />
+        <Input label="Valid from" name="from" type="datetime-local" defaultValue={localNow()} />
+        <Input label="Evidence reference" name="evidence" required={false} maxLength={500} />
+      </WriteForm>
+    </Section>
   );
 }
 
@@ -235,8 +337,9 @@ export function EstateImports() {
       <PageHead eyebrow="Registry" title="Existing-data onboarding"
         lede="Imports of an existing estate: people, references, relationship contexts, consent and notice history. Missing history is recorded as missing; nothing is filled in." />
       <NoticeBox tone="info" title="How rows arrive">
-        <p>Rows are uploaded in chunks through the API (see the operations runbook), then applied from a checkpoint. A failed row never stops the rest, and replaying errors never re-applies rows that already succeeded.</p>
+        <p>Rows are uploaded in chunks from a file below (or through the API), then applied from a checkpoint. A failed row never stops the rest, and replaying errors never re-applies rows that already succeeded.</p>
       </NoticeBox>
+      <EstateImportUpload onChanged={() => jobs.refresh()} />
       <Freshness query={jobs} />
       <QueryBoundary query={jobs} label="import jobs" isEmpty={data => !data.items.length}>
         {data => (

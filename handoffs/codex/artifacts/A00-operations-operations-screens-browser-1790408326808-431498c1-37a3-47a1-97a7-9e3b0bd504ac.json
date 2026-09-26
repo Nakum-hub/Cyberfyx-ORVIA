@@ -1,0 +1,75 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:38:46.808Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a breach registered on screen is pinned with deadlines from the package",
+      "result": "PASS",
+      "expected": [
+        "2ca154ae-045b-4a59-9151-0ea297eb1a47",
+        "UNKNOWN",
+        true
+      ],
+      "actual": [
+        "2ca154ae-045b-4a59-9151-0ea297eb1a47",
+        "UNKNOWN",
+        true
+      ]
+    },
+    {
+      "name": "correcting the facts keeps the pinned package and deadlines",
+      "result": "PASS",
+      "expected": [
+        40,
+        "f5d8b859-bbad-47f1-9917-85872e7ede11",
+        [
+          null,
+          null,
+          "2026-09-29T05:38:41.458Z"
+        ]
+      ],
+      "actual": [
+        40,
+        "f5d8b859-bbad-47f1-9917-85872e7ede11",
+        [
+          null,
+          null,
+          "2026-09-29T05:38:41.458Z"
+        ]
+      ]
+    },
+    {
+      "name": "a profile version is recorded; unknown SDF status creates no obligations",
+      "result": "FAIL",
+      "expected": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ],
+      "actual": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        14
+      ]
+    },
+    {
+      "name": "unexpected failure in organisation profile",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: a profile version is recorded; unknown SDF status creates no obligations"
+    }
+  ],
+  "passed": 3,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

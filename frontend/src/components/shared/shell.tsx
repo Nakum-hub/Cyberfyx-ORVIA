@@ -195,11 +195,13 @@ export const WORKSPACE_NAV: NavGroup[] = [
   { group: 'DPDP operations', items: [
     { href: '/workspace/operations-attention', label: 'Operations attention' },
     { href: '/workspace/operations-runs', label: 'Operational runs' },
+    { href: '/workspace/operations-evidence', label: 'Evidence and events' },
     { href: '/workspace/personal-data-breaches', label: 'Personal-data breaches' },
     { href: '/workspace/data-principals', label: 'Data Principals' },
     { href: '/workspace/registry-setup', label: 'Registry set-up' },
     { href: '/workspace/processing-activities', label: 'Processing activities' },
     { href: '/workspace/registry-notices', label: 'Notices' },
+    { href: '/workspace/consent-records', label: 'Consent records' },
     { href: '/workspace/registry-retention', label: 'Retention rules & holds' },
     { href: '/workspace/processor-engagements', label: 'Processor engagements' },
     { href: '/workspace/estate-imports', label: 'Existing-data onboarding' },

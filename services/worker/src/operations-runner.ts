@@ -80,15 +80,24 @@ export function operationsRunner() {
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const runner = operationsRunner();
   let stopped = false;
-  const stop = () => { stopped = true; };
+  let wake: () => void = () => {};
+  // The application supervisor stops its children with an IPC message and
+  // force-kills after ten seconds, so a stop must also cut the idle wait short.
+  const stop = () => { stopped = true; wake(); };
   process.on('SIGINT', stop); process.on('SIGTERM', stop);
+  process.on('message', message => { if (message === 'orvia-stop') stop(); });
   const loop = !process.argv.includes('--once');
   try {
     do {
       const reports = await runner.once();
       console.log(JSON.stringify({ at: new Date().toISOString(), reports }));
-      if (reports.some(r => r.errors.length)) process.exitCode = 1;
-      if (loop && !stopped) await new Promise(resolve => setTimeout(resolve, 30_000));
+      // A single pass reports item errors through its exit code. A supervised
+      // loop keeps running and reports them in each pass's output instead, so a
+      // clean stop is not recorded as a failed child; a thrown error still ends it.
+      if (!loop && reports.some(r => r.errors.length)) process.exitCode = 1;
+      if (loop && !stopped) await new Promise<void>(resolve => { const timer = setTimeout(resolve, 30_000); wake = () => { clearTimeout(timer); resolve(); }; });
     } while (loop && !stopped);
   } finally { await runner.close(); }
+  // An IPC channel keeps the event loop alive after the last pass.
+  if (process.connected) process.disconnect();
 }

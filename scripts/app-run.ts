@@ -45,6 +45,9 @@ try{
  let ready=false;for(let i=0;i<90;i++){if(web.exitCode!==null)throw new Error('Owned web process exited before readiness');try{ready=(await fetch(config.origin+'/healthz',{signal:AbortSignal.timeout(1000)})).ok;}catch{/* bounded startup */}if(ready)break;await new Promise(r=>setTimeout(r,500));}
  if(!ready)throw new Error('HTTPS readiness failed');
  start(['--import','tsx','services/worker/src/main.ts'],'worker');start(['--import','tsx','services/agent/src/main.ts'],'agent');
+ // DPDP operations runner: resumes imports and evaluations, executes approved runs,
+ // propagates recorded withdrawals and raises due DPDP alerts (operations-runner.ts).
+ start(['--import','tsx','services/worker/src/operations-runner.ts'],'operations_runner');
  writePrivateJson(journal,identity);created=true;console.log(`Application supervisor running: ${config.origin}. Stop with app:stop confirm:rehearsal.`);
  while(!stopping){
   if(ownership.lost)throw ownership.lost;
