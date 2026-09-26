@@ -12665,13 +12665,237 @@
       }
     },
     {
+      "operation_id": "list_preference_topics",
+      "method": "GET",
+      "path": "/api/v1/admin/preference-topics",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000004b0",
+            "code": "product_news",
+            "name": "Product news",
+            "description": "Occasional news about products you use.",
+            "channels": [
+              "EMAIL",
+              "SMS"
+            ],
+            "purpose_id": null,
+            "state": "ACTIVE",
+            "created_by": "00000000-0000-4000-8000-0000000004b2",
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "retired_at": null
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_preference_topic",
+      "method": "POST",
+      "path": "/api/v1/admin/preference-topics",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "code": "product_news",
+        "name": "Product news",
+        "description": "Occasional news about products you use.",
+        "channels": [
+          "EMAIL",
+          "SMS"
+        ],
+        "purpose_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000004b0",
+        "code": "product_news",
+        "name": "Product news",
+        "description": "Occasional news about products you use.",
+        "channels": [
+          "EMAIL",
+          "SMS"
+        ],
+        "purpose_id": null,
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-0000000004b2",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null
+      }
+    },
+    {
+      "operation_id": "retire_preference_topic",
+      "method": "POST",
+      "path": "/api/v1/admin/preference-topics/{id}/retire",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000004b0",
+        "code": "product_news",
+        "name": "Product news",
+        "description": "Occasional news about products you use.",
+        "channels": [
+          "EMAIL",
+          "SMS"
+        ],
+        "purpose_id": null,
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-0000000004b2",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null
+      }
+    },
+    {
+      "operation_id": "principal_preferences",
+      "method": "GET",
+      "path": "/api/v1/admin/preference-centres/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "principal_id": "00000000-0000-4000-8000-0000000004b1",
+        "topics": [
+          {
+            "topic": {
+              "id": "00000000-0000-4000-8000-0000000004b0",
+              "code": "product_news",
+              "name": "Product news",
+              "description": "Occasional news about products you use.",
+              "channels": [
+                "EMAIL",
+                "SMS"
+              ],
+              "purpose_id": null,
+              "state": "ACTIVE",
+              "created_by": "00000000-0000-4000-8000-0000000004b2",
+              "created_at": "2026-09-16T10:00:00.000Z",
+              "retired_at": null
+            },
+            "consent": "NOT_REQUIRED",
+            "channels": [
+              {
+                "channel": "EMAIL",
+                "choice": "NO_CHOICE",
+                "as_of": null,
+                "decision": {
+                  "permitted": false,
+                  "reason": "NO_CHOICE",
+                  "decided_at": "2026-09-16T10:00:00.000Z",
+                  "event_id": null
+                }
+              }
+            ]
+          }
+        ],
+        "history": []
+      }
+    },
+    {
+      "operation_id": "preference_decision",
+      "method": "GET",
+      "path": "/api/v1/admin/preference-decisions",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "permitted": false,
+        "reason": "OPTED_IN",
+        "decided_at": "2026-09-16T10:00:00.000Z",
+        "event_id": null
+      }
+    },
+    {
+      "operation_id": "own_preferences",
+      "method": "GET",
+      "path": "/api/v1/portal/me/preferences",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "principal_id": "00000000-0000-4000-8000-0000000004b1",
+        "topics": [
+          {
+            "topic": {
+              "id": "00000000-0000-4000-8000-0000000004b0",
+              "code": "product_news",
+              "name": "Product news",
+              "description": "Occasional news about products you use.",
+              "channels": [
+                "EMAIL",
+                "SMS"
+              ],
+              "purpose_id": null,
+              "state": "ACTIVE",
+              "created_by": "00000000-0000-4000-8000-0000000004b2",
+              "created_at": "2026-09-16T10:00:00.000Z",
+              "retired_at": null
+            },
+            "consent": "NOT_REQUIRED",
+            "channels": [
+              {
+                "channel": "EMAIL",
+                "choice": "NO_CHOICE",
+                "as_of": null,
+                "decision": {
+                  "permitted": false,
+                  "reason": "NO_CHOICE",
+                  "decided_at": "2026-09-16T10:00:00.000Z",
+                  "event_id": null
+                }
+              }
+            ]
+          }
+        ],
+        "history": []
+      }
+    },
+    {
+      "operation_id": "set_own_preference",
+      "method": "POST",
+      "path": "/api/v1/portal/me/preferences",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "topic_id": "00000000-0000-4000-8000-00000000025d",
+        "channel": "EMAIL",
+        "choice": "OPTED_IN",
+        "observed_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "event": {
+          "id": "00000000-0000-4000-8000-00000000025e",
+          "topic_id": "00000000-0000-4000-8000-00000000025f",
+          "channel": "EMAIL",
+          "choice": "OPTED_IN",
+          "source": "PORTAL",
+          "observed_at": "2026-09-16T10:00:00.000Z",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "effective": false
+        },
+        "decision": {
+          "permitted": false,
+          "reason": "OPTED_IN",
+          "decided_at": "2026-09-16T10:00:00.000Z",
+          "event_id": null
+        }
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-00000000025d",
-        "environment_id": "00000000-0000-4000-8000-00000000025e",
+        "installation_id": "00000000-0000-4000-8000-000000000260",
+        "environment_id": "00000000-0000-4000-8000-000000000261",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -12688,9 +12912,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-00000000025f",
+        "command_id": "00000000-0000-4000-8000-000000000262",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000260",
+        "attempt_id": "00000000-0000-4000-8000-000000000263",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -12698,7 +12922,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000261",
+        "operation_id": "00000000-0000-4000-8000-000000000264",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -12711,10 +12935,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000262",
-        "principal_reference_id": "00000000-0000-4000-8000-000000000263",
-        "purpose_id": "00000000-0000-4000-8000-000000000264",
-        "system_id": "00000000-0000-4000-8000-000000000265",
+        "attempt_id": "00000000-0000-4000-8000-000000000265",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000266",
+        "purpose_id": "00000000-0000-4000-8000-000000000267",
+        "system_id": "00000000-0000-4000-8000-000000000268",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -12787,9 +13011,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000266",
+        "command_id": "00000000-0000-4000-8000-000000000269",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000267",
+        "attempt_id": "00000000-0000-4000-8000-00000000026a",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -12804,7 +13028,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000268",
+        "resource_id": "00000000-0000-4000-8000-00000000026b",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -12819,9 +13043,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000269",
+        "command_id": "00000000-0000-4000-8000-00000000026c",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000026a",
+        "attempt_id": "00000000-0000-4000-8000-00000000026d",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

@@ -166,6 +166,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
   { group: 'Privacy controls', items: [
     { href: '/workspace/configuration', label: 'Purposes & policies' },
     { href: '/workspace/website-consent', label: 'Website consent' },
+    { href: '/workspace/contact-preferences', label: 'Contact preferences' },
     { href: '/workspace/principals', label: 'People & targets' },
     { href: '/workspace/control-map', label: 'Control map' },
     { href: '/workspace/inventory', label: 'Data inventory' },
@@ -242,6 +243,7 @@ export const PRIVACY_NAV: NavGroup[] = [
   { group: 'Your privacy', items: [
     { href: '/privacy', label: 'My choices' },
     { href: '/privacy/rights', label: 'My rights' },
+    { href: '/privacy/preferences', label: 'Contact preferences' },
     { href: '/privacy/notices', label: 'Privacy notices' },
     { href: '/privacy/receipts', label: 'My receipts' },
   ] },

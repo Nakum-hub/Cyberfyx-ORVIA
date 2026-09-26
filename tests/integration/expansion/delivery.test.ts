@@ -117,7 +117,11 @@ await t.run(async () => {
     check('a temporary rejection is retried later', [tempD.delivery_state, tempD.attempts[0]?.outcome, tempD.attempts[0]?.response_code, tempD.next_attempt_at !== null], ['RETRYING', 'FAILED', '451', true]);
     check('a permanent rejection ends the message', [rejectD.delivery_state, rejectD.attempts.length, rejectD.attempts[0]?.response_code, rejectD.attempts[0]?.error_code], ['EXHAUSTED', 1, '550', 'REJECTED_PERMANENTLY']);
     await once();
-    check('a retry waits for its backoff', (await detail(temp.id)).attempts.length, 1);
+    // One runner pass covers every scope in the shared test database and can itself outlast the
+    // five-second backoff, so check the rule rather than wall-clock luck: no second attempt may
+    // start before the first finished plus its backoff.
+    const early = (await detail(temp.id)).attempts;
+    check('a retry waits for its backoff', early.length === 1 || Date.parse(early[1]!.started_at) - Date.parse(early[0]!.finished_at) >= 5000, true);
     await wait(5500); await once();
     tempD = await detail(temp.id);
     check('after the backoff the retry is delivered', [tempD.delivery_state, tempD.attempts.map(a => a.outcome)], ['SENT', ['FAILED', 'SENT']]);

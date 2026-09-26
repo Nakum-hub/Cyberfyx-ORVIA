@@ -1,0 +1,381 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T13:38:38.696Z",
+  "suite": "preferences",
+  "assertions": [
+    {
+      "name": "the fixture scope has a published purpose to depend on",
+      "result": "PASS",
+      "expected": "string",
+      "actual": "string"
+    },
+    {
+      "name": "a principal cannot define topics",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot define topics",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a topic is created active with its channels",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        [
+          "EMAIL",
+          "SMS"
+        ]
+      ],
+      "actual": [
+        "ACTIVE",
+        [
+          "EMAIL",
+          "SMS"
+        ]
+      ]
+    },
+    {
+      "name": "a topic code is unique in scope",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "code_in_use"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "code_in_use"
+        ]
+      }
+    },
+    {
+      "name": "duplicate channels are refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a topic can depend on a published purpose",
+      "result": "PASS",
+      "expected": "000a01c8-7bbb-4e98-9515-cb291cf5c771",
+      "actual": "000a01c8-7bbb-4e98-9515-cb291cf5c771"
+    },
+    {
+      "name": "no choice means no contact (there is no default opt-in)",
+      "result": "PASS",
+      "expected": [
+        false,
+        "NO_CHOICE"
+      ],
+      "actual": [
+        false,
+        "NO_CHOICE"
+      ]
+    },
+    {
+      "name": "an opt-in is effective and permits contact on that channel",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        "OPTED_IN"
+      ],
+      "actual": [
+        true,
+        true,
+        "OPTED_IN"
+      ]
+    },
+    {
+      "name": "the other channel is still not permitted",
+      "result": "PASS",
+      "expected": "NO_CHOICE",
+      "actual": "NO_CHOICE"
+    },
+    {
+      "name": "a channel the topic does not offer is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "channel_not_offered"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "channel_not_offered"
+        ]
+      }
+    },
+    {
+      "name": "a choice dated in the future is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "in_the_future"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "in_the_future"
+        ]
+      }
+    },
+    {
+      "name": "a later opt-out stops contact",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        true,
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "a replayed older opt-in is kept but not effective and does not re-enable contact",
+      "result": "PASS",
+      "expected": [
+        false,
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        false,
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "the portal centre shows the current choice and keeps the stale event in history",
+      "result": "PASS",
+      "expected": [
+        "OPTED_OUT",
+        [
+          false,
+          true,
+          true
+        ]
+      ],
+      "actual": [
+        "OPTED_OUT",
+        [
+          false,
+          true,
+          true
+        ]
+      ]
+    },
+    {
+      "name": "an opt-in to a purpose-dependent topic permits contact while consent is granted",
+      "result": "PASS",
+      "expected": [
+        true
+      ],
+      "actual": [
+        true
+      ]
+    },
+    {
+      "name": "withdrawn consent stops contact whatever the preference says",
+      "result": "PASS",
+      "expected": [
+        false,
+        "CONSENT_NOT_GRANTED"
+      ],
+      "actual": [
+        false,
+        "CONSENT_NOT_GRANTED"
+      ]
+    },
+    {
+      "name": "staff see the same decision in the principal's centre",
+      "result": "PASS",
+      "expected": [
+        "NOT_GRANTED",
+        "CONSENT_NOT_GRANTED"
+      ],
+      "actual": [
+        "NOT_GRANTED",
+        "CONSENT_NOT_GRANTED"
+      ]
+    },
+    {
+      "name": "granting consent again restores the effective opt-in",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a principal cannot retire a topic",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a retired topic stops contact",
+      "result": "PASS",
+      "expected": [
+        "RETIRED",
+        "TOPIC_RETIRED"
+      ],
+      "actual": [
+        "RETIRED",
+        "TOPIC_RETIRED"
+      ]
+    },
+    {
+      "name": "a topic is retired once",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "already_retired"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "already_retired"
+        ]
+      }
+    },
+    {
+      "name": "no new choice is taken on a retired topic",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "topic_retired"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "topic_retired"
+        ]
+      }
+    },
+    {
+      "name": "a retired topic with history is still shown to the principal",
+      "result": "PASS",
+      "expected": "RETIRED",
+      "actual": "RETIRED"
+    },
+    {
+      "name": "another principal sees only their own choices",
+      "result": "PASS",
+      "expected": [
+        "011ece2d-5d07-46b6-89e8-48fe2639d2ab",
+        false
+      ],
+      "actual": [
+        "011ece2d-5d07-46b6-89e8-48fe2639d2ab",
+        false
+      ]
+    },
+    {
+      "name": "another principal starts with no choice",
+      "result": "PASS",
+      "expected": "NO_CHOICE",
+      "actual": "NO_CHOICE"
+    },
+    {
+      "name": "staff cannot record through the portal route",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a principal cannot read staff decision routes",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "another tenant cannot read the principal's centre",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another tenant does not see the topic",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "an auditor can read topics",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "preference events cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "preference events cannot be deleted",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a topic cannot be edited",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a retired topic cannot be revived",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "an unknown channel is refused by the table",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "row security hides one principal's events from another",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a principal sees their own events",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "a principal cannot insert a choice for someone else",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    }
+  ],
+  "passed": 39,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -120,4 +120,12 @@ export const expansionRoutes: Route[] = [
   // Supplier-facing: a bearer link token scoped to one draft assessment; no ORVIA account.
   { id: 'supplier_questionnaire', method: 'get', path: '/api/v1/supplier/questionnaire', authority: 'SUPPLIER_LINK', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond' },
   { id: 'supplier_answer', method: 'post', path: '/api/v1/supplier/questionnaire/answers', authority: 'SUPPLIER_LINK', request: 'SupplierAnswers', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond', maximum_body_bytes: 262144 },
+  // EX01 communication preferences
+  list('list_preference_topics', '/preference-topics', 'PreferenceTopicList', 'configuration.read'),
+  write('create_preference_topic', '/preference-topics', 'PreferenceTopicCreate', 'PreferenceTopic', 'configuration.write'),
+  write('retire_preference_topic', '/preference-topics/{id}/retire', undefined, 'PreferenceTopic', 'configuration.write', 200),
+  read('principal_preferences', '/preference-centres/{id}', 'PreferenceCentre', 'principals.read'),
+  read('preference_decision', '/preference-decisions', 'PreferenceDecision', 'principals.read', 'PreferenceDecisionQuery'),
+  { id: 'own_preferences', method: 'get', path: '/api/v1/portal/me/preferences', authority: 'PRINCIPAL', response: 'PreferenceCentre', status: 200, capability: 'consent.own.read' },
+  { id: 'set_own_preference', method: 'post', path: '/api/v1/portal/me/preferences', authority: 'PRINCIPAL', request: 'PreferenceChoice', response: 'PreferenceChoiceReceipt', status: 201, idempotency: true, capability: 'consent.own.write' },
 ];

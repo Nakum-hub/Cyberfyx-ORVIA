@@ -1,0 +1,78 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T13:15:09.991Z",
+  "profile": "codex-a00",
+  "scratch_database_dropped": true,
+  "database_container_memory_bytes": 402653184,
+  "seconds": 30,
+  "clients": 4,
+  "seeded": {
+    "audit_events": 1000000,
+    "principal_references": 100000,
+    "rights_requests": 200000
+  },
+  "timings": {
+    "schema_ms": 2234,
+    "seed_ms": 29394,
+    "database_bytes": 611025423
+  },
+  "operations_per_second": 18,
+  "operations": {
+    "list_requests": {
+      "count": 218,
+      "per_second": 7,
+      "p50_ms": 160.4,
+      "p95_ms": 292.3,
+      "p99_ms": 337.3,
+      "max_ms": 418.8
+    },
+    "read_request": {
+      "count": 109,
+      "per_second": 4,
+      "p50_ms": 4,
+      "p95_ms": 11.6,
+      "p99_ms": 15.4,
+      "max_ms": 87.1
+    },
+    "list_audit": {
+      "count": 67,
+      "per_second": 2,
+      "p50_ms": 1056.8,
+      "p95_ms": 1896.5,
+      "p99_ms": 2027.6,
+      "max_ms": 2027.6
+    },
+    "write_request": {
+      "count": 61,
+      "per_second": 2,
+      "p50_ms": 5.9,
+      "p95_ms": 21.1,
+      "p99_ms": 124.5,
+      "max_ms": 124.5
+    },
+    "write_audit": {
+      "count": 61,
+      "per_second": 2,
+      "p50_ms": 4.8,
+      "p95_ms": 18.8,
+      "p99_ms": 99.8,
+      "max_ms": 99.8
+    },
+    "export_chunk": {
+      "count": 32,
+      "per_second": 1,
+      "p50_ms": 434.6,
+      "p95_ms": 772.3,
+      "p99_ms": 786.5,
+      "max_ms": 786.5
+    }
+  },
+  "errors": {},
+  "path": "orvia_app role with scoped settings and forced row-level security, as request handlers run",
+  "limits": [
+    "Diagnostic evidence on this development host with synthetic rows in one scope. It is not a capacity qualification: that needs the declared deployment hardware, representative data distribution and agreed service targets.",
+    "HTTP, authentication and policy decision time are not included; they add to each operation.",
+    "Statements are cancelled by the server at 9 seconds and by the client at 10; a cancelled statement is counted as an error, not a sample."
+  ]
+}

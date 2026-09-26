@@ -1,0 +1,31 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T12:58:46.154Z",
+  "suite": "backup-drill-test",
+  "results": [
+    {
+      "name": "the drill restores a copy with identical migrations, counts, withdrawals and forced row security",
+      "result": "PASS"
+    },
+    {
+      "name": "the backup is on disk and matches its manifest",
+      "result": "PASS"
+    },
+    {
+      "name": "a single changed byte no longer matches the manifest, so it would not be restored",
+      "result": "PASS"
+    },
+    {
+      "name": "the scratch database was removed",
+      "result": "PASS"
+    },
+    {
+      "name": "the manifest records the withdrawal count it verified",
+      "result": "PASS"
+    }
+  ],
+  "bytes": 12957181,
+  "backup_ms": 1530,
+  "restore_ms": 3850
+}

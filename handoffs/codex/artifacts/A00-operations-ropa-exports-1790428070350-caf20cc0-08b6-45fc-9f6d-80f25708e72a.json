@@ -1,0 +1,241 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T13:07:50.350Z",
+  "suite": "ropa-exports",
+  "assertions": [
+    {
+      "name": "the entry carries the declared purpose, condition, categories and system with their basis",
+      "result": "PASS",
+      "expected": [
+        "Service delivery 1fede5cb",
+        "CONSENT",
+        [
+          "c44dd857-2850-43ed-9381-54f74ac494b2"
+        ],
+        [
+          [
+            "369b4091-1adb-40c5-a1b5-8b38f2b35eda",
+            "SYNTHETIC_RECORDS_TEST_ADAPTER",
+            "Synthetic declaration."
+          ]
+        ]
+      ],
+      "actual": [
+        "Service delivery 1fede5cb",
+        "CONSENT",
+        [
+          "c44dd857-2850-43ed-9381-54f74ac494b2"
+        ],
+        [
+          [
+            "369b4091-1adb-40c5-a1b5-8b38f2b35eda",
+            "SYNTHETIC_RECORDS_TEST_ADAPTER",
+            "Synthetic declaration."
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "a bound system without a location or any reading is named as such",
+      "result": "PASS",
+      "expected": [
+        "DECLARED_SYSTEM_NOT_IN_GRAPH",
+        "LOCATION_UNDECLARED",
+        "NOT_OBSERVED"
+      ],
+      "actual": [
+        "DECLARED_SYSTEM_NOT_IN_GRAPH",
+        "LOCATION_UNDECLARED",
+        "NOT_OBSERVED"
+      ]
+    },
+    {
+      "name": "the graph placing the activity on an undeclared system is a conflict",
+      "result": "PASS",
+      "expected": [
+        "GRAPH_SYSTEM_NOT_DECLARED"
+      ],
+      "actual": [
+        "GRAPH_SYSTEM_NOT_DECLARED"
+      ]
+    },
+    {
+      "name": "missing retention is named",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a declaration is not shown as observed",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "the graph edge keeps its provenance and review state",
+      "result": "PASS",
+      "expected": [
+        [
+          "a7b1ea61-b511-483f-b1cf-64f00082fb3f",
+          "ASSERTED",
+          "UNREVIEWED"
+        ]
+      ],
+      "actual": [
+        [
+          "a7b1ea61-b511-483f-b1cf-64f00082fb3f",
+          "ASSERTED",
+          "UNREVIEWED"
+        ]
+      ]
+    },
+    {
+      "name": "a declared system without a binding is missing its binding",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a location that is not a region code is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a declared domestic location is a transfer that is not cross-border",
+      "result": "PASS",
+      "expected": [
+        "IN-KA",
+        [
+          false
+        ],
+        false
+      ],
+      "actual": [
+        "IN-KA",
+        [
+          false
+        ],
+        false
+      ]
+    },
+    {
+      "name": "a declaration dated before the current one is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "after_the_current_declaration"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "after_the_current_declaration"
+        ]
+      }
+    },
+    {
+      "name": "a new location closes the previous declaration, which is kept",
+      "result": "PASS",
+      "expected": [
+        [
+          "IN-KA",
+          false
+        ],
+        [
+          "US",
+          true
+        ]
+      ],
+      "actual": [
+        [
+          "IN-KA",
+          false
+        ],
+        [
+          "US",
+          true
+        ]
+      ]
+    },
+    {
+      "name": "a location outside India is a cross-border transfer",
+      "result": "PASS",
+      "expected": [
+        [
+          "US",
+          true
+        ]
+      ],
+      "actual": [
+        [
+          "US",
+          true
+        ]
+      ]
+    },
+    {
+      "name": "a recipient in another country is a cross-border transfer",
+      "result": "PASS",
+      "expected": [
+        [
+          "RoPA mailer cf7aa2a6",
+          "SG",
+          true
+        ]
+      ],
+      "actual": [
+        [
+          "RoPA mailer cf7aa2a6",
+          "SG",
+          true
+        ]
+      ]
+    },
+    {
+      "name": "a recipient region that is not a code is named, not guessed",
+      "result": "PASS",
+      "expected": [
+        "RECIPIENT_REGION_NOT_A_CODE"
+      ],
+      "actual": [
+        "RECIPIENT_REGION_NOT_A_CODE"
+      ]
+    },
+    {
+      "name": "terminating an engagement closes its activity link, so the recipient leaves the entry",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an ended engagement linked again is stale",
+      "result": "PASS",
+      "expected": [
+        [
+          "RECIPIENT_ENDED"
+        ],
+        "ENDED"
+      ],
+      "actual": [
+        [
+          "RECIPIENT_ENDED"
+        ],
+        "ENDED"
+      ]
+    },
+    {
+      "name": "unexpected failure in observed reading",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Cannot read properties of undefined (reading 'id')"
+    }
+  ],
+  "passed": 16,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

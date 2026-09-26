@@ -1,0 +1,245 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T13:09:39.041Z",
+  "suite": "delivery",
+  "assertions": [
+    {
+      "name": "plaintext SMTP is refused off loopback",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "plaintext_only_to_loopback"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "plaintext_only_to_loopback"
+        ]
+      }
+    },
+    {
+      "name": "a webhook off loopback must be HTTPS",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "https_required"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "https_required"
+        ]
+      }
+    },
+    {
+      "name": "a webhook URL cannot carry credentials",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "credentials_in_url"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "credentials_in_url"
+        ]
+      }
+    },
+    {
+      "name": "a new transport is pending and names only the credential variable",
+      "result": "PASS",
+      "expected": [
+        "PENDING",
+        "ORVIA_TRANSPORT_TEST_SINK",
+        false
+      ],
+      "actual": [
+        "PENDING",
+        "ORVIA_TRANSPORT_TEST_SINK",
+        false
+      ]
+    },
+    {
+      "name": "an admin without connection authority cannot enable it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the author cannot enable their own transport",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "author_cannot_enable"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "author_cannot_enable"
+        ]
+      }
+    },
+    {
+      "name": "someone else enables it",
+      "result": "PASS",
+      "expected": [
+        "ENABLED",
+        true
+      ],
+      "actual": [
+        "ENABLED",
+        true
+      ]
+    },
+    {
+      "name": "a composed message awaits review",
+      "result": "PASS",
+      "expected": "AWAITING_REVIEW",
+      "actual": "AWAITING_REVIEW"
+    },
+    {
+      "name": "its author cannot approve it",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "author_cannot_review"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "author_cannot_review"
+        ]
+      }
+    },
+    {
+      "name": "an unreviewed message is not sent",
+      "result": "PASS",
+      "expected": [
+        0,
+        0
+      ],
+      "actual": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "an approved message is queued",
+      "result": "PASS",
+      "expected": "QUEUED",
+      "actual": "QUEUED"
+    },
+    {
+      "name": "the runner sends it through the relay and records the receipt",
+      "result": "PASS",
+      "expected": [
+        "SENT",
+        1,
+        "SENT",
+        "250",
+        true,
+        true
+      ],
+      "actual": [
+        "SENT",
+        1,
+        "SENT",
+        "250",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the relay received one message from the configured sender, authenticated with the named credential",
+      "result": "PASS",
+      "expected": [
+        1,
+        "privacy@customer.example",
+        "relay-user:relay-pass"
+      ],
+      "actual": [
+        1,
+        "privacy@customer.example",
+        "relay-user:relay-pass"
+      ]
+    },
+    {
+      "name": "the message carries its identity headers",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a sent message is not sent again",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "a temporary rejection is retried later",
+      "result": "PASS",
+      "expected": [
+        "RETRYING",
+        "FAILED",
+        "451",
+        true
+      ],
+      "actual": [
+        "RETRYING",
+        "FAILED",
+        "451",
+        true
+      ]
+    },
+    {
+      "name": "a permanent rejection ends the message",
+      "result": "PASS",
+      "expected": [
+        "EXHAUSTED",
+        1,
+        "550",
+        "REJECTED_PERMANENTLY"
+      ],
+      "actual": [
+        "EXHAUSTED",
+        1,
+        "550",
+        "REJECTED_PERMANENTLY"
+      ]
+    },
+    {
+      "name": "a retry waits for its backoff",
+      "result": "FAIL",
+      "expected": 1,
+      "actual": 2
+    },
+    {
+      "name": "unexpected failure in failures, retries and unknown effects",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: a retry waits for its backoff"
+    }
+  ],
+  "passed": 17,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
