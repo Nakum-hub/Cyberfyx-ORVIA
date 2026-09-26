@@ -9,6 +9,9 @@ import { processJob } from '../../../backend/domain/src/operations/bulk-import.t
 import { evaluateRun } from '../../../backend/domain/src/operations/runs.ts';
 import { executeRun } from '../../../backend/domain/src/operations/executor.ts';
 import { notificationSweep } from '../../../backend/domain/src/operations/attention.ts';
+import { controlTestSweep } from '../../../backend/domain/src/grc/lifecycle.ts';
+import { purgeExpiredExports } from '../../../backend/domain/src/exports/exports.ts';
+import { escalationSweep } from '../../../backend/domain/src/assessments/impact.ts';
 import { propagatePendingWithdrawals } from '../../../backend/domain/src/registry/consent.ts';
 import type { OperationsEnv } from '../../../backend/domain/src/operations/shared.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
@@ -26,9 +29,11 @@ import { safeError } from '../../../shared/testing/src/evidence.ts';
  * left to staff, because settling them writes the V1 request's outcomes under staff
  * authority. It then raises due notifications (DPDP alert tasks only). Before any
  * of that it creates the propagation run for any recorded withdrawal that has none
- * (one recorded while no regulatory package was in force).
+ * (one recorded while no regulatory package was in force). Last, it runs due
+ * control tests, escalates overdue compliance issues and assessment findings,
+ * and removes the chunk copies of expired exports.
  */
-export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; errors: string[] };
+export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; errors: string[] };
 const BATCH = { job: 200, evaluate: 200, execute: 50 };
 const MAX_BATCHES_PER_ITEM = 50;
 
@@ -45,7 +50,7 @@ export function operationsRunner() {
     for (const identity of enrollment.identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
-      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, errors: [] };
+      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, errors: [] };
       const scopeValues = [identity.scope.tenant_id, identity.scope.legal_entity_id, identity.scope.environment_id];
       // Withdrawals first: a recorded withdrawal without a propagation run is the
       // one gap here that can leave marketing active. Its runs then enter the
@@ -70,6 +75,13 @@ export function operationsRunner() {
       await drive(pending.executable, (c, id) => executeRun(c, env, id, { limit: BATCH.execute }), s => s !== 'RUNNING', () => report.runs_executed++);
       try { report.notifications_created = (await scoped(c => notificationSweep(c))).created; }
       catch (error) { report.errors.push(`notification sweep: ${safeError(error).code}`); }
+      // Continuous compliance (EX11): due control tests run, drift raises one alert per change, and overdue issues escalate once.
+      try { const sweep = await scoped(c => controlTestSweep(c)); report.control_tests_run = sweep.ran; report.compliance_alerts = sweep.alerts; report.issues_escalated = sweep.issues_escalated; }
+      catch (error) { report.errors.push(`control test sweep: ${safeError(error).code}`); }
+      try { report.findings_escalated = (await scoped(c => escalationSweep(c))).escalated; }
+      catch (error) { report.errors.push(`assessment finding escalation: ${safeError(error).code}`); }
+      try { report.export_chunks_purged = await scoped(c => purgeExpiredExports(c)); }
+      catch (error) { report.errors.push(`export purge: ${safeError(error).code}`); }
       reports.push(report);
     }
     return reports;

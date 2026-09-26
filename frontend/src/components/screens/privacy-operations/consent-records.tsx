@@ -47,7 +47,7 @@ export function ConsentRecords() {
           </>
         )}
       </QueryBoundary>
-      {selected && <ConsentRecordDetail id={selected} onChanged={() => list.refresh()} />}
+      {selected && <ConsentRecordDetail key={selected} id={selected} onChanged={() => list.refresh()} />}
       <Section title="Create a consent record">
         <CreateConsentRecord onSaved={r => { list.refresh(); setSelected(r.id); }} />
       </Section>

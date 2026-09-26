@@ -1,0 +1,153 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T09:14:01.009Z",
+  "suite": "impact-assessments",
+  "assertions": [
+    {
+      "name": "a question rule must trigger on a valid answer",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a new template starts as a draft, version 1",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        1
+      ],
+      "actual": [
+        "DRAFT",
+        1
+      ]
+    },
+    {
+      "name": "an organisation admin cannot publish",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an assessment cannot use a draft template",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "template_not_published"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "template_not_published"
+        ]
+      }
+    },
+    {
+      "name": "a super admin who did not author it publishes it",
+      "result": "PASS",
+      "expected": [
+        "PUBLISHED",
+        true
+      ],
+      "actual": [
+        "PUBLISHED",
+        true
+      ]
+    },
+    {
+      "name": "the author cannot publish their own template",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      }
+    },
+    {
+      "name": "the same key records the next version",
+      "result": "PASS",
+      "expected": [
+        "20e6681f-9616-4fed-a6a6-3a3ce497024b",
+        2
+      ],
+      "actual": [
+        "20e6681f-9616-4fed-a6a6-3a3ce497024b",
+        2
+      ]
+    },
+    {
+      "name": "a template keeps its kind across versions",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "a_template_keeps_its_kind"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "a_template_keeps_its_kind"
+        ]
+      }
+    },
+    {
+      "name": "an assessment of a missing subject is refused",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new assessment is a draft that names what is missing",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        [
+          "purpose",
+          "shares_data"
+        ]
+      ],
+      "actual": [
+        "DRAFT",
+        [
+          "purpose",
+          "shares_data"
+        ]
+      ]
+    },
+    {
+      "name": "it cannot be submitted incomplete",
+      "result": "FAIL",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "required_answers_or_evidence_missing"
+        ]
+      },
+      "actual": {
+        "status": 404,
+        "codes": []
+      }
+    },
+    {
+      "name": "unexpected failure in assessment and submission",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: it cannot be submitted incomplete"
+    }
+  ],
+  "passed": 10,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

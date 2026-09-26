@@ -38,7 +38,7 @@ const CATEGORY_OPERATIONS: Record<S.AuditCategoryValue, string[]> = {
   POLICY_PUBLICATION: ['policy.publish', 'publish_policy', 'policy.reauthenticate', 'reauthenticate_policy'],
   CONNECTOR_CREDENTIALS_AND_SCOPE: ['system.check', 'check_system', 'systems.create', 'create_systems'],
   SUPPORT_APPROVAL: ['diagnostic.approve', 'approve_diagnostic', 'diagnostic.transfer', 'record_transfer'],
-  EXPORTS: ['evidence.export', 'export'],
+  EXPORTS: ['evidence.export', 'export', 'data_export.create', 'create_data_export', 'data_export.download', 'data_export_chunk'],
   LICENCES: ['licence.import', 'import_licence'],
   UPDATES: ['release.import', 'import_release', 'update_plan.approve', 'plan_update', 'update_step.record', 'record_update_step'],
 };
@@ -76,7 +76,7 @@ type EventRow = {
   resource_id: string | null; request_id: string; created_at: Date; corrections: string | number;
 };
 
-const auditEvent = (row: EventRow) => S.AuditEvent.parse({
+export const auditEvent = (row: EventRow) => S.AuditEvent.parse({
   id: row.id, operation: row.operation, actor_id: row.actor_id, actor_domain: row.actor_domain,
   resource_id: row.resource_id, request_id: row.request_id,
   created_at: row.created_at.toISOString(), corrections: Number(row.corrections),
@@ -88,7 +88,7 @@ const auditEvent = (row: EventRow) => S.AuditEvent.parse({
  * smuggle anything into: the shape of the SQL is fixed by this function and the
  * values are bound.
  */
-function filterClauses(filter: S.AuditQueryValue, values: unknown[]) {
+export function filterClauses(filter: S.AuditQueryValue, values: unknown[]) {
   const conditions: string[] = [];
   const add = (sql: string, value: unknown) => { values.push(value); conditions.push(sql.replace('$n', `$${values.length}`)); };
   if (filter.operation) add('operation = $n', filter.operation);
@@ -101,7 +101,7 @@ function filterClauses(filter: S.AuditQueryValue, values: unknown[]) {
 
 /** The count of corrections appended against each event, as a correlated
  *  subquery so an event with none reports none rather than disappearing. */
-const withCorrections = `(SELECT count(*) FROM app.audit_corrections k
+export const withCorrections = `(SELECT count(*) FROM app.audit_corrections k
    WHERE k.tenant_id=e.tenant_id AND k.legal_entity_id=e.legal_entity_id AND k.environment_id=e.environment_id AND k.event_id=e.id) AS corrections`;
 
 /**

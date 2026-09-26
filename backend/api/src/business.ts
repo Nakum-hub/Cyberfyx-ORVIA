@@ -2,6 +2,8 @@ import { createHash, createHmac } from 'node:crypto';
 import { governanceRoute } from './governance-routes.ts';
 import { operationsRoute } from './operations-routes.ts';
 import { operationsRoutes } from '../../../shared/contracts/src/operations-routes.ts';
+import { expansionRoute } from './expansion-routes.ts';
+import { expansionRoutes } from '../../../shared/contracts/src/expansion-routes.ts';
 import type { OperationsEnv } from '../../domain/src/operations/shared.ts';
 import { platformRoute } from './platform-routes.ts';
 import { routes, schemas, Pagination, Id, PolicyReauthenticate, queryKeys, type RouteDefinition } from '../../../shared/contracts/src/index.ts';
@@ -35,6 +37,7 @@ const implemented=new Set(['grc_audit_response_history','list_grc_audits','creat
   'record_notice_revision','list_notice_revisions','notice_languages','set_language','preflight',
   'list_backup_snapshots','declare_snapshot','start_restore','list_restore_runs','restore_run','acknowledge_conflict','release_restore','vendor_visibility','audit_retention','set_audit_retention','list_imports','submit_import','import_batch','decide_import_row','apply_import','purge_import','report','own_rights_requests','raise_own_rights_request','own_rights_request']);
 for(const route of operationsRoutes)implemented.add(route.id);
+for(const route of expansionRoutes)implemented.add(route.id);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 let agentPool: ReturnType<typeof servicePool>|undefined;
 function operationsEnv(r: ReturnType<typeof runtime>): OperationsEnv {
@@ -54,6 +57,9 @@ function resolveRoute(request: Request) {
   }
   throw new AccessError(404,'NOT_FOUND');
 }
+/** Looks up a canonical schema by name; the index signature keeps the checker from expanding every schema's type. */
+type Parsed={success:true;data:unknown}|{success:false;error:{issues:{path:PropertyKey[];code:string}[]}};
+const schemaNamed=(name:string)=>(schemas as unknown as Record<string,{safeParse(value:unknown):Parsed}>)[name]!;
 /** Query parsing is allowlisted by the canonical route definition: a parameter the
  *  route did not declare, or a repeated one, is rejected rather than ignored. */
 function queryString(request: Request, route: RouteDefinition): {page: Page; query: unknown} {
@@ -70,7 +76,7 @@ function queryString(request: Request, route: RouteDefinition): {page: Page; que
   let query: unknown=undefined;
   if(route.query) {
     const supplied=Object.fromEntries(declared.filter(key=>params.has(key)).map(key=>[key,params.get(key)!]));
-    const value=schemas[route.query].safeParse(supplied);
+    const value=schemaNamed(route.query).safeParse(supplied);
     if(!value.success)throw new AccessError(400,'VALIDATION_ERROR',value.error.issues.slice(0,32).map(issue=>({field:issue.path.join('.').slice(0,120),code:issue.code})));
     query=value.data;
   }
@@ -87,7 +93,7 @@ export function createBusinessHandler(getRuntime:typeof runtime) { return (reque
     if(request.headers.get('content-type')?.split(';')[0]!=='application/json')throw new AccessError(400,'VALIDATION_ERROR');
     try {input=JSON.parse(await limitedBody(request,route.maximum_body_bytes??16384)??'');}catch{throw new AccessError(400,'VALIDATION_ERROR');}
     if(route.request) {
-      const parsed=schemas[route.request].safeParse(input);
+      const parsed=schemaNamed(route.request).safeParse(input);
       if(!parsed.success)throw new AccessError(400,'VALIDATION_ERROR',parsed.error.issues.slice(0,32).map(issue=>({field:issue.path.join('.').slice(0,120),code:issue.code})));
       input=parsed.data;
     }
@@ -119,6 +125,8 @@ export function createBusinessHandler(getRuntime:typeof runtime) { return (reque
         if(platformResult!==undefined)return platformResult;
         const operationsResult=await operationsRoute(c,route,id,input,page,query,operationsEnv(r));
         if(operationsResult!==undefined)return operationsResult;
+        const expansionResult=await expansionRoute(c,route,id,input,page,query);
+        if(expansionResult!==undefined)return expansionResult;
       switch(route.id) {
         case 'reauthenticate_policy':return recordPublicationProof(c,id!,input,staffSession!.session.id);
         case 'publish_policy':return publishPolicy(c,id!,input,staffSession!.session.id);

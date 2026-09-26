@@ -356,7 +356,7 @@ export function EstateImports() {
           </>
         )}
       </QueryBoundary>
-      {selected && <EstateImportDetail id={selected} onChanged={() => jobs.refresh()} />}
+      {selected && <EstateImportDetail key={selected} id={selected} onChanged={() => jobs.refresh()} />}
     </>
   );
 }

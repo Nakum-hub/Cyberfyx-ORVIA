@@ -8683,13 +8683,2180 @@
       }
     },
     {
+      "operation_id": "list_impact_templates",
+      "method": "GET",
+      "path": "/api/v1/admin/impact-templates",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-000000000384",
+            "template_key": "00000000-0000-4000-8000-000000000385",
+            "version": 1,
+            "kind": "DPIA",
+            "name": "Synthetic DPIA",
+            "description": "Synthetic assessment template for contract examples.",
+            "questions": [
+              {
+                "key": "shares_with_third_parties",
+                "text": "Is personal data shared with a third party?",
+                "answer_type": "YES_NO",
+                "choices": [],
+                "required": true,
+                "evidence_required": true,
+                "finding_when": "YES",
+                "finding_severity": "MEDIUM",
+                "guidance": null
+              }
+            ],
+            "requirement_ids": [],
+            "review_interval_days": 365,
+            "status": "PUBLISHED",
+            "recorded_by": "00000000-0000-4000-8000-000000000386",
+            "recorded_at": "2026-09-16T10:00:00.000Z",
+            "published_by": "00000000-0000-4000-8000-000000000387",
+            "published_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_impact_template",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-templates",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "template_key": null,
+        "kind": "DPIA",
+        "name": "Synthetic DPIA",
+        "description": "Synthetic assessment template for contract examples.",
+        "questions": [
+          {
+            "key": "shares_with_third_parties",
+            "text": "Is personal data shared with a third party?",
+            "answer_type": "YES_NO",
+            "choices": [],
+            "required": true,
+            "evidence_required": true,
+            "finding_when": "YES",
+            "finding_severity": "MEDIUM",
+            "guidance": null
+          }
+        ],
+        "requirement_ids": [],
+        "review_interval_days": 365
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000384",
+        "template_key": "00000000-0000-4000-8000-000000000385",
+        "version": 1,
+        "kind": "DPIA",
+        "name": "Synthetic DPIA",
+        "description": "Synthetic assessment template for contract examples.",
+        "questions": [
+          {
+            "key": "shares_with_third_parties",
+            "text": "Is personal data shared with a third party?",
+            "answer_type": "YES_NO",
+            "choices": [],
+            "required": true,
+            "evidence_required": true,
+            "finding_when": "YES",
+            "finding_severity": "MEDIUM",
+            "guidance": null
+          }
+        ],
+        "requirement_ids": [],
+        "review_interval_days": 365,
+        "status": "PUBLISHED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "published_by": "00000000-0000-4000-8000-000000000387",
+        "published_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "publish_impact_template",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-templates/{id}/publication",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "action": "PUBLISH"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000384",
+        "template_key": "00000000-0000-4000-8000-000000000385",
+        "version": 1,
+        "kind": "DPIA",
+        "name": "Synthetic DPIA",
+        "description": "Synthetic assessment template for contract examples.",
+        "questions": [
+          {
+            "key": "shares_with_third_parties",
+            "text": "Is personal data shared with a third party?",
+            "answer_type": "YES_NO",
+            "choices": [],
+            "required": true,
+            "evidence_required": true,
+            "finding_when": "YES",
+            "finding_severity": "MEDIUM",
+            "guidance": null
+          }
+        ],
+        "requirement_ids": [],
+        "review_interval_days": 365,
+        "status": "PUBLISHED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "published_by": "00000000-0000-4000-8000-000000000387",
+        "published_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "list_impact_assessments",
+      "method": "GET",
+      "path": "/api/v1/admin/impact-assessments",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "template_id": "00000000-0000-4000-8000-000000000384",
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "respondent": "STAFF",
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "impact_assessment",
+      "method": "GET",
+      "path": "/api/v1/admin/impact-assessments/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "respondent": "STAFF",
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "answer_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/answers",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register"
+          }
+        ]
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "respondent": "STAFF",
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "submit_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/submission",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "respondent": "STAFF",
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "decide_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "decision": "APPROVED",
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "respondent": "STAFF",
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "revise_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/revision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "respondent": "STAFF",
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "create_impact_finding",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/findings",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "question_key": null,
+        "title": "Reviewer finding on retention",
+        "severity": "LOW",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "grc_risk_id": null,
+        "grc_control_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "respondent": "STAFF",
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "record_impact_finding_event",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-findings/{id}/events",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "RESOLVED",
+        "note": "Contract signed with the recipient; sharing is covered.",
+        "evidence_reference": "Synthetic agreement AG-1",
+        "acceptance_expires_at": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000038e",
+        "assessment_id": "00000000-0000-4000-8000-000000000389",
+        "question_key": "shares_with_third_parties",
+        "source": "ANSWER_RULE",
+        "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+        "severity": "MEDIUM",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "grc_risk_id": null,
+        "grc_control_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "blocks_approval": true,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "impact_escalation_sweep",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-findings/escalation-sweep",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "escalated": 0,
+        "finding_ids": []
+      }
+    },
+    {
+      "operation_id": "list_processor_agreements",
+      "method": "GET",
+      "path": "/api/v1/admin/processor-agreements",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_processor_agreement",
+      "method": "POST",
+      "path": "/api/v1/admin/processor-agreements",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "processor_id": "00000000-0000-4000-8000-000000000398",
+        "kind": "DPA",
+        "reference": "Synthetic DPA SYN-1",
+        "signed_at": "2026-09-16T10:00:00.000Z",
+        "effective_from": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2027-09-16T10:00:00.000Z",
+        "allowed_purpose_ids": [],
+        "allowed_regions": [
+          "IN",
+          "IN-KA"
+        ],
+        "subprocessors_allowed": false,
+        "onward_transfer_allowed": false,
+        "evidence_reference": "Signed copy in the contract register",
+        "supersedes_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000229",
+        "processor_id": "00000000-0000-4000-8000-00000000022a",
+        "kind": "DPA",
+        "reference": "Synthetic example",
+        "signed_at": "2026-09-16T10:00:00.000Z",
+        "effective_from": "2026-09-16T10:00:00.000Z",
+        "expires_at": null,
+        "allowed_purpose_ids": [],
+        "allowed_regions": [],
+        "subprocessors_allowed": false,
+        "onward_transfer_allowed": false,
+        "evidence_reference": "Synthetic example",
+        "supersedes_id": null,
+        "status": "ACTIVE",
+        "terminated_at": null,
+        "termination_reason": null,
+        "in_force": false,
+        "superseded": false,
+        "recorded_by": "00000000-0000-4000-8000-00000000022b",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "terminate_processor_agreement",
+      "method": "POST",
+      "path": "/api/v1/admin/processor-agreements/{id}/termination",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000022c",
+        "processor_id": "00000000-0000-4000-8000-00000000022d",
+        "kind": "DPA",
+        "reference": "Synthetic example",
+        "signed_at": "2026-09-16T10:00:00.000Z",
+        "effective_from": "2026-09-16T10:00:00.000Z",
+        "expires_at": null,
+        "allowed_purpose_ids": [],
+        "allowed_regions": [],
+        "subprocessors_allowed": false,
+        "onward_transfer_allowed": false,
+        "evidence_reference": "Synthetic example",
+        "supersedes_id": null,
+        "status": "ACTIVE",
+        "terminated_at": null,
+        "termination_reason": null,
+        "in_force": false,
+        "superseded": false,
+        "recorded_by": "00000000-0000-4000-8000-00000000022e",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "set_processor_tier",
+      "method": "POST",
+      "path": "/api/v1/admin/processors/{id}/tier",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "tier": "LOW",
+        "reassessment_interval_days": 30,
+        "reason": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "tier": "LOW",
+        "reassessment_interval_days": 30,
+        "reason": "Synthetic example",
+        "id": "00000000-0000-4000-8000-00000000022f",
+        "processor_id": "00000000-0000-4000-8000-000000000230",
+        "recorded_by": "00000000-0000-4000-8000-000000000231",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "third_party_standing",
+      "method": "GET",
+      "path": "/api/v1/admin/processors/{id}/third-party-standing",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "processor_id": "00000000-0000-4000-8000-000000000232",
+        "processor_name": "Synthetic example",
+        "region": "Synthetic example",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "tier": null,
+        "agreements": [],
+        "agreement_in_force": null,
+        "active_engagement_ids": [],
+        "last_due_diligence": null,
+        "reassessment_due_at": null,
+        "violations": []
+      }
+    },
+    {
+      "operation_id": "list_third_party_standing",
+      "method": "GET",
+      "path": "/api/v1/admin/third-party-standing",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_supplier_link",
+      "method": "POST",
+      "path": "/api/v1/admin/supplier-links",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "assessment_id": "00000000-0000-4000-8000-000000000233",
+        "expires_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "link": {
+          "id": "00000000-0000-4000-8000-0000000003a2",
+          "assessment_id": "00000000-0000-4000-8000-000000000389",
+          "expires_at": "2026-09-30T10:00:00.000Z",
+          "state": "ACTIVE",
+          "revoked_at": null,
+          "revocation_reason": null,
+          "last_used_at": null,
+          "created_by": "00000000-0000-4000-8000-000000000386",
+          "created_at": "2026-09-16T10:00:00.000Z"
+        },
+        "token": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "path": "/supplier#token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "operation_id": "list_supplier_links",
+      "method": "GET",
+      "path": "/api/v1/admin/supplier-links",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "revoke_supplier_link",
+      "method": "POST",
+      "path": "/api/v1/admin/supplier-links/{id}/revocation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000234",
+        "assessment_id": "00000000-0000-4000-8000-000000000235",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "last_used_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000236",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "list_grc_policies",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/policies",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_grc_policy",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/policies",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "policy_key": null,
+        "title": "Synthetic example",
+        "body": "Synthetic examplexxx",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": 30,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000237",
+        "policy_key": "00000000-0000-4000-8000-000000000238",
+        "version": 1,
+        "title": "Synthetic example",
+        "body": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": -9007199254740991,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example",
+        "status": "DRAFT",
+        "recorded_by": "00000000-0000-4000-8000-000000000239",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "published_at": null,
+        "retired_at": null,
+        "next_review_at": null,
+        "review_due": false,
+        "acknowledgements": 0,
+        "acknowledged_by_me": false
+      }
+    },
+    {
+      "operation_id": "decide_grc_policy",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/policies/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "action": "PUBLISH"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000023a",
+        "policy_key": "00000000-0000-4000-8000-00000000023b",
+        "version": 1,
+        "title": "Synthetic example",
+        "body": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": -9007199254740991,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example",
+        "status": "DRAFT",
+        "recorded_by": "00000000-0000-4000-8000-00000000023c",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "published_at": null,
+        "retired_at": null,
+        "next_review_at": null,
+        "review_due": false,
+        "acknowledgements": 0,
+        "acknowledged_by_me": false
+      }
+    },
+    {
+      "operation_id": "acknowledge_grc_policy",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/policies/{id}/acknowledgement",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000023d",
+        "policy_key": "00000000-0000-4000-8000-00000000023e",
+        "version": 1,
+        "title": "Synthetic example",
+        "body": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": -9007199254740991,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example",
+        "status": "DRAFT",
+        "recorded_by": "00000000-0000-4000-8000-00000000023f",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "published_at": null,
+        "retired_at": null,
+        "next_review_at": null,
+        "review_due": false,
+        "acknowledgements": 0,
+        "acknowledged_by_me": false
+      }
+    },
+    {
+      "operation_id": "list_grc_issues",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/issues",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_grc_issue",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/issues",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000240",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000241",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "grc_issue",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/issues/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000242",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000243",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "record_grc_issue_event",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/issues/{id}/events",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "REMEDIATION_PLANNED",
+        "note": "Synthetic example",
+        "evidence_reference": null,
+        "verification_method": null,
+        "control_test_run_id": null,
+        "acceptance_expires_at": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000244",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000245",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "import_regulatory_framework",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/regulatory-framework",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "name": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "name": "Synthetic example",
+        "version": "Synthetic example",
+        "source_reference": "Synthetic example",
+        "requirements": [
+          {
+            "code": "Synthetic example",
+            "description": "Synthetic example"
+          }
+        ],
+        "id": "00000000-0000-4000-8000-000000000246",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000247"
+      }
+    },
+    {
+      "operation_id": "list_control_tests",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/control-tests",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_control_test",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "control_id": "00000000-0000-4000-8000-000000000248",
+        "name": "Synthetic example",
+        "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+        "maximum_violations": 0,
+        "interval_minutes": 5
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000249",
+        "control_id": "00000000-0000-4000-8000-00000000024a",
+        "name": "Synthetic example",
+        "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+        "maximum_violations": -9007199254740991,
+        "interval_minutes": -9007199254740991,
+        "enabled": false,
+        "next_run_at": "2026-09-16T10:00:00.000Z",
+        "created_by": "00000000-0000-4000-8000-00000000024b",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "latest_run": null,
+        "standing": "PASSING",
+        "open_issue_id": null
+      }
+    },
+    {
+      "operation_id": "control_test",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/control-tests/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "test": {
+          "id": "00000000-0000-4000-8000-00000000024c",
+          "control_id": "00000000-0000-4000-8000-00000000024d",
+          "name": "Synthetic example",
+          "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+          "maximum_violations": -9007199254740991,
+          "interval_minutes": -9007199254740991,
+          "enabled": false,
+          "next_run_at": "2026-09-16T10:00:00.000Z",
+          "created_by": "00000000-0000-4000-8000-00000000024e",
+          "created_at": "2026-09-16T10:00:00.000Z",
+          "latest_run": null,
+          "standing": "PASSING",
+          "open_issue_id": null
+        },
+        "runs": []
+      }
+    },
+    {
+      "operation_id": "run_control_test",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests/{id}/runs",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "test": {
+          "id": "00000000-0000-4000-8000-00000000024f",
+          "control_id": "00000000-0000-4000-8000-000000000250",
+          "name": "Synthetic example",
+          "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+          "maximum_violations": -9007199254740991,
+          "interval_minutes": -9007199254740991,
+          "enabled": false,
+          "next_run_at": "2026-09-16T10:00:00.000Z",
+          "created_by": "00000000-0000-4000-8000-000000000251",
+          "created_at": "2026-09-16T10:00:00.000Z",
+          "latest_run": null,
+          "standing": "PASSING",
+          "open_issue_id": null
+        },
+        "runs": []
+      }
+    },
+    {
+      "operation_id": "toggle_control_test",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests/{id}/enabled",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "enabled": false
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000252",
+        "control_id": "00000000-0000-4000-8000-000000000253",
+        "name": "Synthetic example",
+        "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+        "maximum_violations": -9007199254740991,
+        "interval_minutes": -9007199254740991,
+        "enabled": false,
+        "next_run_at": "2026-09-16T10:00:00.000Z",
+        "created_by": "00000000-0000-4000-8000-000000000254",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "latest_run": null,
+        "standing": "PASSING",
+        "open_issue_id": null
+      }
+    },
+    {
+      "operation_id": "control_test_sweep",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests/sweep",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "ran": 0,
+        "failing": 0,
+        "errors": 0,
+        "alerts": 0,
+        "issues_escalated": 0
+      }
+    },
+    {
+      "operation_id": "list_compliance_alerts",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/compliance-alerts",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "compliance_report",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/compliance-report",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "summary": {
+          "tests": -9007199254740991,
+          "passing": -9007199254740991,
+          "failing": -9007199254740991,
+          "error": -9007199254740991,
+          "stale": -9007199254740991,
+          "never_run": -9007199254740991,
+          "disabled": -9007199254740991,
+          "open_issues": -9007199254740991,
+          "overdue_issues": -9007199254740991,
+          "policies_published": -9007199254740991,
+          "policies_review_due": -9007199254740991
+        },
+        "frameworks": [],
+        "controls": [],
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "list_system_locations",
+      "method": "GET",
+      "path": "/api/v1/admin/systems/{id}/locations",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003b6",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "region": "IN-KA",
+            "hosting_description": "Customer-operated data centre, Bengaluru",
+            "basis": "Declared by the platform owner from the hosting contract.",
+            "valid_from": "2026-09-16T10:00:00.000Z",
+            "valid_to": null,
+            "recorded_by": "00000000-0000-4000-8000-000000000386",
+            "recorded_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "declare_system_location",
+      "method": "POST",
+      "path": "/api/v1/admin/systems/{id}/locations",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "region": "IN-KA",
+        "hosting_description": "Customer-operated data centre, Bengaluru",
+        "basis": "Declared by the platform owner from the hosting contract.",
+        "valid_from": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003b6",
+        "system_id": "00000000-0000-4000-8000-0000000003b7",
+        "region": "IN-KA",
+        "hosting_description": "Customer-operated data centre, Bengaluru",
+        "basis": "Declared by the platform owner from the hosting contract.",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "list_ropa_entries",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/entries",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "activity_id": "00000000-0000-4000-8000-0000000003c0",
+            "name": "Order fulfilment",
+            "description": "Synthetic activity for contract examples.",
+            "owner_reference": "Synthetic owner",
+            "status": "ACTIVE",
+            "processes_child_data": "NO",
+            "purpose": {
+              "purpose_id": "00000000-0000-4000-8000-0000000003c1",
+              "name": "Service delivery",
+              "version": 1,
+              "description": "Synthetic purpose.",
+              "current": true
+            },
+            "condition": {
+              "code": "CONTRACT",
+              "label": "Synthetic condition",
+              "unresolved": false
+            },
+            "notices": [],
+            "principal_categories": [
+              {
+                "id": "00000000-0000-4000-8000-0000000003c2",
+                "name": "Customers",
+                "basis": "Synthetic declaration.",
+                "since": "2026-09-16T10:00:00.000Z"
+              }
+            ],
+            "data_categories": [
+              {
+                "id": "00000000-0000-4000-8000-0000000003c3",
+                "name": "Contact details",
+                "basis": "Synthetic declaration.",
+                "since": "2026-09-16T10:00:00.000Z"
+              }
+            ],
+            "systems": [
+              {
+                "id": "00000000-0000-4000-8000-0000000003b7",
+                "name": "Synthetic CRM",
+                "connector": "SYNTHETIC_CRM",
+                "basis": "Synthetic declaration.",
+                "since": "2026-09-16T10:00:00.000Z",
+                "binding_adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
+                "location": {
+                  "region": "IN-KA",
+                  "hosting_description": "Customer-operated data centre, Bengaluru"
+                },
+                "observed": null
+              }
+            ],
+            "recipients": [],
+            "transfers": [
+              {
+                "via": "SYSTEM",
+                "target_id": "00000000-0000-4000-8000-0000000003b7",
+                "name": "Synthetic CRM",
+                "region": "IN-KA",
+                "cross_border": false
+              }
+            ],
+            "retention": [],
+            "safeguards": [],
+            "graph": {
+              "activity_id": null,
+              "systems": []
+            },
+            "gaps": [
+              {
+                "kind": "NO_RETENTION_RULE",
+                "severity": "MISSING",
+                "detail": "No active retention rule applies to this activity.",
+                "target_id": null
+              }
+            ]
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "ropa_entry",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/entries/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "activity_id": "00000000-0000-4000-8000-0000000003c0",
+        "name": "Order fulfilment",
+        "description": "Synthetic activity for contract examples.",
+        "owner_reference": "Synthetic owner",
+        "status": "ACTIVE",
+        "processes_child_data": "NO",
+        "purpose": {
+          "purpose_id": "00000000-0000-4000-8000-0000000003c1",
+          "name": "Service delivery",
+          "version": 1,
+          "description": "Synthetic purpose.",
+          "current": true
+        },
+        "condition": {
+          "code": "CONTRACT",
+          "label": "Synthetic condition",
+          "unresolved": false
+        },
+        "notices": [],
+        "principal_categories": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003c2",
+            "name": "Customers",
+            "basis": "Synthetic declaration.",
+            "since": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "data_categories": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003c3",
+            "name": "Contact details",
+            "basis": "Synthetic declaration.",
+            "since": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "systems": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003b7",
+            "name": "Synthetic CRM",
+            "connector": "SYNTHETIC_CRM",
+            "basis": "Synthetic declaration.",
+            "since": "2026-09-16T10:00:00.000Z",
+            "binding_adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
+            "location": {
+              "region": "IN-KA",
+              "hosting_description": "Customer-operated data centre, Bengaluru"
+            },
+            "observed": null
+          }
+        ],
+        "recipients": [],
+        "transfers": [
+          {
+            "via": "SYSTEM",
+            "target_id": "00000000-0000-4000-8000-0000000003b7",
+            "name": "Synthetic CRM",
+            "region": "IN-KA",
+            "cross_border": false
+          }
+        ],
+        "retention": [],
+        "safeguards": [],
+        "graph": {
+          "activity_id": null,
+          "systems": []
+        },
+        "gaps": [
+          {
+            "kind": "NO_RETENTION_RULE",
+            "severity": "MISSING",
+            "detail": "No active retention rule applies to this activity.",
+            "target_id": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "ropa_summary",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/summary",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "home_region": "IN",
+        "activities": 1,
+        "activities_with_gaps": 1,
+        "gaps": [
+          {
+            "kind": "NO_RETENTION_RULE",
+            "severity": "MISSING",
+            "count": 1
+          }
+        ],
+        "cross_border_transfers": 0,
+        "systems_declared_only": 1,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
+      "operation_id": "ropa_impact",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/impact",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "kind": "SYSTEM",
+        "target_id": "00000000-0000-4000-8000-000000000255",
+        "activities": [],
+        "retention_rule_ids": [],
+        "engagement_ids": [],
+        "graph_asset_count": 0,
+        "consent_record_count": null,
+        "complete": false
+      }
+    },
+    {
+      "operation_id": "list_ropa_versions",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/versions",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_ropa_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ropa/versions",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000256",
+        "version": 1,
+        "note": "Synthetic example",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "activity_count": -9007199254740991,
+        "gap_count": -9007199254740991,
+        "recorded_by": "00000000-0000-4000-8000-000000000257",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "approved_at": null,
+        "approval_note": null
+      }
+    },
+    {
+      "operation_id": "approve_ropa_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ropa/versions/{id}/approval",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000258",
+        "version": 1,
+        "note": "Synthetic example",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "activity_count": -9007199254740991,
+        "gap_count": -9007199254740991,
+        "recorded_by": "00000000-0000-4000-8000-000000000259",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "approved_at": null,
+        "approval_note": null
+      }
+    },
+    {
+      "operation_id": "ropa_version_diff",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/versions/{id}/diff",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "from_version": -9007199254740991,
+        "to_version": -9007199254740991,
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "complete": false
+      }
+    },
+    {
+      "operation_id": "list_data_exports",
+      "method": "GET",
+      "path": "/api/v1/admin/data-exports",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003ca",
+            "kind": "ROPA_VERSION_CSV",
+            "source_id": "00000000-0000-4000-8000-0000000003cb",
+            "as_of": "2026-09-16T10:00:00.000Z",
+            "expected_rows": 1,
+            "state": "COMPLETED",
+            "rows_written": 1,
+            "chunks": 1,
+            "failure_code": null,
+            "manifest": {
+              "kind": "ROPA_VERSION_CSV",
+              "as_of": "2026-09-16T10:00:00.000Z",
+              "filter": {},
+              "expected_rows": 1,
+              "rows": 1,
+              "columns": [
+                "activity_id"
+              ],
+              "chunks": [
+                {
+                  "sequence": 1,
+                  "row_count": 1,
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                }
+              ],
+              "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "complete": true,
+              "limits": [
+                "Synthetic example."
+              ]
+            },
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "finished_at": "2026-09-16T10:00:00.000Z",
+            "expires_at": "2026-09-16T10:00:00.000Z",
+            "expired": false
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_data_export",
+      "method": "POST",
+      "path": "/api/v1/admin/data-exports",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "ROPA_VERSION_CSV",
+        "ropa_version_id": "00000000-0000-4000-8000-0000000003cb",
+        "audit_filter": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "data_export",
+      "method": "GET",
+      "path": "/api/v1/admin/data-exports/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "advance_data_export",
+      "method": "POST",
+      "path": "/api/v1/admin/data-exports/{id}/step",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "stop_data_export",
+      "method": "POST",
+      "path": "/api/v1/admin/data-exports/{id}/stop",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "data_export_chunk",
+      "method": "GET",
+      "path": "/api/v1/admin/data-exports/{id}/chunk",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "job_id": "00000000-0000-4000-8000-00000000025a",
+        "sequence": -9007199254740991,
+        "row_count": -9007199254740991,
+        "sha256": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "content": "Synthetic example"
+      }
+    },
+    {
+      "operation_id": "supplier_questionnaire",
+      "method": "GET",
+      "path": "/api/v1/supplier/questionnaire",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "title": "Synthetic example",
+        "template_name": "Synthetic example",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "editable": false,
+        "questions": [],
+        "answers": []
+      }
+    },
+    {
+      "operation_id": "supplier_answer",
+      "method": "POST",
+      "path": "/api/v1/supplier/questionnaire/answers",
+      "headers": {},
+      "request": {
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "NO",
+            "evidence_reference": null
+          }
+        ]
+      },
+      "response_status": 200,
+      "response": {
+        "title": "Synthetic example",
+        "template_name": "Synthetic example",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "editable": false,
+        "questions": [],
+        "answers": []
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000229",
-        "environment_id": "00000000-0000-4000-8000-00000000022a",
+        "installation_id": "00000000-0000-4000-8000-00000000025b",
+        "environment_id": "00000000-0000-4000-8000-00000000025c",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -8706,9 +10873,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-00000000022b",
+        "command_id": "00000000-0000-4000-8000-00000000025d",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000022c",
+        "attempt_id": "00000000-0000-4000-8000-00000000025e",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -8716,7 +10883,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-00000000022d",
+        "operation_id": "00000000-0000-4000-8000-00000000025f",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -8729,10 +10896,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-00000000022e",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000022f",
-        "purpose_id": "00000000-0000-4000-8000-000000000230",
-        "system_id": "00000000-0000-4000-8000-000000000231",
+        "attempt_id": "00000000-0000-4000-8000-000000000260",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000261",
+        "purpose_id": "00000000-0000-4000-8000-000000000262",
+        "system_id": "00000000-0000-4000-8000-000000000263",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -8805,9 +10972,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000232",
+        "command_id": "00000000-0000-4000-8000-000000000264",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000233",
+        "attempt_id": "00000000-0000-4000-8000-000000000265",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -8822,7 +10989,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000234",
+        "resource_id": "00000000-0000-4000-8000-000000000266",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -8837,9 +11004,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000235",
+        "command_id": "00000000-0000-4000-8000-000000000267",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000236",
+        "attempt_id": "00000000-0000-4000-8000-000000000268",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
