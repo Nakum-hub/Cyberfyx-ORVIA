@@ -13,6 +13,7 @@
 import { connectDatabase } from '../database/customer/src/index.ts';
 import { connectTemporal } from '../services/worker/src/probe-client.ts';
 import { safeError } from '../shared/testing/src/evidence.ts';
+import { authorizationReady } from '../backend/authorization/src/index.ts';
 
 export type ServiceProfile = {
   profile: string; database: string; password: string; installation_id: string;
@@ -39,7 +40,10 @@ export async function checkOpa(profile: ServiceProfile): Promise<ServiceCheck> {
     };
     if (await decision('BOOTSTRAP_READINESS') !== true) throw new Error('OPA readiness decision failed');
     if (await decision('ARBITRARY_OPERATION') !== false) throw new Error('OPA deny control failed');
-    return { result: 'PASS', readiness: true, arbitrary_operation: false, policy_scope: 'bootstrap readiness only' };
+    // The request-time authorization package too, with the production deadline: a policy that is loaded but slow is not ready.
+    const admin = await authorizationReady({ opa_port: profile.opa_port } as Parameters<typeof authorizationReady>[0]);
+    if (!admin.ready) throw new Error(`Authorization policy not ready: ${admin.error}`);
+    return { result: 'PASS', readiness: true, arbitrary_operation: false, policy_scope: 'bootstrap readiness and request authorization controls', authorization_allow_ms: admin.allow_ms, authorization_deny_ms: admin.deny_ms };
   } catch (error) { return { result: 'FAIL', error: safeError(error) }; }
 }
 

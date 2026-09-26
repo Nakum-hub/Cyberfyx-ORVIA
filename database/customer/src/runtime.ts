@@ -1,10 +1,16 @@
 import pg from 'pg';
 import type { RuntimeConfig, RuntimeRole } from '../../../backend/auth/src/config.ts';
 
+/**
+ * The server cancels a statement just before the client gives up on it, so a
+ * query whose caller has gone cannot keep consuming the database; a
+ * transaction left open by a stalled caller is ended the same way.
+ */
+export const SERVER_LIMITS = { statement_timeout: 9000, idle_in_transaction_session_timeout: 15000 } as const;
 export function runtimePool(config: RuntimeConfig, role: RuntimeRole) {
   return new pg.Pool({ host: '127.0.0.1', port: config.postgres_port, database: config.database,
     user: role, password: config.secret(`${role}-password`), max: 2,
-    connectionTimeoutMillis: 5000, query_timeout: 10000, application_name: `orvia-${role}` });
+    connectionTimeoutMillis: 5000, query_timeout: 10000, ...SERVER_LIMITS, application_name: `orvia-${role}` });
 }
 export type Authority = {
   actor_id: string; actor_domain: 'STAFF' | 'PRINCIPAL' | 'MACHINE';

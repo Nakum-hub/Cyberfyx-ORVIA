@@ -42,7 +42,7 @@ try{
  if((await db.query("SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name IN ('orvia_worker','orvia_agent_control') LIMIT 1")).rowCount)throw new Error('Existing profile worker/agent prevents startup');
  const portProbe=createServer();await new Promise<void>((done,fail)=>{portProbe.once('error',fail);portProbe.listen(config.app_port,'127.0.0.1',()=>portProbe.close(()=>done()));});
  const command=webProcess(config);const web=start(command.args,'web',command.cwd);
- let ready=false;for(let i=0;i<90;i++){if(web.exitCode!==null)throw new Error('Owned web process exited before readiness');try{ready=(await fetch(config.origin+'/healthz',{signal:AbortSignal.timeout(1000)})).ok;}catch{/* bounded startup */}if(ready)break;await new Promise(r=>setTimeout(r,500));}
+ let ready=false;for(let i=0;i<90;i++){if(web.exitCode!==null)throw new Error('Owned web process exited before readiness');try{ready=(await fetch(config.origin+'/readyz',{signal:AbortSignal.timeout(3000)})).ok;}catch{/* bounded startup; readiness includes a warm authorization decision */}if(ready)break;await new Promise(r=>setTimeout(r,500));}
  if(!ready)throw new Error('HTTPS readiness failed');
  start(['--import','tsx','services/worker/src/main.ts'],'worker');start(['--import','tsx','services/agent/src/main.ts'],'agent');
  // DPDP operations runner: resumes imports and evaluations, executes approved runs,

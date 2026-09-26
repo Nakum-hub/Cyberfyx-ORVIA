@@ -457,3 +457,57 @@ What the first `ropa-exports` failure was: I assumed a terminated engagement wou
 | `tsx tests/integration/expansion/cmp.test.ts` | 44/44 PASS on the first run. Coverage:<br>• origin rules and second-person approval;<br>• no script before publication; publication by someone other than the author;<br>• a script-breakout string safely embedded; no external URL in the script;<br>• preflight granted to the exact origin only; foreign or missing origin 403; cookies refused;<br>• unknown, missing or necessary-refused categories and unknown versions refused;<br>• withdrawal as a record; stats from latest choices (3 visitors, 4 records, 1 GPC); a flood capped at 20 per minute;<br>• scans: a correctly marked page has no HIGH finding (tracker only after acceptance, cookie only after acceptance); a leaky page gives tracker before consent, after refusal, an undeclared host and a cookie before consent; scans add no records;<br>• auditor, tenant and immutability; a disabled site serves 404 for the script and the POST. |
 | `tsx tests/e2e/expansion-screens-local.ts` | 69/69 PASS (all expansion families). Coverage in the EX02 phase:<br>• site approved on screen by a second person; banner published on screen by another approver;<br>• visitor opens a modal dialog with nothing optional loaded; focus starts on Accept; Tab moves through and wraps inside the dialog; keyboard refusal is recorded and loads no tracker;<br>• Choose shows Necessary locked on; granting Analytics loads the marked script and sets its cookie; withdrawing clears the cookie, reloads, and nothing loads;<br>• GPC gives an automatic refusal with no banner; the Hindi page gets Hindi text;<br>• a scan requested on screen, run by the worker, with findings shown.<br>Four earlier attempts failed:<br>• one on a real product bug: the focus trap counted hidden checkboxes, so Tab could leave the dialog (fixed in the SDK);<br>• one on the processor list's random-id paging (fixed in the product);<br>• two on test-harness issues: a transpiled init script referencing `__name` in the browser, replaced with plain source, and a brittle wait. |
 | cmp / third-party (rerun) | 44/44, 43/43 PASS |
+
+## EX14 cross-cutting — OPA cold start and readiness, backup/restore drill, runaway-statement limit, mixed-workload probe; SCIM proposal
+
+**Built**
+- OPA cold start and readiness:
+  - `authorizationReady(config, deadlineMs)` in `backend/authorization/src/index.ts` asks the policy engine two control questions: an allow (AUDITOR `grc.read`) and a deny (MEMBER `grc.write`). It is ready only when both come back correct inside the deadline. A missing policy, a partial bundle or a policy that allows everything therefore all read as not ready.
+  - `backend/api/src/readiness.ts` serves `/readyz` (`frontend/src/app/readyz/route.ts`): 200 with the checks when ready, 503 otherwise. It is unauthenticated and returns no tenant data.
+  - `scripts/app-run.ts` waits for `/readyz`, not only for the port.
+  - `scripts/service-readiness.ts` runs the same allow and deny controls against OPA.
+  - Request authorization was already fail-closed. The test proves it stays closed while the engine is down and cold.
+- Backup and restore drill, `pnpm run backup:drill confirm:<profile>` (`scripts/backup-drill.ts`):
+  - A full logical dump with the server's own `pg_dump`, run inside the profile's database container so the tool version matches the server. It is written mode 0600 under `<profile>/backups/`, with a SHA-256 manifest.
+  - The file is re-verified against the manifest before it is restored into a scratch database.
+  - The restored copy is checked against the source: identical migration ids and checksums, identical row counts for ten obligation-bearing tables, every withdrawn consent still withdrawn (a digest of the ids), and every `app` table still forcing row security.
+  - The scratch database is then dropped. Nothing leaves the host.
+- Server-side statement limits, a defect found by the capacity probe:
+  - Runtime and service pools had only a client-side `query_timeout` (10 s). When a query outlived its caller, the server kept running it. Under load the scratch probe left 16 backends consuming the database long after the client had gone.
+  - Pools now also send `statement_timeout` 9 s and `idle_in_transaction_session_timeout` 15 s (`SERVER_LIMITS` in `database/customer/src/runtime.ts`, also used by `servicePool` in `backend/auth/src/machine.ts`). The server now cancels first and the client receives a clean cancellation.
+- Mixed-workload probe, `pnpm run capacity:mixed confirm:codex-a00 [seconds] [clients]` (`scripts/capacity-mixed.ts`):
+  - It builds a scratch database from a schema-only dump, then seeds one scope with 1,000,000 audit events, 100,000 principals and 200,000 privacy requests.
+  - It runs concurrent clients as `orvia_app` through `scopedTransaction`, with forced row security, over a weighted mix: keyset lists, point reads, inserts and 2,000-row export chunks.
+  - It records throughput and p50/p95/p99 per operation, and the database container's memory limit.
+  - The scratch drop is verified before it is reported. An earlier draft reported "dropped" without checking.
+
+**SCIM and enterprise SSO: proposal, not built**
+- This build has deliberately no route through which a role can be granted (`ROLE_GRANTS` in `backend/domain/src/audit/audit.ts`). Roles come only from the protected local setup, which records its own event. SCIM provisioning is by definition a remote role- and user-granting interface.
+- Building SCIM would change the product's authority model. It also needs the customer's IdP choice (OIDC or SAML), a group-to-role mapping owner, and a decision on whether de-provisioning revokes sessions immediately. Those are user and customer decisions, not engineering defaults.
+- Proposed shape for when they are made:
+  1. OIDC sign-in against the customer's IdP, with local MFA still required for privileged roles.
+  2. SCIM 2.0 `/Users` and `/Groups`, reachable only on the customer network, authenticated with a customer-held bearer credential that is rotated through the existing secret files.
+  3. Group-to-role mapping held in a reviewed table that needs two people to change, with every grant audited under `ROLE_GRANTS`.
+  4. De-provisioning ends sessions and supplier or response links owned by the user.
+- The `ROLE_GRANTS` invariant test must be updated in the same change.
+
+**Honest limits**
+- Readiness proves the policy engine answers two known questions correctly. It does not prove every policy module is current: bundle signing and versioning are a release-packaging item.
+- The drill is a same-host logical backup. Off-host copies, encryption at rest, retention and a recovery-time objective belong to the deployment and customer, and are not qualified.
+- The capacity probe is diagnostic on this development host. It is not the EX14 "representative 1M mixed workload" qualification. See its result below.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| `tsx tests/integration/opa/cold-start.test.ts` | 8/8 PASS. Ready about 283 ms after the engine started; warm p95 2 ms; readiness false and authorization fail-closed while the engine was down. `/readyz` probed: 200 warm, 503 with OPA stopped. |
+| `tsx tests/integration/monitoring/backup-drill.test.ts` | 5/5 PASS, run before the evidence-write line was added. 12.9 MB; backup about 2 s, restore about 4.4 s; migrations, counts, withdrawals and forced RLS identical; a single-byte tamper is rejected; scratch database removed. |
+| `pnpm run capacity:mixed confirm:codex-a00 45 16` | **Did not meet any reasonable bar. Recorded as a finding, not a result.** About 4 ops/s. list_requests p50 685 ms / p95 4.9 s; list_audit p50 5.4 s; export chunk p50 5.2 s; 29 client timeouts. The database container is capped at **384 MiB** on a 4-core host, and the 600 MB scratch database did not fit, so it thrashed. The client-side timeouts left 17 server backends running after the probe exited, and the scratch database `orvia_capacity_f56865f4cb3d` could not be dropped. Restarting the container to clear them was not authorised in this session. Artifact: `A00-capacity-mixed-1790425887473-…json`. |
+| typecheck / lint (changed files) | clean |
+
+**NOT_RUN, for Codex or the next session**
+1. Once the backends have drained (or after the user restarts the codex-a00 Postgres container), drop `orvia_capacity_f56865f4cb3d` if it is still present.
+2. Re-run the probe with the new server `statement_timeout`: first with fewer clients (4), then with a database memory limit sized for the data.
+3. Run `EXPLAIN (ANALYZE)` as `orvia_app` for the keyset lists. `app.in_scope` compares `column::text = current_setting(...)`, which can never be an index condition. Plans stay indexed only while handlers also pass explicit `tenant_id=$1` predicates, and that needs verifying on the 1M dataset.
+4. Re-run cold-start, drill and the full unit, e2e and DPDP battery after the `SERVER_LIMITS` pool change. It is typechecked but not yet exercised at runtime.
+5. EX01 channel preferences and EX13 commerce were not built. EX13 needs a payment provider and commercial terms from the user.
+6. Reconcile `tracking/v1-expansion.json` (task #17).
