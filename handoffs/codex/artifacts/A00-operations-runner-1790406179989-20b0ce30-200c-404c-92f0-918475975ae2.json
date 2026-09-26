@@ -1,0 +1,97 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:02:59.989Z",
+  "suite": "runner",
+  "assertions": [
+    {
+      "name": "staff processed only a first batch",
+      "result": "PASS",
+      "expected": [
+        "PROCESSING",
+        5
+      ],
+      "actual": [
+        "PROCESSING",
+        5
+      ]
+    },
+    {
+      "name": "the runner reports no errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the runner finished the import from its checkpoint",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        30
+      ],
+      "actual": [
+        "COMPLETED",
+        30
+      ]
+    },
+    {
+      "name": "the run was left evaluating",
+      "result": "PASS",
+      "expected": "EVALUATING",
+      "actual": "EVALUATING"
+    },
+    {
+      "name": "the runner completed the evaluation into a dry run",
+      "result": "PASS",
+      "expected": [
+        "DRY_RUN_READY",
+        30
+      ],
+      "actual": [
+        "DRY_RUN_READY",
+        30
+      ]
+    },
+    {
+      "name": "the runner never approves: the dry run still waits",
+      "result": "PASS",
+      "expected": "DRY_RUN_READY",
+      "actual": "DRY_RUN_READY"
+    },
+    {
+      "name": "nothing was erased before approval",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "after approval the runner executes and every erasure is verified",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_VERIFIED",
+        30
+      ],
+      "actual": [
+        "COMPLETED_VERIFIED",
+        30
+      ]
+    },
+    {
+      "name": "running again applies nothing twice",
+      "result": "PASS",
+      "expected": 30,
+      "actual": 30
+    },
+    {
+      "name": "verification was independent of execution",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": 10,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

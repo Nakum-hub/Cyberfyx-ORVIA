@@ -1,0 +1,199 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:01:53.064Z",
+  "suite": "sdf",
+  "assertions": [
+    {
+      "name": "an organisation that is not designated has no open SDF obligations",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "an organisation admin cannot change SDF status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a designation is recorded with its reference",
+      "result": "PASS",
+      "expected": [
+        "designation_is_recorded_with_its_reference"
+      ],
+      "actual": [
+        "designation_is_recorded_with_its_reference"
+      ]
+    },
+    {
+      "name": "a designation opens one obligation per SDF requirement in the package in force",
+      "result": "PASS",
+      "expected": [
+        "ALGORITHMIC_DUE_DILIGENCE",
+        "DPO_APPOINTMENT",
+        "INDEPENDENT_AUDITOR_APPOINTMENT",
+        "PERIODIC_AUDIT",
+        "PERIODIC_DPIA",
+        "TRANSFER_RESTRICTION_REVIEW"
+      ],
+      "actual": [
+        "ALGORITHMIC_DUE_DILIGENCE",
+        "DPO_APPOINTMENT",
+        "INDEPENDENT_AUDITOR_APPOINTMENT",
+        "PERIODIC_AUDIT",
+        "PERIODIC_DPIA",
+        "TRANSFER_RESTRICTION_REVIEW"
+      ]
+    },
+    {
+      "name": "a periodic assessment is due twelve months after designation",
+      "result": "PASS",
+      "expected": "2027-09-26T07:01:52.521Z",
+      "actual": "2027-09-26T07:01:52.521Z"
+    },
+    {
+      "name": "an obligation without a statutory period carries no invented due time",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "obligations are pinned to the package they came from and are in force",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the designation is emitted as a status change",
+      "result": "PASS",
+      "expected": [
+        "NOT_DESIGNATED",
+        "DESIGNATED"
+      ],
+      "actual": [
+        "NOT_DESIGNATED",
+        "DESIGNATED"
+      ]
+    },
+    {
+      "name": "the designation is recorded as evidence",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "open obligations without a due time appear in Attention",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an auditor can read the profile but not complete an obligation",
+      "result": "PASS",
+      "expected": [
+        200,
+        403
+      ],
+      "actual": [
+        200,
+        403
+      ]
+    },
+    {
+      "name": "a profile cannot be back-dated before the current version",
+      "result": "PASS",
+      "expected": [
+        "must_not_precede_current_profile"
+      ],
+      "actual": [
+        "must_not_precede_current_profile"
+      ]
+    },
+    {
+      "name": "completion records its evidence",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        "DPIA report DPIA-2026-1 (synthetic)"
+      ],
+      "actual": [
+        "COMPLETED",
+        "DPIA report DPIA-2026-1 (synthetic)"
+      ]
+    },
+    {
+      "name": "an obligation is completed once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "completing a periodic assessment opens the next period from completion",
+      "result": "PASS",
+      "expected": [
+        1,
+        true,
+        "2027-09-26T07:01:52.795Z"
+      ],
+      "actual": [
+        1,
+        true,
+        "2027-09-26T07:01:52.795Z"
+      ]
+    },
+    {
+      "name": "a one-time appointment does not recur",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "no obligation remains open once the designation ends",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "open obligations are closed as not applicable with a reason, not deleted",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "completed obligations keep their completion",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "actual": [
+        "COMPLETED",
+        "COMPLETED"
+      ]
+    },
+    {
+      "name": "a closed obligation cannot be completed",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the profile history keeps the designated version",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a profile version cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    }
+  ],
+  "passed": 22,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

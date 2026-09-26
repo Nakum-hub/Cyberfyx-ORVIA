@@ -1,5 +1,5 @@
 'use client';
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useId, useState, type FormEvent, type ReactNode } from 'react';
 import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
 import { useMutation } from '../../shared/api.ts';
 import { MutationFeedback } from '../../shared/mutation-feedback.tsx';
@@ -36,26 +36,37 @@ export function localNow(offsetDays = 0) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+/**
+ * A labelled control. The hint is associated through aria-describedby, not
+ * placed inside the label, so the control's accessible name is its label alone.
+ */
+function Labelled({ label, hint, required, children }: { label: string; hint?: string; required: boolean; children: (id: string, describedBy: string | undefined) => ReactNode }) {
+  const id = useId();
+  return (
+    <div className="field">
+      <label htmlFor={id}><span className="label">{label}{required ? <span aria-hidden="true"> *</span> : null}</span></label>
+      {hint ? <span className="hint" id={`${id}-hint`}>{hint}</span> : null}
+      {children(id, hint ? `${id}-hint` : undefined)}
+    </div>
+  );
+}
+
 export function Input({ label, name, hint, required = true, maxLength = 120, minLength, defaultValue, type = 'text' }: {
   label: string; name: string; hint?: string; required?: boolean; maxLength?: number; minLength?: number; defaultValue?: string; type?: 'text' | 'number' | 'datetime-local';
 }) {
   return (
-    <label className="field">
-      <span className="label">{label}{required ? <span aria-hidden="true"> *</span> : null}</span>
-      {hint ? <span className="hint">{hint}</span> : null}
-      <input name={name} type={type} required={required} maxLength={type === 'text' ? maxLength : undefined} minLength={minLength} defaultValue={defaultValue}
-        {...type === 'number' ? { min: 0, max: 36500, step: 1 } : {}} />
-    </label>
+    <Labelled label={label} hint={hint} required={required}>
+      {(id, describedBy) => <input id={id} aria-describedby={describedBy} name={name} type={type} required={required} maxLength={type === 'text' ? maxLength : undefined} minLength={minLength} defaultValue={defaultValue}
+        {...type === 'number' ? { min: 0, max: 36500, step: 1 } : {}} />}
+    </Labelled>
   );
 }
 
 export function Area({ label, name, hint, required = true, maxLength = 2000, minLength }: { label: string; name: string; hint?: string; required?: boolean; maxLength?: number; minLength?: number }) {
   return (
-    <label className="field">
-      <span className="label">{label}{required ? <span aria-hidden="true"> *</span> : null}</span>
-      {hint ? <span className="hint">{hint}</span> : null}
-      <textarea name={name} required={required} maxLength={maxLength} minLength={minLength} />
-    </label>
+    <Labelled label={label} hint={hint} required={required}>
+      {(id, describedBy) => <textarea id={id} aria-describedby={describedBy} name={name} required={required} maxLength={maxLength} minLength={minLength} />}
+    </Labelled>
   );
 }
 
@@ -65,14 +76,14 @@ export function Choice({ label, name, options, hint, required = true, placeholde
 }) {
   const controlled = value !== undefined ? { value, onChange: (e: { target: { value: string } }) => onChange?.(e.target.value) } : { defaultValue: '' };
   return (
-    <label className="field">
-      <span className="label">{label}{required ? <span aria-hidden="true"> *</span> : null}</span>
-      {hint ? <span className="hint">{hint}</span> : null}
-      <select name={name} required={required} {...controlled}>
-        <option value="">{placeholder}</option>
-        {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-      </select>
-    </label>
+    <Labelled label={label} hint={hint} required={required}>
+      {(id, describedBy) => (
+        <select id={id} aria-describedby={describedBy} name={name} required={required} {...controlled}>
+          <option value="">{placeholder}</option>
+          {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+      )}
+    </Labelled>
   );
 }
 
