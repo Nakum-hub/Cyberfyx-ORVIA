@@ -389,4 +389,11 @@ export interface EndpointMap {
   list_cmp_scans: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanList> };
   request_cmp_scan: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScan> };
   record_cmp_consent: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentReceipt> };
+  list_preference_topics: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicList> };
+  create_preference_topic: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopic> };
+  retire_preference_topic: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopic> };
+  principal_preferences: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceCentre> };
+  preference_decision: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceDecision> };
+  own_preferences: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceCentre> };
+  set_own_preference: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceChoice>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceChoiceReceipt> };
 }

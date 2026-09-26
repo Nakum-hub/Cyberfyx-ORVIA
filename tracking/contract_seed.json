@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.37.0",
+  "contract_version": "0.38.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4291,6 +4291,78 @@
       "status": 200,
       "capability": "supplier.respond",
       "maximum_body_bytes": 262144
+    },
+    {
+      "id": "list_preference_topics",
+      "method": "get",
+      "path": "/api/v1/admin/preference-topics",
+      "authority": "STAFF",
+      "response": "PreferenceTopicList",
+      "status": 200,
+      "paginated": true,
+      "capability": "configuration.read"
+    },
+    {
+      "id": "create_preference_topic",
+      "method": "post",
+      "path": "/api/v1/admin/preference-topics",
+      "authority": "STAFF",
+      "request": "PreferenceTopicCreate",
+      "response": "PreferenceTopic",
+      "status": 201,
+      "idempotency": true,
+      "capability": "configuration.write"
+    },
+    {
+      "id": "retire_preference_topic",
+      "method": "post",
+      "path": "/api/v1/admin/preference-topics/{id}/retire",
+      "authority": "STAFF",
+      "response": "PreferenceTopic",
+      "status": 200,
+      "idempotency": true,
+      "capability": "configuration.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "principal_preferences",
+      "method": "get",
+      "path": "/api/v1/admin/preference-centres/{id}",
+      "authority": "STAFF",
+      "response": "PreferenceCentre",
+      "status": 200,
+      "capability": "principals.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "preference_decision",
+      "method": "get",
+      "path": "/api/v1/admin/preference-decisions",
+      "authority": "STAFF",
+      "response": "PreferenceDecision",
+      "status": 200,
+      "capability": "principals.read",
+      "query": "PreferenceDecisionQuery"
+    },
+    {
+      "id": "own_preferences",
+      "method": "get",
+      "path": "/api/v1/portal/me/preferences",
+      "authority": "PRINCIPAL",
+      "response": "PreferenceCentre",
+      "status": 200,
+      "capability": "consent.own.read"
+    },
+    {
+      "id": "set_own_preference",
+      "method": "post",
+      "path": "/api/v1/portal/me/preferences",
+      "authority": "PRINCIPAL",
+      "request": "PreferenceChoice",
+      "response": "PreferenceChoiceReceipt",
+      "status": 201,
+      "idempotency": true,
+      "capability": "consent.own.write"
     },
     {
       "id": "poll_commands",

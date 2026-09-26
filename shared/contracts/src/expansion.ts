@@ -412,6 +412,24 @@ export const CmpScan = z.strictObject({
   failure_code: z.string().max(80).nullable(), limits: z.array(z.string().max(300)).max(5),
 });
 
+// EX01 communication preferences
+export const PreferenceChannel = z.enum(['EMAIL', 'SMS', 'PHONE', 'POST', 'PUSH']);
+export const PreferenceTopicCreate = z.strictObject({ code: z.string().regex(/^[a-z][a-z0-9_]{2,40}$/), name: z.string().min(3).max(120), description: z.string().min(10).max(500),
+  channels: z.array(PreferenceChannel).min(1).max(5).refine(x => new Set(x).size === x.length, 'duplicate channel'), purpose_id: Id.nullable() });
+export const PreferenceTopic = z.strictObject({ id: Id, code: z.string().max(41), name: z.string().max(120), description: z.string().max(500), channels: z.array(PreferenceChannel).max(5), purpose_id: Id.nullable(),
+  state: z.enum(['ACTIVE', 'RETIRED']), created_by: Id, created_at: Time, retired_at: Time.nullable() });
+export const PreferenceChoice = z.strictObject({ topic_id: Id, channel: PreferenceChannel, choice: z.enum(['OPTED_IN', 'OPTED_OUT']), observed_at: Time });
+export const PreferenceDecisionReason = z.enum(['OPTED_IN', 'NO_CHOICE', 'OPTED_OUT', 'CONSENT_NOT_GRANTED', 'TOPIC_RETIRED', 'CHANNEL_NOT_OFFERED']);
+export type PreferenceDecisionReason = z.infer<typeof PreferenceDecisionReason>;
+export const PreferenceDecision = z.strictObject({ permitted: z.boolean(),
+  reason: PreferenceDecisionReason, decided_at: Time, event_id: Id.nullable() });
+export const PreferenceEvent = z.strictObject({ id: Id, topic_id: Id, channel: PreferenceChannel, choice: z.enum(['OPTED_IN', 'OPTED_OUT']), source: z.enum(['PORTAL']), observed_at: Time, recorded_at: Time, effective: z.boolean() });
+export const PreferenceChoiceReceipt = z.strictObject({ event: PreferenceEvent, decision: PreferenceDecision });
+export const PreferenceChannelState = z.strictObject({ channel: PreferenceChannel, choice: z.enum(['OPTED_IN', 'OPTED_OUT', 'NO_CHOICE']), as_of: Time.nullable(), decision: PreferenceDecision });
+export const PreferenceCentre = z.strictObject({ principal_id: Id, topics: z.array(z.strictObject({ topic: PreferenceTopic, consent: z.enum(['GRANTED', 'NOT_GRANTED', 'NOT_REQUIRED']), channels: z.array(PreferenceChannelState).max(5) })).max(100),
+  history: z.array(PreferenceEvent).max(50) });
+export const PreferenceDecisionQuery = z.strictObject({ principal_id: Id, topic_id: Id, channel: PreferenceChannel });
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -430,4 +448,5 @@ export const expansionSchemas = {
   OutboundMessageCreate, OutboundMessageReview, OutboundMessage, OutboundMessageList: page(OutboundMessage),
   CmpConfigDocument, CmpSiteCreate, CmpSite, CmpSiteList: page(CmpSite), CmpConfigCreate, CmpConfig, CmpConfigList: page(CmpConfig), CmpConfigDecision, CmpConsentSubmit, CmpConsentReceipt, CmpConsentStats,
   CmpScanRequest, CmpScan, CmpScanList: page(CmpScan),
+  PreferenceTopicCreate, PreferenceTopic, PreferenceTopicList: page(PreferenceTopic), PreferenceChoice, PreferenceDecision, PreferenceEvent, PreferenceChoiceReceipt, PreferenceCentre, PreferenceDecisionQuery,
 };

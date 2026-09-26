@@ -538,7 +538,7 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   - `Seq Scan on audit_events (rows=1 estimated, 58036 actual)`, then a top-N sort: 110 ms;
   - the matching `audit_events_scope_time_id (tenant, entity, env, created_at DESC, id DESC)` index goes unused.
 - Cause: `app.in_scope` (0001) compares `column::text = current_setting(...)`. The planner cannot estimate that and assumes one row, so it never chooses the ordered index scan with LIMIT. Cost therefore grows linearly with table size.
-- Proposed migration `0059_typed_scope_predicate.sql`:
+- Proposed migration `0060_typed_scope_predicate.sql`:
   ```sql
   CREATE OR REPLACE FUNCTION app.in_scope(t uuid,l uuid,e uuid) RETURNS boolean LANGUAGE sql STABLE AS $$
    SELECT t = nullif(current_setting('orvia.tenant_id',true),'')::uuid
@@ -556,4 +556,4 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   4. Re-run `capacity:mixed`.
 - `scripts/capacity-mixed.ts` now records EXPLAIN plans for both list shapes in its evidence.
 
-**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0059_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
+**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0060_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.

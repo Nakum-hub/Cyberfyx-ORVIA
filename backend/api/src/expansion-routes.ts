@@ -9,6 +9,7 @@ import { createExport, advanceExport, stopExport, exportView, exportList, export
 import { preparePackage, reviewPackage, releasePackage, revokePackage, withdrawPackage, packageView, packageList, collectOwnPackage } from '../../domain/src/rights/response-packages.ts';
 import { requestRun, runDetail, runList, recordLabels, labelSet, measureQuality, qualityList, exposureList } from '../../domain/src/discovery/classification.ts';
 import { createTransport, enableTransport, disableTransport, revealSigningSecret, transportList, createRouting, decideRouting, routingList, composeMessage, reviewMessage, cancelMessage, messageDetail, messageList } from '../../domain/src/delivery/delivery.ts';
+import { createTopic, retireTopic, topicList, principalCentre, ownCentre, decision as preferenceDecision, recordOwnChoice } from '../../domain/src/preferences/preferences.ts';
 import { createSite, enableSite, disableSite, siteList, createConfig, decideConfig, configList, consentStats, requestScan, scanList } from '../../domain/src/cmp/cmp.ts';
 
 /**
@@ -81,6 +82,13 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'revoke_response_package': return revokePackage(c, id!, input);
     case 'withdraw_response_package': return withdrawPackage(c, id!);
     case 'own_response_package': return collectOwnPackage(c, id!);
+    case 'list_preference_topics': return topicList(c, page);
+    case 'create_preference_topic': return createTopic(c, input);
+    case 'retire_preference_topic': return retireTopic(c, id!);
+    case 'principal_preferences': return principalCentre(c, id!);
+    case 'preference_decision': return preferenceDecision(c, query);
+    case 'own_preferences': return ownCentre(c);
+    case 'set_own_preference': return recordOwnChoice(c, input);
     case 'request_classification_run': return requestRun(c, id!, input);
     case 'list_classification_runs': return runList(c, id!, page);
     case 'classification_run': return runDetail(c, id!);

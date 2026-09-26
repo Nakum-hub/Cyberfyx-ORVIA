@@ -3,8 +3,10 @@
  * build, because their schemas relate fields to each other. Synthetic contract
  * examples only; never a runtime fallback.
  */
+const at0 = '2026-09-16T10:00:00.000Z';
 const uuid = (n: number) => `00000000-0000-4000-8000-${n.toString(16).padStart(12, '0')}`;
-const at = '2026-09-16T10:00:00.000Z';
+const at = at0;
+const preferenceTopic = { id: uuid(1200), code: 'product_news', name: 'Product news', description: 'Occasional news about products you use.', channels: ['EMAIL' as const, 'SMS' as const], purpose_id: null, state: 'ACTIVE' as const, created_by: uuid(1202), created_at: at0, retired_at: null };
 const question = { key: 'shares_with_third_parties', text: 'Is personal data shared with a third party?', answer_type: 'YES_NO' as const, choices: [],
   required: true, evidence_required: true, finding_when: 'YES', finding_severity: 'MEDIUM' as const, guidance: null };
 const templateCreate = { template_key: null, kind: 'DPIA' as const, name: 'Synthetic DPIA', description: 'Synthetic assessment template for contract examples.',
@@ -116,6 +118,10 @@ export function expansionExample(name: string): unknown {
     case 'OutboundMessage': return outbound;
     case 'OutboundMessageList': return { items: [outbound], next_cursor: null };
     case 'CmpConfigDocument': return cmpDocument;
+    case 'PreferenceTopicCreate': return { code: 'product_news', name: 'Product news', description: 'Occasional news about products you use.', channels: ['EMAIL', 'SMS'], purpose_id: null };
+    case 'PreferenceTopic': return preferenceTopic;
+    case 'PreferenceTopicList': return { items: [preferenceTopic], next_cursor: null };
+    case 'PreferenceCentre': return { principal_id: uuid(1201), topics: [{ topic: preferenceTopic, consent: 'NOT_REQUIRED', channels: [{ channel: 'EMAIL', choice: 'NO_CHOICE', as_of: null, decision: { permitted: false, reason: 'NO_CHOICE', decided_at: at, event_id: null } }] }], history: [] };
     case 'CmpSiteCreate': return { name: 'Synthetic site', origins: ['https://www.customer.example'] };
     case 'CmpSite': return cmpSite;
     case 'CmpSiteList': return { items: [cmpSite], next_cursor: null };
