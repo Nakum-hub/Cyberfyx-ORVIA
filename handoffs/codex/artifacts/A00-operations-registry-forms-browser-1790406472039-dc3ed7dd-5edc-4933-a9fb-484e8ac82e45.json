@@ -1,0 +1,173 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:07:52.040Z",
+  "suite": "registry-forms-browser",
+  "assertions": [
+    {
+      "name": "categories, purpose and condition are created from the set-up screen",
+      "result": "PASS",
+      "expected": [
+        "Forms customer c81402ce",
+        "CONTACT_DETAILS",
+        1
+      ],
+      "actual": [
+        "Forms customer c81402ce",
+        "CONTACT_DETAILS",
+        1
+      ]
+    },
+    {
+      "name": "a condition chosen from the package vocabulary is traced, not unresolved",
+      "result": "PASS",
+      "expected": [
+        "CONSENT",
+        false,
+        true
+      ],
+      "actual": [
+        "CONSENT",
+        false,
+        true
+      ]
+    },
+    {
+      "name": "an unresolved condition is recorded with its reason",
+      "result": "PASS",
+      "expected": [
+        true,
+        "Legal review of the basis is outstanding."
+      ],
+      "actual": [
+        true,
+        "Legal review of the basis is outstanding."
+      ]
+    },
+    {
+      "name": "a notice version is drafted, not published",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publishing puts the version in force",
+      "result": "PASS",
+      "expected": "PUBLISHED",
+      "actual": "PUBLISHED"
+    },
+    {
+      "name": "a registered activity with no links states exactly what is missing",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "after linking, only the missing retention rule remains",
+      "result": "PASS",
+      "expected": [
+        "NO_RETENTION_RULE"
+      ],
+      "actual": [
+        "NO_RETENTION_RULE"
+      ]
+    },
+    {
+      "name": "a period without its source is refused in the browser and nothing is sent",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a rule with a sourced period is resolved",
+      "result": "PASS",
+      "expected": [
+        true,
+        30,
+        true
+      ],
+      "actual": [
+        true,
+        30,
+        true
+      ]
+    },
+    {
+      "name": "a hold is placed on what it names and is active",
+      "result": "PASS",
+      "expected": [
+        "86448fc7-93b8-4700-949e-bf7eac77ea49",
+        "ACTIVE"
+      ],
+      "actual": [
+        "86448fc7-93b8-4700-949e-bf7eac77ea49",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "an engagement is recorded with the links chosen",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        [
+          "DATA_CATEGORY",
+          "SYSTEM"
+        ]
+      ],
+      "actual": [
+        "ACTIVE",
+        [
+          "DATA_CATEGORY",
+          "SYSTEM"
+        ]
+      ]
+    },
+    {
+      "name": "the stored activity carries the notice, condition and three current links",
+      "result": "PASS",
+      "expected": [
+        [
+          "dc2aca9f-cd36-4e03-a628-e81ce131c5f8"
+        ],
+        "6f2963e6-7a0c-43cc-84d7-48d260be9b6b",
+        3
+      ],
+      "actual": [
+        [
+          "dc2aca9f-cd36-4e03-a628-e81ce131c5f8"
+        ],
+        "6f2963e6-7a0c-43cc-84d7-48d260be9b6b",
+        3
+      ]
+    },
+    {
+      "name": "a read-only session sees no creation form",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "and the server refuses the write regardless",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "no request left the local origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no page or console error occurred",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 16,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

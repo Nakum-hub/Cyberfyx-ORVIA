@@ -51,7 +51,9 @@ await t.run(async () => {
     await page.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
 
     const form = (name: string) => page.getByRole('form', { name });
-    const field = (f: Locator, label: string) => f.getByLabel(new RegExp(`^${label}`));
+    // The visual required marker is part of the label text; match the label exactly, with or without it.
+    const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const field = (f: Locator, label: string) => f.getByLabel(new RegExp(`^${escape(label)}( \\*)?$`));
     /** Submits a form and returns the parsed body of the POST it made. */
     async function submit<T>(f: Locator, path: RegExp, schema: { parse(v: unknown): T }, button?: string) {
       const response = page.waitForResponse(r => path.test(new URL(r.url()).pathname) && r.request().method() === 'POST');
@@ -115,8 +117,8 @@ await t.run(async () => {
     await page.goto('/workspace/processing-activities'); await waitReady(page, 'Processing activities');
     f = form('Register a processing activity');
     await field(f, 'Name').fill(`Forms newsletter sending ${suffix}`); await field(f, 'Description').fill('Sending the synthetic newsletter.'); await field(f, 'Owner').fill('Synthetic marketing lead');
-    await field(f, 'Purpose').selectOption({ label: `Forms newsletter ${suffix} (v1)` }); await field(f, 'Processing condition').selectOption(condition.id);
-    await field(f, 'Does it process children').selectOption('NO'); await f.getByRole('checkbox', { name: `Forms newsletter notice ${suffix} v1 (en)` }).check();
+    await field(f, 'Purpose (current version)').selectOption({ label: `Forms newsletter ${suffix} (v1)` }); await field(f, 'Processing condition').selectOption(condition.id);
+    await field(f, 'Does it process children’s data?').selectOption('NO'); await f.getByRole('checkbox', { name: `Forms newsletter notice ${suffix} v1 (en)` }).check();
     await field(f, 'Reason for recording').fill('Initial registration through the workspace');
     const activity = await submit(f, /\/registry-activities$/, S.schemas.Activity);
     check('a registered activity with no links states exactly what is missing', ['NO_SYSTEM', 'NO_PRINCIPAL_CATEGORY', 'NO_DATA_CATEGORY'].every(g => activity.gaps.includes(g as never)), true);
@@ -136,7 +138,7 @@ await t.run(async () => {
     f = form('Create a retention rule');
     await field(f, 'Name').fill(`Forms newsletter retention ${suffix}`); await field(f, 'Data Principal category').selectOption(principalCategory.id);
     await field(f, 'Activity').selectOption(activity.id); await field(f, 'Starts when').selectOption('CONSENT_WITHDRAWN');
-    await field(f, 'Retention period').fill('30');
+    await field(f, 'Retention period (days)').fill('30');
     await field(f, 'When eligible').selectOption('SUPPRESS');
     await f.getByRole('button', { name: 'Create a retention rule', exact: true }).click();
     await f.getByText('A retention period and where it comes from are recorded together, or neither is.').waitFor();

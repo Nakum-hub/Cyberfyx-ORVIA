@@ -1,0 +1,141 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T06:59:38.537Z",
+  "suite": "correction",
+  "assertions": [
+    {
+      "name": "a correction run must name the corrected values",
+      "result": "PASS",
+      "expected": [
+        "correction_request_names_the_corrected_values"
+      ],
+      "actual": [
+        "correction_request_names_the_corrected_values"
+      ]
+    },
+    {
+      "name": "a correction is not destructive, so it needs no dry-run approval",
+      "result": "PASS",
+      "expected": [
+        "CORRECTION",
+        "APPROVED"
+      ],
+      "actual": [
+        "CORRECTION",
+        "APPROVED"
+      ]
+    },
+    {
+      "name": "the system of record is written before any copy",
+      "result": "PASS",
+      "expected": [
+        "adba7720-9646-4bda-91ea-2a8888b75479",
+        "b68c7421-d184-4cd0-87e0-bb144ec8ef21"
+      ],
+      "actual": [
+        "adba7720-9646-4bda-91ea-2a8888b75479",
+        "b68c7421-d184-4cd0-87e0-bb144ec8ef21"
+      ]
+    },
+    {
+      "name": "the corrected value is held only as a digest on the action",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "both automated systems are corrected and verified",
+      "result": "PASS",
+      "expected": [
+        "verified",
+        "verified"
+      ],
+      "actual": [
+        "verified",
+        "verified"
+      ]
+    },
+    {
+      "name": "the manual system is reported not supported",
+      "result": "PASS",
+      "expected": "not_supported",
+      "actual": "not_supported"
+    },
+    {
+      "name": "the target now holds the corrected value",
+      "result": "PASS",
+      "expected": [
+        "alice.16d818@records.example",
+        "alice.16d818@records.example"
+      ],
+      "actual": [
+        "alice.16d818@records.example",
+        "alice.16d818@records.example"
+      ]
+    },
+    {
+      "name": "verification compares digests and records no personal value",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the corrected value is purged once its actions are settled",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "two configured systems of record leave the source of truth unresolved, and nothing is written",
+      "result": "PASS",
+      "expected": [
+        [
+          "blocked",
+          "AUTHORITATIVE_SOURCE_UNRESOLVED"
+        ],
+        [
+          "blocked",
+          "AUTHORITATIVE_SOURCE_UNRESOLVED"
+        ]
+      ],
+      "actual": [
+        [
+          "blocked",
+          "AUTHORITATIVE_SOURCE_UNRESOLVED"
+        ],
+        [
+          "blocked",
+          "AUTHORITATIVE_SOURCE_UNRESOLVED"
+        ]
+      ]
+    },
+    {
+      "name": "the run records which category had no single system of record",
+      "result": "PASS",
+      "expected": [
+        "39261fc6-4fe0-42ab-aba3-737b9d47bfce"
+      ],
+      "actual": [
+        "39261fc6-4fe0-42ab-aba3-737b9d47bfce"
+      ]
+    },
+    {
+      "name": "the targets are unchanged",
+      "result": "PASS",
+      "expected": [
+        "000",
+        "000"
+      ],
+      "actual": [
+        "000",
+        "000"
+      ]
+    }
+  ],
+  "passed": 12,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

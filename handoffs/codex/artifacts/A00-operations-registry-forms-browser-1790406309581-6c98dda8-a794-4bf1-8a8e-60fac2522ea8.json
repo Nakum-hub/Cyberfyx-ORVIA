@@ -1,0 +1,59 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:05:09.581Z",
+  "suite": "registry-forms-browser",
+  "assertions": [
+    {
+      "name": "categories, purpose and condition are created from the set-up screen",
+      "result": "PASS",
+      "expected": [
+        "Forms customer b97c4d3e",
+        "CONTACT_DETAILS",
+        1
+      ],
+      "actual": [
+        "Forms customer b97c4d3e",
+        "CONTACT_DETAILS",
+        1
+      ]
+    },
+    {
+      "name": "a condition chosen from the package vocabulary is traced, not unresolved",
+      "result": "PASS",
+      "expected": [
+        "CONSENT",
+        false,
+        true
+      ],
+      "actual": [
+        "CONSENT",
+        false,
+        true
+      ]
+    },
+    {
+      "name": "an unresolved condition is recorded with its reason",
+      "result": "PASS",
+      "expected": [
+        true,
+        "Legal review of the basis is outstanding."
+      ],
+      "actual": [
+        true,
+        "Legal review of the basis is outstanding."
+      ]
+    },
+    {
+      "name": "unexpected failure in notices",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.selectOption: Error: strict mode violation: getByRole('form', { name: 'Draft a notice version' }).getByLabel(/^Notice/) resolved to 2 elements:\n    1) <select required=\"\" name=\"notice\">…</select> aka getByLabel('Notice *Select…Service notice')\n    2) <textarea required=\"\" name=\"content\" maxlength=\"10000\"></textarea> aka getByRole('textbox', { name: 'Notice text' })\n\nCall log:\n\u001b[2m  - waiting for getByRole('form', { name: 'Draft a notice version' }).getByLabel(/^Notice/)\u001b[22m\n"
+    }
+  ],
+  "passed": 3,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
