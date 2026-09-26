@@ -84,3 +84,69 @@ Codex should review every section below. Nothing here promotes a family to accep
 | `tsx tests/e2e/expansion-screens-local.ts` | **21/21 PASS** (EX06 + EX08) |
 
 **Remaining for EX08:** actual processor outcomes beyond declarations (needs real connectors); onward-transfer checks against observed transfers (needs EX05/EX04 flow evidence); supplier link delivery by customer-controlled email (EX09).
+
+## EX10 / EX11 — policy lifecycle, issues and continuous control tests
+
+**Built**
+- Migration `0053_grc_lifecycle.sql`:
+  - `grc_policies`: versioned by `policy_key`; the text of a version is immutable, and its only allowed transitions are DRAFT→PUBLISHED and PUBLISHED→RETIRED.
+  - `grc_policy_acknowledgements`: a reader may insert only their own acknowledgement (restrictive `acknowledgement_self`).
+  - `control_tests`: `check_kind`, `maximum_violations` and `control_id` are fixed once created. Only `enabled` and `next_run_at` change.
+  - `control_test_runs`, `grc_issues`, `grc_issue_events` and `compliance_alerts` are append-only; the guard trigger refuses UPDATE and DELETE.
+  - At most one issue exists per control test (partial unique index), and at most one alert per run.
+  - RLS: STAFF with `grc.read` reads, and only writers insert (restrictive `writers_only`). The MACHINE actor reads and writes through `operations.execute`.
+  - `app.run_control_check(kind)` is SECURITY DEFINER with a fixed search_path. It reads only the transaction's scope and needs STAFF `grc.write` or MACHINE `operations.execute`. It returns a violation count and at most 10 identifiers, never record contents.
+  - The nine deterministic checks are:
+    - systems used by an activity have a connector binding;
+    - consent events have evidence;
+    - active retention rules state a period;
+    - engaged processors have an agreement in force;
+    - withdrawals have a propagation run;
+    - approved assessments are not past review;
+    - every `app` table has FORCE ROW LEVEL SECURITY;
+    - the audit append-only trigger is enabled;
+    - every control has current evidence.
+- Contract 0.32.0 adds 18 routes under `/grc/policies`, `/grc/issues`, `/grc/regulatory-framework`, `/grc/control-tests`, `/grc/compliance-alerts` and `/grc/compliance-report`. The expansion policy schemas are named `GrcPolicy*`, because `Policy*` collided with the base consent-policy schemas; the collision guard caught it.
+- Domain `backend/domain/src/grc/lifecycle.ts`:
+  - Policies:
+    - the author cannot publish their own policy;
+    - publishing a new version retires the one in force;
+    - a version may cite requirements only from the regulatory package in force;
+    - a review date is derived on publication.
+  - Issues:
+    - state is derived from events: OPEN, REMEDIATION_PLANNED, REMEDIATED, VERIFIED, RISK_ACCEPTED or ACCEPTANCE_EXPIRED;
+    - a remediation cites evidence;
+    - verification is either an independent review by an approver who is not the remediator, or a PASS run of a covering test observed after the remediation;
+    - risk acceptance needs an approver who is not the raiser and a future expiry.
+  - Control tests:
+    - on FAIL the test opens one issue; a later failure on an issue that was verified or accepted appends RECURRED;
+    - a PASS after REMEDIATED auto-verifies the issue with the run id;
+    - an alert is raised only on a change of state (DRIFT_TO_FAIL, RECOVERED, ERROR);
+    - ERROR records the SQLSTATE and is never counted as a pass;
+    - STALE means the test has not run within twice its interval.
+  - Framework import copies the in-force package's requirements into a GRC framework, labelled `test fixture` or `production`.
+  - The auditor report derives from these records: test standings, open and overdue issues, policies, and mapped versus unmapped requirements per framework. It states its limits.
+- Operations runner (`services/worker/src/operations-runner.ts`): each cycle runs due control tests as the enrolled MACHINE identity and escalates overdue issues once per due date. It also now drives the EX06 finding escalation, which previously existed only as a staff button. The report gains the fields `control_tests_run`, `compliance_alerts`, `issues_escalated` and `findings_escalated`.
+- Screen `/workspace/compliance` ("Continuous compliance" in the nav) shows:
+  - standing and framework coverage;
+  - control tests: add, run now, enable or disable, run history with observation digest, and run due tests now;
+  - alerts;
+  - issues: filter by state, raise one, and record progress, verification or risk acceptance;
+  - policies: draft, new version, publish, acknowledge, retire;
+  - framework import from the package.
+
+**Honest limits**
+- Compliance alerts are stored with `delivery_state = NOT_DELIVERED`. Delivery through customer-controlled email or webhook is EX09 (task #14) and has not been built yet.
+- Checks read only this installation's database. They do not observe external systems, and the report says so.
+- The STALE standing is computed and shown, but no suite has executed it: the run history is append-only by design, so the suite cannot age a run.
+- `issueList` with a state filter scans a bounded window of 1000 issues per page request and resumes from the last scanned row. It is correct but not indexed by state, because state is derived from events.
+
+**Executed (codex-a00, synthetic fixtures)**
+| Command | Result |
+|---|---|
+| `pnpm run contracts:generate` | 341 route examples validated, contract 0.32.0 |
+| `pnpm run typecheck` / `pnpm run lint` | clean. Lint flagged an unchecked reassignment in my EX06 test, which now asserts that `missing` is empty. |
+| `pnpm test` (unit) | 252/252 PASS |
+| `tsx tests/integration/expansion/grc-lifecycle.test.ts` | 75/75 PASS. The first attempt stopped on the test's own page limit (200 > max 100); that failed artifact is kept. It covers: a deliberately broken control (an unbound system linked to an activity) detected as FAIL→issue→one DRIFT alert; a repeat failure that neither duplicates nor alerts; verification by a run from before the remediation refused; binding the system gives PASS→RECOVERED→auto-VERIFIED; a new break gives RECURRED on the same issue; fault injection (EXECUTE revoked from `orvia_app`, then restored in `finally`) gives an explicit ERROR with `SQLSTATE_42501`, one alert and no issue; the runner's scheduled run as MACHINE, with a disabled test skipped; escalation exactly once across runner and HTTP sweeps; the auditor reading the report but refused writes; another tenant getting 404; database immutability (23514); and reader inserts refused at RLS (42501). |
+| `tsx tests/e2e/expansion-screens-local.ts` | 29/29 PASS (EX06, EX08, EX10/11). The first attempt failed on a race in the EX08 step: it waited for text in the list, then asserted on the detail table. The wait now targets the detail table, and that failed artifact is kept. |
+| impact / third-party / operations runner / consent-withdrawal suites (rerun after these changes) | 41/41, 43/43, 10/10, 38/38 PASS |

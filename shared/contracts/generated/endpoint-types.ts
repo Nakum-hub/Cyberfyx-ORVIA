@@ -316,4 +316,21 @@ export interface EndpointMap {
   create_supplier_link: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkIssued> };
   list_supplier_links: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkList> };
   revoke_supplier_link: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLink> };
+  list_grc_policies: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcPolicyList> };
+  create_grc_policy: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcPolicyCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcPolicy> };
+  decide_grc_policy: { request: import('zod').infer<typeof import('../src/index.ts').schemas.GrcPolicyDecision>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcPolicy> };
+  acknowledge_grc_policy: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcPolicy> };
+  list_grc_issues: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.IssueList> };
+  create_grc_issue: { request: import('zod').infer<typeof import('../src/index.ts').schemas.IssueCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Issue> };
+  grc_issue: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.Issue> };
+  record_grc_issue_event: { request: import('zod').infer<typeof import('../src/index.ts').schemas.IssueEventRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Issue> };
+  import_regulatory_framework: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RegulatoryFrameworkImport>; response: import('zod').infer<typeof import('../src/index.ts').schemas.GrcFramework> };
+  list_control_tests: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTestList> };
+  create_control_test: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTestCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTest> };
+  control_test: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTestDetail> };
+  run_control_test: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTestDetail> };
+  toggle_control_test: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTestToggle>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTest> };
+  control_test_sweep: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTestSweep> };
+  list_compliance_alerts: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ComplianceAlertList> };
+  compliance_report: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ComplianceReport> };
 }

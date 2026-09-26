@@ -147,7 +147,7 @@ await t.run(async () => {
     await field(f, 'Kind').selectOption('DPA'); await field(f, 'Reference').fill('DPA B-1'); await field(f, 'Permitted regions').fill('US'); await field(f, 'Evidence reference').fill('Signed copy DPA B-1');
     const agreement = await submit(admin, f, /\/processor-agreements$/, S.schemas.Agreement, 'Record an agreement');
     check('an agreement recorded on screen is in force', agreement.in_force, true);
-    await admin.getByText('Region not permitted').first().waitFor();
+    await admin.getByRole('table', { name: 'Gaps derived from recorded processing' }).getByText('Region not permitted').first().waitFor();
     check('the region gap appears on screen', await admin.getByRole('table', { name: 'Gaps derived from recorded processing' }).getByText('Region not permitted').count() > 0, true);
     f = admin.getByRole('form', { name: 'Set the risk tier' });
     await field(f, 'Tier').selectOption('HIGH'); await field(f, 'Reassess every (days)').fill('180'); await field(f, 'Reason').fill('Handles customer contact data.');
@@ -189,6 +189,61 @@ await t.run(async () => {
     await reopened.getByText('This link has expired or been revoked.').waitFor();
     check('a revoked link is refused on the supplier page', true, true);
     await supplierContext.close();
+
+    // ---------------------------------------------------------------- EX10 / EX11
+    t.setPhase('EX10/11 control test');
+    const fw = await ok(api.call('/api/v1/admin/grc/regulatory-framework', { name: `Browser DPDP ${suffix}` }, { 'idempotency-key': randomUUID() }), S.schemas.GrcFramework);
+    const ctl = await ok(api.call('/api/v1/admin/grc/controls', { title: `Browser row security ${suffix}`, description: 'Row security is forced on every application table.', owner_reference: 'Platform team', review_interval_days: 90,
+      mappings: [{ framework_id: fw.id, requirement_code: fw.requirements[0]!.code }] }, { 'idempotency-key': randomUUID() }), S.schemas.GrcControl);
+    await open(admin, '/workspace/compliance', 'Continuous compliance');
+    f = admin.getByRole('form', { name: 'Add a control test' });
+    await field(f, 'Control').selectOption(ctl.id); await field(f, 'Name').fill(`Browser RLS test ${suffix}`);
+    await field(f, 'Check').selectOption('FORCED_ROW_SECURITY'); await field(f, 'Violations allowed').fill('0'); await field(f, 'Run every (minutes)').fill('60');
+    const ct = await submit(admin, f, /\/grc\/control-tests$/, S.schemas.ControlTest, 'Add a control test');
+    check('a control test added on screen has never run', ct.standing, 'NEVER_RUN');
+    const testRow = admin.getByRole('table', { name: 'Control tests' }).getByRole('row').filter({ hasText: `Browser RLS test ${suffix}` });
+    await testRow.waitFor();
+    await testRow.getByRole('button', { name: 'Open' }).click();
+    await admin.getByRole('heading', { name: `Browser RLS test ${suffix}` }).waitFor();
+    const ran = await click(admin, admin.locator('.panel').filter({ has: admin.getByRole('heading', { name: `Browser RLS test ${suffix}` }) }), /\/runs$/, S.schemas.ControlTestDetail, 'Run now');
+    check('running it on screen records a passing manual run', [ran.status, (ran.body as { test?: { standing?: string } }).test?.standing], [200, 'PASSING']);
+    await admin.getByRole('table', { name: 'Run history' }).getByText('manual').first().waitFor();
+
+    t.setPhase('EX10 policy by two people');
+    f = admin.getByRole('form', { name: 'Draft a policy' });
+    await field(f, 'Title').fill(`Browser policy ${suffix}`); await field(f, 'Policy text').fill('Personal data is processed only for recorded purposes.');
+    await field(f, 'Owner').fill('Privacy office'); await field(f, 'Review every (days)').fill('365'); await field(f, 'Change summary').fill('Initial version from the browser.');
+    const pol = await submit(admin, f, /\/grc\/policies$/, S.schemas.GrcPolicy, 'Draft a policy');
+    check('the draft is version 1', [pol.status, pol.version], ['DRAFT', 1]);
+    await admin.reload(); await admin.waitForLoadState('networkidle');
+    check('an admin without approval authority sees no publish control', await admin.getByRole('row').filter({ hasText: `Browser policy ${suffix}` }).getByRole('button', { name: 'Publish' }).count(), 0);
+    await open(owner, '/workspace/compliance', 'Continuous compliance');
+    const pub = await click(owner, owner.getByRole('row').filter({ hasText: `Browser policy ${suffix}` }), /\/decision$/, S.schemas.GrcPolicy, 'Publish');
+    check('another person publishes it from the list', [pub.status, (pub.body as { status?: string }).status], [200, 'PUBLISHED']);
+    const ack = await click(owner, owner.getByRole('row').filter({ hasText: `Browser policy ${suffix}` }), /\/acknowledgement$/, S.schemas.GrcPolicy, 'Acknowledge');
+    check('a reader acknowledges it', [ack.status, (ack.body as { acknowledgements?: number }).acknowledgements], [200, 1]);
+
+    t.setPhase('EX10 issue remediation and review');
+    f = admin.getByRole('form', { name: 'Raise an issue' });
+    await field(f, 'Title').fill(`Browser issue ${suffix}`); await field(f, 'Severity').selectOption('HIGH'); await field(f, 'Owner').fill('IT security');
+    const iss = await submit(admin, f, /\/grc\/issues$/, S.schemas.Issue, 'Raise an issue');
+    const issueRow = () => admin.getByRole('table', { name: 'Issues' }).getByRole('row').filter({ hasText: `Browser issue ${suffix}` });
+    await issueRow().waitFor(); await issueRow().getByRole('button', { name: 'Open' }).click();
+    await admin.getByRole('heading', { name: `Browser issue ${suffix}` }).waitFor();
+    f = admin.getByRole('form', { name: 'Record progress' });
+    await field(f, 'Event').selectOption('REMEDIATED'); await field(f, 'Note').fill('Access review completed and filed.'); await field(f, 'Evidence reference').fill('Review pack AR-9');
+    const remediated = await submit(admin, f, /\/events$/, S.schemas.Issue, 'Record progress');
+    check('the issue is remediated on screen with its evidence', [remediated.id, remediated.state], [iss.id, 'REMEDIATED']);
+    await owner.reload(); await owner.waitForLoadState('networkidle');
+    const ownerIssue = owner.getByRole('table', { name: 'Issues' }).getByRole('row').filter({ hasText: `Browser issue ${suffix}` });
+    await ownerIssue.getByRole('button', { name: 'Open' }).click();
+    await owner.getByRole('heading', { name: `Browser issue ${suffix}` }).waitFor();
+    f = owner.getByRole('form', { name: 'Record progress' });
+    await field(f, 'Event').selectOption('VERIFIED'); await field(f, 'Note').fill('Reviewed the access review pack.'); await field(f, 'Evidence reference').fill('Review note RN-4');
+    await field(f, 'Verified by').selectOption('INDEPENDENT_REVIEW');
+    const verified = await submit(owner, f, /\/events$/, S.schemas.Issue, 'Record progress');
+    check('someone other than the remediator verifies it on screen', verified.state, 'VERIFIED');
+    await owner.getByRole('table', { name: 'History', exact: true }).getByText('Verified by independent review').waitFor();
 
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);

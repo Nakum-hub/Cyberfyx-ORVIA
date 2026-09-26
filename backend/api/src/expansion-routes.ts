@@ -2,6 +2,7 @@ import type { Context, Page } from '../../domain/src/shared/transaction.ts';
 import type { RouteDefinition } from '../../../shared/contracts/src/index.ts';
 import { createTemplate, publishTemplate, templateList, createAssessment, assessmentView, assessmentList, recordAnswers, submitAssessment, decideAssessment, reviseAssessment, createFinding, recordFindingEvent, escalationSweep } from '../../domain/src/assessments/impact.ts';
 import { createAgreement, terminateAgreement, agreementList, setTier, standing, standingList, createSupplierLink, revokeSupplierLink, supplierLinkList } from '../../domain/src/third-party/third-party.ts';
+import { createPolicy, decidePolicy, acknowledgePolicy, policyList, createIssue, readIssue, recordIssueEvent, issueList, importRegulatoryFramework, createControlTest, controlTestDetail, controlTestList, runControlTest, toggleControlTest, controlTestSweep, alertList, complianceReport } from '../../domain/src/grc/lifecycle.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
@@ -32,6 +33,23 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'create_supplier_link': return createSupplierLink(c, input);
     case 'list_supplier_links': return supplierLinkList(c, page, query);
     case 'revoke_supplier_link': return revokeSupplierLink(c, id!, input);
+    case 'list_grc_policies': return policyList(c, page);
+    case 'create_grc_policy': return createPolicy(c, input);
+    case 'decide_grc_policy': return decidePolicy(c, id!, input);
+    case 'acknowledge_grc_policy': return acknowledgePolicy(c, id!);
+    case 'list_grc_issues': return issueList(c, page, query);
+    case 'create_grc_issue': return createIssue(c, input);
+    case 'grc_issue': return readIssue(c, id!);
+    case 'record_grc_issue_event': return recordIssueEvent(c, id!, input);
+    case 'import_regulatory_framework': return importRegulatoryFramework(c, input);
+    case 'list_control_tests': return controlTestList(c, page);
+    case 'create_control_test': return createControlTest(c, input);
+    case 'control_test': return controlTestDetail(c, id!);
+    case 'run_control_test': return runControlTest(c, id!);
+    case 'toggle_control_test': return toggleControlTest(c, id!, input);
+    case 'control_test_sweep': return controlTestSweep(c);
+    case 'list_compliance_alerts': return alertList(c, page);
+    case 'compliance_report': return complianceReport(c);
     default: return undefined;
   }
 }

@@ -177,6 +177,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/processors', label: 'Processors' },
     { href: '/workspace/ai-governance', label: 'AI governance' },
     { href: '/workspace/grc', label: 'Frameworks & controls' },
+    { href: '/workspace/compliance', label: 'Continuous compliance' },
     { href: '/workspace/assessments', label: 'Processor assessments' },
     { href: '/workspace/impact-assessments', label: 'Impact assessments' },
     { href: '/workspace/third-parties', label: 'Third parties' },

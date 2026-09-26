@@ -132,10 +132,76 @@ export const SupplierQuestionnaire = z.strictObject({
 });
 export const SupplierAnswers = ImpactAnswersRecord;
 
+// EX10 policy lifecycle and issues; EX11 continuous control tests ----------------
+export const GrcPolicyCreate = z.strictObject({
+  policy_key: Id.nullable(), title: z.string().min(3).max(160), body: z.string().min(20).max(50000), owner_reference: SafeText,
+  review_interval_days: z.number().int().min(30).max(1095), control_ids: z.array(Id).max(100), requirement_ids: z.array(z.string().max(80)).max(50), change_summary: z.string().min(10).max(500),
+});
+export const GrcPolicy = z.strictObject({
+  id: Id, policy_key: Id, version: z.number().int().positive(), title: z.string().max(160), body: z.string().max(50000), owner_reference: SafeText, review_interval_days: z.number().int(),
+  control_ids: z.array(Id).max(100), requirement_ids: z.array(z.string().max(80)).max(50), change_summary: SafeText, status: z.enum(['DRAFT', 'PUBLISHED', 'RETIRED']),
+  recorded_by: Id, recorded_at: Time, approved_by: Id.nullable(), published_at: Time.nullable(), retired_at: Time.nullable(), next_review_at: Time.nullable(),
+  review_due: z.boolean(), acknowledgements: z.number().int().min(0), acknowledged_by_me: z.boolean(),
+});
+export const GrcPolicyDecision = z.strictObject({ action: z.enum(['PUBLISH', 'RETIRE']) });
+export const IssueSeverity = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
+export const IssueSourceKind = z.enum(['MANUAL', 'AUDIT_REQUEST', 'CONTROL_TEST', 'IMPACT_FINDING', 'POLICY_REVIEW']);
+export const IssueCreate = z.strictObject({
+  source_kind: IssueSourceKind.exclude(['CONTROL_TEST']), source_id: Id.nullable(), title: z.string().min(3).max(300), severity: IssueSeverity,
+  owner_reference: SafeText, due_at: Time, control_id: Id.nullable(), risk_id: Id.nullable(),
+}).superRefine((i, c) => { if ((i.source_kind === 'MANUAL') !== (i.source_id === null)) c.addIssue({ code: 'custom', path: ['source_id'], message: 'Only a manual issue has no source; every other names it' }); });
+export const IssueEventRecord = z.strictObject({
+  kind: z.enum(['REMEDIATION_PLANNED', 'REMEDIATED', 'VERIFIED', 'RISK_ACCEPTED', 'REOPENED']), note: z.string().min(10).max(1000), evidence_reference: Reference.nullable(),
+  verification_method: z.enum(['CONTROL_TEST', 'INDEPENDENT_REVIEW']).nullable(), control_test_run_id: Id.nullable(), acceptance_expires_at: Time.nullable(),
+}).superRefine((e, c) => {
+  if ((e.kind === 'VERIFIED') !== (e.verification_method !== null)) c.addIssue({ code: 'custom', path: ['verification_method'], message: 'A verification states how it was verified, and only a verification does' });
+  if (e.verification_method === 'CONTROL_TEST' && e.control_test_run_id === null) c.addIssue({ code: 'custom', path: ['control_test_run_id'], message: 'A control-test verification names the passing run' });
+  if ((e.kind === 'RISK_ACCEPTED') !== (e.acceptance_expires_at !== null)) c.addIssue({ code: 'custom', path: ['acceptance_expires_at'], message: 'Only a risk acceptance expires, and it always does' });
+  if (e.kind === 'REMEDIATED' && e.evidence_reference === null) c.addIssue({ code: 'custom', path: ['evidence_reference'], message: 'A remediation cites its evidence' });
+});
+export const IssueEvent = z.strictObject({ id: Id, kind: z.enum(['REMEDIATION_PLANNED', 'REMEDIATED', 'VERIFIED', 'RISK_ACCEPTED', 'REOPENED', 'ESCALATED', 'RECURRED']), note: z.string().max(1000),
+  evidence_reference: SafeText.nullable(), verification_method: z.enum(['CONTROL_TEST', 'INDEPENDENT_REVIEW']).nullable(), control_test_run_id: Id.nullable(), acceptance_expires_at: Time.nullable(), actor_id: Id, recorded_at: Time });
+export const IssueState = z.enum(['OPEN', 'REMEDIATION_PLANNED', 'REMEDIATED', 'VERIFIED', 'RISK_ACCEPTED', 'ACCEPTANCE_EXPIRED']);
+export const Issue = z.strictObject({
+  id: Id, source_kind: IssueSourceKind, source_id: Id.nullable(), title: z.string().max(300), severity: IssueSeverity, owner_reference: SafeText, due_at: Time,
+  control_id: Id.nullable(), risk_id: Id.nullable(), state: IssueState, overdue: z.boolean(), events: z.array(IssueEvent).max(200), created_by: Id, created_at: Time,
+});
+export const IssueQuery = z.strictObject({ state: IssueState.optional(), source_kind: IssueSourceKind.optional() });
+export const ControlCheckKind = z.enum(['SYSTEMS_HAVE_CONNECTOR_BINDING', 'CONSENT_EVENTS_HAVE_EVIDENCE', 'RETENTION_RULES_SOURCED', 'PROCESSORS_HAVE_AGREEMENT',
+  'WITHDRAWALS_PROPAGATED', 'ASSESSMENTS_CURRENT', 'FORCED_ROW_SECURITY', 'AUDIT_TRAIL_APPEND_ONLY', 'GRC_EVIDENCE_CURRENT']);
+export const ControlTestCreate = z.strictObject({ control_id: Id, name: z.string().min(3).max(160), check_kind: ControlCheckKind, maximum_violations: z.number().int().min(0).max(100000), interval_minutes: z.number().int().min(5).max(43200) });
+export const ControlTestRun = z.strictObject({
+  id: Id, test_id: Id, trigger: z.enum(['SCHEDULE', 'MANUAL']), result: z.enum(['PASS', 'FAIL', 'ERROR']), violations: z.number().int().nullable(),
+  /** Identifiers (or table names) of up to ten offending records; never record contents. */
+  sample: z.array(z.string().max(120)).max(10), error_code: z.string().max(80).nullable(), observation_digest: z.string().max(64).nullable(), actor_id: Id, observed_at: Time,
+});
+export const ControlTestStanding = z.enum(['PASSING', 'FAILING', 'ERROR', 'STALE', 'NEVER_RUN', 'DISABLED']);
+export const ControlTest = z.strictObject({
+  id: Id, control_id: Id, name: z.string().max(160), check_kind: ControlCheckKind, maximum_violations: z.number().int(), interval_minutes: z.number().int(), enabled: z.boolean(),
+  next_run_at: Time, created_by: Id, created_at: Time, latest_run: ControlTestRun.nullable(), standing: ControlTestStanding, open_issue_id: Id.nullable(),
+});
+export const ControlTestDetail = z.strictObject({ test: ControlTest, runs: z.array(ControlTestRun).max(100) });
+export const ControlTestToggle = z.strictObject({ enabled: z.boolean() });
+export const ComplianceAlert = z.strictObject({ id: Id, test_id: Id, run_id: Id, kind: z.enum(['DRIFT_TO_FAIL', 'RECOVERED', 'ERROR']), detail: z.string().max(500), created_at: Time, delivery_state: z.literal('NOT_DELIVERED') });
+export const ControlTestSweep = z.strictObject({ ran: z.number().int().min(0), failing: z.number().int().min(0), errors: z.number().int().min(0), alerts: z.number().int().min(0), issues_escalated: z.number().int().min(0) });
+export const ComplianceReport = z.strictObject({
+  as_of: Time,
+  summary: z.strictObject({ tests: z.number().int(), passing: z.number().int(), failing: z.number().int(), error: z.number().int(), stale: z.number().int(), never_run: z.number().int(), disabled: z.number().int(),
+    open_issues: z.number().int(), overdue_issues: z.number().int(), policies_published: z.number().int(), policies_review_due: z.number().int() }),
+  frameworks: z.array(z.strictObject({ framework_id: Id, name: SafeText, version: z.string().max(80), requirements: z.number().int(), requirements_mapped: z.number().int(), unmapped_codes: z.array(z.string().max(80)).max(100) })).max(100),
+  controls: z.array(z.strictObject({ control_id: Id, title: SafeText, requirements: z.array(z.string().max(200)).max(100), tests: z.array(z.strictObject({ test_id: Id, name: z.string().max(160), standing: ControlTestStanding, last_observed_at: Time.nullable() })).max(50),
+    open_issues: z.number().int() })).max(100),
+  /** Stated on every report: tests examine this installation's records only. */
+  limits: z.array(z.string().max(300)).max(10),
+});
+export const RegulatoryFrameworkImport = z.strictObject({ name: z.string().min(3).max(120) });
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
   ImpactAssessmentDetail, ImpactAssessmentSummary, ImpactAssessmentList: page(ImpactAssessmentSummary), ImpactAssessmentQuery, ImpactEscalationSweep,
   AgreementCreate, Agreement, AgreementList: page(Agreement), AgreementTerminate, AgreementQuery, TierSet, Tier, ThirdPartyViolation, ThirdPartyStanding, ThirdPartySummary, ThirdPartySummaryList: page(ThirdPartySummary),
   SupplierLinkCreate, SupplierLink, SupplierLinkList: page(SupplierLink), SupplierLinkIssued, SupplierLinkRevoke, SupplierLinkQuery, SupplierQuestionnaire, SupplierAnswers,
+  GrcPolicyCreate, GrcPolicy, GrcPolicyList: page(GrcPolicy), GrcPolicyDecision, IssueCreate, IssueEventRecord, Issue, IssueList: page(Issue), IssueQuery,
+  ControlTestCreate, ControlTest, ControlTestList: page(ControlTest), ControlTestDetail, ControlTestRun, ControlTestToggle, ComplianceAlert, ComplianceAlertList: page(ComplianceAlert), ControlTestSweep, ComplianceReport, RegulatoryFrameworkImport,
 };

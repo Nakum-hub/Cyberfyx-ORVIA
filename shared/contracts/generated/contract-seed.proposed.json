@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.31.0",
+  "contract_version": "0.32.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -3477,6 +3477,188 @@
       "idempotency": true,
       "capability": "processor.write",
       "params": "IdPath"
+    },
+    {
+      "id": "list_grc_policies",
+      "method": "get",
+      "path": "/api/v1/admin/grc/policies",
+      "authority": "STAFF",
+      "response": "GrcPolicyList",
+      "status": 200,
+      "paginated": true,
+      "capability": "grc.read"
+    },
+    {
+      "id": "create_grc_policy",
+      "method": "post",
+      "path": "/api/v1/admin/grc/policies",
+      "authority": "STAFF",
+      "request": "GrcPolicyCreate",
+      "response": "GrcPolicy",
+      "status": 201,
+      "idempotency": true,
+      "capability": "grc.write"
+    },
+    {
+      "id": "decide_grc_policy",
+      "method": "post",
+      "path": "/api/v1/admin/grc/policies/{id}/decision",
+      "authority": "STAFF",
+      "request": "GrcPolicyDecision",
+      "response": "GrcPolicy",
+      "status": 200,
+      "idempotency": true,
+      "capability": "grc.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "acknowledge_grc_policy",
+      "method": "post",
+      "path": "/api/v1/admin/grc/policies/{id}/acknowledgement",
+      "authority": "STAFF",
+      "response": "GrcPolicy",
+      "status": 200,
+      "idempotency": true,
+      "capability": "grc.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_grc_issues",
+      "method": "get",
+      "path": "/api/v1/admin/grc/issues",
+      "authority": "STAFF",
+      "response": "IssueList",
+      "status": 200,
+      "paginated": true,
+      "capability": "grc.read",
+      "query": "IssueQuery"
+    },
+    {
+      "id": "create_grc_issue",
+      "method": "post",
+      "path": "/api/v1/admin/grc/issues",
+      "authority": "STAFF",
+      "request": "IssueCreate",
+      "response": "Issue",
+      "status": 201,
+      "idempotency": true,
+      "capability": "grc.write"
+    },
+    {
+      "id": "grc_issue",
+      "method": "get",
+      "path": "/api/v1/admin/grc/issues/{id}",
+      "authority": "STAFF",
+      "response": "Issue",
+      "status": 200,
+      "capability": "grc.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "record_grc_issue_event",
+      "method": "post",
+      "path": "/api/v1/admin/grc/issues/{id}/events",
+      "authority": "STAFF",
+      "request": "IssueEventRecord",
+      "response": "Issue",
+      "status": 201,
+      "idempotency": true,
+      "capability": "grc.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "import_regulatory_framework",
+      "method": "post",
+      "path": "/api/v1/admin/grc/regulatory-framework",
+      "authority": "STAFF",
+      "request": "RegulatoryFrameworkImport",
+      "response": "GrcFramework",
+      "status": 201,
+      "idempotency": true,
+      "capability": "grc.write"
+    },
+    {
+      "id": "list_control_tests",
+      "method": "get",
+      "path": "/api/v1/admin/grc/control-tests",
+      "authority": "STAFF",
+      "response": "ControlTestList",
+      "status": 200,
+      "paginated": true,
+      "capability": "grc.read"
+    },
+    {
+      "id": "create_control_test",
+      "method": "post",
+      "path": "/api/v1/admin/grc/control-tests",
+      "authority": "STAFF",
+      "request": "ControlTestCreate",
+      "response": "ControlTest",
+      "status": 201,
+      "idempotency": true,
+      "capability": "grc.write"
+    },
+    {
+      "id": "control_test",
+      "method": "get",
+      "path": "/api/v1/admin/grc/control-tests/{id}",
+      "authority": "STAFF",
+      "response": "ControlTestDetail",
+      "status": 200,
+      "capability": "grc.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "run_control_test",
+      "method": "post",
+      "path": "/api/v1/admin/grc/control-tests/{id}/runs",
+      "authority": "STAFF",
+      "response": "ControlTestDetail",
+      "status": 200,
+      "idempotency": true,
+      "capability": "grc.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "toggle_control_test",
+      "method": "post",
+      "path": "/api/v1/admin/grc/control-tests/{id}/enabled",
+      "authority": "STAFF",
+      "request": "ControlTestToggle",
+      "response": "ControlTest",
+      "status": 200,
+      "idempotency": true,
+      "capability": "grc.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "control_test_sweep",
+      "method": "post",
+      "path": "/api/v1/admin/grc/control-tests/sweep",
+      "authority": "STAFF",
+      "response": "ControlTestSweep",
+      "status": 200,
+      "idempotency": true,
+      "capability": "grc.write"
+    },
+    {
+      "id": "list_compliance_alerts",
+      "method": "get",
+      "path": "/api/v1/admin/grc/compliance-alerts",
+      "authority": "STAFF",
+      "response": "ComplianceAlertList",
+      "status": 200,
+      "paginated": true,
+      "capability": "grc.read"
+    },
+    {
+      "id": "compliance_report",
+      "method": "get",
+      "path": "/api/v1/admin/grc/compliance-report",
+      "authority": "STAFF",
+      "response": "ComplianceReport",
+      "status": 200,
+      "capability": "grc.read"
     },
     {
       "id": "supplier_questionnaire",

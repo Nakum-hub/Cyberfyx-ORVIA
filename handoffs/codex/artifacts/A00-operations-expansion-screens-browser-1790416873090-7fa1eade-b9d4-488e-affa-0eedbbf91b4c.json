@@ -1,0 +1,179 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T10:01:13.090Z",
+  "suite": "expansion-screens-browser",
+  "assertions": [
+    {
+      "name": "a template authored in the builder is recorded as a draft with its questions",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ],
+      "actual": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "an organisation admin sees no publish control",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a super admin who did not author it publishes it from the list",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PUBLISHED"
+      ],
+      "actual": [
+        200,
+        "PUBLISHED"
+      ]
+    },
+    {
+      "name": "an answer without required evidence is named as missing on screen",
+      "result": "PASS",
+      "expected": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ],
+      "actual": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ]
+    },
+    {
+      "name": "after saving, the form shows the stored answer rather than clearing it",
+      "result": "PASS",
+      "expected": "YES",
+      "actual": "YES"
+    },
+    {
+      "name": "with evidence nothing is missing",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "submission raises the answer-rule finding",
+      "result": "PASS",
+      "expected": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ],
+      "actual": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ]
+    },
+    {
+      "name": "the screen cannot approve while a finding is unresolved",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a second person accepts the risk with an expiry",
+      "result": "PASS",
+      "expected": [
+        "RISK_ACCEPTED",
+        false
+      ],
+      "actual": [
+        "RISK_ACCEPTED",
+        false
+      ]
+    },
+    {
+      "name": "an independent reviewer approves on screen",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        true
+      ],
+      "actual": [
+        "APPROVED",
+        true
+      ]
+    },
+    {
+      "name": "a retest is revision 2 with answers carried forward",
+      "result": "PASS",
+      "expected": [
+        2,
+        "fdf434c1-97ea-49e5-92ed-19b556b29fcc",
+        true
+      ],
+      "actual": [
+        2,
+        "fdf434c1-97ea-49e5-92ed-19b556b29fcc",
+        true
+      ]
+    },
+    {
+      "name": "the approved revision is still approved until its retest is approved",
+      "result": "PASS",
+      "expected": "APPROVED",
+      "actual": "APPROVED"
+    },
+    {
+      "name": "an agreement recorded on screen is in force",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the region gap appears on screen",
+      "result": "FAIL",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "name": "unexpected failure in EX08 agreement and gaps",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the region gap appears on screen"
+    }
+  ],
+  "passed": 13,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

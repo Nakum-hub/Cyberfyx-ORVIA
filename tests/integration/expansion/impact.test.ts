@@ -45,6 +45,7 @@ await t.run(async () => {
   let a = await ok(admin.call(`/api/v1/admin/impact-assessments/${created.id}/answers`, { answers: [{ question_key: 'shares_data', value: 'YES', evidence_reference: null }, { question_key: 'purpose', value: 'Order fulfilment for customers.', evidence_reference: null }] }, key()), Detail);
   check('an answer without the evidence its question requires is still missing', a.missing, [{ question_key: 'shares_data', reason: 'EVIDENCE_MISSING' }]);
   a = await ok(admin.call(`/api/v1/admin/impact-assessments/${created.id}/answers`, { answers: [{ question_key: 'shares_data', value: 'YES', evidence_reference: 'Data-flow register DF-7' }] }, key()), Detail);
+  check('the cited evidence completes the answers', a.missing, []);
   a = await ok(admin.call(`/api/v1/admin/impact-assessments/${created.id}/submission`, {}, key()), Detail);
   check('submission raises one finding from the answer rule, which blocks approval', [a.status, a.findings.length, a.findings[0]?.source, a.findings[0]?.severity, a.findings[0]?.blocks_approval], ['SUBMITTED', 1, 'ANSWER_RULE', 'HIGH', true]);
   check('answers cannot change after submission', (await admin.call(`/api/v1/admin/impact-assessments/${created.id}/answers`, { answers: [{ question_key: 'shares_data', value: 'NO', evidence_reference: 'x-ref' }] }, key())).status, 409);

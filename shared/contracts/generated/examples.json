@@ -9779,6 +9779,435 @@
       }
     },
     {
+      "operation_id": "list_grc_policies",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/policies",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_grc_policy",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/policies",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "policy_key": null,
+        "title": "Synthetic example",
+        "body": "Synthetic examplexxx",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": 30,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000237",
+        "policy_key": "00000000-0000-4000-8000-000000000238",
+        "version": 1,
+        "title": "Synthetic example",
+        "body": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": -9007199254740991,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example",
+        "status": "DRAFT",
+        "recorded_by": "00000000-0000-4000-8000-000000000239",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "published_at": null,
+        "retired_at": null,
+        "next_review_at": null,
+        "review_due": false,
+        "acknowledgements": 0,
+        "acknowledged_by_me": false
+      }
+    },
+    {
+      "operation_id": "decide_grc_policy",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/policies/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "action": "PUBLISH"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000023a",
+        "policy_key": "00000000-0000-4000-8000-00000000023b",
+        "version": 1,
+        "title": "Synthetic example",
+        "body": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": -9007199254740991,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example",
+        "status": "DRAFT",
+        "recorded_by": "00000000-0000-4000-8000-00000000023c",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "published_at": null,
+        "retired_at": null,
+        "next_review_at": null,
+        "review_due": false,
+        "acknowledgements": 0,
+        "acknowledged_by_me": false
+      }
+    },
+    {
+      "operation_id": "acknowledge_grc_policy",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/policies/{id}/acknowledgement",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000023d",
+        "policy_key": "00000000-0000-4000-8000-00000000023e",
+        "version": 1,
+        "title": "Synthetic example",
+        "body": "Synthetic example",
+        "owner_reference": "Synthetic example",
+        "review_interval_days": -9007199254740991,
+        "control_ids": [],
+        "requirement_ids": [],
+        "change_summary": "Synthetic example",
+        "status": "DRAFT",
+        "recorded_by": "00000000-0000-4000-8000-00000000023f",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "published_at": null,
+        "retired_at": null,
+        "next_review_at": null,
+        "review_due": false,
+        "acknowledgements": 0,
+        "acknowledged_by_me": false
+      }
+    },
+    {
+      "operation_id": "list_grc_issues",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/issues",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_grc_issue",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/issues",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000240",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000241",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "grc_issue",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/issues/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000242",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000243",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "record_grc_issue_event",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/issues/{id}/events",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "REMEDIATION_PLANNED",
+        "note": "Synthetic example",
+        "evidence_reference": null,
+        "verification_method": null,
+        "control_test_run_id": null,
+        "acceptance_expires_at": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000244",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "title": "Synthetic example",
+        "severity": "LOW",
+        "owner_reference": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "control_id": null,
+        "risk_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000245",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "import_regulatory_framework",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/regulatory-framework",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "name": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "name": "Synthetic example",
+        "version": "Synthetic example",
+        "source_reference": "Synthetic example",
+        "requirements": [
+          {
+            "code": "Synthetic example",
+            "description": "Synthetic example"
+          }
+        ],
+        "id": "00000000-0000-4000-8000-000000000246",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "recorded_by": "00000000-0000-4000-8000-000000000247"
+      }
+    },
+    {
+      "operation_id": "list_control_tests",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/control-tests",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_control_test",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "control_id": "00000000-0000-4000-8000-000000000248",
+        "name": "Synthetic example",
+        "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+        "maximum_violations": 0,
+        "interval_minutes": 5
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000249",
+        "control_id": "00000000-0000-4000-8000-00000000024a",
+        "name": "Synthetic example",
+        "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+        "maximum_violations": -9007199254740991,
+        "interval_minutes": -9007199254740991,
+        "enabled": false,
+        "next_run_at": "2026-09-16T10:00:00.000Z",
+        "created_by": "00000000-0000-4000-8000-00000000024b",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "latest_run": null,
+        "standing": "PASSING",
+        "open_issue_id": null
+      }
+    },
+    {
+      "operation_id": "control_test",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/control-tests/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "test": {
+          "id": "00000000-0000-4000-8000-00000000024c",
+          "control_id": "00000000-0000-4000-8000-00000000024d",
+          "name": "Synthetic example",
+          "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+          "maximum_violations": -9007199254740991,
+          "interval_minutes": -9007199254740991,
+          "enabled": false,
+          "next_run_at": "2026-09-16T10:00:00.000Z",
+          "created_by": "00000000-0000-4000-8000-00000000024e",
+          "created_at": "2026-09-16T10:00:00.000Z",
+          "latest_run": null,
+          "standing": "PASSING",
+          "open_issue_id": null
+        },
+        "runs": []
+      }
+    },
+    {
+      "operation_id": "run_control_test",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests/{id}/runs",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "test": {
+          "id": "00000000-0000-4000-8000-00000000024f",
+          "control_id": "00000000-0000-4000-8000-000000000250",
+          "name": "Synthetic example",
+          "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+          "maximum_violations": -9007199254740991,
+          "interval_minutes": -9007199254740991,
+          "enabled": false,
+          "next_run_at": "2026-09-16T10:00:00.000Z",
+          "created_by": "00000000-0000-4000-8000-000000000251",
+          "created_at": "2026-09-16T10:00:00.000Z",
+          "latest_run": null,
+          "standing": "PASSING",
+          "open_issue_id": null
+        },
+        "runs": []
+      }
+    },
+    {
+      "operation_id": "toggle_control_test",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests/{id}/enabled",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "enabled": false
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000252",
+        "control_id": "00000000-0000-4000-8000-000000000253",
+        "name": "Synthetic example",
+        "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
+        "maximum_violations": -9007199254740991,
+        "interval_minutes": -9007199254740991,
+        "enabled": false,
+        "next_run_at": "2026-09-16T10:00:00.000Z",
+        "created_by": "00000000-0000-4000-8000-000000000254",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "latest_run": null,
+        "standing": "PASSING",
+        "open_issue_id": null
+      }
+    },
+    {
+      "operation_id": "control_test_sweep",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/control-tests/sweep",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "ran": 0,
+        "failing": 0,
+        "errors": 0,
+        "alerts": 0,
+        "issues_escalated": 0
+      }
+    },
+    {
+      "operation_id": "list_compliance_alerts",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/compliance-alerts",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "compliance_report",
+      "method": "GET",
+      "path": "/api/v1/admin/grc/compliance-report",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "summary": {
+          "tests": -9007199254740991,
+          "passing": -9007199254740991,
+          "failing": -9007199254740991,
+          "error": -9007199254740991,
+          "stale": -9007199254740991,
+          "never_run": -9007199254740991,
+          "disabled": -9007199254740991,
+          "open_issues": -9007199254740991,
+          "overdue_issues": -9007199254740991,
+          "policies_published": -9007199254740991,
+          "policies_review_due": -9007199254740991
+        },
+        "frameworks": [],
+        "controls": [],
+        "limits": []
+      }
+    },
+    {
       "operation_id": "supplier_questionnaire",
       "method": "GET",
       "path": "/api/v1/supplier/questionnaire",
@@ -9824,8 +10253,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000237",
-        "environment_id": "00000000-0000-4000-8000-000000000238",
+        "installation_id": "00000000-0000-4000-8000-000000000255",
+        "environment_id": "00000000-0000-4000-8000-000000000256",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -9842,9 +10271,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000239",
+        "command_id": "00000000-0000-4000-8000-000000000257",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000023a",
+        "attempt_id": "00000000-0000-4000-8000-000000000258",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -9852,7 +10281,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-00000000023b",
+        "operation_id": "00000000-0000-4000-8000-000000000259",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -9865,10 +10294,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-00000000023c",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000023d",
-        "purpose_id": "00000000-0000-4000-8000-00000000023e",
-        "system_id": "00000000-0000-4000-8000-00000000023f",
+        "attempt_id": "00000000-0000-4000-8000-00000000025a",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000025b",
+        "purpose_id": "00000000-0000-4000-8000-00000000025c",
+        "system_id": "00000000-0000-4000-8000-00000000025d",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -9941,9 +10370,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000240",
+        "command_id": "00000000-0000-4000-8000-00000000025e",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000241",
+        "attempt_id": "00000000-0000-4000-8000-00000000025f",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -9958,7 +10387,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000242",
+        "resource_id": "00000000-0000-4000-8000-000000000260",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -9973,9 +10402,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000243",
+        "command_id": "00000000-0000-4000-8000-000000000261",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000244",
+        "attempt_id": "00000000-0000-4000-8000-000000000262",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
