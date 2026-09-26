@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.36.0",
+  "contract_version": "0.37.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4148,6 +4148,129 @@
       "idempotency": true,
       "capability": "notification.manage",
       "params": "IdPath"
+    },
+    {
+      "id": "list_cmp_sites",
+      "method": "get",
+      "path": "/api/v1/admin/cmp-sites",
+      "authority": "STAFF",
+      "response": "CmpSiteList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.read"
+    },
+    {
+      "id": "create_cmp_site",
+      "method": "post",
+      "path": "/api/v1/admin/cmp-sites",
+      "authority": "STAFF",
+      "request": "CmpSiteCreate",
+      "response": "CmpSite",
+      "status": 201,
+      "idempotency": true,
+      "capability": "registry.write"
+    },
+    {
+      "id": "enable_cmp_site",
+      "method": "post",
+      "path": "/api/v1/admin/cmp-sites/{id}/enable",
+      "authority": "STAFF",
+      "response": "CmpSite",
+      "status": 200,
+      "idempotency": true,
+      "capability": "connection.enable",
+      "params": "IdPath"
+    },
+    {
+      "id": "disable_cmp_site",
+      "method": "post",
+      "path": "/api/v1/admin/cmp-sites/{id}/disable",
+      "authority": "STAFF",
+      "response": "CmpSite",
+      "status": 200,
+      "idempotency": true,
+      "capability": "registry.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_cmp_configs",
+      "method": "get",
+      "path": "/api/v1/admin/cmp-sites/{id}/configs",
+      "authority": "STAFF",
+      "response": "CmpConfigList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "create_cmp_config",
+      "method": "post",
+      "path": "/api/v1/admin/cmp-sites/{id}/configs",
+      "authority": "STAFF",
+      "request": "CmpConfigCreate",
+      "response": "CmpConfig",
+      "status": 201,
+      "idempotency": true,
+      "capability": "registry.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "decide_cmp_config",
+      "method": "post",
+      "path": "/api/v1/admin/cmp-configs/{id}/decision",
+      "authority": "STAFF",
+      "request": "CmpConfigDecision",
+      "response": "CmpConfig",
+      "status": 200,
+      "idempotency": true,
+      "capability": "operations.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "cmp_consent_stats",
+      "method": "get",
+      "path": "/api/v1/admin/cmp-sites/{id}/consent-stats",
+      "authority": "STAFF",
+      "response": "CmpConsentStats",
+      "status": 200,
+      "capability": "registry.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_cmp_scans",
+      "method": "get",
+      "path": "/api/v1/admin/cmp-sites/{id}/scans",
+      "authority": "STAFF",
+      "response": "CmpScanList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "request_cmp_scan",
+      "method": "post",
+      "path": "/api/v1/admin/cmp-sites/{id}/scans",
+      "authority": "STAFF",
+      "request": "CmpScanRequest",
+      "response": "CmpScan",
+      "status": 201,
+      "idempotency": true,
+      "capability": "registry.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "record_cmp_consent",
+      "method": "post",
+      "path": "/api/v1/cmp/{id}/consents",
+      "authority": "PUBLIC",
+      "params": "IdPath",
+      "request": "CmpConsentSubmit",
+      "response": "CmpConsentReceipt",
+      "status": 201,
+      "capability": "cmp.record",
+      "maximum_body_bytes": 4096
     },
     {
       "id": "supplier_questionnaire",

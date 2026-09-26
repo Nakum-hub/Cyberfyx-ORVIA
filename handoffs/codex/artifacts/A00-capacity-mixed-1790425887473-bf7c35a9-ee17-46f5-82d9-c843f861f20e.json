@@ -1,0 +1,82 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T12:31:27.473Z",
+  "profile": "codex-a00",
+  "scratch_database_dropped": true,
+  "seconds": 45,
+  "clients": 16,
+  "seeded": {
+    "audit_events": 1000000,
+    "principal_references": 100000,
+    "rights_requests": 200000
+  },
+  "timings": {
+    "schema_ms": 2512,
+    "seed_ms": 28131,
+    "database_bytes": 611033615
+  },
+  "operations_per_second": 4,
+  "operations": {
+    "list_requests": {
+      "count": 106,
+      "per_second": 2,
+      "p50_ms": 685.1,
+      "p95_ms": 4886.1,
+      "p99_ms": 7839.6,
+      "max_ms": 7890.2
+    },
+    "read_request": {
+      "count": 72,
+      "per_second": 1,
+      "p50_ms": 105.4,
+      "p95_ms": 1142,
+      "p99_ms": 2741.7,
+      "max_ms": 2741.7
+    },
+    "list_audit": {
+      "count": 34,
+      "per_second": 1,
+      "p50_ms": 5449.3,
+      "p95_ms": 9359,
+      "p99_ms": 9525.4,
+      "max_ms": 9525.4
+    },
+    "write_request": {
+      "count": 26,
+      "per_second": 0,
+      "p50_ms": 79,
+      "p95_ms": 1611.4,
+      "p99_ms": 3311.1,
+      "max_ms": 3311.1
+    },
+    "write_audit": {
+      "count": 41,
+      "per_second": 1,
+      "p50_ms": 110.9,
+      "p95_ms": 756.2,
+      "p99_ms": 807.3,
+      "max_ms": 807.3
+    },
+    "export_chunk": {
+      "count": 6,
+      "per_second": 0,
+      "p50_ms": 5178.1,
+      "p95_ms": 8818.4,
+      "p99_ms": 8818.4,
+      "max_ms": 8818.4
+    }
+  },
+  "errors": {
+    "list_audit:ERROR": 16,
+    "export_chunk:ERROR": 5,
+    "list_requests:ERROR": 6,
+    "write_request:ERROR": 1,
+    "read_request:ERROR": 1
+  },
+  "path": "orvia_app role with scoped settings and forced row-level security, as request handlers run",
+  "limits": [
+    "Diagnostic evidence on this development host with synthetic rows in one scope. It is not a capacity qualification: that needs the declared deployment hardware, representative data distribution and agreed service targets.",
+    "HTTP, authentication and policy decision time are not included; they add to each operation."
+  ]
+}

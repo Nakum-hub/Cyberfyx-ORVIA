@@ -374,6 +374,44 @@ export const OutboundMessage = z.strictObject({
   attempts: z.array(z.strictObject({ attempt: z.number().int(), started_at: Time, finished_at: Time, outcome: z.enum(['SENT', 'FAILED', 'UNKNOWN']), response_code: z.string().max(20).nullable(), receipt: z.string().max(300).nullable(), error_code: z.string().max(60).nullable(), possible_duplicate: z.boolean() })).max(5),
 });
 
+// EX02 website consent management ------------------------------------------------
+const CmpKey = z.string().regex(/^[a-z][a-z_]{1,30}$/);
+const HostPattern = z.string().regex(/^(\*\.)?[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*(:\d{1,5})?$/);
+export const CmpOrigin = z.string().regex(/^(https:\/\/[a-z0-9.-]+(:\d{1,5})?|http:\/\/(127\.0\.0\.1|localhost)(:\d{1,5})?)$/);
+export const CmpTexts = z.strictObject({ title: z.string().min(3).max(120), body: z.string().min(20).max(2000), accept_all: z.string().min(2).max(40), reject_all: z.string().min(2).max(40), choose: z.string().min(2).max(40), save: z.string().min(2).max(40) });
+export const CmpConfigDocument = z.strictObject({
+  categories: z.array(z.strictObject({ key: CmpKey, label: z.string().min(2).max(60), description: z.string().min(10).max(500), required: z.boolean() })).min(2).max(10),
+  trackers: z.array(z.strictObject({ name: z.string().min(2).max(120), category: CmpKey, hosts: z.array(HostPattern).max(20), cookies: z.array(z.string().regex(/^[A-Za-z0-9_.-]{1,60}\*?$/)).max(20) })).max(100),
+  texts: z.record(z.string().regex(/^[a-z]{2}(-[A-Z]{2})?$/), CmpTexts).refine(t => 'en' in t, 'English text is required'),
+  /** Where the opt-in rule comes from. A rule without a source is not a rule. */
+  rule: z.strictObject({ basis: z.literal('OPT_IN'), requirement_id: z.string().max(80).nullable(), source_reference: z.string().min(5).max(300), honour_gpc: z.boolean() }),
+}).superRefine((d, c) => {
+  const keys = d.categories.map(x => x.key);
+  if (new Set(keys).size !== keys.length) c.addIssue({ code: 'custom', path: ['categories'], message: 'Category keys are unique' });
+  if (d.categories.filter(x => x.required).length !== 1) c.addIssue({ code: 'custom', path: ['categories'], message: 'Exactly one category is strictly necessary' });
+  for (const [i, t] of d.trackers.entries()) if (!keys.includes(t.category)) c.addIssue({ code: 'custom', path: ['trackers', i, 'category'], message: 'A tracker belongs to a declared category' });
+});
+export const CmpSiteCreate = z.strictObject({ name: z.string().min(3).max(120), origins: z.array(CmpOrigin).min(1).max(10) });
+export const CmpSite = z.strictObject({ id: Id, site_key: Id, name: z.string().max(120), origins: z.array(z.string().max(300)).max(10), state: z.enum(['PENDING', 'ENABLED', 'DISABLED']),
+  created_by: Id, created_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), disabled_at: Time.nullable(), sdk_path: z.string().max(200) });
+export const CmpConfigCreate = z.strictObject({ document: CmpConfigDocument });
+export const CmpConfig = z.strictObject({ id: Id, site_id: Id, version: z.number().int(), document: CmpConfigDocument, content_digest: z.string().length(64), state: z.enum(['DRAFT', 'PUBLISHED', 'RETIRED']),
+  authored_by: Id, authored_at: Time, published_by: Id.nullable(), published_at: Time.nullable(), retired_at: Time.nullable() });
+export const CmpConfigDecision = z.strictObject({ action: z.enum(['PUBLISH', 'RETIRE']) });
+export const CmpConsentSubmit = z.strictObject({ visitor_id: Id, config_version: z.number().int().positive(), choices: z.record(CmpKey, z.boolean()), gpc: z.boolean(), language: z.string().regex(/^[a-z]{2}(-[A-Z]{2})?$/) });
+export const CmpConsentReceipt = z.strictObject({ receipt_id: Id, recorded_at: Time, config_version: z.number().int() });
+export const CmpConsentStats = z.strictObject({ site_id: Id, visitors: z.number().int(), records: z.number().int(), gpc_visitors: z.number().int(), latest_at: Time.nullable(),
+  by_category: z.array(z.strictObject({ key: z.string().max(31), granted: z.number().int(), refused: z.number().int() })).max(10), limits: z.array(z.string().max(300)).max(5) });
+export const CmpScanRequest = z.strictObject({ url: z.string().url().max(2000) });
+const ScanObservation = z.strictObject({ hosts: z.array(z.string().max(300)).max(200), cookies: z.array(z.string().max(120)).max(200) });
+export const CmpScan = z.strictObject({
+  id: Id, site_id: Id, url: z.string().max(2000), state: z.enum(['QUEUED', 'COMPLETED', 'FAILED']), requested_by: Id, requested_at: Time, observed_at: Time.nullable(), config_version: z.number().int().nullable(),
+  results: z.strictObject({ sdk_loaded: z.boolean(), banner_shown: z.boolean(), before_consent: ScanObservation, after_consent: ScanObservation, after_refusal: ScanObservation }).nullable(),
+  findings: z.array(z.strictObject({ kind: z.enum(['SDK_MISSING', 'TRACKER_BEFORE_CONSENT', 'TRACKER_AFTER_REFUSAL', 'COOKIE_BEFORE_CONSENT', 'UNDECLARED_HOST', 'UNDECLARED_COOKIE', 'DECLARED_NOT_SEEN']),
+    severity: z.enum(['HIGH', 'MEDIUM', 'INFO']), subject: z.string().max(300), detail: z.string().max(300) })).max(200),
+  failure_code: z.string().max(80).nullable(), limits: z.array(z.string().max(300)).max(5),
+});
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -390,4 +428,6 @@ export const expansionSchemas = {
   ClassificationQuality, ClassificationQualityList: page(ClassificationQuality), ExposureSummary, ExposureSummaryList: page(ExposureSummary),
   DeliveryTransportCreate, DeliveryTransport, DeliveryTransportList: page(DeliveryTransport), TransportDisable, SigningSecret, AlertRoutingCreate, AlertRouting, AlertRoutingList: page(AlertRouting), RoutingDecision,
   OutboundMessageCreate, OutboundMessageReview, OutboundMessage, OutboundMessageList: page(OutboundMessage),
+  CmpConfigDocument, CmpSiteCreate, CmpSite, CmpSiteList: page(CmpSite), CmpConfigCreate, CmpConfig, CmpConfigList: page(CmpConfig), CmpConfigDecision, CmpConsentSubmit, CmpConsentReceipt, CmpConsentStats,
+  CmpScanRequest, CmpScan, CmpScanList: page(CmpScan),
 };

@@ -3,7 +3,7 @@
  * canonical route list; the shape restates RouteDefinition because index.ts
  * imports this file.
  */
-type Route = { maximum_body_bytes?: number; id: string; method: 'get' | 'post'; path: string; authority: 'STAFF' | 'PRINCIPAL' | 'SUPPLIER_LINK'; request?: string; response: string; status: 200 | 201 | 202; params?: string; query?: string; paginated?: boolean; idempotency?: boolean; capability: string };
+type Route = { maximum_body_bytes?: number; id: string; method: 'get' | 'post'; path: string; authority: 'STAFF' | 'PRINCIPAL' | 'SUPPLIER_LINK' | 'PUBLIC'; request?: string; response: string; status: 200 | 201 | 202; params?: string; query?: string; paginated?: boolean; idempotency?: boolean; capability: string };
 const A = '/api/v1/admin';
 const list = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, paginated: true, capability, ...path.includes('{id}') ? { params: 'IdPath' } : {}, ...query ? { query } : {} });
 const read = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, capability, ...path.includes('{id}') ? { params: 'IdPath' } : {}, ...query ? { query } : {} });
@@ -104,6 +104,19 @@ export const expansionRoutes: Route[] = [
   read('outbound_message', '/outbound-messages/{id}', 'OutboundMessage', 'notification.read'),
   write('review_outbound_message', '/outbound-messages/{id}/review', 'OutboundMessageReview', 'OutboundMessage', 'notification.manage', 200),
   write('withdraw_outbound_message', '/outbound-messages/{id}/withdrawal', undefined, 'OutboundMessage', 'notification.manage', 200),
+  // EX02 website consent management
+  list('list_cmp_sites', '/cmp-sites', 'CmpSiteList', 'registry.read'),
+  write('create_cmp_site', '/cmp-sites', 'CmpSiteCreate', 'CmpSite', 'registry.write'),
+  write('enable_cmp_site', '/cmp-sites/{id}/enable', undefined, 'CmpSite', 'connection.enable', 200),
+  write('disable_cmp_site', '/cmp-sites/{id}/disable', undefined, 'CmpSite', 'registry.write', 200),
+  list('list_cmp_configs', '/cmp-sites/{id}/configs', 'CmpConfigList', 'registry.read'),
+  write('create_cmp_config', '/cmp-sites/{id}/configs', 'CmpConfigCreate', 'CmpConfig', 'registry.write'),
+  write('decide_cmp_config', '/cmp-configs/{id}/decision', 'CmpConfigDecision', 'CmpConfig', 'operations.approve', 200),
+  read('cmp_consent_stats', '/cmp-sites/{id}/consent-stats', 'CmpConsentStats', 'registry.read'),
+  list('list_cmp_scans', '/cmp-sites/{id}/scans', 'CmpScanList', 'registry.read'),
+  write('request_cmp_scan', '/cmp-sites/{id}/scans', 'CmpScanRequest', 'CmpScan', 'registry.write'),
+  // A visitor's choice, posted by the banner script from an approved site origin. The site key is public; the origin is checked.
+  { id: 'record_cmp_consent', method: 'post', path: '/api/v1/cmp/{id}/consents', authority: 'PUBLIC', params: 'IdPath', request: 'CmpConsentSubmit', response: 'CmpConsentReceipt', status: 201, capability: 'cmp.record', maximum_body_bytes: 4096 },
   // Supplier-facing: a bearer link token scoped to one draft assessment; no ORVIA account.
   { id: 'supplier_questionnaire', method: 'get', path: '/api/v1/supplier/questionnaire', authority: 'SUPPLIER_LINK', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond' },
   { id: 'supplier_answer', method: 'post', path: '/api/v1/supplier/questionnaire/answers', authority: 'SUPPLIER_LINK', request: 'SupplierAnswers', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond', maximum_body_bytes: 262144 },

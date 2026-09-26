@@ -60,3 +60,28 @@ export async function requireCapability(config: RuntimeConfig, actor: Authority,
   if (!decision || typeof decision !== 'object' || !('result' in decision) || typeof decision.result !== 'boolean') throw new AccessError(503, 'SERVICE_UNAVAILABLE');
   if (!decision.result) throw new AccessError(403, 'FORBIDDEN');
 }
+
+/**
+ * Readiness of the authorization policy. It asks the same endpoint, with the
+ * same deadline, as every request does: one decision that must allow (an
+ * auditor reading GRC) and one that must deny (a member writing GRC). A cold
+ * or restarting policy engine therefore holds readiness back instead of
+ * failing a user's first request; nothing about request-time authorization is
+ * relaxed, and a failure there is still a 503 that denies.
+ */
+export async function authorizationReady(config: RuntimeConfig, deadlineMs = 2000) {
+  const decide = async (input: Record<string, unknown>) => {
+    const started = Date.now();
+    const response = await fetch(`http://127.0.0.1:${config.opa_port}/v1/data/orvia/admin/authorize`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(deadlineMs), body: JSON.stringify({ input }) });
+    if (!response.ok) throw new Error(`OPA status ${response.status}`);
+    const body = await response.json() as { result?: unknown };
+    return { result: body.result, ms: Date.now() - started };
+  };
+  try {
+    const allow = await decide({ actor_domain: 'STAFF', role: 'AUDITOR', capability: 'grc.read', mfa_verified: false });
+    const deny = await decide({ actor_domain: 'STAFF', role: 'MEMBER', capability: 'grc.write', mfa_verified: true });
+    const ready = allow.result === true && deny.result === false;
+    return { ready, allow_ms: allow.ms, deny_ms: deny.ms, error: ready ? null : 'POLICY_CONTROL_MISMATCH' };
+  } catch (error) { return { ready: false, allow_ms: null, deny_ms: null, error: error instanceof Error && error.name === 'TimeoutError' ? 'DEADLINE_EXCEEDED' : 'UNREACHABLE' }; }
+}
+

@@ -1,0 +1,58 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T12:21:55.280Z",
+  "suite": "opa-cold-start",
+  "results": [
+    {
+      "name": "the warm policy is ready before the test",
+      "result": "PASS"
+    },
+    {
+      "name": "with the engine stopped, readiness is false",
+      "result": "PASS"
+    },
+    {
+      "name": "with the engine stopped, request authorization fails closed",
+      "result": "PASS"
+    },
+    {
+      "name": "the engine becomes ready within thirty seconds of starting",
+      "result": "PASS"
+    },
+    {
+      "name": "until then readiness was false, never a partial allow",
+      "result": "PASS"
+    },
+    {
+      "name": "once ready, request authorization allows the permitted read",
+      "result": "PASS"
+    },
+    {
+      "name": "warm decisions stay far inside the 2000 ms deadline (p95 under 250 ms)",
+      "result": "PASS"
+    },
+    {
+      "name": "the deny control still denies",
+      "result": "PASS"
+    }
+  ],
+  "measurements": {
+    "cold_start": {
+      "attempts_until_ready": 2,
+      "ms_until_ready": 283,
+      "first_ready_allow_ms": 7,
+      "errors_before_ready": [
+        "UNREACHABLE"
+      ]
+    },
+    "warm": {
+      "samples": 50,
+      "p50_ms": 2,
+      "p95_ms": 2,
+      "max_ms": 4
+    }
+  },
+  "host": "local codex-a00 runtime",
+  "limitation": "Measured on this host; deployment hardware and container limits must be qualified separately."
+}

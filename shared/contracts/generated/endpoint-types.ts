@@ -378,4 +378,15 @@ export interface EndpointMap {
   outbound_message: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessage> };
   review_outbound_message: { request: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessageReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessage> };
   withdraw_outbound_message: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessage> };
+  list_cmp_sites: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpSiteList> };
+  create_cmp_site: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpSiteCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpSite> };
+  enable_cmp_site: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpSite> };
+  disable_cmp_site: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpSite> };
+  list_cmp_configs: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConfigList> };
+  create_cmp_config: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConfigCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConfig> };
+  decide_cmp_config: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConfigDecision>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConfig> };
+  cmp_consent_stats: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentStats> };
+  list_cmp_scans: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanList> };
+  request_cmp_scan: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScan> };
+  record_cmp_consent: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentReceipt> };
 }
