@@ -168,7 +168,10 @@ export async function stopExport(c: Context, id: string) {
 }
 export async function exportView(c: Context, id: string) { return view(await jobRow(c, id)); }
 export async function exportList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.export_jobs WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  // Newest first; the cursor is the last job shown, so a page boundary cannot skip or repeat one.
+  const rows = (await c.tx.query(`SELECT * FROM app.export_jobs j WHERE j.tenant_id=$1 AND j.legal_entity_id=$2 AND j.environment_id=$3
+    AND ($4::uuid IS NULL OR (j.created_at, j.id) < (SELECT k.created_at, k.id FROM app.export_jobs k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
+    ORDER BY j.created_at DESC, j.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(view), next_cursor: paged.next_cursor };
 }

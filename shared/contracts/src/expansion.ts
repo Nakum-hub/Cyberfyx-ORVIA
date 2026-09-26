@@ -182,7 +182,9 @@ export const ControlTest = z.strictObject({
 });
 export const ControlTestDetail = z.strictObject({ test: ControlTest, runs: z.array(ControlTestRun).max(100) });
 export const ControlTestToggle = z.strictObject({ enabled: z.boolean() });
-export const ComplianceAlert = z.strictObject({ id: Id, test_id: Id, run_id: Id, kind: z.enum(['DRIFT_TO_FAIL', 'RECOVERED', 'ERROR']), detail: z.string().max(500), created_at: Time, delivery_state: z.literal('NOT_DELIVERED') });
+export const ComplianceAlert = z.strictObject({ id: Id, test_id: Id, run_id: Id, kind: z.enum(['DRIFT_TO_FAIL', 'RECOVERED', 'ERROR']), detail: z.string().max(500), created_at: Time,
+  /** Derived from the messages an enabled alert routing raised for it; NOT_DELIVERED when none did. */
+  delivery_state: z.enum(['NOT_DELIVERED', 'QUEUED', 'SENT', 'FAILED']) });
 export const ControlTestSweep = z.strictObject({ ran: z.number().int().min(0), failing: z.number().int().min(0), errors: z.number().int().min(0), alerts: z.number().int().min(0), issues_escalated: z.number().int().min(0) });
 export const ComplianceReport = z.strictObject({
   as_of: Time,
@@ -275,6 +277,103 @@ export const DataExport = z.strictObject({
 export const DataExportChunkQuery = z.strictObject({ sequence: z.coerce.number().int().min(1).max(2000) });
 export const DataExportChunk = z.strictObject({ job_id: Id, sequence: z.number().int(), row_count: z.number().int(), sha256: z.string().length(64), content: z.string() });
 
+// EX03 rights response packages -------------------------------------------------
+export const PackageSection = z.strictObject({
+  section_id: z.string().max(120), source: z.enum(['SYSTEM', 'ORVIA_CONSENT', 'ORVIA_REQUEST']), system_id: Id.nullable(), title: z.string().max(300),
+  read_state: z.enum(['READ', 'NOT_FOUND', 'UNAVAILABLE', 'NOT_SUPPORTED', 'HELD_BY_ORVIA']), read_at: Time, read_by: z.string().max(120),
+  record_state: z.strictObject({ suppressed: z.boolean(), erased: z.boolean(), anonymised: z.boolean() }).nullable(),
+  fields: z.record(z.string().max(120), z.string().max(4000)),
+});
+export const PackageFieldRef = z.strictObject({ section_id: z.string().max(120), field: z.string().max(120) });
+export const PackageSuggestion = PackageFieldRef.extend({ reason: z.literal('POSSIBLE_THIRD_PARTY'), detail: z.string().max(300) });
+export const PackageRedaction = PackageFieldRef.extend({ reason: z.enum(['THIRD_PARTY', 'LEGAL_PRIVILEGE', 'SECURITY', 'OTHER']), note: z.string().min(3).max(300) });
+export const PackageKept = PackageFieldRef.extend({ justification: z.string().min(10).max(300) });
+export const DeliveryState = z.enum(['NOT_RELEASED', 'ACTIVE', 'EXPIRED', 'REVOKED', 'EXHAUSTED']);
+export const ResponsePackage = z.strictObject({
+  id: Id, request_id: Id, version: z.number().int(), state: z.enum(['DRAFT', 'REVIEWED', 'RELEASED', 'WITHDRAWN']),
+  sections: z.array(PackageSection).max(200), suggestions: z.array(PackageSuggestion).max(500),
+  redactions: z.array(PackageRedaction).max(500).nullable(), kept: z.array(PackageKept).max(500).nullable(),
+  released_content: z.array(z.strictObject({ title: z.string().max(300), read_state: z.string().max(20), fields: z.record(z.string().max(120), z.string().max(4000)) })).max(200).nullable(),
+  content_digest: z.string().length(64).nullable(), unreadable_acknowledged: z.boolean().nullable(),
+  prepared_by: Id, prepared_at: Time, reviewed_by: Id.nullable(), reviewed_at: Time.nullable(), released_by: Id.nullable(), released_at: Time.nullable(),
+  delivery_expires_at: Time.nullable(), max_downloads: z.number().int().nullable(), downloads: z.number().int(), delivery_state: DeliveryState,
+  revoked_at: Time.nullable(), revocation_reason: SafeText.nullable(), purged_at: Time.nullable(),
+});
+export const ResponsePackageReview = z.strictObject({ redactions: z.array(PackageRedaction).max(500), kept: z.array(PackageKept).max(500), unreadable_acknowledged: z.boolean() });
+export const ResponsePackageRelease = z.strictObject({ expires_at: Time, max_downloads: z.number().int().min(1).max(10) });
+export const ResponsePackageRevoke = z.strictObject({ reason: z.string().min(10).max(500) });
+export const OwnResponsePackage = z.strictObject({
+  request_id: Id, version: z.number().int(), released_at: Time, expires_at: Time, downloads_remaining: z.number().int().min(0), content_digest: z.string().length(64),
+  content: z.array(z.strictObject({ title: z.string().max(300), read_state: z.string().max(20), fields: z.record(z.string().max(120), z.string().max(4000)) })).max(200),
+  /** Stated with every copy: what it contains and what it does not. */
+  limits: z.array(z.string().max(400)).max(10),
+});
+
+// EX04 value classification and EX12 access exposure --------------------------
+export const ValueCategory = z.enum(['EMAIL', 'PHONE_IN', 'PAN', 'AADHAAR', 'PAYMENT_CARD', 'IFSC', 'IPV4']);
+export const ClassificationRunRequest = z.strictObject({ sample_limit: z.number().int().min(1).max(1000) });
+export const ClassifiedColumn = z.strictObject({
+  column: z.string().max(63), sampled: z.number().int().min(0), non_empty: z.number().int().min(0), matches: z.record(ValueCategory, z.number().int().min(0)),
+  category: ValueCategory.nullable(), confidence: z.enum(['CONFIRMED', 'POSSIBLE', 'NONE']), share: z.number().min(0).max(1),
+});
+export const RelationGrant = z.strictObject({ grantee: z.string().max(63), privileges: z.array(z.string().max(20)).max(20), columns: z.array(z.string().max(63)).max(60).nullable() });
+export const ExposureFinding = z.strictObject({
+  kind: z.enum(['PUBLIC_CAN_READ', 'READ_WRITE_ROLE_CAN_READ', 'ROLE_CAN_READ', 'OWNER', 'ORVIA_OBSERVER']), severity: z.enum(['HIGH', 'MEDIUM', 'LOW', 'INFO']),
+  grantee: z.string().max(63), columns: z.array(z.string().max(63)).max(60), categories: z.array(ValueCategory).max(7), detail: z.string().max(300),
+});
+export const ClassificationRun = z.strictObject({
+  id: Id, target_id: Id, schema_name: z.string().max(63), relation_name: z.string().max(63), sample_limit: z.number().int(), state: z.enum(['QUEUED', 'COMPLETED', 'FAILED']),
+  requested_by: Id, requested_at: Time, ruleset: z.string().max(60).nullable(), observed_at: Time.nullable(), relation_state: z.enum(['CLASSIFIED', 'MISSING', 'EMPTY']).nullable(),
+  rows_sampled: z.number().int().nullable(), columns: z.array(ClassifiedColumn).max(60), grants: z.array(RelationGrant).max(200), owner: z.string().max(63).nullable(),
+  findings: z.array(ExposureFinding).max(200), limits: z.array(z.string().max(400)).max(10), failure_code: z.string().max(80).nullable(),
+});
+export const ClassificationLabelsRecord = z.strictObject({ labels: z.array(z.strictObject({ column: z.string().regex(/^[a-z][a-z0-9_]{0,62}$/), expected: z.union([ValueCategory, z.literal('NONE')]), basis: z.string().min(10).max(300) })).min(1).max(60) });
+export const ClassificationLabel = z.strictObject({ column: z.string().max(63), expected: z.union([ValueCategory, z.literal('NONE')]), basis: SafeText, labelled_by: Id, labelled_at: Time });
+export const ClassificationLabelSet = z.strictObject({ target_id: Id, labels: z.array(ClassificationLabel).max(200) });
+export const ClassificationQuality = z.strictObject({
+  id: Id, run_id: Id, ruleset: z.string().max(60), recorded_by: Id, recorded_at: Time,
+  measurement: z.strictObject({
+    columns_labelled: z.number().int(), columns_unlabelled: z.array(z.string().max(63)).max(60), correct: z.number().int(), accuracy: z.number().min(0).max(1),
+    per_category: z.array(z.strictObject({ category: ValueCategory, true_positives: z.number().int(), false_positives: z.number().int(), false_negatives: z.number().int(), precision: z.number().min(0).max(1).nullable(), recall: z.number().min(0).max(1).nullable() })).max(7),
+    possible_not_counted: z.array(z.string().max(63)).max(60), sample_rows: z.number().int(), limits: z.array(z.string().max(400)).max(10),
+  }),
+});
+export const ExposureSummary = z.strictObject({ target_id: Id, schema_name: z.string().max(63), relation_name: z.string().max(63), run_id: Id, observed_at: Time, sensitive_columns: z.array(z.string().max(63)).max(60), findings: z.array(ExposureFinding).max(200) });
+
+// EX09 customer-controlled delivery ----------------------------------------------
+export const DeliveryTransportCreate = z.strictObject({
+  kind: z.enum(['SMTP', 'WEBHOOK']), name: z.string().min(3).max(120),
+  host: z.string().min(1).max(253).optional(), port: z.number().int().min(1).max(65535).optional(), security: z.enum(['TLS', 'NONE']).optional(),
+  from_address: z.string().max(254).optional(), credential_env: z.string().regex(/^ORVIA_TRANSPORT_[A-Z0-9_]{1,60}$/).nullable().optional(), url: z.string().url().max(2000).optional(),
+}).superRefine((t, c) => {
+  const smtp = t.host !== undefined && t.port !== undefined && t.security !== undefined && t.from_address !== undefined;
+  if (t.kind === 'SMTP' && (!smtp || t.url !== undefined)) c.addIssue({ code: 'custom', path: ['host'], message: 'An SMTP transport names host, port, security and sender, and no URL' });
+  if (t.kind === 'WEBHOOK' && (t.url === undefined || t.host !== undefined || t.credential_env)) c.addIssue({ code: 'custom', path: ['url'], message: 'A webhook names a URL only; it is signed with a derived key' });
+});
+export const DeliveryTransport = z.strictObject({
+  id: Id, kind: z.enum(['SMTP', 'WEBHOOK']), name: z.string().max(120), host: z.string().max(253).nullable(), port: z.number().int().nullable(), security: z.enum(['TLS', 'NONE']).nullable(),
+  from_address: z.string().max(254).nullable(), credential_env: z.string().max(80).nullable(), url: z.string().max(2000).nullable(), state: z.enum(['PENDING', 'ENABLED', 'DISABLED']),
+  created_by: Id, created_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), disabled_at: Time.nullable(), disable_reason: SafeText.nullable(), secret_revealed: z.boolean(),
+});
+export const TransportDisable = z.strictObject({ reason: z.string().min(10).max(500) });
+export const SigningSecret = z.strictObject({ transport_id: Id, secret: z.string().length(64), algorithm: z.literal('HMAC-SHA256'), signed_content: z.string().max(120), header: z.literal('X-Orvia-Signature') });
+export const AlertRoutingCreate = z.strictObject({ transport_id: Id, recipient: z.string().min(3).max(254), kinds: z.array(z.enum(['DRIFT_TO_FAIL', 'RECOVERED', 'ERROR'])).min(1).max(3), subject_prefix: z.string().min(3).max(60).regex(/^[^\r\n]*$/) });
+export const AlertRouting = z.strictObject({ id: Id, transport_id: Id, recipient: z.string().max(254), kinds: z.array(z.string().max(20)).max(3), subject_prefix: z.string().max(60), state: z.enum(['PENDING', 'ENABLED', 'DISABLED']),
+  created_by: Id, created_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), disabled_at: Time.nullable() });
+export const RoutingDecision = z.strictObject({ action: z.enum(['ENABLE', 'DISABLE']) });
+export const OutboundMessageCreate = z.strictObject({
+  transport_id: Id, source_kind: z.enum(['NOTIFICATION_TASK', 'COMPLIANCE_ALERT', 'MANUAL']), source_id: Id.nullable(), recipient: z.string().min(3).max(254),
+  subject: z.string().min(3).max(300).regex(/^[^\r\n]*$/), body: z.string().min(10).max(20000),
+}).superRefine((m, c) => { if ((m.source_kind === 'MANUAL') !== (m.source_id === null)) c.addIssue({ code: 'custom', path: ['source_id'], message: 'Only a manual message has no source' }); });
+export const OutboundMessageReview = z.strictObject({ decision: z.enum(['APPROVE', 'REJECT']), note: z.string().min(3).max(500) });
+export const OutboundDeliveryState = z.enum(['AWAITING_REVIEW', 'REJECTED', 'QUEUED', 'RETRYING', 'SENT', 'EXHAUSTED', 'CANCELLED']);
+export const OutboundMessage = z.strictObject({
+  id: Id, transport_id: Id, source_kind: z.string().max(40), source_id: Id.nullable(), routing_id: Id.nullable(), recipient: z.string().max(254), subject: z.string().max(300), body: z.string().max(20000), content_digest: z.string().length(64),
+  review_state: z.enum(['DRAFT', 'APPROVED', 'REJECTED']), authored_by: Id, authored_at: Time, reviewed_by: Id.nullable(), reviewed_at: Time.nullable(), review_note: SafeText.nullable(),
+  delivery_state: OutboundDeliveryState, next_attempt_at: Time.nullable(), outcome_at: Time.nullable(),
+  attempts: z.array(z.strictObject({ attempt: z.number().int(), started_at: Time, finished_at: Time, outcome: z.enum(['SENT', 'FAILED', 'UNKNOWN']), response_code: z.string().max(20).nullable(), receipt: z.string().max(300).nullable(), error_code: z.string().max(60).nullable(), possible_duplicate: z.boolean() })).max(5),
+});
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -286,4 +385,9 @@ export const expansionSchemas = {
   SystemLocationCreate, SystemLocation, SystemLocationList: page(SystemLocation), RopaGap, RopaEntry, RopaEntryList: page(RopaEntry), RopaSummary, RopaImpactQuery, RopaImpact,
   RopaVersionCreate, RopaVersionApprove, RopaVersion, RopaVersionList: page(RopaVersion), RopaDiffQuery, RopaDiff,
   DataExportCreate, DataExportManifest, DataExport, DataExportList: page(DataExport), DataExportChunkQuery, DataExportChunk,
+  PackageSection, PackageSuggestion, PackageRedaction, PackageKept, ResponsePackage, ResponsePackageList: page(ResponsePackage), ResponsePackageReview, ResponsePackageRelease, ResponsePackageRevoke, OwnResponsePackage,
+  ClassificationRunRequest, ClassifiedColumn, RelationGrant, ExposureFinding, ClassificationRun, ClassificationRunList: page(ClassificationRun), ClassificationLabelsRecord, ClassificationLabel, ClassificationLabelSet,
+  ClassificationQuality, ClassificationQualityList: page(ClassificationQuality), ExposureSummary, ExposureSummaryList: page(ExposureSummary),
+  DeliveryTransportCreate, DeliveryTransport, DeliveryTransportList: page(DeliveryTransport), TransportDisable, SigningSecret, AlertRoutingCreate, AlertRouting, AlertRoutingList: page(AlertRouting), RoutingDecision,
+  OutboundMessageCreate, OutboundMessageReview, OutboundMessage, OutboundMessageList: page(OutboundMessage),
 };

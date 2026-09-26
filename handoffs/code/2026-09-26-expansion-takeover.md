@@ -215,3 +215,187 @@ Codex should review every section below. Nothing here promotes a family to accep
 | audit / audit-retention / operations runner / grc-lifecycle (rerun) | 51/51, 24/24, 10/10, 75/75 PASS |
 
 What the first `ropa-exports` failure was: I assumed a terminated engagement would stay linked. In fact termination closes the activity link. The test now asserts that, and exercises the real stale path, which is re-linking an ended engagement.
+
+## EX03 — rights response packages (redaction, second-person review, expiring and revocable delivery)
+
+**Built**
+- Connector contract: `retrieve(pools, actor, systemId, reference)` added to `ConnectorAdapter`.
+  - The records test adapter reads through `orvia_target_observer` and reports READ, NOT_FOUND or UNAVAILABLE.
+  - The manual adapter reports NOT_SUPPORTED.
+  - Unlike `verify`, it returns values, because disclosure is its purpose. It is used only for packages.
+- Migration `0055_rights_response_packages.sql`:
+  - `rights_response_packages` and `rights_response_downloads`, both append-only receipts.
+  - The guard allows only these moves:
+    - DRAFT→REVIEWED/WITHDRAWN;
+    - REVIEWED→RELEASED/WITHDRAWN;
+    - one download increment while not revoked or expired;
+    - one revocation;
+    - one purge, which empties content only after delivery has ended.
+  - What was read never changes. The reviewer must differ from the preparer (CHECK constraint).
+  - At most one unreleased package per request (partial unique index). Whether a delivery is still active is checked under the request lock.
+  - RLS:
+    - staff read with `rights.read`;
+    - the principal sees only their own RELEASED package, may only count a download, and inserts receipts only for themselves;
+    - the MACHINE actor may only purge.
+- Contract 0.34.0 adds seven staff routes plus portal `own_response_package` (POST, idempotent, `rights.own.read`).
+- Domain `backend/domain/src/rights/response-packages.ts`. Preparing a package:
+  - accepts only ACCESS or CORRECTION requests, with identity ESTABLISHED and the request executing or completed;
+  - searches only a single active Data Principal (more than one is refused, not guessed);
+  - reads each plan system's references (at most 20 per system) through the adapter;
+  - adds ORVIA's own consent entries and request record;
+  - makes deterministic suggestions (`response-redaction-rules v1`, system-read sections only): another person's email or phone number (10+ digits, word-bounded, so dates and ids are not matched), or field names suggesting another person. A suggestion never repeats the value.
+- Review:
+  - every suggestion must be redacted or kept with a reason;
+  - unreadable or unsupported sources must be acknowledged;
+  - a redacted value is removed wherever it appears in the package;
+  - the serialised content is checked for leakage before it is fixed with a digest.
+- Release:
+  - delivery lasts at most 30 days, with a collection allowance of 1–10;
+  - the first release also settles the V1 `release_response`.
+- Revocation, withdrawal and the portal collection each write receipts and audit events.
+- Runner: purges content 30 days after delivery ended (`response_packages_purged`).
+- Screens:
+  - on the staff request page: prepare, the review form (a decision per field, with suggestion hints), release, revoke and withdraw;
+  - in the portal (`/privacy/rights`): "Collect your copy" shows the redacted copy, its digest and the remaining allowance.
+- List ordering: the lists below were ordered by random id, so new items fell onto later pages as data grew. The e2e run exposed this, and it is a real usability defect. These lists are now newest first, using a keyset cursor that is still an id: impact templates and assessments, GRC policies, control tests, alerts, issues, RoPA entries, RoPA versions and data exports. The export list also shows each export's short id.
+
+**Invariant tests updated (review requested)**
+- `tests/unit/rights.test.ts`:
+  - staff rights routes go from 14 to 21, and own routes from 4 to 5;
+  - `rights.release` is now held by `release_response` plus the three EX03 disclosure decisions (review, release, revoke). Preparing and withdrawing stay `rights.write`.
+- `tests/unit/portal-rights.test.ts`: portal rights routes add `own_response_package`. It is still PRINCIPAL-only, uses `rights.own.*` and names no principal in its path.
+
+**Honest limits**
+- Delivery is through the authenticated portal only. A manual-intake principal without a portal account still needs out-of-band delivery, and there is no bearer-link channel.
+- The suggestion rules are deterministic pattern rules and can miss another person's data written in prose. The reviewer's decision is the control, not the rules.
+- CORRECTION packages include CORRECT_RECORD systems, but the suite exercises ACCESS only.
+- The 30-day purge by the runner is **NOT_RUN**, because it needs aged data. The database guard's purge rules are tested directly.
+
+**Executed (codex-a00, synthetic fixtures)**
+| Command | Result |
+|---|---|
+| contracts:generate / typecheck / lint / unit | 365 examples, clean, clean, 252/252 |
+| `tsx tests/integration/expansion/response-packages.test.ts` | 52/52 PASS. The first run failed because the phone rule matched ISO dates in ORVIA's request section; the rule was fixed and scoped to system sections. Coverage:<br>• refusals for unverified identity, erasure and the auditor;<br>• a read through the observer role, with another principal's record in the same system excluded;<br>• UNAVAILABLE and NOT_SUPPORTED sources recorded as such;<br>• suggestions without values;<br>• preparer≠reviewer, undecided suggestions, unacknowledged sources and unknown fields refused;<br>• redaction leakage checked in the staff view and the delivered copy (a value kept in another field is scrubbed);<br>• the 30-day and past-expiry bounds;<br>• V1 response settled;<br>• another principal gets 404 and staff get 403 on the portal route;<br>• the allowance, revocation, expiry (3-second window), replacement versions and withdrawal;<br>• receipts;<br>• database immutability, the purge guard and principal RLS. |
+| `tsx tests/e2e/expansion-screens-local.ts` | 42/42 PASS (EX06, EX08, EX10/11, EX05, EX03). The EX03 browser phase: the principal raises the request in the portal, staff prepare, a second person redacts on screen and releases, and the principal signs in and collects the copy with the redaction shown and the other person absent. Earlier attempts failed on list paging (fixed in the product, above), a heading selector, one auth-window timeout, and one run in which my own edit truncated the e2e file; it was restored from git and re-applied. |
+| impact / grc-lifecycle / ropa-exports / rights / portal / runner (rerun) | 41/41, 75/75, 58/58, 64/64, 19/19, 10/10 PASS |
+
+## EX04 / EX12 — PostgreSQL value classification with measured quality; grant-based access exposure
+
+**Built**
+- `connectors/src/discovery/classifiers.ts` (`value-classifiers v1`, pure functions, unit-tested):
+  - EMAIL, PHONE_IN, PAN (holder-type letter checked), AADHAAR (Verhoeff check digit, leading 2–9), PAYMENT_CARD (Luhn), IFSC and IPV4 (octet ranges);
+  - a column is CONFIRMED at ≥80% of non-empty sampled values and POSSIBLE at ≥30%;
+  - whole-value matching only, so free text containing an address is not an address column.
+- `connectors/src/discovery/postgres-classify.ts`:
+  - access: observer role only, read-only transaction, 10-second timeout, identifiers validated, the observer's read-only permission re-checked;
+  - sampling: at most 1,000 rows (the first rows returned, stated as such), classifiable column types only, scope columns excluded; values are counted and discarded;
+  - grants come from `pg_class.relacl` and `pg_attribute.attacl` through `aclexplode`, so the list is complete and not limited to the observer's own grants.
+- Synthetic target migration `services/synthetic-target/migrations/0005_classification_corpus.sql` (TEST FIXTURE):
+  - `customer_profiles` holds shaped columns plus decoys: 12-digit numbers failing Verhoeff, 16-digit numbers failing Luhn, and notes containing a few addresses;
+  - its grants are deliberately uneven: the write agent can read `customer_profiles`, and `legacy_contact_exports` is `GRANT SELECT … TO PUBLIC`.
+- Migration `0056_value_classification.sql`:
+  - `classification_runs`: queued, then completed or failed once; one queued run per target.
+  - `classification_labels`: append-only; the latest label per column is in force.
+  - `classification_quality`: append-only.
+  - Row security: staff read with `graph.read`; requesting a run needs `connection.enable`; labels and measurements need `graph.write`; the worker uses machine scope with `workflow.execute`.
+- Domain `backend/domain/src/discovery/classification.ts`:
+  - request, detail and list;
+  - exposure findings for relations with a CONFIRMED sensitive column:
+    - PUBLIC_CAN_READ: HIGH if Aadhaar, PAN or card; otherwise MEDIUM;
+    - READ_WRITE_ROLE_CAN_READ;
+    - ROLE_CAN_READ;
+    - OWNER and ORVIA_OBSERVER, reported as information;
+    - column-level grants on unclassified columns are ignored;
+  - labels;
+  - quality measurement: column-level true positives, false positives and false negatives, precision, recall and accuracy against the labels in force. POSSIBLE decisions are listed and not counted as predictions;
+  - an exposure list with each target's latest classification.
+- Worker `services/worker/src/classification.ts` is added to `services/worker/src/main.ts`. Each run gets a savepoint, 3 attempts, then `CLASSIFICATION_READ_FAILED`. A target that is no longer approved fails with `TARGET_NOT_APPROVED`.
+- Contract 0.35.0 adds 8 routes.
+- Screen (`/workspace/catalog-discovery`), per target:
+  - request a sample;
+  - runs, classified columns and "who can read the classified columns";
+  - a reviewed-labels form;
+  - measure quality, shown as precision/recall by category;
+  - plus an "Access exposure" overview.
+- The catalog notice was corrected: it had said the screen never classifies.
+
+**Invariant test updated (review requested)**
+- `tests/unit/graph.test.ts`: graph routes go from 21 to 28, with a new assertion that `request_classification_run` is `connection.enable`.
+- New `tests/unit/value-classifiers.test.ts` (5 tests):
+  - Verhoeff and Luhn accept and reject;
+  - look-alike shapes;
+  - share thresholds;
+  - exposure grading.
+
+**Honest limits**
+- These cover one PostgreSQL relation per approved catalog target on the synthetic target. The EX04 targets for files, object stores, APIs and source-code flow are **not built**.
+- The sample is the first rows returned, not a random or stratified sample. The run's limits say so.
+- No classifier for names, addresses or free text. Such columns are "unclassified", never "clean".
+- Exposure is derived from database grants only. It does not include application-layer access, row-security effects on what a grantee actually sees, or role membership inheritance; members of a granted role are not expanded.
+
+**Executed (codex-a00, synthetic fixtures)**
+| Command | Result |
+|---|---|
+| machine:init | applied target migration 0005 |
+| contracts / typecheck / lint / unit | 373 examples, clean, clean, 257/257 |
+| `tsx tests/integration/expansion/classification.test.ts` | 29/29 PASS. The first attempts failed on test mistakes: a duplicate target registration, and my wrong expectation that notes would count as emails. Coverage:<br>• an unapproved target is refused;<br>• an admin without `connection.enable` gets 403;<br>• a single queued run per target;<br>• the real worker sweep through the observer;<br>• 7 shaped columns CONFIRMED, checksum decoys and free text NONE;<br>• no sampled value stored (the database row is checked for the seeded values and the run marker);<br>• findings: the write agent at MEDIUM, observer and owner as INFO, PUBLIC on the legacy export table at MEDIUM (email and phone only);<br>• a missing relation reported as MISSING;<br>• labels, then quality at 12/12 with precision and recall 1;<br>• a relabel dropping email recall to 0.5 and correct to 11;<br>• a disabled target failing explicitly;<br>• auditor, tenant and database immutability. |
+| `tsx tests/e2e/expansion-screens-local.ts` | 48/48 PASS (EX06, EX08, EX10/11, EX05, EX03, EX04/12). The EX04/12 phase requests a sample on screen, runs the worker, and checks classified columns and grantees shown with no sampled value on screen. It then records labels on screen, measures quality and shows the exposure overview. |
+| catalog-flow / postgres-catalog (rerun after the target schema change) | 58/58, 13/13 PASS |
+
+## EX09 — customer-controlled SMTP and webhook delivery (reviewed content, retries, receipts, alert routing)
+
+**Built**
+- `backend/domain/src/delivery/clients.ts`. Both clients report SENT, FAILED (retryable or not) or UNKNOWN; UNKNOWN means the connection ended after the message was handed over. Neither logs content, follows redirects or keeps a response body.
+  - SMTP client:
+    - EHLO, AUTH PLAIN, MAIL, RCPT, DATA, QUIT;
+    - TLS with certificate verification;
+    - plaintext only to loopback;
+    - header-injection-safe subject;
+    - dot-stuffing;
+    - a Message-ID and `X-Orvia-Message` for dedupe;
+    - 4xx retryable, 5xx final.
+  - Webhook client:
+    - HTTPS, or HTTP to loopback only;
+    - no credentials in the URL;
+    - `X-Orvia-Signature: sha256=HMAC(key, timestamp + "." + body)`, plus `Idempotency-Key`;
+    - 2xx is SENT; 5xx, 408 and 429 are retried; other 4xx and 3xx are final.
+- Migration `0057_delivery_transports.sql`:
+  - `delivery_transports`: the destination is fixed; enabled once by someone other than the author; disabled once.
+  - `alert_routings`: named "routing" because the deployment-boundary test treats "subscription" as commercial.
+  - `outbound_messages`: reviewed content is immutable, and outcomes move forward only.
+  - `outbound_attempts`: append-only.
+  - The runner may append SENT or FAILED facts to `notification_deliveries` for tasks it delivered.
+  - Credentials never enter the database:
+    - an SMTP credential is the name of an environment variable (`ORVIA_TRANSPORT_*`, value `user:password`) on the customer's host;
+    - a webhook key is derived by HMAC from the installation secret (`OperationsEnv.webhookSecret`) and shown once to someone with `connection.enable`.
+- Domain `backend/domain/src/delivery/delivery.ts`:
+  - transports, routings and messages: compose, then review by a second person, then approve or reject; withdrawal;
+  - the runner pipeline:
+    - `raiseAlertMessages`: one message per alert and routing, enforced by a unique index;
+    - `claimDue`: a 60-second lease; an expired lease without a recorded attempt is recorded as UNKNOWN;
+    - `sendClaim`: runs outside the transaction;
+    - `recordResult`: backoff of 5, 10, 20 and 40 seconds, up to 5 attempts, then EXHAUSTED; a retry after UNKNOWN is marked `possible_duplicate`.
+- Notifications: `channel_available` is now true only while an enabled transport serves the channel. Compliance alerts derive `delivery_state` (NOT_DELIVERED, QUEUED, SENT or FAILED) from routed messages.
+- The operations runner now delivers (`alert_messages_raised`, `messages_sent`, `messages_retrying`, `messages_exhausted`).
+- Contract 0.36.0 adds 13 routes. Enabling a transport and revealing its key need `connection.enable`.
+- Screen `/workspace/delivery` ("Delivery" in the nav) shows:
+  - transports: add SMTP or webhook, enable, show the signing key once, disable;
+  - alert routing;
+  - messages: compose, approve or reject, withdraw, and attempts with receipts, including "unknown effect" and "possible duplicate".
+
+**Invariant test updated (review requested)**
+- `tests/unit/notifications.test.ts`: notification routes go from 8 to 19, with a new assertion that enable and reveal are `connection.enable`. "No endpoint transmits" still holds; the comment now says the runner sends reviewed messages.
+
+**Honest limits**
+- STARTTLS is not implemented: SMTP runs over implicit TLS, or plaintext to loopback only. Only AUTH PLAIN is supported.
+- These are local runs only: a loopback SMTP sink and webhook receiver. No real relay or endpoint was contacted, and none is qualified.
+- No regulator endpoint exists or is invented. Regulator notifications remain reviewed tasks with evidence.
+- A notification task's recipient is still a reference; the concrete address is entered when the message is composed.
+
+**Executed (codex-a00, synthetic loopback sink and receiver)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint / unit | applied 0057; 386 examples; clean; clean; 257/257 |
+| `tsx tests/integration/expansion/delivery.test.ts` | 41/41 PASS on the first run. Coverage:<br>• off-loopback plaintext, non-HTTPS and credentials-in-URL refused;<br>• the author cannot enable a transport or approve a message;<br>• unreviewed messages not sent;<br>• SENT with a 250 receipt, and AUTH with the named credential;<br>• no resend;<br>• 451 retried after backoff; 550 exhausted after one attempt;<br>• a hang after DATA recorded as UNKNOWN, then the retry SENT marked possible duplicate (two copies sharing `X-Orvia-Message`);<br>• a missing credential is final;<br>• withdrawal;<br>• a webhook 503 retried, then a signature verified with the once-revealed key and the idempotency key checked;<br>• a notification task SENT fact with the receipt as evidence;<br>• an ERROR alert routed once, with the alert showing SENT;<br>• a disabled transport refuses approval;<br>• auditor, tenant and database immutability. |
+| notifications / grc-lifecycle / runner (rerun) | 31/31, 75/75, 10/10 PASS |
+| `tsx tests/e2e/expansion-screens-local.ts` | 56/56 PASS; the EX09 phase ran against a loopback receiver. Two earlier attempts failed on my test code: a check made before the list refreshed, and a weak check, both replaced. On screen: add a webhook, a second person enables it and sees the key once, compose, the server refuses the author's own approval, a second person approves, the runner delivers a signed request, the receipt shows on screen, and the transport is disabled. |

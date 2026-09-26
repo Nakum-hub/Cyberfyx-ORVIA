@@ -139,7 +139,10 @@ export async function ropaEntry(c: Context, id: string) {
   return entry;
 }
 export async function ropaEntries(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.registry_activities WHERE ${predicate} AND status='ACTIVE' AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  // Newest first, so an activity just registered is on the first page.
+  const rows = (await c.tx.query(`SELECT x.id FROM app.registry_activities x WHERE x.tenant_id=$1 AND x.legal_entity_id=$2 AND x.environment_id=$3 AND x.status='ACTIVE'
+    AND ($4::uuid IS NULL OR (x.recorded_at, x.id) < (SELECT k.recorded_at, k.id FROM app.registry_activities k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
+    ORDER BY x.recorded_at DESC, x.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: await buildEntries(c, paged.items.map(r => r.id)), next_cursor: paged.next_cursor };
 }
@@ -260,7 +263,8 @@ export async function approveRopaVersion(c: Context, id: string, input: unknown)
   return versionView(updated);
 }
 export async function ropaVersionList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id,version,note,as_of,content_digest,activity_count,gap_count,recorded_by,recorded_at,approved_by,approved_at,approval_note FROM app.ropa_versions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT id,version,note,as_of,content_digest,activity_count,gap_count,recorded_by,recorded_at,approved_by,approved_at,approval_note FROM app.ropa_versions x WHERE x.tenant_id=$1 AND x.legal_entity_id=$2 AND x.environment_id=$3
+    AND ($4::uuid IS NULL OR x.version < (SELECT k.version FROM app.ropa_versions k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4)) ORDER BY x.version DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(versionView), next_cursor: paged.next_cursor };
 }

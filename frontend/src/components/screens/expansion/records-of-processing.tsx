@@ -269,7 +269,7 @@ function Exports() {
           <>
             <DataTable caption="Your exports" rows={d.items} rowKey={j => j.id}
               columns={[
-                { key: 'kind', header: 'Export', cell: j => <span className="cell-primary">{j.kind === 'ROPA_VERSION_CSV' ? 'Record of processing' : 'Audit events'}<span className="cell-sub">as of {formatTime(j.as_of)}</span></span> },
+                { key: 'kind', header: 'Export', cell: j => <span className="cell-primary">{j.kind === 'ROPA_VERSION_CSV' ? 'Record of processing' : 'Audit events'}<span className="cell-sub">{shortId(j.id)} · as of {formatTime(j.as_of)}</span></span> },
                 { key: 'progress', header: 'Progress', cell: j => `${j.rows_written} of ${j.expected_rows} rows · ${j.chunks} chunk(s)` },
                 { key: 'state', header: 'State', cell: j => <Badge label={j.expired ? 'expired' : j.state.toLowerCase()} tone={j.state === 'COMPLETED' && !j.expired ? 'ok' : j.state === 'RUNNING' ? 'warn' : 'neutral'} /> },
                 { key: 'act', header: '', cell: j => (

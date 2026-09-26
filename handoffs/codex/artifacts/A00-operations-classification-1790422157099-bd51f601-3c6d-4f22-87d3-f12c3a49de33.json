@@ -1,0 +1,437 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T11:29:17.099Z",
+  "suite": "classification",
+  "assertions": [
+    {
+      "name": "an unapproved target cannot be sampled",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "target_not_approved"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "target_not_approved"
+        ]
+      }
+    },
+    {
+      "name": "an admin without connection authority cannot request value sampling",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a run is queued, not carried out in the request",
+      "result": "PASS",
+      "expected": [
+        "QUEUED",
+        [],
+        []
+      ],
+      "actual": [
+        "QUEUED",
+        [],
+        []
+      ]
+    },
+    {
+      "name": "only one run per target can be queued",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "a_run_is_already_queued"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "a_run_is_already_queued"
+        ]
+      }
+    },
+    {
+      "name": "the worker carries out queued runs",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the run completed through the observer with a bounded sample",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        "CLASSIFIED",
+        200,
+        "value-classifiers v1"
+      ],
+      "actual": [
+        "COMPLETED",
+        "CLASSIFIED",
+        200,
+        "value-classifiers v1"
+      ]
+    },
+    {
+      "name": "each shaped column is classified with confidence",
+      "result": "PASS",
+      "expected": [
+        [
+          "EMAIL",
+          "CONFIRMED"
+        ],
+        [
+          "PHONE_IN",
+          "CONFIRMED"
+        ],
+        [
+          "PAN",
+          "CONFIRMED"
+        ],
+        [
+          "AADHAAR",
+          "CONFIRMED"
+        ],
+        [
+          "PAYMENT_CARD",
+          "CONFIRMED"
+        ],
+        [
+          "IFSC",
+          "CONFIRMED"
+        ],
+        [
+          "IPV4",
+          "CONFIRMED"
+        ]
+      ],
+      "actual": [
+        [
+          "EMAIL",
+          "CONFIRMED"
+        ],
+        [
+          "PHONE_IN",
+          "CONFIRMED"
+        ],
+        [
+          "PAN",
+          "CONFIRMED"
+        ],
+        [
+          "AADHAAR",
+          "CONFIRMED"
+        ],
+        [
+          "PAYMENT_CARD",
+          "CONFIRMED"
+        ],
+        [
+          "IFSC",
+          "CONFIRMED"
+        ],
+        [
+          "IPV4",
+          "CONFIRMED"
+        ]
+      ]
+    },
+    {
+      "name": "numbers that fail the Aadhaar or card checksum are not classified",
+      "result": "PASS",
+      "expected": [
+        [
+          null,
+          "NONE"
+        ],
+        [
+          null,
+          "NONE"
+        ]
+      ],
+      "actual": [
+        [
+          null,
+          "NONE"
+        ],
+        [
+          null,
+          "NONE"
+        ]
+      ]
+    },
+    {
+      "name": "free text with a few addresses is not an email column, and names are not guessed",
+      "result": "PASS",
+      "expected": [
+        [
+          null,
+          "NONE"
+        ],
+        [
+          null,
+          "NONE"
+        ],
+        [
+          null,
+          "NONE"
+        ]
+      ],
+      "actual": [
+        [
+          null,
+          "NONE"
+        ],
+        [
+          null,
+          "NONE"
+        ],
+        [
+          null,
+          "NONE"
+        ]
+      ]
+    },
+    {
+      "name": "the counts are shown for each column, and a value that merely contains an address is not an address",
+      "result": "PASS",
+      "expected": [
+        200,
+        0
+      ],
+      "actual": [
+        200,
+        0
+      ]
+    },
+    {
+      "name": "no sampled value is stored",
+      "result": "PASS",
+      "expected": [
+        false,
+        false,
+        false
+      ],
+      "actual": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "name": "the run states its limits",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "the write agent reading high-sensitivity columns is a finding",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "this product's own observer and the owner are reported as information",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "grants come from the catalog, including roles other than the observer",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a table readable by PUBLIC is a finding, graded by what it holds",
+      "result": "PASS",
+      "expected": [
+        [
+          "MEDIUM",
+          [
+            "EMAIL",
+            "PHONE_IN"
+          ]
+        ]
+      ],
+      "actual": [
+        [
+          "MEDIUM",
+          [
+            "EMAIL",
+            "PHONE_IN"
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "the exposure list shows each target's latest classification",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a relation that does not exist is reported as missing, not as clean",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        "MISSING",
+        0
+      ],
+      "actual": [
+        "COMPLETED",
+        "MISSING",
+        0
+      ]
+    },
+    {
+      "name": "quality cannot be measured without labels",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "no_reviewed_labels"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "no_reviewed_labels"
+        ]
+      }
+    },
+    {
+      "name": "against the reviewed labels every column is right",
+      "result": "PASS",
+      "expected": [
+        12,
+        12,
+        1,
+        true
+      ],
+      "actual": [
+        12,
+        12,
+        1,
+        true
+      ]
+    },
+    {
+      "name": "a changed label changes the measurement",
+      "result": "PASS",
+      "expected": [
+        11,
+        1,
+        1,
+        0.5
+      ],
+      "actual": [
+        11,
+        1,
+        1,
+        0.5
+      ]
+    },
+    {
+      "name": "every measurement is kept",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "a missing relation cannot be measured",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "only_a_completed_classification_is_measured"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "only_a_completed_classification_is_measured"
+        ]
+      }
+    },
+    {
+      "name": "a run whose target was disabled fails explicitly",
+      "result": "PASS",
+      "expected": [
+        "FAILED",
+        "TARGET_NOT_APPROVED"
+      ],
+      "actual": [
+        "FAILED",
+        "TARGET_NOT_APPROVED"
+      ]
+    },
+    {
+      "name": "an auditor reads runs but cannot request or label",
+      "result": "PASS",
+      "expected": [
+        200,
+        403,
+        403
+      ],
+      "actual": [
+        200,
+        403,
+        403
+      ]
+    },
+    {
+      "name": "another tenant sees nothing",
+      "result": "PASS",
+      "expected": [
+        404,
+        false
+      ],
+      "actual": [
+        404,
+        false
+      ]
+    },
+    {
+      "name": "a completed run cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a label cannot be deleted",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a quality measurement cannot be altered",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    }
+  ],
+  "passed": 29,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

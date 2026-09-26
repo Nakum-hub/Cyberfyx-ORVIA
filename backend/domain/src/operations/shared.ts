@@ -98,6 +98,8 @@ export type OperationsEnv = {
   /** Keyed digest of a normalised source identifier. The raw identifier is never stored. */
   sourceKeyDigest(value: string): string;
   targets: { agent: pg.Pool; observer: pg.Pool } | null;
+  /** Per-transport webhook signing key, derived from this installation's secret and never stored. */
+  webhookSecret(transportId: string): string;
 };
 
 /** Only the fields a response schema declares, so a strict contract never sees tenancy or audit columns. */

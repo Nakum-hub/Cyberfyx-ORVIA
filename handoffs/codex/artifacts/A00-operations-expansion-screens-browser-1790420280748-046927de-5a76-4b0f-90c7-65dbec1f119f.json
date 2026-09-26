@@ -1,0 +1,299 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T10:58:00.748Z",
+  "suite": "expansion-screens-browser",
+  "assertions": [
+    {
+      "name": "a template authored in the builder is recorded as a draft with its questions",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ],
+      "actual": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "an organisation admin sees no publish control",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a super admin who did not author it publishes it from the list",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PUBLISHED"
+      ],
+      "actual": [
+        200,
+        "PUBLISHED"
+      ]
+    },
+    {
+      "name": "an answer without required evidence is named as missing on screen",
+      "result": "PASS",
+      "expected": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ],
+      "actual": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ]
+    },
+    {
+      "name": "after saving, the form shows the stored answer rather than clearing it",
+      "result": "PASS",
+      "expected": "YES",
+      "actual": "YES"
+    },
+    {
+      "name": "with evidence nothing is missing",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "submission raises the answer-rule finding",
+      "result": "PASS",
+      "expected": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ],
+      "actual": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ]
+    },
+    {
+      "name": "the screen cannot approve while a finding is unresolved",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a second person accepts the risk with an expiry",
+      "result": "PASS",
+      "expected": [
+        "RISK_ACCEPTED",
+        false
+      ],
+      "actual": [
+        "RISK_ACCEPTED",
+        false
+      ]
+    },
+    {
+      "name": "an independent reviewer approves on screen",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        true
+      ],
+      "actual": [
+        "APPROVED",
+        true
+      ]
+    },
+    {
+      "name": "a retest is revision 2 with answers carried forward",
+      "result": "PASS",
+      "expected": [
+        2,
+        "1fff4b06-7160-4b7e-9816-f5357b2da8c4",
+        true
+      ],
+      "actual": [
+        2,
+        "1fff4b06-7160-4b7e-9816-f5357b2da8c4",
+        true
+      ]
+    },
+    {
+      "name": "the approved revision is still approved until its retest is approved",
+      "result": "PASS",
+      "expected": "APPROVED",
+      "actual": "APPROVED"
+    },
+    {
+      "name": "an agreement recorded on screen is in force",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the region gap appears on screen",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the link is shown once with its token in the fragment",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the token is removed from the address bar once read",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the supplier saves answers without an account",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "staff see the answer labelled as a supplier attestation",
+      "result": "PASS",
+      "expected": [
+        [
+          "certified",
+          "YES",
+          "SUPPLIER"
+        ]
+      ],
+      "actual": [
+        [
+          "certified",
+          "YES",
+          "SUPPLIER"
+        ]
+      ]
+    },
+    {
+      "name": "a revoked link is refused on the supplier page",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a control test added on screen has never run",
+      "result": "PASS",
+      "expected": "NEVER_RUN",
+      "actual": "NEVER_RUN"
+    },
+    {
+      "name": "running it on screen records a passing manual run",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PASSING"
+      ],
+      "actual": [
+        200,
+        "PASSING"
+      ]
+    },
+    {
+      "name": "the draft is version 1",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        1
+      ],
+      "actual": [
+        "DRAFT",
+        1
+      ]
+    },
+    {
+      "name": "an admin without approval authority sees no publish control",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "another person publishes it from the list",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PUBLISHED"
+      ],
+      "actual": [
+        200,
+        "PUBLISHED"
+      ]
+    },
+    {
+      "name": "a reader acknowledges it",
+      "result": "PASS",
+      "expected": [
+        200,
+        1
+      ],
+      "actual": [
+        200,
+        1
+      ]
+    },
+    {
+      "name": "the issue is remediated on screen with its evidence",
+      "result": "PASS",
+      "expected": [
+        "15958727-5481-4ba9-a6e4-729dca92e04d",
+        "REMEDIATED"
+      ],
+      "actual": [
+        "15958727-5481-4ba9-a6e4-729dca92e04d",
+        "REMEDIATED"
+      ]
+    },
+    {
+      "name": "someone other than the remediator verifies it on screen",
+      "result": "PASS",
+      "expected": "VERIFIED",
+      "actual": "VERIFIED"
+    },
+    {
+      "name": "unexpected failure in EX05 record of processing",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('region', { name: 'Activities' }).getByRole('button', { name: 'Next page' })\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\">Next page</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be v"
+    }
+  ],
+  "passed": 27,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

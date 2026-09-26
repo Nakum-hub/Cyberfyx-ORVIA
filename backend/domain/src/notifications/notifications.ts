@@ -3,6 +3,7 @@ import * as S from '../../../../shared/contracts/src/index.ts';
 import { digest } from '../../../../shared/contracts/src/crypto.ts';
 import { AccessError } from '../../../authorization/src/index.ts';
 import { audit, predicate, scopeValues, requireOne, paged, type Context, type Page } from '../shared/transaction.ts';
+import { channelAvailable } from '../delivery/delivery.ts';
 
 /**
  * M10 Notification Engine.
@@ -18,12 +19,12 @@ import { audit, predicate, scopeValues, requireOne, paged, type Context, type Pa
  */
 
 /**
- * Which channels this deployment can actually deliver on. Only in-app is real
- * here: there is no configured mail transport and no approved webhook egress,
- * and pretending otherwise would queue messages that silently go nowhere.
+ * Which channels this deployment can actually deliver on. A channel is
+ * available only while an enabled customer-controlled transport serves it
+ * (EX09: an SMTP relay for EMAIL, a webhook for APPROVED_WEBHOOK). There is
+ * still no in-app inbox. Pretending otherwise would queue messages that
+ * silently go nowhere.
  */
-// A task list is not an inbox. No delivery channel exists in this build.
-const AVAILABLE_CHANNELS = new Set<string>();
 
 const time = (value: Date | null) => value?.toISOString() ?? null;
 
@@ -70,7 +71,7 @@ async function assembleTask(c: Context, row: TaskRow) {
     queued: facts.has('QUEUED'), sent: facts.has('SENT'), delivered: facts.has('DELIVERED'),
     failed: facts.has('FAILED'), acknowledged: facts.has('ACKNOWLEDGED'),
     attempts: deliveries.rows.filter(delivery => ['SENT', 'FAILED'].includes(delivery.fact as string)).length,
-    channel_available: AVAILABLE_CHANNELS.has(row.template.channel),
+    channel_available: await channelAvailable(c, row.template.channel),
     escalated_at: time(row.escalated_at), escalation_reason: row.escalation_reason,
     deliveries: deliveries.rows.map(delivery => S.Delivery.parse({
       id: delivery.id, task_id: delivery.task_id, fact: delivery.fact,
@@ -111,8 +112,8 @@ export async function createNotificationTask(c: Context, input: unknown) {
   // and needs no external evidence.
   await c.tx.query(`INSERT INTO app.notification_deliveries(tenant_id,legal_entity_id,environment_id,id,task_id,fact,evidence_reference,note,recorded_by)
     VALUES($1,$2,$3,$4,$5,'QUEUED',NULL,$6,$7)`,
-  [...scope, randomUUID(), id, AVAILABLE_CHANNELS.has((await readTaskRow(c, id)).template.channel)
-    ? 'Queued for local delivery.'
+  [...scope, randomUUID(), id, await channelAvailable(c, (await readTaskRow(c, id)).template.channel)
+    ? 'Queued; compose a reviewed message on an enabled transport to send it.'
     : 'Queued, but this deployment has no configured transport for that channel; it will not be sent.', c.actor.actor_id]);
   await audit(c, 'notification_task.create', id);
   return assembleTask(c, await readTaskRow(c, id));

@@ -30,6 +30,30 @@ const exportJob = { id: uuid(970), kind: 'ROPA_VERSION_CSV' as const, source_id:
   manifest: { kind: 'ROPA_VERSION_CSV' as const, as_of: at, filter: {}, expected_rows: 1, rows: 1, columns: ['activity_id'], chunks: [{ sequence: 1, row_count: 1, sha256: 'a'.repeat(64) }], digest: 'b'.repeat(64), complete: true as const, limits: ['Synthetic example.'] },
   created_at: at, finished_at: at, expires_at: at, expired: false };
 
+const section = { section_id: `system:${uuid(951)}:1`, source: 'SYSTEM' as const, system_id: uuid(951), title: 'Synthetic CRM record', read_state: 'READ' as const, read_at: at, read_by: 'orvia_target_observer independent read',
+  record_state: { suppressed: false, erased: false, anonymised: false }, fields: { name: 'Synthetic Person', email: 'person@example.invalid' } };
+const responsePackage = { id: uuid(980), request_id: uuid(981), version: 1, state: 'RELEASED' as const, sections: [section], suggestions: [], redactions: [], kept: [],
+  released_content: [{ title: 'Synthetic CRM record', read_state: 'READ', fields: { name: 'Synthetic Person', email: 'person@example.invalid' } }], content_digest: 'c'.repeat(64), unreadable_acknowledged: false,
+  prepared_by: uuid(902), prepared_at: at, reviewed_by: uuid(903), reviewed_at: at, released_by: uuid(903), released_at: at, delivery_expires_at: at, max_downloads: 3, downloads: 0, delivery_state: 'ACTIVE' as const,
+  revoked_at: null, revocation_reason: null, purged_at: null };
+
+const counts = { EMAIL: 0, PHONE_IN: 0, PAN: 0, AADHAAR: 0, PAYMENT_CARD: 0, IFSC: 0, IPV4: 0 };
+const classifiedColumn = { column: 'contact_email', sampled: 100, non_empty: 98, matches: { ...counts, EMAIL: 97 }, category: 'EMAIL' as const, confidence: 'CONFIRMED' as const, share: 0.99 };
+const exposureFinding = { kind: 'PUBLIC_CAN_READ' as const, severity: 'HIGH' as const, grantee: 'PUBLIC', columns: ['contact_email'], categories: ['EMAIL' as const], detail: 'Every role can read classified columns.' };
+const classificationRun = { id: uuid(990), target_id: uuid(991), schema_name: 'public', relation_name: 'customer_profiles', sample_limit: 100, state: 'COMPLETED' as const, requested_by: uuid(902), requested_at: at,
+  ruleset: 'value-classifiers v1', observed_at: at, relation_state: 'CLASSIFIED' as const, rows_sampled: 100, columns: [classifiedColumn], grants: [{ grantee: 'PUBLIC', privileges: ['SELECT'], columns: null }], owner: 'owner_role',
+  findings: [exposureFinding], limits: ['Synthetic example.'], failure_code: null };
+const quality = { id: uuid(992), run_id: uuid(990), ruleset: 'value-classifiers v1', recorded_by: uuid(902), recorded_at: at, measurement: { columns_labelled: 1, columns_unlabelled: [], correct: 1, accuracy: 1,
+  per_category: [{ category: 'EMAIL' as const, true_positives: 1, false_positives: 0, false_negatives: 0, precision: 1, recall: 1 }], possible_not_counted: [], sample_rows: 100, limits: ['Synthetic example.'] } };
+const exposure = { target_id: uuid(991), schema_name: 'public', relation_name: 'customer_profiles', run_id: uuid(990), observed_at: at, sensitive_columns: ['contact_email'], findings: [exposureFinding] };
+
+const transport = { id: uuid(1000), kind: 'SMTP' as const, name: 'Customer relay', host: 'smtp.customer.example', port: 465, security: 'TLS' as const, from_address: 'privacy@customer.example', credential_env: 'ORVIA_TRANSPORT_RELAY', url: null,
+  state: 'ENABLED' as const, created_by: uuid(902), created_at: at, approved_by: uuid(903), approved_at: at, disabled_at: null, disable_reason: null, secret_revealed: false };
+const routing = { id: uuid(1001), transport_id: uuid(1000), recipient: 'compliance@customer.example', kinds: ['DRIFT_TO_FAIL'], subject_prefix: '[ORVIA]', state: 'ENABLED' as const, created_by: uuid(902), created_at: at, approved_by: uuid(903), approved_at: at, disabled_at: null };
+const outbound = { id: uuid(1002), transport_id: uuid(1000), source_kind: 'MANUAL', source_id: null, routing_id: null, recipient: 'dpo@customer.example', subject: 'Synthetic notice', body: 'Synthetic message body for contract examples.', content_digest: 'd'.repeat(64),
+  review_state: 'APPROVED' as const, authored_by: uuid(902), authored_at: at, reviewed_by: uuid(903), reviewed_at: at, review_note: 'Reviewed.', delivery_state: 'SENT' as const, next_attempt_at: null, outcome_at: at,
+  attempts: [{ attempt: 1, started_at: at, finished_at: at, outcome: 'SENT' as const, response_code: '250', receipt: '250 OK queued', error_code: null, possible_duplicate: false }] };
+
 export function expansionExample(name: string): unknown {
   switch (name) {
     case 'ImpactQuestion': return question;
@@ -58,6 +82,30 @@ export function expansionExample(name: string): unknown {
     case 'DataExport': return exportJob;
     case 'DataExportList': return { items: [exportJob], next_cursor: null };
     case 'DataExportChunkQuery': return { sequence: 1 };
+    case 'PackageSection': return section;
+    case 'ResponsePackage': return responsePackage;
+    case 'ResponsePackageList': return { items: [responsePackage], next_cursor: null };
+    case 'OwnResponsePackage': return { request_id: uuid(981), version: 1, released_at: at, expires_at: at, downloads_remaining: 2, content_digest: 'c'.repeat(64), content: responsePackage.released_content, limits: ['Synthetic example.'] };
+    case 'ClassifiedColumn': return classifiedColumn;
+    case 'ExposureFinding': return exposureFinding;
+    case 'ClassificationRun': return classificationRun;
+    case 'ClassificationRunList': return { items: [classificationRun], next_cursor: null };
+    case 'ClassificationLabelsRecord': return { labels: [{ column: 'contact_email', expected: 'EMAIL', basis: 'Reviewed against the application schema.' }] };
+    case 'ClassificationLabelSet': return { target_id: uuid(991), labels: [{ column: 'contact_email', expected: 'EMAIL', basis: 'Reviewed against the application schema.', labelled_by: uuid(902), labelled_at: at }] };
+    case 'ClassificationQuality': return quality;
+    case 'ClassificationQualityList': return { items: [quality], next_cursor: null };
+    case 'ExposureSummary': return exposure;
+    case 'ExposureSummaryList': return { items: [exposure], next_cursor: null };
+    case 'DeliveryTransportCreate': return { kind: 'SMTP', name: 'Customer relay', host: 'smtp.customer.example', port: 465, security: 'TLS', from_address: 'privacy@customer.example', credential_env: 'ORVIA_TRANSPORT_RELAY' };
+    case 'DeliveryTransport': return transport;
+    case 'DeliveryTransportList': return { items: [transport], next_cursor: null };
+    case 'SigningSecret': return { transport_id: uuid(1000), secret: 'e'.repeat(64), algorithm: 'HMAC-SHA256', signed_content: 'X-Orvia-Timestamp + "." + request body', header: 'X-Orvia-Signature' };
+    case 'AlertRoutingCreate': return { transport_id: uuid(1000), recipient: 'compliance@customer.example', kinds: ['DRIFT_TO_FAIL'], subject_prefix: '[ORVIA]' };
+    case 'AlertRouting': return routing;
+    case 'AlertRoutingList': return { items: [routing], next_cursor: null };
+    case 'OutboundMessageCreate': return { transport_id: uuid(1000), source_kind: 'MANUAL', source_id: null, recipient: 'dpo@customer.example', subject: 'Synthetic notice', body: 'Synthetic message body for contract examples.' };
+    case 'OutboundMessage': return outbound;
+    case 'OutboundMessageList': return { items: [outbound], next_cursor: null };
     default: return undefined;
   }
 }

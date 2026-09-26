@@ -9,6 +9,12 @@ import * as S from '../../shared/contracts/src/index.ts';
 import { authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
 import { operationsSuite } from '../../shared/testing/src/operations-fixture.ts';
 import { loadProfile } from '../../shared/testing/src/config.ts';
+import { recordsTarget } from '../../shared/testing/src/records-target.ts';
+import { workflowActivities } from '../../services/worker/src/withdrawal-worker.ts';
+import { sweepClassification } from '../../services/worker/src/classification.ts';
+import { observerEnrollment } from '../../backend/auth/src/machine-profile.ts';
+import { operationsRunner } from '../../services/worker/src/operations-runner.ts';
+import http from 'node:http';
 
 if (loadProfile().profile !== 'codex-a00') throw new Error('Synthetic codex-a00 profile only');
 const t = operationsSuite('expansion-screens-browser');
@@ -250,8 +256,8 @@ await t.run(async () => {
     const ropaSystem = await t.boundSystem(`Browser RoPA CRM ${suffix}`);
     await t.activity({ condition: 'CONSENT', systems: [ropaSystem.id], name: `Browser RoPA activity ${suffix}` });
     await open(admin, '/workspace/records-of-processing', 'Records of processing');
-    let ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` });
-    while (!(await ropaRow.count())) { await admin.getByRole('region', { name: 'Activities' }).getByRole('button', { name: 'Next page' }).click(); await admin.waitForLoadState('networkidle'); ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` }); }
+    const ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` });
+    await ropaRow.waitFor();
     await ropaRow.getByRole('button', { name: 'Open' }).click();
     await admin.getByRole('heading', { name: `Browser RoPA activity ${suffix}` }).waitFor();
     check('the undeclared location is shown as a gap on screen', await admin.getByRole('table', { name: 'Gaps', exact: true }).getByText('Location undeclared').count(), 1);
@@ -279,7 +285,7 @@ await t.run(async () => {
     await admin.getByText(/Export complete: \d+ rows in \d+ chunk/).waitFor({ timeout: 60_000 });
     const finished = await ok(api.call(`/api/v1/admin/data-exports/${startedExport.id}`), S.schemas.DataExport);
     check('the export driven from the screen completed with a manifest', [finished.state, finished.rows_written, finished.manifest?.complete], ['COMPLETED', finished.expected_rows, true]);
-    const exportRow = admin.getByRole('table', { name: 'Your exports' }).getByRole('row').filter({ hasText: 'completed' }).first();
+    const exportRow = admin.getByRole('table', { name: 'Your exports' }).getByRole('row').filter({ hasText: startedExport.id.slice(0, 8) });
     const downloads: import('@playwright/test').Download[] = [];
     admin.on('download', d => downloads.push(d));
     await exportRow.getByRole('button', { name: 'Download' }).click();
@@ -289,6 +295,135 @@ await t.run(async () => {
     const { readFileSync } = await import('node:fs');
     const csv = readFileSync((await csvFile.path())!, 'utf8');
     check('the saved CSV has the header and every counted row', [csv.split('\n')[0], csv.trimEnd().split('\n').length - 1], [finished.manifest!.columns.join(','), finished.expected_rows]);
+
+    // ---------------------------------------------------------------- EX03
+    t.setPhase('EX03 request raised in the portal and executed');
+    const records = recordsTarget();
+    const rpSystem = await t.boundSystem(`Browser response CRM ${suffix}`);
+    const rpRef = `brp_${suffix}`;
+    await t.principalSubject('alice', [{ system_id: rpSystem.id, target_reference: rpRef }]);
+    const third = `neighbour.${suffix}@elsewhere.example`;
+    await records.seed(sc, rpSystem.id, [{ reference: rpRef, fields: { name: 'Alice Synthetic', email: 'alice.own@records.example', notes: `Parcel left with neighbour ${third}.` } }]);
+    await records.end();
+    const aliceApi = await h.login('alice');
+    const own = await ok(aliceApi.call('/api/v1/portal/me/rights-requests', { right_type: 'ACCESS', description: `Browser access request ${suffix}` }, { 'idempotency-key': randomUUID() }), S.schemas.OwnRightsRequest);
+    const move = (to: string) => ok(api.call(`/api/v1/admin/rights-requests/${own.id}/transition`, { to, reason: 'Synthetic progression for the browser journey.' }, { 'idempotency-key': randomUUID() }), S.schemas.RightsRequest);
+    await move('PENDING_VERIFICATION');
+    await ok(api.call(`/api/v1/admin/rights-requests/${own.id}/identity-review`, { grade: 'EXACT', basis: 'Signed in to the portal with the recorded identity.', matched_reference_count: 1 }, { 'idempotency-key': randomUUID() }), S.schemas.RightsRequest);
+    await move('VERIFIED'); await move('SCOPING');
+    await ok(api.call(`/api/v1/admin/rights-requests/${own.id}/scope`, { items: [{ system_id: rpSystem.id, action: 'DISCLOSE_COPY', retention_exception: null, note: 'Copy for the person.' }], unresolved_destinations: [] }, { 'idempotency-key': randomUUID() }), S.schemas.RightsRequest);
+    await move('AWAITING_APPROVAL'); await move('EXECUTING');
+
+    t.setPhase('EX03 prepared, reviewed and released on screen');
+    await open(owner, `/workspace/rights/${own.id}`, `Privacy request ${own.id.slice(0, 8)}…`);
+    const prepared = await click(owner, owner.getByRole('region', { name: 'Response package' }), /\/response-packages$/, S.schemas.ResponsePackage, 'Prepare a response package');
+    check('the package is prepared from the request screen', [prepared.status, (prepared.body as { state?: string }).state], [201, 'DRAFT']);
+    await open(reviewer, `/workspace/rights/${own.id}`, `Privacy request ${own.id.slice(0, 8)}…`);
+    const rf = reviewer.getByRole('form', { name: 'Review the package' });
+    await rf.locator('select[name$="|notes"]').selectOption('THIRD_PARTY');
+    const reviewed = await submit(reviewer, rf, /\/review$/, S.schemas.ResponsePackage, 'Complete the review');
+    check('the second person redacts the suggested field on screen', [reviewed.state, JSON.stringify(reviewed.released_content).includes(third)], ['REVIEWED', false]);
+    f = reviewer.getByRole('form', { name: 'Release to the person\'s portal' });
+    await field(f, 'Collections allowed').fill('2');
+    const releasedPkg = await submit(reviewer, f, /\/release$/, S.schemas.ResponsePackage, 'Release to the person\'s portal');
+    check('the package is released on screen', [releasedPkg.state, releasedPkg.delivery_state], ['RELEASED', 'ACTIVE']);
+
+    t.setPhase('EX03 the person collects their copy');
+    const aliceContext = await browser.newContext({ baseURL: h.config.origin, viewport: { width: 1200, height: 900 } });
+    const alicePage = await aliceContext.newPage();
+    alicePage.on('pageerror', e => errors.push(e.message));
+    alicePage.on('request', r => { if (new URL(r.url()).origin !== h.config.origin) external.push(r.url()); });
+    await h.authWindow();
+    await alicePage.goto('/privacy/sign-in');
+    await alicePage.getByLabel('Email').fill(h.users.alice!.email); await alicePage.getByLabel('Password', { exact: true }).fill(h.users.alice!.password);
+    await alicePage.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await alicePage.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+    await alicePage.goto('/privacy/rights'); await alicePage.waitForLoadState('networkidle');
+    const article = alicePage.locator('article').filter({ hasText: `Browser access request ${suffix}` });
+    const collected = alicePage.waitForResponse(r => r.url().endsWith(`/rights-requests/${own.id}/response-package`) && r.request().method() === 'POST');
+    await article.getByRole('button', { name: 'Collect your copy' }).click();
+    check('the person collects the copy from the portal', (await collected).status(), 200);
+    const yourCopy = article.getByRole('table', { name: 'What this organisation holds about you' });
+    await yourCopy.getByText('alice.own@records.example').waitFor();
+    check('the collected copy shows the redaction and not the other person', [await yourCopy.getByText('[Redacted: another person\'s data]').count(), await alicePage.getByText(third).count()], [1, 0]);
+    await aliceContext.close();
+
+    // ---------------------------------------------------------------- EX04 / EX12
+    t.setPhase('EX04 value classification on screen');
+    const corpus = recordsTarget();
+    for (let i = 0; i < 20; i++) await corpus.pool.query('INSERT INTO customer_profiles(tenant_id,legal_entity_id,environment_id,contact_email,aadhaar,city) VALUES($1,$2,$3,$4,$5,$6)',
+      [sc.tenant_id, sc.legal_entity_id, sc.environment_id, `browser${i}.${suffix}@records.example`, '234123412346', 'Pune']);
+    await corpus.end();
+    const clsSystem = await t.boundSystem(`Browser classification ${suffix}`);
+    const clsTarget = await ok(api.call('/api/v1/admin/catalog-discovery-targets', { system_id: clsSystem.id, schema_name: 'public', relation_name: 'customer_profiles' }, { 'idempotency-key': randomUUID() }), S.schemas.CatalogDiscoveryTarget);
+    await ok((await h.login('owner')).call(`/api/v1/admin/catalog-discovery-targets/${clsTarget.id}/approve`, {}, { 'idempotency-key': randomUUID() }), S.schemas.CatalogDiscoveryTarget, [200]);
+    await open(owner, `/workspace/catalog-discovery?target_id=${clsTarget.id}`, 'Catalog observations');
+    f = owner.getByRole('form', { name: 'Request a classification sample' });
+    await field(f, 'Rows to sample').fill('200');
+    const queuedRun = await submit(owner, f, /\/classification-runs$/, S.schemas.ClassificationRun, 'Request a classification sample');
+    check('a sample is requested from the screen and queued for the worker', queuedRun.state, 'QUEUED');
+    const worker = workflowActivities();
+    try { await sweepClassification(worker.scoped, worker.enrollment.identities.map(x => x.id), observerEnrollment(worker.config).identities, worker.observer); } finally { await worker.close(); }
+    await owner.reload(); await owner.waitForLoadState('networkidle');
+    const columnsTable = owner.getByRole('table', { name: 'Columns', exact: true });
+    await columnsTable.waitFor();
+    check('the screen shows classified columns', [await columnsTable.getByRole('row').filter({ hasText: 'aadhaar' }).getByText('Aadhaar number').count(), await columnsTable.getByRole('row').filter({ hasText: 'contact_email' }).getByText('Email address').count()], [1, 1]);
+    check('the screen shows who can read them', await owner.getByRole('table', { name: 'Who can read the classified columns' }).getByText('orvia_target_agent').count(), 1);
+    check('no sampled value appears on screen', await owner.getByText(`browser0.${suffix}@records.example`).count(), 0);
+    const lf = owner.getByRole('form', { name: 'Reviewed labels' });
+    await lf.locator('select[name="l:aadhaar"]').selectOption('AADHAAR'); await lf.locator('select[name="l:contact_email"]').selectOption('EMAIL'); await lf.locator('select[name="l:city"]').selectOption('NONE');
+    await field(lf, 'Basis').fill('Reviewed against the synthetic corpus definition.');
+    await submit(owner, lf, /\/classification-labels$/, S.schemas.ClassificationLabelSet, 'Record labels');
+    const measured = await click(owner, owner, /\/quality$/, S.schemas.ClassificationQuality, 'Measure quality against the labels');
+    check('quality is measured from the screen', [measured.status, (measured.body as { measurement?: { columns_labelled?: number } }).measurement?.columns_labelled], [201, 3]);
+    await owner.getByRole('table', { name: 'Precision and recall by category' }).waitFor();
+    check('the exposure overview lists the relation', await owner.getByRole('table', { name: 'Exposure by relation' }).getByText('public.customer_profiles').count() > 0, true);
+
+    // ---------------------------------------------------------------- EX09
+    t.setPhase('EX09 transport enabled by a second person on screen');
+    const hookHits: { signature: string | undefined; body: string }[] = [];
+    const hookServer = http.createServer((req, res) => { let body = ''; req.on('data', c => { body += c; }); req.on('end', () => { hookHits.push({ signature: req.headers['x-orvia-signature'] as string | undefined, body }); res.writeHead(200).end('ok'); }); });
+    const hookPort = await new Promise<number>(r => hookServer.listen(0, '127.0.0.1', () => r((hookServer.address() as import('node:net').AddressInfo).port)));
+    try {
+      await open(admin, '/workspace/delivery', 'Delivery');
+      f = admin.getByRole('form', { name: 'Add a transport' });
+      await field(f, 'Kind').selectOption('WEBHOOK'); await field(f, 'Name').fill(`Browser hook ${suffix}`); await field(f, 'URL').fill(`http://127.0.0.1:${hookPort}/orvia`);
+      const hookT = await submit(admin, f, /\/delivery-transports$/, S.schemas.DeliveryTransport, 'Add a transport');
+      check('a transport added on screen is pending', hookT.state, 'PENDING');
+      await open(owner, '/workspace/delivery', 'Delivery');
+      const trow = owner.getByRole('table', { name: 'Transports' }).getByRole('row').filter({ hasText: `Browser hook ${suffix}` });
+      const en = await click(owner, trow, /\/enable$/, S.schemas.DeliveryTransport, 'Enable');
+      check('a second person enables it on screen', [en.status, (en.body as { state?: string }).state], [200, 'ENABLED']);
+      const shown = await click(owner, trow, /\/signing-secret$/, S.schemas.SigningSecret, 'Show signing key once');
+      await trow.getByRole('button', { name: 'Show signing key once' }).waitFor({ state: 'detached' });
+      check('the signing key is shown once on screen, and the control is gone', [shown.status, await owner.getByText('Copy this signing key now').count(), await trow.getByRole('button', { name: 'Show signing key once' }).count()], [200, 1, 0]);
+      await owner.getByRole('button', { name: 'I have copied it' }).click();
+
+      t.setPhase('EX09 message reviewed on screen and sent');
+      await admin.reload(); await admin.waitForLoadState('networkidle');
+      f = admin.getByRole('form', { name: 'Compose a message' });
+      await field(f, 'Transport').selectOption(hookT.id); await field(f, 'Recipient').fill('ticketing'); await field(f, 'Subject').fill(`Browser delivery ${suffix}`);
+      await field(f, 'Body').fill('A synthetic message composed in the browser for the delivery journey.');
+      const composed = await submit(admin, f, /\/outbound-messages$/, S.schemas.OutboundMessage, 'Compose a message');
+      check('the composed message awaits review', composed.delivery_state, 'AWAITING_REVIEW');
+      const authorRow = admin.getByRole('table', { name: 'Outbound messages' }).getByRole('row').filter({ hasText: `Browser delivery ${suffix}` });
+      await authorRow.waitFor();
+      const selfApprove = await click(admin, authorRow, /\/review$/, S.schemas.OutboundMessage, 'Approve');
+      check('the server refuses the author\'s own approval', [selfApprove.status, ((selfApprove.body as { error?: { field_errors?: { code: string }[] } }).error?.field_errors ?? []).map(e => e.code)], [409, ['author_cannot_review']]);
+      await owner.reload(); await owner.waitForLoadState('networkidle');
+      const mrow = owner.getByRole('table', { name: 'Outbound messages' }).getByRole('row').filter({ hasText: `Browser delivery ${suffix}` });
+      const approved = await click(owner, mrow, /\/review$/, S.schemas.OutboundMessage, 'Approve');
+      check('a second person approves it on screen', [approved.status, (approved.body as { delivery_state?: string }).delivery_state], [200, 'QUEUED']);
+      const deliveryRunner = operationsRunner();
+      try { await deliveryRunner.once(); } finally { await deliveryRunner.close(); }
+      check('the runner delivered a signed request to the endpoint', [hookHits.length, hookHits[0]?.signature?.startsWith('sha256='), JSON.parse(hookHits[0]?.body ?? '{}').subject], [1, true, `Browser delivery ${suffix}`]);
+      await owner.reload(); await owner.waitForLoadState('networkidle');
+      await owner.getByRole('table', { name: 'Outbound messages' }).getByRole('row').filter({ hasText: `Browser delivery ${suffix}` }).getByRole('button', { name: 'Open' }).click();
+      const attemptsTable = owner.getByRole('table', { name: 'Delivery attempts' });
+      await attemptsTable.waitFor();
+      check('the screen shows the attempt and its receipt', [await attemptsTable.getByText('sent').count() > 0, await attemptsTable.getByText(/^HTTP 200 response/).count()], [true, 1]);
+      await click(owner, owner.getByRole('table', { name: 'Transports' }).getByRole('row').filter({ hasText: `Browser hook ${suffix}` }), /\/disable$/, S.schemas.DeliveryTransport, 'Disable');
+    } finally { hookServer.close(); }
 
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);

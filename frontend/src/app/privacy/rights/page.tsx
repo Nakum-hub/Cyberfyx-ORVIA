@@ -7,6 +7,7 @@ import {
   Badge, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section,
 } from '../../../components/shared/ui.tsx';
 import { OwnRequestHistory } from '../../../components/screens/privacy-operations/privacy-centre.tsx';
+import { CollectOwnCopy } from '../../../components/screens/expansion/response-packages.tsx';
 
 /**
  * The data principal's own rights, exercised by them.
@@ -137,6 +138,7 @@ function MyRights() {
                         ? 'The organisation has released its response to you.'
                         : 'No response has been released to you yet.'}
                     </p>
+                    {item.response_released && ['ACCESS', 'CORRECTION'].includes(item.right_type) && <CollectOwnCopy requestId={item.id} />}
                     <details className="reveal">
                       <summary>Status history</summary>
                       <OwnRequestHistory id={item.id} labels={STATES} />

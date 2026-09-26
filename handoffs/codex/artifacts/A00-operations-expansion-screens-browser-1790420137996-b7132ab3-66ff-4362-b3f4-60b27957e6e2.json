@@ -1,0 +1,117 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T10:55:37.996Z",
+  "suite": "expansion-screens-browser",
+  "assertions": [
+    {
+      "name": "a template authored in the builder is recorded as a draft with its questions",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ],
+      "actual": [
+        "DRAFT",
+        [
+          [
+            "shares_data",
+            "YES_NO",
+            "YES"
+          ],
+          [
+            "purpose",
+            "TEXT",
+            null
+          ]
+        ]
+      ]
+    },
+    {
+      "name": "an organisation admin sees no publish control",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a super admin who did not author it publishes it from the list",
+      "result": "PASS",
+      "expected": [
+        200,
+        "PUBLISHED"
+      ],
+      "actual": [
+        200,
+        "PUBLISHED"
+      ]
+    },
+    {
+      "name": "an answer without required evidence is named as missing on screen",
+      "result": "PASS",
+      "expected": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ],
+      "actual": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ]
+    },
+    {
+      "name": "after saving, the form shows the stored answer rather than clearing it",
+      "result": "PASS",
+      "expected": "YES",
+      "actual": "YES"
+    },
+    {
+      "name": "with evidence nothing is missing",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "submission raises the answer-rule finding",
+      "result": "PASS",
+      "expected": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ],
+      "actual": [
+        200,
+        "SUBMITTED",
+        [
+          "ANSWER_RULE"
+        ]
+      ]
+    },
+    {
+      "name": "unexpected failure in EX06 review by a second person",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('row').filter({ hasText: 'Browser organisation DPIA d12c9eee' }).getByRole('button', { name: 'Open' })\u001b[22m\n"
+    }
+  ],
+  "passed": 7,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
