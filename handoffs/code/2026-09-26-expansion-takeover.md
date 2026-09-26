@@ -513,3 +513,11 @@ What the first `ropa-exports` failure was: I assumed a terminated engagement wou
 6. Reconcile `tracking/v1-expansion.json` (task #17).
 
 **Follow-up (same day):** `pnpm test` 257/257 PASS after the `SERVER_LIMITS` change. `tracking/v1-expansion.json` reconciled (acceptance still NOT_RUN everywhere). Database-backed suites stay NOT_RUN until the codex-a00 Postgres container is restarted: the 17 stuck backends from the capacity probe were still present at the time of writing.
+
+**Re-verification after the user-approved restart of the codex-a00 Postgres container** (this cleared the 17 stuck backends; scratch database `orvia_capacity_f56865f4cb3d` dropped; with the new `SERVER_LIMITS`):
+| Suite | Result |
+|---|---|
+| backup-drill / opa cold-start | 5/5, 8/8 PASS |
+| cmp / grc-lifecycle / classification / impact / response-packages / third-party | 44/44, 75/75, 29/29, 41/41, 52/52, 43/43 PASS |
+| ropa-exports | First run under host load average about 40: 1 failure (the catalog observation was missing after the sweep, so the next step read `undefined`). Rerun on an idle host: 58/58 PASS. Not called a flake: [Likely] the observer read timed out under load. Codex should check that a failed observer read is reported by the sweep, not silently skipped. |
+| delivery | Failed twice with "a retry waits for its backoff" (expected 1 attempt, got 2). Root cause: `runner.once()` processes every scope in the shared test database, and a single pass now outlasts the 5 s backoff, so the retry was legitimately due. The test now asserts the rule itself (a second attempt starts at least 5 s after the first finished). 41/41 PASS. |

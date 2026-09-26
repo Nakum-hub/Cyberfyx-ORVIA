@@ -1,0 +1,851 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T13:00:21.717Z",
+  "suite": "grc-lifecycle",
+  "assertions": [
+    {
+      "name": "the regulatory framework is imported from the package in force, labelled with its distribution",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a policy citing a requirement outside the package in force is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "requirement_not_in_active_package"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "requirement_not_in_active_package"
+        ]
+      }
+    },
+    {
+      "name": "a new policy is a draft, version 1",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        1,
+        null
+      ],
+      "actual": [
+        "DRAFT",
+        1,
+        null
+      ]
+    },
+    {
+      "name": "a draft cannot be acknowledged",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the author cannot publish their own policy",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      }
+    },
+    {
+      "name": "an admin without approval authority cannot publish",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "another approver publishes it and a review date is set",
+      "result": "PASS",
+      "expected": [
+        "PUBLISHED",
+        true,
+        true,
+        false
+      ],
+      "actual": [
+        "PUBLISHED",
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "a reader acknowledges a published policy once, however often they press",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "a new version of the same policy is version 2",
+      "result": "PASS",
+      "expected": [
+        "f83e3958-dd7b-4652-9cc3-03106f7f23de",
+        2,
+        "DRAFT"
+      ],
+      "actual": [
+        "f83e3958-dd7b-4652-9cc3-03106f7f23de",
+        2,
+        "DRAFT"
+      ]
+    },
+    {
+      "name": "a version of an unknown policy is refused",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "publishing version 2 retires version 1; one version is in force",
+      "result": "PASS",
+      "expected": [
+        [
+          1,
+          "RETIRED"
+        ],
+        [
+          2,
+          "PUBLISHED"
+        ]
+      ],
+      "actual": [
+        [
+          1,
+          "RETIRED"
+        ],
+        [
+          2,
+          "PUBLISHED"
+        ]
+      ]
+    },
+    {
+      "name": "a retired version cannot be published again",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a sourced issue must name its source",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a control-test issue cannot be raised by hand",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a new issue is open",
+      "result": "PASS",
+      "expected": [
+        "OPEN",
+        0
+      ],
+      "actual": [
+        "OPEN",
+        0
+      ]
+    },
+    {
+      "name": "an open issue cannot be verified",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "not_allowed_when_open"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "not_allowed_when_open"
+        ]
+      }
+    },
+    {
+      "name": "a remediation must cite evidence",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "remediation is recorded with evidence",
+      "result": "PASS",
+      "expected": "REMEDIATED",
+      "actual": "REMEDIATED"
+    },
+    {
+      "name": "an admin without approval authority cannot verify by review",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "independent_review_needs_an_approver"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "independent_review_needs_an_approver"
+        ]
+      }
+    },
+    {
+      "name": "an independent review cites evidence",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "review_cites_evidence"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "review_cites_evidence"
+        ]
+      }
+    },
+    {
+      "name": "someone other than the remediator verifies it",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        true
+      ],
+      "actual": [
+        "VERIFIED",
+        true
+      ]
+    },
+    {
+      "name": "a verified issue can be reopened and its history kept",
+      "result": "PASS",
+      "expected": [
+        "OPEN",
+        [
+          "REOPENED",
+          "VERIFIED",
+          "REMEDIATED",
+          "REMEDIATION_PLANNED"
+        ]
+      ],
+      "actual": [
+        "OPEN",
+        [
+          "REOPENED",
+          "VERIFIED",
+          "REMEDIATED",
+          "REMEDIATION_PLANNED"
+        ]
+      ]
+    },
+    {
+      "name": "the remediator cannot verify their own remediation",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "remediator_cannot_verify"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "remediator_cannot_verify"
+        ]
+      }
+    },
+    {
+      "name": "a remediated issue awaits verification, not risk acceptance",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "not_allowed_when_remediated"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "not_allowed_when_remediated"
+        ]
+      }
+    },
+    {
+      "name": "the raiser of an issue cannot accept its risk either",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "risk_acceptance_needs_an_approver"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "risk_acceptance_needs_an_approver"
+        ]
+      }
+    },
+    {
+      "name": "a risk acceptance expires in the future",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "expiry_is_in_the_future"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "expiry_is_in_the_future"
+        ]
+      }
+    },
+    {
+      "name": "an approver other than the raiser accepts the risk until a date",
+      "result": "PASS",
+      "expected": "RISK_ACCEPTED",
+      "actual": "RISK_ACCEPTED"
+    },
+    {
+      "name": "an issue past its due date is overdue",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "issues filter by derived state",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a new test has never run",
+      "result": "PASS",
+      "expected": [
+        "NEVER_RUN",
+        null
+      ],
+      "actual": [
+        "NEVER_RUN",
+        null
+      ]
+    },
+    {
+      "name": "the control holds while nothing is broken",
+      "result": "PASS",
+      "expected": [
+        "PASSING",
+        "PASS",
+        "MANUAL",
+        null
+      ],
+      "actual": [
+        "PASSING",
+        "PASS",
+        "MANUAL",
+        null
+      ]
+    },
+    {
+      "name": "a passing first run raises no alert",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a deliberately broken control is detected",
+      "result": "PASS",
+      "expected": [
+        "FAILING",
+        "FAIL",
+        10
+      ],
+      "actual": [
+        "FAILING",
+        "FAIL",
+        10
+      ]
+    },
+    {
+      "name": "the failure opens an issue linked to the test and control",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the drift raises one alert",
+      "result": "PASS",
+      "expected": [
+        "DRIFT_TO_FAIL"
+      ],
+      "actual": [
+        "DRIFT_TO_FAIL"
+      ]
+    },
+    {
+      "name": "the control-test issue names its source and control",
+      "result": "PASS",
+      "expected": [
+        "CONTROL_TEST",
+        "e0b689cd-25bb-48e2-945c-d45d6ded6f1f",
+        "7d51edd7-2aad-4fe0-b47a-15c3c8f599b8",
+        "OPEN",
+        "MEDIUM"
+      ],
+      "actual": [
+        "CONTROL_TEST",
+        "e0b689cd-25bb-48e2-945c-d45d6ded6f1f",
+        "7d51edd7-2aad-4fe0-b47a-15c3c8f599b8",
+        "OPEN",
+        "MEDIUM"
+      ]
+    },
+    {
+      "name": "a repeated failure keeps the same issue and does not alert again",
+      "result": "PASS",
+      "expected": [
+        "c4696aeb-871b-4e37-84c8-2c2156356bf6",
+        [
+          "DRIFT_TO_FAIL"
+        ]
+      ],
+      "actual": [
+        "c4696aeb-871b-4e37-84c8-2c2156356bf6",
+        [
+          "DRIFT_TO_FAIL"
+        ]
+      ]
+    },
+    {
+      "name": "the run records identifiers, never record contents",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a passing run from before the remediation cannot verify it",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "run_precedes_the_remediation"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "run_precedes_the_remediation"
+        ]
+      }
+    },
+    {
+      "name": "a failing run cannot verify it",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "run_did_not_pass"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "run_did_not_pass"
+        ]
+      }
+    },
+    {
+      "name": "a run of an unrelated test cannot verify it",
+      "result": "PASS",
+      "expected": {
+        "status": 404,
+        "codes": [
+          "not_found"
+        ]
+      },
+      "actual": {
+        "status": 404,
+        "codes": [
+          "not_found"
+        ]
+      }
+    },
+    {
+      "name": "binding the system restores the control",
+      "result": "PASS",
+      "expected": [
+        "PASSING",
+        9,
+        null
+      ],
+      "actual": [
+        "PASSING",
+        9,
+        null
+      ]
+    },
+    {
+      "name": "recovery raises one alert",
+      "result": "PASS",
+      "expected": [
+        "DRIFT_TO_FAIL",
+        "RECOVERED"
+      ],
+      "actual": [
+        "DRIFT_TO_FAIL",
+        "RECOVERED"
+      ]
+    },
+    {
+      "name": "the passing run after remediation verifies the issue",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        "CONTROL_TEST",
+        "635171ab-20db-45ba-b78e-12e87a156311"
+      ],
+      "actual": [
+        "VERIFIED",
+        "CONTROL_TEST",
+        "635171ab-20db-45ba-b78e-12e87a156311"
+      ]
+    },
+    {
+      "name": "a new failure after verification recurs on the same issue",
+      "result": "PASS",
+      "expected": [
+        "c4696aeb-871b-4e37-84c8-2c2156356bf6",
+        "OPEN",
+        "RECURRED"
+      ],
+      "actual": [
+        "c4696aeb-871b-4e37-84c8-2c2156356bf6",
+        "OPEN",
+        "RECURRED"
+      ]
+    },
+    {
+      "name": "there is still exactly one issue for the test",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the control passes again once the second system is bound",
+      "result": "PASS",
+      "expected": "PASSING",
+      "actual": "PASSING"
+    },
+    {
+      "name": "a check that cannot run is recorded as an error, not a pass",
+      "result": "PASS",
+      "expected": [
+        "ERROR",
+        "ERROR",
+        null,
+        "SQLSTATE_42501"
+      ],
+      "actual": [
+        "ERROR",
+        "ERROR",
+        null,
+        "SQLSTATE_42501"
+      ]
+    },
+    {
+      "name": "an error alerts once and opens no issue",
+      "result": "PASS",
+      "expected": [
+        [
+          "ERROR"
+        ],
+        null
+      ],
+      "actual": [
+        [
+          "ERROR"
+        ],
+        null
+      ]
+    },
+    {
+      "name": "once the check can run again the audit trail is confirmed append-only",
+      "result": "PASS",
+      "expected": [
+        "PASSING",
+        0
+      ],
+      "actual": [
+        "PASSING",
+        0
+      ]
+    },
+    {
+      "name": "a disabled test says so and cannot be run",
+      "result": "PASS",
+      "expected": [
+        "DISABLED",
+        409
+      ],
+      "actual": [
+        "DISABLED",
+        409
+      ]
+    },
+    {
+      "name": "the operations runner ran the due test without compliance errors",
+      "result": "PASS",
+      "expected": [
+        true,
+        []
+      ],
+      "actual": [
+        true,
+        []
+      ]
+    },
+    {
+      "name": "the scheduled run is the worker's, and every application table forces row security",
+      "result": "PASS",
+      "expected": [
+        "SCHEDULE",
+        "PASS",
+        true
+      ],
+      "actual": [
+        "SCHEDULE",
+        "PASS",
+        true
+      ]
+    },
+    {
+      "name": "a disabled test is not run by the schedule",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "the runner escalated the overdue issue",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "an overdue issue is escalated once per due date, however often the sweep runs",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "an issue within its due date is not escalated",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the report maps the control to its requirement and lists its tests with standing",
+      "result": "PASS",
+      "expected": [
+        true,
+        "PASSING",
+        "DISABLED"
+      ],
+      "actual": [
+        true,
+        "PASSING",
+        "DISABLED"
+      ]
+    },
+    {
+      "name": "the report counts mapped and unmapped requirements",
+      "result": "PASS",
+      "expected": [
+        1,
+        29,
+        false
+      ],
+      "actual": [
+        1,
+        29,
+        false
+      ]
+    },
+    {
+      "name": "the report counts open and overdue issues and published policies",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the report states its limits",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "an auditor can read tests and alerts",
+      "result": "PASS",
+      "expected": [
+        200,
+        200
+      ],
+      "actual": [
+        200,
+        200
+      ]
+    },
+    {
+      "name": "an auditor cannot create, run or sweep tests",
+      "result": "PASS",
+      "expected": [
+        403,
+        403,
+        403
+      ],
+      "actual": [
+        403,
+        403,
+        403
+      ]
+    },
+    {
+      "name": "an auditor cannot raise or change issues",
+      "result": "PASS",
+      "expected": [
+        403,
+        403
+      ],
+      "actual": [
+        403,
+        403
+      ]
+    },
+    {
+      "name": "the package the framework came from is the one in force",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "another tenant cannot read the issue, test or policy",
+      "result": "PASS",
+      "expected": [
+        404,
+        404,
+        true
+      ],
+      "actual": [
+        404,
+        404,
+        true
+      ]
+    },
+    {
+      "name": "a published policy cannot be rewritten at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a retired policy cannot be republished at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "an issue event cannot be edited at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a control test run cannot be deleted at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a control test cannot change what it checks at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "an alert cannot be removed at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a reader cannot insert an issue at the database",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "a reader cannot acknowledge for someone else at the database",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "a reader cannot run a control check at the database",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    }
+  ],
+  "passed": 75,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
