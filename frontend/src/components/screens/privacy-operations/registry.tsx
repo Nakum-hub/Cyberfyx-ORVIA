@@ -111,11 +111,18 @@ function PrincipalDetail({ id, onChanged }: { id: string; onChanged: () => void 
 }
 
 export function ProcessingActivities() {
-  const list = usePagedQuery('list_registry_activities', { limit: 25 });
+  const directory = useDirectory(['systems']);
+  const [systemFilter, setSystemFilter] = useState('');
+  const [applied, setApplied] = useState<Record<string, string>>({});
+  const list = usePagedQuery('list_registry_activities', { limit: 25, query: applied });
   return (
     <>
       <PageHead eyebrow="Registry" title="Processing activities"
         lede="Each activity with its purpose version, processing condition, notices, systems and retention, and what is missing — stated as facts, never as a score." />
+      <form className="inline-form" aria-label="Filter processing activities" onSubmit={event => { event.preventDefault(); setApplied(systemFilter ? { system_id: systemFilter } : {}); }}>
+        <SelectField label="Uses system" value={systemFilter} onChange={setSystemFilter} options={[{ value: '', label: 'Any system' }, ...(directory.data?.systems ?? []).map(s => ({ value: s.id, label: s.name }))]} />
+        <button type="submit">Filter</button>
+      </form>
       <Freshness query={list} />
       <QueryBoundary query={list} label="processing activities" isEmpty={data => !data.items.length}>
         {data => (

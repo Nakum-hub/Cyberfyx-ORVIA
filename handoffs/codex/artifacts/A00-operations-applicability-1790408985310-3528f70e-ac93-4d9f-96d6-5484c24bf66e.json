@@ -1,0 +1,169 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:49:45.310Z",
+  "suite": "applicability",
+  "assertions": [
+    {
+      "name": "an unrecorded SDF status leaves SDF requirements unresolved, never assumed not designated",
+      "result": "PASS",
+      "expected": [
+        "UNRESOLVED",
+        null
+      ],
+      "actual": [
+        "UNRESOLVED",
+        null
+      ]
+    },
+    {
+      "name": "an unrecorded Third Schedule class leaves the class-based retention requirement unresolved",
+      "result": "PASS",
+      "expected": "UNRESOLVED",
+      "actual": "UNRESOLVED"
+    },
+    {
+      "name": "requirements that always apply are applicable regardless of unknown facts",
+      "result": "PASS",
+      "expected": "APPLICABLE",
+      "actual": "APPLICABLE"
+    },
+    {
+      "name": "the summary counts unresolved decisions",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a recorded non-designation makes SDF requirements not applicable",
+      "result": "PASS",
+      "expected": [
+        "NOT_APPLICABLE",
+        "NOT_APPLICABLE",
+        "NOT_APPLICABLE"
+      ],
+      "actual": [
+        "NOT_APPLICABLE",
+        "NOT_APPLICABLE",
+        "NOT_APPLICABLE"
+      ]
+    },
+    {
+      "name": "a recorded class outside the Third Schedule makes the class-based rule not applicable",
+      "result": "PASS",
+      "expected": "NOT_APPLICABLE",
+      "actual": "NOT_APPLICABLE"
+    },
+    {
+      "name": "each decision records the fact values it used and a readable trace",
+      "result": "PASS",
+      "expected": [
+        "NOT_DESIGNATED",
+        true
+      ],
+      "actual": [
+        "NOT_DESIGNATED",
+        true
+      ]
+    },
+    {
+      "name": "a change of result is emitted as an applicability event",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an auditor can read persisted decisions",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a member cannot evaluate applicability",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot evaluate applicability",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "another tenant never sees these decisions",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an organisation scope carries no id",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an unresolved condition leaves condition-dependent requirements unresolved",
+      "result": "PASS",
+      "expected": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "actual": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "name": "no processor is assumed when none is recorded",
+      "result": "PASS",
+      "expected": [
+        "UNRESOLVED",
+        null
+      ],
+      "actual": [
+        "UNRESOLVED",
+        null
+      ]
+    },
+    {
+      "name": "a person past the period under an unresolved condition is unresolved, not eligible",
+      "result": "PASS",
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "actual": [
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "the persisted position names the unresolved condition",
+      "result": "PASS",
+      "expected": [
+        "UNRESOLVED",
+        "The processing condition for the activity is unresolved."
+      ],
+      "actual": [
+        "UNRESOLVED",
+        "The processing condition for the activity is unresolved."
+      ]
+    },
+    {
+      "name": "no erasure action is planned",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    }
+  ],
+  "passed": 18,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
