@@ -555,3 +555,5 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   3. Run the full security battery (tenant isolation, portal, supplier, runner policies), unit, DPDP, expansion and e2e suites.
   4. Re-run `capacity:mixed`.
 - `scripts/capacity-mixed.ts` now records EXPLAIN plans for both list shapes in its evidence.
+
+**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0059_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.

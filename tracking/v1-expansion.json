@@ -221,6 +221,9 @@
       ],
       "limitations": [
         "OPA readiness (8/8) and same-host backup/restore drill (5/5) executed. Mixed 1M workload probe FAILED as a diagnostic (about 4 ops/s under a 384 MiB database container) and is not a qualification; server statement limits added but not yet re-run. SSO/SCIM not built: proposal only, needs user/customer IdP decisions. Installer, upgrade/rollback, signing custody, accessibility matrix and release approval remain open."
+      ],
+      "required_actions": [
+        "REQUIRED before any capacity qualification: apply migration 0059_typed_scope_predicate (app.in_scope compares uuids instead of text casts). Blocked in the Claude session by the tool safety check, not by a test result. SQL, plan evidence and verification steps: handoffs/code/2026-09-26-expansion-takeover.md, 'Root cause of slow scoped lists'. After applying: run db:migrate, re-run EXPLAIN (expect an Index Scan on audit_events_scope_time_id), run the full security/tenant-isolation, unit, DPDP, expansion and e2e suites, then capacity:mixed."
       ]
     }
   ]
