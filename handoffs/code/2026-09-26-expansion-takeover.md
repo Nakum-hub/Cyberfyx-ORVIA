@@ -278,3 +278,66 @@ What the first `ropa-exports` failure was: I assumed a terminated engagement wou
 | `tsx tests/integration/expansion/response-packages.test.ts` | 52/52 PASS. The first run failed because the phone rule matched ISO dates in ORVIA's request section; the rule was fixed and scoped to system sections. Coverage:<br>• refusals for unverified identity, erasure and the auditor;<br>• a read through the observer role, with another principal's record in the same system excluded;<br>• UNAVAILABLE and NOT_SUPPORTED sources recorded as such;<br>• suggestions without values;<br>• preparer≠reviewer, undecided suggestions, unacknowledged sources and unknown fields refused;<br>• redaction leakage checked in the staff view and the delivered copy (a value kept in another field is scrubbed);<br>• the 30-day and past-expiry bounds;<br>• V1 response settled;<br>• another principal gets 404 and staff get 403 on the portal route;<br>• the allowance, revocation, expiry (3-second window), replacement versions and withdrawal;<br>• receipts;<br>• database immutability, the purge guard and principal RLS. |
 | `tsx tests/e2e/expansion-screens-local.ts` | 42/42 PASS (EX06, EX08, EX10/11, EX05, EX03). The EX03 browser phase: the principal raises the request in the portal, staff prepare, a second person redacts on screen and releases, and the principal signs in and collects the copy with the redaction shown and the other person absent. Earlier attempts failed on list paging (fixed in the product, above), a heading selector, one auth-window timeout, and one run in which my own edit truncated the e2e file; it was restored from git and re-applied. |
 | impact / grc-lifecycle / ropa-exports / rights / portal / runner (rerun) | 41/41, 75/75, 58/58, 64/64, 19/19, 10/10 PASS |
+
+## EX04 / EX12 — PostgreSQL value classification with measured quality; grant-based access exposure
+
+**Built**
+- `connectors/src/discovery/classifiers.ts` (`value-classifiers v1`, pure functions, unit-tested):
+  - EMAIL, PHONE_IN, PAN (holder-type letter checked), AADHAAR (Verhoeff check digit, leading 2–9), PAYMENT_CARD (Luhn), IFSC and IPV4 (octet ranges);
+  - a column is CONFIRMED at ≥80% of non-empty sampled values and POSSIBLE at ≥30%;
+  - whole-value matching only, so free text containing an address is not an address column.
+- `connectors/src/discovery/postgres-classify.ts`:
+  - access: observer role only, read-only transaction, 10-second timeout, identifiers validated, the observer's read-only permission re-checked;
+  - sampling: at most 1,000 rows (the first rows returned, stated as such), classifiable column types only, scope columns excluded; values are counted and discarded;
+  - grants come from `pg_class.relacl` and `pg_attribute.attacl` through `aclexplode`, so the list is complete and not limited to the observer's own grants.
+- Synthetic target migration `services/synthetic-target/migrations/0005_classification_corpus.sql` (TEST FIXTURE):
+  - `customer_profiles` holds shaped columns plus decoys: 12-digit numbers failing Verhoeff, 16-digit numbers failing Luhn, and notes containing a few addresses;
+  - its grants are deliberately uneven: the write agent can read `customer_profiles`, and `legacy_contact_exports` is `GRANT SELECT … TO PUBLIC`.
+- Migration `0056_value_classification.sql`:
+  - `classification_runs`: queued, then completed or failed once; one queued run per target.
+  - `classification_labels`: append-only; the latest label per column is in force.
+  - `classification_quality`: append-only.
+  - Row security: staff read with `graph.read`; requesting a run needs `connection.enable`; labels and measurements need `graph.write`; the worker uses machine scope with `workflow.execute`.
+- Domain `backend/domain/src/discovery/classification.ts`:
+  - request, detail and list;
+  - exposure findings for relations with a CONFIRMED sensitive column:
+    - PUBLIC_CAN_READ: HIGH if Aadhaar, PAN or card; otherwise MEDIUM;
+    - READ_WRITE_ROLE_CAN_READ;
+    - ROLE_CAN_READ;
+    - OWNER and ORVIA_OBSERVER, reported as information;
+    - column-level grants on unclassified columns are ignored;
+  - labels;
+  - quality measurement: column-level true positives, false positives and false negatives, precision, recall and accuracy against the labels in force. POSSIBLE decisions are listed and not counted as predictions;
+  - an exposure list with each target's latest classification.
+- Worker `services/worker/src/classification.ts` is added to `services/worker/src/main.ts`. Each run gets a savepoint, 3 attempts, then `CLASSIFICATION_READ_FAILED`. A target that is no longer approved fails with `TARGET_NOT_APPROVED`.
+- Contract 0.35.0 adds 8 routes.
+- Screen (`/workspace/catalog-discovery`), per target:
+  - request a sample;
+  - runs, classified columns and "who can read the classified columns";
+  - a reviewed-labels form;
+  - measure quality, shown as precision/recall by category;
+  - plus an "Access exposure" overview.
+- The catalog notice was corrected: it had said the screen never classifies.
+
+**Invariant test updated (review requested)**
+- `tests/unit/graph.test.ts`: graph routes go from 21 to 28, with a new assertion that `request_classification_run` is `connection.enable`.
+- New `tests/unit/value-classifiers.test.ts` (5 tests):
+  - Verhoeff and Luhn accept and reject;
+  - look-alike shapes;
+  - share thresholds;
+  - exposure grading.
+
+**Honest limits**
+- These cover one PostgreSQL relation per approved catalog target on the synthetic target. The EX04 targets for files, object stores, APIs and source-code flow are **not built**.
+- The sample is the first rows returned, not a random or stratified sample. The run's limits say so.
+- No classifier for names, addresses or free text. Such columns are "unclassified", never "clean".
+- Exposure is derived from database grants only. It does not include application-layer access, row-security effects on what a grantee actually sees, or role membership inheritance; members of a granted role are not expanded.
+
+**Executed (codex-a00, synthetic fixtures)**
+| Command | Result |
+|---|---|
+| machine:init | applied target migration 0005 |
+| contracts / typecheck / lint / unit | 373 examples, clean, clean, 257/257 |
+| `tsx tests/integration/expansion/classification.test.ts` | 29/29 PASS. The first attempts failed on test mistakes: a duplicate target registration, and my wrong expectation that notes would count as emails. Coverage:<br>• an unapproved target is refused;<br>• an admin without `connection.enable` gets 403;<br>• a single queued run per target;<br>• the real worker sweep through the observer;<br>• 7 shaped columns CONFIRMED, checksum decoys and free text NONE;<br>• no sampled value stored (the database row is checked for the seeded values and the run marker);<br>• findings: the write agent at MEDIUM, observer and owner as INFO, PUBLIC on the legacy export table at MEDIUM (email and phone only);<br>• a missing relation reported as MISSING;<br>• labels, then quality at 12/12 with precision and recall 1;<br>• a relabel dropping email recall to 0.5 and correct to 11;<br>• a disabled target failing explicitly;<br>• auditor, tenant and database immutability. |
+| `tsx tests/e2e/expansion-screens-local.ts` | 48/48 PASS (EX06, EX08, EX10/11, EX05, EX03, EX04/12). The EX04/12 phase requests a sample on screen, runs the worker, and checks classified columns and grantees shown with no sampled value on screen. It then records labels on screen, measures quality and shows the exposure overview. |
+| catalog-flow / postgres-catalog (rerun after the target schema change) | 58/58, 13/13 PASS |

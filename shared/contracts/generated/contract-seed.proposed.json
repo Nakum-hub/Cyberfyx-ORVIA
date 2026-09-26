@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.34.0",
+  "contract_version": "0.35.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -3919,6 +3919,93 @@
       "status": 200,
       "idempotency": true,
       "capability": "rights.own.read"
+    },
+    {
+      "id": "request_classification_run",
+      "method": "post",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-runs",
+      "authority": "STAFF",
+      "request": "ClassificationRunRequest",
+      "response": "ClassificationRun",
+      "status": 201,
+      "idempotency": true,
+      "capability": "connection.enable",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_classification_runs",
+      "method": "get",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-runs",
+      "authority": "STAFF",
+      "response": "ClassificationRunList",
+      "status": 200,
+      "paginated": true,
+      "capability": "graph.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "classification_run",
+      "method": "get",
+      "path": "/api/v1/admin/classification-runs/{id}",
+      "authority": "STAFF",
+      "response": "ClassificationRun",
+      "status": 200,
+      "capability": "graph.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "label_classification",
+      "method": "post",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-labels",
+      "authority": "STAFF",
+      "request": "ClassificationLabelsRecord",
+      "response": "ClassificationLabelSet",
+      "status": 201,
+      "idempotency": true,
+      "capability": "graph.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "classification_labels",
+      "method": "get",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-labels",
+      "authority": "STAFF",
+      "response": "ClassificationLabelSet",
+      "status": 200,
+      "capability": "graph.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "measure_classification",
+      "method": "post",
+      "path": "/api/v1/admin/classification-runs/{id}/quality",
+      "authority": "STAFF",
+      "response": "ClassificationQuality",
+      "status": 201,
+      "idempotency": true,
+      "capability": "graph.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_classification_quality",
+      "method": "get",
+      "path": "/api/v1/admin/classification-runs/{id}/quality",
+      "authority": "STAFF",
+      "response": "ClassificationQualityList",
+      "status": 200,
+      "paginated": true,
+      "capability": "graph.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_exposure_findings",
+      "method": "get",
+      "path": "/api/v1/admin/exposure-findings",
+      "authority": "STAFF",
+      "response": "ExposureSummaryList",
+      "status": 200,
+      "paginated": true,
+      "capability": "graph.read"
     },
     {
       "id": "supplier_questionnaire",

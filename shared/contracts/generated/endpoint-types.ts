@@ -357,4 +357,12 @@ export interface EndpointMap {
   revoke_response_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackageRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
   withdraw_response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
   own_response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnResponsePackage> };
+  request_classification_run: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationRunRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationRun> };
+  list_classification_runs: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationRunList> };
+  classification_run: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationRun> };
+  label_classification: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationLabelsRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationLabelSet> };
+  classification_labels: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationLabelSet> };
+  measure_classification: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationQuality> };
+  list_classification_quality: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationQualityList> };
+  list_exposure_findings: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ExposureSummaryList> };
 }

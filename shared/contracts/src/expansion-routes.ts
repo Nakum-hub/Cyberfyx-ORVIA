@@ -81,6 +81,15 @@ export const expansionRoutes: Route[] = [
   write('withdraw_response_package', '/response-packages/{id}/withdrawal', undefined, 'ResponsePackage', 'rights.write', 200),
   // The authenticated principal collects their own released copy; each collection counts against its allowance.
   { id: 'own_response_package', method: 'post', path: '/api/v1/portal/me/rights-requests/{id}/response-package', authority: 'PRINCIPAL', params: 'IdPath', response: 'OwnResponsePackage', status: 200, idempotency: true, capability: 'rights.own.read' },
+  // EX04 value classification and EX12 access exposure
+  write('request_classification_run', '/catalog-discovery-targets/{id}/classification-runs', 'ClassificationRunRequest', 'ClassificationRun', 'connection.enable'),
+  list('list_classification_runs', '/catalog-discovery-targets/{id}/classification-runs', 'ClassificationRunList', 'graph.read'),
+  read('classification_run', '/classification-runs/{id}', 'ClassificationRun', 'graph.read'),
+  write('label_classification', '/catalog-discovery-targets/{id}/classification-labels', 'ClassificationLabelsRecord', 'ClassificationLabelSet', 'graph.write'),
+  read('classification_labels', '/catalog-discovery-targets/{id}/classification-labels', 'ClassificationLabelSet', 'graph.read'),
+  write('measure_classification', '/classification-runs/{id}/quality', undefined, 'ClassificationQuality', 'graph.write'),
+  list('list_classification_quality', '/classification-runs/{id}/quality', 'ClassificationQualityList', 'graph.read'),
+  list('list_exposure_findings', '/exposure-findings', 'ExposureSummaryList', 'graph.read'),
   // Supplier-facing: a bearer link token scoped to one draft assessment; no ORVIA account.
   { id: 'supplier_questionnaire', method: 'get', path: '/api/v1/supplier/questionnaire', authority: 'SUPPLIER_LINK', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond' },
   { id: 'supplier_answer', method: 'post', path: '/api/v1/supplier/questionnaire/answers', authority: 'SUPPLIER_LINK', request: 'SupplierAnswers', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond', maximum_body_bytes: 262144 },

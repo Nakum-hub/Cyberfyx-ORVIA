@@ -11299,6 +11299,388 @@
       }
     },
     {
+      "operation_id": "request_classification_run",
+      "method": "POST",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-runs",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "sample_limit": 1
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003de",
+        "target_id": "00000000-0000-4000-8000-0000000003df",
+        "schema_name": "public",
+        "relation_name": "customer_profiles",
+        "sample_limit": 100,
+        "state": "COMPLETED",
+        "requested_by": "00000000-0000-4000-8000-000000000386",
+        "requested_at": "2026-09-16T10:00:00.000Z",
+        "ruleset": "value-classifiers v1",
+        "observed_at": "2026-09-16T10:00:00.000Z",
+        "relation_state": "CLASSIFIED",
+        "rows_sampled": 100,
+        "columns": [
+          {
+            "column": "contact_email",
+            "sampled": 100,
+            "non_empty": 98,
+            "matches": {
+              "EMAIL": 97,
+              "PHONE_IN": 0,
+              "PAN": 0,
+              "AADHAAR": 0,
+              "PAYMENT_CARD": 0,
+              "IFSC": 0,
+              "IPV4": 0
+            },
+            "category": "EMAIL",
+            "confidence": "CONFIRMED",
+            "share": 0.99
+          }
+        ],
+        "grants": [
+          {
+            "grantee": "PUBLIC",
+            "privileges": [
+              "SELECT"
+            ],
+            "columns": null
+          }
+        ],
+        "owner": "owner_role",
+        "findings": [
+          {
+            "kind": "PUBLIC_CAN_READ",
+            "severity": "HIGH",
+            "grantee": "PUBLIC",
+            "columns": [
+              "contact_email"
+            ],
+            "categories": [
+              "EMAIL"
+            ],
+            "detail": "Every role can read classified columns."
+          }
+        ],
+        "limits": [
+          "Synthetic example."
+        ],
+        "failure_code": null
+      }
+    },
+    {
+      "operation_id": "list_classification_runs",
+      "method": "GET",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-runs",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003de",
+            "target_id": "00000000-0000-4000-8000-0000000003df",
+            "schema_name": "public",
+            "relation_name": "customer_profiles",
+            "sample_limit": 100,
+            "state": "COMPLETED",
+            "requested_by": "00000000-0000-4000-8000-000000000386",
+            "requested_at": "2026-09-16T10:00:00.000Z",
+            "ruleset": "value-classifiers v1",
+            "observed_at": "2026-09-16T10:00:00.000Z",
+            "relation_state": "CLASSIFIED",
+            "rows_sampled": 100,
+            "columns": [
+              {
+                "column": "contact_email",
+                "sampled": 100,
+                "non_empty": 98,
+                "matches": {
+                  "EMAIL": 97,
+                  "PHONE_IN": 0,
+                  "PAN": 0,
+                  "AADHAAR": 0,
+                  "PAYMENT_CARD": 0,
+                  "IFSC": 0,
+                  "IPV4": 0
+                },
+                "category": "EMAIL",
+                "confidence": "CONFIRMED",
+                "share": 0.99
+              }
+            ],
+            "grants": [
+              {
+                "grantee": "PUBLIC",
+                "privileges": [
+                  "SELECT"
+                ],
+                "columns": null
+              }
+            ],
+            "owner": "owner_role",
+            "findings": [
+              {
+                "kind": "PUBLIC_CAN_READ",
+                "severity": "HIGH",
+                "grantee": "PUBLIC",
+                "columns": [
+                  "contact_email"
+                ],
+                "categories": [
+                  "EMAIL"
+                ],
+                "detail": "Every role can read classified columns."
+              }
+            ],
+            "limits": [
+              "Synthetic example."
+            ],
+            "failure_code": null
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "classification_run",
+      "method": "GET",
+      "path": "/api/v1/admin/classification-runs/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003de",
+        "target_id": "00000000-0000-4000-8000-0000000003df",
+        "schema_name": "public",
+        "relation_name": "customer_profiles",
+        "sample_limit": 100,
+        "state": "COMPLETED",
+        "requested_by": "00000000-0000-4000-8000-000000000386",
+        "requested_at": "2026-09-16T10:00:00.000Z",
+        "ruleset": "value-classifiers v1",
+        "observed_at": "2026-09-16T10:00:00.000Z",
+        "relation_state": "CLASSIFIED",
+        "rows_sampled": 100,
+        "columns": [
+          {
+            "column": "contact_email",
+            "sampled": 100,
+            "non_empty": 98,
+            "matches": {
+              "EMAIL": 97,
+              "PHONE_IN": 0,
+              "PAN": 0,
+              "AADHAAR": 0,
+              "PAYMENT_CARD": 0,
+              "IFSC": 0,
+              "IPV4": 0
+            },
+            "category": "EMAIL",
+            "confidence": "CONFIRMED",
+            "share": 0.99
+          }
+        ],
+        "grants": [
+          {
+            "grantee": "PUBLIC",
+            "privileges": [
+              "SELECT"
+            ],
+            "columns": null
+          }
+        ],
+        "owner": "owner_role",
+        "findings": [
+          {
+            "kind": "PUBLIC_CAN_READ",
+            "severity": "HIGH",
+            "grantee": "PUBLIC",
+            "columns": [
+              "contact_email"
+            ],
+            "categories": [
+              "EMAIL"
+            ],
+            "detail": "Every role can read classified columns."
+          }
+        ],
+        "limits": [
+          "Synthetic example."
+        ],
+        "failure_code": null
+      }
+    },
+    {
+      "operation_id": "label_classification",
+      "method": "POST",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-labels",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "labels": [
+          {
+            "column": "contact_email",
+            "expected": "EMAIL",
+            "basis": "Reviewed against the application schema."
+          }
+        ]
+      },
+      "response_status": 201,
+      "response": {
+        "target_id": "00000000-0000-4000-8000-0000000003df",
+        "labels": [
+          {
+            "column": "contact_email",
+            "expected": "EMAIL",
+            "basis": "Reviewed against the application schema.",
+            "labelled_by": "00000000-0000-4000-8000-000000000386",
+            "labelled_at": "2026-09-16T10:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "classification_labels",
+      "method": "GET",
+      "path": "/api/v1/admin/catalog-discovery-targets/{id}/classification-labels",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "target_id": "00000000-0000-4000-8000-0000000003df",
+        "labels": [
+          {
+            "column": "contact_email",
+            "expected": "EMAIL",
+            "basis": "Reviewed against the application schema.",
+            "labelled_by": "00000000-0000-4000-8000-000000000386",
+            "labelled_at": "2026-09-16T10:00:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "measure_classification",
+      "method": "POST",
+      "path": "/api/v1/admin/classification-runs/{id}/quality",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003e0",
+        "run_id": "00000000-0000-4000-8000-0000000003de",
+        "ruleset": "value-classifiers v1",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "measurement": {
+          "columns_labelled": 1,
+          "columns_unlabelled": [],
+          "correct": 1,
+          "accuracy": 1,
+          "per_category": [
+            {
+              "category": "EMAIL",
+              "true_positives": 1,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1,
+              "recall": 1
+            }
+          ],
+          "possible_not_counted": [],
+          "sample_rows": 100,
+          "limits": [
+            "Synthetic example."
+          ]
+        }
+      }
+    },
+    {
+      "operation_id": "list_classification_quality",
+      "method": "GET",
+      "path": "/api/v1/admin/classification-runs/{id}/quality",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003e0",
+            "run_id": "00000000-0000-4000-8000-0000000003de",
+            "ruleset": "value-classifiers v1",
+            "recorded_by": "00000000-0000-4000-8000-000000000386",
+            "recorded_at": "2026-09-16T10:00:00.000Z",
+            "measurement": {
+              "columns_labelled": 1,
+              "columns_unlabelled": [],
+              "correct": 1,
+              "accuracy": 1,
+              "per_category": [
+                {
+                  "category": "EMAIL",
+                  "true_positives": 1,
+                  "false_positives": 0,
+                  "false_negatives": 0,
+                  "precision": 1,
+                  "recall": 1
+                }
+              ],
+              "possible_not_counted": [],
+              "sample_rows": 100,
+              "limits": [
+                "Synthetic example."
+              ]
+            }
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "list_exposure_findings",
+      "method": "GET",
+      "path": "/api/v1/admin/exposure-findings",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "target_id": "00000000-0000-4000-8000-0000000003df",
+            "schema_name": "public",
+            "relation_name": "customer_profiles",
+            "run_id": "00000000-0000-4000-8000-0000000003de",
+            "observed_at": "2026-09-16T10:00:00.000Z",
+            "sensitive_columns": [
+              "contact_email"
+            ],
+            "findings": [
+              {
+                "kind": "PUBLIC_CAN_READ",
+                "severity": "HIGH",
+                "grantee": "PUBLIC",
+                "columns": [
+                  "contact_email"
+                ],
+                "categories": [
+                  "EMAIL"
+                ],
+                "detail": "Every role can read classified columns."
+              }
+            ]
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
       "operation_id": "supplier_questionnaire",
       "method": "GET",
       "path": "/api/v1/supplier/questionnaire",

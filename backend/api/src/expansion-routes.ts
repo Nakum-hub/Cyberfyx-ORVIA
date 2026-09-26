@@ -7,6 +7,7 @@ import { createPolicy, decidePolicy, acknowledgePolicy, policyList, createIssue,
 import { ropaEntries, ropaEntry, ropaSummary, ropaImpact, declareLocation, locationList, createRopaVersion, approveRopaVersion, ropaVersionList, ropaDiff } from '../../domain/src/mapping/ropa.ts';
 import { createExport, advanceExport, stopExport, exportView, exportList, exportChunk } from '../../domain/src/exports/exports.ts';
 import { preparePackage, reviewPackage, releasePackage, revokePackage, withdrawPackage, packageView, packageList, collectOwnPackage } from '../../domain/src/rights/response-packages.ts';
+import { requestRun, runDetail, runList, recordLabels, labelSet, measureQuality, qualityList, exposureList } from '../../domain/src/discovery/classification.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
@@ -78,6 +79,14 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'revoke_response_package': return revokePackage(c, id!, input);
     case 'withdraw_response_package': return withdrawPackage(c, id!);
     case 'own_response_package': return collectOwnPackage(c, id!);
+    case 'request_classification_run': return requestRun(c, id!, input);
+    case 'list_classification_runs': return runList(c, id!, page);
+    case 'classification_run': return runDetail(c, id!);
+    case 'label_classification': return recordLabels(c, id!, input);
+    case 'classification_labels': return labelSet(c, id!);
+    case 'measure_classification': return measureQuality(c, id!);
+    case 'list_classification_quality': return qualityList(c, id!, page);
+    case 'list_exposure_findings': return exposureList(c, page);
     default: return undefined;
   }
 }

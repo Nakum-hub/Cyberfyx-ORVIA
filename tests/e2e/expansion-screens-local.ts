@@ -10,6 +10,9 @@ import { authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
 import { operationsSuite } from '../../shared/testing/src/operations-fixture.ts';
 import { loadProfile } from '../../shared/testing/src/config.ts';
 import { recordsTarget } from '../../shared/testing/src/records-target.ts';
+import { workflowActivities } from '../../services/worker/src/withdrawal-worker.ts';
+import { sweepClassification } from '../../services/worker/src/classification.ts';
+import { observerEnrollment } from '../../backend/auth/src/machine-profile.ts';
 
 if (loadProfile().profile !== 'codex-a00') throw new Error('Synthetic codex-a00 profile only');
 const t = operationsSuite('expansion-screens-browser');
@@ -342,6 +345,37 @@ await t.run(async () => {
     await yourCopy.getByText('alice.own@records.example').waitFor();
     check('the collected copy shows the redaction and not the other person', [await yourCopy.getByText('[Redacted: another person\'s data]').count(), await alicePage.getByText(third).count()], [1, 0]);
     await aliceContext.close();
+
+    // ---------------------------------------------------------------- EX04 / EX12
+    t.setPhase('EX04 value classification on screen');
+    const corpus = recordsTarget();
+    for (let i = 0; i < 20; i++) await corpus.pool.query('INSERT INTO customer_profiles(tenant_id,legal_entity_id,environment_id,contact_email,aadhaar,city) VALUES($1,$2,$3,$4,$5,$6)',
+      [sc.tenant_id, sc.legal_entity_id, sc.environment_id, `browser${i}.${suffix}@records.example`, '234123412346', 'Pune']);
+    await corpus.end();
+    const clsSystem = await t.boundSystem(`Browser classification ${suffix}`);
+    const clsTarget = await ok(api.call('/api/v1/admin/catalog-discovery-targets', { system_id: clsSystem.id, schema_name: 'public', relation_name: 'customer_profiles' }, { 'idempotency-key': randomUUID() }), S.schemas.CatalogDiscoveryTarget);
+    await ok((await h.login('owner')).call(`/api/v1/admin/catalog-discovery-targets/${clsTarget.id}/approve`, {}, { 'idempotency-key': randomUUID() }), S.schemas.CatalogDiscoveryTarget, [200]);
+    await open(owner, `/workspace/catalog-discovery?target_id=${clsTarget.id}`, 'Catalog observations');
+    f = owner.getByRole('form', { name: 'Request a classification sample' });
+    await field(f, 'Rows to sample').fill('200');
+    const queuedRun = await submit(owner, f, /\/classification-runs$/, S.schemas.ClassificationRun, 'Request a classification sample');
+    check('a sample is requested from the screen and queued for the worker', queuedRun.state, 'QUEUED');
+    const worker = workflowActivities();
+    try { await sweepClassification(worker.scoped, worker.enrollment.identities.map(x => x.id), observerEnrollment(worker.config).identities, worker.observer); } finally { await worker.close(); }
+    await owner.reload(); await owner.waitForLoadState('networkidle');
+    const columnsTable = owner.getByRole('table', { name: 'Columns', exact: true });
+    await columnsTable.waitFor();
+    check('the screen shows classified columns', [await columnsTable.getByRole('row').filter({ hasText: 'aadhaar' }).getByText('Aadhaar number').count(), await columnsTable.getByRole('row').filter({ hasText: 'contact_email' }).getByText('Email address').count()], [1, 1]);
+    check('the screen shows who can read them', await owner.getByRole('table', { name: 'Who can read the classified columns' }).getByText('orvia_target_agent').count(), 1);
+    check('no sampled value appears on screen', await owner.getByText(`browser0.${suffix}@records.example`).count(), 0);
+    const lf = owner.getByRole('form', { name: 'Reviewed labels' });
+    await lf.locator('select[name="l:aadhaar"]').selectOption('AADHAAR'); await lf.locator('select[name="l:contact_email"]').selectOption('EMAIL'); await lf.locator('select[name="l:city"]').selectOption('NONE');
+    await field(lf, 'Basis').fill('Reviewed against the synthetic corpus definition.');
+    await submit(owner, lf, /\/classification-labels$/, S.schemas.ClassificationLabelSet, 'Record labels');
+    const measured = await click(owner, owner, /\/quality$/, S.schemas.ClassificationQuality, 'Measure quality against the labels');
+    check('quality is measured from the screen', [measured.status, (measured.body as { measurement?: { columns_labelled?: number } }).measurement?.columns_labelled], [201, 3]);
+    await owner.getByRole('table', { name: 'Precision and recall by category' }).waitFor();
+    check('the exposure overview lists the relation', await owner.getByRole('table', { name: 'Exposure by relation' }).getByText('public.customer_profiles').count() > 0, true);
 
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);

@@ -111,7 +111,11 @@ test('every graph route is declared, scoped to a graph capability and has a regi
   const graphRoutes = routes.filter(route => route.capability === 'graph.read' || route.capability === 'graph.write');
   // The typed import path and three catalog discovery read/registration routes
   // use graph authority. Separate catalog approval uses connection.enable.
-  assert.equal(graphRoutes.length, 21);
+  // EX04/EX12 add seven: runs, a run, labels (read and record), quality (measure
+  // and list) and exposure findings. Requesting a value-sampling run is
+  // connection.enable, like catalog approval, because it reads values.
+  assert.equal(graphRoutes.length, 28);
+  assert.equal(routes.find(route => route.id === 'request_classification_run')?.capability, 'connection.enable');
   for (const route of graphRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     // A write must be idempotent; a read must never be.

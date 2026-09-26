@@ -307,6 +307,37 @@ export const OwnResponsePackage = z.strictObject({
   limits: z.array(z.string().max(400)).max(10),
 });
 
+// EX04 value classification and EX12 access exposure --------------------------
+export const ValueCategory = z.enum(['EMAIL', 'PHONE_IN', 'PAN', 'AADHAAR', 'PAYMENT_CARD', 'IFSC', 'IPV4']);
+export const ClassificationRunRequest = z.strictObject({ sample_limit: z.number().int().min(1).max(1000) });
+export const ClassifiedColumn = z.strictObject({
+  column: z.string().max(63), sampled: z.number().int().min(0), non_empty: z.number().int().min(0), matches: z.record(ValueCategory, z.number().int().min(0)),
+  category: ValueCategory.nullable(), confidence: z.enum(['CONFIRMED', 'POSSIBLE', 'NONE']), share: z.number().min(0).max(1),
+});
+export const RelationGrant = z.strictObject({ grantee: z.string().max(63), privileges: z.array(z.string().max(20)).max(20), columns: z.array(z.string().max(63)).max(60).nullable() });
+export const ExposureFinding = z.strictObject({
+  kind: z.enum(['PUBLIC_CAN_READ', 'READ_WRITE_ROLE_CAN_READ', 'ROLE_CAN_READ', 'OWNER', 'ORVIA_OBSERVER']), severity: z.enum(['HIGH', 'MEDIUM', 'LOW', 'INFO']),
+  grantee: z.string().max(63), columns: z.array(z.string().max(63)).max(60), categories: z.array(ValueCategory).max(7), detail: z.string().max(300),
+});
+export const ClassificationRun = z.strictObject({
+  id: Id, target_id: Id, schema_name: z.string().max(63), relation_name: z.string().max(63), sample_limit: z.number().int(), state: z.enum(['QUEUED', 'COMPLETED', 'FAILED']),
+  requested_by: Id, requested_at: Time, ruleset: z.string().max(60).nullable(), observed_at: Time.nullable(), relation_state: z.enum(['CLASSIFIED', 'MISSING', 'EMPTY']).nullable(),
+  rows_sampled: z.number().int().nullable(), columns: z.array(ClassifiedColumn).max(60), grants: z.array(RelationGrant).max(200), owner: z.string().max(63).nullable(),
+  findings: z.array(ExposureFinding).max(200), limits: z.array(z.string().max(400)).max(10), failure_code: z.string().max(80).nullable(),
+});
+export const ClassificationLabelsRecord = z.strictObject({ labels: z.array(z.strictObject({ column: z.string().regex(/^[a-z][a-z0-9_]{0,62}$/), expected: z.union([ValueCategory, z.literal('NONE')]), basis: z.string().min(10).max(300) })).min(1).max(60) });
+export const ClassificationLabel = z.strictObject({ column: z.string().max(63), expected: z.union([ValueCategory, z.literal('NONE')]), basis: SafeText, labelled_by: Id, labelled_at: Time });
+export const ClassificationLabelSet = z.strictObject({ target_id: Id, labels: z.array(ClassificationLabel).max(200) });
+export const ClassificationQuality = z.strictObject({
+  id: Id, run_id: Id, ruleset: z.string().max(60), recorded_by: Id, recorded_at: Time,
+  measurement: z.strictObject({
+    columns_labelled: z.number().int(), columns_unlabelled: z.array(z.string().max(63)).max(60), correct: z.number().int(), accuracy: z.number().min(0).max(1),
+    per_category: z.array(z.strictObject({ category: ValueCategory, true_positives: z.number().int(), false_positives: z.number().int(), false_negatives: z.number().int(), precision: z.number().min(0).max(1).nullable(), recall: z.number().min(0).max(1).nullable() })).max(7),
+    possible_not_counted: z.array(z.string().max(63)).max(60), sample_rows: z.number().int(), limits: z.array(z.string().max(400)).max(10),
+  }),
+});
+export const ExposureSummary = z.strictObject({ target_id: Id, schema_name: z.string().max(63), relation_name: z.string().max(63), run_id: Id, observed_at: Time, sensitive_columns: z.array(z.string().max(63)).max(60), findings: z.array(ExposureFinding).max(200) });
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -319,4 +350,6 @@ export const expansionSchemas = {
   RopaVersionCreate, RopaVersionApprove, RopaVersion, RopaVersionList: page(RopaVersion), RopaDiffQuery, RopaDiff,
   DataExportCreate, DataExportManifest, DataExport, DataExportList: page(DataExport), DataExportChunkQuery, DataExportChunk,
   PackageSection, PackageSuggestion, PackageRedaction, PackageKept, ResponsePackage, ResponsePackageList: page(ResponsePackage), ResponsePackageReview, ResponsePackageRelease, ResponsePackageRevoke, OwnResponsePackage,
+  ClassificationRunRequest, ClassifiedColumn, RelationGrant, ExposureFinding, ClassificationRun, ClassificationRunList: page(ClassificationRun), ClassificationLabelsRecord, ClassificationLabel, ClassificationLabelSet,
+  ClassificationQuality, ClassificationQualityList: page(ClassificationQuality), ExposureSummary, ExposureSummaryList: page(ExposureSummary),
 };

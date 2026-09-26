@@ -1,6 +1,7 @@
 import { createWithdrawalWorker,dispatchOutbox } from './withdrawal-worker.ts';
 import { sweepAiGovernance } from './ai-governance-monitor.ts';
 import { sweepCatalogDiscovery } from './catalog-discovery.ts';
+import { sweepClassification } from './classification.ts';
 import { observerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
 import { Runtime } from '@temporalio/worker';
@@ -15,6 +16,8 @@ try {
  await runtime.worker.runUntil(async()=>{
   while(!stopped){await dispatchOutbox(runtime);await sweepAiGovernance(runtime.scoped,runtime.enrollment.identities.map(identity=>identity.id));
    await sweepCatalogDiscovery(runtime.scoped,runtime.enrollment.identities.map(identity=>identity.id),
+    observerEnrollment(runtime.config).identities,runtime.observer);
+   await sweepClassification(runtime.scoped,runtime.enrollment.identities.map(identity=>identity.id),
     observerEnrollment(runtime.config).identities,runtime.observer);
    await new Promise(resolve=>setTimeout(resolve,2000));}
  });

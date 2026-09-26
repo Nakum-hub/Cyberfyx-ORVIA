@@ -37,6 +37,16 @@ const responsePackage = { id: uuid(980), request_id: uuid(981), version: 1, stat
   prepared_by: uuid(902), prepared_at: at, reviewed_by: uuid(903), reviewed_at: at, released_by: uuid(903), released_at: at, delivery_expires_at: at, max_downloads: 3, downloads: 0, delivery_state: 'ACTIVE' as const,
   revoked_at: null, revocation_reason: null, purged_at: null };
 
+const counts = { EMAIL: 0, PHONE_IN: 0, PAN: 0, AADHAAR: 0, PAYMENT_CARD: 0, IFSC: 0, IPV4: 0 };
+const classifiedColumn = { column: 'contact_email', sampled: 100, non_empty: 98, matches: { ...counts, EMAIL: 97 }, category: 'EMAIL' as const, confidence: 'CONFIRMED' as const, share: 0.99 };
+const exposureFinding = { kind: 'PUBLIC_CAN_READ' as const, severity: 'HIGH' as const, grantee: 'PUBLIC', columns: ['contact_email'], categories: ['EMAIL' as const], detail: 'Every role can read classified columns.' };
+const classificationRun = { id: uuid(990), target_id: uuid(991), schema_name: 'public', relation_name: 'customer_profiles', sample_limit: 100, state: 'COMPLETED' as const, requested_by: uuid(902), requested_at: at,
+  ruleset: 'value-classifiers v1', observed_at: at, relation_state: 'CLASSIFIED' as const, rows_sampled: 100, columns: [classifiedColumn], grants: [{ grantee: 'PUBLIC', privileges: ['SELECT'], columns: null }], owner: 'owner_role',
+  findings: [exposureFinding], limits: ['Synthetic example.'], failure_code: null };
+const quality = { id: uuid(992), run_id: uuid(990), ruleset: 'value-classifiers v1', recorded_by: uuid(902), recorded_at: at, measurement: { columns_labelled: 1, columns_unlabelled: [], correct: 1, accuracy: 1,
+  per_category: [{ category: 'EMAIL' as const, true_positives: 1, false_positives: 0, false_negatives: 0, precision: 1, recall: 1 }], possible_not_counted: [], sample_rows: 100, limits: ['Synthetic example.'] } };
+const exposure = { target_id: uuid(991), schema_name: 'public', relation_name: 'customer_profiles', run_id: uuid(990), observed_at: at, sensitive_columns: ['contact_email'], findings: [exposureFinding] };
+
 export function expansionExample(name: string): unknown {
   switch (name) {
     case 'ImpactQuestion': return question;
@@ -69,6 +79,16 @@ export function expansionExample(name: string): unknown {
     case 'ResponsePackage': return responsePackage;
     case 'ResponsePackageList': return { items: [responsePackage], next_cursor: null };
     case 'OwnResponsePackage': return { request_id: uuid(981), version: 1, released_at: at, expires_at: at, downloads_remaining: 2, content_digest: 'c'.repeat(64), content: responsePackage.released_content, limits: ['Synthetic example.'] };
+    case 'ClassifiedColumn': return classifiedColumn;
+    case 'ExposureFinding': return exposureFinding;
+    case 'ClassificationRun': return classificationRun;
+    case 'ClassificationRunList': return { items: [classificationRun], next_cursor: null };
+    case 'ClassificationLabelsRecord': return { labels: [{ column: 'contact_email', expected: 'EMAIL', basis: 'Reviewed against the application schema.' }] };
+    case 'ClassificationLabelSet': return { target_id: uuid(991), labels: [{ column: 'contact_email', expected: 'EMAIL', basis: 'Reviewed against the application schema.', labelled_by: uuid(902), labelled_at: at }] };
+    case 'ClassificationQuality': return quality;
+    case 'ClassificationQualityList': return { items: [quality], next_cursor: null };
+    case 'ExposureSummary': return exposure;
+    case 'ExposureSummaryList': return { items: [exposure], next_cursor: null };
     default: return undefined;
   }
 }

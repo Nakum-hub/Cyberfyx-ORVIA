@@ -4,6 +4,7 @@ import { useCollection,useMutation,usePagedQuery,useQuery } from '../../shared/a
 import { hasCapability,type StaffSession } from '../../shared/session-context.tsx';
 import { DataTable,FailureState,Freshness,NoticeBox,PageHead,Pagination,QueryBoundary,Section } from '../../shared/ui.tsx';
 import { formatTime,shortId } from '../../shared/state-labels.ts';
+import { Classification,ExposureOverview } from '../expansion/classification.tsx';
 
 export function CatalogDiscovery({session}:{session:StaffSession}){
   const list=usePagedQuery('list_catalog_discovery_targets',{limit:20});
@@ -28,7 +29,7 @@ export function CatalogDiscovery({session}:{session:StaffSession}){
   }
   return <>
     <PageHead eyebrow="Discovery" title="Catalog observations" lede="Approve exact PostgreSQL relations for local, read-only metadata checks. Review source columns and freshness before mapping personal data."/>
-    <NoticeBox tone="info" title="Metadata scope"><p>This adapter reads column names, types and nullability from the protected synthetic PostgreSQL target. It reads no row values and does not classify personal data. A pending target is a request, not an observation.</p></NoticeBox>
+    <NoticeBox tone="info" title="Metadata scope"><p>This adapter reads column names, types and nullability from the protected synthetic PostgreSQL target. The metadata read takes no row values. Value classification is a separate sample, requested with connection authority, that keeps only counts. A pending target is a request, not an observation.</p></NoticeBox>
     <Freshness query={list}/>
     <QueryBoundary query={list} label="Catalog targets" isEmpty={data=>!data.items.length}>
       {data=><><DataTable caption="Reviewed source targets" rows={data.items} rowKey={item=>item.id} columns={[
@@ -74,7 +75,9 @@ export function CatalogDiscovery({session}:{session:StaffSession}){
           {key:'columns',header:'Columns',cell:item=>item.columns.map(column=>`${column.name}: ${column.data_type}${column.nullable?'?':''}`).join(', ')||'none'},
         ]}/>
         {data.history_limited?<p>Only the latest 100 observations are shown.</p>:null}
+        <Classification targetId={selected} approved={data.target.state==='APPROVED'}/>
       </>}</QueryBoundary>
     </Section>:null}
+    <ExposureOverview/>
   </>;
 }

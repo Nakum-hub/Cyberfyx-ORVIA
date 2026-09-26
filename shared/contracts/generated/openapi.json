@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.34.0",
-    "description": "Contract 0.34.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.35.0",
+    "description": "Contract 0.35.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/api/v1/admin/grc/audit-requests/{id}/responses": {
@@ -71615,6 +71615,1734 @@
         "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW"
       }
     },
+    "/api/v1/admin/catalog-discovery-targets/{id}/classification-runs": {
+      "post": {
+        "operationId": "request_classification_run",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationRun"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000003de",
+                  "target_id": "00000000-0000-4000-8000-0000000003df",
+                  "schema_name": "public",
+                  "relation_name": "customer_profiles",
+                  "sample_limit": 100,
+                  "state": "COMPLETED",
+                  "requested_by": "00000000-0000-4000-8000-000000000386",
+                  "requested_at": "2026-09-16T10:00:00.000Z",
+                  "ruleset": "value-classifiers v1",
+                  "observed_at": "2026-09-16T10:00:00.000Z",
+                  "relation_state": "CLASSIFIED",
+                  "rows_sampled": 100,
+                  "columns": [
+                    {
+                      "column": "contact_email",
+                      "sampled": 100,
+                      "non_empty": 98,
+                      "matches": {
+                        "EMAIL": 97,
+                        "PHONE_IN": 0,
+                        "PAN": 0,
+                        "AADHAAR": 0,
+                        "PAYMENT_CARD": 0,
+                        "IFSC": 0,
+                        "IPV4": 0
+                      },
+                      "category": "EMAIL",
+                      "confidence": "CONFIRMED",
+                      "share": 0.99
+                    }
+                  ],
+                  "grants": [
+                    {
+                      "grantee": "PUBLIC",
+                      "privileges": [
+                        "SELECT"
+                      ],
+                      "columns": null
+                    }
+                  ],
+                  "owner": "owner_role",
+                  "findings": [
+                    {
+                      "kind": "PUBLIC_CAN_READ",
+                      "severity": "HIGH",
+                      "grantee": "PUBLIC",
+                      "columns": [
+                        "contact_email"
+                      ],
+                      "categories": [
+                        "EMAIL"
+                      ],
+                      "detail": "Every role can read classified columns."
+                    }
+                  ],
+                  "limits": [
+                    "Synthetic example."
+                  ],
+                  "failure_code": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-maximum-body-bytes": 16384,
+        "x-orvia-capability": "connection.enable",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassificationRunRequest"
+              },
+              "example": {
+                "sample_limit": 1
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "list_classification_runs",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationRunList"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": "00000000-0000-4000-8000-0000000003de",
+                      "target_id": "00000000-0000-4000-8000-0000000003df",
+                      "schema_name": "public",
+                      "relation_name": "customer_profiles",
+                      "sample_limit": 100,
+                      "state": "COMPLETED",
+                      "requested_by": "00000000-0000-4000-8000-000000000386",
+                      "requested_at": "2026-09-16T10:00:00.000Z",
+                      "ruleset": "value-classifiers v1",
+                      "observed_at": "2026-09-16T10:00:00.000Z",
+                      "relation_state": "CLASSIFIED",
+                      "rows_sampled": 100,
+                      "columns": [
+                        {
+                          "column": "contact_email",
+                          "sampled": 100,
+                          "non_empty": 98,
+                          "matches": {
+                            "EMAIL": 97,
+                            "PHONE_IN": 0,
+                            "PAN": 0,
+                            "AADHAAR": 0,
+                            "PAYMENT_CARD": 0,
+                            "IFSC": 0,
+                            "IPV4": 0
+                          },
+                          "category": "EMAIL",
+                          "confidence": "CONFIRMED",
+                          "share": 0.99
+                        }
+                      ],
+                      "grants": [
+                        {
+                          "grantee": "PUBLIC",
+                          "privileges": [
+                            "SELECT"
+                          ],
+                          "columns": null
+                        }
+                      ],
+                      "owner": "owner_role",
+                      "findings": [
+                        {
+                          "kind": "PUBLIC_CAN_READ",
+                          "severity": "HIGH",
+                          "grantee": "PUBLIC",
+                          "columns": [
+                            "contact_email"
+                          ],
+                          "categories": [
+                            "EMAIL"
+                          ],
+                          "detail": "Every role can read classified columns."
+                        }
+                      ],
+                      "limits": [
+                        "Synthetic example."
+                      ],
+                      "failure_code": null
+                    }
+                  ],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.read",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW"
+      }
+    },
+    "/api/v1/admin/classification-runs/{id}": {
+      "get": {
+        "operationId": "classification_run",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationRun"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000003de",
+                  "target_id": "00000000-0000-4000-8000-0000000003df",
+                  "schema_name": "public",
+                  "relation_name": "customer_profiles",
+                  "sample_limit": 100,
+                  "state": "COMPLETED",
+                  "requested_by": "00000000-0000-4000-8000-000000000386",
+                  "requested_at": "2026-09-16T10:00:00.000Z",
+                  "ruleset": "value-classifiers v1",
+                  "observed_at": "2026-09-16T10:00:00.000Z",
+                  "relation_state": "CLASSIFIED",
+                  "rows_sampled": 100,
+                  "columns": [
+                    {
+                      "column": "contact_email",
+                      "sampled": 100,
+                      "non_empty": 98,
+                      "matches": {
+                        "EMAIL": 97,
+                        "PHONE_IN": 0,
+                        "PAN": 0,
+                        "AADHAAR": 0,
+                        "PAYMENT_CARD": 0,
+                        "IFSC": 0,
+                        "IPV4": 0
+                      },
+                      "category": "EMAIL",
+                      "confidence": "CONFIRMED",
+                      "share": 0.99
+                    }
+                  ],
+                  "grants": [
+                    {
+                      "grantee": "PUBLIC",
+                      "privileges": [
+                        "SELECT"
+                      ],
+                      "columns": null
+                    }
+                  ],
+                  "owner": "owner_role",
+                  "findings": [
+                    {
+                      "kind": "PUBLIC_CAN_READ",
+                      "severity": "HIGH",
+                      "grantee": "PUBLIC",
+                      "columns": [
+                        "contact_email"
+                      ],
+                      "categories": [
+                        "EMAIL"
+                      ],
+                      "detail": "Every role can read classified columns."
+                    }
+                  ],
+                  "limits": [
+                    "Synthetic example."
+                  ],
+                  "failure_code": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.read",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW"
+      }
+    },
+    "/api/v1/admin/catalog-discovery-targets/{id}/classification-labels": {
+      "post": {
+        "operationId": "label_classification",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationLabelSet"
+                },
+                "example": {
+                  "target_id": "00000000-0000-4000-8000-0000000003df",
+                  "labels": [
+                    {
+                      "column": "contact_email",
+                      "expected": "EMAIL",
+                      "basis": "Reviewed against the application schema.",
+                      "labelled_by": "00000000-0000-4000-8000-000000000386",
+                      "labelled_at": "2026-09-16T10:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-maximum-body-bytes": 16384,
+        "x-orvia-capability": "graph.write",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassificationLabelsRecord"
+              },
+              "example": {
+                "labels": [
+                  {
+                    "column": "contact_email",
+                    "expected": "EMAIL",
+                    "basis": "Reviewed against the application schema."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "classification_labels",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationLabelSet"
+                },
+                "example": {
+                  "target_id": "00000000-0000-4000-8000-0000000003df",
+                  "labels": [
+                    {
+                      "column": "contact_email",
+                      "expected": "EMAIL",
+                      "basis": "Reviewed against the application schema.",
+                      "labelled_by": "00000000-0000-4000-8000-000000000386",
+                      "labelled_at": "2026-09-16T10:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.read",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW"
+      }
+    },
+    "/api/v1/admin/classification-runs/{id}/quality": {
+      "post": {
+        "operationId": "measure_classification",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationQuality"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000003e0",
+                  "run_id": "00000000-0000-4000-8000-0000000003de",
+                  "ruleset": "value-classifiers v1",
+                  "recorded_by": "00000000-0000-4000-8000-000000000386",
+                  "recorded_at": "2026-09-16T10:00:00.000Z",
+                  "measurement": {
+                    "columns_labelled": 1,
+                    "columns_unlabelled": [],
+                    "correct": 1,
+                    "accuracy": 1,
+                    "per_category": [
+                      {
+                        "category": "EMAIL",
+                        "true_positives": 1,
+                        "false_positives": 0,
+                        "false_negatives": 0,
+                        "precision": 1,
+                        "recall": 1
+                      }
+                    ],
+                    "possible_not_counted": [],
+                    "sample_rows": 100,
+                    "limits": [
+                      "Synthetic example."
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.write",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW"
+      },
+      "get": {
+        "operationId": "list_classification_quality",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationQualityList"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": "00000000-0000-4000-8000-0000000003e0",
+                      "run_id": "00000000-0000-4000-8000-0000000003de",
+                      "ruleset": "value-classifiers v1",
+                      "recorded_by": "00000000-0000-4000-8000-000000000386",
+                      "recorded_at": "2026-09-16T10:00:00.000Z",
+                      "measurement": {
+                        "columns_labelled": 1,
+                        "columns_unlabelled": [],
+                        "correct": 1,
+                        "accuracy": 1,
+                        "per_category": [
+                          {
+                            "category": "EMAIL",
+                            "true_positives": 1,
+                            "false_positives": 0,
+                            "false_negatives": 0,
+                            "precision": 1,
+                            "recall": 1
+                          }
+                        ],
+                        "possible_not_counted": [],
+                        "sample_rows": 100,
+                        "limits": [
+                          "Synthetic example."
+                        ]
+                      }
+                    }
+                  ],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.read",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW"
+      }
+    },
+    "/api/v1/admin/exposure-findings": {
+      "get": {
+        "operationId": "list_exposure_findings",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExposureSummaryList"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "target_id": "00000000-0000-4000-8000-0000000003df",
+                      "schema_name": "public",
+                      "relation_name": "customer_profiles",
+                      "run_id": "00000000-0000-4000-8000-0000000003de",
+                      "observed_at": "2026-09-16T10:00:00.000Z",
+                      "sensitive_columns": [
+                        "contact_email"
+                      ],
+                      "findings": [
+                        {
+                          "kind": "PUBLIC_CAN_READ",
+                          "severity": "HIGH",
+                          "grantee": "PUBLIC",
+                          "columns": [
+                            "contact_email"
+                          ],
+                          "categories": [
+                            "EMAIL"
+                          ],
+                          "detail": "Every role can read classified columns."
+                        }
+                      ]
+                    }
+                  ],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "graph.read",
+        "x-orvia-implementation": "IMPLEMENTED_V1_EXPANSION_PENDING_REVIEW"
+      }
+    },
     "/api/v1/supplier/questionnaire": {
       "get": {
         "operationId": "supplier_questionnaire",
@@ -110061,6 +111789,1733 @@
           "content_digest",
           "content",
           "limits"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationRunRequest": {
+        "type": "object",
+        "properties": {
+          "sample_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          }
+        },
+        "required": [
+          "sample_limit"
+        ],
+        "additionalProperties": false
+      },
+      "ClassifiedColumn": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "sampled": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "non_empty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "matches": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "enum": [
+                "EMAIL",
+                "PHONE_IN",
+                "PAN",
+                "AADHAAR",
+                "PAYMENT_CARD",
+                "IFSC",
+                "IPV4"
+              ]
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "required": [
+              "EMAIL",
+              "PHONE_IN",
+              "PAN",
+              "AADHAAR",
+              "PAYMENT_CARD",
+              "IFSC",
+              "IPV4"
+            ]
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "EMAIL",
+                  "PHONE_IN",
+                  "PAN",
+                  "AADHAAR",
+                  "PAYMENT_CARD",
+                  "IFSC",
+                  "IPV4"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "CONFIRMED",
+              "POSSIBLE",
+              "NONE"
+            ]
+          },
+          "share": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "column",
+          "sampled",
+          "non_empty",
+          "matches",
+          "category",
+          "confidence",
+          "share"
+        ],
+        "additionalProperties": false
+      },
+      "RelationGrant": {
+        "type": "object",
+        "properties": {
+          "grantee": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "privileges": {
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 20
+            }
+          },
+          "columns": {
+            "anyOf": [
+              {
+                "maxItems": 60,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 63
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "grantee",
+          "privileges",
+          "columns"
+        ],
+        "additionalProperties": false
+      },
+      "ExposureFinding": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "PUBLIC_CAN_READ",
+              "READ_WRITE_ROLE_CAN_READ",
+              "ROLE_CAN_READ",
+              "OWNER",
+              "ORVIA_OBSERVER"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW",
+              "INFO"
+            ]
+          },
+          "grantee": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "columns": {
+            "maxItems": 60,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 63
+            }
+          },
+          "categories": {
+            "maxItems": 7,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EMAIL",
+                "PHONE_IN",
+                "PAN",
+                "AADHAAR",
+                "PAYMENT_CARD",
+                "IFSC",
+                "IPV4"
+              ]
+            }
+          },
+          "detail": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "kind",
+          "severity",
+          "grantee",
+          "columns",
+          "categories",
+          "detail"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationRun": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "target_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "schema_name": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "relation_name": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "sample_limit": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUEUED",
+              "COMPLETED",
+              "FAILED"
+            ]
+          },
+          "requested_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "requested_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "ruleset": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "observed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "relation_state": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "CLASSIFIED",
+                  "MISSING",
+                  "EMPTY"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rows_sampled": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "columns": {
+            "maxItems": 60,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "column": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "sampled": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "non_empty": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "matches": {
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string",
+                    "enum": [
+                      "EMAIL",
+                      "PHONE_IN",
+                      "PAN",
+                      "AADHAAR",
+                      "PAYMENT_CARD",
+                      "IFSC",
+                      "IPV4"
+                    ]
+                  },
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "required": [
+                    "EMAIL",
+                    "PHONE_IN",
+                    "PAN",
+                    "AADHAAR",
+                    "PAYMENT_CARD",
+                    "IFSC",
+                    "IPV4"
+                  ]
+                },
+                "category": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "EMAIL",
+                        "PHONE_IN",
+                        "PAN",
+                        "AADHAAR",
+                        "PAYMENT_CARD",
+                        "IFSC",
+                        "IPV4"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "confidence": {
+                  "type": "string",
+                  "enum": [
+                    "CONFIRMED",
+                    "POSSIBLE",
+                    "NONE"
+                  ]
+                },
+                "share": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "column",
+                "sampled",
+                "non_empty",
+                "matches",
+                "category",
+                "confidence",
+                "share"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "grants": {
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "grantee": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "privileges": {
+                  "maxItems": 20,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "maxLength": 20
+                  }
+                },
+                "columns": {
+                  "anyOf": [
+                    {
+                      "maxItems": 60,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 63
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "grantee",
+                "privileges",
+                "columns"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 63
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "findings": {
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "PUBLIC_CAN_READ",
+                    "READ_WRITE_ROLE_CAN_READ",
+                    "ROLE_CAN_READ",
+                    "OWNER",
+                    "ORVIA_OBSERVER"
+                  ]
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "HIGH",
+                    "MEDIUM",
+                    "LOW",
+                    "INFO"
+                  ]
+                },
+                "grantee": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "columns": {
+                  "maxItems": 60,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "maxLength": 63
+                  }
+                },
+                "categories": {
+                  "maxItems": 7,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "EMAIL",
+                      "PHONE_IN",
+                      "PAN",
+                      "AADHAAR",
+                      "PAYMENT_CARD",
+                      "IFSC",
+                      "IPV4"
+                    ]
+                  }
+                },
+                "detail": {
+                  "type": "string",
+                  "maxLength": 300
+                }
+              },
+              "required": [
+                "kind",
+                "severity",
+                "grantee",
+                "columns",
+                "categories",
+                "detail"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "limits": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 400
+            }
+          },
+          "failure_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "target_id",
+          "schema_name",
+          "relation_name",
+          "sample_limit",
+          "state",
+          "requested_by",
+          "requested_at",
+          "ruleset",
+          "observed_at",
+          "relation_state",
+          "rows_sampled",
+          "columns",
+          "grants",
+          "owner",
+          "findings",
+          "limits",
+          "failure_code"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationRunList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "target_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "schema_name": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "relation_name": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "sample_limit": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "QUEUED",
+                    "COMPLETED",
+                    "FAILED"
+                  ]
+                },
+                "requested_by": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "requested_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "ruleset": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 60
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "observed_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "relation_state": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "CLASSIFIED",
+                        "MISSING",
+                        "EMPTY"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "rows_sampled": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "columns": {
+                  "maxItems": 60,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "column": {
+                        "type": "string",
+                        "maxLength": 63
+                      },
+                      "sampled": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "non_empty": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "matches": {
+                        "type": "object",
+                        "propertyNames": {
+                          "type": "string",
+                          "enum": [
+                            "EMAIL",
+                            "PHONE_IN",
+                            "PAN",
+                            "AADHAAR",
+                            "PAYMENT_CARD",
+                            "IFSC",
+                            "IPV4"
+                          ]
+                        },
+                        "additionalProperties": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "required": [
+                          "EMAIL",
+                          "PHONE_IN",
+                          "PAN",
+                          "AADHAAR",
+                          "PAYMENT_CARD",
+                          "IFSC",
+                          "IPV4"
+                        ]
+                      },
+                      "category": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "EMAIL",
+                              "PHONE_IN",
+                              "PAN",
+                              "AADHAAR",
+                              "PAYMENT_CARD",
+                              "IFSC",
+                              "IPV4"
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "confidence": {
+                        "type": "string",
+                        "enum": [
+                          "CONFIRMED",
+                          "POSSIBLE",
+                          "NONE"
+                        ]
+                      },
+                      "share": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      }
+                    },
+                    "required": [
+                      "column",
+                      "sampled",
+                      "non_empty",
+                      "matches",
+                      "category",
+                      "confidence",
+                      "share"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "grants": {
+                  "maxItems": 200,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "grantee": {
+                        "type": "string",
+                        "maxLength": 63
+                      },
+                      "privileges": {
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 20
+                        }
+                      },
+                      "columns": {
+                        "anyOf": [
+                          {
+                            "maxItems": 60,
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "maxLength": 63
+                            }
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "grantee",
+                      "privileges",
+                      "columns"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "owner": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 63
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "findings": {
+                  "maxItems": 200,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "PUBLIC_CAN_READ",
+                          "READ_WRITE_ROLE_CAN_READ",
+                          "ROLE_CAN_READ",
+                          "OWNER",
+                          "ORVIA_OBSERVER"
+                        ]
+                      },
+                      "severity": {
+                        "type": "string",
+                        "enum": [
+                          "HIGH",
+                          "MEDIUM",
+                          "LOW",
+                          "INFO"
+                        ]
+                      },
+                      "grantee": {
+                        "type": "string",
+                        "maxLength": 63
+                      },
+                      "columns": {
+                        "maxItems": 60,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 63
+                        }
+                      },
+                      "categories": {
+                        "maxItems": 7,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "EMAIL",
+                            "PHONE_IN",
+                            "PAN",
+                            "AADHAAR",
+                            "PAYMENT_CARD",
+                            "IFSC",
+                            "IPV4"
+                          ]
+                        }
+                      },
+                      "detail": {
+                        "type": "string",
+                        "maxLength": 300
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "severity",
+                      "grantee",
+                      "columns",
+                      "categories",
+                      "detail"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "limits": {
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "maxLength": 400
+                  }
+                },
+                "failure_code": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "maxLength": 80
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "target_id",
+                "schema_name",
+                "relation_name",
+                "sample_limit",
+                "state",
+                "requested_by",
+                "requested_at",
+                "ruleset",
+                "observed_at",
+                "relation_state",
+                "rows_sampled",
+                "columns",
+                "grants",
+                "owner",
+                "findings",
+                "limits",
+                "failure_code"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationLabelsRecord": {
+        "type": "object",
+        "properties": {
+          "labels": {
+            "minItems": 1,
+            "maxItems": 60,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "column": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,62}$"
+                },
+                "expected": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "EMAIL",
+                        "PHONE_IN",
+                        "PAN",
+                        "AADHAAR",
+                        "PAYMENT_CARD",
+                        "IFSC",
+                        "IPV4"
+                      ]
+                    },
+                    {
+                      "type": "string",
+                      "const": "NONE"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 10,
+                  "maxLength": 300
+                }
+              },
+              "required": [
+                "column",
+                "expected",
+                "basis"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "labels"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationLabel": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "expected": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "EMAIL",
+                  "PHONE_IN",
+                  "PAN",
+                  "AADHAAR",
+                  "PAYMENT_CARD",
+                  "IFSC",
+                  "IPV4"
+                ]
+              },
+              {
+                "type": "string",
+                "const": "NONE"
+              }
+            ]
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "labelled_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "labelled_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "column",
+          "expected",
+          "basis",
+          "labelled_by",
+          "labelled_at"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationLabelSet": {
+        "type": "object",
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "labels": {
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "column": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "expected": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "EMAIL",
+                        "PHONE_IN",
+                        "PAN",
+                        "AADHAAR",
+                        "PAYMENT_CARD",
+                        "IFSC",
+                        "IPV4"
+                      ]
+                    },
+                    {
+                      "type": "string",
+                      "const": "NONE"
+                    }
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "labelled_by": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "labelled_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                }
+              },
+              "required": [
+                "column",
+                "expected",
+                "basis",
+                "labelled_by",
+                "labelled_at"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "target_id",
+          "labels"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationQuality": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "ruleset": {
+            "type": "string",
+            "maxLength": 60
+          },
+          "recorded_by": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "measurement": {
+            "type": "object",
+            "properties": {
+              "columns_labelled": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "columns_unlabelled": {
+                "maxItems": 60,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 63
+                }
+              },
+              "correct": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "accuracy": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "per_category": {
+                "maxItems": 7,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "category": {
+                      "type": "string",
+                      "enum": [
+                        "EMAIL",
+                        "PHONE_IN",
+                        "PAN",
+                        "AADHAAR",
+                        "PAYMENT_CARD",
+                        "IFSC",
+                        "IPV4"
+                      ]
+                    },
+                    "true_positives": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "false_positives": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "false_negatives": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "precision": {
+                      "anyOf": [
+                        {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "recall": {
+                      "anyOf": [
+                        {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "category",
+                    "true_positives",
+                    "false_positives",
+                    "false_negatives",
+                    "precision",
+                    "recall"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "possible_not_counted": {
+                "maxItems": 60,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 63
+                }
+              },
+              "sample_rows": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "limits": {
+                "maxItems": 10,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 400
+                }
+              }
+            },
+            "required": [
+              "columns_labelled",
+              "columns_unlabelled",
+              "correct",
+              "accuracy",
+              "per_category",
+              "possible_not_counted",
+              "sample_rows",
+              "limits"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "ruleset",
+          "recorded_by",
+          "recorded_at",
+          "measurement"
+        ],
+        "additionalProperties": false
+      },
+      "ClassificationQualityList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "run_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "ruleset": {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                "recorded_by": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "recorded_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "measurement": {
+                  "type": "object",
+                  "properties": {
+                    "columns_labelled": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "columns_unlabelled": {
+                      "maxItems": 60,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 63
+                      }
+                    },
+                    "correct": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "accuracy": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "per_category": {
+                      "maxItems": 7,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "EMAIL",
+                              "PHONE_IN",
+                              "PAN",
+                              "AADHAAR",
+                              "PAYMENT_CARD",
+                              "IFSC",
+                              "IPV4"
+                            ]
+                          },
+                          "true_positives": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "false_positives": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "false_negatives": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "precision": {
+                            "anyOf": [
+                              {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "recall": {
+                            "anyOf": [
+                              {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "category",
+                          "true_positives",
+                          "false_positives",
+                          "false_negatives",
+                          "precision",
+                          "recall"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "possible_not_counted": {
+                      "maxItems": 60,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 63
+                      }
+                    },
+                    "sample_rows": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "limits": {
+                      "maxItems": 10,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 400
+                      }
+                    }
+                  },
+                  "required": [
+                    "columns_labelled",
+                    "columns_unlabelled",
+                    "correct",
+                    "accuracy",
+                    "per_category",
+                    "possible_not_counted",
+                    "sample_rows",
+                    "limits"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "run_id",
+                "ruleset",
+                "recorded_by",
+                "recorded_at",
+                "measurement"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "ExposureSummary": {
+        "type": "object",
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "schema_name": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "relation_name": {
+            "type": "string",
+            "maxLength": 63
+          },
+          "run_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "sensitive_columns": {
+            "maxItems": 60,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 63
+            }
+          },
+          "findings": {
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "PUBLIC_CAN_READ",
+                    "READ_WRITE_ROLE_CAN_READ",
+                    "ROLE_CAN_READ",
+                    "OWNER",
+                    "ORVIA_OBSERVER"
+                  ]
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "HIGH",
+                    "MEDIUM",
+                    "LOW",
+                    "INFO"
+                  ]
+                },
+                "grantee": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "columns": {
+                  "maxItems": 60,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "maxLength": 63
+                  }
+                },
+                "categories": {
+                  "maxItems": 7,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "EMAIL",
+                      "PHONE_IN",
+                      "PAN",
+                      "AADHAAR",
+                      "PAYMENT_CARD",
+                      "IFSC",
+                      "IPV4"
+                    ]
+                  }
+                },
+                "detail": {
+                  "type": "string",
+                  "maxLength": 300
+                }
+              },
+              "required": [
+                "kind",
+                "severity",
+                "grantee",
+                "columns",
+                "categories",
+                "detail"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "target_id",
+          "schema_name",
+          "relation_name",
+          "run_id",
+          "observed_at",
+          "sensitive_columns",
+          "findings"
+        ],
+        "additionalProperties": false
+      },
+      "ExposureSummaryList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "target_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "schema_name": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "relation_name": {
+                  "type": "string",
+                  "maxLength": 63
+                },
+                "run_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "observed_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "sensitive_columns": {
+                  "maxItems": 60,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "maxLength": 63
+                  }
+                },
+                "findings": {
+                  "maxItems": 200,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "PUBLIC_CAN_READ",
+                          "READ_WRITE_ROLE_CAN_READ",
+                          "ROLE_CAN_READ",
+                          "OWNER",
+                          "ORVIA_OBSERVER"
+                        ]
+                      },
+                      "severity": {
+                        "type": "string",
+                        "enum": [
+                          "HIGH",
+                          "MEDIUM",
+                          "LOW",
+                          "INFO"
+                        ]
+                      },
+                      "grantee": {
+                        "type": "string",
+                        "maxLength": 63
+                      },
+                      "columns": {
+                        "maxItems": 60,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 63
+                        }
+                      },
+                      "categories": {
+                        "maxItems": 7,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "EMAIL",
+                            "PHONE_IN",
+                            "PAN",
+                            "AADHAAR",
+                            "PAYMENT_CARD",
+                            "IFSC",
+                            "IPV4"
+                          ]
+                        }
+                      },
+                      "detail": {
+                        "type": "string",
+                        "maxLength": 300
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "severity",
+                      "grantee",
+                      "columns",
+                      "categories",
+                      "detail"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "target_id",
+                "schema_name",
+                "relation_name",
+                "run_id",
+                "observed_at",
+                "sensitive_columns",
+                "findings"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
         ],
         "additionalProperties": false
       },
