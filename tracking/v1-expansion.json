@@ -15,55 +15,89 @@
       "owner": "codex_with_dpdp_lane_coordination",
       "acceptance_status": "NOT_RUN",
       "evidence": [],
-      "limitations": []
+      "limitations": [
+        "Not built in the Claude takeover. Base V1 consent records and withdrawal exist; universal channel/purpose preference centre remains open."
+      ]
     },
     {
       "id": "EX02",
       "title": "Website CMP and tracker controls",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-operations-cmp-1790424988482-92dcc1ca-3024-4769-8a88-aab799236c3b.json",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. No IAB TCF or per-region rule engine; scanner needs host Chromium (dev dependency)."
+      ]
     },
     {
       "id": "EX03",
       "title": "Full rights fulfilment",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "handoffs/codex/artifacts/A00-operations-response-packages-1790421052879-a1809125-ee70-4190-ae6d-3ebb650edaf7.json",
+        "handoffs/codex/artifacts/A00-portal-rights-integration-1790421132829-76b216a6-af72-4655-b001-dc917f606921.json",
+        "handoffs/codex/artifacts/A00-rights-integration-1790421063722-dfa785a9-6184-4824-9799-dfe2163b7ca6.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Retrieval from synthetic and records adapters only; no real vendor connector."
+      ]
     },
     {
       "id": "EX04",
       "title": "Discovery classification and source/code flows",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-catalog-discovery-flow-1790422220365-2bb95aa0-a603-4e35-a70f-f5317a9cdc6e.json",
+        "handoffs/codex/artifacts/A00-operations-classification-1790422157099-bd51f601-3c6d-4f22-87d3-f12c3a49de33.json",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "handoffs/codex/artifacts/A00-postgres-catalog-discovery-1790422089135-76ed4acc-0fe1-4193-9300-5c5aca859af2.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. PostgreSQL value classification only, measured against a synthetic corpus; other stores not covered."
+      ]
     },
     {
       "id": "EX05",
       "title": "Data mapping and RoPA",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "handoffs/codex/artifacts/A00-operations-ropa-exports-1790420980022-b88d8050-5e8f-46dc-ad36-199ca07dc212.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. RoPA content is only as complete as the registry; legal review of output format not done."
+      ]
     },
     {
       "id": "EX06",
       "title": "General impact assessments and remediation",
-      "status": "IN_PROGRESS",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
       "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "handoffs/codex/artifacts/A00-operations-impact-assessments-1790420827541-8b2ce92a-32ef-4557-8762-a6ce0b55fd66.json",
         "handoffs/codex/artifacts/V1-EXPANSION-01-assessment-race-cdf5da4d-c2fa-4b36-806e-34da3317477b.json"
       ],
       "limitations": [
-        "Component evidence only: existing processor assessment completion/finding race fixed. General assessment templates, independent approval and full application acceptance remain incomplete."
+        "Component evidence only: existing processor assessment completion/finding race fixed. General assessment templates, independent approval and full application acceptance remain incomplete.",
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Questionnaire content is customer-authored; no regulator-approved templates shipped."
       ]
     },
     {
@@ -78,56 +112,86 @@
     {
       "id": "EX08",
       "title": "Third-party lifecycle",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "handoffs/codex/artifacts/A00-operations-third-party-1790425061700-17eff6b5-677f-471d-9b19-3b6376d541da.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Supplier links are scoped and expiring; no supplier-side identity federation."
+      ]
     },
     {
       "id": "EX09",
       "title": "Incidents and reviewed notification",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-notifications-integration-1790423035290-3c4925d9-e75b-4e7f-ba7e-c0ea27e4dcce.json",
+        "handoffs/codex/artifacts/A00-operations-delivery-1790423005915-669f1bf3-f589-4d33-92cf-1ee9c13718ed.json",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Customer-supplied SMTP/webhook only; tested against loopback servers, not a real provider."
+      ]
     },
     {
       "id": "EX10",
       "title": "Enterprise GRC and audit",
-      "status": "IN_PROGRESS",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
       "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/2026-09-25-v1-expansion-03.md",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "handoffs/codex/artifacts/A00-operations-grc-lifecycle-1790423113656-49cf8d84-fb10-49d0-ada1-e4b12cd9875e.json",
         "handoffs/codex/artifacts/V1-EXPANSION-02-grc-1843dd10-c576-4117-a932-b3d2e6fb0728.json",
         "handoffs/codex/artifacts/V1-EXPANSION-02-unit.log",
         "handoffs/codex/artifacts/V1-EXPANSION-03-http-41db8841-9921-463c-bc76-840d0229c706.json",
-        "handoffs/codex/2026-09-25-v1-expansion-03.md",
         "handoffs/codex/artifacts/V1-EXPANSION-04-grc-640f6ad8-7aaf-4db4-ba9d-82d1218f314f.json",
         "handoffs/codex/artifacts/V1-EXPANSION-04-http-78638f66-9eda-456f-8443-d413737071a0.json"
       ],
       "limitations": [
-        "GRC framework/control/risk workspace and audit engagement/request/response APIs implemented at contract 0.27.0. Audit core: 41 isolated database checks; GRC/audit HTTP: 57 checks. One cold-start policy HTTP run failed closed; subsequent run passed without timeout changes. Audit workspace builds but its browser journey is NOT_RUN. Full Next runtime integration, policy lifecycle, regulatory content, issue management, mitigation effect verification and release qualification remain open. No parity or certification claimed."
+        "GRC framework/control/risk workspace and audit engagement/request/response APIs implemented at contract 0.27.0. Audit core: 41 isolated database checks; GRC/audit HTTP: 57 checks. One cold-start policy HTTP run failed closed; subsequent run passed without timeout changes. Audit workspace builds but its browser journey is NOT_RUN. Full Next runtime integration, policy lifecycle, regulatory content, issue management, mitigation effect verification and release qualification remain open. No parity or certification claimed.",
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Policy lifecycle, issues and remediation built; no regulatory content library, no certification claim."
       ]
     },
     {
       "id": "EX11",
       "title": "Continuous compliance and control tests",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "handoffs/codex/artifacts/A00-operations-grc-lifecycle-1790423113656-49cf8d84-fb10-49d0-ada1-e4b12cd9875e.json",
+        "handoffs/codex/artifacts/A00-operations-runner-1790423140757-96dc831e-74be-4a18-9eb8-0e0cc5d797e6.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Control tests are deterministic queries over ORVIA's own records; no external system probes."
+      ]
     },
     {
       "id": "EX12",
       "title": "Data security posture and AI governance",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-operations-classification-1790422157099-bd51f601-3c6d-4f22-87d3-f12c3a49de33.json",
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json"
+      ],
+      "limitations": [
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Grant-based access exposure for PostgreSQL only; AI governance items limited to the deterministic V1 scope."
+      ]
     },
     {
       "id": "EX13",
@@ -139,17 +203,25 @@
         "handoffs/codex/artifacts/V1-EXPANSION-01-commerce-0a7deffa-8eee-496d-8f7c-0390073f6f97.json"
       ],
       "limitations": [
-        "45 isolated PostgreSQL component assertions; injected synthetic checkout responses and signed payment fixtures. No live provider conformance, vendor HTTP identity/UI, invoices/subscriptions, production role deployment or licence signer. Not release-qualified."
+        "45 isolated PostgreSQL component assertions; injected synthetic checkout responses and signed payment fixtures. No live provider conformance, vendor HTTP identity/UI, invoices/subscriptions, production role deployment or licence signer. Not release-qualified.",
+        "Not advanced in the Claude takeover: blocked on the user's choice of payment provider and commercial terms."
       ]
     },
     {
       "id": "EX14",
       "title": "Enterprise delivery and release qualification",
-      "status": "OPEN",
+      "status": "IN_PROGRESS",
       "owner": "codex_with_dpdp_lane_coordination",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "handoffs/code/2026-09-26-expansion-takeover.md",
+        "handoffs/codex/artifacts/A00-backup-drill-1790425489124-e5fe1e5e-6867-45f6-940f-e3bbc94f68f8.json",
+        "handoffs/codex/artifacts/A00-capacity-mixed-1790425887473-bf7c35a9-ee17-46f5-82d9-c843f861f20e.json",
+        "handoffs/codex/artifacts/A00-opa-cold-start-1790425315280-d50402da-dd62-4399-bc61-ff3f11111518.json"
+      ],
+      "limitations": [
+        "OPA readiness (8/8) and same-host backup/restore drill (5/5) executed. Mixed 1M workload probe FAILED as a diagnostic (about 4 ops/s under a 384 MiB database container) and is not a qualification; server statement limits added but not yet re-run. SSO/SCIM not built: proposal only, needs user/customer IdP decisions. Installer, upgrade/rollback, signing custody, accessibility matrix and release approval remain open."
+      ]
     }
   ]
 }
