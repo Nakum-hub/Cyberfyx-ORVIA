@@ -521,3 +521,37 @@ What the first `ropa-exports` failure was: I assumed a terminated engagement wou
 | cmp / grc-lifecycle / classification / impact / response-packages / third-party | 44/44, 75/75, 29/29, 41/41, 52/52, 43/43 PASS |
 | ropa-exports | First run under host load average about 40: 1 failure (the catalog observation was missing after the sweep, so the next step read `undefined`). Rerun on an idle host: 58/58 PASS. Not called a flake: [Likely] the observer read timed out under load. Codex should check that a failed observer read is reported by the sweep, not silently skipped. |
 | delivery | Failed twice with "a retry waits for its backoff" (expected 1 attempt, got 2). Root cause: `runner.once()` processes every scope in the shared test database, and a single pass now outlasts the 5 s backoff, so the retry was legitimately due. The test now asserts the rule itself (a second attempt starts at least 5 s after the first finished). 41/41 PASS. |
+
+**Mixed-workload probe rerun (4 clients, 30 s, same 1M / 100k / 200k seed; the drop was verified)**, artifact `A00-capacity-mixed-1790428509991-…json`:
+| Operation | p50 | p95 |
+|---|---|---|
+| read_request (point) | 4 ms | 12 ms |
+| write_request / write_audit | 6 / 5 ms | 21 / 19 ms |
+| list_requests (50 rows) | 160 ms | 292 ms |
+| export_chunk (2,000 rows) | 435 ms | 772 ms |
+| list_audit (50 rows) | **1,057 ms** | **1,897 ms** |
+
+No errors. 18 ops/s in total, with the database container capped at 384 MiB. A third attempt, which added plan capture to the probe, was lost because seeding hit a 270 s checkpoint under that memory cap. At 1M rows this environment is I/O-bound and not reliable.
+
+**Root cause of slow scoped lists: found, fix proposed, NOT applied**
+- `EXPLAIN (ANALYZE)` through the real `orvia_app` scoped path on codex-a00. The audit list for a scope of 58,036 rows gives:
+  - `Seq Scan on audit_events (rows=1 estimated, 58036 actual)`, then a top-N sort: 110 ms;
+  - the matching `audit_events_scope_time_id (tenant, entity, env, created_at DESC, id DESC)` index goes unused.
+- Cause: `app.in_scope` (0001) compares `column::text = current_setting(...)`. The planner cannot estimate that and assumes one row, so it never chooses the ordered index scan with LIMIT. Cost therefore grows linearly with table size.
+- Proposed migration `0059_typed_scope_predicate.sql`:
+  ```sql
+  CREATE OR REPLACE FUNCTION app.in_scope(t uuid,l uuid,e uuid) RETURNS boolean LANGUAGE sql STABLE AS $$
+   SELECT t = nullif(current_setting('orvia.tenant_id',true),'')::uuid
+      AND l = nullif(current_setting('orvia.legal_entity_id',true),'')::uuid
+      AND e = nullif(current_setting('orvia.environment_id',true),'')::uuid
+      AND coalesce(current_setting('orvia.actor_id',true),'') <> ''
+  $$;
+  ```
+  It stays fail-closed: an unset or empty setting becomes NULL, so no rows; a malformed setting raises an error. Settings are written only by `scopedTransaction`.
+- Not applied: the session's safety check blocked changing the core row-security function on the shared profile database without explicit human approval.
+- To apply (Codex or user):
+  1. Add the migration and run `db:migrate`.
+  2. Re-run the EXPLAIN; expect an Index Scan on `audit_events_scope_time_id`.
+  3. Run the full security battery (tenant isolation, portal, supplier, runner policies), unit, DPDP, expansion and e2e suites.
+  4. Re-run `capacity:mixed`.
+- `scripts/capacity-mixed.ts` now records EXPLAIN plans for both list shapes in its evidence.

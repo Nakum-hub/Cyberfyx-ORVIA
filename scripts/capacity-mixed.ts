@@ -79,6 +79,12 @@ export async function runMixed(seconds = 45, clients = 16) {
       write_audit: q => q(`INSERT INTO app.audit_events(id,tenant_id,legal_entity_id,environment_id,actor_id,actor_domain,operation,resource_id,request_id) VALUES($4,$1,$2,$3,$5,'STAFF','capacity.probe',NULL,$6)`, [t, l, e, randomUUID(), actor, randomUUID()]),
       export_chunk: q => q(`SELECT e.* FROM app.audit_events e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3 AND e.operation=$4 AND e.created_at < now()-($5::int*interval '1 second') ORDER BY e.created_at, e.id LIMIT 2000`, [t, l, e, 'consent.withdraw', Math.floor(Math.random() * 900_000)]),
     };
+    // Plans for the two list shapes, taken through the same scoped path, so a slow result shows its cause.
+    const plans: Record<string, string[]> = {};
+    for (const [name, sql, values] of [
+      ['list_requests', `EXPLAIN (ANALYZE, BUFFERS) SELECT id,state,received_at FROM app.rights_requests WHERE ${S} AND received_at < now()-interval '100 minutes' ORDER BY received_at DESC, id DESC LIMIT 50`, [t, l, e]],
+      ['list_audit', `EXPLAIN (ANALYZE, BUFFERS) SELECT id,operation,created_at FROM app.audit_events WHERE ${S} AND created_at < now()-interval '5 days' ORDER BY created_at DESC, id DESC LIMIT 50`, [t, l, e]],
+    ] as const) plans[name] = (await scoped(q => q(sql, [...values]))).rows.map(r => String(r['QUERY PLAN']));
     const total = MIX.reduce((n, [, w]) => n + w, 0);
     const pick = (): Op => { let r = Math.random() * total; for (const [op, w] of MIX) { r -= w; if (r < 0) return op; } return 'list_requests'; };
     const samples: Record<Op, number[]> = { list_requests: [], read_request: [], list_audit: [], write_request: [], write_audit: [], export_chunk: [] };
@@ -99,7 +105,7 @@ export async function runMixed(seconds = 45, clients = 16) {
     const dropped = (await bootstrap.query('SELECT 1 FROM pg_database WHERE datname=$1', [scratch])).rowCount === 0;
     const memoryLimit = spawnSync('docker', ['inspect', '-f', '{{.HostConfig.Memory}}', container]).stdout?.toString().trim();
     const evidence = { profile: profile.profile, scratch_database_dropped: dropped, database_container_memory_bytes: Number(memoryLimit) || null, seconds, clients, seeded: { audit_events: 1_000_000, principal_references: 100_000, rights_requests: 200_000 }, timings,
-      operations_per_second: Math.round(Object.values(samples).reduce((n, xs) => n + xs.length, 0) / elapsed), operations, errors,
+      plans, operations_per_second: Math.round(Object.values(samples).reduce((n, xs) => n + xs.length, 0) / elapsed), operations, errors,
       path: 'orvia_app role with scoped settings and forced row-level security, as request handlers run',
       limits: ['Diagnostic evidence on this development host with synthetic rows in one scope. It is not a capacity qualification: that needs the declared deployment hardware, representative data distribution and agreed service targets.',
         'HTTP, authentication and policy decision time are not included; they add to each operation.',
