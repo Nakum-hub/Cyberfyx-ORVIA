@@ -149,6 +149,7 @@ function recordHref(kind: string, id: string) {
     case 'workflow_run': return `/workspace/operations-runs/${id}`;
     case 'rights_request': return `/workspace/rights/${id}`;
     case 'registry_activity': return '/workspace/processing-activities';
+    case 'registry_notice': case 'registry_notice_version': return '/workspace/registry-notices';
     case 'regulatory_impact': return '/workspace/regulatory/impacts';
     case 'sdf_obligation': return '/workspace/organisation-profile';
     case 'bulk_job': return '/workspace/estate-imports';

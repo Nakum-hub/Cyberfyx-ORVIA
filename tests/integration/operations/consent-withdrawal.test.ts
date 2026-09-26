@@ -11,6 +11,7 @@ import { digest } from '../../../shared/contracts/src/crypto.ts';
 import { operationsSuite, key, hoursFromNow } from '../../../shared/testing/src/operations-fixture.ts';
 import { recordsTarget } from '../../../shared/testing/src/records-target.ts';
 import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
+import { operationsRunner } from '../../../services/worker/src/operations-runner.ts';
 
 const t = operationsSuite('consent-withdrawal');
 const { h, check, ok, db } = t;
@@ -105,5 +106,55 @@ await t.run(async () => {
     check('a portal withdrawal enters the same propagation workflow', synced.withdrawal_runs.length >= 1 && mirrored.withdrawal_run_ids.length === 1, true);
     const resynced = await ok(admin.call('/api/v1/admin/consent-records/portal-sync', {}, key()), S.schemas.ConsentSync);
     check('syncing again mirrors nothing twice', resynced.mirrored_events, 0);
+
+    t.setPhase('backdated and legacy withdrawals');
+    // A withdrawal is propagated under the package in force now, even when it
+    // happened before any package took effect. Previously such a withdrawal was
+    // recorded and silently never propagated.
+    const backdated = await t.activity({ condition: 'CONSENT', systems: [healthy.id] });
+    const newSubject = async () => {
+      const r = `wd_${randomUUID().slice(0, 12)}`;
+      await target.seed(s, healthy.id, [{ reference: r, fields: { email: 'synthetic@records.example', segment: 'newsletter' } }]);
+      return ok(admin.call('/api/v1/admin/data-principals', { principal_id: null, references: [{ system_id: healthy.id, target_reference: r, source_key: null }] }, key()), S.schemas.Subject);
+    };
+    const oldRecord = await ok(admin.call('/api/v1/admin/consent-records', { subject_id: (await newSubject()).id, relationship_id: null, activity_id: backdated.activity.id, channel: 'PAPER_FORM', expiry_policy: null, v1_principal_id: null, v1_purpose_id: null }, key()), S.schemas.ConsentRecord);
+    await ok(admin.call(`/api/v1/admin/consent-records/${oldRecord.id}/events`, { event: 'GRANTED', occurred_at: '2019-06-01T00:00:00.000Z', evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'paper-form:granted-2019', notice_version_id: null }, key()), S.schemas.ConsentRecord);
+    const oldWithdrawal = await ok(admin.call(`/api/v1/admin/consent-records/${oldRecord.id}/events`, { event: 'WITHDRAWN', occurred_at: '2020-01-01T00:00:00.000Z', evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'paper-form:withdrawn-2020', notice_version_id: null }, key()), S.schemas.ConsentRecord);
+    check('a withdrawal made before any package took effect is still propagated, exactly once', [oldWithdrawal.current_status, oldWithdrawal.withdrawal_run_ids.length], ['WITHDRAWN', 1]);
+    check('the event stays pinned to the package of its own time, which was none', oldWithdrawal.events.find(e => e.event === 'WITHDRAWN')?.package_row_id, null);
+    const oldRun = await ok(admin.call(`/api/v1/admin/workflow-runs/${oldWithdrawal.withdrawal_run_ids[0]}`), S.schemas.WorkflowRun);
+    check('its run is planned under the package in force now', [oldRun.kind, oldRun.package.distribution], ['CONSENT_WITHDRAWAL', 'TEST_FIXTURE']);
+
+    // Installations that ran the earlier code hold withdrawals with no run. Each
+    // is inserted here exactly as that code left it; Attention must name them and
+    // the runner must repair them, except where the person has since consented again.
+    const legacy = async (regrant: boolean) => {
+      const record = await ok(admin.call('/api/v1/admin/consent-records', { subject_id: (await newSubject()).id, relationship_id: null, activity_id: backdated.activity.id, channel: 'WEB_FORM', expiry_policy: null, v1_principal_id: null, v1_purpose_id: null }, key()), S.schemas.ConsentRecord);
+      const granted = await ok(admin.call(`/api/v1/admin/consent-records/${record.id}/events`, { event: 'GRANTED', occurred_at: hoursFromNow(-72), evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'web-form:granted', notice_version_id: null }, key()), S.schemas.ConsentRecord);
+      const insert = (event: string, at: string) => db.query(`INSERT INTO app.consent_record_events(tenant_id,legal_entity_id,environment_id,id,record_id,event,occurred_at,actor_id,source,evidence_state,evidence_reference,notice_version_id,package_row_id,v1_event_id,provenance)
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,'OPERATOR','EVIDENCE_AVAILABLE',$9,NULL,NULL,NULL,'{"source":"OPERATOR"}'::jsonb)`, [s.tenant_id, s.legal_entity_id, s.environment_id, randomUUID(), record.id, event, at, granted.events[0]!.actor_id, `legacy:${event.toLowerCase()}`]);
+      await insert('WITHDRAWN', hoursFromNow(-48));
+      if (regrant) await insert('GRANTED', hoursFromNow(-24));
+      await db.query(`UPDATE app.consent_records SET current_status=$2 WHERE id=$1`, [record.id, regrant ? 'GRANTED' : 'WITHDRAWN']);
+      return record;
+    };
+    const unpropagated = await legacy(false);
+    const regranted = await legacy(true);
+    const before = await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention);
+    check('a withdrawal without a propagation run is named in Attention, never silent', before.items.some(i => i.kind === 'WITHDRAWAL_NOT_PROPAGATED' && i.count >= 1), true);
+    const runner = operationsRunner();
+    try {
+      const reports = await runner.once();
+      check('the runner creates the missing propagation run', reports.reduce((n, r) => n + r.withdrawals_propagated, 0) >= 1, true);
+      await runner.once();
+    } finally { await runner.close(); }
+    const repaired = await ok(admin.call(`/api/v1/admin/consent-records/${unpropagated.id}`), S.schemas.ConsentRecord);
+    check('the legacy withdrawal now has exactly one run, and a second cycle adds none', repaired.withdrawal_run_ids.length, 1);
+    const repairedActions = (await ok(admin.call(`/api/v1/admin/workflow-runs/${repaired.withdrawal_run_ids[0]}/actions?limit=100`), S.schemas.DownstreamActionList)).items;
+    check('the repaired withdrawal is carried to the target and independently verified', repairedActions.map(a => [a.action_type, a.state]), [['SUPPRESS', 'verified']]);
+    const untouched = await ok(admin.call(`/api/v1/admin/consent-records/${regranted.id}`), S.schemas.ConsentRecord);
+    check('a withdrawal superseded by a later grant is never propagated', [untouched.current_status, untouched.withdrawal_run_ids.length], ['GRANTED', 0]);
+    const after = await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention);
+    check('once repaired, no unpropagated withdrawal remains in Attention', after.items.some(i => i.kind === 'WITHDRAWAL_NOT_PROPAGATED'), false);
   } finally { await target.end(); }
 });

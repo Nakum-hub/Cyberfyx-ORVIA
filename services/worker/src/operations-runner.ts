@@ -9,6 +9,7 @@ import { processJob } from '../../../backend/domain/src/operations/bulk-import.t
 import { evaluateRun } from '../../../backend/domain/src/operations/runs.ts';
 import { executeRun } from '../../../backend/domain/src/operations/executor.ts';
 import { notificationSweep } from '../../../backend/domain/src/operations/attention.ts';
+import { propagatePendingWithdrawals } from '../../../backend/domain/src/registry/consent.ts';
 import type { OperationsEnv } from '../../../backend/domain/src/operations/shared.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
 
@@ -23,9 +24,11 @@ import { safeError } from '../../../shared/testing/src/evidence.ts';
  * functions and the target ledger are idempotent). It never approves anything:
  * a run that needs approval stays waiting. Runs tied to a V1 rights request are
  * left to staff, because settling them writes the V1 request's outcomes under staff
- * authority. It then raises due notifications (DPDP alert tasks only).
+ * authority. It then raises due notifications (DPDP alert tasks only). Before any
+ * of that it creates the propagation run for any recorded withdrawal that has none
+ * (one recorded while no regulatory package was in force).
  */
-export type RunnerReport = { scope: string; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; errors: string[] };
+export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; errors: string[] };
 const BATCH = { job: 200, evaluate: 200, execute: 50 };
 const MAX_BATCHES_PER_ITEM = 50;
 
@@ -42,8 +45,13 @@ export function operationsRunner() {
     for (const identity of enrollment.identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
-      const report: RunnerReport = { scope: identity.scope.environment_id, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, errors: [] };
+      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, errors: [] };
       const scopeValues = [identity.scope.tenant_id, identity.scope.legal_entity_id, identity.scope.environment_id];
+      // Withdrawals first: a recorded withdrawal without a propagation run is the
+      // one gap here that can leave marketing active. Its runs then enter the
+      // evaluating list read below and are driven in this same cycle.
+      try { report.withdrawals_propagated = (await scoped(c => propagatePendingWithdrawals(c))).created.length; }
+      catch (error) { report.errors.push(`withdrawal propagation: ${safeError(error).code}`); }
       const pending = await scoped(async c => ({
         jobs: (await c.tx.query(`SELECT id FROM app.bulk_jobs WHERE ${predicate} AND status='PROCESSING' ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),
         evaluating: (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status='EVALUATING' ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),

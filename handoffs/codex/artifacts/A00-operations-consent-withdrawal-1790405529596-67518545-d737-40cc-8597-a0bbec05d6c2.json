@@ -1,0 +1,319 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T06:52:09.596Z",
+  "suite": "consent-withdrawal",
+  "assertions": [
+    {
+      "name": "a consent record starts unknown, not granted",
+      "result": "PASS",
+      "expected": "UNKNOWN",
+      "actual": "UNKNOWN"
+    },
+    {
+      "name": "an admin without the executor capability cannot record consent events",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "expiry is refused where no expiry policy is configured",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the withdrawal is appended and creates exactly one propagation run",
+      "result": "PASS",
+      "expected": [
+        "WITHDRAWN",
+        [
+          "GRANTED",
+          "WITHDRAWN"
+        ],
+        1
+      ],
+      "actual": [
+        "WITHDRAWN",
+        [
+          "GRANTED",
+          "WITHDRAWN"
+        ],
+        1
+      ]
+    },
+    {
+      "name": "the run is pinned to the regulatory package and needs no approval to stop processing",
+      "result": "PASS",
+      "expected": [
+        "CONSENT_WITHDRAWAL",
+        "APPROVED",
+        false,
+        "TEST_FIXTURE"
+      ],
+      "actual": [
+        "CONSENT_WITHDRAWAL",
+        "APPROVED",
+        false,
+        "TEST_FIXTURE"
+      ]
+    },
+    {
+      "name": "a system with no connector binding is reported not supported, never skipped",
+      "result": "PASS",
+      "expected": "not_supported",
+      "actual": "not_supported"
+    },
+    {
+      "name": "a withdrawal suppresses; it never deletes by itself",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a member cannot execute propagation",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the healthy target is verified by independent read-back",
+      "result": "PASS",
+      "expected": [
+        "verified",
+        "verified",
+        "INDEPENDENT_READ_BACK"
+      ],
+      "actual": [
+        "verified",
+        "verified",
+        "INDEPENDENT_READ_BACK"
+      ]
+    },
+    {
+      "name": "the unavailable target failed and stays retryable",
+      "result": "PASS",
+      "expected": [
+        "failed",
+        "TARGET_UNAVAILABLE"
+      ],
+      "actual": [
+        "failed",
+        "TARGET_UNAVAILABLE"
+      ]
+    },
+    {
+      "name": "a target that claimed success without acting is caught by verification",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_BY_TARGET",
+        "failed",
+        "FAILED"
+      ],
+      "actual": [
+        "COMPLETED_BY_TARGET",
+        "failed",
+        "FAILED"
+      ]
+    },
+    {
+      "name": "a timeout is an unknown effect, resolved only by reading the target back",
+      "result": "PASS",
+      "expected": [
+        "TIMEOUT_EFFECT_UNKNOWN",
+        "verified"
+      ],
+      "actual": [
+        "TIMEOUT_EFFECT_UNKNOWN",
+        "verified"
+      ]
+    },
+    {
+      "name": "with a retry outstanding the run stays running",
+      "result": "PASS",
+      "expected": "RUNNING",
+      "actual": "RUNNING"
+    },
+    {
+      "name": "the target really changed only where the effect was applied",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "the retried target succeeds on its second attempt",
+      "result": "PASS",
+      "expected": [
+        "verified",
+        2
+      ],
+      "actual": [
+        "verified",
+        2
+      ]
+    },
+    {
+      "name": "failed and unsupported work keeps the run open, not completed",
+      "result": "PASS",
+      "expected": [
+        "PARTIALLY_FAILED",
+        3,
+        1,
+        1
+      ],
+      "actual": [
+        "PARTIALLY_FAILED",
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "the open exceptions are stated in the run",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "re-running a settled run applies nothing twice",
+      "result": "PASS",
+      "expected": [
+        1,
+        1
+      ],
+      "actual": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "a verified action cannot be edited back to a pending state",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an interrupted dispatch is resumed by replaying the target record, then verified",
+      "result": "PASS",
+      "expected": [
+        "verified",
+        [
+          true
+        ]
+      ],
+      "actual": [
+        "verified",
+        [
+          true
+        ]
+      ]
+    },
+    {
+      "name": "the target applied that operation exactly once",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the evidence package carries the trigger, package, actions, verifications and final state",
+      "result": "PASS",
+      "expected": [
+        "25c2a177-5665-4a67-b8b3-855acbb54d19",
+        "PARTIALLY_FAILED",
+        5,
+        "TEST_FIXTURE",
+        true
+      ],
+      "actual": [
+        "25c2a177-5665-4a67-b8b3-855acbb54d19",
+        "PARTIALLY_FAILED",
+        5,
+        "TEST_FIXTURE",
+        true
+      ]
+    },
+    {
+      "name": "each verified action in the export carries its verification evidence",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a member cannot export evidence",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "exporting evidence is itself audited",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the failed action appears in Attention against its run",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "portal choices are mirrored with their receipts as evidence",
+      "result": "PASS",
+      "expected": [
+        [
+          "GRANTED",
+          "WITHDRAWN"
+        ],
+        true
+      ],
+      "actual": [
+        [
+          "GRANTED",
+          "WITHDRAWN"
+        ],
+        true
+      ]
+    },
+    {
+      "name": "a portal withdrawal enters the same propagation workflow",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "syncing again mirrors nothing twice",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a withdrawal made before any package took effect is still propagated, exactly once",
+      "result": "FAIL",
+      "expected": [
+        "WITHDRAWN",
+        1
+      ],
+      "actual": [
+        "WITHDRAWN",
+        0
+      ]
+    },
+    {
+      "name": "unexpected failure in backdated and legacy withdrawals",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: a withdrawal made before any package took effect is still propagated, exactly once"
+    }
+  ],
+  "passed": 29,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

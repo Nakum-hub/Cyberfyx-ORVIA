@@ -1,0 +1,57 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T06:45:17.050Z",
+  "suite": "consent-withdrawal",
+  "assertions": [
+    {
+      "name": "a consent record starts unknown, not granted",
+      "result": "PASS",
+      "expected": "UNKNOWN",
+      "actual": "UNKNOWN"
+    },
+    {
+      "name": "an admin without the executor capability cannot record consent events",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "expiry is refused where no expiry policy is configured",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the withdrawal is appended and creates exactly one propagation run",
+      "result": "FAIL",
+      "expected": [
+        "WITHDRAWN",
+        [
+          "GRANTED",
+          "WITHDRAWN"
+        ],
+        1
+      ],
+      "actual": [
+        "WITHDRAWN",
+        [
+          "GRANTED",
+          "WITHDRAWN"
+        ],
+        0
+      ]
+    },
+    {
+      "name": "unexpected failure in withdrawal",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the withdrawal is appended and creates exactly one propagation run"
+    }
+  ],
+  "passed": 3,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
