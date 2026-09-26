@@ -43,7 +43,8 @@ let agentPool: ReturnType<typeof servicePool>|undefined;
 function operationsEnv(r: ReturnType<typeof runtime>): OperationsEnv {
   // A keyed digest, domain-separated from the auth secret it is derived from, so a raw source identifier is never stored and cannot be reversed by a table reader.
   const key=createHash('sha256').update('orvia-registry-source-key:'+r.config.secret('principal-secret')).digest();
-  return {sourceKeyDigest:value=>createHmac('sha256',key).update(value,'utf8').digest('hex'),
+  const webhookKey=createHash('sha256').update('orvia-webhook-signing:'+r.config.secret('principal-secret')).digest();
+  return {sourceKeyDigest:value=>createHmac('sha256',key).update(value,'utf8').digest('hex'),webhookSecret:id=>createHmac('sha256',webhookKey).update(id,'utf8').digest('hex'),
     targets:{agent:agentPool??=servicePool(r.config,'orvia_target_agent'),observer:observerPool??=servicePool(r.config,'orvia_target_observer')}};
 }
 function resolveRoute(request: Request) {

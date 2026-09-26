@@ -187,6 +187,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/notification-rules', label: 'Notification rules' },
     { href: '/workspace/notifications', label: 'Notifications' },
     { href: '/workspace/message-templates', label: 'Message templates' },
+    { href: '/workspace/delivery', label: 'Delivery' },
     { href: '/workspace/policy-preview', label: 'Decision preview' },
   ] },
   { group: 'Operations', items: [

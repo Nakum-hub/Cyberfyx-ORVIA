@@ -73,13 +73,17 @@ test('a template code is a stable identifier, not free text', () => {
 
 test('notification routes are staff-only, idempotent on write and fully typed', () => {
   const notificationRoutes = routes.filter(route => route.capability?.startsWith('notification.'));
-  // Includes the customer-local DPDP notification sweep.
-  assert.equal(notificationRoutes.length, 8);
+  // Includes the customer-local DPDP notification sweep, and the eleven EX09
+  // transport, alert-routing and outbound-message routes. Enabling a transport
+  // and revealing its signing key are connection.enable, not notification.*.
+  assert.equal(notificationRoutes.length, 19);
+  assert.deepEqual(routes.filter(r => ['enable_delivery_transport', 'reveal_transport_signing_secret'].includes(r.id)).map(r => r.capability), ['connection.enable', 'connection.enable']);
   for (const route of notificationRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     if (route.method === 'post') assert.ok(route.idempotency, `${route.id} is a write without idempotency`);
     assert.ok(schemas[route.response], `${route.id} has no registered response schema`);
   }
-  // There is no endpoint that transmits anything: ORVIA queues and records.
+  // No endpoint transmits anything. Reviewed messages are sent by the operations
+  // runner through transports a second person enabled.
   assert.ok(!notificationRoutes.some(route => route.id.includes('send') || route.id.includes('dispatch')));
 });

@@ -4,6 +4,7 @@ import * as X from '../../../../shared/contracts/src/expansion.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { exists, iso, packageAt, pageOf, predicate, refuse, scope } from '../operations/shared.ts';
 import { createGrcFramework } from './grc.ts';
+import { alertDelivery } from '../delivery/delivery.ts';
 
 /**
  * EX10 policy lifecycle and issue management; EX11 continuous control tests.
@@ -328,7 +329,8 @@ export async function alertList(c: Context, page: Page) {
     AND ($4::uuid IS NULL OR (x.created_at, x.id) < (SELECT k.created_at, k.id FROM app.compliance_alerts k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
     ORDER BY x.created_at DESC, x.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
-  return { items: paged.items.map(r => X.ComplianceAlert.parse({ id: r.id, test_id: r.test_id, run_id: r.run_id, kind: r.kind, detail: r.detail, created_at: iso(r.created_at), delivery_state: r.delivery_state })), next_cursor: paged.next_cursor };
+  const delivery = await alertDelivery(c, paged.items.map(r => r.id as string));
+  return { items: paged.items.map(r => X.ComplianceAlert.parse({ id: r.id, test_id: r.test_id, run_id: r.run_id, kind: r.kind, detail: r.detail, created_at: iso(r.created_at), delivery_state: delivery.get(r.id) ?? 'NOT_DELIVERED' })), next_cursor: paged.next_cursor };
 }
 
 // ---------------------------------------------------------------- auditor report

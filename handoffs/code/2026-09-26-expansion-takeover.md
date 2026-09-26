@@ -341,3 +341,61 @@ What the first `ropa-exports` failure was: I assumed a terminated engagement wou
 | `tsx tests/integration/expansion/classification.test.ts` | 29/29 PASS. The first attempts failed on test mistakes: a duplicate target registration, and my wrong expectation that notes would count as emails. Coverage:<br>• an unapproved target is refused;<br>• an admin without `connection.enable` gets 403;<br>• a single queued run per target;<br>• the real worker sweep through the observer;<br>• 7 shaped columns CONFIRMED, checksum decoys and free text NONE;<br>• no sampled value stored (the database row is checked for the seeded values and the run marker);<br>• findings: the write agent at MEDIUM, observer and owner as INFO, PUBLIC on the legacy export table at MEDIUM (email and phone only);<br>• a missing relation reported as MISSING;<br>• labels, then quality at 12/12 with precision and recall 1;<br>• a relabel dropping email recall to 0.5 and correct to 11;<br>• a disabled target failing explicitly;<br>• auditor, tenant and database immutability. |
 | `tsx tests/e2e/expansion-screens-local.ts` | 48/48 PASS (EX06, EX08, EX10/11, EX05, EX03, EX04/12). The EX04/12 phase requests a sample on screen, runs the worker, and checks classified columns and grantees shown with no sampled value on screen. It then records labels on screen, measures quality and shows the exposure overview. |
 | catalog-flow / postgres-catalog (rerun after the target schema change) | 58/58, 13/13 PASS |
+
+## EX09 — customer-controlled SMTP and webhook delivery (reviewed content, retries, receipts, alert routing)
+
+**Built**
+- `backend/domain/src/delivery/clients.ts`. Both clients report SENT, FAILED (retryable or not) or UNKNOWN; UNKNOWN means the connection ended after the message was handed over. Neither logs content, follows redirects or keeps a response body.
+  - SMTP client:
+    - EHLO, AUTH PLAIN, MAIL, RCPT, DATA, QUIT;
+    - TLS with certificate verification;
+    - plaintext only to loopback;
+    - header-injection-safe subject;
+    - dot-stuffing;
+    - a Message-ID and `X-Orvia-Message` for dedupe;
+    - 4xx retryable, 5xx final.
+  - Webhook client:
+    - HTTPS, or HTTP to loopback only;
+    - no credentials in the URL;
+    - `X-Orvia-Signature: sha256=HMAC(key, timestamp + "." + body)`, plus `Idempotency-Key`;
+    - 2xx is SENT; 5xx, 408 and 429 are retried; other 4xx and 3xx are final.
+- Migration `0057_delivery_transports.sql`:
+  - `delivery_transports`: the destination is fixed; enabled once by someone other than the author; disabled once.
+  - `alert_routings`: named "routing" because the deployment-boundary test treats "subscription" as commercial.
+  - `outbound_messages`: reviewed content is immutable, and outcomes move forward only.
+  - `outbound_attempts`: append-only.
+  - The runner may append SENT or FAILED facts to `notification_deliveries` for tasks it delivered.
+  - Credentials never enter the database:
+    - an SMTP credential is the name of an environment variable (`ORVIA_TRANSPORT_*`, value `user:password`) on the customer's host;
+    - a webhook key is derived by HMAC from the installation secret (`OperationsEnv.webhookSecret`) and shown once to someone with `connection.enable`.
+- Domain `backend/domain/src/delivery/delivery.ts`:
+  - transports, routings and messages: compose, then review by a second person, then approve or reject; withdrawal;
+  - the runner pipeline:
+    - `raiseAlertMessages`: one message per alert and routing, enforced by a unique index;
+    - `claimDue`: a 60-second lease; an expired lease without a recorded attempt is recorded as UNKNOWN;
+    - `sendClaim`: runs outside the transaction;
+    - `recordResult`: backoff of 5, 10, 20 and 40 seconds, up to 5 attempts, then EXHAUSTED; a retry after UNKNOWN is marked `possible_duplicate`.
+- Notifications: `channel_available` is now true only while an enabled transport serves the channel. Compliance alerts derive `delivery_state` (NOT_DELIVERED, QUEUED, SENT or FAILED) from routed messages.
+- The operations runner now delivers (`alert_messages_raised`, `messages_sent`, `messages_retrying`, `messages_exhausted`).
+- Contract 0.36.0 adds 13 routes. Enabling a transport and revealing its key need `connection.enable`.
+- Screen `/workspace/delivery` ("Delivery" in the nav) shows:
+  - transports: add SMTP or webhook, enable, show the signing key once, disable;
+  - alert routing;
+  - messages: compose, approve or reject, withdraw, and attempts with receipts, including "unknown effect" and "possible duplicate".
+
+**Invariant test updated (review requested)**
+- `tests/unit/notifications.test.ts`: notification routes go from 8 to 19, with a new assertion that enable and reveal are `connection.enable`. "No endpoint transmits" still holds; the comment now says the runner sends reviewed messages.
+
+**Honest limits**
+- STARTTLS is not implemented: SMTP runs over implicit TLS, or plaintext to loopback only. Only AUTH PLAIN is supported.
+- These are local runs only: a loopback SMTP sink and webhook receiver. No real relay or endpoint was contacted, and none is qualified.
+- No regulator endpoint exists or is invented. Regulator notifications remain reviewed tasks with evidence.
+- A notification task's recipient is still a reference; the concrete address is entered when the message is composed.
+
+**Executed (codex-a00, synthetic loopback sink and receiver)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint / unit | applied 0057; 386 examples; clean; clean; 257/257 |
+| `tsx tests/integration/expansion/delivery.test.ts` | 41/41 PASS on the first run. Coverage:<br>• off-loopback plaintext, non-HTTPS and credentials-in-URL refused;<br>• the author cannot enable a transport or approve a message;<br>• unreviewed messages not sent;<br>• SENT with a 250 receipt, and AUTH with the named credential;<br>• no resend;<br>• 451 retried after backoff; 550 exhausted after one attempt;<br>• a hang after DATA recorded as UNKNOWN, then the retry SENT marked possible duplicate (two copies sharing `X-Orvia-Message`);<br>• a missing credential is final;<br>• withdrawal;<br>• a webhook 503 retried, then a signature verified with the once-revealed key and the idempotency key checked;<br>• a notification task SENT fact with the receipt as evidence;<br>• an ERROR alert routed once, with the alert showing SENT;<br>• a disabled transport refuses approval;<br>• auditor, tenant and database immutability. |
+| notifications / grc-lifecycle / runner (rerun) | 31/31, 75/75, 10/10 PASS |
+| `tsx tests/e2e/expansion-screens-local.ts` | 56/56 PASS; the EX09 phase ran against a loopback receiver. Two earlier attempts failed on my test code: a check made before the list refreshed, and a weak check, both replaced. On screen: add a webhook, a second person enables it and sees the key once, compose, the server refuses the author's own approval, a second person approves, the runner delivers a signed request, the receipt shows on screen, and the transport is disabled. |

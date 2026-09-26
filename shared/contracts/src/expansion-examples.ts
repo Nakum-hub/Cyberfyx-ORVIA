@@ -47,6 +47,13 @@ const quality = { id: uuid(992), run_id: uuid(990), ruleset: 'value-classifiers 
   per_category: [{ category: 'EMAIL' as const, true_positives: 1, false_positives: 0, false_negatives: 0, precision: 1, recall: 1 }], possible_not_counted: [], sample_rows: 100, limits: ['Synthetic example.'] } };
 const exposure = { target_id: uuid(991), schema_name: 'public', relation_name: 'customer_profiles', run_id: uuid(990), observed_at: at, sensitive_columns: ['contact_email'], findings: [exposureFinding] };
 
+const transport = { id: uuid(1000), kind: 'SMTP' as const, name: 'Customer relay', host: 'smtp.customer.example', port: 465, security: 'TLS' as const, from_address: 'privacy@customer.example', credential_env: 'ORVIA_TRANSPORT_RELAY', url: null,
+  state: 'ENABLED' as const, created_by: uuid(902), created_at: at, approved_by: uuid(903), approved_at: at, disabled_at: null, disable_reason: null, secret_revealed: false };
+const routing = { id: uuid(1001), transport_id: uuid(1000), recipient: 'compliance@customer.example', kinds: ['DRIFT_TO_FAIL'], subject_prefix: '[ORVIA]', state: 'ENABLED' as const, created_by: uuid(902), created_at: at, approved_by: uuid(903), approved_at: at, disabled_at: null };
+const outbound = { id: uuid(1002), transport_id: uuid(1000), source_kind: 'MANUAL', source_id: null, routing_id: null, recipient: 'dpo@customer.example', subject: 'Synthetic notice', body: 'Synthetic message body for contract examples.', content_digest: 'd'.repeat(64),
+  review_state: 'APPROVED' as const, authored_by: uuid(902), authored_at: at, reviewed_by: uuid(903), reviewed_at: at, review_note: 'Reviewed.', delivery_state: 'SENT' as const, next_attempt_at: null, outcome_at: at,
+  attempts: [{ attempt: 1, started_at: at, finished_at: at, outcome: 'SENT' as const, response_code: '250', receipt: '250 OK queued', error_code: null, possible_duplicate: false }] };
+
 export function expansionExample(name: string): unknown {
   switch (name) {
     case 'ImpactQuestion': return question;
@@ -89,6 +96,16 @@ export function expansionExample(name: string): unknown {
     case 'ClassificationQualityList': return { items: [quality], next_cursor: null };
     case 'ExposureSummary': return exposure;
     case 'ExposureSummaryList': return { items: [exposure], next_cursor: null };
+    case 'DeliveryTransportCreate': return { kind: 'SMTP', name: 'Customer relay', host: 'smtp.customer.example', port: 465, security: 'TLS', from_address: 'privacy@customer.example', credential_env: 'ORVIA_TRANSPORT_RELAY' };
+    case 'DeliveryTransport': return transport;
+    case 'DeliveryTransportList': return { items: [transport], next_cursor: null };
+    case 'SigningSecret': return { transport_id: uuid(1000), secret: 'e'.repeat(64), algorithm: 'HMAC-SHA256', signed_content: 'X-Orvia-Timestamp + "." + request body', header: 'X-Orvia-Signature' };
+    case 'AlertRoutingCreate': return { transport_id: uuid(1000), recipient: 'compliance@customer.example', kinds: ['DRIFT_TO_FAIL'], subject_prefix: '[ORVIA]' };
+    case 'AlertRouting': return routing;
+    case 'AlertRoutingList': return { items: [routing], next_cursor: null };
+    case 'OutboundMessageCreate': return { transport_id: uuid(1000), source_kind: 'MANUAL', source_id: null, recipient: 'dpo@customer.example', subject: 'Synthetic notice', body: 'Synthetic message body for contract examples.' };
+    case 'OutboundMessage': return outbound;
+    case 'OutboundMessageList': return { items: [outbound], next_cursor: null };
     default: return undefined;
   }
 }

@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.35.0",
+  "contract_version": "0.36.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4006,6 +4006,148 @@
       "status": 200,
       "paginated": true,
       "capability": "graph.read"
+    },
+    {
+      "id": "list_delivery_transports",
+      "method": "get",
+      "path": "/api/v1/admin/delivery-transports",
+      "authority": "STAFF",
+      "response": "DeliveryTransportList",
+      "status": 200,
+      "paginated": true,
+      "capability": "notification.read"
+    },
+    {
+      "id": "create_delivery_transport",
+      "method": "post",
+      "path": "/api/v1/admin/delivery-transports",
+      "authority": "STAFF",
+      "request": "DeliveryTransportCreate",
+      "response": "DeliveryTransport",
+      "status": 201,
+      "idempotency": true,
+      "capability": "notification.manage"
+    },
+    {
+      "id": "enable_delivery_transport",
+      "method": "post",
+      "path": "/api/v1/admin/delivery-transports/{id}/enable",
+      "authority": "STAFF",
+      "response": "DeliveryTransport",
+      "status": 200,
+      "idempotency": true,
+      "capability": "connection.enable",
+      "params": "IdPath"
+    },
+    {
+      "id": "disable_delivery_transport",
+      "method": "post",
+      "path": "/api/v1/admin/delivery-transports/{id}/disable",
+      "authority": "STAFF",
+      "request": "TransportDisable",
+      "response": "DeliveryTransport",
+      "status": 200,
+      "idempotency": true,
+      "capability": "notification.manage",
+      "params": "IdPath"
+    },
+    {
+      "id": "reveal_transport_signing_secret",
+      "method": "post",
+      "path": "/api/v1/admin/delivery-transports/{id}/signing-secret",
+      "authority": "STAFF",
+      "response": "SigningSecret",
+      "status": 200,
+      "idempotency": true,
+      "capability": "connection.enable",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_alert_routings",
+      "method": "get",
+      "path": "/api/v1/admin/alert-routings",
+      "authority": "STAFF",
+      "response": "AlertRoutingList",
+      "status": 200,
+      "paginated": true,
+      "capability": "notification.read"
+    },
+    {
+      "id": "create_alert_routing",
+      "method": "post",
+      "path": "/api/v1/admin/alert-routings",
+      "authority": "STAFF",
+      "request": "AlertRoutingCreate",
+      "response": "AlertRouting",
+      "status": 201,
+      "idempotency": true,
+      "capability": "notification.manage"
+    },
+    {
+      "id": "decide_alert_routing",
+      "method": "post",
+      "path": "/api/v1/admin/alert-routings/{id}/decision",
+      "authority": "STAFF",
+      "request": "RoutingDecision",
+      "response": "AlertRouting",
+      "status": 200,
+      "idempotency": true,
+      "capability": "notification.manage",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_outbound_messages",
+      "method": "get",
+      "path": "/api/v1/admin/outbound-messages",
+      "authority": "STAFF",
+      "response": "OutboundMessageList",
+      "status": 200,
+      "paginated": true,
+      "capability": "notification.read"
+    },
+    {
+      "id": "compose_outbound_message",
+      "method": "post",
+      "path": "/api/v1/admin/outbound-messages",
+      "authority": "STAFF",
+      "request": "OutboundMessageCreate",
+      "response": "OutboundMessage",
+      "status": 201,
+      "idempotency": true,
+      "capability": "notification.manage"
+    },
+    {
+      "id": "outbound_message",
+      "method": "get",
+      "path": "/api/v1/admin/outbound-messages/{id}",
+      "authority": "STAFF",
+      "response": "OutboundMessage",
+      "status": 200,
+      "capability": "notification.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "review_outbound_message",
+      "method": "post",
+      "path": "/api/v1/admin/outbound-messages/{id}/review",
+      "authority": "STAFF",
+      "request": "OutboundMessageReview",
+      "response": "OutboundMessage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "notification.manage",
+      "params": "IdPath"
+    },
+    {
+      "id": "withdraw_outbound_message",
+      "method": "post",
+      "path": "/api/v1/admin/outbound-messages/{id}/withdrawal",
+      "authority": "STAFF",
+      "response": "OutboundMessage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "notification.manage",
+      "params": "IdPath"
     },
     {
       "id": "supplier_questionnaire",

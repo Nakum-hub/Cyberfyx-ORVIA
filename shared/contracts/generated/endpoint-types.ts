@@ -365,4 +365,17 @@ export interface EndpointMap {
   measure_classification: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationQuality> };
   list_classification_quality: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationQualityList> };
   list_exposure_findings: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ExposureSummaryList> };
+  list_delivery_transports: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DeliveryTransportList> };
+  create_delivery_transport: { request: import('zod').infer<typeof import('../src/index.ts').schemas.DeliveryTransportCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.DeliveryTransport> };
+  enable_delivery_transport: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DeliveryTransport> };
+  disable_delivery_transport: { request: import('zod').infer<typeof import('../src/index.ts').schemas.TransportDisable>; response: import('zod').infer<typeof import('../src/index.ts').schemas.DeliveryTransport> };
+  reveal_transport_signing_secret: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.SigningSecret> };
+  list_alert_routings: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AlertRoutingList> };
+  create_alert_routing: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AlertRoutingCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AlertRouting> };
+  decide_alert_routing: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RoutingDecision>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AlertRouting> };
+  list_outbound_messages: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessageList> };
+  compose_outbound_message: { request: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessageCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessage> };
+  outbound_message: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessage> };
+  review_outbound_message: { request: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessageReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessage> };
+  withdraw_outbound_message: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OutboundMessage> };
 }

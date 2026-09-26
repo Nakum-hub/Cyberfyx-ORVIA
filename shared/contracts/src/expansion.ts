@@ -182,7 +182,9 @@ export const ControlTest = z.strictObject({
 });
 export const ControlTestDetail = z.strictObject({ test: ControlTest, runs: z.array(ControlTestRun).max(100) });
 export const ControlTestToggle = z.strictObject({ enabled: z.boolean() });
-export const ComplianceAlert = z.strictObject({ id: Id, test_id: Id, run_id: Id, kind: z.enum(['DRIFT_TO_FAIL', 'RECOVERED', 'ERROR']), detail: z.string().max(500), created_at: Time, delivery_state: z.literal('NOT_DELIVERED') });
+export const ComplianceAlert = z.strictObject({ id: Id, test_id: Id, run_id: Id, kind: z.enum(['DRIFT_TO_FAIL', 'RECOVERED', 'ERROR']), detail: z.string().max(500), created_at: Time,
+  /** Derived from the messages an enabled alert routing raised for it; NOT_DELIVERED when none did. */
+  delivery_state: z.enum(['NOT_DELIVERED', 'QUEUED', 'SENT', 'FAILED']) });
 export const ControlTestSweep = z.strictObject({ ran: z.number().int().min(0), failing: z.number().int().min(0), errors: z.number().int().min(0), alerts: z.number().int().min(0), issues_escalated: z.number().int().min(0) });
 export const ComplianceReport = z.strictObject({
   as_of: Time,
@@ -338,6 +340,40 @@ export const ClassificationQuality = z.strictObject({
 });
 export const ExposureSummary = z.strictObject({ target_id: Id, schema_name: z.string().max(63), relation_name: z.string().max(63), run_id: Id, observed_at: Time, sensitive_columns: z.array(z.string().max(63)).max(60), findings: z.array(ExposureFinding).max(200) });
 
+// EX09 customer-controlled delivery ----------------------------------------------
+export const DeliveryTransportCreate = z.strictObject({
+  kind: z.enum(['SMTP', 'WEBHOOK']), name: z.string().min(3).max(120),
+  host: z.string().min(1).max(253).optional(), port: z.number().int().min(1).max(65535).optional(), security: z.enum(['TLS', 'NONE']).optional(),
+  from_address: z.string().max(254).optional(), credential_env: z.string().regex(/^ORVIA_TRANSPORT_[A-Z0-9_]{1,60}$/).nullable().optional(), url: z.string().url().max(2000).optional(),
+}).superRefine((t, c) => {
+  const smtp = t.host !== undefined && t.port !== undefined && t.security !== undefined && t.from_address !== undefined;
+  if (t.kind === 'SMTP' && (!smtp || t.url !== undefined)) c.addIssue({ code: 'custom', path: ['host'], message: 'An SMTP transport names host, port, security and sender, and no URL' });
+  if (t.kind === 'WEBHOOK' && (t.url === undefined || t.host !== undefined || t.credential_env)) c.addIssue({ code: 'custom', path: ['url'], message: 'A webhook names a URL only; it is signed with a derived key' });
+});
+export const DeliveryTransport = z.strictObject({
+  id: Id, kind: z.enum(['SMTP', 'WEBHOOK']), name: z.string().max(120), host: z.string().max(253).nullable(), port: z.number().int().nullable(), security: z.enum(['TLS', 'NONE']).nullable(),
+  from_address: z.string().max(254).nullable(), credential_env: z.string().max(80).nullable(), url: z.string().max(2000).nullable(), state: z.enum(['PENDING', 'ENABLED', 'DISABLED']),
+  created_by: Id, created_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), disabled_at: Time.nullable(), disable_reason: SafeText.nullable(), secret_revealed: z.boolean(),
+});
+export const TransportDisable = z.strictObject({ reason: z.string().min(10).max(500) });
+export const SigningSecret = z.strictObject({ transport_id: Id, secret: z.string().length(64), algorithm: z.literal('HMAC-SHA256'), signed_content: z.string().max(120), header: z.literal('X-Orvia-Signature') });
+export const AlertRoutingCreate = z.strictObject({ transport_id: Id, recipient: z.string().min(3).max(254), kinds: z.array(z.enum(['DRIFT_TO_FAIL', 'RECOVERED', 'ERROR'])).min(1).max(3), subject_prefix: z.string().min(3).max(60).regex(/^[^\r\n]*$/) });
+export const AlertRouting = z.strictObject({ id: Id, transport_id: Id, recipient: z.string().max(254), kinds: z.array(z.string().max(20)).max(3), subject_prefix: z.string().max(60), state: z.enum(['PENDING', 'ENABLED', 'DISABLED']),
+  created_by: Id, created_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), disabled_at: Time.nullable() });
+export const RoutingDecision = z.strictObject({ action: z.enum(['ENABLE', 'DISABLE']) });
+export const OutboundMessageCreate = z.strictObject({
+  transport_id: Id, source_kind: z.enum(['NOTIFICATION_TASK', 'COMPLIANCE_ALERT', 'MANUAL']), source_id: Id.nullable(), recipient: z.string().min(3).max(254),
+  subject: z.string().min(3).max(300).regex(/^[^\r\n]*$/), body: z.string().min(10).max(20000),
+}).superRefine((m, c) => { if ((m.source_kind === 'MANUAL') !== (m.source_id === null)) c.addIssue({ code: 'custom', path: ['source_id'], message: 'Only a manual message has no source' }); });
+export const OutboundMessageReview = z.strictObject({ decision: z.enum(['APPROVE', 'REJECT']), note: z.string().min(3).max(500) });
+export const OutboundDeliveryState = z.enum(['AWAITING_REVIEW', 'REJECTED', 'QUEUED', 'RETRYING', 'SENT', 'EXHAUSTED', 'CANCELLED']);
+export const OutboundMessage = z.strictObject({
+  id: Id, transport_id: Id, source_kind: z.string().max(40), source_id: Id.nullable(), routing_id: Id.nullable(), recipient: z.string().max(254), subject: z.string().max(300), body: z.string().max(20000), content_digest: z.string().length(64),
+  review_state: z.enum(['DRAFT', 'APPROVED', 'REJECTED']), authored_by: Id, authored_at: Time, reviewed_by: Id.nullable(), reviewed_at: Time.nullable(), review_note: SafeText.nullable(),
+  delivery_state: OutboundDeliveryState, next_attempt_at: Time.nullable(), outcome_at: Time.nullable(),
+  attempts: z.array(z.strictObject({ attempt: z.number().int(), started_at: Time, finished_at: Time, outcome: z.enum(['SENT', 'FAILED', 'UNKNOWN']), response_code: z.string().max(20).nullable(), receipt: z.string().max(300).nullable(), error_code: z.string().max(60).nullable(), possible_duplicate: z.boolean() })).max(5),
+});
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -352,4 +388,6 @@ export const expansionSchemas = {
   PackageSection, PackageSuggestion, PackageRedaction, PackageKept, ResponsePackage, ResponsePackageList: page(ResponsePackage), ResponsePackageReview, ResponsePackageRelease, ResponsePackageRevoke, OwnResponsePackage,
   ClassificationRunRequest, ClassifiedColumn, RelationGrant, ExposureFinding, ClassificationRun, ClassificationRunList: page(ClassificationRun), ClassificationLabelsRecord, ClassificationLabel, ClassificationLabelSet,
   ClassificationQuality, ClassificationQualityList: page(ClassificationQuality), ExposureSummary, ExposureSummaryList: page(ExposureSummary),
+  DeliveryTransportCreate, DeliveryTransport, DeliveryTransportList: page(DeliveryTransport), TransportDisable, SigningSecret, AlertRoutingCreate, AlertRouting, AlertRoutingList: page(AlertRouting), RoutingDecision,
+  OutboundMessageCreate, OutboundMessageReview, OutboundMessage, OutboundMessageList: page(OutboundMessage),
 };

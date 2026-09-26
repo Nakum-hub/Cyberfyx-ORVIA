@@ -12,6 +12,7 @@ import { notificationSweep } from '../../../backend/domain/src/operations/attent
 import { controlTestSweep } from '../../../backend/domain/src/grc/lifecycle.ts';
 import { purgeExpiredExports } from '../../../backend/domain/src/exports/exports.ts';
 import { purgeEndedPackages } from '../../../backend/domain/src/rights/response-packages.ts';
+import { raiseAlertMessages, claimDue, sendClaim, recordResult } from '../../../backend/domain/src/delivery/delivery.ts';
 import { escalationSweep } from '../../../backend/domain/src/assessments/impact.ts';
 import { propagatePendingWithdrawals } from '../../../backend/domain/src/registry/consent.ts';
 import type { OperationsEnv } from '../../../backend/domain/src/operations/shared.ts';
@@ -33,9 +34,10 @@ import { safeError } from '../../../shared/testing/src/evidence.ts';
  * (one recorded while no regulatory package was in force). Last, it runs due
  * control tests, escalates overdue compliance issues and assessment findings,
  * removes the chunk copies of expired exports, and purges the content of rights
- * response packages thirty days after their delivery ended.
+ * response packages thirty days after their delivery ended. It then delivers
+ * reviewed messages through the customer's enabled transports.
  */
-export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; errors: string[] };
+export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; errors: string[] };
 const BATCH = { job: 200, evaluate: 200, execute: 50 };
 const MAX_BATCHES_PER_ITEM = 50;
 
@@ -45,14 +47,15 @@ export function operationsRunner() {
   const control = servicePool(config, 'orvia_worker');
   const targets = { agent: servicePool(config, 'orvia_target_agent'), observer: servicePool(config, 'orvia_target_observer') };
   const key = createHash('sha256').update('orvia-registry-source-key:' + config.secret('principal-secret')).digest();
-  const env: OperationsEnv = { sourceKeyDigest: value => createHmac('sha256', key).update(value, 'utf8').digest('hex'), targets };
+  const webhookKey = createHash('sha256').update('orvia-webhook-signing:' + config.secret('principal-secret')).digest();
+  const env: OperationsEnv = { sourceKeyDigest: value => createHmac('sha256', key).update(value, 'utf8').digest('hex'), targets, webhookSecret: id => createHmac('sha256', webhookKey).update(id, 'utf8').digest('hex') };
 
   async function once(): Promise<RunnerReport[]> {
     const reports: RunnerReport[] = [];
     for (const identity of enrollment.identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
-      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, errors: [] };
+      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, errors: [] };
       const scopeValues = [identity.scope.tenant_id, identity.scope.legal_entity_id, identity.scope.environment_id];
       // Withdrawals first: a recorded withdrawal without a propagation run is the
       // one gap here that can leave marketing active. Its runs then enter the
@@ -86,6 +89,15 @@ export function operationsRunner() {
       catch (error) { report.errors.push(`export purge: ${safeError(error).code}`); }
       try { report.response_packages_purged = await scoped(c => purgeEndedPackages(c)); }
       catch (error) { report.errors.push(`response package purge: ${safeError(error).code}`); }
+      // Customer-controlled delivery (EX09): claim under a lease, send outside the transaction, record the attempt.
+      try {
+        report.alert_messages_raised = await scoped(c => raiseAlertMessages(c));
+        for (const claim of await scoped(c => claimDue(c))) {
+          const result = await sendClaim(env, claim);
+          const recorded = await scoped(c => recordResult(c, claim, result));
+          if (recorded === 'SENT') report.messages_sent++; else if (recorded === 'EXHAUSTED') report.messages_exhausted++; else report.messages_retrying++;
+        }
+      } catch (error) { report.errors.push(`delivery: ${safeError(error).code}`); }
       reports.push(report);
     }
     return reports;

@@ -11681,6 +11681,460 @@
       }
     },
     {
+      "operation_id": "list_delivery_transports",
+      "method": "GET",
+      "path": "/api/v1/admin/delivery-transports",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003e8",
+            "kind": "SMTP",
+            "name": "Customer relay",
+            "host": "smtp.customer.example",
+            "port": 465,
+            "security": "TLS",
+            "from_address": "privacy@customer.example",
+            "credential_env": "ORVIA_TRANSPORT_RELAY",
+            "url": null,
+            "state": "ENABLED",
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "approved_by": "00000000-0000-4000-8000-000000000387",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "disabled_at": null,
+            "disable_reason": null,
+            "secret_revealed": false
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_delivery_transport",
+      "method": "POST",
+      "path": "/api/v1/admin/delivery-transports",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "SMTP",
+        "name": "Customer relay",
+        "host": "smtp.customer.example",
+        "port": 465,
+        "security": "TLS",
+        "from_address": "privacy@customer.example",
+        "credential_env": "ORVIA_TRANSPORT_RELAY"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003e8",
+        "kind": "SMTP",
+        "name": "Customer relay",
+        "host": "smtp.customer.example",
+        "port": 465,
+        "security": "TLS",
+        "from_address": "privacy@customer.example",
+        "credential_env": "ORVIA_TRANSPORT_RELAY",
+        "url": null,
+        "state": "ENABLED",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "disabled_at": null,
+        "disable_reason": null,
+        "secret_revealed": false
+      }
+    },
+    {
+      "operation_id": "enable_delivery_transport",
+      "method": "POST",
+      "path": "/api/v1/admin/delivery-transports/{id}/enable",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003e8",
+        "kind": "SMTP",
+        "name": "Customer relay",
+        "host": "smtp.customer.example",
+        "port": 465,
+        "security": "TLS",
+        "from_address": "privacy@customer.example",
+        "credential_env": "ORVIA_TRANSPORT_RELAY",
+        "url": null,
+        "state": "ENABLED",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "disabled_at": null,
+        "disable_reason": null,
+        "secret_revealed": false
+      }
+    },
+    {
+      "operation_id": "disable_delivery_transport",
+      "method": "POST",
+      "path": "/api/v1/admin/delivery-transports/{id}/disable",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003e8",
+        "kind": "SMTP",
+        "name": "Customer relay",
+        "host": "smtp.customer.example",
+        "port": 465,
+        "security": "TLS",
+        "from_address": "privacy@customer.example",
+        "credential_env": "ORVIA_TRANSPORT_RELAY",
+        "url": null,
+        "state": "ENABLED",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "disabled_at": null,
+        "disable_reason": null,
+        "secret_revealed": false
+      }
+    },
+    {
+      "operation_id": "reveal_transport_signing_secret",
+      "method": "POST",
+      "path": "/api/v1/admin/delivery-transports/{id}/signing-secret",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "secret": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "algorithm": "HMAC-SHA256",
+        "signed_content": "X-Orvia-Timestamp + \".\" + request body",
+        "header": "X-Orvia-Signature"
+      }
+    },
+    {
+      "operation_id": "list_alert_routings",
+      "method": "GET",
+      "path": "/api/v1/admin/alert-routings",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003e9",
+            "transport_id": "00000000-0000-4000-8000-0000000003e8",
+            "recipient": "compliance@customer.example",
+            "kinds": [
+              "DRIFT_TO_FAIL"
+            ],
+            "subject_prefix": "[ORVIA]",
+            "state": "ENABLED",
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "approved_by": "00000000-0000-4000-8000-000000000387",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "disabled_at": null
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_alert_routing",
+      "method": "POST",
+      "path": "/api/v1/admin/alert-routings",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "recipient": "compliance@customer.example",
+        "kinds": [
+          "DRIFT_TO_FAIL"
+        ],
+        "subject_prefix": "[ORVIA]"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003e9",
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "recipient": "compliance@customer.example",
+        "kinds": [
+          "DRIFT_TO_FAIL"
+        ],
+        "subject_prefix": "[ORVIA]",
+        "state": "ENABLED",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "disabled_at": null
+      }
+    },
+    {
+      "operation_id": "decide_alert_routing",
+      "method": "POST",
+      "path": "/api/v1/admin/alert-routings/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "action": "ENABLE"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003e9",
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "recipient": "compliance@customer.example",
+        "kinds": [
+          "DRIFT_TO_FAIL"
+        ],
+        "subject_prefix": "[ORVIA]",
+        "state": "ENABLED",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "disabled_at": null
+      }
+    },
+    {
+      "operation_id": "list_outbound_messages",
+      "method": "GET",
+      "path": "/api/v1/admin/outbound-messages",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003ea",
+            "transport_id": "00000000-0000-4000-8000-0000000003e8",
+            "source_kind": "MANUAL",
+            "source_id": null,
+            "routing_id": null,
+            "recipient": "dpo@customer.example",
+            "subject": "Synthetic notice",
+            "body": "Synthetic message body for contract examples.",
+            "content_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "review_state": "APPROVED",
+            "authored_by": "00000000-0000-4000-8000-000000000386",
+            "authored_at": "2026-09-16T10:00:00.000Z",
+            "reviewed_by": "00000000-0000-4000-8000-000000000387",
+            "reviewed_at": "2026-09-16T10:00:00.000Z",
+            "review_note": "Reviewed.",
+            "delivery_state": "SENT",
+            "next_attempt_at": null,
+            "outcome_at": "2026-09-16T10:00:00.000Z",
+            "attempts": [
+              {
+                "attempt": 1,
+                "started_at": "2026-09-16T10:00:00.000Z",
+                "finished_at": "2026-09-16T10:00:00.000Z",
+                "outcome": "SENT",
+                "response_code": "250",
+                "receipt": "250 OK queued",
+                "error_code": null,
+                "possible_duplicate": false
+              }
+            ]
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "compose_outbound_message",
+      "method": "POST",
+      "path": "/api/v1/admin/outbound-messages",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "recipient": "dpo@customer.example",
+        "subject": "Synthetic notice",
+        "body": "Synthetic message body for contract examples."
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ea",
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "routing_id": null,
+        "recipient": "dpo@customer.example",
+        "subject": "Synthetic notice",
+        "body": "Synthetic message body for contract examples.",
+        "content_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "review_state": "APPROVED",
+        "authored_by": "00000000-0000-4000-8000-000000000386",
+        "authored_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "review_note": "Reviewed.",
+        "delivery_state": "SENT",
+        "next_attempt_at": null,
+        "outcome_at": "2026-09-16T10:00:00.000Z",
+        "attempts": [
+          {
+            "attempt": 1,
+            "started_at": "2026-09-16T10:00:00.000Z",
+            "finished_at": "2026-09-16T10:00:00.000Z",
+            "outcome": "SENT",
+            "response_code": "250",
+            "receipt": "250 OK queued",
+            "error_code": null,
+            "possible_duplicate": false
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "outbound_message",
+      "method": "GET",
+      "path": "/api/v1/admin/outbound-messages/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ea",
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "routing_id": null,
+        "recipient": "dpo@customer.example",
+        "subject": "Synthetic notice",
+        "body": "Synthetic message body for contract examples.",
+        "content_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "review_state": "APPROVED",
+        "authored_by": "00000000-0000-4000-8000-000000000386",
+        "authored_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "review_note": "Reviewed.",
+        "delivery_state": "SENT",
+        "next_attempt_at": null,
+        "outcome_at": "2026-09-16T10:00:00.000Z",
+        "attempts": [
+          {
+            "attempt": 1,
+            "started_at": "2026-09-16T10:00:00.000Z",
+            "finished_at": "2026-09-16T10:00:00.000Z",
+            "outcome": "SENT",
+            "response_code": "250",
+            "receipt": "250 OK queued",
+            "error_code": null,
+            "possible_duplicate": false
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "review_outbound_message",
+      "method": "POST",
+      "path": "/api/v1/admin/outbound-messages/{id}/review",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "decision": "APPROVE",
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ea",
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "routing_id": null,
+        "recipient": "dpo@customer.example",
+        "subject": "Synthetic notice",
+        "body": "Synthetic message body for contract examples.",
+        "content_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "review_state": "APPROVED",
+        "authored_by": "00000000-0000-4000-8000-000000000386",
+        "authored_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "review_note": "Reviewed.",
+        "delivery_state": "SENT",
+        "next_attempt_at": null,
+        "outcome_at": "2026-09-16T10:00:00.000Z",
+        "attempts": [
+          {
+            "attempt": 1,
+            "started_at": "2026-09-16T10:00:00.000Z",
+            "finished_at": "2026-09-16T10:00:00.000Z",
+            "outcome": "SENT",
+            "response_code": "250",
+            "receipt": "250 OK queued",
+            "error_code": null,
+            "possible_duplicate": false
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "withdraw_outbound_message",
+      "method": "POST",
+      "path": "/api/v1/admin/outbound-messages/{id}/withdrawal",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ea",
+        "transport_id": "00000000-0000-4000-8000-0000000003e8",
+        "source_kind": "MANUAL",
+        "source_id": null,
+        "routing_id": null,
+        "recipient": "dpo@customer.example",
+        "subject": "Synthetic notice",
+        "body": "Synthetic message body for contract examples.",
+        "content_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "review_state": "APPROVED",
+        "authored_by": "00000000-0000-4000-8000-000000000386",
+        "authored_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "review_note": "Reviewed.",
+        "delivery_state": "SENT",
+        "next_attempt_at": null,
+        "outcome_at": "2026-09-16T10:00:00.000Z",
+        "attempts": [
+          {
+            "attempt": 1,
+            "started_at": "2026-09-16T10:00:00.000Z",
+            "finished_at": "2026-09-16T10:00:00.000Z",
+            "outcome": "SENT",
+            "response_code": "250",
+            "receipt": "250 OK queued",
+            "error_code": null,
+            "possible_duplicate": false
+          }
+        ]
+      }
+    },
+    {
       "operation_id": "supplier_questionnaire",
       "method": "GET",
       "path": "/api/v1/supplier/questionnaire",

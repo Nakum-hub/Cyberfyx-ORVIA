@@ -13,6 +13,8 @@ import { recordsTarget } from '../../shared/testing/src/records-target.ts';
 import { workflowActivities } from '../../services/worker/src/withdrawal-worker.ts';
 import { sweepClassification } from '../../services/worker/src/classification.ts';
 import { observerEnrollment } from '../../backend/auth/src/machine-profile.ts';
+import { operationsRunner } from '../../services/worker/src/operations-runner.ts';
+import http from 'node:http';
 
 if (loadProfile().profile !== 'codex-a00') throw new Error('Synthetic codex-a00 profile only');
 const t = operationsSuite('expansion-screens-browser');
@@ -376,6 +378,52 @@ await t.run(async () => {
     check('quality is measured from the screen', [measured.status, (measured.body as { measurement?: { columns_labelled?: number } }).measurement?.columns_labelled], [201, 3]);
     await owner.getByRole('table', { name: 'Precision and recall by category' }).waitFor();
     check('the exposure overview lists the relation', await owner.getByRole('table', { name: 'Exposure by relation' }).getByText('public.customer_profiles').count() > 0, true);
+
+    // ---------------------------------------------------------------- EX09
+    t.setPhase('EX09 transport enabled by a second person on screen');
+    const hookHits: { signature: string | undefined; body: string }[] = [];
+    const hookServer = http.createServer((req, res) => { let body = ''; req.on('data', c => { body += c; }); req.on('end', () => { hookHits.push({ signature: req.headers['x-orvia-signature'] as string | undefined, body }); res.writeHead(200).end('ok'); }); });
+    const hookPort = await new Promise<number>(r => hookServer.listen(0, '127.0.0.1', () => r((hookServer.address() as import('node:net').AddressInfo).port)));
+    try {
+      await open(admin, '/workspace/delivery', 'Delivery');
+      f = admin.getByRole('form', { name: 'Add a transport' });
+      await field(f, 'Kind').selectOption('WEBHOOK'); await field(f, 'Name').fill(`Browser hook ${suffix}`); await field(f, 'URL').fill(`http://127.0.0.1:${hookPort}/orvia`);
+      const hookT = await submit(admin, f, /\/delivery-transports$/, S.schemas.DeliveryTransport, 'Add a transport');
+      check('a transport added on screen is pending', hookT.state, 'PENDING');
+      await open(owner, '/workspace/delivery', 'Delivery');
+      const trow = owner.getByRole('table', { name: 'Transports' }).getByRole('row').filter({ hasText: `Browser hook ${suffix}` });
+      const en = await click(owner, trow, /\/enable$/, S.schemas.DeliveryTransport, 'Enable');
+      check('a second person enables it on screen', [en.status, (en.body as { state?: string }).state], [200, 'ENABLED']);
+      const shown = await click(owner, trow, /\/signing-secret$/, S.schemas.SigningSecret, 'Show signing key once');
+      await trow.getByRole('button', { name: 'Show signing key once' }).waitFor({ state: 'detached' });
+      check('the signing key is shown once on screen, and the control is gone', [shown.status, await owner.getByText('Copy this signing key now').count(), await trow.getByRole('button', { name: 'Show signing key once' }).count()], [200, 1, 0]);
+      await owner.getByRole('button', { name: 'I have copied it' }).click();
+
+      t.setPhase('EX09 message reviewed on screen and sent');
+      await admin.reload(); await admin.waitForLoadState('networkidle');
+      f = admin.getByRole('form', { name: 'Compose a message' });
+      await field(f, 'Transport').selectOption(hookT.id); await field(f, 'Recipient').fill('ticketing'); await field(f, 'Subject').fill(`Browser delivery ${suffix}`);
+      await field(f, 'Body').fill('A synthetic message composed in the browser for the delivery journey.');
+      const composed = await submit(admin, f, /\/outbound-messages$/, S.schemas.OutboundMessage, 'Compose a message');
+      check('the composed message awaits review', composed.delivery_state, 'AWAITING_REVIEW');
+      const authorRow = admin.getByRole('table', { name: 'Outbound messages' }).getByRole('row').filter({ hasText: `Browser delivery ${suffix}` });
+      await authorRow.waitFor();
+      const selfApprove = await click(admin, authorRow, /\/review$/, S.schemas.OutboundMessage, 'Approve');
+      check('the server refuses the author\'s own approval', [selfApprove.status, ((selfApprove.body as { error?: { field_errors?: { code: string }[] } }).error?.field_errors ?? []).map(e => e.code)], [409, ['author_cannot_review']]);
+      await owner.reload(); await owner.waitForLoadState('networkidle');
+      const mrow = owner.getByRole('table', { name: 'Outbound messages' }).getByRole('row').filter({ hasText: `Browser delivery ${suffix}` });
+      const approved = await click(owner, mrow, /\/review$/, S.schemas.OutboundMessage, 'Approve');
+      check('a second person approves it on screen', [approved.status, (approved.body as { delivery_state?: string }).delivery_state], [200, 'QUEUED']);
+      const deliveryRunner = operationsRunner();
+      try { await deliveryRunner.once(); } finally { await deliveryRunner.close(); }
+      check('the runner delivered a signed request to the endpoint', [hookHits.length, hookHits[0]?.signature?.startsWith('sha256='), JSON.parse(hookHits[0]?.body ?? '{}').subject], [1, true, `Browser delivery ${suffix}`]);
+      await owner.reload(); await owner.waitForLoadState('networkidle');
+      await owner.getByRole('table', { name: 'Outbound messages' }).getByRole('row').filter({ hasText: `Browser delivery ${suffix}` }).getByRole('button', { name: 'Open' }).click();
+      const attemptsTable = owner.getByRole('table', { name: 'Delivery attempts' });
+      await attemptsTable.waitFor();
+      check('the screen shows the attempt and its receipt', [await attemptsTable.getByText('sent').count() > 0, await attemptsTable.getByText(/^HTTP 200 response/).count()], [true, 1]);
+      await click(owner, owner.getByRole('table', { name: 'Transports' }).getByRole('row').filter({ hasText: `Browser hook ${suffix}` }), /\/disable$/, S.schemas.DeliveryTransport, 'Disable');
+    } finally { hookServer.close(); }
 
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);
