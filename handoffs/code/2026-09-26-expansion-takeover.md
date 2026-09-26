@@ -511,3 +511,5 @@ What the first `ropa-exports` failure was: I assumed a terminated engagement wou
 4. Re-run cold-start, drill and the full unit, e2e and DPDP battery after the `SERVER_LIMITS` pool change. It is typechecked but not yet exercised at runtime.
 5. EX01 channel preferences and EX13 commerce were not built. EX13 needs a payment provider and commercial terms from the user.
 6. Reconcile `tracking/v1-expansion.json` (task #17).
+
+**Follow-up (same day):** `pnpm test` 257/257 PASS after the `SERVER_LIMITS` change. `tracking/v1-expansion.json` reconciled (acceptance still NOT_RUN everywhere). Database-backed suites stay NOT_RUN until the codex-a00 Postgres container is restarted: the 17 stuck backends from the capacity probe were still present at the time of writing.
