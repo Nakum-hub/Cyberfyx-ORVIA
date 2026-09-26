@@ -10208,6 +10208,608 @@
       }
     },
     {
+      "operation_id": "list_system_locations",
+      "method": "GET",
+      "path": "/api/v1/admin/systems/{id}/locations",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003b6",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "region": "IN-KA",
+            "hosting_description": "Customer-operated data centre, Bengaluru",
+            "basis": "Declared by the platform owner from the hosting contract.",
+            "valid_from": "2026-09-16T10:00:00.000Z",
+            "valid_to": null,
+            "recorded_by": "00000000-0000-4000-8000-000000000386",
+            "recorded_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "declare_system_location",
+      "method": "POST",
+      "path": "/api/v1/admin/systems/{id}/locations",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "region": "IN-KA",
+        "hosting_description": "Customer-operated data centre, Bengaluru",
+        "basis": "Declared by the platform owner from the hosting contract.",
+        "valid_from": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003b6",
+        "system_id": "00000000-0000-4000-8000-0000000003b7",
+        "region": "IN-KA",
+        "hosting_description": "Customer-operated data centre, Bengaluru",
+        "basis": "Declared by the platform owner from the hosting contract.",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": null,
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "list_ropa_entries",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/entries",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "activity_id": "00000000-0000-4000-8000-0000000003c0",
+            "name": "Order fulfilment",
+            "description": "Synthetic activity for contract examples.",
+            "owner_reference": "Synthetic owner",
+            "status": "ACTIVE",
+            "processes_child_data": "NO",
+            "purpose": {
+              "purpose_id": "00000000-0000-4000-8000-0000000003c1",
+              "name": "Service delivery",
+              "version": 1,
+              "description": "Synthetic purpose.",
+              "current": true
+            },
+            "condition": {
+              "code": "CONTRACT",
+              "label": "Synthetic condition",
+              "unresolved": false
+            },
+            "notices": [],
+            "principal_categories": [
+              {
+                "id": "00000000-0000-4000-8000-0000000003c2",
+                "name": "Customers",
+                "basis": "Synthetic declaration.",
+                "since": "2026-09-16T10:00:00.000Z"
+              }
+            ],
+            "data_categories": [
+              {
+                "id": "00000000-0000-4000-8000-0000000003c3",
+                "name": "Contact details",
+                "basis": "Synthetic declaration.",
+                "since": "2026-09-16T10:00:00.000Z"
+              }
+            ],
+            "systems": [
+              {
+                "id": "00000000-0000-4000-8000-0000000003b7",
+                "name": "Synthetic CRM",
+                "connector": "SYNTHETIC_CRM",
+                "basis": "Synthetic declaration.",
+                "since": "2026-09-16T10:00:00.000Z",
+                "binding_adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
+                "location": {
+                  "region": "IN-KA",
+                  "hosting_description": "Customer-operated data centre, Bengaluru"
+                },
+                "observed": null
+              }
+            ],
+            "recipients": [],
+            "transfers": [
+              {
+                "via": "SYSTEM",
+                "target_id": "00000000-0000-4000-8000-0000000003b7",
+                "name": "Synthetic CRM",
+                "region": "IN-KA",
+                "cross_border": false
+              }
+            ],
+            "retention": [],
+            "safeguards": [],
+            "graph": {
+              "activity_id": null,
+              "systems": []
+            },
+            "gaps": [
+              {
+                "kind": "NO_RETENTION_RULE",
+                "severity": "MISSING",
+                "detail": "No active retention rule applies to this activity.",
+                "target_id": null
+              }
+            ]
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "ropa_entry",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/entries/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "activity_id": "00000000-0000-4000-8000-0000000003c0",
+        "name": "Order fulfilment",
+        "description": "Synthetic activity for contract examples.",
+        "owner_reference": "Synthetic owner",
+        "status": "ACTIVE",
+        "processes_child_data": "NO",
+        "purpose": {
+          "purpose_id": "00000000-0000-4000-8000-0000000003c1",
+          "name": "Service delivery",
+          "version": 1,
+          "description": "Synthetic purpose.",
+          "current": true
+        },
+        "condition": {
+          "code": "CONTRACT",
+          "label": "Synthetic condition",
+          "unresolved": false
+        },
+        "notices": [],
+        "principal_categories": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003c2",
+            "name": "Customers",
+            "basis": "Synthetic declaration.",
+            "since": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "data_categories": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003c3",
+            "name": "Contact details",
+            "basis": "Synthetic declaration.",
+            "since": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "systems": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003b7",
+            "name": "Synthetic CRM",
+            "connector": "SYNTHETIC_CRM",
+            "basis": "Synthetic declaration.",
+            "since": "2026-09-16T10:00:00.000Z",
+            "binding_adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
+            "location": {
+              "region": "IN-KA",
+              "hosting_description": "Customer-operated data centre, Bengaluru"
+            },
+            "observed": null
+          }
+        ],
+        "recipients": [],
+        "transfers": [
+          {
+            "via": "SYSTEM",
+            "target_id": "00000000-0000-4000-8000-0000000003b7",
+            "name": "Synthetic CRM",
+            "region": "IN-KA",
+            "cross_border": false
+          }
+        ],
+        "retention": [],
+        "safeguards": [],
+        "graph": {
+          "activity_id": null,
+          "systems": []
+        },
+        "gaps": [
+          {
+            "kind": "NO_RETENTION_RULE",
+            "severity": "MISSING",
+            "detail": "No active retention rule applies to this activity.",
+            "target_id": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "ropa_summary",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/summary",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "home_region": "IN",
+        "activities": 1,
+        "activities_with_gaps": 1,
+        "gaps": [
+          {
+            "kind": "NO_RETENTION_RULE",
+            "severity": "MISSING",
+            "count": 1
+          }
+        ],
+        "cross_border_transfers": 0,
+        "systems_declared_only": 1,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
+      "operation_id": "ropa_impact",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/impact",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "kind": "SYSTEM",
+        "target_id": "00000000-0000-4000-8000-000000000255",
+        "activities": [],
+        "retention_rule_ids": [],
+        "engagement_ids": [],
+        "graph_asset_count": 0,
+        "consent_record_count": null,
+        "complete": false
+      }
+    },
+    {
+      "operation_id": "list_ropa_versions",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/versions",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_ropa_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ropa/versions",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000256",
+        "version": 1,
+        "note": "Synthetic example",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "activity_count": -9007199254740991,
+        "gap_count": -9007199254740991,
+        "recorded_by": "00000000-0000-4000-8000-000000000257",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "approved_at": null,
+        "approval_note": null
+      }
+    },
+    {
+      "operation_id": "approve_ropa_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ropa/versions/{id}/approval",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000258",
+        "version": 1,
+        "note": "Synthetic example",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "activity_count": -9007199254740991,
+        "gap_count": -9007199254740991,
+        "recorded_by": "00000000-0000-4000-8000-000000000259",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": null,
+        "approved_at": null,
+        "approval_note": null
+      }
+    },
+    {
+      "operation_id": "ropa_version_diff",
+      "method": "GET",
+      "path": "/api/v1/admin/ropa/versions/{id}/diff",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "from_version": -9007199254740991,
+        "to_version": -9007199254740991,
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "complete": false
+      }
+    },
+    {
+      "operation_id": "list_data_exports",
+      "method": "GET",
+      "path": "/api/v1/admin/data-exports",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003ca",
+            "kind": "ROPA_VERSION_CSV",
+            "source_id": "00000000-0000-4000-8000-0000000003cb",
+            "as_of": "2026-09-16T10:00:00.000Z",
+            "expected_rows": 1,
+            "state": "COMPLETED",
+            "rows_written": 1,
+            "chunks": 1,
+            "failure_code": null,
+            "manifest": {
+              "kind": "ROPA_VERSION_CSV",
+              "as_of": "2026-09-16T10:00:00.000Z",
+              "filter": {},
+              "expected_rows": 1,
+              "rows": 1,
+              "columns": [
+                "activity_id"
+              ],
+              "chunks": [
+                {
+                  "sequence": 1,
+                  "row_count": 1,
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                }
+              ],
+              "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "complete": true,
+              "limits": [
+                "Synthetic example."
+              ]
+            },
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "finished_at": "2026-09-16T10:00:00.000Z",
+            "expires_at": "2026-09-16T10:00:00.000Z",
+            "expired": false
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_data_export",
+      "method": "POST",
+      "path": "/api/v1/admin/data-exports",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "ROPA_VERSION_CSV",
+        "ropa_version_id": "00000000-0000-4000-8000-0000000003cb",
+        "audit_filter": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "data_export",
+      "method": "GET",
+      "path": "/api/v1/admin/data-exports/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "advance_data_export",
+      "method": "POST",
+      "path": "/api/v1/admin/data-exports/{id}/step",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "stop_data_export",
+      "method": "POST",
+      "path": "/api/v1/admin/data-exports/{id}/stop",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003ca",
+        "kind": "ROPA_VERSION_CSV",
+        "source_id": "00000000-0000-4000-8000-0000000003cb",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "expected_rows": 1,
+        "state": "COMPLETED",
+        "rows_written": 1,
+        "chunks": 1,
+        "failure_code": null,
+        "manifest": {
+          "kind": "ROPA_VERSION_CSV",
+          "as_of": "2026-09-16T10:00:00.000Z",
+          "filter": {},
+          "expected_rows": 1,
+          "rows": 1,
+          "columns": [
+            "activity_id"
+          ],
+          "chunks": [
+            {
+              "sequence": 1,
+              "row_count": 1,
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "complete": true,
+          "limits": [
+            "Synthetic example."
+          ]
+        },
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "finished_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "expired": false
+      }
+    },
+    {
+      "operation_id": "data_export_chunk",
+      "method": "GET",
+      "path": "/api/v1/admin/data-exports/{id}/chunk",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "job_id": "00000000-0000-4000-8000-00000000025a",
+        "sequence": -9007199254740991,
+        "row_count": -9007199254740991,
+        "sha256": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "content": "Synthetic example"
+      }
+    },
+    {
       "operation_id": "supplier_questionnaire",
       "method": "GET",
       "path": "/api/v1/supplier/questionnaire",
@@ -10253,8 +10855,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000255",
-        "environment_id": "00000000-0000-4000-8000-000000000256",
+        "installation_id": "00000000-0000-4000-8000-00000000025b",
+        "environment_id": "00000000-0000-4000-8000-00000000025c",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -10271,9 +10873,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000257",
+        "command_id": "00000000-0000-4000-8000-00000000025d",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000258",
+        "attempt_id": "00000000-0000-4000-8000-00000000025e",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -10281,7 +10883,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000259",
+        "operation_id": "00000000-0000-4000-8000-00000000025f",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -10294,10 +10896,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-00000000025a",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000025b",
-        "purpose_id": "00000000-0000-4000-8000-00000000025c",
-        "system_id": "00000000-0000-4000-8000-00000000025d",
+        "attempt_id": "00000000-0000-4000-8000-000000000260",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000261",
+        "purpose_id": "00000000-0000-4000-8000-000000000262",
+        "system_id": "00000000-0000-4000-8000-000000000263",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -10370,9 +10972,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000025e",
+        "command_id": "00000000-0000-4000-8000-000000000264",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000025f",
+        "attempt_id": "00000000-0000-4000-8000-000000000265",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -10387,7 +10989,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000260",
+        "resource_id": "00000000-0000-4000-8000-000000000266",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -10402,9 +11004,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000261",
+        "command_id": "00000000-0000-4000-8000-000000000267",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000262",
+        "attempt_id": "00000000-0000-4000-8000-000000000268",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

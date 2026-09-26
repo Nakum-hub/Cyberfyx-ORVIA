@@ -4223,6 +4223,214 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/systems/{id}/locations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_system_locations"];
+        put?: never;
+        post: operations["declare_system_location"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ropa/entries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_ropa_entries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ropa/entries/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ropa_entry"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ropa/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ropa_summary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ropa/impact": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ropa_impact"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ropa/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_ropa_versions"];
+        put?: never;
+        post: operations["create_ropa_version"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ropa/versions/{id}/approval": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["approve_ropa_version"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ropa/versions/{id}/diff": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ropa_version_diff"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/data-exports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_data_exports"];
+        put?: never;
+        post: operations["create_data_export"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/data-exports/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["data_export"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/data-exports/{id}/step": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["advance_data_export"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/data-exports/{id}/stop": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["stop_data_export"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/data-exports/{id}/chunk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["data_export_chunk"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/supplier/questionnaire": {
         parameters: {
             query?: never;
@@ -9679,6 +9887,544 @@ export interface components {
         };
         RegulatoryFrameworkImport: {
             name: string;
+        };
+        SystemLocationCreate: {
+            region: string;
+            hosting_description: string;
+            basis: string;
+            /** Format: date-time */
+            valid_from: string;
+        };
+        SystemLocation: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            system_id: string;
+            region: string;
+            hosting_description: string;
+            basis: string;
+            /** Format: date-time */
+            valid_from: string;
+            valid_to: string | null;
+            /** Format: uuid */
+            recorded_by: string;
+            /** Format: date-time */
+            recorded_at: string;
+        };
+        SystemLocationList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                system_id: string;
+                region: string;
+                hosting_description: string;
+                basis: string;
+                /** Format: date-time */
+                valid_from: string;
+                valid_to: string | null;
+                /** Format: uuid */
+                recorded_by: string;
+                /** Format: date-time */
+                recorded_at: string;
+            }[];
+            next_cursor: string | null;
+        };
+        RopaGap: {
+            /** @enum {string} */
+            kind: "NO_CONDITION" | "CONDITION_UNRESOLVED" | "NO_SYSTEM" | "NO_DATA_CATEGORY" | "NO_PRINCIPAL_CATEGORY" | "NO_RETENTION_RULE" | "UNBOUND_SYSTEM" | "LOCATION_UNDECLARED" | "RECIPIENT_REGION_NOT_A_CODE" | "RECIPIENT_ENDED" | "CATEGORY_INACTIVE" | "PURPOSE_VERSION_NOT_CURRENT" | "GRAPH_SYSTEM_NOT_DECLARED" | "DECLARED_SYSTEM_NOT_IN_GRAPH" | "OBSERVATION_STALE" | "NOT_OBSERVED";
+            /** @enum {string} */
+            severity: "MISSING" | "STALE" | "CONFLICT" | "INFO";
+            detail: string;
+            target_id: string | null;
+        };
+        RopaEntry: {
+            /** Format: uuid */
+            activity_id: string;
+            name: string;
+            description: string;
+            owner_reference: string;
+            status: string;
+            processes_child_data: string;
+            purpose: {
+                /** Format: uuid */
+                purpose_id: string;
+                name: string;
+                version: number;
+                description: string;
+                current: boolean;
+            } | null;
+            condition: {
+                code: string;
+                label: string;
+                unresolved: boolean;
+            } | null;
+            notices: {
+                /** Format: uuid */
+                id: string;
+                title: string;
+                version: number;
+                locale: string;
+            }[];
+            principal_categories: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                basis: string;
+                /** Format: date-time */
+                since: string;
+            }[];
+            data_categories: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                basis: string;
+                /** Format: date-time */
+                since: string;
+            }[];
+            systems: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                connector: string;
+                basis: string;
+                /** Format: date-time */
+                since: string;
+                binding_adapter: string | null;
+                location: {
+                    region: string;
+                    hosting_description: string;
+                } | null;
+                observed: {
+                    /** Format: date-time */
+                    last_seen_at: string;
+                    /** Format: date-time */
+                    fresh_until: string;
+                    fresh: boolean;
+                } | null;
+            }[];
+            recipients: {
+                /** Format: uuid */
+                engagement_id: string;
+                /** Format: uuid */
+                processor_id: string;
+                processor_name: string;
+                role: string;
+                region: string;
+                subprocessor_of: string | null;
+                status: string;
+                /** Format: date-time */
+                since: string;
+            }[];
+            transfers: {
+                /** @enum {string} */
+                via: "SYSTEM" | "RECIPIENT";
+                /** Format: uuid */
+                target_id: string;
+                name: string;
+                region: string;
+                cross_border: boolean;
+            }[];
+            retention: {
+                /** Format: uuid */
+                rule_id: string;
+                name: string;
+                trigger: string;
+                duration_days: number | null;
+            }[];
+            safeguards: {
+                /** Format: uuid */
+                id: string;
+                kind: string;
+                description: string;
+                evidence_state: string;
+            }[];
+            graph: {
+                activity_id: string | null;
+                systems: {
+                    /** Format: uuid */
+                    system_id: string;
+                    /** @enum {string} */
+                    provenance: "ASSERTED" | "OBSERVED";
+                    review_state: string;
+                }[];
+            };
+            gaps: {
+                /** @enum {string} */
+                kind: "NO_CONDITION" | "CONDITION_UNRESOLVED" | "NO_SYSTEM" | "NO_DATA_CATEGORY" | "NO_PRINCIPAL_CATEGORY" | "NO_RETENTION_RULE" | "UNBOUND_SYSTEM" | "LOCATION_UNDECLARED" | "RECIPIENT_REGION_NOT_A_CODE" | "RECIPIENT_ENDED" | "CATEGORY_INACTIVE" | "PURPOSE_VERSION_NOT_CURRENT" | "GRAPH_SYSTEM_NOT_DECLARED" | "DECLARED_SYSTEM_NOT_IN_GRAPH" | "OBSERVATION_STALE" | "NOT_OBSERVED";
+                /** @enum {string} */
+                severity: "MISSING" | "STALE" | "CONFLICT" | "INFO";
+                detail: string;
+                target_id: string | null;
+            }[];
+        };
+        RopaEntryList: {
+            items: {
+                /** Format: uuid */
+                activity_id: string;
+                name: string;
+                description: string;
+                owner_reference: string;
+                status: string;
+                processes_child_data: string;
+                purpose: {
+                    /** Format: uuid */
+                    purpose_id: string;
+                    name: string;
+                    version: number;
+                    description: string;
+                    current: boolean;
+                } | null;
+                condition: {
+                    code: string;
+                    label: string;
+                    unresolved: boolean;
+                } | null;
+                notices: {
+                    /** Format: uuid */
+                    id: string;
+                    title: string;
+                    version: number;
+                    locale: string;
+                }[];
+                principal_categories: {
+                    /** Format: uuid */
+                    id: string;
+                    name: string;
+                    basis: string;
+                    /** Format: date-time */
+                    since: string;
+                }[];
+                data_categories: {
+                    /** Format: uuid */
+                    id: string;
+                    name: string;
+                    basis: string;
+                    /** Format: date-time */
+                    since: string;
+                }[];
+                systems: {
+                    /** Format: uuid */
+                    id: string;
+                    name: string;
+                    connector: string;
+                    basis: string;
+                    /** Format: date-time */
+                    since: string;
+                    binding_adapter: string | null;
+                    location: {
+                        region: string;
+                        hosting_description: string;
+                    } | null;
+                    observed: {
+                        /** Format: date-time */
+                        last_seen_at: string;
+                        /** Format: date-time */
+                        fresh_until: string;
+                        fresh: boolean;
+                    } | null;
+                }[];
+                recipients: {
+                    /** Format: uuid */
+                    engagement_id: string;
+                    /** Format: uuid */
+                    processor_id: string;
+                    processor_name: string;
+                    role: string;
+                    region: string;
+                    subprocessor_of: string | null;
+                    status: string;
+                    /** Format: date-time */
+                    since: string;
+                }[];
+                transfers: {
+                    /** @enum {string} */
+                    via: "SYSTEM" | "RECIPIENT";
+                    /** Format: uuid */
+                    target_id: string;
+                    name: string;
+                    region: string;
+                    cross_border: boolean;
+                }[];
+                retention: {
+                    /** Format: uuid */
+                    rule_id: string;
+                    name: string;
+                    trigger: string;
+                    duration_days: number | null;
+                }[];
+                safeguards: {
+                    /** Format: uuid */
+                    id: string;
+                    kind: string;
+                    description: string;
+                    evidence_state: string;
+                }[];
+                graph: {
+                    activity_id: string | null;
+                    systems: {
+                        /** Format: uuid */
+                        system_id: string;
+                        /** @enum {string} */
+                        provenance: "ASSERTED" | "OBSERVED";
+                        review_state: string;
+                    }[];
+                };
+                gaps: {
+                    /** @enum {string} */
+                    kind: "NO_CONDITION" | "CONDITION_UNRESOLVED" | "NO_SYSTEM" | "NO_DATA_CATEGORY" | "NO_PRINCIPAL_CATEGORY" | "NO_RETENTION_RULE" | "UNBOUND_SYSTEM" | "LOCATION_UNDECLARED" | "RECIPIENT_REGION_NOT_A_CODE" | "RECIPIENT_ENDED" | "CATEGORY_INACTIVE" | "PURPOSE_VERSION_NOT_CURRENT" | "GRAPH_SYSTEM_NOT_DECLARED" | "DECLARED_SYSTEM_NOT_IN_GRAPH" | "OBSERVATION_STALE" | "NOT_OBSERVED";
+                    /** @enum {string} */
+                    severity: "MISSING" | "STALE" | "CONFLICT" | "INFO";
+                    detail: string;
+                    target_id: string | null;
+                }[];
+            }[];
+            next_cursor: string | null;
+        };
+        RopaSummary: {
+            /** Format: date-time */
+            as_of: string;
+            home_region: string;
+            activities: number;
+            activities_with_gaps: number;
+            gaps: {
+                /** @enum {string} */
+                kind: "NO_CONDITION" | "CONDITION_UNRESOLVED" | "NO_SYSTEM" | "NO_DATA_CATEGORY" | "NO_PRINCIPAL_CATEGORY" | "NO_RETENTION_RULE" | "UNBOUND_SYSTEM" | "LOCATION_UNDECLARED" | "RECIPIENT_REGION_NOT_A_CODE" | "RECIPIENT_ENDED" | "CATEGORY_INACTIVE" | "PURPOSE_VERSION_NOT_CURRENT" | "GRAPH_SYSTEM_NOT_DECLARED" | "DECLARED_SYSTEM_NOT_IN_GRAPH" | "OBSERVATION_STALE" | "NOT_OBSERVED";
+                /** @enum {string} */
+                severity: "MISSING" | "STALE" | "CONFLICT" | "INFO";
+                count: number;
+            }[];
+            cross_border_transfers: number;
+            systems_declared_only: number;
+            limits: string[];
+        };
+        RopaImpactQuery: {
+            /** @enum {string} */
+            kind: "SYSTEM" | "PROCESSOR" | "DATA_CATEGORY" | "PRINCIPAL_CATEGORY" | "PURPOSE";
+            /** Format: uuid */
+            target_id: string;
+        };
+        RopaImpact: {
+            /** @enum {string} */
+            kind: "SYSTEM" | "PROCESSOR" | "DATA_CATEGORY" | "PRINCIPAL_CATEGORY" | "PURPOSE";
+            /** Format: uuid */
+            target_id: string;
+            activities: {
+                /** Format: uuid */
+                activity_id: string;
+                name: string;
+                /** @enum {string} */
+                via: "REGISTRY_LINK" | "GRAPH" | "SUBPROCESSOR" | "PURPOSE_VERSION";
+            }[];
+            retention_rule_ids: string[];
+            engagement_ids: string[];
+            graph_asset_count: number;
+            consent_record_count: number | null;
+            complete: boolean;
+        };
+        RopaVersionCreate: {
+            note: string;
+        };
+        RopaVersionApprove: {
+            note: string;
+        };
+        RopaVersion: {
+            /** Format: uuid */
+            id: string;
+            version: number;
+            note: string;
+            /** Format: date-time */
+            as_of: string;
+            content_digest: string;
+            activity_count: number;
+            gap_count: number;
+            /** Format: uuid */
+            recorded_by: string;
+            /** Format: date-time */
+            recorded_at: string;
+            approved_by: string | null;
+            approved_at: string | null;
+            approval_note: string | null;
+        };
+        RopaVersionList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                version: number;
+                note: string;
+                /** Format: date-time */
+                as_of: string;
+                content_digest: string;
+                activity_count: number;
+                gap_count: number;
+                /** Format: uuid */
+                recorded_by: string;
+                /** Format: date-time */
+                recorded_at: string;
+                approved_by: string | null;
+                approved_at: string | null;
+                approval_note: string | null;
+            }[];
+            next_cursor: string | null;
+        };
+        RopaDiffQuery: {
+            /** Format: uuid */
+            against: string;
+        };
+        RopaDiff: {
+            from_version: number;
+            to_version: number;
+            added: {
+                /** Format: uuid */
+                activity_id: string;
+                name: string;
+            }[];
+            removed: {
+                /** Format: uuid */
+                activity_id: string;
+                name: string;
+            }[];
+            changed: {
+                /** Format: uuid */
+                activity_id: string;
+                name: string;
+                fields: string[];
+            }[];
+            complete: boolean;
+        };
+        DataExportCreate: {
+            /** @enum {string} */
+            kind: "ROPA_VERSION_CSV" | "AUDIT_EVENTS_JSONL";
+            ropa_version_id: string | null;
+            audit_filter: {
+                operation?: string;
+                /** Format: uuid */
+                actor_id?: string;
+                actor_domain?: string;
+                /** Format: date-time */
+                from?: string;
+                /** Format: date-time */
+                to?: string;
+            } | null;
+        };
+        DataExportManifest: {
+            /** @enum {string} */
+            kind: "ROPA_VERSION_CSV" | "AUDIT_EVENTS_JSONL";
+            /** Format: date-time */
+            as_of: string;
+            filter: {
+                [key: string]: string;
+            };
+            expected_rows: number;
+            rows: number;
+            columns: string[];
+            chunks: {
+                sequence: number;
+                row_count: number;
+                sha256: string;
+            }[];
+            digest: string;
+            /** @constant */
+            complete: true;
+            limits: string[];
+        };
+        DataExport: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            kind: "ROPA_VERSION_CSV" | "AUDIT_EVENTS_JSONL";
+            source_id: string | null;
+            /** Format: date-time */
+            as_of: string;
+            expected_rows: number;
+            /** @enum {string} */
+            state: "RUNNING" | "COMPLETED" | "FAILED" | "CANCELLED";
+            rows_written: number;
+            chunks: number;
+            failure_code: string | null;
+            manifest: {
+                /** @enum {string} */
+                kind: "ROPA_VERSION_CSV" | "AUDIT_EVENTS_JSONL";
+                /** Format: date-time */
+                as_of: string;
+                filter: {
+                    [key: string]: string;
+                };
+                expected_rows: number;
+                rows: number;
+                columns: string[];
+                chunks: {
+                    sequence: number;
+                    row_count: number;
+                    sha256: string;
+                }[];
+                digest: string;
+                /** @constant */
+                complete: true;
+                limits: string[];
+            } | null;
+            /** Format: date-time */
+            created_at: string;
+            finished_at: string | null;
+            /** Format: date-time */
+            expires_at: string;
+            expired: boolean;
+        };
+        DataExportList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** @enum {string} */
+                kind: "ROPA_VERSION_CSV" | "AUDIT_EVENTS_JSONL";
+                source_id: string | null;
+                /** Format: date-time */
+                as_of: string;
+                expected_rows: number;
+                /** @enum {string} */
+                state: "RUNNING" | "COMPLETED" | "FAILED" | "CANCELLED";
+                rows_written: number;
+                chunks: number;
+                failure_code: string | null;
+                manifest: {
+                    /** @enum {string} */
+                    kind: "ROPA_VERSION_CSV" | "AUDIT_EVENTS_JSONL";
+                    /** Format: date-time */
+                    as_of: string;
+                    filter: {
+                        [key: string]: string;
+                    };
+                    expected_rows: number;
+                    rows: number;
+                    columns: string[];
+                    chunks: {
+                        sequence: number;
+                        row_count: number;
+                        sha256: string;
+                    }[];
+                    digest: string;
+                    /** @constant */
+                    complete: true;
+                    limits: string[];
+                } | null;
+                /** Format: date-time */
+                created_at: string;
+                finished_at: string | null;
+                /** Format: date-time */
+                expires_at: string;
+                expired: boolean;
+            }[];
+            next_cursor: string | null;
+        };
+        DataExportChunkQuery: {
+            sequence: number;
+        };
+        DataExportChunk: {
+            /** Format: uuid */
+            job_id: string;
+            sequence: number;
+            row_count: number;
+            sha256: string;
+            content: string;
         };
         GrcFrameworkCreate: {
             name: string;
@@ -76688,6 +77434,3025 @@ export interface operations {
             };
         };
     };
+    list_system_locations: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-0000000003b6",
+                     *           "system_id": "00000000-0000-4000-8000-0000000003b7",
+                     *           "region": "IN-KA",
+                     *           "hosting_description": "Customer-operated data centre, Bengaluru",
+                     *           "basis": "Declared by the platform owner from the hosting contract.",
+                     *           "valid_from": "2026-09-16T10:00:00.000Z",
+                     *           "valid_to": null,
+                     *           "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *           "recorded_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["SystemLocationList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    declare_system_location: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "region": "IN-KA",
+                 *       "hosting_description": "Customer-operated data centre, Bengaluru",
+                 *       "basis": "Declared by the platform owner from the hosting contract.",
+                 *       "valid_from": "2026-09-16T10:00:00.000Z"
+                 *     }
+                 */
+                "application/json": components["schemas"]["SystemLocationCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000003b6",
+                     *       "system_id": "00000000-0000-4000-8000-0000000003b7",
+                     *       "region": "IN-KA",
+                     *       "hosting_description": "Customer-operated data centre, Bengaluru",
+                     *       "basis": "Declared by the platform owner from the hosting contract.",
+                     *       "valid_from": "2026-09-16T10:00:00.000Z",
+                     *       "valid_to": null,
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["SystemLocation"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_ropa_entries: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [
+                     *         {
+                     *           "activity_id": "00000000-0000-4000-8000-0000000003c0",
+                     *           "name": "Order fulfilment",
+                     *           "description": "Synthetic activity for contract examples.",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "status": "ACTIVE",
+                     *           "processes_child_data": "NO",
+                     *           "purpose": {
+                     *             "purpose_id": "00000000-0000-4000-8000-0000000003c1",
+                     *             "name": "Service delivery",
+                     *             "version": 1,
+                     *             "description": "Synthetic purpose.",
+                     *             "current": true
+                     *           },
+                     *           "condition": {
+                     *             "code": "CONTRACT",
+                     *             "label": "Synthetic condition",
+                     *             "unresolved": false
+                     *           },
+                     *           "notices": [],
+                     *           "principal_categories": [
+                     *             {
+                     *               "id": "00000000-0000-4000-8000-0000000003c2",
+                     *               "name": "Customers",
+                     *               "basis": "Synthetic declaration.",
+                     *               "since": "2026-09-16T10:00:00.000Z"
+                     *             }
+                     *           ],
+                     *           "data_categories": [
+                     *             {
+                     *               "id": "00000000-0000-4000-8000-0000000003c3",
+                     *               "name": "Contact details",
+                     *               "basis": "Synthetic declaration.",
+                     *               "since": "2026-09-16T10:00:00.000Z"
+                     *             }
+                     *           ],
+                     *           "systems": [
+                     *             {
+                     *               "id": "00000000-0000-4000-8000-0000000003b7",
+                     *               "name": "Synthetic CRM",
+                     *               "connector": "SYNTHETIC_CRM",
+                     *               "basis": "Synthetic declaration.",
+                     *               "since": "2026-09-16T10:00:00.000Z",
+                     *               "binding_adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
+                     *               "location": {
+                     *                 "region": "IN-KA",
+                     *                 "hosting_description": "Customer-operated data centre, Bengaluru"
+                     *               },
+                     *               "observed": null
+                     *             }
+                     *           ],
+                     *           "recipients": [],
+                     *           "transfers": [
+                     *             {
+                     *               "via": "SYSTEM",
+                     *               "target_id": "00000000-0000-4000-8000-0000000003b7",
+                     *               "name": "Synthetic CRM",
+                     *               "region": "IN-KA",
+                     *               "cross_border": false
+                     *             }
+                     *           ],
+                     *           "retention": [],
+                     *           "safeguards": [],
+                     *           "graph": {
+                     *             "activity_id": null,
+                     *             "systems": []
+                     *           },
+                     *           "gaps": [
+                     *             {
+                     *               "kind": "NO_RETENTION_RULE",
+                     *               "severity": "MISSING",
+                     *               "detail": "No active retention rule applies to this activity.",
+                     *               "target_id": null
+                     *             }
+                     *           ]
+                     *         }
+                     *       ],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaEntryList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    ropa_entry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "activity_id": "00000000-0000-4000-8000-0000000003c0",
+                     *       "name": "Order fulfilment",
+                     *       "description": "Synthetic activity for contract examples.",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "status": "ACTIVE",
+                     *       "processes_child_data": "NO",
+                     *       "purpose": {
+                     *         "purpose_id": "00000000-0000-4000-8000-0000000003c1",
+                     *         "name": "Service delivery",
+                     *         "version": 1,
+                     *         "description": "Synthetic purpose.",
+                     *         "current": true
+                     *       },
+                     *       "condition": {
+                     *         "code": "CONTRACT",
+                     *         "label": "Synthetic condition",
+                     *         "unresolved": false
+                     *       },
+                     *       "notices": [],
+                     *       "principal_categories": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-0000000003c2",
+                     *           "name": "Customers",
+                     *           "basis": "Synthetic declaration.",
+                     *           "since": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "data_categories": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-0000000003c3",
+                     *           "name": "Contact details",
+                     *           "basis": "Synthetic declaration.",
+                     *           "since": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "systems": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-0000000003b7",
+                     *           "name": "Synthetic CRM",
+                     *           "connector": "SYNTHETIC_CRM",
+                     *           "basis": "Synthetic declaration.",
+                     *           "since": "2026-09-16T10:00:00.000Z",
+                     *           "binding_adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
+                     *           "location": {
+                     *             "region": "IN-KA",
+                     *             "hosting_description": "Customer-operated data centre, Bengaluru"
+                     *           },
+                     *           "observed": null
+                     *         }
+                     *       ],
+                     *       "recipients": [],
+                     *       "transfers": [
+                     *         {
+                     *           "via": "SYSTEM",
+                     *           "target_id": "00000000-0000-4000-8000-0000000003b7",
+                     *           "name": "Synthetic CRM",
+                     *           "region": "IN-KA",
+                     *           "cross_border": false
+                     *         }
+                     *       ],
+                     *       "retention": [],
+                     *       "safeguards": [],
+                     *       "graph": {
+                     *         "activity_id": null,
+                     *         "systems": []
+                     *       },
+                     *       "gaps": [
+                     *         {
+                     *           "kind": "NO_RETENTION_RULE",
+                     *           "severity": "MISSING",
+                     *           "detail": "No active retention rule applies to this activity.",
+                     *           "target_id": null
+                     *         }
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaEntry"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    ropa_summary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "home_region": "IN",
+                     *       "activities": 1,
+                     *       "activities_with_gaps": 1,
+                     *       "gaps": [
+                     *         {
+                     *           "kind": "NO_RETENTION_RULE",
+                     *           "severity": "MISSING",
+                     *           "count": 1
+                     *         }
+                     *       ],
+                     *       "cross_border_transfers": 0,
+                     *       "systems_declared_only": 1,
+                     *       "limits": [
+                     *         "Synthetic example."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaSummary"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    ropa_impact: {
+        parameters: {
+            query: {
+                kind: "SYSTEM" | "PROCESSOR" | "DATA_CATEGORY" | "PRINCIPAL_CATEGORY" | "PURPOSE";
+                target_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "kind": "SYSTEM",
+                     *       "target_id": "00000000-0000-4000-8000-000000000255",
+                     *       "activities": [],
+                     *       "retention_rule_ids": [],
+                     *       "engagement_ids": [],
+                     *       "graph_asset_count": 0,
+                     *       "consent_record_count": null,
+                     *       "complete": false
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaImpact"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_ropa_versions: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaVersionList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_ropa_version: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "note": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["RopaVersionCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000256",
+                     *       "version": 1,
+                     *       "note": "Synthetic example",
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                     *       "activity_count": -9007199254740991,
+                     *       "gap_count": -9007199254740991,
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000257",
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "approved_by": null,
+                     *       "approved_at": null,
+                     *       "approval_note": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaVersion"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    approve_ropa_version: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "note": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["RopaVersionApprove"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000258",
+                     *       "version": 1,
+                     *       "note": "Synthetic example",
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                     *       "activity_count": -9007199254740991,
+                     *       "gap_count": -9007199254740991,
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000259",
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "approved_by": null,
+                     *       "approved_at": null,
+                     *       "approval_note": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaVersion"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    ropa_version_diff: {
+        parameters: {
+            query: {
+                against: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "from_version": -9007199254740991,
+                     *       "to_version": -9007199254740991,
+                     *       "added": [],
+                     *       "removed": [],
+                     *       "changed": [],
+                     *       "complete": false
+                     *     }
+                     */
+                    "application/json": components["schemas"]["RopaDiff"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_data_exports: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-0000000003ca",
+                     *           "kind": "ROPA_VERSION_CSV",
+                     *           "source_id": "00000000-0000-4000-8000-0000000003cb",
+                     *           "as_of": "2026-09-16T10:00:00.000Z",
+                     *           "expected_rows": 1,
+                     *           "state": "COMPLETED",
+                     *           "rows_written": 1,
+                     *           "chunks": 1,
+                     *           "failure_code": null,
+                     *           "manifest": {
+                     *             "kind": "ROPA_VERSION_CSV",
+                     *             "as_of": "2026-09-16T10:00:00.000Z",
+                     *             "filter": {},
+                     *             "expected_rows": 1,
+                     *             "rows": 1,
+                     *             "columns": [
+                     *               "activity_id"
+                     *             ],
+                     *             "chunks": [
+                     *               {
+                     *                 "sequence": 1,
+                     *                 "row_count": 1,
+                     *                 "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                     *               }
+                     *             ],
+                     *             "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                     *             "complete": true,
+                     *             "limits": [
+                     *               "Synthetic example."
+                     *             ]
+                     *           },
+                     *           "created_at": "2026-09-16T10:00:00.000Z",
+                     *           "finished_at": "2026-09-16T10:00:00.000Z",
+                     *           "expires_at": "2026-09-16T10:00:00.000Z",
+                     *           "expired": false
+                     *         }
+                     *       ],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["DataExportList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_data_export: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "kind": "ROPA_VERSION_CSV",
+                 *       "ropa_version_id": "00000000-0000-4000-8000-0000000003cb",
+                 *       "audit_filter": null
+                 *     }
+                 */
+                "application/json": components["schemas"]["DataExportCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000003ca",
+                     *       "kind": "ROPA_VERSION_CSV",
+                     *       "source_id": "00000000-0000-4000-8000-0000000003cb",
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "expected_rows": 1,
+                     *       "state": "COMPLETED",
+                     *       "rows_written": 1,
+                     *       "chunks": 1,
+                     *       "failure_code": null,
+                     *       "manifest": {
+                     *         "kind": "ROPA_VERSION_CSV",
+                     *         "as_of": "2026-09-16T10:00:00.000Z",
+                     *         "filter": {},
+                     *         "expected_rows": 1,
+                     *         "rows": 1,
+                     *         "columns": [
+                     *           "activity_id"
+                     *         ],
+                     *         "chunks": [
+                     *           {
+                     *             "sequence": 1,
+                     *             "row_count": 1,
+                     *             "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                     *           }
+                     *         ],
+                     *         "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                     *         "complete": true,
+                     *         "limits": [
+                     *           "Synthetic example."
+                     *         ]
+                     *       },
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "finished_at": "2026-09-16T10:00:00.000Z",
+                     *       "expires_at": "2026-09-16T10:00:00.000Z",
+                     *       "expired": false
+                     *     }
+                     */
+                    "application/json": components["schemas"]["DataExport"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    data_export: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000003ca",
+                     *       "kind": "ROPA_VERSION_CSV",
+                     *       "source_id": "00000000-0000-4000-8000-0000000003cb",
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "expected_rows": 1,
+                     *       "state": "COMPLETED",
+                     *       "rows_written": 1,
+                     *       "chunks": 1,
+                     *       "failure_code": null,
+                     *       "manifest": {
+                     *         "kind": "ROPA_VERSION_CSV",
+                     *         "as_of": "2026-09-16T10:00:00.000Z",
+                     *         "filter": {},
+                     *         "expected_rows": 1,
+                     *         "rows": 1,
+                     *         "columns": [
+                     *           "activity_id"
+                     *         ],
+                     *         "chunks": [
+                     *           {
+                     *             "sequence": 1,
+                     *             "row_count": 1,
+                     *             "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                     *           }
+                     *         ],
+                     *         "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                     *         "complete": true,
+                     *         "limits": [
+                     *           "Synthetic example."
+                     *         ]
+                     *       },
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "finished_at": "2026-09-16T10:00:00.000Z",
+                     *       "expires_at": "2026-09-16T10:00:00.000Z",
+                     *       "expired": false
+                     *     }
+                     */
+                    "application/json": components["schemas"]["DataExport"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    advance_data_export: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000003ca",
+                     *       "kind": "ROPA_VERSION_CSV",
+                     *       "source_id": "00000000-0000-4000-8000-0000000003cb",
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "expected_rows": 1,
+                     *       "state": "COMPLETED",
+                     *       "rows_written": 1,
+                     *       "chunks": 1,
+                     *       "failure_code": null,
+                     *       "manifest": {
+                     *         "kind": "ROPA_VERSION_CSV",
+                     *         "as_of": "2026-09-16T10:00:00.000Z",
+                     *         "filter": {},
+                     *         "expected_rows": 1,
+                     *         "rows": 1,
+                     *         "columns": [
+                     *           "activity_id"
+                     *         ],
+                     *         "chunks": [
+                     *           {
+                     *             "sequence": 1,
+                     *             "row_count": 1,
+                     *             "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                     *           }
+                     *         ],
+                     *         "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                     *         "complete": true,
+                     *         "limits": [
+                     *           "Synthetic example."
+                     *         ]
+                     *       },
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "finished_at": "2026-09-16T10:00:00.000Z",
+                     *       "expires_at": "2026-09-16T10:00:00.000Z",
+                     *       "expired": false
+                     *     }
+                     */
+                    "application/json": components["schemas"]["DataExport"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    stop_data_export: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000003ca",
+                     *       "kind": "ROPA_VERSION_CSV",
+                     *       "source_id": "00000000-0000-4000-8000-0000000003cb",
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "expected_rows": 1,
+                     *       "state": "COMPLETED",
+                     *       "rows_written": 1,
+                     *       "chunks": 1,
+                     *       "failure_code": null,
+                     *       "manifest": {
+                     *         "kind": "ROPA_VERSION_CSV",
+                     *         "as_of": "2026-09-16T10:00:00.000Z",
+                     *         "filter": {},
+                     *         "expected_rows": 1,
+                     *         "rows": 1,
+                     *         "columns": [
+                     *           "activity_id"
+                     *         ],
+                     *         "chunks": [
+                     *           {
+                     *             "sequence": 1,
+                     *             "row_count": 1,
+                     *             "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                     *           }
+                     *         ],
+                     *         "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                     *         "complete": true,
+                     *         "limits": [
+                     *           "Synthetic example."
+                     *         ]
+                     *       },
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "finished_at": "2026-09-16T10:00:00.000Z",
+                     *       "expires_at": "2026-09-16T10:00:00.000Z",
+                     *       "expired": false
+                     *     }
+                     */
+                    "application/json": components["schemas"]["DataExport"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    data_export_chunk: {
+        parameters: {
+            query: {
+                sequence: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "job_id": "00000000-0000-4000-8000-00000000025a",
+                     *       "sequence": -9007199254740991,
+                     *       "row_count": -9007199254740991,
+                     *       "sha256": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                     *       "content": "Synthetic example"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["DataExportChunk"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     supplier_questionnaire: {
         parameters: {
             query?: never;
@@ -77040,8 +80805,8 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "installation_id": "00000000-0000-4000-8000-000000000255",
-                 *       "environment_id": "00000000-0000-4000-8000-000000000256",
+                 *       "installation_id": "00000000-0000-4000-8000-00000000025b",
+                 *       "environment_id": "00000000-0000-4000-8000-00000000025c",
                  *       "maximum_commands": 1
                  *     }
                  */
@@ -77214,9 +80979,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "command_id": "00000000-0000-4000-8000-000000000257",
+                 *       "command_id": "00000000-0000-4000-8000-00000000025d",
                  *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                 *       "attempt_id": "00000000-0000-4000-8000-000000000258",
+                 *       "attempt_id": "00000000-0000-4000-8000-00000000025e",
                  *       "execution_state": "ACKNOWLEDGED",
                  *       "recorded_at": "2026-09-16T10:00:00.000Z",
                  *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -77235,7 +81000,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "operation_id": "00000000-0000-4000-8000-000000000259",
+                     *       "operation_id": "00000000-0000-4000-8000-00000000025f",
                      *       "status": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -77391,10 +81156,10 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "attempt_id": "00000000-0000-4000-8000-00000000025a",
-                 *       "principal_reference_id": "00000000-0000-4000-8000-00000000025b",
-                 *       "purpose_id": "00000000-0000-4000-8000-00000000025c",
-                 *       "system_id": "00000000-0000-4000-8000-00000000025d",
+                 *       "attempt_id": "00000000-0000-4000-8000-000000000260",
+                 *       "principal_reference_id": "00000000-0000-4000-8000-000000000261",
+                 *       "purpose_id": "00000000-0000-4000-8000-000000000262",
+                 *       "system_id": "00000000-0000-4000-8000-000000000263",
                  *       "message_class": "MARKETING",
                  *       "order_reference": null
                  *     }
@@ -77634,9 +81399,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-00000000025e",
+                     *       "command_id": "00000000-0000-4000-8000-000000000264",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-00000000025f",
+                     *       "attempt_id": "00000000-0000-4000-8000-000000000265",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -77800,7 +81565,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "resource_id": "00000000-0000-4000-8000-000000000260",
+                     *       "resource_id": "00000000-0000-4000-8000-000000000266",
                      *       "generation": 0,
                      *       "last_applied_epoch": 0,
                      *       "marketing_restricted": false,
@@ -77964,9 +81729,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-000000000261",
+                     *       "command_id": "00000000-0000-4000-8000-000000000267",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-000000000262",
+                     *       "attempt_id": "00000000-0000-4000-8000-000000000268",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",

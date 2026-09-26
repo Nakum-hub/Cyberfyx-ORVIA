@@ -196,6 +196,85 @@ export const ComplianceReport = z.strictObject({
 });
 export const RegulatoryFrameworkImport = z.strictObject({ name: z.string().min(3).max(120) });
 
+// EX05 data mapping and records of processing; bounded exports ---------------
+export const Region = z.string().regex(/^[A-Z]{2}(-[A-Z0-9]{1,3})?$/);
+export const SystemLocationCreate = z.strictObject({ region: Region, hosting_description: z.string().min(3).max(300), basis: z.string().min(10).max(500), valid_from: Time });
+export const SystemLocation = z.strictObject({ id: Id, system_id: Id, region: Region, hosting_description: z.string().max(300), basis: SafeText, valid_from: Time, valid_to: Time.nullable(), recorded_by: Id, recorded_at: Time });
+export const RopaGapKind = z.enum(['NO_CONDITION', 'CONDITION_UNRESOLVED', 'NO_SYSTEM', 'NO_DATA_CATEGORY', 'NO_PRINCIPAL_CATEGORY', 'NO_RETENTION_RULE', 'UNBOUND_SYSTEM',
+  'LOCATION_UNDECLARED', 'RECIPIENT_REGION_NOT_A_CODE', 'RECIPIENT_ENDED', 'CATEGORY_INACTIVE', 'PURPOSE_VERSION_NOT_CURRENT', 'GRAPH_SYSTEM_NOT_DECLARED', 'DECLARED_SYSTEM_NOT_IN_GRAPH',
+  'OBSERVATION_STALE', 'NOT_OBSERVED']);
+export const RopaGapSeverity = z.enum(['MISSING', 'STALE', 'CONFLICT', 'INFO']);
+export const RopaGap = z.strictObject({ kind: RopaGapKind, severity: RopaGapSeverity, detail: z.string().max(300), target_id: Id.nullable() });
+const Named = z.strictObject({ id: Id, name: z.string().max(300), basis: z.string().max(500), since: Time });
+export const RopaEntry = z.strictObject({
+  activity_id: Id, name: z.string().max(300), description: z.string().max(2000), owner_reference: SafeText, status: z.string().max(20), processes_child_data: z.string().max(20),
+  purpose: z.strictObject({ purpose_id: Id, name: z.string().max(300), version: z.number().int(), description: z.string().max(4000), current: z.boolean() }).nullable(),
+  condition: z.strictObject({ code: z.string().max(80), label: z.string().max(300), unresolved: z.boolean() }).nullable(),
+  notices: z.array(z.strictObject({ id: Id, title: z.string().max(300), version: z.number().int(), locale: z.string().max(20) })).max(50),
+  principal_categories: z.array(Named).max(100), data_categories: z.array(Named).max(100),
+  /** Each system states what it rests on: the registry declaration, the connector binding, the declared location and any graph reading. */
+  systems: z.array(z.strictObject({ id: Id, name: z.string().max(300), connector: z.string().max(80), basis: z.string().max(500), since: Time, binding_adapter: z.string().max(80).nullable(),
+    location: z.strictObject({ region: Region, hosting_description: z.string().max(300) }).nullable(),
+    observed: z.strictObject({ last_seen_at: Time, fresh_until: Time, fresh: z.boolean() }).nullable() })).max(100),
+  recipients: z.array(z.strictObject({ engagement_id: Id, processor_id: Id, processor_name: z.string().max(300), role: z.string().max(40), region: z.string().max(300), subprocessor_of: Id.nullable(), status: z.string().max(20), since: Time })).max(100),
+  transfers: z.array(z.strictObject({ via: z.enum(['SYSTEM', 'RECIPIENT']), target_id: Id, name: z.string().max(300), region: Region, cross_border: z.boolean() })).max(200),
+  retention: z.array(z.strictObject({ rule_id: Id, name: z.string().max(300), trigger: z.string().max(80), duration_days: z.number().int().nullable() })).max(100),
+  safeguards: z.array(z.strictObject({ id: Id, kind: z.string().max(80), description: z.string().max(1000), evidence_state: z.string().max(40) })).max(100),
+  graph: z.strictObject({ activity_id: Id.nullable(), systems: z.array(z.strictObject({ system_id: Id, provenance: z.enum(['ASSERTED', 'OBSERVED']), review_state: z.string().max(20) })).max(100) }),
+  gaps: z.array(RopaGap).max(300),
+});
+export const RopaSummary = z.strictObject({
+  as_of: Time, home_region: Region, activities: z.number().int().min(0), activities_with_gaps: z.number().int().min(0),
+  gaps: z.array(z.strictObject({ kind: RopaGapKind, severity: RopaGapSeverity, count: z.number().int().min(0) })).max(20),
+  cross_border_transfers: z.number().int().min(0), systems_declared_only: z.number().int().min(0),
+  /** Stated on every summary: what the record rests on and what it is not. */
+  limits: z.array(z.string().max(400)).max(10),
+});
+export const RopaImpactKind = z.enum(['SYSTEM', 'PROCESSOR', 'DATA_CATEGORY', 'PRINCIPAL_CATEGORY', 'PURPOSE']);
+export const RopaImpactQuery = z.strictObject({ kind: RopaImpactKind, target_id: Id });
+export const RopaImpact = z.strictObject({
+  kind: RopaImpactKind, target_id: Id,
+  activities: z.array(z.strictObject({ activity_id: Id, name: z.string().max(300), via: z.enum(['REGISTRY_LINK', 'GRAPH', 'SUBPROCESSOR', 'PURPOSE_VERSION']) })).max(500),
+  retention_rule_ids: z.array(Id).max(500), engagement_ids: z.array(Id).max(500), graph_asset_count: z.number().int().min(0), consent_record_count: z.number().int().min(0).nullable(),
+  /** False when a list reached its bound; the counts above are then lower bounds. */
+  complete: z.boolean(),
+});
+export const RopaVersionCreate = z.strictObject({ note: z.string().min(10).max(500) });
+export const RopaVersionApprove = z.strictObject({ note: z.string().min(10).max(500) });
+export const RopaVersion = z.strictObject({
+  id: Id, version: z.number().int().positive(), note: SafeText, as_of: Time, content_digest: z.string().length(64), activity_count: z.number().int(), gap_count: z.number().int(),
+  recorded_by: Id, recorded_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), approval_note: SafeText.nullable(),
+});
+export const RopaDiffQuery = z.strictObject({ against: Id });
+export const RopaDiff = z.strictObject({
+  from_version: z.number().int(), to_version: z.number().int(),
+  added: z.array(z.strictObject({ activity_id: Id, name: z.string().max(300) })).max(1000),
+  removed: z.array(z.strictObject({ activity_id: Id, name: z.string().max(300) })).max(1000),
+  changed: z.array(z.strictObject({ activity_id: Id, name: z.string().max(300), fields: z.array(z.string().max(40)).max(20) })).max(1000),
+  complete: z.boolean(),
+});
+export const ExportKind = z.enum(['ROPA_VERSION_CSV', 'AUDIT_EVENTS_JSONL']);
+export const DataExportCreate = z.strictObject({
+  kind: ExportKind, ropa_version_id: Id.nullable(),
+  audit_filter: z.strictObject({ operation: z.string().min(1).max(120).optional(), actor_id: Id.optional(), actor_domain: z.string().max(20).optional(), from: Time.optional(), to: Time.optional() }).nullable(),
+}).superRefine((e, c) => {
+  if ((e.kind === 'ROPA_VERSION_CSV') !== (e.ropa_version_id !== null)) c.addIssue({ code: 'custom', path: ['ropa_version_id'], message: 'A record-of-processing export names its version, and only it does' });
+  if (e.kind !== 'AUDIT_EVENTS_JSONL' && e.audit_filter !== null) c.addIssue({ code: 'custom', path: ['audit_filter'], message: 'Only an audit export takes an audit filter' });
+});
+export const DataExportManifest = z.strictObject({
+  kind: ExportKind, as_of: Time, filter: z.record(z.string(), z.string()), expected_rows: z.number().int(), rows: z.number().int(), columns: z.array(z.string().max(60)).max(40),
+  chunks: z.array(z.strictObject({ sequence: z.number().int(), row_count: z.number().int(), sha256: z.string().length(64) })).max(2000),
+  /** SHA-256 over the chunk digests in order, joined by newlines. */
+  digest: z.string().length(64), complete: z.literal(true), limits: z.array(z.string().max(400)).max(10),
+});
+export const DataExport = z.strictObject({
+  id: Id, kind: ExportKind, source_id: Id.nullable(), as_of: Time, expected_rows: z.number().int(), state: z.enum(['RUNNING', 'COMPLETED', 'FAILED', 'CANCELLED']),
+  rows_written: z.number().int(), chunks: z.number().int(), failure_code: z.string().max(80).nullable(), manifest: DataExportManifest.nullable(),
+  created_at: Time, finished_at: Time.nullable(), expires_at: Time, expired: z.boolean(),
+});
+export const DataExportChunkQuery = z.strictObject({ sequence: z.coerce.number().int().min(1).max(2000) });
+export const DataExportChunk = z.strictObject({ job_id: Id, sequence: z.number().int(), row_count: z.number().int(), sha256: z.string().length(64), content: z.string() });
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -204,4 +283,7 @@ export const expansionSchemas = {
   SupplierLinkCreate, SupplierLink, SupplierLinkList: page(SupplierLink), SupplierLinkIssued, SupplierLinkRevoke, SupplierLinkQuery, SupplierQuestionnaire, SupplierAnswers,
   GrcPolicyCreate, GrcPolicy, GrcPolicyList: page(GrcPolicy), GrcPolicyDecision, IssueCreate, IssueEventRecord, Issue, IssueList: page(Issue), IssueQuery,
   ControlTestCreate, ControlTest, ControlTestList: page(ControlTest), ControlTestDetail, ControlTestRun, ControlTestToggle, ComplianceAlert, ComplianceAlertList: page(ComplianceAlert), ControlTestSweep, ComplianceReport, RegulatoryFrameworkImport,
+  SystemLocationCreate, SystemLocation, SystemLocationList: page(SystemLocation), RopaGap, RopaEntry, RopaEntryList: page(RopaEntry), RopaSummary, RopaImpactQuery, RopaImpact,
+  RopaVersionCreate, RopaVersionApprove, RopaVersion, RopaVersionList: page(RopaVersion), RopaDiffQuery, RopaDiff,
+  DataExportCreate, DataExportManifest, DataExport, DataExportList: page(DataExport), DataExportChunkQuery, DataExportChunk,
 };

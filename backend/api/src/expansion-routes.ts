@@ -3,6 +3,8 @@ import type { RouteDefinition } from '../../../shared/contracts/src/index.ts';
 import { createTemplate, publishTemplate, templateList, createAssessment, assessmentView, assessmentList, recordAnswers, submitAssessment, decideAssessment, reviseAssessment, createFinding, recordFindingEvent, escalationSweep } from '../../domain/src/assessments/impact.ts';
 import { createAgreement, terminateAgreement, agreementList, setTier, standing, standingList, createSupplierLink, revokeSupplierLink, supplierLinkList } from '../../domain/src/third-party/third-party.ts';
 import { createPolicy, decidePolicy, acknowledgePolicy, policyList, createIssue, readIssue, recordIssueEvent, issueList, importRegulatoryFramework, createControlTest, controlTestDetail, controlTestList, runControlTest, toggleControlTest, controlTestSweep, alertList, complianceReport } from '../../domain/src/grc/lifecycle.ts';
+import { ropaEntries, ropaEntry, ropaSummary, ropaImpact, declareLocation, locationList, createRopaVersion, approveRopaVersion, ropaVersionList, ropaDiff } from '../../domain/src/mapping/ropa.ts';
+import { createExport, advanceExport, stopExport, exportView, exportList, exportChunk } from '../../domain/src/exports/exports.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
@@ -50,6 +52,22 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'control_test_sweep': return controlTestSweep(c);
     case 'list_compliance_alerts': return alertList(c, page);
     case 'compliance_report': return complianceReport(c);
+    case 'list_system_locations': return locationList(c, id!, page);
+    case 'declare_system_location': return declareLocation(c, id!, input);
+    case 'list_ropa_entries': return ropaEntries(c, page);
+    case 'ropa_entry': return ropaEntry(c, id!);
+    case 'ropa_summary': return ropaSummary(c);
+    case 'ropa_impact': return ropaImpact(c, query);
+    case 'list_ropa_versions': return ropaVersionList(c, page);
+    case 'create_ropa_version': return createRopaVersion(c, input);
+    case 'approve_ropa_version': return approveRopaVersion(c, id!, input);
+    case 'ropa_version_diff': return ropaDiff(c, id!, query);
+    case 'list_data_exports': return exportList(c, page);
+    case 'create_data_export': return createExport(c, input);
+    case 'data_export': return exportView(c, id!);
+    case 'advance_data_export': return advanceExport(c, id!);
+    case 'stop_data_export': return stopExport(c, id!);
+    case 'data_export_chunk': return exportChunk(c, id!, query);
     default: return undefined;
   }
 }

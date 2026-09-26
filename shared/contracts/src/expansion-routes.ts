@@ -5,7 +5,7 @@
  */
 type Route = { maximum_body_bytes?: number; id: string; method: 'get' | 'post'; path: string; authority: 'STAFF' | 'PRINCIPAL' | 'SUPPLIER_LINK'; request?: string; response: string; status: 200 | 201 | 202; params?: string; query?: string; paginated?: boolean; idempotency?: boolean; capability: string };
 const A = '/api/v1/admin';
-const list = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, paginated: true, capability, ...query ? { query } : {} });
+const list = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, paginated: true, capability, ...path.includes('{id}') ? { params: 'IdPath' } : {}, ...query ? { query } : {} });
 const read = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, capability, ...path.includes('{id}') ? { params: 'IdPath' } : {}, ...query ? { query } : {} });
 const write = (id: string, path: string, request: string | undefined, response: string, capability: string, status: 200 | 201 = 201): Route => ({ id, method: 'post', path: A + path, authority: 'STAFF', ...request ? { request } : {}, response, status, idempotency: true, capability, ...path.includes('{id}') ? { params: 'IdPath' } : {} });
 
@@ -53,6 +53,24 @@ export const expansionRoutes: Route[] = [
   write('control_test_sweep', '/grc/control-tests/sweep', undefined, 'ControlTestSweep', 'grc.write', 200),
   list('list_compliance_alerts', '/grc/compliance-alerts', 'ComplianceAlertList', 'grc.read'),
   read('compliance_report', '/grc/compliance-report', 'ComplianceReport', 'grc.read'),
+  // EX05 data mapping and records of processing
+  list('list_system_locations', '/systems/{id}/locations', 'SystemLocationList', 'registry.read'),
+  write('declare_system_location', '/systems/{id}/locations', 'SystemLocationCreate', 'SystemLocation', 'registry.write'),
+  list('list_ropa_entries', '/ropa/entries', 'RopaEntryList', 'registry.read'),
+  read('ropa_entry', '/ropa/entries/{id}', 'RopaEntry', 'registry.read'),
+  read('ropa_summary', '/ropa/summary', 'RopaSummary', 'registry.read'),
+  read('ropa_impact', '/ropa/impact', 'RopaImpact', 'registry.read', 'RopaImpactQuery'),
+  list('list_ropa_versions', '/ropa/versions', 'RopaVersionList', 'registry.read'),
+  write('create_ropa_version', '/ropa/versions', 'RopaVersionCreate', 'RopaVersion', 'registry.write'),
+  write('approve_ropa_version', '/ropa/versions/{id}/approval', 'RopaVersionApprove', 'RopaVersion', 'operations.approve', 200),
+  read('ropa_version_diff', '/ropa/versions/{id}/diff', 'RopaDiff', 'registry.read', 'RopaDiffQuery'),
+  // Bounded, resumable exports under the requester's own authority
+  list('list_data_exports', '/data-exports', 'DataExportList', 'evidence.export'),
+  write('create_data_export', '/data-exports', 'DataExportCreate', 'DataExport', 'evidence.export'),
+  read('data_export', '/data-exports/{id}', 'DataExport', 'evidence.export'),
+  write('advance_data_export', '/data-exports/{id}/step', undefined, 'DataExport', 'evidence.export', 200),
+  write('stop_data_export', '/data-exports/{id}/stop', undefined, 'DataExport', 'evidence.export', 200),
+  read('data_export_chunk', '/data-exports/{id}/chunk', 'DataExportChunk', 'evidence.export', 'DataExportChunkQuery'),
   // Supplier-facing: a bearer link token scoped to one draft assessment; no ORVIA account.
   { id: 'supplier_questionnaire', method: 'get', path: '/api/v1/supplier/questionnaire', authority: 'SUPPLIER_LINK', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond' },
   { id: 'supplier_answer', method: 'post', path: '/api/v1/supplier/questionnaire/answers', authority: 'SUPPLIER_LINK', request: 'SupplierAnswers', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond', maximum_body_bytes: 262144 },

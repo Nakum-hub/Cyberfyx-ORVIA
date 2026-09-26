@@ -245,6 +245,51 @@ await t.run(async () => {
     check('someone other than the remediator verifies it on screen', verified.state, 'VERIFIED');
     await owner.getByRole('table', { name: 'History', exact: true }).getByText('Verified by independent review').waitFor();
 
+    // ---------------------------------------------------------------- EX05
+    t.setPhase('EX05 record of processing');
+    const ropaSystem = await t.boundSystem(`Browser RoPA CRM ${suffix}`);
+    await t.activity({ condition: 'CONSENT', systems: [ropaSystem.id], name: `Browser RoPA activity ${suffix}` });
+    await open(admin, '/workspace/records-of-processing', 'Records of processing');
+    let ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` });
+    while (!(await ropaRow.count())) { await admin.getByRole('region', { name: 'Activities' }).getByRole('button', { name: 'Next page' }).click(); await admin.waitForLoadState('networkidle'); ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` }); }
+    await ropaRow.getByRole('button', { name: 'Open' }).click();
+    await admin.getByRole('heading', { name: `Browser RoPA activity ${suffix}` }).waitFor();
+    check('the undeclared location is shown as a gap on screen', await admin.getByRole('table', { name: 'Gaps', exact: true }).getByText('Location undeclared').count(), 1);
+    f = admin.getByRole('form', { name: 'Declare a system location' });
+    await field(f, 'System').selectOption(ropaSystem.id); await field(f, 'Region').fill('IN-KA'); await field(f, 'Hosting').fill('Customer data centre, Bengaluru');
+    await field(f, 'Basis').fill('Declared from the hosting contract schedule.');
+    const declared = await submit(admin, f, /\/locations$/, S.schemas.SystemLocation, 'Declare a system location');
+    check('the location is declared on screen', [declared.system_id, declared.region], [ropaSystem.id, 'IN-KA']);
+    await admin.getByRole('table', { name: 'Systems', exact: true }).getByText('IN-KA — Customer data centre, Bengaluru').waitFor();
+    check('the location gap is gone', await admin.getByRole('table', { name: 'Gaps', exact: true }).getByText('Location undeclared').count(), 0);
+    f = admin.getByRole('form', { name: 'Record a version' });
+    await field(f, 'Note').fill(`Browser version ${suffix}`);
+    const version = await submit(admin, f, /\/ropa\/versions$/, S.schemas.RopaVersion, 'Record a version');
+    check('a version is recorded from the screen', [version.activity_count > 0, version.approved_by], [true, null]);
+    await open(owner, '/workspace/records-of-processing', 'Records of processing');
+    const versionRow = owner.getByRole('table', { name: 'Recorded versions' }).getByRole('row').filter({ hasText: `Browser version ${suffix}` });
+    const approvedVersion = await click(owner, versionRow, /\/approval$/, S.schemas.RopaVersion, 'Approve');
+    check('another person approves it from the list', [approvedVersion.status, (approvedVersion.body as { approved_by?: string }).approved_by !== null], [200, true]);
+
+    t.setPhase('EX05 bounded export and verified download');
+    await admin.reload(); await admin.waitForLoadState('networkidle');
+    f = admin.getByRole('form', { name: 'Start an export' });
+    await field(f, 'Version').selectOption(version.id);
+    const startedExport = await submit(admin, f, /\/data-exports$/, S.schemas.DataExport, 'Start an export');
+    await admin.getByText(/Export complete: \d+ rows in \d+ chunk/).waitFor({ timeout: 60_000 });
+    const finished = await ok(api.call(`/api/v1/admin/data-exports/${startedExport.id}`), S.schemas.DataExport);
+    check('the export driven from the screen completed with a manifest', [finished.state, finished.rows_written, finished.manifest?.complete], ['COMPLETED', finished.expected_rows, true]);
+    const exportRow = admin.getByRole('table', { name: 'Your exports' }).getByRole('row').filter({ hasText: 'completed' }).first();
+    const downloads: import('@playwright/test').Download[] = [];
+    admin.on('download', d => downloads.push(d));
+    await exportRow.getByRole('button', { name: 'Download' }).click();
+    await admin.getByText(/Downloaded and checked every chunk against the manifest/).waitFor({ timeout: 60_000 });
+    check('the browser saved the file and its manifest', downloads.map(d => d.suggestedFilename().replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/, 'ID')).sort(), ['orvia-export-ID.csv', 'orvia-export-ID.manifest.json']);
+    const csvFile = downloads.find(d => d.suggestedFilename().endsWith('.csv'))!;
+    const { readFileSync } = await import('node:fs');
+    const csv = readFileSync((await csvFile.path())!, 'utf8');
+    check('the saved CSV has the header and every counted row', [csv.split('\n')[0], csv.trimEnd().split('\n').length - 1], [finished.manifest!.columns.join(','), finished.expected_rows]);
+
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);
   } finally { await browser.close(); }

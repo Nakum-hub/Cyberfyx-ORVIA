@@ -150,3 +150,68 @@ Codex should review every section below. Nothing here promotes a family to accep
 | `tsx tests/integration/expansion/grc-lifecycle.test.ts` | 75/75 PASS. The first attempt stopped on the test's own page limit (200 > max 100); that failed artifact is kept. It covers: a deliberately broken control (an unbound system linked to an activity) detected as FAIL→issue→one DRIFT alert; a repeat failure that neither duplicates nor alerts; verification by a run from before the remediation refused; binding the system gives PASS→RECOVERED→auto-VERIFIED; a new break gives RECURRED on the same issue; fault injection (EXECUTE revoked from `orvia_app`, then restored in `finally`) gives an explicit ERROR with `SQLSTATE_42501`, one alert and no issue; the runner's scheduled run as MACHINE, with a disabled test skipped; escalation exactly once across runner and HTTP sweeps; the auditor reading the report but refused writes; another tenant getting 404; database immutability (23514); and reader inserts refused at RLS (42501). |
 | `tsx tests/e2e/expansion-screens-local.ts` | 29/29 PASS (EX06, EX08, EX10/11). The first attempt failed on a race in the EX08 step: it waited for text in the list, then asserted on the detail table. The wait now targets the detail table, and that failed artifact is kept. |
 | impact / third-party / operations runner / consent-withdrawal suites (rerun after these changes) | 41/41, 43/43, 10/10, 38/38 PASS |
+
+## EX05 — records of processing, and bounded resumable exports (cross-cutting "large exports")
+
+**Built**
+- Migration `0054_ropa_and_exports.sql`:
+  - `system_locations`: a reviewed declaration with a region code, hosting description and basis. A new declaration closes the old one, and nothing is ever deleted.
+  - `ropa_versions`: immutable snapshots with a canonical-JSON SHA-256 digest, approved once, by someone other than the recorder (enforced by a CHECK constraint and the guard).
+  - `export_jobs` and `export_chunks`:
+    - a job only advances while RUNNING and never rewinds;
+    - a chunk is never altered, and is deleted only after its job expires;
+    - RLS makes an export visible, advanceable and downloadable by its requester only;
+    - the MACHINE actor may purge only the chunks of expired jobs.
+- Contract 0.33.0 adds 16 routes: `/systems/{id}/locations`, `/ropa/entries`, `/ropa/summary`, `/ropa/impact`, `/ropa/versions` (+approval, +diff) and `/data-exports` (+step, +stop, +chunk).
+  - The stop route is named `stop_data_export`, not "cancel": the deployment-boundary test treats "cancellation" as a commercial word, and I kept that test intact.
+  - `business.ts` now looks schemas up through a typed `schemaNamed()`; the schema union had grown too large for the checker.
+- Domain `backend/domain/src/mapping/ropa.ts`: entries are assembled in bulk (a fixed number of queries per page). Each entry joins these sources:
+  - registry declarations, each with its basis;
+  - connector bindings;
+  - declared locations;
+  - processor engagements with their region;
+  - retention and safeguards;
+  - graph edges, with provenance and review state;
+  - OBSERVED graph assets, each with a freshness bound.
+- Gap kinds by severity:
+  - Missing: NO_CONDITION, CONDITION_UNRESOLVED, NO_SYSTEM, NO_DATA_CATEGORY, NO_PRINCIPAL_CATEGORY, NO_RETENTION_RULE, UNBOUND_SYSTEM, LOCATION_UNDECLARED, RECIPIENT_REGION_NOT_A_CODE.
+  - Stale: RECIPIENT_ENDED, CATEGORY_INACTIVE, PURPOSE_VERSION_NOT_CURRENT, OBSERVATION_STALE.
+  - Conflict: GRAPH_SYSTEM_NOT_DECLARED, DECLARED_SYSTEM_NOT_IN_GRAPH.
+  - Info: NOT_OBSERVED.
+- Transfers: a region outside `IN` is flagged cross-border. Whether a transfer is permitted is stated to be a legal question the record does not answer.
+- Change impact traverses registry links, graph edges (asset → graph activity → registry activity), sub-processor engagements and purpose versions (reusing `purposeImpact`). Results are bounded with a `complete` flag.
+- Snapshots are refused above 5,000 active activities rather than shortened. The diff compares canonical JSON per field.
+- Domain `backend/domain/src/exports/exports.ts` covers two export kinds, `ROPA_VERSION_CSV` (from an immutable version) and `AUDIT_EVENTS_JSONL` (filter plus database-clock instant):
+  - The matched count is taken at creation, with a ceiling of 2,000,000 rows; a larger match is refused.
+  - Each step writes one chunk (2,000 audit rows or 200 activities) and advances a microsecond-exact keyset cursor in the same transaction.
+  - On exhaustion the source is recounted. The job completes with a manifest (per-chunk SHA-256 plus a digest over them) only if the recount matches; otherwise it FAILS with `source_changed_during_export` and cannot be downloaded.
+  - CSV cells beginning with `= + - @` are neutralised.
+  - Steps run under the requester's authority, so audit exports also need `audit.export`.
+  - Download and creation are recorded in the EXPORTS audit category (`audit.ts` map extended, and the retention test's operation list updated to match).
+- Runner: purges chunk copies of expired exports (`export_chunks_purged`).
+- Screen `/workspace/records-of-processing` ("Records of processing" in the nav) shows:
+  - summary and gaps by kind;
+  - paged entries, and a detail view with systems (declared versus read), recipients, transfers, gaps and a location declaration form;
+  - a change-impact explorer;
+  - versions: record, approve, and compare any two;
+  - exports: start, auto-drive with resume on failure, stop, and download. The browser verifies every chunk digest and the manifest digest before saving the file and manifest.
+
+**Honest limits**
+- The existing audit export (`GET /audit-events/export`, ceiling 5,000) is unchanged. The new job export is the path for larger sets, and the old endpoint still refuses above its ceiling.
+- Exports progress only while their requester drives them (the screen does this automatically). The runner does not advance them: it has no authority to read what the requester can read, by design.
+- These are **NOT_RUN**:
+  - the 2,000,000-row ceiling;
+  - the 7-day chunk purge, which needs an expired job, and the guard forbids backdating one;
+  - capacity at 1M rows.
+- The registry still accepts linking an ended engagement to an activity. The record flags it as RECIPIENT_ENDED; refusing the link is a registry change I did not make.
+- The home jurisdiction is fixed to `IN` (DPDP). There is no per-installation setting.
+
+**Executed (codex-a00, synthetic fixtures)**
+| Command | Result |
+|---|---|
+| contracts:generate / typecheck / lint / unit | 357 examples, clean, clean, 252/252 |
+| `tsx tests/integration/expansion/ropa-exports.test.ts` | 58/58 PASS; the first attempt failed 1 check, detailed below. Coverage:<br>• a real catalog read (worker observer) as the only source of "observed";<br>• graph conflicts in both directions;<br>• location history and refusal of a backdated declaration;<br>• cross-border via system and recipient, and a non-code region named rather than guessed;<br>• impact via registry link, graph and sub-processor;<br>• versions approved by a second person, and the diff;<br>• CSV export with formula neutralisation and header/row count checks;<br>• a 4,500-row synthetic audit export written as 3 chunks, resumed from a new session, with every id exactly once;<br>• a late backdated row causing FAILED with no download;<br>• stop, privacy between staff and tenants, database immutability (23514) and RLS (42501, zero rows). |
+| `tsx tests/e2e/expansion-screens-local.ts` | 37/37 PASS (EX06, EX08, EX10/11, EX05). The first attempts failed on my test code: pagination scope and a filename regex. |
+| audit / audit-retention / operations runner / grc-lifecycle (rerun) | 51/51, 24/24, 10/10, 75/75 PASS |
+
+What the first `ropa-exports` failure was: I assumed a terminated engagement would stay linked. In fact termination closes the activity link. The test now asserts that, and exercises the real stale path, which is re-linking an ended engagement.

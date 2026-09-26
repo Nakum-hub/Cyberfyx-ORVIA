@@ -117,7 +117,7 @@ try {
       `SELECT count(*)::int AS n FROM app.audit_events WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3
         AND operation = ANY($4) AND created_at < now() - interval '1 day'`,
       [...scope, ['policy.publish', 'publish_policy', 'policy.reauthenticate', 'reauthenticate_policy',
-        'evidence.export', 'export'].flatMap(name => [name, `${name}.replayed`])])).rows[0].n), true]);
+        'evidence.export', 'export', 'data_export.create', 'create_data_export', 'data_export.download', 'data_export_chunk'].flatMap(name => [name, `${name}.replayed`])])).rows[0].n), true]);
   // Shortening a period is exactly the change somebody would make to clear a
   // backlog, so the period it replaced has to stay visible.
   check('the period that was replaced is still on the record',

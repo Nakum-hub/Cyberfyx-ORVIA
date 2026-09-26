@@ -66,13 +66,13 @@ export function operationsSuite(kind: string) {
   }
 
   /** Categories, a purpose and an activity with the requested condition, linked to the given systems. */
-  async function activity(options: { condition: string; systems: string[]; categoryName?: string; childData?: 'UNKNOWN' | 'YES' | 'NO' }) {
+  async function activity(options: { condition: string; systems: string[]; categoryName?: string; childData?: 'UNKNOWN' | 'YES' | 'NO'; graphActivityId?: string; name?: string; description?: string }) {
     const admin = await h.login('admin');
     const category = await ok(admin.call('/api/v1/admin/data-principal-categories', { name: unique(options.categoryName ?? 'Customer'), description: 'Synthetic relationship category.', regulatory_tags: [] }, key()), S.schemas.PrincipalCategory);
     const dataCategory = await ok(admin.call('/api/v1/admin/personal-data-categories', { name: unique('Contact details'), description: 'Synthetic contact data category.', legacy_code: 'CONTACT_DETAILS' }, key()), S.schemas.DataCategory);
     const purpose = await ok(admin.call('/api/v1/admin/registry-purposes', { name: unique('Service delivery'), owner_reference: 'Synthetic owner', description: 'Synthetic purpose for operations validation.', effective_from: hoursFromNow(-24 * 30), change_reason: 'Initial registration', evidence_reference: null, v1_purpose_id: null }, key()), S.schemas.RegistryPurpose);
     const condition = await ok(admin.call('/api/v1/admin/processing-conditions', { code: options.condition, label: 'Synthetic condition', effective_from: hoursFromNow(-24 * 30), justification_reference: null, evidence_requirements: 'Synthetic evidence expectation.', unresolved_reason: options.condition === 'UNRESOLVED' ? 'The basis has not been established.' : null }, key()), S.schemas.Condition);
-    let created = await ok(admin.call('/api/v1/admin/registry-activities', { name: unique('Activity'), description: 'Synthetic activity.', owner_reference: 'Synthetic owner', processes_child_data: options.childData ?? 'NO', graph_activity_id: null,
+    let created = await ok(admin.call('/api/v1/admin/registry-activities', { name: options.name ?? unique('Activity'), description: options.description ?? 'Synthetic activity.', owner_reference: 'Synthetic owner', processes_child_data: options.childData ?? 'NO', graph_activity_id: options.graphActivityId ?? null,
       purpose_version_id: purpose.versions[0]!.id, condition_id: condition.id, notice_version_ids: [], requirement_ids: [], effective_from: hoursFromNow(-24 * 30), change_reason: 'Initial registration' }, key()), S.schemas.Activity);
     const link = (link_kind: string, target_id: string) => ok(admin.call(`/api/v1/admin/registry-activities/${created.id}/links`, { link_kind, target_id, channel: null, basis: 'Synthetic declaration.', valid_from: hoursFromNow(-24 * 30) }, key()), S.schemas.Activity);
     created = await link('PRINCIPAL_CATEGORY', category.id);

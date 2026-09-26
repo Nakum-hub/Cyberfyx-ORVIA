@@ -333,4 +333,20 @@ export interface EndpointMap {
   control_test_sweep: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ControlTestSweep> };
   list_compliance_alerts: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ComplianceAlertList> };
   compliance_report: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ComplianceReport> };
+  list_system_locations: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.SystemLocationList> };
+  declare_system_location: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SystemLocationCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SystemLocation> };
+  list_ropa_entries: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaEntryList> };
+  ropa_entry: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaEntry> };
+  ropa_summary: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaSummary> };
+  ropa_impact: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaImpact> };
+  list_ropa_versions: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaVersionList> };
+  create_ropa_version: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RopaVersionCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaVersion> };
+  approve_ropa_version: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RopaVersionApprove>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaVersion> };
+  ropa_version_diff: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RopaDiff> };
+  list_data_exports: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExportList> };
+  create_data_export: { request: import('zod').infer<typeof import('../src/index.ts').schemas.DataExportCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExport> };
+  data_export: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExport> };
+  advance_data_export: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExport> };
+  stop_data_export: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExport> };
+  data_export_chunk: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExportChunk> };
 }
