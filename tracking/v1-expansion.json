@@ -11,12 +11,16 @@
     {
       "id": "EX01",
       "title": "Universal consent and preferences",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
+      "evidence": [
+        "handoffs/codex/artifacts/A00-operations-preferences-1790429918696-9da9bf7b-8d79-46da-811c-92bd60d7cc73.json",
+        "handoffs/codex/artifacts/A00-operations-preferences-browser-1790430126453-c6d84edc-ef61-4d99-bed4-e3523b0a89b4.json",
+        "handoffs/code/2026-09-26-expansion-takeover.md"
+      ],
       "limitations": [
-        "Not built in the Claude takeover. Base V1 consent records and withdrawal exist; universal channel/purpose preference centre remains open."
+        "Communication preferences built in the Claude takeover, pending Codex review: topics, append-only portal choices, stale-replay protection, decision at time of use with consent dependency. Integration 39/39 and browser 10/10 on codex-a00, synthetic data. Not built: staff-recorded choices, downstream readback from external senders, EX09 delivery consulting topics, embeddable website widget/SDK. Acceptance NOT_RUN."
       ]
     },
     {

@@ -557,3 +557,35 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 - `scripts/capacity-mixed.ts` now records EXPLAIN plans for both list shapes in its evidence.
 
 **ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0060_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
+
+## EX01 — communication preferences (topics, portal choices, decision at time of use)
+
+**Built**
+- Migration `0059_preferences.sql`:
+  - `preference_topics`: code, name, description, channels (EMAIL, SMS, PHONE, POST or PUSH), and an optional dependency on a published purpose. A topic is retired once and never edited or deleted.
+  - `preference_events`: append-only, and written only by the principal (`own_insert` requires `own_principal`, `consent.own.write`, source PORTAL, and `recorded_by` = the actor). Each event carries the time the person made the choice.
+- Domain `backend/domain/src/preferences/preferences.ts`:
+  - no default opt-in;
+  - a choice older than the latest effective one is kept with `effective=false`, so a replayed or delayed opt-in cannot re-enable contact;
+  - the decision is made at the time of use: topic active, then channel offered, then an effective choice, then not opted out, then (for a purpose-dependent topic) consent currently GRANTED in `consent_aggregates`. Withdrawal therefore overrides any opt-in.
+  - Choices for one principal, topic and channel are serialised with an advisory lock. Future-dated choices are refused.
+- Contract 0.38.0, 7 routes:
+  - staff: `list/create/retire_preference_topic`, `principal_preferences` and `preference_decision`;
+  - PRINCIPAL: `own_preferences` and `set_own_preference`.
+  - Existing capabilities are reused; no new role grants.
+- Screens:
+  - staff `/workspace/contact-preferences`: add or retire topics, look up a person's current decisions (read-only);
+  - portal `/privacy/preferences`: Yes/No per topic and channel, what happens now, and the history, including stale events marked "Kept, not applied".
+
+**Honest limits**
+- Staff cannot record a choice on someone's behalf, for example from a phone call. That needs an evidence basis and a decision on who may do it. Not built.
+- No downstream readback. The decision API is what sending systems must call; nothing yet proves that an external marketing system honours it. ORVIA's own EX09 delivery does not yet consult topics.
+- There is no SDK or embeddable preference-centre widget for customer websites; the portal is the journey.
+- The integration test sets the consent aggregate through the migrator connection. The consent journey itself is covered by `consent.test.ts`.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint / unit | 0059 applied; 404 route examples; clean; clean; 257/257 |
+| `tsx tests/integration/expansion/preferences.test.ts` | 39/39 PASS. Covers: role refusals; duplicate code and channels; no default opt-in; stale replay not effective; unoffered channel and future date refused; withdrawn consent gives CONSENT_NOT_GRANTED and re-grant restores; a retired topic stops contact and refuses new choices; principal, tenant and route isolation; append-only and immutability in the database; RLS between principals, including cross-principal insert refused (42501). |
+| `tsx tests/e2e/preferences-local.ts` | 10/10 PASS. A topic created on screen; the person says yes, then no from the keyboard; the history shows both; staff look-up is read-only and matches the API decision; no external request and no console error. |
