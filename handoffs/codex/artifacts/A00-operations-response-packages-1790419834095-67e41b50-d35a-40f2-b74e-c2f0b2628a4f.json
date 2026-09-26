@@ -1,0 +1,597 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T10:50:34.095Z",
+  "suite": "response-packages",
+  "assertions": [
+    {
+      "name": "a request without established identity gets no package",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "identity_not_established"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "identity_not_established"
+        ]
+      }
+    },
+    {
+      "name": "an erasure produces no response package",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "right_produces_no_response_package"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "right_produces_no_response_package"
+        ]
+      }
+    },
+    {
+      "name": "an auditor cannot prepare one",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the package is a draft with the principal's record read through the observer",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        "READ",
+        "orvia_target_observer independent read",
+        "alice.own@records.example"
+      ],
+      "actual": [
+        "DRAFT",
+        "READ",
+        "orvia_target_observer independent read",
+        "alice.own@records.example"
+      ]
+    },
+    {
+      "name": "another principal's record in the same system is not included",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an unreadable source is recorded as unavailable, not as empty",
+      "result": "PASS",
+      "expected": "UNAVAILABLE",
+      "actual": "UNAVAILABLE"
+    },
+    {
+      "name": "a system without a connector is recorded as not supported",
+      "result": "PASS",
+      "expected": "NOT_SUPPORTED",
+      "actual": "NOT_SUPPORTED"
+    },
+    {
+      "name": "what ORVIA holds about the request is included",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "suggestions flag other people's data and field names that suggest another person",
+      "result": "PASS",
+      "expected": [
+        "emergency_contact",
+        "notes",
+        "referred_by"
+      ],
+      "actual": [
+        "emergency_contact",
+        "notes",
+        "referred_by"
+      ]
+    },
+    {
+      "name": "a suggestion never repeats the value it flags",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the principal's own identifiers are not flagged",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a second package is refused while one is in play",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "a_package_is_already_in_play"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "a_package_is_already_in_play"
+        ]
+      }
+    },
+    {
+      "name": "the principal cannot collect anything before release",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "an admin without release authority cannot review",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the preparer cannot review their own package",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "preparer_cannot_review"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "preparer_cannot_review"
+        ]
+      }
+    },
+    {
+      "name": "every suggestion must be decided",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "suggestion_not_decided"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "suggestion_not_decided"
+        ]
+      }
+    },
+    {
+      "name": "an unreadable source must be acknowledged",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "unreadable_sources_not_acknowledged"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "unreadable_sources_not_acknowledged"
+        ]
+      }
+    },
+    {
+      "name": "a field not in the package cannot be redacted",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "field_not_in_package"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "field_not_in_package"
+        ]
+      }
+    },
+    {
+      "name": "redacted fields are replaced with the reason",
+      "result": "PASS",
+      "expected": [
+        "[Redacted: another person's data]",
+        "[Redacted: another person's data]"
+      ],
+      "actual": [
+        "[Redacted: another person's data]",
+        "[Redacted: another person's data]"
+      ]
+    },
+    {
+      "name": "a redacted value is removed wherever it appears, including kept fields",
+      "result": "PASS",
+      "expected": [
+        false,
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        false,
+        true
+      ]
+    },
+    {
+      "name": "a kept field keeps the rest of its content",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the reviewed copy has a digest and cannot be reviewed again",
+      "result": "PASS",
+      "expected": [
+        true,
+        409
+      ],
+      "actual": [
+        true,
+        409
+      ]
+    },
+    {
+      "name": "delivery cannot outlast thirty days",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "at_most_thirty_days"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "at_most_thirty_days"
+        ]
+      }
+    },
+    {
+      "name": "delivery cannot already have expired",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "already_expired"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "already_expired"
+        ]
+      }
+    },
+    {
+      "name": "the package is released for delivery",
+      "result": "PASS",
+      "expected": [
+        "RELEASED",
+        "ACTIVE",
+        0
+      ],
+      "actual": [
+        "RELEASED",
+        "ACTIVE",
+        0
+      ]
+    },
+    {
+      "name": "the V1 response is settled as released",
+      "result": "PASS",
+      "expected": "RELEASED",
+      "actual": "RELEASED"
+    },
+    {
+      "name": "content cannot be purged while its delivery is active",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "another principal cannot collect it",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "staff cannot collect through the portal route",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the principal collects the reviewed copy with its digest",
+      "result": "PASS",
+      "expected": [
+        "63d14968ff730d210322ccce2fb0c9562c5ac43760ab90152db170d826a146e7",
+        1,
+        3
+      ],
+      "actual": [
+        "63d14968ff730d210322ccce2fb0c9562c5ac43760ab90152db170d826a146e7",
+        1,
+        3
+      ]
+    },
+    {
+      "name": "the delivered copy carries no redacted value",
+      "result": "PASS",
+      "expected": [
+        false,
+        false
+      ],
+      "actual": [
+        false,
+        false
+      ]
+    },
+    {
+      "name": "a revoked delivery is refused",
+      "result": "PASS",
+      "expected": [
+        "REVOKED",
+        {
+          "status": 409,
+          "codes": [
+            "delivery_revoked"
+          ]
+        }
+      ],
+      "actual": [
+        "REVOKED",
+        {
+          "status": 409,
+          "codes": [
+            "delivery_revoked"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "each collection left a receipt",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "after revocation a new version can be prepared",
+      "result": "PASS",
+      "expected": [
+        2,
+        "DRAFT"
+      ],
+      "actual": [
+        2,
+        "DRAFT"
+      ]
+    },
+    {
+      "name": "the principal collects the newest version",
+      "result": "PASS",
+      "expected": [
+        2,
+        0
+      ],
+      "actual": [
+        2,
+        0
+      ]
+    },
+    {
+      "name": "a spent allowance is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "download_allowance_spent"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "download_allowance_spent"
+        ]
+      }
+    },
+    {
+      "name": "a spent delivery does not block a new version, and an unreleased one can be withdrawn",
+      "result": "PASS",
+      "expected": [
+        3,
+        "WITHDRAWN"
+      ],
+      "actual": [
+        3,
+        "WITHDRAWN"
+      ]
+    },
+    {
+      "name": "an expired delivery is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "delivery_expired"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "delivery_expired"
+        ]
+      }
+    },
+    {
+      "name": "staff see it as expired",
+      "result": "PASS",
+      "expected": "EXPIRED",
+      "actual": "EXPIRED"
+    },
+    {
+      "name": "an auditor reads packages but cannot review, release or revoke",
+      "result": "PASS",
+      "expected": [
+        200,
+        403,
+        403
+      ],
+      "actual": [
+        200,
+        403,
+        403
+      ]
+    },
+    {
+      "name": "another tenant sees nothing",
+      "result": "PASS",
+      "expected": [
+        404,
+        404
+      ],
+      "actual": [
+        404,
+        404
+      ]
+    },
+    {
+      "name": "every version is kept",
+      "result": "PASS",
+      "expected": [
+        [
+          1,
+          "RELEASED"
+        ],
+        [
+          2,
+          "RELEASED"
+        ],
+        [
+          3,
+          "WITHDRAWN"
+        ],
+        [
+          4,
+          "RELEASED"
+        ]
+      ],
+      "actual": [
+        [
+          1,
+          "RELEASED"
+        ],
+        [
+          2,
+          "RELEASED"
+        ],
+        [
+          3,
+          "WITHDRAWN"
+        ],
+        [
+          4,
+          "RELEASED"
+        ]
+      ]
+    },
+    {
+      "name": "what was read cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "the released content cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a download count cannot be reset",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a revocation cannot be undone",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "once delivery has ended the content can be purged, keeping digest and receipts",
+      "result": "PASS",
+      "expected": [
+        "accepted",
+        [
+          true,
+          null
+        ]
+      ],
+      "actual": [
+        "accepted",
+        [
+          true,
+          null
+        ]
+      ]
+    },
+    {
+      "name": "a purged package is final",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a package cannot be deleted",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a receipt cannot be altered",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "row security hides another principal's package",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "row security hides unreleased versions from the principal",
+      "result": "PASS",
+      "expected": [
+        1,
+        2,
+        4
+      ],
+      "actual": [
+        1,
+        2,
+        4
+      ]
+    }
+  ],
+  "passed": 52,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

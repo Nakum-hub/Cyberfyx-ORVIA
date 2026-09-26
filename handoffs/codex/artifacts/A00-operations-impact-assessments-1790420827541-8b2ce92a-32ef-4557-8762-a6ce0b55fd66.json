@@ -1,0 +1,427 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T11:07:07.541Z",
+  "suite": "impact-assessments",
+  "assertions": [
+    {
+      "name": "a question rule must trigger on a valid answer",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a new template starts as a draft, version 1",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        1
+      ],
+      "actual": [
+        "DRAFT",
+        1
+      ]
+    },
+    {
+      "name": "an organisation admin cannot publish",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an assessment cannot use a draft template",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "template_not_published"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "template_not_published"
+        ]
+      }
+    },
+    {
+      "name": "a super admin who did not author it publishes it",
+      "result": "PASS",
+      "expected": [
+        "PUBLISHED",
+        true
+      ],
+      "actual": [
+        "PUBLISHED",
+        true
+      ]
+    },
+    {
+      "name": "the author cannot publish their own template",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "author_cannot_publish"
+        ]
+      }
+    },
+    {
+      "name": "the same key records the next version",
+      "result": "PASS",
+      "expected": [
+        "15ed3195-702b-42fe-8e3e-1e0c391841d4",
+        2
+      ],
+      "actual": [
+        "15ed3195-702b-42fe-8e3e-1e0c391841d4",
+        2
+      ]
+    },
+    {
+      "name": "a template keeps its kind across versions",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "a_template_keeps_its_kind"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "a_template_keeps_its_kind"
+        ]
+      }
+    },
+    {
+      "name": "an assessment of a missing subject is refused",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a new assessment is a draft that names what is missing",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        [
+          "purpose",
+          "shares_data"
+        ]
+      ],
+      "actual": [
+        "DRAFT",
+        [
+          "purpose",
+          "shares_data"
+        ]
+      ]
+    },
+    {
+      "name": "it cannot be submitted incomplete",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "required_answers_or_evidence_missing"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "required_answers_or_evidence_missing"
+        ]
+      }
+    },
+    {
+      "name": "an answer outside the choices is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "answer_is_one_of_the_choices"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "answer_is_one_of_the_choices"
+        ]
+      }
+    },
+    {
+      "name": "an answer without the evidence its question requires is still missing",
+      "result": "PASS",
+      "expected": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ],
+      "actual": [
+        {
+          "question_key": "shares_data",
+          "reason": "EVIDENCE_MISSING"
+        }
+      ]
+    },
+    {
+      "name": "the cited evidence completes the answers",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "submission raises one finding from the answer rule, which blocks approval",
+      "result": "PASS",
+      "expected": [
+        "SUBMITTED",
+        1,
+        "ANSWER_RULE",
+        "HIGH",
+        true
+      ],
+      "actual": [
+        "SUBMITTED",
+        1,
+        "ANSWER_RULE",
+        "HIGH",
+        true
+      ]
+    },
+    {
+      "name": "answers cannot change after submission",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an organisation admin cannot decide",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an unresolved finding blocks approval",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "unresolved_findings_block_approval"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "unresolved_findings_block_approval"
+        ]
+      }
+    },
+    {
+      "name": "a resolution without evidence is refused by the contract",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a planned remediation still blocks approval",
+      "result": "PASS",
+      "expected": [
+        "REMEDIATION_PLANNED",
+        true
+      ],
+      "actual": [
+        "REMEDIATION_PLANNED",
+        true
+      ]
+    },
+    {
+      "name": "an admin without approval authority cannot accept the risk",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "risk_acceptance_needs_an_approver"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "risk_acceptance_needs_an_approver"
+        ]
+      }
+    },
+    {
+      "name": "a second person accepts the risk with an expiry; it no longer blocks",
+      "result": "PASS",
+      "expected": [
+        "RISK_ACCEPTED",
+        false
+      ],
+      "actual": [
+        "RISK_ACCEPTED",
+        false
+      ]
+    },
+    {
+      "name": "an independent approver approves and a review date is set from the template",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        true,
+        true
+      ],
+      "actual": [
+        "APPROVED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a decision is taken once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the creator and submitter cannot approve their own assessment",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "reviewer_must_be_independent"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "reviewer_must_be_independent"
+        ]
+      }
+    },
+    {
+      "name": "a different super admin records the rejection",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a retest is a new draft revision carrying prior answers forward",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        2,
+        "d0f22b8e-3b52-40e2-80d5-437f1aabc7e3",
+        true
+      ],
+      "actual": [
+        "DRAFT",
+        2,
+        "d0f22b8e-3b52-40e2-80d5-437f1aabc7e3",
+        true
+      ]
+    },
+    {
+      "name": "a decided assessment is revised once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "approving the retest supersedes the predecessor, which is kept",
+      "result": "PASS",
+      "expected": "SUPERSEDED",
+      "actual": "SUPERSEDED"
+    },
+    {
+      "name": "an overdue open finding is flagged",
+      "result": "PASS",
+      "expected": [
+        true,
+        "OPEN"
+      ],
+      "actual": [
+        true,
+        "OPEN"
+      ]
+    },
+    {
+      "name": "the sweep escalates the overdue finding",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a second sweep escalates it no more",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an open finding cannot be reopened",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "an answer cannot be edited at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "an assessment cannot be deleted at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a published template version cannot be rewritten at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "an approved assessment cannot be moved back to draft at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "another tenant cannot read the assessment",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "an auditor can read assessments",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot create one",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the list filters by status",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": 41,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

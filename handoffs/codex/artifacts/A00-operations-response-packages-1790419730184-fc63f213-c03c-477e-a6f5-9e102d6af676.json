@@ -1,0 +1,199 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T10:48:50.185Z",
+  "suite": "response-packages",
+  "assertions": [
+    {
+      "name": "a request without established identity gets no package",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "identity_not_established"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "identity_not_established"
+        ]
+      }
+    },
+    {
+      "name": "an erasure produces no response package",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "right_produces_no_response_package"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "right_produces_no_response_package"
+        ]
+      }
+    },
+    {
+      "name": "an auditor cannot prepare one",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the package is a draft with the principal's record read through the observer",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        "READ",
+        "orvia_target_observer independent read",
+        "alice.own@records.example"
+      ],
+      "actual": [
+        "DRAFT",
+        "READ",
+        "orvia_target_observer independent read",
+        "alice.own@records.example"
+      ]
+    },
+    {
+      "name": "another principal's record in the same system is not included",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an unreadable source is recorded as unavailable, not as empty",
+      "result": "PASS",
+      "expected": "UNAVAILABLE",
+      "actual": "UNAVAILABLE"
+    },
+    {
+      "name": "a system without a connector is recorded as not supported",
+      "result": "PASS",
+      "expected": "NOT_SUPPORTED",
+      "actual": "NOT_SUPPORTED"
+    },
+    {
+      "name": "what ORVIA holds about the request is included",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "suggestions flag other people's data and field names that suggest another person",
+      "result": "PASS",
+      "expected": [
+        "emergency_contact",
+        "notes",
+        "referred_by"
+      ],
+      "actual": [
+        "emergency_contact",
+        "notes",
+        "referred_by"
+      ]
+    },
+    {
+      "name": "a suggestion never repeats the value it flags",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the principal's own identifiers are not flagged",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a second package is refused while one is in play",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "a_package_is_already_in_play"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "a_package_is_already_in_play"
+        ]
+      }
+    },
+    {
+      "name": "the principal cannot collect anything before release",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "an admin without release authority cannot review",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the preparer cannot review their own package",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "preparer_cannot_review"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "preparer_cannot_review"
+        ]
+      }
+    },
+    {
+      "name": "every suggestion must be decided",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "suggestion_not_decided"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "suggestion_not_decided"
+        ]
+      }
+    },
+    {
+      "name": "an unreadable source must be acknowledged",
+      "result": "FAIL",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "unreadable_sources_not_acknowledged"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "suggestion_not_decided"
+        ]
+      }
+    },
+    {
+      "name": "unexpected failure in review by a second person",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: an unreadable source must be acknowledged"
+    }
+  ],
+  "passed": 16,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

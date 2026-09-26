@@ -215,3 +215,66 @@ Codex should review every section below. Nothing here promotes a family to accep
 | audit / audit-retention / operations runner / grc-lifecycle (rerun) | 51/51, 24/24, 10/10, 75/75 PASS |
 
 What the first `ropa-exports` failure was: I assumed a terminated engagement would stay linked. In fact termination closes the activity link. The test now asserts that, and exercises the real stale path, which is re-linking an ended engagement.
+
+## EX03 — rights response packages (redaction, second-person review, expiring and revocable delivery)
+
+**Built**
+- Connector contract: `retrieve(pools, actor, systemId, reference)` added to `ConnectorAdapter`.
+  - The records test adapter reads through `orvia_target_observer` and reports READ, NOT_FOUND or UNAVAILABLE.
+  - The manual adapter reports NOT_SUPPORTED.
+  - Unlike `verify`, it returns values, because disclosure is its purpose. It is used only for packages.
+- Migration `0055_rights_response_packages.sql`:
+  - `rights_response_packages` and `rights_response_downloads`, both append-only receipts.
+  - The guard allows only these moves:
+    - DRAFT→REVIEWED/WITHDRAWN;
+    - REVIEWED→RELEASED/WITHDRAWN;
+    - one download increment while not revoked or expired;
+    - one revocation;
+    - one purge, which empties content only after delivery has ended.
+  - What was read never changes. The reviewer must differ from the preparer (CHECK constraint).
+  - At most one unreleased package per request (partial unique index). Whether a delivery is still active is checked under the request lock.
+  - RLS:
+    - staff read with `rights.read`;
+    - the principal sees only their own RELEASED package, may only count a download, and inserts receipts only for themselves;
+    - the MACHINE actor may only purge.
+- Contract 0.34.0 adds seven staff routes plus portal `own_response_package` (POST, idempotent, `rights.own.read`).
+- Domain `backend/domain/src/rights/response-packages.ts`. Preparing a package:
+  - accepts only ACCESS or CORRECTION requests, with identity ESTABLISHED and the request executing or completed;
+  - searches only a single active Data Principal (more than one is refused, not guessed);
+  - reads each plan system's references (at most 20 per system) through the adapter;
+  - adds ORVIA's own consent entries and request record;
+  - makes deterministic suggestions (`response-redaction-rules v1`, system-read sections only): another person's email or phone number (10+ digits, word-bounded, so dates and ids are not matched), or field names suggesting another person. A suggestion never repeats the value.
+- Review:
+  - every suggestion must be redacted or kept with a reason;
+  - unreadable or unsupported sources must be acknowledged;
+  - a redacted value is removed wherever it appears in the package;
+  - the serialised content is checked for leakage before it is fixed with a digest.
+- Release:
+  - delivery lasts at most 30 days, with a collection allowance of 1–10;
+  - the first release also settles the V1 `release_response`.
+- Revocation, withdrawal and the portal collection each write receipts and audit events.
+- Runner: purges content 30 days after delivery ended (`response_packages_purged`).
+- Screens:
+  - on the staff request page: prepare, the review form (a decision per field, with suggestion hints), release, revoke and withdraw;
+  - in the portal (`/privacy/rights`): "Collect your copy" shows the redacted copy, its digest and the remaining allowance.
+- List ordering: the lists below were ordered by random id, so new items fell onto later pages as data grew. The e2e run exposed this, and it is a real usability defect. These lists are now newest first, using a keyset cursor that is still an id: impact templates and assessments, GRC policies, control tests, alerts, issues, RoPA entries, RoPA versions and data exports. The export list also shows each export's short id.
+
+**Invariant tests updated (review requested)**
+- `tests/unit/rights.test.ts`:
+  - staff rights routes go from 14 to 21, and own routes from 4 to 5;
+  - `rights.release` is now held by `release_response` plus the three EX03 disclosure decisions (review, release, revoke). Preparing and withdrawing stay `rights.write`.
+- `tests/unit/portal-rights.test.ts`: portal rights routes add `own_response_package`. It is still PRINCIPAL-only, uses `rights.own.*` and names no principal in its path.
+
+**Honest limits**
+- Delivery is through the authenticated portal only. A manual-intake principal without a portal account still needs out-of-band delivery, and there is no bearer-link channel.
+- The suggestion rules are deterministic pattern rules and can miss another person's data written in prose. The reviewer's decision is the control, not the rules.
+- CORRECTION packages include CORRECT_RECORD systems, but the suite exercises ACCESS only.
+- The 30-day purge by the runner is **NOT_RUN**, because it needs aged data. The database guard's purge rules are tested directly.
+
+**Executed (codex-a00, synthetic fixtures)**
+| Command | Result |
+|---|---|
+| contracts:generate / typecheck / lint / unit | 365 examples, clean, clean, 252/252 |
+| `tsx tests/integration/expansion/response-packages.test.ts` | 52/52 PASS. The first run failed because the phone rule matched ISO dates in ORVIA's request section; the rule was fixed and scoped to system sections. Coverage:<br>• refusals for unverified identity, erasure and the auditor;<br>• a read through the observer role, with another principal's record in the same system excluded;<br>• UNAVAILABLE and NOT_SUPPORTED sources recorded as such;<br>• suggestions without values;<br>• preparer≠reviewer, undecided suggestions, unacknowledged sources and unknown fields refused;<br>• redaction leakage checked in the staff view and the delivered copy (a value kept in another field is scrubbed);<br>• the 30-day and past-expiry bounds;<br>• V1 response settled;<br>• another principal gets 404 and staff get 403 on the portal route;<br>• the allowance, revocation, expiry (3-second window), replacement versions and withdrawal;<br>• receipts;<br>• database immutability, the purge guard and principal RLS. |
+| `tsx tests/e2e/expansion-screens-local.ts` | 42/42 PASS (EX06, EX08, EX10/11, EX05, EX03). The EX03 browser phase: the principal raises the request in the portal, staff prepare, a second person redacts on screen and releases, and the principal signs in and collects the copy with the redaction shown and the other person absent. Earlier attempts failed on list paging (fixed in the product, above), a heading selector, one auth-window timeout, and one run in which my own edit truncated the e2e file; it was restored from git and re-applied. |
+| impact / grc-lifecycle / ropa-exports / rights / portal / runner (rerun) | 41/41, 75/75, 58/58, 64/64, 19/19, 10/10 PASS |

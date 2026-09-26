@@ -125,7 +125,7 @@ export function createBusinessHandler(getRuntime:typeof runtime) { return (reque
         if(platformResult!==undefined)return platformResult;
         const operationsResult=await operationsRoute(c,route,id,input,page,query,operationsEnv(r));
         if(operationsResult!==undefined)return operationsResult;
-        const expansionResult=await expansionRoute(c,route,id,input,page,query);
+        const expansionResult=await expansionRoute(c,route,id,input,page,query,operationsEnv(r));
         if(expansionResult!==undefined)return expansionResult;
       switch(route.id) {
         case 'reauthenticate_policy':return recordPublicationProof(c,id!,input,staffSession!.session.id);

@@ -35,11 +35,21 @@ export type VerifyResult = {
   result: 'PASS' | 'FAIL' | 'INCONCLUSIVE'; failure_reason: string | null;
 };
 export type TargetPools = { agent: pg.Pool; observer: pg.Pool };
+/**
+ * A read of the record itself, for a rights response package. Unlike a
+ * verification this carries the values, because disclosing them to the
+ * principal is its purpose; it is read through the observer role only.
+ */
+export type RetrieveResult = {
+  result: 'READ' | 'NOT_FOUND' | 'UNAVAILABLE' | 'NOT_SUPPORTED';
+  fields: Record<string, string> | null; state: { suppressed: boolean; erased: boolean; anonymised: boolean } | null; read_by: string;
+};
 export type ConnectorAdapter = {
   name: 'SYNTHETIC_RECORDS_TEST_ADAPTER' | 'MANUAL_ONLY'; version: string; capabilities: ConnectorCapabilities;
   supports(action: ConnectorActionType): boolean;
   execute(pools: TargetPools, actor: Authority, action: ConnectorAction): Promise<ExecuteResult>;
   verify(pools: TargetPools, actor: Authority, action: ConnectorAction): Promise<VerifyResult>;
+  retrieve(pools: TargetPools, actor: Authority, systemId: string, reference: string): Promise<RetrieveResult>;
 };
 
 const manualCapabilities: ConnectorCapabilities = {
@@ -54,6 +64,7 @@ export const manualAdapter: ConnectorAdapter = {
   supports: () => false,
   execute: async () => ({ target_result: 'NOT_SUPPORTED', replayed: false, error_code: 'NO_CONNECTOR_OPERATION', response_digest: null }),
   verify: async () => ({ method: 'NONE_AVAILABLE', verifier: 'none', expected: {}, observed: {}, result: 'INCONCLUSIVE', failure_reason: 'No verification method exists for a manual-only system.' }),
+  retrieve: async () => ({ result: 'NOT_SUPPORTED', fields: null, state: null, read_by: 'none' }),
 };
 
 export const adapters: Record<ConnectorAdapter['name'], ConnectorAdapter> = {

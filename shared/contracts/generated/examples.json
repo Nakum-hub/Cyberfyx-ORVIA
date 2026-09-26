@@ -10810,6 +10810,495 @@
       }
     },
     {
+      "operation_id": "list_response_packages",
+      "method": "GET",
+      "path": "/api/v1/admin/rights-requests/{id}/response-packages",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000003d4",
+            "request_id": "00000000-0000-4000-8000-0000000003d5",
+            "version": 1,
+            "state": "RELEASED",
+            "sections": [
+              {
+                "section_id": "system:00000000-0000-4000-8000-0000000003b7:1",
+                "source": "SYSTEM",
+                "system_id": "00000000-0000-4000-8000-0000000003b7",
+                "title": "Synthetic CRM record",
+                "read_state": "READ",
+                "read_at": "2026-09-16T10:00:00.000Z",
+                "read_by": "orvia_target_observer independent read",
+                "record_state": {
+                  "suppressed": false,
+                  "erased": false,
+                  "anonymised": false
+                },
+                "fields": {
+                  "name": "Synthetic Person",
+                  "email": "person@example.invalid"
+                }
+              }
+            ],
+            "suggestions": [],
+            "redactions": [],
+            "kept": [],
+            "released_content": [
+              {
+                "title": "Synthetic CRM record",
+                "read_state": "READ",
+                "fields": {
+                  "name": "Synthetic Person",
+                  "email": "person@example.invalid"
+                }
+              }
+            ],
+            "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "unreadable_acknowledged": false,
+            "prepared_by": "00000000-0000-4000-8000-000000000386",
+            "prepared_at": "2026-09-16T10:00:00.000Z",
+            "reviewed_by": "00000000-0000-4000-8000-000000000387",
+            "reviewed_at": "2026-09-16T10:00:00.000Z",
+            "released_by": "00000000-0000-4000-8000-000000000387",
+            "released_at": "2026-09-16T10:00:00.000Z",
+            "delivery_expires_at": "2026-09-16T10:00:00.000Z",
+            "max_downloads": 3,
+            "downloads": 0,
+            "delivery_state": "ACTIVE",
+            "revoked_at": null,
+            "revocation_reason": null,
+            "purged_at": null
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "prepare_response_package",
+      "method": "POST",
+      "path": "/api/v1/admin/rights-requests/{id}/response-packages",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003d4",
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "state": "RELEASED",
+        "sections": [
+          {
+            "section_id": "system:00000000-0000-4000-8000-0000000003b7:1",
+            "source": "SYSTEM",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "read_at": "2026-09-16T10:00:00.000Z",
+            "read_by": "orvia_target_observer independent read",
+            "record_state": {
+              "suppressed": false,
+              "erased": false,
+              "anonymised": false
+            },
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "suggestions": [],
+        "redactions": [],
+        "kept": [],
+        "released_content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "unreadable_acknowledged": false,
+        "prepared_by": "00000000-0000-4000-8000-000000000386",
+        "prepared_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "released_by": "00000000-0000-4000-8000-000000000387",
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "delivery_expires_at": "2026-09-16T10:00:00.000Z",
+        "max_downloads": 3,
+        "downloads": 0,
+        "delivery_state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "purged_at": null
+      }
+    },
+    {
+      "operation_id": "response_package",
+      "method": "GET",
+      "path": "/api/v1/admin/response-packages/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003d4",
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "state": "RELEASED",
+        "sections": [
+          {
+            "section_id": "system:00000000-0000-4000-8000-0000000003b7:1",
+            "source": "SYSTEM",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "read_at": "2026-09-16T10:00:00.000Z",
+            "read_by": "orvia_target_observer independent read",
+            "record_state": {
+              "suppressed": false,
+              "erased": false,
+              "anonymised": false
+            },
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "suggestions": [],
+        "redactions": [],
+        "kept": [],
+        "released_content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "unreadable_acknowledged": false,
+        "prepared_by": "00000000-0000-4000-8000-000000000386",
+        "prepared_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "released_by": "00000000-0000-4000-8000-000000000387",
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "delivery_expires_at": "2026-09-16T10:00:00.000Z",
+        "max_downloads": 3,
+        "downloads": 0,
+        "delivery_state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "purged_at": null
+      }
+    },
+    {
+      "operation_id": "review_response_package",
+      "method": "POST",
+      "path": "/api/v1/admin/response-packages/{id}/review",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "redactions": [],
+        "kept": [],
+        "unreadable_acknowledged": false
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003d4",
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "state": "RELEASED",
+        "sections": [
+          {
+            "section_id": "system:00000000-0000-4000-8000-0000000003b7:1",
+            "source": "SYSTEM",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "read_at": "2026-09-16T10:00:00.000Z",
+            "read_by": "orvia_target_observer independent read",
+            "record_state": {
+              "suppressed": false,
+              "erased": false,
+              "anonymised": false
+            },
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "suggestions": [],
+        "redactions": [],
+        "kept": [],
+        "released_content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "unreadable_acknowledged": false,
+        "prepared_by": "00000000-0000-4000-8000-000000000386",
+        "prepared_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "released_by": "00000000-0000-4000-8000-000000000387",
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "delivery_expires_at": "2026-09-16T10:00:00.000Z",
+        "max_downloads": 3,
+        "downloads": 0,
+        "delivery_state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "purged_at": null
+      }
+    },
+    {
+      "operation_id": "release_response_package",
+      "method": "POST",
+      "path": "/api/v1/admin/response-packages/{id}/release",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "max_downloads": 1
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003d4",
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "state": "RELEASED",
+        "sections": [
+          {
+            "section_id": "system:00000000-0000-4000-8000-0000000003b7:1",
+            "source": "SYSTEM",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "read_at": "2026-09-16T10:00:00.000Z",
+            "read_by": "orvia_target_observer independent read",
+            "record_state": {
+              "suppressed": false,
+              "erased": false,
+              "anonymised": false
+            },
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "suggestions": [],
+        "redactions": [],
+        "kept": [],
+        "released_content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "unreadable_acknowledged": false,
+        "prepared_by": "00000000-0000-4000-8000-000000000386",
+        "prepared_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "released_by": "00000000-0000-4000-8000-000000000387",
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "delivery_expires_at": "2026-09-16T10:00:00.000Z",
+        "max_downloads": 3,
+        "downloads": 0,
+        "delivery_state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "purged_at": null
+      }
+    },
+    {
+      "operation_id": "revoke_response_package",
+      "method": "POST",
+      "path": "/api/v1/admin/response-packages/{id}/revocation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003d4",
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "state": "RELEASED",
+        "sections": [
+          {
+            "section_id": "system:00000000-0000-4000-8000-0000000003b7:1",
+            "source": "SYSTEM",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "read_at": "2026-09-16T10:00:00.000Z",
+            "read_by": "orvia_target_observer independent read",
+            "record_state": {
+              "suppressed": false,
+              "erased": false,
+              "anonymised": false
+            },
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "suggestions": [],
+        "redactions": [],
+        "kept": [],
+        "released_content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "unreadable_acknowledged": false,
+        "prepared_by": "00000000-0000-4000-8000-000000000386",
+        "prepared_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "released_by": "00000000-0000-4000-8000-000000000387",
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "delivery_expires_at": "2026-09-16T10:00:00.000Z",
+        "max_downloads": 3,
+        "downloads": 0,
+        "delivery_state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "purged_at": null
+      }
+    },
+    {
+      "operation_id": "withdraw_response_package",
+      "method": "POST",
+      "path": "/api/v1/admin/response-packages/{id}/withdrawal",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000003d4",
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "state": "RELEASED",
+        "sections": [
+          {
+            "section_id": "system:00000000-0000-4000-8000-0000000003b7:1",
+            "source": "SYSTEM",
+            "system_id": "00000000-0000-4000-8000-0000000003b7",
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "read_at": "2026-09-16T10:00:00.000Z",
+            "read_by": "orvia_target_observer independent read",
+            "record_state": {
+              "suppressed": false,
+              "erased": false,
+              "anonymised": false
+            },
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "suggestions": [],
+        "redactions": [],
+        "kept": [],
+        "released_content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "unreadable_acknowledged": false,
+        "prepared_by": "00000000-0000-4000-8000-000000000386",
+        "prepared_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": "00000000-0000-4000-8000-000000000387",
+        "reviewed_at": "2026-09-16T10:00:00.000Z",
+        "released_by": "00000000-0000-4000-8000-000000000387",
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "delivery_expires_at": "2026-09-16T10:00:00.000Z",
+        "max_downloads": 3,
+        "downloads": 0,
+        "delivery_state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "purged_at": null
+      }
+    },
+    {
+      "operation_id": "own_response_package",
+      "method": "POST",
+      "path": "/api/v1/portal/me/rights-requests/{id}/response-package",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "downloads_remaining": 2,
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
       "operation_id": "supplier_questionnaire",
       "method": "GET",
       "path": "/api/v1/supplier/questionnaire",

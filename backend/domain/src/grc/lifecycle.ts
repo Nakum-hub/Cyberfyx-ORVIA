@@ -87,7 +87,9 @@ export async function acknowledgePolicy(c: Context, id: string) {
   return policyView(c, current);
 }
 export async function policyList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.grc_policies WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.grc_policies x WHERE x.tenant_id=$1 AND x.legal_entity_id=$2 AND x.environment_id=$3
+    AND ($4::uuid IS NULL OR (x.recorded_at, x.id) < (SELECT k.recorded_at, k.id FROM app.grc_policies k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
+    ORDER BY x.recorded_at DESC, x.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = []; for (const r of paged.items) items.push(await policyView(c, r));
   return { items, next_cursor: paged.next_cursor };
@@ -169,8 +171,10 @@ export async function recordIssueEvent(c: Context, id: string, input: unknown) {
 }
 export async function issueList(c: Context, page: Page, query: unknown) {
   const q = X.IssueQuery.parse(query ?? {});
-  // State is derived from events, so filtering by state reads a bounded window and filters it.
-  const rows = (await c.tx.query(`SELECT id FROM app.grc_issues WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) AND ($6::text IS NULL OR source_kind=$6) ORDER BY id LIMIT $5`,
+  // Newest first. State is derived from events, so filtering by state reads a bounded window and filters it.
+  const rows = (await c.tx.query(`SELECT x.id FROM app.grc_issues x WHERE x.tenant_id=$1 AND x.legal_entity_id=$2 AND x.environment_id=$3
+    AND ($4::uuid IS NULL OR (x.created_at, x.id) < (SELECT k.created_at, k.id FROM app.grc_issues k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4)) AND ($6::text IS NULL OR x.source_kind=$6)
+    ORDER BY x.created_at DESC, x.id DESC LIMIT $5`,
     [...scope(c), page.cursor, q.state ? 1000 : page.limit + 1, q.source_kind ?? null])).rows;
   const items = [];
   let last: string | null = null;
@@ -292,7 +296,9 @@ export async function controlTestDetail(c: Context, id: string) {
   return X.ControlTestDetail.parse({ test: await testView(c, test), runs: runs.map(runView) });
 }
 export async function controlTestList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.control_tests WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.control_tests x WHERE x.tenant_id=$1 AND x.legal_entity_id=$2 AND x.environment_id=$3
+    AND ($4::uuid IS NULL OR (x.created_at, x.id) < (SELECT k.created_at, k.id FROM app.control_tests k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
+    ORDER BY x.created_at DESC, x.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = []; for (const r of paged.items) items.push(await testView(c, r));
   return { items, next_cursor: paged.next_cursor };
@@ -318,7 +324,9 @@ export async function controlTestSweep(c: Context, limit = 50) {
   return X.ControlTestSweep.parse({ ran: due.length, failing, errors, alerts, issues_escalated: escalated });
 }
 export async function alertList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.compliance_alerts WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.compliance_alerts x WHERE x.tenant_id=$1 AND x.legal_entity_id=$2 AND x.environment_id=$3
+    AND ($4::uuid IS NULL OR (x.created_at, x.id) < (SELECT k.created_at, k.id FROM app.compliance_alerts k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
+    ORDER BY x.created_at DESC, x.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => X.ComplianceAlert.parse({ id: r.id, test_id: r.test_id, run_id: r.run_id, kind: r.kind, detail: r.detail, created_at: iso(r.created_at), delivery_state: r.delivery_state })), next_cursor: paged.next_cursor };
 }

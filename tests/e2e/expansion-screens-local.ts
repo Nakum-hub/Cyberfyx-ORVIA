@@ -9,6 +9,7 @@ import * as S from '../../shared/contracts/src/index.ts';
 import { authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
 import { operationsSuite } from '../../shared/testing/src/operations-fixture.ts';
 import { loadProfile } from '../../shared/testing/src/config.ts';
+import { recordsTarget } from '../../shared/testing/src/records-target.ts';
 
 if (loadProfile().profile !== 'codex-a00') throw new Error('Synthetic codex-a00 profile only');
 const t = operationsSuite('expansion-screens-browser');
@@ -250,8 +251,8 @@ await t.run(async () => {
     const ropaSystem = await t.boundSystem(`Browser RoPA CRM ${suffix}`);
     await t.activity({ condition: 'CONSENT', systems: [ropaSystem.id], name: `Browser RoPA activity ${suffix}` });
     await open(admin, '/workspace/records-of-processing', 'Records of processing');
-    let ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` });
-    while (!(await ropaRow.count())) { await admin.getByRole('region', { name: 'Activities' }).getByRole('button', { name: 'Next page' }).click(); await admin.waitForLoadState('networkidle'); ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` }); }
+    const ropaRow = admin.getByRole('table', { name: 'Records of processing' }).getByRole('row').filter({ hasText: `Browser RoPA activity ${suffix}` });
+    await ropaRow.waitFor();
     await ropaRow.getByRole('button', { name: 'Open' }).click();
     await admin.getByRole('heading', { name: `Browser RoPA activity ${suffix}` }).waitFor();
     check('the undeclared location is shown as a gap on screen', await admin.getByRole('table', { name: 'Gaps', exact: true }).getByText('Location undeclared').count(), 1);
@@ -279,7 +280,7 @@ await t.run(async () => {
     await admin.getByText(/Export complete: \d+ rows in \d+ chunk/).waitFor({ timeout: 60_000 });
     const finished = await ok(api.call(`/api/v1/admin/data-exports/${startedExport.id}`), S.schemas.DataExport);
     check('the export driven from the screen completed with a manifest', [finished.state, finished.rows_written, finished.manifest?.complete], ['COMPLETED', finished.expected_rows, true]);
-    const exportRow = admin.getByRole('table', { name: 'Your exports' }).getByRole('row').filter({ hasText: 'completed' }).first();
+    const exportRow = admin.getByRole('table', { name: 'Your exports' }).getByRole('row').filter({ hasText: startedExport.id.slice(0, 8) });
     const downloads: import('@playwright/test').Download[] = [];
     admin.on('download', d => downloads.push(d));
     await exportRow.getByRole('button', { name: 'Download' }).click();
@@ -289,6 +290,58 @@ await t.run(async () => {
     const { readFileSync } = await import('node:fs');
     const csv = readFileSync((await csvFile.path())!, 'utf8');
     check('the saved CSV has the header and every counted row', [csv.split('\n')[0], csv.trimEnd().split('\n').length - 1], [finished.manifest!.columns.join(','), finished.expected_rows]);
+
+    // ---------------------------------------------------------------- EX03
+    t.setPhase('EX03 request raised in the portal and executed');
+    const records = recordsTarget();
+    const rpSystem = await t.boundSystem(`Browser response CRM ${suffix}`);
+    const rpRef = `brp_${suffix}`;
+    await t.principalSubject('alice', [{ system_id: rpSystem.id, target_reference: rpRef }]);
+    const third = `neighbour.${suffix}@elsewhere.example`;
+    await records.seed(sc, rpSystem.id, [{ reference: rpRef, fields: { name: 'Alice Synthetic', email: 'alice.own@records.example', notes: `Parcel left with neighbour ${third}.` } }]);
+    await records.end();
+    const aliceApi = await h.login('alice');
+    const own = await ok(aliceApi.call('/api/v1/portal/me/rights-requests', { right_type: 'ACCESS', description: `Browser access request ${suffix}` }, { 'idempotency-key': randomUUID() }), S.schemas.OwnRightsRequest);
+    const move = (to: string) => ok(api.call(`/api/v1/admin/rights-requests/${own.id}/transition`, { to, reason: 'Synthetic progression for the browser journey.' }, { 'idempotency-key': randomUUID() }), S.schemas.RightsRequest);
+    await move('PENDING_VERIFICATION');
+    await ok(api.call(`/api/v1/admin/rights-requests/${own.id}/identity-review`, { grade: 'EXACT', basis: 'Signed in to the portal with the recorded identity.', matched_reference_count: 1 }, { 'idempotency-key': randomUUID() }), S.schemas.RightsRequest);
+    await move('VERIFIED'); await move('SCOPING');
+    await ok(api.call(`/api/v1/admin/rights-requests/${own.id}/scope`, { items: [{ system_id: rpSystem.id, action: 'DISCLOSE_COPY', retention_exception: null, note: 'Copy for the person.' }], unresolved_destinations: [] }, { 'idempotency-key': randomUUID() }), S.schemas.RightsRequest);
+    await move('AWAITING_APPROVAL'); await move('EXECUTING');
+
+    t.setPhase('EX03 prepared, reviewed and released on screen');
+    await open(owner, `/workspace/rights/${own.id}`, `Privacy request ${own.id.slice(0, 8)}…`);
+    const prepared = await click(owner, owner.getByRole('region', { name: 'Response package' }), /\/response-packages$/, S.schemas.ResponsePackage, 'Prepare a response package');
+    check('the package is prepared from the request screen', [prepared.status, (prepared.body as { state?: string }).state], [201, 'DRAFT']);
+    await open(reviewer, `/workspace/rights/${own.id}`, `Privacy request ${own.id.slice(0, 8)}…`);
+    const rf = reviewer.getByRole('form', { name: 'Review the package' });
+    await rf.locator('select[name$="|notes"]').selectOption('THIRD_PARTY');
+    const reviewed = await submit(reviewer, rf, /\/review$/, S.schemas.ResponsePackage, 'Complete the review');
+    check('the second person redacts the suggested field on screen', [reviewed.state, JSON.stringify(reviewed.released_content).includes(third)], ['REVIEWED', false]);
+    f = reviewer.getByRole('form', { name: 'Release to the person\'s portal' });
+    await field(f, 'Collections allowed').fill('2');
+    const releasedPkg = await submit(reviewer, f, /\/release$/, S.schemas.ResponsePackage, 'Release to the person\'s portal');
+    check('the package is released on screen', [releasedPkg.state, releasedPkg.delivery_state], ['RELEASED', 'ACTIVE']);
+
+    t.setPhase('EX03 the person collects their copy');
+    const aliceContext = await browser.newContext({ baseURL: h.config.origin, viewport: { width: 1200, height: 900 } });
+    const alicePage = await aliceContext.newPage();
+    alicePage.on('pageerror', e => errors.push(e.message));
+    alicePage.on('request', r => { if (new URL(r.url()).origin !== h.config.origin) external.push(r.url()); });
+    await h.authWindow();
+    await alicePage.goto('/privacy/sign-in');
+    await alicePage.getByLabel('Email').fill(h.users.alice!.email); await alicePage.getByLabel('Password', { exact: true }).fill(h.users.alice!.password);
+    await alicePage.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await alicePage.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+    await alicePage.goto('/privacy/rights'); await alicePage.waitForLoadState('networkidle');
+    const article = alicePage.locator('article').filter({ hasText: `Browser access request ${suffix}` });
+    const collected = alicePage.waitForResponse(r => r.url().endsWith(`/rights-requests/${own.id}/response-package`) && r.request().method() === 'POST');
+    await article.getByRole('button', { name: 'Collect your copy' }).click();
+    check('the person collects the copy from the portal', (await collected).status(), 200);
+    const yourCopy = article.getByRole('table', { name: 'What this organisation holds about you' });
+    await yourCopy.getByText('alice.own@records.example').waitFor();
+    check('the collected copy shows the redaction and not the other person', [await yourCopy.getByText('[Redacted: another person\'s data]').count(), await alicePage.getByText(third).count()], [1, 0]);
+    await aliceContext.close();
 
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);

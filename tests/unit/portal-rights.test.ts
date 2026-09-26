@@ -85,7 +85,7 @@ test('a state is where it has got to, never a promise about the answer', () => {
 test('the portal routes are the principal’s own, and staff cannot reach through them', () => {
   const portal = routes.filter(r => /rights-requests/.test(r.path) && r.path.startsWith('/api/v1/portal'));
   assert.deepEqual(portal.map(r => r.id).sort(),
-    ['own_rights_request', 'own_rights_request_history', 'own_rights_requests', 'raise_own_rights_request']);
+    ['own_response_package', 'own_rights_request', 'own_rights_request_history', 'own_rights_requests', 'raise_own_rights_request']);
   for (const route of portal) {
     assert.equal(route.authority, 'PRINCIPAL', `${route.id} is not principal-only`);
     assert.match(route.capability!, /^rights\.own\./);

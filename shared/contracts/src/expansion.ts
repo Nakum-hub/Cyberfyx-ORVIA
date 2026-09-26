@@ -275,6 +275,38 @@ export const DataExport = z.strictObject({
 export const DataExportChunkQuery = z.strictObject({ sequence: z.coerce.number().int().min(1).max(2000) });
 export const DataExportChunk = z.strictObject({ job_id: Id, sequence: z.number().int(), row_count: z.number().int(), sha256: z.string().length(64), content: z.string() });
 
+// EX03 rights response packages -------------------------------------------------
+export const PackageSection = z.strictObject({
+  section_id: z.string().max(120), source: z.enum(['SYSTEM', 'ORVIA_CONSENT', 'ORVIA_REQUEST']), system_id: Id.nullable(), title: z.string().max(300),
+  read_state: z.enum(['READ', 'NOT_FOUND', 'UNAVAILABLE', 'NOT_SUPPORTED', 'HELD_BY_ORVIA']), read_at: Time, read_by: z.string().max(120),
+  record_state: z.strictObject({ suppressed: z.boolean(), erased: z.boolean(), anonymised: z.boolean() }).nullable(),
+  fields: z.record(z.string().max(120), z.string().max(4000)),
+});
+export const PackageFieldRef = z.strictObject({ section_id: z.string().max(120), field: z.string().max(120) });
+export const PackageSuggestion = PackageFieldRef.extend({ reason: z.literal('POSSIBLE_THIRD_PARTY'), detail: z.string().max(300) });
+export const PackageRedaction = PackageFieldRef.extend({ reason: z.enum(['THIRD_PARTY', 'LEGAL_PRIVILEGE', 'SECURITY', 'OTHER']), note: z.string().min(3).max(300) });
+export const PackageKept = PackageFieldRef.extend({ justification: z.string().min(10).max(300) });
+export const DeliveryState = z.enum(['NOT_RELEASED', 'ACTIVE', 'EXPIRED', 'REVOKED', 'EXHAUSTED']);
+export const ResponsePackage = z.strictObject({
+  id: Id, request_id: Id, version: z.number().int(), state: z.enum(['DRAFT', 'REVIEWED', 'RELEASED', 'WITHDRAWN']),
+  sections: z.array(PackageSection).max(200), suggestions: z.array(PackageSuggestion).max(500),
+  redactions: z.array(PackageRedaction).max(500).nullable(), kept: z.array(PackageKept).max(500).nullable(),
+  released_content: z.array(z.strictObject({ title: z.string().max(300), read_state: z.string().max(20), fields: z.record(z.string().max(120), z.string().max(4000)) })).max(200).nullable(),
+  content_digest: z.string().length(64).nullable(), unreadable_acknowledged: z.boolean().nullable(),
+  prepared_by: Id, prepared_at: Time, reviewed_by: Id.nullable(), reviewed_at: Time.nullable(), released_by: Id.nullable(), released_at: Time.nullable(),
+  delivery_expires_at: Time.nullable(), max_downloads: z.number().int().nullable(), downloads: z.number().int(), delivery_state: DeliveryState,
+  revoked_at: Time.nullable(), revocation_reason: SafeText.nullable(), purged_at: Time.nullable(),
+});
+export const ResponsePackageReview = z.strictObject({ redactions: z.array(PackageRedaction).max(500), kept: z.array(PackageKept).max(500), unreadable_acknowledged: z.boolean() });
+export const ResponsePackageRelease = z.strictObject({ expires_at: Time, max_downloads: z.number().int().min(1).max(10) });
+export const ResponsePackageRevoke = z.strictObject({ reason: z.string().min(10).max(500) });
+export const OwnResponsePackage = z.strictObject({
+  request_id: Id, version: z.number().int(), released_at: Time, expires_at: Time, downloads_remaining: z.number().int().min(0), content_digest: z.string().length(64),
+  content: z.array(z.strictObject({ title: z.string().max(300), read_state: z.string().max(20), fields: z.record(z.string().max(120), z.string().max(4000)) })).max(200),
+  /** Stated with every copy: what it contains and what it does not. */
+  limits: z.array(z.string().max(400)).max(10),
+});
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -286,4 +318,5 @@ export const expansionSchemas = {
   SystemLocationCreate, SystemLocation, SystemLocationList: page(SystemLocation), RopaGap, RopaEntry, RopaEntryList: page(RopaEntry), RopaSummary, RopaImpactQuery, RopaImpact,
   RopaVersionCreate, RopaVersionApprove, RopaVersion, RopaVersionList: page(RopaVersion), RopaDiffQuery, RopaDiff,
   DataExportCreate, DataExportManifest, DataExport, DataExportList: page(DataExport), DataExportChunkQuery, DataExportChunk,
+  PackageSection, PackageSuggestion, PackageRedaction, PackageKept, ResponsePackage, ResponsePackageList: page(ResponsePackage), ResponsePackageReview, ResponsePackageRelease, ResponsePackageRevoke, OwnResponsePackage,
 };

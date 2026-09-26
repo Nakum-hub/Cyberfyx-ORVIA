@@ -110,12 +110,14 @@ test('releasing a response is separated from ordinary rights write access', () =
   const rightsRoutes = routes.filter(route => route.capability?.startsWith('rights.')
     && !route.capability.startsWith('rights.own.'));
   // DPDP adds three staff case-profile routes and the principal's own history.
-  assert.equal(rightsRoutes.length, 14);
-  assert.equal(routes.filter(r => r.capability?.startsWith('rights.own.')).length, 4);
+  // EX03 adds the seven response-package routes and the principal's collection of their copy.
+  assert.equal(rightsRoutes.length, 21);
+  assert.equal(routes.filter(r => r.capability?.startsWith('rights.own.')).length, 5);
   const release = rightsRoutes.filter(route => route.capability === 'rights.release');
-  // Disclosure to a person is its own authority, held by exactly one route.
-  assert.equal(release.length, 1);
-  assert.equal(release[0]!.id, 'release_response');
+  // Disclosure to a person is its own authority. It is held by the V1 release and by
+  // the three EX03 disclosure decisions: what is redacted, when it is released, and
+  // revoking it. Preparing or withdrawing a package discloses nothing and stays rights.write.
+  assert.deepEqual(release.map(r => r.id).sort(), ['release_response', 'release_response_package', 'review_response_package', 'revoke_response_package']);
   for (const route of rightsRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     if (route.method === 'post') assert.ok(route.idempotency, `${route.id} is a write without idempotency`);

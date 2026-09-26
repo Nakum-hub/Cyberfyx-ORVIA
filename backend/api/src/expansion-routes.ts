@@ -1,17 +1,19 @@
 import type { Context, Page } from '../../domain/src/shared/transaction.ts';
+import type { OperationsEnv } from '../../domain/src/operations/shared.ts';
 import type { RouteDefinition } from '../../../shared/contracts/src/index.ts';
 import { createTemplate, publishTemplate, templateList, createAssessment, assessmentView, assessmentList, recordAnswers, submitAssessment, decideAssessment, reviseAssessment, createFinding, recordFindingEvent, escalationSweep } from '../../domain/src/assessments/impact.ts';
 import { createAgreement, terminateAgreement, agreementList, setTier, standing, standingList, createSupplierLink, revokeSupplierLink, supplierLinkList } from '../../domain/src/third-party/third-party.ts';
 import { createPolicy, decidePolicy, acknowledgePolicy, policyList, createIssue, readIssue, recordIssueEvent, issueList, importRegulatoryFramework, createControlTest, controlTestDetail, controlTestList, runControlTest, toggleControlTest, controlTestSweep, alertList, complianceReport } from '../../domain/src/grc/lifecycle.ts';
 import { ropaEntries, ropaEntry, ropaSummary, ropaImpact, declareLocation, locationList, createRopaVersion, approveRopaVersion, ropaVersionList, ropaDiff } from '../../domain/src/mapping/ropa.ts';
 import { createExport, advanceExport, stopExport, exportView, exportList, exportChunk } from '../../domain/src/exports/exports.ts';
+import { preparePackage, reviewPackage, releasePackage, revokePackage, withdrawPackage, packageView, packageList, collectOwnPackage } from '../../domain/src/rights/response-packages.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
  * authenticated, capability-checked, validated and inside the scoped business
  * transaction; returning undefined passes the route on.
  */
-export async function expansionRoute(c: Context, route: RouteDefinition, id: string | undefined, input: unknown, page: Page, query: unknown): Promise<unknown | undefined> {
+export async function expansionRoute(c: Context, route: RouteDefinition, id: string | undefined, input: unknown, page: Page, query: unknown, env: OperationsEnv): Promise<unknown | undefined> {
   switch (route.id) {
     case 'list_impact_templates': return templateList(c, page);
     case 'create_impact_template': return createTemplate(c, input);
@@ -68,6 +70,14 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'advance_data_export': return advanceExport(c, id!);
     case 'stop_data_export': return stopExport(c, id!);
     case 'data_export_chunk': return exportChunk(c, id!, query);
+    case 'list_response_packages': return packageList(c, id!, page);
+    case 'prepare_response_package': return preparePackage(c, env, id!);
+    case 'response_package': return packageView(c, id!);
+    case 'review_response_package': return reviewPackage(c, id!, input);
+    case 'release_response_package': return releasePackage(c, id!, input);
+    case 'revoke_response_package': return revokePackage(c, id!, input);
+    case 'withdraw_response_package': return withdrawPackage(c, id!);
+    case 'own_response_package': return collectOwnPackage(c, id!);
     default: return undefined;
   }
 }

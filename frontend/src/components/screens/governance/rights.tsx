@@ -5,6 +5,7 @@ import { usePagedQuery, useQuery } from '../../shared/api.ts';
 import { useDirectory } from '../../shared/directory.ts';
 import { formatTime, shortId, type Label } from '../../shared/state-labels.ts';
 import { DataTable, Facts, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge, TechnicalDetails } from '../../shared/ui.tsx';
+import { ResponsePackages } from '../expansion/response-packages.tsx';
 
 type RightsRequest = ReturnType<typeof schemas.RightsRequest.parse>;
 
@@ -196,6 +197,7 @@ export function RightsRequestDetail({ id }: { id: string }) {
                 </NoticeBox>
               )}
             </Section>
+            {['ACCESS', 'CORRECTION'].includes(request.right_type) && request.identity === 'ESTABLISHED' && <ResponsePackages requestId={request.id} />}
             <TechnicalDetails items={[
               { term: 'Request id', value: request.id },
               { term: 'Principal reference', value: request.principal_id },

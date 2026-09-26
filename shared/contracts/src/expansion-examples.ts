@@ -30,6 +30,13 @@ const exportJob = { id: uuid(970), kind: 'ROPA_VERSION_CSV' as const, source_id:
   manifest: { kind: 'ROPA_VERSION_CSV' as const, as_of: at, filter: {}, expected_rows: 1, rows: 1, columns: ['activity_id'], chunks: [{ sequence: 1, row_count: 1, sha256: 'a'.repeat(64) }], digest: 'b'.repeat(64), complete: true as const, limits: ['Synthetic example.'] },
   created_at: at, finished_at: at, expires_at: at, expired: false };
 
+const section = { section_id: `system:${uuid(951)}:1`, source: 'SYSTEM' as const, system_id: uuid(951), title: 'Synthetic CRM record', read_state: 'READ' as const, read_at: at, read_by: 'orvia_target_observer independent read',
+  record_state: { suppressed: false, erased: false, anonymised: false }, fields: { name: 'Synthetic Person', email: 'person@example.invalid' } };
+const responsePackage = { id: uuid(980), request_id: uuid(981), version: 1, state: 'RELEASED' as const, sections: [section], suggestions: [], redactions: [], kept: [],
+  released_content: [{ title: 'Synthetic CRM record', read_state: 'READ', fields: { name: 'Synthetic Person', email: 'person@example.invalid' } }], content_digest: 'c'.repeat(64), unreadable_acknowledged: false,
+  prepared_by: uuid(902), prepared_at: at, reviewed_by: uuid(903), reviewed_at: at, released_by: uuid(903), released_at: at, delivery_expires_at: at, max_downloads: 3, downloads: 0, delivery_state: 'ACTIVE' as const,
+  revoked_at: null, revocation_reason: null, purged_at: null };
+
 export function expansionExample(name: string): unknown {
   switch (name) {
     case 'ImpactQuestion': return question;
@@ -58,6 +65,10 @@ export function expansionExample(name: string): unknown {
     case 'DataExport': return exportJob;
     case 'DataExportList': return { items: [exportJob], next_cursor: null };
     case 'DataExportChunkQuery': return { sequence: 1 };
+    case 'PackageSection': return section;
+    case 'ResponsePackage': return responsePackage;
+    case 'ResponsePackageList': return { items: [responsePackage], next_cursor: null };
+    case 'OwnResponsePackage': return { request_id: uuid(981), version: 1, released_at: at, expires_at: at, downloads_remaining: 2, content_digest: 'c'.repeat(64), content: responsePackage.released_content, limits: ['Synthetic example.'] };
     default: return undefined;
   }
 }

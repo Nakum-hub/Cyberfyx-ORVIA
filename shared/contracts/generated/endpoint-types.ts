@@ -349,4 +349,12 @@ export interface EndpointMap {
   advance_data_export: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExport> };
   stop_data_export: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExport> };
   data_export_chunk: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.DataExportChunk> };
+  list_response_packages: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackageList> };
+  prepare_response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
+  response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
+  review_response_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackageReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
+  release_response_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackageRelease>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
+  revoke_response_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackageRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
+  withdraw_response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
+  own_response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnResponsePackage> };
 }

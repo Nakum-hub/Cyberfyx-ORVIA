@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { digest } from '../../../shared/contracts/src/crypto.ts';
 import { targetTransaction } from '../shared/target-db.ts';
-import type { ConnectorAction, ConnectorAdapter, ConnectorCapabilities, ExecuteResult, VerifyResult } from '../shared/connector-adapters.ts';
+import type { ConnectorAction, ConnectorAdapter, ConnectorCapabilities, ExecuteResult, RetrieveResult, VerifyResult } from '../shared/connector-adapters.ts';
 
 /**
  * TEST ADAPTER for the synthetic records target. It proves the execution and
@@ -75,6 +75,18 @@ export const syntheticRecordsAdapter: ConnectorAdapter = {
         pass = keys.length > 0 && keys.every(k => expected[k] === observed[k]);
       } else { expected = { record_present: true }; observed = { record_present: true, field_count: Object.keys(fields).length }; pass = true; }
       return { method: 'INDEPENDENT_READ_BACK', verifier, expected, observed, result: pass ? 'PASS' : 'FAIL', failure_reason: pass ? null : 'The state read back from the target does not match the requested effect.' };
+    });
+  },
+
+  async retrieve(pools, actor, systemId, reference): Promise<RetrieveResult> {
+    const read_by = 'orvia_target_observer independent read';
+    return targetTransaction(pools.observer, actor, async tx => {
+      const control = (await tx.query('SELECT read_mode FROM subject_controls WHERE system_id=$1', [systemId])).rows[0];
+      if (control?.read_mode === 'UNAVAILABLE') return { result: 'UNAVAILABLE', fields: null, state: null, read_by };
+      const record = (await tx.query('SELECT fields,suppressed,erased_at,anonymised_at FROM subject_records WHERE system_id=$1 AND subject_reference=$2', [systemId, reference])).rows[0];
+      if (!record) return { result: 'NOT_FOUND', fields: null, state: null, read_by };
+      const fields = Object.fromEntries(Object.entries(record.fields as Record<string, unknown>).map(([k, v]) => [k, typeof v === 'string' ? v : JSON.stringify(v)]));
+      return { result: 'READ', fields, state: { suppressed: record.suppressed, erased: record.erased_at !== null, anonymised: record.anonymised_at !== null }, read_by };
     });
   },
 };

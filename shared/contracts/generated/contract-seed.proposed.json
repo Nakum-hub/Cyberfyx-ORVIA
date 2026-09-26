@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.33.0",
+  "contract_version": "0.34.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -3829,6 +3829,96 @@
       "capability": "evidence.export",
       "params": "IdPath",
       "query": "DataExportChunkQuery"
+    },
+    {
+      "id": "list_response_packages",
+      "method": "get",
+      "path": "/api/v1/admin/rights-requests/{id}/response-packages",
+      "authority": "STAFF",
+      "response": "ResponsePackageList",
+      "status": 200,
+      "paginated": true,
+      "capability": "rights.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "prepare_response_package",
+      "method": "post",
+      "path": "/api/v1/admin/rights-requests/{id}/response-packages",
+      "authority": "STAFF",
+      "response": "ResponsePackage",
+      "status": 201,
+      "idempotency": true,
+      "capability": "rights.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "response_package",
+      "method": "get",
+      "path": "/api/v1/admin/response-packages/{id}",
+      "authority": "STAFF",
+      "response": "ResponsePackage",
+      "status": 200,
+      "capability": "rights.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "review_response_package",
+      "method": "post",
+      "path": "/api/v1/admin/response-packages/{id}/review",
+      "authority": "STAFF",
+      "request": "ResponsePackageReview",
+      "response": "ResponsePackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "rights.release",
+      "params": "IdPath"
+    },
+    {
+      "id": "release_response_package",
+      "method": "post",
+      "path": "/api/v1/admin/response-packages/{id}/release",
+      "authority": "STAFF",
+      "request": "ResponsePackageRelease",
+      "response": "ResponsePackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "rights.release",
+      "params": "IdPath"
+    },
+    {
+      "id": "revoke_response_package",
+      "method": "post",
+      "path": "/api/v1/admin/response-packages/{id}/revocation",
+      "authority": "STAFF",
+      "request": "ResponsePackageRevoke",
+      "response": "ResponsePackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "rights.release",
+      "params": "IdPath"
+    },
+    {
+      "id": "withdraw_response_package",
+      "method": "post",
+      "path": "/api/v1/admin/response-packages/{id}/withdrawal",
+      "authority": "STAFF",
+      "response": "ResponsePackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "rights.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "own_response_package",
+      "method": "post",
+      "path": "/api/v1/portal/me/rights-requests/{id}/response-package",
+      "authority": "PRINCIPAL",
+      "params": "IdPath",
+      "response": "OwnResponsePackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "rights.own.read"
     },
     {
       "id": "supplier_questionnaire",

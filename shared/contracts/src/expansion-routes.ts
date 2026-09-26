@@ -71,6 +71,16 @@ export const expansionRoutes: Route[] = [
   write('advance_data_export', '/data-exports/{id}/step', undefined, 'DataExport', 'evidence.export', 200),
   write('stop_data_export', '/data-exports/{id}/stop', undefined, 'DataExport', 'evidence.export', 200),
   read('data_export_chunk', '/data-exports/{id}/chunk', 'DataExportChunk', 'evidence.export', 'DataExportChunkQuery'),
+  // EX03 rights response packages
+  list('list_response_packages', '/rights-requests/{id}/response-packages', 'ResponsePackageList', 'rights.read'),
+  write('prepare_response_package', '/rights-requests/{id}/response-packages', undefined, 'ResponsePackage', 'rights.write'),
+  read('response_package', '/response-packages/{id}', 'ResponsePackage', 'rights.read'),
+  write('review_response_package', '/response-packages/{id}/review', 'ResponsePackageReview', 'ResponsePackage', 'rights.release', 200),
+  write('release_response_package', '/response-packages/{id}/release', 'ResponsePackageRelease', 'ResponsePackage', 'rights.release', 200),
+  write('revoke_response_package', '/response-packages/{id}/revocation', 'ResponsePackageRevoke', 'ResponsePackage', 'rights.release', 200),
+  write('withdraw_response_package', '/response-packages/{id}/withdrawal', undefined, 'ResponsePackage', 'rights.write', 200),
+  // The authenticated principal collects their own released copy; each collection counts against its allowance.
+  { id: 'own_response_package', method: 'post', path: '/api/v1/portal/me/rights-requests/{id}/response-package', authority: 'PRINCIPAL', params: 'IdPath', response: 'OwnResponsePackage', status: 200, idempotency: true, capability: 'rights.own.read' },
   // Supplier-facing: a bearer link token scoped to one draft assessment; no ORVIA account.
   { id: 'supplier_questionnaire', method: 'get', path: '/api/v1/supplier/questionnaire', authority: 'SUPPLIER_LINK', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond' },
   { id: 'supplier_answer', method: 'post', path: '/api/v1/supplier/questionnaire/answers', authority: 'SUPPLIER_LINK', request: 'SupplierAnswers', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond', maximum_body_bytes: 262144 },

@@ -80,7 +80,10 @@ export async function publishTemplate(c: Context, id: string, input: unknown) {
 }
 
 export async function templateList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.impact_templates WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  // Newest first, so a template just recorded is on the first page.
+  const rows = (await c.tx.query(`SELECT * FROM app.impact_templates t WHERE t.tenant_id=$1 AND t.legal_entity_id=$2 AND t.environment_id=$3
+    AND ($4::uuid IS NULL OR (t.recorded_at, t.id) < (SELECT k.recorded_at, k.id FROM app.impact_templates k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4))
+    ORDER BY t.recorded_at DESC, t.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(templateView), next_cursor: paged.next_cursor };
 }
@@ -313,8 +316,8 @@ export async function escalationSweep(c: Context) {
 export async function assessmentList(c: Context, page: Page, query: unknown) {
   const q = X.ImpactAssessmentQuery.parse(query ?? {});
   const rows = (await c.tx.query(`SELECT a.*, t.name template_name, t.kind FROM app.impact_assessments a JOIN app.impact_templates t ON t.tenant_id=a.tenant_id AND t.legal_entity_id=a.legal_entity_id AND t.environment_id=a.environment_id AND t.id=a.template_id
-    WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND ($4::uuid IS NULL OR a.id>$4) AND ($6::text IS NULL OR a.status=$6) AND ($7::text IS NULL OR a.subject_kind=$7) AND ($8::uuid IS NULL OR a.subject_id=$8)
-    ORDER BY a.id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1, q.status ?? null, q.subject_kind ?? null, q.subject_id ?? null])).rows;
+    WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND ($4::uuid IS NULL OR (a.created_at, a.id) < (SELECT k.created_at, k.id FROM app.impact_assessments k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$4)) AND ($6::text IS NULL OR a.status=$6) AND ($7::text IS NULL OR a.subject_kind=$7) AND ($8::uuid IS NULL OR a.subject_id=$8)
+    ORDER BY a.created_at DESC, a.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1, q.status ?? null, q.subject_kind ?? null, q.subject_id ?? null])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const now = Date.now();
   const items = [];
