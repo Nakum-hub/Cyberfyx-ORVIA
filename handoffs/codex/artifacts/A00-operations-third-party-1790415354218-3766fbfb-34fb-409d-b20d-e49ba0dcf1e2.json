@@ -1,0 +1,445 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T09:35:54.218Z",
+  "suite": "third-party",
+  "assertions": [
+    {
+      "name": "a processor with no engagements and no tier reports only the missing tier",
+      "result": "PASS",
+      "expected": [
+        "NO_TIER"
+      ],
+      "actual": [
+        "NO_TIER"
+      ]
+    },
+    {
+      "name": "an active engagement without an agreement or due diligence is named",
+      "result": "PASS",
+      "expected": [
+        "DUE_DILIGENCE_MISSING",
+        "NO_AGREEMENT_IN_FORCE",
+        "NO_TIER"
+      ],
+      "actual": [
+        "DUE_DILIGENCE_MISSING",
+        "NO_AGREEMENT_IN_FORCE",
+        "NO_TIER"
+      ]
+    },
+    {
+      "name": "an agreement that expires before it starts is refused by the contract",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the agreement is in force",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "processing outside the agreement is stated as facts: region, purpose, sub-processor, expiry",
+      "result": "PASS",
+      "expected": [
+        "AGREEMENT_EXPIRING",
+        "DUE_DILIGENCE_MISSING",
+        "NO_TIER",
+        "PURPOSE_NOT_PERMITTED",
+        "REGION_NOT_PERMITTED",
+        "SUBPROCESSOR_NOT_PERMITTED"
+      ],
+      "actual": [
+        "AGREEMENT_EXPIRING",
+        "DUE_DILIGENCE_MISSING",
+        "NO_TIER",
+        "PURPOSE_NOT_PERMITTED",
+        "REGION_NOT_PERMITTED",
+        "SUBPROCESSOR_NOT_PERMITTED"
+      ]
+    },
+    {
+      "name": "the purpose finding names the engagement and the sub-processor finding names the sub-engagement",
+      "result": "PASS",
+      "expected": [
+        "c42bc992-4d1d-4bef-8b85-d0e682c9e898",
+        "ea8235ad-171b-4ba3-a945-08658ae8b2da"
+      ],
+      "actual": [
+        "c42bc992-4d1d-4bef-8b85-d0e682c9e898",
+        "ea8235ad-171b-4ba3-a945-08658ae8b2da"
+      ]
+    },
+    {
+      "name": "a superseding agreement replaces the old one, which is kept",
+      "result": "PASS",
+      "expected": [
+        "bbe3f4b7-69b0-4cd0-b194-fadd03f2bf25",
+        true,
+        false
+      ],
+      "actual": [
+        "bbe3f4b7-69b0-4cd0-b194-fadd03f2bf25",
+        true,
+        false
+      ]
+    },
+    {
+      "name": "with the corrected agreement only the tier and due diligence remain",
+      "result": "PASS",
+      "expected": [
+        "DUE_DILIGENCE_MISSING",
+        "NO_TIER"
+      ],
+      "actual": [
+        "DUE_DILIGENCE_MISSING",
+        "NO_TIER"
+      ]
+    },
+    {
+      "name": "an agreement is superseded once",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "already_superseded"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "already_superseded"
+        ]
+      }
+    },
+    {
+      "name": "an agreement's terms cannot be rewritten at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a supplier link is only for vendor due diligence",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "only_vendor_due_diligence_of_a_processor"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "only_vendor_due_diligence_of_a_processor"
+        ]
+      }
+    },
+    {
+      "name": "a link cannot outlive thirty days",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "expiry_within_thirty_days"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "expiry_within_thirty_days"
+        ]
+      }
+    },
+    {
+      "name": "the token is returned once, in a fragment path, and only its digest is stored",
+      "result": "PASS",
+      "expected": [
+        true,
+        {
+          "ok": true,
+          "hashed": true
+        }
+      ],
+      "actual": [
+        true,
+        {
+          "ok": true,
+          "hashed": true
+        }
+      ]
+    },
+    {
+      "name": "a listed link never carries its token",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "no token is unauthenticated",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a wrong token is unauthenticated",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a request carrying a cookie is refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a cross-origin write is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the supplier sees the questions of its one assessment",
+      "result": "PASS",
+      "expected": [
+        "Vendor review 52a63482",
+        [
+          "certified",
+          "region",
+          "internal_note"
+        ],
+        true
+      ],
+      "actual": [
+        "Vendor review 52a63482",
+        [
+          "certified",
+          "region",
+          "internal_note"
+        ],
+        true
+      ]
+    },
+    {
+      "name": "an answer outside the choices is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "supplier answers are recorded",
+      "result": "PASS",
+      "expected": [
+        [
+          "certified",
+          "YES"
+        ],
+        [
+          "region",
+          "IN"
+        ]
+      ],
+      "actual": [
+        [
+          "certified",
+          "YES"
+        ],
+        [
+          "region",
+          "IN"
+        ]
+      ]
+    },
+    {
+      "name": "the supplier never sees staff answers",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "staff see supplier answers labelled as supplier attestations",
+      "result": "PASS",
+      "expected": [
+        "certified",
+        "region"
+      ],
+      "actual": [
+        "certified",
+        "region"
+      ]
+    },
+    {
+      "name": "the supplier actor sees exactly one assessment",
+      "result": "PASS",
+      "expected": [
+        "2fc34e90-465d-46a1-9c5f-88e631d82219"
+      ],
+      "actual": [
+        "2fc34e90-465d-46a1-9c5f-88e631d82219"
+      ]
+    },
+    {
+      "name": "the supplier actor sees no findings, agreements or other links",
+      "result": "PASS",
+      "expected": [
+        0,
+        0,
+        1
+      ],
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "the supplier actor cannot answer another assessment",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "the supplier actor cannot write a staff-labelled answer",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "after submission the supplier can no longer answer",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "supplier attestations block approval",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "supplier_attestations_not_confirmed"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "supplier_attestations_not_confirmed"
+        ]
+      }
+    },
+    {
+      "name": "the blocker is stated",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "supplier attestations are not carried forward as confirmed",
+      "result": "PASS",
+      "expected": [
+        "internal_note"
+      ],
+      "actual": [
+        "internal_note"
+      ]
+    },
+    {
+      "name": "approved due diligence clears the gap and sets the reassessment date from the tier",
+      "result": "PASS",
+      "expected": [
+        [],
+        "7975cbfc-72f1-49d1-afc2-154256acb3e3",
+        true
+      ],
+      "actual": [
+        [],
+        "7975cbfc-72f1-49d1-afc2-154256acb3e3",
+        true
+      ]
+    },
+    {
+      "name": "a revoked link is refused",
+      "result": "PASS",
+      "expected": [
+        "REVOKED",
+        401
+      ],
+      "actual": [
+        "REVOKED",
+        401
+      ]
+    },
+    {
+      "name": "a link is revoked once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a fresh link works",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an expired link is refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a link's expiry cannot be extended at the database",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a processor statement about deletion is reported as not verified",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "terminating the agreement leaves active processing without an agreement",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an agreement is terminated once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the overview lists the processor with its gaps",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "another tenant cannot read the standing",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "an auditor can read standing but cannot record an agreement",
+      "result": "PASS",
+      "expected": [
+        200,
+        403
+      ],
+      "actual": [
+        200,
+        403
+      ]
+    }
+  ],
+  "passed": 43,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

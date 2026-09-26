@@ -3,7 +3,7 @@
  * canonical route list; the shape restates RouteDefinition because index.ts
  * imports this file.
  */
-type Route = { maximum_body_bytes?: number; id: string; method: 'get' | 'post'; path: string; authority: 'STAFF' | 'PRINCIPAL'; request?: string; response: string; status: 200 | 201 | 202; params?: string; query?: string; paginated?: boolean; idempotency?: boolean; capability: string };
+type Route = { maximum_body_bytes?: number; id: string; method: 'get' | 'post'; path: string; authority: 'STAFF' | 'PRINCIPAL' | 'SUPPLIER_LINK'; request?: string; response: string; status: 200 | 201 | 202; params?: string; query?: string; paginated?: boolean; idempotency?: boolean; capability: string };
 const A = '/api/v1/admin';
 const list = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, paginated: true, capability, ...query ? { query } : {} });
 const read = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, capability, ...path.includes('{id}') ? { params: 'IdPath' } : {}, ...query ? { query } : {} });
@@ -24,4 +24,17 @@ export const expansionRoutes: Route[] = [
   write('create_impact_finding', '/impact-assessments/{id}/findings', 'ImpactFindingCreate', 'ImpactAssessmentDetail', 'grc.write'),
   write('record_impact_finding_event', '/impact-findings/{id}/events', 'ImpactFindingEventRecord', 'ImpactFinding', 'grc.write'),
   write('impact_escalation_sweep', '/impact-findings/escalation-sweep', undefined, 'ImpactEscalationSweep', 'grc.write', 200),
+  // EX08 third-party lifecycle
+  list('list_processor_agreements', '/processor-agreements', 'AgreementList', 'processor.read', 'AgreementQuery'),
+  write('create_processor_agreement', '/processor-agreements', 'AgreementCreate', 'Agreement', 'processor.write'),
+  write('terminate_processor_agreement', '/processor-agreements/{id}/termination', 'AgreementTerminate', 'Agreement', 'processor.write', 200),
+  write('set_processor_tier', '/processors/{id}/tier', 'TierSet', 'Tier', 'processor.write'),
+  read('third_party_standing', '/processors/{id}/third-party-standing', 'ThirdPartyStanding', 'processor.read'),
+  list('list_third_party_standing', '/third-party-standing', 'ThirdPartySummaryList', 'processor.read'),
+  write('create_supplier_link', '/supplier-links', 'SupplierLinkCreate', 'SupplierLinkIssued', 'processor.write'),
+  list('list_supplier_links', '/supplier-links', 'SupplierLinkList', 'processor.read', 'SupplierLinkQuery'),
+  write('revoke_supplier_link', '/supplier-links/{id}/revocation', 'SupplierLinkRevoke', 'SupplierLink', 'processor.write', 200),
+  // Supplier-facing: a bearer link token scoped to one draft assessment; no ORVIA account.
+  { id: 'supplier_questionnaire', method: 'get', path: '/api/v1/supplier/questionnaire', authority: 'SUPPLIER_LINK', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond' },
+  { id: 'supplier_answer', method: 'post', path: '/api/v1/supplier/questionnaire/answers', authority: 'SUPPLIER_LINK', request: 'SupplierAnswers', response: 'SupplierQuestionnaire', status: 200, capability: 'supplier.respond', maximum_body_bytes: 262144 },
 ];

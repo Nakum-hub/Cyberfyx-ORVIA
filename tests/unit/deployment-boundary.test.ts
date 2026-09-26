@@ -36,7 +36,13 @@ test('there is no vendor actor anywhere in this product', () => {
   // but "there is no vendor to be". A route cannot be authored for an actor
   // domain that does not exist, so no future screen can quietly acquire one.
   const authorities = [...new Set(routes.map(route => route.authority))].sort();
-  assert.deepEqual(authorities, ['MACHINE', 'PRINCIPAL', 'PUBLIC', 'STAFF', 'STAFF_OR_PRINCIPAL']);
+  // SUPPLIER_LINK (EX08) is the customer's own processor answering the customer's
+  // questionnaire through a link customer staff issued: one draft assessment,
+  // expiring, revocable, no account. It is not the ORVIA vendor, and it carries
+  // exactly one capability that grants nothing beyond that questionnaire.
+  assert.deepEqual(authorities, ['MACHINE', 'PRINCIPAL', 'PUBLIC', 'STAFF', 'STAFF_OR_PRINCIPAL', 'SUPPLIER_LINK']);
+  const supplierRoutes = routes.filter(route => route.authority === 'SUPPLIER_LINK');
+  assert.deepEqual(supplierRoutes.map(route => [route.path.startsWith('/api/v1/supplier/'), route.capability]), supplierRoutes.map(() => [true, 'supplier.respond']));
   assert.ok(!authorities.some(a => /VENDOR/i.test(a)), 'a vendor authority exists');
   // And the audit trail cannot attribute an act to a vendor either, which is
   // what FR-M33-02's separation rests on.

@@ -16,7 +16,7 @@ const finding = { id: uuid(910), assessment_id: uuid(905), question_key: 'shares
 const assessment = { id: uuid(905), template, revision: 1, previous_id: null, subject_kind: 'ORGANISATION' as const, subject_id: null, title: 'Synthetic organisation DPIA',
   owner_reference: 'Synthetic owner', due_at: at, status: 'SUBMITTED' as const, overdue: false, review_due: false, next_review_at: null,
   created_by: uuid(902), created_at: at, submitted_by: uuid(902), submitted_at: at, decided_by: null, decided_at: null, decision_note: null,
-  answers: [{ question_key: 'shares_with_third_parties', value: 'YES', evidence_reference: 'Synthetic data-flow register', carried_forward: false, answered_by: uuid(902), answered_at: at }],
+  answers: [{ question_key: 'shares_with_third_parties', value: 'YES', evidence_reference: 'Synthetic data-flow register', carried_forward: false, respondent: 'STAFF' as const, answered_by: uuid(902), answered_at: at }],
   missing: [], findings: [finding], approval_blockers: ['Finding "Answer "YES" to: Is personal data shared with a third party?" is open.'] };
 
 export function expansionExample(name: string): unknown {
@@ -30,6 +30,11 @@ export function expansionExample(name: string): unknown {
     case 'ImpactAnswersRecord': return { answers: [{ question_key: 'shares_with_third_parties', value: 'YES', evidence_reference: 'Synthetic data-flow register' }] };
     case 'ImpactFindingCreate': return { question_key: null, title: 'Reviewer finding on retention', severity: 'LOW', owner_reference: 'Synthetic owner', due_at: at, grc_risk_id: null, grc_control_id: null };
     case 'ImpactFinding': return finding;
+    case 'SupplierAnswers': return { answers: [{ question_key: 'shares_with_third_parties', value: 'NO', evidence_reference: null }] };
+    case 'AgreementCreate': return { processor_id: uuid(920), kind: 'DPA', reference: 'Synthetic DPA SYN-1', signed_at: at, effective_from: at, expires_at: '2027-09-16T10:00:00.000Z',
+      allowed_purpose_ids: [], allowed_regions: ['IN', 'IN-KA'], subprocessors_allowed: false, onward_transfer_allowed: false, evidence_reference: 'Signed copy in the contract register', supersedes_id: null };
+    case 'SupplierLinkIssued': return { link: { id: uuid(930), assessment_id: uuid(905), expires_at: '2026-09-30T10:00:00.000Z', state: 'ACTIVE', revoked_at: null, revocation_reason: null, last_used_at: null, created_by: uuid(902), created_at: at },
+      token: 'a'.repeat(64), path: `/supplier#token=${'a'.repeat(64)}` };
     case 'ImpactAssessmentDetail': return assessment;
     default: return undefined;
   }

@@ -105,7 +105,7 @@ export async function createAssessment(c: Context, input: unknown) {
 }
 
 async function currentAnswers(c: Context, id: string) {
-  return (await c.tx.query(`SELECT DISTINCT ON (question_key) question_key,value,evidence_reference,carried_forward,answered_by,answered_at FROM app.impact_answers
+  return (await c.tx.query(`SELECT DISTINCT ON (question_key) question_key,value,evidence_reference,carried_forward,respondent,answered_by,answered_at FROM app.impact_answers
     WHERE ${predicate} AND assessment_id=$4 ORDER BY question_key, sequence DESC`, [...scope(c), id])).rows as Row[];
 }
 
@@ -192,13 +192,15 @@ export async function assessmentView(c: Context, id: string) {
   const blockers: string[] = [];
   if (a.status !== 'SUBMITTED') blockers.push(`The assessment is ${a.status.toLowerCase()}, not submitted.`);
   for (const f of list.filter(x => x.blocks_approval)) blockers.push(`Finding "${f.title.slice(0, 120)}" is ${f.state.toLowerCase().replaceAll('_', ' ')}.`);
+  const attested = answers.filter(x => x.respondent === 'SUPPLIER').length;
+  if (attested) blockers.push(`${attested} answer(s) are supplier attestations not yet confirmed by staff.`);
   const now = Date.now();
   return X.ImpactAssessmentDetail.parse({
     id: a.id, template, revision: a.revision, previous_id: a.previous_id, subject_kind: a.subject_kind, subject_id: a.subject_id, title: a.title, owner_reference: a.owner_reference,
     due_at: iso(a.due_at), status: a.status, overdue: ['DRAFT', 'SUBMITTED'].includes(a.status) && Date.parse(a.due_at) < now,
     review_due: a.status === 'APPROVED' && a.next_review_at !== null && Date.parse(a.next_review_at) < now, next_review_at: iso(a.next_review_at),
     created_by: a.created_by, created_at: iso(a.created_at), submitted_by: a.submitted_by, submitted_at: iso(a.submitted_at), decided_by: a.decided_by, decided_at: iso(a.decided_at), decision_note: a.decision_note,
-    answers: answers.map(x => ({ question_key: x.question_key, value: x.value, evidence_reference: x.evidence_reference, carried_forward: x.carried_forward, answered_by: x.answered_by, answered_at: iso(x.answered_at) })),
+    answers: answers.map(x => ({ question_key: x.question_key, value: x.value, evidence_reference: x.evidence_reference, carried_forward: x.carried_forward, respondent: x.respondent, answered_by: x.answered_by, answered_at: iso(x.answered_at) })),
     missing, findings: list, approval_blockers: blockers.slice(0, 20),
   });
 }
@@ -210,6 +212,7 @@ export async function decideAssessment(c: Context, id: string, input: unknown) {
   if (a.status !== 'SUBMITTED') refuse(409, 'status', 'only_a_submitted_assessment_is_decided');
   if (a.created_by === c.actor.actor_id || a.submitted_by === c.actor.actor_id) refuse(409, 'decided_by', 'reviewer_must_be_independent');
   if (value.decision === 'APPROVED' && (await findings(c, id)).some(f => f.blocks_approval)) refuse(409, 'findings', 'unresolved_findings_block_approval');
+  if (value.decision === 'APPROVED' && (await currentAnswers(c, id)).some(x => x.respondent === 'SUPPLIER')) refuse(409, 'answers', 'supplier_attestations_not_confirmed');
   const template = await templateRow(c, a.template_id);
   const nextReview = value.decision === 'APPROVED' ? new Date(Date.now() + template.review_interval_days * DAY).toISOString() : null;
   await c.tx.query(`UPDATE app.impact_assessments SET status=$5,decided_by=$6,decided_at=clock_timestamp(),decision_note=$7,next_review_at=$8 WHERE ${predicate} AND id=$4`,
@@ -238,6 +241,9 @@ export async function reviseAssessment(c: Context, id: string, input: unknown) {
   const keys = new Set(templateView(await templateRow(c, current.id)).questions.map(q => q.key));
   for (const answer of await currentAnswers(c, id)) {
     if (!keys.has(answer.question_key)) continue;
+    // A carried-forward answer is recorded by the staff member starting the retest; a supplier attestation
+    // is not carried forward as confirmed — only confirmed (staff) answers are carried.
+    if (answer.respondent !== 'STAFF') continue;
     await c.tx.query(`INSERT INTO app.impact_answers(tenant_id,legal_entity_id,environment_id,id,assessment_id,question_key,value,evidence_reference,carried_forward,answered_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,true,$9)`,
       [...scope(c), randomUUID(), newId, answer.question_key, answer.value, answer.evidence_reference, c.actor.actor_id]);
   }

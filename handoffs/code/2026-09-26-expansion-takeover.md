@@ -35,3 +35,52 @@ Codex should review every section below. Nothing here promotes a family to accep
 | `tsx tests/e2e/expansion-screens-local.ts` (EX06 phase) | **14/14 PASS**. Earlier runs failed and exposed the form defect above, plus a race in my own test |
 
 **Remaining for EX06:** a reviewed legal applicability mapping of templates to regulatory content (needs the official package); overdue escalation delivered through customer-controlled notification transports (EX09); full application acceptance on a frozen candidate.
+
+## EX08 — third-party lifecycle
+
+**Built**
+- Migration `0052_third_party.sql`:
+  - `processor_agreements`, changeable only by termination; supersession happens once;
+  - `processor_tiers`, append-only;
+  - `supplier_links`, storing only a SHA-256 digest; expiry ≤31 days; the only changes allowed are use and a single revocation;
+  - `impact_answers.respondent` (`STAFF`/`SUPPLIER`);
+  - `app.resolve_supplier_link(digest)` and `app.supplier_assessment()` as narrow security-definer functions;
+  - RLS so a supplier actor sees exactly one draft assessment, its template and only its own answers;
+  - a restrictive policy so an answer is labelled SUPPLIER exactly when a supplier actor wrote it (staff cannot forge an attestation).
+- Contract 0.31.0:
+  - 11 routes;
+  - new route authority `SUPPLIER_LINK` with OpenAPI scheme `supplierLink` (HTTP bearer);
+  - new capability `supplier.respond`;
+  - the `ImpactAnswer.respondent` field;
+  - supplier routes are excluded from the UI endpoint types.
+- Domain `backend/domain/src/third-party/third-party.ts`: the standing derives these gaps from recorded engagements, linked activities and their current purpose versions, sub-processor engagements, tier, approved `VENDOR_DUE_DILIGENCE` assessments and dispositions:
+  - `NO_AGREEMENT_IN_FORCE`
+  - `AGREEMENT_EXPIRING`
+  - `REGION_NOT_PERMITTED`
+  - `PURPOSE_NOT_PERMITTED`
+  - `SUBPROCESSOR_NOT_PERMITTED`
+  - `NO_TIER`
+  - `DUE_DILIGENCE_MISSING`
+  - `REASSESSMENT_DUE`
+  - `DISPOSITION_NOT_VERIFIED`
+- EX06 integration:
+  - supplier answers block approval (`supplier_attestations_not_confirmed`) until staff record the answer themselves;
+  - a retest carries forward only staff-confirmed answers.
+- HTTP `backend/api/src/supplier.ts`: refuses cookies, requires a same-origin write, needs a `Bearer` 64-hex token, caps the body at 256 KiB, resolves the token by digest, runs as actor `MACHINE`/role `SUPPLIER` expiring with the link, and responds with `no-store` and `no-referrer`. It is dispatched from the `[...segments]` catch-all.
+- Screens:
+  - `/workspace/third-parties`: overview and detail, gaps, agreements (record, supersede, terminate), tier, supplier links (issue with a show-once URL, revoke);
+  - `/supplier`, the public questionnaire: the token is read from the URL fragment and removed from the address bar; it has no session.
+
+**Invariant tests updated (review requested)**
+- `tests/unit/deployment-boundary.test.ts` "there is no vendor actor": the authority list gains exactly `SUPPLIER_LINK`, with an assertion that every such route is under `/api/v1/supplier/` with capability `supplier.respond`. The vendor checks are unchanged: no /vendor/ authority or capability, and no new audit actor domain. A supplier is the customer's own processor, not the ORVIA vendor.
+- `tests/unit/processors.test.ts`: the count of `processor.*` routes goes from 11 to 20. All remain staff-only, idempotent and typed.
+
+**Executed**
+| Command | Result |
+|---|---|
+| unit | 252/252 PASS |
+| db:migrate | applied `0052_third_party` |
+| `tsx tests/integration/expansion/third-party.test.ts` | **43/43 PASS** on the first run, including database-level policy checks run as `orvia_app` with supplier settings |
+| `tsx tests/e2e/expansion-screens-local.ts` | **21/21 PASS** (EX06 + EX08) |
+
+**Remaining for EX08:** actual processor outcomes beyond declarations (needs real connectors); onward-transfer checks against observed transfers (needs EX05/EX04 flow evidence); supplier link delivery by customer-controlled email (EX09).

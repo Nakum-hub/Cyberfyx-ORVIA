@@ -131,6 +131,65 @@ await t.run(async () => {
     const stored = await ok((await h.login('admin')).call(`/api/v1/admin/impact-assessments/${started.id}`), S.schemas.ImpactAssessmentDetail);
     check('the approved revision is still approved until its retest is approved', stored.status, 'APPROVED');
 
+    // ---------------------------------------------------------------- EX08
+    t.setPhase('EX08 agreement and gaps');
+    const api = await h.login('admin'); const sc = t.scope();
+    const v1p = await ok(api.call('/api/v1/admin/purposes', { legal_entity_id: sc.legal_entity_id, environment_id: sc.environment_id, code: 'order_service_demo', name: `Browser V1 purpose ${suffix}`, description: 'Synthetic V1 purpose authorising the processor.' }, { 'idempotency-key': randomUUID() }), S.schemas.Purpose);
+    const proc = await ok(api.call('/api/v1/admin/processors', { name: `Browser vendor ${suffix}`, role: 'PROCESSOR', authorised_purpose_ids: [v1p.id], authorised_categories: ['CONTACT_DETAILS'], region: 'IN',
+      contract_reference: 'DPA B-1', owner_reference: 'Vendor management', incident_contact: 'incidents@vendor.example', subprocessors_permitted: false }, { 'idempotency-key': randomUUID() }), S.schemas.Processor);
+    await ok(api.call('/api/v1/admin/processor-engagements', { processor_id: proc.id, service_description: `Browser delivery ${suffix}`, subprocessor_of: null, effective_from: new Date(Date.now() - 86_400_000).toISOString(),
+      contract_evidence_reference: null, safeguard_evidence_reference: null, links: [] }, { 'idempotency-key': randomUUID() }), S.schemas.Engagement);
+    await open(admin, '/workspace/third-parties', 'Third parties');
+    const findRow = async () => { for (let i = 0; i < 20; i++) { const row = admin.getByRole('row').filter({ hasText: `Browser vendor ${suffix}` }); if (await row.count()) return row; await admin.getByRole('button', { name: 'Next' }).first().click(); await admin.waitForLoadState('networkidle'); } throw new Error('Processor row not found'); };
+    await (await findRow()).getByRole('button', { name: 'Open' }).click();
+    await admin.getByRole('heading', { name: `Browser vendor ${suffix}` }).waitFor(); await admin.waitForLoadState('networkidle');
+    f = admin.getByRole('form', { name: 'Record an agreement' });
+    await field(f, 'Kind').selectOption('DPA'); await field(f, 'Reference').fill('DPA B-1'); await field(f, 'Permitted regions').fill('US'); await field(f, 'Evidence reference').fill('Signed copy DPA B-1');
+    const agreement = await submit(admin, f, /\/processor-agreements$/, S.schemas.Agreement, 'Record an agreement');
+    check('an agreement recorded on screen is in force', agreement.in_force, true);
+    await admin.getByText('Region not permitted').first().waitFor();
+    check('the region gap appears on screen', await admin.getByRole('table', { name: 'Gaps derived from recorded processing' }).getByText('Region not permitted').count() > 0, true);
+    f = admin.getByRole('form', { name: 'Set the risk tier' });
+    await field(f, 'Tier').selectOption('HIGH'); await field(f, 'Reassess every (days)').fill('180'); await field(f, 'Reason').fill('Handles customer contact data.');
+    await submit(admin, f, /\/tier$/, S.schemas.Tier, 'Set the risk tier');
+
+    t.setPhase('EX08 supplier link');
+    const ddTemplate = await ok(api.call('/api/v1/admin/impact-templates', { template_key: null, kind: 'VENDOR_DUE_DILIGENCE', name: `Browser vendor DD ${suffix}`, description: 'Vendor due diligence for the browser journey.',
+      questions: [{ key: 'certified', text: 'Do you hold a current security certification?', answer_type: 'YES_NO', choices: [], required: true, evidence_required: true, finding_when: 'NO', finding_severity: 'MEDIUM', guidance: 'Name the certificate.' }], requirement_ids: [], review_interval_days: 365 }, { 'idempotency-key': randomUUID() }), S.schemas.ImpactTemplate);
+    await ok((await h.login('owner')).call(`/api/v1/admin/impact-templates/${ddTemplate.id}/publication`, { action: 'PUBLISH' }, { 'idempotency-key': randomUUID() }), S.schemas.ImpactTemplate);
+    const dd = await ok(api.call('/api/v1/admin/impact-assessments', { template_id: ddTemplate.id, subject_kind: 'PROCESSOR', subject_id: proc.id, title: `Browser vendor review ${suffix}`, owner_reference: 'Vendor management', due_at: new Date(Date.now() + 14 * 86_400_000).toISOString() }, { 'idempotency-key': randomUUID() }), S.schemas.ImpactAssessmentDetail);
+    await admin.reload(); await admin.waitForLoadState('networkidle');
+    await (await findRow()).getByRole('button', { name: 'Open' }).click();
+    await admin.getByRole('heading', { name: `Browser vendor ${suffix}` }).waitFor(); await admin.waitForLoadState('networkidle');
+    f = admin.getByRole('form', { name: 'Issue a supplier link' });
+    await field(f, 'Assessment').selectOption(dd.id);
+    await submit(admin, f, /\/supplier-links$/, S.schemas.SupplierLinkIssued, 'Issue a supplier link');
+    const url = await admin.getByRole('code').filter({ hasText: '/supplier#token=' }).innerText().catch(async () => admin.locator('code').filter({ hasText: '/supplier#token=' }).innerText());
+    check('the link is shown once with its token in the fragment', /\/supplier#token=[a-f0-9]{64}$/.test(url), true);
+    const supplierContext = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+    const supplierPage = await supplierContext.newPage();
+    supplierPage.on('pageerror', e => errors.push(e.message));
+    await supplierPage.goto(url);
+    await supplierPage.getByRole('heading', { name: 'Supplier questionnaire' }).waitFor();
+    await supplierPage.getByText(`Browser vendor review ${suffix}`).waitFor();
+    check('the token is removed from the address bar once read', supplierPage.url().includes('token='), false);
+    const sf = supplierPage.getByRole('form', { name: 'Supplier answers' });
+    await sf.locator('select[name=a_certified]').selectOption('YES'); await sf.locator('input[name=e_certified]').fill('ISO 27001 certificate C-11');
+    const posted = supplierPage.waitForResponse(r => r.url().endsWith('/api/v1/supplier/questionnaire/answers'));
+    await sf.getByRole('button', { name: 'Save answers' }).click();
+    check('the supplier saves answers without an account', (await posted).status(), 200);
+    await supplierPage.getByText('Your answers were saved.').waitFor();
+    const staffView = await ok(api.call(`/api/v1/admin/impact-assessments/${dd.id}`), S.schemas.ImpactAssessmentDetail);
+    check('staff see the answer labelled as a supplier attestation', staffView.answers.map(a => [a.question_key, a.value, a.respondent]), [['certified', 'YES', 'SUPPLIER']]);
+    await admin.getByRole('button', { name: 'I have copied it' }).click();
+    await (admin.getByRole('table', { name: 'Links for this assessment' }).getByRole('button', { name: 'Revoke' })).click();
+    await admin.getByRole('table', { name: 'Links for this assessment' }).getByText('revoked').waitFor();
+    const reopened = await supplierContext.newPage();
+    await reopened.goto(url);
+    await reopened.getByText('This link has expired or been revoked.').waitFor();
+    check('a revoked link is refused on the supplier page', true, true);
+    await supplierContext.close();
+
     check('no request left the local origin', external, []);
     check('no page or console error occurred', errors, []);
   } finally { await browser.close(); }

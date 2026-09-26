@@ -74,7 +74,8 @@ test('a completed assessment states when it completed and what it concluded', ()
 
 test('processor routes are staff-only, idempotent on write and fully typed', () => {
   const processorRoutes = routes.filter(route => route.capability?.startsWith('processor.'));
-  assert.equal(processorRoutes.length, 11);
+  // 11 V1 processor routes plus 9 EX08 third-party routes (agreements, tiers, standing, supplier links).
+  assert.equal(processorRoutes.length, 20);
   for (const route of processorRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     if (route.method === 'post') assert.ok(route.idempotency, `${route.id} is a write without idempotency`);

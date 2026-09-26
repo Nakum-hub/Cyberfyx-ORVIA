@@ -8903,6 +8903,7 @@
             "value": "YES",
             "evidence_reference": "Synthetic data-flow register",
             "carried_forward": false,
+            "respondent": "STAFF",
             "answered_by": "00000000-0000-4000-8000-000000000386",
             "answered_at": "2026-09-16T10:00:00.000Z"
           }
@@ -8994,6 +8995,7 @@
             "value": "YES",
             "evidence_reference": "Synthetic data-flow register",
             "carried_forward": false,
+            "respondent": "STAFF",
             "answered_by": "00000000-0000-4000-8000-000000000386",
             "answered_at": "2026-09-16T10:00:00.000Z"
           }
@@ -9095,6 +9097,7 @@
             "value": "YES",
             "evidence_reference": "Synthetic data-flow register",
             "carried_forward": false,
+            "respondent": "STAFF",
             "answered_by": "00000000-0000-4000-8000-000000000386",
             "answered_at": "2026-09-16T10:00:00.000Z"
           }
@@ -9188,6 +9191,7 @@
             "value": "YES",
             "evidence_reference": "Synthetic data-flow register",
             "carried_forward": false,
+            "respondent": "STAFF",
             "answered_by": "00000000-0000-4000-8000-000000000386",
             "answered_at": "2026-09-16T10:00:00.000Z"
           }
@@ -9284,6 +9288,7 @@
             "value": "YES",
             "evidence_reference": "Synthetic data-flow register",
             "carried_forward": false,
+            "respondent": "STAFF",
             "answered_by": "00000000-0000-4000-8000-000000000386",
             "answered_at": "2026-09-16T10:00:00.000Z"
           }
@@ -9380,6 +9385,7 @@
             "value": "YES",
             "evidence_reference": "Synthetic data-flow register",
             "carried_forward": false,
+            "respondent": "STAFF",
             "answered_by": "00000000-0000-4000-8000-000000000386",
             "answered_at": "2026-09-16T10:00:00.000Z"
           }
@@ -9481,6 +9487,7 @@
             "value": "YES",
             "evidence_reference": "Synthetic data-flow register",
             "carried_forward": false,
+            "respondent": "STAFF",
             "answered_by": "00000000-0000-4000-8000-000000000386",
             "answered_at": "2026-09-16T10:00:00.000Z"
           }
@@ -9559,13 +9566,266 @@
       }
     },
     {
+      "operation_id": "list_processor_agreements",
+      "method": "GET",
+      "path": "/api/v1/admin/processor-agreements",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_processor_agreement",
+      "method": "POST",
+      "path": "/api/v1/admin/processor-agreements",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "processor_id": "00000000-0000-4000-8000-000000000398",
+        "kind": "DPA",
+        "reference": "Synthetic DPA SYN-1",
+        "signed_at": "2026-09-16T10:00:00.000Z",
+        "effective_from": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2027-09-16T10:00:00.000Z",
+        "allowed_purpose_ids": [],
+        "allowed_regions": [
+          "IN",
+          "IN-KA"
+        ],
+        "subprocessors_allowed": false,
+        "onward_transfer_allowed": false,
+        "evidence_reference": "Signed copy in the contract register",
+        "supersedes_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000229",
+        "processor_id": "00000000-0000-4000-8000-00000000022a",
+        "kind": "DPA",
+        "reference": "Synthetic example",
+        "signed_at": "2026-09-16T10:00:00.000Z",
+        "effective_from": "2026-09-16T10:00:00.000Z",
+        "expires_at": null,
+        "allowed_purpose_ids": [],
+        "allowed_regions": [],
+        "subprocessors_allowed": false,
+        "onward_transfer_allowed": false,
+        "evidence_reference": "Synthetic example",
+        "supersedes_id": null,
+        "status": "ACTIVE",
+        "terminated_at": null,
+        "termination_reason": null,
+        "in_force": false,
+        "superseded": false,
+        "recorded_by": "00000000-0000-4000-8000-00000000022b",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "terminate_processor_agreement",
+      "method": "POST",
+      "path": "/api/v1/admin/processor-agreements/{id}/termination",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000022c",
+        "processor_id": "00000000-0000-4000-8000-00000000022d",
+        "kind": "DPA",
+        "reference": "Synthetic example",
+        "signed_at": "2026-09-16T10:00:00.000Z",
+        "effective_from": "2026-09-16T10:00:00.000Z",
+        "expires_at": null,
+        "allowed_purpose_ids": [],
+        "allowed_regions": [],
+        "subprocessors_allowed": false,
+        "onward_transfer_allowed": false,
+        "evidence_reference": "Synthetic example",
+        "supersedes_id": null,
+        "status": "ACTIVE",
+        "terminated_at": null,
+        "termination_reason": null,
+        "in_force": false,
+        "superseded": false,
+        "recorded_by": "00000000-0000-4000-8000-00000000022e",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "set_processor_tier",
+      "method": "POST",
+      "path": "/api/v1/admin/processors/{id}/tier",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "tier": "LOW",
+        "reassessment_interval_days": 30,
+        "reason": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "tier": "LOW",
+        "reassessment_interval_days": 30,
+        "reason": "Synthetic example",
+        "id": "00000000-0000-4000-8000-00000000022f",
+        "processor_id": "00000000-0000-4000-8000-000000000230",
+        "recorded_by": "00000000-0000-4000-8000-000000000231",
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "third_party_standing",
+      "method": "GET",
+      "path": "/api/v1/admin/processors/{id}/third-party-standing",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "processor_id": "00000000-0000-4000-8000-000000000232",
+        "processor_name": "Synthetic example",
+        "region": "Synthetic example",
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "tier": null,
+        "agreements": [],
+        "agreement_in_force": null,
+        "active_engagement_ids": [],
+        "last_due_diligence": null,
+        "reassessment_due_at": null,
+        "violations": []
+      }
+    },
+    {
+      "operation_id": "list_third_party_standing",
+      "method": "GET",
+      "path": "/api/v1/admin/third-party-standing",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_supplier_link",
+      "method": "POST",
+      "path": "/api/v1/admin/supplier-links",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "assessment_id": "00000000-0000-4000-8000-000000000233",
+        "expires_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "link": {
+          "id": "00000000-0000-4000-8000-0000000003a2",
+          "assessment_id": "00000000-0000-4000-8000-000000000389",
+          "expires_at": "2026-09-30T10:00:00.000Z",
+          "state": "ACTIVE",
+          "revoked_at": null,
+          "revocation_reason": null,
+          "last_used_at": null,
+          "created_by": "00000000-0000-4000-8000-000000000386",
+          "created_at": "2026-09-16T10:00:00.000Z"
+        },
+        "token": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "path": "/supplier#token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "operation_id": "list_supplier_links",
+      "method": "GET",
+      "path": "/api/v1/admin/supplier-links",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "revoke_supplier_link",
+      "method": "POST",
+      "path": "/api/v1/admin/supplier-links/{id}/revocation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000234",
+        "assessment_id": "00000000-0000-4000-8000-000000000235",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "state": "ACTIVE",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "last_used_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000236",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "supplier_questionnaire",
+      "method": "GET",
+      "path": "/api/v1/supplier/questionnaire",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "title": "Synthetic example",
+        "template_name": "Synthetic example",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "editable": false,
+        "questions": [],
+        "answers": []
+      }
+    },
+    {
+      "operation_id": "supplier_answer",
+      "method": "POST",
+      "path": "/api/v1/supplier/questionnaire/answers",
+      "headers": {},
+      "request": {
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "NO",
+            "evidence_reference": null
+          }
+        ]
+      },
+      "response_status": 200,
+      "response": {
+        "title": "Synthetic example",
+        "template_name": "Synthetic example",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "editable": false,
+        "questions": [],
+        "answers": []
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000229",
-        "environment_id": "00000000-0000-4000-8000-00000000022a",
+        "installation_id": "00000000-0000-4000-8000-000000000237",
+        "environment_id": "00000000-0000-4000-8000-000000000238",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -9582,9 +9842,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-00000000022b",
+        "command_id": "00000000-0000-4000-8000-000000000239",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000022c",
+        "attempt_id": "00000000-0000-4000-8000-00000000023a",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -9592,7 +9852,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-00000000022d",
+        "operation_id": "00000000-0000-4000-8000-00000000023b",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -9605,10 +9865,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-00000000022e",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000022f",
-        "purpose_id": "00000000-0000-4000-8000-000000000230",
-        "system_id": "00000000-0000-4000-8000-000000000231",
+        "attempt_id": "00000000-0000-4000-8000-00000000023c",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000023d",
+        "purpose_id": "00000000-0000-4000-8000-00000000023e",
+        "system_id": "00000000-0000-4000-8000-00000000023f",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -9681,9 +9941,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000232",
+        "command_id": "00000000-0000-4000-8000-000000000240",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000233",
+        "attempt_id": "00000000-0000-4000-8000-000000000241",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -9698,7 +9958,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000234",
+        "resource_id": "00000000-0000-4000-8000-000000000242",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -9713,9 +9973,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000235",
+        "command_id": "00000000-0000-4000-8000-000000000243",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000236",
+        "attempt_id": "00000000-0000-4000-8000-000000000244",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

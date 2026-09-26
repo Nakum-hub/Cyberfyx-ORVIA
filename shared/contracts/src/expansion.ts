@@ -62,7 +62,9 @@ export const ImpactFinding = z.strictObject({
   severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']), owner_reference: SafeText, due_at: Time, grc_risk_id: Id.nullable(), grc_control_id: Id.nullable(),
   state: ImpactFindingState, overdue: z.boolean(), blocks_approval: z.boolean(), events: z.array(ImpactFindingEvent).max(100), created_by: Id, created_at: Time,
 });
-export const ImpactAnswer = z.strictObject({ question_key: z.string(), value: z.string().max(4000), evidence_reference: SafeText.nullable(), carried_forward: z.boolean(), answered_by: Id, answered_at: Time });
+export const ImpactAnswer = z.strictObject({ question_key: z.string(), value: z.string().max(4000), evidence_reference: SafeText.nullable(), carried_forward: z.boolean(),
+  /** SUPPLIER answers are attestations until a staff member records the answer themselves. */
+  respondent: z.enum(['STAFF', 'SUPPLIER']), answered_by: Id, answered_at: Time });
 export const ImpactAssessmentStatus = z.enum(['DRAFT', 'SUBMITTED', 'APPROVED', 'REJECTED', 'SUPERSEDED']);
 export const ImpactAssessmentDetail = z.strictObject({
   id: Id, template: ImpactTemplate, revision: z.number().int().positive(), previous_id: Id.nullable(),
@@ -83,8 +85,57 @@ export const ImpactAssessmentSummary = z.strictObject({
 export const ImpactAssessmentQuery = z.strictObject({ status: ImpactAssessmentStatus.optional(), subject_kind: ImpactSubjectKind.optional(), subject_id: Id.optional() });
 export const ImpactEscalationSweep = z.strictObject({ escalated: z.number().int().min(0), finding_ids: z.array(Id).max(200) });
 
+// EX08 — third-party lifecycle ---------------------------------------------------
+export const AgreementKind = z.enum(['DPA', 'MSA', 'SCC', 'NDA', 'OTHER']);
+export const RegionCode = z.string().regex(/^[A-Z]{2}(-[A-Z0-9]{1,3})?$/);
+export const AgreementCreate = z.strictObject({
+  processor_id: Id, kind: AgreementKind, reference: Reference, signed_at: Time, effective_from: Time, expires_at: Time.nullable(),
+  allowed_purpose_ids: z.array(Id).max(50), allowed_regions: z.array(RegionCode).max(50),
+  subprocessors_allowed: z.boolean(), onward_transfer_allowed: z.boolean(), evidence_reference: Reference, supersedes_id: Id.nullable(),
+}).superRefine((a, c) => {
+  if (a.expires_at !== null && Date.parse(a.expires_at) <= Date.parse(a.effective_from)) c.addIssue({ code: 'custom', path: ['expires_at'], message: 'An agreement expires after it takes effect' });
+  if (Date.parse(a.signed_at) > Date.parse(a.effective_from) + 366 * 86_400_000) c.addIssue({ code: 'custom', path: ['signed_at'], message: 'Signing date is implausibly far after the effective date' });
+});
+export const Agreement = z.strictObject({
+  id: Id, processor_id: Id, kind: AgreementKind, reference: SafeText, signed_at: Time, effective_from: Time, expires_at: Time.nullable(),
+  allowed_purpose_ids: z.array(Id).max(50), allowed_regions: z.array(z.string()).max(50), subprocessors_allowed: z.boolean(), onward_transfer_allowed: z.boolean(),
+  evidence_reference: SafeText, supersedes_id: Id.nullable(), status: z.enum(['ACTIVE', 'TERMINATED']), terminated_at: Time.nullable(), termination_reason: SafeText.nullable(),
+  /** ACTIVE and in its effective period now. */
+  in_force: z.boolean(), superseded: z.boolean(), recorded_by: Id, recorded_at: Time,
+});
+export const AgreementTerminate = z.strictObject({ reason: z.string().min(10).max(500) });
+export const AgreementQuery = z.strictObject({ processor_id: Id.optional() });
+export const TierSet = z.strictObject({ tier: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']), reassessment_interval_days: z.number().int().min(30).max(1095), reason: z.string().min(10).max(500) });
+export const Tier = TierSet.extend({ id: Id, processor_id: Id, recorded_by: Id, recorded_at: Time });
+export const ThirdPartyViolationKind = z.enum(['NO_AGREEMENT_IN_FORCE', 'AGREEMENT_EXPIRING', 'REGION_NOT_PERMITTED', 'PURPOSE_NOT_PERMITTED', 'SUBPROCESSOR_NOT_PERMITTED',
+  'NO_TIER', 'DUE_DILIGENCE_MISSING', 'REASSESSMENT_DUE', 'DISPOSITION_NOT_VERIFIED']);
+export const ThirdPartyViolation = z.strictObject({ kind: ThirdPartyViolationKind, detail: z.string().max(500), engagement_id: Id.nullable(), agreement_id: Id.nullable() });
+export const ThirdPartyStanding = z.strictObject({
+  processor_id: Id, processor_name: SafeText, region: SafeText, as_of: Time, tier: Tier.nullable(), agreements: z.array(Agreement).max(100), agreement_in_force: Agreement.nullable(),
+  active_engagement_ids: z.array(Id).max(100), last_due_diligence: z.strictObject({ assessment_id: Id, approved_at: Time }).nullable(), reassessment_due_at: Time.nullable(),
+  /** Facts derived from recorded engagements and agreements; a declaration is never treated as an observed flow. */
+  violations: z.array(ThirdPartyViolation).max(200),
+});
+export const ThirdPartySummary = z.strictObject({ processor_id: Id, processor_name: SafeText, tier: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).nullable(), agreement_in_force: z.boolean(),
+  active_engagements: z.number().int().min(0), violations: z.array(ThirdPartyViolationKind).max(20), reassessment_due_at: Time.nullable() });
+export const SupplierLinkCreate = z.strictObject({ assessment_id: Id, expires_at: Time });
+export const SupplierLink = z.strictObject({ id: Id, assessment_id: Id, expires_at: Time, state: z.enum(['ACTIVE', 'EXPIRED', 'REVOKED']), revoked_at: Time.nullable(), revocation_reason: SafeText.nullable(),
+  last_used_at: Time.nullable(), created_by: Id, created_at: Time });
+/** The token is returned once, at issue, and is never stored or shown again. */
+export const SupplierLinkIssued = z.strictObject({ link: SupplierLink, token: z.string().regex(/^[a-f0-9]{64}$/), path: z.string().max(200) });
+export const SupplierLinkRevoke = z.strictObject({ reason: z.string().min(10).max(500) });
+export const SupplierLinkQuery = z.strictObject({ assessment_id: Id.optional() });
+export const SupplierQuestionnaire = z.strictObject({
+  title: z.string().max(160), template_name: SafeText, expires_at: Time, editable: z.boolean(),
+  questions: z.array(z.strictObject({ key: z.string(), text: z.string().max(500), answer_type: z.enum(['YES_NO', 'TEXT', 'CHOICE', 'NUMBER']), choices: z.array(z.string()).max(20), required: z.boolean(), evidence_required: z.boolean(), guidance: z.string().max(1000).nullable() })).max(100),
+  answers: z.array(z.strictObject({ question_key: z.string(), value: z.string().max(4000), evidence_reference: SafeText.nullable(), answered_at: Time })).max(100),
+});
+export const SupplierAnswers = ImpactAnswersRecord;
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
   ImpactAssessmentDetail, ImpactAssessmentSummary, ImpactAssessmentList: page(ImpactAssessmentSummary), ImpactAssessmentQuery, ImpactEscalationSweep,
+  AgreementCreate, Agreement, AgreementList: page(Agreement), AgreementTerminate, AgreementQuery, TierSet, Tier, ThirdPartyViolation, ThirdPartyStanding, ThirdPartySummary, ThirdPartySummaryList: page(ThirdPartySummary),
+  SupplierLinkCreate, SupplierLink, SupplierLinkList: page(SupplierLink), SupplierLinkIssued, SupplierLinkRevoke, SupplierLinkQuery, SupplierQuestionnaire, SupplierAnswers,
 };

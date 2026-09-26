@@ -179,6 +179,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/grc', label: 'Frameworks & controls' },
     { href: '/workspace/assessments', label: 'Processor assessments' },
     { href: '/workspace/impact-assessments', label: 'Impact assessments' },
+    { href: '/workspace/third-parties', label: 'Third parties' },
     { href: '/workspace/findings', label: 'Findings' },
     { href: '/workspace/incidents', label: 'Incidents' },
     { href: '/workspace/notification-rules', label: 'Notification rules' },

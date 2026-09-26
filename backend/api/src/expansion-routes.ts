@@ -1,6 +1,7 @@
 import type { Context, Page } from '../../domain/src/shared/transaction.ts';
 import type { RouteDefinition } from '../../../shared/contracts/src/index.ts';
 import { createTemplate, publishTemplate, templateList, createAssessment, assessmentView, assessmentList, recordAnswers, submitAssessment, decideAssessment, reviseAssessment, createFinding, recordFindingEvent, escalationSweep } from '../../domain/src/assessments/impact.ts';
+import { createAgreement, terminateAgreement, agreementList, setTier, standing, standingList, createSupplierLink, revokeSupplierLink, supplierLinkList } from '../../domain/src/third-party/third-party.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
@@ -22,6 +23,15 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'create_impact_finding': return createFinding(c, id!, input);
     case 'record_impact_finding_event': return recordFindingEvent(c, id!, input);
     case 'impact_escalation_sweep': return escalationSweep(c);
+    case 'list_processor_agreements': return agreementList(c, page, query);
+    case 'create_processor_agreement': return createAgreement(c, input);
+    case 'terminate_processor_agreement': return terminateAgreement(c, id!, input);
+    case 'set_processor_tier': return setTier(c, id!, input);
+    case 'third_party_standing': return standing(c, id!);
+    case 'list_third_party_standing': return standingList(c, page);
+    case 'create_supplier_link': return createSupplierLink(c, input);
+    case 'list_supplier_links': return supplierLinkList(c, page, query);
+    case 'revoke_supplier_link': return revokeSupplierLink(c, id!, input);
     default: return undefined;
   }
 }

@@ -307,4 +307,13 @@ export interface EndpointMap {
   create_impact_finding: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactFindingCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
   record_impact_finding_event: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactFindingEventRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactFinding> };
   impact_escalation_sweep: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactEscalationSweep> };
+  list_processor_agreements: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AgreementList> };
+  create_processor_agreement: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AgreementCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Agreement> };
+  terminate_processor_agreement: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AgreementTerminate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Agreement> };
+  set_processor_tier: { request: import('zod').infer<typeof import('../src/index.ts').schemas.TierSet>; response: import('zod').infer<typeof import('../src/index.ts').schemas.Tier> };
+  third_party_standing: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ThirdPartyStanding> };
+  list_third_party_standing: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ThirdPartySummaryList> };
+  create_supplier_link: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkIssued> };
+  list_supplier_links: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkList> };
+  revoke_supplier_link: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLinkRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupplierLink> };
 }
