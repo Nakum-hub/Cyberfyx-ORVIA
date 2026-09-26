@@ -26,7 +26,10 @@ try{
   // grounds that the route was unbuilt. Both drifted into asserting that the
   // product was less finished than it is, and the suite has been failing since
   // the overview module landed rather than reporting anything real.
-  assert.match(await page.text(),/Synthetic demonstration/);
+  // The landing page's label changed from "Synthetic demonstration" to "Synthetic
+  // test environment" when demonstration wording was removed; what is asserted is
+  // still that the page says it runs on synthetic data.
+  assert.match(await page.text(),/Synthetic test environment/);
   // This process is started without the profile environment on purpose, so the
   // business boundary has no database, policy engine or audit sink to reach.
   // What is worth proving at bootstrap is that it then refuses: a route that

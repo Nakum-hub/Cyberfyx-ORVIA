@@ -135,35 +135,36 @@ Rights runs are executed by staff because settling them writes V1 outcomes.
 
 ## 8. Screens
 
-| Page | Component |
+Every DPDP contract operation has a screen (102 of 102). Each form posts one
+canonical operation through `WriteForm`
+(`frontend/src/components/screens/privacy-operations/registry-forms.tsx`), which
+validates against the contract schema and mirrors the server's input rules
+before sending, is shown only with the route's own capability (presentation
+only; the server authorises every write) and replays idempotently.
+
+| Page | What it does |
 | --- | --- |
 | `/workspace/operations-attention` | Attention items, coverage ratios, notification sweep |
 | `/workspace/operations-runs`, `/[id]` | Runs; dry-run preview, approval, batches, actions, evidence export, cancel |
-| `/workspace/personal-data-breaches`, `/[id]` | Breaches, pinned package, tasks and deadlines, completion with evidence |
-| `/workspace/data-principals` | People, references, contexts, per-context processing |
-| `/workspace/registry-setup` | Data Principal and personal data categories, purposes (create, revise, retire), processing conditions from the package vocabulary |
-| `/workspace/processing-activities` | Activities with current version and factual gaps; register an activity and link categories, systems, engagements, rules, safeguards or channels |
-| `/workspace/registry-notices` | Notices per audience, versions per locale, draft and publish |
-| `/workspace/registry-retention` | Retention rules (create, evaluate → run) and holds (place, release) |
-| `/workspace/processor-engagements` | Engagements (create), disposition state, sharing register |
-| `/workspace/estate-imports` | Import jobs, checkpoint, errors, apply/replay |
-| `/workspace/organisation-profile` | Profile; SDF obligations shown only when designated |
-| `/workspace/regulatory`, `/applicability`, `/impacts` | Packages and approval, applicability, impact review |
+| `/workspace/operations-evidence` | Evidence records (filter by requirement or record) and operational events |
+| `/workspace/personal-data-breaches`, `/[id]` | Register an incident as a breach; correct facts; tasks, deadlines, completion with evidence |
+| `/workspace/data-principals` | Register people with keyed references; add references; relationship contexts (start, end); merge and unmerge; guardians, nominees and representatives (recorded, verified by a different person, nomination activated); child status |
+| `/workspace/registry-setup` | Categories, purposes (create, revise, retire), processing conditions from the package vocabulary, safeguards, connector bindings |
+| `/workspace/processing-activities` | Activities (filter by system), register, link, revise, close links |
+| `/workspace/registry-notices` | Notices, locale versions, publication; which version applied at a time; delivery evidence |
+| `/workspace/consent-records` | Consent records, operator events (a withdrawal opens its run), Privacy Centre sync |
+| `/workspace/registry-retention` | Retention rules (create, revise, evaluate → run) and holds (place, release) |
+| `/workspace/processor-engagements` | Engagements (create, terminate, return/deletion evidence), data-sharing register |
+| `/workspace/estate-imports` | Import jobs; upload a JSON or JSON Lines file validated row by row before sending; apply and replay |
+| `/workspace/organisation-profile` | Profile versions (SDF status with designation reference, DPO, grievance contact); SDF obligations when designated |
+| `/workspace/rights`, `/[id]` | DPDP case deadlines; open a case profile and start execution across systems |
+| `/workspace/regulatory`, `/applicability`, `/impacts` | Import signed packages; approval; applicability and recorded exemptions; impact review |
 | `/privacy/notices` | Published notices for the Data Principal |
 | `/privacy/rights` | Adds each request's status history (no internal notes) |
 
-Registry records (categories, purposes, conditions, activities and links,
-notices and versions, retention rules, holds, engagements) are created from the
-screens above, each form posting one canonical contract operation
-(`frontend/src/components/screens/privacy-operations/registry-forms.tsx`). The
-browser validates against the contract schema and the same cross-field rules
-(a period always cites its source; a hold names what it covers; an unresolved
-condition states why) before sending, and the server re-validates and authorises
-every write. Forms are hidden from sessions without `registry.write`, which is
-presentation only. Journey: `tests/e2e/registry-forms-local.ts` on `codex-a00`.
-Estate import remains the path for bulk existing data. Data Principals,
-relationship contexts, representatives, safeguards, sharing links and consent
-records are still created through the API or an estate import.
+Browser journeys on `codex-a00`: `tests/e2e/registry-forms-local.ts`
+(`test:e2e:registry-forms`) and `tests/e2e/operations-screens-local.ts`
+(`test:e2e:operations-screens`).
 
 ## 9. Limitations
 
@@ -175,4 +176,8 @@ records are still created through the API or an estate import.
   November 2025) against the Gazette text, corrigendum G.S.R. 892(E) not
   retrieved, and the Schedules not encoded as requirements.
 * Only the synthetic TEST ADAPTER performs automated actions.
-* Operations jobs use the database-checkpointed runner, not Temporal.
+* Operations jobs use the database-checkpointed runner, not Temporal. The
+  rehearsal supervisor (`app:run`) starts and stops it with the worker and agent.
+* Upgrade from V1 is checked by `test:migration-upgrade`: a throwaway database at
+  0036 loaded with V1 rows is upgraded, V1 rows are compared value for value, and
+  the schema is compared with a fresh installation.

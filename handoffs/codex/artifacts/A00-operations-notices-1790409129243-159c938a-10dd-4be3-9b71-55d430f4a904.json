@@ -1,0 +1,161 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:52:09.243Z",
+  "suite": "notices",
+  "assertions": [
+    {
+      "name": "a new version is a draft until published",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        null
+      ],
+      "actual": [
+        "DRAFT",
+        null
+      ]
+    },
+    {
+      "name": "a draft was never presented, so delivery evidence for it is refused",
+      "result": "PASS",
+      "expected": [
+        "draft_was_never_presented"
+      ],
+      "actual": [
+        "draft_was_never_presented"
+      ]
+    },
+    {
+      "name": "presentation of v1 is recorded with its source",
+      "result": "PASS",
+      "expected": [
+        "987b1392-34cf-4389-b28e-67cdc7ff3622",
+        "Mail log entry 44"
+      ],
+      "actual": [
+        "987b1392-34cf-4389-b28e-67cdc7ff3622",
+        "Mail log entry 44"
+      ]
+    },
+    {
+      "name": "a successor cannot take effect before the version it supersedes",
+      "result": "PASS",
+      "expected": [
+        "must_follow_the_version_it_supersedes"
+      ],
+      "actual": [
+        "must_follow_the_version_it_supersedes"
+      ]
+    },
+    {
+      "name": "publishing v2 supersedes v1 and closes its period at the same instant",
+      "result": "PASS",
+      "expected": [
+        "SUPERSEDED",
+        "d8bbaccc-c226-4229-b693-805a04b04fff",
+        "2026-09-25T07:52:08.898Z",
+        "PUBLISHED",
+        "2026-09-25T07:52:08.898Z"
+      ],
+      "actual": [
+        "SUPERSEDED",
+        "d8bbaccc-c226-4229-b693-805a04b04fff",
+        "2026-09-25T07:52:08.898Z",
+        "PUBLISHED",
+        "2026-09-25T07:52:08.898Z"
+      ]
+    },
+    {
+      "name": "the moment of the recorded presentation resolves to v1",
+      "result": "PASS",
+      "expected": "987b1392-34cf-4389-b28e-67cdc7ff3622",
+      "actual": "987b1392-34cf-4389-b28e-67cdc7ff3622"
+    },
+    {
+      "name": "now resolves to v2",
+      "result": "PASS",
+      "expected": "d8bbaccc-c226-4229-b693-805a04b04fff",
+      "actual": "d8bbaccc-c226-4229-b693-805a04b04fff"
+    },
+    {
+      "name": "before the first version there was no notice, and that is said",
+      "result": "PASS",
+      "expected": [
+        null,
+        true
+      ],
+      "actual": [
+        null,
+        true
+      ]
+    },
+    {
+      "name": "another locale with no version resolves to none rather than borrowing English",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a presentation of v2 dated before v2 took effect is refused",
+      "result": "PASS",
+      "expected": [
+        "version_not_in_effect_at_that_time"
+      ],
+      "actual": [
+        "version_not_in_effect_at_that_time"
+      ]
+    },
+    {
+      "name": "published notice content cannot be rewritten in place",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "delivery evidence is append-only",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the Privacy Centre shows the current version and not the superseded one",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "the Privacy Centre notice carries withdrawal, rights, grievance and Board channels",
+      "result": "PASS",
+      "expected": {
+        "withdrawal": "Withdraw in the synthetic privacy portal.",
+        "rights": "Exercise rights in the synthetic privacy portal.",
+        "grievance": "Raise a grievance with the synthetic privacy desk.",
+        "board_complaint": "Complain to the Data Protection Board through its published channel."
+      },
+      "actual": {
+        "withdrawal": "Withdraw in the synthetic privacy portal.",
+        "rights": "Exercise rights in the synthetic privacy portal.",
+        "grievance": "Raise a grievance with the synthetic privacy desk.",
+        "board_complaint": "Complain to the Data Protection Board through its published channel."
+      }
+    },
+    {
+      "name": "a Data Principal cannot reach the staff notice registry",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "passed": 15,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

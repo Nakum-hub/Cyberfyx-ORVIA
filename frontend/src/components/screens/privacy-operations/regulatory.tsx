@@ -4,6 +4,7 @@ import { useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, CheckboxField, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, SelectField, StateBadge, TextAreaField } from '../../shared/ui.tsx';
 import { APPLICABILITY_LABELS, IMPACT_STATE_LABELS, LEGAL_STATUS_LABELS, PACKAGE_STATE_LABELS } from './operations-labels.ts';
+import { ApplicabilityOverride, PackageImport } from './operations-extras.tsx';
 
 /**
  * Regulatory core: signed packages, their requirements and commencement,
@@ -48,6 +49,7 @@ export function RegulatoryPackages() {
         )}
       </QueryBoundary>
       {selected && <PackageDetail id={selected} onDecided={() => { packages.refresh(); active.refresh(); }} />}
+      <PackageImport onSaved={() => packages.refresh()} />
     </>
   );
 }
@@ -139,6 +141,7 @@ export function Applicability() {
           {data => (<><DecisionTable rows={data.items} /><Pagination query={decisions} /></>)}
         </QueryBoundary>
       </Section>
+      <ApplicabilityOverride decisions={decisions.data?.items ?? []} onSaved={() => decisions.refresh()} />
     </>
   );
 }

@@ -1,0 +1,329 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:45:47.623Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a breach registered on screen is pinned with deadlines from the package",
+      "result": "PASS",
+      "expected": [
+        "6709f5be-5483-4e71-8aa4-3bf439cc360a",
+        "UNKNOWN",
+        true
+      ],
+      "actual": [
+        "6709f5be-5483-4e71-8aa4-3bf439cc360a",
+        "UNKNOWN",
+        true
+      ]
+    },
+    {
+      "name": "correcting the facts keeps the pinned package and deadlines",
+      "result": "PASS",
+      "expected": [
+        40,
+        "f5d8b859-bbad-47f1-9917-85872e7ede11",
+        [
+          null,
+          null,
+          "2026-09-29T05:45:18.394Z"
+        ]
+      ],
+      "actual": [
+        40,
+        "f5d8b859-bbad-47f1-9917-85872e7ede11",
+        [
+          null,
+          null,
+          "2026-09-29T05:45:18.394Z"
+        ]
+      ]
+    },
+    {
+      "name": "a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)",
+      "result": "PASS",
+      "expected": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ],
+      "actual": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ]
+    },
+    {
+      "name": "a person is registered with a keyed reference and no stored identifier",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "a relationship context is recorded with unknown evidence kept unknown",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ],
+      "actual": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ]
+    },
+    {
+      "name": "a representative starts unverified",
+      "result": "PASS",
+      "expected": "UNVERIFIED",
+      "actual": "UNVERIFIED"
+    },
+    {
+      "name": "the person who recorded a representative cannot verify them",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a different staff member verifies the representative",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        true
+      ],
+      "actual": [
+        "VERIFIED",
+        true
+      ]
+    },
+    {
+      "name": "child status is recorded with its guardian",
+      "result": "PASS",
+      "expected": [
+        "CHILD",
+        "cdc71fd6-5d4d-48ec-adc1-a67621c01bfc",
+        "NOT_ESTABLISHED"
+      ],
+      "actual": [
+        "CHILD",
+        "cdc71fd6-5d4d-48ec-adc1-a67621c01bfc",
+        "NOT_ESTABLISHED"
+      ]
+    },
+    {
+      "name": "a consent record starts unknown, never granted",
+      "result": "PASS",
+      "expected": "UNKNOWN",
+      "actual": "UNKNOWN"
+    },
+    {
+      "name": "a withdrawal recorded on screen opens exactly one propagation run",
+      "result": "PASS",
+      "expected": [
+        "WITHDRAWN",
+        1
+      ],
+      "actual": [
+        "WITHDRAWN",
+        1
+      ]
+    },
+    {
+      "name": "the run suppresses in the linked system",
+      "result": "PASS",
+      "expected": [
+        "CONSENT_WITHDRAWAL",
+        1
+      ],
+      "actual": [
+        "CONSENT_WITHDRAWAL",
+        1
+      ]
+    },
+    {
+      "name": "termination closes the engagement and requires return or deletion",
+      "result": "PASS",
+      "expected": [
+        "TERMINATED",
+        "PENDING"
+      ],
+      "actual": [
+        "TERMINATED",
+        "PENDING"
+      ]
+    },
+    {
+      "name": "a processor statement is recorded as a confirmation, never as verified",
+      "result": "PASS",
+      "expected": "PROCESSOR_CONFIRMED",
+      "actual": "PROCESSOR_CONFIRMED"
+    },
+    {
+      "name": "a data share names exactly one recipient",
+      "result": "PASS",
+      "expected": [
+        "Synthetic logistics partner",
+        null
+      ],
+      "actual": [
+        "Synthetic logistics partner",
+        null
+      ]
+    },
+    {
+      "name": "a safeguard is recorded with its evidence",
+      "result": "PASS",
+      "expected": [
+        "ENCRYPTION",
+        "Encryption report ER-9"
+      ],
+      "actual": [
+        "ENCRYPTION",
+        "Encryption report ER-9"
+      ]
+    },
+    {
+      "name": "a manual-only binding declares no automated action",
+      "result": "PASS",
+      "expected": [
+        "MANUAL_ONLY",
+        false,
+        false
+      ],
+      "actual": [
+        "MANUAL_ONLY",
+        false,
+        false
+      ]
+    },
+    {
+      "name": "a case profile is pinned to the package in force at receipt",
+      "result": "PASS",
+      "expected": [
+        "65a4d628-1188-4511-85ba-41504e8fd737",
+        "TEST_FIXTURE"
+      ],
+      "actual": [
+        "65a4d628-1188-4511-85ba-41504e8fd737",
+        "TEST_FIXTURE"
+      ]
+    },
+    {
+      "name": "execution is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "starting execution plans an erasure that waits for a second person",
+      "result": "PASS",
+      "expected": [
+        "RIGHTS_EXECUTION",
+        true
+      ],
+      "actual": [
+        "RIGHTS_EXECUTION",
+        true
+      ]
+    },
+    {
+      "name": "an estate file with an invalid row is refused whole in the browser",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "uploaded rows are applied from the checkpoint",
+      "result": "PASS",
+      "expected": [
+        2,
+        2,
+        0
+      ],
+      "actual": [
+        2,
+        2,
+        0
+      ]
+    },
+    {
+      "name": "the history lookup names the version in effect at each time",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "delivery evidence is recorded against the version shown",
+      "result": "PASS",
+      "expected": [
+        "e7f3c23a-f4d9-4de3-98dd-2ac9c2496db0",
+        "PRESENTED"
+      ],
+      "actual": [
+        "e7f3c23a-f4d9-4de3-98dd-2ac9c2496db0",
+        "PRESENTED"
+      ]
+    },
+    {
+      "name": "an imported package waits for a second approver and is not in force",
+      "result": "PASS",
+      "expected": [
+        "IMPORTED",
+        false
+      ],
+      "actual": [
+        "IMPORTED",
+        false
+      ]
+    },
+    {
+      "name": "an exemption is recorded with its basis and keeps the original",
+      "result": "PASS",
+      "expected": [
+        "EXEMPT_WITH_RECORDED_BASIS",
+        "0026bbd0-996a-4057-a13f-1922ea11d993"
+      ],
+      "actual": [
+        "EXEMPT_WITH_RECORDED_BASIS",
+        "0026bbd0-996a-4057-a13f-1922ea11d993"
+      ]
+    },
+    {
+      "name": "evidence records and operational events are listed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "no request left the local origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no page or console error occurred",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 30,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

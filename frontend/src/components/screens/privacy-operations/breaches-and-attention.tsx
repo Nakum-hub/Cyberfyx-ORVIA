@@ -1,9 +1,10 @@
 'use client';
 import { useState } from 'react';
-import { useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
+import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge, TextAreaField, TextField } from '../../shared/ui.tsx';
 import { LEGAL_STATUS_LABELS, SEVERITY_LABELS, TASK_STATE_LABELS } from './operations-labels.ts';
+import { Area, Choice, Input, Many, WriteForm, all, nullable, nullableInt, text } from './registry-forms.tsx';
 
 /**
  * Personal-data breaches, operational attention and coverage.
@@ -36,7 +37,63 @@ export function PersonalDataBreaches() {
           </>
         )}
       </QueryBoundary>
+      <RegisterBreach registered={new Set((list.data?.items ?? []).map(b => b.incident_id))} />
     </>
+  );
+}
+
+const COUNT_STATES = [{ value: 'UNKNOWN', label: 'Unknown' }, { value: 'ESTIMATED', label: 'Estimated' }, { value: 'ESTABLISHED', label: 'Established' }];
+
+/** Reads the breach facts and count shared by registration and update, refusing an inconsistent count. */
+function breachFacts(f: FormData) {
+  const state = text(f, 'count_state') as 'UNKNOWN' | 'ESTIMATED' | 'ESTABLISHED';
+  const count = nullableInt(f, 'count');
+  if ((state === 'UNKNOWN') !== (count === null)) throw new Error(state === 'UNKNOWN' ? 'Leave the number blank when it is unknown.' : 'An estimated or established count states the number.');
+  return { affected_count: count, affected_count_state: state, mitigation: nullable(f, 'mitigation'),
+    facts: { nature: text(f, 'nature'), extent: text(f, 'extent'), timing: text(f, 'timing'), location: text(f, 'location'), likely_impact: text(f, 'impact') } };
+}
+
+function BreachFactFields({ current }: { current?: { affected_count: number | null; affected_count_state: string; mitigation: string | null; facts: Record<'nature' | 'extent' | 'timing' | 'location' | 'likely_impact', string> } }) {
+  return (
+    <>
+      <Choice label="People affected" name="count_state" options={COUNT_STATES} defaultValue={current?.affected_count_state ?? 'UNKNOWN'} />
+      <Input label="Number of people" name="count" type="number" required={false} defaultValue={current?.affected_count?.toString()} hint="Blank when unknown." />
+      <Area label="Nature" name="nature" maxLength={500} defaultValue={current?.facts.nature} />
+      <Area label="Extent" name="extent" maxLength={500} defaultValue={current?.facts.extent} />
+      <Area label="Timing" name="timing" maxLength={500} defaultValue={current?.facts.timing} />
+      <Area label="Location" name="location" maxLength={500} defaultValue={current?.facts.location} />
+      <Area label="Likely impact" name="impact" maxLength={500} defaultValue={current?.facts.likely_impact} />
+      <Area label="Mitigation" name="mitigation" required={false} maxLength={500} defaultValue={current?.mitigation ?? undefined} />
+    </>
+  );
+}
+
+/**
+ * Registers an existing incident as a personal-data breach. The awareness time
+ * comes from the incident record, so the deadlines are computed from it by the
+ * package in force at awareness; nothing is entered here that could move them.
+ */
+function RegisterBreach({ registered }: { registered: Set<string> }) {
+  const incidents = useCollection('list_incidents');
+  const activities = useCollection('list_registry_activities');
+  const dataCategories = useCollection('list_data_categories');
+  const systems = useCollection('list_systems');
+  const engagements = useCollection('list_processor_engagements');
+  const candidates = (incidents.data?.items ?? []).filter(i => !registered.has(i.id));
+  return (
+    <Section title="Register a breach">
+      <WriteForm operation="register_breach" label="Register as a personal-data breach"
+        onSaved={b => globalThis.location.assign(`/workspace/personal-data-breaches/${b.incident_id}`)}
+        build={f => ({ incident_id: text(f, 'incident'), data_category_ids: all(f, 'categories'), activity_ids: all(f, 'activities'), system_ids: all(f, 'systems'), engagement_ids: all(f, 'engagements'), ...breachFacts(f) })}>
+        <Choice label="Incident" name="incident" hint="Incidents are recorded under Incidents; the awareness time is taken from that record."
+          options={candidates.map(i => ({ value: i.id, label: `${i.summary.slice(0, 80)} (${i.became_aware_at ? `aware ${formatTime(i.became_aware_at)}` : 'awareness not recorded'})` }))} />
+        <BreachFactFields />
+        <Many legend="Personal data affected" name="categories" options={(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))} />
+        <Many legend="Processing activities affected" name="activities" options={(activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name }))} />
+        <Many legend="Systems affected" name="systems" options={(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))} />
+        <Many legend="Processor engagements involved" name="engagements" options={(engagements.data?.items ?? []).map(e => ({ value: e.id, label: e.service_description }))} />
+      </WriteForm>
+    </Section>
   );
 }
 
@@ -72,6 +129,12 @@ export function PersonalDataBreachDetail({ id }: { id: string }) {
                 { key: 'evidence', header: 'Communication evidence', cell: t => t.communication_evidence_reference ?? (t.state === 'OPEN' ? <button type="button" onClick={() => { setTask(t.id); complete.newInteraction(); }}>Record completion</button> : '') },
               ]} />
             {data.tasks.some(t => t.unresolved_reason) && <NoticeBox tone="unknown" title="Why some deadlines are unresolved"><ul>{data.tasks.filter(t => t.unresolved_reason).map(t => <li key={t.id}>{t.unresolved_reason}</li>)}</ul></NoticeBox>}
+          </Section>
+          <Section title="Correct the facts">
+            <WriteForm operation="update_breach" label="Record corrected facts" params={{ id }} onSaved={() => breach.refresh()}
+              describe={() => 'the pinned package and deadlines are unchanged'} build={breachFacts}>
+              <BreachFactFields current={data} />
+            </WriteForm>
           </Section>
           {task && (
             <Section title="Record completion">

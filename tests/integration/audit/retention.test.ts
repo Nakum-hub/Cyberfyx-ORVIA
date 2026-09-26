@@ -139,9 +139,12 @@ try {
     Number((await db.query(
       `SELECT count(*)::int AS n FROM app.audit_events WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3`, scope)).rows[0].n) >= before,
     true);
+  // The oldest event in scope is targeted rather than events older than a day:
+  // on an installation younger than a day that filter matched no row, the row
+  // trigger never fired, and an empty DELETE was reported as accepted.
   check('and the trail refuses deletion at the database, past its period or not',
-    await direct(`DELETE FROM app.audit_events WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3
-      AND created_at < now() - interval '1 day'`, scope), '23514');
+    await direct(`DELETE FROM app.audit_events WHERE id=(SELECT id FROM app.audit_events WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3
+      ORDER BY created_at LIMIT 1)`, scope), '23514');
   check('the report says so structurally rather than only in prose',
     afterShort.envelopes_are_never_deleted_by_this_product, true);
 

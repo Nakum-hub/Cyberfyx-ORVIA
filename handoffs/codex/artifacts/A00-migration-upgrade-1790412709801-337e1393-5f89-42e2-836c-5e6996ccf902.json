@@ -1,0 +1,154 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T08:51:49.801Z",
+  "profile": "codex-a00",
+  "from": "0036_portal_rights_intake",
+  "v1_tables": 109,
+  "v1_rows_loaded": 22412,
+  "rows_skipped_as_later_release_data": {
+    "app.coverage_gaps": 3,
+    "app.notification_tasks": 309
+  },
+  "upgrade_migrations": [
+    "0037_regulatory_core",
+    "0038_data_processing_registry",
+    "0039_workflow_execution_and_evidence",
+    "0040_capacity_indexes",
+    "0041_ai_governance",
+    "0042_ai_monitor_jobs",
+    "0043_catalog_discovery",
+    "0044_graph_observation_binding",
+    "0045_graph_document_consistency",
+    "0046_catalog_discovery_gaps",
+    "0047_catalog_gap_least_privilege",
+    "0048_processing_map_gap",
+    "0049_grc",
+    "0050_grc_audits"
+  ],
+  "assertions": [
+    {
+      "name": "the throwaway database is migrated to the last V1 migration",
+      "result": "PASS",
+      "expected": "0036_portal_rights_intake",
+      "actual": "0036_portal_rights_intake"
+    },
+    {
+      "name": "V1 tables hold real V1 rows before the upgrade",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the upgrade applies every later migration over V1 data, in order",
+      "result": "PASS",
+      "expected": [
+        "0037_regulatory_core",
+        "0038_data_processing_registry",
+        "0039_workflow_execution_and_evidence",
+        "0040_capacity_indexes",
+        "0041_ai_governance",
+        "0042_ai_monitor_jobs",
+        "0043_catalog_discovery",
+        "0044_graph_observation_binding",
+        "0045_graph_document_consistency",
+        "0046_catalog_discovery_gaps",
+        "0047_catalog_gap_least_privilege",
+        "0048_processing_map_gap",
+        "0049_grc",
+        "0050_grc_audits"
+      ],
+      "actual": [
+        "0037_regulatory_core",
+        "0038_data_processing_registry",
+        "0039_workflow_execution_and_evidence",
+        "0040_capacity_indexes",
+        "0041_ai_governance",
+        "0042_ai_monitor_jobs",
+        "0043_catalog_discovery",
+        "0044_graph_observation_binding",
+        "0045_graph_document_consistency",
+        "0046_catalog_discovery_gaps",
+        "0047_catalog_gap_least_privilege",
+        "0048_processing_map_gap",
+        "0049_grc",
+        "0050_grc_audits"
+      ]
+    },
+    {
+      "name": "no existing V1 row or value is changed by the upgrade",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the upgraded schema has the same columns as a fresh installation",
+      "result": "PASS",
+      "expected": {
+        "missing": [],
+        "extra": []
+      },
+      "actual": {
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "name": "the upgraded schema has the same constraints as a fresh installation",
+      "result": "PASS",
+      "expected": {
+        "missing": [],
+        "extra": []
+      },
+      "actual": {
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "name": "the upgraded schema has the same indexes as a fresh installation",
+      "result": "PASS",
+      "expected": {
+        "missing": [],
+        "extra": []
+      },
+      "actual": {
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "name": "the upgraded schema has the same policies as a fresh installation",
+      "result": "PASS",
+      "expected": {
+        "missing": [],
+        "extra": []
+      },
+      "actual": {
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "name": "the upgraded schema has the same triggers as a fresh installation",
+      "result": "PASS",
+      "expected": {
+        "missing": [],
+        "extra": []
+      },
+      "actual": {
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "name": "running the migrations again applies nothing",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 10,
+  "failures": 0,
+  "throwaway_database_dropped": true
+}

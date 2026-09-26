@@ -1,0 +1,435 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T08:08:02.597Z",
+  "suite": "registry",
+  "assertions": [
+    {
+      "name": "a member cannot read the registry",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor can read the registry",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor cannot write the registry",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a category name is unique",
+      "result": "PASS",
+      "expected": [
+        "category_exists"
+      ],
+      "actual": [
+        "category_exists"
+      ]
+    },
+    {
+      "name": "the reference records that a source key was supplied",
+      "result": "PASS",
+      "expected": [
+        [
+          "rg_d2419c4c-4f2",
+          true
+        ]
+      ],
+      "actual": [
+        [
+          "rg_d2419c4c-4f2",
+          true
+        ]
+      ]
+    },
+    {
+      "name": "the source key itself is never stored, only its keyed digest",
+      "result": "PASS",
+      "expected": [
+        false,
+        false
+      ],
+      "actual": [
+        false,
+        false
+      ]
+    },
+    {
+      "name": "a reference belongs to one person per system",
+      "result": "PASS",
+      "expected": [
+        "reference_held_by_another_data_principal"
+      ],
+      "actual": [
+        "reference_held_by_another_data_principal"
+      ]
+    },
+    {
+      "name": "one person keeps separate relationship contexts",
+      "result": "PASS",
+      "expected": [
+        [
+          "94b50fd1-283a-4a7b-a579-410a48855287",
+          "UNKNOWN"
+        ],
+        [
+          "cc1eff44-14c7-44ff-aa41-8d604874b7f4",
+          "ACTIVE"
+        ]
+      ],
+      "actual": [
+        [
+          "94b50fd1-283a-4a7b-a579-410a48855287",
+          "UNKNOWN"
+        ],
+        [
+          "cc1eff44-14c7-44ff-aa41-8d604874b7f4",
+          "ACTIVE"
+        ]
+      ]
+    },
+    {
+      "name": "an unknown relationship status stays unknown",
+      "result": "PASS",
+      "expected": "UNKNOWN",
+      "actual": "UNKNOWN"
+    },
+    {
+      "name": "ending a context records its end",
+      "result": "PASS",
+      "expected": [
+        "ENDED",
+        true
+      ],
+      "actual": [
+        "ENDED",
+        true
+      ]
+    },
+    {
+      "name": "a context is ended once",
+      "result": "PASS",
+      "expected": [
+        "already_ended"
+      ],
+      "actual": [
+        "already_ended"
+      ]
+    },
+    {
+      "name": "context creation and end are emitted as events",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "processing is reported per relationship context",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "an activity for another category is not attributed to this person",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a person cannot be merged into themselves",
+      "result": "PASS",
+      "expected": [
+        "cannot_merge_into_itself"
+      ],
+      "actual": [
+        "cannot_merge_into_itself"
+      ]
+    },
+    {
+      "name": "a merged record points at the surviving person",
+      "result": "PASS",
+      "expected": [
+        "MERGED",
+        "b1ed100d-1934-42b6-b237-680266661885"
+      ],
+      "actual": [
+        "MERGED",
+        "b1ed100d-1934-42b6-b237-680266661885"
+      ]
+    },
+    {
+      "name": "a merged record takes no new references",
+      "result": "PASS",
+      "expected": [
+        "subject_is_merged"
+      ],
+      "actual": [
+        "subject_is_merged"
+      ]
+    },
+    {
+      "name": "an unmerge restores the record",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        null
+      ],
+      "actual": [
+        "ACTIVE",
+        null
+      ]
+    },
+    {
+      "name": "a recorded representative starts unverified",
+      "result": "PASS",
+      "expected": "UNVERIFIED",
+      "actual": "UNVERIFIED"
+    },
+    {
+      "name": "an organisation admin cannot record a representative",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an organisation admin cannot record child status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the person who recorded a representative cannot verify it",
+      "result": "PASS",
+      "expected": [
+        "recorder_cannot_verify"
+      ],
+      "actual": [
+        "recorder_cannot_verify"
+      ]
+    },
+    {
+      "name": "a second person verifies the representative",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        true
+      ],
+      "actual": [
+        "VERIFIED",
+        true
+      ]
+    },
+    {
+      "name": "representatives are sensitive: an organisation admin cannot list them",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a super admin can list representatives",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "for a person with a portal identity, a nomination must cite the V1 mandate",
+      "result": "PASS",
+      "expected": [
+        "portal_identity_requires_its_mandate"
+      ],
+      "actual": [
+        "portal_identity_requires_its_mandate"
+      ]
+    },
+    {
+      "name": "a mandate of the wrong kind does not authorise a nomination",
+      "result": "PASS",
+      "expected": [
+        "mandate_does_not_match"
+      ],
+      "actual": [
+        "mandate_does_not_match"
+      ]
+    },
+    {
+      "name": "an unverified nomination cannot be activated",
+      "result": "PASS",
+      "expected": [
+        "nomination_not_verified"
+      ],
+      "actual": [
+        "nomination_not_verified"
+      ]
+    },
+    {
+      "name": "a verified nomination is activated on a recorded basis",
+      "result": "PASS",
+      "expected": [
+        "INCAPACITY",
+        true
+      ],
+      "actual": [
+        "INCAPACITY",
+        true
+      ]
+    },
+    {
+      "name": "only a nomination is activated",
+      "result": "PASS",
+      "expected": [
+        "only_a_nomination_is_activated"
+      ],
+      "actual": [
+        "only_a_nomination_is_activated"
+      ]
+    },
+    {
+      "name": "no child status is inferred where none is recorded",
+      "result": "PASS",
+      "expected": [
+        "no_child_status_recorded"
+      ],
+      "actual": [
+        "no_child_status_recorded"
+      ]
+    },
+    {
+      "name": "a status other than unknown needs evidence",
+      "result": "PASS",
+      "expected": [
+        "status_requires_evidence"
+      ],
+      "actual": [
+        "status_requires_evidence"
+      ]
+    },
+    {
+      "name": "an unknown status carries no restrictions: nothing is inferred",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "established verifiable consent must name the guardian and its evidence",
+      "result": "PASS",
+      "expected": [
+        "established_consent_names_guardian_and_evidence"
+      ],
+      "actual": [
+        "established_consent_names_guardian_and_evidence"
+      ]
+    },
+    {
+      "name": "a recorded child carries the package's child restrictions",
+      "result": "PASS",
+      "expected": [
+        "DPDP-CHILD-NO-TRACKING",
+        "DPDP-CHILD-VERIFIABLE-CONSENT"
+      ],
+      "actual": [
+        "DPDP-CHILD-NO-TRACKING",
+        "DPDP-CHILD-VERIFIABLE-CONSENT"
+      ]
+    },
+    {
+      "name": "child status is sensitive: an organisation admin cannot read it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a super admin reads the latest status",
+      "result": "PASS",
+      "expected": "bbfc2d3a-4b23-4e2b-a0a2-bb4f621793bf",
+      "actual": "bbfc2d3a-4b23-4e2b-a0a2-bb4f621793bf"
+    },
+    {
+      "name": "a child status record cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a safeguard cannot claim available evidence without citing it",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a safeguard without evidence is recorded as missing evidence, not as implemented",
+      "result": "PASS",
+      "expected": [
+        "EVIDENCE_MISSING",
+        null
+      ],
+      "actual": [
+        "EVIDENCE_MISSING",
+        null
+      ]
+    },
+    {
+      "name": "a safeguard record cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a reference cannot be rewritten",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "a reference cannot be deleted",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "an activity with an unresolved condition widens the denominator without counting as resolved",
+      "result": "PASS",
+      "expected": [
+        1,
+        0
+      ],
+      "actual": [
+        1,
+        0
+      ]
+    },
+    {
+      "name": "coverage is a set of ratios and never a compliance score",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "another tenant cannot read this person",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another tenant sees none of these references",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    }
+  ],
+  "passed": 47,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

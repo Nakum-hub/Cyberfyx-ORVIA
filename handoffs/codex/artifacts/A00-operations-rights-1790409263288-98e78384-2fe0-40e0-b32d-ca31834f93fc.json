@@ -1,0 +1,285 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:54:23.288Z",
+  "suite": "rights",
+  "assertions": [
+    {
+      "name": "the V1 plan marks only bound systems whose adapter erases as automatable",
+      "result": "PASS",
+      "expected": [
+        false
+      ],
+      "actual": [
+        false
+      ]
+    },
+    {
+      "name": "the case is pinned to the package in effect at receipt; erasure has no statutory period in it",
+      "result": "PASS",
+      "expected": [
+        "TEST_FIXTURE",
+        null,
+        "APPLICABLE"
+      ],
+      "actual": [
+        "TEST_FIXTURE",
+        null,
+        "APPLICABLE"
+      ]
+    },
+    {
+      "name": "opening the profile again returns the same pin",
+      "result": "PASS",
+      "expected": "b54ea787-cede-4e4b-b34e-4d58baba92dc",
+      "actual": "b54ea787-cede-4e4b-b34e-4d58baba92dc"
+    },
+    {
+      "name": "a run for a person other than the requester is refused",
+      "result": "PASS",
+      "expected": [
+        "subject_is_not_the_requesting_principal"
+      ],
+      "actual": [
+        "subject_is_not_the_requesting_principal"
+      ]
+    },
+    {
+      "name": "an erasure run stops at a dry run for approval",
+      "result": "PASS",
+      "expected": [
+        "DRY_RUN_READY",
+        true,
+        true
+      ],
+      "actual": [
+        "DRY_RUN_READY",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the recorded hold blocks erasure on its system and is named",
+      "result": "PASS",
+      "expected": [
+        "blocked",
+        "BLOCKED_BY_RECORDED_HOLD",
+        true
+      ],
+      "actual": [
+        "blocked",
+        "BLOCKED_BY_RECORDED_HOLD",
+        true
+      ]
+    },
+    {
+      "name": "a manual system is reported not supported",
+      "result": "PASS",
+      "expected": "not_supported",
+      "actual": "not_supported"
+    },
+    {
+      "name": "a system with no reference for this person is blocked, not silently skipped",
+      "result": "PASS",
+      "expected": [
+        "blocked",
+        "NO_SUBJECT_REFERENCE_IN_SYSTEM"
+      ],
+      "actual": [
+        "blocked",
+        "NO_SUBJECT_REFERENCE_IN_SYSTEM"
+      ]
+    },
+    {
+      "name": "the unreachable paper archive is carried into the run",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the preview names the blocking hold and the unsupported target",
+      "result": "PASS",
+      "expected": [
+        true,
+        1
+      ],
+      "actual": [
+        true,
+        1
+      ]
+    },
+    {
+      "name": "nothing executes before approval",
+      "result": "PASS",
+      "expected": [
+        "run_requires_approval"
+      ],
+      "actual": [
+        "run_requires_approval"
+      ]
+    },
+    {
+      "name": "an organisation admin cannot approve an irreversible run",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the creator cannot approve their own run",
+      "result": "PASS",
+      "expected": [
+        "creator_cannot_approve"
+      ],
+      "actual": [
+        "creator_cannot_approve"
+      ]
+    },
+    {
+      "name": "an approval must bind the scope that was previewed",
+      "result": "PASS",
+      "expected": [
+        "scope_changed_since_preview"
+      ],
+      "actual": [
+        "scope_changed_since_preview"
+      ]
+    },
+    {
+      "name": "the approval is recorded against the exact scope hash",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        "23d2a7a0a4267c39fb0a1793697064f997de7bfe01c0c1bb07e1d1b9d5063ffb"
+      ],
+      "actual": [
+        "APPROVED",
+        "23d2a7a0a4267c39fb0a1793697064f997de7bfe01c0c1bb07e1d1b9d5063ffb"
+      ]
+    },
+    {
+      "name": "the erasable target is erased and verified",
+      "result": "PASS",
+      "expected": [
+        "verified",
+        true
+      ],
+      "actual": [
+        "verified",
+        true
+      ]
+    },
+    {
+      "name": "the held target is untouched",
+      "result": "PASS",
+      "expected": [
+        null,
+        2
+      ],
+      "actual": [
+        null,
+        2
+      ]
+    },
+    {
+      "name": "exceptions end the run as completed with exceptions, never as fully verified",
+      "result": "PASS",
+      "expected": "COMPLETED_WITH_EXCEPTIONS",
+      "actual": "COMPLETED_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "the V1 request receives one factual outcome per system",
+      "result": "PASS",
+      "expected": [
+        "SUCCEEDED",
+        "CONNECTOR_OPERATION",
+        "MANUAL_REQUIRED",
+        "NOT_SUPPORTED",
+        "MANUAL_REQUIRED"
+      ],
+      "actual": [
+        "SUCCEEDED",
+        "CONNECTOR_OPERATION",
+        "MANUAL_REQUIRED",
+        "NOT_SUPPORTED",
+        "MANUAL_REQUIRED"
+      ]
+    },
+    {
+      "name": "the verified outcome cites its evidence record",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the V1 execution dimension states outstanding work",
+      "result": "PASS",
+      "expected": "MANUAL_REQUIRED",
+      "actual": "MANUAL_REQUIRED"
+    },
+    {
+      "name": "the request cannot be marked completed while work remains",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "closure keeps the execution and the unresolved destination visible",
+      "result": "PASS",
+      "expected": [
+        "CLOSED",
+        "MANUAL_REQUIRED",
+        [
+          "Paper archive at the branch office"
+        ]
+      ],
+      "actual": [
+        "CLOSED",
+        "MANUAL_REQUIRED",
+        [
+          "Paper archive at the branch office"
+        ]
+      ]
+    },
+    {
+      "name": "a grievance is due within the 90-day period of the package in effect at receipt",
+      "result": "PASS",
+      "expected": [
+        "2026-12-25T07:54:23.053Z",
+        "DPDP-GRIEVANCE-RESPONSE",
+        "APPLICABLE"
+      ],
+      "actual": [
+        "2026-12-25T07:54:23.053Z",
+        "DPDP-GRIEVANCE-RESPONSE",
+        "APPLICABLE"
+      ]
+    },
+    {
+      "name": "the Privacy Centre shows the requester their status history without internal notes",
+      "result": "PASS",
+      "expected": [
+        [
+          "RECEIVED"
+        ],
+        true
+      ],
+      "actual": [
+        [
+          "RECEIVED"
+        ],
+        true
+      ]
+    },
+    {
+      "name": "another person cannot read that history",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "passed": 26,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

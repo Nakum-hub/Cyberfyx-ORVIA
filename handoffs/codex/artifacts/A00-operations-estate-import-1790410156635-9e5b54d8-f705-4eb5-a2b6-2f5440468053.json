@@ -1,0 +1,229 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T08:09:16.635Z",
+  "suite": "estate-import",
+  "assertions": [
+    {
+      "name": "a resent chunk with different content for a received ordinal is refused",
+      "result": "PASS",
+      "expected": [
+        "ordinal_already_received_with_other_content"
+      ],
+      "actual": [
+        "ordinal_already_received_with_other_content"
+      ]
+    },
+    {
+      "name": "an auditor cannot append to an import",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a first batch stops at its limit and checkpoints its cursor",
+      "result": "PASS",
+      "expected": [
+        "PROCESSING",
+        119,
+        180
+      ],
+      "actual": [
+        "PROCESSING",
+        119,
+        180
+      ]
+    },
+    {
+      "name": "the job resumes from the checkpoint and finishes with isolated errors",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_WITH_ERRORS",
+        0,
+        3,
+        297
+      ],
+      "actual": [
+        "COMPLETED_WITH_ERRORS",
+        0,
+        3,
+        297
+      ]
+    },
+    {
+      "name": "each failed row names its own error",
+      "result": "PASS",
+      "expected": [
+        [
+          7,
+          "UNKNOWN_CATEGORY"
+        ],
+        [
+          15,
+          "version_not_in_effect_at_that_time"
+        ],
+        [
+          17,
+          "EVIDENCE_WITHOUT_REFERENCE"
+        ]
+      ],
+      "actual": [
+        [
+          7,
+          "UNKNOWN_CATEGORY"
+        ],
+        [
+          15,
+          "version_not_in_effect_at_that_time"
+        ],
+        [
+          17,
+          "EVIDENCE_WITHOUT_REFERENCE"
+        ]
+      ]
+    },
+    {
+      "name": "replaying failed rows re-attempts only them, and unchanged bad rows fail again",
+      "result": "PASS",
+      "expected": [
+        3,
+        3,
+        297
+      ],
+      "actual": [
+        3,
+        3,
+        297
+      ]
+    },
+    {
+      "name": "a legacy consent flag without a timestamp is stored with no time and evidence missing",
+      "result": "PASS",
+      "expected": [
+        null,
+        "EVIDENCE_MISSING",
+        "IMPORT"
+      ],
+      "actual": [
+        null,
+        "EVIDENCE_MISSING",
+        "IMPORT"
+      ]
+    },
+    {
+      "name": "notice delivery is recorded only for rows whose source says it happened",
+      "result": "PASS",
+      "expected": 29,
+      "actual": 29
+    },
+    {
+      "name": "an account that exists is not given a notice presentation it has no record of",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "every imported fact carries its source, key, job and mapping version",
+      "result": "PASS",
+      "expected": [
+        "IMPORT",
+        "legacy-e838c7de-0",
+        "acaa3a4b-d6ec-4385-b7de-937fba0627d6",
+        "legacy-map-1"
+      ],
+      "actual": [
+        "IMPORT",
+        "legacy-e838c7de-0",
+        "acaa3a4b-d6ec-4385-b7de-937fba0627d6",
+        "legacy-map-1"
+      ]
+    },
+    {
+      "name": "an unknown relationship stays unknown, with no invented start date",
+      "result": "PASS",
+      "expected": [
+        "UNKNOWN",
+        null,
+        "UNKNOWN"
+      ],
+      "actual": [
+        "UNKNOWN",
+        null,
+        "UNKNOWN"
+      ]
+    },
+    {
+      "name": "raw source identifiers are never stored, only their keyed digest",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "importing the same estate again duplicates nobody",
+      "result": "PASS",
+      "expected": [
+        0,
+        297,
+        0
+      ],
+      "actual": [
+        0,
+        297,
+        0
+      ]
+    },
+    {
+      "name": "one person carries two relationship contexts under one reference",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "the patient context sees only patient processing",
+      "result": "PASS",
+      "expected": [
+        "3ce3629c-316a-40fc-ad52-e5a26218af3a"
+      ],
+      "actual": [
+        "3ce3629c-316a-40fc-ad52-e5a26218af3a"
+      ]
+    },
+    {
+      "name": "the employee context sees only employment processing",
+      "result": "PASS",
+      "expected": [
+        "56d13863-2e05-4126-8861-b04a6fcb20ae"
+      ],
+      "actual": [
+        "56d13863-2e05-4126-8861-b04a6fcb20ae"
+      ]
+    },
+    {
+      "name": "a merge is an explicit act that can be reversed",
+      "result": "PASS",
+      "expected": [
+        "MERGED",
+        "a77db5d1-32a7-47eb-bf4e-680a8559b943",
+        "ACTIVE",
+        null
+      ],
+      "actual": [
+        "MERGED",
+        "a77db5d1-32a7-47eb-bf4e-680a8559b943",
+        "ACTIVE",
+        null
+      ]
+    },
+    {
+      "name": "another tenant cannot read this person",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "passed": 18,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

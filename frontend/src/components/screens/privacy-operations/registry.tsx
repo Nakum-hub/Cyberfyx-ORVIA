@@ -6,6 +6,9 @@ import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, SelectField, StateBadge, TextField } from '../../shared/ui.tsx';
 import { TASK_STATE_LABELS } from './operations-labels.ts';
 import { Choice, Input, Many, WriteForm, all, localNow, nullable, text, time } from './registry-forms.tsx';
+import { CreatePrincipal, PrincipalActions } from './principal-operations.tsx';
+
+const THIRD_SCHEDULE = ['UNKNOWN', 'NONE', 'E_COMMERCE_ENTITY', 'ONLINE_GAMING_INTERMEDIARY', 'SOCIAL_MEDIA_INTERMEDIARY'] as const;
 
 /**
  * Data & Processing Registry.
@@ -31,7 +34,7 @@ export function DataPrincipals() {
     <>
       <PageHead eyebrow="Registry" title="Data Principals"
         lede="People known to the registry, the systems that hold them, and each relationship context kept separate. Source identifiers are never stored; only a keyed digest is." />
-      <form className="inline-form" onSubmit={event => { event.preventDefault(); setSearch({ ...(systemId ? { system_id: systemId } : {}), ...(reference ? { target_reference: reference } : {}) }); }}>
+      <form className="inline-form" aria-label="Search Data Principals" onSubmit={event => { event.preventDefault(); setSearch({ ...(systemId ? { system_id: systemId } : {}), ...(reference ? { target_reference: reference } : {}) }); }}>
         <SelectField label="System" value={systemId} onChange={setSystemId} options={[{ value: '', label: 'Any system' }, ...(directory.data?.systems ?? []).map(s => ({ value: s.id, label: s.name }))]} />
         <TextField label="Record key in that system" value={reference} onChange={setReference} maxLength={120} />
         <button type="submit">Search</button>
@@ -52,12 +55,13 @@ export function DataPrincipals() {
           </>
         )}
       </QueryBoundary>
-      {selected && <PrincipalDetail id={selected} />}
+      {selected && <PrincipalDetail id={selected} onChanged={() => list.refresh()} />}
+      <CreatePrincipal onSaved={id => { list.refresh(); setSelected(id); }} />
     </>
   );
 }
 
-function PrincipalDetail({ id }: { id: string }) {
+function PrincipalDetail({ id, onChanged }: { id: string; onChanged: () => void }) {
   const subject = useQuery('data_principal', { params: { id } });
   const processing = useQuery('data_principal_processing', { params: { id } });
   const directory = useDirectory(['systems']);
@@ -101,16 +105,24 @@ function PrincipalDetail({ id }: { id: string }) {
           )}
         </QueryBoundary>
       </Section>
+      <PrincipalActions id={id} onChanged={() => { subject.refresh(); processing.refresh(); onChanged(); }} />
     </>
   );
 }
 
 export function ProcessingActivities() {
-  const list = usePagedQuery('list_registry_activities', { limit: 25 });
+  const directory = useDirectory(['systems']);
+  const [systemFilter, setSystemFilter] = useState('');
+  const [applied, setApplied] = useState<Record<string, string>>({});
+  const list = usePagedQuery('list_registry_activities', { limit: 25, query: applied });
   return (
     <>
       <PageHead eyebrow="Registry" title="Processing activities"
         lede="Each activity with its purpose version, processing condition, notices, systems and retention, and what is missing — stated as facts, never as a score." />
+      <form className="inline-form" aria-label="Filter processing activities" onSubmit={event => { event.preventDefault(); setApplied(systemFilter ? { system_id: systemFilter } : {}); }}>
+        <SelectField label="Uses system" value={systemFilter} onChange={setSystemFilter} options={[{ value: '', label: 'Any system' }, ...(directory.data?.systems ?? []).map(s => ({ value: s.id, label: s.name }))]} />
+        <button type="submit">Filter</button>
+      </form>
       <Freshness query={list} />
       <QueryBoundary query={list} label="processing activities" isEmpty={data => !data.items.length}>
         {data => (
@@ -205,7 +217,51 @@ function ActivityForms({ onSaved }: { onSaved: () => void }) {
           <Input label="Valid from" name="from" type="datetime-local" defaultValue={localNow()} />
         </WriteForm>
       </div>
+      <div className="grid-2">
+        <ActivityRevision activities={activities.data?.items ?? []} purposeVersions={purposeVersions} publishedNotices={publishedNotices}
+          conditions={(conditions.data?.items ?? []).filter(c => c.effective_to === null).map(c => ({ value: c.id, label: `${c.label} (${c.code}${c.unresolved ? ', unresolved' : ''})` }))} onSaved={refresh} />
+        <CloseLink activities={activities.data?.items ?? []} onSaved={refresh} />
+      </div>
     </Section>
+  );
+}
+
+type ActivityOption = { id: string; name: string; links: { id: string; link_kind: string; target_id: string | null; channel: string | null; valid_to: string | null }[] };
+const KNOWLEDGE_STATES = ['KNOWN', 'UNKNOWN', 'EVIDENCE_AVAILABLE', 'EVIDENCE_MISSING', 'NEEDS_VERIFICATION', 'NEEDS_REMEDIATION', 'NOT_APPLICABLE', 'EXCEPTION_RECORDED'] as const;
+
+/** A new version supersedes the current one from its effective date; the old version is kept. */
+function ActivityRevision({ activities, purposeVersions, conditions, publishedNotices, onSaved }: { activities: ActivityOption[]; purposeVersions: { value: string; label: string }[]; conditions: { value: string; label: string }[]; publishedNotices: { value: string; label: string }[]; onSaved: () => void }) {
+  const [id, setId] = useState('');
+  return (
+    <WriteForm operation="revise_registry_activity" label="Revise an activity" params={id ? { id } : undefined} onSaved={onSaved}
+      describe={a => `now version ${a.versions.length}; missing: ${a.gaps.map(g => GAP_TEXT[g] ?? g).join(', ') || 'nothing'}`}
+      build={f => {
+        if (!id) throw new Error('Choose the activity to revise.');
+        return { purpose_version_id: text(f, 'purpose'), condition_id: nullable(f, 'condition'), notice_version_ids: all(f, 'notices'), requirement_ids: [],
+          evidence_state: text(f, 'evidence') as typeof KNOWLEDGE_STATES[number], effective_from: time(f, 'from'), change_reason: text(f, 'reason') };
+      }}>
+      <Choice label="Activity" name="activity" value={id} onChange={setId} options={activities.map(a => ({ value: a.id, label: a.name }))} />
+      <Choice label="Purpose (current version)" name="purpose" options={purposeVersions} />
+      <Choice label="Processing condition" name="condition" required={false} placeholder="None recorded" options={conditions} />
+      <Many legend="Published notices shown for it" name="notices" options={publishedNotices} />
+      <Choice label="Evidence" name="evidence" options={KNOWLEDGE_STATES.map(k => ({ value: k, label: k.replaceAll('_', ' ').toLowerCase() }))} />
+      <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+      <Input label="Reason for change" name="reason" minLength={10} maxLength={500} />
+    </WriteForm>
+  );
+}
+
+/** Closing a link ends it from a date; the link and its history remain. */
+function CloseLink({ activities, onSaved }: { activities: ActivityOption[]; onSaved: () => void }) {
+  const [link, setLink] = useState('');
+  const open = activities.flatMap(a => a.links.filter(l => l.valid_to === null).map(l => ({ value: l.id, label: `${a.name}: ${l.link_kind.replaceAll('_', ' ').toLowerCase()} ${l.channel ?? shortId(l.target_id ?? '')}` })));
+  return (
+    <WriteForm operation="close_activity_link" label="Close an activity link" params={link ? { id: link } : undefined} onSaved={() => { setLink(''); onSaved(); }} describe={() => 'closed; history kept'}
+      build={f => { if (!link) throw new Error('Choose the link to close.'); return { valid_to: time(f, 'to'), reason: text(f, 'reason') }; }}>
+      <Choice label="Link" name="link" value={link} onChange={setLink} options={open} />
+      <Input label="Valid until" name="to" type="datetime-local" defaultValue={localNow()} />
+      <Input label="Reason" name="reason" minLength={10} maxLength={500} />
+    </WriteForm>
   );
 }
 
@@ -218,6 +274,7 @@ export function OrganisationProfile() {
       <PageHead eyebrow="Registry" title="Organisation profile"
         lede="Facts about the organisation that decide which requirements apply. Significant Data Fiduciary status is recorded with its Government reference; unknown is a valid answer." />
       <Freshness query={profile} />
+      <ProfileForm current={profile.data?.current ?? null} onSaved={() => profile.refresh()} />
       <QueryBoundary query={profile} label="organisation profile" isEmpty={data => !data.current}>
         {data => {
           const current = data.current!;
@@ -258,5 +315,36 @@ export function OrganisationProfile() {
         }}
       </QueryBoundary>
     </>
+  );
+}
+
+/**
+ * Records a new version of the organisation profile. SDF status is set only
+ * from a Government designation, which is cited; unknown is a valid answer and
+ * leaves SDF requirements unresolved rather than assumed not to apply.
+ */
+function ProfileForm({ current, onSaved }: { current: { version: number; sdf_status: string; sdf_designation_reference: string | null; dpo_contact: string | null; grievance_contact: string | null; independent_auditor_reference: string | null; facts: { third_schedule_class: string } } | null; onSaved: () => void }) {
+  return (
+    <Section title={current ? `Record version ${current.version + 1}` : 'Record the organisation profile'}>
+      <WriteForm operation="set_organisation_profile" label="Record profile version" onSaved={onSaved}
+        describe={p => `version ${p.version}; ${p.sdf_obligations.length} SDF obligation(s)`}
+        build={f => {
+          const status = text(f, 'sdf') as 'UNKNOWN' | 'NOT_DESIGNATED' | 'DESIGNATED';
+          const reference = nullable(f, 'designation');
+          if (status === 'DESIGNATED' && !reference) throw new Error('A designation cites the Government notification that made it.');
+          return { sdf_status: status, sdf_designation_reference: status === 'DESIGNATED' ? reference : null, dpo_contact: nullable(f, 'dpo'), grievance_contact: nullable(f, 'grievance'),
+            independent_auditor_reference: nullable(f, 'auditor'), facts: { third_schedule_class: text(f, 'third') as typeof THIRD_SCHEDULE[number] }, effective_from: time(f, 'from'), reason: text(f, 'reason') };
+        }}>
+        <Choice label="Significant Data Fiduciary status" name="sdf" defaultValue={current?.sdf_status ?? 'UNKNOWN'}
+          options={[{ value: 'UNKNOWN', label: 'Unknown' }, { value: 'NOT_DESIGNATED', label: 'Not designated' }, { value: 'DESIGNATED', label: 'Designated by the Government' }]} />
+        <Input label="Designation reference" name="designation" required={false} maxLength={500} defaultValue={current?.sdf_designation_reference ?? undefined} hint="The notification that designated the organisation. Required when designated." />
+        <Input label="DPO contact" name="dpo" required={false} maxLength={500} defaultValue={current?.dpo_contact ?? undefined} />
+        <Input label="Grievance contact" name="grievance" required={false} maxLength={500} defaultValue={current?.grievance_contact ?? undefined} />
+        <Input label="Independent auditor" name="auditor" required={false} maxLength={500} defaultValue={current?.independent_auditor_reference ?? undefined} />
+        <Choice label="Third Schedule class" name="third" defaultValue={current?.facts.third_schedule_class ?? 'UNKNOWN'} options={THIRD_SCHEDULE.map(c => ({ value: c, label: c.replaceAll('_', ' ').toLowerCase() }))} />
+        <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+        <Input label="Reason for this version" name="reason" minLength={10} maxLength={500} />
+      </WriteForm>
+    </Section>
   );
 }

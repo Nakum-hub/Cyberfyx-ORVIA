@@ -170,6 +170,8 @@ await t.run(async () => {
     const stored = await ok(admin.call(`/api/v1/admin/registry-activities/${activity.id}`), S.schemas.Activity);
     check('the stored activity carries the notice, condition and three current links', [stored.versions[0]!.notice_version_ids, stored.versions[0]!.condition_id, stored.links.filter(l => l.valid_to === null).length], [[draft.id], condition.id, 3]);
     await page.goto('/workspace/processing-activities'); await waitReady(page, 'Processing activities');
+    const filter = page.getByRole('form', { name: 'Filter processing activities' });
+    await filter.getByLabel('Uses system').selectOption(system.id); await filter.getByRole('button', { name: 'Filter', exact: true }).click();
     await page.getByRole('table', { name: 'Processing activities' }).getByText(`Forms newsletter sending ${suffix}`).waitFor();
     await page.screenshot({ path: resolve(shots, 'registry-activities-codex-a00.png'), fullPage: true });
 

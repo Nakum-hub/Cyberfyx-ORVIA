@@ -1,0 +1,194 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T08:37:05.906Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "every gate the requirement names is reported exactly once",
+      "result": "PASS",
+      "expected": [
+        11,
+        11
+      ],
+      "actual": [
+        11,
+        11
+      ]
+    },
+    {
+      "name": "every gate says what it examined, however it turned out",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the two derived lists agree with the gates they came from",
+      "result": "PASS",
+      "expected": [
+        [
+          "PERMITTED_EGRESS",
+          "RUNTIME_AND_ARCHITECTURE"
+        ],
+        []
+      ],
+      "actual": [
+        [
+          "PERMITTED_EGRESS",
+          "RUNTIME_AND_ARCHITECTURE"
+        ],
+        []
+      ]
+    },
+    {
+      "name": "the backup gate answers from the declared record and never from its absence",
+      "result": "PASS",
+      "expected": [
+        "PASSED",
+        null,
+        null
+      ],
+      "actual": [
+        "PASSED",
+        null,
+        null
+      ]
+    },
+    {
+      "name": "a missing backup record fails the gate rather than passing it",
+      "result": "PASS",
+      "expected": [
+        false,
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        false,
+        true
+      ]
+    },
+    {
+      "name": "the gate never claims to have seen the archive itself",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "passing the technical gates is never stated as a legal conclusion",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "the storage gate reports what the database itself is configured to do",
+      "result": "PASS",
+      "expected": [
+        "PASSED",
+        "fsync=on, synchronous_commit=on."
+      ],
+      "actual": [
+        "PASSED",
+        "fsync=on, synchronous_commit=on."
+      ]
+    },
+    {
+      "name": "the identity gate is scoped to this organisation and not to every owner in the database",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the identity gate counted the primary owners that actually exist locally",
+      "result": "PASS",
+      "expected": [
+        "PASSED",
+        true
+      ],
+      "actual": [
+        "PASSED",
+        true
+      ]
+    },
+    {
+      "name": "the runtime gate names the address this process is really serving on",
+      "result": "PASS",
+      "expected": [
+        "PASSED",
+        "Serving on 127.0.0.1:4310."
+      ],
+      "actual": [
+        "PASSED",
+        "Serving on 127.0.0.1:4310."
+      ]
+    },
+    {
+      "name": "the runtime gate names the interpreter this process is really running on",
+      "result": "PASS",
+      "expected": "Node 22.22.2 on linux/x64.",
+      "actual": "Node 22.22.2 on linux/x64."
+    },
+    {
+      "name": "a loopback-only HTTP profile is not reported as a transport failure, and says why",
+      "result": "PASS",
+      "expected": [
+        "PASSED",
+        true
+      ],
+      "actual": [
+        "PASSED",
+        true
+      ]
+    },
+    {
+      "name": "the telemetry gate read the environment this process is actually running with",
+      "result": "PASS",
+      "expected": "PASSED",
+      "actual": "PASSED"
+    },
+    {
+      "name": "the package gate is decided by whether the installed version has a verified manifest behind it",
+      "result": "PASS",
+      "expected": "PASSED",
+      "actual": "PASSED"
+    },
+    {
+      "name": "a failing package gate names what to do about it rather than only reporting a red mark",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the egress gate counted the configured endpoints and says the firewall is not what it checked",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an auditor may read the gates",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an actor without installation-health authority is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS"
+}
