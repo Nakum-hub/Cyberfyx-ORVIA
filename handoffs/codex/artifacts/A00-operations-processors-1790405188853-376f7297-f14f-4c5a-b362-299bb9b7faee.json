@@ -1,0 +1,145 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T06:46:28.853Z",
+  "suite": "processors",
+  "assertions": [
+    {
+      "name": "a share names exactly one recipient",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the processors serving an activity are queryable",
+      "result": "PASS",
+      "expected": [
+        "88ef7b43-181f-41bb-9571-d8d4a20b06f1"
+      ],
+      "actual": [
+        "88ef7b43-181f-41bb-9571-d8d4a20b06f1"
+      ]
+    },
+    {
+      "name": "a recorded engagement makes the processor-contract requirement applicable",
+      "result": "PASS",
+      "expected": "APPLICABLE",
+      "actual": "APPLICABLE"
+    },
+    {
+      "name": "the sharing register answers who received this person's data",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an access request carries the sharing register into its run",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "termination opens a disposition task",
+      "result": "PASS",
+      "expected": [
+        "TERMINATED",
+        "PENDING",
+        true
+      ],
+      "actual": [
+        "TERMINATED",
+        "PENDING",
+        true
+      ]
+    },
+    {
+      "name": "termination closes the engagement's links instead of deleting them",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a question about an earlier time still sees the engagement; about now it does not",
+      "result": "PASS",
+      "expected": [
+        [
+          "88ef7b43-181f-41bb-9571-d8d4a20b06f1"
+        ],
+        0
+      ],
+      "actual": [
+        [
+          "88ef7b43-181f-41bb-9571-d8d4a20b06f1"
+        ],
+        0
+      ]
+    },
+    {
+      "name": "a terminated engagement cannot receive new sharing",
+      "result": "PASS",
+      "expected": [
+        "engagement_terminated"
+      ],
+      "actual": [
+        "engagement_terminated"
+      ]
+    },
+    {
+      "name": "termination is recorded once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "no connector pretends to perform a processor's disposition",
+      "result": "PASS",
+      "expected": [
+        "DISPOSITION_CONFIRMATION",
+        "pending"
+      ],
+      "actual": [
+        "DISPOSITION_CONFIRMATION",
+        "pending"
+      ]
+    },
+    {
+      "name": "a processor statement cannot be recorded as verification",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a processor confirmation is completed-by-target, not verified",
+      "result": "PASS",
+      "expected": [
+        "PROCESSOR_CONFIRMED",
+        "succeeded_unverified",
+        "completed_by_target"
+      ],
+      "actual": [
+        "PROCESSOR_CONFIRMED",
+        "succeeded_unverified",
+        "completed_by_target"
+      ]
+    },
+    {
+      "name": "independent audit evidence verifies the disposition and completes the run",
+      "result": "PASS",
+      "expected": [
+        "verified",
+        "TARGET_AUDIT_EVIDENCE",
+        "COMPLETED_VERIFIED"
+      ],
+      "actual": [
+        "verified",
+        "TARGET_AUDIT_EVIDENCE",
+        "COMPLETED_VERIFIED"
+      ]
+    }
+  ],
+  "passed": 14,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
-import { useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
+import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { useDirectory } from '../../shared/directory.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, SelectField, StateBadge, TextField } from '../../shared/ui.tsx';
 import { TASK_STATE_LABELS } from './operations-labels.ts';
+import { Choice, Input, Many, WriteForm, all, localNow, nullable, text, time } from './registry-forms.tsx';
 
 /**
  * Data & Processing Registry.
@@ -127,7 +128,84 @@ export function ProcessingActivities() {
           </>
         )}
       </QueryBoundary>
+      <ActivityForms onSaved={() => list.refresh()} />
     </>
+  );
+}
+
+const LINK_KINDS = [
+  { value: 'PRINCIPAL_CATEGORY', label: 'Data Principal category' }, { value: 'DATA_CATEGORY', label: 'Personal data category' },
+  { value: 'SYSTEM', label: 'System' }, { value: 'PROCESSOR_ENGAGEMENT', label: 'Processor engagement' },
+  { value: 'RETENTION_RULE', label: 'Retention rule' }, { value: 'SAFEGUARD', label: 'Security safeguard' }, { value: 'CHANNEL', label: 'Collection channel' },
+] as const;
+
+/**
+ * Registering an activity and linking what it touches. The activity starts from
+ * a current purpose version; the gaps column above then states what is still
+ * missing, so an incomplete registration is visible rather than hidden.
+ */
+function ActivityForms({ onSaved }: { onSaved: () => void }) {
+  const purposes = useCollection('list_registry_purposes');
+  const conditions = useCollection('list_processing_conditions');
+  const notices = useCollection('list_registry_notices');
+  const activities = useCollection('list_registry_activities');
+  const principalCategories = useCollection('list_principal_categories');
+  const dataCategories = useCollection('list_data_categories');
+  const systems = useCollection('list_systems');
+  const engagements = useCollection('list_processor_engagements');
+  const rules = useCollection('list_retention_rules');
+  const safeguards = useCollection('list_security_safeguards');
+  const [activityId, setActivityId] = useState('');
+  const [kind, setKind] = useState('');
+  const purposeVersions = (purposes.data?.items ?? []).flatMap(p => p.versions.filter(v => v.status === 'ACTIVE' && v.effective_to === null).map(v => ({ value: v.id, label: `${p.name} (v${v.version})` })));
+  const publishedNotices = (notices.data?.items ?? []).flatMap(n => n.versions.filter(v => v.status === 'PUBLISHED').map(v => ({ value: v.id, label: `${n.name} v${v.version} (${v.locale})` })));
+  const targets: Record<string, { value: string; label: string }[]> = {
+    PRINCIPAL_CATEGORY: (principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),
+    DATA_CATEGORY: (dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),
+    SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),
+    PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description })),
+    RETENTION_RULE: (rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` })),
+    SAFEGUARD: (safeguards.data?.items ?? []).map(g => ({ value: g.id, label: `${g.kind.replaceAll('_', ' ').toLowerCase()}: ${g.description}` })),
+  };
+  const refresh = () => { activities.refresh(); onSaved(); };
+  return (
+    <Section title="Register and link">
+      <div className="grid-2">
+        <WriteForm operation="create_registry_activity" label="Register a processing activity" onSaved={refresh}
+          describe={a => `${a.name}; still missing: ${a.gaps.map(g => GAP_TEXT[g] ?? g).join(', ') || 'nothing'}`}
+          build={f => ({ name: text(f, 'name'), description: text(f, 'description'), owner_reference: text(f, 'owner'),
+            processes_child_data: text(f, 'children') as 'UNKNOWN' | 'YES' | 'NO', graph_activity_id: null,
+            purpose_version_id: text(f, 'purpose'), condition_id: nullable(f, 'condition'), notice_version_ids: all(f, 'notices'), requirement_ids: [],
+            effective_from: time(f, 'from'), change_reason: text(f, 'reason') })}>
+          <Input label="Name" name="name" />
+          <Input label="Description" name="description" maxLength={500} />
+          <Input label="Owner" name="owner" maxLength={500} />
+          <Choice label="Purpose (current version)" name="purpose" options={purposeVersions} />
+          <Choice label="Processing condition" name="condition" required={false} placeholder="None recorded yet"
+            options={(conditions.data?.items ?? []).filter(c => c.effective_to === null).map(c => ({ value: c.id, label: `${c.label} (${c.code}${c.unresolved ? ', unresolved' : ''})` }))} />
+          <Choice label="Does it process children’s data?" name="children" hint="Unknown is recorded as unknown; nothing is assumed."
+            options={[{ value: 'UNKNOWN', label: 'Unknown' }, { value: 'YES', label: 'Yes' }, { value: 'NO', label: 'No' }]} />
+          <Many legend="Published notices shown for it" name="notices" options={publishedNotices} />
+          <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+          <Input label="Reason for recording" name="reason" maxLength={500} />
+        </WriteForm>
+
+        <WriteForm operation="link_registry_activity" label="Link something to an activity" params={activityId ? { id: activityId } : undefined} onSaved={refresh}
+          describe={a => `${a.name} has ${a.links.filter(l => l.valid_to === null).length} current links`}
+          build={f => {
+            if (!activityId) throw new Error('Choose the activity to link.');
+            const channel = kind === 'CHANNEL';
+            return { link_kind: kind as typeof LINK_KINDS[number]['value'], target_id: channel ? null : text(f, 'target'), channel: channel ? text(f, 'channel') : null, basis: text(f, 'basis'), valid_from: time(f, 'from') };
+          }}>
+          <Choice label="Activity" name="activity" value={activityId} onChange={setActivityId} options={(activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name }))} />
+          <Choice label="What to link" name="kind" value={kind} onChange={setKind} options={[...LINK_KINDS]} />
+          {kind === 'CHANNEL' ? <Input label="Channel" name="channel" maxLength={500} hint="e.g. website sign-up form" />
+            : kind ? <Choice label="Target" name="target" options={targets[kind] ?? []} /> : null}
+          <Input label="Basis" name="basis" maxLength={500} hint="Why this link is declared, e.g. the record or interview it rests on." />
+          <Input label="Valid from" name="from" type="datetime-local" defaultValue={localNow()} />
+        </WriteForm>
+      </div>
+    </Section>
   );
 }
 

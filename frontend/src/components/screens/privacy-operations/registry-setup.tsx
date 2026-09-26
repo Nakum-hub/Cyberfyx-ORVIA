@@ -1,0 +1,222 @@
+'use client';
+import { useState } from 'react';
+import { schemas } from '@orvia/contracts';
+import { useCollection, useQuery } from '../../shared/api.ts';
+import { formatTime } from '../../shared/state-labels.ts';
+import { Badge, DataTable, Freshness, NoticeBox, PageHead, QueryBoundary, Section } from '../../shared/ui.tsx';
+import { Area, Choice, Input, Many, WriteForm, all, localNow, nullable, text, time } from './registry-forms.tsx';
+
+const LOCALES = schemas.RegistryNoticeVersionCreate.shape.locale.options;
+const LEGACY_CODES = ['CONTACT_DETAILS', 'IDENTIFIERS', 'MARKETING_PREFERENCES', 'ORDER_RECORDS', 'SUPPORT_NOTES'] as const;
+
+/**
+ * Registry set-up: the Data Principal categories, personal data categories,
+ * purposes and processing conditions every activity is built from.
+ *
+ * A processing condition is only resolved when its code is in the vocabulary of
+ * the regulatory package in force; the server decides that, and this screen
+ * offers that vocabulary rather than inviting a guessed code.
+ */
+export function RegistrySetup() {
+  const principalCategories = useCollection('list_principal_categories');
+  const dataCategories = useCollection('list_data_categories');
+  const purposes = useCollection('list_registry_purposes');
+  const conditions = useCollection('list_processing_conditions');
+  const active = useQuery('active_regulatory_package');
+  const packageId = active.data?.package?.id;
+  const detail = useQuery('regulatory_package', { params: { id: packageId ?? '' }, enabled: Boolean(packageId) });
+  const vocabulary = detail.data?.condition_vocabulary ?? [];
+  const [conditionCode, setConditionCode] = useState('');
+  return (
+    <>
+      <PageHead eyebrow="Registry" title="Registry set-up"
+        lede="The categories, purposes and processing conditions that activities, notices and retention rules are built from. Every change is versioned; nothing here is deleted." />
+
+      <Section title="Data Principal categories">
+        <Freshness query={principalCategories} />
+        <QueryBoundary query={principalCategories} label="Data Principal categories" isEmpty={d => !d.items.length}>
+          {d => <DataTable caption="Relationship contexts a person can be held under" rows={d.items} rowKey={c => c.id}
+            columns={[
+              { key: 'name', header: 'Category', cell: c => <span className="cell-primary">{c.name}<span className="cell-sub">{c.description}</span></span> },
+              { key: 'tags', header: 'Regulatory tags', cell: c => c.regulatory_tags.join(', ') || 'None' },
+              { key: 'active', header: 'Status', cell: c => c.active ? 'active' : 'inactive' },
+            ]} />}
+        </QueryBoundary>
+        <WriteForm operation="create_principal_category" label="Add a Data Principal category" onSaved={() => principalCategories.refresh()} describe={c => c.name}
+          build={f => ({ name: text(f, 'name'), description: text(f, 'description'), regulatory_tags: text(f, 'tags').split(',').map(t => t.trim().toUpperCase()).filter(Boolean) })}>
+          <Input label="Name" name="name" />
+          <Input label="Description" name="description" maxLength={500} />
+          <Input label="Regulatory tags" name="tags" required={false} hint="Optional, comma-separated, e.g. CHILD, EMPLOYEE (A–Z, 0–9, underscore)." maxLength={400} />
+        </WriteForm>
+      </Section>
+
+      <Section title="Personal data categories">
+        <Freshness query={dataCategories} />
+        <QueryBoundary query={dataCategories} label="personal data categories" isEmpty={d => !d.items.length}>
+          {d => <DataTable caption="Kinds of personal data processed" rows={d.items} rowKey={c => c.id}
+            columns={[
+              { key: 'name', header: 'Category', cell: c => <span className="cell-primary">{c.name}<span className="cell-sub">{c.description}</span></span> },
+              { key: 'legacy', header: 'Consent-control category', cell: c => c.legacy_code?.replaceAll('_', ' ').toLowerCase() ?? 'Not mapped' },
+            ]} />}
+        </QueryBoundary>
+        <WriteForm operation="create_data_category" label="Add a personal data category" onSaved={() => dataCategories.refresh()} describe={c => c.name}
+          build={f => ({ name: text(f, 'name'), description: text(f, 'description'), legacy_code: (nullable(f, 'legacy') as typeof LEGACY_CODES[number] | null) })}>
+          <Input label="Name" name="name" />
+          <Input label="Description" name="description" maxLength={500} />
+          <Choice label="Consent-control category" name="legacy" required={false} placeholder="Not mapped" hint="Optional link to the category the consent-control engine enforces."
+            options={LEGACY_CODES.map(c => ({ value: c, label: c.replaceAll('_', ' ').toLowerCase() }))} />
+        </WriteForm>
+      </Section>
+
+      <Section title="Purposes">
+        <Freshness query={purposes} />
+        <QueryBoundary query={purposes} label="purposes" isEmpty={d => !d.items.length}>
+          {d => <DataTable caption="Registry purposes and their current version" rows={d.items} rowKey={p => p.id}
+            columns={[
+              { key: 'name', header: 'Purpose', cell: p => <span className="cell-primary">{p.name}<span className="cell-sub">{p.owner_reference}</span></span> },
+              { key: 'version', header: 'Current version', cell: p => { const v = p.versions.find(x => x.effective_to === null) ?? p.versions.at(-1); return v ? `v${v.version} · ${v.status.toLowerCase()} from ${formatTime(v.effective_from)}` : 'None'; } },
+              { key: 'description', header: 'Description', cell: p => p.versions.at(-1)?.description ?? '' },
+            ]} />}
+        </QueryBoundary>
+        <WriteForm operation="create_registry_purpose" label="Register a purpose" onSaved={() => purposes.refresh()} describe={p => p.name}
+          build={f => ({ name: text(f, 'name'), owner_reference: text(f, 'owner'), description: text(f, 'description'), effective_from: time(f, 'from'),
+            change_reason: text(f, 'reason'), evidence_reference: nullable(f, 'evidence'), v1_purpose_id: null })}>
+          <Input label="Name" name="name" />
+          <Input label="Owner" name="owner" maxLength={500} hint="The accountable person or team." />
+          <Area label="Description" name="description" minLength={10} />
+          <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+          <Input label="Reason for recording" name="reason" maxLength={500} />
+          <Input label="Evidence reference" name="evidence" required={false} maxLength={500} />
+        </WriteForm>
+        <PurposeRevision purposes={(purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))} onSaved={() => purposes.refresh()} />
+      </Section>
+
+      <Section title="Processing conditions">
+        {!active.data?.package && active.status !== 'loading' && (
+          <NoticeBox tone="warn" title="No regulatory package is in force">
+            <p>A condition recorded now is stored as unresolved, because it cannot be traced to an official provision. Destructive work that depends on it is blocked until it is resolved.</p>
+          </NoticeBox>
+        )}
+        <Freshness query={conditions} />
+        <QueryBoundary query={conditions} label="processing conditions" isEmpty={d => !d.items.length}>
+          {d => <DataTable caption="Processing conditions" rows={d.items} rowKey={c => c.id}
+            columns={[
+              { key: 'code', header: 'Condition', cell: c => <span className="cell-primary">{c.label}<span className="cell-sub">{c.code}</span></span> },
+              { key: 'state', header: 'Traced to', cell: c => c.unresolved ? <Badge label="Unresolved" tone="unknown" meaning={c.unresolved_reason ?? 'Not traced to an official provision.'} /> : c.requirement_ids.join(', ') },
+              { key: 'evidence', header: 'Evidence expected', cell: c => c.evidence_requirements },
+              { key: 'from', header: 'From', cell: c => formatTime(c.effective_from) },
+            ]} />}
+        </QueryBoundary>
+        <WriteForm operation="create_processing_condition" label="Record a processing condition" onSaved={() => conditions.refresh()}
+          describe={c => c.unresolved ? `${c.code}, recorded as unresolved: ${c.unresolved_reason ?? ''}` : `${c.code}, traced to ${c.requirement_ids.join(', ')}`}
+          build={f => {
+            const code = text(f, 'code');
+            const reason = nullable(f, 'unresolved');
+            if (code === 'UNRESOLVED' && !reason) throw new Error('An unresolved condition states why the basis is not yet established.');
+            return { code, label: text(f, 'label'), effective_from: time(f, 'from'), justification_reference: nullable(f, 'justification'), evidence_requirements: text(f, 'evidence'), unresolved_reason: reason };
+          }}>
+          <Choice label="Condition" name="code" value={conditionCode} onChange={setConditionCode}
+            hint={vocabulary.length ? 'From the vocabulary of the regulatory package in force.' : 'No package vocabulary is available; only an unresolved condition can be recorded.'}
+            options={[...vocabulary.map(v => ({ value: v.code, label: `${v.label} (${v.code})` })), { value: 'UNRESOLVED', label: 'Not yet established (unresolved)' }]} />
+          <Input label="Label" name="label" maxLength={500} />
+          <Input label="Evidence expected" name="evidence" maxLength={500} hint="What evidence must exist for processing to rely on this condition." />
+          <Input label="Justification reference" name="justification" required={false} maxLength={500} />
+          {conditionCode === 'UNRESOLVED' && <Input label="Why it is unresolved" name="unresolved" maxLength={500} />}
+          <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+        </WriteForm>
+      </Section>
+    </>
+  );
+}
+
+function PurposeRevision({ purposes, onSaved }: { purposes: { value: string; label: string }[]; onSaved: () => void }) {
+  const [id, setId] = useState('');
+  return (
+    <WriteForm operation="revise_registry_purpose" label="Revise or retire a purpose" params={id ? { id } : undefined} onSaved={onSaved}
+      describe={p => `${p.name} is now at version ${p.versions.length}${p.impact ? `; ${p.impact.activity_ids.length} activities and ${p.impact.consent_record_count} consent records are affected` : ''}`}
+      build={f => {
+        if (!id) throw new Error('Choose the purpose to revise.');
+        return { description: text(f, 'description'), status: text(f, 'status') as 'ACTIVE' | 'RETIRED', effective_from: time(f, 'from'), change_reason: text(f, 'reason'), evidence_reference: nullable(f, 'evidence') };
+      }}>
+      <Choice label="Purpose" name="purpose" value={id} onChange={setId} options={purposes} />
+      <Area label="Description of the new version" name="description" minLength={10} />
+      <Choice label="Status" name="status" options={[{ value: 'ACTIVE', label: 'Active' }, { value: 'RETIRED', label: 'Retired' }]} />
+      <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+      <Input label="Reason for change" name="reason" minLength={10} maxLength={500} />
+      <Input label="Evidence reference" name="evidence" required={false} maxLength={500} />
+    </WriteForm>
+  );
+}
+
+/**
+ * Registry notices: a notice is written per audience, versioned per locale, and
+ * published from an effective date. A published version is never edited; a new
+ * version supersedes it.
+ */
+export function RegistryNotices() {
+  const notices = useCollection('list_registry_notices');
+  const principalCategories = useCollection('list_principal_categories');
+  const dataCategories = useCollection('list_data_categories');
+  const purposes = useCollection('list_registry_purposes');
+  const [noticeId, setNoticeId] = useState('');
+  const [publishId, setPublishId] = useState('');
+  const refresh = () => notices.refresh();
+  const versions = (notices.data?.items ?? []).flatMap(n => n.versions.map(v => ({ ...v, notice_name: n.name })));
+  const purposeVersions = (purposes.data?.items ?? []).flatMap(p => p.versions.filter(v => v.status === 'ACTIVE' && v.effective_to === null).map(v => ({ value: v.id, label: `${p.name} (v${v.version})` })));
+  return (
+    <>
+      <PageHead eyebrow="Registry" title="Notices"
+        lede="The notice text each audience is shown, per language, with the purposes and data it covers and how to withdraw, exercise rights and complain. Published versions are immutable." />
+      <Freshness query={notices} />
+      <QueryBoundary query={notices} label="notices" isEmpty={d => !d.items.length}>
+        {() => <DataTable caption="Notice versions" rows={versions} rowKey={v => v.id}
+          columns={[
+            { key: 'notice', header: 'Notice', cell: v => <span className="cell-primary">{v.notice_name}<span className="cell-sub">v{v.version} · {v.locale}</span></span> },
+            { key: 'title', header: 'Title', cell: v => v.title },
+            { key: 'status', header: 'Status', cell: v => v.status === 'DRAFT' ? <Badge label="Draft" tone="warn" meaning="Not shown to anybody until published." /> : v.status.toLowerCase() },
+            { key: 'from', header: 'In effect', cell: v => v.effective_from ? `${formatTime(v.effective_from)} – ${v.effective_to ? formatTime(v.effective_to) : 'current'}` : '—' },
+            { key: 'digest', header: 'Content digest', cell: v => <span className="mono">{v.content_digest.slice(0, 16)}…</span> },
+          ]} />}
+      </QueryBoundary>
+
+      <div className="grid-2">
+        <WriteForm operation="create_registry_notice" label="Create a notice" onSaved={refresh} describe={n => n.name}
+          build={f => ({ name: text(f, 'name'), audience_category_ids: all(f, 'audience') })}>
+          <Input label="Name" name="name" />
+          <Many legend="Audience (Data Principal categories)" name="audience" options={(principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))} />
+        </WriteForm>
+
+        <WriteForm operation="publish_notice_version" label="Publish a draft version" params={publishId ? { id: publishId } : undefined} onSaved={() => { setPublishId(''); refresh(); }}
+          describe={n => `${n.name} updated`}
+          build={f => { if (!publishId) throw new Error('Choose the draft version to publish.'); return { effective_from: time(f, 'from') }; }}>
+          <Choice label="Draft version" name="version" value={publishId} onChange={setPublishId}
+            options={versions.filter(v => v.status === 'DRAFT').map(v => ({ value: v.id, label: `${v.notice_name} v${v.version} (${v.locale})` }))} />
+          <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} hint="The version in force for this locale is superseded from this time." />
+        </WriteForm>
+      </div>
+
+      <WriteForm operation="create_notice_version" label="Draft a notice version" params={noticeId ? { id: noticeId } : undefined} onSaved={refresh}
+        describe={n => `${n.name} now has ${n.versions.length} version(s)`}
+        build={f => {
+          if (!noticeId) throw new Error('Choose the notice this version belongs to.');
+          return { locale: text(f, 'locale') as typeof LOCALES[number], title: text(f, 'title'), content: text(f, 'content'),
+            purpose_version_ids: all(f, 'purposes'), data_category_ids: all(f, 'categories'),
+            channels: { withdrawal: text(f, 'withdrawal'), rights: text(f, 'rights'), grievance: text(f, 'grievance'), board_complaint: text(f, 'board') },
+            template_reference: nullable(f, 'template'), v1_notice_version_id: null };
+        }}>
+        <Choice label="Notice" name="notice" value={noticeId} onChange={setNoticeId} options={(notices.data?.items ?? []).map(n => ({ value: n.id, label: n.name }))} />
+        <Choice label="Language" name="locale" options={LOCALES.map(l => ({ value: l, label: l }))} />
+        <Input label="Title" name="title" />
+        <Area label="Notice text" name="content" maxLength={10000} />
+        <Many legend="Purposes covered" name="purposes" options={purposeVersions} />
+        <Many legend="Personal data covered" name="categories" options={(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))} />
+        <Area label="How to withdraw consent" name="withdrawal" minLength={10} maxLength={500} />
+        <Area label="How to exercise rights" name="rights" minLength={10} maxLength={500} />
+        <Area label="How to raise a grievance" name="grievance" minLength={10} maxLength={500} />
+        <Area label="How to complain to the Board" name="board" minLength={10} maxLength={500} />
+        <Input label="Template reference" name="template" required={false} maxLength={500} />
+      </WriteForm>
+    </>
+  );
+}
+

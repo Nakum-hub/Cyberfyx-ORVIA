@@ -61,6 +61,7 @@
     "test:operations:retention-scale": "tsx tests/integration/operations/retention-scale.test.ts",
     "test:operations:runner": "tsx tests/integration/operations/runner.test.ts",
     "operations:runner": "tsx services/worker/src/operations-runner.ts",
+    "test:e2e:registry-forms": "tsx tests/e2e/registry-forms-local.ts",
     "verify:suites": "tsx scripts/verify-suites.ts",
     "capacity:probe": "tsx scripts/capacity-probe.ts",
     "regression:init": "tsx scripts/regression-init.ts",

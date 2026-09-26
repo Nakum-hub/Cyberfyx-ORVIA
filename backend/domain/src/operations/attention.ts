@@ -2,6 +2,7 @@ import * as O from '../../../../shared/contracts/src/operations.ts';
 import { audit, type Context } from '../shared/transaction.ts';
 import { createNotificationTask } from '../notifications/notifications.ts';
 import { iso, packageAt, predicate, scope } from './shared.ts';
+import { pendingWithdrawalCount } from '../registry/consent.ts';
 
 /**
  * Attention, coverage and notifications (requirements s24; backend Coverage,
@@ -57,6 +58,9 @@ export async function operationsAttention(c: Context) {
     AND NOT EXISTS(SELECT 1 FROM app.connector_bindings b WHERE b.tenant_id=l.tenant_id AND b.legal_entity_id=l.legal_entity_id AND b.environment_id=l.environment_id AND b.system_id=l.system_id AND b.valid_to IS NULL) LIMIT 50`, s)).rows)
     push({ kind: 'SYSTEM_UNBOUND', severity: 'MISSING', entity_kind: 'system', entity_id: sys.system_id, count: 1, detail: 'A system used by an activity has no connector binding, so no action there can be executed or verified.', due_at: null });
 
+  const unpropagated = await pendingWithdrawalCount(c);
+  if (unpropagated) push({ kind: 'WITHDRAWAL_NOT_PROPAGATED', severity: 'UNRESOLVED', entity_kind: 'consent_record', entity_id: null, count: unpropagated,
+    detail: `${unpropagated} recorded withdrawal(s) have not been propagated to downstream systems${await packageAt(c, now) ? '; the operations runner creates their runs on its next cycle' : ' because no regulatory package is in force'}.`, due_at: null });
   const consentMissing = Number((await c.tx.query(`SELECT count(*) n FROM app.consent_record_events WHERE ${predicate} AND evidence_state<>'EVIDENCE_AVAILABLE'`, s)).rows[0].n);
   if (consentMissing) push({ kind: 'CONSENT_EVIDENCE_MISSING', severity: 'MISSING', entity_kind: 'consent_record', entity_id: null, count: consentMissing, detail: `${consentMissing} consent event(s) lack evidence or need verification.`, due_at: null });
   const relMissing = Number((await c.tx.query(`SELECT count(*) n FROM app.data_principal_relationships WHERE ${predicate} AND evidence_state IN ('UNKNOWN','EVIDENCE_MISSING','NEEDS_VERIFICATION','NEEDS_REMEDIATION')`, s)).rows[0].n);

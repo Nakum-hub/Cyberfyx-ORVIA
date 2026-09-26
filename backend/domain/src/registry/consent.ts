@@ -65,10 +65,51 @@ export async function appendConsentEvent(c: Context, recordId: string, value: Ev
   const type = value.event === 'GRANTED' ? 'consent_granted' : value.event === 'WITHDRAWN' ? 'consent_withdrawn' : 'consent_changed';
   await emit(c, type, 'consent_record', recordId, { event: value.event, source, evidence_state: value.evidence_state });
   let runId: string | null = null;
-  if (value.event === 'WITHDRAWN' && source !== 'IMPORT' && pkg) {
+  // The event is pinned to the package in force when it happened (above), but
+  // whether it propagates depends on the package in force now: a withdrawal made
+  // before the first package took effect is still a withdrawal, and must reach
+  // downstream systems. With no package in force now it waits, visibly, for
+  // propagatePendingWithdrawals rather than being dropped.
+  if (value.event === 'WITHDRAWN' && source !== 'IMPORT' && await packageAt(c, new Date())) {
     runId = await createWithdrawalRun(c, recordId, eventId);
   }
   return { eventId, runId };
+}
+
+/**
+ * Withdrawals that are recorded but have no propagation run: the latest
+ * non-MODIFIED event of a record still WITHDRAWN, from any source other than an
+ * import, with no run. A withdrawal later superseded by a new grant is excluded,
+ * because suppressing somebody who has consented again would be wrong.
+ */
+const PENDING_WITHDRAWALS = `SELECT e.record_id,e.id AS event_id FROM app.consent_records r
+  JOIN LATERAL (SELECT x.id,x.record_id,x.event,x.source FROM app.consent_record_events x
+    WHERE x.tenant_id=r.tenant_id AND x.legal_entity_id=r.legal_entity_id AND x.environment_id=r.environment_id AND x.record_id=r.id AND x.event<>'MODIFIED'
+    ORDER BY x.occurred_at DESC NULLS LAST,x.recorded_at DESC LIMIT 1) e ON true
+  WHERE r.tenant_id=$1 AND r.legal_entity_id=$2 AND r.environment_id=$3 AND r.current_status='WITHDRAWN' AND e.event='WITHDRAWN' AND e.source<>'IMPORT'
+    AND NOT EXISTS(SELECT 1 FROM app.workflow_runs w WHERE w.tenant_id=r.tenant_id AND w.legal_entity_id=r.legal_entity_id AND w.environment_id=r.environment_id AND w.consent_event_id=e.id)`;
+
+export async function pendingWithdrawalCount(c: Context) {
+  return Number((await c.tx.query(`SELECT count(*) n FROM (${PENDING_WITHDRAWALS}) p`, scope(c))).rows[0].n);
+}
+
+/**
+ * Creates the propagation run for each pending withdrawal once a package is in
+ * force. Each record is locked and re-checked before its run is created, and the
+ * one_run_per_consent_event index is the backstop against a concurrent sweep.
+ */
+export async function propagatePendingWithdrawals(c: Context, limit = 100) {
+  if (!await packageAt(c, new Date())) return { created: [] as string[], waiting: await pendingWithdrawalCount(c) };
+  const s = scope(c);
+  const created: string[] = [];
+  for (const row of (await c.tx.query(`${PENDING_WITHDRAWALS} ORDER BY e.id LIMIT $4`, [...s, limit])).rows) {
+    await c.tx.query(`SELECT 1 FROM app.consent_records WHERE ${predicate} AND id=$4 FOR UPDATE`, [...s, row.record_id]);
+    const still = (await c.tx.query(`SELECT 1 FROM (${PENDING_WITHDRAWALS}) p WHERE p.event_id=$4`, [...s, row.event_id])).rows[0];
+    if (!still) continue;
+    created.push(await createWithdrawalRun(c, row.record_id, row.event_id));
+    await audit(c, 'consent_record.withdrawal_propagated', row.record_id);
+  }
+  return { created, waiting: await pendingWithdrawalCount(c) };
 }
 
 export async function recordConsentEvent(c: Context, id: string, input: unknown) {

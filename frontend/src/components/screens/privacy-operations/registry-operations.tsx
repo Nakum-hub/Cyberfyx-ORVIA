@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
-import { useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
+import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { useDirectory } from '../../shared/directory.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge } from '../../shared/ui.tsx';
 import { JOB_STATUS_LABELS } from './operations-labels.ts';
+import { Choice, Input, Many, WriteForm, all, localNow, nullable, nullableInt, nullableTime, text, time } from './registry-forms.tsx';
 
 /**
  * Retention and holds, processor engagements and sharing, and estate imports.
@@ -66,7 +67,77 @@ export function RegistryRetention() {
           )}
         </QueryBoundary>
       </Section>
+      <RetentionForms onSaved={() => { rules.refresh(); holds.refresh(); }} />
     </>
+  );
+}
+
+const TRIGGERS = [{ value: 'RELATIONSHIP_ENDED', label: 'The relationship ended' }, { value: 'CONSENT_WITHDRAWN', label: 'Consent was withdrawn' }, { value: 'PURPOSE_RETIRED', label: 'The purpose was retired' }];
+const DURATION_SOURCES = [{ value: 'CUSTOMER_CONFIGURATION', label: 'Our own retention schedule' }, { value: 'REGULATORY_REQUIREMENT', label: 'A requirement in the regulatory package' }, { value: 'EXTERNAL_LAW_REFERENCE', label: 'Another law' }];
+const HOLD_TYPES = [{ value: 'OPERATIONAL_HOLD', label: 'Operational hold' }, { value: 'OTHER_LAW_RETENTION', label: 'Retention required by another law' }, { value: 'OFFICIAL_EXEMPTION', label: 'Official exemption' }];
+
+function RetentionForms({ onSaved }: { onSaved: () => void }) {
+  const activities = useCollection('list_registry_activities');
+  const principalCategories = useCollection('list_principal_categories');
+  const dataCategories = useCollection('list_data_categories');
+  const systems = useCollection('list_systems');
+  const opt = (items: { id: string; name: string }[] | undefined) => (items ?? []).map(i => ({ value: i.id, label: i.name }));
+  return (
+    <Section title="Record rules and holds">
+      <div className="grid-2">
+        <WriteForm operation="create_retention_rule" label="Create a retention rule" onSaved={onSaved}
+          describe={r => r.resolved ? `${r.name}: ${r.duration_days} days after trigger` : `${r.name}: recorded without a sourced period, so it makes nothing eligible`}
+          build={f => {
+            const duration = nullableInt(f, 'days'); const source = nullable(f, 'source');
+            if ((duration === null) !== (source === null)) throw new Error('A retention period and where it comes from are recorded together, or neither is.');
+            if (duration !== null && !nullable(f, 'reference')) throw new Error('A retention period cites its source.');
+            if (source === 'REGULATORY_REQUIREMENT' && !nullable(f, 'requirement')) throw new Error('A regulatory period names the requirement it rests on.');
+            return { name: text(f, 'name'), activity_id: nullable(f, 'activity'), principal_category_id: text(f, 'principal'), data_category_id: nullable(f, 'category'), system_id: nullable(f, 'system'),
+              trigger: text(f, 'trigger') as 'RELATIONSHIP_ENDED', duration_days: duration, duration_source: source as 'CUSTOMER_CONFIGURATION' | null,
+              source_reference: nullable(f, 'reference'), requirement_id: nullable(f, 'requirement'), approval_required: f.get('approval') === 'on',
+              erasure_action: text(f, 'action') as 'ERASE', effective_from: time(f, 'from') };
+          }}>
+          <Input label="Name" name="name" />
+          <Choice label="Data Principal category" name="principal" options={opt(principalCategories.data?.items)} />
+          <Choice label="Activity" name="activity" required={false} placeholder="Any activity" options={opt(activities.data?.items)} />
+          <Choice label="Personal data category" name="category" required={false} placeholder="Any category" options={opt(dataCategories.data?.items)} />
+          <Choice label="System" name="system" required={false} placeholder="Any system" options={opt(systems.data?.items)} />
+          <Choice label="Starts when" name="trigger" options={TRIGGERS} />
+          <Input label="Retention period (days)" name="days" type="number" required={false} hint="Leave blank if no period has been sourced; the rule is then recorded but makes nothing eligible." />
+          <Choice label="Period comes from" name="source" required={false} placeholder="No period sourced" options={DURATION_SOURCES} />
+          <Input label="Source reference" name="reference" required={false} maxLength={500} />
+          <Input label="Requirement identifier" name="requirement" required={false} maxLength={80} hint="Required when the period comes from the regulatory package." />
+          <Choice label="When eligible" name="action" options={[{ value: 'ERASE', label: 'Erase' }, { value: 'ANONYMISE', label: 'Anonymise' }, { value: 'SUPPRESS', label: 'Suppress' }]} />
+          <label className="checkbox"><input type="checkbox" name="approval" defaultChecked /> <span>A second person approves each dry run before anything is erased</span></label>
+          <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+        </WriteForm>
+
+        <WriteForm operation="create_retention_hold" label="Place a hold" onSaved={onSaved}
+          describe={h => `${h.hold_type.replaceAll('_', ' ').toLowerCase()} active until released; review ${formatTime(h.review_at)}`}
+          build={f => {
+            const scope = { subject_id: nullable(f, 'subject'), activity_id: nullable(f, 'activity'), system_id: nullable(f, 'system'), data_category_id: nullable(f, 'category') };
+            if (Object.values(scope).every(v => v === null)) throw new Error('A hold names what it covers; there is no hold on everything.');
+            if (text(f, 'type') === 'OFFICIAL_EXEMPTION' && !nullable(f, 'requirement')) throw new Error('An official exemption cites the requirement it rests on.');
+            return { hold_type: text(f, 'type') as 'OPERATIONAL_HOLD', authority_reference: text(f, 'authority'), reason: text(f, 'reason'), ...scope,
+              starts_at: time(f, 'starts'), ends_at: nullableTime(f, 'ends'), review_at: time(f, 'review'), owner_reference: text(f, 'owner'),
+              evidence_reference: nullable(f, 'evidence'), requirement_id: nullable(f, 'requirement') };
+          }}>
+          <Choice label="Kind of hold" name="type" options={HOLD_TYPES} />
+          <Input label="Authority" name="authority" minLength={3} maxLength={500} hint="The order, law or decision the hold rests on." />
+          <Input label="Reason" name="reason" minLength={10} maxLength={500} />
+          <Input label="Data Principal identifier" name="subject" required={false} maxLength={36} hint="Optional: the registry identifier of one person." />
+          <Choice label="Activity" name="activity" required={false} placeholder="Not limited to an activity" options={opt(activities.data?.items)} />
+          <Choice label="System" name="system" required={false} placeholder="Not limited to a system" options={opt(systems.data?.items)} />
+          <Choice label="Personal data category" name="category" required={false} placeholder="Not limited to a category" options={opt(dataCategories.data?.items)} />
+          <Input label="Starts" name="starts" type="datetime-local" defaultValue={localNow()} />
+          <Input label="Ends" name="ends" type="datetime-local" required={false} hint="Leave blank if it lasts until released." />
+          <Input label="Review by" name="review" type="datetime-local" defaultValue={localNow(90)} />
+          <Input label="Owner" name="owner" maxLength={500} />
+          <Input label="Evidence reference" name="evidence" required={false} maxLength={500} />
+          <Input label="Requirement identifier" name="requirement" required={false} maxLength={80} />
+        </WriteForm>
+      </div>
+    </Section>
   );
 }
 
@@ -124,7 +195,35 @@ export function ProcessorEngagements() {
           )}
         </QueryBoundary>
       </Section>
+      <EngagementForm engagements={engagements.data?.items ?? []} onSaved={() => engagements.refresh()} />
     </>
+  );
+}
+
+function EngagementForm({ engagements, onSaved }: { engagements: { id: string; service_description: string; status: string }[]; onSaved: () => void }) {
+  const processors = useCollection('list_processors');
+  const principalCategories = useCollection('list_principal_categories');
+  const dataCategories = useCollection('list_data_categories');
+  const systems = useCollection('list_systems');
+  return (
+    <Section title="Record an engagement">
+      <WriteForm operation="create_processor_engagement" label="Record a processor engagement" onSaved={onSaved}
+        describe={e => `${e.service_description}${e.contract_evidence_reference ? '' : ' — no contract evidence recorded yet'}`}
+        build={f => ({ processor_id: text(f, 'processor'), service_description: text(f, 'service'), subprocessor_of: nullable(f, 'parent'), effective_from: time(f, 'from'),
+          contract_evidence_reference: nullable(f, 'contract'), safeguard_evidence_reference: nullable(f, 'safeguard'),
+          links: [...all(f, 'data').map(target_id => ({ link_kind: 'DATA_CATEGORY' as const, target_id })), ...all(f, 'principal').map(target_id => ({ link_kind: 'PRINCIPAL_CATEGORY' as const, target_id })),
+            ...all(f, 'system').map(target_id => ({ link_kind: 'SYSTEM' as const, target_id }))] })}>
+        <Choice label="Processor" name="processor" options={(processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))} hint="Processors are registered under Processors." />
+        <Input label="Service provided" name="service" maxLength={500} />
+        <Choice label="Sub-processor of" name="parent" required={false} placeholder="Engaged directly" options={engagements.filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description }))} />
+        <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} />
+        <Input label="Contract evidence reference" name="contract" required={false} maxLength={500} />
+        <Input label="Safeguard evidence reference" name="safeguard" required={false} maxLength={500} />
+        <Many legend="Personal data shared" name="data" options={(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))} />
+        <Many legend="Whose data" name="principal" options={(principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))} />
+        <Many legend="Systems it operates on" name="system" options={(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))} />
+      </WriteForm>
+    </Section>
   );
 }
 

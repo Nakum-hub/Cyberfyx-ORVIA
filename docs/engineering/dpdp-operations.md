@@ -89,6 +89,17 @@ replay returns the recorded outcome instead of re-applying. Retries cover
 `TARGET_UNAVAILABLE` and `TARGET_TIMEOUT` up to three attempts; a timeout is
 resolved only by verification.
 
+A consent withdrawal (operator, source system or V1 portal; never an import)
+opens its `CONSENT_WITHDRAWAL` run under the package in force **now**. The event
+itself stays pinned to the package in force when it happened, which may be none.
+Until 2026-09-26 the run was created only when a package was in force at the
+event's own time, so a withdrawal dated before the first package took effect was
+recorded and never propagated. When no package is in force at all, the
+withdrawal waits: Attention reports `WITHDRAWAL_NOT_PROPAGATED` and the runner
+creates the run once a package is in force. A withdrawal later superseded by a
+new grant is never propagated. `one_run_per_consent_event` guarantees one run
+per withdrawal event.
+
 Action states (`pending`, `awaiting_approval`, `blocked`, `executing`,
 `succeeded_unverified`, `verified`, `failed`, `inconclusive`, `cancelled`,
 `not_supported`) are stored; the shared vocabulary (`requested` … `verified`) is
@@ -112,7 +123,9 @@ system connector exists in this repository.**
 ## 7. Background runner
 
 `services/worker/src/operations-runner.ts` runs as each enrolled WORKER identity
-(capabilities `workflow.execute`, `operations.execute`). Each pass: resumes
+(capabilities `workflow.execute`, `operations.execute`). Each pass: first
+creates the propagation run for any recorded withdrawal that has none
+(`propagatePendingWithdrawals`, reported as `withdrawals_propagated`); then resumes
 `PROCESSING` estate imports, `EVALUATING` runs, and `APPROVED`/`RUNNING` runs not
 tied to a V1 rights request, each batch in its own transaction; then raises
 due `DPDP_*` notifications. It never approves. Its database access to V1
@@ -128,18 +141,29 @@ Rights runs are executed by staff because settling them writes V1 outcomes.
 | `/workspace/operations-runs`, `/[id]` | Runs; dry-run preview, approval, batches, actions, evidence export, cancel |
 | `/workspace/personal-data-breaches`, `/[id]` | Breaches, pinned package, tasks and deadlines, completion with evidence |
 | `/workspace/data-principals` | People, references, contexts, per-context processing |
-| `/workspace/processing-activities` | Activities with current version and factual gaps |
-| `/workspace/registry-retention` | Retention rules (evaluate → run) and active holds (release) |
-| `/workspace/processor-engagements` | Engagements, disposition state, sharing register |
+| `/workspace/registry-setup` | Data Principal and personal data categories, purposes (create, revise, retire), processing conditions from the package vocabulary |
+| `/workspace/processing-activities` | Activities with current version and factual gaps; register an activity and link categories, systems, engagements, rules, safeguards or channels |
+| `/workspace/registry-notices` | Notices per audience, versions per locale, draft and publish |
+| `/workspace/registry-retention` | Retention rules (create, evaluate → run) and holds (place, release) |
+| `/workspace/processor-engagements` | Engagements (create), disposition state, sharing register |
 | `/workspace/estate-imports` | Import jobs, checkpoint, errors, apply/replay |
 | `/workspace/organisation-profile` | Profile; SDF obligations shown only when designated |
 | `/workspace/regulatory`, `/applicability`, `/impacts` | Packages and approval, applicability, impact review |
 | `/privacy/notices` | Published notices for the Data Principal |
 | `/privacy/rights` | Adds each request's status history (no internal notes) |
 
-Registry creation forms (purposes, activities, notices, rules, holds,
-engagements) are API-first in this release: the screens read and act on
-records, and records are created through the API or an estate import.
+Registry records (categories, purposes, conditions, activities and links,
+notices and versions, retention rules, holds, engagements) are created from the
+screens above, each form posting one canonical contract operation
+(`frontend/src/components/screens/privacy-operations/registry-forms.tsx`). The
+browser validates against the contract schema and the same cross-field rules
+(a period always cites its source; a hold names what it covers; an unresolved
+condition states why) before sending, and the server re-validates and authorises
+every write. Forms are hidden from sessions without `registry.write`, which is
+presentation only. Journey: `tests/e2e/registry-forms-local.ts` on `codex-a00`.
+Estate import remains the path for bulk existing data. Data Principals,
+relationship contexts, representatives, safeguards, sharing links and consent
+records are still created through the API or an estate import.
 
 ## 9. Limitations
 

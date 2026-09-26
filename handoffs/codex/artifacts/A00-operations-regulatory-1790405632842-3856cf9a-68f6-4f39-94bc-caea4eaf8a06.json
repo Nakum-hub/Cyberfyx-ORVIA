@@ -1,0 +1,291 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T06:53:52.843Z",
+  "suite": "regulatory",
+  "assertions": [
+    {
+      "name": "a package whose claims changed after signing is rejected",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "invalid_signature"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "invalid_signature"
+        ]
+      }
+    },
+    {
+      "name": "a package signed by an untrusted key is rejected",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "untrusted_origin"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "untrusted_origin"
+        ]
+      }
+    },
+    {
+      "name": "a production package with an unhashed source is refused by the contract",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an auditor cannot import a package",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an organisation admin cannot import a package",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an imported package is not yet in force",
+      "result": "PASS",
+      "expected": [
+        "IMPORTED",
+        false,
+        "TEST_FIXTURE"
+      ],
+      "actual": [
+        "IMPORTED",
+        false,
+        "TEST_FIXTURE"
+      ]
+    },
+    {
+      "name": "a replayed package version is rejected",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "replayed"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "replayed"
+        ]
+      }
+    },
+    {
+      "name": "the importer cannot approve their own import",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a second super admin approves and the package is in force from its effective date",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        true,
+        true
+      ],
+      "actual": [
+        "APPROVED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a decision is recorded once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "every requirement cites a provision the package carries",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "fixture requirements are shown in force from their fixture date",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the source verification is stated as a test fixture, never as a hashed official artifact",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "another tenant cannot see this package",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a breach is pinned to the package in force when the organisation became aware",
+      "result": "PASS",
+      "expected": "2.1790405630621.0",
+      "actual": "2.1790405630621.0"
+    },
+    {
+      "name": "the 72-hour report deadline runs from awareness under package A",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the diff names the changed and the removed requirement against A",
+      "result": "PASS",
+      "expected": [
+        "2.1790405630621.0",
+        [
+          "DPDP-BREACH-BOARD-REPORT"
+        ],
+        [
+          "DPDP-CROSS-BORDER"
+        ]
+      ],
+      "actual": [
+        "2.1790405630621.0",
+        [
+          "DPDP-BREACH-BOARD-REPORT"
+        ],
+        [
+          "DPDP-CROSS-BORDER"
+        ]
+      ]
+    },
+    {
+      "name": "impact items are created for the changed and removed requirements",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the open breach is named as affected by the changed breach requirement",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an impact item is reviewed once",
+      "result": "PASS",
+      "expected": [
+        "ACTIONED",
+        409
+      ],
+      "actual": [
+        "ACTIONED",
+        409
+      ]
+    },
+    {
+      "name": "an approved package with a future effective date does not govern now",
+      "result": "PASS",
+      "expected": "2.1790405630621.0",
+      "actual": "2.1790405630621.0"
+    },
+    {
+      "name": "from its effective date the new package governs",
+      "result": "PASS",
+      "expected": "2.1790405630621.1",
+      "actual": "2.1790405630621.1"
+    },
+    {
+      "name": "the historical breach stays pinned to A with its original deadline rule",
+      "result": "PASS",
+      "expected": [
+        "2.1790405630621.0",
+        true
+      ],
+      "actual": [
+        "2.1790405630621.0",
+        true
+      ]
+    },
+    {
+      "name": "an evaluation at a later time uses the package in force then",
+      "result": "PASS",
+      "expected": [
+        "2.1790405630621.1",
+        false
+      ],
+      "actual": [
+        "2.1790405630621.1",
+        false
+      ]
+    },
+    {
+      "name": "a requirement that turns on an unrecorded fact is unresolved, not assumed",
+      "result": "PASS",
+      "expected": "UNRESOLVED",
+      "actual": "UNRESOLVED"
+    },
+    {
+      "name": "the unrecorded fact is stored as unknown in the decision inputs",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a consent activity is subject to the consent notice requirement",
+      "result": "PASS",
+      "expected": "APPLICABLE",
+      "actual": "APPLICABLE"
+    },
+    {
+      "name": "a consent activity does not rest on a legitimate use",
+      "result": "PASS",
+      "expected": "NOT_APPLICABLE",
+      "actual": "NOT_APPLICABLE"
+    },
+    {
+      "name": "only regulatory.manage may record an exemption",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an exemption is a new decision that keeps the original",
+      "result": "PASS",
+      "expected": [
+        "EXEMPT_WITH_RECORDED_BASIS",
+        "72659660-049f-4423-859c-304cb7709047"
+      ],
+      "actual": [
+        "EXEMPT_WITH_RECORDED_BASIS",
+        "72659660-049f-4423-859c-304cb7709047"
+      ]
+    },
+    {
+      "name": "the original unresolved decision is unchanged",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "a decision row cannot be rewritten even by the migrator",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    }
+  ],
+  "passed": 32,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
