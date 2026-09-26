@@ -1,0 +1,173 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T08:16:18.236Z",
+  "suite": "retention-scale",
+  "assertions": [
+    {
+      "name": "the estate imports completely",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        2000
+      ],
+      "actual": [
+        "COMPLETED",
+        2000
+      ]
+    },
+    {
+      "name": "a rule with a sourced period is resolved",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "evaluation proceeds in bounded, checkpointed batches",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the population separates into eligible, blocked and unresolved",
+      "result": "PASS",
+      "expected": [
+        2000,
+        380,
+        20,
+        800
+      ],
+      "actual": [
+        2000,
+        380,
+        20,
+        800
+      ]
+    },
+    {
+      "name": "each person has a persisted retention position",
+      "result": "PASS",
+      "expected": [
+        400,
+        400,
+        800,
+        20,
+        380
+      ],
+      "actual": [
+        400,
+        400,
+        800,
+        20,
+        380
+      ]
+    },
+    {
+      "name": "an unknown status or end date is unresolved with its reason, never assumed",
+      "result": "PASS",
+      "expected": [
+        "A relationship ended on an unrecorded date.",
+        "A relationship in scope has an unknown status."
+      ],
+      "actual": [
+        "A relationship ended on an unrecorded date.",
+        "A relationship in scope has an unknown status."
+      ]
+    },
+    {
+      "name": "the dry run waits for approval with its irreversible scope stated",
+      "result": "PASS",
+      "expected": [
+        "DRY_RUN_READY",
+        true,
+        380,
+        20
+      ],
+      "actual": [
+        "DRY_RUN_READY",
+        true,
+        380,
+        20
+      ]
+    },
+    {
+      "name": "an interrupted run records exactly the batch it completed",
+      "result": "PASS",
+      "expected": [
+        "RUNNING",
+        100
+      ],
+      "actual": [
+        "RUNNING",
+        100
+      ]
+    },
+    {
+      "name": "resuming finishes the run with verified and failed totals",
+      "result": "PASS",
+      "expected": [
+        360,
+        20,
+        380
+      ],
+      "actual": [
+        360,
+        20,
+        380
+      ]
+    },
+    {
+      "name": "records missing at the target keep the run open as partially failed",
+      "result": "PASS",
+      "expected": "PARTIALLY_FAILED",
+      "actual": "PARTIALLY_FAILED"
+    },
+    {
+      "name": "exactly the verified people were erased at the target",
+      "result": "PASS",
+      "expected": 360,
+      "actual": 360
+    },
+    {
+      "name": "a held person was not erased",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "executing again applies nothing twice",
+      "result": "PASS",
+      "expected": 360,
+      "actual": 360
+    },
+    {
+      "name": "verified erasures are recorded as erased, failures as failed",
+      "result": "PASS",
+      "expected": [
+        360,
+        20
+      ],
+      "actual": [
+        360,
+        20
+      ]
+    },
+    {
+      "name": "a later run picks up only what is still outstanding",
+      "result": "PASS",
+      "expected": 20,
+      "actual": 20
+    },
+    {
+      "name": "timings are recorded for the scale fixture",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": 16,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -76,3 +76,54 @@ Component evidence only. It is not T01–T34 or full-scenario acceptance, and no
 ## Next integration action
 
 Review and merge this branch (human). Re-run `test:operations` and `test:e2e:registry-forms` on the integration result, plus the V1 battery, because the contract version changed.
+
+---
+
+## Round 2 (same day): screens for every remaining operation, supervision, Stage Gate C
+
+### Delivered
+- **Every DPDP contract operation now has a screen: 102 of 102** (was 58).
+  - Breaches: registration and fact correction.
+  - Organisation profile: SDF status with designation reference.
+  - Consent records: operator events (a withdrawal opens its run) and Privacy Centre sync.
+  - Data Principals: registration with keyed references, relationship contexts, merge/unmerge.
+  - Representatives: guardians, nominees and representatives, verified by a different person, with nomination activation.
+  - Child status.
+  - Engagements: termination, and return/deletion evidence (a processor statement is never "verified").
+  - Data sharing, safeguards, and connector bindings (the synthetic test adapter is labelled).
+  - Revisions: activity and retention-rule revision, and link closure.
+  - Rights: execution and case profiles.
+  - Estate import from a JSON/JSONL file, validated row by row before anything is sent.
+  - Notices: history lookup and delivery evidence.
+  - Regulatory: signed package import and applicability exemptions.
+  - Evidence and event lists.
+- Forms mirror the server's input rules before sending. Set-up tables page on the server, and activities can be filtered by system.
+- `scripts/app-run.ts` supervises the operations runner. The runner now honours the supervisor's IPC stop and interrupts its idle wait (measured: 15 ms to exit, code 0). A loop no longer ends with a sticky failure code for item errors.
+- Migration apply logic moved to `database/customer/src/migrations.ts` (optional stop point). `scripts/migrate.ts` is unchanged in behaviour and was re-run on a fresh `ui-b00` install.
+- New `tests/integration/migration/upgrade.test.ts` (`test:migration-upgrade`), plus two browser journeys (`test:e2e:registry-forms`, `test:e2e:operations-screens`).
+
+### Commands actually executed (codex-a00 unless stated; machine enrollment refreshed before each step)
+| Step | Result |
+|---|---|
+| build, typecheck, lint, contracts:check (0.29.0), unit 252/252 | PASS |
+| e2e registry-forms | PASS (after adding the activity filter; the first chain run failed on locating the activity in a long list) |
+| e2e operations-screens | PASS 30/30. Earlier attempts failed on test mechanics and on correctly enforced server rules: recorder cannot verify their own representative, and a known child status needs evidence. The forms now state those rules |
+| 13 DPDP suites | 13/13 PASS. The first chain run had consent-withdrawal and runner fail with "Expired authority": the one-hour synthetic machine enrollment had lapsed |
+| 27 V1 suites | 27/27 PASS after one test fix (below) |
+| test:auth | Failed on codex-a00 because the suite requires `reviewer` never to have enrolled MFA (the DPDP suites enrol it). **PASS 90/90 on a freshly bootstrapped `ui-b00` profile** |
+| test:isolation | PASS on codex-a00 (the suite refuses other profiles by design) |
+| services:smoke | PASS |
+| web:smoke | PASS after a test fix (below) |
+| GRC grc 40, audits 41, http 57; AI governance ×2; discovery ×2; commerce 45 | PASS. grc-http needs a dedicated OPA; started `orvia-grc-http-opa` on 127.0.0.1:4494 from the pinned image, then removed it |
+| migration upgrade | PASS 10/10: 22,412 V1 rows across 109 tables upgraded through 14 migrations with every V1 value unchanged; schema equals a fresh install (columns, constraints, indexes, RLS policies, triggers); a re-run applies nothing. 312 rows that only later releases can hold (3 coverage gaps, 309 notification tasks) were skipped and recorded. The throwaway database was dropped |
+
+### Test fixes to files outside the DPDP pack (review requested)
+- `tests/integration/audit/retention.test.ts`: the deletion check targeted events older than a day, which matches nothing on an installation under a day old, so an empty DELETE reported "accepted". It now targets the oldest event in scope. The trigger was separately confirmed to refuse a real delete with 23514.
+- `tests/integration/web.test.ts`: the landing-page label changed to "Synthetic test environment" in `e2c8ee3`, and the test still expected "Synthetic demonstration". This failure predates this branch.
+
+### Still not done (unchanged by this round)
+- No real customer connector. Everything automated runs on `SYNTHETIC_RECORDS_TEST_ADAPTER`.
+- No official, legally reviewed regulatory package. All packages are `TEST_FIXTURE`.
+- The one-hour synthetic machine enrollment stops the worker, runner and agent after an hour under `app:run` (existing V1 behaviour, now also affecting the runner).
+- The rehearsal-profile suites (`test:lifecycle`, `test:tls`, the Playwright rehearsal suite) were not run.
+- Capacity at 1M was not tested. T01–T34 and the DPDP full-scenario acceptance remain NOT_RUN; they need a frozen candidate and human rehearsals.

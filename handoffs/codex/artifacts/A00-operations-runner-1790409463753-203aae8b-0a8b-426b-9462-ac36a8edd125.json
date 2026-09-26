@@ -1,0 +1,31 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:57:43.753Z",
+  "suite": "runner",
+  "assertions": [
+    {
+      "name": "staff processed only a first batch",
+      "result": "PASS",
+      "expected": [
+        "PROCESSING",
+        5
+      ],
+      "actual": [
+        "PROCESSING",
+        5
+      ]
+    },
+    {
+      "name": "unexpected failure in import resumed",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Expired authority"
+    }
+  ],
+  "passed": 1,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

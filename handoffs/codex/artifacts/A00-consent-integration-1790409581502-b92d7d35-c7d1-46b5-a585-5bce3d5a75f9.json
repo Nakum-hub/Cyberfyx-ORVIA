@@ -1,0 +1,481 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-26T07:59:41.502Z",
+  "test_ids": [
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10"
+  ],
+  "contract_version": "0.29.0",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "name": "principal cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "cross-environment configuration rejected",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "create persisted purpose",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create immutable notice version",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create scoped system",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "author policy draft",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "draft purpose hidden in own portal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "unauthorized author publication denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "authorized reviewer cannot approve own version",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication requires actual proof",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "wrong digest denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "reauthentication rejects wrong TOTP",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "real MFA creates exact publication proof",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "different reviewer publishes exact version",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "published digest unchanged",
+      "result": "PASS",
+      "expected": "24335c96a469cad1da3043dd28de0062693e8fb3fd3efffa504ac15aa251a5a4",
+      "actual": "24335c96a469cad1da3043dd28de0062693e8fb3fd3efffa504ac15aa251a5a4"
+    },
+    {
+      "name": "publish retry returns stable published version",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "notice_version_id": "3dd25f42-a307-482a-b2ae-dbd720101fea",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "2c2b8400-8311-461b-94c0-1ca325fad9f9"
+        ],
+        "required_observation": true,
+        "id": "118d4a15-8b7c-49cd-a3db-ca37ca1ede03",
+        "version_id": "f1b468fe-20f6-4831-8766-93732009bc96",
+        "digest": "24335c96a469cad1da3043dd28de0062693e8fb3fd3efffa504ac15aa251a5a4",
+        "author_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-26T07:59:39.539Z"
+      },
+      "actual": {
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "notice_version_id": "3dd25f42-a307-482a-b2ae-dbd720101fea",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "2c2b8400-8311-461b-94c0-1ca325fad9f9"
+        ],
+        "required_observation": true,
+        "id": "118d4a15-8b7c-49cd-a3db-ca37ca1ede03",
+        "version_id": "f1b468fe-20f6-4831-8766-93732009bc96",
+        "digest": "24335c96a469cad1da3043dd28de0062693e8fb3fd3efffa504ac15aa251a5a4",
+        "author_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-26T07:59:39.539Z"
+      }
+    },
+    {
+      "name": "explicit principal to target mapping",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "control map exposes actual declared edge",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "control map pagination preserves all scoped mappings",
+      "result": "PASS",
+      "expected": [
+        "4db79e85-4c60-41be-bf54-90e5b1b34bda",
+        "68ea282f-e33a-4ca7-832d-492f14d90cd0",
+        "7699bd78-afe9-4947-bdcf-6d9e58c3e0cf",
+        "84cd0eb1-be35-4408-8393-056453dcca9a"
+      ],
+      "actual": [
+        "4db79e85-4c60-41be-bf54-90e5b1b34bda",
+        "68ea282f-e33a-4ca7-832d-492f14d90cd0",
+        "7699bd78-afe9-4947-bdcf-6d9e58c3e0cf",
+        "84cd0eb1-be35-4408-8393-056453dcca9a"
+      ]
+    },
+    {
+      "name": "published notice available to own principal",
+      "result": "PASS",
+      "expected": "3dd25f42-a307-482a-b2ae-dbd720101fea",
+      "actual": "3dd25f42-a307-482a-b2ae-dbd720101fea"
+    },
+    {
+      "name": "affirmative action mandatory",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "incorrect notice rejected",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant accepted after commit",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "first epoch is one",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "withdrawal accepted durably",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "withdrawal increments epoch",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "state event workflow and outbox committed together",
+      "result": "PASS",
+      "expected": {
+        "events": 1,
+        "outbox": 1,
+        "workflows": 1
+      },
+      "actual": {
+        "events": 1,
+        "outbox": 1,
+        "workflows": 1
+      }
+    },
+    {
+      "name": "retry returns identical withdrawal receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "bd69ec9d-28f9-4018-bf78-262667610f72",
+        "event_id": "32eb4511-c6e5-48e7-af82-ef994a50a716",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-26T07:59:39.895Z",
+        "workflow_id": "0db6a106-9c76-47cb-9c74-3aabeb44b8df",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "bd69ec9d-28f9-4018-bf78-262667610f72",
+        "event_id": "32eb4511-c6e5-48e7-af82-ef994a50a716",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-26T07:59:39.895Z",
+        "workflow_id": "0db6a106-9c76-47cb-9c74-3aabeb44b8df",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "same key different request denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "old grant replay returns old immutable receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "0cb37dc1-5ed1-4488-983e-7584eba55b42",
+        "event_id": "799f6af2-5a00-4624-bae0-82cd7fc229a9",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-09-26T07:59:39.822Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      },
+      "actual": {
+        "receipt_id": "0cb37dc1-5ed1-4488-983e-7584eba55b42",
+        "event_id": "799f6af2-5a00-4624-bae0-82cd7fc229a9",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-09-26T07:59:39.822Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      }
+    },
+    {
+      "name": "old grant replay cannot reactivate",
+      "result": "PASS",
+      "expected": "WITHDRAWN",
+      "actual": "WITHDRAWN"
+    },
+    {
+      "name": "old interaction with new key denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "another principal cannot read receipt",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another tenant cannot read receipt",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "test interruption reached transaction rollback",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "rollback preserves aggregate epoch",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "rollback removes event outbox and idempotency together",
+      "result": "PASS",
+      "expected": {
+        "events": 2,
+        "outbox": 1,
+        "idempotency": 0
+      },
+      "actual": {
+        "events": 2,
+        "outbox": 1,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "concurrent grant and withdrawal serialize",
+      "result": "PASS",
+      "expected": [
+        202,
+        409
+      ],
+      "actual": [
+        202,
+        409
+      ]
+    },
+    {
+      "name": "race advances one epoch only",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "fresh reconsent requires fresh authorized interaction",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "new interaction advances to epoch four",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "history retains all four committed events",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "old receipt remains unchanged after new consent",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "bd69ec9d-28f9-4018-bf78-262667610f72",
+        "event_id": "32eb4511-c6e5-48e7-af82-ef994a50a716",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-26T07:59:39.895Z",
+        "workflow_id": "0db6a106-9c76-47cb-9c74-3aabeb44b8df",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "bd69ec9d-28f9-4018-bf78-262667610f72",
+        "event_id": "32eb4511-c6e5-48e7-af82-ef994a50a716",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-26T07:59:39.895Z",
+        "workflow_id": "0db6a106-9c76-47cb-9c74-3aabeb44b8df",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "RLS cannot expose another principal with missing query predicates",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "database rejects published version rewriting",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "restart preserves original receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "bd69ec9d-28f9-4018-bf78-262667610f72",
+        "event_id": "32eb4511-c6e5-48e7-af82-ef994a50a716",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-26T07:59:39.895Z",
+        "workflow_id": "0db6a106-9c76-47cb-9c74-3aabeb44b8df",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "bd69ec9d-28f9-4018-bf78-262667610f72",
+        "event_id": "32eb4511-c6e5-48e7-af82-ef994a50a716",
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-09-26T07:59:39.895Z",
+        "workflow_id": "0db6a106-9c76-47cb-9c74-3aabeb44b8df",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "restart preserves current epoch",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "restart preserves exact published configuration",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "notice_version_id": "3dd25f42-a307-482a-b2ae-dbd720101fea",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "2c2b8400-8311-461b-94c0-1ca325fad9f9"
+        ],
+        "required_observation": true,
+        "id": "118d4a15-8b7c-49cd-a3db-ca37ca1ede03",
+        "version_id": "f1b468fe-20f6-4831-8766-93732009bc96",
+        "digest": "24335c96a469cad1da3043dd28de0062693e8fb3fd3efffa504ac15aa251a5a4",
+        "author_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-26T07:59:39.539Z"
+      },
+      "actual": {
+        "purpose_id": "1130acc3-be7f-46db-bc9c-1ecd7bccc1ca",
+        "notice_version_id": "3dd25f42-a307-482a-b2ae-dbd720101fea",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "2c2b8400-8311-461b-94c0-1ca325fad9f9"
+        ],
+        "required_observation": true,
+        "id": "118d4a15-8b7c-49cd-a3db-ca37ca1ede03",
+        "version_id": "f1b468fe-20f6-4831-8766-93732009bc96",
+        "digest": "24335c96a469cad1da3043dd28de0062693e8fb3fd3efffa504ac15aa251a5a4",
+        "author_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+        "status": "PUBLISHED",
+        "published_at": "2026-09-26T07:59:39.539Z"
+      }
+    },
+    {
+      "name": "restart preserves exact notice content",
+      "result": "PASS",
+      "expected": "Optional synthetic marketing. Withdraw in the same portal; no real messages are sent.",
+      "actual": "Optional synthetic marketing. Withdraw in the same portal; no real messages are sent."
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "T10 outbox transaction only; durable worker recovery belongs to A03. Browser acceptance remains Claude Code owned."
+  ],
+  "run_id": "b5acb16b-7b7d-4402-b9bd-803b9a41d965"
+}

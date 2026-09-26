@@ -1,0 +1,176 @@
+{
+  "task_id": "V1-EXPANSION-04",
+  "result": "PASS",
+  "database": "orvia_grc_audits_642dc1de45434096a5fbff7f6f161af4",
+  "recorded_at": "2026-09-26T08:45:16.430Z",
+  "results": [
+    {
+      "name": "unknown control denied",
+      "result": "PASS"
+    },
+    {
+      "name": "past deadline denied",
+      "result": "PASS"
+    },
+    {
+      "name": "new audit remains open",
+      "result": "PASS"
+    },
+    {
+      "name": "audit author cannot close",
+      "result": "PASS"
+    },
+    {
+      "name": "audit without requests cannot close",
+      "result": "PASS"
+    },
+    {
+      "name": "out-of-scope control request denied",
+      "result": "PASS"
+    },
+    {
+      "name": "request beyond audit deadline denied",
+      "result": "PASS"
+    },
+    {
+      "name": "request starts open",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown evidence cannot respond",
+      "result": "PASS"
+    },
+    {
+      "name": "unreviewed evidence cannot respond",
+      "result": "PASS"
+    },
+    {
+      "name": "response snapshots exact evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "response requires separate audit review",
+      "result": "PASS"
+    },
+    {
+      "name": "self response approval denied",
+      "result": "PASS"
+    },
+    {
+      "name": "reviewed response accepted",
+      "result": "PASS"
+    },
+    {
+      "name": "duplicate response review denied",
+      "result": "PASS"
+    },
+    {
+      "name": "superseded evidence makes response stale",
+      "result": "PASS"
+    },
+    {
+      "name": "stale response blocks closure",
+      "result": "PASS"
+    },
+    {
+      "name": "replacement response does not inherit review",
+      "result": "PASS"
+    },
+    {
+      "name": "old response cannot be reapproved",
+      "result": "PASS"
+    },
+    {
+      "name": "foreign tenant audit detail denied",
+      "result": "PASS"
+    },
+    {
+      "name": "foreign tenant request detail denied",
+      "result": "PASS"
+    },
+    {
+      "name": "foreign tenant list empty",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot write",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor can read accepted response",
+      "result": "PASS"
+    },
+    {
+      "name": "unrelated request cursor rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent closure commits exactly once",
+      "result": "PASS"
+    },
+    {
+      "name": "closure binds current accepted response",
+      "result": "PASS"
+    },
+    {
+      "name": "closure never asserts certification",
+      "result": "PASS"
+    },
+    {
+      "name": "closed audit rejects new requests",
+      "result": "PASS"
+    },
+    {
+      "name": "closed audit rejects response replacement",
+      "result": "PASS"
+    },
+    {
+      "name": "database history cannot be updated",
+      "result": "PASS"
+    },
+    {
+      "name": "database history cannot be deleted",
+      "result": "PASS"
+    },
+    {
+      "name": "old response retained",
+      "result": "PASS"
+    },
+    {
+      "name": "response history starts with replacement",
+      "result": "PASS"
+    },
+    {
+      "name": "response history has continuation",
+      "result": "PASS"
+    },
+    {
+      "name": "historical response keeps review",
+      "result": "PASS"
+    },
+    {
+      "name": "foreign response history denied",
+      "result": "PASS"
+    },
+    {
+      "name": "unrelated response cursor denied",
+      "result": "PASS"
+    },
+    {
+      "name": "control author cannot approve audit response",
+      "result": "PASS"
+    },
+    {
+      "name": "control author cannot close audit",
+      "result": "PASS"
+    },
+    {
+      "name": "independent reviewer can close control-author case",
+      "result": "PASS"
+    }
+  ],
+  "migration_sha256": "fef3d9017fe9080f83f847a0f27b63da18a1cc09cf64ee4b7123e3bbdbf89912",
+  "limitations": [
+    "Isolated synthetic database; API/UI and full release acceptance are separate checks. Manual evidence only."
+  ]
+}

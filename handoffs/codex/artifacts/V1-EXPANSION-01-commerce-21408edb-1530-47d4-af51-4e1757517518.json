@@ -1,0 +1,203 @@
+{
+  "task_id": "V1-EXPANSION-01",
+  "recorded_at": "2026-09-26T08:48:11.529Z",
+  "fixture_kind": "ISOLATED_SYNTHETIC_VENDOR_DATABASE",
+  "database": "orvia_vendor_test_21408edb153047d4af514e1757517518",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "concurrent identical order creates one durable order",
+      "result": "PASS"
+    },
+    {
+      "name": "price comes from approved server catalogue",
+      "result": "PASS"
+    },
+    {
+      "name": "changed idempotency body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-account read denied",
+      "result": "PASS"
+    },
+    {
+      "name": "forged account authority denied",
+      "result": "PASS"
+    },
+    {
+      "name": "read-only buyer cannot create",
+      "result": "PASS"
+    },
+    {
+      "name": "no entitlement before a verified capture",
+      "result": "PASS"
+    },
+    {
+      "name": "repeated pending checkout retains provider binding",
+      "result": "PASS"
+    },
+    {
+      "name": "repeated checkout does not create another provider order",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent capture yields exactly one original receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "one entitlement request per order",
+      "result": "PASS"
+    },
+    {
+      "name": "verified capture queues but does not issue licence",
+      "result": "PASS"
+    },
+    {
+      "name": "paid order cannot start another checkout",
+      "result": "PASS"
+    },
+    {
+      "name": "plain object cannot impersonate verified provider",
+      "result": "PASS"
+    },
+    {
+      "name": "same provider event ID with changed body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "stale failure cannot downgrade captured order",
+      "result": "PASS"
+    },
+    {
+      "name": "different delivery ID does not duplicate issuance",
+      "result": "PASS"
+    },
+    {
+      "name": "one provider payment cannot pay two orders",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment retained as review required",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment never queues entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "fixture holds a payment on its own order lock",
+      "result": "PASS"
+    },
+    {
+      "name": "unrelated order can capture while first order is locked",
+      "result": "PASS"
+    },
+    {
+      "name": "card capture uses same verified durable path",
+      "result": "PASS"
+    },
+    {
+      "name": "test event cannot credit live merchant binding",
+      "result": "PASS"
+    },
+    {
+      "name": "refund received before capture remains unresolved",
+      "result": "PASS"
+    },
+    {
+      "name": "late capture does not undo refund",
+      "result": "PASS"
+    },
+    {
+      "name": "partial refund holds pending issuance",
+      "result": "PASS"
+    },
+    {
+      "name": "refund after fixture issuance requires review without remote command",
+      "result": "PASS"
+    },
+    {
+      "name": "lost checkout response is unknown",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown checkout cannot be blindly retried",
+      "result": "PASS"
+    },
+    {
+      "name": "lost provider create called only once",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown checkout effect is durable",
+      "result": "PASS"
+    },
+    {
+      "name": "in-flight checkout is not sent twice",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent checkout sends one provider request",
+      "result": "PASS"
+    },
+    {
+      "name": "outbox persistence failure aborts payment transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "failed transaction leaves no payment receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "failed transaction preserves pending order",
+      "result": "PASS"
+    },
+    {
+      "name": "payment ledger cannot be rewritten",
+      "result": "PASS"
+    },
+    {
+      "name": "audit cannot be erased",
+      "result": "PASS"
+    },
+    {
+      "name": "restart retains payment state",
+      "result": "PASS"
+    },
+    {
+      "name": "restart replay retains held entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "restart retains unknown checkout without resending",
+      "result": "PASS"
+    },
+    {
+      "name": "restart did not repeat unknown provider request",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor database contains no customer operational schema",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor migration refuses customer schema sentinel",
+      "result": "PASS"
+    }
+  ],
+  "migration_sha256": "09509c7ab31d62217519a9d948f7d500ef106692625c8fbffffa23799fb91216",
+  "checkout_migration_sha256": "a443222af318607047ffc04106aa65dbfe4f62349e10c3c131d332b3163c2fd0",
+  "source_sha256": {
+    "backend/vendor/commerce/store.ts": "d4094d1e9393147f5f0bb94fe26d256fe95bfe96c18c1534d19eebf0c3d56856",
+    "backend/vendor/commerce/payment.ts": "829f9276cc7ee09d832c7f9f01c3f04f22657c947876b6246a72f52034e3385c",
+    "backend/vendor/commerce/checkout.ts": "366539e3dc5188e03992a7a4d689d13468ca6f7fcdae978f7b42c8f7148c117a",
+    "shared/contracts/src/commerce.ts": "f37b284d0a552c94b37ca9341491a15590af71f06c47c7b9538dc12949b70861",
+    "tests/integration/commerce/commerce.test.ts": "0c8891a9c04b6e316c0cbcca6a153bd96ecb08afa7091d02df349b231e6bbd6c"
+  },
+  "limitations": [
+    "No HTTP/vendor login or actual payment provider used; checkout transport uses explicit injected synthetic responses.",
+    "No licence issued; one outbox row set to ISSUED by labelled fixture only.",
+    "Operator identity used in isolated test database; production role deployment not qualified."
+  ]
+}
