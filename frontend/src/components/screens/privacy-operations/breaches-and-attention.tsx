@@ -131,7 +131,7 @@ export function PersonalDataBreachDetail({ id }: { id: string }) {
             {data.tasks.some(t => t.unresolved_reason) && <NoticeBox tone="unknown" title="Why some deadlines are unresolved"><ul>{data.tasks.filter(t => t.unresolved_reason).map(t => <li key={t.id}>{t.unresolved_reason}</li>)}</ul></NoticeBox>}
           </Section>
           <Section title="Correct the facts">
-            <WriteForm operation="update_breach" label="Record corrected facts" params={{ id }} onSaved={() => breach.refresh()}
+            <WriteForm operation="update_breach" label="Record corrected facts" params={{ id }} onSaved={() => breach.refresh()} keepValues
               describe={() => 'the pinned package and deadlines are unchanged'} build={breachFacts}>
               <BreachFactFields current={data} />
             </WriteForm>

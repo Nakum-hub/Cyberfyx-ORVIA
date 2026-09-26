@@ -100,7 +100,7 @@ export function Many({ legend, name, options, hint, checked = [] }: { legend: st
   );
 }
 
-export function WriteForm<K extends RegistryWriteOperation>({ operation, label, capability, build, params, onSaved, children, describe }: {
+export function WriteForm<K extends RegistryWriteOperation>({ operation, label, capability, build, params, onSaved, children, describe, keepValues = false }: {
   operation: K; label: string; capability?: string;
   /** Builds the request from the form. Throwing an Error shows its message and sends nothing. */
   build: (form: FormData) => EndpointMap[K]['request'];
@@ -108,6 +108,8 @@ export function WriteForm<K extends RegistryWriteOperation>({ operation, label, 
   onSaved: (result: EndpointMap[K]['response']) => void;
   children: ReactNode;
   describe?: (result: EndpointMap[K]['response']) => ReactNode;
+  /** Keep what was entered after a successful save (edit forms); create forms clear. */
+  keepValues?: boolean;
 }) {
   const { session } = useSession();
   const mutation = useMutation(operation, true);
@@ -121,7 +123,9 @@ export function WriteForm<K extends RegistryWriteOperation>({ operation, label, 
     let input: EndpointMap[K]['request'];
     try { input = build(new FormData(form)); } catch (error) { setLocalError(error instanceof Error ? error.message : 'The form could not be read.'); return; }
     const result = await mutation.run(input, params ? { params } : {});
-    if (result) { form.reset(); onSaved(result); }
+    // A form that edits a stored record is remounted by its parent (keyed on the
+    // record) so it shows the stored values; only a create form is cleared here.
+    if (result) { if (!keepValues) form.reset(); onSaved(result); }
   };
   return (
     <form className="panel" onSubmit={submit} aria-label={label}>

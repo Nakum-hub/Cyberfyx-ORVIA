@@ -3711,6 +3711,182 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/impact-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_impact_templates"];
+        put?: never;
+        post: operations["create_impact_template"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-templates/{id}/publication": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publish_impact_template"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-assessments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_impact_assessments"];
+        put?: never;
+        post: operations["create_impact_assessment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-assessments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["impact_assessment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-assessments/{id}/answers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["answer_impact_assessment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-assessments/{id}/submission": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["submit_impact_assessment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-assessments/{id}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["decide_impact_assessment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-assessments/{id}/revision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revise_impact_assessment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-assessments/{id}/findings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create_impact_finding"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-findings/{id}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["record_impact_finding_event"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/impact-findings/escalation-sweep": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["impact_escalation_sweep"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/machine/commands/poll": {
         parameters: {
             query?: never;
@@ -8008,6 +8184,363 @@ export interface components {
                 note: string | null;
             }[];
             next_cursor: string | null;
+        };
+        ImpactQuestion: {
+            key: string;
+            text: string;
+            /** @enum {string} */
+            answer_type: "YES_NO" | "TEXT" | "CHOICE" | "NUMBER";
+            choices: string[];
+            required: boolean;
+            evidence_required: boolean;
+            finding_when: string | null;
+            finding_severity: ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL") | null;
+            guidance: string | null;
+        };
+        ImpactTemplateCreate: {
+            template_key: string | null;
+            /** @enum {string} */
+            kind: "PIA" | "DPIA" | "SDF_DPIA" | "AI" | "VENDOR_DUE_DILIGENCE" | "OTHER";
+            name: string;
+            description: string;
+            questions: {
+                key: string;
+                text: string;
+                /** @enum {string} */
+                answer_type: "YES_NO" | "TEXT" | "CHOICE" | "NUMBER";
+                choices: string[];
+                required: boolean;
+                evidence_required: boolean;
+                finding_when: string | null;
+                finding_severity: ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL") | null;
+                guidance: string | null;
+            }[];
+            requirement_ids: string[];
+            review_interval_days: number;
+        };
+        ImpactTemplate: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            template_key: string;
+            version: number;
+            /** @enum {string} */
+            kind: "PIA" | "DPIA" | "SDF_DPIA" | "AI" | "VENDOR_DUE_DILIGENCE" | "OTHER";
+            name: string;
+            description: string;
+            questions: {
+                key: string;
+                text: string;
+                /** @enum {string} */
+                answer_type: "YES_NO" | "TEXT" | "CHOICE" | "NUMBER";
+                choices: string[];
+                required: boolean;
+                evidence_required: boolean;
+                finding_when: string | null;
+                finding_severity: ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL") | null;
+                guidance: string | null;
+            }[];
+            requirement_ids: string[];
+            review_interval_days: number;
+            /** @enum {string} */
+            status: "DRAFT" | "PUBLISHED" | "RETIRED";
+            /** Format: uuid */
+            recorded_by: string;
+            /** Format: date-time */
+            recorded_at: string;
+            published_by: string | null;
+            published_at: string | null;
+        };
+        ImpactTemplatePublish: {
+            /** @enum {string} */
+            action: "PUBLISH" | "RETIRE";
+        };
+        ImpactTemplateList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                template_key: string;
+                version: number;
+                /** @enum {string} */
+                kind: "PIA" | "DPIA" | "SDF_DPIA" | "AI" | "VENDOR_DUE_DILIGENCE" | "OTHER";
+                name: string;
+                description: string;
+                questions: {
+                    key: string;
+                    text: string;
+                    /** @enum {string} */
+                    answer_type: "YES_NO" | "TEXT" | "CHOICE" | "NUMBER";
+                    choices: string[];
+                    required: boolean;
+                    evidence_required: boolean;
+                    finding_when: string | null;
+                    finding_severity: ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL") | null;
+                    guidance: string | null;
+                }[];
+                requirement_ids: string[];
+                review_interval_days: number;
+                /** @enum {string} */
+                status: "DRAFT" | "PUBLISHED" | "RETIRED";
+                /** Format: uuid */
+                recorded_by: string;
+                /** Format: date-time */
+                recorded_at: string;
+                published_by: string | null;
+                published_at: string | null;
+            }[];
+            next_cursor: string | null;
+        };
+        ImpactAssessmentCreate: {
+            /** Format: uuid */
+            template_id: string;
+            /** @enum {string} */
+            subject_kind: "ORGANISATION" | "ACTIVITY" | "SYSTEM" | "PROCESSOR" | "PROCESSOR_ENGAGEMENT" | "AI_SYSTEM";
+            subject_id: string | null;
+            title: string;
+            owner_reference: string;
+            /** Format: date-time */
+            due_at: string;
+        };
+        ImpactAnswersRecord: {
+            answers: {
+                question_key: string;
+                value: string;
+                evidence_reference: string | null;
+            }[];
+        };
+        ImpactDecision: {
+            /** @enum {string} */
+            decision: "APPROVED" | "REJECTED";
+            note: string;
+        };
+        ImpactRevise: {
+            reason: string;
+            /** Format: date-time */
+            due_at: string;
+        };
+        ImpactFindingCreate: {
+            question_key: string | null;
+            title: string;
+            /** @enum {string} */
+            severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+            owner_reference: string;
+            /** Format: date-time */
+            due_at: string;
+            grc_risk_id: string | null;
+            grc_control_id: string | null;
+        };
+        ImpactFindingEventRecord: {
+            /** @enum {string} */
+            kind: "REMEDIATION_PLANNED" | "RESOLVED" | "RISK_ACCEPTED" | "REOPENED";
+            note: string;
+            evidence_reference: string | null;
+            acceptance_expires_at: string | null;
+        };
+        ImpactFinding: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            assessment_id: string;
+            question_key: string | null;
+            /** @enum {string} */
+            source: "ANSWER_RULE" | "REVIEWER" | "MANUAL";
+            title: string;
+            /** @enum {string} */
+            severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+            owner_reference: string;
+            /** Format: date-time */
+            due_at: string;
+            grc_risk_id: string | null;
+            grc_control_id: string | null;
+            /** @enum {string} */
+            state: "OPEN" | "REMEDIATION_PLANNED" | "RESOLVED" | "RISK_ACCEPTED" | "ACCEPTANCE_EXPIRED";
+            overdue: boolean;
+            blocks_approval: boolean;
+            events: {
+                /** Format: uuid */
+                id: string;
+                /** @enum {string} */
+                kind: "REMEDIATION_PLANNED" | "RESOLVED" | "RISK_ACCEPTED" | "ESCALATED" | "REOPENED";
+                note: string;
+                evidence_reference: string | null;
+                acceptance_expires_at: string | null;
+                /** Format: uuid */
+                actor_id: string;
+                /** Format: date-time */
+                recorded_at: string;
+            }[];
+            /** Format: uuid */
+            created_by: string;
+            /** Format: date-time */
+            created_at: string;
+        };
+        ImpactAssessmentDetail: {
+            /** Format: uuid */
+            id: string;
+            template: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                template_key: string;
+                version: number;
+                /** @enum {string} */
+                kind: "PIA" | "DPIA" | "SDF_DPIA" | "AI" | "VENDOR_DUE_DILIGENCE" | "OTHER";
+                name: string;
+                description: string;
+                questions: {
+                    key: string;
+                    text: string;
+                    /** @enum {string} */
+                    answer_type: "YES_NO" | "TEXT" | "CHOICE" | "NUMBER";
+                    choices: string[];
+                    required: boolean;
+                    evidence_required: boolean;
+                    finding_when: string | null;
+                    finding_severity: ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL") | null;
+                    guidance: string | null;
+                }[];
+                requirement_ids: string[];
+                review_interval_days: number;
+                /** @enum {string} */
+                status: "DRAFT" | "PUBLISHED" | "RETIRED";
+                /** Format: uuid */
+                recorded_by: string;
+                /** Format: date-time */
+                recorded_at: string;
+                published_by: string | null;
+                published_at: string | null;
+            };
+            revision: number;
+            previous_id: string | null;
+            /** @enum {string} */
+            subject_kind: "ORGANISATION" | "ACTIVITY" | "SYSTEM" | "PROCESSOR" | "PROCESSOR_ENGAGEMENT" | "AI_SYSTEM";
+            subject_id: string | null;
+            title: string;
+            owner_reference: string;
+            /** Format: date-time */
+            due_at: string;
+            /** @enum {string} */
+            status: "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED" | "SUPERSEDED";
+            overdue: boolean;
+            review_due: boolean;
+            next_review_at: string | null;
+            /** Format: uuid */
+            created_by: string;
+            /** Format: date-time */
+            created_at: string;
+            submitted_by: string | null;
+            submitted_at: string | null;
+            decided_by: string | null;
+            decided_at: string | null;
+            decision_note: string | null;
+            answers: {
+                question_key: string;
+                value: string;
+                evidence_reference: string | null;
+                carried_forward: boolean;
+                /** Format: uuid */
+                answered_by: string;
+                /** Format: date-time */
+                answered_at: string;
+            }[];
+            missing: {
+                question_key: string;
+                /** @enum {string} */
+                reason: "NOT_ANSWERED" | "EVIDENCE_MISSING";
+            }[];
+            findings: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                assessment_id: string;
+                question_key: string | null;
+                /** @enum {string} */
+                source: "ANSWER_RULE" | "REVIEWER" | "MANUAL";
+                title: string;
+                /** @enum {string} */
+                severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+                owner_reference: string;
+                /** Format: date-time */
+                due_at: string;
+                grc_risk_id: string | null;
+                grc_control_id: string | null;
+                /** @enum {string} */
+                state: "OPEN" | "REMEDIATION_PLANNED" | "RESOLVED" | "RISK_ACCEPTED" | "ACCEPTANCE_EXPIRED";
+                overdue: boolean;
+                blocks_approval: boolean;
+                events: {
+                    /** Format: uuid */
+                    id: string;
+                    /** @enum {string} */
+                    kind: "REMEDIATION_PLANNED" | "RESOLVED" | "RISK_ACCEPTED" | "ESCALATED" | "REOPENED";
+                    note: string;
+                    evidence_reference: string | null;
+                    acceptance_expires_at: string | null;
+                    /** Format: uuid */
+                    actor_id: string;
+                    /** Format: date-time */
+                    recorded_at: string;
+                }[];
+                /** Format: uuid */
+                created_by: string;
+                /** Format: date-time */
+                created_at: string;
+            }[];
+            approval_blockers: string[];
+        };
+        ImpactAssessmentSummary: {
+            /** Format: uuid */
+            id: string;
+            template_name: string;
+            /** @enum {string} */
+            kind: "PIA" | "DPIA" | "SDF_DPIA" | "AI" | "VENDOR_DUE_DILIGENCE" | "OTHER";
+            revision: number;
+            /** @enum {string} */
+            subject_kind: "ORGANISATION" | "ACTIVITY" | "SYSTEM" | "PROCESSOR" | "PROCESSOR_ENGAGEMENT" | "AI_SYSTEM";
+            subject_id: string | null;
+            title: string;
+            /** @enum {string} */
+            status: "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED" | "SUPERSEDED";
+            /** Format: date-time */
+            due_at: string;
+            overdue: boolean;
+            review_due: boolean;
+            open_findings: number;
+        };
+        ImpactAssessmentList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                template_name: string;
+                /** @enum {string} */
+                kind: "PIA" | "DPIA" | "SDF_DPIA" | "AI" | "VENDOR_DUE_DILIGENCE" | "OTHER";
+                revision: number;
+                /** @enum {string} */
+                subject_kind: "ORGANISATION" | "ACTIVITY" | "SYSTEM" | "PROCESSOR" | "PROCESSOR_ENGAGEMENT" | "AI_SYSTEM";
+                subject_id: string | null;
+                title: string;
+                /** @enum {string} */
+                status: "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED" | "SUPERSEDED";
+                /** Format: date-time */
+                due_at: string;
+                overdue: boolean;
+                review_due: boolean;
+                open_findings: number;
+            }[];
+            next_cursor: string | null;
+        };
+        ImpactAssessmentQuery: {
+            /** @enum {string} */
+            status?: "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED" | "SUPERSEDED";
+            /** @enum {string} */
+            subject_kind?: "ORGANISATION" | "ACTIVITY" | "SYSTEM" | "PROCESSOR" | "PROCESSOR_ENGAGEMENT" | "AI_SYSTEM";
+            /** Format: uuid */
+            subject_id?: string;
+        };
+        ImpactEscalationSweep: {
+            escalated: number;
+            finding_ids: string[];
         };
         GrcFrameworkCreate: {
             name: string;
@@ -67410,6 +67943,2874 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["OwnRequestEventList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_impact_templates: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-000000000384",
+                     *           "template_key": "00000000-0000-4000-8000-000000000385",
+                     *           "version": 1,
+                     *           "kind": "DPIA",
+                     *           "name": "Synthetic DPIA",
+                     *           "description": "Synthetic assessment template for contract examples.",
+                     *           "questions": [
+                     *             {
+                     *               "key": "shares_with_third_parties",
+                     *               "text": "Is personal data shared with a third party?",
+                     *               "answer_type": "YES_NO",
+                     *               "choices": [],
+                     *               "required": true,
+                     *               "evidence_required": true,
+                     *               "finding_when": "YES",
+                     *               "finding_severity": "MEDIUM",
+                     *               "guidance": null
+                     *             }
+                     *           ],
+                     *           "requirement_ids": [],
+                     *           "review_interval_days": 365,
+                     *           "status": "PUBLISHED",
+                     *           "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *           "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *           "published_by": "00000000-0000-4000-8000-000000000387",
+                     *           "published_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactTemplateList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_impact_template: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "template_key": null,
+                 *       "kind": "DPIA",
+                 *       "name": "Synthetic DPIA",
+                 *       "description": "Synthetic assessment template for contract examples.",
+                 *       "questions": [
+                 *         {
+                 *           "key": "shares_with_third_parties",
+                 *           "text": "Is personal data shared with a third party?",
+                 *           "answer_type": "YES_NO",
+                 *           "choices": [],
+                 *           "required": true,
+                 *           "evidence_required": true,
+                 *           "finding_when": "YES",
+                 *           "finding_severity": "MEDIUM",
+                 *           "guidance": null
+                 *         }
+                 *       ],
+                 *       "requirement_ids": [],
+                 *       "review_interval_days": 365
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactTemplateCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000384",
+                     *       "template_key": "00000000-0000-4000-8000-000000000385",
+                     *       "version": 1,
+                     *       "kind": "DPIA",
+                     *       "name": "Synthetic DPIA",
+                     *       "description": "Synthetic assessment template for contract examples.",
+                     *       "questions": [
+                     *         {
+                     *           "key": "shares_with_third_parties",
+                     *           "text": "Is personal data shared with a third party?",
+                     *           "answer_type": "YES_NO",
+                     *           "choices": [],
+                     *           "required": true,
+                     *           "evidence_required": true,
+                     *           "finding_when": "YES",
+                     *           "finding_severity": "MEDIUM",
+                     *           "guidance": null
+                     *         }
+                     *       ],
+                     *       "requirement_ids": [],
+                     *       "review_interval_days": 365,
+                     *       "status": "PUBLISHED",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "published_by": "00000000-0000-4000-8000-000000000387",
+                     *       "published_at": "2026-09-16T10:00:00.000Z"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactTemplate"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    publish_impact_template: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "action": "PUBLISH"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactTemplatePublish"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000384",
+                     *       "template_key": "00000000-0000-4000-8000-000000000385",
+                     *       "version": 1,
+                     *       "kind": "DPIA",
+                     *       "name": "Synthetic DPIA",
+                     *       "description": "Synthetic assessment template for contract examples.",
+                     *       "questions": [
+                     *         {
+                     *           "key": "shares_with_third_parties",
+                     *           "text": "Is personal data shared with a third party?",
+                     *           "answer_type": "YES_NO",
+                     *           "choices": [],
+                     *           "required": true,
+                     *           "evidence_required": true,
+                     *           "finding_when": "YES",
+                     *           "finding_severity": "MEDIUM",
+                     *           "guidance": null
+                     *         }
+                     *       ],
+                     *       "requirement_ids": [],
+                     *       "review_interval_days": 365,
+                     *       "status": "PUBLISHED",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "published_by": "00000000-0000-4000-8000-000000000387",
+                     *       "published_at": "2026-09-16T10:00:00.000Z"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactTemplate"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_impact_assessments: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                status?: "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED" | "SUPERSEDED";
+                subject_kind?: "ORGANISATION" | "ACTIVITY" | "SYSTEM" | "PROCESSOR" | "PROCESSOR_ENGAGEMENT" | "AI_SYSTEM";
+                subject_id?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_impact_assessment: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "template_id": "00000000-0000-4000-8000-000000000384",
+                 *       "subject_kind": "ORGANISATION",
+                 *       "subject_id": null,
+                 *       "title": "Synthetic organisation DPIA",
+                 *       "owner_reference": "Synthetic owner",
+                 *       "due_at": "2026-09-16T10:00:00.000Z"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactAssessmentCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000389",
+                     *       "template": {
+                     *         "id": "00000000-0000-4000-8000-000000000384",
+                     *         "template_key": "00000000-0000-4000-8000-000000000385",
+                     *         "version": 1,
+                     *         "kind": "DPIA",
+                     *         "name": "Synthetic DPIA",
+                     *         "description": "Synthetic assessment template for contract examples.",
+                     *         "questions": [
+                     *           {
+                     *             "key": "shares_with_third_parties",
+                     *             "text": "Is personal data shared with a third party?",
+                     *             "answer_type": "YES_NO",
+                     *             "choices": [],
+                     *             "required": true,
+                     *             "evidence_required": true,
+                     *             "finding_when": "YES",
+                     *             "finding_severity": "MEDIUM",
+                     *             "guidance": null
+                     *           }
+                     *         ],
+                     *         "requirement_ids": [],
+                     *         "review_interval_days": 365,
+                     *         "status": "PUBLISHED",
+                     *         "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *         "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *         "published_by": "00000000-0000-4000-8000-000000000387",
+                     *         "published_at": "2026-09-16T10:00:00.000Z"
+                     *       },
+                     *       "revision": 1,
+                     *       "previous_id": null,
+                     *       "subject_kind": "ORGANISATION",
+                     *       "subject_id": null,
+                     *       "title": "Synthetic organisation DPIA",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "status": "SUBMITTED",
+                     *       "overdue": false,
+                     *       "review_due": false,
+                     *       "next_review_at": null,
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "submitted_by": "00000000-0000-4000-8000-000000000386",
+                     *       "submitted_at": "2026-09-16T10:00:00.000Z",
+                     *       "decided_by": null,
+                     *       "decided_at": null,
+                     *       "decision_note": null,
+                     *       "answers": [
+                     *         {
+                     *           "question_key": "shares_with_third_parties",
+                     *           "value": "YES",
+                     *           "evidence_reference": "Synthetic data-flow register",
+                     *           "carried_forward": false,
+                     *           "answered_by": "00000000-0000-4000-8000-000000000386",
+                     *           "answered_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "missing": [],
+                     *       "findings": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000038e",
+                     *           "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *           "question_key": "shares_with_third_parties",
+                     *           "source": "ANSWER_RULE",
+                     *           "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *           "severity": "MEDIUM",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "due_at": "2026-09-16T10:00:00.000Z",
+                     *           "grc_risk_id": null,
+                     *           "grc_control_id": null,
+                     *           "state": "OPEN",
+                     *           "overdue": false,
+                     *           "blocks_approval": true,
+                     *           "events": [],
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "approval_blockers": [
+                     *         "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentDetail"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    impact_assessment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000389",
+                     *       "template": {
+                     *         "id": "00000000-0000-4000-8000-000000000384",
+                     *         "template_key": "00000000-0000-4000-8000-000000000385",
+                     *         "version": 1,
+                     *         "kind": "DPIA",
+                     *         "name": "Synthetic DPIA",
+                     *         "description": "Synthetic assessment template for contract examples.",
+                     *         "questions": [
+                     *           {
+                     *             "key": "shares_with_third_parties",
+                     *             "text": "Is personal data shared with a third party?",
+                     *             "answer_type": "YES_NO",
+                     *             "choices": [],
+                     *             "required": true,
+                     *             "evidence_required": true,
+                     *             "finding_when": "YES",
+                     *             "finding_severity": "MEDIUM",
+                     *             "guidance": null
+                     *           }
+                     *         ],
+                     *         "requirement_ids": [],
+                     *         "review_interval_days": 365,
+                     *         "status": "PUBLISHED",
+                     *         "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *         "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *         "published_by": "00000000-0000-4000-8000-000000000387",
+                     *         "published_at": "2026-09-16T10:00:00.000Z"
+                     *       },
+                     *       "revision": 1,
+                     *       "previous_id": null,
+                     *       "subject_kind": "ORGANISATION",
+                     *       "subject_id": null,
+                     *       "title": "Synthetic organisation DPIA",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "status": "SUBMITTED",
+                     *       "overdue": false,
+                     *       "review_due": false,
+                     *       "next_review_at": null,
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "submitted_by": "00000000-0000-4000-8000-000000000386",
+                     *       "submitted_at": "2026-09-16T10:00:00.000Z",
+                     *       "decided_by": null,
+                     *       "decided_at": null,
+                     *       "decision_note": null,
+                     *       "answers": [
+                     *         {
+                     *           "question_key": "shares_with_third_parties",
+                     *           "value": "YES",
+                     *           "evidence_reference": "Synthetic data-flow register",
+                     *           "carried_forward": false,
+                     *           "answered_by": "00000000-0000-4000-8000-000000000386",
+                     *           "answered_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "missing": [],
+                     *       "findings": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000038e",
+                     *           "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *           "question_key": "shares_with_third_parties",
+                     *           "source": "ANSWER_RULE",
+                     *           "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *           "severity": "MEDIUM",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "due_at": "2026-09-16T10:00:00.000Z",
+                     *           "grc_risk_id": null,
+                     *           "grc_control_id": null,
+                     *           "state": "OPEN",
+                     *           "overdue": false,
+                     *           "blocks_approval": true,
+                     *           "events": [],
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "approval_blockers": [
+                     *         "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentDetail"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    answer_impact_assessment: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "answers": [
+                 *         {
+                 *           "question_key": "shares_with_third_parties",
+                 *           "value": "YES",
+                 *           "evidence_reference": "Synthetic data-flow register"
+                 *         }
+                 *       ]
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactAnswersRecord"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000389",
+                     *       "template": {
+                     *         "id": "00000000-0000-4000-8000-000000000384",
+                     *         "template_key": "00000000-0000-4000-8000-000000000385",
+                     *         "version": 1,
+                     *         "kind": "DPIA",
+                     *         "name": "Synthetic DPIA",
+                     *         "description": "Synthetic assessment template for contract examples.",
+                     *         "questions": [
+                     *           {
+                     *             "key": "shares_with_third_parties",
+                     *             "text": "Is personal data shared with a third party?",
+                     *             "answer_type": "YES_NO",
+                     *             "choices": [],
+                     *             "required": true,
+                     *             "evidence_required": true,
+                     *             "finding_when": "YES",
+                     *             "finding_severity": "MEDIUM",
+                     *             "guidance": null
+                     *           }
+                     *         ],
+                     *         "requirement_ids": [],
+                     *         "review_interval_days": 365,
+                     *         "status": "PUBLISHED",
+                     *         "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *         "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *         "published_by": "00000000-0000-4000-8000-000000000387",
+                     *         "published_at": "2026-09-16T10:00:00.000Z"
+                     *       },
+                     *       "revision": 1,
+                     *       "previous_id": null,
+                     *       "subject_kind": "ORGANISATION",
+                     *       "subject_id": null,
+                     *       "title": "Synthetic organisation DPIA",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "status": "SUBMITTED",
+                     *       "overdue": false,
+                     *       "review_due": false,
+                     *       "next_review_at": null,
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "submitted_by": "00000000-0000-4000-8000-000000000386",
+                     *       "submitted_at": "2026-09-16T10:00:00.000Z",
+                     *       "decided_by": null,
+                     *       "decided_at": null,
+                     *       "decision_note": null,
+                     *       "answers": [
+                     *         {
+                     *           "question_key": "shares_with_third_parties",
+                     *           "value": "YES",
+                     *           "evidence_reference": "Synthetic data-flow register",
+                     *           "carried_forward": false,
+                     *           "answered_by": "00000000-0000-4000-8000-000000000386",
+                     *           "answered_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "missing": [],
+                     *       "findings": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000038e",
+                     *           "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *           "question_key": "shares_with_third_parties",
+                     *           "source": "ANSWER_RULE",
+                     *           "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *           "severity": "MEDIUM",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "due_at": "2026-09-16T10:00:00.000Z",
+                     *           "grc_risk_id": null,
+                     *           "grc_control_id": null,
+                     *           "state": "OPEN",
+                     *           "overdue": false,
+                     *           "blocks_approval": true,
+                     *           "events": [],
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "approval_blockers": [
+                     *         "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentDetail"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    submit_impact_assessment: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000389",
+                     *       "template": {
+                     *         "id": "00000000-0000-4000-8000-000000000384",
+                     *         "template_key": "00000000-0000-4000-8000-000000000385",
+                     *         "version": 1,
+                     *         "kind": "DPIA",
+                     *         "name": "Synthetic DPIA",
+                     *         "description": "Synthetic assessment template for contract examples.",
+                     *         "questions": [
+                     *           {
+                     *             "key": "shares_with_third_parties",
+                     *             "text": "Is personal data shared with a third party?",
+                     *             "answer_type": "YES_NO",
+                     *             "choices": [],
+                     *             "required": true,
+                     *             "evidence_required": true,
+                     *             "finding_when": "YES",
+                     *             "finding_severity": "MEDIUM",
+                     *             "guidance": null
+                     *           }
+                     *         ],
+                     *         "requirement_ids": [],
+                     *         "review_interval_days": 365,
+                     *         "status": "PUBLISHED",
+                     *         "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *         "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *         "published_by": "00000000-0000-4000-8000-000000000387",
+                     *         "published_at": "2026-09-16T10:00:00.000Z"
+                     *       },
+                     *       "revision": 1,
+                     *       "previous_id": null,
+                     *       "subject_kind": "ORGANISATION",
+                     *       "subject_id": null,
+                     *       "title": "Synthetic organisation DPIA",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "status": "SUBMITTED",
+                     *       "overdue": false,
+                     *       "review_due": false,
+                     *       "next_review_at": null,
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "submitted_by": "00000000-0000-4000-8000-000000000386",
+                     *       "submitted_at": "2026-09-16T10:00:00.000Z",
+                     *       "decided_by": null,
+                     *       "decided_at": null,
+                     *       "decision_note": null,
+                     *       "answers": [
+                     *         {
+                     *           "question_key": "shares_with_third_parties",
+                     *           "value": "YES",
+                     *           "evidence_reference": "Synthetic data-flow register",
+                     *           "carried_forward": false,
+                     *           "answered_by": "00000000-0000-4000-8000-000000000386",
+                     *           "answered_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "missing": [],
+                     *       "findings": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000038e",
+                     *           "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *           "question_key": "shares_with_third_parties",
+                     *           "source": "ANSWER_RULE",
+                     *           "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *           "severity": "MEDIUM",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "due_at": "2026-09-16T10:00:00.000Z",
+                     *           "grc_risk_id": null,
+                     *           "grc_control_id": null,
+                     *           "state": "OPEN",
+                     *           "overdue": false,
+                     *           "blocks_approval": true,
+                     *           "events": [],
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "approval_blockers": [
+                     *         "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentDetail"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    decide_impact_assessment: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "decision": "APPROVED",
+                 *       "note": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactDecision"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000389",
+                     *       "template": {
+                     *         "id": "00000000-0000-4000-8000-000000000384",
+                     *         "template_key": "00000000-0000-4000-8000-000000000385",
+                     *         "version": 1,
+                     *         "kind": "DPIA",
+                     *         "name": "Synthetic DPIA",
+                     *         "description": "Synthetic assessment template for contract examples.",
+                     *         "questions": [
+                     *           {
+                     *             "key": "shares_with_third_parties",
+                     *             "text": "Is personal data shared with a third party?",
+                     *             "answer_type": "YES_NO",
+                     *             "choices": [],
+                     *             "required": true,
+                     *             "evidence_required": true,
+                     *             "finding_when": "YES",
+                     *             "finding_severity": "MEDIUM",
+                     *             "guidance": null
+                     *           }
+                     *         ],
+                     *         "requirement_ids": [],
+                     *         "review_interval_days": 365,
+                     *         "status": "PUBLISHED",
+                     *         "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *         "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *         "published_by": "00000000-0000-4000-8000-000000000387",
+                     *         "published_at": "2026-09-16T10:00:00.000Z"
+                     *       },
+                     *       "revision": 1,
+                     *       "previous_id": null,
+                     *       "subject_kind": "ORGANISATION",
+                     *       "subject_id": null,
+                     *       "title": "Synthetic organisation DPIA",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "status": "SUBMITTED",
+                     *       "overdue": false,
+                     *       "review_due": false,
+                     *       "next_review_at": null,
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "submitted_by": "00000000-0000-4000-8000-000000000386",
+                     *       "submitted_at": "2026-09-16T10:00:00.000Z",
+                     *       "decided_by": null,
+                     *       "decided_at": null,
+                     *       "decision_note": null,
+                     *       "answers": [
+                     *         {
+                     *           "question_key": "shares_with_third_parties",
+                     *           "value": "YES",
+                     *           "evidence_reference": "Synthetic data-flow register",
+                     *           "carried_forward": false,
+                     *           "answered_by": "00000000-0000-4000-8000-000000000386",
+                     *           "answered_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "missing": [],
+                     *       "findings": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000038e",
+                     *           "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *           "question_key": "shares_with_third_parties",
+                     *           "source": "ANSWER_RULE",
+                     *           "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *           "severity": "MEDIUM",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "due_at": "2026-09-16T10:00:00.000Z",
+                     *           "grc_risk_id": null,
+                     *           "grc_control_id": null,
+                     *           "state": "OPEN",
+                     *           "overdue": false,
+                     *           "blocks_approval": true,
+                     *           "events": [],
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "approval_blockers": [
+                     *         "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentDetail"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    revise_impact_assessment: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "reason": "Synthetic example",
+                 *       "due_at": "2026-09-16T10:00:00.000Z"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactRevise"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000389",
+                     *       "template": {
+                     *         "id": "00000000-0000-4000-8000-000000000384",
+                     *         "template_key": "00000000-0000-4000-8000-000000000385",
+                     *         "version": 1,
+                     *         "kind": "DPIA",
+                     *         "name": "Synthetic DPIA",
+                     *         "description": "Synthetic assessment template for contract examples.",
+                     *         "questions": [
+                     *           {
+                     *             "key": "shares_with_third_parties",
+                     *             "text": "Is personal data shared with a third party?",
+                     *             "answer_type": "YES_NO",
+                     *             "choices": [],
+                     *             "required": true,
+                     *             "evidence_required": true,
+                     *             "finding_when": "YES",
+                     *             "finding_severity": "MEDIUM",
+                     *             "guidance": null
+                     *           }
+                     *         ],
+                     *         "requirement_ids": [],
+                     *         "review_interval_days": 365,
+                     *         "status": "PUBLISHED",
+                     *         "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *         "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *         "published_by": "00000000-0000-4000-8000-000000000387",
+                     *         "published_at": "2026-09-16T10:00:00.000Z"
+                     *       },
+                     *       "revision": 1,
+                     *       "previous_id": null,
+                     *       "subject_kind": "ORGANISATION",
+                     *       "subject_id": null,
+                     *       "title": "Synthetic organisation DPIA",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "status": "SUBMITTED",
+                     *       "overdue": false,
+                     *       "review_due": false,
+                     *       "next_review_at": null,
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "submitted_by": "00000000-0000-4000-8000-000000000386",
+                     *       "submitted_at": "2026-09-16T10:00:00.000Z",
+                     *       "decided_by": null,
+                     *       "decided_at": null,
+                     *       "decision_note": null,
+                     *       "answers": [
+                     *         {
+                     *           "question_key": "shares_with_third_parties",
+                     *           "value": "YES",
+                     *           "evidence_reference": "Synthetic data-flow register",
+                     *           "carried_forward": false,
+                     *           "answered_by": "00000000-0000-4000-8000-000000000386",
+                     *           "answered_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "missing": [],
+                     *       "findings": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000038e",
+                     *           "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *           "question_key": "shares_with_third_parties",
+                     *           "source": "ANSWER_RULE",
+                     *           "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *           "severity": "MEDIUM",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "due_at": "2026-09-16T10:00:00.000Z",
+                     *           "grc_risk_id": null,
+                     *           "grc_control_id": null,
+                     *           "state": "OPEN",
+                     *           "overdue": false,
+                     *           "blocks_approval": true,
+                     *           "events": [],
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "approval_blockers": [
+                     *         "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentDetail"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_impact_finding: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "question_key": null,
+                 *       "title": "Reviewer finding on retention",
+                 *       "severity": "LOW",
+                 *       "owner_reference": "Synthetic owner",
+                 *       "due_at": "2026-09-16T10:00:00.000Z",
+                 *       "grc_risk_id": null,
+                 *       "grc_control_id": null
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactFindingCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000389",
+                     *       "template": {
+                     *         "id": "00000000-0000-4000-8000-000000000384",
+                     *         "template_key": "00000000-0000-4000-8000-000000000385",
+                     *         "version": 1,
+                     *         "kind": "DPIA",
+                     *         "name": "Synthetic DPIA",
+                     *         "description": "Synthetic assessment template for contract examples.",
+                     *         "questions": [
+                     *           {
+                     *             "key": "shares_with_third_parties",
+                     *             "text": "Is personal data shared with a third party?",
+                     *             "answer_type": "YES_NO",
+                     *             "choices": [],
+                     *             "required": true,
+                     *             "evidence_required": true,
+                     *             "finding_when": "YES",
+                     *             "finding_severity": "MEDIUM",
+                     *             "guidance": null
+                     *           }
+                     *         ],
+                     *         "requirement_ids": [],
+                     *         "review_interval_days": 365,
+                     *         "status": "PUBLISHED",
+                     *         "recorded_by": "00000000-0000-4000-8000-000000000386",
+                     *         "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *         "published_by": "00000000-0000-4000-8000-000000000387",
+                     *         "published_at": "2026-09-16T10:00:00.000Z"
+                     *       },
+                     *       "revision": 1,
+                     *       "previous_id": null,
+                     *       "subject_kind": "ORGANISATION",
+                     *       "subject_id": null,
+                     *       "title": "Synthetic organisation DPIA",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "status": "SUBMITTED",
+                     *       "overdue": false,
+                     *       "review_due": false,
+                     *       "next_review_at": null,
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "submitted_by": "00000000-0000-4000-8000-000000000386",
+                     *       "submitted_at": "2026-09-16T10:00:00.000Z",
+                     *       "decided_by": null,
+                     *       "decided_at": null,
+                     *       "decision_note": null,
+                     *       "answers": [
+                     *         {
+                     *           "question_key": "shares_with_third_parties",
+                     *           "value": "YES",
+                     *           "evidence_reference": "Synthetic data-flow register",
+                     *           "carried_forward": false,
+                     *           "answered_by": "00000000-0000-4000-8000-000000000386",
+                     *           "answered_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "missing": [],
+                     *       "findings": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000038e",
+                     *           "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *           "question_key": "shares_with_third_parties",
+                     *           "source": "ANSWER_RULE",
+                     *           "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *           "severity": "MEDIUM",
+                     *           "owner_reference": "Synthetic owner",
+                     *           "due_at": "2026-09-16T10:00:00.000Z",
+                     *           "grc_risk_id": null,
+                     *           "grc_control_id": null,
+                     *           "state": "OPEN",
+                     *           "overdue": false,
+                     *           "blocks_approval": true,
+                     *           "events": [],
+                     *           "created_by": "00000000-0000-4000-8000-000000000386",
+                     *           "created_at": "2026-09-16T10:00:00.000Z"
+                     *         }
+                     *       ],
+                     *       "approval_blockers": [
+                     *         "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactAssessmentDetail"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    record_impact_finding_event: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "kind": "RESOLVED",
+                 *       "note": "Contract signed with the recipient; sharing is covered.",
+                 *       "evidence_reference": "Synthetic agreement AG-1",
+                 *       "acceptance_expires_at": null
+                 *     }
+                 */
+                "application/json": components["schemas"]["ImpactFindingEventRecord"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000038e",
+                     *       "assessment_id": "00000000-0000-4000-8000-000000000389",
+                     *       "question_key": "shares_with_third_parties",
+                     *       "source": "ANSWER_RULE",
+                     *       "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+                     *       "severity": "MEDIUM",
+                     *       "owner_reference": "Synthetic owner",
+                     *       "due_at": "2026-09-16T10:00:00.000Z",
+                     *       "grc_risk_id": null,
+                     *       "grc_control_id": null,
+                     *       "state": "OPEN",
+                     *       "overdue": false,
+                     *       "blocks_approval": true,
+                     *       "events": [],
+                     *       "created_by": "00000000-0000-4000-8000-000000000386",
+                     *       "created_at": "2026-09-16T10:00:00.000Z"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactFinding"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    impact_escalation_sweep: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "escalated": 0,
+                     *       "finding_ids": []
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ImpactEscalationSweep"];
                 };
             };
             /** @description VALIDATION_ERROR */

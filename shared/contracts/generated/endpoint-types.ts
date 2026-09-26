@@ -294,4 +294,17 @@ export interface EndpointMap {
   operations_notification_sweep: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NotificationSweep> };
   portal_notices: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PortalNoticeList> };
   own_rights_request_history: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnRequestEventList> };
+  list_impact_templates: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactTemplateList> };
+  create_impact_template: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactTemplateCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactTemplate> };
+  publish_impact_template: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactTemplatePublish>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactTemplate> };
+  list_impact_assessments: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentList> };
+  create_impact_assessment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
+  impact_assessment: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
+  answer_impact_assessment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAnswersRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
+  submit_impact_assessment: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
+  decide_impact_assessment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactDecision>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
+  revise_impact_assessment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactRevise>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
+  create_impact_finding: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactFindingCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactAssessmentDetail> };
+  record_impact_finding_event: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactFindingEventRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactFinding> };
+  impact_escalation_sweep: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ImpactEscalationSweep> };
 }

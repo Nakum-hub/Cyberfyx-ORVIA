@@ -55,7 +55,7 @@ export function DataPrincipals() {
           </>
         )}
       </QueryBoundary>
-      {selected && <PrincipalDetail id={selected} onChanged={() => list.refresh()} />}
+      {selected && <PrincipalDetail key={selected} id={selected} onChanged={() => list.refresh()} />}
       <CreatePrincipal onSaved={id => { list.refresh(); setSelected(id); }} />
     </>
   );
@@ -274,7 +274,7 @@ export function OrganisationProfile() {
       <PageHead eyebrow="Registry" title="Organisation profile"
         lede="Facts about the organisation that decide which requirements apply. Significant Data Fiduciary status is recorded with its Government reference; unknown is a valid answer." />
       <Freshness query={profile} />
-      <ProfileForm current={profile.data?.current ?? null} onSaved={() => profile.refresh()} />
+      <ProfileForm key={profile.data?.current?.id ?? 'none'} current={profile.data?.current ?? null} onSaved={() => profile.refresh()} />
       <QueryBoundary query={profile} label="organisation profile" isEmpty={data => !data.current}>
         {data => {
           const current = data.current!;

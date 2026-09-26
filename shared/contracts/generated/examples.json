@@ -8683,6 +8683,882 @@
       }
     },
     {
+      "operation_id": "list_impact_templates",
+      "method": "GET",
+      "path": "/api/v1/admin/impact-templates",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-000000000384",
+            "template_key": "00000000-0000-4000-8000-000000000385",
+            "version": 1,
+            "kind": "DPIA",
+            "name": "Synthetic DPIA",
+            "description": "Synthetic assessment template for contract examples.",
+            "questions": [
+              {
+                "key": "shares_with_third_parties",
+                "text": "Is personal data shared with a third party?",
+                "answer_type": "YES_NO",
+                "choices": [],
+                "required": true,
+                "evidence_required": true,
+                "finding_when": "YES",
+                "finding_severity": "MEDIUM",
+                "guidance": null
+              }
+            ],
+            "requirement_ids": [],
+            "review_interval_days": 365,
+            "status": "PUBLISHED",
+            "recorded_by": "00000000-0000-4000-8000-000000000386",
+            "recorded_at": "2026-09-16T10:00:00.000Z",
+            "published_by": "00000000-0000-4000-8000-000000000387",
+            "published_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_impact_template",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-templates",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "template_key": null,
+        "kind": "DPIA",
+        "name": "Synthetic DPIA",
+        "description": "Synthetic assessment template for contract examples.",
+        "questions": [
+          {
+            "key": "shares_with_third_parties",
+            "text": "Is personal data shared with a third party?",
+            "answer_type": "YES_NO",
+            "choices": [],
+            "required": true,
+            "evidence_required": true,
+            "finding_when": "YES",
+            "finding_severity": "MEDIUM",
+            "guidance": null
+          }
+        ],
+        "requirement_ids": [],
+        "review_interval_days": 365
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000384",
+        "template_key": "00000000-0000-4000-8000-000000000385",
+        "version": 1,
+        "kind": "DPIA",
+        "name": "Synthetic DPIA",
+        "description": "Synthetic assessment template for contract examples.",
+        "questions": [
+          {
+            "key": "shares_with_third_parties",
+            "text": "Is personal data shared with a third party?",
+            "answer_type": "YES_NO",
+            "choices": [],
+            "required": true,
+            "evidence_required": true,
+            "finding_when": "YES",
+            "finding_severity": "MEDIUM",
+            "guidance": null
+          }
+        ],
+        "requirement_ids": [],
+        "review_interval_days": 365,
+        "status": "PUBLISHED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "published_by": "00000000-0000-4000-8000-000000000387",
+        "published_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "publish_impact_template",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-templates/{id}/publication",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "action": "PUBLISH"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000384",
+        "template_key": "00000000-0000-4000-8000-000000000385",
+        "version": 1,
+        "kind": "DPIA",
+        "name": "Synthetic DPIA",
+        "description": "Synthetic assessment template for contract examples.",
+        "questions": [
+          {
+            "key": "shares_with_third_parties",
+            "text": "Is personal data shared with a third party?",
+            "answer_type": "YES_NO",
+            "choices": [],
+            "required": true,
+            "evidence_required": true,
+            "finding_when": "YES",
+            "finding_severity": "MEDIUM",
+            "guidance": null
+          }
+        ],
+        "requirement_ids": [],
+        "review_interval_days": 365,
+        "status": "PUBLISHED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "published_by": "00000000-0000-4000-8000-000000000387",
+        "published_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "list_impact_assessments",
+      "method": "GET",
+      "path": "/api/v1/admin/impact-assessments",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "template_id": "00000000-0000-4000-8000-000000000384",
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "impact_assessment",
+      "method": "GET",
+      "path": "/api/v1/admin/impact-assessments/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "answer_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/answers",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register"
+          }
+        ]
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "submit_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/submission",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "decide_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "decision": "APPROVED",
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "revise_impact_assessment",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/revision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example",
+        "due_at": "2026-09-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "create_impact_finding",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-assessments/{id}/findings",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "question_key": null,
+        "title": "Reviewer finding on retention",
+        "severity": "LOW",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "grc_risk_id": null,
+        "grc_control_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000389",
+        "template": {
+          "id": "00000000-0000-4000-8000-000000000384",
+          "template_key": "00000000-0000-4000-8000-000000000385",
+          "version": 1,
+          "kind": "DPIA",
+          "name": "Synthetic DPIA",
+          "description": "Synthetic assessment template for contract examples.",
+          "questions": [
+            {
+              "key": "shares_with_third_parties",
+              "text": "Is personal data shared with a third party?",
+              "answer_type": "YES_NO",
+              "choices": [],
+              "required": true,
+              "evidence_required": true,
+              "finding_when": "YES",
+              "finding_severity": "MEDIUM",
+              "guidance": null
+            }
+          ],
+          "requirement_ids": [],
+          "review_interval_days": 365,
+          "status": "PUBLISHED",
+          "recorded_by": "00000000-0000-4000-8000-000000000386",
+          "recorded_at": "2026-09-16T10:00:00.000Z",
+          "published_by": "00000000-0000-4000-8000-000000000387",
+          "published_at": "2026-09-16T10:00:00.000Z"
+        },
+        "revision": 1,
+        "previous_id": null,
+        "subject_kind": "ORGANISATION",
+        "subject_id": null,
+        "title": "Synthetic organisation DPIA",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "status": "SUBMITTED",
+        "overdue": false,
+        "review_due": false,
+        "next_review_at": null,
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "submitted_by": "00000000-0000-4000-8000-000000000386",
+        "submitted_at": "2026-09-16T10:00:00.000Z",
+        "decided_by": null,
+        "decided_at": null,
+        "decision_note": null,
+        "answers": [
+          {
+            "question_key": "shares_with_third_parties",
+            "value": "YES",
+            "evidence_reference": "Synthetic data-flow register",
+            "carried_forward": false,
+            "answered_by": "00000000-0000-4000-8000-000000000386",
+            "answered_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "missing": [],
+        "findings": [
+          {
+            "id": "00000000-0000-4000-8000-00000000038e",
+            "assessment_id": "00000000-0000-4000-8000-000000000389",
+            "question_key": "shares_with_third_parties",
+            "source": "ANSWER_RULE",
+            "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+            "severity": "MEDIUM",
+            "owner_reference": "Synthetic owner",
+            "due_at": "2026-09-16T10:00:00.000Z",
+            "grc_risk_id": null,
+            "grc_control_id": null,
+            "state": "OPEN",
+            "overdue": false,
+            "blocks_approval": true,
+            "events": [],
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "approval_blockers": [
+          "Finding \"Answer \"YES\" to: Is personal data shared with a third party?\" is open."
+        ]
+      }
+    },
+    {
+      "operation_id": "record_impact_finding_event",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-findings/{id}/events",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "RESOLVED",
+        "note": "Contract signed with the recipient; sharing is covered.",
+        "evidence_reference": "Synthetic agreement AG-1",
+        "acceptance_expires_at": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000038e",
+        "assessment_id": "00000000-0000-4000-8000-000000000389",
+        "question_key": "shares_with_third_parties",
+        "source": "ANSWER_RULE",
+        "title": "Answer \"YES\" to: Is personal data shared with a third party?",
+        "severity": "MEDIUM",
+        "owner_reference": "Synthetic owner",
+        "due_at": "2026-09-16T10:00:00.000Z",
+        "grc_risk_id": null,
+        "grc_control_id": null,
+        "state": "OPEN",
+        "overdue": false,
+        "blocks_approval": true,
+        "events": [],
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "impact_escalation_sweep",
+      "method": "POST",
+      "path": "/api/v1/admin/impact-findings/escalation-sweep",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "escalated": 0,
+        "finding_ids": []
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",

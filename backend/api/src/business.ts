@@ -2,6 +2,8 @@ import { createHash, createHmac } from 'node:crypto';
 import { governanceRoute } from './governance-routes.ts';
 import { operationsRoute } from './operations-routes.ts';
 import { operationsRoutes } from '../../../shared/contracts/src/operations-routes.ts';
+import { expansionRoute } from './expansion-routes.ts';
+import { expansionRoutes } from '../../../shared/contracts/src/expansion-routes.ts';
 import type { OperationsEnv } from '../../domain/src/operations/shared.ts';
 import { platformRoute } from './platform-routes.ts';
 import { routes, schemas, Pagination, Id, PolicyReauthenticate, queryKeys, type RouteDefinition } from '../../../shared/contracts/src/index.ts';
@@ -35,6 +37,7 @@ const implemented=new Set(['grc_audit_response_history','list_grc_audits','creat
   'record_notice_revision','list_notice_revisions','notice_languages','set_language','preflight',
   'list_backup_snapshots','declare_snapshot','start_restore','list_restore_runs','restore_run','acknowledge_conflict','release_restore','vendor_visibility','audit_retention','set_audit_retention','list_imports','submit_import','import_batch','decide_import_row','apply_import','purge_import','report','own_rights_requests','raise_own_rights_request','own_rights_request']);
 for(const route of operationsRoutes)implemented.add(route.id);
+for(const route of expansionRoutes)implemented.add(route.id);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 let agentPool: ReturnType<typeof servicePool>|undefined;
 function operationsEnv(r: ReturnType<typeof runtime>): OperationsEnv {
@@ -119,6 +122,8 @@ export function createBusinessHandler(getRuntime:typeof runtime) { return (reque
         if(platformResult!==undefined)return platformResult;
         const operationsResult=await operationsRoute(c,route,id,input,page,query,operationsEnv(r));
         if(operationsResult!==undefined)return operationsResult;
+        const expansionResult=await expansionRoute(c,route,id,input,page,query);
+        if(expansionResult!==undefined)return expansionResult;
       switch(route.id) {
         case 'reauthenticate_policy':return recordPublicationProof(c,id!,input,staffSession!.session.id);
         case 'publish_policy':return publishPolicy(c,id!,input,staffSession!.session.id);
