@@ -228,6 +228,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/audit-retention', label: 'Audit retention' },
   ] },
   { group: 'Installation', items: [
+    { href: '/workspace/team', label: 'Team' },
     { href: '/workspace/preflight', label: 'Before go-live' },
     { href: '/workspace/connections', label: 'Guided connections' },
     { href: '/workspace/readiness', label: 'Operational readiness' },
