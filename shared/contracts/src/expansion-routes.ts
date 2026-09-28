@@ -133,4 +133,6 @@ export const expansionRoutes: Route[] = [
   write('create_staff_member', '/staff-members', 'StaffMemberCreate', 'StaffMemberCreated', 'staff.manage'),
   write('deactivate_staff_member', '/staff-members/{id}/deactivate', undefined, 'StaffMember', 'staff.manage', 200),
   write('reactivate_staff_member', '/staff-members/{id}/reactivate', undefined, 'StaffMember', 'staff.manage', 200),
+  write('delete_staff_member', '/staff-members/{id}/delete', 'LoginDeleteConfirm', 'StaffMember', 'staff.manage', 200),
+  write('delete_own_login', '/my-login/delete', 'LoginDeleteConfirm', 'OwnLoginDeleted', 'account.own.delete', 200),
 ];

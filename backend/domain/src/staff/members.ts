@@ -21,7 +21,7 @@ import { iso, refuse } from '../operations/shared.ts';
  */
 type Row = QueryResultRow;
 const memberView = (r: Row) => X.StaffMember.parse({ id: r.id, display_name: r.display_name, email: r.email, role: r.role, active: r.active, must_change_password: r.must_change_password,
-  authenticator_enrolled: r.authenticator_enrolled, counts_against_seats: r.counts_against_seats, created_by: r.created_by, created_at: iso(r.created_at), deactivated_at: iso(r.deactivated_at) });
+  authenticator_enrolled: r.authenticator_enrolled, counts_against_seats: r.counts_against_seats, created_by: r.created_by, created_at: iso(r.created_at), deactivated_at: iso(r.deactivated_at), deleted_at: iso(r.deleted_at) });
 
 /** Database refusals carry their code in the message and the field in the hint. */
 async function guarded<T>(work: () => Promise<T>): Promise<T> {
@@ -60,6 +60,29 @@ export async function createMember(c: Context, input: unknown) {
     await c.tx.query('SELECT app.staff_member_create($1,$2,$3,$4,$5)', [id, v.email, v.display_name, v.role, hash]);
     await audit(c, 'staff_member.create', id);
     return X.StaffMemberCreated.parse({ member: await member(c, id), one_time_password: oneTimePassword, seats: await seats(c) });
+  });
+}
+/**
+ * Deleting a login is a permanent suspension: no password, no authenticator, no
+ * session, no reactivation, seat freed, address released; the row and its name
+ * stay for the record. The confirmation word is checked by the schema here and
+ * again by the database function.
+ */
+export async function deleteMember(c: Context, id: string, input: unknown) {
+  const v = X.LoginDeleteConfirm.parse(input);
+  if (id === c.actor.actor_id) refuse(409, 'id', 'use_delete_my_login');
+  return guarded(async () => {
+    await c.tx.query('SELECT app.staff_delete_login($1,$2)', [id, v.confirmation]);
+    await audit(c, 'staff_member.delete', id);
+    return member(c, id);
+  });
+}
+export async function deleteOwnLogin(c: Context, input: unknown) {
+  const v = X.LoginDeleteConfirm.parse(input);
+  return guarded(async () => {
+    await c.tx.query('SELECT app.staff_delete_login($1,$2)', [c.actor.actor_id, v.confirmation]);
+    await audit(c, 'staff_login.delete_own', c.actor.actor_id);
+    return X.OwnLoginDeleted.parse({ deleted_at: new Date().toISOString(), signed_out: true });
   });
 }
 export async function setMemberActive(c: Context, id: string, active: boolean) {

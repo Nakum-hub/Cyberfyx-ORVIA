@@ -28,6 +28,18 @@ authorize if {
   input.mfa_verified == true
   input.capability in {"grc.approve", "ai_governance.approve", "policy.publish", "tests.run", "rights.release", "retention.approve", "incident.approve", "licence.manage", "support.approve", "update.approve", "audit.administer", "connection.enable", "restore.release", "registry.sensitive.read", "registry.sensitive.write", "operations.approve", "regulatory.manage", "sdf.manage"} | export_audit_caps
 }
+# Deleting one's own login. Never the owner: an organisation is not left without its owner.
+authorize if {
+  input.actor_domain == "STAFF"
+  input.role in {"ORG_ADMIN", "MEMBER"}
+  input.mfa_verified == true
+  input.capability == "account.own.delete"
+}
+authorize if {
+  input.actor_domain == "STAFF"
+  input.role == "AUDITOR"
+  input.capability == "account.own.delete"
+}
 # Database restrictive policies and resource checks require an exact assignment.
 authorize if {
  input.actor_domain == "STAFF"
