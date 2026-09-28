@@ -12931,7 +12931,8 @@
           "counts_against_seats": false,
           "created_by": null,
           "created_at": "2026-09-16T10:00:00.000Z",
-          "deactivated_at": null
+          "deactivated_at": null,
+          "deleted_at": null
         },
         "one_time_password": "Synthetic examplexxxxxxx",
         "seats": {
@@ -12962,7 +12963,8 @@
         "counts_against_seats": false,
         "created_by": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "deactivated_at": null
+        "deactivated_at": null,
+        "deleted_at": null
       }
     },
     {
@@ -12985,7 +12987,50 @@
         "counts_against_seats": false,
         "created_by": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "deactivated_at": null
+        "deactivated_at": null,
+        "deleted_at": null
+      }
+    },
+    {
+      "operation_id": "delete_staff_member",
+      "method": "POST",
+      "path": "/api/v1/admin/staff-members/{id}/delete",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "confirmation": "DELETE"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000263",
+        "display_name": "Synthetic example",
+        "email": "asha@aster.example",
+        "role": "ORG_SUPER_ADMIN",
+        "active": false,
+        "must_change_password": false,
+        "authenticator_enrolled": false,
+        "counts_against_seats": false,
+        "created_by": null,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "deactivated_at": null,
+        "deleted_at": null
+      }
+    },
+    {
+      "operation_id": "delete_own_login",
+      "method": "POST",
+      "path": "/api/v1/admin/my-login/delete",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "confirmation": "DELETE"
+      },
+      "response_status": 200,
+      "response": {
+        "deleted_at": "2026-09-16T10:00:00.000Z",
+        "signed_out": true
       }
     },
     {
@@ -12994,8 +13039,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000263",
-        "environment_id": "00000000-0000-4000-8000-000000000264",
+        "installation_id": "00000000-0000-4000-8000-000000000264",
+        "environment_id": "00000000-0000-4000-8000-000000000265",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -13012,9 +13057,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000265",
+        "command_id": "00000000-0000-4000-8000-000000000266",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000266",
+        "attempt_id": "00000000-0000-4000-8000-000000000267",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -13022,7 +13067,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000267",
+        "operation_id": "00000000-0000-4000-8000-000000000268",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -13035,10 +13080,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000268",
-        "principal_reference_id": "00000000-0000-4000-8000-000000000269",
-        "purpose_id": "00000000-0000-4000-8000-00000000026a",
-        "system_id": "00000000-0000-4000-8000-00000000026b",
+        "attempt_id": "00000000-0000-4000-8000-000000000269",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000026a",
+        "purpose_id": "00000000-0000-4000-8000-00000000026b",
+        "system_id": "00000000-0000-4000-8000-00000000026c",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -13111,9 +13156,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000026c",
+        "command_id": "00000000-0000-4000-8000-00000000026d",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000026d",
+        "attempt_id": "00000000-0000-4000-8000-00000000026e",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -13128,7 +13173,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-00000000026e",
+        "resource_id": "00000000-0000-4000-8000-00000000026f",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -13143,9 +13188,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000026f",
+        "command_id": "00000000-0000-4000-8000-000000000270",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000270",
+        "attempt_id": "00000000-0000-4000-8000-000000000271",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

@@ -538,7 +538,7 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   - `Seq Scan on audit_events (rows=1 estimated, 58036 actual)`, then a top-N sort: 110 ms;
   - the matching `audit_events_scope_time_id (tenant, entity, env, created_at DESC, id DESC)` index goes unused.
 - Cause: `app.in_scope` (0001) compares `column::text = current_setting(...)`. The planner cannot estimate that and assumes one row, so it never chooses the ordered index scan with LIMIT. Cost therefore grows linearly with table size.
-- Proposed migration `0062_typed_scope_predicate.sql`:
+- Proposed migration `0063_typed_scope_predicate.sql`:
   ```sql
   CREATE OR REPLACE FUNCTION app.in_scope(t uuid,l uuid,e uuid) RETURNS boolean LANGUAGE sql STABLE AS $$
    SELECT t = nullif(current_setting('orvia.tenant_id',true),'')::uuid
@@ -556,7 +556,7 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   4. Re-run `capacity:mixed`.
 - `scripts/capacity-mixed.ts` now records EXPLAIN plans for both list shapes in its evidence.
 
-**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0062_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
+**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0063_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
 
 ## EX01 — communication preferences (topics, portal choices, decision at time of use)
 
@@ -683,3 +683,17 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 | `pnpm run test:auth` | 88/88 PASS. The reset of reviewer is followed by completing its enrollment with a real TOTP code and recording it, so the shared fixture ends enrolled. A first version without that step broke the expansion e2e (reviewer had no recorded authenticator); that was fixed and re-verified. |
 | `tsx tests/e2e/expansion-screens-local.ts` (regression) | 69/69 PASS after the sign-in and nav changes |
 | `vendor:issue-licence` | issued a tier_1_members_10 licence for codex-a00; `tier_2_members_5` refused as not defined |
+
+## Delete a login (typed DELETE confirmation). Verified after the unverified push (user request, 2026-09-28)
+
+`0559a15` was pushed, and then merged to main in PR #27, **before** verification, because the session's tool safety check was failing on every shell command. It has now been verified with no code changes needed:
+
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint | `0062_staff_delete` applied; contract 0.40.0 with 410 route examples; clean; clean |
+| `pnpm test` | 271/271 |
+| `tsx tests/integration/expansion/staff-delete.test.ts` | 27/27 PASS. Covers:<br>• every near-miss of DELETE refused by the API (400);<br>• the database function refuses 'delete' (`confirmation_required`);<br>• an administrator deletes a member: signed out, password dead, seat freed, no reactivation (`login_deleted`), no second deletion, address reusable, name kept;<br>• owner and administrator not deletable through the member route; self only through My login; a member cannot delete others (403);<br>• the owner cannot delete themselves (403); cross-tenant 404;<br>• an auditor and an MFA member delete their own logins;<br>• both acts audited. |
+| `tsx tests/e2e/delete-login-local.ts` | 14/14 PASS in a real browser. Covers:<br>• Delete disabled for empty, delete, Delete, 'DELETE ' and DELET; Cancel deletes nothing;<br>• enabled only for DELETE, and the request carries it;<br>• the row shows deleted with no buttons;<br>• an auditor self-deletes from My login and loses the session;<br>• the owner is shown no self-delete button. |
+| team e2e / staff-members / auth (regressions) | 8/8, 37/37, 88/88 |
+
+Semantics: deletion is a permanent suspension. Password, authenticator and sessions are removed, reactivation is refused, and the seat and email address are released. The identity row and name stay, because audit events and approvals reference them.

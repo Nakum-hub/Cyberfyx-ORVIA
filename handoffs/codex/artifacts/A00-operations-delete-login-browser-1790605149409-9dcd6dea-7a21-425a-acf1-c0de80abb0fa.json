@@ -1,0 +1,109 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-28T14:19:09.409Z",
+  "suite": "delete-login-browser",
+  "assertions": [
+    {
+      "name": "Delete is disabled before anything is typed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Delete stays disabled for \"delete\"",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Delete stays disabled for \"Delete\"",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Delete stays disabled for \"DELETE \"",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Delete stays disabled for \"DELET\"",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Cancel closes the pop-up and deletes nothing",
+      "result": "PASS",
+      "expected": [
+        0,
+        null
+      ],
+      "actual": [
+        0,
+        null
+      ]
+    },
+    {
+      "name": "Delete is enabled only for DELETE",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the request carried the confirmation and succeeded",
+      "result": "PASS",
+      "expected": [
+        200,
+        "DELETE"
+      ],
+      "actual": [
+        200,
+        "DELETE"
+      ]
+    },
+    {
+      "name": "the deleted login has no Delete or Reactivate button",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "self-deletion also stays disabled for lower case",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "after self-deletion the session is gone",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "the owner sees no Delete my login button",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "no request left the local origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no page or console error occurred",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 14,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
