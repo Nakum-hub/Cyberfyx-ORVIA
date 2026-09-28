@@ -4,7 +4,9 @@
  * VENDOR (ORVIA the company) — `.local/vendor/`
  *   signing/release.json   release/regulatory-package signing key pair (private + public)
  *   signing/licence.json   licence signing key pair (private + public)
- *   (later) commerce/      payment-provider secrets for the vendor Account
+ *   commerce/razorpay.json Razorpay keys for the vendor website checkout (key_id,
+ *                          key_secret, webhook_secret, merchant_id, mode); see
+ *                          docs/engineering/PAYMENTS_PROVIDER_DECISION.md
  *   These are used only by vendor tooling and by tests that play the vendor to
  *   sign fixtures. They are never placed on, or passed to, a customer runtime.
  *   In production they belong in the vendor's own custody (offline or HSM), not
@@ -72,4 +74,14 @@ export function customerEnvironment(base: NodeJS.ProcessEnv, profile: string): N
     }
   }
   return env;
+}
+
+/** Vendor-side only: the Razorpay credentials for the vendor website checkout, or null until provisioned. */
+export function vendorRazorpayCredentials() {
+  const path = resolve(vendorDirectory(), 'commerce', 'razorpay.json');
+  if (!existsSync(path)) return null;
+  const o = JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>;
+  const mode = o.mode === 'live' ? 'live' as const : o.mode === 'test' ? 'test' as const : null;
+  if (!mode) throw new Error('razorpay.json mode must be "test" or "live"');
+  return { key_id: text(o.key_id, 'Razorpay key_id'), key_secret: text(o.key_secret, 'Razorpay key_secret'), webhook_secret: text(o.webhook_secret, 'Razorpay webhook_secret'), merchant_id: text(o.merchant_id, 'Razorpay merchant_id'), mode };
 }

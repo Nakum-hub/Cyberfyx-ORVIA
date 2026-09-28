@@ -697,3 +697,21 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 | team e2e / staff-members / auth (regressions) | 8/8, 37/37, 88/88 |
 
 Semantics: deletion is a permanent suspension. Password, authenticator and sessions are removed, reactivation is refused, and the seat and email address are released. The identity row and name stay, because audit events and approvals reference them.
+
+## Typed scope predicate APPLIED (0063); payments provider decision (2026-09-28)
+
+**0063_typed_scope_predicate.sql applied** (user-approved; the tool safety check allowed it this time). `app.in_scope` now compares uuids.
+
+| Check | Result |
+|---|---|
+| EXPLAIN through the real `orvia_app` scoped path, audit list in a scope of 60,975 rows | before: Seq Scan plus Sort, 110 ms. After: **Index Scan using audit_events_scope_time_id, 0.44 ms** |
+| `pnpm test` / `test:auth` | 271/271, 88/88 |
+| all 13 expansion suites | pass. classification 29, cmp 44, delivery 41, grc-lifecycle 75, impact 41, preferences 39, response-packages 52, **ropa-exports 58 (see below)**, staff-delete 27, staff-members 37, third-party 43 |
+| all 13 DPDP operations suites | pass. regulatory 32, applicability 18, registry 47, estate-import 18, notices 15, consent-withdrawal 38, rights 26, correction 12, processors 14, breach 19, sdf 22, runner 10, retention-scale 16 |
+
+**ropa-exports root cause (not a flake).** `sweepCatalogDiscovery` takes at most 10 due jobs per pass, oldest first. The shared codex-a00 scope had accumulated 35 approved jobs from earlier runs, 15 of them due, so the test's new job was not in the one sweep the test made. The product behaviour (bounded batch, continuous worker loop) is intended. The test now sweeps up to 20 times until its own target has an observation. The 2026-09-26 "under load" failure was the same starvation.
+
+**Payments:** `docs/engineering/PAYMENTS_PROVIDER_DECISION.md` records the user's decision: Indian providers only, Razorpay. It gives the reason (RBI 2018 payment-data localisation, plus DPDP s.16 caution) and the activation checklist.
+- The Razorpay key location is `.local/vendor/commerce/razorpay.json`, loaded by `vendorRazorpayCredentials()` in `scripts/credentials.ts`.
+- Codex's adapter in `backend/vendor/commerce/**` was **not edited**, to avoid a second writer.
+- Not done: merchant account and KYC; RBI list check (government and RBI hosts are blocked by this environment's network policy); vendor website; sandbox conformance.

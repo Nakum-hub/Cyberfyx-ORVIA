@@ -12,8 +12,9 @@
  *   option that does not exist cannot be issued.
  * - Tier-to-edition mapping (Tier 1 = FOUNDATION, Tier 2 = CONTROL, Tier 3 =
  *   ENTERPRISE) is an engineering assumption awaiting confirmation.
- * - Prices, taxes and billing periods are deliberately absent until commercial
- *   terms are approved (payments are on hold).
+ * - Payments: Indian providers only; Razorpay selected (2026-09-28, see
+ *   docs/engineering/PAYMENTS_PROVIDER_DECISION.md). Prices, taxes and billing
+ *   periods stay absent until the team approves commercial terms.
  */
 export type PlanOption = { code: string; label: string; member_seats: number };
 export type Tier = { code: string; name: string; edition: 'FOUNDATION' | 'CONTROL' | 'ENTERPRISE'; options: PlanOption[] };
