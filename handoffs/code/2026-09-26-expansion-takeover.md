@@ -640,3 +640,45 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 | `credentials:separate` run twice | first run moved release and licence and wrote trust for 2 profiles; second run moved nothing |
 | preflight | 20/20 PASS, including a new assertion: the test process holds the vendor private key, the app it started does not, and the SIGNING_KEYS gate passes |
 | licensing / updates / regulatory / web / preferences | 33/33, 54/54, 32/32, pass, 39/39 |
+
+## Licence-limited organisation member logins (user request, 2026-09-28)
+
+**Built**
+- Migration `0060_staff_members.sql`: SECURITY DEFINER functions `app.member_seats`, `app.staff_member_create`, `app.staff_member_set_active` and `app.staff_member_list`.
+  - They check the caller's STAFF domain, owner or administrator role and `staff.manage`, and scope everything to the caller's organisation.
+  - Seat decisions take a scope advisory lock and count against the active, unexpired licence's `licensed_limits.member_seats`.
+  - Only MEMBER and AUDITOR can be created or toggled. Deactivation deletes sessions.
+  - New `staff_auth.authority` columns: `must_change_password`, `created_by`/`created_at`, `deactivated_by`/`deactivated_at`.
+- Migration `0061_member_count_view.sql`: `local_identity_summary.active_members`.
+- Licence contract: optional `member_seats` in `licensed_limits`, `MEMBER_SEATS` in limit usage, contract 0.39.0.
+- New capability `staff.manage` for ORG_SUPER_ADMIN and ORG_ADMIN, added to the roles, the contract enum and OPA `admin_caps`.
+- Routes: `staff_team`, `create_staff_member`, `deactivate_staff_member`, `reactivate_staff_member`.
+- The ROLE_GRANTS audit category now lists these operations, and its note was rewritten.
+- Auth:
+  - `authorityFor` refuses a login with `must_change_password` (403 `password_change_required`);
+  - the staff auth handler allows `/change-password` and serves `/orvia/password-state`;
+  - a successful change clears the flag.
+- UI:
+  - `/workspace/team` (Installation → Team): seats, logins, add member with the one-time password shown once, deactivate and reactivate;
+  - the sign-in page adds a "Choose your own password" step before authenticator setup.
+- Vendor side:
+  - `backend/vendor/plans/catalogue.ts`: Tier 1 has 5 or 10 members; Tiers 2 and 3 have no options yet; the edition mapping is an assumption;
+  - `backend/vendor/licensing/issue.ts` and `pnpm run vendor:issue-licence confirm:vendor` sign a licence from a plan option with the vendor key.
+- Documentation: `docs/engineering/subscription-seats.md`.
+- `tests/security/auth.test.ts` now resets the synthetic reviewer's authenticator before its enrollment scenario. Once another suite had enrolled reviewer, that check failed and every later security check was skipped; the identical failure is recorded on 2026-09-26, before this work.
+
+**Honest limits**
+- Tier 2 and 3 options, the edition mapping and per-tier features are undecided. Prices, payment and the website signup and download flow are on hold (EX13).
+- A licence that lowers seats below current use blocks new members but deactivates nobody.
+- Owner and administrator counts are not capped here; they remain protected-setup only.
+- Approval flows that need two privileged people still need two owner or administrator logins, which protected setup must provide.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint | 0060 and 0061 applied; contract 0.39.0 with 408 route examples; clean; clean |
+| `pnpm test` | 271/271, including `tests/unit/vendor-plans.test.ts`: Tier 1 is 5 and 10; issued licences carry seats plus 2 included logins; the signature verifies and a raised seat count fails verification; unknown and undefined options refused; a bad catalogue refused; an unknown entitlement refused |
+| `tsx tests/integration/expansion/staff-members.test.ts` | 37/37 PASS. Covers: role access; a licence without seats allows none; the seat limit on create and reactivate; a concurrent last-seat race where exactly one succeeds; owner and administrator neither creatable nor deactivatable; a free-seat duplicate email refused; a deactivated login has no authority and its session is gone; the one-time password flow (flag, forced change, wrong current password refused, old password dead, MFA still required); tenant isolation; a catalogue-issued Tier 1 licence enforced as 5; audit; `orvia_app` cannot write `staff_auth` (42501); the definer function refuses a caller without staff authority |
+| `tsx tests/e2e/team-local.ts` | 8/8 PASS in a real browser: add a member on screen, the one-time password shown once, seats full hides the form, the member replaces the password, enrolls TOTP and gets a MEMBER session, the admin sees them active. (The console-error filter ignores the expected 403 from the sign-in page's pre-MFA session probe.) |
+| `pnpm run test:auth` | 87/87 PASS |
+| `vendor:issue-licence` | issued a tier_1_members_10 licence for codex-a00; `tier_2_members_5` refused as not defined |

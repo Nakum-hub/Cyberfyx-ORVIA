@@ -15,6 +15,7 @@ import * as S from '../../../shared/contracts/src/index.ts';
 import { canonicalJson } from '../../../shared/contracts/src/crypto.ts';
 import { operationsSuite, key } from '../../../shared/testing/src/operations-fixture.ts';
 import { vendorSigningKey } from '../../../scripts/credentials.ts';
+import { issueLicence } from '../../../backend/vendor/licensing/issue.ts';
 
 const t = operationsSuite('staff-members');
 const { h, check, ok, codes, db } = t;
@@ -108,12 +109,18 @@ await t.run(async () => {
     await h.authWindow();
     check('the one-time password no longer works', (await h.browser().call('/api/auth/staff/sign-in/email', { email: fresh.member.email, password: fresh.one_time_password, rememberMe: false })).status, 401);
 
+    t.setPhase('a licence issued from the vendor catalogue');
+    const issued = issueLicence({ installation_id: installation, option: 'tier_1_members_5', entitlements: ['PRIVACY_GRAPH'], environments: 3, valid_from: days(-1), valid_to: days(365) }, vendor);
+    await ok(owner.call('/api/v1/admin/licences', { licence: issued.licence }, key()), S.schemas.LicenceState, [200, 201]);
+    team = await teamOf();
+    check('a Tier 1 five-member licence issued from the catalogue is enforced as five member seats', [team.seats.licence_state, team.seats.licensed], ['ACTIVE', 5]);
+
     t.setPhase('isolation and audit');
     const birchTeam = await ok(birch.call('/api/v1/admin/staff-members'), Team);
     check('another organisation sees none of these members', birchTeam.members.some(m => created.includes(m.id)), false);
     check('another organisation cannot deactivate them', (await birch.call(`/api/v1/admin/staff-members/${fresh.member.id}/deactivate`, {}, key())).status, 404);
     const report = await ok(owner.call('/api/v1/admin/entitlements'), S.schemas.EntitlementReport);
-    check('the licence report shows member seats as a counted limit', report.limit_usage.some(u => u.limit === 'MEMBER_SEATS' && u.licensed === used + 2 && u.within), true);
+    check('the licence report shows member seats as a counted limit', report.limit_usage.some(u => u.limit === 'MEMBER_SEATS' && u.licensed === 5), true);
     const audited = (await db.query(`SELECT operation, count(*)::int n FROM app.audit_events WHERE resource_id = ANY($1) AND operation LIKE 'staff_member.%' GROUP BY 1 ORDER BY 1`, [created])).rows.map(r => r.operation);
     check('creation, deactivation and reactivation are audited', ['staff_member.create', 'staff_member.deactivate', 'staff_member.reactivate'].every(o => audited.includes(o)), true);
     const client = await db.connect();

@@ -133,6 +133,13 @@ try {
   const auditor=await login('auditor');
   check('auditor read allowed',(await auditor.call('/api/v1/admin/principals')).status,200);
   check('auditor mutation denied',(await auditor.call('/api/v1/admin/principals',input,{'idempotency-key':randomUUID()})).status,403);
+  // This scenario needs a staff login that has never enrolled an authenticator. The shared
+  // synthetic reviewer may have been enrolled by another suite, which made this check fail and
+  // stopped every check after it. Reset that one synthetic enrollment first (fixture state only).
+  const reviewerId=fixture.users.reviewer!.id;
+  await admin.query('DELETE FROM staff_auth."twoFactor" WHERE "userId"=$1',[reviewerId]);
+  await admin.query('UPDATE staff_auth."user" SET "twoFactorEnabled"=false WHERE id=$1',[reviewerId]);
+  delete fixture.users.reviewer!.totp_uri; writePrivateJson(credentialPath,fixture);
   const enrollmentUser=await login('reviewer',false);
   const enrollmentPath='/api/auth/staff/two-factor/enable';
   const enrollmentResponse=await enrollmentUser.call(enrollmentPath,{password:fixture.users.reviewer!.password,method:'totp'});
