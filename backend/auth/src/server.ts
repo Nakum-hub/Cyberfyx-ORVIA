@@ -33,7 +33,7 @@ export function createAuth(config: RuntimeConfig, domain: Domain, bootstrap = fa
 export type AuthInstance = ReturnType<typeof createAuth>;
 
 const commonPaths = new Set(['/sign-in/email', '/sign-out', '/get-session', '/list-sessions', '/revoke-session', '/revoke-sessions', '/revoke-other-sessions']);
-const staffPaths = new Set(['/two-factor/enable', '/two-factor/verify-totp', '/two-factor/verify-backup-code']);
+const staffPaths = new Set(['/two-factor/enable', '/two-factor/verify-totp', '/two-factor/verify-backup-code', '/change-password', '/orvia/password-state']);
 
 // Transport guard around the supported library handler. No password/session crypto
 // is implemented here. Signup is available only to the protected setup process.
@@ -44,6 +44,14 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
   if ((request.headers.get('host') ?? url.host) !== new URL(config.origin).host || request.headers.has('authorization')) return fail(403, 'FORBIDDEN');
   if (!commonPaths.has(path) && !(instance.domain === 'staff' && staffPaths.has(path))) return fail(404, 'NOT_FOUND');
   if (request.method !== 'GET' && request.method !== 'POST') return fail(405, 'METHOD_NOT_ALLOWED');
+  // Whether the signed-in staff login must replace its one-time password before anything else.
+  if (instance.domain === 'staff' && path === '/orvia/password-state') {
+    if (request.method !== 'GET') return fail(405, 'METHOD_NOT_ALLOWED');
+    const session = await instance.auth.api.getSession({ headers: request.headers, query: { disableCookieCache: true } });
+    if (!session) return fail(401, 'UNAUTHENTICATED');
+    const row = (await instance.pool.query('SELECT must_change_password FROM staff_auth.authority WHERE user_id=$1 AND active', [session.user.id])).rows[0];
+    return Response.json({ must_change_password: row?.must_change_password === true }, { headers: { 'Cache-Control': 'no-store', 'X-Request-Id': requestId } });
+  }
   const headers = new Headers(request.headers);
   // Local direct ingress only; never trust caller-controlled forwarding/IP headers.
   for (const name of ['x-forwarded-for', 'x-real-ip', 'forwarded', 'x-orvia-loopback-ip']) headers.delete(name);
@@ -61,6 +69,7 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
       '/sign-in/email': ['email', 'password', 'rememberMe', 'callbackURL'],
       '/two-factor/enable': ['password', 'method'], '/two-factor/verify-totp': ['code', 'trustDevice'],
       '/two-factor/verify-backup-code': ['code', 'trustDevice'], '/revoke-session': ['token'],
+      '/change-password': ['currentPassword', 'newPassword', 'revokeOtherSessions'],
     };
     if (Object.keys(data).some(key => !(fields[path] ?? []).includes(key))) return fail(400, 'INVALID_BODY');
     if (data.trustDevice === true || (data.method !== undefined && data.method !== 'totp')) return fail(400, 'UNSUPPORTED_METHOD');
@@ -88,6 +97,11 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
       WHERE s.id=$1 AND u."twoFactorEnabled" AND f.verified
       ON CONFLICT (session_id) DO UPDATE SET verified_at=staff_auth.mfa_sessions.verified_at RETURNING session_id`, [session.session.id]);
     if (proof.rowCount !== 1) return fail(403, 'MFA_ENROLLMENT_REQUIRED');
+  }
+  if (response.ok && instance.domain === 'staff' && path === '/change-password') {
+    // The library has verified the current password and stored the new one; the one-time password is now spent.
+    const session = await instance.auth.api.getSession({ headers, query: { disableCookieCache: true } });
+    if (session) await instance.pool.query('UPDATE staff_auth.authority SET must_change_password=false WHERE user_id=$1 AND must_change_password', [session.user.id]);
   }
   const schema = instance.domain === 'staff' ? 'staff_auth' : 'principal_auth';
   await instance.pool.query(`INSERT INTO ${schema}.auth_audit (id,request_id,operation,status) VALUES ($1,$2,$3,$4)`, [randomUUID(), requestId, path, response.status]);

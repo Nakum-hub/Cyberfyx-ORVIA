@@ -167,6 +167,12 @@ export async function entitlementReport(c: Context) {
       observed: staff, within: staff <= licence.licensed_limits.staff_members,
       counted: 'Active staff identities in this scope, read from the scoped identity summary rather than from the identity store directly.',
     });
+    const seats = licence.licensed_limits.member_seats;
+    if (seats !== undefined) {
+      const members = Number((await c.tx.query('SELECT active_members AS n FROM app.local_identity_summary')).rows[0]?.n ?? 0);
+      limit_usage.push({ limit: 'MEMBER_SEATS' as const, licensed: seats, observed: members, within: members <= seats,
+        counted: 'Active MEMBER and AUDITOR logins in this scope. Owner and administrator logins are not counted. Unlike the other limits, this one is enforced when a member is created or reactivated.' });
+    }
   }
   return S.EntitlementReport.parse({
     as_of: new Date().toISOString(), licence, features,

@@ -1,0 +1,43 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-28T07:31:37.067Z",
+  "suite": "staff-members",
+  "assertions": [
+    {
+      "name": "a member cannot see the team",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot see the team",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner sees the team with owner and administrator not counted",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in a licence must state member seats",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "error:1E08010C:DECODER routines::unsupported"
+    }
+  ],
+  "passed": 3,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

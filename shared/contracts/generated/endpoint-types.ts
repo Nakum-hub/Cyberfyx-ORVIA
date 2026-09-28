@@ -396,4 +396,8 @@ export interface EndpointMap {
   preference_decision: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceDecision> };
   own_preferences: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceCentre> };
   set_own_preference: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceChoice>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceChoiceReceipt> };
+  staff_team: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffTeam> };
+  create_staff_member: { request: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMemberCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMemberCreated> };
+  deactivate_staff_member: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMember> };
+  reactivate_staff_member: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMember> };
 }

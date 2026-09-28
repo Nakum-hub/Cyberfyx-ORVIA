@@ -12889,13 +12889,113 @@
       }
     },
     {
+      "operation_id": "staff_team",
+      "method": "GET",
+      "path": "/api/v1/admin/staff-members",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "seats": {
+          "licence_state": "ACTIVE",
+          "licensed": null,
+          "used": -9007199254740991,
+          "available": -9007199254740991
+        },
+        "members": [],
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "create_staff_member",
+      "method": "POST",
+      "path": "/api/v1/admin/staff-members",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "display_name": "Synthetic example",
+        "email": "asha@aster.example",
+        "role": "MEMBER"
+      },
+      "response_status": 201,
+      "response": {
+        "member": {
+          "id": "00000000-0000-4000-8000-000000000260",
+          "display_name": "Synthetic example",
+          "email": "asha@aster.example",
+          "role": "ORG_SUPER_ADMIN",
+          "active": false,
+          "must_change_password": false,
+          "authenticator_enrolled": false,
+          "counts_against_seats": false,
+          "created_by": null,
+          "created_at": "2026-09-16T10:00:00.000Z",
+          "deactivated_at": null
+        },
+        "one_time_password": "Synthetic examplexxxxxxx",
+        "seats": {
+          "licence_state": "ACTIVE",
+          "licensed": null,
+          "used": -9007199254740991,
+          "available": -9007199254740991
+        }
+      }
+    },
+    {
+      "operation_id": "deactivate_staff_member",
+      "method": "POST",
+      "path": "/api/v1/admin/staff-members/{id}/deactivate",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000261",
+        "display_name": "Synthetic example",
+        "email": "asha@aster.example",
+        "role": "ORG_SUPER_ADMIN",
+        "active": false,
+        "must_change_password": false,
+        "authenticator_enrolled": false,
+        "counts_against_seats": false,
+        "created_by": null,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "deactivated_at": null
+      }
+    },
+    {
+      "operation_id": "reactivate_staff_member",
+      "method": "POST",
+      "path": "/api/v1/admin/staff-members/{id}/reactivate",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000262",
+        "display_name": "Synthetic example",
+        "email": "asha@aster.example",
+        "role": "ORG_SUPER_ADMIN",
+        "active": false,
+        "must_change_password": false,
+        "authenticator_enrolled": false,
+        "counts_against_seats": false,
+        "created_by": null,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "deactivated_at": null
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000260",
-        "environment_id": "00000000-0000-4000-8000-000000000261",
+        "installation_id": "00000000-0000-4000-8000-000000000263",
+        "environment_id": "00000000-0000-4000-8000-000000000264",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -12912,9 +13012,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000262",
+        "command_id": "00000000-0000-4000-8000-000000000265",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000263",
+        "attempt_id": "00000000-0000-4000-8000-000000000266",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -12922,7 +13022,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000264",
+        "operation_id": "00000000-0000-4000-8000-000000000267",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -12935,10 +13035,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000265",
-        "principal_reference_id": "00000000-0000-4000-8000-000000000266",
-        "purpose_id": "00000000-0000-4000-8000-000000000267",
-        "system_id": "00000000-0000-4000-8000-000000000268",
+        "attempt_id": "00000000-0000-4000-8000-000000000268",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000269",
+        "purpose_id": "00000000-0000-4000-8000-00000000026a",
+        "system_id": "00000000-0000-4000-8000-00000000026b",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -13011,9 +13111,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000269",
+        "command_id": "00000000-0000-4000-8000-00000000026c",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000026a",
+        "attempt_id": "00000000-0000-4000-8000-00000000026d",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -13028,7 +13128,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-00000000026b",
+        "resource_id": "00000000-0000-4000-8000-00000000026e",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -13043,9 +13143,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000026c",
+        "command_id": "00000000-0000-4000-8000-00000000026f",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000026d",
+        "attempt_id": "00000000-0000-4000-8000-000000000270",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

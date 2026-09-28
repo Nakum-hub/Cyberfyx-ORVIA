@@ -5,8 +5,8 @@ import type { Authority } from '../../../database/customer/src/runtime.ts';
 
 const read = ['grc.read', 'ai_governance.read', 'overview.read', 'configuration.read', 'principals.read', 'workflow.read', 'evidence.read', 'evidence.export', 'tests.read', 'capabilities.read', 'graph.read', 'rights.read', 'retention.read', 'coverage.read', 'processor.read', 'incident.read', 'notification.read', 'licence.read', 'support.read', 'update.read', 'audit.read', 'health.read', 'registry.read'];
 export const roleCapabilities: Record<string, string[]> = {
-  ORG_SUPER_ADMIN: [...read, 'grc.write', 'grc.approve', 'ai_governance.write', 'ai_governance.approve', 'configuration.write', 'policy.publish', 'systems.check', 'principals.create', 'action.reconcile', 'manual.attest', 'policy.preview', 'tests.run', 'graph.write', 'rights.write', 'rights.release', 'retention.write', 'retention.approve', 'coverage.manage', 'processor.write', 'incident.write', 'incident.approve', 'notification.manage', 'licence.manage', 'support.manage', 'support.approve', 'update.approve', 'audit.administer', 'audit.export', 'connection.enable', 'restore.release', 'registry.write', 'registry.sensitive.read', 'registry.sensitive.write', 'operations.execute', 'operations.approve', 'regulatory.manage', 'sdf.manage'],
-  ORG_ADMIN: [...read, 'grc.write', 'ai_governance.write', 'configuration.write', 'systems.check', 'principals.create', 'action.reconcile', 'manual.attest', 'policy.preview', 'graph.write', 'rights.write', 'retention.write', 'coverage.manage', 'processor.write', 'incident.write', 'notification.manage', 'support.manage', 'registry.write', 'operations.execute'],
+  ORG_SUPER_ADMIN: [...read, 'staff.manage', 'grc.write', 'grc.approve', 'ai_governance.write', 'ai_governance.approve', 'configuration.write', 'policy.publish', 'systems.check', 'principals.create', 'action.reconcile', 'manual.attest', 'policy.preview', 'tests.run', 'graph.write', 'rights.write', 'rights.release', 'retention.write', 'retention.approve', 'coverage.manage', 'processor.write', 'incident.write', 'incident.approve', 'notification.manage', 'licence.manage', 'support.manage', 'support.approve', 'update.approve', 'audit.administer', 'audit.export', 'connection.enable', 'restore.release', 'registry.write', 'registry.sensitive.read', 'registry.sensitive.write', 'operations.execute', 'operations.approve', 'regulatory.manage', 'sdf.manage'],
+  ORG_ADMIN: [...read, 'staff.manage', 'grc.write', 'ai_governance.write', 'configuration.write', 'systems.check', 'principals.create', 'action.reconcile', 'manual.attest', 'policy.preview', 'graph.write', 'rights.write', 'retention.write', 'coverage.manage', 'processor.write', 'incident.write', 'notification.manage', 'support.manage', 'registry.write', 'operations.execute'],
   // Assigned workflow/task permissions require a resource assignment in A03.
   MEMBER: ['workflow.read', 'action.reconcile', 'manual.attest'],
   // Taking evidence away is what an auditor is for, so the export permission
@@ -35,6 +35,8 @@ export async function authorityFor(request: Request, staff: AuthInstance, princi
   const result = await instance.pool.query(`SELECT * FROM ${schema}.authority WHERE user_id=$1 AND active`, [session.user.id]);
   if (result.rowCount !== 1) throw new AccessError(403, 'FORBIDDEN');
   const binding = result.rows[0];
+  // A login created by an administrator has no authority until its holder replaces the one-time password.
+  if (staffSession && binding.must_change_password) throw new AccessError(403, 'FORBIDDEN', [{ field: 'password', code: 'password_change_required' }]);
   const role = staffSession ? binding.role : 'DATA_PRINCIPAL';
   const capabilities = roleCapabilities[role];
   if (!capabilities) throw new AccessError(403, 'FORBIDDEN');
