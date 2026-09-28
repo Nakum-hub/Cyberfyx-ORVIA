@@ -612,4 +612,4 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 |---|---|
 | typecheck / lint | clean |
 | `pnpm test` | 260/260 PASS. This adds `tests/unit/renewing-enrollment.test.ts`: a renewal is picked up without a restart; no re-read while comfortably valid; still expired after re-read gives `MACHINE_ENROLLMENT_EXPIRED`; one expired identity among several is not skipped. |
-| `pnpm run test:workflows` | **NOT_RUN.** The host rebooted and the profile containers had to be restarted, and the session's tool safety check was returning errors at the time. Codex must run it; it covers worker, agent and restart. |
+| `pnpm run test:workflows` | 32/32 PASS, exit 0, after the host reboot: Docker daemon and profile services restarted, `machine:init` renewal, rebuild. Covers the real Temporal worker, the agent poller, process interruption and restart, stale-withdrawal and epoch guards, and machine and human separation. Artifact `A00-workflow-integration-1790577795201-…json`. |
