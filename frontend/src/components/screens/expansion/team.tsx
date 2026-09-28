@@ -1,9 +1,10 @@
 'use client';
 import { useState } from 'react';
 import type { schemas } from '@orvia/contracts';
-import { useQuery } from '../../shared/api.ts';
+import { useMutation, useQuery } from '../../shared/api.ts';
 import { formatTime } from '../../shared/state-labels.ts';
-import { Badge, DataTable, NoticeBox, PageHead, QueryBoundary, Section } from '../../shared/ui.tsx';
+import { TypeToDelete } from '../../shared/type-to-delete.tsx';
+import { Badge, DataTable, FailureState, NoticeBox, PageHead, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { ActionButton, Choice, Input, WriteForm, text } from '../privacy-operations/registry-forms.tsx';
 
 type Created = ReturnType<typeof schemas.StaffMemberCreated.parse>;
@@ -22,8 +23,17 @@ const LICENCE_STATE: Record<string, string> = {
 export function Team() {
   const team = useQuery('staff_team');
   const [created, setCreated] = useState<Created | null>(null);
+  const [deleting, setDeleting] = useState<{ id: string; name: string } | null>(null);
+  const remove = useMutation('delete_staff_member', true);
   return (
     <>
+      {deleting && (
+        <TypeToDelete title={`Delete ${deleting.name}'s login?`} busy={remove.status === 'pending'} onCancel={() => setDeleting(null)}
+          onConfirm={async confirmation => { remove.newInteraction(); if (await remove.run({ confirmation }, { params: { id: deleting.id } })) { setDeleting(null); team.refresh(); } }}>
+          <p>They are signed out at once and can never use this login again; it cannot be reactivated. Their seat is freed. Their name stays on past records. You can add the same person later as a new login.</p>
+          {remove.failure && <FailureState failure={remove.failure} />}
+        </TypeToDelete>
+      )}
       <PageHead eyebrow="Installation" title="Team"
         lede="Who can sign in to this ORVIA installation. The owner and administrator are set up at installation and are not counted. Members and auditors are added here, up to the member seats in your licence." />
       <QueryBoundary query={team} label="team" isEmpty={() => false}>
@@ -41,12 +51,17 @@ export function Team() {
                 columns={[
                   { key: 'n', header: 'Name', cell: m => <span className="cell-primary">{m.display_name}<span className="cell-sub">{m.email}</span></span> },
                   { key: 'r', header: 'Role', cell: m => ROLE_LABEL[m.role] ?? m.role },
-                  { key: 's', header: 'State', cell: m => <Badge label={!m.active ? 'deactivated' : m.must_change_password ? 'waiting for first sign-in' : !m.authenticator_enrolled ? 'authenticator not set up' : 'active'} tone={!m.active ? 'neutral' : m.must_change_password || !m.authenticator_enrolled ? 'warn' : 'ok'} /> },
-                  { key: 'c', header: 'Seat', cell: m => m.counts_against_seats ? (m.active ? 'Uses a seat' : 'Frees a seat') : 'Not counted' },
+                  { key: 's', header: 'State', cell: m => m.deleted_at ? <Badge label="deleted" tone="neutral" /> : <Badge label={!m.active ? 'deactivated' : m.must_change_password ? 'waiting for first sign-in' : !m.authenticator_enrolled ? 'authenticator not set up' : 'active'} tone={!m.active ? 'neutral' : m.must_change_password || !m.authenticator_enrolled ? 'warn' : 'ok'} /> },
+                  { key: 'c', header: 'Seat', cell: m => m.counts_against_seats ? (m.active ? 'Uses a seat' : 'No seat used') : 'Not counted' },
                   { key: 'a', header: 'Added', cell: m => formatTime(m.created_at) },
-                  { key: 'x', header: '', cell: m => !m.counts_against_seats ? null : m.active
-                    ? <ActionButton operation="deactivate_staff_member" label="Deactivate" input={undefined as never} params={{ id: m.id }} onDone={() => team.refresh()} />
-                    : <ActionButton operation="reactivate_staff_member" label="Reactivate" input={undefined as never} params={{ id: m.id }} onDone={() => team.refresh()} /> },
+                  { key: 'x', header: '', cell: m => !m.counts_against_seats || m.deleted_at ? null : (
+                    <span>
+                      {m.active
+                        ? <ActionButton operation="deactivate_staff_member" label="Deactivate" input={undefined as never} params={{ id: m.id }} onDone={() => team.refresh()} />
+                        : <ActionButton operation="reactivate_staff_member" label="Reactivate" input={undefined as never} params={{ id: m.id }} onDone={() => team.refresh()} />}
+                      {' '}<button type="button" className="danger" onClick={() => { remove.newInteraction(); setDeleting({ id: m.id, name: m.display_name }); }} aria-label={`Delete ${m.display_name}`}>Delete</button>
+                    </span>
+                  ) },
                 ]} />
             </Section>
             <Section title="Add a member">

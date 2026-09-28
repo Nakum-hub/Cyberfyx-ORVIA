@@ -229,6 +229,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
   ] },
   { group: 'Installation', items: [
     { href: '/workspace/team', label: 'Team' },
+    { href: '/workspace/my-login', label: 'My login' },
     { href: '/workspace/preflight', label: 'Before go-live' },
     { href: '/workspace/connections', label: 'Guided connections' },
     { href: '/workspace/readiness', label: 'Operational readiness' },

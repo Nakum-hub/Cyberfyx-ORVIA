@@ -33,7 +33,7 @@ import { audit, predicate, scopeValues, requireOne, paged, type Context, type Pa
  * Listing both is what the trail actually contains.
  */
 const CATEGORY_OPERATIONS: Record<S.AuditCategoryValue, string[]> = {
-  ROLE_GRANTS: ['protected-bootstrap.identity-checked', 'staff_member.create', 'create_staff_member', 'staff_member.deactivate', 'deactivate_staff_member', 'staff_member.reactivate', 'reactivate_staff_member'],
+  ROLE_GRANTS: ['protected-bootstrap.identity-checked', 'staff_member.create', 'create_staff_member', 'staff_member.deactivate', 'deactivate_staff_member', 'staff_member.reactivate', 'reactivate_staff_member', 'staff_member.delete', 'delete_staff_member', 'staff_login.delete_own', 'delete_own_login'],
   OWNER_CHANGES: [],
   POLICY_PUBLICATION: ['policy.publish', 'publish_policy', 'policy.reauthenticate', 'reauthenticate_policy'],
   CONNECTOR_CREDENTIALS_AND_SCOPE: ['system.check', 'check_system', 'systems.create', 'create_systems'],

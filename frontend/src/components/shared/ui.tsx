@@ -420,9 +420,9 @@ export function StoryCell({ term, value, small }: { term: string; value: ReactNo
  * Confirmation
  * ------------------------------------------------------------------ */
 
-export function ConfirmDialog({ title, confirmLabel, tone = 'primary', onConfirm, onCancel, busy, children }: {
+export function ConfirmDialog({ title, confirmLabel, tone = 'primary', onConfirm, onCancel, busy, confirmDisabled = false, children }: {
   title: string; confirmLabel: string; tone?: 'primary' | 'danger';
-  onConfirm: () => void; onCancel: () => void; busy?: boolean; children: ReactNode;
+  onConfirm: () => void; onCancel: () => void; busy?: boolean; confirmDisabled?: boolean; children: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const cancelRef=useRef<HTMLButtonElement>(null);
@@ -434,7 +434,7 @@ export function ConfirmDialog({ title, confirmLabel, tone = 'primary', onConfirm
   return <dialog className="dialog" ref={ref} aria-label={title} onCancel={event=>{event.preventDefault();if(!busy)onCancel();}}>
     <h2>{title}</h2>{children}<div className="row row-end">
       <button type="button" ref={cancelRef} onClick={onCancel} disabled={busy}>Cancel</button>
-      <button type="button" className={tone} onClick={onConfirm} disabled={busy}>{busy?'Working...':confirmLabel}</button>
+      <button type="button" className={tone} onClick={onConfirm} disabled={busy || confirmDisabled}>{busy?'Working...':confirmLabel}</button>
     </div>
   </dialog>;
 }
