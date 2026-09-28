@@ -13034,6 +13034,43 @@
       }
     },
     {
+      "operation_id": "first_run_state",
+      "method": "GET",
+      "path": "/api/v1/setup",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "state": "OPEN"
+      }
+    },
+    {
+      "operation_id": "first_run_complete",
+      "method": "POST",
+      "path": "/api/v1/setup",
+      "headers": {},
+      "request": {
+        "setup_code": "Synthetic example",
+        "organisation_name": "Synthetic example",
+        "owner": {
+          "name": "Synthetic example",
+          "email": "asha@aster.example",
+          "password": "Synthetic example"
+        },
+        "admin": {
+          "name": "Synthetic example",
+          "email": "asha@aster.example",
+          "password": "Synthetic example"
+        }
+      },
+      "response_status": 201,
+      "response": {
+        "completed": true,
+        "sign_in": "/workspace/sign-in",
+        "next_steps": []
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",

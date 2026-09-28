@@ -402,4 +402,6 @@ export interface EndpointMap {
   reactivate_staff_member: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMember> };
   delete_staff_member: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LoginDeleteConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMember> };
   delete_own_login: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LoginDeleteConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnLoginDeleted> };
+  first_run_state: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunState> };
+  first_run_complete: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunSetup>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunCompleted> };
 }

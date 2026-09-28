@@ -715,3 +715,29 @@ Semantics: deletion is a permanent suspension. Password, authenticator and sessi
 - The Razorpay key location is `.local/vendor/commerce/razorpay.json`, loaded by `vendorRazorpayCredentials()` in `scripts/credentials.ts`.
 - Codex's adapter in `backend/vendor/commerce/**` was **not edited**, to avoid a second writer.
 - Not done: merchant account and KYC; RBI list check (government and RBI hosts are blocked by this environment's network policy); vendor website; sandbox conformance.
+
+## First-run setup screen (installer one-time code), M29/FR-M29-02 (2026-09-28)
+
+**Built**
+- `0064_first_run_setup.sql`:
+  - `app.installation_setup` stores only the code's SHA-256 digest, the expiry, and a failure counter capped at 5;
+  - `app.first_run_state()` returns OPEN, NO_CODE_ISSUED, LOCKED, EXPIRED or COMPLETED;
+  - `app.first_run_complete(...)` is SECURITY DEFINER and creates the organisation, legal entity and environment plus the owner and administrator logins in one transaction. A wrong code is counted and committed without an exception (no row is returned). It is refused once any owner exists, and the act is audited.
+- `pnpm run setup:code confirm:<profile>` (`scripts/setup-code.ts`) issues a code of the form XXXXX-XXXXX-XXXXX-XXXXX (no I, O, 0 or 1), valid 24 hours. It is shown on the console and written to `<profile>/auth/setup-code.txt` (0600). A reissue resets the lock. It is refused once an owner exists.
+- Public API `GET`/`POST /api/v1/setup` (`backend/api/src/setup.ts`, routed by `frontend/src/app/api/v1/setup/route.ts`):
+  - cookies and authorization headers refused; foreign origin refused;
+  - body capped at 8 KiB and validated by schema (passwords 16 to 128 characters);
+  - contract 0.41.0 (`first_run_state`, `first_run_complete`, PUBLIC, with capability `setup.first_run` held by no role).
+- Page `/setup`: setup code, organisation, and the owner and administrator names, emails and passwords, with confirmations. Closed states explain what to do.
+
+**Limits**
+- Wiring the code step into the installer is open: `setup-orvia.ts` is Windows rehearsal-only and still uses the protected bootstrap script.
+- The OPEN browser journey needs a fresh installation, so it is covered at database level (scratch copy of the schema) rather than in a browser.
+- Customer-held recovery (OPEN-07) is still undecided.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint / unit | 0064 applied; 412 route examples; clean; clean; 271/271 |
+| `tsx tests/integration/onboarding/first-run.test.ts` | 23/23 PASS on a scratch database built from the current schema and dropped afterwards. Covers: no code; code form; digest-only storage; `orvia_app` cannot read the code table (42501); four wrong codes counted, the fifth locks; the right code refused while locked; a reissue unlocks; expired refused; owner and admin addresses must differ; code accepted in lower case with spaces; exactly one owner and one admin with their hashes in one organisation; audited; closed afterwards; the used code refused; no new code once an owner exists |
+| `tsx tests/integration/onboarding/first-run-http.test.ts` | 7/7 PASS on the running app. Covers: state COMPLETED (no-store); takeover attempt 409 `setup_already_completed`; a cookie 400; a foreign origin 403; a short password 400; an unknown field 400; the /setup page offers sign-in and no form |
