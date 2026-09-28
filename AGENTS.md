@@ -4,6 +4,8 @@
 
 **2026-09-25 user-approved expansion:** also read `docs/engineering/V1_EXPANDED_BASELINE.md` and `tracking/v1-expansion.json`. These add the requested competitor capability families and UPI/card commerce to the V1 delivery target without modifying the immutable 1.4 master or promoting historical acceptance. The user confirmed Claude Code is currently inactive but may resume; consult `handoffs/codex/2026-09-25-active-lane.md` before shared edits/runtime use. Its DPDP lane remains assigned.
 
+**2026-09-28 owner decision (revision 1.5 addendum):** read `docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md`: DPDPA external audit exchange, installation kinds `CUSTOMER_INSTALLATION` / `VENDOR_SERVICE`, and the vendor area inside the same application.
+
 Build ORVIA Version 1 as a customer-local, production-intended product. The earlier internal prototype is historical engineering evidence, not the delivery target. Read, in order:
 1. `ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md` (repository root) — approved product baseline, **document revision 1.4** (vendor support and data onboarding update, 19 September 2026). This supersedes `docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md` and `ORVIA_V1_Master_with_Engineering_Breakdown(full idea).md`, both still revision 1.3 and kept only as historical reference — do not treat either as the current baseline for new work.
 2. `docs/prototype/SOURCE_ALIGNMENT.md` and `docs/prototype/EXECUTION_PLAN.md` — historical bounded sprint addendum, written against revision 1.3; use as evidence of prior work, not as a limit on Version 1 scope. Re-check any section they cite against the 1.4 master.
@@ -15,7 +17,7 @@ The master wins on product/security scope. Complete all Version 1 requirements f
 ## Non-negotiable implementation rules
 
 - No shipped model, hosted model API, learned embeddings, training, GPU dependency or AI-draft-import workbench in Version 1. Reviewed deterministic rule/runbook assistance remains within the approved Version 1 scope.
-- Customer operational records, identifiers, evidence, logs and assets stay customer-local. No vendor analytics, crash uploads, remote fonts, CDN scripts or support upload of operational data.
+- Customer operational records, identifiers, evidence, logs and assets stay customer-local. No vendor analytics, crash uploads, remote fonts, CDN scripts or support upload of operational data. **Sole exception (owner decision 2026-09-28, `docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md`):** a client-approved, personal-data-free DPDPA audit evidence package, sealed and dual-approved, carried out by a client user as a file and uploaded to the vendor's own installation. The vendor never pulls data and never accesses a client installation.
 - Only authorised source/code and synthetic fixtures may be shared with development AI. Never ask for real customer records, production credentials or signing keys in chat.
 - Server-side authentication, tenant/principal scope, least privilege and audit apply to every request/job/export. A client role, organisation field or hidden button is not authority.
 - Use durable database state. No in-memory queue or localStorage business-data substitute. Acknowledgement is not verification; timeout may mean unknown effect.
