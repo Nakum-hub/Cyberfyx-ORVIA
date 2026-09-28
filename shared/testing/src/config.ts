@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve, sep } from 'node:path';
 import { z } from 'zod';
 import { PROFILES } from '../../contracts/src/index.ts';
-export const ProfileName = z.enum(['codex-a00', 'ui-b00', 'rehearsal']);
+export const ProfileName = z.enum(['codex-a00', 'ui-b00', 'rehearsal', 'vendor-a00']);
 export const ProfileConfig = z.strictObject({ profile: ProfileName, installation_id: z.uuid(), fixture_id: z.literal('bootstrap-probe-v1'), created_at: z.iso.datetime() });
 export function loadProfile(name = process.env.ORVIA_PROFILE ?? 'codex-a00') {
   const profile = ProfileName.parse(name);

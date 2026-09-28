@@ -12,6 +12,7 @@
  * Usage: pnpm run credentials:separate confirm:local
  */
 import { existsSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
+import { generateKeyPairSync, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { privateDirectory, writePrivateJson } from './local-private.ts';
@@ -37,7 +38,14 @@ export function separate() {
     }
     vendorSigningKey(kind);
   }
-  const trust = { release: { key_id: vendorSigningKey('release').key_id, public: vendorSigningKey('release').public }, licence: { key_id: vendorSigningKey('licence').key_id, public: vendorSigningKey('licence').public } };
+  // The DPDPA audit key (revision 1.5 addendum) is created here once, in the vendor directory only. Development fixture; replace before real use.
+  if (!existsSync(vendorKeyPath('audit'))) {
+    const pair = generateKeyPairSync('ed25519');
+    writePrivateJson(vendorKeyPath('audit'), { key_id: `orvia-audit-dev-${randomUUID().slice(0, 8)}`, public: pair.publicKey.export({ format: 'der', type: 'spki' }).toString('base64'), private: pair.privateKey.export({ format: 'der', type: 'pkcs8' }).toString('base64') });
+    moved.push('audit (created)');
+  }
+  const pub = (kind: SigningKind) => ({ key_id: vendorSigningKey(kind).key_id, public: vendorSigningKey(kind).public });
+  const trust = { release: pub('release'), licence: pub('licence'), audit: pub('audit') };
   const profiles = resolve(profileDirectory('x'), '..');
   for (const profile of existsSync(profiles) ? readdirSync(profiles).filter(p => statSync(resolve(profiles, p)).isDirectory()) : []) {
     privateDirectory(resolve(profileDirectory(profile), 'trust'));

@@ -4,6 +4,9 @@
  * VENDOR (ORVIA the company) — `.local/vendor/`
  *   signing/release.json   release/regulatory-package signing key pair (private + public)
  *   signing/licence.json   licence signing key pair (private + public)
+ *   signing/audit.json     DPDPA audit signing key pair (private + public): signs
+ *                          auditor request lists, findings and reports on the
+ *                          vendor's own VENDOR_SERVICE installation
  *   commerce/razorpay.json Razorpay keys for the vendor website checkout (key_id,
  *                          key_secret, webhook_secret, merchant_id, mode); see
  *                          docs/engineering/PAYMENTS_PROVIDER_DECISION.md
@@ -17,7 +20,7 @@
  *   sender/*   database role passwords, session secrets, machine enrollments and
  *              the worker's own signing key, all generated for that installation
  *   trust/vendor-public-keys.json   the vendor's PUBLIC keys this installation
- *              trusts to verify releases and licences; never a private key
+ *              trusts to verify releases, licences and audit documents; never a private key
  *
  * The customer application is started with customerEnvironment(): any
  * *_PRIVATE_KEY variable is removed, and the public keys come from the
@@ -27,14 +30,15 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 type PublicKey = { key_id: string; public: string };
-export type VendorTrust = { release: PublicKey; licence: PublicKey };
+export type VendorTrust = { release: PublicKey; licence: PublicKey; audit: PublicKey | null };
 const text = (v: unknown, what: string) => { if (typeof v !== 'string' || !v.length) throw new Error(`Invalid ${what}`); return v; };
 const publicKey = (v: unknown, what: string): PublicKey => { const o = (v ?? {}) as Record<string, unknown>; return { key_id: text(o.key_id, `${what} key_id`), public: text(o.public, `${what} public key`) }; };
 const keyPair = (v: unknown, what: string) => ({ ...publicKey(v, what), private: text((v as Record<string, unknown>).private, `${what} private key`) });
-const trustFile = (v: unknown): VendorTrust => { const o = (v ?? {}) as Record<string, unknown>; if (Object.keys(o).some(k => !['release', 'licence'].includes(k))) throw new Error('Unexpected entry in trust file');
-  for (const k of ['release', 'licence'] as const) if (Object.keys((o[k] ?? {}) as object).some(x => !['key_id', 'public'].includes(x))) throw new Error('A trust file holds public keys only');
-  return { release: publicKey(o.release, 'release'), licence: publicKey(o.licence, 'licence') }; };
-export type SigningKind = 'release' | 'licence';
+const trustFile = (v: unknown): VendorTrust => { const o = (v ?? {}) as Record<string, unknown>; if (Object.keys(o).some(k => !['release', 'licence', 'audit'].includes(k))) throw new Error('Unexpected entry in trust file');
+  for (const k of ['release', 'licence', 'audit'] as const) if (Object.keys((o[k] ?? {}) as object).some(x => !['key_id', 'public'].includes(x))) throw new Error('A trust file holds public keys only');
+  return { release: publicKey(o.release, 'release'), licence: publicKey(o.licence, 'licence'), audit: o.audit === undefined ? null : publicKey(o.audit, 'audit') }; };
+export type SigningKind = 'release' | 'licence' | 'audit';
+const PREFIX: Record<SigningKind, string> = { release: 'ORVIA_RELEASE', licence: 'ORVIA_LICENCE', audit: 'ORVIA_AUDIT' };
 
 const root = () => process.env.ORVIA_WORKSPACE_ROOT ?? process.cwd();
 export const vendorDirectory = () => resolve(root(), '.local/vendor');
@@ -50,7 +54,7 @@ export function vendorSigningKey(kind: SigningKind) {
 }
 /** Environment variables for vendor tooling that signs (tests acting as the vendor, package signing). */
 export function vendorSigningEnvironment(kind: SigningKind) {
-  const pair = vendorSigningKey(kind); const prefix = kind === 'release' ? 'ORVIA_RELEASE' : 'ORVIA_LICENCE';
+  const pair = vendorSigningKey(kind); const prefix = PREFIX[kind];
   return { [`${prefix}_KEY_ID`]: pair.key_id, [`${prefix}_PUBLIC_KEY`]: pair.public, [`${prefix}_PRIVATE_KEY`]: pair.private };
 }
 /** Customer-side: the public keys an installation trusts, or null if none has been provisioned. */
@@ -68,7 +72,7 @@ export function customerEnvironment(base: NodeJS.ProcessEnv, profile: string): N
   for (const [name, value] of Object.entries(base)) if (!/PRIVATE_KEY/i.test(name)) env[name] = value;
   const trust = installationTrust(profile);
   if (trust) {
-    for (const [prefix, key] of [['ORVIA_RELEASE', trust.release], ['ORVIA_LICENCE', trust.licence]] as const) {
+    for (const [prefix, key] of [['ORVIA_RELEASE', trust.release], ['ORVIA_LICENCE', trust.licence], ...(trust.audit ? [['ORVIA_AUDIT', trust.audit] as const] : [])] as const) {
       if (env[`${prefix}_PUBLIC_KEY`] && env[`${prefix}_PUBLIC_KEY`] !== key.public) throw new Error(`${prefix}_PUBLIC_KEY differs from the installation trust file; refusing to start with an untrusted key.`);
       env[`${prefix}_KEY_ID`] = key.key_id; env[`${prefix}_PUBLIC_KEY`] = key.public;
     }

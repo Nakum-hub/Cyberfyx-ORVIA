@@ -48,11 +48,19 @@ export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
 export const AUTH = {
   staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff', secure_cookie_prefix: '__Secure-orvia.staff' },
   principal: { base_path: '/api/auth/principal', cookie_prefix: 'orvia.principal', secure_cookie_prefix: '__Secure-orvia.principal' },
+  // Vendor staff sign in only on the vendor's own VENDOR_SERVICE installation (revision 1.5 addendum).
+  vendor: { base_path: '/api/auth/vendor', cookie_prefix: 'orvia.vendor', secure_cookie_prefix: '__Secure-orvia.vendor' },
+  // Client organisations' vendor-account logins, used only to upload audit evidence packages on the vendor installation.
+  account: { base_path: '/api/auth/account', cookie_prefix: 'orvia.account', secure_cookie_prefix: '__Secure-orvia.account' },
 } as const;
 export const PROFILES = {
   'codex-a00': { compose_project: 'orvia-codex-a00', app_port: 4310, postgres_port: 55431, opa_port: 58181, temporal_port: 57233, database: 'orvia_codex_a00', temporal_namespace: 'orvia-codex-a00', seed: 'aster-birch-v1', reset: 'codex-a00-bootstrap-only' },
   'ui-b00': { compose_project: 'orvia-ui-b00', app_port: 4320, postgres_port: 55432, opa_port: 58182, temporal_port: 57234, database: 'orvia_ui_b00', temporal_namespace: 'orvia-ui-b00', seed: 'aster-birch-v1', reset: 'ui-b00-bootstrap-only' },
   rehearsal: { compose_project: 'orvia-rehearsal', app_port: 4330, postgres_port: 55433, opa_port: 58183, temporal_port: 57235, database: 'orvia_rehearsal', temporal_namespace: 'orvia-rehearsal', seed: 'aster-birch-v1', reset: 'rehearsal-bootstrap-only' },
+  // The vendor's own VENDOR_SERVICE installation. In development it shares the codex-a00
+  // PostgreSQL server and policy engine but has its own database, roles and port; a
+  // production vendor installation is provisioned on the vendor's own host.
+  'vendor-a00': { compose_project: 'orvia-codex-a00', app_port: 4340, postgres_port: 55431, opa_port: 58181, temporal_port: 57233, database: 'orvia_vendor_a00', temporal_namespace: 'orvia-vendor-a00', seed: 'vendor-service-v1', reset: 'vendor-a00-bootstrap-only' },
 } as const;
 
 export const Id = z.uuid();

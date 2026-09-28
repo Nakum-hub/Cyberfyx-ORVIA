@@ -2,7 +2,7 @@ import { pgSchema, uuid, text, timestamp, boolean, integer, bigint } from 'drizz
 
 // Better Auth 1.7.5 core + two-factor + database rate-limit schema. Each instance
 // gets a disjoint schema, even when the same synthetic email exists in both.
-export function authSchema(domain: 'staff_auth' | 'principal_auth') {
+export function authSchema(domain: 'staff_auth' | 'principal_auth' | 'vendor_auth' | 'account_auth') {
   const schema = pgSchema(domain);
   const date = (name: string) => timestamp(name, { withTimezone: true });
   const user = schema.table('user', {

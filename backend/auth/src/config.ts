@@ -3,7 +3,9 @@ import { resolve } from 'node:path';
 import { PROFILES, Id } from '../../../shared/contracts/src/index.ts';
 
 export const runtimeRoles = ['orvia_app', 'orvia_staff_auth', 'orvia_principal_auth'] as const;
-export type RuntimeRole = typeof runtimeRoles[number];
+/** Roles of the vendor's own VENDOR_SERVICE installation (database/vendor/migrations/0003). */
+export const vendorRuntimeRoles = ['orvia_vendor_app', 'orvia_vendor_auth'] as const;
+export type RuntimeRole = typeof runtimeRoles[number] | typeof vendorRuntimeRoles[number];
 export function runtimeConfig() {
   const name = process.env.ORVIA_PROFILE ?? 'codex-a00';
   if (!Object.hasOwn(PROFILES, name)) throw new Error('Unknown synthetic profile');

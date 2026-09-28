@@ -7,3 +7,4 @@ export { readinessRoute } from './readiness.ts';
 export { sessionRoute } from './session.ts';
 export { listPrincipals, createPrincipal } from './admin-principals.ts';
 export { staffAuthRoute, principalAuthRoute } from './auth-routes.ts';
+export { configuredKind, verifiedKind, onlyOn, InstallationKind } from './installation.ts';

@@ -11,6 +11,8 @@
   "scripts": {
     "setup": "tsx scripts/setup-orvia.ts",
     "setup:code": "tsx scripts/setup-code.ts",
+    "vendor:init": "tsx scripts/vendor-init.ts",
+    "vendor:setup-code": "tsx scripts/vendor-setup-code.ts",
     "start": "tsx scripts/start-orvia.ts",
     "stop": "tsx scripts/stop-orvia.ts",
     "status": "tsx scripts/orvia-status.ts",
