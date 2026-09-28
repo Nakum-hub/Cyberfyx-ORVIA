@@ -208,7 +208,8 @@
       ],
       "limitations": [
         "45 isolated PostgreSQL component assertions; injected synthetic checkout responses and signed payment fixtures. No live provider conformance, vendor HTTP identity/UI, invoices/subscriptions, production role deployment or licence signer. Not release-qualified.",
-        "Not advanced in the Claude takeover: blocked on the user's choice of payment provider and commercial terms."
+        "Not advanced in the Claude takeover: blocked on the user's choice of payment provider and commercial terms.",
+        "2026-09-28 decision: Indian providers only; Razorpay selected (docs/engineering/PAYMENTS_PROVIDER_DECISION.md). Activation needs merchant KYC, keys in .local/vendor/commerce/razorpay.json, network allowance, approved prices/GST, sandbox conformance and the vendor website."
       ]
     },
     {
@@ -221,14 +222,16 @@
         "handoffs/code/2026-09-26-expansion-takeover.md",
         "handoffs/codex/artifacts/A00-backup-drill-1790425489124-e5fe1e5e-6867-45f6-940f-e3bbc94f68f8.json",
         "handoffs/codex/artifacts/A00-capacity-mixed-1790425887473-bf7c35a9-ee17-46f5-82d9-c843f861f20e.json",
-        "handoffs/codex/artifacts/A00-opa-cold-start-1790425315280-d50402da-dd62-4399-bc61-ff3f11111518.json"
+        "handoffs/codex/artifacts/A00-opa-cold-start-1790425315280-d50402da-dd62-4399-bc61-ff3f11111518.json",
+        "handoffs/codex/artifacts/A00-first-run-setup-1790607581740-8b5afa2d-0339-48b3-929e-5cbcb652f541.json",
+        "handoffs/codex/artifacts/A00-operations-staff-delete-1790606131488-87a0fb1a-74ce-4277-a6b6-b1480087b849.json",
+        "handoffs/codex/artifacts/A00-operations-staff-members-1790606202245-91a08726-164b-4666-b8f7-48ea10095427.json",
+        "handoffs/codex/artifacts/A00-auth-security-1790605384167-d615506b-7ff0-4626-ba6c-f50ab37aa63d.json"
       ],
       "limitations": [
-        "OPA readiness (8/8) and same-host backup/restore drill (5/5) executed. Mixed 1M workload probe FAILED as a diagnostic (about 4 ops/s under a 384 MiB database container) and is not a qualification; server statement limits added but not yet re-run. SSO/SCIM not built: proposal only, needs user/customer IdP decisions. Installer, upgrade/rollback, signing custody, accessibility matrix and release approval remain open."
+        "Applied since last update (Claude, 2026-09-28): 0063 typed scope predicate (audit list 110 ms -> 0.44 ms, Index Scan) verified by unit, auth, all expansion and all 13 DPDP suites; machine-enrollment renewal pickup; vendor/customer credential separation; licence-limited member logins; delete-login with typed DELETE; first-run setup with installer one-time code. Still open: installer packaging (only a Windows rehearsal package exists) and scheduled machine-login renewal; SSO/SCIM (needs IdP decision); customer-held recovery (OPEN-07); 1M qualification on declared hardware; signing-key custody; accessibility/browser matrix; security review; frozen-candidate acceptance and release approval."
       ],
-      "required_actions": [
-        "REQUIRED before any capacity qualification: apply migration 0063_typed_scope_predicate (app.in_scope compares uuids instead of text casts). Blocked in the Claude session by the tool safety check, not by a test result. SQL, plan evidence and verification steps: handoffs/code/2026-09-26-expansion-takeover.md, 'Root cause of slow scoped lists'. After applying: run db:migrate, re-run EXPLAIN (expect an Index Scan on audit_events_scope_time_id), run the full security/tenant-isolation, unit, DPDP, expansion and e2e suites, then capacity:mixed."
-      ]
+      "required_actions": []
     }
   ]
 }
