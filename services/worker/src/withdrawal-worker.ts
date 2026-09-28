@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runtimeConfig } from '../../../backend/auth/src/config.ts';
-import { workerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
+import { renewingEnrollment, workerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { servicePool,machineAuthority } from '../../../backend/auth/src/machine.ts';
 import { scopedTransaction } from '../../../database/customer/src/runtime.ts';
 import { prepareWorkflow,actionReceipt,observeAction,finishWorkflow } from '../../../backend/domain/src/workflow/workflow.ts';
@@ -15,15 +15,15 @@ import { connectTemporal } from './probe-client.ts';
 import { reconcile } from '../../../backend/domain/src/evidence/evidence.ts';
 
 export function workflowActivities() {
- const config=runtimeConfig();const enrollment=workerEnrollment(config);
+ const config=runtimeConfig();const currentEnrollment=renewingEnrollment(()=>workerEnrollment(config));
  const control=servicePool(config,'orvia_worker');const observer=servicePool(config,'orvia_target_observer');
  const key=createPrivateKey(readFileSync(resolve(config.directory,'worker/signing-key.pem')));
- function identityFor(id: string) {const identity=enrollment.identities.find(i=>i.id===id);if(!identity)throw new Error('Worker identity not enrolled');return identity;}
+ function identityFor(id: string) {const identity=currentEnrollment().identities.find(i=>i.id===id);if(!identity)throw new Error('Worker identity not enrolled');return identity;}
  function scoped<T>(id: string,work: (c: Context)=>Promise<T>) {
   const actor=machineAuthority(identityFor(id));return scopedTransaction(control,actor,tx=>work({tx,actor,requestId:randomUUID()}));
  }
  const activities={
-  prepare:(id: string,workflow: string)=>scoped(id,c=>prepareWorkflow(c,workflow,{key,key_id:enrollment.signing_key_id,installation_id:enrollment.installation_id,agent_id:identityFor(id).agent_id})),
+  prepare:(id: string,workflow: string)=>scoped(id,c=>prepareWorkflow(c,workflow,{key,key_id:currentEnrollment().signing_key_id,installation_id:currentEnrollment().installation_id,agent_id:identityFor(id).agent_id})),
   receipt:(id: string,action: string)=>scoped(id,async c=>(await actionReceipt(c,action))?.execution_state??null),
   reconcile:(id:string,operation:string)=>scoped(id,c=>reconcile(c,operation,observer)),
   observe:(id: string,action: string)=>scoped(id,c=>observeAction(c,action,observer)),
@@ -33,7 +33,7 @@ export function workflowActivities() {
   }),
   finish:(id: string,workflow: string)=>scoped(id,c=>finishWorkflow(c,workflow)),
  };
- return {activities,scoped,enrollment,config,observer,close:()=>Promise.all([control.end(),observer.end()])};
+ return {activities,scoped,get enrollment(){return currentEnrollment();},config,observer,close:()=>Promise.all([control.end(),observer.end()])};
 }
 export type Activities=ReturnType<typeof workflowActivities>['activities'];
 export async function createWithdrawalWorker() {
