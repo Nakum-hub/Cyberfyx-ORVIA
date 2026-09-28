@@ -147,6 +147,9 @@ try {
   const enrollment=await enrollmentResponse.json();
   check('unverified enrollment backup code cannot establish MFA',(await enrollmentUser.call('/api/auth/staff/two-factor/verify-backup-code',{code:enrollment.backupCodes[0],trustDevice:false})).status,403);
   check('enrollment bypass attempt leaves privileged access denied',(await enrollmentUser.call('/api/v1/session')).status,403);
+  // Complete the reviewer's enrollment and record it, so the shared fixture ends enrolled as other suites expect.
+  check('the separate enrollment completes with a real authenticator code',(await enrollmentUser.call('/api/auth/staff/two-factor/verify-totp',{code:totp(enrollment.totpURI),trustDevice:false})).status,200);
+  fixture.users.reviewer!.totp_uri=enrollment.totpURI; writePrivateJson(credentialPath,fixture);
   const member=await login('member');
   check('member directory denied',(await member.call('/api/v1/admin/principals')).status,403);
   check('member mutation denied',(await member.call('/api/v1/admin/principals',input,{'idempotency-key':randomUUID()})).status,403);
