@@ -35,7 +35,7 @@ function check(name: string, actual: unknown, expected: unknown) {
 async function start() {
   child = spawn(process.execPath,command.args, {
     cwd:command.cwd,windowsHide:true,stdio:['ignore','pipe','pipe'],
-    env:{...process.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'},
+    env:{...command.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'},
   });
   child.stdout?.on('data',chunk=>{serverOutput+=chunk;}); child.stderr?.on('data',chunk=>{serverOutput+=chunk;});
   for(let attempt=0;attempt<90;attempt++) {

@@ -40,6 +40,9 @@ try {
 
   check('every gate the requirement names is reported exactly once',
     [report.gates.length, new Set(report.gates.map(g => g.kind)).size], [11, 11]);
+  // This test process holds the vendor release private key (it signs fixtures as the vendor); the
+  // application it started must not. The signing gate fails if any private key reaches the app.
+  check('the application runtime received vendor public keys and no private key', [Boolean(process.env.ORVIA_RELEASE_PRIVATE_KEY), (gate('SIGNING_KEYS').observed ?? '').includes('private key'), report.failing.includes('SIGNING_KEYS')], [true, false, false]);
   check('every gate says what it examined, however it turned out',
     report.gates.filter(g => g.checked.length < 30).map(g => g.kind), []);
   check('the two derived lists agree with the gates they came from',

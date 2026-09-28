@@ -30,12 +30,12 @@ export class BrowserHarness extends HttpFixture {
     if(identity?.installation_id!==this.profile.installation_id||identity?.profile!==this.profile.profile)throw new Error('Rehearsal database installation identity mismatch');
     const port=createServer();await new Promise<void>((done,fail)=>{port.once('error',fail);port.listen(this.config.app_port,'127.0.0.1',()=>port.close(()=>done()));});
     if((await this.db.query("SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name IN ('orvia_worker','orvia_agent_control') LIMIT 1")).rowCount)throw new Error('Stop the existing profile owner before browser fixtures');
-    const command=webProcess(this.config);this.child=this.startProcess(command.args,command.cwd);
+    const command=webProcess(this.config);this.child=this.startProcess(command.args,command.cwd,command.env);
     await expect.poll(async()=>{try{return (await fetch(this.config.origin+'/healthz',{signal:AbortSignal.timeout(1000)})).status;}catch{return 0;}},{timeout:60000,intervals:[500]}).toBe(200);
     mkdirSync(this.publicDirectory,{recursive:true});
   }
-  startProcess(args:string[],cwd=process.cwd()){
-    const child=spawn(process.execPath,args,{cwd,windowsHide:true,stdio:['ignore','pipe','pipe','ipc'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});this.processes.add(child);
+  startProcess(args:string[],cwd=process.cwd(),env:NodeJS.ProcessEnv={...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}){
+    const child=spawn(process.execPath,args,{cwd,windowsHide:true,stdio:['ignore','pipe','pipe','ipc'],env});this.processes.add(child);
     let output='';child.stdout?.on('data',c=>{output+=c;});child.stderr?.on('data',c=>{output+=c;});child.on('close',()=>writeFileSync(resolve(this.privateDirectory,`process-${child.pid}.txt`),output));return child;
   }
   async stopProcess(child:ChildProcess){if(child.exitCode===null&&child.signalCode===null){const closed=once(child,'close');let forced=false;if(child.connected)child.send('orvia-stop');else child.kill();const timer=setTimeout(()=>{forced=true;child.kill();},10000);await closed;clearTimeout(timer);if(forced||child.exitCode!==0)throw new Error('Owned browser fixture child failed graceful shutdown');}this.processes.delete(child);}

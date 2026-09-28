@@ -613,3 +613,30 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 | typecheck / lint | clean |
 | `pnpm test` | 260/260 PASS. This adds `tests/unit/renewing-enrollment.test.ts`: a renewal is picked up without a restart; no re-read while comfortably valid; still expired after re-read gives `MACHINE_ENROLLMENT_EXPIRED`; one expired identity among several is not skipped. |
 | `pnpm run test:workflows` | 32/32 PASS, exit 0, after the host reboot: Docker daemon and profile services restarted, `machine:init` renewal, rebuild. Covers the real Temporal worker, the agent poller, process interruption and restart, stale-withdrawal and epoch guards, and machine and human separation. Artifact `A00-workflow-integration-1790577795201-…json`. |
+
+## Vendor and customer credential separation (user request, 2026-09-28)
+
+**Problem**
+- The prototype kept the vendor's release and licence signing key pairs (`.local/{release,licence}-fixture.json`) beside the customer installation profiles.
+- Test setups exported the private keys into the same environment that launched the customer application, so the customer app process inherited the vendor's private release key. No product code read it, but it was present.
+
+**Built**
+- `scripts/credentials.ts` defines the vendor side (`.local/vendor/signing/`) and the customer side (`.local/profiles/<installation>/`, including `trust/vendor-public-keys.json`, public keys only).
+- `customerEnvironment()` strips any private key and loads the trust file. It is used by `webProcess` and every launcher (app-run, web.ts, HTTP and e2e fixtures, auth security test, web.test).
+- `scripts/credentials-separate.ts` (`pnpm run credentials:separate confirm:local`) does the move. It is idempotent, refuses a conflicting key, and checks for leaks under profiles.
+- `scripts/verify-suites.ts`, the tests' run hints and `regulatory-package.ts` now read from `.local/vendor/signing/`.
+- The preflight `SIGNING_KEYS` gate now also fails if a private key is present in the installation's runtime.
+- Layout document: `docs/engineering/credentials-layout.md`.
+- The move was run on this checkout for profiles codex-a00 and ui-b00. The vendor files are mode 0600 in 0700 directories.
+
+**Limits**
+- The keys themselves are still development fixtures. Real vendor keys need offline or HSM custody and a key ceremony, which is not built.
+- Nothing is committed: `.local/` is git-ignored. **Codex must run `pnpm run credentials:separate confirm:local` once on its own checkout**, and set its test environment from `.local/vendor/signing/`.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| typecheck / lint / `pnpm test` | clean / clean / 266/266, including 6 new `tests/unit/credentials.test.ts` cases: move and trust, idempotent rerun, conflicting key refused, leak under profile refused, private keys stripped and public keys loaded, mismatched public key refused, private key in a trust file refused |
+| `credentials:separate` run twice | first run moved release and licence and wrote trust for 2 profiles; second run moved nothing |
+| preflight | 20/20 PASS, including a new assertion: the test process holds the vendor private key, the app it started does not, and the SIGNING_KEYS gate passes |
+| licensing / updates / regulatory / web / preferences | 33/33, 54/54, 32/32, pass, 39/39 |

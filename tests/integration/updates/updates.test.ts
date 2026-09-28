@@ -43,9 +43,9 @@ const privateKeyPem = process.env.ORVIA_RELEASE_PRIVATE_KEY;
 if (!keyId || !privateKeyPem || !process.env.ORVIA_RELEASE_PUBLIC_KEY) {
   throw new Error([
     'This suite needs the fixture release key pair in the environment. Run it as:',
-    '  ORVIA_RELEASE_KEY_ID=$(node -p "require(\'./.local/release-fixture.json\').key_id") \\',
-    '  ORVIA_RELEASE_PRIVATE_KEY=$(node -p "require(\'./.local/release-fixture.json\').private") \\',
-    '  ORVIA_RELEASE_PUBLIC_KEY=$(node -p "require(\'./.local/release-fixture.json\').public") \\',
+    '  ORVIA_RELEASE_KEY_ID=$(node -p "require(\'./.local/vendor/signing/release.json\').key_id") \\',
+    '  ORVIA_RELEASE_PRIVATE_KEY=$(node -p "require(\'./.local/vendor/signing/release.json\').private") \\',
+    '  ORVIA_RELEASE_PUBLIC_KEY=$(node -p "require(\'./.local/vendor/signing/release.json\').public") \\',
     '  npm run test:updates',
   ].join('\n'));
 }

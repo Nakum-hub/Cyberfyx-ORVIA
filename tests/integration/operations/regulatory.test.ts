@@ -11,7 +11,7 @@ import { fixturePackage, signFixture } from '../../../shared/testing/src/regulat
 const t = operationsSuite('regulatory');
 const { h, check, ok, codes } = t;
 const keyId = process.env.ORVIA_RELEASE_KEY_ID; const privateKey = process.env.ORVIA_RELEASE_PRIVATE_KEY;
-if (!keyId || !privateKey || !process.env.ORVIA_RELEASE_PUBLIC_KEY) throw new Error('Set ORVIA_RELEASE_KEY_ID, ORVIA_RELEASE_PRIVATE_KEY and ORVIA_RELEASE_PUBLIC_KEY from .local/release-fixture.json.');
+if (!keyId || !privateKey || !process.env.ORVIA_RELEASE_PUBLIC_KEY) throw new Error('Set ORVIA_RELEASE_KEY_ID, ORVIA_RELEASE_PRIVATE_KEY and ORVIA_RELEASE_PUBLIC_KEY from .local/vendor/signing/release.json.');
 
 await t.run(async () => {
   const owner = await h.login('owner'); const reviewer = await h.login('reviewer'); const admin = await h.login('admin'); const auditor = await h.login('auditor'); const birch = await h.login('birch');

@@ -21,6 +21,7 @@
 // A suite that exits non-zero, writes nothing, or writes nothing stamped with
 // this run is reported as such and never as a pass. NOT_RUN stays NOT_RUN.
 import { execFile } from 'node:child_process';
+import { vendorKeyPath, vendorSigningEnvironment } from './credentials.ts';
 import { promisify } from 'node:util';
 import { randomUUID } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
@@ -59,15 +60,10 @@ const RUN_ID = randomUUID();
  * application verifies with the public one, so all three values must be present
  * or the suite exercises nothing and fails in a way that looks like a fault.
  */
-function keyPair(file: string, prefix: string): Record<string, string> {
-  const path = resolve('.local', file);
-  if (!existsSync(path)) return {};
-  const fixture = JSON.parse(readFileSync(path, 'utf8')) as { key_id: string; public: string; private: string };
-  return {
-    [`${prefix}_KEY_ID`]: fixture.key_id,
-    [`${prefix}_PRIVATE_KEY`]: fixture.private,
-    [`${prefix}_PUBLIC_KEY`]: fixture.public,
-  };
+function keyPair(kind: 'release' | 'licence'): Record<string, string> {
+  // Vendor signing keys live in .local/vendor/signing/ (scripts/credentials.ts); these suites play the vendor.
+  if (!existsSync(vendorKeyPath(kind))) return {};
+  return vendorSigningEnvironment(kind);
 }
 
 /** Script name, artifact fragment and any fixture environment the script requires. */
@@ -84,12 +80,12 @@ const SUITES: { script: string; artifact: string; env?: Record<string, string> }
   { script: 'test:processors', artifact: 'processors-integration' },
   { script: 'test:incidents', artifact: 'incidents-integration' },
   { script: 'test:notifications', artifact: 'notifications-integration' },
-  { script: 'test:licensing', artifact: 'licensing-integration', env: keyPair('licence-fixture.json', 'ORVIA_LICENCE') },
+  { script: 'test:licensing', artifact: 'licensing-integration', env: keyPair('licence') },
   { script: 'test:monitoring', artifact: 'monitoring-integration' },
   { script: 'test:restore', artifact: 'restore-integration' },
   { script: 'test:vendor-visibility', artifact: 'vendor-visibility-integration' },
   { script: 'test:support', artifact: 'support-integration' },
-  { script: 'test:updates', artifact: 'updates-integration', env: keyPair('release-fixture.json', 'ORVIA_RELEASE') },
+  { script: 'test:updates', artifact: 'updates-integration', env: keyPair('release') },
   { script: 'test:audit', artifact: 'audit-integration' },
   { script: 'test:audit-retention', artifact: 'audit-retention-integration' },
   { script: 'test:onboarding', artifact: 'onboarding-integration' },
