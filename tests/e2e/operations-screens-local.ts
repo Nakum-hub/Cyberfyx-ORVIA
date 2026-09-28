@@ -18,7 +18,7 @@ import { loadProfile } from '../../shared/testing/src/config.ts';
 
 if (loadProfile().profile !== 'codex-a00') throw new Error('Synthetic codex-a00 profile only');
 const keyId = process.env.ORVIA_RELEASE_KEY_ID; const privateKey = process.env.ORVIA_RELEASE_PRIVATE_KEY;
-if (!keyId || !privateKey || !process.env.ORVIA_RELEASE_PUBLIC_KEY) throw new Error('Set ORVIA_RELEASE_KEY_ID, ORVIA_RELEASE_PRIVATE_KEY and ORVIA_RELEASE_PUBLIC_KEY from .local/release-fixture.json.');
+if (!keyId || !privateKey || !process.env.ORVIA_RELEASE_PUBLIC_KEY) throw new Error('Set ORVIA_RELEASE_KEY_ID, ORVIA_RELEASE_PRIVATE_KEY and ORVIA_RELEASE_PUBLIC_KEY from .local/vendor/signing/release.json.');
 const t = operationsSuite('operations-screens-browser');
 const { h, check, ok } = t;
 const target = recordsTarget();

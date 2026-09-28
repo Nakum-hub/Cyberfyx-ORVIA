@@ -1,0 +1,67 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-28T07:49:10.424Z",
+  "suite": "team-browser",
+  "assertions": [
+    {
+      "name": "the screen shows one free seat",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the one-time password is shown once on screen and matches what was issued",
+      "result": "PASS",
+      "expected": "95KxDkh01vTTcClum2UZqi9eJb6SSqT-",
+      "actual": "95KxDkh01vTTcClum2UZqi9eJb6SSqT-"
+    },
+    {
+      "name": "with the seats full the add form is gone",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the new login waits for first sign-in",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the member has a workspace session with the member role",
+      "result": "PASS",
+      "expected": [
+        "MEMBER",
+        true
+      ],
+      "actual": [
+        "MEMBER",
+        true
+      ]
+    },
+    {
+      "name": "the administrator now sees the member as active with an authenticator",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "no request left the local origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no page or console error occurred",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 8,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.38.0",
+  "contract_version": "0.39.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4363,6 +4363,48 @@
       "status": 201,
       "idempotency": true,
       "capability": "consent.own.write"
+    },
+    {
+      "id": "staff_team",
+      "method": "get",
+      "path": "/api/v1/admin/staff-members",
+      "authority": "STAFF",
+      "response": "StaffTeam",
+      "status": 200,
+      "capability": "staff.manage"
+    },
+    {
+      "id": "create_staff_member",
+      "method": "post",
+      "path": "/api/v1/admin/staff-members",
+      "authority": "STAFF",
+      "request": "StaffMemberCreate",
+      "response": "StaffMemberCreated",
+      "status": 201,
+      "idempotency": true,
+      "capability": "staff.manage"
+    },
+    {
+      "id": "deactivate_staff_member",
+      "method": "post",
+      "path": "/api/v1/admin/staff-members/{id}/deactivate",
+      "authority": "STAFF",
+      "response": "StaffMember",
+      "status": 200,
+      "idempotency": true,
+      "capability": "staff.manage",
+      "params": "IdPath"
+    },
+    {
+      "id": "reactivate_staff_member",
+      "method": "post",
+      "path": "/api/v1/admin/staff-members/{id}/reactivate",
+      "authority": "STAFF",
+      "response": "StaffMember",
+      "status": 200,
+      "idempotency": true,
+      "capability": "staff.manage",
+      "params": "IdPath"
     },
     {
       "id": "poll_commands",

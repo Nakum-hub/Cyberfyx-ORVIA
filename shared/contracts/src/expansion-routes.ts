@@ -128,4 +128,9 @@ export const expansionRoutes: Route[] = [
   read('preference_decision', '/preference-decisions', 'PreferenceDecision', 'principals.read', 'PreferenceDecisionQuery'),
   { id: 'own_preferences', method: 'get', path: '/api/v1/portal/me/preferences', authority: 'PRINCIPAL', response: 'PreferenceCentre', status: 200, capability: 'consent.own.read' },
   { id: 'set_own_preference', method: 'post', path: '/api/v1/portal/me/preferences', authority: 'PRINCIPAL', request: 'PreferenceChoice', response: 'PreferenceChoiceReceipt', status: 201, idempotency: true, capability: 'consent.own.write' },
+  // Organisation member logins, limited by the licence's member seats
+  read('staff_team', '/staff-members', 'StaffTeam', 'staff.manage'),
+  write('create_staff_member', '/staff-members', 'StaffMemberCreate', 'StaffMemberCreated', 'staff.manage'),
+  write('deactivate_staff_member', '/staff-members/{id}/deactivate', undefined, 'StaffMember', 'staff.manage', 200),
+  write('reactivate_staff_member', '/staff-members/{id}/reactivate', undefined, 'StaffMember', 'staff.manage', 200),
 ];

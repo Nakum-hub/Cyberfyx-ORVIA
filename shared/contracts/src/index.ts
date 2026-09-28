@@ -37,7 +37,7 @@ const expansionNames = Object.keys(expansionSchemas);
  *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
  *  quarantine and consent reconciliation. Additive again: no existing route,
  *  schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.38.0' as const;
+export const CONTRACT_VERSION = '0.39.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -68,7 +68,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['supplier.respond','cmp.record','registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
+export const Capability = z.enum(['staff.manage','supplier.respond','cmp.record','registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -969,7 +969,8 @@ export const LicenceClaims = z.strictObject({
   installation_id: Id.describe('The installation this licence is bound to. A licence is not transferable by copying it.'),
   audience: z.literal('ORVIA_CUSTOMER_INSTALLATION'),
   valid_from: Time, valid_to: Time,
-  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000) }),
+  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000),
+    member_seats: z.number().int().min(0).max(10000).optional().describe('Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins.') }),
 }).superRefine((l, c) => {
   if (Date.parse(l.valid_to) <= Date.parse(l.valid_from)) c.addIssue({ code: 'custom', message: 'A licence validity window must be positive' });
   if (new Set(l.entitlements).size !== l.entitlements.length) c.addIssue({ code: 'custom', message: 'A licence cannot name the same entitlement twice' });
@@ -986,7 +987,8 @@ export const LicenceRejection = z.enum([
 export const LicenceState = z.strictObject({
   licence_id: Id, edition: Edition, entitlements: z.array(EntitlementCode).max(16),
   installation_id: Id, valid_from: Time, valid_to: Time,
-  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000) }),
+  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000),
+    member_seats: z.number().int().min(0).max(10000).optional().describe('Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins.') }),
   imported_at: Time, imported_by: Id, active: z.boolean(),
   /** Set when the window has passed. Expiry restricts new work; it never removes
    *  recorded evidence or the ability to read and export what already exists. */
@@ -1018,7 +1020,7 @@ export const FeatureAvailability = z.strictObject({
  * a limit it is over.
  */
 export const LicensedLimitUsage = z.strictObject({
-  limit: z.enum(['ENVIRONMENTS', 'STAFF_MEMBERS']),
+  limit: z.enum(['ENVIRONMENTS', 'STAFF_MEMBERS', 'MEMBER_SEATS']),
   licensed: z.number().int().min(1).max(10000),
   observed: Epoch,
   within: z.boolean(),
@@ -1033,7 +1035,7 @@ export const EntitlementReport = z.strictObject({
   never_licensable: z.array(SafeText).min(1).max(16).describe('Capabilities no licence or edition can enable, stated so that their absence is not read as an upsell.'),
   /** Empty when no licence is imported: there is nothing to compare against,
    *  which is a different fact from being inside every limit. */
-  limit_usage: z.array(LicensedLimitUsage).max(2),
+  limit_usage: z.array(LicensedLimitUsage).max(3),
   /** Structural. This product creates neither environments nor staff members,
    *  so it reports drift past a licensed limit and never blocks anything. */
   a_limit_is_reported_and_never_enforced_here: z.literal(true),

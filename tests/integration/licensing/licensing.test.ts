@@ -39,9 +39,9 @@ const privateKeyPem = process.env.ORVIA_LICENCE_PRIVATE_KEY;
 if (!keyId || !privateKeyPem || !process.env.ORVIA_LICENCE_PUBLIC_KEY) {
   throw new Error([
     'This suite needs the fixture licence key pair in the environment. Run it as:',
-    '  ORVIA_LICENCE_KEY_ID=$(node -p "require(\'./.local/licence-fixture.json\').key_id") \\',
-    '  ORVIA_LICENCE_PRIVATE_KEY=$(node -p "require(\'./.local/licence-fixture.json\').private") \\',
-    '  ORVIA_LICENCE_PUBLIC_KEY=$(node -p "require(\'./.local/licence-fixture.json\').public") \\',
+    '  ORVIA_LICENCE_KEY_ID=$(node -p "require(\'./.local/vendor/signing/licence.json\').key_id") \\',
+    '  ORVIA_LICENCE_PRIVATE_KEY=$(node -p "require(\'./.local/vendor/signing/licence.json\').private") \\',
+    '  ORVIA_LICENCE_PUBLIC_KEY=$(node -p "require(\'./.local/vendor/signing/licence.json\').public") \\',
     '  npm run test:licensing',
   ].join('\n'));
 }

@@ -430,6 +430,15 @@ export const PreferenceCentre = z.strictObject({ principal_id: Id, topics: z.arr
   history: z.array(PreferenceEvent).max(50) });
 export const PreferenceDecisionQuery = z.strictObject({ principal_id: Id, topic_id: Id, channel: PreferenceChannel });
 
+// Organisation member logins, limited by the licence
+export const StaffMemberRole = z.enum(['MEMBER', 'AUDITOR']);
+export const StaffMemberCreate = z.strictObject({ display_name: z.string().trim().min(1).max(100), email: z.string().email().max(254), role: StaffMemberRole });
+export const StaffMember = z.strictObject({ id: Id, display_name: z.string().max(100), email: z.string().max(254), role: z.enum(['ORG_SUPER_ADMIN', 'ORG_ADMIN', 'MEMBER', 'AUDITOR']), active: z.boolean(),
+  must_change_password: z.boolean(), authenticator_enrolled: z.boolean(), counts_against_seats: z.boolean(), created_by: Id.nullable(), created_at: Time, deactivated_at: Time.nullable() });
+export const MemberSeats = z.strictObject({ licence_state: z.enum(['ACTIVE', 'NO_LICENCE', 'EXPIRED', 'NO_MEMBER_SEATS']), licensed: z.number().int().nullable(), used: z.number().int(), available: z.number().int() });
+export const StaffTeam = z.strictObject({ seats: MemberSeats, members: z.array(StaffMember).max(10100), limits: z.array(z.string().max(300)).max(5) });
+export const StaffMemberCreated = z.strictObject({ member: StaffMember, one_time_password: z.string().min(24).max(64), seats: MemberSeats });
+
 export const expansionSchemas = {
   ImpactQuestion, ImpactTemplateCreate, ImpactTemplate, ImpactTemplatePublish, ImpactTemplateList: page(ImpactTemplate),
   ImpactAssessmentCreate, ImpactAnswersRecord, ImpactDecision, ImpactRevise, ImpactFindingCreate, ImpactFindingEventRecord, ImpactFinding,
@@ -449,4 +458,5 @@ export const expansionSchemas = {
   CmpConfigDocument, CmpSiteCreate, CmpSite, CmpSiteList: page(CmpSite), CmpConfigCreate, CmpConfig, CmpConfigList: page(CmpConfig), CmpConfigDecision, CmpConsentSubmit, CmpConsentReceipt, CmpConsentStats,
   CmpScanRequest, CmpScan, CmpScanList: page(CmpScan),
   PreferenceTopicCreate, PreferenceTopic, PreferenceTopicList: page(PreferenceTopic), PreferenceChoice, PreferenceDecision, PreferenceEvent, PreferenceChoiceReceipt, PreferenceCentre, PreferenceDecisionQuery,
+  StaffMemberCreate, StaffMember, MemberSeats, StaffTeam, StaffMemberCreated,
 };

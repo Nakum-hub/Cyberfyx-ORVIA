@@ -19,7 +19,7 @@ const db=connectDatabase(p).pool;const lock=await db.connect();const children:Ch
 const forced=new Set<number>();
 const identity={run_id:randomUUID(),installation_id:p.installation_id,profile:p.profile,pid:process.pid,started_at:new Date().toISOString()};
 const names=new Map<ChildProcess,string>();
-const start=(args:string[],name:string,cwd=process.cwd())=>{const child=spawn(process.execPath,args,{cwd,windowsHide:true,stdio:['ignore','inherit','inherit','ipc'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});children.push(child);names.set(child,name);return child;};
+const start=(args:string[],name:string,cwd=process.cwd(),env:NodeJS.ProcessEnv={...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()})=>{const child=spawn(process.execPath,args,{cwd,windowsHide:true,stdio:['ignore','inherit','inherit','ipc'],env});children.push(child);names.set(child,name);return child;};
 // The agent's machine enrollment expires one hour after it is issued, and an
 // expired enrollment is by far the most common cause of a mid-demonstration
 // stop. Classify which child exited so `safeError` can surface the curated
@@ -41,7 +41,7 @@ try{
  if(!(await lock.query('SELECT pg_try_advisory_lock(728108) locked')).rows[0].locked)throw new Error('Another supervisor owns this profile');
  if((await db.query("SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name IN ('orvia_worker','orvia_agent_control') LIMIT 1")).rowCount)throw new Error('Existing profile worker/agent prevents startup');
  const portProbe=createServer();await new Promise<void>((done,fail)=>{portProbe.once('error',fail);portProbe.listen(config.app_port,'127.0.0.1',()=>portProbe.close(()=>done()));});
- const command=webProcess(config);const web=start(command.args,'web',command.cwd);
+ const command=webProcess(config);const web=start(command.args,'web',command.cwd,command.env);
  let ready=false;for(let i=0;i<90;i++){if(web.exitCode!==null)throw new Error('Owned web process exited before readiness');try{ready=(await fetch(config.origin+'/readyz',{signal:AbortSignal.timeout(3000)})).ok;}catch{/* bounded startup; readiness includes a warm authorization decision */}if(ready)break;await new Promise(r=>setTimeout(r,500));}
  if(!ready)throw new Error('HTTPS readiness failed');
  start(['--import','tsx','services/worker/src/main.ts'],'worker');start(['--import','tsx','services/agent/src/main.ts'],'agent');

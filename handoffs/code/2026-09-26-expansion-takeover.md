@@ -538,7 +538,7 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   - `Seq Scan on audit_events (rows=1 estimated, 58036 actual)`, then a top-N sort: 110 ms;
   - the matching `audit_events_scope_time_id (tenant, entity, env, created_at DESC, id DESC)` index goes unused.
 - Cause: `app.in_scope` (0001) compares `column::text = current_setting(...)`. The planner cannot estimate that and assumes one row, so it never chooses the ordered index scan with LIMIT. Cost therefore grows linearly with table size.
-- Proposed migration `0060_typed_scope_predicate.sql`:
+- Proposed migration `0062_typed_scope_predicate.sql`:
   ```sql
   CREATE OR REPLACE FUNCTION app.in_scope(t uuid,l uuid,e uuid) RETURNS boolean LANGUAGE sql STABLE AS $$
    SELECT t = nullif(current_setting('orvia.tenant_id',true),'')::uuid
@@ -556,7 +556,7 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   4. Re-run `capacity:mixed`.
 - `scripts/capacity-mixed.ts` now records EXPLAIN plans for both list shapes in its evidence.
 
-**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0060_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
+**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0062_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
 
 ## EX01 — communication preferences (topics, portal choices, decision at time of use)
 
@@ -612,4 +612,74 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 |---|---|
 | typecheck / lint | clean |
 | `pnpm test` | 260/260 PASS. This adds `tests/unit/renewing-enrollment.test.ts`: a renewal is picked up without a restart; no re-read while comfortably valid; still expired after re-read gives `MACHINE_ENROLLMENT_EXPIRED`; one expired identity among several is not skipped. |
-| `pnpm run test:workflows` | **NOT_RUN.** The host rebooted and the profile containers had to be restarted, and the session's tool safety check was returning errors at the time. Codex must run it; it covers worker, agent and restart. |
+| `pnpm run test:workflows` | 32/32 PASS, exit 0, after the host reboot: Docker daemon and profile services restarted, `machine:init` renewal, rebuild. Covers the real Temporal worker, the agent poller, process interruption and restart, stale-withdrawal and epoch guards, and machine and human separation. Artifact `A00-workflow-integration-1790577795201-…json`. |
+
+## Vendor and customer credential separation (user request, 2026-09-28)
+
+**Problem**
+- The prototype kept the vendor's release and licence signing key pairs (`.local/{release,licence}-fixture.json`) beside the customer installation profiles.
+- Test setups exported the private keys into the same environment that launched the customer application, so the customer app process inherited the vendor's private release key. No product code read it, but it was present.
+
+**Built**
+- `scripts/credentials.ts` defines the vendor side (`.local/vendor/signing/`) and the customer side (`.local/profiles/<installation>/`, including `trust/vendor-public-keys.json`, public keys only).
+- `customerEnvironment()` strips any private key and loads the trust file. It is used by `webProcess` and every launcher (app-run, web.ts, HTTP and e2e fixtures, auth security test, web.test).
+- `scripts/credentials-separate.ts` (`pnpm run credentials:separate confirm:local`) does the move. It is idempotent, refuses a conflicting key, and checks for leaks under profiles.
+- `scripts/verify-suites.ts`, the tests' run hints and `regulatory-package.ts` now read from `.local/vendor/signing/`.
+- The preflight `SIGNING_KEYS` gate now also fails if a private key is present in the installation's runtime.
+- Layout document: `docs/engineering/credentials-layout.md`.
+- The move was run on this checkout for profiles codex-a00 and ui-b00. The vendor files are mode 0600 in 0700 directories.
+
+**Limits**
+- The keys themselves are still development fixtures. Real vendor keys need offline or HSM custody and a key ceremony, which is not built.
+- Nothing is committed: `.local/` is git-ignored. **Codex must run `pnpm run credentials:separate confirm:local` once on its own checkout**, and set its test environment from `.local/vendor/signing/`.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| typecheck / lint / `pnpm test` | clean / clean / 266/266, including 6 new `tests/unit/credentials.test.ts` cases: move and trust, idempotent rerun, conflicting key refused, leak under profile refused, private keys stripped and public keys loaded, mismatched public key refused, private key in a trust file refused |
+| `credentials:separate` run twice | first run moved release and licence and wrote trust for 2 profiles; second run moved nothing |
+| preflight | 20/20 PASS, including a new assertion: the test process holds the vendor private key, the app it started does not, and the SIGNING_KEYS gate passes |
+| licensing / updates / regulatory / web / preferences | 33/33, 54/54, 32/32, pass, 39/39 |
+
+## Licence-limited organisation member logins (user request, 2026-09-28)
+
+**Built**
+- Migration `0060_staff_members.sql`: SECURITY DEFINER functions `app.member_seats`, `app.staff_member_create`, `app.staff_member_set_active` and `app.staff_member_list`.
+  - They check the caller's STAFF domain, owner or administrator role and `staff.manage`, and scope everything to the caller's organisation.
+  - Seat decisions take a scope advisory lock and count against the active, unexpired licence's `licensed_limits.member_seats`.
+  - Only MEMBER and AUDITOR can be created or toggled. Deactivation deletes sessions.
+  - New `staff_auth.authority` columns: `must_change_password`, `created_by`/`created_at`, `deactivated_by`/`deactivated_at`.
+- Migration `0061_member_count_view.sql`: `local_identity_summary.active_members`.
+- Licence contract: optional `member_seats` in `licensed_limits`, `MEMBER_SEATS` in limit usage, contract 0.39.0.
+- New capability `staff.manage` for ORG_SUPER_ADMIN and ORG_ADMIN, added to the roles, the contract enum and OPA `admin_caps`.
+- Routes: `staff_team`, `create_staff_member`, `deactivate_staff_member`, `reactivate_staff_member`.
+- The ROLE_GRANTS audit category now lists these operations, and its note was rewritten.
+- Auth:
+  - `authorityFor` refuses a login with `must_change_password` (403 `password_change_required`);
+  - the staff auth handler allows `/change-password` and serves `/orvia/password-state`;
+  - a successful change clears the flag.
+- UI:
+  - `/workspace/team` (Installation → Team): seats, logins, add member with the one-time password shown once, deactivate and reactivate;
+  - the sign-in page adds a "Choose your own password" step before authenticator setup.
+- Vendor side:
+  - `backend/vendor/plans/catalogue.ts`: Tier 1 has 5 or 10 members; Tiers 2 and 3 have no options yet; the edition mapping is an assumption;
+  - `backend/vendor/licensing/issue.ts` and `pnpm run vendor:issue-licence confirm:vendor` sign a licence from a plan option with the vendor key.
+- Documentation: `docs/engineering/subscription-seats.md`.
+- `tests/security/auth.test.ts` now resets the synthetic reviewer's authenticator before its enrollment scenario. Once another suite had enrolled reviewer, that check failed and every later security check was skipped; the identical failure is recorded on 2026-09-26, before this work.
+
+**Honest limits**
+- Tier 2 and 3 options, the edition mapping and per-tier features are undecided. Prices, payment and the website signup and download flow are on hold (EX13).
+- A licence that lowers seats below current use blocks new members but deactivates nobody.
+- Owner and administrator counts are not capped here; they remain protected-setup only.
+- Approval flows that need two privileged people still need two owner or administrator logins, which protected setup must provide.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint | 0060 and 0061 applied; contract 0.39.0 with 408 route examples; clean; clean |
+| `pnpm test` | 271/271, including `tests/unit/vendor-plans.test.ts`: Tier 1 is 5 and 10; issued licences carry seats plus 2 included logins; the signature verifies and a raised seat count fails verification; unknown and undefined options refused; a bad catalogue refused; an unknown entitlement refused |
+| `tsx tests/integration/expansion/staff-members.test.ts` | 37/37 PASS. Covers: role access; a licence without seats allows none; the seat limit on create and reactivate; a concurrent last-seat race where exactly one succeeds; owner and administrator neither creatable nor deactivatable; a free-seat duplicate email refused; a deactivated login has no authority and its session is gone; the one-time password flow (flag, forced change, wrong current password refused, old password dead, MFA still required); tenant isolation; a catalogue-issued Tier 1 licence enforced as 5; audit; `orvia_app` cannot write `staff_auth` (42501); the definer function refuses a caller without staff authority |
+| `tsx tests/e2e/team-local.ts` | 8/8 PASS in a real browser: add a member on screen, the one-time password shown once, seats full hides the form, the member replaces the password, enrolls TOTP and gets a MEMBER session, the admin sees them active. (The console-error filter ignores the expected 403 from the sign-in page's pre-MFA session probe.) |
+| `pnpm run test:auth` | 88/88 PASS. The reset of reviewer is followed by completing its enrollment with a real TOTP code and recording it, so the shared fixture ends enrolled. A first version without that step broke the expansion e2e (reviewer had no recorded authenticator); that was fixed and re-verified. |
+| `tsx tests/e2e/expansion-screens-local.ts` (regression) | 69/69 PASS after the sign-in and nav changes |
+| `vendor:issue-licence` | issued a tier_1_members_10 licence for codex-a00; `tier_2_members_5` refused as not defined |

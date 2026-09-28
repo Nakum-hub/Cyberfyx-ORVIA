@@ -9,7 +9,7 @@ read_caps := {"grc.read", "ai_governance.read", "overview.read", "configuration.
 # Taking the trail out of the installation is the act that leaves the building,
 # so it is not something every reader of the trail acquires with the read.
 export_audit_caps := {"audit.export"}
-admin_caps := {"grc.write", "ai_governance.write", "configuration.write", "systems.check", "principals.create", "action.reconcile", "manual.attest", "policy.preview", "graph.write", "rights.write", "retention.write", "coverage.manage", "processor.write", "incident.write", "notification.manage", "support.manage", "registry.write", "operations.execute"}
+admin_caps := {"staff.manage", "grc.write", "ai_governance.write", "configuration.write", "systems.check", "principals.create", "action.reconcile", "manual.attest", "policy.preview", "graph.write", "rights.write", "retention.write", "coverage.manage", "processor.write", "incident.write", "notification.manage", "support.manage", "registry.write", "operations.execute"}
 
 authorize if {
   input.actor_domain == "STAFF"

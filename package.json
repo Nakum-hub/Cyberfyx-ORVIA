@@ -42,6 +42,8 @@
     "test:restore": "tsx tests/integration/monitoring/restore.test.ts",
     "backup:drill": "tsx scripts/backup-drill.ts",
     "capacity:mixed": "tsx scripts/capacity-mixed.ts",
+    "credentials:separate": "tsx scripts/credentials-separate.ts",
+    "vendor:issue-licence": "tsx scripts/vendor-issue-licence.ts",
     "test:vendor-visibility": "tsx tests/integration/monitoring/vendor-visibility.test.ts",
     "test:audit-retention": "tsx tests/integration/audit/retention.test.ts",
     "test:imports": "tsx tests/integration/onboarding/imports.test.ts",

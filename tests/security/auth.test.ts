@@ -35,7 +35,7 @@ function check(name: string, actual: unknown, expected: unknown) {
 async function start() {
   child = spawn(process.execPath,command.args, {
     cwd:command.cwd,windowsHide:true,stdio:['ignore','pipe','pipe'],
-    env:{...process.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'},
+    env:{...command.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'},
   });
   child.stdout?.on('data',chunk=>{serverOutput+=chunk;}); child.stderr?.on('data',chunk=>{serverOutput+=chunk;});
   for(let attempt=0;attempt<90;attempt++) {
@@ -133,6 +133,13 @@ try {
   const auditor=await login('auditor');
   check('auditor read allowed',(await auditor.call('/api/v1/admin/principals')).status,200);
   check('auditor mutation denied',(await auditor.call('/api/v1/admin/principals',input,{'idempotency-key':randomUUID()})).status,403);
+  // This scenario needs a staff login that has never enrolled an authenticator. The shared
+  // synthetic reviewer may have been enrolled by another suite, which made this check fail and
+  // stopped every check after it. Reset that one synthetic enrollment first (fixture state only).
+  const reviewerId=fixture.users.reviewer!.id;
+  await admin.query('DELETE FROM staff_auth."twoFactor" WHERE "userId"=$1',[reviewerId]);
+  await admin.query('UPDATE staff_auth."user" SET "twoFactorEnabled"=false WHERE id=$1',[reviewerId]);
+  delete fixture.users.reviewer!.totp_uri; writePrivateJson(credentialPath,fixture);
   const enrollmentUser=await login('reviewer',false);
   const enrollmentPath='/api/auth/staff/two-factor/enable';
   const enrollmentResponse=await enrollmentUser.call(enrollmentPath,{password:fixture.users.reviewer!.password,method:'totp'});
@@ -140,6 +147,9 @@ try {
   const enrollment=await enrollmentResponse.json();
   check('unverified enrollment backup code cannot establish MFA',(await enrollmentUser.call('/api/auth/staff/two-factor/verify-backup-code',{code:enrollment.backupCodes[0],trustDevice:false})).status,403);
   check('enrollment bypass attempt leaves privileged access denied',(await enrollmentUser.call('/api/v1/session')).status,403);
+  // Complete the reviewer's enrollment and record it, so the shared fixture ends enrolled as other suites expect.
+  check('the separate enrollment completes with a real authenticator code',(await enrollmentUser.call('/api/auth/staff/two-factor/verify-totp',{code:totp(enrollment.totpURI),trustDevice:false})).status,200);
+  fixture.users.reviewer!.totp_uri=enrollment.totpURI; writePrivateJson(credentialPath,fixture);
   const member=await login('member');
   check('member directory denied',(await member.call('/api/v1/admin/principals')).status,403);
   check('member mutation denied',(await member.call('/api/v1/admin/principals',input,{'idempotency-key':randomUUID()})).status,403);

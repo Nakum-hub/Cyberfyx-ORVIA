@@ -10,6 +10,7 @@ import { preparePackage, reviewPackage, releasePackage, revokePackage, withdrawP
 import { requestRun, runDetail, runList, recordLabels, labelSet, measureQuality, qualityList, exposureList } from '../../domain/src/discovery/classification.ts';
 import { createTransport, enableTransport, disableTransport, revealSigningSecret, transportList, createRouting, decideRouting, routingList, composeMessage, reviewMessage, cancelMessage, messageDetail, messageList } from '../../domain/src/delivery/delivery.ts';
 import { createTopic, retireTopic, topicList, principalCentre, ownCentre, decision as preferenceDecision, recordOwnChoice } from '../../domain/src/preferences/preferences.ts';
+import { team, createMember, setMemberActive } from '../../domain/src/staff/members.ts';
 import { createSite, enableSite, disableSite, siteList, createConfig, decideConfig, configList, consentStats, requestScan, scanList } from '../../domain/src/cmp/cmp.ts';
 
 /**
@@ -88,6 +89,10 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'principal_preferences': return principalCentre(c, id!);
     case 'preference_decision': return preferenceDecision(c, query);
     case 'own_preferences': return ownCentre(c);
+    case 'staff_team': return team(c);
+    case 'create_staff_member': return createMember(c, input);
+    case 'deactivate_staff_member': return setMemberActive(c, id!, false);
+    case 'reactivate_staff_member': return setMemberActive(c, id!, true);
     case 'set_own_preference': return recordOwnChoice(c, input);
     case 'request_classification_run': return requestRun(c, id!, input);
     case 'list_classification_runs': return runList(c, id!, page);

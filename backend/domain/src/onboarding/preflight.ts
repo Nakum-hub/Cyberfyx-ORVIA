@@ -89,9 +89,12 @@ export async function preflight(c: Context, config: RuntimeConfig): Promise<unkn
     'Complete the protected local bootstrap so one primary owner exists under customer-controlled authentication before any other setup.');
 
   const keyIds = ['ORVIA_RELEASE_KEY_ID', 'ORVIA_LICENCE_KEY_ID'].filter(name => (process.env[name] ?? '').length > 0);
-  const signingKeys = decide('SIGNING_KEYS', keyIds.length > 0,
-    'Whether this installation has been given the public key identifiers it needs to verify what it is asked to trust. These are supplied by configuration with no default: without them nothing verifies.',
-    keyIds.length ? `Configured: ${keyIds.join(', ')}.` : 'No release or licence signing key identifier is configured.',
+  // A customer installation verifies with the vendor's public keys only. A signing (private) key in this
+  // process means vendor credentials have reached the customer side, which fails this check.
+  const privateKeys = Object.keys(process.env).filter(name => /PRIVATE_KEY/i.test(name) && (process.env[name] ?? '').length > 0);
+  const signingKeys = decide('SIGNING_KEYS', keyIds.length > 0 && privateKeys.length === 0,
+    'Whether this installation has been given the public key identifiers it needs to verify what it is asked to trust, and holds no vendor signing (private) key. These are supplied by configuration with no default: without them nothing verifies.',
+    privateKeys.length ? `A private key is present in this installation's environment (${privateKeys.join(', ')}); vendor signing keys must never reach a customer runtime.` : keyIds.length ? `Configured: ${keyIds.join(', ')}.` : 'No release or licence signing key identifier is configured.',
     'Supply the release and licence signing key identifiers. Without them a manifest cannot be verified and import will refuse rather than trust it.');
 
   // The narrow thing this build can honestly check, and the wider thing it

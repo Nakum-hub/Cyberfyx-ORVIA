@@ -26,7 +26,7 @@ export class HttpFixture {
   diagnostics='';
   async start() {
     const command=webProcess(this.config);
-    this.child=spawn(process.execPath,command.args,{cwd:command.cwd,windowsHide:true,stdio:['ignore','ignore','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd(),NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
+    this.child=spawn(process.execPath,command.args,{cwd:command.cwd,windowsHide:true,stdio:['ignore','ignore','pipe'],env:{...command.env,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
     this.child.stderr?.on('data',chunk=>{this.diagnostics+=chunk.toString();});
     // /healthz answers before the business route graph is loaded. A suite that
     // restarts the application and immediately calls a business route was

@@ -33,7 +33,7 @@ import { audit, predicate, scopeValues, requireOne, paged, type Context, type Pa
  * Listing both is what the trail actually contains.
  */
 const CATEGORY_OPERATIONS: Record<S.AuditCategoryValue, string[]> = {
-  ROLE_GRANTS: ['protected-bootstrap.identity-checked'],
+  ROLE_GRANTS: ['protected-bootstrap.identity-checked', 'staff_member.create', 'create_staff_member', 'staff_member.deactivate', 'deactivate_staff_member', 'staff_member.reactivate', 'reactivate_staff_member'],
   OWNER_CHANGES: [],
   POLICY_PUBLICATION: ['policy.publish', 'publish_policy', 'policy.reauthenticate', 'reauthenticate_policy'],
   CONNECTOR_CREDENTIALS_AND_SCOPE: ['system.check', 'check_system', 'systems.create', 'create_systems'],
@@ -50,7 +50,7 @@ const CATEGORY_OPERATIONS: Record<S.AuditCategoryValue, string[]> = {
  * fact there is nothing here to audit.
  */
 const CATEGORY_NOTES: Record<S.AuditCategoryValue, string> = {
-  ROLE_GRANTS: 'A role is granted only by the protected local setup, which records its own event. There is no route in this build through which a role could be granted, so nothing else can produce one.',
+  ROLE_GRANTS: 'Owner and administrator roles are granted only by the protected local setup, which records its own event. An owner or administrator may create, deactivate and reactivate MEMBER and AUDITOR logins within the licence\'s member seats; each of those acts is recorded here. No route grants or changes an owner or administrator role.',
   OWNER_CHANGES: 'This build creates one primary owner during protected local setup and has no ownership-transfer route at all. There is nothing to audit rather than something unaudited, and an entry here would appear the moment such a route existed.',
   POLICY_PUBLICATION: 'Publication and the reviewer re-authentication that precedes it are both recorded, so an approval is traceable to the person who re-proved their identity for it.',
   CONNECTOR_CREDENTIALS_AND_SCOPE: 'Configuring a system and checking what it can actually do are both recorded. The credential itself is never written to the trail; only that a scope check happened and what it concluded.',
