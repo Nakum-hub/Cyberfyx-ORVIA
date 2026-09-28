@@ -538,7 +538,7 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   - `Seq Scan on audit_events (rows=1 estimated, 58036 actual)`, then a top-N sort: 110 ms;
   - the matching `audit_events_scope_time_id (tenant, entity, env, created_at DESC, id DESC)` index goes unused.
 - Cause: `app.in_scope` (0001) compares `column::text = current_setting(...)`. The planner cannot estimate that and assumes one row, so it never chooses the ordered index scan with LIMIT. Cost therefore grows linearly with table size.
-- Proposed migration `0062_typed_scope_predicate.sql`:
+- Proposed migration `0063_typed_scope_predicate.sql`:
   ```sql
   CREATE OR REPLACE FUNCTION app.in_scope(t uuid,l uuid,e uuid) RETURNS boolean LANGUAGE sql STABLE AS $$
    SELECT t = nullif(current_setting('orvia.tenant_id',true),'')::uuid
@@ -556,7 +556,7 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
   4. Re-run `capacity:mixed`.
 - `scripts/capacity-mixed.ts` now records EXPLAIN plans for both list shapes in its evidence.
 
-**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0062_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
+**ACTION REQUIRED (Codex): apply the typed scope predicate.** The user approved applying migration `0063_typed_scope_predicate.sql` above. The Claude session's tool safety check still refused to change the core row-security function, so it is **not applied**. It must be applied and verified before any capacity or performance qualification, following the steps above. It is also recorded as `required_actions` on EX14 in `tracking/v1-expansion.json`.
 
 ## EX01 — communication preferences (topics, portal choices, decision at time of use)
 
@@ -683,3 +683,61 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 | `pnpm run test:auth` | 88/88 PASS. The reset of reviewer is followed by completing its enrollment with a real TOTP code and recording it, so the shared fixture ends enrolled. A first version without that step broke the expansion e2e (reviewer had no recorded authenticator); that was fixed and re-verified. |
 | `tsx tests/e2e/expansion-screens-local.ts` (regression) | 69/69 PASS after the sign-in and nav changes |
 | `vendor:issue-licence` | issued a tier_1_members_10 licence for codex-a00; `tier_2_members_5` refused as not defined |
+
+## Delete a login (typed DELETE confirmation). Verified after the unverified push (user request, 2026-09-28)
+
+`0559a15` was pushed, and then merged to main in PR #27, **before** verification, because the session's tool safety check was failing on every shell command. It has now been verified with no code changes needed:
+
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint | `0062_staff_delete` applied; contract 0.40.0 with 410 route examples; clean; clean |
+| `pnpm test` | 271/271 |
+| `tsx tests/integration/expansion/staff-delete.test.ts` | 27/27 PASS. Covers:<br>• every near-miss of DELETE refused by the API (400);<br>• the database function refuses 'delete' (`confirmation_required`);<br>• an administrator deletes a member: signed out, password dead, seat freed, no reactivation (`login_deleted`), no second deletion, address reusable, name kept;<br>• owner and administrator not deletable through the member route; self only through My login; a member cannot delete others (403);<br>• the owner cannot delete themselves (403); cross-tenant 404;<br>• an auditor and an MFA member delete their own logins;<br>• both acts audited. |
+| `tsx tests/e2e/delete-login-local.ts` | 14/14 PASS in a real browser. Covers:<br>• Delete disabled for empty, delete, Delete, 'DELETE ' and DELET; Cancel deletes nothing;<br>• enabled only for DELETE, and the request carries it;<br>• the row shows deleted with no buttons;<br>• an auditor self-deletes from My login and loses the session;<br>• the owner is shown no self-delete button. |
+| team e2e / staff-members / auth (regressions) | 8/8, 37/37, 88/88 |
+
+Semantics: deletion is a permanent suspension. Password, authenticator and sessions are removed, reactivation is refused, and the seat and email address are released. The identity row and name stay, because audit events and approvals reference them.
+
+## Typed scope predicate APPLIED (0063); payments provider decision (2026-09-28)
+
+**0063_typed_scope_predicate.sql applied** (user-approved; the tool safety check allowed it this time). `app.in_scope` now compares uuids.
+
+| Check | Result |
+|---|---|
+| EXPLAIN through the real `orvia_app` scoped path, audit list in a scope of 60,975 rows | before: Seq Scan plus Sort, 110 ms. After: **Index Scan using audit_events_scope_time_id, 0.44 ms** |
+| `pnpm test` / `test:auth` | 271/271, 88/88 |
+| all 13 expansion suites | pass. classification 29, cmp 44, delivery 41, grc-lifecycle 75, impact 41, preferences 39, response-packages 52, **ropa-exports 58 (see below)**, staff-delete 27, staff-members 37, third-party 43 |
+| all 13 DPDP operations suites | pass. regulatory 32, applicability 18, registry 47, estate-import 18, notices 15, consent-withdrawal 38, rights 26, correction 12, processors 14, breach 19, sdf 22, runner 10, retention-scale 16 |
+
+**ropa-exports root cause (not a flake).** `sweepCatalogDiscovery` takes at most 10 due jobs per pass, oldest first. The shared codex-a00 scope had accumulated 35 approved jobs from earlier runs, 15 of them due, so the test's new job was not in the one sweep the test made. The product behaviour (bounded batch, continuous worker loop) is intended. The test now sweeps up to 20 times until its own target has an observation. The 2026-09-26 "under load" failure was the same starvation.
+
+**Payments:** `docs/engineering/PAYMENTS_PROVIDER_DECISION.md` records the user's decision: Indian providers only, Razorpay. It gives the reason (RBI 2018 payment-data localisation, plus DPDP s.16 caution) and the activation checklist.
+- The Razorpay key location is `.local/vendor/commerce/razorpay.json`, loaded by `vendorRazorpayCredentials()` in `scripts/credentials.ts`.
+- Codex's adapter in `backend/vendor/commerce/**` was **not edited**, to avoid a second writer.
+- Not done: merchant account and KYC; RBI list check (government and RBI hosts are blocked by this environment's network policy); vendor website; sandbox conformance.
+
+## First-run setup screen (installer one-time code), M29/FR-M29-02 (2026-09-28)
+
+**Built**
+- `0064_first_run_setup.sql`:
+  - `app.installation_setup` stores only the code's SHA-256 digest, the expiry, and a failure counter capped at 5;
+  - `app.first_run_state()` returns OPEN, NO_CODE_ISSUED, LOCKED, EXPIRED or COMPLETED;
+  - `app.first_run_complete(...)` is SECURITY DEFINER and creates the organisation, legal entity and environment plus the owner and administrator logins in one transaction. A wrong code is counted and committed without an exception (no row is returned). It is refused once any owner exists, and the act is audited.
+- `pnpm run setup:code confirm:<profile>` (`scripts/setup-code.ts`) issues a code of the form XXXXX-XXXXX-XXXXX-XXXXX (no I, O, 0 or 1), valid 24 hours. It is shown on the console and written to `<profile>/auth/setup-code.txt` (0600). A reissue resets the lock. It is refused once an owner exists.
+- Public API `GET`/`POST /api/v1/setup` (`backend/api/src/setup.ts`, routed by `frontend/src/app/api/v1/setup/route.ts`):
+  - cookies and authorization headers refused; foreign origin refused;
+  - body capped at 8 KiB and validated by schema (passwords 16 to 128 characters);
+  - contract 0.41.0 (`first_run_state`, `first_run_complete`, PUBLIC, with capability `setup.first_run` held by no role).
+- Page `/setup`: setup code, organisation, and the owner and administrator names, emails and passwords, with confirmations. Closed states explain what to do.
+
+**Limits**
+- Wiring the code step into the installer is open: `setup-orvia.ts` is Windows rehearsal-only and still uses the protected bootstrap script.
+- The OPEN browser journey needs a fresh installation, so it is covered at database level (scratch copy of the schema) rather than in a browser.
+- Customer-held recovery (OPEN-07) is still undecided.
+
+**Executed (codex-a00)**
+| Command | Result |
+|---|---|
+| migrate / contracts / typecheck / lint / unit | 0064 applied; 412 route examples; clean; clean; 271/271 |
+| `tsx tests/integration/onboarding/first-run.test.ts` | 23/23 PASS on a scratch database built from the current schema and dropped afterwards. Covers: no code; code form; digest-only storage; `orvia_app` cannot read the code table (42501); four wrong codes counted, the fifth locks; the right code refused while locked; a reissue unlocks; expired refused; owner and admin addresses must differ; code accepted in lower case with spaces; exactly one owner and one admin with their hashes in one organisation; audited; closed afterwards; the used code refused; no new code once an owner exists |
+| `tsx tests/integration/onboarding/first-run-http.test.ts` | 7/7 PASS on the running app. Covers: state COMPLETED (no-store); takeover attempt 409 `setup_already_completed`; a cookie 400; a foreign origin 403; a short password 400; an unknown field 400; the /setup page offers sign-in and no form |

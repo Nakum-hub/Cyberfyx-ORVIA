@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.39.0",
+  "contract_version": "0.41.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4405,6 +4405,49 @@
       "idempotency": true,
       "capability": "staff.manage",
       "params": "IdPath"
+    },
+    {
+      "id": "delete_staff_member",
+      "method": "post",
+      "path": "/api/v1/admin/staff-members/{id}/delete",
+      "authority": "STAFF",
+      "request": "LoginDeleteConfirm",
+      "response": "StaffMember",
+      "status": 200,
+      "idempotency": true,
+      "capability": "staff.manage",
+      "params": "IdPath"
+    },
+    {
+      "id": "delete_own_login",
+      "method": "post",
+      "path": "/api/v1/admin/my-login/delete",
+      "authority": "STAFF",
+      "request": "LoginDeleteConfirm",
+      "response": "OwnLoginDeleted",
+      "status": 200,
+      "idempotency": true,
+      "capability": "account.own.delete"
+    },
+    {
+      "id": "first_run_state",
+      "method": "get",
+      "path": "/api/v1/setup",
+      "authority": "PUBLIC",
+      "response": "FirstRunState",
+      "status": 200,
+      "capability": "setup.first_run"
+    },
+    {
+      "id": "first_run_complete",
+      "method": "post",
+      "path": "/api/v1/setup",
+      "authority": "PUBLIC",
+      "request": "FirstRunSetup",
+      "response": "FirstRunCompleted",
+      "status": 201,
+      "capability": "setup.first_run",
+      "maximum_body_bytes": 8192
     },
     {
       "id": "poll_commands",

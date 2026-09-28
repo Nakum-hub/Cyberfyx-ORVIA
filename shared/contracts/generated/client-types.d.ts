@@ -5071,6 +5071,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/staff-members/{id}/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["delete_staff_member"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/my-login/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["delete_own_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/setup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["first_run_state"];
+        put?: never;
+        post: operations["first_run_complete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/machine/commands/poll": {
         parameters: {
             query?: never;
@@ -12273,6 +12321,7 @@ export interface components {
             /** Format: date-time */
             created_at: string;
             deactivated_at: string | null;
+            deleted_at: string | null;
         };
         MemberSeats: {
             /** @enum {string} */
@@ -12304,6 +12353,7 @@ export interface components {
                 /** Format: date-time */
                 created_at: string;
                 deactivated_at: string | null;
+                deleted_at: string | null;
             }[];
             limits: string[];
         };
@@ -12323,6 +12373,7 @@ export interface components {
                 /** Format: date-time */
                 created_at: string;
                 deactivated_at: string | null;
+                deleted_at: string | null;
             };
             one_time_password: string;
             seats: {
@@ -12332,6 +12383,43 @@ export interface components {
                 used: number;
                 available: number;
             };
+        };
+        LoginDeleteConfirm: {
+            /** @constant */
+            confirmation: "DELETE";
+        };
+        OwnLoginDeleted: {
+            /** Format: date-time */
+            deleted_at: string;
+            /** @constant */
+            signed_out: true;
+        };
+        FirstRunState: {
+            /** @enum {string} */
+            state: "OPEN" | "NO_CODE_ISSUED" | "LOCKED" | "EXPIRED" | "COMPLETED";
+        };
+        FirstRunSetup: {
+            setup_code: string;
+            organisation_name: string;
+            owner: {
+                name: string;
+                /** Format: email */
+                email: string;
+                password: string;
+            };
+            admin: {
+                name: string;
+                /** Format: email */
+                email: string;
+                password: string;
+            };
+        };
+        FirstRunCompleted: {
+            /** @constant */
+            completed: true;
+            /** @constant */
+            sign_in: "/workspace/sign-in";
+            next_steps: string[];
         };
         GrcFrameworkCreate: {
             name: string;
@@ -13392,7 +13480,7 @@ export interface components {
             };
             /** @enum {string} */
             role: "ORG_SUPER_ADMIN" | "ORG_ADMIN" | "MEMBER" | "AUDITOR";
-            capabilities: ("staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+            capabilities: ("setup.first_run" | "account.own.delete" | "staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
             mfa_verified: boolean;
             /** Format: date-time */
             expires_at: string;
@@ -16410,7 +16498,7 @@ export interface components {
             introduces_network_egress: false;
             /** @constant */
             requires_model_runtime: false;
-            introduces_capabilities: ("staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+            introduces_capabilities: ("setup.first_run" | "account.own.delete" | "staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
         };
         SignedRelease: {
             /** @constant */
@@ -16453,7 +16541,7 @@ export interface components {
                 introduces_network_egress: false;
                 /** @constant */
                 requires_model_runtime: false;
-                introduces_capabilities: ("staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+                introduces_capabilities: ("setup.first_run" | "account.own.delete" | "staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
             };
             /** Format: uuid */
             signing_key_id: string;
@@ -16501,7 +16589,7 @@ export interface components {
                     introduces_network_egress: false;
                     /** @constant */
                     requires_model_runtime: false;
-                    introduces_capabilities: ("staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+                    introduces_capabilities: ("setup.first_run" | "account.own.delete" | "staff.manage" | "supplier.respond" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
                 };
                 /** Format: uuid */
                 signing_key_id: string;
@@ -92094,7 +92182,8 @@ export interface operations {
                      *         "counts_against_seats": false,
                      *         "created_by": null,
                      *         "created_at": "2026-09-16T10:00:00.000Z",
-                     *         "deactivated_at": null
+                     *         "deactivated_at": null,
+                     *         "deleted_at": null
                      *       },
                      *       "one_time_password": "Synthetic examplexxxxxxx",
                      *       "seats": {
@@ -92274,7 +92363,8 @@ export interface operations {
                      *       "counts_against_seats": false,
                      *       "created_by": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "deactivated_at": null
+                     *       "deactivated_at": null,
+                     *       "deleted_at": null
                      *     }
                      */
                     "application/json": components["schemas"]["StaffMember"];
@@ -92446,10 +92536,701 @@ export interface operations {
                      *       "counts_against_seats": false,
                      *       "created_by": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "deactivated_at": null
+                     *       "deactivated_at": null,
+                     *       "deleted_at": null
                      *     }
                      */
                     "application/json": components["schemas"]["StaffMember"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    delete_staff_member: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "confirmation": "DELETE"
+                 *     }
+                 */
+                "application/json": components["schemas"]["LoginDeleteConfirm"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000263",
+                     *       "display_name": "Synthetic example",
+                     *       "email": "asha@aster.example",
+                     *       "role": "ORG_SUPER_ADMIN",
+                     *       "active": false,
+                     *       "must_change_password": false,
+                     *       "authenticator_enrolled": false,
+                     *       "counts_against_seats": false,
+                     *       "created_by": null,
+                     *       "created_at": "2026-09-16T10:00:00.000Z",
+                     *       "deactivated_at": null,
+                     *       "deleted_at": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["StaffMember"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    delete_own_login: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "confirmation": "DELETE"
+                 *     }
+                 */
+                "application/json": components["schemas"]["LoginDeleteConfirm"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "deleted_at": "2026-09-16T10:00:00.000Z",
+                     *       "signed_out": true
+                     *     }
+                     */
+                    "application/json": components["schemas"]["OwnLoginDeleted"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    first_run_state: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "state": "OPEN"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["FirstRunState"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    first_run_complete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "setup_code": "Synthetic example",
+                 *       "organisation_name": "Synthetic example",
+                 *       "owner": {
+                 *         "name": "Synthetic example",
+                 *         "email": "asha@aster.example",
+                 *         "password": "Synthetic example"
+                 *       },
+                 *       "admin": {
+                 *         "name": "Synthetic example",
+                 *         "email": "asha@aster.example",
+                 *         "password": "Synthetic example"
+                 *       }
+                 *     }
+                 */
+                "application/json": components["schemas"]["FirstRunSetup"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "completed": true,
+                     *       "sign_in": "/workspace/sign-in",
+                     *       "next_steps": []
+                     *     }
+                     */
+                    "application/json": components["schemas"]["FirstRunCompleted"];
                 };
             };
             /** @description VALIDATION_ERROR */
@@ -92598,8 +93379,8 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "installation_id": "00000000-0000-4000-8000-000000000263",
-                 *       "environment_id": "00000000-0000-4000-8000-000000000264",
+                 *       "installation_id": "00000000-0000-4000-8000-000000000264",
+                 *       "environment_id": "00000000-0000-4000-8000-000000000265",
                  *       "maximum_commands": 1
                  *     }
                  */
@@ -92772,9 +93553,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "command_id": "00000000-0000-4000-8000-000000000265",
+                 *       "command_id": "00000000-0000-4000-8000-000000000266",
                  *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                 *       "attempt_id": "00000000-0000-4000-8000-000000000266",
+                 *       "attempt_id": "00000000-0000-4000-8000-000000000267",
                  *       "execution_state": "ACKNOWLEDGED",
                  *       "recorded_at": "2026-09-16T10:00:00.000Z",
                  *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -92793,7 +93574,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "operation_id": "00000000-0000-4000-8000-000000000267",
+                     *       "operation_id": "00000000-0000-4000-8000-000000000268",
                      *       "status": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -92949,10 +93730,10 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "attempt_id": "00000000-0000-4000-8000-000000000268",
-                 *       "principal_reference_id": "00000000-0000-4000-8000-000000000269",
-                 *       "purpose_id": "00000000-0000-4000-8000-00000000026a",
-                 *       "system_id": "00000000-0000-4000-8000-00000000026b",
+                 *       "attempt_id": "00000000-0000-4000-8000-000000000269",
+                 *       "principal_reference_id": "00000000-0000-4000-8000-00000000026a",
+                 *       "purpose_id": "00000000-0000-4000-8000-00000000026b",
+                 *       "system_id": "00000000-0000-4000-8000-00000000026c",
                  *       "message_class": "MARKETING",
                  *       "order_reference": null
                  *     }
@@ -93192,9 +93973,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-00000000026c",
+                     *       "command_id": "00000000-0000-4000-8000-00000000026d",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-00000000026d",
+                     *       "attempt_id": "00000000-0000-4000-8000-00000000026e",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -93358,7 +94139,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "resource_id": "00000000-0000-4000-8000-00000000026e",
+                     *       "resource_id": "00000000-0000-4000-8000-00000000026f",
                      *       "generation": 0,
                      *       "last_applied_epoch": 0,
                      *       "marketing_restricted": false,
@@ -93522,9 +94303,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-00000000026f",
+                     *       "command_id": "00000000-0000-4000-8000-000000000270",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-000000000270",
+                     *       "attempt_id": "00000000-0000-4000-8000-000000000271",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",

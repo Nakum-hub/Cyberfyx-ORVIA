@@ -85,8 +85,13 @@ await t.run(async () => {
     t.setPhase('observed reading');
     const target = await ok(admin.call('/api/v1/admin/catalog-discovery-targets', { system_id: sysA.id, schema_name: 'public', relation_name: 'marketing_memberships' }, key()), S.schemas.CatalogDiscoveryTarget);
     await ok(owner.call(`/api/v1/admin/catalog-discovery-targets/${target.id}/approve`, {}, key()), S.schemas.CatalogDiscoveryTarget, [200]);
-    await sweepCatalogDiscovery(runtime.scoped, runtime.enrollment.identities.map(x => x.id), observerEnrollment(runtime.config).identities, runtime.observer);
-    const detail = await ok(admin.call(`/api/v1/admin/catalog-discovery-targets/${target.id}`), S.schemas.CatalogDiscoveryDetail);
+    // A sweep takes a bounded batch of due jobs, oldest first, and this shared database holds due jobs from
+    // earlier runs; sweep again (a bounded number of times) until this target has been read.
+    let detail = await ok(admin.call(`/api/v1/admin/catalog-discovery-targets/${target.id}`), S.schemas.CatalogDiscoveryDetail);
+    for (let sweep = 0; sweep < 20 && !detail.observations.length; sweep++) {
+      await sweepCatalogDiscovery(runtime.scoped, runtime.enrollment.identities.map(x => x.id), observerEnrollment(runtime.config).identities, runtime.observer);
+      detail = await ok(admin.call(`/api/v1/admin/catalog-discovery-targets/${target.id}`), S.schemas.CatalogDiscoveryDetail);
+    }
     await ok(admin.call('/api/v1/admin/data-assets/from-catalog', { observation_id: detail.observations[0]!.id }, key()), S.schemas.DataAsset);
     e = await ok(admin.call(`/api/v1/admin/ropa/entries/${activity.id}`), Entry);
     const observedA = e.systems.find(x => x.id === sysA.id)!;

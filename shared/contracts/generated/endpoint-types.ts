@@ -400,4 +400,8 @@ export interface EndpointMap {
   create_staff_member: { request: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMemberCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMemberCreated> };
   deactivate_staff_member: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMember> };
   reactivate_staff_member: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMember> };
+  delete_staff_member: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LoginDeleteConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.StaffMember> };
+  delete_own_login: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LoginDeleteConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnLoginDeleted> };
+  first_run_state: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunState> };
+  first_run_complete: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunSetup>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunCompleted> };
 }
