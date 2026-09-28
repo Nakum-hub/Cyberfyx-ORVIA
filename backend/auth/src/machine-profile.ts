@@ -27,3 +27,22 @@ export function observerEnrollment(config: RuntimeConfig) {
  const value=AgentEnrollment.parse(JSON.parse(readFileSync(resolve(config.directory,'observer/enrollment.json'),'utf8')));
  if(value.installation_id!==config.installation_id)throw new Error('Observer installation mismatch');return value;
 }
+
+/**
+ * A loader that picks up renewals. Identities are short-lived and are renewed
+ * only by the protected local setup, which rewrites the enrollment file and the
+ * identity rows. A long-running service holding the file it read at start would
+ * refuse itself once the old expiry passed, even after a renewal. This re-reads
+ * the file when any identity is within a minute of expiry, and fails loudly if
+ * an identity is still expired after that. It grants nothing: the database still
+ * checks every identity is active and unexpired on each transaction.
+ */
+export function renewingEnrollment<T extends { identities: { expires_at: string }[] }>(load: () => T, now: () => number = Date.now) {
+  let current = load();
+  return () => {
+    if (current.identities.some(i => Date.parse(i.expires_at) <= now() + 60_000)) current = load();
+    if (current.identities.some(i => Date.parse(i.expires_at) <= now()))
+      throw Object.assign(new Error('Machine enrollment expired; renew through protected local setup'), { code: 'MACHINE_ENROLLMENT_EXPIRED' });
+    return current;
+  };
+}

@@ -1,17 +1,17 @@
 import { runtimeConfig } from '../../../backend/auth/src/config.ts';
-import { agentEnrollment } from '../../../backend/auth/src/machine-profile.ts';
+import { agentEnrollment, renewingEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { servicePool,machineAuthority } from '../../../backend/auth/src/machine.ts';
 import { schemas } from '../../../shared/contracts/src/index.ts';
 import { executeCommand } from './execute.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
 import { deliverSimulator } from '../../../connectors/src/crm-synthetic/simulator.ts';
-const config=runtimeConfig();const enrollment=agentEnrollment(config);
+const config=runtimeConfig();const currentEnrollment=renewingEnrollment(()=>agentEnrollment(config));
 const control=servicePool(config,'orvia_agent_control');const target=servicePool(config,'orvia_target_agent');
 let stopped=false;process.on('SIGINT',()=>{stopped=true;});process.on('SIGTERM',()=>{stopped=true;});process.on('message',message=>{if(message==='orvia-stop')stopped=true;});
 try {
  while(!stopped) {
+  const enrollment=currentEnrollment();
   for(const identity of enrollment.identities) {
-   if(Date.parse(identity.expires_at)<=Date.now())throw Object.assign(new Error('Agent enrollment expired; renew through protected local setup'),{code:'MACHINE_ENROLLMENT_EXPIRED'});
    const headers={'content-type':'application/json',authorization:`Bearer ${identity.token}`};
    const response=await fetch(config.origin+'/api/v1/machine/commands/poll',{method:'POST',headers,body:JSON.stringify({installation_id:config.installation_id,environment_id:identity.scope.environment_id,maximum_commands:10}),signal:AbortSignal.timeout(5000)});
    if(!response.ok)throw new Error('Machine poll denied or unavailable');

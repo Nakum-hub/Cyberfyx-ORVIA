@@ -589,3 +589,27 @@ No errors. 18 ops/s in total, with the database container capped at 384 MiB. A t
 | migrate / contracts / typecheck / lint / unit | 0059 applied; 404 route examples; clean; clean; 257/257 |
 | `tsx tests/integration/expansion/preferences.test.ts` | 39/39 PASS. Covers: role refusals; duplicate code and channels; no default opt-in; stale replay not effective; unoffered channel and future date refused; withdrawn consent gives CONSENT_NOT_GRANTED and re-grant restores; a retired topic stops contact and refuses new choices; principal, tenant and route isolation; append-only and immutability in the database; RLS between principals, including cross-principal insert refused (42501). |
 | `tsx tests/e2e/preferences-local.ts` | 10/10 PASS. A topic created on screen; the person says yes, then no from the keyboard; the history shows both; staff look-up is read-only and matches the API decision; no external request and no console error. |
+
+**Regression after EX01:** `tsx tests/e2e/expansion-screens-local.ts` gave 69/69 PASS. Two earlier attempts failed ("Expired authority" in the EX04 worker step, then a portal wait timeout). Both runs had skipped `machine:init`, so the worker machine identities had expired. After re-running `pnpm run machine:init confirm:codex-a00` the suite passed. The machine identity lifetime is a real operational constraint: long-lived worker installs must renew enrollment. Codex should confirm the worker renews it, not only the test setup.
+
+## Machine enrollment renewal picked up by running services (defect fix)
+
+**Defect**
+- `machine:init` issues 1-hour machine identities and renews them by rewriting `<profile>/worker|agent/enrollment.json` and the `machine_auth.identities` rows.
+- The worker (`withdrawal-worker.ts`), the operations runner (`operations-runner.ts`) and the agent (`services/agent/src/main.ts`) each read the enrollment file once at start and kept `expires_at` in memory. `scopedTransaction` refuses an in-memory expiry.
+- After the first hour, a running worker or runner therefore refused every scoped transaction with "Expired authority", even after a renewal, until it was restarted. It kept looping quietly with per-sweep errors. The agent at least exited with `MACHINE_ENROLLMENT_EXPIRED`, but it could not pick up a renewal either.
+
+**Fix**
+- `renewingEnrollment(load)` in `backend/auth/src/machine-profile.ts` re-reads the enrollment file when any identity is within 60 s of expiry.
+- If an identity is still expired after the re-read, it throws `MACHINE_ENROLLMENT_EXPIRED` ("renew through protected local setup").
+- It is used by the worker (including `runtime.enrollment`, now a getter), the operations runner (on each `once()`) and the agent (on each poll).
+- It grants nothing new: renewal remains the protected setup's job, and the database still checks `active AND expires_at>now()` on every machine transaction.
+
+**Still open (installer, EX14):** something has to run the renewal on a schedule in a real install, for example a service-manager timer running `machine:init` more often than the 1-hour lifetime. That is a packaging decision and is not built. Until then, a worker left running longer than an hour without renewal now fails loudly with a stable code instead of quietly.
+
+**Executed**
+| Command | Result |
+|---|---|
+| typecheck / lint | clean |
+| `pnpm test` | 260/260 PASS. This adds `tests/unit/renewing-enrollment.test.ts`: a renewal is picked up without a restart; no re-read while comfortably valid; still expired after re-read gives `MACHINE_ENROLLMENT_EXPIRED`; one expired identity among several is not skipped. |
+| `pnpm run test:workflows` | **NOT_RUN.** The host rebooted and the profile containers had to be restarted, and the session's tool safety check was returning errors at the time. Codex must run it; it covers worker, agent and restart. |

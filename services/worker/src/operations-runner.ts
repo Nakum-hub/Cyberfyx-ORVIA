@@ -1,7 +1,7 @@
 import { createHash, createHmac, randomUUID } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { runtimeConfig } from '../../../backend/auth/src/config.ts';
-import { workerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
+import { renewingEnrollment, workerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { servicePool, machineAuthority } from '../../../backend/auth/src/machine.ts';
 import { scopedTransaction } from '../../../database/customer/src/runtime.ts';
 import { predicate, type Context } from '../../../backend/domain/src/shared/transaction.ts';
@@ -43,7 +43,7 @@ const MAX_BATCHES_PER_ITEM = 50;
 
 export function operationsRunner() {
   const config = runtimeConfig();
-  const enrollment = workerEnrollment(config);
+  const currentEnrollment = renewingEnrollment(() => workerEnrollment(config));
   const control = servicePool(config, 'orvia_worker');
   const targets = { agent: servicePool(config, 'orvia_target_agent'), observer: servicePool(config, 'orvia_target_observer') };
   const key = createHash('sha256').update('orvia-registry-source-key:' + config.secret('principal-secret')).digest();
@@ -52,7 +52,7 @@ export function operationsRunner() {
 
   async function once(): Promise<RunnerReport[]> {
     const reports: RunnerReport[] = [];
-    for (const identity of enrollment.identities) {
+    for (const identity of currentEnrollment().identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
       const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, errors: [] };
