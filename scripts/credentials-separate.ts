@@ -26,7 +26,7 @@ function files(directory: string): string[] {
 }
 
 export function separate() {
-  const moved: string[] = []; const trusted: string[] = [];
+  const moved: string[] = []; const trusted: string[] = []; const created: string[] = [];
   privateDirectory(vendorDirectory()); privateDirectory(resolve(vendorDirectory(), 'signing'));
   for (const kind of ['release', 'licence'] as const) {
     const from = legacy(kind); const to = vendorKeyPath(kind);
@@ -42,7 +42,7 @@ export function separate() {
   if (!existsSync(vendorKeyPath('audit'))) {
     const pair = generateKeyPairSync('ed25519');
     writePrivateJson(vendorKeyPath('audit'), { key_id: `orvia-audit-dev-${randomUUID().slice(0, 8)}`, public: pair.publicKey.export({ format: 'der', type: 'spki' }).toString('base64'), private: pair.privateKey.export({ format: 'der', type: 'pkcs8' }).toString('base64') });
-    moved.push('audit (created)');
+    created.push('audit');
   }
   const pub = (kind: SigningKind) => ({ key_id: vendorSigningKey(kind).key_id, public: vendorSigningKey(kind).public });
   const trust = { release: pub('release'), licence: pub('licence'), audit: pub('audit') };
@@ -53,11 +53,11 @@ export function separate() {
   }
   const leaks = existsSync(profiles) ? files(profiles).filter(f => !f.includes('/backups/') && PRIVATE_MARKERS.some(m => m.test(readFileSync(f, 'utf8'))) && !f.endsWith('worker/signing-key.pem')) : [];
   if (leaks.length) throw new Error(`Private key material found under customer profiles: ${leaks.map(f => f.slice(f.indexOf('.local'))).join(', ')}`);
-  return { moved, trusted };
+  return { moved, trusted, created };
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   if (process.argv[2] !== 'confirm:local') throw new Error('Run with confirm:local');
   const result = separate();
-  console.log(`Vendor signing keys in .local/vendor/signing/ (moved now: ${result.moved.join(', ') || 'none, already separated'}). Public trust written for installation profiles: ${result.trusted.join(', ') || 'none'}.`);
+  console.log(`Vendor signing keys in .local/vendor/signing/ (moved now: ${result.moved.join(', ') || 'none, already separated'}; created now: ${result.created.join(', ') || 'none'}). Public trust written for installation profiles: ${result.trusted.join(', ') || 'none'}.`);
 }

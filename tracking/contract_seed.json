@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.41.0",
+  "contract_version": "0.42.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -39,6 +39,17 @@
       "temporal_namespace": "orvia-rehearsal",
       "seed": "aster-birch-v1",
       "reset": "rehearsal-bootstrap-only"
+    },
+    "vendor-a00": {
+      "compose_project": "orvia-codex-a00",
+      "app_port": 4340,
+      "postgres_port": 55431,
+      "opa_port": 58181,
+      "temporal_port": 57233,
+      "database": "orvia_vendor_a00",
+      "temporal_namespace": "orvia-vendor-a00",
+      "seed": "vendor-service-v1",
+      "reset": "vendor-a00-bootstrap-only"
     }
   },
   "auth": {
@@ -51,6 +62,16 @@
       "base_path": "/api/auth/principal",
       "cookie_prefix": "orvia.principal",
       "secure_cookie_prefix": "__Secure-orvia.principal"
+    },
+    "vendor": {
+      "base_path": "/api/auth/vendor",
+      "cookie_prefix": "orvia.vendor",
+      "secure_cookie_prefix": "__Secure-orvia.vendor"
+    },
+    "account": {
+      "base_path": "/api/auth/account",
+      "cookie_prefix": "orvia.account",
+      "secure_cookie_prefix": "__Secure-orvia.account"
     }
   },
   "routes": [
@@ -4448,6 +4469,250 @@
       "status": 201,
       "capability": "setup.first_run",
       "maximum_body_bytes": 8192
+    },
+    {
+      "id": "dpdpa_gap_register",
+      "method": "get",
+      "path": "/api/v1/admin/dpdpa-audit/gaps",
+      "authority": "STAFF",
+      "response": "GapRegister",
+      "status": 200,
+      "capability": "audit_exchange.read"
+    },
+    {
+      "id": "export_dpdpa_gap_register",
+      "method": "post",
+      "path": "/api/v1/admin/dpdpa-audit/gaps/export",
+      "authority": "STAFF",
+      "response": "GapRegisterExport",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.read"
+    },
+    {
+      "id": "submit_evidence_file",
+      "method": "post",
+      "path": "/api/v1/admin/grc/controls/{id}/evidence-files",
+      "authority": "STAFF",
+      "request": "EvidenceFileSubmit",
+      "response": "EvidenceFile",
+      "status": 201,
+      "idempotency": true,
+      "capability": "grc.write",
+      "params": "IdPath",
+      "maximum_body_bytes": 28500000
+    },
+    {
+      "id": "list_evidence_files",
+      "method": "get",
+      "path": "/api/v1/admin/evidence-files",
+      "authority": "STAFF",
+      "response": "EvidenceFileList",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "paginated": true
+    },
+    {
+      "id": "evidence_file",
+      "method": "get",
+      "path": "/api/v1/admin/evidence-files/{id}",
+      "authority": "STAFF",
+      "response": "EvidenceFile",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "evidence_file_content",
+      "method": "get",
+      "path": "/api/v1/admin/evidence-files/{id}/content",
+      "authority": "STAFF",
+      "response": "EvidenceFileContent",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "confirm_evidence_personal_data",
+      "method": "post",
+      "path": "/api/v1/admin/evidence-files/{id}/personal-data-confirmation",
+      "authority": "STAFF",
+      "request": "PersonalDataConfirm",
+      "response": "EvidenceFile",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_audit_engagements",
+      "method": "get",
+      "path": "/api/v1/admin/audit-engagements",
+      "authority": "STAFF",
+      "response": "AuditEngagementList",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "paginated": true
+    },
+    {
+      "id": "create_audit_engagement",
+      "method": "post",
+      "path": "/api/v1/admin/audit-engagements",
+      "authority": "STAFF",
+      "request": "AuditEngagementCreate",
+      "response": "AuditEngagement",
+      "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare"
+    },
+    {
+      "id": "audit_engagement",
+      "method": "get",
+      "path": "/api/v1/admin/audit-engagements/{id}",
+      "authority": "STAFF",
+      "response": "AuditEngagement",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "create_audit_package",
+      "method": "post",
+      "path": "/api/v1/admin/audit-engagements/{id}/packages",
+      "authority": "STAFF",
+      "request": "AuditPackageCreate",
+      "response": "AuditPackage",
+      "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath"
+    },
+    {
+      "id": "audit_package",
+      "method": "get",
+      "path": "/api/v1/admin/audit-packages/{id}",
+      "authority": "STAFF",
+      "response": "AuditPackage",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "add_audit_package_item",
+      "method": "post",
+      "path": "/api/v1/admin/audit-packages/{id}/items",
+      "authority": "STAFF",
+      "request": "AuditPackageItemAdd",
+      "response": "AuditPackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath",
+      "maximum_body_bytes": 65536
+    },
+    {
+      "id": "add_audit_package_exception",
+      "method": "post",
+      "path": "/api/v1/admin/audit-packages/{id}/exception-items",
+      "authority": "STAFF",
+      "request": "AuditPackageExceptionAdd",
+      "response": "AuditPackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath",
+      "maximum_body_bytes": 65536
+    },
+    {
+      "id": "withdraw_audit_package_item",
+      "method": "post",
+      "path": "/api/v1/admin/audit-packages/{id}/items/removal",
+      "authority": "STAFF",
+      "request": "AuditPackageItemRemove",
+      "response": "AuditPackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath"
+    },
+    {
+      "id": "approve_audit_package",
+      "method": "post",
+      "path": "/api/v1/admin/audit-packages/{id}/approval",
+      "authority": "STAFF",
+      "response": "AuditPackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "export_audit_package",
+      "method": "post",
+      "path": "/api/v1/admin/audit-packages/{id}/export",
+      "authority": "STAFF",
+      "response": "AuditPackageExport",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "revoke_audit_package",
+      "method": "post",
+      "path": "/api/v1/admin/audit-packages/{id}/revocation",
+      "authority": "STAFF",
+      "request": "AuditPackageRevoke",
+      "response": "AuditPackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "receive_signed_audit_document",
+      "method": "post",
+      "path": "/api/v1/admin/audit-engagements/{id}/signed-documents",
+      "authority": "STAFF",
+      "request": "AuditImportSubmit",
+      "response": "AuditImport",
+      "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath",
+      "maximum_body_bytes": 28500000
+    },
+    {
+      "id": "audit_import",
+      "method": "get",
+      "path": "/api/v1/admin/audit-imports/{id}",
+      "authority": "STAFF",
+      "response": "AuditImport",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "audit_import_pdf",
+      "method": "get",
+      "path": "/api/v1/admin/audit-imports/{id}/pdf",
+      "authority": "STAFF",
+      "response": "AuditImportPdf",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "link_audit_finding",
+      "method": "post",
+      "path": "/api/v1/admin/audit-imports/{id}/finding-links",
+      "authority": "STAFF",
+      "request": "FindingLinkCreate",
+      "response": "AuditImport",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath"
     },
     {
       "id": "poll_commands",

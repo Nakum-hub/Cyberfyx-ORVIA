@@ -40,6 +40,20 @@ authorize if {
   input.role == "AUDITOR"
   input.capability == "account.own.delete"
 }
+# DPDPA external audit exchange (revision 1.5 addendum). Preparing and approving a
+# package that leaves the installation needs an owner or administrator with MFA;
+# the database separately requires the approver to differ from the preparer.
+authorize if {
+  input.actor_domain == "STAFF"
+  input.role in {"ORG_SUPER_ADMIN", "ORG_ADMIN"}
+  input.mfa_verified == true
+  input.capability in {"audit_exchange.read", "audit_exchange.prepare", "audit_exchange.approve"}
+}
+authorize if {
+  input.actor_domain == "STAFF"
+  input.role == "AUDITOR"
+  input.capability == "audit_exchange.read"
+}
 # Database restrictive policies and resource checks require an exact assignment.
 authorize if {
  input.actor_domain == "STAFF"

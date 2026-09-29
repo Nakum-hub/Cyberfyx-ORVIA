@@ -3,6 +3,7 @@ import { COMMAND_SCHEMA_VERSION, AuditCategory, CommandPayload, ConnectionStep, 
 import { digest } from './crypto.ts';
 import { operationsExample } from './operations-examples.ts';
 import { expansionExample } from './expansion-examples.ts';
+import { dpdpaAuditExample } from './dpdpa-audit-examples.ts';
 import signatureVector from '../fixtures/command-vector.json' with { type:'json' };
 export const uuid = (n:number) => `00000000-0000-4000-8000-${n.toString(16).padStart(12,'0')}`;
 export const sampleTime='2026-09-16T10:00:00.000Z';
@@ -47,6 +48,8 @@ export function example(name:SchemaName):unknown {
   if(operations!==undefined)return operations;
   const expansion=expansionExample(name);
   if(expansion!==undefined)return (schemas[name] as { parse(v: unknown): unknown }).parse(expansion);
+  const audit=dpdpaAuditExample(name);
+  if(audit!==undefined)return (schemas[name] as { parse(v: unknown): unknown }).parse(audit);
   if(name==='GrcAuditResponse'||name==='GrcAuditResponseHistoryRecord'){const evidence=example('GrcEvidence') as {id:string};return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,evidence_id:evidence.id,evidence_snapshot:evidence};}
   if(name==='GrcEvidenceSubmit'||name==='GrcEvidence'||name==='GrcEvidenceHistoryRecord')return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,valid_until:'2026-10-16T10:00:00.000Z'};
 
@@ -284,6 +287,8 @@ export function example(name:SchemaName):unknown {
         carried_at:null,outcome:null,
         facts:[{code:'UPDATE_STEP_INTERRUPTED' as const,occurrences:1,first_seen_at:sampleTime,last_seen_at:sampleTime}],
         transported_by_orvia:false as const}],
+    audit_packages:[{package_id:uuid(840),engagement_reference:'ENG-2026-01',firm_name:'Synthetic audit practice',state:'APPROVED' as const,approved_at:sampleTime,approved_by:uuid(831),
+      manifest_fingerprint:'b'.repeat(64),file_sha256:'c'.repeat(64),items:3,personal_data_items:0,expires_at:'2026-10-16T10:00:00.000Z',exports:[{exported_at:sampleTime,exported_by:uuid(831)}],transported_by_orvia:false as const}],
     approved_but_not_carried:1,cases_with_nothing_disclosed:3,
     no_automatic_telemetry_is_collected:true as const,no_employee_activity_is_tracked:true as const,
     the_absence_of_a_model_is_never_an_incident:true as const,

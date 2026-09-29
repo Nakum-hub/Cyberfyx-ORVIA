@@ -4,6 +4,7 @@
 // processing agreement, encryption at rest, access log), review, findings,
 // report approval by a different reviewer, signing, retention purge, gating
 // and upload rate limits. Isolated synthetic vendor database per run.
+process.env.ORVIA_PROFILE = 'vendor-a00';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { writeFileSync, mkdirSync } from 'node:fs';

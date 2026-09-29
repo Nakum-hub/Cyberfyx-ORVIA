@@ -11,6 +11,7 @@ import { requestRun, runDetail, runList, recordLabels, labelSet, measureQuality,
 import { createTransport, enableTransport, disableTransport, revealSigningSecret, transportList, createRouting, decideRouting, routingList, composeMessage, reviewMessage, cancelMessage, messageDetail, messageList } from '../../domain/src/delivery/delivery.ts';
 import { createTopic, retireTopic, topicList, principalCentre, ownCentre, decision as preferenceDecision, recordOwnChoice } from '../../domain/src/preferences/preferences.ts';
 import { team, createMember, setMemberActive, deleteMember, deleteOwnLogin } from '../../domain/src/staff/members.ts';
+import * as A from '../../domain/src/dpdpa-audit/exchange.ts';
 import { createSite, enableSite, disableSite, siteList, createConfig, decideConfig, configList, consentStats, requestScan, scanList } from '../../domain/src/cmp/cmp.ts';
 
 /**
@@ -127,6 +128,29 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'cmp_consent_stats': return consentStats(c, id!);
     case 'list_cmp_scans': return scanList(c, id!, page);
     case 'request_cmp_scan': return requestScan(c, id!, input);
+    // DPDPA external audit exchange (revision 1.5 addendum)
+    case 'dpdpa_gap_register': return A.gapRegister(c);
+    case 'export_dpdpa_gap_register': return A.exportGapRegister(c);
+    case 'submit_evidence_file': return A.submitEvidenceFile(c, id!, input);
+    case 'list_evidence_files': return A.evidenceFileList(c, page);
+    case 'evidence_file': return A.evidenceFile(c, id!);
+    case 'evidence_file_content': return A.evidenceFileContent(c, id!);
+    case 'confirm_evidence_personal_data': return A.confirmPersonalData(c, id!, input);
+    case 'list_audit_engagements': return A.engagementList(c, page);
+    case 'create_audit_engagement': return A.createEngagement(c, input);
+    case 'audit_engagement': return A.engagement(c, id!);
+    case 'create_audit_package': return A.createPackage(c, id!, input);
+    case 'audit_package': return A.auditPackage(c, id!);
+    case 'add_audit_package_item': return A.addItem(c, id!, input);
+    case 'add_audit_package_exception': return A.addExceptionItem(c, id!, input);
+    case 'withdraw_audit_package_item': return A.removeItem(c, id!, input);
+    case 'approve_audit_package': return A.approvePackage(c, id!);
+    case 'export_audit_package': return A.exportPackage(c, id!);
+    case 'revoke_audit_package': return A.revokePackage(c, id!, input);
+    case 'receive_signed_audit_document': return A.importDocument(c, id!, input);
+    case 'audit_import': return A.auditImport(c, id!);
+    case 'audit_import_pdf': return A.auditImportPdf(c, id!);
+    case 'link_audit_finding': return A.linkFinding(c, id!, input);
     default: return undefined;
   }
 }

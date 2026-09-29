@@ -145,9 +145,10 @@ export const GrcPolicy = z.strictObject({
 });
 export const GrcPolicyDecision = z.strictObject({ action: z.enum(['PUBLISH', 'RETIRE']) });
 export const IssueSeverity = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
-export const IssueSourceKind = z.enum(['MANUAL', 'AUDIT_REQUEST', 'CONTROL_TEST', 'IMPACT_FINDING', 'POLICY_REVIEW']);
+// EXTERNAL_AUDIT_FINDING: raised only from a verified, signed findings file of the vendor's DPDPA audit (revision 1.5 addendum).
+export const IssueSourceKind = z.enum(['MANUAL', 'AUDIT_REQUEST', 'CONTROL_TEST', 'IMPACT_FINDING', 'POLICY_REVIEW', 'EXTERNAL_AUDIT_FINDING']);
 export const IssueCreate = z.strictObject({
-  source_kind: IssueSourceKind.exclude(['CONTROL_TEST']), source_id: Id.nullable(), title: z.string().min(3).max(300), severity: IssueSeverity,
+  source_kind: IssueSourceKind.exclude(['CONTROL_TEST', 'EXTERNAL_AUDIT_FINDING']), source_id: Id.nullable(), title: z.string().min(3).max(300), severity: IssueSeverity,
   owner_reference: SafeText, due_at: Time, control_id: Id.nullable(), risk_id: Id.nullable(),
 }).superRefine((i, c) => { if ((i.source_kind === 'MANUAL') !== (i.source_id === null)) c.addIssue({ code: 'custom', path: ['source_id'], message: 'Only a manual issue has no source; every other names it' }); });
 export const IssueEventRecord = z.strictObject({

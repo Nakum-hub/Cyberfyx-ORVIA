@@ -180,6 +180,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/processors', label: 'Processors' },
     { href: '/workspace/ai-governance', label: 'AI governance' },
     { href: '/workspace/grc', label: 'Frameworks & controls' },
+    { href: '/workspace/dpdpa-audit', label: 'DPDPA external audit' },
     { href: '/workspace/compliance', label: 'Continuous compliance' },
     { href: '/workspace/assessments', label: 'Processor assessments' },
     { href: '/workspace/impact-assessments', label: 'Impact assessments' },

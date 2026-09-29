@@ -14,9 +14,13 @@ import { createVendorHandler, setupCodeDigest } from '../../../backend/api/src/v
 import type { VendorRuntime } from '../../../backend/api/src/vendor/runtime.ts';
 import { authenticatorCode } from '../../../shared/testing/src/http-fixture.ts';
 
-process.env.ORVIA_PROFILE = 'vendor-a00';
+/** The vendor profile's configuration, read without changing the process's own profile. */
+function vendorConfig() {
+  const previous = process.env.ORVIA_PROFILE; process.env.ORVIA_PROFILE = 'vendor-a00';
+  try { return runtimeConfig(); } finally { if (previous === undefined) delete process.env.ORVIA_PROFILE; else process.env.ORVIA_PROFILE = previous; }
+}
 export async function vendorHarness() {
-  const base = runtimeConfig();
+  const base = vendorConfig();
   const database = `orvia_vendor_test_${randomUUID().replaceAll('-', '')}`;
   const operatorPassword = readFileSync(resolve(base.directory, 'postgres-password'), 'utf8').trim();
   const bootstrap = connectDatabase({ postgres_port: base.postgres_port, database: 'postgres', password: operatorPassword }).pool;

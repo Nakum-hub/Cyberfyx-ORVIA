@@ -19,13 +19,17 @@ function workspace() {
 }
 test('separation moves the vendor pairs out and gives installations public keys only', () => {
   const root = workspace();
-  assert.deepEqual(separate(), { moved: ['release', 'licence'], trusted: ['acme'] });
+  // The DPDPA audit key (revision 1.5 addendum) is created once, in the vendor directory only.
+  assert.deepEqual(separate(), { moved: ['release', 'licence'], trusted: ['acme'], created: ['audit'] });
   assert.equal(existsSync(join(root, '.local/release-fixture.json')), false);
   assert.equal(vendorSigningEnvironment('release').ORVIA_RELEASE_PRIVATE_KEY, '-----BEGIN PRIVATE KEY-----release');
   const trust = readFileSync(join(root, '.local/profiles/acme/trust/vendor-public-keys.json'), 'utf8');
   assert.equal(trust.includes('PRIVATE'), false);
-  assert.deepEqual(installationTrust('acme'), { release: { key_id: 'release-k1', public: 'PUBLIC-release' }, licence: { key_id: 'licence-k1', public: 'PUBLIC-licence' } });
-  assert.deepEqual(separate(), { moved: [], trusted: ['acme'] }, 'running again changes nothing');
+  const trusted = installationTrust('acme')!;
+  assert.deepEqual({ release: trusted.release, licence: trusted.licence }, { release: { key_id: 'release-k1', public: 'PUBLIC-release' }, licence: { key_id: 'licence-k1', public: 'PUBLIC-licence' } });
+  assert.equal(trusted.audit?.key_id, vendorSigningEnvironment('audit').ORVIA_AUDIT_KEY_ID, 'installations trust the audit public key');
+  assert.equal(readFileSync(join(root, '.local/vendor/signing/audit.json'), 'utf8').includes('"private"'), true);
+  assert.deepEqual(separate(), { moved: [], trusted: ['acme'], created: [] }, 'running again changes nothing');
 });
 test('separation refuses to overwrite a different vendor key', () => {
   const root = workspace(); separate();

@@ -4292,6 +4292,28 @@
             "transported_by_orvia": false
           }
         ],
+        "audit_packages": [
+          {
+            "package_id": "00000000-0000-4000-8000-000000000348",
+            "engagement_reference": "ENG-2026-01",
+            "firm_name": "Synthetic audit practice",
+            "state": "APPROVED",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "approved_by": "00000000-0000-4000-8000-00000000033f",
+            "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "items": 3,
+            "personal_data_items": 0,
+            "expires_at": "2026-10-16T10:00:00.000Z",
+            "exports": [
+              {
+                "exported_at": "2026-09-16T10:00:00.000Z",
+                "exported_by": "00000000-0000-4000-8000-00000000033f"
+              }
+            ],
+            "transported_by_orvia": false
+          }
+        ],
         "approved_but_not_carried": 1,
         "cases_with_nothing_disclosed": 3,
         "no_automatic_telemetry_is_collected": true,
@@ -13068,6 +13090,892 @@
         "completed": true,
         "sign_in": "/workspace/sign-in",
         "next_steps": []
+      }
+    },
+    {
+      "operation_id": "dpdpa_gap_register",
+      "method": "GET",
+      "path": "/api/v1/admin/dpdpa-audit/gaps",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "package": {
+          "id": "00000000-0000-4000-8000-000000000618",
+          "version": "1.0.0",
+          "distribution": "TEST_FIXTURE"
+        },
+        "framework_id": "00000000-0000-4000-8000-000000000619",
+        "rows": [
+          {
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "title": "Itemised notice with every request for consent",
+            "provision_ids": [
+              "ACT-S5(1)",
+              "RULES-R3"
+            ],
+            "modules": [
+              "NOTICES",
+              "CONSENT"
+            ],
+            "in_force": true,
+            "applicability": "APPLICABLE",
+            "applicability_basis": "1 recorded decision(s); organisation-level decision applies.",
+            "evidence_expectations": [
+              "Published notice version linked to the activity"
+            ],
+            "controls": [
+              {
+                "control_id": "00000000-0000-4000-8000-0000000005dc",
+                "title": "Itemised notices published",
+                "standing": "PENDING_REVIEW",
+                "evidence_id": "00000000-0000-4000-8000-0000000005dd",
+                "files": 1
+              }
+            ],
+            "indicators": [
+              {
+                "key": "notices.published_versions",
+                "label": "Published notice versions",
+                "value": 3,
+                "unit": "count",
+                "as_of": "2026-09-16T10:00:00.000Z",
+                "basis": "registry notice versions in PUBLISHED status; counted under your access in this installation"
+              }
+            ],
+            "gap_status": "PENDING_REVIEW"
+          }
+        ],
+        "by_module": [
+          {
+            "module": "CONSENT",
+            "total": 1,
+            "gaps": 1,
+            "evidenced": 0,
+            "not_applicable": 0
+          },
+          {
+            "module": "NOTICES",
+            "total": 1,
+            "gaps": 1,
+            "evidenced": 0,
+            "not_applicable": 0
+          }
+        ],
+        "totals": {
+          "NOT_APPLICABLE": 0,
+          "UNRESOLVED_APPLICABILITY": 0,
+          "NO_EVIDENCE": 0,
+          "STALE": 0,
+          "PENDING_REVIEW": 1,
+          "REJECTED": 0,
+          "EVIDENCED": 0
+        },
+        "limits": [
+          "Indicators are aggregate counts read from this installation's own records; they contain no personal data."
+        ]
+      }
+    },
+    {
+      "operation_id": "export_dpdpa_gap_register",
+      "method": "POST",
+      "path": "/api/v1/admin/dpdpa-audit/gaps/export",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "file_name": "orvia-dpdpa-gap-register-2026-09-16.csv",
+        "csv": "requirement_id,title\nDPDP-NOTICE-CONSENT-REQUEST,Itemised notice\n",
+        "rows": 1
+      }
+    },
+    {
+      "operation_id": "submit_evidence_file",
+      "method": "POST",
+      "path": "/api/v1/admin/grc/controls/{id}/evidence-files",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "description": "Published notice (synthetic)",
+        "file_name": "notice.pdf",
+        "content_base64": "JVBERi0xLjQK",
+        "collected_at": "2026-09-16T10:00:00.000Z",
+        "valid_until": "2026-10-16T10:00:00.000Z",
+        "contains_personal_data": "NO"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005e6",
+        "control_id": "00000000-0000-4000-8000-0000000005dc",
+        "grc_evidence_id": "00000000-0000-4000-8000-0000000005dd",
+        "file_name": "notice.pdf",
+        "media_type": "application/pdf",
+        "size_bytes": 1024,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "contains_personal_data": "NO",
+        "personal_data_confirmed": "NO",
+        "confirmed_by": "00000000-0000-4000-8000-0000000005de",
+        "confirmed_at": "2026-09-16T10:00:00.000Z",
+        "shareable": "SHAREABLE",
+        "uploaded_by": "00000000-0000-4000-8000-0000000005df",
+        "uploaded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "list_evidence_files",
+      "method": "GET",
+      "path": "/api/v1/admin/evidence-files",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000005e6",
+            "control_id": "00000000-0000-4000-8000-0000000005dc",
+            "grc_evidence_id": "00000000-0000-4000-8000-0000000005dd",
+            "file_name": "notice.pdf",
+            "media_type": "application/pdf",
+            "size_bytes": 1024,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "contains_personal_data": "NO",
+            "personal_data_confirmed": "NO",
+            "confirmed_by": "00000000-0000-4000-8000-0000000005de",
+            "confirmed_at": "2026-09-16T10:00:00.000Z",
+            "shareable": "SHAREABLE",
+            "uploaded_by": "00000000-0000-4000-8000-0000000005df",
+            "uploaded_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "evidence_file",
+      "method": "GET",
+      "path": "/api/v1/admin/evidence-files/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005e6",
+        "control_id": "00000000-0000-4000-8000-0000000005dc",
+        "grc_evidence_id": "00000000-0000-4000-8000-0000000005dd",
+        "file_name": "notice.pdf",
+        "media_type": "application/pdf",
+        "size_bytes": 1024,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "contains_personal_data": "NO",
+        "personal_data_confirmed": "NO",
+        "confirmed_by": "00000000-0000-4000-8000-0000000005de",
+        "confirmed_at": "2026-09-16T10:00:00.000Z",
+        "shareable": "SHAREABLE",
+        "uploaded_by": "00000000-0000-4000-8000-0000000005df",
+        "uploaded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "evidence_file_content",
+      "method": "GET",
+      "path": "/api/v1/admin/evidence-files/{id}/content",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005e6",
+        "file_name": "notice.pdf",
+        "media_type": "application/pdf",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "content_base64": "JVBERi0xLjQK"
+      }
+    },
+    {
+      "operation_id": "confirm_evidence_personal_data",
+      "method": "POST",
+      "path": "/api/v1/admin/evidence-files/{id}/personal-data-confirmation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "personal_data": "NO"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005e6",
+        "control_id": "00000000-0000-4000-8000-0000000005dc",
+        "grc_evidence_id": "00000000-0000-4000-8000-0000000005dd",
+        "file_name": "notice.pdf",
+        "media_type": "application/pdf",
+        "size_bytes": 1024,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "contains_personal_data": "NO",
+        "personal_data_confirmed": "NO",
+        "confirmed_by": "00000000-0000-4000-8000-0000000005de",
+        "confirmed_at": "2026-09-16T10:00:00.000Z",
+        "shareable": "SHAREABLE",
+        "uploaded_by": "00000000-0000-4000-8000-0000000005df",
+        "uploaded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "list_audit_engagements",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-engagements",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000005fa",
+            "firm_name": "Synthetic audit practice",
+            "engagement_reference": "ENG-2026-01",
+            "scope_requirement_ids": [
+              "DPDP-NOTICE-CONSENT-REQUEST"
+            ],
+            "period_from": "2026-01-01",
+            "period_to": "2026-06-30",
+            "processing_agreement": {
+              "status": "NOT_RECORDED",
+              "reference": null
+            },
+            "independence": {
+              "declared": true,
+              "statement": "The audit firm declared its independence in the engagement letter."
+            },
+            "empanelment_reference": null,
+            "state": "ACTIVE",
+            "created_by": "00000000-0000-4000-8000-0000000005df",
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_audit_engagement",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-engagements",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "engagement_code": "ABCDE-FGHJK-LMNPQ-RSTUV",
+        "firm_name": "Synthetic audit practice",
+        "engagement_reference": "ENG-2026-01",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "period_from": "2026-01-01",
+        "period_to": "2026-06-30",
+        "processing_agreement_reference": null,
+        "independence_statement": "The audit firm declared its independence in the engagement letter.",
+        "empanelment_reference": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005fa",
+        "firm_name": "Synthetic audit practice",
+        "engagement_reference": "ENG-2026-01",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "period_from": "2026-01-01",
+        "period_to": "2026-06-30",
+        "processing_agreement": {
+          "status": "NOT_RECORDED",
+          "reference": null
+        },
+        "independence": {
+          "declared": true,
+          "statement": "The audit firm declared its independence in the engagement letter."
+        },
+        "empanelment_reference": null,
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-0000000005df",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "packages": [
+          {
+            "id": "00000000-0000-4000-8000-0000000005f0",
+            "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+            "state": "APPROVED",
+            "expires_at": "2026-10-16T10:00:00.000Z",
+            "effective_state": "APPROVED",
+            "prepared_by": "00000000-0000-4000-8000-0000000005df",
+            "prepared_role": "ORG_ADMIN",
+            "approved_by": "00000000-0000-4000-8000-0000000005de",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "revoked_at": null,
+            "revoke_reason": null,
+            "item_count": 1,
+            "exports": 1,
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "imports": [
+          {
+            "id": "00000000-0000-4000-8000-000000000604",
+            "kind": "FINDINGS",
+            "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "signing_key_id": "orvia-audit-synthetic",
+            "imported_at": "2026-09-16T10:00:00.000Z",
+            "imported_by": "00000000-0000-4000-8000-0000000005df",
+            "issued_at": "2026-09-16T10:00:00.000Z",
+            "entries": 1,
+            "pdf_sha256": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "audit_engagement",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-engagements/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005fa",
+        "firm_name": "Synthetic audit practice",
+        "engagement_reference": "ENG-2026-01",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "period_from": "2026-01-01",
+        "period_to": "2026-06-30",
+        "processing_agreement": {
+          "status": "NOT_RECORDED",
+          "reference": null
+        },
+        "independence": {
+          "declared": true,
+          "statement": "The audit firm declared its independence in the engagement letter."
+        },
+        "empanelment_reference": null,
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-0000000005df",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "packages": [
+          {
+            "id": "00000000-0000-4000-8000-0000000005f0",
+            "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+            "state": "APPROVED",
+            "expires_at": "2026-10-16T10:00:00.000Z",
+            "effective_state": "APPROVED",
+            "prepared_by": "00000000-0000-4000-8000-0000000005df",
+            "prepared_role": "ORG_ADMIN",
+            "approved_by": "00000000-0000-4000-8000-0000000005de",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "revoked_at": null,
+            "revoke_reason": null,
+            "item_count": 1,
+            "exports": 1,
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "imports": [
+          {
+            "id": "00000000-0000-4000-8000-000000000604",
+            "kind": "FINDINGS",
+            "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "signing_key_id": "orvia-audit-synthetic",
+            "imported_at": "2026-09-16T10:00:00.000Z",
+            "imported_by": "00000000-0000-4000-8000-0000000005df",
+            "issued_at": "2026-09-16T10:00:00.000Z",
+            "entries": 1,
+            "pdf_sha256": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "create_audit_package",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-engagements/{id}/packages",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "expires_at": "2026-10-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "state": "APPROVED",
+        "expires_at": "2026-10-16T10:00:00.000Z",
+        "effective_state": "APPROVED",
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "revoked_at": null,
+        "revoke_reason": null,
+        "item_count": 1,
+        "exports": 1,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "items": [
+          {
+            "item_id": "00000000-0000-4000-8000-00000000060e",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "kind": "FILE",
+            "title": "Published itemised notice",
+            "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+            "indicator": null,
+            "statement": null,
+            "contains_personal_data": "NO",
+            "exception_justification": null,
+            "exception_approved_by": null,
+            "added_by": "00000000-0000-4000-8000-0000000005df",
+            "added_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "manifest": null,
+        "screening": [],
+        "redactions": 0
+      }
+    },
+    {
+      "operation_id": "audit_package",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-packages/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "state": "APPROVED",
+        "expires_at": "2026-10-16T10:00:00.000Z",
+        "effective_state": "APPROVED",
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "revoked_at": null,
+        "revoke_reason": null,
+        "item_count": 1,
+        "exports": 1,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "items": [
+          {
+            "item_id": "00000000-0000-4000-8000-00000000060e",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "kind": "FILE",
+            "title": "Published itemised notice",
+            "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+            "indicator": null,
+            "statement": null,
+            "contains_personal_data": "NO",
+            "exception_justification": null,
+            "exception_approved_by": null,
+            "added_by": "00000000-0000-4000-8000-0000000005df",
+            "added_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "manifest": null,
+        "screening": [],
+        "redactions": 0
+      }
+    },
+    {
+      "operation_id": "add_audit_package_item",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-packages/{id}/items",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+        "kind": "FILE",
+        "title": "Published itemised notice",
+        "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+        "indicator_key": null,
+        "statement": null
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "state": "APPROVED",
+        "expires_at": "2026-10-16T10:00:00.000Z",
+        "effective_state": "APPROVED",
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "revoked_at": null,
+        "revoke_reason": null,
+        "item_count": 1,
+        "exports": 1,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "items": [
+          {
+            "item_id": "00000000-0000-4000-8000-00000000060e",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "kind": "FILE",
+            "title": "Published itemised notice",
+            "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+            "indicator": null,
+            "statement": null,
+            "contains_personal_data": "NO",
+            "exception_justification": null,
+            "exception_approved_by": null,
+            "added_by": "00000000-0000-4000-8000-0000000005df",
+            "added_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "manifest": null,
+        "screening": [],
+        "redactions": 0
+      }
+    },
+    {
+      "operation_id": "add_audit_package_exception",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-packages/{id}/exception-items",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+        "kind": "FILE",
+        "title": "Published itemised notice",
+        "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+        "indicator_key": null,
+        "statement": null,
+        "justification": "Needed to evidence the sampled notice delivery for the audit."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "state": "APPROVED",
+        "expires_at": "2026-10-16T10:00:00.000Z",
+        "effective_state": "APPROVED",
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "revoked_at": null,
+        "revoke_reason": null,
+        "item_count": 1,
+        "exports": 1,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "items": [
+          {
+            "item_id": "00000000-0000-4000-8000-00000000060e",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "kind": "FILE",
+            "title": "Published itemised notice",
+            "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+            "indicator": null,
+            "statement": null,
+            "contains_personal_data": "NO",
+            "exception_justification": null,
+            "exception_approved_by": null,
+            "added_by": "00000000-0000-4000-8000-0000000005df",
+            "added_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "manifest": null,
+        "screening": [],
+        "redactions": 0
+      }
+    },
+    {
+      "operation_id": "withdraw_audit_package_item",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-packages/{id}/items/removal",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "item_id": "00000000-0000-4000-8000-00000000060e"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "state": "APPROVED",
+        "expires_at": "2026-10-16T10:00:00.000Z",
+        "effective_state": "APPROVED",
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "revoked_at": null,
+        "revoke_reason": null,
+        "item_count": 1,
+        "exports": 1,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "items": [
+          {
+            "item_id": "00000000-0000-4000-8000-00000000060e",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "kind": "FILE",
+            "title": "Published itemised notice",
+            "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+            "indicator": null,
+            "statement": null,
+            "contains_personal_data": "NO",
+            "exception_justification": null,
+            "exception_approved_by": null,
+            "added_by": "00000000-0000-4000-8000-0000000005df",
+            "added_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "manifest": null,
+        "screening": [],
+        "redactions": 0
+      }
+    },
+    {
+      "operation_id": "approve_audit_package",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-packages/{id}/approval",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "state": "APPROVED",
+        "expires_at": "2026-10-16T10:00:00.000Z",
+        "effective_state": "APPROVED",
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "revoked_at": null,
+        "revoke_reason": null,
+        "item_count": 1,
+        "exports": 1,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "items": [
+          {
+            "item_id": "00000000-0000-4000-8000-00000000060e",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "kind": "FILE",
+            "title": "Published itemised notice",
+            "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+            "indicator": null,
+            "statement": null,
+            "contains_personal_data": "NO",
+            "exception_justification": null,
+            "exception_approved_by": null,
+            "added_by": "00000000-0000-4000-8000-0000000005df",
+            "added_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "manifest": null,
+        "screening": [],
+        "redactions": 0
+      }
+    },
+    {
+      "operation_id": "export_audit_package",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-packages/{id}/export",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "file_name": "orvia-dpdpa-audit-package-ENG-2026-01-00000000.orvia-audit.json",
+        "package_base64": "e30=",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "expires_at": "2026-10-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "revoke_audit_package",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-packages/{id}/revocation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Superseded by a corrected package."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "state": "APPROVED",
+        "expires_at": "2026-10-16T10:00:00.000Z",
+        "effective_state": "APPROVED",
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "revoked_at": null,
+        "revoke_reason": null,
+        "item_count": 1,
+        "exports": 1,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "items": [
+          {
+            "item_id": "00000000-0000-4000-8000-00000000060e",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "kind": "FILE",
+            "title": "Published itemised notice",
+            "evidence_file_id": "00000000-0000-4000-8000-0000000005e6",
+            "indicator": null,
+            "statement": null,
+            "contains_personal_data": "NO",
+            "exception_justification": null,
+            "exception_approved_by": null,
+            "added_by": "00000000-0000-4000-8000-0000000005df",
+            "added_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "manifest": null,
+        "screening": [],
+        "redactions": 0
+      }
+    },
+    {
+      "operation_id": "receive_signed_audit_document",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-engagements/{id}/signed-documents",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "signed": {
+          "algorithm": "Ed25519",
+          "signing_key_id": "orvia-audit-synthetic",
+          "document": {},
+          "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "pdf_base64": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000604",
+        "kind": "FINDINGS",
+        "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "signing_key_id": "orvia-audit-synthetic",
+        "imported_at": "2026-09-16T10:00:00.000Z",
+        "imported_by": "00000000-0000-4000-8000-0000000005df",
+        "issued_at": "2026-09-16T10:00:00.000Z",
+        "entries": 1,
+        "pdf_sha256": null,
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "document": {
+          "kind": "FINDINGS",
+          "findings": []
+        },
+        "finding_links": [
+          {
+            "finding_id": "00000000-0000-4000-8000-000000000622",
+            "grc_issue_id": "00000000-0000-4000-8000-000000000623"
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "audit_import",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-imports/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000604",
+        "kind": "FINDINGS",
+        "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "signing_key_id": "orvia-audit-synthetic",
+        "imported_at": "2026-09-16T10:00:00.000Z",
+        "imported_by": "00000000-0000-4000-8000-0000000005df",
+        "issued_at": "2026-09-16T10:00:00.000Z",
+        "entries": 1,
+        "pdf_sha256": null,
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "document": {
+          "kind": "FINDINGS",
+          "findings": []
+        },
+        "finding_links": [
+          {
+            "finding_id": "00000000-0000-4000-8000-000000000622",
+            "grc_issue_id": "00000000-0000-4000-8000-000000000623"
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "audit_import_pdf",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-imports/{id}/pdf",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "file_name": "orvia-audit-report-ENG-2026-01.pdf",
+        "pdf_base64": "JVBERi0xLjQK",
+        "pdf_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      }
+    },
+    {
+      "operation_id": "link_audit_finding",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-imports/{id}/finding-links",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "finding_id": "00000000-0000-4000-8000-000000000622"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000604",
+        "kind": "FINDINGS",
+        "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "signing_key_id": "orvia-audit-synthetic",
+        "imported_at": "2026-09-16T10:00:00.000Z",
+        "imported_by": "00000000-0000-4000-8000-0000000005df",
+        "issued_at": "2026-09-16T10:00:00.000Z",
+        "entries": 1,
+        "pdf_sha256": null,
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "document": {
+          "kind": "FINDINGS",
+          "findings": []
+        },
+        "finding_links": [
+          {
+            "finding_id": "00000000-0000-4000-8000-000000000622",
+            "grc_issue_id": "00000000-0000-4000-8000-000000000623"
+          }
+        ]
       }
     },
     {
