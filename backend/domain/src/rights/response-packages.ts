@@ -6,6 +6,8 @@ import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { iso, pageOf, predicate, refuse, scope, type OperationsEnv } from '../operations/shared.ts';
 import { canonical } from '../mapping/ropa.ts';
 import { releaseResponse } from './rights.ts';
+import { EMAIL, PHONE, redactContactDetails } from '../../../../shared/contracts/src/redaction.ts';
+export { redactContactDetails };
 
 /**
  * EX03 rights response packages.
@@ -28,21 +30,7 @@ const RULESET = 'response-redaction-rules v1';
 const MAX_REFERENCES_PER_SYSTEM = 20;
 const MAX_DELIVERY_DAYS = 30;
 const PURGE_AFTER_DAYS = 30;
-const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
-// Ten or more digits, optionally separated by single spaces or hyphens, not inside a longer token: a date or an identifier is not a phone number.
-const PHONE = /(?<![\w-])\+?\d(?:[\s-]?\d){9,13}(?![\w-])/g;
-const PAN = /\b[A-Z]{5}\d{4}[A-Z]\b/g;
-/**
- * The same deterministic detection, applied to free text that is about to leave
- * the installation (a DPDPA audit package statement): e-mail addresses, phone-like
- * and Aadhaar-like digit runs and PAN-format identifiers are replaced. A second
- * person still reviews the text when the package is approved.
- */
-export function redactContactDetails(text: string) {
-  let count = 0;
-  const out = text.replace(EMAIL, () => { count++; return '[redacted: e-mail]'; }).replace(PHONE, () => { count++; return '[redacted: number]'; }).replace(PAN, () => { count++; return '[redacted: identifier]'; });
-  return { text: out, redactions: count };
-}
+// Contact-detail detection is shared with the audit exchange and the vendor engagement file (shared/contracts/src/redaction.ts).
 const OWN_IDENTIFIER_FIELD = /^(e-?mail|mail|email_address|phone|mobile|telephone|phone_number)$/i;
 const OTHER_PERSON_FIELD = /contact|spouse|partner|referr|guardian|nominee|family|emergency|colleague|manager/i;
 const REASON_LABEL: Record<string, string> = { THIRD_PARTY: 'another person\'s data', LEGAL_PRIVILEGE: 'legal privilege', SECURITY: 'security', OTHER: 'withheld' };
