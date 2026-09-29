@@ -2,8 +2,12 @@
   "synthetic": true,
   "results": [
     {
-      "name": "database proof",
-      "result": "ERROR:42501"
+      "name": "fresh database; canonical ledger, repeat no-op, forced RLS",
+      "result": "PASS"
+    },
+    {
+      "name": "upgrade from legacy ledger; no reapplication, stable ledger, forced RLS",
+      "result": "PASS"
     }
   ]
 }
