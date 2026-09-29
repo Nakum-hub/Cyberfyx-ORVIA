@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { customerEnvironment, installationTrust, vendorSigningEnvironment } from '../../scripts/credentials.ts';
-import { separate } from '../../scripts/credentials-separate.ts';
+import { separate, customerOwnedKey } from '../../scripts/credentials-separate.ts';
 
 // Vendor signing keys and customer installation credentials are kept apart:
 // the vendor pair lives only under .local/vendor, an installation holds only the
@@ -68,4 +68,26 @@ test('the audit service address (revision 1.6) comes only from the trust file, a
   write({ url: 'http://127.0.0.1:4340' }); assert.equal(installationTrust('acme')!.audit_service?.url, 'http://127.0.0.1:4340');
   for (const bad of ['http://audit.vendor.example.in', 'https://u:p@audit.vendor.example.in', 'https://audit.vendor.example.in/?next=x', 'ftp://audit.vendor.example.in']) { write({ url: bad }); assert.throws(() => installationTrust('acme'), /audit_service url must be HTTPS/, bad); }
   write({ url: 'https://audit.vendor.example.in', token: 'x' }); assert.throws(() => installationTrust('acme'), /holds only its url/);
+});
+test('R04: customer-owned keys are recognised by path segments, not by POSIX substrings; misplaced keys still refuse', () => {
+  const root = workspace(); const profiles = join(root, '.local/profiles');
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'worker', 'signing-key.pem')), true);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'tls', 'server-key.pem')), true, 'the customer TLS key is the customer\'s own');
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'backups', '2026', 'db.dump')), true);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'auth', 'leaked.json')), false);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'tls', 'vendor-signing.pem')), false);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'nested', 'worker', 'signing-key.pem')), false, 'only the profile-level location counts');
+  assert.equal(customerOwnedKey(profiles, join(root, 'elsewhere', 'worker', 'signing-key.pem')), false);
+  mkdirSync(join(profiles, 'acme', 'tls'), { recursive: true });
+  writeFileSync(join(profiles, 'acme', 'tls', 'server-key.pem'), '-----BEGIN PRIVATE KEY-----\nsynthetic\n-----END PRIVATE KEY-----\n');
+  assert.doesNotThrow(() => separate(), 'a customer TLS key does not block separation');
+  writeFileSync(join(profiles, 'acme', 'tls', 'vendor-signing.pem'), '-----BEGIN PRIVATE KEY-----\nsynthetic\n-----END PRIVATE KEY-----\n');
+  assert.throws(() => separate(), /Private key material found under customer profiles/);
+});
+test('re-running separation keeps a vendor-supplied audit service address in the trust file', () => {
+  const root = workspace(); separate();
+  const path = join(root, '.local/profiles/acme/trust/vendor-public-keys.json');
+  writeFileSync(path, JSON.stringify({ ...JSON.parse(readFileSync(path, 'utf8')), audit_service: { url: 'https://audit.vendor.example.in' } }));
+  separate();
+  assert.equal(installationTrust('acme')!.audit_service?.url, 'https://audit.vendor.example.in');
 });

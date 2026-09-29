@@ -63,6 +63,23 @@ await t.run(async () => {
   const newsState = centre.topics.find(x => x.topic.id === news.id)!;
   check('the portal centre shows the current choice and keeps the stale event in history', [newsState.channels.find(c => c.channel === 'EMAIL')?.choice, centre.history.filter(e => e.topic_id === news.id).map(e => e.effective)], ['OPTED_OUT', [false, true, true]]);
 
+  t.setPhase('ordering (review finding R01)');
+  const inMinutes = (m: number) => new Date(Date.now() + m * 60_000).toISOString();
+  receipt = await ok(choose(alice, news.id, 'SMS', 'OPTED_IN', inMinutes(4)), Receipt, [201]);
+  check('a first opt-in keeps the device clock allowance', [receipt.event.effective, receipt.decision.permitted], [true, true]);
+  receipt = await ok(choose(alice, news.id, 'SMS', 'OPTED_OUT', inMinutes(0)), Receipt, [201]);
+  check('R01: an opt-out received after a future-dated opt-in is effective and stops contact', [receipt.event.effective, receipt.decision.permitted, receipt.decision.reason], [true, false, 'OPTED_OUT']);
+  receipt = await ok(choose(alice, news.id, 'SMS', 'OPTED_IN', inMinutes(3)), Receipt, [201]);
+  check('a future-dated opt-in cannot override an existing opt-out', [receipt.event.effective, receipt.decision.reason], [false, 'OPTED_OUT']);
+  const optOutTime = inMinutes(-1);
+  await ok(choose(alice, news.id, 'SMS', 'OPTED_OUT', optOutTime), Receipt, [201]);
+  receipt = await ok(choose(alice, news.id, 'SMS', 'OPTED_IN', optOutTime), Receipt, [201]);
+  check('on equal device times the opt-out stands', [receipt.event.effective, receipt.decision.reason], [false, 'OPTED_OUT']);
+  receipt = await ok(choose(alice, news.id, 'SMS', 'OPTED_IN', inMinutes(0)), Receipt, [201]);
+  check('a genuinely later opt-in restores contact', [receipt.event.effective, receipt.decision.permitted], [true, true]);
+  const [outR, inR] = await Promise.all([choose(alice, news.id, 'SMS', 'OPTED_OUT', inMinutes(0)), choose(alice, news.id, 'SMS', 'OPTED_IN', new Date(Date.now() - 2000).toISOString())]);
+  check('concurrent opt-out and an earlier-dated opt-in end opted out, whichever arrives first', [outR.status, inR.status, (await decide(news.id, 'SMS')).reason], [201, 201, 'OPTED_OUT']);
+
   t.setPhase('consent dependency');
   await setConsent('GRANTED', purpose);
   await ok(choose(alice, offers.id, 'EMAIL', 'OPTED_IN'), Receipt, [201]);
@@ -111,6 +128,6 @@ await t.run(async () => {
     } catch (error) { return [{ error: (error as { code?: string }).code }]; } finally { await client.query('ROLLBACK').catch(() => {}); client.release(); }
   };
   check('row security hides one principal\'s events from another', (await asPrincipal(bobId, 'SELECT id FROM app.preference_events WHERE principal_id=$1', [aliceId])).length, 0);
-  check('a principal sees their own events', (await asPrincipal(aliceId, 'SELECT id FROM app.preference_events WHERE principal_id=$1 AND topic_id=$2', [aliceId, news.id])).length, 3);
+  check('a principal sees their own events', (await asPrincipal(aliceId, 'SELECT id FROM app.preference_events WHERE principal_id=$1 AND topic_id=$2 AND channel=$3', [aliceId, news.id, 'EMAIL'])).length, 3);
   check('a principal cannot insert a choice for someone else', (await asPrincipal(bobId, `INSERT INTO app.preference_events(tenant_id,legal_entity_id,environment_id,id,principal_id,topic_id,channel,choice,source,observed_at,recorded_by,effective) VALUES($1,$2,$3,gen_random_uuid(),$4,$5,'EMAIL','OPTED_IN','PORTAL',now(),$6,true)`, [s.tenant_id, s.legal_entity_id, s.environment_id, aliceId, news.id, bobId]))[0]?.error, '42501');
 });

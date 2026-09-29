@@ -6,10 +6,14 @@ import { iso, pageOf, predicate, refuse, scope } from '../operations/shared.ts';
 
 /**
  * EX01 communication preferences. Staff define topics; a principal records
- * their own choice per topic and channel. Choices are append-only events: one
- * made earlier than the latest already recorded for the same topic and channel
- * is kept but is not effective, so a replayed or delayed event cannot re-enable
- * contact. Whether contact is permitted is decided now, from the latest
+ * their own choice per topic and channel. Choices are append-only events, kept
+ * with the time the principal's device reported (observed_at) as provenance, but
+ * ordered by the time this server received them. An opt-out received is always
+ * effective: a withdrawal is honoured on receipt, whatever time the device
+ * claims. An opt-in replaces an existing choice only if its device time is not
+ * in the future and is later than that choice, so a future-dated opt-in cannot
+ * suppress a later opt-out and a replayed or delayed opt-in cannot re-enable
+ * contact. On equal times the opt-out stands. Whether contact is permitted is decided now, from the latest
  * effective choice, the topic's current state and, where the topic depends on a
  * purpose, whether consent to that purpose is currently granted. There is no
  * default opt-in.
@@ -54,7 +58,7 @@ async function consentState(c: Context, principalId: string, purposeId: string |
   return r?.state === 'GRANTED' ? 'GRANTED' : 'NOT_GRANTED';
 }
 async function latestEffective(c: Context, principalId: string, topicId: string, channel: Channel) {
-  return (await c.tx.query(`SELECT * FROM app.preference_events WHERE ${predicate} AND principal_id=$4 AND topic_id=$5 AND channel=$6 AND effective ORDER BY observed_at DESC, recorded_at DESC LIMIT 1`,
+  return (await c.tx.query(`SELECT * FROM app.preference_events WHERE ${predicate} AND principal_id=$4 AND topic_id=$5 AND channel=$6 AND effective ORDER BY recorded_at DESC, id DESC LIMIT 1`,
     [...scope(c), principalId, topicId, channel])).rows[0] as Row | undefined;
 }
 /** The decision at this moment. The order of checks is the order a refusal is explained in. */
@@ -111,7 +115,12 @@ export async function recordOwnChoice(c: Context, input: unknown) {
   // Serialise choices for one topic and channel so "latest" is well defined.
   await c.tx.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [JSON.stringify([...scope(c), 'preference', principalId, v.topic_id, v.channel])]);
   const latest = await latestEffective(c, principalId!, v.topic_id, v.channel);
-  const effective = !latest || Date.parse(v.observed_at) > new Date(latest.observed_at).getTime();
+  // A withdrawal is effective on receipt. An opt-in replaces an existing choice only when its device time is not in the future and is
+  // later than the existing choice's ordering time (the earlier of that choice's device and receipt times). A first opt-in keeps the
+  // five-minute device clock allowance, because there is nothing for it to override.
+  const observed = Date.parse(v.observed_at);
+  const effective = !latest || v.choice === 'OPTED_OUT'
+    || (observed <= Date.now() && observed > Math.min(new Date(latest.observed_at).getTime(), new Date(latest.recorded_at).getTime()));
   const row = (await c.tx.query(`INSERT INTO app.preference_events(tenant_id,legal_entity_id,environment_id,id,principal_id,topic_id,channel,choice,source,observed_at,recorded_by,effective)
     VALUES($1,$2,$3,$4,$5,$6,$7,$8,'PORTAL',$9,$10,$11) RETURNING *`, [...scope(c), randomUUID(), principalId, v.topic_id, v.channel, v.choice, v.observed_at, c.actor.actor_id, effective])).rows[0];
   await audit(c, effective ? 'preference.record' : 'preference.record_stale', row.id);
