@@ -9,8 +9,15 @@ import type pg from 'pg';
  * that belongs to another vendor installation.
  */
 export const VENDOR_MIGRATION_DIRECTORY = 'database/vendor/migrations';
+// A filename rename is not a new migration. Preserve its original position and
+// accept the historical ledger identity only when the immutable SQL hash agrees.
+const fulfilmentId = '0011_licence_fulfilment';
+const legacyFulfilmentId = '0003_licence_fulfilment';
+const canonicalId = (id: string) => id === legacyFulfilmentId ? fulfilmentId : id;
+const executionKey = (id: string) => id === fulfilmentId ? legacyFulfilmentId : id;
 export function vendorMigrationIds() {
-  return readdirSync(VENDOR_MIGRATION_DIRECTORY).filter(file => /^\d{4}_[a-z_]+\.sql$/.test(file)).sort().map(file => file.slice(0, -4));
+  return readdirSync(VENDOR_MIGRATION_DIRECTORY).filter(file => /^\d{4}_[a-z_]+\.sql$/.test(file)).map(file => file.slice(0, -4))
+    .sort((a, b) => executionKey(a).localeCompare(executionKey(b)));
 }
 
 export async function applyVendorMigrations(client: pg.PoolClient | pg.Client, installationId: string, options: { through?: string } = {}) {
@@ -25,14 +32,16 @@ export async function applyVendorMigrations(client: pg.PoolClient | pg.Client, i
     await client.query('INSERT INTO public.vendor_bootstrap VALUES (1, $1) ON CONFLICT (singleton) DO NOTHING', [installationId]);
     if ((await client.query('SELECT installation_id FROM public.vendor_bootstrap WHERE singleton = 1')).rows[0]?.installation_id !== installationId) throw new Error('Vendor database belongs to another installation');
     const ids = vendorMigrationIds();
-    if (options.through && !ids.includes(options.through)) throw new Error('Unknown vendor migration');
+    const through = options.through ? canonicalId(options.through) : undefined;
+    if (through && !ids.includes(through)) throw new Error('Unknown vendor migration');
     for (const id of ids) {
       const sql = readFileSync(`${VENDOR_MIGRATION_DIRECTORY}/${id}.sql`, 'utf8');
       const checksum = createHash('sha256').update(sql).digest('hex');
-      const existing = await client.query('SELECT checksum FROM public.vendor_migrations WHERE id = $1', [id]);
-      if (existing.rowCount) { if (existing.rows[0].checksum !== checksum) throw new Error(`Vendor migration checksum mismatch: ${id}`); }
+      const aliases = id === fulfilmentId ? [id, legacyFulfilmentId] : [id];
+      const existing = await client.query('SELECT id, checksum FROM public.vendor_migrations WHERE id = ANY($1::text[])', [aliases]);
+      if (existing.rowCount) { if (existing.rows.some(row => row.checksum !== checksum)) throw new Error(`Vendor migration checksum mismatch: ${id}`); }
       else { await client.query(sql); await client.query('INSERT INTO public.vendor_migrations (id, checksum) VALUES ($1, $2)', [id, checksum]); applied.push(id); }
-      if (options.through === id) break;
+      if (through === id) break;
     }
     // Invariant of a complete vendor schema: every table forces row-level security, however it was reached.
     if (!options.through) {
