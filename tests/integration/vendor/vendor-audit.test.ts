@@ -10,6 +10,7 @@ import { randomUUID } from 'node:crypto';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { applyVendorMigrations } from '../../../database/vendor/src/migrations.ts';
 import { vendorHarness } from './harness.ts';
+import { setupPractice, acceptEngagement, planEngagement, evidenceFor, paper } from './practice-flow.ts';
 import { packageFileBytes, sha256, verifyAuditDocument, type AuditPackageManifest } from '../../../shared/contracts/src/audit-exchange.ts';
 import { engagementCodeDigest } from '../../../backend/vendor/audit/service.ts';
 import { installationTrust } from '../../../scripts/credentials.ts';
@@ -109,6 +110,11 @@ try {
   check('independence: auditor (not lead) cannot declare', (await auditor.json(`/api/v1/vendor/engagements/${engId}/independence`, { statement: 'We are independent of the client organisation.', conflict_check: 'NO_CONFLICT', conflict_note: null, empanelment_reference: null })).status, 403);
   check('independence: certification wording refused', (await lead.json(`/api/v1/vendor/engagements/${engId}/independence`, { statement: 'We are certified independent auditors of the client.', conflict_check: 'NO_CONFLICT', conflict_note: null, empanelment_reference: null })).status, 400);
   check('independence declared by lead', (await lead.json(`/api/v1/vendor/engagements/${engId}/independence`, { statement: 'The audit team is independent of the client organisation and holds no conflicting interest.', conflict_check: 'NO_CONFLICT', conflict_note: null, empanelment_reference: null })).data.independence.declared, true);
+  // Audit practice: criteria, methodology, acceptance and an approved work programme before any fieldwork conclusion (task AUDIT-PRACTICE-01).
+  const practice = await setupPractice(lead, reviewer);
+  await acceptEngagement({ admin: adm, reviewer, lead, engagementId: engId, ...practice });
+  const plan = await planEngagement({ lead, auditor, reviewer, engagementId: engId, requirements: scope, period: { from: '2026-01-01', to: '2026-06-30' }, leadId: leadU.id });
+  check('practice: engagement accepted and work programme approved', [plan.file.acceptance.decision, plan.file.plan.approved], ['ACCEPTED', true]);
 
   // Client upload
   const uploaderU = { email: 'uploader@aster.example', password: acct.data.one_time_password, domain: 'account' as const } as { email: string; password: string; totp?: string; domain: 'account' };
@@ -155,13 +161,22 @@ try {
   const log = await auditor.json(`/api/v1/vendor/engagements/${engId}/access-log`);
   check('access log records views and downloads', ['VIEW_MANIFEST', 'DOWNLOAD_ITEM'].every(a => log.data.items.some((i: { action: string }) => i.action === a)), true);
   check('item review recorded', (await auditor.json(`/api/v1/vendor/packages/${accepted.data.package_id}/reviews`, { item_id: fileItem.item_id, decision: 'ACCEPT', note: 'Notice version matches the activity.', sampling: '1 of 1 notices' })).data.items.find((i: { item_id: string }) => i.item_id === fileItem.item_id).reviews.length, 1);
-  await auditor.json(`/api/v1/vendor/engagements/${engId}/results`, { requirement_id: scope[0], result: 'MEETS', rationale: 'Published notice versions were evidenced for the sampled activity.' });
+  check('MEETS refused without reviewed effective work', (await auditor.json(`/api/v1/vendor/engagements/${engId}/results`, { requirement_id: scope[0], result: 'MEETS', rationale: 'Published notice versions were evidenced for the sampled activity.' })).status, 409);
+  const indicatorItem = pkg.data.items.find((i: { kind: string }) => i.kind === 'INDICATOR');
+  const noticeEvidence = await evidenceFor({ auditor, engagementId: engId, procedureId: plan.procedures[scope[0]!]!, register: { source: 'PACKAGE_ITEM', package_id: accepted.data.package_id, item_id: fileItem.item_id, evidence_type: null, valid_until: null, description: null }, reliability: 'HIGH' });
+  await paper({ preparer: auditor, reviewer, procedureId: plan.procedures[scope[0]!]!, conclusion: 'EFFECTIVE', evidence: [noticeEvidence] });
+  const indicatorEvidence = await evidenceFor({ auditor, engagementId: engId, procedureId: plan.procedures[scope[1]!]!, register: { source: 'PACKAGE_ITEM', package_id: accepted.data.package_id, item_id: indicatorItem.item_id, evidence_type: null, valid_until: null, description: null } });
+  const adverse = await paper({ preparer: auditor, reviewer, procedureId: plan.procedures[scope[1]!]!, conclusion: 'EXCEPTIONS_NOTED', evidence: [indicatorEvidence] });
+  check('MEETS recorded once reviewed effective work supports it', (await auditor.json(`/api/v1/vendor/engagements/${engId}/results`, { requirement_id: scope[0], result: 'MEETS', rationale: 'Published notice versions were evidenced for the sampled activity.' })).status, 200);
   await auditor.json(`/api/v1/vendor/engagements/${engId}/results`, { requirement_id: scope[1], result: 'PARTIALLY_MEETS', rationale: 'Withdrawal channel shown on notice; propagation evidence incomplete.' });
   const list = await auditor.json(`/api/v1/vendor/engagements/${engId}/checklist`);
   check('checklist shows expected vs received and results', [list.data.rows[0].received_items >= 2, list.data.rows[0].accepted_items, list.data.rows[0].result, list.data.rows[0].expected_evidence.length > 0], [true, 1, 'MEETS', true]);
-  const finding = await auditor.json(`/api/v1/vendor/engagements/${engId}/findings`, { requirement_id: scope[1], provision_ids: ['ACT-S6(4)'], severity: 'MEDIUM', title: 'Withdrawal propagation evidence incomplete', observation: 'Two of five systems had no read-back.', recommendation: 'Add read-back verification for the remaining systems.', due_date: '2026-12-31' });
-  check('finding raised', finding.data.items.length, 1);
-  check('finding must cite provisions of its requirement', (await auditor.json(`/api/v1/vendor/engagements/${engId}/findings`, { requirement_id: scope[1], provision_ids: ['RULES-R7'], severity: 'LOW', title: 't', observation: 'o', recommendation: 'r', due_date: '2026-12-31' })).status, 400);
+  const findingBody = { requirement_id: scope[1], provision_ids: ['ACT-S6(4)'], criterion_type: 'STATUTORY', severity: 'MEDIUM', title: 'Withdrawal propagation evidence incomplete', observation: 'Two of five systems had no read-back.',
+    affected_scope: 'Marketing systems receiving withdrawals', cause: 'Read-back verification was never configured for two connectors.', consequence: 'Withdrawn consent may continue to be used for marketing in those systems.',
+    severity_rationale: 'Medium residual risk; limited number of systems but every withdrawing Data Principal is affected.', recommendation: 'Add read-back verification for the remaining systems.', orvia_guidance: null, due_date: '2026-12-31', working_paper_ids: [adverse], evidence_ids: [indicatorEvidence] };
+  const finding = await auditor.json(`/api/v1/vendor/engagements/${engId}/findings`, findingBody);
+  check('finding raised', finding.data.findings.length, 1);
+  check('finding must cite provisions of its requirement', (await auditor.json(`/api/v1/vendor/engagements/${engId}/findings`, { ...findingBody, provision_ids: ['RULES-R7'] })).status, 400);
   const findingsFile = await auditor.json(`/api/v1/vendor/engagements/${engId}/findings/export`, {});
   const trust = installationTrust('codex-a00')!;
   check('findings file verifies with the trusted audit key', verifyAuditDocument(findingsFile.data.signed, trust.audit!).kind, 'FINDINGS');
@@ -169,7 +184,7 @@ try {
   check('altered findings file fails verification', (() => { try { verifyAuditDocument(forged, trust.audit!); return 'ACCEPTED'; } catch (e) { return (e as Error).message; } })(), 'SIGNATURE_INVALID');
 
   // Report
-  const draftBody = { opinion_as_of: '2026-07-15', method: 'Inspection of client-approved evidence packages and ORVIA-derived indicators; sampling as recorded per item.', opinion: 'Based on the evidence examined, the organisation meets one requirement in scope and partially meets the other, subject to the finding raised.', limitations: ['Evidence was limited to what the client chose to share.'] };
+  const draftBody = { opinion_as_of: '2026-07-15', executive_summary: 'Synthetic engagement: one requirement met, one partially met with a medium finding on withdrawal propagation.', supersedes_report_id: null, correction_reason: null, method: 'Inspection of client-approved evidence packages and ORVIA-derived indicators; sampling as recorded per item.', opinion: 'Based on the evidence examined, the organisation meets one requirement in scope and partially meets the other, subject to the finding raised.', limitations: ['Evidence was limited to what the client chose to share.'] };
   check('only the lead drafts', (await auditor.json(`/api/v1/vendor/engagements/${engId}/reports`, draftBody)).status, 403);
   check('report wording guard', (await lead.json(`/api/v1/vendor/engagements/${engId}/reports`, { ...draftBody, opinion: 'The organisation is certified DPDPA compliant.' })).status, 400);
   const draft = await lead.json(`/api/v1/vendor/engagements/${engId}/reports`, draftBody);
@@ -183,7 +198,8 @@ try {
   const doc = verifyAuditDocument(signed.data.signed, trust.audit!);
   const pdfOut = await lead.json(`/api/v1/vendor/reports/${draft.data.id}/pdf`);
   check('signed report verifies and binds its PDF hash', [doc.kind, doc.kind === 'REPORT' && doc.pdf_sha256 === sha256(Buffer.from(pdfOut.data.pdf_base64, 'base64')), Buffer.from(pdfOut.data.pdf_base64, 'base64').subarray(0, 5).toString()], ['REPORT', true, '%PDF-']);
-  check('signed report is immutable', await h.operator.query("UPDATE vendor.reports SET opinion='x' WHERE id=$1", [draft.data.id]).then(() => 'UPDATED', e => e.message), 'report_immutable');
+  check('signed report is immutable', await h.operator.query("UPDATE vendor.reports SET opinion='x' WHERE id=$1", [draft.data.id]).then(() => 'UPDATED', e => /^(report_immutable|approved_report_content_is_fixed)$/.test(e.message) ? 'REFUSED' : e.message), 'REFUSED');
+  check('signed state cannot be reverted', await h.operator.query("UPDATE vendor.reports SET state='DRAFT' WHERE id=$1", [draft.data.id]).then(() => 'UPDATED', e => e.message), 'report_immutable');
 
   // Retention purge
   await resetAttempts();

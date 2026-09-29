@@ -21,9 +21,11 @@ export type VendorRole = 'VENDOR_SUPER_ADMIN' | 'VENDOR_ADMIN' | 'LEAD_AUDITOR' 
 const administration = ['vendor.team.read', 'vendor.team.manage', 'organisations.read', 'organisations.manage', 'licences.read', 'licences.issue', 'engagements.read', 'engagements.manage', 'support.read', 'support.manage', 'vendor.audit.read', 'payments.read', 'vendor.overview.read'];
 const fieldwork = ['engagements.read', 'organisations.read', 'audit.fieldwork', 'support.read'];
 /** Mirrors backend/policy/vendor/authorization.rego; both must allow. */
+// Audit practice (task AUDIT-PRACTICE-01): managers record criteria and methodology, reviewers approve them and decide
+// engagement acceptance, and only the super administrator records the gates that allow real engagements and legal holds.
 export const vendorRoleCapabilities: Record<VendorRole | 'CLIENT_ACCOUNT', string[]> = {
-  VENDOR_SUPER_ADMIN: administration, VENDOR_ADMIN: administration,
-  LEAD_AUDITOR: [...fieldwork, 'audit.report.draft'], AUDITOR: fieldwork, AUDIT_REVIEWER: [...fieldwork, 'audit.report.approve'],
+  VENDOR_SUPER_ADMIN: [...administration, 'practice.manage', 'practice.activate'], VENDOR_ADMIN: [...administration, 'practice.manage'],
+  LEAD_AUDITOR: [...fieldwork, 'audit.report.draft', 'practice.manage'], AUDITOR: fieldwork, AUDIT_REVIEWER: [...fieldwork, 'audit.report.approve', 'practice.approve', 'engagement.accept'],
   CLIENT_ACCOUNT: ['packages.upload'],
 };
 export type VendorActor = {

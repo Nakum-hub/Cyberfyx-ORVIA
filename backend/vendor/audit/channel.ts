@@ -204,6 +204,8 @@ export async function channelDelivery(c: Ctx, deliveryId: string) {
 export async function createChannelRequest(c: Ctx, id: string, input: unknown, keys: Keys) {
   const v = V.ChannelRequestCreate.parse(input); const e = await requireTeam(c, id);
   if (e.state === 'CLOSED') refuse(409, 'engagement', 'closed');
+  // An auditor asks the client for evidence only on an engagement the practice has accepted (task AUDIT-PRACTICE-01).
+  if (!(await c.tx.query('SELECT vendor.engagement_accepted($1) AS ok', [id])).rows[0].ok) refuse(409, 'engagement', 'engagement_not_accepted');
   if (!(await c.tx.query('SELECT 1 FROM vendor.channels WHERE engagement_id=$1', [id])).rowCount) refuse(409, 'engagement', 'channel_not_available_use_file_exchange');
   if (v.requirement_id && !(e.scope_requirement_ids as string[]).includes(v.requirement_id)) refuse(400, 'requirement_id', 'outside_scope');
   if (v.due_date < new Date().toISOString().slice(0, 10)) refuse(400, 'due_date', 'in_the_past');

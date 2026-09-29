@@ -38,6 +38,25 @@ authorize if {
   input.role == "AUDIT_REVIEWER"
   input.capability == "audit.report.approve"
 }
+# Audit practice (task AUDIT-PRACTICE-01).
+authorize if {
+  input.actor_domain == "VENDOR_STAFF"
+  input.mfa_verified == true
+  input.role in {"VENDOR_SUPER_ADMIN", "VENDOR_ADMIN", "LEAD_AUDITOR"}
+  input.capability == "practice.manage"
+}
+authorize if {
+  input.actor_domain == "VENDOR_STAFF"
+  input.mfa_verified == true
+  input.role == "VENDOR_SUPER_ADMIN"
+  input.capability == "practice.activate"
+}
+authorize if {
+  input.actor_domain == "VENDOR_STAFF"
+  input.mfa_verified == true
+  input.role == "AUDIT_REVIEWER"
+  input.capability in {"practice.approve", "engagement.accept"}
+}
 authorize if {
   input.actor_domain == "CLIENT_ACCOUNT"
   input.mfa_verified == true

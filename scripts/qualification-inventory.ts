@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url';
 // different profile, signing, fixture, database and container prerequisites.
 const supportFiles = new Set([
   'tests/fault-fixtures/stale-sender.ts', 'tests/integration/grc/browser-harness.ts',
-  'tests/integration/vendor/harness.ts',
+  'tests/integration/vendor/harness.ts', 'tests/integration/vendor/practice-flow.ts',
   'tests/e2e/reporter.ts', 'tests/e2e/record.mjs', 'tests/e2e/playwright.config.ts',
   'tests/e2e/package.ts', 'tests/e2e/fixture.ts',
 ]);

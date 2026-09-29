@@ -1,0 +1,13 @@
+{
+  "suite": "audit-practice",
+  "database": "orvia_vendor_test_3bf12f93ff214cf8bc93b2c94ee4eee1",
+  "passed": 0,
+  "failed": 1,
+  "results": [
+    {
+      "name": "suite",
+      "result": "FAIL",
+      "detail": "Error: change-password failed 429\n    at Object.login (/home/user/Cyberfyx-ORVIA/tests/integration/vendor/harness.ts:70:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async member (/home/user/Cyberfyx-ORVIA/tests/integration/vendor/audit-practice.test.ts:39:20)\n    at async <anonymous> (/home/user/Cyberfyx-ORVIA/tests/integration/vendor/audit-practice.test.ts:40:182)"
+    }
+  ]
+}
