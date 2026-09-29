@@ -85,6 +85,14 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 - The report is drafted by the lead auditor and approved by a different reviewer.
 - Evidence retention is purged after the engagement closes.
 
+**Audit mandate (revision 1.6 addendum, 2026-09-29).**
+- The client signs one dual-approved mandate per engagement. Under it, ORVIA generates personal-data-free evidence from its own records, signs it with the installation's key, and sends it outbound only to the audit address in the trust file.
+- The evidence covers indicators, control standing and tests, notice and policy versions, an audit-trail digest, and counts over auditor-seeded samples.
+- Auditor requests inside the mandate are answered automatically. Requests for documents go to a client approver.
+- Unanswered requests past their due date become limitations in the signed report.
+- No live access exists in either direction, and anything carrying personal data still needs the per-item exception and a processing agreement.
+- Legal review of the engagement letter and DPA is pending before a real engagement (`docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md`).
+
 **Wording.** The output is an **audit opinion as of a date for a stated scope**. It is never a compliance certificate: only the Data Protection Board of India decides compliance. A unit test refuses certification wording in report templates and report text.
 
 **Limit.** Audit criteria come from the regulatory package in force. Until the official PRODUCTION package is built from the hashed Government sources (gap 6 below), the criteria are TEST_FIXTURE content and must not be relied on for a real audit.

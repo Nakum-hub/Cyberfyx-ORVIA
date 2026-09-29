@@ -56,3 +56,16 @@ test('a trust file that carries a private key is refused', () => {
   writeFileSync(join(root, '.local/profiles/acme/trust/vendor-public-keys.json'), JSON.stringify({ release: { key_id: 'r', public: 'p', private: 's' }, licence: { key_id: 'l', public: 'p' } }));
   assert.throws(() => installationTrust('acme'), /public keys only/);
 });
+test('the audit service address (revision 1.6) comes only from the trust file, and only as HTTPS or loopback', () => {
+  const root = workspace(); separate();
+  const path = join(root, '.local/profiles/acme/trust/vendor-public-keys.json'); const base = JSON.parse(readFileSync(path, 'utf8'));
+  const write = (audit_service: unknown) => writeFileSync(path, JSON.stringify({ ...base, audit_service }));
+  assert.equal(customerEnvironment({ ORVIA_AUDIT_SERVICE_URL: 'https://someone-else.example' } as unknown as NodeJS.ProcessEnv, 'acme').ORVIA_AUDIT_SERVICE_URL, undefined, 'without one in the trust file, none is passed on');
+  write({ url: 'https://audit.vendor.example.in' });
+  assert.equal(installationTrust('acme')!.audit_service?.url, 'https://audit.vendor.example.in');
+  assert.equal(customerEnvironment({} as NodeJS.ProcessEnv, 'acme').ORVIA_AUDIT_SERVICE_URL, 'https://audit.vendor.example.in');
+  assert.throws(() => customerEnvironment({ ORVIA_AUDIT_SERVICE_URL: 'https://someone-else.example' } as unknown as NodeJS.ProcessEnv, 'acme'), /differs from the installation trust file/);
+  write({ url: 'http://127.0.0.1:4340' }); assert.equal(installationTrust('acme')!.audit_service?.url, 'http://127.0.0.1:4340');
+  for (const bad of ['http://audit.vendor.example.in', 'https://u:p@audit.vendor.example.in', 'https://audit.vendor.example.in/?next=x', 'ftp://audit.vendor.example.in']) { write({ url: bad }); assert.throws(() => installationTrust('acme'), /audit_service url must be HTTPS/, bad); }
+  write({ url: 'https://audit.vendor.example.in', token: 'x' }); assert.throws(() => installationTrust('acme'), /holds only its url/);
+});

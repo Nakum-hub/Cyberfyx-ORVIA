@@ -55,7 +55,7 @@ if [ "$KIND" = customer ]; then
   step "Installing the vendor's public keys (public keys only)"
   mkdir -p .local/profiles/rehearsal/trust && chmod 700 .local/profiles/rehearsal/trust
   [ -n "$TRUST" ] && install -m 600 "$TRUST" .local/profiles/rehearsal/trust/vendor-public-keys.json
-  node --import tsx -e "import('./scripts/credentials.ts').then(m=>{const t=m.installationTrust('rehearsal');if(!t)throw new Error('trust file missing');console.log('  trust file accepted: release, licence'+(t.audit?', audit':' (no audit key: signed audit files cannot be imported)'));})"
+  node --import tsx -e "import('./scripts/credentials.ts').then(m=>{const t=m.installationTrust('rehearsal');if(!t)throw new Error('trust file missing');console.log('  trust file accepted: release, licence'+(t.audit?', audit':' (no audit key: signed audit files cannot be imported)'));console.log(t.audit_service?'  audit service address: '+t.audit_service.url+' (called only for audit mandates your approvers sign)':'  no audit service address: audit evidence moves only as files');})"
   step "TLS"
   if [ -e .local/profiles/rehearsal/tls/server-cert.pem ]; then say "TLS material already present; kept"
   elif [ -n "$CERT" ]; then

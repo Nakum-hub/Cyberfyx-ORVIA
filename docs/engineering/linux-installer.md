@@ -35,7 +35,7 @@ sudo installer/linux/orvia-install.sh --kind vendor [--service-user orvia]
 2. **Installs the pinned dependencies** (`pnpm install --frozen-lockfile`).
 3. **Customer installations only:**
    1. Creates the protected profile.
-   2. Installs the vendor's **public** keys from `--trust-file`. The file is refused if it holds anything else.
+   2. Installs the vendor's **public** keys from `--trust-file`, plus, when the vendor includes one, its audit service address (`audit_service.url`, revision 1.6). That address must be HTTPS, and it is the only address the installation ever calls, and only for audit mandates the client's approvers sign. The file is refused if it holds anything else.
    3. Imports your TLS certificate, or generates a local CA.
    4. Starts PostgreSQL, OPA and Temporal.
    5. Creates the unprivileged roles.

@@ -1,8 +1,8 @@
 # DPDPA external audit exchange
 
-Baseline: `docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md` (owner decision 2026-09-28).
-Contract: customer 0.42.0 (`shared/contracts/src/dpdpa-audit.ts`) and vendor-internal 0.1.0 (`shared/contracts/src/vendor-audit.ts`).
-File formats: `shared/contracts/src/audit-exchange.ts`.
+Baselines: `docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md` (owner decision 2026-09-28) and `docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md` (owner decision 2026-09-29; see "Audit mandate channel" below).
+Contract: customer 0.43.0 (`shared/contracts/src/dpdpa-audit.ts`) and vendor-internal 0.2.0 (`shared/contracts/src/vendor-audit.ts`).
+File formats: `shared/contracts/src/audit-exchange.ts`. Channel protocol: `shared/contracts/src/audit-channel.ts`.
 
 ## Flow
 
@@ -17,7 +17,7 @@ signed findings / report  ◀─────────────────
 verify with trust file → import → GRC issues
 ```
 
-The customer installation never contacts the vendor, and the vendor never reaches a customer installation.
+The vendor never reaches a customer installation. Under revision 1.6, a customer installation with an approved audit mandate calls one vendor address, outbound only (see below); without a mandate it contacts nothing.
 
 ## Client side (`/workspace/dpdpa-audit`, migration 0066)
 
@@ -106,3 +106,78 @@ Refusals keep no content. Accepted packages are sealed with AES-256-GCM using a 
 - **Development keys.** The audit key is a development fixture created by `credentials:separate`. Replace it and move it to vendor custody (offline or HSM) before any real report is signed.
 - **Vendor website.** Only the link target `/vendor/sign-in` is in scope. Vendor-account sign-up, subscriptions and installer downloads through the website are not built.
 - **Payments** remain a placeholder.
+
+## Audit mandate channel (revision 1.6; customer migration 0068, vendor migration 0006)
+
+```
+CLIENT (CUSTOMER_INSTALLATION)                                   VENDOR (VENDOR_SERVICE)
+mandate: draft → approve (other owner/admin)
+background worker (operations runner), per cycle:
+  check-in  ── HMAC(channel key) + installation-signed mandate ──▶ /api/v1/vendor/channel/check-in
+            ◀── audit-key-signed instructions + signed requests ──  pins installation key, records mandate
+  decide requests: inside mandate → answer; document → client approver; else → refuse
+  snapshot / responses ── installation-signed delivery ──────────▶ /api/v1/vendor/channel/deliveries
+            ◀── audit-key-signed receipt (ACCEPTED / REFUSED) ─────  chain check, stored for the team
+  packages a person queued ── sealed package file ───────────────▶ /api/v1/vendor/channel/packages
+            ◀── audit-key-signed package receipt ──────────────────  same verification as uploads
+```
+
+**Keys.**
+- **Channel key:** `HMAC-SHA256(normalised engagement code, "orvia-audit-channel-v1")`.
+  - The vendor seals it under its vault key (`vendor.channels`).
+  - The client stores it in `app.audit_channel_keys`, which only the worker can read.
+  - Neither side keeps the code.
+- **Installation evidence key:** Ed25519, created by the worker when it first services a mandate (`app.installation_evidence_keys`). The private half is sealed with a key derived from the installation's principal secret. The vendor pins the public key at the first authenticated check-in and refuses a different key afterwards.
+- **Vendor audit key:** it signs:
+  - the check-in answer;
+  - each request;
+  - each delivery receipt;
+  - each package receipt.
+
+  The client verifies them against the audit public key in its trust file.
+- **Address:** `audit_service.url` in `trust/vendor-public-keys.json`. HTTPS is required, except plain HTTP to loopback in development. It carries no credentials, query or fragment. The installer copies the file the vendor supplies.
+
+**Evidence categories.** Automatic, and personal-data-free only (`backend/domain/src/dpdpa-audit/evidence.ts`):
+- INDICATORS
+- CONTROL_STANDING
+- CONTROL_TESTS
+- NOTICE_VERSIONS
+- POLICY_VERSIONS
+- ACTIVITY_LOG_DIGEST
+- SAMPLE_COUNTS (answers to seeded samples only)
+
+The worker reads the evidence sources only while an active mandate exists in its scope (`app.mandate_collector()`, capability `audit_evidence.collect`), and never reads evidence file content.
+
+**Sampling.** The vendor server draws the seed when the auditor issues the request. The client selects the members of the population ordered by `HMAC-SHA256(seed, id)` and returns only:
+- the count passing;
+- the size;
+- a digest of the selected identifiers.
+
+**Delivery chain.**
+- Each delivery names the vendor's next sequence and the digest of the last accepted delivery.
+- A delivery that does not follow is still accepted, but the chain is marked broken for good and shown to the team and to leadership.
+- A timeout leaves the delivery UNKNOWN. The same signed delivery is resent, and the vendor answers a repeat with the original receipt.
+
+**Client decisions.**
+- An owner or administrator declines an evidence-file request with a reason, or answers it with an approved package, which the worker sends over the channel.
+- Suspending, revoking or closing the engagement stops everything; the new state is reported once.
+- Every mandate, delivery and channel submission is listed on vendor visibility.
+
+**Vendor.**
+- **Engagement team:** the engagement page shows:
+  - the mandate as signed;
+  - channel health and the chain;
+  - requests;
+  - the evidence timeline, with each delivery's signed entries.
+- **Checklist:** it counts mandate evidence per requirement.
+- **Report:** unanswered or declined requests past their due date are added to the signed report as limitations.
+- **Leadership:** `/vendor` shows `vendor.overview()`, counts only, to super administrators and administrators.
+
+**Verification (2026-09-29).**
+- `tests/unit/audit-channel.test.ts`: 9/9.
+- `tests/integration/expansion/audit-mandate.test.ts`: 64/64. It runs the real worker code and an isolated vendor installation.
+- `tests/e2e/audit-mandate-local.ts`: 14/14 in Chromium, with the worker calling vendor-a00 over HTTP.
+- **NOT_RUN:**
+  - the channel over real TLS to a separately hosted vendor;
+  - a long-running supervisor servicing a mandate across days;
+  - Firefox and WebKit.
