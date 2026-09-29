@@ -6,6 +6,7 @@ import type { Context } from '../shared/transaction.ts';
 import { audit } from '../shared/transaction.ts';
 import { predicate, scope } from '../operations/shared.ts';
 import { collect, sampleCount } from './evidence.ts';
+import { verifyAuditDocument, sha256 } from '../../../../shared/contracts/src/audit-exchange.ts';
 
 /**
  * Client side of the DPDPA audit mandate channel (revision 1.6 addendum), run
@@ -23,7 +24,17 @@ import { collect, sampleCount } from './evidence.ts';
  *     for a file, refused when it is outside the mandate or past its due date;
  *  4. resends any delivery whose outcome is not yet known, then generates,
  *     signs and sends the due snapshot and the automatic responses;
- *  5. sends packages a person queued for the channel.
+ *  5. sends packages a person queued for the channel;
+ *  6. stages signed audit documents the vendor offered (a person imports them)
+ *     and sends management responses two people approved (task AUDIT-PRACTICE-01).
+ *
+ * One worker services a mandate at a time (a lease on the mandate row that lapses
+ * after five minutes if a worker dies). The mandate is re-read before every
+ * generation and every send: a suspension, revocation or end recorded by staff
+ * takes effect at the next send boundary. A send already in flight completes or
+ * becomes UNKNOWN; after a revocation or end, queued items are marked FAILED
+ * without being sent and UNKNOWN items stay UNKNOWN (their effect at the vendor
+ * cannot be known and is never presented as delivered).
  * Every outcome is durable. A delivery moves to ACCEPTED or REFUSED only on a
  * receipt that verifies against the audit key; a timeout is UNKNOWN and the
  * same signed delivery is sent again (the vendor answers a repeat with the
@@ -33,9 +44,12 @@ type Row = QueryResultRow;
 export type Transport = (url: string, init: { method: 'POST'; headers: Record<string, string>; body: Buffer }) => Promise<{ status: number; text: string }>;
 export type ChannelEnv = {
   address: string | null; auditKey: { key_id: string; public: string } | null; sealKey: Buffer;
-  checkInSeconds?: number; transport?: Transport; timeoutMs?: number;
+  checkInSeconds?: number; transport?: Transport; timeoutMs?: number; workerId?: string;
+  /** Test seam: called just before each send, after the mandate was re-read. */
+  beforeSend?: (what: string) => Promise<void>;
 };
-export type ChannelReport = { mandates: number; check_ins: number; deliveries_accepted: number; deliveries_refused: number; deliveries_pending: number; requests_received: number; requests_for_approval: number; packages_sent: number; errors: string[] };
+export type ChannelReport = { mandates: number; check_ins: number; deliveries_accepted: number; deliveries_refused: number; deliveries_pending: number; requests_received: number; requests_for_approval: number; packages_sent: number;
+  documents_received: number; responses_sent: number; leased_elsewhere: number; stopped_by_mandate: number; errors: string[] };
 type Scoped = <T>(work: (c: Context) => Promise<T>) => Promise<T>;
 type Post = { outcome: 'OK'; status: number; json: unknown } | { outcome: 'FAILED' | 'UNKNOWN'; status: number | null; error: string };
 const MAX_ATTEMPTS = 20;
@@ -57,7 +71,9 @@ export async function post(env: ChannelEnv, path: string, digest: string, key: B
   let response: { status: number; text: string };
   try { response = await (env.transport ?? nodeTransport)(new URL(path, address.data).toString(), { method: 'POST', headers, body }); }
   catch (error) {
-    const code = String((error as { code?: string; name?: string }).code ?? (error as { name?: string }).name ?? 'NETWORK_ERROR').slice(0, 40);
+    // Node's fetch wraps the socket error: the reason a connection was never made is on its cause.
+    const e = error as { code?: string; name?: string; cause?: { code?: string } };
+    const code = String(e.cause?.code ?? e.code ?? e.name ?? 'NETWORK_ERROR').slice(0, 40);
     return { outcome: ['ECONNREFUSED', 'ENOTFOUND', 'EAI_AGAIN', 'CERT_HAS_EXPIRED', 'DEPTH_ZERO_SELF_SIGNED_CERT', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'].includes(code) ? 'FAILED' : 'UNKNOWN', status: null, error: code };
   }
   if (response.status >= 300 && response.status < 400) return { outcome: 'FAILED', status: response.status, error: 'REDIRECT_NOT_FOLLOWED' };
@@ -89,7 +105,9 @@ function mandateDocument(m: Row, e: Row, key: C.EvidenceKey): C.MandateDocument 
 const ackOutcome = (r: Row): C.Acknowledgement['outcome'] | null => r.decision === 'DELIVERED' ? 'DELIVERED' : r.decision === 'REFUSED' ? 'REFUSED' : r.decision === 'AWAITING_CLIENT_APPROVAL' ? 'AWAITING_CLIENT_APPROVAL' : null;
 
 export async function channelSweep(run: Scoped, env: ChannelEnv, now = new Date()): Promise<ChannelReport> {
-  const report: ChannelReport = { mandates: 0, check_ins: 0, deliveries_accepted: 0, deliveries_refused: 0, deliveries_pending: 0, requests_received: 0, requests_for_approval: 0, packages_sent: 0, errors: [] };
+  const report: ChannelReport = { mandates: 0, check_ins: 0, deliveries_accepted: 0, deliveries_refused: 0, deliveries_pending: 0, requests_received: 0, requests_for_approval: 0, packages_sent: 0,
+    documents_received: 0, responses_sent: 0, leased_elsewhere: 0, stopped_by_mandate: 0, errors: [] };
+  const worker = env.workerId ?? randomUUID();
   const checkInSeconds = Math.max(60, env.checkInSeconds ?? 900);
   const due = await run(async c => {
     await c.tx.query(`UPDATE app.audit_mandates SET state='ENDED', state_changed_at=clock_timestamp(), state_reason='End date reached' WHERE ${predicate} AND state IN ('ACTIVE','SUSPENDED') AND valid_to<=clock_timestamp()`, scope(c));
@@ -97,6 +115,7 @@ export async function channelSweep(run: Scoped, env: ChannelEnv, now = new Date(
         (m.state='ACTIVE' AND m.valid_from<=$4 AND (m.last_check_in_at IS NULL OR m.last_check_in_at<=$4::timestamptz-make_interval(secs=>$5) OR m.next_collection_at<=$4
           OR EXISTS (SELECT 1 FROM app.audit_channel_deliveries d WHERE d.tenant_id=m.tenant_id AND d.legal_entity_id=m.legal_entity_id AND d.environment_id=m.environment_id AND d.mandate_id=m.id AND d.state IN ('QUEUED','UNKNOWN'))
           OR EXISTS (SELECT 1 FROM app.audit_package_submissions s WHERE s.tenant_id=m.tenant_id AND s.legal_entity_id=m.legal_entity_id AND s.environment_id=m.environment_id AND s.engagement_id=m.engagement_id AND s.state IN ('QUEUED','UNKNOWN'))
+          OR EXISTS (SELECT 1 FROM app.audit_finding_responses f WHERE f.tenant_id=m.tenant_id AND f.legal_entity_id=m.legal_entity_id AND f.environment_id=m.environment_id AND f.engagement_id=m.engagement_id AND f.state IN ('QUEUED','UNKNOWN'))
           OR EXISTS (SELECT 1 FROM app.audit_channel_requests r WHERE r.tenant_id=m.tenant_id AND r.legal_entity_id=m.legal_entity_id AND r.environment_id=m.environment_id AND r.mandate_id=m.id
             AND ((r.decision='ANSWER_AUTOMATICALLY' AND r.delivery_id IS NULL) OR (r.decision<>'ANSWER_AUTOMATICALLY' AND r.acknowledged_state IS DISTINCT FROM r.decision)))))
         OR (m.state IN ('SUSPENDED','REVOKED','ENDED') AND m.reported_state IS DISTINCT FROM m.state))
@@ -109,8 +128,13 @@ export async function channelSweep(run: Scoped, env: ChannelEnv, now = new Date(
   }
   for (const m of due) {
     report.mandates++;
+    // One worker per mandate: the lease is taken atomically and lapses on its own if this worker dies.
+    const leased = await run(async c => (await c.tx.query(`UPDATE app.audit_mandates SET channel_lease_owner=$5, channel_lease_until=clock_timestamp()+interval '5 minutes'
+      WHERE ${predicate} AND id=$4 AND (channel_lease_until IS NULL OR channel_lease_until<clock_timestamp() OR channel_lease_owner=$5) RETURNING id`, [...scope(c), m.id, worker])).rowCount);
+    if (!leased) { report.leased_elsewhere++; continue; }
     try { await serviceMandate(run, env, m.id, report, now); }
     catch (error) { report.errors.push(`mandate ${m.id}: ${String((error as { code?: string; message?: string }).code ?? (error as Error).message).slice(0, 80)}`); }
+    finally { await run(c => c.tx.query(`UPDATE app.audit_mandates SET channel_lease_owner=NULL, channel_lease_until=NULL WHERE ${predicate} AND id=$4 AND channel_lease_owner=$5`, [...scope(c), m.id, worker])).catch(() => {}); }
   }
   return report;
 }
@@ -133,7 +157,8 @@ async function checkIn(run: Scoped, env: ChannelEnv, l: Loaded, report: ChannelR
   const signedMandate = C.signByInstallation(mandateDocument(l.m, l.e, l.evidence), l.evidence);
   const pending = await run(async c => (await c.tx.query(`SELECT * FROM app.audit_channel_requests WHERE ${predicate} AND mandate_id=$4 AND decision<>'ANSWER_AUTOMATICALLY' AND acknowledged_state IS DISTINCT FROM decision ORDER BY received_at LIMIT 200`, [...scope(c), l.m.id])).rows);
   const acknowledgements = pending.map(r => C.Acknowledgement.parse({ request_id: r.id, outcome: ackOutcome(r)!, reason: r.decision_reason, delivery_id: r.delivery_id, package_id: r.package_id }));
-  const body = Buffer.from(JSON.stringify(C.CheckInBody.parse({ installation_public_key: l.evidence.public, signed_mandate: signedMandate, acknowledgements })), 'utf8');
+  const unacknowledged = await run(async c => (await c.tx.query(`SELECT id FROM app.audit_channel_documents WHERE ${predicate} AND engagement_id=$4 AND acknowledged_at IS NULL ORDER BY received_at LIMIT 20`, [...scope(c), l.m.engagement_id])).rows.map(r => r.id as string));
+  const body = Buffer.from(JSON.stringify(C.CheckInBody.parse({ installation_public_key: l.evidence.public, signed_mandate: signedMandate, acknowledgements, documents_received: unacknowledged })), 'utf8');
   const result = await post(env, C.CHANNEL_PATHS.checkIn, l.e.code_digest, l.key, body, C.CHANNEL_CONTENT_TYPE);
   if (result.outcome !== 'OK') { await problem(run, l.m.id, `CHECK_IN_${result.error}`); return null; }
   let instructions: C.ChannelInstructions;
@@ -145,8 +170,10 @@ async function checkIn(run: Scoped, env: ChannelEnv, l: Loaded, report: ChannelR
     await c.tx.query(`UPDATE app.audit_mandates SET reported_state=state, last_check_in_at=clock_timestamp(), channel_problem=$5, vendor_next_sequence=$6, vendor_last_digest=$7 WHERE ${predicate} AND id=$4`,
       [...scope(c), l.m.id, instructions.mandate.accepted ? null : instructions.mandate.problem ?? 'MANDATE_NOT_ACCEPTED', instructions.next_sequence, instructions.last_digest]);
     for (const r of pending) await c.tx.query(`UPDATE app.audit_channel_requests SET acknowledged_state=$5 WHERE ${predicate} AND id=$4`, [...scope(c), r.id, r.decision]);
+    if (unacknowledged.length) await c.tx.query(`UPDATE app.audit_channel_documents SET acknowledged_at=clock_timestamp() WHERE ${predicate} AND id=ANY($4::uuid[]) AND acknowledged_at IS NULL`, [...scope(c), unacknowledged]);
     await audit(c, 'audit_channel.checked_in', l.m.id);
   });
+  await stageDocuments(run, env, l, instructions, report);
   return instructions;
 }
 
@@ -230,6 +257,8 @@ async function generate(run: Scoped, l: Loaded, chain: Chain, kind: 'SNAPSHOT' |
 async function sendPackages(run: Scoped, env: ChannelEnv, l: Loaded, report: ChannelReport) {
   const queued = await run(async c => (await c.tx.query(`SELECT * FROM app.audit_package_submissions WHERE ${predicate} AND engagement_id=$4 AND state IN ('QUEUED','UNKNOWN') ORDER BY requested_at LIMIT 5`, [...scope(c), l.m.engagement_id])).rows);
   for (const s of queued) {
+    if (!(await stillOpen(run, l, report))) return;
+    await env.beforeSend?.('package');
     const result = await post(env, C.CHANNEL_PATHS.packages, l.e.code_digest, l.key, s.package_file as Buffer, 'application/vnd.orvia.audit-package+json');
     let receipt: C.PackageReceipt | null = null;
     if (result.outcome === 'OK') { try { receipt = C.verifyVendorSigned(result.json, env.auditKey!, C.PackageReceipt); } catch { receipt = null; } }
@@ -250,6 +279,73 @@ async function sendPackages(run: Scoped, env: ChannelEnv, l: Loaded, report: Cha
   }
 }
 
+/** Stages each signed document the vendor offered, after the same checks a file import makes; a person imports it. */
+async function stageDocuments(run: Scoped, env: ChannelEnv, l: Loaded, instructions: C.ChannelInstructions, report: ChannelReport) {
+  for (const d of instructions.documents) {
+    let document;
+    try { document = verifyAuditDocument(d.signed, env.auditKey!); } catch { report.errors.push('audit channel: an offered document did not verify against the audit key and was ignored'); continue; }
+    if (document.engagement_code_digest !== l.e.code_digest || document.kind !== d.kind) { report.errors.push('audit channel: an offered document named another engagement or kind and was ignored'); continue; }
+    const pdf = d.pdf_base64 ? Buffer.from(d.pdf_base64, 'base64') : null;
+    if (document.kind === 'REPORT' && (!pdf || sha256(pdf) !== document.pdf_sha256)) { report.errors.push('audit channel: an offered report came without its matching PDF and was ignored'); continue; }
+    const inserted = await run(async c => (await c.tx.query(`INSERT INTO app.audit_channel_documents (tenant_id, legal_entity_id, environment_id, id, engagement_id, kind, signed, pdf) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`,
+      [...scope(c), d.document_id, l.m.engagement_id, d.kind, JSON.stringify(d.signed), document.kind === 'REPORT' ? pdf : null])).rowCount);
+    if (inserted) { report.documents_received++; await run(c => audit(c, 'audit_channel.document_staged', d.document_id)); }
+  }
+}
+/**
+ * Re-reads the mandate before a generation or send. When it is no longer open, what is queued is settled:
+ * after a revocation or end, queued items fail unsent and UNKNOWN items are marked as such for good; a suspension leaves them queued.
+ */
+async function stillOpen(run: Scoped, l: Loaded, report: ChannelReport, now = new Date()): Promise<boolean> {
+  const m = await run(async c => (await c.tx.query(`SELECT state, valid_from, valid_to FROM app.audit_mandates WHERE ${predicate} AND id=$4`, [...scope(c), l.m.id])).rows[0]);
+  if (m && C.mandateOpen({ state: m.state, valid_from: iso(m.valid_from), valid_to: iso(m.valid_to) }, now)) return true;
+  report.stopped_by_mandate++;
+  const state = m?.state === 'REVOKED' || m?.state === 'ENDED' ? m.state : m && new Date(m.valid_to) <= now ? 'EXPIRED' : m?.state ?? 'MISSING';
+  if (['REVOKED', 'ENDED', 'EXPIRED', 'MISSING'].includes(state)) {
+    await run(async c => {
+      await c.tx.query(`UPDATE app.audit_channel_deliveries SET state=CASE WHEN state='QUEUED' THEN 'FAILED' ELSE state END, last_error=CASE WHEN state='QUEUED' THEN $5 ELSE $6 END WHERE ${predicate} AND mandate_id=$4 AND state IN ('QUEUED','UNKNOWN')`,
+        [...scope(c), l.m.id, `MANDATE_${state}_BEFORE_SENDING`, `MANDATE_${state}_OUTCOME_UNKNOWN`]);
+      await c.tx.query(`UPDATE app.audit_finding_responses SET state=CASE WHEN state='QUEUED' THEN 'FAILED' ELSE state END, last_error=CASE WHEN state='QUEUED' THEN $5 ELSE $6 END WHERE ${predicate} AND engagement_id=$4 AND state IN ('QUEUED','UNKNOWN')`,
+        [...scope(c), l.m.engagement_id, `MANDATE_${state}_BEFORE_SENDING`, `MANDATE_${state}_OUTCOME_UNKNOWN`]);
+      await c.tx.query(`UPDATE app.audit_package_submissions SET state=CASE WHEN state='QUEUED' THEN 'FAILED' ELSE state END, last_error=CASE WHEN state='QUEUED' THEN $5 ELSE $6 END WHERE ${predicate} AND engagement_id=$4 AND state IN ('QUEUED','UNKNOWN')`,
+        [...scope(c), l.m.engagement_id, `MANDATE_${state}_BEFORE_SENDING`, `MANDATE_${state}_OUTCOME_UNKNOWN`]);
+      await audit(c, 'audit_channel.stopped_by_mandate', l.m.id);
+    });
+  }
+  return false;
+}
+/** Signs (once) and sends each approved management response; the vendor answers with a signed receipt. */
+async function sendResponses(run: Scoped, env: ChannelEnv, l: Loaded, report: ChannelReport, now: Date) {
+  const queued = await run(async c => (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND engagement_id=$4 AND state IN ('QUEUED','UNKNOWN') ORDER BY approved_at LIMIT 20`, [...scope(c), l.m.engagement_id])).rows);
+  for (let r of queued) {
+    if (!(await stillOpen(run, l, report))) return;
+    if (!r.signed) {
+      const k = r.content as Record<string, unknown>;
+      const document = C.ResponseDocument.parse({ format: 'orvia.dpdpa-audit-finding-response', format_version: 1, response_id: r.id, engagement_code_digest: l.e.code_digest, installation_id: l.m.installation_id, finding_id: r.finding_id,
+        factual_accuracy: k.factual_accuracy, agreement: k.agreement, response: k.response, action_plan: k.action_plan, owner_role: k.owner_role, due_date: k.due_date, dependencies: k.dependencies, remediation_status: k.remediation_status,
+        risk_acceptance: k.risk_acceptance, remediation_reference: k.remediation_reference, approval: { preparer_role: 'CLIENT_STAFF', approver_role: r.approved_role, distinct_people: true, approved_at: iso(r.approved_at) }, generated_at: now.toISOString() });
+      const signed = C.signByInstallation(document, l.evidence);
+      r = await run(async c => (await c.tx.query(`UPDATE app.audit_finding_responses SET signed=$5, digest=$6 WHERE ${predicate} AND id=$4 RETURNING *`, [...scope(c), r.id, JSON.stringify(signed), C.signedDigest(signed)])).rows[0]);
+    }
+    await env.beforeSend?.('response');
+    const result = await post(env, C.CHANNEL_PATHS.responses, l.e.code_digest, l.key, Buffer.from(JSON.stringify(C.ResponseBody.parse({ signed_response: r.signed })), 'utf8'), C.CHANNEL_CONTENT_TYPE);
+    let receipt: C.ResponseReceipt | null = null;
+    if (result.outcome === 'OK') { try { receipt = C.verifyVendorSigned(result.json, env.auditKey!, C.ResponseReceipt); } catch { receipt = null; } }
+    if (receipt && receipt.response_id === r.id && receipt.response_digest === r.digest) {
+      await run(async c => {
+        await c.tx.query(`UPDATE app.audit_finding_responses SET state=$5, outcome=$6, receipt=$7, attempts=attempts+1, last_error=NULL, completed_at=clock_timestamp() WHERE ${predicate} AND id=$4`,
+          [...scope(c), r.id, receipt!.outcome, receipt!.outcome === 'ACCEPTED' ? 'ACCEPTED' : (receipt!.reasons[0] ?? 'REFUSED').slice(0, 80), JSON.stringify(result.outcome === 'OK' ? result.json : null)]);
+        await audit(c, `audit_finding_response.${receipt!.outcome.toLowerCase()}`, r.id);
+      });
+      report.responses_sent++;
+      continue;
+    }
+    const final = result.outcome === 'FAILED' && result.status !== null && result.status < 500 || r.attempts + 1 >= MAX_ATTEMPTS;
+    await run(c => c.tx.query(`UPDATE app.audit_finding_responses SET state=$5, attempts=attempts+1, last_error=$6 WHERE ${predicate} AND id=$4`,
+      [...scope(c), r.id, final ? 'FAILED' : result.outcome === 'FAILED' ? 'QUEUED' : 'UNKNOWN', (result.outcome === 'OK' ? 'RECEIPT_NOT_VERIFIED' : result.error).slice(0, 80)]));
+  }
+}
+
 async function serviceMandate(run: Scoped, env: ChannelEnv, mandateId: string, report: ChannelReport, now: Date) {
   const l = await load(run, env, mandateId);
   const instructions = await checkIn(run, env, l, report);
@@ -260,12 +356,24 @@ async function serviceMandate(run: Scoped, env: ChannelEnv, mandateId: string, r
   // Deliveries whose outcome is not yet known go first, in order; a new one is generated only once they are settled.
   const unsettled = await run(async c => (await c.tx.query(`SELECT * FROM app.audit_channel_deliveries WHERE ${predicate} AND mandate_id=$4 AND state IN ('QUEUED','UNKNOWN') ORDER BY created_at, sequence`, [...scope(c), l.m.id])).rows);
   // Each is resent exactly as signed: if it landed, the vendor returns the original receipt; if not, its receipt now decides.
-  for (const row of unsettled) if (!(await send(run, env, l, row, chain, report))) return;
+  for (const row of unsettled) { if (!(await stillOpen(run, l, report))) return; await env.beforeSend?.('delivery'); if (!(await send(run, env, l, row, chain, report))) return; }
   const answers = await run(async c => (await c.tx.query(`SELECT request FROM app.audit_channel_requests WHERE ${predicate} AND mandate_id=$4 AND decision='ANSWER_AUTOMATICALLY' AND delivery_id IS NULL ORDER BY received_at LIMIT 20`, [...scope(c), l.m.id])).rows);
-  for (const a of answers) { const row = await generate(run, l, chain, 'RESPONSE', C.AuditorRequest.parse(a.request), now); if (!(await send(run, env, l, row, chain, report))) return; }
+  for (const a of answers) {
+    if (!(await stillOpen(run, l, report))) return;
+    const row = await generate(run, l, chain, 'RESPONSE', C.AuditorRequest.parse(a.request), now);
+    if (!(await stillOpen(run, l, report))) return; await env.beforeSend?.('delivery');
+    if (!(await send(run, env, l, row, chain, report))) return;
+  }
   const fresh = await run(async c => (await c.tx.query(`SELECT next_collection_at FROM app.audit_mandates WHERE ${predicate} AND id=$4`, [...scope(c), l.m.id])).rows[0]);
-  if (fresh.next_collection_at && new Date(fresh.next_collection_at) <= now) { const row = await generate(run, l, chain, 'SNAPSHOT', null, now); if (!(await send(run, env, l, row, chain, report))) return; }
+  if (fresh.next_collection_at && new Date(fresh.next_collection_at) <= now) {
+    if (!(await stillOpen(run, l, report))) return;
+    const row = await generate(run, l, chain, 'SNAPSHOT', null, now);
+    if (!(await stillOpen(run, l, report))) return; await env.beforeSend?.('delivery');
+    if (!(await send(run, env, l, row, chain, report))) return;
+  }
+  if (!(await stillOpen(run, l, report))) return;
   await sendPackages(run, env, l, report);
+  await sendResponses(run, env, l, report, now);
   // Decisions made in this cycle are reported at once rather than at the next check-in.
   const unreported = await run(async c => (await c.tx.query(`SELECT 1 FROM app.audit_channel_requests WHERE ${predicate} AND mandate_id=$4 AND decision<>'ANSWER_AUTOMATICALLY' AND acknowledged_state IS DISTINCT FROM decision LIMIT 1`, [...scope(c), l.m.id])).rowCount);
   if (unreported) await checkIn(run, env, { ...l, m: (await load(run, env, mandateId)).m }, report);

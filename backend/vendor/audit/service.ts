@@ -347,6 +347,8 @@ const FIRM_NAME = () => process.env.ORVIA_AUDIT_FIRM_NAME ?? 'ORVIA audit practi
 export async function storeSigned(c: Ctx, id: string, kind: string, signed: ReturnType<typeof signAuditDocument>) {
   const docId = randomUUID();
   await c.tx.query('INSERT INTO vendor.signed_documents (id, engagement_id, kind, document, signing_key_id, signature, signed_by) VALUES ($1,$2,$3,$4,$5,$6,$7)', [docId, id, kind, JSON.stringify(signed.document), signed.signing_key_id, signed.signature, c.actor.actor_id]);
+  // Offered to the client installation at its next check-in when the engagement has a channel (task AUDIT-PRACTICE-01); the file route stays available.
+  if ((await c.tx.query('SELECT 1 FROM vendor.channels WHERE engagement_id=$1', [id])).rowCount) await c.tx.query('INSERT INTO vendor.channel_documents (document_id, engagement_id) VALUES ($1,$2)', [docId, id]);
   await audit(c, `vendor.audit.${kind.toLowerCase()}-signed`, docId);
   return docId;
 }

@@ -38,8 +38,11 @@ const expansionNames = Object.keys(expansionSchemas);
  *  and FR-M12-04 turns on exactly that distinction.
  *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
  *  quarantine and consent reconciliation. Additive again: no existing route,
- *  schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.43.0' as const;
+ *  schema or wire meaning changed.
+ *  0.44.0 adds the audit channel round trip (task AUDIT-PRACTICE-01): signed
+ *  auditor documents staged for import and dual-approved management responses.
+ *  Additive: AuditChannel gains documents and responses; four new routes. */
+export const CONTRACT_VERSION = '0.44.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */

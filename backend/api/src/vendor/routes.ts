@@ -189,13 +189,13 @@ async function upload(request: Request, r: VendorRuntime, requestId: string) {
  */
 async function channel(request: Request, url: URL, r: VendorRuntime) {
   const kind = url.pathname.slice(`${BASE}/channel/`.length);
-  if (request.method !== 'POST' || !['check-in', 'deliveries', 'packages'].includes(kind)) throw new AccessError(404, 'NOT_FOUND');
+  if (request.method !== 'POST' || !['check-in', 'deliveries', 'packages', 'responses'].includes(kind)) throw new AccessError(404, 'NOT_FOUND');
   if (request.headers.has('cookie') || request.headers.has('authorization')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_session_credentials_accepted' }]);
   const maximum = kind === 'packages' ? MAX_UPLOAD : MAX_CHANNEL_BODY_BYTES;
   if (Number(request.headers.get('content-length') ?? '0') > maximum) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
   const body = await boundedBytes(request, maximum);
   if (!body) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
-  const result = await CH.channelCall(r.pool, keys(r), { kind: kind as 'check-in' | 'deliveries' | 'packages', digest: request.headers.get(CHANNEL_HEADERS.engagement),
+  const result = await CH.channelCall(r.pool, keys(r), { kind: kind as 'check-in' | 'deliveries' | 'packages' | 'responses', digest: request.headers.get(CHANNEL_HEADERS.engagement),
     timestamp: request.headers.get(CHANNEL_HEADERS.timestamp), signature: request.headers.get(CHANNEL_HEADERS.signature), contentType: request.headers.get('content-type')?.split(';')[0] ?? null, body });
   return Response.json(result.body, { status: result.status });
 }

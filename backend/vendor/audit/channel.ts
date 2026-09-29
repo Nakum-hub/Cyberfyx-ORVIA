@@ -26,7 +26,7 @@ const iso = (v: unknown) => v === null || v === undefined ? null : (v as Date).t
 const day = (v: unknown) => v === null || v === undefined ? null : typeof v === 'string' ? v.slice(0, 10) : new Date((v as Date).getTime() - (v as Date).getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 const refuse = (status: number, field: string, code: string): never => { throw new AccessError(status, status === 404 ? 'NOT_FOUND' : status === 403 ? 'FORBIDDEN' : 'VALIDATION_ERROR', [{ field, code }]); };
 
-export type ChannelCall = { kind: 'check-in' | 'deliveries' | 'packages'; digest: string | null; timestamp: string | null; signature: string | null; contentType: string | null; body: Buffer };
+export type ChannelCall = { kind: 'check-in' | 'deliveries' | 'packages' | 'responses'; digest: string | null; timestamp: string | null; signature: string | null; contentType: string | null; body: Buffer };
 type Bound = { engagementId: string; tx: pg.PoolClient };
 
 async function asInstallation<T>(pool: Pool, engagementId: string | null, work: (tx: pg.PoolClient) => Promise<T>) {
@@ -64,6 +64,7 @@ export async function channelCall(pool: Pool, keys: Keys, call: ChannelCall, now
     const b: Bound = { engagementId: found.engagement_id, tx };
     if (call.kind === 'check-in') return { status: 200, body: await checkIn(b, keys, call.body, now) };
     if (call.kind === 'deliveries') return { status: 200, body: await delivery(b, keys, call.body, now) };
+    if (call.kind === 'responses') return { status: 200, body: await managementResponse(b, keys, call.body, now) };
     return { status: 200, body: await packageOverChannel(b, keys, call.digest!, call.body, now) };
   });
 }
@@ -86,8 +87,8 @@ function mandateProblem(m: C.MandateDocument, ctx: pg.QueryResultRow): string | 
 async function checkIn(b: Bound, keys: Keys, raw: Buffer, now: Date) {
   const body = parse(C.CheckInBody, jsonOf(raw));
   let ctx = await context(b);
-  const instructions = (mandate: { mandate_id: string; accepted: boolean; problem: string | null }, requests: unknown[]) => C.signByVendor(C.ChannelInstructions.parse({
-    kind: 'CHANNEL_INSTRUCTIONS', engagement_code_digest: ctx.code_digest, issued_at: now.toISOString(), mandate, next_sequence: ctx.next_sequence, last_digest: ctx.last_digest, requests }), keys.audit());
+  const instructions = (mandate: { mandate_id: string; accepted: boolean; problem: string | null }, requests: unknown[], documents: C.ChannelInstructions['documents'] = []) => C.signByVendor(C.ChannelInstructions.parse({
+    kind: 'CHANNEL_INSTRUCTIONS', engagement_code_digest: ctx.code_digest, issued_at: now.toISOString(), mandate, next_sequence: ctx.next_sequence, last_digest: ctx.last_digest, requests, documents }), keys.audit());
   const keyId = C.evidenceKeyId(body.installation_public_key);
   const pin = (await b.tx.query('SELECT vendor.channel_pin_key($1,$2) AS r', [body.installation_public_key, keyId])).rows[0].r as string;
   const presented = (body.signed_mandate.document as { mandate_id?: unknown })?.mandate_id;
@@ -111,9 +112,36 @@ async function checkIn(b: Bound, keys: Keys, raw: Buffer, now: Date) {
   // Requests flow only while the mandate the client signed is open: nothing is asked of a suspended, revoked or ended mandate.
   const open = !problem && C.mandateOpen(mandate, now);
   const requests = open ? (await b.tx.query('SELECT signed FROM vendor.channel_pending_requests()')).rows.map(r => r.signed) : [];
+  // Signed findings, request lists and reports the client has not yet acknowledged; acknowledged ones are not offered again.
+  if (!problem) for (const id of body.documents_received) await b.tx.query('SELECT vendor.channel_acknowledge_document($1)', [id]);
+  const documents = open ? (await b.tx.query('SELECT * FROM vendor.channel_offered_documents()')).rows.map(d => ({ document_id: d.document_id, kind: d.kind,
+    signed: { algorithm: 'Ed25519', signing_key_id: d.signing_key_id, document: d.document, signature: d.signature }, pdf_base64: d.pdf ? (d.pdf as Buffer).toString('base64') : null })) : [];
   await b.tx.query('SELECT vendor.channel_checked_in($1)', [problem ?? (open ? 'OK' : `MANDATE_${mandate.state}`)]);
   ctx = await context(b);
-  return instructions({ mandate_id: mandate.mandate_id, accepted: !problem, problem }, requests);
+  return instructions({ mandate_id: mandate.mandate_id, accepted: !problem, problem }, requests, documents);
+}
+
+/**
+ * A management response the client installation sends (task AUDIT-PRACTICE-01): verified against the pinned installation key,
+ * recorded once against a finding of this engagement, answered with a signed receipt. A repeat gets an ACCEPTED receipt again.
+ */
+async function managementResponse(b: Bound, keys: Keys, raw: Buffer, now: Date) {
+  const body = parse(C.ResponseBody, jsonOf(raw));
+  const ctx = await context(b);
+  if (!ctx.installation_public_key) throw new AccessError(409, 'VALIDATION_ERROR', [{ field: 'channel', code: 'check_in_required' }]);
+  let d: C.ResponseDocument;
+  try { d = C.verifyInstallationSigned(body.signed_response, ctx.installation_public_key, C.ResponseDocument); }
+  catch (error) {
+    await b.tx.query('SELECT vendor.channel_refused($1,$2,$3)', [b.engagementId, 'REFUSED', (error as Error).message === 'SIGNATURE_INVALID' ? 'RESPONSE_SIGNATURE_INVALID' : 'RESPONSE_INVALID']);
+    throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'signed_response', code: 'not_a_valid_signed_response' }]);
+  }
+  const digest = C.signedDigest(body.signed_response);
+  const receipt = (outcome: 'ACCEPTED' | 'REFUSED', reasons: string[]) => C.signByVendor(C.ResponseReceipt.parse({ kind: 'RESPONSE_RECEIPT', engagement_code_digest: ctx.code_digest, response_id: d.response_id, response_digest: digest,
+    outcome, reasons, received_at: now.toISOString() }), keys.audit());
+  if (d.engagement_code_digest !== ctx.code_digest) return receipt('REFUSED', ['WRONG_ENGAGEMENT']);
+  const outcome = (await b.tx.query('SELECT vendor.channel_record_response($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) AS o', [d.response_id, d.finding_id, d.factual_accuracy, d.agreement, d.response, d.action_plan, d.owner_role,
+    d.due_date, d.dependencies, d.remediation_status, d.risk_acceptance ? JSON.stringify(d.risk_acceptance) : null, JSON.stringify(body.signed_response), digest])).rows[0].o as string;
+  return outcome === 'ACCEPTED' || outcome === 'DUPLICATE' ? receipt('ACCEPTED', []) : receipt('REFUSED', [outcome]);
 }
 
 async function delivery(b: Bound, keys: Keys, raw: Buffer, now: Date) {
