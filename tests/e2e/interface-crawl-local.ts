@@ -135,7 +135,15 @@ async function detailLink(page: Page, route: string) {
   return page.evaluate(b => [...document.querySelectorAll('a[href]')].map(a => (a as HTMLAnchorElement).getAttribute('href')!)
     .find(href => href.startsWith(`${b}/`) && /\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(href)) ?? null, base);
 }
-function record(name: string, v: Visit) { check(name, v.issues, []); }
+// A crawl must visit everything, so each finding is collected (and printed) instead of stopping the run; one check at the end fails
+// the suite if anything was found.
+const findings: string[] = [];
+function soft(name: string, actual: unknown, expected: unknown) {
+  const ok = JSON.stringify(actual) === JSON.stringify(expected);
+  console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${ok ? '' : ` ${JSON.stringify({ expected, actual }).slice(0, 400)}`}`);
+  if (!ok) findings.push(name);
+}
+function record(name: string, v: Visit) { soft(name, v.issues, []); }
 
 await t.run(async () => {
   const browser = await chromium.launch({ headless: true, ...executablePath ? { executablePath } : {} });
@@ -169,8 +177,8 @@ await t.run(async () => {
         await p.page.goto('/workspace'); await p.page.waitForLoadState('networkidle');
         const links = await p.page.evaluate(() => [...document.querySelectorAll('nav a[href]')].map(a => (a as HTMLAnchorElement).getAttribute('href')!).filter(h => h.startsWith('/')));
         const unknown = [...new Set(links)].filter(l => !ALL.includes(l.split('?')[0]!) && !ALL.some(r => dynamic(r) && new RegExp(`^${r.replace(/\[[^\]]+\]/g, '[^/]+')}$`).test(l)));
-        check('every sidebar link points to an existing page', unknown, []);
-        check('the sidebar lists pages', links.length > 20, true);
+        soft('every sidebar link points to an existing page', unknown, []);
+        soft('the sidebar lists pages', links.length > 20, true);
       }
       await p.page.context().close();
     }
@@ -198,7 +206,7 @@ await t.run(async () => {
     record('vendor signed out: the client workspace is 404 on the vendor installation', await visit(vanon, 'vendor', 'signed-out', '/workspace', '/workspace', { expectStatus: 404 }));
     const vendorStatic = ALL.filter(r => r.startsWith('/vendor') && !dynamic(r) && !['/vendor/sign-in', '/vendor/setup'].includes(r));
     const people = (['admin', 'lead', 'reviewer', 'owner'] as const).filter(k => typeof journal[k] === 'object' && (journal[k] as VendorUser).totp);
-    check('vendor users from the browser journeys are available for the crawl', people.length >= 3, true);
+    soft('vendor users from the browser journeys are available for the crawl', people.length >= 3, true);
     let engagementUrl: string | null = null;
     for (const role of people) {
       const p = await vendorSignIn(browser, journal[role] as VendorUser);
@@ -220,10 +228,10 @@ await t.run(async () => {
         if (await p.page.getByText(/^Accepted\.|Accepted\./).count() && await p.page.getByRole('tablist', { name: 'Engagement workspace' }).count()) opened = true;
       }
       void links;
-      if (!opened) { check(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); await p.page.context().close(); continue; }
+      if (!opened) { soft(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); await p.page.context().close(); continue; }
       engagementUrl = p.page.url();
       const tabs = await p.page.getByRole('tab').allInnerTexts();
-      check(`vendor ${role}: the engagement workspace has nine tabs`, tabs.map(x => x.replace(/\s*\d+$/, '').trim()), ['Overview', 'Scope and applicability', 'Plan', 'Requests', 'Evidence', 'Tests and working papers', 'Findings and actions', 'Report', 'Follow-up']);
+      soft(`vendor ${role}: the engagement workspace has nine tabs`, tabs.map(x => x.replace(/\s*\d+$/, '').trim()), ['Overview', 'Scope and applicability', 'Plan', 'Requests', 'Evidence', 'Tests and working papers', 'Findings and actions', 'Report', 'Follow-up']);
       for (let i = 0; i < tabs.length; i++) {
         const name = tabs[i]!.replace(/\s*\d+$/, '').trim();
         const before = { e: p.state.errors.length, f: p.state.failed.length };
@@ -235,11 +243,11 @@ await t.run(async () => {
         const issues = [...(selected.replace(/\s*\d+$/, '').trim() === name ? [] : [`tab did not select (${selected})`]), ...(overflow > 2 ? [`horizontal overflow ${overflow}px`] : []),
           ...p.state.errors.slice(before.e), ...p.state.failed.slice(before.f).map(f => `API ${f}`)];
         visits.push({ installation: 'vendor', role, viewport: 'desktop', route: `/vendor/engagements/[id]#${name}`, url: p.page.url(), status: 200, heading: name, issues, api_denied: 0, screenshot: shot });
-        check(`vendor ${role}: workspace tab "${name}"`, issues, []);
+        soft(`vendor ${role}: workspace tab "${name}"`, issues, []);
       }
       // Keyboard: arrow keys move between tabs.
       await p.page.getByRole('tab').first().focus(); await p.page.keyboard.press('ArrowRight');
-      check(`vendor ${role}: arrow keys move between workspace tabs`, (await p.page.getByRole('tab', { selected: true }).innerText()).replace(/\s*\d+$/, '').trim(), 'Scope and applicability');
+      soft(`vendor ${role}: arrow keys move between workspace tabs`, (await p.page.getByRole('tab', { selected: true }).innerText()).replace(/\s*\d+$/, '').trim(), 'Scope and applicability');
       await p.page.context().close();
     }
     if (typeof journal.uploader === 'object') {
@@ -265,5 +273,6 @@ await t.run(async () => {
       unvisited_detail_routes: visits.filter(v => v.url === '(no record listed)').map(v => v.route), issues: withIssues.map(v => ({ installation: v.installation, role: v.role, viewport: v.viewport, route: v.route, issues: v.issues })), visits_detail: visits }, null, 2));
     console.log(`\ninterface crawl: ${visits.length} visits, ${withIssues.length} with issues`);
     for (const v of withIssues.slice(0, 80)) console.log(`  [${v.installation} ${v.role} ${v.viewport}] ${v.route}: ${v.issues.join(' | ').slice(0, 300)}`);
+    check('the crawl found nothing wrong on any page, tab or link', findings, []);
   }
 });

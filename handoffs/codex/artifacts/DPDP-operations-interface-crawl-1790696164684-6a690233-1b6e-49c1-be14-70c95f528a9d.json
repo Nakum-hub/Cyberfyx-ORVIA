@@ -1,0 +1,39 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T15:36:04.684Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "signed out: /workspace/sign-in renders",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "signed out: /privacy/sign-in renders",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "signed out: /setup renders",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "no page heading"
+      ]
+    },
+    {
+      "name": "unexpected failure in customer installation, signed out",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: signed out: /setup renders"
+    }
+  ],
+  "passed": 2,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

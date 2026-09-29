@@ -31,6 +31,8 @@ import type { Context } from '../../backend/domain/src/shared/transaction.ts';
 import { setupPractice, acceptEngagement, planEngagement, evidenceFor, paper } from '../integration/vendor/practice-flow.ts';
 
 const VENDOR = `http://127.0.0.1:${PROFILES['vendor-a00'].app_port}`;
+/** Whether the element appears within 15 s: a screen re-renders after an action, so an immediate isVisible() races it. */
+const seen = (l: { waitFor: (o: { timeout: number }) => Promise<void> }) => l.waitFor({ timeout: 15000 }).then(() => true, () => false);
 // The vendor supplies an updated trust file naming its audit address; this run installs it and restores the original afterwards.
 const trustPath = resolve('.local/profiles/codex-a00/trust/vendor-public-keys.json');
 const originalTrust = readFileSync(trustPath, 'utf8');
@@ -104,7 +106,7 @@ try {
       t.setPhase('vendor leadership and engagement');
       const vadmin = await context(browser, VENDOR); await vendorSignIn(vadmin, journal.admin);
       await vadmin.goto('/vendor'); await vadmin.getByRole('heading', { name: 'Practice' }).waitFor();
-      check('leadership sees the practice overview from real records', [await vadmin.getByRole('heading', { name: 'Needs attention' }).isVisible(), await vadmin.getByText('Clients sending evidence under a mandate').isVisible()], [true, true]);
+      check('leadership sees the practice overview from real records', [await seen(vadmin.getByRole('heading', { name: 'Needs attention' })), await seen(vadmin.getByText('Clients sending evidence under a mandate'))], [true, true]);
       await vadmin.screenshot({ path: resolve(shots, 'mandate-vendor-overview.png'), fullPage: true });
       await vadmin.goto('/vendor/engagements');
       const ef = vadmin.getByRole('form', { name: 'Create engagement' });
@@ -148,7 +150,7 @@ try {
       await cf.getByLabel(label('Audit period from (YYYY-MM-DD)')).fill(day(-150)); await cf.getByLabel(label('Audit period to (YYYY-MM-DD)')).fill(day(10));
       await cf.getByRole('button', { name: 'Record engagement' }).click(); await admin.getByText('Engagement recorded.').waitFor();
       await admin.getByRole('heading', { name: 'Audit mandate' }).waitFor();
-      check('the client sees the audit address from its trust file', await admin.getByText(VENDOR, { exact: true }).isVisible(), true);
+      check('the client sees the audit address from its trust file', await seen(admin.getByText(VENDOR, { exact: true })), true);
       await admin.getByRole('form', { name: 'Draft mandate' }).getByRole('button', { name: 'Draft mandate' }).click();
       await admin.getByText('Mandate drafted; a different owner or administrator approves it.').waitFor();
       await openEngagement(reviewer, reference);
@@ -165,7 +167,7 @@ try {
 
       t.setPhase('vendor sees the evidence');
       await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Requests/ }).click(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
-      check('the lead sees the signed mandate and an intact chain', [await lead.getByText(/active \(open\)/).first().isVisible(), await lead.getByText('Intact through delivery 1').isVisible()], [true, true]);
+      check('the lead sees the signed mandate and an intact chain', [await seen(lead.getByText(/active \(open\)/).first()), await seen(lead.getByText('Intact through delivery 1'))], [true, true]);
       await lead.getByRole('table', { name: 'Deliveries from the client installation' }).getByRole('button', { name: 'View' }).first().click();
       await lead.getByRole('heading', { name: 'Delivery content' }).waitFor();
       check('the lead reads the evidence entries signed by the client installation', await lead.getByRole('table', { name: 'Evidence entries, signed by the client installation' }).getByRole('row').count() > 1, true);
@@ -186,7 +188,7 @@ try {
       check('the worker receives both requests; the document waits for a client approver', [r2.requests_received, r2.requests_for_approval, r2.deliveries_accepted], [2, 1, 1]);
       await openEngagement(owner, reference);
       const row = owner.getByRole('table', { name: 'Requests from your auditor' }).getByRole('row').filter({ hasText: 'Signed approval of the itemised notice.' });
-      check('the owner sees the document request waiting for them', await row.getByText('awaiting client approval').isVisible(), true);
+      check('the owner sees the document request waiting for them', await seen(row.getByText('awaiting client approval')), true);
       await row.getByLabel(label('Reason to decline')).fill('Not held by the organisation');
       await row.getByRole('button', { name: 'Decline' }).click(); await owner.getByText('Declined; the auditor sees your reason.').waitFor();
       await db.query("UPDATE app.audit_mandates SET last_check_in_at=last_check_in_at-interval '1 hour' WHERE engagement_id=(SELECT id FROM app.audit_engagements WHERE engagement_reference=$1)", [reference]);
@@ -194,11 +196,11 @@ try {
       await lead.reload(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
       const requests = lead.getByRole('table', { name: 'Requests issued over the channel' });
       check('the lead sees the sample answered and the document declined with the client\'s reason', [
-        await requests.getByRole('row').filter({ hasText: 'Five consent events' }).getByText('delivered').isVisible(),
-        await requests.getByRole('row').filter({ hasText: 'Signed approval' }).getByText('not held by the organisation').isVisible()], [true, true]);
+        await seen(requests.getByRole('row').filter({ hasText: 'Five consent events' }).getByText('delivered')),
+        await seen(requests.getByRole('row').filter({ hasText: 'Signed approval' }).getByText('not held by the organisation'))], [true, true]);
       await requests.getByRole('row').filter({ hasText: 'Five consent events' }).getByRole('button', { name: 'View answer' }).click();
       await lead.getByRole('heading', { name: 'Delivery content' }).waitFor();
-      check('the sample answer is counts over the auditor\'s selection', await lead.getByText(/records passing/).first().isVisible(), true);
+      check('the sample answer is counts over the auditor\'s selection', await seen(lead.getByText(/records passing/).first()), true);
       await lead.screenshot({ path: resolve(shots, 'mandate-vendor-requests.png'), fullPage: true });
 
       t.setPhase('findings to the client and the response back');
@@ -219,21 +221,21 @@ try {
       await openEngagement(admin, reference);
       const docs = admin.getByRole('table', { name: 'Signed documents received over the channel' });
       await docs.getByRole('row').filter({ hasText: 'findings' }).getByRole('button', { name: 'Verify and import' }).click(); await admin.getByText('Signed document verified and imported.').waitFor();
-      check('a person imports the staged findings file in the browser', await docs.getByRole('row').filter({ hasText: 'findings' }).getByText('imported').isVisible(), true);
+      check('a person imports the staged findings file in the browser', await seen(docs.getByRole('row').filter({ hasText: 'findings' }).getByText('imported')), true);
       const rf = admin.getByRole('form', { name: 'Prepare management response' });
       await rf.getByLabel(label('Finding')).selectOption({ index: 1 }); await rf.getByLabel(label('Agreement with the finding')).selectOption('PARTIALLY_AGREE');
       await rf.getByLabel(label('Response')).fill('We will publish the notice; write to privacy@aster.example for the draft.'); await rf.getByLabel(label('Owner (role)')).fill('Privacy office');
       await rf.getByRole('button', { name: 'Prepare response' }).click(); await admin.getByText('Response drafted; a different owner or administrator approves it.').waitFor();
-      check('the drafted response shows its redaction', await admin.getByRole('table', { name: 'Management responses' }).getByText(/1 redaction/).isVisible(), true);
+      check('the drafted response shows its redaction', await seen(admin.getByRole('table', { name: 'Management responses' }).getByText(/1 redaction/)), true);
       await openEngagement(reviewer, reference);
       await reviewer.getByRole('table', { name: 'Management responses' }).getByRole('button', { name: 'Approve response' }).click(); await reviewer.getByText('Response approved; it is sent at the next check-in.').waitFor();
       const r4 = await sweep();
       await reviewer.reload(); await openEngagement(reviewer, reference);
-      check('the worker signs and sends the approved response and the client sees it accepted', [r4.responses_sent, await reviewer.getByRole('table', { name: 'Management responses' }).getByText('accepted', { exact: true }).isVisible()], [1, true]);
+      check('the worker signs and sends the approved response and the client sees it accepted', [r4.responses_sent, await seen(reviewer.getByRole('table', { name: 'Management responses' }).getByText('accepted', { exact: true }))], [1, true]);
       await reviewer.screenshot({ path: resolve(shots, 'mandate-client-responses.png'), fullPage: true });
       await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Findings and actions/ }).click();
       const vf = lead.getByRole('table', { name: 'Findings' }).getByRole('row').filter({ hasText: 'Notice indicator gap (browser)' });
-      check('the auditor sees the client\'s response on the finding, from the channel, without the contact detail', [await vf.getByText(/partially agree/).isVisible(), await vf.getByText(/channel/).isVisible(), await vf.getByText(/privacy@aster/).count()], [true, true, 0]);
+      check('the auditor sees the client\'s response on the finding, from the channel, without the contact detail', [await seen(vf.getByText(/partially agree/)), await seen(vf.getByText(/channel/)), await vf.getByText(/privacy@aster/).count()], [true, true, 0]);
       await lead.screenshot({ path: resolve(shots, 'mandate-vendor-response.png'), fullPage: true });
       await lead.getByRole('tab', { name: /^Requests/ }).click();
 
@@ -246,7 +248,7 @@ try {
       await owner.getByRole('button', { name: 'Close engagement (uses the reason above)' }).click(); await owner.getByText('Engagement closed; its mandate has ended and nothing more is sent.').waitFor();
       await sweep();
       await lead.reload(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
-      check('closing the engagement ends the mandate, and the vendor sees it', await lead.getByText(/^ended · engagement/).first().isVisible(), true);
+      check('closing the engagement ends the mandate, and the vendor sees it', await seen(lead.getByText(/^ended · engagement/).first()), true);
 
       check('no browser errors and no request left either installation', [errors, external], [[], []]);
     } finally {
