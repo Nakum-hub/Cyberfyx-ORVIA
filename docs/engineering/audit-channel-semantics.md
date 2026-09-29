@@ -11,7 +11,7 @@
 | Client | `backend/domain/src/dpdpa-audit/channel.ts`, `mandate.ts` |
 | Vendor | `backend/vendor/audit/channel.ts` |
 | Protocol | `shared/contracts/src/audit-channel.ts` |
-| Migrations | customer 0068–0069; vendor 0006, 0008, 0010 |
+| Migrations | customer 0068–0070; vendor 0006, 0008, 0010, 0012 |
 
 ## Direction and addressing
 
@@ -44,6 +44,7 @@
   - A clear refusal before anything could have left is `FAILED`. Examples: connection refused, DNS failure, certificate rejection, a redirect, an invalid address.
   - After 20 attempts an item is `FAILED`.
 - **Receipt limit.** The client reads at most 1 MiB of any answer. More than that is `UNKNOWN (RESPONSE_TOO_LARGE)`, never success.
+- **Answer budget.** The vendor keeps each check-in answer under 900,000 bytes. Signed documents are offered in order while the whole signed answer fits; the rest follow at later check-ins. A single document that could never fit (over 850,000 bytes encoded, or a report PDF over the 900,000-character contract cap) is not offered, dropped or treated as acknowledged: it is marked `TOO_LARGE_FOR_CHANNEL` (vendor migration 0012), and the audit team sees it on the channel screen and sends it to the client as a file.
 - **Redirects.** A redirect is never followed. It is `FAILED (REDIRECT_NOT_FOLLOWED)`, so evidence cannot be steered to another host.
 - **Body limits.** The vendor accepts channel bodies up to 4 MiB and sealed packages up to 64 MiB.
 - **Rate limit.** The vendor accepts 120 calls per 10 minutes per engagement.
@@ -74,10 +75,11 @@ The vendor refuses to issue a request that is already past due.
 - **Taking the lease.** Before servicing a mandate, a worker takes a lease on the mandate row with an atomic conditional update. The lease lasts five minutes.
 - **Contention.** Another worker finding a live lease leaves the mandate alone and makes no calls.
 - **Release.** The lease is released at the end of the cycle. If the worker dies, the lease lapses on its own.
+- **Fencing.** Before every generation and every send, the worker renews the lease with a conditional update that succeeds only while it is still the holder. A worker whose lease lapsed and was taken by another stops at that boundary and leaves the queue to the new holder. A send already in flight when the lease is lost completes or becomes `UNKNOWN`, as for a state change.
 
 ## Suspension, revocation and end: propagation
 
-**On the client (effective at the next send boundary).** The worker re-reads the mandate before every generation and before every send: delivery, package and response.
+**On the client (effective at the next send boundary).** The worker re-reads the mandate before every generation and before every send: delivery, package and response. A mandate that is no longer open has its queue settled on the client first, before any network call, so an unreachable vendor cannot leave items pending.
 
 - **Suspended.** Nothing further is generated or sent. Queued items stay queued and are sent after the mandate is resumed.
 - **Revoked, ended or expired.**
@@ -88,7 +90,7 @@ The vendor refuses to issue a request that is already past due.
 **On the vendor (effective at the next check-in).**
 
 - The vendor learns of a changed state only from the next check-in, which presents the mandate signed in its new state.
-  - The client makes that check-in once for a suspended, revoked or ended mandate, to report the state.
+  - The client makes that check-in once for a suspended, revoked or ended mandate, to report the state. **Open question for the owner:** revision 1.6 says the worker makes no call when no mandate is active. This single state-only report is an engineering choice that keeps the vendor's view truthful; it is not an approved exception. Without it the vendor keeps showing the last open mandate until its end date. The owner decides whether to keep it (and record the exception) or remove it.
   - After that it makes no further calls for a suspended mandate.
 - Until then, the vendor's stored copy is what it checks. It refuses deliveries whose stored mandate is not open.
 - Requests and documents are offered only while the stored mandate is open.
@@ -108,7 +110,8 @@ Continuous assurance uses its own mandate kind (`CONTINUOUS_ASSURANCE`), with it
    - A person imports it through the same verified import as a file.
    - Staged documents are acknowledged at the following check-in and are not offered again.
 2. **Responses back.**
-   - A management response to a finding in an imported findings file is screened for contact details before storage.
+   - The channel carries no personal data. A response travels over it only when its approver records that they read it and it contains none (customer migration 0070; signed as `approval.personal_data = NONE_CONFIRMED_BY_APPROVER`). The worker refuses to sign a response without that record. An answer that needs personal data goes in a sealed package, where each item carries its revision 1.5 exception and the vendor must have a processing agreement recorded.
+   - A management response to a finding in an imported findings file is screened for contact details before storage. The screening is a safety net for e-mail, phone-like and PAN-format text only; it does not detect names or other personal data, which is why the approver's review is required.
    - It carries the state of any GRC issue tracking the finding, as a reference only.
    - It is approved by an owner or administrator other than the preparer.
    - The worker then signs it with the installation key and sends it while a mandate is open.
