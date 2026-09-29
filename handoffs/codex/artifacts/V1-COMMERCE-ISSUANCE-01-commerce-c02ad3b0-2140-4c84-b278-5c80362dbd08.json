@@ -1,0 +1,15 @@
+{
+  "task_id": "V1-COMMERCE-ISSUANCE-01",
+  "recorded_at": "2026-09-29T15:18:08.204Z",
+  "fixture_kind": "ISOLATED_SYNTHETIC_VENDOR_DATABASE",
+  "database": "orvia_vendor_test_c02ad3b021404c84b2785c80362dbd08",
+  "result": "FAIL",
+  "phase": "create isolated vendor database",
+  "assertions": [],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED",
+    "category": "TIMEOUT",
+    "message_sha256": "e125336055883fa604797af94d50f0f8fb0d2ce2f8ffba691cc5e3b89c7928a0"
+  }
+}
