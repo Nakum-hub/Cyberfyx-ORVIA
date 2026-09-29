@@ -89,11 +89,17 @@ export async function runMixed(seconds = 45, clients = 16) {
     const pick = (): Op => { let r = Math.random() * total; for (const [op, w] of MIX) { r -= w; if (r < 0) return op; } return 'list_requests'; };
     const samples: Record<Op, number[]> = { list_requests: [], read_request: [], list_audit: [], write_request: [], write_audit: [], export_chunk: [] };
     const errors: Record<string, number> = {};
+    const errorCauses: Record<string, number> = {};
     const deadline = Date.now() + seconds * 1000;
     const worker = async () => {
       while (Date.now() < deadline) {
         const op = pick(); const s = performance.now();
-        try { await scoped(run[op]); samples[op].push(performance.now() - s); } catch (error) { const code = String((error as { code?: string }).code ?? 'ERROR'); errors[`${op}:${code}`] = (errors[`${op}:${code}`] ?? 0) + 1; }
+        try { await scoped(run[op]); samples[op].push(performance.now() - s); } catch (error) {
+          const code = String((error as { code?: string }).code ?? 'ERROR'); errors[`${op}:${code}`] = (errors[`${op}:${code}`] ?? 0) + 1;
+          const message = String((error as Error).message);
+          const cause = /statement timeout/i.test(message) ? 'STATEMENT_TIMEOUT' : /lock timeout/i.test(message) ? 'LOCK_TIMEOUT' : /query read timeout/i.test(message) ? 'CLIENT_QUERY_TIMEOUT' : 'OTHER';
+          errorCauses[`${op}:${cause}`] = (errorCauses[`${op}:${cause}`] ?? 0) + 1;
+        }
       }
     };
     started = Date.now();
@@ -105,7 +111,8 @@ export async function runMixed(seconds = 45, clients = 16) {
     const dropped = (await bootstrap.query('SELECT 1 FROM pg_database WHERE datname=$1', [scratch])).rowCount === 0;
     const memoryLimit = spawnSync('docker', ['inspect', '-f', '{{.HostConfig.Memory}}', container]).stdout?.toString().trim();
     const evidence = { profile: profile.profile, scratch_database_dropped: dropped, database_container_memory_bytes: Number(memoryLimit) || null, seconds, clients, seeded: { audit_events: 1_000_000, principal_references: 100_000, rights_requests: 200_000 }, timings,
-      plans, operations_per_second: Math.round(Object.values(samples).reduce((n, xs) => n + xs.length, 0) / elapsed), operations, errors,
+      plans, operations_per_second: Math.round(Object.values(samples).reduce((n, xs) => n + xs.length, 0) / elapsed), operations, errors, error_causes: errorCauses,
+      result: Object.keys(errors).length === 0 && dropped ? 'PASS' : 'FAIL',
       path: 'orvia_app role with scoped settings and forced row-level security, as request handlers run',
       limits: ['Diagnostic evidence on this development host with synthetic rows in one scope. It is not a capacity qualification: that needs the declared deployment hardware, representative data distribution and agreed service targets.',
         'HTTP, authentication and policy decision time are not included; they add to each operation.',
@@ -125,4 +132,5 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const evidence = await runMixed(Number(process.argv[3] ?? 45), Number(process.argv[4] ?? 16));
   writeEvidence('capacity-mixed', evidence);
   console.log(JSON.stringify(evidence, null, 2));
+  if (evidence.result !== 'PASS') process.exitCode = 1;
 }
