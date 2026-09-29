@@ -37,7 +37,8 @@ CREATE TABLE app.audit_mandates (
  PRIMARY KEY (tenant_id, legal_entity_id, environment_id, id), UNIQUE (id),
  FOREIGN KEY (tenant_id, legal_entity_id, environment_id, engagement_id) REFERENCES app.audit_engagements(tenant_id, legal_entity_id, environment_id, id),
  CHECK (approved_by IS NULL OR approved_by <> prepared_by),
- CHECK ((state = 'DRAFT') = (approved_at IS NULL) AND (approved_at IS NULL) = (approved_by IS NULL)));
+ -- A draft is never approved; an active, suspended or ended mandate always was; a revoked one may have been either.
+ CHECK ((approved_at IS NULL) = (approved_by IS NULL) AND (state <> 'DRAFT' OR approved_at IS NULL) AND (state NOT IN ('ACTIVE','SUSPENDED','ENDED') OR approved_at IS NOT NULL)));
 -- At most one mandate in force (active or suspended) per engagement.
 CREATE UNIQUE INDEX audit_mandate_in_force ON app.audit_mandates(tenant_id, legal_entity_id, environment_id, engagement_id) WHERE state IN ('ACTIVE','SUSPENDED');
 CREATE TABLE app.audit_channel_keys (
@@ -180,6 +181,8 @@ BEGIN
   RAISE EXCEPTION 'engagement_closed' USING ERRCODE = 'P0001', HINT = 'engagement'; END IF;
  IF NOT EXISTS (SELECT 1 FROM app.audit_channel_keys k WHERE k.tenant_id = c.t AND k.legal_entity_id = c.l AND k.environment_id = c.e AND k.engagement_id = m.engagement_id) THEN
   RAISE EXCEPTION 'channel_not_available_for_this_engagement' USING ERRCODE = 'P0001', HINT = 'engagement'; END IF;
+ IF EXISTS (SELECT 1 FROM app.audit_mandates o WHERE o.tenant_id = c.t AND o.legal_entity_id = c.l AND o.environment_id = c.e AND o.engagement_id = m.engagement_id AND o.state IN ('ACTIVE','SUSPENDED')) THEN
+  RAISE EXCEPTION 'another_mandate_in_force_end_it_first' USING ERRCODE = 'P0001', HINT = 'mandate'; END IF;
  UPDATE app.audit_mandates SET state = 'ACTIVE', approved_by = c.actor, approved_role = c.role, approved_at = clock_timestamp(), state_changed_by = c.actor, state_changed_at = clock_timestamp(),
    next_collection_at = greatest(valid_from, clock_timestamp()) WHERE id = p_mandate;
 END $$;

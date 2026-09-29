@@ -103,8 +103,8 @@ export async function channelSweep(run: Scoped, env: ChannelEnv, now = new Date(
       ORDER BY m.created_at, m.id`, [...scope(c), now, checkInSeconds])).rows;
   });
   if (due.length && (!env.address || !env.auditKey)) {
+    // A configuration state, shown on each mandate and on the channel screen; not a failure of this cycle.
     await run(c => c.tx.query(`UPDATE app.audit_mandates SET channel_problem='AUDIT_SERVICE_NOT_CONFIGURED_IN_TRUST_FILE' WHERE ${predicate} AND id=ANY($4::uuid[])`, [...scope(c), due.map(m => m.id)]));
-    report.errors.push('audit channel: no audit service address or audit key in the trust file');
     return report;
   }
   for (const m of due) {

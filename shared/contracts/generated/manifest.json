@@ -5,9 +5,9 @@
   "review_commit": null,
   "integration_commit": null,
   "artifacts": {
-    "openapi.json": "5b36d61a74208ac7da5100455d9271fcc4de7b96fa90b4139459b605df5b5afc",
-    "examples.json": "67f4cf0e546d0b71f23369b04f9fd245a6576c21dfbcca86881b1bb662d1721e",
-    "client-types.d.ts": "00c8242062056b72edf418cca4dfe04cb81beef10025a139ef8a6104393ec116",
+    "openapi.json": "9526580aac4033cd52fc4daef8b3e7818412be9481d1136470af11b7ef0930b2",
+    "examples.json": "1a52259e10aab8b67723406e145eba5183e2694553445e4a134d894232231696",
+    "client-types.d.ts": "51a7f574d7a3af648fa389b3efca0b59670c7a3a580f4c8355086832f8f5cf1f",
     "interfaces.json": "28d53a5531716ccde3675e893a982e274bb7cbe52e611d59ef376494f0bf0533",
     "signature-vector.json": "0d5aabe23afce23fe7af9cb42365179dc44ed028ecdc8e97d2fb82a113904fb2",
     "contract-seed.proposed.json": "9c1156dccaf26826a650e740434fd359d16511e1db072a1441d1ae2fb920f55a",

@@ -93,20 +93,39 @@ export async function vendorVisibility(c: Context): Promise<unknown> {
     `SELECT p.id, p.state, p.approved_at, p.approved_by, p.manifest_fingerprint, p.file_sha256, p.expires_at, e.engagement_reference, e.firm_name,
             (SELECT count(*)::int FROM app.audit_package_items i WHERE i.package_id=p.id) AS items,
             (SELECT count(*)::int FROM app.audit_package_items i WHERE i.package_id=p.id AND i.contains_personal_data='YES') AS personal,
-            coalesce((SELECT json_agg(json_build_object('exported_at', x.exported_at, 'exported_by', x.exported_by) ORDER BY x.exported_at) FROM app.audit_package_exports x WHERE x.package_id=p.id), '[]'::json) AS exports
+            coalesce((SELECT json_agg(json_build_object('exported_at', x.exported_at, 'exported_by', x.exported_by) ORDER BY x.exported_at) FROM app.audit_package_exports x WHERE x.package_id=p.id), '[]'::json) AS exports,
+            coalesce((SELECT json_agg(json_build_object('submission_id', s.id, 'state', s.state, 'requested_by', s.requested_by, 'requested_at', s.requested_at, 'completed_at', s.completed_at) ORDER BY s.requested_at) FROM app.audit_package_submissions s WHERE s.package_id=p.id), '[]'::json) AS submissions
      FROM app.audit_packages p JOIN app.audit_engagements e ON e.id=p.engagement_id
      WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.approved_at IS NOT NULL ORDER BY p.approved_at DESC LIMIT 500`, scope)).rows;
   const audit_packages = packages.map(p => ({ package_id: p.id, engagement_reference: p.engagement_reference, firm_name: p.firm_name,
     state: p.state === 'APPROVED' && (p.expires_at as Date).getTime() <= Date.now() ? 'EXPIRED' : p.state, approved_at: (p.approved_at as Date).toISOString(), approved_by: p.approved_by,
     manifest_fingerprint: p.manifest_fingerprint, file_sha256: p.file_sha256, items: p.items, personal_data_items: p.personal, expires_at: (p.expires_at as Date).toISOString(),
-    exports: (p.exports as { exported_at: string; exported_by: string }[]).map(x => ({ exported_at: new Date(x.exported_at).toISOString(), exported_by: x.exported_by })), transported_by_orvia: false as const }));
+    exports: (p.exports as { exported_at: string; exported_by: string }[]).map(x => ({ exported_at: new Date(x.exported_at).toISOString(), exported_by: x.exported_by })),
+    transported_by_orvia: (p.submissions as { state: string }[]).some(x => x.state !== 'FAILED'),
+    channel_submissions: (p.submissions as { submission_id: string; state: string; requested_by: string; requested_at: string; completed_at: string | null }[])
+      .map(x => ({ ...x, requested_at: new Date(x.requested_at).toISOString(), completed_at: x.completed_at ? new Date(x.completed_at).toISOString() : null })) }));
+
+  // Audit mandate channel (revision 1.6): every mandate that authorised a call and every delivery generated under one.
+  const iso = (v: unknown) => v ? (v as Date).toISOString() : null;
+  const mandates = (await c.tx.query(`SELECT m.id, m.kind, m.state, m.categories, m.valid_from, m.valid_to, m.approved_at, m.approved_by, m.last_check_in_at, e.engagement_reference, e.firm_name
+     FROM app.audit_mandates m JOIN app.audit_engagements e ON e.id=m.engagement_id WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 ORDER BY m.created_at DESC LIMIT 100`, scope)).rows;
+  const deliveries = (await c.tx.query(`SELECT d.id, d.sequence, d.kind, d.categories, d.entries, d.state, d.digest, d.created_at, d.completed_at, e.engagement_reference
+     FROM app.audit_channel_deliveries d JOIN app.audit_engagements e ON e.id=d.engagement_id WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3 ORDER BY d.created_at DESC LIMIT 1000`, scope)).rows;
+  const address = process.env.ORVIA_AUDIT_SERVICE_URL ?? null;
+  const audit_channel = { address,
+    mandates: mandates.map(m => ({ mandate_id: m.id, engagement_reference: m.engagement_reference, firm_name: m.firm_name, kind: m.kind, state: m.state, categories: m.categories, valid_from: iso(m.valid_from), valid_to: iso(m.valid_to),
+      approved_at: iso(m.approved_at), approved_by: m.approved_by, last_check_in_at: iso(m.last_check_in_at) })),
+    deliveries: deliveries.map(d => ({ delivery_id: d.id, engagement_reference: d.engagement_reference, sequence: d.sequence, kind: d.kind, categories: d.categories, entries: d.entries, state: d.state, digest: d.digest,
+      generated_at: iso(d.created_at), completed_at: iso(d.completed_at), personal_data: false as const })) };
 
   return S.VendorVisibility.parse({
-    audit_packages,
+    audit_packages, audit_channel,
     as_of: new Date().toISOString(), profile: S.PROFILE,
     vendor_service_health: {
       observed: false,
-      reason: 'There is no vendor service in this deployment. This build runs entirely on the customer’s own infrastructure and contacts nothing, so there is no service of the vendor’s whose health could be read from here. An unobserved service is not a healthy one.',
+      reason: address
+        ? 'This installation calls exactly one vendor address, the audit service named in its trust file, and only for DPDPA audit mandates your approvers signed; every call and delivery is listed under audit_channel. It does not read the health of the vendor’s service, and an unobserved service is not a healthy one.'
+        : 'There is no vendor service in this deployment. This build runs entirely on the customer’s own infrastructure and contacts nothing, so there is no service of the vendor’s whose health could be read from here. An unobserved service is not a healthy one.',
     },
     disclosures,
     approved_but_not_carried: disclosures.filter(d => d.carried_at === null).length,

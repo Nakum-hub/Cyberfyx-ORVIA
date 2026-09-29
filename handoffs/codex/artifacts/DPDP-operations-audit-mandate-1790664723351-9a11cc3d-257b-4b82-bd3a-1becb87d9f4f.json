@@ -1,0 +1,151 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T06:52:03.351Z",
+  "suite": "audit-mandate",
+  "assertions": [
+    {
+      "name": "a new engagement has a channel, not yet used",
+      "result": "PASS",
+      "expected": [
+        200,
+        true,
+        "NOT_STARTED",
+        null,
+        null
+      ],
+      "actual": [
+        200,
+        true,
+        "NOT_STARTED",
+        null,
+        null
+      ]
+    },
+    {
+      "name": "the channel key is kept sealed; neither side keeps the code",
+      "result": "PASS",
+      "expected": 32,
+      "actual": 32
+    },
+    {
+      "name": "a mandate outside the engagement scope is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "outside_engagement_scope"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "outside_engagement_scope"
+        ]
+      }
+    },
+    {
+      "name": "an engagement mandate cannot outlive the audit by more than 120 days",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "engagement_mandate_ends_within_120_days_of_the_audit_period"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "engagement_mandate_ends_within_120_days_of_the_audit_period"
+        ]
+      }
+    },
+    {
+      "name": "an auditor (read-only) cannot draft a mandate",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a drafted mandate authorises nothing yet",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        false
+      ],
+      "actual": [
+        "DRAFT",
+        false
+      ]
+    },
+    {
+      "name": "the preparer cannot approve their own mandate",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "approver_must_differ_from_preparer"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "approver_must_differ_from_preparer"
+        ]
+      }
+    },
+    {
+      "name": "an auditor cannot approve a mandate",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a different owner approves: the mandate is active and open",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        true,
+        true
+      ],
+      "actual": [
+        "ACTIVE",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a second mandate for the same engagement cannot be in force",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "another_mandate_in_force_end_it_first"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "another_mandate_in_force_end_it_first"
+        ]
+      }
+    },
+    {
+      "name": "the client stored the channel key for the worker",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "unexpected failure in first check-in and snapshot",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Expired authority"
+    }
+  ],
+  "passed": 11,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

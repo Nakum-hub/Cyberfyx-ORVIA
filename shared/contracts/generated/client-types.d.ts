@@ -18564,9 +18564,58 @@ export interface components {
                     /** Format: uuid */
                     exported_by: string;
                 }[];
-                /** @constant */
-                transported_by_orvia: false;
+                transported_by_orvia: boolean;
+                channel_submissions: {
+                    /** Format: uuid */
+                    submission_id: string;
+                    /** @enum {string} */
+                    state: "QUEUED" | "UNKNOWN" | "ACCEPTED" | "QUARANTINED" | "REFUSED" | "FAILED";
+                    /** Format: uuid */
+                    requested_by: string;
+                    /** Format: date-time */
+                    requested_at: string;
+                    completed_at: string | null;
+                }[];
             }[];
+            audit_channel: {
+                address: string | null;
+                mandates: {
+                    /** Format: uuid */
+                    mandate_id: string;
+                    engagement_reference: string;
+                    firm_name: string;
+                    /** @enum {string} */
+                    kind: "ENGAGEMENT" | "CONTINUOUS_ASSURANCE";
+                    /** @enum {string} */
+                    state: "DRAFT" | "ACTIVE" | "SUSPENDED" | "REVOKED" | "ENDED";
+                    categories: string[];
+                    /** Format: date-time */
+                    valid_from: string;
+                    /** Format: date-time */
+                    valid_to: string;
+                    approved_at: string | null;
+                    approved_by: string | null;
+                    last_check_in_at: string | null;
+                }[];
+                deliveries: {
+                    /** Format: uuid */
+                    delivery_id: string;
+                    engagement_reference: string;
+                    sequence: number;
+                    /** @enum {string} */
+                    kind: "SNAPSHOT" | "RESPONSE";
+                    categories: string[];
+                    entries: number;
+                    /** @enum {string} */
+                    state: "QUEUED" | "UNKNOWN" | "ACCEPTED" | "REFUSED" | "FAILED";
+                    digest: string;
+                    /** Format: date-time */
+                    generated_at: string;
+                    completed_at: string | null;
+                    /** @constant */
+                    personal_data: false;
+                }[];
+            };
             approved_but_not_carried: number;
             cases_with_nothing_disclosed: number;
             /** @constant */
@@ -49457,9 +49506,15 @@ export interface operations {
                      *               "exported_by": "00000000-0000-4000-8000-00000000033f"
                      *             }
                      *           ],
-                     *           "transported_by_orvia": false
+                     *           "transported_by_orvia": false,
+                     *           "channel_submissions": []
                      *         }
                      *       ],
+                     *       "audit_channel": {
+                     *         "address": null,
+                     *         "mandates": [],
+                     *         "deliveries": []
+                     *       },
                      *       "approved_but_not_carried": 1,
                      *       "cases_with_nothing_disclosed": 3,
                      *       "no_automatic_telemetry_is_collected": true,

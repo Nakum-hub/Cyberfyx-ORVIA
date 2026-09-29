@@ -4311,9 +4311,15 @@
                 "exported_by": "00000000-0000-4000-8000-00000000033f"
               }
             ],
-            "transported_by_orvia": false
+            "transported_by_orvia": false,
+            "channel_submissions": []
           }
         ],
+        "audit_channel": {
+          "address": null,
+          "mandates": [],
+          "deliveries": []
+        },
         "approved_but_not_carried": 1,
         "cases_with_nothing_disclosed": 3,
         "no_automatic_telemetry_is_collected": true,
