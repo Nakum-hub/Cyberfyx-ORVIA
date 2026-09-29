@@ -386,7 +386,9 @@ await t.run(async () => {
         [r.request_id, vid, reqA, r.description, r.due_date, JSON.stringify(signedRequest), lead.id]);
     }
     const received: number[] = [];
-    for (let i = 0; i < 4 && received.reduce((a, b) => a + b, 0) < 250; i++) { await staleCheckIn(); const r = await sweep(); received.push(r.requests_received); check(`backlog check-in ${i + 1} is readable`, [r.check_ins, await channelProblem()], [1, null]); }
+    for (let i = 0; i < 4 && received.reduce((a, b) => a + b, 0) < 250; i++) { await staleCheckIn(); const r = await sweep(); received.push(r.requests_received);
+      // A cycle that receives requests awaiting approval reports those decisions at once with a second check-in, so one or two.
+      check(`backlog cycle ${i + 1}: every answer is readable`, [r.check_ins >= 1, await channelProblem()], [true, null]); }
     const onClient = (await db.query('SELECT count(*)::int AS n FROM app.audit_channel_requests WHERE id = ANY($1::uuid[])', [backlog])).rows[0].n;
     check('a backlog larger than one answer arrives across check-ins, each request once, none lost', [received.length > 1, received[0]! < 250, received.reduce((a, b) => a + b, 0), onClient], [true, true, 250, 250]);
     await vendor.operator.query("UPDATE vendor.channel_requests SET status='WITHDRAWN', status_reason='SYNTHETIC_BACKLOG_TEST' WHERE id = ANY($1::uuid[])", [backlog]);
