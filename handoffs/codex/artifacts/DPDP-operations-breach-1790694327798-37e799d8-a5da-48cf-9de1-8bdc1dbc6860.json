@@ -1,0 +1,31 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T15:05:27.798Z",
+  "suite": "breach",
+  "assertions": [
+    {
+      "name": "an incident is not a breach until it is registered as one",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "the breach is pinned to the package in force at awareness",
+      "result": "FAIL",
+      "expected": "3.1790694326397.0",
+      "actual": "2.1790405630621.0"
+    },
+    {
+      "name": "unexpected failure in pinned timers",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the breach is pinned to the package in force at awareness"
+    }
+  ],
+  "passed": 1,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

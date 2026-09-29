@@ -16,8 +16,9 @@ const facts = { nature: 'Unauthorised access to a synthetic mailing list', exten
 await t.run(async () => {
   await t.ensurePackage();
   const owner = await h.login('owner'); const reviewer = await h.login('reviewer'); const admin = await h.login('admin'); const auditor = await h.login('auditor'); const member = await h.login('member');
-  // A package effective ten days ago, so an incident three days old has one in force at its awareness.
-  const older = signFixture(fixturePackage({ version: `3.${Date.now()}.0`, previous_version: null, effective_from: hoursFromNow(-240), requirement_effective_from: '2025-01-01' }), process.env.ORVIA_RELEASE_KEY_ID!, process.env.ORVIA_RELEASE_PRIVATE_KEY!);
+  // A package effective just before the oldest incident's awareness (80 hours ago), so it is the one in force then even when the
+  // shared development database holds packages from earlier runs; a flat ten days let any later package win.
+  const older = signFixture(fixturePackage({ version: `3.${Date.now()}.0`, previous_version: null, effective_from: hoursFromNow(-81), requirement_effective_from: '2025-01-01' }), process.env.ORVIA_RELEASE_KEY_ID!, process.env.ORVIA_RELEASE_PRIVATE_KEY!);
   const imported = await ok(owner.call('/api/v1/admin/regulatory/packages', older, key()), S.schemas.RegulatoryPackage);
   await ok(reviewer.call(`/api/v1/admin/regulatory/packages/${imported.id}/decision`, { decision: 'APPROVED', note: 'Back-dated fixture package for breach deadlines.', acknowledged_open_verification_items: false }, key()), S.schemas.RegulatoryPackage);
   const system = await t.boundSystem('Breach CRM');
