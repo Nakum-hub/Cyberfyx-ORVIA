@@ -75,9 +75,13 @@ try {
     const shared = columns.filter(c => present.has(c));
     if (!shared.length) continue;
     const cols = shared.map(x => q(x)).join(',');
-    let offset = 0; loaded[table] = 0;
+    loaded[table] = 0; const started = Date.now();
+    // A server-side cursor reads each table once; paging with OFFSET re-sorted the whole table per batch and exceeded the
+    // operator connection's query timeout once the long-lived development database had grown.
+    await source.query('BEGIN');
+    await source.query(`DECLARE rows_cursor NO SCROLL CURSOR FOR SELECT row_to_json(t) AS r FROM (SELECT ${cols} FROM ${q(table)}) t`);
     for (;;) {
-      const batch = (await source.query(`SELECT coalesce(json_agg(t),'[]'::json) j FROM (SELECT ${cols} FROM ${q(table)} ORDER BY ${cols} LIMIT 1000 OFFSET ${offset}) t`)).rows[0]!.j as unknown[];
+      const batch = (await source.query('FETCH 1000 FROM rows_cursor')).rows.map(r => r.r) as unknown[];
       if (!batch.length) break;
       const insert = (rows: unknown[]) => target!.query(`INSERT INTO ${q(table)} (${cols}) SELECT ${cols} FROM json_populate_recordset(null::${q(table)}, $1::json)`, [JSON.stringify(rows)]);
       await target.query('SAVEPOINT batch');
@@ -93,9 +97,10 @@ try {
           catch { await target.query('ROLLBACK TO SAVEPOINT one'); skipped[table] = (skipped[table] ?? 0) + 1; }
         }
       }
-      offset += batch.length;
       if (batch.length < 1000) break;
     }
+    await source.query('CLOSE rows_cursor'); await source.query('COMMIT');
+    if (Date.now() - started > 2000) console.log(`loaded ${table}: ${loaded[table]} rows in ${Date.now() - started} ms`);
   }
   await target.query('COMMIT');
   const rowCount = Object.values(loaded).reduce((a, b) => a + b, 0);

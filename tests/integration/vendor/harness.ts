@@ -84,7 +84,12 @@ export async function vendorHarness() {
       ON CONFLICT (singleton) DO UPDATE SET code_digest=EXCLUDED.code_digest, failed_attempts=0, used_at=NULL, expires_at=EXCLUDED.expires_at`, [setupCodeDigest(code)]);
     return code;
   }
-  async function close() { await Promise.allSettled([runtime.pool.end(), runtime.vendor.pool.end(), runtime.account.pool.end(), operator.end()]); }
+  // The throwaway database is dropped at the end, so runs do not accumulate databases on the development server.
+  async function close() {
+    await Promise.allSettled([runtime.pool.end(), runtime.vendor.pool.end(), runtime.account.pool.end(), operator.end()]);
+    const drop = connectDatabase({ postgres_port: base.postgres_port, database: 'postgres', password: operatorPassword }).pool;
+    await drop.query(`DROP DATABASE IF EXISTS "${database}" WITH (FORCE)`).catch(() => {}); await drop.end();
+  }
   return { database, config, runtime, operator, handler, session, login, issueSetupCode, close };
 }
 export type Harness = Awaited<ReturnType<typeof vendorHarness>>;
