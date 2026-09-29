@@ -16,19 +16,23 @@ const DAY = 86_400_000;
 export async function operationsAttention(c: Context) {
   const s = scope(c);
   const now = new Date();
-  const items: Item[] = [];
-  const push = (item: Item) => { if (items.length < 200) items.push(item); };
+  const found: Item[] = [];
+  // Every capped list is read in order of urgency, and a list that reached its cap says so: Attention never hides an item silently.
+  const truncated: string[] = [];
+  const push = (item: Item) => { found.push(item); };
+  // Each capped query reads one row more than it lists, so a kind is called truncated only when more really exist.
+  const capped = <T>(rows: T[], limit: number, what: string) => { if (rows.length > limit) truncated.push(`${what} (${limit} listed)`); return rows.slice(0, limit); };
   if (!await packageAt(c, now)) push({ kind: 'NO_ACTIVE_PACKAGE', severity: 'UNRESOLVED', entity_kind: 'regulatory_package', entity_id: null, count: 1, detail: 'No approved regulatory package is in effect; material workflows are refused until one is.', due_at: null });
 
-  for (const r of (await c.tx.query(`SELECT p.rights_request_id,p.due_at FROM app.rights_case_profiles p JOIN app.rights_requests q ON q.tenant_id=p.tenant_id AND q.legal_entity_id=p.legal_entity_id AND q.environment_id=p.environment_id AND q.id=p.rights_request_id
-    WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.due_at IS NOT NULL AND p.due_at<$4 AND q.state NOT IN ('CLOSED','COMPLETED','REJECTED') ORDER BY p.due_at LIMIT 50`, [...s, new Date(now.getTime() + 7 * DAY)])).rows)
+  for (const r of capped((await c.tx.query(`SELECT p.rights_request_id,p.due_at FROM app.rights_case_profiles p JOIN app.rights_requests q ON q.tenant_id=p.tenant_id AND q.legal_entity_id=p.legal_entity_id AND q.environment_id=p.environment_id AND q.id=p.rights_request_id
+    WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.due_at IS NOT NULL AND p.due_at<$4 AND q.state NOT IN ('CLOSED','COMPLETED','REJECTED') ORDER BY p.due_at LIMIT 51`, [...s, new Date(now.getTime() + 7 * DAY)])).rows, 50, 'rights cases due'))
     push({ kind: 'RIGHTS_CASE_DUE', severity: r.due_at < now ? 'OVERDUE' : 'DUE_SOON', entity_kind: 'rights_request', entity_id: r.rights_request_id, count: 1, detail: r.due_at < now ? 'A rights case is past its due time.' : 'A rights case is due within seven days.', due_at: iso(r.due_at) });
 
   // One item per breach, carrying its worst open task state.
-  for (const b of (await c.tx.query(`SELECT incident_id,bool_or(due_at IS NOT NULL AND due_at<$4) overdue,bool_or(legal_status='UNRESOLVED') unresolved,
+  for (const b of capped((await c.tx.query(`SELECT incident_id,bool_or(due_at IS NOT NULL AND due_at<$4) overdue,bool_or(legal_status='UNRESOLVED') unresolved,
       bool_or(due_at IS NOT NULL AND due_at<$5) due_soon,min(due_at) FILTER (WHERE due_at IS NOT NULL) next_due,count(*)::int n,max(created_at) latest
     FROM app.breach_tasks WHERE ${predicate} AND state='OPEN' GROUP BY incident_id
-    ORDER BY bool_or(due_at IS NOT NULL AND due_at<$4) DESC,bool_or(legal_status='UNRESOLVED') DESC,max(created_at) DESC LIMIT 100`, [...s, now, new Date(now.getTime() + DAY)])).rows)
+    ORDER BY bool_or(due_at IS NOT NULL AND due_at<$4) DESC,bool_or(legal_status='UNRESOLVED') DESC,max(created_at) DESC LIMIT 101`, [...s, now, new Date(now.getTime() + DAY)])).rows, 100, 'breaches with open tasks'))
     push({ kind: 'BREACH_TASK_DUE', severity: b.overdue ? 'OVERDUE' : b.unresolved ? 'UNRESOLVED' : b.due_soon ? 'DUE_SOON' : 'OPEN', entity_kind: 'personal_data_breach', entity_id: b.incident_id, count: b.n,
       detail: b.overdue ? `${b.n} open breach task(s); at least one is past its deadline.` : b.unresolved ? `${b.n} open breach task(s); a deadline cannot be computed because the awareness time is not recorded.` : `${b.n} open breach task(s), including intimations due without delay.`, due_at: iso(b.next_due) });
 
@@ -36,17 +40,17 @@ export async function operationsAttention(c: Context) {
     failed: ['ACTION_FAILED', 'FAILED', 'downstream action(s) failed'], inconclusive: ['ACTION_INCONCLUSIVE', 'INCONCLUSIVE', 'downstream action(s) could not be verified either way'],
     not_supported: ['ACTION_NOT_SUPPORTED', 'NOT_SUPPORTED', 'action(s) target a system with no supported operation'], succeeded_unverified: ['ACTION_AWAITING_VERIFICATION', 'OPEN', 'action(s) reported done by the target but not yet verified'],
   };
-  for (const a of (await c.tx.query(`SELECT a.run_id,a.state,count(*)::int n FROM app.downstream_actions a JOIN app.workflow_runs r ON r.tenant_id=a.tenant_id AND r.legal_entity_id=a.legal_entity_id AND r.environment_id=a.environment_id AND r.id=a.run_id
-    WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND r.status<>'CANCELLED' AND a.state IN ('failed','inconclusive','not_supported','succeeded_unverified') GROUP BY a.run_id,a.state LIMIT 100`, s)).rows) {
+  for (const a of capped((await c.tx.query(`SELECT a.run_id,a.state,count(*)::int n FROM app.downstream_actions a JOIN app.workflow_runs r ON r.tenant_id=a.tenant_id AND r.legal_entity_id=a.legal_entity_id AND r.environment_id=a.environment_id AND r.id=a.run_id
+    WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND r.status<>'CANCELLED' AND a.state IN ('failed','inconclusive','not_supported','succeeded_unverified') GROUP BY a.run_id,a.state ORDER BY CASE a.state WHEN 'failed' THEN 0 WHEN 'inconclusive' THEN 1 WHEN 'not_supported' THEN 2 ELSE 3 END, max(r.created_at) DESC LIMIT 101`, s)).rows, 100, 'runs with unsettled actions')) {
     const [kind, severity, text] = actionKinds[a.state]!;
     push({ kind, severity, entity_kind: 'workflow_run', entity_id: a.run_id, count: a.n, detail: `${a.n} ${text}.`, due_at: null });
   }
-  for (const r of (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status='DRY_RUN_READY' LIMIT 50`, s)).rows)
+  for (const r of capped((await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status='DRY_RUN_READY' ORDER BY created_at DESC LIMIT 51`, s)).rows, 50, 'dry runs awaiting approval'))
     push({ kind: 'RUN_AWAITING_APPROVAL', severity: 'REVIEW_REQUIRED', entity_kind: 'workflow_run', entity_id: r.id, count: 1, detail: 'A dry run is ready and waits for a second person to approve or reject it.', due_at: null });
 
-  for (const a of (await c.tx.query(`SELECT a.id FROM app.registry_activities a JOIN app.registry_activity_versions v ON v.tenant_id=a.tenant_id AND v.legal_entity_id=a.legal_entity_id AND v.environment_id=a.environment_id AND v.activity_id=a.id AND v.status='CURRENT'
+  for (const a of capped((await c.tx.query(`SELECT a.id FROM app.registry_activities a JOIN app.registry_activity_versions v ON v.tenant_id=a.tenant_id AND v.legal_entity_id=a.legal_entity_id AND v.environment_id=a.environment_id AND v.activity_id=a.id AND v.status='CURRENT'
     LEFT JOIN app.processing_conditions pc ON pc.tenant_id=v.tenant_id AND pc.legal_entity_id=v.legal_entity_id AND pc.environment_id=v.environment_id AND pc.id=v.condition_id
-    WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND a.status='ACTIVE' AND (pc.id IS NULL OR pc.unresolved) LIMIT 50`, s)).rows)
+    WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND a.status='ACTIVE' AND (pc.id IS NULL OR pc.unresolved) ORDER BY a.recorded_at DESC LIMIT 51`, s)).rows, 50, 'activities with unresolved conditions'))
     push({ kind: 'CONDITION_UNRESOLVED', severity: 'UNRESOLVED', entity_kind: 'registry_activity', entity_id: a.id, count: 1, detail: 'The processing condition for this activity is missing or unresolved; dependent destructive work is blocked.', due_at: null });
 
   const unmapped = Number((await c.tx.query(`SELECT count(*) n FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND a.status='ACTIVE'
@@ -54,8 +58,8 @@ export async function operationsAttention(c: Context) {
       OR NOT EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.link_kind='PRINCIPAL_CATEGORY' AND l.valid_to IS NULL)
       OR NOT EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.link_kind='DATA_CATEGORY' AND l.valid_to IS NULL))`, s)).rows[0].n);
   if (unmapped) push({ kind: 'ACTIVITY_MAPPING_MISSING', severity: 'MISSING', entity_kind: 'registry_activity', entity_id: null, count: unmapped, detail: `${unmapped} activit${unmapped === 1 ? 'y has' : 'ies have'} no system, Data Principal category or data category mapped.`, due_at: null });
-  for (const sys of (await c.tx.query(`SELECT DISTINCT l.system_id FROM app.registry_activity_links l WHERE l.tenant_id=$1 AND l.legal_entity_id=$2 AND l.environment_id=$3 AND l.link_kind='SYSTEM' AND l.valid_to IS NULL
-    AND NOT EXISTS(SELECT 1 FROM app.connector_bindings b WHERE b.tenant_id=l.tenant_id AND b.legal_entity_id=l.legal_entity_id AND b.environment_id=l.environment_id AND b.system_id=l.system_id AND b.valid_to IS NULL) LIMIT 50`, s)).rows)
+  for (const sys of capped((await c.tx.query(`SELECT DISTINCT l.system_id FROM app.registry_activity_links l WHERE l.tenant_id=$1 AND l.legal_entity_id=$2 AND l.environment_id=$3 AND l.link_kind='SYSTEM' AND l.valid_to IS NULL
+    AND NOT EXISTS(SELECT 1 FROM app.connector_bindings b WHERE b.tenant_id=l.tenant_id AND b.legal_entity_id=l.legal_entity_id AND b.environment_id=l.environment_id AND b.system_id=l.system_id AND b.valid_to IS NULL) ORDER BY l.system_id LIMIT 51`, s)).rows, 50, 'unbound systems'))
     push({ kind: 'SYSTEM_UNBOUND', severity: 'MISSING', entity_kind: 'system', entity_id: sys.system_id, count: 1, detail: 'A system used by an activity has no connector binding, so no action there can be executed or verified.', due_at: null });
 
   const unpropagated = await pendingWithdrawalCount(c);
@@ -66,21 +70,37 @@ export async function operationsAttention(c: Context) {
   const relMissing = Number((await c.tx.query(`SELECT count(*) n FROM app.data_principal_relationships WHERE ${predicate} AND evidence_state IN ('UNKNOWN','EVIDENCE_MISSING','NEEDS_VERIFICATION','NEEDS_REMEDIATION')`, s)).rows[0].n);
   if (relMissing) push({ kind: 'RELATIONSHIP_EVIDENCE_MISSING', severity: 'MISSING', entity_kind: 'data_principal_relationship', entity_id: null, count: relMissing, detail: `${relMissing} relationship context(s) have unknown or missing evidence.`, due_at: null });
 
-  for (const i of (await c.tx.query(`SELECT package_row_id,count(*)::int n FROM app.regulatory_impacts WHERE ${predicate} AND state='OPEN' GROUP BY package_row_id LIMIT 20`, s)).rows)
+  for (const i of capped((await c.tx.query(`SELECT package_row_id,count(*)::int n FROM app.regulatory_impacts WHERE ${predicate} AND state='OPEN' GROUP BY package_row_id ORDER BY max(created_at) DESC LIMIT 21`, s)).rows, 20, 'packages with open impacts'))
     push({ kind: 'REGULATORY_IMPACT_OPEN', severity: 'REVIEW_REQUIRED', entity_kind: 'regulatory_package', entity_id: i.package_row_id, count: i.n, detail: `${i.n} regulatory impact item(s) await review.`, due_at: null });
   const unresolvedApplicability = Number((await c.tx.query(`SELECT count(*) n FROM (SELECT DISTINCT ON (requirement_id,scope_kind,scope_id) result FROM app.applicability_decisions WHERE ${predicate} ORDER BY requirement_id,scope_kind,scope_id,evaluated_at DESC) d WHERE result='UNRESOLVED'`, s)).rows[0].n);
   if (unresolvedApplicability) push({ kind: 'APPLICABILITY_UNRESOLVED', severity: 'UNRESOLVED', entity_kind: 'applicability_decision', entity_id: null, count: unresolvedApplicability, detail: `${unresolvedApplicability} requirement decision(s) are unresolved because a customer fact is not recorded.`, due_at: null });
-  for (const r of (await c.tx.query(`SELECT rule_id,count(*)::int n FROM app.retention_states WHERE ${predicate} AND state='UNRESOLVED' GROUP BY rule_id LIMIT 20`, s)).rows)
+  for (const r of capped((await c.tx.query(`SELECT rule_id,count(*)::int n FROM app.retention_states WHERE ${predicate} AND state='UNRESOLVED' GROUP BY rule_id ORDER BY count(*) DESC, rule_id LIMIT 21`, s)).rows, 20, 'retention rules with unresolved subjects'))
     push({ kind: 'RETENTION_UNRESOLVED', severity: 'UNRESOLVED', entity_kind: 'retention_rule', entity_id: r.rule_id, count: r.n, detail: `${r.n} subject(s) cannot be evaluated under this rule because a fact is missing.`, due_at: null });
-  for (const h of (await c.tx.query(`SELECT id,review_at FROM app.retention_holds WHERE ${predicate} AND state='ACTIVE' AND review_at<$4 LIMIT 50`, [...s, now])).rows)
+  for (const h of capped((await c.tx.query(`SELECT id,review_at FROM app.retention_holds WHERE ${predicate} AND state='ACTIVE' AND review_at<$4 ORDER BY review_at LIMIT 51`, [...s, now])).rows, 50, 'holds past review'))
     push({ kind: 'HOLD_REVIEW_DUE', severity: 'OVERDUE', entity_kind: 'retention_hold', entity_id: h.id, count: 1, detail: 'A hold has passed its review date.', due_at: iso(h.review_at) });
-  for (const o of (await c.tx.query(`SELECT id,kind,due_at FROM app.sdf_obligations WHERE ${predicate} AND state='OPEN' AND (due_at IS NULL OR due_at<$4) LIMIT 50`, [...s, new Date(now.getTime() + 30 * DAY)])).rows)
+  for (const o of capped((await c.tx.query(`SELECT id,kind,due_at FROM app.sdf_obligations WHERE ${predicate} AND state='OPEN' AND (due_at IS NULL OR due_at<$4) ORDER BY due_at ASC NULLS LAST, created_at DESC LIMIT 51`, [...s, new Date(now.getTime() + 30 * DAY)])).rows, 50, 'SDF obligations'))
     push({ kind: 'SDF_OBLIGATION_DUE', severity: o.due_at === null ? 'OPEN' : o.due_at < now ? 'OVERDUE' : 'DUE_SOON', entity_kind: 'sdf_obligation', entity_id: o.id, count: 1, detail: `SDF obligation ${o.kind} is open.`, due_at: iso(o.due_at) });
-  for (const j of (await c.tx.query(`SELECT job_id,count(*)::int n FROM app.bulk_job_rows WHERE ${predicate} AND state='ERROR' GROUP BY job_id LIMIT 20`, s)).rows)
+  for (const j of capped((await c.tx.query(`SELECT job_id,count(*)::int n FROM app.bulk_job_rows WHERE ${predicate} AND state='ERROR' GROUP BY job_id ORDER BY count(*) DESC, job_id LIMIT 21`, s)).rows, 20, 'import jobs with failed rows'))
     push({ kind: 'IMPORT_ROWS_FAILED', severity: 'FAILED', entity_kind: 'bulk_job', entity_id: j.job_id, count: j.n, detail: `${j.n} import row(s) failed and are isolated for review or replay.`, due_at: null });
+  // The per-kind caps above sum to less than the contract bound, so nothing is dropped here; the slice is a guard only.
+  const items = found.slice(0, 600);
+  const dropped = found.length - items.length;
   await audit(c, 'operations.attention');
   return O.OperationsAttention.parse({ as_of: now.toISOString(), items, derived_from_records: true,
-    limits: ['Every item is derived from recorded state at the time of reading.', 'An absent item means nothing recorded raises it, not that the underlying obligation is met.'] });
+    limits: ['Every item is derived from recorded state at the time of reading.', 'An absent item means nothing recorded raises it, not that the underlying obligation is met.',
+      ...(dropped ? [`${dropped} further item(s) are not listed; at most 600 are shown.`] : []), ...truncationNotes(truncated)] });
+}
+
+/** All truncated kinds, named in as few 500-character notes as needed, so none is lost to the limit on the number of notes. */
+function truncationNotes(kinds: string[]) {
+  const notes: string[] = []; let current = '';
+  const lead = 'More exist than are listed for: ';
+  for (const k of kinds) {
+    const next = current ? `${current}; ${k}` : `${lead}${k}`;
+    if (next.length > 490) { notes.push(`${current}.`); current = `${lead}${k}`; } else current = next;
+  }
+  if (current) notes.push(`${current}.`);
+  return notes;
 }
 
 export async function operationsCoverage(c: Context) {

@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.43.0",
+  "contract_version": "0.46.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4800,6 +4800,53 @@
       "authority": "STAFF",
       "response": "PackageSubmission",
       "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "import_audit_channel_document",
+      "method": "post",
+      "path": "/api/v1/admin/audit-channel-documents/{id}/import",
+      "authority": "STAFF",
+      "response": "AuditImport",
+      "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath"
+    },
+    {
+      "id": "create_audit_finding_response",
+      "method": "post",
+      "path": "/api/v1/admin/audit-engagements/{id}/finding-responses",
+      "authority": "STAFF",
+      "request": "FindingResponseCreate",
+      "response": "FindingResponse",
+      "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath",
+      "maximum_body_bytes": 65536
+    },
+    {
+      "id": "approve_audit_finding_response",
+      "method": "post",
+      "path": "/api/v1/admin/audit-finding-responses/{id}/approval",
+      "authority": "STAFF",
+      "request": "FindingResponseApproval",
+      "response": "FindingResponse",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "withdraw_audit_finding_response",
+      "method": "post",
+      "path": "/api/v1/admin/audit-finding-responses/{id}/withdrawal",
+      "authority": "STAFF",
+      "response": "FindingResponse",
+      "status": 200,
       "idempotency": true,
       "capability": "audit_exchange.approve",
       "params": "IdPath"

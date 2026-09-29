@@ -14089,6 +14089,50 @@
             "completed_at": "2026-09-16T10:00:00.000Z"
           }
         ],
+        "documents": [
+          {
+            "id": "00000000-0000-4000-8000-00000000062c",
+            "kind": "FINDINGS",
+            "received_at": "2026-10-16T10:00:00.000Z",
+            "has_pdf": false,
+            "import_id": null,
+            "imported_at": null,
+            "summary": "1 finding(s)"
+          }
+        ],
+        "responses": [
+          {
+            "id": "00000000-0000-4000-8000-00000000062e",
+            "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+            "import_id": "00000000-0000-4000-8000-00000000062d",
+            "finding_id": "00000000-0000-4000-8000-000000000622",
+            "finding_title": "Notice indicators show a gap",
+            "content": {
+              "import_id": "00000000-0000-4000-8000-00000000062d",
+              "finding_id": "00000000-0000-4000-8000-000000000622",
+              "factual_accuracy": "AGREED",
+              "agreement": "PARTIALLY_AGREE",
+              "response": "We will publish the itemised notice for the activity.",
+              "action_plan": "Publish notice v4.",
+              "owner_role": "Privacy office",
+              "due_date": "2026-12-31",
+              "dependencies": null,
+              "remediation_status": "IN_PROGRESS",
+              "risk_acceptance": null
+            },
+            "redactions": 0,
+            "prepared_by": "00000000-0000-4000-8000-00000000062f",
+            "prepared_at": "2026-10-16T10:00:00.000Z",
+            "approved_by": "00000000-0000-4000-8000-000000000630",
+            "approved_at": "2026-10-16T10:00:00.000Z",
+            "state": "ACCEPTED",
+            "attempts": 1,
+            "last_error": null,
+            "outcome": "ACCEPTED",
+            "completed_at": "2026-10-16T10:00:00.000Z",
+            "personal_data_review": "NONE_CONFIRMED"
+          }
+        ],
         "limits": []
       }
     },
@@ -14381,6 +14425,175 @@
         "requested_by": "00000000-0000-4000-8000-0000000005de",
         "requested_at": "2026-09-16T10:00:00.000Z",
         "completed_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "import_audit_channel_document",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-channel-documents/{id}/import",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000604",
+        "kind": "FINDINGS",
+        "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "signing_key_id": "orvia-audit-synthetic",
+        "imported_at": "2026-09-16T10:00:00.000Z",
+        "imported_by": "00000000-0000-4000-8000-0000000005df",
+        "issued_at": "2026-09-16T10:00:00.000Z",
+        "entries": 1,
+        "pdf_sha256": null,
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "document": {
+          "kind": "FINDINGS",
+          "findings": []
+        },
+        "finding_links": [
+          {
+            "finding_id": "00000000-0000-4000-8000-000000000622",
+            "grc_issue_id": "00000000-0000-4000-8000-000000000623"
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "create_audit_finding_response",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-engagements/{id}/finding-responses",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "import_id": "00000000-0000-4000-8000-00000000062d",
+        "finding_id": "00000000-0000-4000-8000-000000000622",
+        "factual_accuracy": "AGREED",
+        "agreement": "PARTIALLY_AGREE",
+        "response": "We will publish the itemised notice for the activity.",
+        "action_plan": "Publish notice v4.",
+        "owner_role": "Privacy office",
+        "due_date": "2026-12-31",
+        "dependencies": null,
+        "remediation_status": "IN_PROGRESS",
+        "risk_acceptance": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062e",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "import_id": "00000000-0000-4000-8000-00000000062d",
+        "finding_id": "00000000-0000-4000-8000-000000000622",
+        "finding_title": "Notice indicators show a gap",
+        "content": {
+          "import_id": "00000000-0000-4000-8000-00000000062d",
+          "finding_id": "00000000-0000-4000-8000-000000000622",
+          "factual_accuracy": "AGREED",
+          "agreement": "PARTIALLY_AGREE",
+          "response": "We will publish the itemised notice for the activity.",
+          "action_plan": "Publish notice v4.",
+          "owner_role": "Privacy office",
+          "due_date": "2026-12-31",
+          "dependencies": null,
+          "remediation_status": "IN_PROGRESS",
+          "risk_acceptance": null
+        },
+        "redactions": 0,
+        "prepared_by": "00000000-0000-4000-8000-00000000062f",
+        "prepared_at": "2026-10-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000630",
+        "approved_at": "2026-10-16T10:00:00.000Z",
+        "state": "ACCEPTED",
+        "attempts": 1,
+        "last_error": null,
+        "outcome": "ACCEPTED",
+        "completed_at": "2026-10-16T10:00:00.000Z",
+        "personal_data_review": "NONE_CONFIRMED"
+      }
+    },
+    {
+      "operation_id": "approve_audit_finding_response",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-finding-responses/{id}/approval",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "personal_data": "NONE_CONFIRMED"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062e",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "import_id": "00000000-0000-4000-8000-00000000062d",
+        "finding_id": "00000000-0000-4000-8000-000000000622",
+        "finding_title": "Notice indicators show a gap",
+        "content": {
+          "import_id": "00000000-0000-4000-8000-00000000062d",
+          "finding_id": "00000000-0000-4000-8000-000000000622",
+          "factual_accuracy": "AGREED",
+          "agreement": "PARTIALLY_AGREE",
+          "response": "We will publish the itemised notice for the activity.",
+          "action_plan": "Publish notice v4.",
+          "owner_role": "Privacy office",
+          "due_date": "2026-12-31",
+          "dependencies": null,
+          "remediation_status": "IN_PROGRESS",
+          "risk_acceptance": null
+        },
+        "redactions": 0,
+        "prepared_by": "00000000-0000-4000-8000-00000000062f",
+        "prepared_at": "2026-10-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000630",
+        "approved_at": "2026-10-16T10:00:00.000Z",
+        "state": "ACCEPTED",
+        "attempts": 1,
+        "last_error": null,
+        "outcome": "ACCEPTED",
+        "completed_at": "2026-10-16T10:00:00.000Z",
+        "personal_data_review": "NONE_CONFIRMED"
+      }
+    },
+    {
+      "operation_id": "withdraw_audit_finding_response",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-finding-responses/{id}/withdrawal",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062e",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "import_id": "00000000-0000-4000-8000-00000000062d",
+        "finding_id": "00000000-0000-4000-8000-000000000622",
+        "finding_title": "Notice indicators show a gap",
+        "content": {
+          "import_id": "00000000-0000-4000-8000-00000000062d",
+          "finding_id": "00000000-0000-4000-8000-000000000622",
+          "factual_accuracy": "AGREED",
+          "agreement": "PARTIALLY_AGREE",
+          "response": "We will publish the itemised notice for the activity.",
+          "action_plan": "Publish notice v4.",
+          "owner_role": "Privacy office",
+          "due_date": "2026-12-31",
+          "dependencies": null,
+          "remediation_status": "IN_PROGRESS",
+          "risk_acceptance": null
+        },
+        "redactions": 0,
+        "prepared_by": "00000000-0000-4000-8000-00000000062f",
+        "prepared_at": "2026-10-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000630",
+        "approved_at": "2026-10-16T10:00:00.000Z",
+        "state": "ACCEPTED",
+        "attempts": 1,
+        "last_error": null,
+        "outcome": "ACCEPTED",
+        "completed_at": "2026-10-16T10:00:00.000Z",
+        "personal_data_review": "NONE_CONFIRMED"
       }
     },
     {

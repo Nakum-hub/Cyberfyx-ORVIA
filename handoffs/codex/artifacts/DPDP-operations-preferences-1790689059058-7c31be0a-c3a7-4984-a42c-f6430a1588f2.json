@@ -1,0 +1,37 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T13:37:39.058Z",
+  "suite": "preferences",
+  "assertions": [
+    {
+      "name": "the fixture scope has a published purpose to depend on",
+      "result": "PASS",
+      "expected": "string",
+      "actual": "string"
+    },
+    {
+      "name": "a principal cannot define topics",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot define topics",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "unexpected failure in topics",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Unexpected 503: {\"error\":{\"code\":\"SERVICE_UNAVAILABLE\",\"message\":\"Request could not be completed.\",\"retry\":\"AFTER_DELAY\"},\"request_id\":\"f0dafd89-9e5b-4c13-a87a-95facba4a818\"}"
+    }
+  ],
+  "passed": 3,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

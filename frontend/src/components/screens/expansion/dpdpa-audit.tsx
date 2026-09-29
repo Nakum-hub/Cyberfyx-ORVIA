@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from
 import type { schemas } from '@orvia/contracts';
 import { ApiError } from '@orvia/contracts/client';
 import { call } from '../../shared/api.ts';
-import { Badge, DataTable, Facts, NoticeBox, PageHead, Section, SelectField, TextAreaField, TextField } from '../../shared/ui.tsx';
+import { Badge, CheckboxField, DataTable, Facts, NoticeBox, PageHead, Section, SelectField, TextAreaField, TextField } from '../../shared/ui.tsx';
 
 /**
  * DPDPA external audit, client side (revision 1.5 addendum). The gap register
@@ -100,7 +100,7 @@ export function DpdpaAudit({ capabilities }: { capabilities: readonly string[] }
         <TextField label="Audit period to (YYYY-MM-DD)" value={eng.to} onChange={v => setEng(x => ({ ...x, to: v }))} required />
         <TextField label="Processing agreement reference" value={eng.pa} onChange={v => setEng(x => ({ ...x, pa: v }))} hint="Only if a processing agreement with the audit firm is signed; without one, packages must hold no personal data." />
         <TextAreaField label="Auditor's independence declaration" value={eng.independence} onChange={v => setEng(x => ({ ...x, independence: v }))} />
-        <TextField label="Auditor's Board empanelment reference" value={eng.empanelment} onChange={v => setEng(x => ({ ...x, empanelment: v }))} hint="Only if the auditor states one (Rule 13 audits); never assumed." />
+        <TextField label="Auditor's eligibility reference (optional)" value={eng.empanelment} onChange={v => setEng(x => ({ ...x, empanelment: v }))} hint="Only if the auditor states one. ORVIA records it as stated and never decides statutory eligibility." />
         <button className="primary" type="submit" disabled={busy}>Record engagement</button></form>}
     </Section>
     {openId && <EngagementDetail key={openId} id={openId} files={files} capabilities={capabilities} onChange={load} />}
@@ -123,7 +123,7 @@ function EngagementDetail({ id, files, capabilities, onChange }: { id: string; f
   return <Section title={`Engagement ${e.engagement_reference} — ${e.firm_name}`}>
     <Messages error={error} note={note} />
     <Facts items={[{ term: 'Scope', value: e.scope_requirement_ids.join(', ') }, { term: 'Processing agreement', value: e.processing_agreement.reference ?? 'Not recorded' },
-      { term: 'Independence', value: e.independence.statement ?? 'Not declared' }, { term: 'Empanelment', value: e.empanelment_reference ?? 'None stated' }]} />
+      { term: 'Independence', value: e.independence.statement ?? 'Not declared' }, { term: 'Auditor eligibility reference', value: e.empanelment_reference ?? 'None stated' }]} />
     <DataTable caption="Evidence packages" rowKey={p => p.id} rows={e.packages} columns={[{ key: 'c', header: 'Created', cell: p => p.created_at.slice(0, 16).replace('T', ' ') },
       { key: 's', header: 'State', cell: p => p.effective_state.toLowerCase() }, { key: 'i', header: 'Items', cell: p => p.item_count }, { key: 'e', header: 'Exports', cell: p => p.exports },
       { key: 'f', header: 'Fingerprint', cell: p => p.manifest_fingerprint ? <code>{p.manifest_fingerprint.slice(0, 16)}…</code> : '—' },
@@ -155,7 +155,7 @@ function EngagementDetail({ id, files, capabilities, onChange }: { id: string; f
         <button type="submit" disabled={busy}>Approve exception and add the item above</button></form>}
       {approve && <button className="primary" type="button" disabled={busy || pkg.screening.length > 0 || pkg.items.length === 0} onClick={() => void run(async () => setPkg(await call('approve_audit_package', undefined, { params: { id: pkg.id }, idempotency_key: key() })), 'Package approved and sealed.')}>Approve and seal package</button>}
     </P>}
-    <MandatePanel engagement={e} capabilities={capabilities} />
+    <MandatePanel engagement={e} capabilities={capabilities} onImported={load} />
     <h4>Files from your auditor</h4>
     <DataTable caption="Signed files imported" rowKey={i => i.id} rows={e.imports} columns={[{ key: 'k', header: 'Kind', cell: i => i.kind.replaceAll('_', ' ').toLowerCase() }, { key: 'd', header: 'Issued', cell: i => i.issued_at.slice(0, 10) },
       { key: 'n', header: 'Entries', cell: i => i.entries }, { key: 'x', header: '', cell: i => <span className="row">
@@ -183,7 +183,7 @@ const DECISION_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral' | 'info'>
  * generates, signs and sends personal-data-free evidence on schedule and answers
  * the auditor's requests inside it. Requests for files wait here for a person.
  */
-function MandatePanel({ engagement, capabilities }: { engagement: Engagement; capabilities: readonly string[] }) {
+function MandatePanel({ engagement, capabilities, onImported }: { engagement: Engagement; capabilities: readonly string[]; onImported: () => Promise<void> }) {
   const [ch, setCh] = useState<Channel | null>(null); const [loadError, setLoadError] = useState<string | null>(null);
   const load = useCallback(async () => { try { setCh(await call('audit_channel', undefined, { params: { id: engagement.id } })); } catch (e) { setLoadError(explain(e)); } }, [engagement.id]);
   useEffect(() => { void load(); }, [load]);
@@ -191,6 +191,14 @@ function MandatePanel({ engagement, capabilities }: { engagement: Engagement; ca
   const prepare = capabilities.includes('audit_exchange.prepare'); const approve = capabilities.includes('audit_exchange.approve');
   const [form, setForm] = useState({ kind: 'ENGAGEMENT', scope: engagement.scope_requirement_ids, categories: ['INDICATORS', 'CONTROL_STANDING', 'CONTROL_TESTS', 'NOTICE_VERSIONS', 'ACTIVITY_LOG_DIGEST', 'SAMPLE_COUNTS'], schedule: 'WEEKLY', days: '90' });
   const [reason, setReason] = useState(''); const [answer, setAnswer] = useState<Record<string, { package_id: string; reason: string }>>({});
+  const [findings, setFindings] = useState<{ import_id: string; finding_id: string; label: string }[]>([]);
+  const findingImports = engagement.imports.filter(i => i.kind === 'FINDINGS').map(i => i.id).join(',');
+  useEffect(() => { void (async () => { const out: typeof findings = [];
+    for (const importId of findingImports.split(',').filter(Boolean)) { try { const imp = await call('audit_import', undefined, { params: { id: importId } });
+      for (const f of (imp.document as { findings: { finding_id: string; requirement_id: string; title: string; severity: string }[] }).findings) out.push({ import_id: importId, finding_id: f.finding_id, label: `[${f.severity}] ${f.requirement_id}: ${f.title}` }); } catch { /* shown as no findings */ } }
+    setFindings(out); })(); }, [findingImports]);
+  const [noPersonalData, setNoPersonalData] = useState<Record<string, boolean>>({});
+  const [resp, setResp] = useState({ finding: '', factual_accuracy: 'AGREED', agreement: 'AGREE', response: '', action_plan: '', owner_role: '', due_date: '', remediation_status: 'IN_PROGRESS', authority: '', justification: '', until: '' });
   if (!ch) return loadError ? <NoticeBox tone="stop" title="Audit channel unavailable"><p>{loadError}</p></NoticeBox> : <p role="status">Reading the audit channel…</p>;
   const current = ch.mandates.find(m => ['ACTIVE', 'SUSPENDED'].includes(m.state)); const draft = ch.mandates.find(m => m.state === 'DRAFT');
   const sendable = engagement.packages.filter(p => p.effective_state === 'APPROVED');
@@ -236,6 +244,36 @@ function MandatePanel({ engagement, capabilities }: { engagement: Engagement; ca
       { key: 'c', header: 'Categories', cell: d => d.categories.map(c => c.replaceAll('_', ' ').toLowerCase()).join(', ') }, { key: 'e', header: 'Entries', cell: d => d.entries },
       { key: 's', header: 'Outcome', cell: d => <><Badge label={d.state.toLowerCase()} tone={d.state === 'ACCEPTED' ? 'ok' : d.state === 'REFUSED' || d.state === 'FAILED' ? 'stop' : 'warn'} />{d.reasons.length > 0 && <span className="cell-sub">{d.reasons.join(', ').toLowerCase()}</span>}</> },
       { key: 't', header: 'Generated', cell: d => d.created_at.slice(0, 16).replace('T', ' ') }, { key: 'h', header: 'Digest', cell: d => <code>{d.digest.slice(0, 12)}…</code> }]} />
+    <h4>Documents from your auditor over the channel</h4>
+    {ch.documents.length ? <DataTable caption="Signed documents received over the channel" rowKey={d => d.id} rows={ch.documents} columns={[{ key: 'k', header: 'Document', cell: d => <span className="cell-primary">{d.kind.replaceAll('_', ' ').toLowerCase()}<span className="cell-sub">{d.summary}{d.has_pdf ? ' · with report PDF' : ''}</span></span> },
+      { key: 'r', header: 'Received', cell: d => d.received_at.slice(0, 16).replace('T', ' ') },
+      { key: 'x', header: '', cell: d => d.import_id ? <Badge label="imported" tone="ok" /> : prepare ? <button type="button" disabled={busy} onClick={() => void run(async () => { await call('import_audit_channel_document', undefined, { params: { id: d.id }, idempotency_key: key() }); await onImported(); }, 'Signed document verified and imported.')}>Verify and import</button> : 'Waiting for a person to import it' }]} />
+      : <p className="muted">None yet. When your auditor issues signed findings, request lists or reports, ORVIA collects them at its next check-in and holds them here until someone imports them; nothing is imported automatically.</p>}
+    <h4>Management responses to findings</h4>
+    <p className="muted">Answer a finding from an imported findings file. The response is screened for contact details, approved by an owner or administrator other than the preparer, then signed with this installation&apos;s key and sent at the next check-in while a mandate is open. Only the state of any GRC issue tracking the finding travels with it, never its content.</p>
+    <p className="muted">The channel carries no personal data: the approver confirms the response contains none. If an answer needs personal data, send it in a sealed package instead, where each item carries its own exception and your auditor must have a processing agreement recorded.</p>
+    {ch.responses.length > 0 && <DataTable caption="Management responses" rowKey={r => r.id} rows={ch.responses} columns={[{ key: 'f', header: 'Finding', cell: r => <span className="cell-primary">{r.finding_title ?? r.finding_id.slice(0, 8)}<span className="cell-sub">{(r.content as { agreement: string }).agreement.replaceAll('_', ' ').toLowerCase()} · {(r.content as { remediation_status: string }).remediation_status.replaceAll('_', ' ').toLowerCase()}{r.redactions ? ` · ${r.redactions} redaction(s)` : ''}</span></span> },
+      { key: 's', header: 'State', cell: r => <><Badge label={r.state.toLowerCase()} tone={r.state === 'ACCEPTED' ? 'ok' : ['REFUSED', 'FAILED'].includes(r.state) ? 'stop' : r.state === 'WITHDRAWN' ? 'neutral' : 'warn'} />{r.last_error && <span className="cell-sub">{r.last_error.replaceAll('_', ' ').toLowerCase()}</span>}{r.outcome && r.outcome !== 'ACCEPTED' && <span className="cell-sub">{r.outcome.replaceAll('_', ' ').toLowerCase()}</span>}</> },
+      { key: 'x', header: '', cell: r => r.state === 'DRAFT' && approve ? <span className="row">
+        <CheckboxField label="I have read this response: it contains no personal data (no names, contact details, health, financial or other details about any person)." checked={noPersonalData[r.id] ?? false} onChange={v => setNoPersonalData(x => ({ ...x, [r.id]: v }))} />
+        <button type="button" disabled={busy || !noPersonalData[r.id]} onClick={() => void run(() => call('approve_audit_finding_response', { personal_data: 'NONE_CONFIRMED' }, { params: { id: r.id }, idempotency_key: key() }), 'Response approved; it is sent at the next check-in.')}>Approve response</button>
+        <button type="button" disabled={busy} onClick={() => void run(() => call('withdraw_audit_finding_response', undefined, { params: { id: r.id }, idempotency_key: key() }), 'Draft withdrawn.')}>Withdraw draft</button></span> : null }]} />}
+    {prepare && engagement.state === 'ACTIVE' && (findings.length ? <form aria-label="Prepare management response" onSubmit={(ev: FormEvent) => { ev.preventDefault(); const f = findings.find(x => `${x.import_id}|${x.finding_id}` === resp.finding); if (!f) return;
+      void run(() => call('create_audit_finding_response', { import_id: f.import_id, finding_id: f.finding_id, factual_accuracy: resp.factual_accuracy as 'AGREED' | 'DISPUTED', agreement: resp.agreement as 'AGREE' | 'PARTIALLY_AGREE' | 'DISAGREE', response: resp.response,
+        action_plan: resp.action_plan.trim() || null, owner_role: resp.owner_role.trim() || null, due_date: resp.due_date || null, dependencies: null, remediation_status: resp.remediation_status as 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED_CLAIMED' | 'RISK_ACCEPTANCE_PROPOSED',
+        risk_acceptance: resp.remediation_status === 'RISK_ACCEPTANCE_PROPOSED' ? { accepting_authority: resp.authority, justification: resp.justification, proposed_until: resp.until } : null }, { params: { id: engagement.id }, idempotency_key: key() }), 'Response drafted; a different owner or administrator approves it.'); }}>
+      <SelectField label="Finding" value={resp.finding} onChange={v => setResp(x => ({ ...x, finding: v }))} options={findings.map(f => ({ value: `${f.import_id}|${f.finding_id}`, label: f.label }))} required />
+      <SelectField label="Facts of the finding" value={resp.factual_accuracy} onChange={v => setResp(x => ({ ...x, factual_accuracy: v }))} options={[{ value: 'AGREED', label: 'Agreed' }, { value: 'DISPUTED', label: 'Disputed' }]} required />
+      <SelectField label="Agreement with the finding" value={resp.agreement} onChange={v => setResp(x => ({ ...x, agreement: v }))} options={[{ value: 'AGREE', label: 'Agree' }, { value: 'PARTIALLY_AGREE', label: 'Partially agree' }, { value: 'DISAGREE', label: 'Disagree' }]} required />
+      <TextAreaField label="Response" value={resp.response} onChange={v => setResp(x => ({ ...x, response: v }))} required />
+      <TextAreaField label="Action plan" value={resp.action_plan} onChange={v => setResp(x => ({ ...x, action_plan: v }))} />
+      <TextField label="Owner (role)" value={resp.owner_role} onChange={v => setResp(x => ({ ...x, owner_role: v }))} />
+      <TextField label="Target date (YYYY-MM-DD)" value={resp.due_date} onChange={v => setResp(x => ({ ...x, due_date: v }))} />
+      <SelectField label="Remediation status" value={resp.remediation_status} onChange={v => setResp(x => ({ ...x, remediation_status: v }))} options={[{ value: 'NOT_STARTED', label: 'Not started' }, { value: 'IN_PROGRESS', label: 'In progress' }, { value: 'COMPLETED_CLAIMED', label: 'Completed (the auditor retests it)' }, { value: 'RISK_ACCEPTANCE_PROPOSED', label: 'We propose to accept the risk' }]} required />
+      {resp.remediation_status === 'RISK_ACCEPTANCE_PROPOSED' && <><TextField label="Accepting authority" value={resp.authority} onChange={v => setResp(x => ({ ...x, authority: v }))} required />
+        <TextAreaField label="Justification" value={resp.justification} onChange={v => setResp(x => ({ ...x, justification: v }))} required hint="The auditor records an acceptance of at most a year; the finding stays in the report." />
+        <TextField label="Proposed until (YYYY-MM-DD)" value={resp.until} onChange={v => setResp(x => ({ ...x, until: v }))} required /></>}
+      <button type="submit" disabled={busy}>Prepare response</button></form> : <p className="muted">Import a signed findings file to respond to its findings.</p>)}
     {approve && sendable.length > 0 && ch.audit_service.configured && current && <p className="muted">A sealed package can also be sent over the channel instead of carried as a file:{' '}
       {sendable.map(p => <button key={p.id} type="button" disabled={busy} onClick={() => void run(() => call('submit_audit_package_over_channel', undefined, { params: { id: p.id }, idempotency_key: key() }), 'Package queued; it is sent at the next check-in.')}>Send package sealed {p.approved_at?.slice(0, 10)}</button>)}</p>}
     {approve && engagement.state === 'ACTIVE' && <p><button type="button" className="danger" disabled={busy || reason.trim().length < 3} onClick={() => void run(() => call('close_audit_engagement', { reason }, { params: { id: engagement.id }, idempotency_key: key() }), 'Engagement closed; its mandate has ended and nothing more is sent.')}>Close engagement (uses the reason above)</button></p>}

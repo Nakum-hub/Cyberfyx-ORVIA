@@ -22,10 +22,10 @@ import { renderPdf, type PdfLine } from './pdf.ts';
 export type Actor = { actor_id: string; actor_domain: 'VENDOR_STAFF' | 'CLIENT_ACCOUNT' | 'CLIENT_INSTALLATION'; role: string; organisation_id: string | null };
 export type Ctx = { tx: pg.PoolClient; actor: Actor; requestId: string };
 export type Keys = { vault: Buffer; audit: () => AuditKey; licence: () => VendorKey };
-const iso = (v: unknown) => v === null || v === undefined ? null : (v as Date).toISOString();
-const day = (v: unknown) => v === null || v === undefined ? null : typeof v === 'string' ? v.slice(0, 10) : new Date((v as Date).getTime() - (v as Date).getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-const refuse = (status: number, field: string, code: string): never => { throw new AccessError(status, status === 404 ? 'NOT_FOUND' : status === 403 ? 'FORBIDDEN' : 'VALIDATION_ERROR', [{ field, code }]); };
-async function guarded<T>(work: () => Promise<T>): Promise<T> {
+export const iso = (v: unknown) => v === null || v === undefined ? null : (v as Date).toISOString();
+export const day = (v: unknown) => v === null || v === undefined ? null : typeof v === 'string' ? v.slice(0, 10) : new Date((v as Date).getTime() - (v as Date).getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+export const refuse = (status: number, field: string, code: string): never => { throw new AccessError(status, status === 404 ? 'NOT_FOUND' : status === 403 ? 'FORBIDDEN' : 'VALIDATION_ERROR', [{ field, code }]); };
+export async function guarded<T>(work: () => Promise<T>): Promise<T> {
   try { return await work(); }
   catch (error) {
     const e = error as { code?: string; message?: string; hint?: string; constraint?: string };
@@ -115,11 +115,11 @@ export async function issueOrganisationLicence(c: Ctx, input: unknown, keys: Key
 }
 
 // Engagements
-async function engagementRow(c: Ctx, id: string) {
+export async function engagementRow(c: Ctx, id: string) {
   return (await c.tx.query('SELECT e.*, o.name AS organisation_name FROM vendor.engagements e JOIN vendor.organisations o ON o.id = e.organisation_id WHERE e.id=$1', [id])).rows[0] ?? refuse(404, 'id', 'not_found');
 }
-const onTeam = async (c: Ctx, id: string, role?: string) => (await c.tx.query('SELECT vendor.on_team($1,$2) AS ok', [id, role ?? null])).rows[0].ok === true;
-async function requireTeam(c: Ctx, id: string, role?: string) { await engagementRow(c, id); if (!(await onTeam(c, id, role))) throw new AccessError(403, 'FORBIDDEN'); }
+export const onTeam = async (c: Ctx, id: string, role?: string) => (await c.tx.query('SELECT vendor.on_team($1,$2) AS ok', [id, role ?? null])).rows[0].ok === true;
+export async function requireTeam(c: Ctx, id: string, role?: string) { await engagementRow(c, id); if (!(await onTeam(c, id, role))) throw new AccessError(403, 'FORBIDDEN'); }
 const summary = async (c: Ctx, r: pg.QueryResultRow) => ({ id: r.id, organisation_id: r.organisation_id, organisation_name: r.organisation_name, reference: r.reference, state: r.state,
   period_from: day(r.period_from), period_to: day(r.period_to), scope_requirement_ids: r.scope_requirement_ids, created_at: iso(r.created_at), on_team: await onTeam(c, r.id) });
 export async function engagementList(c: Ctx) {
@@ -306,7 +306,7 @@ export async function recordResult(c: Ctx, id: string, input: unknown) {
 }
 
 // Requests and findings
-async function findingsView(c: Ctx, id: string) {
+export async function findingsView(c: Ctx, id: string) {
   const findings = (await c.tx.query('SELECT * FROM vendor.findings WHERE engagement_id=$1 ORDER BY created_at, id', [id])).rows;
   const events = (await c.tx.query('SELECT fe.* FROM vendor.finding_events fe JOIN vendor.findings f ON f.id = fe.finding_id WHERE f.engagement_id=$1 ORDER BY fe.recorded_at', [id])).rows;
   const requests = (await c.tx.query('SELECT id, requirement_id, description, due_date, created_at FROM vendor.audit_requests WHERE engagement_id=$1 ORDER BY created_at, id', [id])).rows;
@@ -337,15 +337,18 @@ export async function recordFindingEvent(c: Ctx, findingId: string, input: unkno
   await requireTeam(c, f.engagement_id);
   const next: Record<string, string> = { CLIENT_RESPONSE: 'CLIENT_RESPONDED', RETEST_PASSED: 'RETEST_PASSED', RETEST_FAILED: 'RETEST_FAILED', CLOSED: 'CLOSED' };
   if (f.status === 'CLOSED') refuse(409, 'finding', 'closed');
-  if (v.event === 'CLOSED' && f.status !== 'RETEST_PASSED') refuse(409, 'event', 'close_needs_passed_retest');
+  // Retest results and closure have their own evidence-backed actions (task AUDIT-PRACTICE-01); a note cannot set them.
+  if (v.event !== 'CLIENT_RESPONSE') refuse(409, 'event', 'use_the_retest_or_closure_action');
   return guarded(async () => { await c.tx.query('INSERT INTO vendor.finding_events (id, finding_id, event, note, actor_id) VALUES ($1,$2,$3,$4,$5)', [randomUUID(), findingId, v.event, v.note, c.actor.actor_id]);
     await c.tx.query('UPDATE vendor.findings SET status=$2 WHERE id=$1', [findingId, next[v.event]]); await audit(c, 'vendor.audit.finding-event', findingId); return findingsView(c, f.engagement_id); });
 }
-const header = (e: pg.QueryResultRow) => ({ engagement_code_digest: e.code_digest, engagement_reference: e.reference, firm_name: FIRM_NAME(), organisation_name: e.organisation_name, issued_at: new Date().toISOString() });
+export const header = (e: pg.QueryResultRow) => ({ engagement_code_digest: e.code_digest, engagement_reference: e.reference, firm_name: FIRM_NAME(), organisation_name: e.organisation_name, issued_at: new Date().toISOString() });
 const FIRM_NAME = () => process.env.ORVIA_AUDIT_FIRM_NAME ?? 'ORVIA audit practice';
-async function storeSigned(c: Ctx, id: string, kind: string, signed: ReturnType<typeof signAuditDocument>) {
+export async function storeSigned(c: Ctx, id: string, kind: string, signed: ReturnType<typeof signAuditDocument>) {
   const docId = randomUUID();
   await c.tx.query('INSERT INTO vendor.signed_documents (id, engagement_id, kind, document, signing_key_id, signature, signed_by) VALUES ($1,$2,$3,$4,$5,$6,$7)', [docId, id, kind, JSON.stringify(signed.document), signed.signing_key_id, signed.signature, c.actor.actor_id]);
+  // Offered to the client installation at its next check-in when the engagement has a channel (task AUDIT-PRACTICE-01); the file route stays available.
+  if ((await c.tx.query('SELECT 1 FROM vendor.channels WHERE engagement_id=$1', [id])).rowCount) await c.tx.query('INSERT INTO vendor.channel_documents (document_id, engagement_id) VALUES ($1,$2)', [docId, id]);
   await audit(c, `vendor.audit.${kind.toLowerCase()}-signed`, docId);
   return docId;
 }
@@ -357,17 +360,20 @@ export async function exportRequests(c: Ctx, id: string, keys: Keys) {
 }
 export async function exportFindings(c: Ctx, id: string, keys: Keys) {
   await requireTeam(c, id); const e = await engagementRow(c, id); const view = await findingsView(c, id);
+  // Structured finding content (task AUDIT-PRACTICE-01) travels with the signed file when it was recorded.
+  const practiceFields = new Map((await c.tx.query('SELECT id, criterion_type, affected_scope, cause, consequence, severity_rationale, orvia_guidance, closure_type FROM vendor.findings WHERE engagement_id=$1', [id])).rows
+    .map(r => [r.id as string, Object.fromEntries(Object.entries(r).filter(([k, v]) => k !== 'id' && v !== null))]));
   const signed = signAuditDocument({ kind: 'FINDINGS', ...header(e), findings: view.items.map(f => ({ finding_id: f.id, requirement_id: f.requirement_id, provision_ids: f.provision_ids, severity: f.severity, title: f.title,
-    observation: f.observation, recommendation: f.recommendation, due_date: f.due_date, status: f.status })) }, keys.audit());
+    observation: f.observation, recommendation: f.recommendation, due_date: f.due_date, status: f.status, ...practiceFields.get(f.id) })) }, keys.audit());
   await storeSigned(c, id, 'FINDINGS', signed);
   return V.SignedFile.parse({ file_name: `orvia-audit-findings-${e.reference.replace(/[^A-Za-z0-9_-]/g, '_')}.json`, signed });
 }
 
 // Report: the lead drafts, the engagement's reviewer (a different person) approves, then it is signed.
-function assertWording(...texts: string[]) {
+export function assertWording(...texts: string[]) {
   try { assertAttestationWording(...texts); } catch (error) { refuse(400, 'wording', `refused:${((error as { problems?: string[] }).problems ?? []).join('|').replace(/[^a-z|]/gi, '_').slice(0, 50)}`); }
 }
-const reportView = (r: pg.QueryResultRow) => V.Report.parse({ id: r.id, engagement_id: r.engagement_id, version: r.version, state: r.state, opinion_as_of: day(r.opinion_as_of), method: r.method, opinion: r.opinion, limitations: r.limitations,
+export const reportView = (r: pg.QueryResultRow) => V.Report.parse({ id: r.id, engagement_id: r.engagement_id, version: r.version, state: r.state, opinion_as_of: day(r.opinion_as_of), method: r.method, opinion: r.opinion, limitations: r.limitations,
   drafted_by: r.drafted_by, drafted_at: iso(r.drafted_at), approved_by: r.approved_by, approved_at: iso(r.approved_at), pdf_sha256: r.pdf_sha256, signed_document_id: r.signed_document_id });
 export async function reports(c: Ctx, id: string) {
   await requireTeam(c, id);
@@ -388,7 +394,7 @@ export async function draftReport(c: Ctx, id: string, input: unknown) {
     return reportView((await c.tx.query('SELECT * FROM vendor.reports WHERE id=$1', [rid])).rows[0]!);
   });
 }
-async function reportRow(c: Ctx, id: string) {
+export async function reportRow(c: Ctx, id: string) {
   const r = (await c.tx.query('SELECT * FROM vendor.reports WHERE id=$1', [id])).rows[0] ?? refuse(404, 'id', 'not_found');
   await requireTeam(c, r.engagement_id); return r;
 }
@@ -445,7 +451,7 @@ export function reportLines(e: pg.QueryResultRow, r: pg.QueryResultRow, results:
     { text: 'Opinion', style: 'heading' }, { text: r.opinion },
     { text: 'Limitations', style: 'heading' }, ...(r.limitations as string[]).map(x => ({ text: `- ${x}` })),
     { text: 'Independence', style: 'heading' }, { text: e.independence_statement },
-    ...(e.empanelment_reference ? [{ text: `Empanelment reference recorded by the auditor: ${e.empanelment_reference}`, style: 'small' as const }] : []),
+    ...(e.empanelment_reference ? [{ text: `Eligibility reference stated by the auditor (not verified by ORVIA): ${e.empanelment_reference}`, style: 'small' as const }] : []),
     { text: 'Drafted by the lead auditor and approved by a different audit reviewer before signing. The signed JSON issued with this PDF carries its SHA-256.', style: 'small' },
   ];
   assertAttestationWording(...lines.slice(4).map(l => l.text));

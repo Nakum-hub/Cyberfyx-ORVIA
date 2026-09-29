@@ -5583,6 +5583,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/audit-channel-documents/{id}/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["import_audit_channel_document"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/audit-engagements/{id}/finding-responses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create_audit_finding_response"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/audit-finding-responses/{id}/approval": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["approve_audit_finding_response"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/audit-finding-responses/{id}/withdrawal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["withdraw_audit_finding_response"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/machine/commands/poll": {
         parameters: {
             query?: never;
@@ -12885,6 +12949,71 @@ export interface components {
             sign_in: "/workspace/sign-in";
             next_steps: string[];
         };
+        ChannelDocumentView: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            kind: "REQUEST_LIST" | "FINDINGS" | "REPORT";
+            /** Format: date-time */
+            received_at: string;
+            has_pdf: boolean;
+            import_id: string | null;
+            imported_at: string | null;
+            summary: string;
+        };
+        FindingResponseCreate: {
+            /** Format: uuid */
+            import_id: string;
+            /** Format: uuid */
+            finding_id: string;
+            /** @enum {string} */
+            factual_accuracy: "AGREED" | "DISPUTED";
+            /** @enum {string} */
+            agreement: "AGREE" | "PARTIALLY_AGREE" | "DISAGREE";
+            response: string;
+            action_plan: string | null;
+            owner_role: string | null;
+            due_date: string | null;
+            dependencies: string | null;
+            /** @enum {string} */
+            remediation_status: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED_CLAIMED" | "RISK_ACCEPTANCE_PROPOSED";
+            risk_acceptance: {
+                accepting_authority: string;
+                justification: string;
+                /** Format: date */
+                proposed_until: string;
+            } | null;
+        };
+        FindingResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            engagement_id: string;
+            /** Format: uuid */
+            import_id: string;
+            /** Format: uuid */
+            finding_id: string;
+            finding_title: string | null;
+            content: unknown;
+            redactions: number;
+            /** Format: uuid */
+            prepared_by: string;
+            /** Format: date-time */
+            prepared_at: string;
+            approved_by: string | null;
+            approved_at: string | null;
+            /** @enum {string} */
+            state: "DRAFT" | "QUEUED" | "UNKNOWN" | "ACCEPTED" | "REFUSED" | "FAILED" | "WITHDRAWN";
+            attempts: number;
+            last_error: string | null;
+            outcome: string | null;
+            completed_at: string | null;
+            personal_data_review: "NONE_CONFIRMED" | null;
+        };
+        FindingResponseApproval: {
+            /** @constant */
+            personal_data: "NONE_CONFIRMED";
+        };
         AuditMandateCreate: {
             /** @enum {string} */
             kind: "ENGAGEMENT" | "CONTINUOUS_ASSURANCE";
@@ -13148,6 +13277,44 @@ export interface components {
                 /** Format: date-time */
                 requested_at: string;
                 completed_at: string | null;
+            }[];
+            documents: {
+                /** Format: uuid */
+                id: string;
+                /** @enum {string} */
+                kind: "REQUEST_LIST" | "FINDINGS" | "REPORT";
+                /** Format: date-time */
+                received_at: string;
+                has_pdf: boolean;
+                import_id: string | null;
+                imported_at: string | null;
+                summary: string;
+            }[];
+            responses: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                engagement_id: string;
+                /** Format: uuid */
+                import_id: string;
+                /** Format: uuid */
+                finding_id: string;
+                finding_title: string | null;
+                content: unknown;
+                redactions: number;
+                /** Format: uuid */
+                prepared_by: string;
+                /** Format: date-time */
+                prepared_at: string;
+                approved_by: string | null;
+                approved_at: string | null;
+                /** @enum {string} */
+                state: "DRAFT" | "QUEUED" | "UNKNOWN" | "ACCEPTED" | "REFUSED" | "FAILED" | "WITHDRAWN";
+                attempts: number;
+                last_error: string | null;
+                outcome: string | null;
+                completed_at: string | null;
+                personal_data_review: "NONE_CONFIRMED" | null;
             }[];
             limits: string[];
         };
@@ -99023,6 +99190,50 @@ export interface operations {
                      *           "completed_at": "2026-09-16T10:00:00.000Z"
                      *         }
                      *       ],
+                     *       "documents": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000062c",
+                     *           "kind": "FINDINGS",
+                     *           "received_at": "2026-10-16T10:00:00.000Z",
+                     *           "has_pdf": false,
+                     *           "import_id": null,
+                     *           "imported_at": null,
+                     *           "summary": "1 finding(s)"
+                     *         }
+                     *       ],
+                     *       "responses": [
+                     *         {
+                     *           "id": "00000000-0000-4000-8000-00000000062e",
+                     *           "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+                     *           "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *           "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *           "finding_title": "Notice indicators show a gap",
+                     *           "content": {
+                     *             "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *             "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *             "factual_accuracy": "AGREED",
+                     *             "agreement": "PARTIALLY_AGREE",
+                     *             "response": "We will publish the itemised notice for the activity.",
+                     *             "action_plan": "Publish notice v4.",
+                     *             "owner_role": "Privacy office",
+                     *             "due_date": "2026-12-31",
+                     *             "dependencies": null,
+                     *             "remediation_status": "IN_PROGRESS",
+                     *             "risk_acceptance": null
+                     *           },
+                     *           "redactions": 0,
+                     *           "prepared_by": "00000000-0000-4000-8000-00000000062f",
+                     *           "prepared_at": "2026-10-16T10:00:00.000Z",
+                     *           "approved_by": "00000000-0000-4000-8000-000000000630",
+                     *           "approved_at": "2026-10-16T10:00:00.000Z",
+                     *           "state": "ACCEPTED",
+                     *           "attempts": 1,
+                     *           "last_error": null,
+                     *           "outcome": "ACCEPTED",
+                     *           "completed_at": "2026-10-16T10:00:00.000Z",
+                     *           "personal_data_review": "NONE_CONFIRMED"
+                     *         }
+                     *       ],
                      *       "limits": []
                      *     }
                      */
@@ -100389,6 +100600,785 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["PackageSubmission"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    import_audit_channel_document: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000604",
+                     *       "kind": "FINDINGS",
+                     *       "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                     *       "signing_key_id": "orvia-audit-synthetic",
+                     *       "imported_at": "2026-09-16T10:00:00.000Z",
+                     *       "imported_by": "00000000-0000-4000-8000-0000000005df",
+                     *       "issued_at": "2026-09-16T10:00:00.000Z",
+                     *       "entries": 1,
+                     *       "pdf_sha256": null,
+                     *       "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+                     *       "document": {
+                     *         "kind": "FINDINGS",
+                     *         "findings": []
+                     *       },
+                     *       "finding_links": [
+                     *         {
+                     *           "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *           "grc_issue_id": "00000000-0000-4000-8000-000000000623"
+                     *         }
+                     *       ]
+                     *     }
+                     */
+                    "application/json": components["schemas"]["AuditImport"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_audit_finding_response: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "import_id": "00000000-0000-4000-8000-00000000062d",
+                 *       "finding_id": "00000000-0000-4000-8000-000000000622",
+                 *       "factual_accuracy": "AGREED",
+                 *       "agreement": "PARTIALLY_AGREE",
+                 *       "response": "We will publish the itemised notice for the activity.",
+                 *       "action_plan": "Publish notice v4.",
+                 *       "owner_role": "Privacy office",
+                 *       "due_date": "2026-12-31",
+                 *       "dependencies": null,
+                 *       "remediation_status": "IN_PROGRESS",
+                 *       "risk_acceptance": null
+                 *     }
+                 */
+                "application/json": components["schemas"]["FindingResponseCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000062e",
+                     *       "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+                     *       "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *       "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *       "finding_title": "Notice indicators show a gap",
+                     *       "content": {
+                     *         "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *         "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *         "factual_accuracy": "AGREED",
+                     *         "agreement": "PARTIALLY_AGREE",
+                     *         "response": "We will publish the itemised notice for the activity.",
+                     *         "action_plan": "Publish notice v4.",
+                     *         "owner_role": "Privacy office",
+                     *         "due_date": "2026-12-31",
+                     *         "dependencies": null,
+                     *         "remediation_status": "IN_PROGRESS",
+                     *         "risk_acceptance": null
+                     *       },
+                     *       "redactions": 0,
+                     *       "prepared_by": "00000000-0000-4000-8000-00000000062f",
+                     *       "prepared_at": "2026-10-16T10:00:00.000Z",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000630",
+                     *       "approved_at": "2026-10-16T10:00:00.000Z",
+                     *       "state": "ACCEPTED",
+                     *       "attempts": 1,
+                     *       "last_error": null,
+                     *       "outcome": "ACCEPTED",
+                     *       "completed_at": "2026-10-16T10:00:00.000Z",
+                     *       "personal_data_review": "NONE_CONFIRMED"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["FindingResponse"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    approve_audit_finding_response: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "personal_data": "NONE_CONFIRMED"
+                 *     }
+                 */
+                "application/json": components["schemas"]["FindingResponseApproval"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000062e",
+                     *       "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+                     *       "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *       "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *       "finding_title": "Notice indicators show a gap",
+                     *       "content": {
+                     *         "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *         "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *         "factual_accuracy": "AGREED",
+                     *         "agreement": "PARTIALLY_AGREE",
+                     *         "response": "We will publish the itemised notice for the activity.",
+                     *         "action_plan": "Publish notice v4.",
+                     *         "owner_role": "Privacy office",
+                     *         "due_date": "2026-12-31",
+                     *         "dependencies": null,
+                     *         "remediation_status": "IN_PROGRESS",
+                     *         "risk_acceptance": null
+                     *       },
+                     *       "redactions": 0,
+                     *       "prepared_by": "00000000-0000-4000-8000-00000000062f",
+                     *       "prepared_at": "2026-10-16T10:00:00.000Z",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000630",
+                     *       "approved_at": "2026-10-16T10:00:00.000Z",
+                     *       "state": "ACCEPTED",
+                     *       "attempts": 1,
+                     *       "last_error": null,
+                     *       "outcome": "ACCEPTED",
+                     *       "completed_at": "2026-10-16T10:00:00.000Z",
+                     *       "personal_data_review": "NONE_CONFIRMED"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["FindingResponse"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    withdraw_audit_finding_response: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000062e",
+                     *       "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+                     *       "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *       "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *       "finding_title": "Notice indicators show a gap",
+                     *       "content": {
+                     *         "import_id": "00000000-0000-4000-8000-00000000062d",
+                     *         "finding_id": "00000000-0000-4000-8000-000000000622",
+                     *         "factual_accuracy": "AGREED",
+                     *         "agreement": "PARTIALLY_AGREE",
+                     *         "response": "We will publish the itemised notice for the activity.",
+                     *         "action_plan": "Publish notice v4.",
+                     *         "owner_role": "Privacy office",
+                     *         "due_date": "2026-12-31",
+                     *         "dependencies": null,
+                     *         "remediation_status": "IN_PROGRESS",
+                     *         "risk_acceptance": null
+                     *       },
+                     *       "redactions": 0,
+                     *       "prepared_by": "00000000-0000-4000-8000-00000000062f",
+                     *       "prepared_at": "2026-10-16T10:00:00.000Z",
+                     *       "approved_by": "00000000-0000-4000-8000-000000000630",
+                     *       "approved_at": "2026-10-16T10:00:00.000Z",
+                     *       "state": "ACCEPTED",
+                     *       "attempts": 1,
+                     *       "last_error": null,
+                     *       "outcome": "ACCEPTED",
+                     *       "completed_at": "2026-10-16T10:00:00.000Z",
+                     *       "personal_data_review": "NONE_CONFIRMED"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["FindingResponse"];
                 };
             };
             /** @description VALIDATION_ERROR */

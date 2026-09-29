@@ -7,7 +7,8 @@ import { canonicalJson } from '../../../../shared/contracts/src/crypto.ts';
 import { AccessError } from '../../../authorization/src/index.ts';
 import { audit, type Context } from '../shared/transaction.ts';
 import { iso, predicate, refuse, scope } from '../operations/shared.ts';
-import { engagement } from './exchange.ts';
+import { engagement, importDocument } from './exchange.ts';
+import { redactContactDetails } from '../../../../shared/contracts/src/redaction.ts';
 
 /**
  * Client staff side of the DPDPA audit mandate (revision 1.6 addendum): the
@@ -66,8 +67,11 @@ export async function auditChannel(c: Context, engagementId: string) {
   const limits: string[] = [];
   if (!available) limits.push('This engagement was registered before the audit channel existed; evidence for it moves only as files.');
   if (!address || !process.env.ORVIA_AUDIT_KEY_ID) limits.push('The trust file names no audit service address or audit key, so nothing is sent; evidence moves only as files until the vendor supplies an updated trust file.');
+  const documents = (await c.tx.query(`SELECT id, kind, received_at, pdf IS NOT NULL AS has_pdf, import_id, imported_at, signed FROM app.audit_channel_documents WHERE ${predicate} AND engagement_id=$4 ORDER BY received_at DESC LIMIT 200`, [...scope(c), engagementId])).rows;
+  const responses = (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND engagement_id=$4 ORDER BY prepared_at DESC LIMIT 500`, [...scope(c), engagementId])).rows;
   return D.AuditChannel.parse({ engagement_id: engagementId, available, audit_service: { configured: Boolean(address && process.env.ORVIA_AUDIT_KEY_ID), address }, evidence_key_id: keyId,
-    mandates: mandates.map(mandateView), requests: requests.map(requestView), deliveries: deliveries.map(deliveryView), submissions: submissions.map(submissionView), limits });
+    mandates: mandates.map(mandateView), requests: requests.map(requestView), deliveries: deliveries.map(deliveryView), submissions: submissions.map(submissionView),
+    documents: documents.map(documentView), responses: await Promise.all(responses.map(r => responseView(c, r))), limits });
 }
 
 export async function createMandate(c: Context, engagementId: string, input: unknown) {
@@ -144,4 +148,66 @@ export async function decideRequest(c: Context, id: string, input: unknown) {
   if (v.decision === 'PACKAGE') await queueSubmission(c, v.package_id!, id);
   await audit(c, `audit_channel.request_${v.decision.toLowerCase()}`, id);
   return requestView((await c.tx.query(`SELECT * FROM app.audit_channel_requests WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0] ?? refuse(404, 'id', 'not_found'));
+}
+
+// ---------------------------------------------------------------- channel round trip (task AUDIT-PRACTICE-01)
+const documentView = (d: Row) => {
+  const doc = (d.signed as { document?: { findings?: unknown[]; version?: number; requests?: unknown[] } }).document ?? {};
+  const summary = d.kind === 'FINDINGS' ? `${doc.findings?.length ?? 0} finding(s)` : d.kind === 'REPORT' ? `Report version ${doc.version ?? '?'}` : `${doc.requests?.length ?? 0} request(s)`;
+  return D.ChannelDocumentView.parse({ id: d.id, kind: d.kind, received_at: iso(d.received_at), has_pdf: d.has_pdf, import_id: d.import_id, imported_at: iso(d.imported_at), summary });
+};
+async function responseView(c: Context, r: Row) {
+  const imp = (await c.tx.query(`SELECT document FROM app.audit_imports WHERE ${predicate} AND id=$4`, [...scope(c), r.import_id])).rows[0];
+  const finding = ((imp?.document?.findings ?? []) as { finding_id: string; title: string }[]).find(f => f.finding_id === r.finding_id);
+  return D.FindingResponse.parse({ id: r.id, engagement_id: r.engagement_id, import_id: r.import_id, finding_id: r.finding_id, finding_title: finding?.title ?? null, content: r.content, redactions: r.redactions,
+    prepared_by: r.prepared_by, prepared_at: iso(r.prepared_at), approved_by: r.approved_by, approved_at: iso(r.approved_at), state: r.state, attempts: r.attempts, last_error: r.last_error, outcome: r.outcome, completed_at: iso(r.completed_at),
+    personal_data_review: r.personal_data_review ?? null });
+}
+/** A person imports a signed document the worker staged: the same signature, engagement and PDF checks as a file import. */
+export async function importChannelDocument(c: Context, id: string) {
+  const d = (await c.tx.query(`SELECT * FROM app.audit_channel_documents WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0] ?? refuse(404, 'id', 'not_found');
+  if (d.import_id) refuse(409, 'document', 'already_imported');
+  const imported = await importDocument(c, d.engagement_id, { signed: d.signed, pdf_base64: d.pdf ? (d.pdf as Buffer).toString('base64') : null });
+  await guarded(() => c.tx.query('SELECT app.audit_channel_document_imported($1,$2)', [id, imported.id]));
+  await audit(c, 'audit_channel.document_imported', id);
+  return imported;
+}
+/**
+ * A management response to one finding of an imported, signed findings file. Free text is screened for contact
+ * details before storage; a different owner or administrator approves it before the worker signs and sends it.
+ */
+export async function createFindingResponse(c: Context, engagementId: string, input: unknown) {
+  const v = D.FindingResponseCreate.parse(input); const e = await engagementRow(c, engagementId);
+  if (e.state !== 'ACTIVE') refuse(409, 'engagement', 'closed');
+  const imp = (await c.tx.query(`SELECT * FROM app.audit_imports WHERE ${predicate} AND id=$4 AND engagement_id=$5`, [...scope(c), v.import_id, engagementId])).rows[0] ?? refuse(404, 'import_id', 'not_found');
+  if (imp.kind !== 'FINDINGS') refuse(409, 'import_id', 'not_a_findings_import');
+  if (!((imp.document.findings ?? []) as { finding_id: string }[]).some(f => f.finding_id === v.finding_id)) refuse(404, 'finding_id', 'not_in_this_findings_file');
+  let redactions = 0;
+  const clean = (t: string | null) => { if (t === null) return null; const r = redactContactDetails(t); redactions += r.redactions; return r.text; };
+  // The client's own remediation state travels as a reference only: whether a GRC issue tracks it and its state, never its content.
+  const link = (await c.tx.query(`SELECT coalesce((SELECT e.kind FROM app.grc_issue_events e WHERE e.tenant_id=l.tenant_id AND e.legal_entity_id=l.legal_entity_id AND e.environment_id=l.environment_id AND e.issue_id=l.grc_issue_id
+      ORDER BY e.sequence DESC LIMIT 1), 'OPEN') AS state FROM app.audit_finding_links l WHERE l.tenant_id=$1 AND l.legal_entity_id=$2 AND l.environment_id=$3 AND l.finding_id=$4`, [...scope(c), v.finding_id])).rows[0];
+  const content = { factual_accuracy: v.factual_accuracy, agreement: v.agreement, response: clean(v.response), action_plan: clean(v.action_plan), owner_role: clean(v.owner_role), due_date: v.due_date,
+    dependencies: clean(v.dependencies), remediation_status: v.remediation_status,
+    risk_acceptance: v.risk_acceptance ? { accepting_authority: clean(v.risk_acceptance.accepting_authority), justification: clean(v.risk_acceptance.justification), proposed_until: v.risk_acceptance.proposed_until } : null,
+    remediation_reference: link ? { kind: 'GRC_ISSUE', state: String(link.state).slice(0, 40) } : null };
+  const id = randomUUID();
+  await guarded(() => c.tx.query(`INSERT INTO app.audit_finding_responses (tenant_id, legal_entity_id, environment_id, id, engagement_id, import_id, finding_id, content, redactions, prepared_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+    [...scope(c), id, engagementId, v.import_id, v.finding_id, JSON.stringify(content), redactions, c.actor.actor_id]));
+  await audit(c, 'audit_finding_response.drafted', id);
+  return responseView(c, (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0]);
+}
+async function responseRow(c: Context, id: string) { return (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0] ?? refuse(404, 'id', 'not_found'); }
+export async function approveFindingResponse(c: Context, id: string, input: unknown) {
+  const v = D.FindingResponseApproval.parse(input);
+  await responseRow(c, id);
+  await guarded(() => c.tx.query('SELECT app.audit_finding_response_approve($1,$2)', [id, v.personal_data]));
+  await audit(c, 'audit_finding_response.approved', id);
+  return responseView(c, await responseRow(c, id));
+}
+export async function withdrawFindingResponse(c: Context, id: string) {
+  await responseRow(c, id);
+  await guarded(() => c.tx.query('SELECT app.audit_finding_response_withdraw($1)', [id]));
+  await audit(c, 'audit_finding_response.withdrawn', id);
+  return responseView(c, await responseRow(c, id));
 }

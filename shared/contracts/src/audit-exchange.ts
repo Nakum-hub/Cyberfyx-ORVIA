@@ -149,16 +149,25 @@ export const RequestListDocument = z.strictObject({ kind: z.literal('REQUEST_LIS
   requests: z.array(z.strictObject({ request_id: Id, requirement_id: RequirementId, description: Text(2000), due_date: Day })).max(500) });
 export const FindingEntry = z.strictObject({ finding_id: Id, requirement_id: RequirementId, provision_ids: z.array(ProvisionId).max(10), severity: Severity,
   title: Text(200), observation: Text(4000), recommendation: Text(4000), due_date: Day,
-  status: z.enum(['OPEN', 'CLIENT_RESPONDED', 'RETEST_PASSED', 'RETEST_FAILED', 'CLOSED']) });
+  status: z.enum(['OPEN', 'CLIENT_RESPONDED', 'RETEST_PASSED', 'RETEST_FAILED', 'CLOSED']),
+  // Audit-practice fields (task AUDIT-PRACTICE-01); absent from documents signed before them.
+  criterion_type: z.enum(['STATUTORY', 'CONTRACTUAL', 'ADVISORY']).optional(), affected_scope: Text(2000).optional(), cause: Text(4000).optional(), consequence: Text(4000).optional(),
+  severity_rationale: Text(4000).optional(), orvia_guidance: Text(4000).optional(),
+  closure_type: z.enum(['VERIFIED_REMEDIATION', 'RISK_ACCEPTED', 'ENGAGEMENT_WITHDRAWN', 'ADMINISTRATIVE']).optional() });
 export const FindingsDocument = z.strictObject({ kind: z.literal('FINDINGS'), ...Engagement, findings: z.array(FindingEntry).max(500) });
 export const ReportDocument = z.strictObject({ kind: z.literal('REPORT'), ...Engagement,
   report_id: Id, version: z.number().int().min(1).max(1000), opinion_as_of: Day,
   scope: z.strictObject({ requirement_ids: z.array(RequirementId).min(1).max(200), period: z.strictObject({ from: Day, to: Day }) }),
   method: Text(4000), results: z.array(z.strictObject({ requirement_id: RequirementId, result: RequirementResult, rationale: Text(2000) })).min(1).max(200),
-  findings: z.array(FindingEntry.pick({ finding_id: true, requirement_id: true, severity: true, title: true, status: true })).max(500),
+  findings: z.array(FindingEntry.pick({ finding_id: true, requirement_id: true, severity: true, title: true, status: true, closure_type: true })).max(500),
   opinion: Text(4000), limitations: z.array(Text(1000)).min(1).max(20), independence_statement: Text(2000),
   empanelment_reference: z.string().trim().min(1).max(120).nullable(),
-  drafted_by_role: z.literal('LEAD_AUDITOR'), approved_by_role: z.literal('AUDIT_REVIEWER'), pdf_sha256: Digest });
+  drafted_by_role: z.literal('LEAD_AUDITOR'), approved_by_role: z.literal('AUDIT_REVIEWER'), pdf_sha256: Digest,
+  // Audit-practice fields (task AUDIT-PRACTICE-01): the approved snapshot the signature is bound to, what the report may be relied on for, and visible marks.
+  executive_summary: Text(8000).optional(), snapshot_digest: Digest.optional(), use_kind: z.enum(['SYNTHETIC', 'REAL']).optional(), watermarks: z.array(Text(300)).max(5).optional(),
+  criteria: z.strictObject({ version: z.string().max(40), distribution: z.enum(['TEST_FIXTURE', 'PRODUCTION']), digest: Digest }).optional(),
+  coverage: z.array(z.strictObject({ requirement_id: RequirementId, procedures: z.number().int().min(0), working_papers: z.number().int().min(0), evidence: z.number().int().min(0), conclusion: z.string().max(60) })).max(200).optional(),
+  reliance: Text(1000).optional(), supersedes_report_id: Id.optional(), correction_reason: Text(2000).optional() });
 export const AuditDocument = z.discriminatedUnion('kind', [RequestListDocument, FindingsDocument, ReportDocument]);
 export type AuditDocument = z.infer<typeof AuditDocument>;
 export const SignedAuditDocument = z.strictObject({ algorithm: z.literal('Ed25519'), signing_key_id: z.string().min(1).max(120), document: z.unknown(), signature: z.string().regex(/^[A-Za-z0-9_-]{40,200}$/) });

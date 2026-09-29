@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { randomUUID } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+const root = resolve(process.argv[2]);
+const source = path => import(pathToFileURL(resolve(root, path)).href);
+const { redactContactDetails } = await source('shared/contracts/src/redaction.ts');
+const { ChannelInstructions } = await source('shared/contracts/src/audit-channel.ts');
+const text = 'Synthetic person Aster Example has a medical restriction.';
+assert.equal(redactContactDetails(text).text, text);
+assert.equal(redactContactDetails(text).redactions, 0);
+console.log('CONFIRMED R1: synthetic name and sensitive free text survives the response redactor.');
+const instructions = ChannelInstructions.parse({ kind: 'CHANNEL_INSTRUCTIONS', engagement_code_digest: 'a'.repeat(64), issued_at: new Date().toISOString(),
+  mandate: { mandate_id: randomUUID(), accepted: true, problem: null }, next_sequence: 1, last_digest: null, requests: [],
+  documents: Array.from({ length: 2 }, () => ({ document_id: randomUUID(), kind: 'REPORT', signed: {}, pdf_base64: Buffer.alloc(450000).toString('base64') })) });
+const bytes = Buffer.byteLength(JSON.stringify(instructions));
+assert.ok(bytes > 1024 * 1024);
+console.log(`CONFIRMED R2: individually valid document envelopes total ${bytes} bytes, exceeding the client's 1048576-byte transport limit. No signature or network acceptance is asserted.`);
+const limits = ['basis', 'absence caveat', ...Array.from({ length: 11 }, (_, i) => `truncation ${i + 1}`)].slice(0, 8);
+assert.equal(limits.includes('truncation 7'), false);
+console.log('CONFIRMED R3: the eight-limit slice drops truncation warnings after the sixth capped kind.');
+const now = Date.now();
+const fixtureSource = readFileSync(resolve(root, 'tests/integration/operations/breach.test.ts'), 'utf8');
+const hours = Number(fixtureSource.match(/effective_from: hoursFromNow\((-[\d.]+)\)/)?.[1]);
+assert.ok(hours < -80);
+const priorHours = (Math.abs(hours) + 80) / 2;
+const fixtures = [{ version: 'new fixture', at: now + hours * 3600000 }, { version: 'prior package', at: now - priorHours * 3600000 }];
+const picked = fixtures.filter(x => x.at <= now - 80 * 3600000).sort((a,b) => b.at-a.at)[0];
+assert.equal(picked.version, 'prior package');
+console.log(`CONFIRMED R4: a pre-existing package effective ${priorHours} hours ago still outranks the current ${Math.abs(hours)}-hour fixture at 80-hour awareness. Ordering reproduction only; database suite NOT_RUN here.`);

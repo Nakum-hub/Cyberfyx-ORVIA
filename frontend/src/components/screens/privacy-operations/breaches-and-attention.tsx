@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
 import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, StateBadge, TextAreaField, TextField } from '../../shared/ui.tsx';
@@ -153,6 +154,30 @@ export function PersonalDataBreachDetail({ id }: { id: string }) {
   );
 }
 
+function AttentionItems({ data }: { data: EndpointMap['operations_attention']['response'] }) {
+  const [requestedPage, setPage] = useState(0);
+  const pageSize = 50;
+  const pages = Math.max(1, Math.ceil(data.items.length / pageSize));
+  const page = Math.min(requestedPage, pages - 1);
+  const start = page * pageSize;
+  return <>
+    <NoticeBox tone="info" title="What this list can and cannot tell you"><ul>{data.limits.map(l => <li key={l}>{l}</li>)}</ul></NoticeBox>
+    <nav aria-label="Attention pages">
+      <button type="button" disabled={page === 0} onClick={() => setPage(page - 1)}>Previous items</button>
+      <span aria-live="polite"> Showing {start + 1}–{Math.min(start + pageSize, data.items.length)} of {data.items.length} returned items. </span>
+      <button type="button" disabled={page + 1 >= pages} onClick={() => setPage(page + 1)}>Next items</button>
+    </nav>
+    <DataTable caption="Items derived from records" rows={data.items.slice(start, start + pageSize)} rowKey={item => `${item.kind}:${item.entity_id ?? 'none'}:${item.detail}`}
+      columns={[
+        { key: 'sev', header: 'Severity', cell: item => <StateBadge dictionary={SEVERITY_LABELS} value={item.severity} /> },
+        { key: 'kind', header: 'Kind', cell: item => item.kind.replaceAll('_', ' ').toLowerCase() },
+        { key: 'detail', header: 'Detail', cell: item => item.detail },
+        { key: 'due', header: 'Due', cell: item => item.due_at ? formatTime(item.due_at) : '—' },
+        { key: 'open', header: 'Record', cell: item => item.entity_id ? <a href={recordHref(item.entity_kind, item.entity_id)}>{item.entity_kind.replaceAll('_', ' ')} {shortId(item.entity_id)}</a> : '—' },
+      ]} />
+  </>;
+}
+
 export function OperationsAttention() {
   const attention = useQuery('operations_attention');
   const coverage = useQuery('operations_coverage');
@@ -164,19 +189,7 @@ export function OperationsAttention() {
       <Section title="Needs attention">
         <Freshness query={attention} />
         <QueryBoundary query={attention} label="attention items" isEmpty={data => !data.items.length}>
-          {data => (
-            <>
-              <DataTable caption="Items derived from records" rows={data.items} rowKey={(item) => `${item.kind}:${item.entity_id ?? 'none'}:${item.detail}`}
-                columns={[
-                  { key: 'sev', header: 'Severity', cell: item => <StateBadge dictionary={SEVERITY_LABELS} value={item.severity} /> },
-                  { key: 'kind', header: 'Kind', cell: item => item.kind.replaceAll('_', ' ').toLowerCase() },
-                  { key: 'detail', header: 'Detail', cell: item => item.detail },
-                  { key: 'due', header: 'Due', cell: item => item.due_at ? formatTime(item.due_at) : '—' },
-                  { key: 'open', header: 'Record', cell: item => item.entity_id ? <a href={recordHref(item.entity_kind, item.entity_id)}>{item.entity_kind.replaceAll('_', ' ')} {shortId(item.entity_id)}</a> : '—' },
-                ]} />
-              <NoticeBox tone="info" title="What this list can and cannot tell you"><ul>{data.limits.map(l => <li key={l}>{l}</li>)}</ul></NoticeBox>
-            </>
-          )}
+          {data => <AttentionItems data={data} />}
         </QueryBoundary>
       </Section>
       <Section title="Coverage">

@@ -94,3 +94,30 @@ test('channel address: HTTPS, or plain HTTP only to loopback; no credentials, qu
   assert.ok(C.ChannelAddress.safeParse('http://127.0.0.1:4340').success);
   for (const bad of ['http://audit.example.in', 'https://u:p@audit.example.in', 'https://audit.example.in/?x=1', 'https://audit.example.in/#f', 'ftp://audit.example.in']) assert.equal(C.ChannelAddress.safeParse(bad).success, false, bad);
 });
+
+// Transport hardening (task AUDIT-PRACTICE-01, revision 1.6): the real node transport against a loopback server.
+// A redirect is never followed and never counts as delivered; an oversized answer is an unknown outcome, not a success;
+// an unreachable address is a clear failure before anything left.
+test('channel transport: redirects refused, oversized answers unknown, unreachable addresses failed', async () => {
+  const { createServer } = await import('node:http');
+  const { post } = await import('../../backend/domain/src/dpdpa-audit/channel.ts');
+  const server = createServer((req, res) => {
+    if (req.url?.includes('check-in')) { res.writeHead(302, { location: 'https://elsewhere.example/steal' }); res.end(); return; }
+    res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify({ padding: 'x'.repeat(1_100_000) }));
+  });
+  await new Promise<void>(r => server.listen(0, '127.0.0.1', () => r()));
+  const port = (server.address() as { port: number }).port;
+  try {
+    const env = { address: `http://127.0.0.1:${port}`, auditKey: null, sealKey: Buffer.alloc(32) };
+    const key = Buffer.alloc(32, 1); const body = Buffer.from('{}');
+    const redirected = await post(env, '/api/v1/vendor/channel/check-in', 'a'.repeat(64), key, body, 'application/json');
+    assert.deepEqual([redirected.outcome, (redirected as { error: string }).error], ['FAILED', 'REDIRECT_NOT_FOLLOWED']);
+    const large = await post(env, '/api/v1/vendor/channel/deliveries', 'a'.repeat(64), key, body, 'application/json');
+    assert.deepEqual([large.outcome, (large as { error: string }).error], ['UNKNOWN', 'RESPONSE_TOO_LARGE']);
+    const free = createServer(); await new Promise<void>(r => free.listen(0, '127.0.0.1', () => r())); const closedPort = (free.address() as { port: number }).port; await new Promise(r => free.close(r));
+    const offline = await post({ ...env, address: `http://127.0.0.1:${closedPort}` }, '/api/v1/vendor/channel/deliveries', 'a'.repeat(64), key, body, 'application/json');
+    assert.deepEqual([offline.outcome, (offline as { error: string }).error], ['FAILED', 'ECONNREFUSED']);
+    const plain = await post({ ...env, address: 'http://audit.example.com' }, '/x', 'a'.repeat(64), key, body, 'application/json');
+    assert.deepEqual([plain.outcome, (plain as { error: string }).error], ['FAILED', 'AUDIT_SERVICE_ADDRESS_INVALID']);
+  } finally { await new Promise(r => server.close(r)); }
+});

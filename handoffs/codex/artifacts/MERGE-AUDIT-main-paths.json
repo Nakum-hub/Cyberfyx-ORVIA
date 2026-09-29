@@ -1,0 +1,192 @@
+{
+  "main": "9e4bf8c0efa813fce677fecbabb949fcf45d63a0",
+  "claude": "a82f14aa582829363b72e031dbab43a3e695694f",
+  "since": "2247dd8",
+  "commits": [
+    {
+      "commit": "9e4bf8c0efa813fce677fecbabb949fcf45d63a0",
+      "subject": "Merge pull request #31 from Nakum-hub/claude/upbeat-newton-w4h53x",
+      "paths": [
+        "backend/api/src/expansion-routes.ts",
+        "backend/api/src/vendor/authority.ts",
+        "backend/api/src/vendor/routes.ts",
+        "backend/domain/src/dpdpa-audit/channel.ts",
+        "backend/domain/src/dpdpa-audit/evidence.ts",
+        "backend/domain/src/dpdpa-audit/exchange.ts",
+        "backend/domain/src/dpdpa-audit/mandate.ts",
+        "backend/policy/vendor/authorization.rego",
+        "backend/vendor/audit/channel.ts",
+        "backend/vendor/audit/service.ts",
+        "database/customer/migrations/0068_audit_mandate_channel.sql",
+        "database/vendor/migrations/0007_converge_row_security.sql",
+        "frontend/src/app/vendor/engagements/[id]/page.tsx",
+        "frontend/src/app/vendor/engagements/page.tsx",
+        "frontend/src/app/vendor/page.tsx",
+        "frontend/src/components/screens/expansion/dpdpa-audit.tsx",
+        "frontend/src/components/vendor/vendor.tsx",
+        "handoffs/code/2026-09-29-dpdpa-audit-mandate.md",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T06-54-57-525Z.json",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T07-15-04-553Z.json",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T07-43-59-211Z.json",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T07-47-07-766Z.json",
+        "shared/contracts/generated/client-types.d.ts",
+        "shared/contracts/generated/contract-seed.proposed.json",
+        "shared/contracts/generated/endpoint-types.ts",
+        "shared/contracts/generated/examples.json",
+        "shared/contracts/generated/interfaces.json",
+        "shared/contracts/generated/manifest.json",
+        "shared/contracts/generated/openapi.json",
+        "shared/contracts/src/audit-channel.ts",
+        "shared/contracts/src/dpdpa-audit-examples.ts",
+        "shared/contracts/src/dpdpa-audit.ts",
+        "shared/contracts/src/index.ts",
+        "shared/contracts/src/vendor-audit.ts",
+        "tests/e2e/audit-mandate-local.ts",
+        "tests/e2e/dpdpa-audit-local.ts",
+        "tests/integration/expansion/audit-mandate.test.ts",
+        "tests/integration/vendor/harness.ts",
+        "tests/integration/vendor/vendor-audit.test.ts"
+      ]
+    },
+    {
+      "commit": "4acb8ba013c5f8845f6fb45f8a29b3f5ebb5b298",
+      "subject": "Converge vendor row-level security across fresh and upgraded databases",
+      "paths": [
+        "database/vendor/migrations/0007_converge_row_security.sql",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T07-47-07-766Z.json",
+        "tests/integration/vendor/vendor-audit.test.ts"
+      ]
+    },
+    {
+      "commit": "0794f7ee285bdc35895e1f30bf5ee439adf5ff33",
+      "subject": "Merge origin/main (commerce fulfilment 2247dd8, CI fix PR #30) into the revision 1.6 branch",
+      "paths": [
+        "backend/api/src/expansion-routes.ts",
+        "backend/api/src/vendor/authority.ts",
+        "backend/api/src/vendor/routes.ts",
+        "backend/domain/src/dpdpa-audit/channel.ts",
+        "backend/domain/src/dpdpa-audit/evidence.ts",
+        "backend/domain/src/dpdpa-audit/exchange.ts",
+        "backend/domain/src/dpdpa-audit/mandate.ts",
+        "backend/policy/vendor/authorization.rego",
+        "backend/vendor/README.md",
+        "backend/vendor/audit/channel.ts",
+        "backend/vendor/audit/service.ts",
+        "backend/vendor/commerce/http.ts",
+        "backend/vendor/commerce/razorpay.ts",
+        "backend/vendor/commerce/service.ts",
+        "backend/vendor/commerce/store.ts",
+        "database/customer/migrations/0068_audit_mandate_channel.sql",
+        "frontend/src/app/vendor/engagements/[id]/page.tsx",
+        "frontend/src/app/vendor/engagements/page.tsx",
+        "frontend/src/app/vendor/page.tsx",
+        "frontend/src/components/screens/expansion/dpdpa-audit.tsx",
+        "frontend/src/components/vendor/vendor.tsx",
+        "handoffs/code/2026-09-29-dpdpa-audit-mandate.md",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T06-54-57-525Z.json",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T07-15-04-553Z.json",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T07-43-59-211Z.json",
+        "shared/contracts/generated/client-types.d.ts",
+        "shared/contracts/generated/contract-seed.proposed.json",
+        "shared/contracts/generated/endpoint-types.ts",
+        "shared/contracts/generated/examples.json",
+        "shared/contracts/generated/interfaces.json",
+        "shared/contracts/generated/manifest.json",
+        "shared/contracts/generated/openapi.json",
+        "shared/contracts/src/audit-channel.ts",
+        "shared/contracts/src/dpdpa-audit-examples.ts",
+        "shared/contracts/src/dpdpa-audit.ts",
+        "shared/contracts/src/index.ts",
+        "shared/contracts/src/vendor-audit.ts",
+        "tests/e2e/audit-mandate-local.ts",
+        "tests/e2e/dpdpa-audit-local.ts",
+        "tests/integration/expansion/audit-mandate.test.ts",
+        "tests/integration/vendor/harness.ts"
+      ]
+    },
+    {
+      "commit": "715ef5299a7df83f6532d171f8a7feb55e7dee05",
+      "subject": "Rev 1.6 documentation, tracking and handoff; trust-file audit address tests; regression battery",
+      "paths": [
+        "handoffs/code/2026-09-29-dpdpa-audit-mandate.md"
+      ]
+    },
+    {
+      "commit": "f8fbacdfce301cdee6949f2d8179fbeca876df43",
+      "subject": "Audit mandate browser journey; vendor visibility and checklist show mandate evidence",
+      "paths": [
+        "backend/vendor/audit/service.ts",
+        "frontend/src/app/vendor/engagements/[id]/page.tsx",
+        "frontend/src/app/vendor/engagements/page.tsx",
+        "frontend/src/app/vendor/page.tsx",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T07-15-04-553Z.json",
+        "shared/contracts/src/vendor-audit.ts",
+        "tests/e2e/audit-mandate-local.ts",
+        "tests/e2e/dpdpa-audit-local.ts",
+        "tests/integration/expansion/audit-mandate.test.ts"
+      ]
+    },
+    {
+      "commit": "1c618ba6ea30349f547a45a4c100d5022104ed6e",
+      "subject": "Screens for the audit mandate: client mandate and channel panel, vendor channel section, leadership overview",
+      "paths": [
+        "frontend/src/app/vendor/engagements/[id]/page.tsx",
+        "frontend/src/app/vendor/page.tsx",
+        "frontend/src/components/screens/expansion/dpdpa-audit.tsx",
+        "frontend/src/components/vendor/vendor.tsx"
+      ]
+    },
+    {
+      "commit": "0aa1a87d3b0b5aa4b5903944c7c6f274194c50c2",
+      "subject": "Fix a type annotation in the audit mandate suite (typecheck clean)",
+      "paths": [
+        "tests/integration/expansion/audit-mandate.test.ts"
+      ]
+    },
+    {
+      "commit": "b8197f5b685d438b3f81ada8ca987994049dbdec",
+      "subject": "Audit mandate channel verified end to end; vendor visibility lists the channel",
+      "paths": [
+        "backend/domain/src/dpdpa-audit/channel.ts",
+        "database/customer/migrations/0068_audit_mandate_channel.sql",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T06-54-57-525Z.json",
+        "shared/contracts/generated/client-types.d.ts",
+        "shared/contracts/generated/examples.json",
+        "shared/contracts/generated/manifest.json",
+        "shared/contracts/generated/openapi.json",
+        "shared/contracts/src/index.ts",
+        "tests/integration/expansion/audit-mandate.test.ts",
+        "tests/integration/vendor/harness.ts"
+      ]
+    },
+    {
+      "commit": "64085b40df6d368048d2e9538e1d18c8d1f3850d",
+      "subject": "Audit mandate channel (rev 1.6): contract, vendor and client migrations, vendor channel service, client worker and staff domain",
+      "paths": [
+        "backend/api/src/expansion-routes.ts",
+        "backend/api/src/vendor/authority.ts",
+        "backend/api/src/vendor/routes.ts",
+        "backend/domain/src/dpdpa-audit/channel.ts",
+        "backend/domain/src/dpdpa-audit/evidence.ts",
+        "backend/domain/src/dpdpa-audit/exchange.ts",
+        "backend/domain/src/dpdpa-audit/mandate.ts",
+        "backend/policy/vendor/authorization.rego",
+        "backend/vendor/audit/channel.ts",
+        "backend/vendor/audit/service.ts",
+        "database/customer/migrations/0068_audit_mandate_channel.sql",
+        "shared/contracts/generated/client-types.d.ts",
+        "shared/contracts/generated/contract-seed.proposed.json",
+        "shared/contracts/generated/endpoint-types.ts",
+        "shared/contracts/generated/examples.json",
+        "shared/contracts/generated/interfaces.json",
+        "shared/contracts/generated/manifest.json",
+        "shared/contracts/generated/openapi.json",
+        "shared/contracts/src/audit-channel.ts",
+        "shared/contracts/src/dpdpa-audit-examples.ts",
+        "shared/contracts/src/dpdpa-audit.ts",
+        "shared/contracts/src/index.ts",
+        "shared/contracts/src/vendor-audit.ts"
+      ]
+    }
+  ]
+}

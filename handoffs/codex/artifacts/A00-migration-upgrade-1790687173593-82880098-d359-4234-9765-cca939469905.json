@@ -1,0 +1,18 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-29T13:06:13.593Z",
+  "profile": "codex-a00",
+  "from": "0036_portal_rights_intake",
+  "assertions": [
+    {
+      "name": "unexpected failure",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "connect ECONNREFUSED 127.0.0.1:55431"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "throwaway_database_dropped": false
+}

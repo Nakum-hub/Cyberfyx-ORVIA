@@ -252,6 +252,29 @@ export const PRIVACY_NAV: NavGroup[] = [
   ] },
 ];
 
+/** First-run setup: the ORVIA frame without navigation or a signed-in person, since nobody can sign in yet. */
+export function SetupShell({ children }: { children: ReactNode }) {
+  return (
+    <div className="shell">
+      <a className="skip-link" href="#main">Skip to main content</a>
+      <TestEnvironmentBanner area="First-run setup" />
+      <header className="shell-head">
+        <div className="shell-title">
+          <span className="mark">ORVIA</span>
+          <span className="rule" aria-hidden="true" />
+          <h1>First-run setup</h1>
+        </div>
+      </header>
+      <div className="shell-body">
+        <main className="shell-main" id="main" tabIndex={-1}>{children}</main>
+      </div>
+      <footer className="shell-foot">
+        Customer-local evaluation build with synthetic records. No production system, real recipient or vendor service is contacted from this interface.
+      </footer>
+    </div>
+  );
+}
+
 /** Staff workspace: shows organisation, role and MFA context. */
 export function WorkspaceShell({ children }: { children: ReactNode }) {
   return <Shell area="Staff workspace" lane="Privacy Control Workspace" groups={WORKSPACE_NAV} domain="STAFF" detailedActor>{children}</Shell>;

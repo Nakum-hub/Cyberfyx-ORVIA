@@ -25,6 +25,12 @@ const delivery = { id: uuid(1581), mandate_id: uuid(1580), sequence: 1, kind: 'S
 const request = { id: uuid(1582), mandate_id: uuid(1580), kind: 'EVIDENCE_FILE' as const, requirement_id: 'DPDP-NOTICE-CONSENT-REQUEST', description: 'Signed copy of the notice approval record.', due_date: '2026-10-30',
   received_at: at, decision: 'AWAITING_CLIENT_APPROVAL' as const, decision_reason: 'EVIDENCE_FILES_NEED_A_CLIENT_APPROVER', decided_by: null, decided_at: null, delivery_id: null, package_id: null, reported_to_auditor: true, overdue: false, request: {} };
 const submission = { id: uuid(1583), package_id: uuid(1520), engagement_id: uuid(1530), request_id: uuid(1582), file_sha256: d('c'), state: 'ACCEPTED' as const, attempts: 1, last_error: null, reasons: [], requested_by: uuid(1502), requested_at: at, completed_at: at };
+const channelDocument = { id: uuid(1580), kind: 'FINDINGS', received_at: later, has_pdf: false, import_id: null, imported_at: null, summary: '1 finding(s)' };
+const responseCreate = { import_id: uuid(1581), finding_id: uuid(1570), factual_accuracy: 'AGREED', agreement: 'PARTIALLY_AGREE', response: 'We will publish the itemised notice for the activity.', action_plan: 'Publish notice v4.',
+  owner_role: 'Privacy office', due_date: '2026-12-31', dependencies: null, remediation_status: 'IN_PROGRESS', risk_acceptance: null };
+const findingResponse = { id: uuid(1582), engagement_id: uuid(1530), import_id: uuid(1581), finding_id: uuid(1570), finding_title: 'Notice indicators show a gap', content: responseCreate, redactions: 0,
+  prepared_by: uuid(1583), prepared_at: later, approved_by: uuid(1584), approved_at: later, state: 'ACCEPTED', attempts: 1, last_error: null, outcome: 'ACCEPTED', completed_at: later,
+  personal_data_review: 'NONE_CONFIRMED' };
 const EXAMPLES: Record<string, unknown> = {
   Indicator: indicator, GapRow: gapRow,
   GapRegister: { as_of: at, package: { id: uuid(1560), version: '1.0.0', distribution: 'TEST_FIXTURE' }, framework_id: uuid(1561), rows: [gapRow],
@@ -53,7 +59,9 @@ const EXAMPLES: Record<string, unknown> = {
   ChannelDeliveryView: delivery, ChannelDeliveryContent: { ...delivery, document: { format: 'orvia.dpdpa-audit-delivery' }, signed: { algorithm: 'Ed25519' }, receipt: null },
   ChannelRequest: request, ChannelRequestDecision: { decision: 'REFUSED', reason: 'OUT_OF_PERIOD', package_id: null }, PackageSubmission: submission,
   AuditChannel: { engagement_id: uuid(1530), available: true, audit_service: { configured: true, address: 'https://audit.vendor.example.in' }, evidence_key_id: 'orvia-installation-' + '0'.repeat(32),
-    mandates: [mandate], requests: [request], deliveries: [delivery], submissions: [submission], limits: [] },
+    mandates: [mandate], requests: [request], deliveries: [delivery], submissions: [submission], documents: [channelDocument], responses: [findingResponse], limits: [] },
+  // Audit practice round trip (synthetic).
+  ChannelDocumentView: channelDocument, FindingResponseCreate: responseCreate, FindingResponse: findingResponse, FindingResponseApproval: { personal_data: 'NONE_CONFIRMED' },
   AuditEngagementClose: { reason: 'Engagement completed and report received.' },
 };
 export function dpdpaAuditExample(name: string): unknown { return EXAMPLES[name]; }

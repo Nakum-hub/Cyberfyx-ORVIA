@@ -203,6 +203,9 @@ summary:focus-visible,
   font-weight: 600;
 }
 
+/* Long identifiers and paths in code wrap instead of widening the page on a phone. */
+.shell-main code { overflow-wrap: anywhere; }
+
 .shell-main {
   flex: 1;
   min-width: 0;
@@ -741,3 +744,11 @@ dialog.dialog::backdrop { background: rgb(9 14 20 / 55%); }
   .report-table th, .report-table td { border-color: #999; }
   a[href]::after { content: ''; }
 }
+
+/* Engagement workspace tabs (vendor audit practice). Keyboard: arrow keys move between tabs. */
+.tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--line-strong); margin: var(--s4) 0; }
+.tabs [role="tab"] { background: transparent; color: var(--ink-soft); border: 1px solid transparent; border-bottom: none; border-radius: var(--r-sm) var(--r-sm) 0 0; padding: 8px 14px; font: inherit; cursor: pointer; margin-bottom: -1px; }
+.tabs [role="tab"][aria-selected="true"] { background: var(--panel); color: var(--ink); border-color: var(--line-strong); font-weight: 600; }
+.tabs [role="tab"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.tabs .tab-count { margin-left: 6px; font-size: 0.8em; color: var(--ink-faint); }
+.watermark { border: 2px dashed var(--warn-line); background: var(--warn-soft); color: var(--warn); padding: 8px 12px; border-radius: var(--r-md); font-weight: 600; margin: var(--s3) 0; }

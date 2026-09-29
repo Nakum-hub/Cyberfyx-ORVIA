@@ -155,11 +155,16 @@ export type AuditorRequest = z.infer<typeof AuditorRequest>;
 export const VendorSigned = z.strictObject({ algorithm: z.literal('Ed25519'), signing_key_id: z.string().min(1).max(120), document: z.unknown(), signature: z.string().regex(/^[A-Za-z0-9_-]{40,200}$/) });
 export type VendorSigned = z.infer<typeof VendorSigned>;
 /** Pending requests travel each signed on its own, so the client can keep and later prove every request it was sent. */
+/** The largest report PDF, base64-encoded, that travels inside a check-in answer; a larger one goes to the client as a file. */
+export const CHANNEL_PDF_MAX = 900_000;
 export const ChannelInstructions = z.strictObject({
   kind: z.literal('CHANNEL_INSTRUCTIONS'), engagement_code_digest: Digest, issued_at: Time,
   mandate: z.strictObject({ mandate_id: Id, accepted: z.boolean(), problem: z.string().max(80).nullable() }),
   next_sequence: z.number().int().min(1), last_digest: Digest.nullable(),
   requests: z.array(VendorSigned).max(200),
+  // Signed audit documents (findings, request lists, reports) the client has not yet acknowledged (task AUDIT-PRACTICE-01).
+  // A person on the client side still imports each one through the verified import; the worker only stages them.
+  documents: z.array(z.strictObject({ document_id: Id, kind: z.enum(['REQUEST_LIST', 'FINDINGS', 'REPORT']), signed: z.unknown(), pdf_base64: Base64.max(CHANNEL_PDF_MAX).nullable() })).max(20).default([]),
 });
 export type ChannelInstructions = z.infer<typeof ChannelInstructions>;
 export const DeliveryReceipt = z.strictObject({
@@ -192,9 +197,38 @@ export type Acknowledgement = z.infer<typeof Acknowledgement>;
 export const CheckInBody = z.strictObject({
   installation_public_key: Base64.max(200), signed_mandate: SignedByInstallation,
   acknowledgements: z.array(Acknowledgement).max(200),
+  documents_received: z.array(Id).max(20).default([]),
 });
 export type CheckInBody = z.infer<typeof CheckInBody>;
 export const DeliveryBody = z.strictObject({ signed_delivery: SignedByInstallation });
+
+// ---------------------------------------------------------------- management responses (task AUDIT-PRACTICE-01)
+/**
+ * A management response to an audit finding, approved by two people on the
+ * client side and signed by the installation evidence key. Free text is
+ * screened for contact details before it is signed; it carries no records.
+ */
+const Text = (max: number) => z.string().trim().min(1).max(max);
+export const ResponseDocument = z.strictObject({
+  format: z.literal('orvia.dpdpa-audit-finding-response'), format_version: z.literal(1),
+  response_id: Id, engagement_code_digest: Digest, installation_id: Id, finding_id: Id,
+  factual_accuracy: z.enum(['AGREED', 'DISPUTED']), agreement: z.enum(['AGREE', 'PARTIALLY_AGREE', 'DISAGREE']), response: Text(4000), action_plan: Text(4000).nullable(),
+  owner_role: z.string().trim().min(2).max(120).nullable(), due_date: Day.nullable(), dependencies: Text(2000).nullable(),
+  remediation_status: z.enum(['NOT_STARTED', 'IN_PROGRESS', 'COMPLETED_CLAIMED', 'RISK_ACCEPTANCE_PROPOSED']),
+  risk_acceptance: z.strictObject({ accepting_authority: Text(300), justification: z.string().trim().min(20).max(4000), proposed_until: Day }).nullable(),
+  remediation_reference: z.strictObject({ kind: z.literal('GRC_ISSUE'), state: z.string().max(40) }).nullable(),
+  approval: z.strictObject({ preparer_role: z.string().max(40), approver_role: z.enum(['ORG_SUPER_ADMIN', 'ORG_ADMIN']), distinct_people: z.literal(true), approved_at: Time,
+    // The approver read the text and recorded that it contains no personal data; anything else goes by the sealed package route.
+    personal_data: z.literal('NONE_CONFIRMED_BY_APPROVER') }),
+  generated_at: Time,
+}).superRefine((d, c) => { if ((d.remediation_status === 'RISK_ACCEPTANCE_PROPOSED') !== (d.risk_acceptance !== null)) c.addIssue({ code: 'custom', message: 'A risk-acceptance proposal names its authority, and only a proposal does', path: ['risk_acceptance'] }); });
+export type ResponseDocument = z.infer<typeof ResponseDocument>;
+export const ResponseBody = z.strictObject({ signed_response: SignedByInstallation });
+export const ResponseReceipt = z.strictObject({
+  kind: z.literal('RESPONSE_RECEIPT'), engagement_code_digest: Digest, response_id: Id, response_digest: Digest,
+  outcome: z.enum(['ACCEPTED', 'REFUSED']), reasons: z.array(z.string().max(80)).max(20), received_at: Time,
+});
+export type ResponseReceipt = z.infer<typeof ResponseReceipt>;
 export const ChannelAddress = z.string().url().max(300).refine(u => { const x = new URL(u);
   return !x.username && !x.password && !x.search && !x.hash && (x.protocol === 'https:' || (x.protocol === 'http:' && ['127.0.0.1', 'localhost', '[::1]'].includes(x.hostname))); }, 'HTTPS required (plain HTTP only to loopback), with no credentials, query or fragment');
-export const CHANNEL_PATHS = { checkIn: '/api/v1/vendor/channel/check-in', deliveries: '/api/v1/vendor/channel/deliveries', packages: '/api/v1/vendor/channel/packages' } as const;
+export const CHANNEL_PATHS = { checkIn: '/api/v1/vendor/channel/check-in', deliveries: '/api/v1/vendor/channel/deliveries', packages: '/api/v1/vendor/channel/packages', responses: '/api/v1/vendor/channel/responses' } as const;

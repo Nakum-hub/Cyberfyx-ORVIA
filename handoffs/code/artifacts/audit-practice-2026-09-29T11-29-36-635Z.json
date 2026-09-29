@@ -1,0 +1,305 @@
+{
+  "suite": "audit-practice",
+  "database": "orvia_vendor_test_1166a6b36958492e90a47f535cde7405",
+  "passed": 73,
+  "failed": 1,
+  "results": [
+    {
+      "name": "practice: real use is refused until every gate is recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "practice: an auditor cannot record criteria",
+      "result": "PASS"
+    },
+    {
+      "name": "practice: baseline recorded as TEST_FIXTURE criteria with its digest",
+      "result": "PASS"
+    },
+    {
+      "name": "practice: an administrator cannot approve criteria",
+      "result": "PASS"
+    },
+    {
+      "name": "methodology: a matrix whose rating falls as risk rises is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "configure: an unapproved methodology is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "methodology: the recorder cannot approve it",
+      "result": "PASS"
+    },
+    {
+      "name": "configure: a REAL engagement on test-fixture criteria is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: only the super administrator records a gate",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: a development audit key cannot pass the production key gate",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: production criteria gate needs approved production criteria",
+      "result": "PASS"
+    },
+    {
+      "name": "fieldwork before acceptance is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "channel requests before acceptance are refused",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: a commercial owner cannot be the engagement reviewer",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: a statutory SDF claim needs applicability basis and eligibility evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: licence independence cannot be declared false",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: an administrator cannot decide it",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: refused while a conflict is open",
+      "result": "PASS"
+    },
+    {
+      "name": "conflict: a safeguard must be stated",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: a person with prior implementation work stays barred from review authority",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: a REAL engagement is refused while activation gates are missing",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: recorded with the decider and rationale",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: terms and configuration are fixed once decided",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: engagement file is team-only; an administrator sees acceptance but no fieldwork",
+      "result": "PASS"
+    },
+    {
+      "name": "understanding: contact details are redacted before storage",
+      "result": "PASS"
+    },
+    {
+      "name": "understanding: the preparer cannot review it",
+      "result": "PASS"
+    },
+    {
+      "name": "applicability: an unresolved decision must state its question",
+      "result": "PASS"
+    },
+    {
+      "name": "applicability: provisions must be cited by the requirement",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: a requirement without an applicability decision cannot be scoped",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: unresolved applicability is carried as a stated limitation",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: the lead cannot approve the scope",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: a direct edit of the engagement scope is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: a revision needs a reason and an impact assessment",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: the approved revision becomes the engagement scope, with its change shown",
+      "result": "PASS"
+    },
+    {
+      "name": "risk: ratings come from the approved matrix and residual steps",
+      "result": "PASS"
+    },
+    {
+      "name": "risk: a client-supplied rating is never used; computed HIGH",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: a high residual risk without an operating-effectiveness procedure blocks approval",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: record-level testing is always operating effectiveness",
+      "result": "PASS"
+    },
+    {
+      "name": "fieldwork: a working paper before the programme is approved is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: the author of the programme cannot approve it",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: a procedure added after approval un-approves the programme until re-approved",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence: a management statement cannot be registered as a document",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence: provenance, hash and access are recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence: an assertion is never high-reliability",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: assertions alone cannot support EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: stale evidence cannot support EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: contradictory evidence blocks EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: free text is screened and versioned with a digest",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: an overdue open request is flagged",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: accepting before any response is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: a response links registered evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: lifecycle recorded with every event",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: operating effectiveness needs a tested population",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: passed plus exceptions must equal tested",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: a complete population names its completeness evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: an assertion does not prove completeness",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: a sample from an unverified population cannot support EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: interviews alone are not proof even with a population",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: aggregates are no substitute for record-level testing",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: a sample with exceptions cannot be EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: evidence not evaluated for this procedure cannot support it",
+      "result": "PASS"
+    },
+    {
+      "name": "review: the preparer cannot review their own paper",
+      "result": "PASS"
+    },
+    {
+      "name": "review: an open review note blocks review",
+      "result": "PASS"
+    },
+    {
+      "name": "review: only the preparer answers a note",
+      "result": "PASS"
+    },
+    {
+      "name": "review: a reviewed working paper version is immutable",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: rests on an adverse working paper for its requirement",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: a recommendation is never a command",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: carries criteria, condition, cause, consequence and severity rationale",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: the legacy event route cannot set retest or closure",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: status cannot be set to RETEST_PASSED without a retest",
+      "result": "PASS"
+    },
+    {
+      "name": "MEETS refused while a statutory finding is open",
+      "result": "PASS"
+    },
+    {
+      "name": "retest: needs a management response first",
+      "result": "PASS"
+    },
+    {
+      "name": "retest: a paper that is not a retest procedure for this finding is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "suite",
+      "result": "FAIL",
+      "detail": "Error: noop: 400 {\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"Request could not be completed.\",\"retry\":\"NEVER\",\"field_errors\":[{\"field\":\"completeness_evidence_id\",\"code\":\"complete_population_needs_completeness_evidence\"}]},\"request_id\":\"5f2d4c5a-a0d6-408f-9780-6b1e8180b51c\"}\n    at ok (/home/user/Cyberfyx-ORVIA/tests/integration/vendor/practice-flow.ts:10:62)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async <anonymous> (/home/user/Cyberfyx-ORVIA/tests/integration/vendor/audit-practice.test.ts:264:17)"
+    }
+  ]
+}

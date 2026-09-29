@@ -7,14 +7,14 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "a786a61b928fb03029d3bdbb676d2828bccf71c05722e1dbac4bbf7cd99e1804",
+  "test_file_digest": "8e389b7cde302b44f368abe9b9b5a27bf226ff3debebdf5500547db0a428b0b7",
   "counts": {
-    "UNIT": 47,
-    "INTEGRATION": 71,
+    "UNIT": 48,
+    "INTEGRATION": 74,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
-    "BROWSER_OR_TRANSPORT": 11,
-    "SUPPORT": 8
+    "BROWSER_OR_TRANSPORT": 12,
+    "SUPPORT": 9
   },
   "entries": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "path": "tests/e2e/audit-mandate-local.ts",
-      "sha256": "0b553abac0b11cd0b0709b4715b24b83b29f817f6b4fa0703d7e4b134253c18b",
+      "sha256": "9e857418b59cd535e42bb1d6ffe66bb70f8024823d22efec419e090349e5e103",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -59,7 +59,7 @@
     },
     {
       "path": "tests/e2e/dpdpa-audit-local.ts",
-      "sha256": "d5d16fc0bcb68aa89e5b7fa89e7bf56c9a229bc0f019ed0a679caaf8553bd9ee",
+      "sha256": "77ca228242460e11a6d4976010e4f953ef9e7b6ce33253e87af03a3b8e0668fb",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -71,6 +71,11 @@
       "path": "tests/e2e/fixture.ts",
       "sha256": "ab152d5f5358c8da3c3d655fcc6aeac0caedbecc17be4bdeb4130c00ee7e2fd8",
       "kind": "SUPPORT"
+    },
+    {
+      "path": "tests/e2e/interface-crawl-local.ts",
+      "sha256": "92681474923a4ebe67e0237092b0481b2a14f2a396fc8e8a51077540a34462c8",
+      "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/operations-screens-local.ts",
@@ -164,7 +169,12 @@
     },
     {
       "path": "tests/integration/commerce/commerce.test.ts",
-      "sha256": "564da578cb86182b825d75f7e14b2895a72312f28d2545b1687a30d64412fa3f",
+      "sha256": "863c4087f62a17e0d53e97fd5325a6afcadfeea77884cb3bdc63ce1006da268b",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/commerce/migration-ledger.test.ts",
+      "sha256": "5ce38e0aa62741f823af0dd1d270770153a22e67e3d2e0c23b6229b21bc994c8",
       "kind": "INTEGRATION"
     },
     {
@@ -209,7 +219,7 @@
     },
     {
       "path": "tests/integration/expansion/audit-mandate.test.ts",
-      "sha256": "90d7e52fc2c4fd81184c01dcca12e66caea628439cc31f3a89a4f478581351fc",
+      "sha256": "3f25ab776c641464470401a790f58b2e4acac81c8c28494a529f31b35ba29d85",
       "kind": "INTEGRATION"
     },
     {
@@ -229,7 +239,7 @@
     },
     {
       "path": "tests/integration/expansion/dpdpa-audit.test.ts",
-      "sha256": "17038a355cdb8dbae6a75d04659ca9b310475d5cf06ffd63c67666d8f50d0867",
+      "sha256": "2ae2126f0fa1f7a9aebc4686dce489d0d20a0a476759daeb414ca5f742ea5ad6",
       "kind": "INTEGRATION"
     },
     {
@@ -314,7 +324,7 @@
     },
     {
       "path": "tests/integration/migration/upgrade.test.ts",
-      "sha256": "f1ac8f303b98c44037b80e6a47fc0faed351f1e734fb06c7b75cec8d624d91cc",
+      "sha256": "1a567f660345aa097ce4605672bd79f2ee646c5a97e61e68130357345a8015ad",
       "kind": "INTEGRATION"
     },
     {
@@ -384,7 +394,7 @@
     },
     {
       "path": "tests/integration/operations/breach.test.ts",
-      "sha256": "0b42fcfdaeb3b4d38e9ac5b95409e1916254c1e7364ac910e16890876ac28a40",
+      "sha256": "54334c66b0b8fba83860618e01cccf9f71a96adf2bb257ab799b97f7a63a563b",
       "kind": "INTEGRATION"
     },
     {
@@ -483,13 +493,28 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/vendor/audit-practice.test.ts",
+      "sha256": "08dfc8472e6922ff546d44ae52f6ea4eeb0d5821a348d8ccea15a2b49bd8716e",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/vendor/harness.ts",
-      "sha256": "65691cd26aedec18fe755de87163577db3c5c8575a46023d2bc5c20a15c93503",
+      "sha256": "622b4a09742a8c5d5efbdb5cbdcc7a5c1f9fadd0b6c6bb623b74b24a142c8046",
       "kind": "SUPPORT"
     },
     {
+      "path": "tests/integration/vendor/practice-flow.ts",
+      "sha256": "b879d7090b0759a2e86d0b59ed7005a2a41aeab9a2070c00c7d0a57867ff7741",
+      "kind": "SUPPORT"
+    },
+    {
+      "path": "tests/integration/vendor/schema-equivalence.test.ts",
+      "sha256": "eefca57469337d0a5920658428f5ee88b9055b7b130da3205eebfc2bb40963dc",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/vendor/vendor-audit.test.ts",
-      "sha256": "7faf0a51a568a970dbe6723472624c4bc37484b5e8ea505433e9d7757a7a6483",
+      "sha256": "34ae4b504f22841f6e6190131b25653d7a8fbd16e6824e5934cf2e80b3eb6a19",
       "kind": "INTEGRATION"
     },
     {
@@ -534,7 +559,7 @@
     },
     {
       "path": "tests/unit/audit-channel.test.ts",
-      "sha256": "970d2e1cd15e3cf33b38cefbf8b42e1e56c7c926c8e9e699dd4532725a11d6e6",
+      "sha256": "99883f031472f0be09eb7890a569686db17a91ff99cf47371eb3a31769650f2c",
       "kind": "UNIT"
     },
     {
@@ -745,6 +770,11 @@
     {
       "path": "tests/unit/value-classifiers.test.ts",
       "sha256": "9d48c1ab6c189eb53c1a5dacc88061cc0b21273dc1bb8a915495f2145d870bfa",
+      "kind": "UNIT"
+    },
+    {
+      "path": "tests/unit/vendor-migration-ledger.test.ts",
+      "sha256": "3219b0b77d5e7aba8ddfb7a7611d059c4dbd8901658b4fa0537356dc0ce8da47",
       "kind": "UNIT"
     },
     {

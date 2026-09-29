@@ -17,6 +17,7 @@ import { verifyPackageFile, sha256 } from '../../../shared/contracts/src/audit-e
 import { signAuditDocument } from '../../../backend/vendor/audit/signing.ts';
 import { vendorSigningKey } from '../../../scripts/credentials.ts';
 import { vendorHarness } from '../vendor/harness.ts';
+import { setupPractice, acceptEngagement, planEngagement, evidenceFor, paper } from '../vendor/practice-flow.ts';
 
 const t = operationsSuite('dpdpa-audit');
 const { h, check, ok, codes, db } = t;
@@ -124,10 +125,21 @@ await t.run(async () => {
 
     t.setPhase('signed files back to the client');
     await vlead.json(`/api/v1/vendor/engagements/${eng.data.engagement_id}/independence`, { statement: 'The audit team is independent of the client organisation.', conflict_check: 'NO_CONFLICT', conflict_note: null, empanelment_reference: null });
-    await vlead.json(`/api/v1/vendor/engagements/${eng.data.engagement_id}/findings`, { requirement_id: reqA, provision_ids: ['ACT-S5(1)'], severity: 'HIGH', title: 'Notice lacks Board complaint channel', observation: 'The sampled notice omits the means to complain to the Board.', recommendation: 'Add the Board complaint channel to the notice.', due_date: '2026-12-31' });
-    await vlead.json(`/api/v1/vendor/engagements/${eng.data.engagement_id}/results`, { requirement_id: reqA, result: 'PARTIALLY_MEETS', rationale: 'Notice published; complaint channel missing.' });
-    const findingsFile = (await vlead.json(`/api/v1/vendor/engagements/${eng.data.engagement_id}/findings/export`, {})).data.signed;
-    const draft = await vlead.json(`/api/v1/vendor/engagements/${eng.data.engagement_id}/reports`, { opinion_as_of: '2026-07-15', method: 'Inspection of the client-approved package.', opinion: 'The requirement in scope is partially met.', limitations: ['Only evidence the client chose to share was examined.'] });
+    // The audit practice (task AUDIT-PRACTICE-01): acceptance, an approved programme and a reviewed working paper before any finding or conclusion.
+    const engId = eng.data.engagement_id as string;
+    const practice = await setupPractice(vlead, vrev);
+    await acceptEngagement({ admin: vadm, reviewer: vrev, lead: vlead, engagementId: engId, ...practice });
+    const plan = await planEngagement({ lead: vlead, auditor: vlead, reviewer: vrev, engagementId: engId, requirements: [reqA], period: { from: '2026-01-01', to: '2026-06-30' }, leadId: lead.data.member.user_id });
+    const firstItem = (await vlead.json(`/api/v1/vendor/packages/${rbody.package_id}`)).data.items[0];
+    const ev = await evidenceFor({ auditor: vlead, engagementId: engId, procedureId: plan.procedures[reqA]!, register: { source: 'PACKAGE_ITEM', package_id: rbody.package_id, item_id: firstItem.item_id, evidence_type: null, valid_until: null, description: null } });
+    const wp = await paper({ preparer: vlead, reviewer: vrev, procedureId: plan.procedures[reqA]!, conclusion: 'EXCEPTIONS_NOTED', evidence: [ev] });
+    await vlead.json(`/api/v1/vendor/engagements/${engId}/findings`, { requirement_id: reqA, provision_ids: ['ACT-S5(1)'], criterion_type: 'STATUTORY', severity: 'HIGH', title: 'Notice lacks Board complaint channel', observation: 'The sampled notice omits the means to complain to the Board.',
+      affected_scope: 'Published consent notice', cause: 'The notice template predates the complaint-channel requirement.', consequence: 'Data Principals are not told how to complain to the Board.', severity_rationale: 'Every consenting Data Principal receives the incomplete notice.',
+      recommendation: 'Add the Board complaint channel to the notice.', orvia_guidance: null, due_date: '2026-12-31', working_paper_ids: [wp], evidence_ids: [ev] });
+    await vlead.json(`/api/v1/vendor/engagements/${engId}/results`, { requirement_id: reqA, result: 'PARTIALLY_MEETS', rationale: 'Notice published; complaint channel missing.' });
+    const findingsFile = (await vlead.json(`/api/v1/vendor/engagements/${engId}/findings/export`, {})).data.signed;
+    const draft = await vlead.json(`/api/v1/vendor/engagements/${engId}/reports`, { opinion_as_of: '2026-07-15', executive_summary: 'Synthetic engagement: the notice requirement is partially met; one high finding.', supersedes_report_id: null, correction_reason: null,
+      method: 'Inspection of the client-approved package.', opinion: 'The requirement in scope is partially met.', limitations: ['Only evidence the client chose to share was examined.'] });
     await vrev.json(`/api/v1/vendor/reports/${draft.data.id}/approve`, {});
     const reportFile = (await vlead.json(`/api/v1/vendor/reports/${draft.data.id}/sign`, {})).data.signed;
     const reportPdf = (await vlead.json(`/api/v1/vendor/reports/${draft.data.id}/pdf`)).data.pdf_base64 as string;
