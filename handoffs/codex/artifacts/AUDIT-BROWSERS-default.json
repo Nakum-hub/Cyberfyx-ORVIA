@@ -1,0 +1,54 @@
+{
+  "command": [
+    "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\browser-audit-practice\\handoffs\\codex\\browser-preflight.mjs",
+    "C:/Cyberfyx-projects/Cyberfyx_ORVIA",
+    "../browser-audit-practice/handoffs/codex/artifacts/AUDIT-BROWSERS-default.json"
+  ],
+  "cwd": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\audit-practice-runtime",
+  "rows": [
+    {
+      "browser": "firefox",
+      "executable": "C:\\Users\\sadas\\AppData\\Local\\ms-playwright\\firefox-1543\\firefox\\firefox.exe",
+      "installed": false,
+      "suites": [
+        {
+          "suite": "tests/e2e/expansion-screens-local.ts",
+          "status": "NOT_RUN",
+          "reason": "Playwright browser executable is not installed; installation forbidden by task"
+        },
+        {
+          "suite": "tests/e2e/dpdpa-audit-local.ts",
+          "status": "NOT_RUN",
+          "reason": "Playwright browser executable is not installed; installation forbidden by task"
+        },
+        {
+          "suite": "tests/e2e/audit-mandate-local.ts",
+          "status": "NOT_RUN",
+          "reason": "Playwright browser executable is not installed; installation forbidden by task"
+        }
+      ]
+    },
+    {
+      "browser": "webkit",
+      "executable": "C:\\Users\\sadas\\AppData\\Local\\ms-playwright\\webkit-2359\\Playwright.exe",
+      "installed": false,
+      "suites": [
+        {
+          "suite": "tests/e2e/expansion-screens-local.ts",
+          "status": "NOT_RUN",
+          "reason": "Playwright browser executable is not installed; installation forbidden by task"
+        },
+        {
+          "suite": "tests/e2e/dpdpa-audit-local.ts",
+          "status": "NOT_RUN",
+          "reason": "Playwright browser executable is not installed; installation forbidden by task"
+        },
+        {
+          "suite": "tests/e2e/audit-mandate-local.ts",
+          "status": "NOT_RUN",
+          "reason": "Playwright browser executable is not installed; installation forbidden by task"
+        }
+      ]
+    }
+  ]
+}
