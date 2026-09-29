@@ -34,6 +34,12 @@ export async function applyVendorMigrations(client: pg.PoolClient | pg.Client, i
       else { await client.query(sql); await client.query('INSERT INTO public.vendor_migrations (id, checksum) VALUES ($1, $2)', [id, checksum]); applied.push(id); }
       if (options.through === id) break;
     }
+    // Invariant of a complete vendor schema: every table forces row-level security, however it was reached.
+    if (!options.through) {
+      const unforced = (await client.query(`SELECT n.nspname || '.' || c.relname AS name FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE n.nspname IN ('vendor','vendor_auth','account_auth') AND c.relkind = 'r' AND (NOT c.relrowsecurity OR NOT c.relforcerowsecurity) ORDER BY 1`)).rows.map(r => r.name as string);
+      if (unforced.length) throw new Error(`Vendor tables without forced row-level security: ${unforced.join(', ')}`);
+    }
     await client.query('COMMIT');
   } catch (error) { await client.query('ROLLBACK'); throw error; }
   return applied;

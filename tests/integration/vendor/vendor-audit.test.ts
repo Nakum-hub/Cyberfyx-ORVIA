@@ -8,6 +8,7 @@ process.env.ORVIA_PROFILE = 'vendor-a00';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { writeFileSync, mkdirSync } from 'node:fs';
+import { applyVendorMigrations } from '../../../database/vendor/src/migrations.ts';
 import { vendorHarness } from './harness.ts';
 import { packageFileBytes, sha256, verifyAuditDocument, type AuditPackageManifest } from '../../../shared/contracts/src/audit-exchange.ts';
 import { engagementCodeDigest } from '../../../backend/vendor/audit/service.ts';
@@ -38,6 +39,17 @@ function makePackage(o: { code: string; scope: string[]; expires?: string; perso
   return { manifest, bytes: packageFileBytes(manifest, new Map(items.map(i => [i.item_id, i.bytes]))) };
 }
 try {
+  // Schema invariant: every vendor table forces row-level security however the migrations were reached, and the runner refuses otherwise.
+  check('schema: every vendor table forces row-level security', (await h.operator.query("SELECT count(*)::int AS n FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname IN ('vendor','vendor_auth','account_auth') AND c.relkind='r' AND NOT c.relforcerowsecurity")).rows[0].n, 0);
+  {
+    const client = await h.operator.connect();
+    try {
+      const installation = (await client.query('SELECT installation_id FROM public.vendor_bootstrap')).rows[0].installation_id as string;
+      await client.query('ALTER TABLE vendor.licence_requests NO FORCE ROW LEVEL SECURITY');
+      check('schema: the migration runner refuses a vendor table without forced row-level security', await applyVendorMigrations(client, installation).then(() => 'ACCEPTED', (e: Error) => /without forced row-level security: vendor\.licence_requests/.test(e.message) ? 'REFUSED' : e.message), 'REFUSED');
+      await client.query('ALTER TABLE vendor.licence_requests FORCE ROW LEVEL SECURITY');
+    } finally { client.release(); }
+  }
   const anon = h.session();
   // First-run setup
   check('setup: no code issued', (await anon.json('/api/v1/vendor/setup')).data.state, 'NO_CODE_ISSUED');
