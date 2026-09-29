@@ -1,0 +1,19 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T06:49:21.825Z",
+  "suite": "audit-mandate",
+  "assertions": [
+    {
+      "name": "unexpected failure in setup",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Unexpected 400: {\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"Request could not be completed.\",\"retry\":\"NEVER\"},\"request_id\":\"23cf05ed-26f2-46ce-9c1f-c199c12db06a\"}"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

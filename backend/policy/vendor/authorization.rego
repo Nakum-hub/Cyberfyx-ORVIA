@@ -11,7 +11,7 @@ import rego.v1
 default authorize := false
 
 team_caps := {"vendor.team.read", "vendor.team.manage"}
-admin_caps := {"organisations.read", "organisations.manage", "licences.read", "licences.issue", "engagements.read", "engagements.manage", "support.read", "support.manage", "vendor.audit.read", "payments.read"}
+admin_caps := {"organisations.read", "organisations.manage", "licences.read", "licences.issue", "engagements.read", "engagements.manage", "support.read", "support.manage", "vendor.audit.read", "payments.read", "vendor.overview.read"}
 fieldwork_caps := {"engagements.read", "organisations.read", "audit.fieldwork", "support.read"}
 
 authorize if {

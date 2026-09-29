@@ -9,8 +9,10 @@ import { Badge, DataTable, Facts, NoticeBox, PageHead, Section, SelectField, Tex
  * DPDPA external audit, client side (revision 1.5 addendum). The gap register
  * shows, for every requirement of the package in force, applicability, the
  * evidence expected, the standing of mapped controls and ORVIA's own aggregate
- * indicators. Evidence packages leave only as a file, prepared by one person and
- * approved by a different owner or administrator; nothing is ever sent from here.
+ * indicators. Evidence leaves only (a) under an audit mandate a second owner or
+ * administrator approved, as personal-data-free evidence ORVIA generates, signs and
+ * sends to the one audit address in the trust file (revision 1.6), or (b) as a
+ * sealed package approved the same way, carried as a file or sent over that channel.
  */
 type Gap = ReturnType<typeof schemas.GapRegister.parse>;
 type File = ReturnType<typeof schemas.EvidenceFile.parse>;
@@ -47,7 +49,7 @@ export function DpdpaAudit({ capabilities }: { capabilities: readonly string[] }
   if (!gap) return loadError ? <NoticeBox tone="stop" title="DPDPA audit unavailable"><p>{loadError}</p></NoticeBox> : <p role="status">Reading the gap register…</p>;
   const controls = gap.rows.flatMap(r => r.controls.map(c => ({ value: c.control_id, label: `${r.requirement_id} — ${c.title}` })));
   return <>
-    <PageHead eyebrow="GRC" title="DPDPA external audit" lede="Readiness against the DPDP Act and Rules, evidence files, and the evidence packages your external auditor receives. Only a sealed package approved by a second owner or administrator can leave, as a file you carry; ORVIA sends nothing." />
+    <PageHead eyebrow="GRC" title="DPDPA external audit" lede="Readiness against the DPDP Act and Rules, the audit mandate you sign for your external auditor, and every piece of evidence that leaves. Evidence leaves only under a mandate or a sealed package, each approved by a second owner or administrator; everything that left is listed under Vendor visibility." />
     <Messages error={error} note={note} />
     <Section title="Gap register" aside={<button type="button" disabled={busy} onClick={() => void run(async () => { const r = await call('export_dpdpa_gap_register', undefined, { idempotency_key: key() }); save(r.file_name, r.csv, 'text/csv'); }, 'Gap register exported.')}>Export CSV</button>}>
       <Facts items={[{ term: 'Regulatory package', value: gap.package ? `${gap.package.version} (${gap.package.distribution === 'TEST_FIXTURE' ? 'test fixture' : 'production'})` : 'None in force' },
@@ -153,6 +155,7 @@ function EngagementDetail({ id, files, capabilities, onChange }: { id: string; f
         <button type="submit" disabled={busy}>Approve exception and add the item above</button></form>}
       {approve && <button className="primary" type="button" disabled={busy || pkg.screening.length > 0 || pkg.items.length === 0} onClick={() => void run(async () => setPkg(await call('approve_audit_package', undefined, { params: { id: pkg.id }, idempotency_key: key() })), 'Package approved and sealed.')}>Approve and seal package</button>}
     </P>}
+    <MandatePanel engagement={e} capabilities={capabilities} />
     <h4>Files from your auditor</h4>
     <DataTable caption="Signed files imported" rowKey={i => i.id} rows={e.imports} columns={[{ key: 'k', header: 'Kind', cell: i => i.kind.replaceAll('_', ' ').toLowerCase() }, { key: 'd', header: 'Issued', cell: i => i.issued_at.slice(0, 10) },
       { key: 'n', header: 'Entries', cell: i => i.entries }, { key: 'x', header: '', cell: i => <span className="row">
@@ -168,4 +171,73 @@ function EngagementDetail({ id, files, capabilities, onChange }: { id: string; f
       <button type="submit" disabled={busy || !signed}>Verify and import</button>
       <p className="muted">The signature is verified with the auditor&apos;s audit key in this installation&apos;s trust file; an altered or unknown file is refused. A report is stored with its PDF, whose hash the signature covers.</p></form>}
   </Section>;
+}
+
+type Channel = ReturnType<typeof schemas.AuditChannel.parse>;
+const CATEGORY_LABEL: Record<string, string> = { INDICATORS: 'ORVIA indicators (counts and dates)', CONTROL_STANDING: 'Standing of mapped controls', CONTROL_TESTS: 'Scheduled control test results',
+  NOTICE_VERSIONS: 'Published notice versions (identifiers and digests)', POLICY_VERSIONS: 'Policy versions', ACTIVITY_LOG_DIGEST: 'Audit trail digest (counts and a hash, no people)', SAMPLE_COUNTS: 'Answers to auditor samples (counts only)' };
+const DECISION_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral' | 'info'> = { DELIVERED: 'ok', ANSWER_AUTOMATICALLY: 'info', AWAITING_CLIENT_APPROVAL: 'warn', REFUSED: 'neutral' };
+/**
+ * The audit mandate (revision 1.6): one authorisation, drafted by one person and
+ * approved by a different owner or administrator, under which ORVIA itself
+ * generates, signs and sends personal-data-free evidence on schedule and answers
+ * the auditor's requests inside it. Requests for files wait here for a person.
+ */
+function MandatePanel({ engagement, capabilities }: { engagement: Engagement; capabilities: readonly string[] }) {
+  const [ch, setCh] = useState<Channel | null>(null); const [loadError, setLoadError] = useState<string | null>(null);
+  const load = useCallback(async () => { try { setCh(await call('audit_channel', undefined, { params: { id: engagement.id } })); } catch (e) { setLoadError(explain(e)); } }, [engagement.id]);
+  useEffect(() => { void load(); }, [load]);
+  const { busy, error, note, run } = useRunner(load);
+  const prepare = capabilities.includes('audit_exchange.prepare'); const approve = capabilities.includes('audit_exchange.approve');
+  const [form, setForm] = useState({ kind: 'ENGAGEMENT', scope: engagement.scope_requirement_ids, categories: ['INDICATORS', 'CONTROL_STANDING', 'CONTROL_TESTS', 'NOTICE_VERSIONS', 'ACTIVITY_LOG_DIGEST', 'SAMPLE_COUNTS'], schedule: 'WEEKLY', days: '90' });
+  const [reason, setReason] = useState(''); const [answer, setAnswer] = useState<Record<string, { package_id: string; reason: string }>>({});
+  if (!ch) return loadError ? <NoticeBox tone="stop" title="Audit channel unavailable"><p>{loadError}</p></NoticeBox> : <p role="status">Reading the audit channel…</p>;
+  const current = ch.mandates.find(m => ['ACTIVE', 'SUSPENDED'].includes(m.state)); const draft = ch.mandates.find(m => m.state === 'DRAFT');
+  const sendable = engagement.packages.filter(p => p.effective_state === 'APPROVED');
+  const toggle = (list: string[], value: string) => list.includes(value) ? list.filter(x => x !== value) : [...list, value];
+  return <div className="panel" aria-label="Audit mandate and channel">
+    <h4>Audit mandate</h4>
+    <Messages error={error} note={note} />
+    <Facts items={[{ term: 'Audit service', value: ch.audit_service.configured ? ch.audit_service.address : 'Not configured in the trust file — evidence moves only as files' },
+      { term: 'Installation evidence key', value: ch.evidence_key_id ?? 'Created by ORVIA when the first mandate is serviced' },
+      { term: 'Mandate in force', value: current ? `${current.state.toLowerCase()} · ${current.kind === 'CONTINUOUS_ASSURANCE' ? 'continuous assurance' : 'engagement'} · until ${current.valid_to.slice(0, 10)}` : 'None' },
+      { term: 'Last check-in', value: current?.last_check_in_at ? current.last_check_in_at.slice(0, 16).replace('T', ' ') : '—' },
+      ...(current?.channel_problem ? [{ term: 'Channel problem', value: current.channel_problem.replaceAll('_', ' ').toLowerCase() }] : [])]} />
+    <ul className="cell-sub">{ch.limits.map(l => <li key={l}>{l}</li>)}</ul>
+    {current && <p className="muted">Under this mandate ORVIA sends, {current.schedule === 'DAILY' ? 'daily' : 'weekly'}: {current.categories.map(c => CATEGORY_LABEL[c] ?? c).join('; ')}. Scope: {current.scope_requirement_ids.join(', ')}. Nothing personal is ever sent automatically.</p>}
+    {approve && current && <div className="row">
+      <TextField label="Reason" value={reason} onChange={setReason} hint="Recorded with the change and reported to the auditor." />
+      {current.state === 'ACTIVE' && <button type="button" disabled={busy || reason.trim().length < 3} onClick={() => void run(() => call('change_audit_mandate_state', { state: 'SUSPENDED', reason }, { params: { id: current.id }, idempotency_key: key() }), 'Mandate suspended; nothing more is sent until you resume it.')}>Suspend</button>}
+      {current.state === 'SUSPENDED' && <button type="button" disabled={busy || reason.trim().length < 3} onClick={() => void run(() => call('change_audit_mandate_state', { state: 'ACTIVE', reason }, { params: { id: current.id }, idempotency_key: key() }), 'Mandate resumed.')}>Resume</button>}
+      <button type="button" className="danger" disabled={busy || reason.trim().length < 3} onClick={() => void run(() => call('change_audit_mandate_state', { state: 'REVOKED', reason }, { params: { id: current.id }, idempotency_key: key() }), 'Mandate revoked; the auditor is told at the next check-in.')}>Revoke</button></div>}
+    {draft && <NoticeBox tone="info" title="Mandate waiting for approval"><p>Drafted by {draft.prepared_role.replaceAll('_', ' ').toLowerCase()} for {draft.categories.length} categories, until {draft.valid_to.slice(0, 10)}. An owner or administrator other than the preparer approves it.</p>
+      {approve && <button className="primary" type="button" disabled={busy} onClick={() => void run(() => call('approve_audit_mandate', undefined, { params: { id: draft.id }, idempotency_key: key() }), 'Mandate approved. ORVIA begins sending evidence at its next check-in.')}>Approve mandate</button>}</NoticeBox>}
+    {prepare && !current && !draft && engagement.state === 'ACTIVE' && ch.available && <form aria-label="Draft mandate" onSubmit={(ev: FormEvent) => { ev.preventDefault(); void run(() => call('create_audit_mandate', { kind: form.kind as 'ENGAGEMENT' | 'CONTINUOUS_ASSURANCE', scope_requirement_ids: form.scope,
+      categories: form.categories as ReturnType<typeof schemas.AuditMandateCreate.parse>['categories'], schedule: form.schedule as 'DAILY' | 'WEEKLY', valid_from: new Date(Date.now() - 60_000).toISOString(), valid_to: new Date(Date.now() + Number(form.days) * 86_400_000).toISOString() }, { params: { id: engagement.id }, idempotency_key: key() }), 'Mandate drafted; a different owner or administrator approves it.'); }}>
+      <p className="muted">Sign once instead of preparing evidence for every question. ORVIA generates the evidence below from its own records, signs it with this installation&apos;s key so it cannot be edited or chosen, and sends it only to the audit address in your trust file. Requests for documents still come to you.</p>
+      <SelectField label="Kind" value={form.kind} onChange={v => setForm(x => ({ ...x, kind: v }))} options={[{ value: 'ENGAGEMENT', label: 'This audit engagement' }, { value: 'CONTINUOUS_ASSURANCE', label: 'Continuous assurance (separate service)' }]} required />
+      <fieldset><legend>Requirements</legend>{engagement.scope_requirement_ids.map(r => <label key={r} className="row"><input type="checkbox" checked={form.scope.includes(r)} onChange={() => setForm(x => ({ ...x, scope: toggle(x.scope, r) }))} /> {r}</label>)}</fieldset>
+      <fieldset><legend>Evidence ORVIA may send</legend>{Object.entries(CATEGORY_LABEL).map(([c, label]) => <label key={c} className="row"><input type="checkbox" checked={form.categories.includes(c)} onChange={() => setForm(x => ({ ...x, categories: toggle(x.categories, c) }))} /> {label}</label>)}</fieldset>
+      <SelectField label="Schedule" value={form.schedule} onChange={v => setForm(x => ({ ...x, schedule: v }))} options={[{ value: 'WEEKLY', label: 'Weekly' }, { value: 'DAILY', label: 'Daily' }]} required />
+      <TextField label="Lasts (days)" value={form.days} onChange={v => setForm(x => ({ ...x, days: v }))} required inputMode="numeric" hint="An engagement mandate ends within 120 days after the audit period; continuous assurance lasts at most 400 days." />
+      <button className="primary" type="submit" disabled={busy || !form.scope.length || !form.categories.length}>Draft mandate</button></form>}
+    <h4>Auditor requests</h4>
+    <DataTable caption="Requests from your auditor" rowKey={r => r.id} rows={ch.requests} columns={[
+      { key: 'k', header: 'Request', cell: r => <span className="cell-primary">{r.kind.replaceAll('_', ' ').toLowerCase()}{r.requirement_id ? ` · ${r.requirement_id}` : ''}<span className="cell-sub">{r.description}</span></span> },
+      { key: 'd', header: 'Due', cell: r => <>{r.due_date}{r.overdue && <Badge label="overdue" tone="stop" />}</> },
+      { key: 's', header: 'Status', cell: r => <><Badge label={r.decision === 'ANSWER_AUTOMATICALLY' ? 'answering' : r.decision.replaceAll('_', ' ').toLowerCase()} tone={DECISION_TONE[r.decision] ?? 'neutral'} />{r.decision_reason && <span className="cell-sub">{r.decision_reason.replaceAll('_', ' ').toLowerCase()}</span>}</> },
+      { key: 'x', header: '', cell: r => r.decision === 'AWAITING_CLIENT_APPROVAL' && !r.package_id && approve ? <span className="row">
+        <SelectField label="Approved package" value={answer[r.id]?.package_id ?? ''} onChange={v => setAnswer(a => ({ ...a, [r.id]: { reason: a[r.id]?.reason ?? '', package_id: v } }))} options={sendable.map(p => ({ value: p.id, label: `${p.item_count} item(s), sealed ${p.approved_at?.slice(0, 10)}` }))} />
+        <button type="button" disabled={busy || !answer[r.id]?.package_id} onClick={() => void run(() => call('decide_audit_channel_request', { decision: 'PACKAGE', reason: null, package_id: answer[r.id]!.package_id }, { params: { id: r.id }, idempotency_key: key() }), 'The package will be sent to the auditor at the next check-in.')}>Send package</button>
+        <TextField label="Reason to decline" value={answer[r.id]?.reason ?? ''} onChange={v => setAnswer(a => ({ ...a, [r.id]: { package_id: a[r.id]?.package_id ?? '', reason: v } }))} />
+        <button type="button" disabled={busy || (answer[r.id]?.reason ?? '').trim().length < 3} onClick={() => void run(() => call('decide_audit_channel_request', { decision: 'REFUSED', reason: answer[r.id]!.reason.trim().toUpperCase().replace(/[^A-Z0-9]+/g, '_').slice(0, 80), package_id: null }, { params: { id: r.id }, idempotency_key: key() }), 'Declined; the auditor sees your reason.')}>Decline</button></span> : null }]} />
+    <h4>What ORVIA sent</h4>
+    <DataTable caption="Evidence deliveries" rowKey={d => d.id} rows={ch.deliveries} columns={[{ key: 'n', header: '#', cell: d => d.sequence }, { key: 'k', header: 'Kind', cell: d => d.kind === 'SNAPSHOT' ? 'scheduled snapshot' : 'answer to a request' },
+      { key: 'c', header: 'Categories', cell: d => d.categories.map(c => c.replaceAll('_', ' ').toLowerCase()).join(', ') }, { key: 'e', header: 'Entries', cell: d => d.entries },
+      { key: 's', header: 'Outcome', cell: d => <><Badge label={d.state.toLowerCase()} tone={d.state === 'ACCEPTED' ? 'ok' : d.state === 'REFUSED' || d.state === 'FAILED' ? 'stop' : 'warn'} />{d.reasons.length > 0 && <span className="cell-sub">{d.reasons.join(', ').toLowerCase()}</span>}</> },
+      { key: 't', header: 'Generated', cell: d => d.created_at.slice(0, 16).replace('T', ' ') }, { key: 'h', header: 'Digest', cell: d => <code>{d.digest.slice(0, 12)}…</code> }]} />
+    {approve && sendable.length > 0 && ch.audit_service.configured && current && <p className="muted">A sealed package can also be sent over the channel instead of carried as a file:{' '}
+      {sendable.map(p => <button key={p.id} type="button" disabled={busy} onClick={() => void run(() => call('submit_audit_package_over_channel', undefined, { params: { id: p.id }, idempotency_key: key() }), 'Package queued; it is sent at the next check-in.')}>Send package sealed {p.approved_at?.slice(0, 10)}</button>)}</p>}
+    {approve && engagement.state === 'ACTIVE' && <p><button type="button" className="danger" disabled={busy || reason.trim().length < 3} onClick={() => void run(() => call('close_audit_engagement', { reason }, { params: { id: engagement.id }, idempotency_key: key() }), 'Engagement closed; its mandate has ended and nothing more is sent.')}>Close engagement (uses the reason above)</button></p>}
+  </div>;
 }

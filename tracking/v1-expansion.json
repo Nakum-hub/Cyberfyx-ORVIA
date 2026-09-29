@@ -166,12 +166,20 @@
         "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-1790646870965-b055cceb-5fdb-4fff-b3a1-57db342ec577.json",
         "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790647626243-a84687d5-c91e-43f1-b879-791c774d1b1d.json",
         "handoffs/code/artifacts/vendor-audit-2026-09-29T02-36-40-562Z.json",
-        "handoffs/code/artifacts/regression-battery-2026-09-29.txt"
+        "handoffs/code/artifacts/regression-battery-2026-09-29.txt",
+        "docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md",
+        "handoffs/code/2026-09-29-dpdpa-audit-mandate.md",
+        "handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790666116876-e581175f-6c60-4cbf-8613-6639f42b8dd3.json",
+        "handoffs/codex/artifacts/DPDP-operations-audit-mandate-browser-1790666237951-2dc2904e-2226-4d64-b793-ea9da7a01317.json",
+        "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790666437132-cb1e05be-9764-4bc9-8851-3aba3745fefc.json",
+        "handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790666386356-76048927-278f-4d16-9154-ee4033b8dfa0.json",
+        "handoffs/codex/artifacts/A00-vendor-visibility-integration-1790665341783-ad40c568-ce18-49cd-976f-ff2aace1f829.json"
       ],
       "limitations": [
         "GRC framework/control/risk workspace and audit engagement/request/response APIs implemented at contract 0.27.0. Audit core: 41 isolated database checks; GRC/audit HTTP: 57 checks. One cold-start policy HTTP run failed closed; subsequent run passed without timeout changes. Audit workspace builds but its browser journey is NOT_RUN. Full Next runtime integration, policy lifecycle, regulatory content, issue management, mitigation effect verification and release qualification remain open. No parity or certification claimed.",
         "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Policy lifecycle, issues and remediation built; no regulatory content library, no certification claim.",
-        "2026-09-29 (revision 1.5): DPDPA external audit exchange built on the client side (gap register, evidence files, sealed dual-approved packages, verified import of signed findings/reports, findings as GRC issues) and in the vendor area (inbox, review, results, findings, report with reviewer approval, audit-key signing, retention). Criteria come from a TEST_FIXTURE regulatory package until the official one is signed; malware screening is structural unless ORVIA_CLAMSCAN is set; Firefox/WebKit NOT_RUN. Acceptance NOT_RUN."
+        "2026-09-29 (revision 1.5): DPDPA external audit exchange built on the client side (gap register, evidence files, sealed dual-approved packages, verified import of signed findings/reports, findings as GRC issues) and in the vendor area (inbox, review, results, findings, report with reviewer approval, audit-key signing, retention). Criteria come from a TEST_FIXTURE regulatory package until the official one is signed; malware screening is structural unless ORVIA_CLAMSCAN is set; Firefox/WebKit NOT_RUN. Acceptance NOT_RUN.",
+        "2026-09-29 (revision 1.6): DPDPA audit mandate built. The client signs one dual-approved mandate; the background worker generates personal-data-free evidence from ORVIA's own records, signs it with the installation key and sends it outbound only to the audit address in the trust file; auditor requests (collection, server-seeded sample, document) are answered automatically inside the mandate or wait for a client approver; delivery chain, signed receipts, leadership overview. Round trip 64/64, browser 14/14 (Chromium, worker over loopback HTTP). NOT_RUN: channel over real TLS to a separately hosted vendor, multi-day supervised operation, Firefox/WebKit. Legal review of the engagement letter and DPA is pending before a real engagement. Acceptance NOT_RUN."
       ]
     },
     {

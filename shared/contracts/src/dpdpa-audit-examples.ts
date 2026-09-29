@@ -17,6 +17,14 @@ const engagementBase = { id: uuid(1530), firm_name: 'Synthetic audit practice', 
 const item = { item_id: uuid(1550), requirement_id: 'DPDP-NOTICE-CONSENT-REQUEST', kind: 'FILE' as const, title: 'Published itemised notice', evidence_file_id: uuid(1510), indicator: null, statement: null,
   contains_personal_data: 'NO' as const, exception_justification: null, exception_approved_by: null, added_by: uuid(1503), added_at: at };
 const itemAdd = { requirement_id: 'DPDP-NOTICE-CONSENT-REQUEST', kind: 'FILE' as const, title: 'Published itemised notice', evidence_file_id: uuid(1510), indicator_key: null, statement: null };
+const mandateCreate = { kind: 'ENGAGEMENT' as const, scope_requirement_ids: ['DPDP-NOTICE-CONSENT-REQUEST'], categories: ['INDICATORS' as const, 'CONTROL_STANDING' as const], schedule: 'WEEKLY' as const, valid_from: at, valid_to: later };
+const mandate = { ...mandateCreate, id: uuid(1580), engagement_id: uuid(1530), state: 'ACTIVE' as const, open: true, prepared_by: uuid(1503), prepared_role: 'ORG_ADMIN', approved_by: uuid(1502), approved_role: 'ORG_SUPER_ADMIN',
+  approved_at: at, state_changed_at: at, state_reason: null, reported_state: 'ACTIVE', last_check_in_at: at, next_collection_at: later, channel_problem: null, created_at: at };
+const delivery = { id: uuid(1581), mandate_id: uuid(1580), sequence: 1, kind: 'SNAPSHOT' as const, request_id: null, period_from: at, period_to: at, entries: 4, categories: ['INDICATORS', 'CONTROL_STANDING'], digest: d('f'),
+  state: 'ACCEPTED' as const, attempts: 1, last_error: null, reasons: [], created_at: at, completed_at: at };
+const request = { id: uuid(1582), mandate_id: uuid(1580), kind: 'EVIDENCE_FILE' as const, requirement_id: 'DPDP-NOTICE-CONSENT-REQUEST', description: 'Signed copy of the notice approval record.', due_date: '2026-10-30',
+  received_at: at, decision: 'AWAITING_CLIENT_APPROVAL' as const, decision_reason: 'EVIDENCE_FILES_NEED_A_CLIENT_APPROVER', decided_by: null, decided_at: null, delivery_id: null, package_id: null, reported_to_auditor: true, overdue: false, request: {} };
+const submission = { id: uuid(1583), package_id: uuid(1520), engagement_id: uuid(1530), request_id: uuid(1582), file_sha256: d('c'), state: 'ACCEPTED' as const, attempts: 1, last_error: null, reasons: [], requested_by: uuid(1502), requested_at: at, completed_at: at };
 const EXAMPLES: Record<string, unknown> = {
   Indicator: indicator, GapRow: gapRow,
   GapRegister: { as_of: at, package: { id: uuid(1560), version: '1.0.0', distribution: 'TEST_FIXTURE' }, framework_id: uuid(1561), rows: [gapRow],
@@ -40,5 +48,12 @@ const EXAMPLES: Record<string, unknown> = {
   AuditImport: { ...importSummary, engagement_id: uuid(1530), document: { kind: 'FINDINGS', findings: [] }, finding_links: [{ finding_id: uuid(1570), grc_issue_id: uuid(1571) }] },
   AuditImportPdf: { file_name: 'orvia-audit-report-ENG-2026-01.pdf', pdf_base64: 'JVBERi0xLjQK', pdf_sha256: d('e') },
   FindingLinkCreate: { finding_id: uuid(1570) },
+  // Revision 1.6: audit mandate and channel (synthetic).
+  AuditMandateCreate: mandateCreate, AuditMandate: mandate, AuditMandateStateChange: { state: 'SUSPENDED', reason: 'Paused while the privacy team reviews the categories.' },
+  ChannelDeliveryView: delivery, ChannelDeliveryContent: { ...delivery, document: { format: 'orvia.dpdpa-audit-delivery' }, signed: { algorithm: 'Ed25519' }, receipt: null },
+  ChannelRequest: request, ChannelRequestDecision: { decision: 'REFUSED', reason: 'OUT_OF_PERIOD', package_id: null }, PackageSubmission: submission,
+  AuditChannel: { engagement_id: uuid(1530), available: true, audit_service: { configured: true, address: 'https://audit.vendor.example.in' }, evidence_key_id: 'orvia-installation-' + '0'.repeat(32),
+    mandates: [mandate], requests: [request], deliveries: [delivery], submissions: [submission], limits: [] },
+  AuditEngagementClose: { reason: 'Engagement completed and report received.' },
 };
 export function dpdpaAuditExample(name: string): unknown { return EXAMPLES[name]; }

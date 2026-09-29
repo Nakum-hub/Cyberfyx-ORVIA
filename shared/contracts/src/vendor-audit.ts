@@ -1,12 +1,13 @@
 import { z } from 'zod';
 import { RequirementId, ProvisionId, Severity, RequirementResult, PersonalDataFlag } from './audit-exchange.ts';
+import { EvidenceCategory, SamplePopulation } from './audit-channel.ts';
 
 /**
  * Canonical contract of the vendor area on the vendor's own VENDOR_SERVICE
  * installation (revision 1.5 addendum). Vendor-internal: it is never served by
  * a customer installation, where every /api/v1/vendor path is a 404.
  */
-export const VENDOR_AUDIT_CONTRACT_VERSION = '0.1.0' as const;
+export const VENDOR_AUDIT_CONTRACT_VERSION = '0.2.0' as const;
 const Id = z.uuid();
 const Time = z.iso.datetime();
 const Day = z.iso.date();
@@ -70,7 +71,7 @@ export const EngagementInbox = z.strictObject({ packages: z.array(InboxPackageSu
 export const ItemContent = z.strictObject({ item_id: Id, media_type: z.string(), file_name: z.string().nullable(), sha256: z.string(), content_base64: z.string() });
 export const ItemReviewRecord = z.strictObject({ item_id: Id, decision: z.enum(['ACCEPT', 'REJECT', 'REQUEST_MORE']), note: z.string().trim().min(1).max(2000), sampling: z.string().trim().max(2000).nullable() });
 export const RequirementResultRecord = z.strictObject({ requirement_id: RequirementId, result: RequirementResult, rationale: z.string().trim().min(1).max(2000) });
-export const ChecklistRow = z.strictObject({ requirement_id: z.string(), expected_evidence: z.array(z.string()).max(20), received_items: z.number().int(), accepted_items: z.number().int(), rejected_items: z.number().int(),
+export const ChecklistRow = z.strictObject({ requirement_id: z.string(), expected_evidence: z.array(z.string()).max(20), received_items: z.number().int(), channel_entries: z.number().int(), accepted_items: z.number().int(), rejected_items: z.number().int(),
   more_requested: z.number().int(), result: RequirementResult.nullable(), rationale: z.string().nullable(), recorded_at: Time.nullable() });
 export const Checklist = z.strictObject({ engagement_id: Id, rows: z.array(ChecklistRow).max(200), expectations_source: z.string().max(200) });
 export const AuditRequestCreate = z.strictObject({ requirement_id: RequirementId, description: z.string().trim().min(1).max(2000), due_date: Day });
@@ -95,3 +96,29 @@ export const SupportCaseCreate = z.strictObject({ organisation_id: Id, category:
 export const SupportCase = SupportCaseCreate.extend({ id: Id, state: z.enum(['OPEN', 'WAITING_ON_CLIENT', 'RESOLVED']), created_at: Time, organisation_name: z.string() });
 export const SupportCaseList = z.strictObject({ items: z.array(SupportCase).max(1000) });
 export { PersonalDataFlag };
+
+// Audit mandate channel (revision 1.6 addendum): what the engagement team sees and issues.
+export const ChannelRequestCreate = z.strictObject({ kind: z.enum(['COLLECT_NOW', 'SAMPLE_COUNT', 'EVIDENCE_FILE']), requirement_id: RequirementId.nullable(),
+  categories: z.array(EvidenceCategory).max(7), population: SamplePopulation.nullable(), sample_size: z.number().int().min(1).max(500).nullable(),
+  description: z.string().trim().min(1).max(2000), due_date: Day });
+export const ChannelRequestView = z.strictObject({ id: Id, kind: z.string(), requirement_id: z.string().nullable(), categories: z.array(z.string()), population: z.string().nullable(), sample_size: z.number().int().nullable(),
+  seed: z.string().nullable(), description: z.string(), due_date: Day, issued_by: Id, issued_at: Time, status: z.enum(['PENDING', 'DELIVERED', 'AWAITING_CLIENT_APPROVAL', 'REFUSED', 'WITHDRAWN']),
+  status_reason: z.string().nullable(), acknowledged_at: Time.nullable(), delivery_id: Id.nullable(), package_id: Id.nullable(), overdue: z.boolean() });
+export const ChannelDeliverySummary = z.strictObject({ delivery_id: Id, sequence: z.number().int(), kind: z.enum(['SNAPSHOT', 'RESPONSE']), request_id: Id.nullable(), generated_at: Time.nullable(),
+  period_from: Time.nullable(), period_to: Time.nullable(), entries: z.number().int(), outcome: z.enum(['ACCEPTED', 'REFUSED']), reasons: z.array(z.string()), received_at: Time, purged: z.boolean() });
+export const ChannelView = z.strictObject({ engagement_id: Id, available: z.boolean(),
+  health: z.strictObject({ installation_key_id: z.string().nullable(), pinned_at: Time.nullable(), last_check_in_at: Time.nullable(), check_ins: z.number().int(),
+    chain_state: z.enum(['NOT_STARTED', 'INTACT', 'BROKEN']), chain_problem: z.string().nullable(), next_sequence: z.number().int() }).nullable(),
+  mandate: z.strictObject({ mandate_id: Id, kind: z.string(), state: z.string(), valid_from: Time, valid_to: Time, open: z.boolean(), received_at: Time, document: z.unknown() }).nullable(),
+  mandate_history: z.array(z.strictObject({ mandate_id: Id, state: z.string(), received_at: Time })).max(500),
+  requests: z.array(ChannelRequestView).max(1000), deliveries: z.array(ChannelDeliverySummary).max(1000),
+  events: z.array(z.strictObject({ kind: z.string(), outcome: z.string(), recorded_at: Time })).max(100) });
+export const ChannelDeliveryDetail = ChannelDeliverySummary.extend({ document: z.unknown().nullable(), signed: z.unknown().nullable(), receipt: z.unknown() });
+export const VendorOverview = z.strictObject({
+  as_of: Time, organisations: z.number().int(), licence_states: z.record(z.string(), z.number().int()), licences_expiring_60_days: z.number().int(),
+  engagements_by_state: z.record(z.string(), z.number().int()), engagements_without_lead: z.number().int(), engagements_without_independence: z.number().int(),
+  channels: z.strictObject({ with_active_mandate: z.number().int(), silent_over_48_hours: z.number().int(), chain_broken: z.number().int(), deliveries_30_days: z.number().int() }),
+  requests: z.strictObject({ open: z.number().int(), overdue_with_clients: z.number().int() }),
+  packages_30_days: z.record(z.string(), z.number().int()), packages_quarantined: z.number().int(),
+  findings_open_by_severity: z.record(z.string(), z.number().int()), findings_overdue: z.number().int(),
+  reports_signed: z.number().int(), reports_awaiting_review: z.number().int(), support_open_by_urgency: z.record(z.string(), z.number().int()), retention_due: z.number().int() });

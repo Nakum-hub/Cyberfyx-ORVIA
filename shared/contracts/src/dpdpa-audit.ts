@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { EvidenceMediaType, PersonalDataFlag, RequirementId, Severity } from './audit-exchange.ts';
+import { EvidenceCategory, MandateKind, MandateSchedule, MandateState } from './audit-channel.ts';
 
 /**
  * Client side of the DPDPA external audit exchange (revision 1.5 addendum):
@@ -96,7 +97,29 @@ export const AuditImportPdf = z.strictObject({ file_name: z.string().max(160), p
 export const FindingLinkCreate = z.strictObject({ finding_id: Id });
 export const AuditFindingSeverity = Severity;
 
-export const dpdpaAuditSchemas = { GapRow, GapRegister, GapRegisterExport, Indicator, EvidenceFileSubmit, EvidenceFile, EvidenceFileList, EvidenceFileContent, PersonalDataConfirm,
+// Audit mandate and channel (revision 1.6 addendum).
+export const AuditMandateCreate = z.strictObject({ kind: MandateKind, scope_requirement_ids: z.array(RequirementId).min(1).max(200), categories: z.array(EvidenceCategory).min(1).max(7),
+  schedule: MandateSchedule, valid_from: Time, valid_to: Time });
+export const AuditMandate = z.strictObject({ id: Id, engagement_id: Id, kind: MandateKind, scope_requirement_ids: z.array(z.string()), categories: z.array(EvidenceCategory), schedule: MandateSchedule,
+  valid_from: Time, valid_to: Time, state: MandateState, open: z.boolean(), prepared_by: Id, prepared_role: z.string(), approved_by: Id.nullable(), approved_role: z.string().nullable(), approved_at: Time.nullable(),
+  state_changed_at: Time.nullable(), state_reason: z.string().nullable(), reported_state: z.string().nullable(), last_check_in_at: Time.nullable(), next_collection_at: Time.nullable(),
+  channel_problem: z.string().nullable(), created_at: Time });
+export const AuditMandateStateChange = z.strictObject({ state: z.enum(['ACTIVE', 'SUSPENDED', 'REVOKED']), reason: z.string().trim().min(3).max(500) });
+export const ChannelDeliveryView = z.strictObject({ id: Id, mandate_id: Id, sequence: z.number().int(), kind: z.enum(['SNAPSHOT', 'RESPONSE']), request_id: Id.nullable(), period_from: Time, period_to: Time,
+  entries: z.number().int(), categories: z.array(z.string()), digest: z.string(), state: z.enum(['QUEUED', 'UNKNOWN', 'ACCEPTED', 'REFUSED', 'FAILED']), attempts: z.number().int(), last_error: z.string().nullable(),
+  reasons: z.array(z.string()), created_at: Time, completed_at: Time.nullable() });
+export const ChannelDeliveryContent = ChannelDeliveryView.extend({ document: z.unknown(), signed: z.unknown(), receipt: z.unknown().nullable() });
+export const ChannelRequest = z.strictObject({ id: Id, mandate_id: Id, kind: z.enum(['COLLECT_NOW', 'SAMPLE_COUNT', 'EVIDENCE_FILE']), requirement_id: z.string().nullable(), description: z.string(), due_date: Day,
+  received_at: Time, decision: z.enum(['ANSWER_AUTOMATICALLY', 'AWAITING_CLIENT_APPROVAL', 'DELIVERED', 'REFUSED']), decision_reason: z.string().nullable(), decided_by: Id.nullable(), decided_at: Time.nullable(),
+  delivery_id: Id.nullable(), package_id: Id.nullable(), reported_to_auditor: z.boolean(), overdue: z.boolean(), request: z.unknown() });
+export const ChannelRequestDecision = z.strictObject({ decision: z.enum(['REFUSED', 'PACKAGE']), reason: z.string().trim().min(3).max(80).nullable(), package_id: Id.nullable() });
+export const PackageSubmission = z.strictObject({ id: Id, package_id: Id, engagement_id: Id, request_id: Id.nullable(), file_sha256: z.string(), state: z.enum(['QUEUED', 'UNKNOWN', 'ACCEPTED', 'QUARANTINED', 'REFUSED', 'FAILED']),
+  attempts: z.number().int(), last_error: z.string().nullable(), reasons: z.array(z.string()), requested_by: Id, requested_at: Time, completed_at: Time.nullable() });
+export const AuditChannel = z.strictObject({ engagement_id: Id, available: z.boolean(), audit_service: z.strictObject({ configured: z.boolean(), address: z.string().nullable() }), evidence_key_id: z.string().nullable(),
+  mandates: z.array(AuditMandate).max(100), requests: z.array(ChannelRequest).max(500), deliveries: z.array(ChannelDeliveryView).max(500), submissions: z.array(PackageSubmission).max(200), limits: z.array(z.string().max(300)).max(10) });
+export const AuditEngagementClose = z.strictObject({ reason: z.string().trim().min(3).max(500) });
+
+export const dpdpaAuditSchemas = { AuditMandateCreate, AuditMandate, AuditMandateStateChange, ChannelDeliveryView, ChannelDeliveryContent, ChannelRequest, ChannelRequestDecision, PackageSubmission, AuditChannel, AuditEngagementClose, GapRow, GapRegister, GapRegisterExport, Indicator, EvidenceFileSubmit, EvidenceFile, EvidenceFileList, EvidenceFileContent, PersonalDataConfirm,
   AuditEngagementCreate, AuditPackageSummary, AuditImportSummary, AuditEngagement, AuditEngagementList, AuditPackageCreate, PackageItemView, AuditPackage, AuditPackageItemAdd, AuditPackageExceptionAdd,
   AuditPackageItemRemove, AuditPackageRevoke, AuditPackageExport, AuditImportSubmit, AuditImport, AuditImportPdf, FindingLinkCreate };
 
@@ -127,4 +150,13 @@ export const dpdpaAuditRoutes: Route[] = [
   get('audit_import', '/audit-imports/{id}', 'AuditImport', 'audit_exchange.read'),
   get('audit_import_pdf', '/audit-imports/{id}/pdf', 'AuditImportPdf', 'audit_exchange.read'),
   post('link_audit_finding', '/audit-imports/{id}/finding-links', 'FindingLinkCreate', 'AuditImport', 'audit_exchange.prepare', 200),
+  // Revision 1.6: audit mandate and outbound channel.
+  get('audit_channel', '/audit-engagements/{id}/channel', 'AuditChannel', 'audit_exchange.read'),
+  post('close_audit_engagement', '/audit-engagements/{id}/closure', 'AuditEngagementClose', 'AuditEngagement', 'audit_exchange.approve', 200),
+  post('create_audit_mandate', '/audit-engagements/{id}/mandates', 'AuditMandateCreate', 'AuditMandate', 'audit_exchange.prepare'),
+  post('approve_audit_mandate', '/audit-mandates/{id}/approval', undefined, 'AuditMandate', 'audit_exchange.approve', 200),
+  post('change_audit_mandate_state', '/audit-mandates/{id}/state', 'AuditMandateStateChange', 'AuditMandate', 'audit_exchange.approve', 200),
+  get('audit_channel_delivery', '/audit-channel-deliveries/{id}', 'ChannelDeliveryContent', 'audit_exchange.read'),
+  post('decide_audit_channel_request', '/audit-channel-requests/{id}/decision', 'ChannelRequestDecision', 'ChannelRequest', 'audit_exchange.approve', 200),
+  post('submit_audit_package_over_channel', '/audit-packages/{id}/channel-submission', undefined, 'PackageSubmission', 'audit_exchange.approve', 201),
 ];

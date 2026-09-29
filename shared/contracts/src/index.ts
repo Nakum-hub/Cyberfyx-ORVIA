@@ -39,7 +39,7 @@ const expansionNames = Object.keys(expansionSchemas);
  *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
  *  quarantine and consent reconciliation. Additive again: no existing route,
  *  schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.42.0' as const;
+export const CONTRACT_VERSION = '0.43.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -1876,11 +1876,23 @@ export const VendorVisibility = z.strictObject({
   vendor_service_health: VendorServiceHealth,
   disclosures: z.array(VendorDisclosure).max(200),
   /** DPDPA audit evidence packages (revision 1.5 addendum): every package approved
-   *  to leave, with each export of its sealed file. Carried by a person; ORVIA
-   *  never transmits one. */
+   *  to leave, with each export of its sealed file, and each time a person chose
+   *  to send it over the audit channel instead of carrying it. */
   audit_packages: z.array(z.strictObject({ package_id: Id, engagement_reference: z.string().max(80), firm_name: z.string().max(160), state: z.enum(['APPROVED', 'REVOKED', 'EXPIRED']),
     approved_at: Time, approved_by: Id, manifest_fingerprint: Digest, file_sha256: Digest, items: Epoch, personal_data_items: Epoch, expires_at: Time,
-    exports: z.array(z.strictObject({ exported_at: Time, exported_by: Id })).max(200), transported_by_orvia: z.literal(false) })).max(500),
+    exports: z.array(z.strictObject({ exported_at: Time, exported_by: Id })).max(200),
+    /** True once a person chose to send it over the audit channel (revision 1.6) rather than carry it. */
+    transported_by_orvia: z.boolean(),
+    channel_submissions: z.array(z.strictObject({ submission_id: Id, state: z.enum(['QUEUED', 'UNKNOWN', 'ACCEPTED', 'QUARANTINED', 'REFUSED', 'FAILED']), requested_by: Id, requested_at: Time, completed_at: Time.nullable() })).max(50) })).max(500),
+  /** DPDPA audit mandate channel (revision 1.6 addendum): the one vendor address this
+   *  installation may call, every mandate that authorised calls, and every
+   *  evidence delivery it generated and sent. Deliveries hold aggregates only. */
+  audit_channel: z.strictObject({
+    address: z.string().max(300).nullable(),
+    mandates: z.array(z.strictObject({ mandate_id: Id, engagement_reference: z.string().max(80), firm_name: z.string().max(160), kind: z.enum(['ENGAGEMENT', 'CONTINUOUS_ASSURANCE']),
+      state: z.enum(['DRAFT', 'ACTIVE', 'SUSPENDED', 'REVOKED', 'ENDED']), categories: z.array(z.string().max(40)).max(7), valid_from: Time, valid_to: Time, approved_at: Time.nullable(), approved_by: Id.nullable(), last_check_in_at: Time.nullable() })).max(100),
+    deliveries: z.array(z.strictObject({ delivery_id: Id, engagement_reference: z.string().max(80), sequence: Epoch, kind: z.enum(['SNAPSHOT', 'RESPONSE']), categories: z.array(z.string().max(40)).max(7), entries: Epoch,
+      state: z.enum(['QUEUED', 'UNKNOWN', 'ACCEPTED', 'REFUSED', 'FAILED']), digest: Digest, generated_at: Time, completed_at: Time.nullable(), personal_data: z.literal(false) })).max(1000) }),
   /** Approved and never carried. Counted separately because an approval is not
    *  a disclosure, and collapsing the two would overstate what left. */
   approved_but_not_carried: Epoch,

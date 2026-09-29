@@ -124,7 +124,7 @@ try {
   ] as const) check(`the report does not contain ${what}`, serialised.includes(String(value)), false);
   check('it carries no field beyond the ones the schema declares',
     Object.keys(after).sort(),
-    ['approved_but_not_carried', 'as_of', 'cases_with_nothing_disclosed', 'disclosures', 'limits',
+    ['approved_but_not_carried', 'as_of', 'audit_channel', 'audit_packages', 'cases_with_nothing_disclosed', 'disclosures', 'limits',
       'no_automatic_telemetry_is_collected', 'no_employee_activity_is_tracked', 'profile',
       'the_absence_of_a_model_is_never_an_incident',
       'this_states_what_was_disclosed_not_what_the_vendor_holds', 'vendor_service_health']);

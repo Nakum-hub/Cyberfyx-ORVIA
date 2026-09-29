@@ -13,7 +13,7 @@
  */
 import { existsSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
 import { generateKeyPairSync, randomUUID } from 'node:crypto';
-import { resolve } from 'node:path';
+import { relative, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { privateDirectory, writePrivateJson } from './local-private.ts';
 import { profileDirectory, trustPath, vendorDirectory, vendorKeyPath, vendorSigningKey, type SigningKind } from './credentials.ts';
@@ -21,6 +21,19 @@ import { profileDirectory, trustPath, vendorDirectory, vendorKeyPath, vendorSign
 const legacy = (kind: SigningKind) => resolve(process.env.ORVIA_WORKSPACE_ROOT ?? process.cwd(), '.local', `${kind}-fixture.json`);
 const PRIVATE_MARKERS = [/-----BEGIN [A-Z ]*PRIVATE KEY-----/, /"private"\s*:/];
 
+/**
+ * Private keys a customer installation legitimately owns, as profile-relative
+ * path segments (compared segment by segment, so Windows and POSIX separators
+ * behave the same): its worker signing key, its own TLS server key and local
+ * backups. Any other private key under a profile is a misplaced vendor key.
+ */
+const CUSTOMER_OWNED = [['worker', 'signing-key.pem'], ['tls', 'server-key.pem']];
+export function customerOwnedKey(profilesRoot: string, file: string) {
+  const parts = relative(profilesRoot, file).split(sep).filter(Boolean);
+  if (parts.length < 2 || parts.includes('..')) return false;
+  const inProfile = parts.slice(1);
+  return inProfile[0] === 'backups' || CUSTOMER_OWNED.some(owned => owned.length === inProfile.length && owned.every((segment, i) => segment === inProfile[i]));
+}
 function files(directory: string): string[] {
   return readdirSync(directory).flatMap(name => { const path = resolve(directory, name); return statSync(path).isDirectory() ? files(path) : [path]; });
 }
@@ -49,9 +62,11 @@ export function separate() {
   const profiles = resolve(profileDirectory('x'), '..');
   for (const profile of existsSync(profiles) ? readdirSync(profiles).filter(p => statSync(resolve(profiles, p)).isDirectory()) : []) {
     privateDirectory(resolve(profileDirectory(profile), 'trust'));
-    writePrivateJson(trustPath(profile), trust); trusted.push(profile);
+    // Keep an audit service address the vendor supplied (revision 1.6); only the keys are refreshed here.
+    const existing = existsSync(trustPath(profile)) ? JSON.parse(readFileSync(trustPath(profile), 'utf8')) as { audit_service?: unknown } : {};
+    writePrivateJson(trustPath(profile), existing.audit_service === undefined ? trust : { ...trust, audit_service: existing.audit_service }); trusted.push(profile);
   }
-  const leaks = existsSync(profiles) ? files(profiles).filter(f => !f.includes('/backups/') && PRIVATE_MARKERS.some(m => m.test(readFileSync(f, 'utf8'))) && !f.endsWith('worker/signing-key.pem')) : [];
+  const leaks = existsSync(profiles) ? files(profiles).filter(f => !customerOwnedKey(profiles, f) && PRIVATE_MARKERS.some(m => m.test(readFileSync(f, 'utf8')))) : [];
   if (leaks.length) throw new Error(`Private key material found under customer profiles: ${leaks.map(f => f.slice(f.indexOf('.local'))).join(', ')}`);
   return { moved, trusted, created };
 }

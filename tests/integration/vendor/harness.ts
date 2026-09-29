@@ -85,6 +85,6 @@ export async function vendorHarness() {
     return code;
   }
   async function close() { await Promise.allSettled([runtime.pool.end(), runtime.vendor.pool.end(), runtime.account.pool.end(), operator.end()]); }
-  return { database, config, runtime, operator, session, login, issueSetupCode, close };
+  return { database, config, runtime, operator, handler, session, login, issueSetupCode, close };
 }
 export type Harness = Awaited<ReturnType<typeof vendorHarness>>;

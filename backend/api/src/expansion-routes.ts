@@ -12,6 +12,7 @@ import { createTransport, enableTransport, disableTransport, revealSigningSecret
 import { createTopic, retireTopic, topicList, principalCentre, ownCentre, decision as preferenceDecision, recordOwnChoice } from '../../domain/src/preferences/preferences.ts';
 import { team, createMember, setMemberActive, deleteMember, deleteOwnLogin } from '../../domain/src/staff/members.ts';
 import * as A from '../../domain/src/dpdpa-audit/exchange.ts';
+import * as M from '../../domain/src/dpdpa-audit/mandate.ts';
 import { createSite, enableSite, disableSite, siteList, createConfig, decideConfig, configList, consentStats, requestScan, scanList } from '../../domain/src/cmp/cmp.ts';
 
 /**
@@ -151,6 +152,15 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'audit_import': return A.auditImport(c, id!);
     case 'audit_import_pdf': return A.auditImportPdf(c, id!);
     case 'link_audit_finding': return A.linkFinding(c, id!, input);
+    // Audit mandate and outbound channel (revision 1.6 addendum)
+    case 'audit_channel': return M.auditChannel(c, id!);
+    case 'close_audit_engagement': return M.closeEngagement(c, id!, input);
+    case 'create_audit_mandate': return M.createMandate(c, id!, input);
+    case 'approve_audit_mandate': return M.approveMandate(c, id!);
+    case 'change_audit_mandate_state': return M.changeMandateState(c, id!, input);
+    case 'audit_channel_delivery': return M.channelDelivery(c, id!);
+    case 'decide_audit_channel_request': return M.decideRequest(c, id!, input);
+    case 'submit_audit_package_over_channel': return M.submitPackageOverChannel(c, id!);
     default: return undefined;
   }
 }

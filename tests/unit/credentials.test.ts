@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { customerEnvironment, installationTrust, vendorSigningEnvironment } from '../../scripts/credentials.ts';
-import { separate } from '../../scripts/credentials-separate.ts';
+import { separate, customerOwnedKey } from '../../scripts/credentials-separate.ts';
 
 // Vendor signing keys and customer installation credentials are kept apart:
 // the vendor pair lives only under .local/vendor, an installation holds only the
@@ -55,4 +55,39 @@ test('a trust file that carries a private key is refused', () => {
   const root = workspace(); separate();
   writeFileSync(join(root, '.local/profiles/acme/trust/vendor-public-keys.json'), JSON.stringify({ release: { key_id: 'r', public: 'p', private: 's' }, licence: { key_id: 'l', public: 'p' } }));
   assert.throws(() => installationTrust('acme'), /public keys only/);
+});
+test('the audit service address (revision 1.6) comes only from the trust file, and only as HTTPS or loopback', () => {
+  const root = workspace(); separate();
+  const path = join(root, '.local/profiles/acme/trust/vendor-public-keys.json'); const base = JSON.parse(readFileSync(path, 'utf8'));
+  const write = (audit_service: unknown) => writeFileSync(path, JSON.stringify({ ...base, audit_service }));
+  assert.equal(customerEnvironment({ ORVIA_AUDIT_SERVICE_URL: 'https://someone-else.example' } as unknown as NodeJS.ProcessEnv, 'acme').ORVIA_AUDIT_SERVICE_URL, undefined, 'without one in the trust file, none is passed on');
+  write({ url: 'https://audit.vendor.example.in' });
+  assert.equal(installationTrust('acme')!.audit_service?.url, 'https://audit.vendor.example.in');
+  assert.equal(customerEnvironment({} as NodeJS.ProcessEnv, 'acme').ORVIA_AUDIT_SERVICE_URL, 'https://audit.vendor.example.in');
+  assert.throws(() => customerEnvironment({ ORVIA_AUDIT_SERVICE_URL: 'https://someone-else.example' } as unknown as NodeJS.ProcessEnv, 'acme'), /differs from the installation trust file/);
+  write({ url: 'http://127.0.0.1:4340' }); assert.equal(installationTrust('acme')!.audit_service?.url, 'http://127.0.0.1:4340');
+  for (const bad of ['http://audit.vendor.example.in', 'https://u:p@audit.vendor.example.in', 'https://audit.vendor.example.in/?next=x', 'ftp://audit.vendor.example.in']) { write({ url: bad }); assert.throws(() => installationTrust('acme'), /audit_service url must be HTTPS/, bad); }
+  write({ url: 'https://audit.vendor.example.in', token: 'x' }); assert.throws(() => installationTrust('acme'), /holds only its url/);
+});
+test('R04: customer-owned keys are recognised by path segments, not by POSIX substrings; misplaced keys still refuse', () => {
+  const root = workspace(); const profiles = join(root, '.local/profiles');
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'worker', 'signing-key.pem')), true);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'tls', 'server-key.pem')), true, 'the customer TLS key is the customer\'s own');
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'backups', '2026', 'db.dump')), true);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'auth', 'leaked.json')), false);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'tls', 'vendor-signing.pem')), false);
+  assert.equal(customerOwnedKey(profiles, join(profiles, 'acme', 'nested', 'worker', 'signing-key.pem')), false, 'only the profile-level location counts');
+  assert.equal(customerOwnedKey(profiles, join(root, 'elsewhere', 'worker', 'signing-key.pem')), false);
+  mkdirSync(join(profiles, 'acme', 'tls'), { recursive: true });
+  writeFileSync(join(profiles, 'acme', 'tls', 'server-key.pem'), '-----BEGIN PRIVATE KEY-----\nsynthetic\n-----END PRIVATE KEY-----\n');
+  assert.doesNotThrow(() => separate(), 'a customer TLS key does not block separation');
+  writeFileSync(join(profiles, 'acme', 'tls', 'vendor-signing.pem'), '-----BEGIN PRIVATE KEY-----\nsynthetic\n-----END PRIVATE KEY-----\n');
+  assert.throws(() => separate(), /Private key material found under customer profiles/);
+});
+test('re-running separation keeps a vendor-supplied audit service address in the trust file', () => {
+  const root = workspace(); separate();
+  const path = join(root, '.local/profiles/acme/trust/vendor-public-keys.json');
+  writeFileSync(path, JSON.stringify({ ...JSON.parse(readFileSync(path, 'utf8')), audit_service: { url: 'https://audit.vendor.example.in' } }));
+  separate();
+  assert.equal(installationTrust('acme')!.audit_service?.url, 'https://audit.vendor.example.in');
 });
