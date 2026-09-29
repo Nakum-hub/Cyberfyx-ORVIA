@@ -39,7 +39,8 @@ services:
     read_only: true
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
-    mem_limit: 64m
+    # Node's idle RSS leaves too little headroom at 64m; bulk DB traffic caused OOM kills.
+    mem_limit: 256m
     volumes: ['./loopback.mjs:/app/loopback.mjs:ro']
     networks: [private, loopback_access]
     ports:
