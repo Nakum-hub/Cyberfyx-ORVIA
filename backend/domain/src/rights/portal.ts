@@ -108,8 +108,11 @@ export async function raiseOwnRightsRequest(c: Context, input: unknown) {
 }
 
 export async function ownRightsRequests(c: Context, page: Page) {
+  // Newest first, so a request the person has just sent is at the top; the cursor stays the last row's id.
   const rows = await c.tx.query(
-    `SELECT * FROM app.rights_requests WHERE ${MINE} AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`,
+    `SELECT * FROM app.rights_requests WHERE ${MINE}
+       AND ($5::uuid IS NULL OR (received_at, id) < (SELECT received_at, id FROM app.rights_requests WHERE ${MINE} AND id=$5))
+     ORDER BY received_at DESC, id DESC LIMIT $6`,
     [...scopeValues(c.actor), c.actor.principal_id, page.cursor, page.limit + 1]);
   return paged(rows.rows.map(row => own(row as Row)), page);
 }
