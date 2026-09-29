@@ -256,6 +256,71 @@
         "2026-09-29: installation kinds CUSTOMER_INSTALLATION / VENDOR_SERVICE (immutable record, 404 gating both ways); Linux installer for both kinds executed in a container (fresh customer install through first-run setup, restart with data retained); systemd enablement, reboot survival, RHEL, Windows Server hardening, upgrade/rollback on a live installation NOT_RUN. Full regression battery green on codex-a00."
       ],
       "required_actions": []
+    },
+    {
+      "id": "EX15",
+      "title": "Installation kinds",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
+      ],
+      "limitations": [
+        "Immutable CUSTOMER_INSTALLATION / VENDOR_SERVICE separation is implemented; real-host installer, upgrade/rollback and exact-candidate isolation acceptance remain unqualified."
+      ]
+    },
+    {
+      "id": "EX16",
+      "title": "Vendor area in the same application",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
+      ],
+      "limitations": [
+        "Vendor identity, MFA and area implemented. Independent authority review and full browser/platform qualification remain incomplete."
+      ]
+    },
+    {
+      "id": "EX17",
+      "title": "DPDPA audit exchange",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
+      ],
+      "limitations": [
+        "Sealed dual-approved packages and signed file return implemented. Production criteria, signing custody, legal review and exact-candidate acceptance remain pending."
+      ]
+    },
+    {
+      "id": "EX18",
+      "title": "Audit mandate and outbound channel",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md"
+      ],
+      "limitations": [
+        "Synthetic loopback evidence exists. Local TLS, production hosting, multi-day operation and independent channel review are not acceptance. Legal review of the engagement letter and DPA is pending before real use."
+      ]
+    },
+    {
+      "id": "EX19",
+      "title": "DPDPA audit practice",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
+      "acceptance_status": "NOT_RUN",
+      "evidence": [
+        "docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md"
+      ],
+      "limitations": [
+        "Implementation under review on claude/upbeat-newton-w4h53x at 213ce5450da64b70b05d3d639fcfa5acf0000700; not merged into this branch. Review findings require Claude action. Legal review of the engagement letter and DPA, production criteria and audit keys remain pending."
+      ]
     }
   ]
 }
