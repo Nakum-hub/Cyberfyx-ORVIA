@@ -393,6 +393,15 @@ await t.run(async () => {
       check('a transport added on screen is pending', hookT.state, 'PENDING');
       await open(owner, '/workspace/delivery', 'Delivery');
       const trow = owner.getByRole('table', { name: 'Transports' }).getByRole('row').filter({ hasText: `Browser hook ${suffix}` });
+      // The list is paged (25 per page, by id); on a long-lived profile the new transport may be on a later page.
+      const pageToTransport = async () => {
+        for (let pageTurns = 0; pageTurns < 20 && !(await trow.count()); pageTurns++) {
+          const next = owner.getByRole('navigation', { name: 'Result pages' }).first().getByRole('button', { name: 'Next page' });
+          if (await next.isDisabled()) break;
+          await next.click(); await owner.waitForLoadState('networkidle');
+        }
+      };
+      await pageToTransport();
       const en = await click(owner, trow, /\/enable$/, S.schemas.DeliveryTransport, 'Enable');
       check('a second person enables it on screen', [en.status, (en.body as { state?: string }).state], [200, 'ENABLED']);
       const shown = await click(owner, trow, /\/signing-secret$/, S.schemas.SigningSecret, 'Show signing key once');
@@ -423,7 +432,8 @@ await t.run(async () => {
       const attemptsTable = owner.getByRole('table', { name: 'Delivery attempts' });
       await attemptsTable.waitFor();
       check('the screen shows the attempt and its receipt', [await attemptsTable.getByText('sent').count() > 0, await attemptsTable.getByText(/^HTTP 200 response/).count()], [true, 1]);
-      await click(owner, owner.getByRole('table', { name: 'Transports' }).getByRole('row').filter({ hasText: `Browser hook ${suffix}` }), /\/disable$/, S.schemas.DeliveryTransport, 'Disable');
+      await pageToTransport();
+      await click(owner, trow, /\/disable$/, S.schemas.DeliveryTransport, 'Disable');
     } finally { hookServer.close(); }
 
     // ---------------------------------------------------------------- EX02
