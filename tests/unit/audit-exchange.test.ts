@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { generateKeyPairSync, randomUUID } from 'node:crypto';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { packageFileBytes, verifyPackageFile, manifestFingerprint, sha256, sniffMediaType, verifyAuditDocument, assertAttestationWording, wordingProblems, AuditPackageManifest, type AuditPackageManifest as Manifest } from '../../shared/contracts/src/audit-exchange.ts';
@@ -132,9 +132,38 @@ test('installation kind: the default is a customer installation; the record deci
 test('installation kind gating: a route of the other kind is a 404 and runs nothing', async () => {
   const { onlyOn } = await import('../../backend/api/src/installation.ts');
   let ran = false;
-  const previous = process.env.ORVIA_PROFILE; process.env.ORVIA_PROFILE = 'codex-a00';
+  // A fresh CI checkout has no ignored local profile. Own the entire fixture
+  // instead of relying on the developer's installation or opening a database.
+  const root = mkdtempSync(join(tmpdir(), 'orvia-kind-gating-'));
+  const directory = join(root, '.local', 'profiles', 'codex-a00');
+  const previous = process.env.ORVIA_PROFILE;
+  const previousRoot = process.env.ORVIA_WORKSPACE_ROOT;
+  process.env.ORVIA_PROFILE = 'codex-a00';
+  process.env.ORVIA_WORKSPACE_ROOT = root;
   try {
-    const response = await onlyOn('VENDOR_SERVICE', () => { ran = true; return new Response('x'); })(new Request('http://127.0.0.1/api/v1/vendor/session'));
-    assert.equal(response.status, 404); assert.equal(ran, false);
-  } finally { if (previous === undefined) delete process.env.ORVIA_PROFILE; else process.env.ORVIA_PROFILE = previous; }
+    const handler = () => { ran = true; return new Response('x'); };
+    const request = new Request('http://127.0.0.1/api/v1/vendor/session');
+    const unavailable = await onlyOn('VENDOR_SERVICE', handler)(request);
+    assert.equal(unavailable.status, 503);
+    assert.deepEqual(await unavailable.json(), { error: { code: 'SERVICE_UNAVAILABLE' } });
+    assert.equal(ran, false);
+
+    mkdirSync(directory, { recursive: true });
+    const installation_id = randomUUID();
+    writeFileSync(join(directory, 'config.json'), JSON.stringify({ profile: 'codex-a00', fixture_id: 'bootstrap-probe-v1', installation_id }));
+    const response = await onlyOn('VENDOR_SERVICE', handler)(request);
+    assert.equal(response.status, 404);
+    assert.deepEqual(await response.json(), { error: { code: 'NOT_FOUND' } });
+    assert.equal(ran, false);
+
+    writeFileSync(join(directory, 'installation.json'), JSON.stringify({ kind: 'VENDOR_SERVICE', installation_id, recorded_at: new Date().toISOString() }));
+    const customerResponse = await onlyOn('CUSTOMER_INSTALLATION', handler)(new Request('http://127.0.0.1/api/v1/session'));
+    assert.equal(customerResponse.status, 404);
+    assert.deepEqual(await customerResponse.json(), { error: { code: 'NOT_FOUND' } });
+    assert.equal(ran, false);
+  } finally {
+    if (previous === undefined) delete process.env.ORVIA_PROFILE; else process.env.ORVIA_PROFILE = previous;
+    if (previousRoot === undefined) delete process.env.ORVIA_WORKSPACE_ROOT; else process.env.ORVIA_WORKSPACE_ROOT = previousRoot;
+    rmSync(root, { recursive: true, force: true });
+  }
 });

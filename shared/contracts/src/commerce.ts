@@ -1,7 +1,13 @@
 import { z } from 'zod';
+import { LicenceClaims } from './index.ts';
+
+export const RazorpayOrderId = z.string().regex(/^order_[A-Za-z0-9]{1,120}$/);
+export const RazorpayCallback = z.object({ razorpay_order_id: RazorpayOrderId,
+  razorpay_payment_id: z.string().regex(/^pay_[A-Za-z0-9]{1,120}$/),
+  razorpay_signature: z.string().regex(/^[a-fA-F0-9]{64}$/) }).strict();
 
 /** Separate vendor-internal contract. Not mounted on customer /api/v1. */
-export const COMMERCE_CONTRACT_VERSION = '0.2.0' as const;
+export const COMMERCE_CONTRACT_VERSION = '0.4.0' as const;
 const Id = z.uuid();
 const Reference = z.string().regex(/^[A-Za-z0-9_-]{1,128}$/);
 export const MinorUnits = z.number().int().min(0).max(1_000_000_000_000);
@@ -47,4 +53,10 @@ export const CheckoutRequest = z.strictObject({
 });
 export const ProviderOrder = z.strictObject({
   ...CheckoutRequest.shape, provider_order_id: Reference,
+});
+
+export const CommercialLicenceReview = z.strictObject({
+  order_id: Id, plan_version_id: Id, terms_digest: z.string().regex(/^[a-f0-9]{64}$/),
+  digest: z.string().regex(/^[a-f0-9]{64}$/), claims: LicenceClaims,
+  prepared_by: Id, approved_by: Id.nullable(),
 });

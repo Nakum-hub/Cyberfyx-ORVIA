@@ -1,18 +1,22 @@
 import assert from 'node:assert/strict';
-import { createHash, createHmac, randomUUID } from 'node:crypto';
+import { createHash, createHmac, generateKeyPairSync, randomUUID, verify as verifySignature } from 'node:crypto';
+import { canonicalJson } from '../../../shared/contracts/src/crypto.ts';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
 import { CommerceStore } from '../../../backend/vendor/commerce/store.ts';
 import { razorpayVerifier } from '../../../backend/vendor/commerce/payment.ts';
 import { razorpayCheckout } from '../../../backend/vendor/commerce/checkout.ts';
+import { razorpayOrderReader } from '../../../backend/vendor/commerce/razorpay.ts';
+import { razorpayCommerce } from '../../../backend/vendor/commerce/service.ts';
+import { commerceHandler } from '../../../backend/vendor/commerce/http.ts';
 
 // Own database, no customer tables/migrations, roles/grants, runtime restarts,
 // external requests, real purchases or shared result files.
 const profile = loadProfile('codex-a00');
 const runId = randomUUID();
 const database = `orvia_vendor_test_${runId.replaceAll('-', '')}`;
-const artifact = `handoffs/codex/artifacts/V1-EXPANSION-01-commerce-${runId}.json`;
+const artifact = `handoffs/codex/artifacts/V1-COMMERCE-ISSUANCE-01-commerce-${runId}.json`;
 const assertions: {name:string;result:'PASS'|'FAIL'}[]=[];
 const bootstrap=connectDatabase({...profile,database:'postgres'}).pool;
 let pool:ReturnType<typeof connectDatabase>['pool']|undefined;
@@ -49,10 +53,16 @@ try{
   await bootstrap.query(`CREATE DATABASE "${database}"`);
   await bootstrap.end();
   pool=connectDatabase({...profile,database}).pool;
+  phase='apply vendor migration 0001';
   const migration=readFileSync('database/vendor/migrations/0001_commerce.sql','utf8');
   await pool.query(migration);
+  phase='apply vendor migration 0002';
   const checkoutMigration=readFileSync('database/vendor/migrations/0002_checkout_attempts.sql','utf8');
   await pool.query(checkoutMigration);
+  phase='apply vendor migration 0003';
+  const fulfilmentMigration=readFileSync('database/vendor/migrations/0003_licence_fulfilment.sql','utf8');
+  await pool.query(fulfilmentMigration);
+  phase='seed isolated vendor identities';
   const account=randomUUID(),actor=randomUUID(),otherAccount=randomUUID(),otherActor=randomUUID(),plan=randomUUID();
   await pool.query("INSERT INTO vendor.accounts VALUES($1,'ACTIVE'),($2,'ACTIVE')",[account,otherAccount]);
   await pool.query("INSERT INTO vendor.memberships VALUES($1,$2,'ORDER_CREATE'),($1,$2,'ORDER_READ'),($3,$4,'ORDER_READ')",[account,actor,otherAccount,otherActor]);
@@ -171,21 +181,163 @@ try{
   check('restart replay retains held entitlement',(await store.applyPayment(capture)).issuance,'HELD');
   await rejected('restart retains unknown checkout without resending',()=>store.checkout(context,unknown.id,lost),'CHECKOUT_EFFECT_UNKNOWN');
   check('restart did not repeat unknown provider request',lostRequests,1);
+  phase='Razorpay recovery and callback';
+  const recoveryEntity = { entity:'order',id:'order_recovered',status:'paid',amount:10000,currency:'INR',
+    receipt:`orvia_${unknown.id.replaceAll('-','')}`,amount_paid:10000,amount_due:0 };
+  let recoveryGets=0;
+  const reader=razorpayOrderReader(checkoutConfig,async()=>{recoveryGets++;return Response.json(recoveryEntity);});
+  await rejected('recovery rejects another account before provider call',()=>store.reconcileCheckout({account_id:account,actor_id:otherActor},unknown.id,'order_recovered',reader),'FORBIDDEN');
+  check('unauthorised recovery made no provider call',recoveryGets,0);
+  const mismatchReader=razorpayOrderReader(checkoutConfig,async()=>Response.json({...recoveryEntity,receipt:'unrelated'}));
+  await rejected('recovery rejects wrong server receipt',()=>store.reconcileCheckout(context,unknown.id,'order_recovered',mismatchReader),'CHECKOUT_ORDER_MISMATCH');
+  check('rejected recovery retains unknown state',(await pool.query('SELECT state FROM vendor.checkout_attempts WHERE order_id=$1',[unknown.id])).rows[0].state,'UNKNOWN');
+  const recovered=await store.reconcileCheckout(context,unknown.id,'order_recovered',reader);
+  check('matching independent GET restores provider binding',recovered.provider_order_id,'order_recovered');
+  check('provider paid order snapshot alone does not credit order',recovered.state,'PENDING');
+  check('recovery alone does not enqueue a licence',(await pool.query('SELECT count(*)::int AS n FROM vendor.entitlement_outbox WHERE order_id=$1',[unknown.id])).rows[0].n,0);
+  await rejected('already bound recovery cannot overwrite identity',()=>store.reconcileCheckout(context,unknown.id,'order_recovered',reader),'PROVIDER_ORDER_CONFLICT');
+  const service=razorpayCommerce(store,{...checkoutConfig,webhook_secrets:[secret]},async()=>{throw new Error('Unexpected external request');});
+  const callback={razorpay_order_id:'order_recovered',razorpay_payment_id:'pay_recovered',
+    razorpay_signature:createHmac('sha256',secret).update('order_recovered|pay_recovered').digest('hex')};
+  check('signed browser callback waits for capture',(await service.callback(context,unknown.id,callback)).status,'AUTHENTIC_CALLBACK_AWAITING_CAPTURE');
+  check('browser callback does not alter durable order',(await store.readOrder(context,unknown.id)).state,'PENDING');
+  await rejected('callback cannot cross account',()=>service.callback({account_id:otherAccount,actor_id:otherActor},unknown.id,callback),'NOT_FOUND');
+  check('verified capture after reconciliation queues once',(await store.applyPayment(event('order_recovered','captured','pay_recovered'))).issuance,'READY');
+  check('reconciliation never repeats provider POST',lostRequests,1);
+  phase='synthetic vendor HTTP request flow';
+  const origin='https://vendor.fixture.invalid';
+  let httpProviderCreates=0;
+  const handler=commerceHandler({origin,store,config:{...checkoutConfig,webhook_secrets:[secret]},
+    // Explicit test-only session fixture. Production has no such fallback.
+    authenticate:async request=>request.headers.get('cookie')==='fixture=buyer'?context:null,
+    fetcher:async(url,init)=>{
+      check('HTTP checkout calls only Razorpay orders endpoint',String(url),'https://api.razorpay.com/v1/orders');
+      httpProviderCreates++;
+      const body=JSON.parse(String(init?.body));
+      return Response.json({entity:'order',id:`order_http${httpProviderCreates}`,status:'created',
+        amount:body.amount,currency:body.currency,receipt:body.receipt,amount_paid:0,amount_due:body.amount});
+    }});
+  const request=(path:string,body:unknown,cookie='fixture=buyer')=>handler(new Request(origin+path,{method:'POST',
+    headers:{origin,'content-type':'application/json',cookie},body:JSON.stringify(body)}));
+  check('HTTP anonymous purchase rejected',(await request('/vendor/api/orders',{},'')).status,401);
+  check('HTTP client price cannot replace approved price',(await request('/vendor/api/orders',{
+    plan_version_id:plan,payment_method:'UPI',idempotency_key:randomUUID(),amount_minor:1})).status,400);
+  for(const method of ['UPI','CARD'] as const){
+    const orderInput={plan_version_id:plan,payment_method:method,idempotency_key:randomUUID()};
+    const createdResponse=await request('/vendor/api/orders',orderInput);
+    check(`${method} HTTP order creation`,createdResponse.status,201);
+    const created=await createdResponse.json();
+    const duplicate=await request('/vendor/api/orders',orderInput);
+    check(`${method} HTTP duplicate order retains identity`,(await duplicate.json()).id,created.id);
+    const checkoutResponse=await request(`/vendor/api/orders/${created.id}/checkout`,{});
+    check(`${method} HTTP checkout`,checkoutResponse.status,200);
+    const configuration=await checkoutResponse.json();
+    check(`${method} HTTP server price and public key`,[configuration.amount,configuration.key],[10000,checkoutConfig.key_id]);
+    check(`${method} HTTP no API secret in checkout`,JSON.stringify(configuration).includes(secret),false);
+    const paymentId=`pay_http${method}`;
+    const callbackResponse=await request(`/vendor/api/orders/${created.id}/callback`,{
+      razorpay_order_id:configuration.order_id,razorpay_payment_id:paymentId,
+      razorpay_signature:createHmac('sha256',secret).update(`${configuration.order_id}|${paymentId}`).digest('hex')});
+    check(`${method} HTTP callback does not claim capture`,(await callbackResponse.json()).status,'AUTHENTIC_CALLBACK_AWAITING_CAPTURE');
+    check(`${method} HTTP callback leaves order pending`,(await store.readOrder(context,created.id)).state,'PENDING');
+    const raw=JSON.stringify({account_id:binding.merchant_id,event:'payment.captured',created_at:1790294400,
+      payload:{payment:{entity:{entity:'payment',id:paymentId,order_id:configuration.order_id,method:method.toLowerCase(),
+        status:'captured',captured:true,amount:10000,currency:'INR'}}}});
+    const webhook=()=>handler(new Request(origin+'/vendor/api/razorpay/webhook',{method:'POST',body:raw,headers:{
+      'x-razorpay-event-id':`evt_http${method}`,'x-razorpay-signature':createHmac('sha256',secret).update(raw).digest('hex')}}));
+    const paymentResponse=await webhook();
+    check(`${method} HTTP signed webhook accepted`,paymentResponse.status,200);
+    check(`${method} HTTP capture becomes durable paid`,(await store.readOrder(context,created.id)).state,'PAID');
+    check(`${method} HTTP duplicate webhook acknowledged`,(await (await webhook()).json()).duplicate,true);
+    check(`${method} HTTP exactly one pending entitlement`,(await pool.query("SELECT count(*)::int n FROM vendor.entitlement_outbox WHERE order_id=$1 AND state='READY'",[created.id])).rows[0].n,1);
+  }
+  check('UPI and card HTTP flows created one provider order each',httpProviderCreates,2);
+  phase='reviewed licence fulfilment';
+  const reviewer=randomUUID();
+  await pool.query("INSERT INTO vendor.memberships VALUES($1,$2,'LICENCE_PREPARE'),($1,$2,'LICENCE_APPROVE'),($1,$2,'LICENCE_ISSUE'),($1,$3,'LICENCE_APPROVE')",[account,actor,reviewer]);
+  const reviewContext={account_id:account,actor_id:reviewer};
+  const pair=generateKeyPairSync('ed25519');
+  const key={key_id:randomUUID(),private:pair.privateKey.export({format:'der',type:'pkcs8'}).toString('base64')};
+  const claims=()=>({licence_id:randomUUID(),edition:'FOUNDATION',entitlements:['PRIVACY_GRAPH'],installation_id:randomUUID(),
+    audience:'ORVIA_CUSTOMER_INSTALLATION',valid_from:new Date(Date.now()-60000).toISOString(),valid_to:new Date(Date.now()+86400000).toISOString(),
+    licensed_limits:{environments:1,staff_members:7,member_seats:5}});
+  const unpaid=await create();
+  await rejected('unpaid order cannot prepare fulfilment',()=>store.prepareLicence(context,unpaid.order.id,claims()),'LICENCE_NOT_PAYABLE');
+  const fulfil=await create(),fulfilPayment=event(fulfil.providerId);
+  await store.applyPayment(fulfilPayment);
+  const snapshot=claims();
+  const prepared=await store.prepareLicence(context,fulfil.order.id,snapshot);
+  check('reviewer can inspect exact claims and commercial binding',await store.reviewLicence(reviewContext,fulfil.order.id),{
+    order_id:fulfil.order.id,plan_version_id:plan,terms_digest:'a'.repeat(64),digest:prepared.digest,claims:snapshot,prepared_by:actor,approved_by:null});
+  check('identical preparation retains exact approval digest',(await store.prepareLicence(context,fulfil.order.id,snapshot)).digest,prepared.digest);
+  await rejected('changed claims cannot reuse prepared request',()=>store.prepareLicence(context,fulfil.order.id,{...snapshot,installation_id:randomUUID()}),'LICENCE_REQUEST_CONFLICT');
+  await rejected('preparer cannot approve own licence',()=>store.approveLicence(context,fulfil.order.id,prepared.digest),'INDEPENDENT_REVIEW_REQUIRED');
+  await rejected('reviewer must approve exact digest',()=>store.approveLicence(reviewContext,fulfil.order.id,'0'.repeat(64)),'LICENCE_APPROVAL_MISMATCH');
+  await rejected('unapproved licence cannot be signed',()=>store.issueApprovedLicence(context,fulfil.order.id,key),'NOT_FOUND');
+  await store.approveLicence(reviewContext,fulfil.order.id,prepared.digest);
+  check('review retains independent approver',(await store.reviewLicence(reviewContext,fulfil.order.id)).approved_by,reviewer);
+  await rejected('live worker cannot issue test payment',()=>new CommerceStore(pool!,{...binding,mode:'LIVE'}).issueApprovedLicence(context,fulfil.order.id,key),'PROVIDER_BINDING_MISMATCH');
+  await rejected('review capability does not confer issuance',()=>store.issueApprovedLicence(reviewContext,fulfil.order.id,key),'FORBIDDEN');
+  await pool.query("CREATE FUNCTION vendor.fail_issuance_fixture() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.action='licence.issue' THEN RAISE EXCEPTION 'Synthetic audit failure' USING ERRCODE='23514'; END IF; RETURN NEW; END $$");
+  await pool.query('CREATE TRIGGER fail_issuance_fixture BEFORE INSERT ON vendor.audit FOR EACH ROW EXECUTE FUNCTION vendor.fail_issuance_fixture()');
+  await rejected('audit failure rolls back signed document and outbox',()=>store.issueApprovedLicence(context,fulfil.order.id,key),'23514');
+  check('failed transaction leaves no downloadable licence',(await pool.query('SELECT count(*)::int n FROM vendor.issued_licences WHERE order_id=$1',[fulfil.order.id])).rows[0].n,0);
+  check('failed transaction keeps durable issuance ready',(await pool.query('SELECT state FROM vendor.entitlement_outbox WHERE order_id=$1',[fulfil.order.id])).rows[0].state,'READY');
+  await pool.query('DROP TRIGGER fail_issuance_fixture ON vendor.audit');
+  const signed=await Promise.all([store.issueApprovedLicence(context,fulfil.order.id,key),store.issueApprovedLicence(context,fulfil.order.id,key)]);
+  check('concurrent issuers return identical durable signed licence',signed[0],signed[1]);
+  check('issued claims equal independently approved snapshot',signed[0]!.claims,snapshot);
+  check('licence signature verifies with generated fixture public key',verifySignature(null,Buffer.from(canonicalJson(signed[0]!.claims)),pair.publicKey,Buffer.from(signed[0]!.signature,'base64url')),true);
+  check('exactly one issuance audit',(await pool.query("SELECT count(*)::int n FROM vendor.audit WHERE order_id=$1 AND action='licence.issue'",[fulfil.order.id])).rows[0].n,1);
+  store=new CommerceStore(pool,binding);
+  check('restart retry returns original licence without signing again',await store.issueApprovedLicence(context,fulfil.order.id,{key_id:'invalid',private:'invalid'}),signed[0]);
+  await rejected('cross-account licence download is hidden',()=>store.readLicence({account_id:otherAccount,actor_id:otherActor},fulfil.order.id),'NOT_FOUND');
+  check('account-scoped download returns persisted licence',await store.readLicence(context,fulfil.order.id),signed[0]);
+  const download=await handler(new Request(`${origin}/vendor/api/orders/${fulfil.order.id}/licence`,{headers:{cookie:'fixture=buyer'}}));
+  check('authenticated HTTP licence download',download.status,200);
+  check('HTTP download uses persisted signature',(await download.json()).licence,signed[0]);
+  check('licence download is not cacheable',download.headers.get('cache-control'),'no-store');
+  const refundIssued=await store.applyPayment(event(fulfil.providerId,'refunded',fulfilPayment.fact.payment_id,{refund:10000}));
+  check('actual signed issuance refund is retained for review',refundIssued.issuance,'ISSUED_REVIEW_REQUIRED');
+  check('refund preserves immutable historical licence',await store.readLicence(context,fulfil.order.id),signed[0]);
+  const lostLicenceOrder=await create();await store.applyPayment(event(lostLicenceOrder.providerId));
+  const lostPrepared=await store.prepareLicence(context,lostLicenceOrder.order.id,claims());await store.approveLicence(reviewContext,lostLicenceOrder.order.id,lostPrepared.digest);
+  const realPool=pool;
+  const lostCommitStore=new CommerceStore({connect:async()=>{
+    const client=await realPool.connect();
+    return {release:()=>client.release(),query:async(sql:string,values?:unknown[])=>{
+      const result=await client.query(sql,values);
+      if(sql==='COMMIT')throw Object.assign(new Error('Synthetic lost commit acknowledgement'),{code:'TEST_LOST_COMMIT'});
+      return result;
+    }};
+  }},binding);
+  await rejected('lost commit acknowledgement does not claim success',()=>lostCommitStore.issueApprovedLicence(context,lostLicenceOrder.order.id,key),'TEST_LOST_COMMIT');
+  const recoveredLicence=await store.issueApprovedLicence(context,lostLicenceOrder.order.id,{key_id:'invalid',private:'invalid'});
+  check('lost acknowledgement recovers persisted licence identity',recoveredLicence.claims.licence_id,(await store.readLicence(context,lostLicenceOrder.order.id)).claims.licence_id);
+  check('lost acknowledgement creates only one signing audit',(await pool.query("SELECT count(*)::int n FROM vendor.audit WHERE order_id=$1 AND action='licence.issue'",[lostLicenceOrder.order.id])).rows[0].n,1);
+  const held=await create(),heldPayment=event(held.providerId);await store.applyPayment(heldPayment);
+  const heldRequest=await store.prepareLicence(context,held.order.id,claims());await store.approveLicence(reviewContext,held.order.id,heldRequest.digest);
+  await store.applyPayment(event(held.providerId,'refunded',heldPayment.fact.payment_id,{refund:100}));
+  await rejected('refund before signing blocks approved issuance',()=>store.issueApprovedLicence(context,held.order.id,key),'LICENCE_NOT_PAYABLE');
+  await pool.query("UPDATE vendor.accounts SET state='SUSPENDED' WHERE id=$1",[account]);
+  await rejected('suspended account cannot retrieve licence',()=>store.readLicence(context,fulfil.order.id),'FORBIDDEN');
+  await pool.query("UPDATE vendor.accounts SET state='ACTIVE' WHERE id=$1",[account]);
+  await rejected('issued document cannot be rewritten',()=>pool!.query('UPDATE vendor.issued_licences SET document=document WHERE order_id=$1',[fulfil.order.id]),'23514');
   check('vendor database contains no customer operational schema',(await pool.query("SELECT to_regnamespace('app') AS customer_schema")).rows[0].customer_schema,null);
   const guard=await pool.connect();
   try {
     await guard.query('BEGIN');await guard.query('CREATE SCHEMA app');
     await rejected('vendor migration refuses customer schema sentinel',()=>guard.query(migration),'42501');
   }finally{await guard.query('ROLLBACK');guard.release();}
-  writeFileSync(artifact,JSON.stringify({task_id:'V1-EXPANSION-01',recorded_at:new Date().toISOString(),fixture_kind:'ISOLATED_SYNTHETIC_VENDOR_DATABASE',database,
+  writeFileSync(artifact,JSON.stringify({task_id:'V1-COMMERCE-ISSUANCE-01',recorded_at:new Date().toISOString(),fixture_kind:'ISOLATED_SYNTHETIC_VENDOR_DATABASE',database,
     result:'PASS',assertions,migration_sha256:createHash('sha256').update(migration).digest('hex'),checkout_migration_sha256:createHash('sha256').update(checkoutMigration).digest('hex'),
-    source_sha256:Object.fromEntries(['backend/vendor/commerce/store.ts','backend/vendor/commerce/payment.ts','backend/vendor/commerce/checkout.ts','shared/contracts/src/commerce.ts','tests/integration/commerce/commerce.test.ts'].map(path=>[path,createHash('sha256').update(readFileSync(path)).digest('hex')])),
-    limitations:['No HTTP/vendor login or actual payment provider used; checkout transport uses explicit injected synthetic responses.','No licence issued; one outbox row set to ISSUED by labelled fixture only.','Operator identity used in isolated test database; production role deployment not qualified.']},null,2));
+    source_sha256:Object.fromEntries(['backend/vendor/commerce/store.ts','backend/vendor/commerce/payment.ts','backend/vendor/commerce/checkout.ts','backend/vendor/commerce/razorpay.ts','backend/vendor/commerce/service.ts','backend/vendor/commerce/http.ts','shared/contracts/src/commerce.ts','database/vendor/migrations/0003_licence_fulfilment.sql','tests/integration/commerce/commerce.test.ts'].map(path=>[path,createHash('sha256').update(readFileSync(path)).digest('hex')])),
+    limitations:['Fetch HTTP handler exercised in-process with a labelled session fixture; no network listener, browser login or actual payment provider used.','Provider transport uses explicitly synthetic responses; no Razorpay account exists yet.','Real Ed25519 licence signatures use ephemeral synthetic test keys and fictional claims; no commercial entitlement or production trust was created. Earlier refund case retains its labelled issued-state fixture.','Operator identity used in isolated test database; production role deployment not qualified.']},null,2));
   console.log(`Artifact: ${artifact}`);
 }catch(error){
   const message=error instanceof Error?error.message:'';
   const failureCategory=/timeout/i.test(message)?'TIMEOUT':message.startsWith('Assertion failed:')?'ASSERTION':'OTHER';
-  writeFileSync(artifact,JSON.stringify({task_id:'V1-EXPANSION-01',recorded_at:new Date().toISOString(),fixture_kind:'ISOLATED_SYNTHETIC_VENDOR_DATABASE',database,
+  writeFileSync(artifact,JSON.stringify({task_id:'V1-COMMERCE-ISSUANCE-01',recorded_at:new Date().toISOString(),fixture_kind:'ISOLATED_SYNTHETIC_VENDOR_DATABASE',database,
     result:'FAIL',phase,assertions,error:{name:error instanceof Error?error.name:'Error',code:String((error as {code?:string}).code??'UNCLASSIFIED'),category:failureCategory,message_sha256:createHash('sha256').update(message).digest('hex')}},null,2));
   console.error(`FAIL ${phase}; artifact: ${artifact}`);process.exitCode=1;
 }finally{await pool?.end();await bootstrap.end().catch(()=>{});}

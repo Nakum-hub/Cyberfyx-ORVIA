@@ -1,0 +1,15 @@
+{
+  "task_id": "V1-INTEGRATIONS-01",
+  "recorded_at": "2026-09-28T16:37:07.047Z",
+  "fixture_kind": "ISOLATED_SYNTHETIC_VENDOR_DATABASE",
+  "database": "orvia_vendor_test_1aae7d14915c4021949762ebe6d91f38",
+  "result": "FAIL",
+  "phase": "create isolated vendor database",
+  "assertions": [],
+  "error": {
+    "name": "error",
+    "code": "57P03",
+    "category": "OTHER",
+    "message_sha256": "4d6c22d18566f05c9c72d4e2477f661dfff5211672b112085cc955e822d6d588"
+  }
+}
