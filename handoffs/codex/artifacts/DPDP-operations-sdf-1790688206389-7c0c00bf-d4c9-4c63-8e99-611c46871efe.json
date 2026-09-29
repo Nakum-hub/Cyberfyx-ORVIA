@@ -1,0 +1,103 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T13:23:26.389Z",
+  "suite": "sdf",
+  "assertions": [
+    {
+      "name": "an organisation that is not designated has no open SDF obligations",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "an organisation admin cannot change SDF status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a designation is recorded with its reference",
+      "result": "PASS",
+      "expected": [
+        "designation_is_recorded_with_its_reference"
+      ],
+      "actual": [
+        "designation_is_recorded_with_its_reference"
+      ]
+    },
+    {
+      "name": "a designation opens one obligation per SDF requirement in the package in force",
+      "result": "PASS",
+      "expected": [
+        "ALGORITHMIC_DUE_DILIGENCE",
+        "DPO_APPOINTMENT",
+        "INDEPENDENT_AUDITOR_APPOINTMENT",
+        "PERIODIC_AUDIT",
+        "PERIODIC_DPIA",
+        "TRANSFER_RESTRICTION_REVIEW"
+      ],
+      "actual": [
+        "ALGORITHMIC_DUE_DILIGENCE",
+        "DPO_APPOINTMENT",
+        "INDEPENDENT_AUDITOR_APPOINTMENT",
+        "PERIODIC_AUDIT",
+        "PERIODIC_DPIA",
+        "TRANSFER_RESTRICTION_REVIEW"
+      ]
+    },
+    {
+      "name": "a periodic assessment is due twelve months after designation",
+      "result": "PASS",
+      "expected": "2027-09-29T13:23:24.045Z",
+      "actual": "2027-09-29T13:23:24.045Z"
+    },
+    {
+      "name": "an obligation without a statutory period carries no invented due time",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "obligations are pinned to the package they came from and are in force",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the designation is emitted as a status change",
+      "result": "PASS",
+      "expected": [
+        "NOT_DESIGNATED",
+        "DESIGNATED"
+      ],
+      "actual": [
+        "NOT_DESIGNATED",
+        "DESIGNATED"
+      ]
+    },
+    {
+      "name": "the designation is recorded as evidence",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "open obligations without a due time appear in Attention",
+      "result": "FAIL",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "name": "unexpected failure in designation",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: open obligations without a due time appear in Attention"
+    }
+  ],
+  "passed": 9,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
