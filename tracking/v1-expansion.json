@@ -159,11 +159,19 @@
         "handoffs/codex/artifacts/V1-EXPANSION-02-unit.log",
         "handoffs/codex/artifacts/V1-EXPANSION-03-http-41db8841-9921-463c-bc76-840d0229c706.json",
         "handoffs/codex/artifacts/V1-EXPANSION-04-grc-640f6ad8-7aaf-4db4-ba9d-82d1218f314f.json",
-        "handoffs/codex/artifacts/V1-EXPANSION-04-http-78638f66-9eda-456f-8443-d413737071a0.json"
+        "handoffs/codex/artifacts/V1-EXPANSION-04-http-78638f66-9eda-456f-8443-d413737071a0.json",
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md",
+        "docs/engineering/dpdpa-audit-exchange.md",
+        "handoffs/code/2026-09-29-dpdpa-audit-exchange.md",
+        "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-1790646870965-b055cceb-5fdb-4fff-b3a1-57db342ec577.json",
+        "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790647626243-a84687d5-c91e-43f1-b879-791c774d1b1d.json",
+        "handoffs/code/artifacts/vendor-audit-2026-09-29T02-36-40-562Z.json",
+        "handoffs/code/artifacts/regression-battery-2026-09-29.txt"
       ],
       "limitations": [
         "GRC framework/control/risk workspace and audit engagement/request/response APIs implemented at contract 0.27.0. Audit core: 41 isolated database checks; GRC/audit HTTP: 57 checks. One cold-start policy HTTP run failed closed; subsequent run passed without timeout changes. Audit workspace builds but its browser journey is NOT_RUN. Full Next runtime integration, policy lifecycle, regulatory content, issue management, mitigation effect verification and release qualification remain open. No parity or certification claimed.",
-        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Policy lifecycle, issues and remediation built; no regulatory content library, no certification claim."
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. Policy lifecycle, issues and remediation built; no regulatory content library, no certification claim.",
+        "2026-09-29 (revision 1.5): DPDPA external audit exchange built on the client side (gap register, evidence files, sealed dual-approved packages, verified import of signed findings/reports, findings as GRC issues) and in the vendor area (inbox, review, results, findings, report with reviewer approval, audit-key signing, retention). Criteria come from a TEST_FIXTURE regulatory package until the official one is signed; malware screening is structural unless ORVIA_CLAMSCAN is set; Firefox/WebKit NOT_RUN. Acceptance NOT_RUN."
       ]
     },
     {
@@ -204,12 +212,14 @@
       "owner": "codex_with_dpdp_lane_coordination",
       "acceptance_status": "NOT_RUN",
       "evidence": [
-        "handoffs/codex/artifacts/V1-EXPANSION-01-commerce-0a7deffa-8eee-496d-8f7c-0390073f6f97.json"
+        "handoffs/codex/artifacts/V1-EXPANSION-01-commerce-0a7deffa-8eee-496d-8f7c-0390073f6f97.json",
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
       ],
       "limitations": [
         "45 isolated PostgreSQL component assertions; injected synthetic checkout responses and signed payment fixtures. No live provider conformance, vendor HTTP identity/UI, invoices/subscriptions, production role deployment or licence signer. Not release-qualified.",
         "Not advanced in the Claude takeover: blocked on the user's choice of payment provider and commercial terms.",
-        "2026-09-28 decision: Indian providers only; Razorpay selected (docs/engineering/PAYMENTS_PROVIDER_DECISION.md). Activation needs merchant KYC, keys in .local/vendor/commerce/razorpay.json, network allowance, approved prices/GST, sandbox conformance and the vendor website."
+        "2026-09-28 decision: Indian providers only; Razorpay selected (docs/engineering/PAYMENTS_PROVIDER_DECISION.md). Activation needs merchant KYC, keys in .local/vendor/commerce/razorpay.json, network allowance, approved prices/GST, sandbox conformance and the vendor website.",
+        "2026-09-29: the vendor area now runs inside the same ORVIA application on the vendor's VENDOR_SERVICE installation (vendor staff identity with mandatory MFA, organisations, client vendor accounts, licence issuing from the tier catalogue, support cases, team with typed DELETE). Payments remain a placeholder (Razorpay on hold: KYC, prices, GST). Vendor website sign-up/subscription/download not built; only its link to /vendor/sign-in is in scope."
       ]
     },
     {
@@ -226,10 +236,16 @@
         "handoffs/codex/artifacts/A00-first-run-setup-1790607581740-8b5afa2d-0339-48b3-929e-5cbcb652f541.json",
         "handoffs/codex/artifacts/A00-operations-staff-delete-1790606131488-87a0fb1a-74ce-4277-a6b6-b1480087b849.json",
         "handoffs/codex/artifacts/A00-operations-staff-members-1790606202245-91a08726-164b-4666-b8f7-48ea10095427.json",
-        "handoffs/codex/artifacts/A00-auth-security-1790605384167-d615506b-7ff0-4626-ba6c-f50ab37aa63d.json"
+        "handoffs/codex/artifacts/A00-auth-security-1790605384167-d615506b-7ff0-4626-ba6c-f50ab37aa63d.json",
+        "docs/engineering/linux-installer.md",
+        "installer/linux/orvia-install.sh",
+        "handoffs/codex/artifacts/A00-auth-security-1790647830143-49547cb7-f7d0-4cf5-bb3f-60f0ed875734.json",
+        "handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790649827843-8aefcd99-401e-45b6-bcb2-61561420ebb8.json",
+        "handoffs/code/artifacts/regression-battery-2026-09-29.txt"
       ],
       "limitations": [
-        "Applied since last update (Claude, 2026-09-28): 0063 typed scope predicate (audit list 110 ms -> 0.44 ms, Index Scan) verified by unit, auth, all expansion and all 13 DPDP suites; machine-enrollment renewal pickup; vendor/customer credential separation; licence-limited member logins; delete-login with typed DELETE; first-run setup with installer one-time code. Still open: installer packaging (only a Windows rehearsal package exists) and scheduled machine-login renewal; SSO/SCIM (needs IdP decision); customer-held recovery (OPEN-07); 1M qualification on declared hardware; signing-key custody; accessibility/browser matrix; security review; frozen-candidate acceptance and release approval."
+        "Applied since last update (Claude, 2026-09-28): 0063 typed scope predicate (audit list 110 ms -> 0.44 ms, Index Scan) verified by unit, auth, all expansion and all 13 DPDP suites; machine-enrollment renewal pickup; vendor/customer credential separation; licence-limited member logins; delete-login with typed DELETE; first-run setup with installer one-time code. Still open: installer packaging (only a Windows rehearsal package exists) and scheduled machine-login renewal; SSO/SCIM (needs IdP decision); customer-held recovery (OPEN-07); 1M qualification on declared hardware; signing-key custody; accessibility/browser matrix; security review; frozen-candidate acceptance and release approval.",
+        "2026-09-29: installation kinds CUSTOMER_INSTALLATION / VENDOR_SERVICE (immutable record, 404 gating both ways); Linux installer for both kinds executed in a container (fresh customer install through first-run setup, restart with data retained); systemd enablement, reboot survival, RHEL, Windows Server hardening, upgrade/rollback on a live installation NOT_RUN. Full regression battery green on codex-a00."
       ],
       "required_actions": []
     }

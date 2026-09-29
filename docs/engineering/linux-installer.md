@@ -84,7 +84,9 @@ Migrations are forward-only. If the upgrade added migrations, a code-only rollba
 |---|---|
 | Prerequisite check on Ubuntu 24.04 (container) | Executed. Reported Node 22 instead of the qualified 24.21.0, and no systemd. |
 | Script syntax (`bash -n`) | Executed |
-| Fresh install as each kind, Linux container (Docker, no systemd) | See the handoff for the result of the executed run |
+| Fresh install, **customer** kind, Linux container (Docker, no systemd) | Executed. Fresh `rehearsal` profile. Install exit 0 (after the two fixes below, resumed with `--resume`). HTTPS `/readyz` ready with the kind verified. First-run setup returned 201, then COMPLETED. `/vendor/*` and vendor auth return 404. Machine enrollment after setup. Services and app stopped and started again with data retained. Full supervisor start and clean `app:stop`. |
+| Install, **vendor** kind | Executed on the existing `vendor-a00` profile (exit 0; setup code correctly refused after setup). The vendor database itself was freshly provisioned the same day by `vendor:init` on an empty database, and first-run setup was done in the browser (e2e). |
+| Defects the fresh install found | Fixed in commit `309e814`. (1) `machine:init` required the synthetic fixture journal. (2) The app unit lacked `NODE_EXTRA_CA_CERTS`, so the supervisor's HTTPS readiness probe failed. |
 | systemd enable / start on boot / **reboot survival** | **NOT_RUN**: the build container has no systemd and cannot reboot |
 | RHEL-compatible host | **NOT_RUN** |
 | Windows Server hardening, macOS evaluation | **NOT_RUN** in this change |
