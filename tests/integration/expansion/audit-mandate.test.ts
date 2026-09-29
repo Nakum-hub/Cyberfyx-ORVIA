@@ -364,10 +364,16 @@ await t.run(async () => {
 
     t.setPhase('closing ends the channel');
     await ok(owner.call(`/api/v1/admin/audit-mandates/${m1.id}/state`, { state: 'ACTIVE', reason: 'Scope review complete.' }, key()), S.schemas.AuditMandate);
+    // An approved response still queued when the engagement closes must never be sent after the end.
+    const lateResp = await ok(admin.call(`/api/v1/admin/audit-engagements/${ce.id}/finding-responses`, { ...respBody, response: 'Updated plan: the notice is published.', remediation_status: 'COMPLETED' }, key()), S.schemas.FindingResponse);
+    check('a second response is queued before the engagement closes', (await ok(reviewer.call(`/api/v1/admin/audit-finding-responses/${lateResp.id}/approval`, {}, key()), S.schemas.FindingResponse)).state, 'QUEUED');
     const closed = await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/closure`, { reason: 'Report received; engagement complete.' }, key()), S.schemas.AuditEngagement);
     const cm8 = (await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/channel`), S.schemas.AuditChannel)).mandates.find(x => x.id === m1.id)!;
     check('closing the engagement ends its mandate', [closed.state, cm8.state], ['CLOSED', 'ENDED']);
-    await sweep();
+    const endSweep = await sweep();
+    const lateRow = (await db.query('SELECT state, last_error, attempts FROM app.audit_finding_responses WHERE id=$1', [lateResp.id])).rows[0];
+    check('the queued response fails unsent when the end is reported; the vendor never receives it', [endSweep.responses_sent, endSweep.stopped_by_mandate >= 1, lateRow, (await vendor.operator.query('SELECT count(*)::int AS n FROM vendor.management_responses WHERE finding_id=$1', [vFinding.id])).rows[0].n],
+      [0, true, { state: 'FAILED', last_error: 'MANDATE_ENDED_BEFORE_SENDING', attempts: 0 }, 1]);
     check('the end is reported to the vendor', (await lead.s.json(`/api/v1/vendor/engagements/${vid}/channel`)).data.mandate.state, 'ENDED');
     const late = await call(C.CHANNEL_PATHS.deliveries, forge({ sequence: 99, previous_digest: l2 }));
     check('after the end the vendor refuses deliveries', C.verifyVendorSigned(late.json, audit, C.DeliveryReceipt).reasons.includes('MANDATE_NOT_ACTIVE'), true);

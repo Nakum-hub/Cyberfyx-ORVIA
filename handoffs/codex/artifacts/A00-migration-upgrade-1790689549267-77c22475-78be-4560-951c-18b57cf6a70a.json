@@ -1,0 +1,18 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-29T13:45:49.267Z",
+  "profile": "codex-a00",
+  "from": "0036_portal_rights_intake",
+  "assertions": [
+    {
+      "name": "unexpected failure",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Connection terminated due to connection timeout"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "throwaway_database_dropped": false
+}

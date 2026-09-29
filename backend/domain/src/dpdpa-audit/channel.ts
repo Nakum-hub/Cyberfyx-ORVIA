@@ -350,7 +350,9 @@ async function serviceMandate(run: Scoped, env: ChannelEnv, mandateId: string, r
   const l = await load(run, env, mandateId);
   const instructions = await checkIn(run, env, l, report);
   if (!instructions) return;
-  if (!instructions.mandate.accepted || !C.mandateOpen({ state: l.m.state, valid_from: iso(l.m.valid_from), valid_to: iso(l.m.valid_to) }, now)) return;
+  if (!instructions.mandate.accepted) return;
+  // A mandate reported as suspended, revoked or ended settles what it had queued (a suspension leaves it queued).
+  if (!C.mandateOpen({ state: l.m.state, valid_from: iso(l.m.valid_from), valid_to: iso(l.m.valid_to) }, now)) { await stillOpen(run, l, report, now); return; }
   await receiveRequests(run, env, l, instructions, report, now);
   const chain: Chain = { next: instructions.next_sequence, last: instructions.last_digest };
   // Deliveries whose outcome is not yet known go first, in order; a new one is generated only once they are settled.
