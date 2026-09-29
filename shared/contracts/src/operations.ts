@@ -152,7 +152,7 @@ export const AttentionItem = z.strictObject({
   entity_kind: z.string().max(40), entity_id: Id.nullable(), count: z.number().int().min(1), detail: SafeText, due_at: Time.nullable(),
 });
 export type AttentionItemValue = z.infer<typeof AttentionItem>;
-export const OperationsAttention = z.strictObject({ as_of: Time, items: z.array(AttentionItem).max(200), derived_from_records: z.literal(true), limits: z.array(SafeText).max(8) });
+export const OperationsAttention = z.strictObject({ as_of: Time, items: z.array(AttentionItem).max(600), derived_from_records: z.literal(true), limits: z.array(SafeText).max(8) });
 export const OperationsCoverageMeasure = z.strictObject({
   dimension: z.enum(['ACTIVITY_CONDITION_RESOLVED', 'CONSENT_ACTIVITY_NOTICE_LINKED', 'ACTIVITY_RETENTION_LINKED', 'ACTIVITY_SYSTEM_BOUND', 'CONSENT_EVIDENCE_KNOWN', 'ACTION_VERIFIED']),
   counted: SafeText, numerator: z.number().int().min(0), denominator: z.number().int().min(0), excluded: z.number().int().min(0), exclusion_reasons: z.array(SafeText).max(8),

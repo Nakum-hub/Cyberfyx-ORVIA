@@ -81,26 +81,13 @@ export async function operationsAttention(c: Context) {
     push({ kind: 'SDF_OBLIGATION_DUE', severity: o.due_at === null ? 'OPEN' : o.due_at < now ? 'OVERDUE' : 'DUE_SOON', entity_kind: 'sdf_obligation', entity_id: o.id, count: 1, detail: `SDF obligation ${o.kind} is open.`, due_at: iso(o.due_at) });
   for (const j of capped((await c.tx.query(`SELECT job_id,count(*)::int n FROM app.bulk_job_rows WHERE ${predicate} AND state='ERROR' GROUP BY job_id ORDER BY count(*) DESC, job_id LIMIT 20`, s)).rows, 20, 'import jobs with failed rows'))
     push({ kind: 'IMPORT_ROWS_FAILED', severity: 'FAILED', entity_kind: 'bulk_job', entity_id: j.job_id, count: j.n, detail: `${j.n} import row(s) failed and are isolated for review or replay.`, due_at: null });
-  const items = everyKindInTurn(found, 200);
+  // The per-kind caps above sum to less than the contract bound, so nothing is dropped here; the slice is a guard only.
+  const items = found.slice(0, 600);
   const dropped = found.length - items.length;
   await audit(c, 'operations.attention');
   return O.OperationsAttention.parse({ as_of: now.toISOString(), items, derived_from_records: true,
     limits: ['Every item is derived from recorded state at the time of reading.', 'An absent item means nothing recorded raises it, not that the underlying obligation is met.',
-      ...(dropped ? [`${dropped} further item(s) are not listed: at most 200 are shown, taking the most urgent of every kind in turn.`] : []), ...truncated].slice(0, 8) });
-}
-
-/** At most `max` items, taken in turn from each kind (each already in its own order of urgency), so one busy kind cannot hide every other kind. */
-function everyKindInTurn(found: Item[], max: number) {
-  if (found.length <= max) return found;
-  const queues = new Map<string, Item[]>();
-  for (const i of found) { const q = queues.get(i.kind); if (q) q.push(i); else queues.set(i.kind, [i]); }
-  const keep = new Set<Item>();
-  for (let round = 0; keep.size < max; round++) {
-    let any = false;
-    for (const q of queues.values()) if (round < q.length && keep.size < max) { keep.add(q[round]!); any = true; }
-    if (!any) break;
-  }
-  return found.filter(i => keep.has(i));
+      ...(dropped ? [`${dropped} further item(s) are not listed; at most 600 are shown.`] : []), ...truncated].slice(0, 8) });
 }
 
 export async function operationsCoverage(c: Context) {

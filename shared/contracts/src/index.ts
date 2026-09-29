@@ -41,8 +41,11 @@ const expansionNames = Object.keys(expansionSchemas);
  *  schema or wire meaning changed.
  *  0.44.0 adds the audit channel round trip (task AUDIT-PRACTICE-01): signed
  *  auditor documents staged for import and dual-approved management responses.
- *  Additive: AuditChannel gains documents and responses; four new routes. */
-export const CONTRACT_VERSION = '0.44.0' as const;
+ *  Additive: AuditChannel gains documents and responses; four new routes.
+ *  0.45.0 raises OperationsAttention.items from 200 to 600: the per-kind lists
+ *  (each capped, ordered by urgency and stated when truncated) sum to at most
+ *  566, so no item is dropped by a global cap any more. No route changed. */
+export const CONTRACT_VERSION = '0.45.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
