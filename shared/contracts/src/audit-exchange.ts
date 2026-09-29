@@ -1,6 +1,6 @@
 import { createHash, createPublicKey, verify } from 'node:crypto';
 import { z } from 'zod';
-import { canonicalJson } from './crypto.ts';
+import { canonicalJson } from './canonical.ts';
 
 /**
  * DPDPA external audit exchange (revision 1.5 addendum). The only artefacts
