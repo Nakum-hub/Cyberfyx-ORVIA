@@ -28,7 +28,7 @@ import { servicePool, machineAuthority } from '../../backend/auth/src/machine.ts
 import { scopedTransaction } from '../../database/customer/src/runtime.ts';
 import { channelSweep } from '../../backend/domain/src/dpdpa-audit/channel.ts';
 import type { Context } from '../../backend/domain/src/shared/transaction.ts';
-import { setupPractice, acceptEngagement, planEngagement } from '../integration/vendor/practice-flow.ts';
+import { setupPractice, acceptEngagement, planEngagement, evidenceFor, paper } from '../integration/vendor/practice-flow.ts';
 
 const VENDOR = `http://127.0.0.1:${PROFILES['vendor-a00'].app_port}`;
 // The vendor supplies an updated trust file naming its audit address; this run installs it and restores the original afterwards.
@@ -136,7 +136,7 @@ try {
       const practice = await setupPractice(pageApi(lead), pageApi(vrev), reference.replace(/[^A-Za-z0-9]/g, '').slice(-12));
       await acceptEngagement({ admin: pageApi(vadmin), reviewer: pageApi(vrev), lead: pageApi(lead), engagementId, ...practice });
       const leadMember = members.members.find(m => m.email === journal.lead.email)!;
-      await planEngagement({ lead: pageApi(lead), auditor: pageApi(lead), reviewer: pageApi(vrev), engagementId, requirements: [reqA, reqB], period: { from: day(-150), to: day(10) }, leadId: leadMember.user_id });
+      const plan = await planEngagement({ lead: pageApi(lead), auditor: pageApi(lead), reviewer: pageApi(vrev), engagementId, requirements: [reqA, reqB], period: { from: day(-150), to: day(10) }, leadId: leadMember.user_id });
 
       t.setPhase('client mandate');
       const admin = await staffSignIn(browser, 'admin'); const reviewer = await staffSignIn(browser, 'reviewer'); const owner = await staffSignIn(browser, 'owner');
@@ -200,6 +200,42 @@ try {
       await lead.getByRole('heading', { name: 'Delivery content' }).waitFor();
       check('the sample answer is counts over the auditor\'s selection', await lead.getByText(/records passing/).first().isVisible(), true);
       await lead.screenshot({ path: resolve(shots, 'mandate-vendor-requests.png'), fullPage: true });
+
+      t.setPhase('findings to the client and the response back');
+      // The finding itself is raised through the vendor API (the practice screens are covered by the dpdpa-audit journey); the client side is driven in the browser.
+      const vch = (await pageApi(lead).json(`/api/v1/vendor/engagements/${engagementId}/channel`)).data;
+      const firstDelivery = vch.deliveries.find((d: { kind: string; outcome: string }) => d.kind === 'SNAPSHOT' && d.outcome === 'ACCEPTED');
+      const entries = (await pageApi(lead).json(`/api/v1/vendor/channel-deliveries/${firstDelivery.delivery_id}`)).data.document.entries as { key: string; requirement_id: string | null; category: string }[];
+      const entry = entries.find(x => x.requirement_id === reqA && x.category === 'INDICATORS')!;
+      const ev = await evidenceFor({ auditor: pageApi(lead), engagementId, procedureId: plan.procedures[reqA]!, register: { source: 'CHANNEL_ENTRY', delivery_id: firstDelivery.delivery_id, entry_key: entry.key, valid_until: null, description: null } });
+      const wp = await paper({ preparer: pageApi(lead), reviewer: pageApi(vrev), procedureId: plan.procedures[reqA]!, conclusion: 'EXCEPTIONS_NOTED', evidence: [ev] });
+      await pageApi(lead).json(`/api/v1/vendor/engagements/${engagementId}/findings`, { requirement_id: reqA, provision_ids: ['ACT-S5(1)'], criterion_type: 'STATUTORY', severity: 'MEDIUM', title: 'Notice indicator gap (browser)',
+        observation: 'One activity has no published notice version.', affected_scope: 'Consent notices', cause: 'The notice was never published for the activity.', consequence: 'Consent for that activity may not be informed.',
+        severity_rationale: 'One activity; moderate number of Data Principals.', recommendation: 'Publish an itemised notice for the activity.', orvia_guidance: null, due_date: day(60), working_paper_ids: [wp], evidence_ids: [ev] });
+      await pageApi(lead).json(`/api/v1/vendor/engagements/${engagementId}/findings/export`, {});
+      await db.query("UPDATE app.audit_mandates SET last_check_in_at=last_check_in_at-interval '1 hour' WHERE engagement_id=(SELECT id FROM app.audit_engagements WHERE engagement_reference=$1)", [reference]);
+      const r3 = await sweep();
+      check('the worker collects the signed findings file at check-in and only stages it', r3.documents_received, 1);
+      await openEngagement(admin, reference);
+      const docs = admin.getByRole('table', { name: 'Signed documents received over the channel' });
+      await docs.getByRole('row').filter({ hasText: 'findings' }).getByRole('button', { name: 'Verify and import' }).click(); await admin.getByText('Signed document verified and imported.').waitFor();
+      check('a person imports the staged findings file in the browser', await docs.getByRole('row').filter({ hasText: 'findings' }).getByText('imported').isVisible(), true);
+      const rf = admin.getByRole('form', { name: 'Prepare management response' });
+      await rf.getByLabel(label('Finding')).selectOption({ index: 1 }); await rf.getByLabel(label('Agreement with the finding')).selectOption('PARTIALLY_AGREE');
+      await rf.getByLabel(label('Response')).fill('We will publish the notice; write to privacy@aster.example for the draft.'); await rf.getByLabel(label('Owner (role)')).fill('Privacy office');
+      await rf.getByRole('button', { name: 'Prepare response' }).click(); await admin.getByText('Response drafted; a different owner or administrator approves it.').waitFor();
+      check('the drafted response shows its redaction', await admin.getByRole('table', { name: 'Management responses' }).getByText(/1 redaction/).isVisible(), true);
+      await openEngagement(reviewer, reference);
+      await reviewer.getByRole('table', { name: 'Management responses' }).getByRole('button', { name: 'Approve response' }).click(); await reviewer.getByText('Response approved; it is sent at the next check-in.').waitFor();
+      const r4 = await sweep();
+      await reviewer.reload(); await openEngagement(reviewer, reference);
+      check('the worker signs and sends the approved response and the client sees it accepted', [r4.responses_sent, await reviewer.getByRole('table', { name: 'Management responses' }).getByText('accepted', { exact: true }).isVisible()], [1, true]);
+      await reviewer.screenshot({ path: resolve(shots, 'mandate-client-responses.png'), fullPage: true });
+      await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Findings and actions/ }).click();
+      const vf = lead.getByRole('table', { name: 'Findings' }).getByRole('row').filter({ hasText: 'Notice indicator gap (browser)' });
+      check('the auditor sees the client\'s response on the finding, from the channel, without the contact detail', [await vf.getByText(/partially agree/).isVisible(), await vf.getByText(/channel/).isVisible(), await vf.getByText(/privacy@aster/).count()], [true, true, 0]);
+      await lead.screenshot({ path: resolve(shots, 'mandate-vendor-response.png'), fullPage: true });
+      await lead.getByRole('tab', { name: /^Requests/ }).click();
 
       t.setPhase('client visibility and closure');
       await owner.goto('/workspace/vendor-visibility'); await owner.getByRole('heading', { name: 'DPDPA audit evidence' }).waitFor();
