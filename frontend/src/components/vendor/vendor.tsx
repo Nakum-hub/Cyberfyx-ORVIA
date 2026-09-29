@@ -62,6 +62,7 @@ const NAV: { group: string; items: { href: string; label: string; capability: st
   { group: 'Leadership', items: [{ href: '/vendor', label: 'Overview', capability: 'vendor.overview.read' }] },
   { group: 'Audits', items: [
     { href: '/vendor/engagements', label: 'Engagements', capability: 'engagements.read' },
+    { href: '/vendor/practice', label: 'Audit practice', capability: 'engagements.read' },
     { href: '/vendor/retention', label: 'Evidence retention', capability: 'engagements.manage' }] },
   { group: 'Clients', items: [
     { href: '/vendor/organisations', label: 'Organisations', capability: 'organisations.read' },

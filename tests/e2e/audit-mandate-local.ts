@@ -28,6 +28,7 @@ import { servicePool, machineAuthority } from '../../backend/auth/src/machine.ts
 import { scopedTransaction } from '../../database/customer/src/runtime.ts';
 import { channelSweep } from '../../backend/domain/src/dpdpa-audit/channel.ts';
 import type { Context } from '../../backend/domain/src/shared/transaction.ts';
+import { setupPractice, acceptEngagement, planEngagement } from '../integration/vendor/practice-flow.ts';
 
 const VENDOR = `http://127.0.0.1:${PROFILES['vendor-a00'].app_port}`;
 // The vendor supplies an updated trust file naming its audit address; this run installs it and restores the original afterwards.
@@ -121,6 +122,22 @@ try {
         await tf.getByRole('button', { name: 'Add to team' }).click(); await vadmin.getByRole('cell', { name: role, exact: true }).waitFor();
       }
 
+      // Acceptance and planning are the subject of the dpdpa-audit browser journey; here they are set up through the same
+      // vendor API with the signed-in browser sessions, so the channel can be exercised on an accepted engagement.
+      const lead = await context(browser, VENDOR); await vendorSignIn(lead, journal.lead);
+      const vrev = await context(browser, VENDOR); await vendorSignIn(vrev, journal.reviewer);
+      const pageApi = (page: Page) => ({ json: async (path: string, body?: unknown) => {
+        const cookie = (await page.context().cookies()).map(c => `${c.name}=${c.value}`).join('; ');
+        const r = await fetch(VENDOR + path, body === undefined ? { headers: { cookie } } : { method: 'POST', headers: { cookie, origin: VENDOR, 'content-type': 'application/json', 'idempotency-key': randomUUID().replaceAll('-', '') }, body: JSON.stringify(body) });
+        const text = await r.text(); let data: unknown; try { data = JSON.parse(text); } catch { data = text; }
+        return { status: r.status, data: data as any }; // eslint-disable-line @typescript-eslint/no-explicit-any -- test responses carry arbitrary fields
+      } });
+      const engagementId = engagementUrl.split('/').at(-1)!;
+      const practice = await setupPractice(pageApi(lead), pageApi(vrev), reference.replace(/[^A-Za-z0-9]/g, '').slice(-12));
+      await acceptEngagement({ admin: pageApi(vadmin), reviewer: pageApi(vrev), lead: pageApi(lead), engagementId, ...practice });
+      const leadMember = members.members.find(m => m.email === journal.lead.email)!;
+      await planEngagement({ lead: pageApi(lead), auditor: pageApi(lead), reviewer: pageApi(vrev), engagementId, requirements: [reqA, reqB], period: { from: day(-150), to: day(10) }, leadId: leadMember.user_id });
+
       t.setPhase('client mandate');
       const admin = await staffSignIn(browser, 'admin'); const reviewer = await staffSignIn(browser, 'reviewer'); const owner = await staffSignIn(browser, 'owner');
       await t.ensurePackage();
@@ -147,8 +164,7 @@ try {
       await admin.screenshot({ path: resolve(shots, 'mandate-client-channel.png'), fullPage: true });
 
       t.setPhase('vendor sees the evidence');
-      const lead = await context(browser, VENDOR); await vendorSignIn(lead, journal.lead);
-      await lead.goto(engagementUrl); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
+      await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Requests/ }).click(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
       check('the lead sees the signed mandate and an intact chain', [await lead.getByText(/active \(open\)/).first().isVisible(), await lead.getByText('Intact through delivery 1').isVisible()], [true, true]);
       await lead.getByRole('table', { name: 'Deliveries from the client installation' }).getByRole('button', { name: 'View' }).first().click();
       await lead.getByRole('heading', { name: 'Delivery content' }).waitFor();
