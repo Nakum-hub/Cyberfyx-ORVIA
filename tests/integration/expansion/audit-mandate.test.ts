@@ -289,10 +289,11 @@ await t.run(async () => {
       owner_role: 'Privacy office', due_date: inDays(30), dependencies: null, remediation_status: 'IN_PROGRESS', risk_acceptance: null };
     const draftResp = await ok(admin.call(`/api/v1/admin/audit-engagements/${ce.id}/finding-responses`, respBody, key()), S.schemas.FindingResponse);
     check('the response is screened for contact details and carries the GRC remediation state only as a reference', [draftResp.redactions, JSON.stringify(draftResp.content).includes('@'), (draftResp.content as { remediation_reference: { kind: string } }).remediation_reference.kind], [1, false, 'GRC_ISSUE']);
-    check('the preparer cannot approve their own response', (await codes(admin.call(`/api/v1/admin/audit-finding-responses/${draftResp.id}/approval`, {}, key()))).codes, ['approver_must_differ_from_preparer']);
+    check('the preparer cannot approve their own response', (await codes(admin.call(`/api/v1/admin/audit-finding-responses/${draftResp.id}/approval`, { personal_data: 'NONE_CONFIRMED' }, key()))).codes, ['approver_must_differ_from_preparer']);
     check('a response to a finding not in the imported file is refused', (await codes(admin.call(`/api/v1/admin/audit-engagements/${ce.id}/finding-responses`, { ...respBody, finding_id: randomUUID() }, key()))).codes, ['not_in_this_findings_file']);
-    const approvedResp = await ok(reviewer.call(`/api/v1/admin/audit-finding-responses/${draftResp.id}/approval`, {}, key()), S.schemas.FindingResponse);
-    check('a different owner approves and it is queued for the worker', approvedResp.state, 'QUEUED');
+    check('approval without the approver\'s record that the response holds no personal data is refused', (await reviewer.call(`/api/v1/admin/audit-finding-responses/${draftResp.id}/approval`, {}, key())).status, 400);
+    const approvedResp = await ok(reviewer.call(`/api/v1/admin/audit-finding-responses/${draftResp.id}/approval`, { personal_data: 'NONE_CONFIRMED' }, key()), S.schemas.FindingResponse);
+    check('a different owner approves, recording that it holds no personal data, and it is queued for the worker', [approvedResp.state, approvedResp.personal_data_review], ['QUEUED', 'NONE_CONFIRMED']);
     check('staff cannot change an approved response directly', await db.query("UPDATE app.audit_finding_responses SET content='{}'::jsonb WHERE id=$1", [draftResp.id]).then(() => 'UPDATED', e => (e as Error).message), 'finding_response_sealed');
     const rt3 = await sweep();
     const sentResp = (await ok(admin.call(`/api/v1/admin/audit-engagements/${ce.id}/channel`), S.schemas.AuditChannel)).responses.find(r => r.id === draftResp.id)!;
@@ -300,6 +301,7 @@ await t.run(async () => {
     check('the worker signs and sends it; the vendor records it on the finding from the channel', [rt3.responses_sent, sentResp.state, vf.status, vf.responses[0]?.source, vf.responses[0]?.agreement, JSON.stringify(vf.responses[0]).includes('@')],
       [1, 'ACCEPTED', 'CLIENT_RESPONDED', 'CHANNEL', 'PARTIALLY_AGREE', false]);
     const signedResp = (await db.query('SELECT signed FROM app.audit_finding_responses WHERE id=$1', [draftResp.id])).rows[0].signed;
+    check('the signed response carries the approver\'s no-personal-data record', signedResp.document.approval.personal_data, 'NONE_CONFIRMED_BY_APPROVER');
     const again = await call(C.CHANNEL_PATHS.responses, Buffer.from(JSON.stringify({ signed_response: signedResp })));
     check('a repeated response gets an accepted receipt and is stored once', [C.verifyVendorSigned(again.json, audit, C.ResponseReceipt).outcome, (await vendor.operator.query('SELECT count(*)::int AS n FROM vendor.management_responses WHERE finding_id=$1', [vFinding.id])).rows[0].n], ['ACCEPTED', 1]);
     const forgedResp = C.signByInstallation({ ...(signedResp.document as object), response_id: randomUUID() }, C.newEvidenceKey());
@@ -326,6 +328,20 @@ await t.run(async () => {
     await staleCheckIn();
     const resumed = await sweep();
     check('after resuming, the held snapshot is generated and sent', resumed.deliveries_accepted >= 1, true);
+    // Fencing: a worker whose lease lapsed and was taken by another stops at its next send boundary.
+    await ask(lead.s, { kind: 'COLLECT_NOW', requirement_id: reqA, categories: ['INDICATORS'], description: 'Indicators for the fencing test (1)' });
+    await ask(lead.s, { kind: 'COLLECT_NOW', requirement_id: reqA, categories: ['INDICATORS'], description: 'Indicators for the fencing test (2)' });
+    await staleCheckIn();
+    const beforeFence = (await db.query('SELECT count(*)::int AS n FROM app.audit_channel_deliveries WHERE mandate_id=$1', [m1.id])).rows[0].n as number;
+    let taken = false;
+    env.beforeSend = async () => { if (!taken) { taken = true; await db.query("UPDATE app.audit_mandates SET channel_lease_owner=$2, channel_lease_until=clock_timestamp()+interval '5 minutes' WHERE id=$1", [m1.id, randomUUID()]); } };
+    const fenced = await sweep();
+    env.beforeSend = undefined;
+    const afterFence = (await db.query('SELECT count(*)::int AS n FROM app.audit_channel_deliveries WHERE mandate_id=$1', [m1.id])).rows[0].n as number;
+    check('a worker that loses its lease mid-cycle finishes the send in flight and generates nothing more', [fenced.deliveries_accepted, afterFence - beforeFence, fenced.leased_elsewhere >= 1], [1, 1, true]);
+    await db.query("UPDATE app.audit_mandates SET channel_lease_until=clock_timestamp()-interval '1 second' WHERE id=$1", [m1.id]);
+    await staleCheckIn();
+    check('the next worker picks up the rest', (await sweep()).deliveries_accepted >= 1, true);
     const pastDue = C.signByVendor(C.AuditorRequest.parse({ request_id: randomUUID(), engagement_code_digest: digest, kind: 'COLLECT_NOW', requirement_id: reqA, categories: ['INDICATORS'], population: null, sample_size: null, seed: null,
       description: 'A request already past its due date (fabricated for the test).', due_date: inDays(-1), issued_at: at(-86_400_000) }), audit);
     const pd = pastDue.document as C.AuditorRequest;
@@ -336,6 +352,29 @@ await t.run(async () => {
     await staleCheckIn(); await sweep();
     check('a request past its due date is refused, never answered, and the vendor is told', [pdRow?.decision, pdRow?.decision_reason, (await vendor.operator.query('SELECT status, status_reason FROM vendor.channel_requests WHERE id=$1', [pd.request_id])).rows[0]],
       ['REFUSED', 'PAST_DUE', { status: 'REFUSED', status_reason: 'PAST_DUE' }]);
+
+    t.setPhase('check-in answers stay within what the client reads');
+    // Synthetic oversized documents, deliberately unsigned: the client ignores each one it is offered and says so, which shows exactly
+    // what the vendor offered in each answer. A real client acknowledges what it staged; here the test acknowledges on the vendor side.
+    const bigDoc = async (bytes: number) => { const docId = randomUUID();
+      await vendor.operator.query("INSERT INTO vendor.signed_documents (id, engagement_id, kind, document, signing_key_id, signature, signed_by) VALUES ($1,$2,'FINDINGS',$3,'synthetic-unsigned','invalid',$4)",
+        [docId, vid, JSON.stringify({ kind: 'FINDINGS', padding: 'x'.repeat(bytes) }), lead.id]);
+      await vendor.operator.query('INSERT INTO vendor.channel_documents (document_id, engagement_id) VALUES ($1,$2)', [docId, vid]); return docId; };
+    const ignored = (r: { errors: string[] }) => r.errors.filter(e => e.includes('did not verify')).length;
+    const channelProblem = async () => (await db.query('SELECT channel_problem FROM app.audit_mandates WHERE id=$1', [m1.id])).rows[0].channel_problem as string | null;
+    const ack = (ids: string[]) => vendor.operator.query('UPDATE vendor.channel_documents SET acknowledged_at=clock_timestamp() WHERE document_id = ANY($1::uuid[])', [ids]);
+    const bigA = await bigDoc(500_000); const bigB = await bigDoc(500_000);
+    await staleCheckIn(); const b1 = await sweep(); const p1 = await channelProblem();
+    await ack([bigA]);
+    await staleCheckIn(); const b2 = await sweep(); const p2 = await channelProblem();
+    check('two documents that fit one at a time are offered one per answer, and every answer is small enough to read', [b1.check_ins, ignored(b1), p1, b2.check_ins, ignored(b2), p2], [1, 1, null, 1, 1, null]);
+    await ack([bigB]);
+    const huge = await bigDoc(1_000_000);
+    await staleCheckIn(); const b3 = await sweep(); const p3 = await channelProblem();
+    const hugeRow = ((await lead.s.json(`/api/v1/vendor/engagements/${vid}/channel`)).data.documents as { document_id: string; channel_state: string; encoded_bytes: number | null }[]).find(d => d.document_id === huge)!;
+    check('a document too large for any answer is not offered, is marked for the file route and shown to the audit team, and the check-in still succeeds', [b3.check_ins, ignored(b3), p3, hugeRow.channel_state, (hugeRow.encoded_bytes ?? 0) > 1_000_000], [1, 0, null, 'TOO_LARGE_FOR_CHANNEL', true]);
+    await staleCheckIn(); const b4 = await sweep();
+    check('it is not offered again', [b4.check_ins, ignored(b4)], [1, 0]);
 
     t.setPhase('suspension');
     await ok(owner.call(`/api/v1/admin/audit-mandates/${m1.id}/state`, { state: 'SUSPENDED', reason: 'Paused while the privacy team reviews the scope.' }, key()), S.schemas.AuditMandate);
@@ -366,14 +405,20 @@ await t.run(async () => {
     await ok(owner.call(`/api/v1/admin/audit-mandates/${m1.id}/state`, { state: 'ACTIVE', reason: 'Scope review complete.' }, key()), S.schemas.AuditMandate);
     // An approved response still queued when the engagement closes must never be sent after the end.
     const lateResp = await ok(admin.call(`/api/v1/admin/audit-engagements/${ce.id}/finding-responses`, { ...respBody, response: 'Updated plan: the notice is published.', remediation_status: 'COMPLETED_CLAIMED' }, key()), S.schemas.FindingResponse);
-    check('a second response is queued before the engagement closes', (await ok(reviewer.call(`/api/v1/admin/audit-finding-responses/${lateResp.id}/approval`, {}, key()), S.schemas.FindingResponse)).state, 'QUEUED');
+    check('a second response is queued before the engagement closes', (await ok(reviewer.call(`/api/v1/admin/audit-finding-responses/${lateResp.id}/approval`, { personal_data: 'NONE_CONFIRMED' }, key()), S.schemas.FindingResponse)).state, 'QUEUED');
     const closed = await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/closure`, { reason: 'Report received; engagement complete.' }, key()), S.schemas.AuditEngagement);
     const cm8 = (await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/channel`), S.schemas.AuditChannel)).mandates.find(x => x.id === m1.id)!;
     check('closing the engagement ends its mandate', [closed.state, cm8.state], ['CLOSED', 'ENDED']);
+    // The vendor is unreachable at the end: the queue still settles here, before any call succeeds.
+    env.address = 'http://127.0.0.1:59999';
     const endSweep = await sweep();
+    env.address = vendor.config.origin;
     const lateRow = (await db.query('SELECT state, last_error, attempts FROM app.audit_finding_responses WHERE id=$1', [lateResp.id])).rows[0];
-    check('the queued response fails unsent when the end is reported; the vendor never receives it', [endSweep.responses_sent, endSweep.stopped_by_mandate >= 1, lateRow, (await vendor.operator.query('SELECT count(*)::int AS n FROM vendor.management_responses WHERE finding_id=$1', [vFinding.id])).rows[0].n],
-      [0, true, { state: 'FAILED', last_error: 'MANDATE_ENDED_BEFORE_SENDING', attempts: 0 }, 1]);
+    check('with the vendor unreachable, the queued response still fails unsent at the end; nothing is left pending', [endSweep.check_ins, endSweep.responses_sent, endSweep.stopped_by_mandate >= 1, lateRow],
+      [0, 0, true, { state: 'FAILED', last_error: 'MANDATE_ENDED_BEFORE_SENDING', attempts: 0 }]);
+    await sweep();
+    check('the queued response never reached the vendor', [(await vendor.operator.query('SELECT count(*)::int AS n FROM vendor.management_responses WHERE finding_id=$1', [vFinding.id])).rows[0].n],
+      [1]);
     check('the end is reported to the vendor', (await lead.s.json(`/api/v1/vendor/engagements/${vid}/channel`)).data.mandate.state, 'ENDED');
     const late = await call(C.CHANNEL_PATHS.deliveries, forge({ sequence: 99, previous_digest: l2 }));
     check('after the end the vendor refuses deliveries', C.verifyVendorSigned(late.json, audit, C.DeliveryReceipt).reasons.includes('MANDATE_NOT_ACTIVE'), true);

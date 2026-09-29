@@ -436,6 +436,6 @@ export interface EndpointMap {
   submit_audit_package_over_channel: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PackageSubmission> };
   import_audit_channel_document: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImport> };
   create_audit_finding_response: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponseCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponse> };
-  approve_audit_finding_response: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponse> };
+  approve_audit_finding_response: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponseApproval>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponse> };
   withdraw_audit_finding_response: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponse> };
 }

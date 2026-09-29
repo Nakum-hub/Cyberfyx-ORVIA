@@ -217,17 +217,13 @@ await t.run(async () => {
       }
       // The engagement workspace: the most recent accepted engagement the person can open, every tab.
       await p.page.goto('/vendor/engagements'); await p.page.waitForLoadState('networkidle');
+      // Engagements open from their reference link; the first one that shows an accepted workspace is used.
       const links = await p.page.evaluate(() => [...document.querySelectorAll('a[href^="/vendor/engagements/"]')].map(a => (a as HTMLAnchorElement).getAttribute('href')!));
-      const buttons = await p.page.getByRole('table', { name: 'Engagements' }).getByRole('button', { name: 'Open' }).count().catch(() => 0);
       let opened = false;
-      for (let i = 0; i < Math.max(buttons, 0) && !opened; i++) {
-        await p.page.goto('/vendor/engagements'); await p.page.waitForLoadState('networkidle');
-        await p.page.getByRole('table', { name: 'Engagements' }).getByRole('button', { name: 'Open' }).nth(i).click();
-        await p.page.waitForURL(/\/vendor\/engagements\/[0-9a-f-]{36}$/, { timeout: 15000 }).catch(() => {});
-        await p.page.waitForLoadState('networkidle');
-        if (await p.page.getByText(/^Accepted\.|Accepted\./).count() && await p.page.getByRole('tablist', { name: 'Engagement workspace' }).count()) opened = true;
+      for (const href of links.slice(0, 12)) {
+        await p.page.goto(href); await p.page.waitForLoadState('networkidle');
+        if (await p.page.getByRole('tablist', { name: 'Engagement workspace' }).count() && await p.page.getByText(/Accepted\./).count()) { opened = true; break; }
       }
-      void links;
       if (!opened) { soft(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); await p.page.context().close(); continue; }
       engagementUrl = p.page.url();
       const tabs = await p.page.getByRole('tab').allInnerTexts();

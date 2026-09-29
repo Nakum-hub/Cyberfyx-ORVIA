@@ -132,21 +132,21 @@ export async function channelSweep(run: Scoped, env: ChannelEnv, now = new Date(
     const leased = await run(async c => (await c.tx.query(`UPDATE app.audit_mandates SET channel_lease_owner=$5, channel_lease_until=clock_timestamp()+interval '5 minutes'
       WHERE ${predicate} AND id=$4 AND (channel_lease_until IS NULL OR channel_lease_until<clock_timestamp() OR channel_lease_owner=$5) RETURNING id`, [...scope(c), m.id, worker])).rowCount);
     if (!leased) { report.leased_elsewhere++; continue; }
-    try { await serviceMandate(run, env, m.id, report, now); }
+    try { await serviceMandate(run, env, m.id, worker, report, now); }
     catch (error) { report.errors.push(`mandate ${m.id}: ${String((error as { code?: string; message?: string }).code ?? (error as Error).message).slice(0, 80)}`); }
     finally { await run(c => c.tx.query(`UPDATE app.audit_mandates SET channel_lease_owner=NULL, channel_lease_until=NULL WHERE ${predicate} AND id=$4 AND channel_lease_owner=$5`, [...scope(c), m.id, worker])).catch(() => {}); }
   }
   return report;
 }
 
-type Loaded = { m: Row; e: Row; key: Buffer; evidence: C.EvidenceKey };
-async function load(run: Scoped, env: ChannelEnv, mandateId: string): Promise<Loaded> {
+type Loaded = { m: Row; e: Row; key: Buffer; evidence: C.EvidenceKey; worker: string };
+async function load(run: Scoped, env: ChannelEnv, mandateId: string, worker: string): Promise<Loaded> {
   return run(async c => {
     const m = (await c.tx.query(`SELECT * FROM app.audit_mandates WHERE ${predicate} AND id=$4`, [...scope(c), mandateId])).rows[0];
     const e = (await c.tx.query(`SELECT * FROM app.audit_engagements WHERE ${predicate} AND id=$4`, [...scope(c), m.engagement_id])).rows[0];
     const k = (await c.tx.query(`SELECT channel_key FROM app.audit_channel_keys WHERE ${predicate} AND engagement_id=$4`, [...scope(c), m.engagement_id])).rows[0];
     if (!e || !k) throw Object.assign(new Error('channel_not_available'), { code: 'CHANNEL_NOT_AVAILABLE' });
-    return { m, e, key: k.channel_key as Buffer, evidence: await evidenceKey(c, env) };
+    return { m, e, key: k.channel_key as Buffer, evidence: await evidenceKey(c, env), worker };
   });
 }
 async function problem(run: Scoped, mandateId: string, code: string) {
@@ -297,6 +297,11 @@ async function stageDocuments(run: Scoped, env: ChannelEnv, l: Loaded, instructi
  * after a revocation or end, queued items fail unsent and UNKNOWN items are marked as such for good; a suspension leaves them queued.
  */
 async function stillOpen(run: Scoped, l: Loaded, report: ChannelReport, now = new Date()): Promise<boolean> {
+  // Fencing: the lease is renewed only while this worker still holds it; a worker whose lease lapsed and was taken stops here,
+  // before generating or sending anything, and leaves the queue to the new holder.
+  const held = await run(async c => (await c.tx.query(`UPDATE app.audit_mandates SET channel_lease_until=clock_timestamp()+interval '5 minutes'
+    WHERE ${predicate} AND id=$4 AND channel_lease_owner=$5 RETURNING id`, [...scope(c), l.m.id, l.worker])).rowCount);
+  if (!held) { report.leased_elsewhere++; return false; }
   const m = await run(async c => (await c.tx.query(`SELECT state, valid_from, valid_to FROM app.audit_mandates WHERE ${predicate} AND id=$4`, [...scope(c), l.m.id])).rows[0]);
   if (m && C.mandateOpen({ state: m.state, valid_from: iso(m.valid_from), valid_to: iso(m.valid_to) }, now)) return true;
   report.stopped_by_mandate++;
@@ -319,11 +324,16 @@ async function sendResponses(run: Scoped, env: ChannelEnv, l: Loaded, report: Ch
   const queued = await run(async c => (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND engagement_id=$4 AND state IN ('QUEUED','UNKNOWN') ORDER BY approved_at LIMIT 20`, [...scope(c), l.m.engagement_id])).rows);
   for (let r of queued) {
     if (!(await stillOpen(run, l, report))) return;
+    // Only a response whose approver recorded that it holds no personal data travels over the channel (revision 1.6).
+    if (!r.signed && r.personal_data_review !== 'NONE_CONFIRMED') {
+      await run(c => c.tx.query(`UPDATE app.audit_finding_responses SET state='FAILED', last_error='NO_PERSONAL_DATA_REVIEW_RECORDED' WHERE ${predicate} AND id=$4`, [...scope(c), r.id]));
+      continue;
+    }
     if (!r.signed) {
       const k = r.content as Record<string, unknown>;
       const document = C.ResponseDocument.parse({ format: 'orvia.dpdpa-audit-finding-response', format_version: 1, response_id: r.id, engagement_code_digest: l.e.code_digest, installation_id: l.m.installation_id, finding_id: r.finding_id,
         factual_accuracy: k.factual_accuracy, agreement: k.agreement, response: k.response, action_plan: k.action_plan, owner_role: k.owner_role, due_date: k.due_date, dependencies: k.dependencies, remediation_status: k.remediation_status,
-        risk_acceptance: k.risk_acceptance, remediation_reference: k.remediation_reference, approval: { preparer_role: 'CLIENT_STAFF', approver_role: r.approved_role, distinct_people: true, approved_at: iso(r.approved_at) }, generated_at: now.toISOString() });
+        risk_acceptance: k.risk_acceptance, remediation_reference: k.remediation_reference, approval: { preparer_role: 'CLIENT_STAFF', approver_role: r.approved_role, distinct_people: true, approved_at: iso(r.approved_at), personal_data: 'NONE_CONFIRMED_BY_APPROVER' }, generated_at: now.toISOString() });
       const signed = C.signByInstallation(document, l.evidence);
       r = await run(async c => (await c.tx.query(`UPDATE app.audit_finding_responses SET signed=$5, digest=$6 WHERE ${predicate} AND id=$4 RETURNING *`, [...scope(c), r.id, JSON.stringify(signed), C.signedDigest(signed)])).rows[0]);
     }
@@ -346,13 +356,14 @@ async function sendResponses(run: Scoped, env: ChannelEnv, l: Loaded, report: Ch
   }
 }
 
-async function serviceMandate(run: Scoped, env: ChannelEnv, mandateId: string, report: ChannelReport, now: Date) {
-  const l = await load(run, env, mandateId);
+async function serviceMandate(run: Scoped, env: ChannelEnv, mandateId: string, worker: string, report: ChannelReport, now: Date) {
+  const l = await load(run, env, mandateId, worker);
+  // A mandate that is no longer open settles what it had queued here, before any call, so an unreachable vendor cannot leave it
+  // pending (a suspension leaves it queued); the one check-in that reports the new state follows.
+  const open = C.mandateOpen({ state: l.m.state, valid_from: iso(l.m.valid_from), valid_to: iso(l.m.valid_to) }, now);
+  if (!open) await stillOpen(run, l, report, now);
   const instructions = await checkIn(run, env, l, report);
-  if (!instructions) return;
-  if (!instructions.mandate.accepted) return;
-  // A mandate reported as suspended, revoked or ended settles what it had queued (a suspension leaves it queued).
-  if (!C.mandateOpen({ state: l.m.state, valid_from: iso(l.m.valid_from), valid_to: iso(l.m.valid_to) }, now)) { await stillOpen(run, l, report, now); return; }
+  if (!instructions || !instructions.mandate.accepted || !open) return;
   await receiveRequests(run, env, l, instructions, report, now);
   const chain: Chain = { next: instructions.next_sequence, last: instructions.last_digest };
   // Deliveries whose outcome is not yet known go first, in order; a new one is generated only once they are settled.
@@ -378,5 +389,5 @@ async function serviceMandate(run: Scoped, env: ChannelEnv, mandateId: string, r
   await sendResponses(run, env, l, report, now);
   // Decisions made in this cycle are reported at once rather than at the next check-in.
   const unreported = await run(async c => (await c.tx.query(`SELECT 1 FROM app.audit_channel_requests WHERE ${predicate} AND mandate_id=$4 AND decision<>'ANSWER_AUTOMATICALLY' AND acknowledged_state IS DISTINCT FROM decision LIMIT 1`, [...scope(c), l.m.id])).rowCount);
-  if (unreported) await checkIn(run, env, { ...l, m: (await load(run, env, mandateId)).m }, report);
+  if (unreported) await checkIn(run, env, { ...l, m: (await load(run, env, mandateId, worker)).m }, report);
 }

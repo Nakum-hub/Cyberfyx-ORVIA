@@ -125,13 +125,16 @@ export const FindingResponseCreate = z.strictObject({ import_id: Id, finding_id:
   .refine(v => (v.remediation_status === 'RISK_ACCEPTANCE_PROPOSED') === (v.risk_acceptance !== null), { message: 'A risk-acceptance proposal names its authority, and only a proposal does', path: ['risk_acceptance'] });
 export const FindingResponse = z.strictObject({ id: Id, engagement_id: Id, import_id: Id, finding_id: Id, finding_title: z.string().nullable(), content: z.unknown(), redactions: z.number().int(),
   prepared_by: Id, prepared_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), state: z.enum(['DRAFT', 'QUEUED', 'UNKNOWN', 'ACCEPTED', 'REFUSED', 'FAILED', 'WITHDRAWN']),
-  attempts: z.number().int(), last_error: z.string().nullable(), outcome: z.string().nullable(), completed_at: Time.nullable() });
+  attempts: z.number().int(), last_error: z.string().nullable(), outcome: z.string().nullable(), completed_at: Time.nullable(),
+  personal_data_review: z.enum(['NONE_CONFIRMED']).nullable() });
+/** The approver's record that they read the response and it contains no personal data: only then may it travel over the channel. */
+export const FindingResponseApproval = z.strictObject({ personal_data: z.literal('NONE_CONFIRMED') });
 export const AuditChannel = z.strictObject({ engagement_id: Id, available: z.boolean(), audit_service: z.strictObject({ configured: z.boolean(), address: z.string().nullable() }), evidence_key_id: z.string().nullable(),
   mandates: z.array(AuditMandate).max(100), requests: z.array(ChannelRequest).max(500), deliveries: z.array(ChannelDeliveryView).max(500), submissions: z.array(PackageSubmission).max(200),
   documents: z.array(ChannelDocumentView).max(200), responses: z.array(FindingResponse).max(500), limits: z.array(z.string().max(300)).max(10) });
 export const AuditEngagementClose = z.strictObject({ reason: z.string().trim().min(3).max(500) });
 
-export const dpdpaAuditSchemas = { ChannelDocumentView, FindingResponseCreate, FindingResponse, AuditMandateCreate, AuditMandate, AuditMandateStateChange, ChannelDeliveryView, ChannelDeliveryContent, ChannelRequest, ChannelRequestDecision, PackageSubmission, AuditChannel, AuditEngagementClose, GapRow, GapRegister, GapRegisterExport, Indicator, EvidenceFileSubmit, EvidenceFile, EvidenceFileList, EvidenceFileContent, PersonalDataConfirm,
+export const dpdpaAuditSchemas = { ChannelDocumentView, FindingResponseCreate, FindingResponse, FindingResponseApproval, AuditMandateCreate, AuditMandate, AuditMandateStateChange, ChannelDeliveryView, ChannelDeliveryContent, ChannelRequest, ChannelRequestDecision, PackageSubmission, AuditChannel, AuditEngagementClose, GapRow, GapRegister, GapRegisterExport, Indicator, EvidenceFileSubmit, EvidenceFile, EvidenceFileList, EvidenceFileContent, PersonalDataConfirm,
   AuditEngagementCreate, AuditPackageSummary, AuditImportSummary, AuditEngagement, AuditEngagementList, AuditPackageCreate, PackageItemView, AuditPackage, AuditPackageItemAdd, AuditPackageExceptionAdd,
   AuditPackageItemRemove, AuditPackageRevoke, AuditPackageExport, AuditImportSubmit, AuditImport, AuditImportPdf, FindingLinkCreate };
 
@@ -174,6 +177,6 @@ export const dpdpaAuditRoutes: Route[] = [
   // Audit practice round trip (task AUDIT-PRACTICE-01).
   post('import_audit_channel_document', '/audit-channel-documents/{id}/import', undefined, 'AuditImport', 'audit_exchange.prepare', 201),
   post('create_audit_finding_response', '/audit-engagements/{id}/finding-responses', 'FindingResponseCreate', 'FindingResponse', 'audit_exchange.prepare', 201, 65536),
-  post('approve_audit_finding_response', '/audit-finding-responses/{id}/approval', undefined, 'FindingResponse', 'audit_exchange.approve', 200),
+  post('approve_audit_finding_response', '/audit-finding-responses/{id}/approval', 'FindingResponseApproval', 'FindingResponse', 'audit_exchange.approve', 200),
   post('withdraw_audit_finding_response', '/audit-finding-responses/{id}/withdrawal', undefined, 'FindingResponse', 'audit_exchange.approve', 200),
 ];

@@ -7,7 +7,7 @@ import { EvidenceCategory, SamplePopulation } from './audit-channel.ts';
  * installation (revision 1.5 addendum). Vendor-internal: it is never served by
  * a customer installation, where every /api/v1/vendor path is a 404.
  */
-export const VENDOR_AUDIT_CONTRACT_VERSION = '0.2.0' as const;
+export const VENDOR_AUDIT_CONTRACT_VERSION = '0.3.0' as const;
 const Id = z.uuid();
 const Time = z.iso.datetime();
 const Day = z.iso.date();
@@ -112,6 +112,7 @@ export const ChannelView = z.strictObject({ engagement_id: Id, available: z.bool
   mandate: z.strictObject({ mandate_id: Id, kind: z.string(), state: z.string(), valid_from: Time, valid_to: Time, open: z.boolean(), received_at: Time, document: z.unknown() }).nullable(),
   mandate_history: z.array(z.strictObject({ mandate_id: Id, state: z.string(), received_at: Time })).max(500),
   requests: z.array(ChannelRequestView).max(1000), deliveries: z.array(ChannelDeliverySummary).max(1000),
+  documents: z.array(z.strictObject({ document_id: Id, kind: z.string(), offered_at: Time, acknowledged_at: Time.nullable(), channel_state: z.enum(['OFFERED', 'TOO_LARGE_FOR_CHANNEL']), encoded_bytes: z.number().int().nullable() })).max(500),
   events: z.array(z.strictObject({ kind: z.string(), outcome: z.string(), recorded_at: Time })).max(100) });
 export const ChannelDeliveryDetail = ChannelDeliverySummary.extend({ document: z.unknown().nullable(), signed: z.unknown().nullable(), receipt: z.unknown() });
 export const VendorOverview = z.strictObject({

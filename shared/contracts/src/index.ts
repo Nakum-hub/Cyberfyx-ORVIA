@@ -44,8 +44,10 @@ const expansionNames = Object.keys(expansionSchemas);
  *  Additive: AuditChannel gains documents and responses; four new routes.
  *  0.45.0 raises OperationsAttention.items from 200 to 600: the per-kind lists
  *  (each capped, ordered by urgency and stated when truncated) sum to at most
- *  566, so no item is dropped by a global cap any more. No route changed. */
-export const CONTRACT_VERSION = '0.45.0' as const;
+ *  566, so no item is dropped by a global cap any more. No route changed.
+ *  0.46.0 (Codex review R1): approving a management response for the audit channel takes the approver's record that it contains
+ *  no personal data (FindingResponseApproval); FindingResponse shows that review, and the signed response carries it. */
+export const CONTRACT_VERSION = '0.46.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */

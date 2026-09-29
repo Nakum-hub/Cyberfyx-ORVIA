@@ -44,6 +44,9 @@ async function asInstallation<T>(pool: Pool, engagementId: string | null, work: 
 }
 
 /** Authenticates a channel call and runs it as the engagement. Refusals are recorded; no content of a refused call is kept. */
+/** A check-in answer stays well under the 1 MiB the client reads; one document never takes more than the space left beside a full request list. */
+const ANSWER_BUDGET = 900_000;
+const DOCUMENT_BUDGET = 850_000;
 export async function channelCall(pool: Pool, keys: Keys, call: ChannelCall, now = new Date()): Promise<{ status: number; body: unknown }> {
   const expectedType = call.kind === 'packages' ? 'application/vnd.orvia.audit-package+json' : C.CHANNEL_CONTENT_TYPE;
   if (call.contentType !== expectedType) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'content-type', code: 'channel_content_type_required' }]);
@@ -114,8 +117,20 @@ async function checkIn(b: Bound, keys: Keys, raw: Buffer, now: Date) {
   const requests = open ? (await b.tx.query('SELECT signed FROM vendor.channel_pending_requests()')).rows.map(r => r.signed) : [];
   // Signed findings, request lists and reports the client has not yet acknowledged; acknowledged ones are not offered again.
   if (!problem) for (const id of body.documents_received) await b.tx.query('SELECT vendor.channel_acknowledge_document($1)', [id]);
-  const documents = open ? (await b.tx.query('SELECT * FROM vendor.channel_offered_documents()')).rows.map(d => ({ document_id: d.document_id, kind: d.kind,
-    signed: { algorithm: 'Ed25519', signing_key_id: d.signing_key_id, document: d.document, signature: d.signature }, pdf_base64: d.pdf ? (d.pdf as Buffer).toString('base64') : null })) : [];
+  const documents: C.ChannelInstructions['documents'] = [];
+  if (open) {
+    // The client reads at most 1 MiB of an answer, so documents are offered in order only while the whole signed answer fits the
+    // budget; the rest follow at later check-ins. One document that could never fit is marked for the file route, not dropped.
+    let used = Buffer.byteLength(JSON.stringify(instructions({ mandate_id: mandate.mandate_id, accepted: true, problem: null }, requests)));
+    for (const d of (await b.tx.query('SELECT * FROM vendor.channel_offered_documents()')).rows) {
+      const entry = { document_id: d.document_id as string, kind: d.kind as 'REQUEST_LIST' | 'FINDINGS' | 'REPORT',
+        signed: { algorithm: 'Ed25519', signing_key_id: d.signing_key_id, document: d.document, signature: d.signature }, pdf_base64: d.pdf ? (d.pdf as Buffer).toString('base64') : null };
+      const bytes = Buffer.byteLength(JSON.stringify(entry)) + 1;
+      if (bytes > DOCUMENT_BUDGET || (entry.pdf_base64?.length ?? 0) > C.CHANNEL_PDF_MAX) { await b.tx.query('SELECT vendor.channel_document_too_large($1,$2)', [entry.document_id, bytes]); continue; }
+      if (used + bytes > ANSWER_BUDGET) break;
+      documents.push(entry); used += bytes;
+    }
+  }
   await b.tx.query('SELECT vendor.channel_checked_in($1)', [problem ?? (open ? 'OK' : `MANDATE_${mandate.state}`)]);
   ctx = await context(b);
   return instructions({ mandate_id: mandate.mandate_id, accepted: !problem, problem }, requests, documents);
@@ -217,12 +232,15 @@ export async function channelView(c: Ctx, id: string) {
   const requests = (await c.tx.query('SELECT * FROM vendor.channel_requests WHERE engagement_id=$1 ORDER BY issued_at DESC, id LIMIT 1000', [id])).rows;
   const deliveries = (await c.tx.query('SELECT delivery_id, sequence, kind, request_id, generated_at, period_from, period_to, entries, outcome, reasons, received_at, purged_at FROM vendor.channel_deliveries WHERE engagement_id=$1 ORDER BY received_at DESC LIMIT 1000', [id])).rows;
   const events = (await c.tx.query('SELECT kind, outcome, recorded_at FROM vendor.channel_events WHERE engagement_id=$1 ORDER BY recorded_at DESC LIMIT 100', [id])).rows;
+  const documents = (await c.tx.query(`SELECT d.document_id, s.kind, d.offered_at, d.acknowledged_at, d.channel_state, d.encoded_bytes FROM vendor.channel_documents d JOIN vendor.signed_documents s ON s.id = d.document_id
+    WHERE d.engagement_id=$1 ORDER BY d.offered_at DESC LIMIT 500`, [id])).rows;
   return V.ChannelView.parse({ engagement_id: id, available: Boolean(ch),
     health: ch ? { installation_key_id: ch.installation_key_id, pinned_at: iso(ch.pinned_at), last_check_in_at: iso(ch.last_check_in_at), check_ins: ch.check_ins, chain_state: ch.chain_state, chain_problem: ch.chain_problem, next_sequence: ch.next_sequence } : null,
     mandate: current ? { mandate_id: current.mandate_id, kind: current.kind, state: current.state, valid_from: iso(current.valid_from), valid_to: iso(current.valid_to), open: C.mandateOpen({ state: current.state, valid_from: iso(current.valid_from)!, valid_to: iso(current.valid_to)! }),
       received_at: iso(current.received_at), document: current.document } : null,
     mandate_history: mandates.map(m => ({ mandate_id: m.mandate_id, state: m.state, received_at: iso(m.received_at) })),
-    requests: requests.map(requestView), deliveries: deliveries.map(deliverySummary), events: events.map(e => ({ kind: e.kind, outcome: e.outcome, recorded_at: iso(e.recorded_at) })) });
+    requests: requests.map(requestView), deliveries: deliveries.map(deliverySummary),
+    documents: documents.map(d => ({ document_id: d.document_id, kind: d.kind, offered_at: iso(d.offered_at), acknowledged_at: iso(d.acknowledged_at), channel_state: d.channel_state, encoded_bytes: d.encoded_bytes })), events: events.map(e => ({ kind: e.kind, outcome: e.outcome, recorded_at: iso(e.recorded_at) })) });
 }
 export async function channelDelivery(c: Ctx, deliveryId: string) {
   const d = (await c.tx.query('SELECT * FROM vendor.channel_deliveries WHERE delivery_id=$1', [deliveryId])).rows[0] ?? refuse(404, 'id', 'not_found');

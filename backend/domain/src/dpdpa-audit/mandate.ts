@@ -160,7 +160,8 @@ async function responseView(c: Context, r: Row) {
   const imp = (await c.tx.query(`SELECT document FROM app.audit_imports WHERE ${predicate} AND id=$4`, [...scope(c), r.import_id])).rows[0];
   const finding = ((imp?.document?.findings ?? []) as { finding_id: string; title: string }[]).find(f => f.finding_id === r.finding_id);
   return D.FindingResponse.parse({ id: r.id, engagement_id: r.engagement_id, import_id: r.import_id, finding_id: r.finding_id, finding_title: finding?.title ?? null, content: r.content, redactions: r.redactions,
-    prepared_by: r.prepared_by, prepared_at: iso(r.prepared_at), approved_by: r.approved_by, approved_at: iso(r.approved_at), state: r.state, attempts: r.attempts, last_error: r.last_error, outcome: r.outcome, completed_at: iso(r.completed_at) });
+    prepared_by: r.prepared_by, prepared_at: iso(r.prepared_at), approved_by: r.approved_by, approved_at: iso(r.approved_at), state: r.state, attempts: r.attempts, last_error: r.last_error, outcome: r.outcome, completed_at: iso(r.completed_at),
+    personal_data_review: r.personal_data_review ?? null });
 }
 /** A person imports a signed document the worker staged: the same signature, engagement and PDF checks as a file import. */
 export async function importChannelDocument(c: Context, id: string) {
@@ -197,9 +198,10 @@ export async function createFindingResponse(c: Context, engagementId: string, in
   return responseView(c, (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0]);
 }
 async function responseRow(c: Context, id: string) { return (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0] ?? refuse(404, 'id', 'not_found'); }
-export async function approveFindingResponse(c: Context, id: string) {
+export async function approveFindingResponse(c: Context, id: string, input: unknown) {
+  const v = D.FindingResponseApproval.parse(input);
   await responseRow(c, id);
-  await guarded(() => c.tx.query('SELECT app.audit_finding_response_approve($1)', [id]));
+  await guarded(() => c.tx.query('SELECT app.audit_finding_response_approve($1,$2)', [id, v.personal_data]));
   await audit(c, 'audit_finding_response.approved', id);
   return responseView(c, await responseRow(c, id));
 }

@@ -163,7 +163,7 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'submit_audit_package_over_channel': return M.submitPackageOverChannel(c, id!);
     case 'import_audit_channel_document': return M.importChannelDocument(c, id!);
     case 'create_audit_finding_response': return M.createFindingResponse(c, id!, input);
-    case 'approve_audit_finding_response': return M.approveFindingResponse(c, id!);
+    case 'approve_audit_finding_response': return M.approveFindingResponse(c, id!, input);
     case 'withdraw_audit_finding_response': return M.withdrawFindingResponse(c, id!);
     default: return undefined;
   }

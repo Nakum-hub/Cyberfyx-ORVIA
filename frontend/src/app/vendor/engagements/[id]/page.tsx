@@ -613,7 +613,8 @@ function FollowUpTab({ c }: { c: Ctx }) {
 type Channel = { available: boolean; health: { installation_key_id: string | null; pinned_at: string | null; last_check_in_at: string | null; check_ins: number; chain_state: string; chain_problem: string | null; next_sequence: number } | null;
   mandate: { mandate_id: string; kind: string; state: string; valid_from: string; valid_to: string; open: boolean; received_at: string; document: { categories: string[]; scope_requirement_ids: string[]; schedule: string; organisation_name: string; approval: { preparer_role: string; approver_role: string; approved_at: string } } } | null;
   requests: { id: string; kind: string; requirement_id: string | null; categories: string[]; population: string | null; sample_size: number | null; description: string; due_date: string; status: string; status_reason: string | null; delivery_id: string | null; package_id: string | null; overdue: boolean }[];
-  deliveries: { delivery_id: string; sequence: number; kind: string; request_id: string | null; generated_at: string | null; period_from: string | null; period_to: string | null; entries: number; outcome: string; reasons: string[]; received_at: string; purged: boolean }[] };
+  deliveries: { delivery_id: string; sequence: number; kind: string; request_id: string | null; generated_at: string | null; period_from: string | null; period_to: string | null; entries: number; outcome: string; reasons: string[]; received_at: string; purged: boolean }[];
+  documents: { document_id: string; kind: string; offered_at: string; acknowledged_at: string | null; channel_state: 'OFFERED' | 'TOO_LARGE_FOR_CHANNEL'; encoded_bytes: number | null }[] };
 type Entry = { category: string; requirement_id: string | null; key: string; label: string; value: string | number | boolean | null; unit: string; basis: string; detail: Record<string, string | number | boolean | null> | null };
 const CATEGORIES = ['INDICATORS', 'CONTROL_STANDING', 'CONTROL_TESTS', 'NOTICE_VERSIONS', 'POLICY_VERSIONS', 'ACTIVITY_LOG_DIGEST'];
 const POPULATIONS: Record<string, string> = { CONSENT_EVENTS_WITH_EVIDENCE: 'Consent events — evidence available', BREACH_TASKS_WITHIN_TIMER: 'Breach intimation tasks — completed within the timer',
@@ -667,6 +668,13 @@ function ChannelBlock({ id, scope, closed }: { id: string; scope: string[]; clos
       { key: 'e', header: 'Entries', cell: d => d.entries }, { key: 'o', header: 'Outcome', cell: d => <>{d.outcome.toLowerCase()}{d.reasons.length > 0 && <span className="cell-sub">{d.reasons.join(', ').toLowerCase()}</span>}</> },
       { key: 'r', header: 'Received', cell: d => d.received_at.slice(0, 16).replace('T', ' ') }, { key: 'x', header: '', cell: d => d.outcome === 'ACCEPTED' ? <button type="button" disabled={busy} onClick={() => void show(d.delivery_id)}>{d.purged ? 'Purged' : 'View'}</button> : null }]} />
       : <EmptyState title="No deliveries yet"><p>The client installation sends its first snapshot at its first check-in after the mandate is approved.</p></EmptyState>}
+    <h4>Signed documents sent to the client</h4>
+    {ch.documents.length ? <DataTable caption="Signed documents offered to the client installation" rowKey={d => d.document_id} rows={ch.documents} columns={[
+      { key: 'k', header: 'Document', cell: d => words(d.kind) }, { key: 'o', header: 'Offered', cell: d => d.offered_at.slice(0, 16).replace('T', ' ') },
+      { key: 's', header: 'State', cell: d => d.channel_state === 'TOO_LARGE_FOR_CHANNEL'
+        ? <>too large for the channel<span className="cell-sub">Send it to the client as a file from the Report tab; it is not offered again.</span></>
+        : d.acknowledged_at ? `received by the client ${d.acknowledged_at.slice(0, 16).replace('T', ' ')}` : 'offered at the next check-in' }]} />
+      : <EmptyState title="No signed documents sent yet"><p>Signed findings, request lists and reports are offered to the client installation at its next check-in.</p></EmptyState>}
     {entries && <div className="panel"><h4>Delivery content</h4>
       <ul className="cell-sub">{entries.limits.map(l => <li key={l}>{l}</li>)}</ul>
       <DataTable caption="Evidence entries, signed by the client installation" rowKey={x => `${x.category}-${x.key}-${x.requirement_id}-${JSON.stringify(x.detail)}`} rows={entries.list} columns={[

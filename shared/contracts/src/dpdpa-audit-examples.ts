@@ -29,7 +29,8 @@ const channelDocument = { id: uuid(1580), kind: 'FINDINGS', received_at: later, 
 const responseCreate = { import_id: uuid(1581), finding_id: uuid(1570), factual_accuracy: 'AGREED', agreement: 'PARTIALLY_AGREE', response: 'We will publish the itemised notice for the activity.', action_plan: 'Publish notice v4.',
   owner_role: 'Privacy office', due_date: '2026-12-31', dependencies: null, remediation_status: 'IN_PROGRESS', risk_acceptance: null };
 const findingResponse = { id: uuid(1582), engagement_id: uuid(1530), import_id: uuid(1581), finding_id: uuid(1570), finding_title: 'Notice indicators show a gap', content: responseCreate, redactions: 0,
-  prepared_by: uuid(1583), prepared_at: later, approved_by: uuid(1584), approved_at: later, state: 'ACCEPTED', attempts: 1, last_error: null, outcome: 'ACCEPTED', completed_at: later };
+  prepared_by: uuid(1583), prepared_at: later, approved_by: uuid(1584), approved_at: later, state: 'ACCEPTED', attempts: 1, last_error: null, outcome: 'ACCEPTED', completed_at: later,
+  personal_data_review: 'NONE_CONFIRMED' };
 const EXAMPLES: Record<string, unknown> = {
   Indicator: indicator, GapRow: gapRow,
   GapRegister: { as_of: at, package: { id: uuid(1560), version: '1.0.0', distribution: 'TEST_FIXTURE' }, framework_id: uuid(1561), rows: [gapRow],
@@ -60,7 +61,7 @@ const EXAMPLES: Record<string, unknown> = {
   AuditChannel: { engagement_id: uuid(1530), available: true, audit_service: { configured: true, address: 'https://audit.vendor.example.in' }, evidence_key_id: 'orvia-installation-' + '0'.repeat(32),
     mandates: [mandate], requests: [request], deliveries: [delivery], submissions: [submission], documents: [channelDocument], responses: [findingResponse], limits: [] },
   // Audit practice round trip (synthetic).
-  ChannelDocumentView: channelDocument, FindingResponseCreate: responseCreate, FindingResponse: findingResponse,
+  ChannelDocumentView: channelDocument, FindingResponseCreate: responseCreate, FindingResponse: findingResponse, FindingResponseApproval: { personal_data: 'NONE_CONFIRMED' },
   AuditEngagementClose: { reason: 'Engagement completed and report received.' },
 };
 export function dpdpaAuditExample(name: string): unknown { return EXAMPLES[name]; }

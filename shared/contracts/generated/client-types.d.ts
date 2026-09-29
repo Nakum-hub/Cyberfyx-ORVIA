@@ -13008,6 +13008,11 @@ export interface components {
             last_error: string | null;
             outcome: string | null;
             completed_at: string | null;
+            personal_data_review: "NONE_CONFIRMED" | null;
+        };
+        FindingResponseApproval: {
+            /** @constant */
+            personal_data: "NONE_CONFIRMED";
         };
         AuditMandateCreate: {
             /** @enum {string} */
@@ -13309,6 +13314,7 @@ export interface components {
                 last_error: string | null;
                 outcome: string | null;
                 completed_at: string | null;
+                personal_data_review: "NONE_CONFIRMED" | null;
             }[];
             limits: string[];
         };
@@ -99224,7 +99230,8 @@ export interface operations {
                      *           "attempts": 1,
                      *           "last_error": null,
                      *           "outcome": "ACCEPTED",
-                     *           "completed_at": "2026-10-16T10:00:00.000Z"
+                     *           "completed_at": "2026-10-16T10:00:00.000Z",
+                     *           "personal_data_review": "NONE_CONFIRMED"
                      *         }
                      *       ],
                      *       "limits": []
@@ -100978,7 +100985,8 @@ export interface operations {
                      *       "attempts": 1,
                      *       "last_error": null,
                      *       "outcome": "ACCEPTED",
-                     *       "completed_at": "2026-10-16T10:00:00.000Z"
+                     *       "completed_at": "2026-10-16T10:00:00.000Z",
+                     *       "personal_data_review": "NONE_CONFIRMED"
                      *     }
                      */
                     "application/json": components["schemas"]["FindingResponse"];
@@ -101130,7 +101138,16 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "personal_data": "NONE_CONFIRMED"
+                 *     }
+                 */
+                "application/json": components["schemas"]["FindingResponseApproval"];
+            };
+        };
         responses: {
             /** @description Typed contract response; endpoint implementation is ticket-gated. */
             200: {
@@ -101167,7 +101184,8 @@ export interface operations {
                      *       "attempts": 1,
                      *       "last_error": null,
                      *       "outcome": "ACCEPTED",
-                     *       "completed_at": "2026-10-16T10:00:00.000Z"
+                     *       "completed_at": "2026-10-16T10:00:00.000Z",
+                     *       "personal_data_review": "NONE_CONFIRMED"
                      *     }
                      */
                     "application/json": components["schemas"]["FindingResponse"];
@@ -101356,7 +101374,8 @@ export interface operations {
                      *       "attempts": 1,
                      *       "last_error": null,
                      *       "outcome": "ACCEPTED",
-                     *       "completed_at": "2026-10-16T10:00:00.000Z"
+                     *       "completed_at": "2026-10-16T10:00:00.000Z",
+                     *       "personal_data_review": "NONE_CONFIRMED"
                      *     }
                      */
                     "application/json": components["schemas"]["FindingResponse"];

@@ -203,6 +203,9 @@ summary:focus-visible,
   font-weight: 600;
 }
 
+/* Long identifiers and paths in code wrap instead of widening the page on a phone. */
+.shell-main code { overflow-wrap: anywhere; }
+
 .shell-main {
   flex: 1;
   min-width: 0;

@@ -228,6 +228,7 @@ try {
       await rf.getByRole('button', { name: 'Prepare response' }).click(); await admin.getByText('Response drafted; a different owner or administrator approves it.').waitFor();
       check('the drafted response shows its redaction', await seen(admin.getByRole('table', { name: 'Management responses' }).getByText(/1 redaction/)), true);
       await openEngagement(reviewer, reference);
+      await reviewer.getByRole('table', { name: 'Management responses' }).getByLabel(/it contains no personal data/).check();
       await reviewer.getByRole('table', { name: 'Management responses' }).getByRole('button', { name: 'Approve response' }).click(); await reviewer.getByText('Response approved; it is sent at the next check-in.').waitFor();
       const r4 = await sweep();
       await reviewer.reload(); await openEngagement(reviewer, reference);

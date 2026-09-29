@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.45.0",
-    "description": "Contract 0.45.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.46.0",
+    "description": "Contract 0.46.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/api/v1/admin/grc/audit-requests/{id}/responses": {
@@ -86283,7 +86283,8 @@
                       "attempts": 1,
                       "last_error": null,
                       "outcome": "ACCEPTED",
-                      "completed_at": "2026-10-16T10:00:00.000Z"
+                      "completed_at": "2026-10-16T10:00:00.000Z",
+                      "personal_data_review": "NONE_CONFIRMED"
                     }
                   ],
                   "limits": []
@@ -88182,7 +88183,8 @@
                   "attempts": 1,
                   "last_error": null,
                   "outcome": "ACCEPTED",
-                  "completed_at": "2026-10-16T10:00:00.000Z"
+                  "completed_at": "2026-10-16T10:00:00.000Z",
+                  "personal_data_review": "NONE_CONFIRMED"
                 }
               }
             }
@@ -88412,7 +88414,8 @@
                   "attempts": 1,
                   "last_error": null,
                   "outcome": "ACCEPTED",
-                  "completed_at": "2026-10-16T10:00:00.000Z"
+                  "completed_at": "2026-10-16T10:00:00.000Z",
+                  "personal_data_review": "NONE_CONFIRMED"
                 }
               }
             }
@@ -88545,8 +88548,22 @@
           }
         },
         "x-orvia-authority": "STAFF",
+        "x-orvia-maximum-body-bytes": 16384,
         "x-orvia-capability": "audit_exchange.approve",
-        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FindingResponseApproval"
+              },
+              "example": {
+                "personal_data": "NONE_CONFIRMED"
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/admin/audit-finding-responses/{id}/withdrawal": {
@@ -88618,7 +88635,8 @@
                   "attempts": 1,
                   "last_error": null,
                   "outcome": "ACCEPTED",
-                  "completed_at": "2026-10-16T10:00:00.000Z"
+                  "completed_at": "2026-10-16T10:00:00.000Z",
+                  "personal_data_review": "NONE_CONFIRMED"
                 }
               }
             }
@@ -133612,6 +133630,19 @@
                 "type": "null"
               }
             ]
+          },
+          "personal_data_review": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "NONE_CONFIRMED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -133630,7 +133661,21 @@
           "attempts",
           "last_error",
           "outcome",
-          "completed_at"
+          "completed_at",
+          "personal_data_review"
+        ],
+        "additionalProperties": false
+      },
+      "FindingResponseApproval": {
+        "type": "object",
+        "properties": {
+          "personal_data": {
+            "type": "string",
+            "const": "NONE_CONFIRMED"
+          }
+        },
+        "required": [
+          "personal_data"
         ],
         "additionalProperties": false
       },
@@ -135238,6 +135283,19 @@
                       "type": "null"
                     }
                   ]
+                },
+                "personal_data_review": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "NONE_CONFIRMED"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
                 }
               },
               "required": [
@@ -135256,7 +135314,8 @@
                 "attempts",
                 "last_error",
                 "outcome",
-                "completed_at"
+                "completed_at",
+                "personal_data_review"
               ],
               "additionalProperties": false
             }

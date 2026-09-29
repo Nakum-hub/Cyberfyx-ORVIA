@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from
 import type { schemas } from '@orvia/contracts';
 import { ApiError } from '@orvia/contracts/client';
 import { call } from '../../shared/api.ts';
-import { Badge, DataTable, Facts, NoticeBox, PageHead, Section, SelectField, TextAreaField, TextField } from '../../shared/ui.tsx';
+import { Badge, CheckboxField, DataTable, Facts, NoticeBox, PageHead, Section, SelectField, TextAreaField, TextField } from '../../shared/ui.tsx';
 
 /**
  * DPDPA external audit, client side (revision 1.5 addendum). The gap register
@@ -197,6 +197,7 @@ function MandatePanel({ engagement, capabilities, onImported }: { engagement: En
     for (const importId of findingImports.split(',').filter(Boolean)) { try { const imp = await call('audit_import', undefined, { params: { id: importId } });
       for (const f of (imp.document as { findings: { finding_id: string; requirement_id: string; title: string; severity: string }[] }).findings) out.push({ import_id: importId, finding_id: f.finding_id, label: `[${f.severity}] ${f.requirement_id}: ${f.title}` }); } catch { /* shown as no findings */ } }
     setFindings(out); })(); }, [findingImports]);
+  const [noPersonalData, setNoPersonalData] = useState<Record<string, boolean>>({});
   const [resp, setResp] = useState({ finding: '', factual_accuracy: 'AGREED', agreement: 'AGREE', response: '', action_plan: '', owner_role: '', due_date: '', remediation_status: 'IN_PROGRESS', authority: '', justification: '', until: '' });
   if (!ch) return loadError ? <NoticeBox tone="stop" title="Audit channel unavailable"><p>{loadError}</p></NoticeBox> : <p role="status">Reading the audit channel…</p>;
   const current = ch.mandates.find(m => ['ACTIVE', 'SUSPENDED'].includes(m.state)); const draft = ch.mandates.find(m => m.state === 'DRAFT');
@@ -250,9 +251,12 @@ function MandatePanel({ engagement, capabilities, onImported }: { engagement: En
       : <p className="muted">None yet. When your auditor issues signed findings, request lists or reports, ORVIA collects them at its next check-in and holds them here until someone imports them; nothing is imported automatically.</p>}
     <h4>Management responses to findings</h4>
     <p className="muted">Answer a finding from an imported findings file. The response is screened for contact details, approved by an owner or administrator other than the preparer, then signed with this installation&apos;s key and sent at the next check-in while a mandate is open. Only the state of any GRC issue tracking the finding travels with it, never its content.</p>
+    <p className="muted">The channel carries no personal data: the approver confirms the response contains none. If an answer needs personal data, send it in a sealed package instead, where each item carries its own exception and your auditor must have a processing agreement recorded.</p>
     {ch.responses.length > 0 && <DataTable caption="Management responses" rowKey={r => r.id} rows={ch.responses} columns={[{ key: 'f', header: 'Finding', cell: r => <span className="cell-primary">{r.finding_title ?? r.finding_id.slice(0, 8)}<span className="cell-sub">{(r.content as { agreement: string }).agreement.replaceAll('_', ' ').toLowerCase()} · {(r.content as { remediation_status: string }).remediation_status.replaceAll('_', ' ').toLowerCase()}{r.redactions ? ` · ${r.redactions} redaction(s)` : ''}</span></span> },
       { key: 's', header: 'State', cell: r => <><Badge label={r.state.toLowerCase()} tone={r.state === 'ACCEPTED' ? 'ok' : ['REFUSED', 'FAILED'].includes(r.state) ? 'stop' : r.state === 'WITHDRAWN' ? 'neutral' : 'warn'} />{r.last_error && <span className="cell-sub">{r.last_error.replaceAll('_', ' ').toLowerCase()}</span>}{r.outcome && r.outcome !== 'ACCEPTED' && <span className="cell-sub">{r.outcome.replaceAll('_', ' ').toLowerCase()}</span>}</> },
-      { key: 'x', header: '', cell: r => r.state === 'DRAFT' && approve ? <span className="row"><button type="button" disabled={busy} onClick={() => void run(() => call('approve_audit_finding_response', undefined, { params: { id: r.id }, idempotency_key: key() }), 'Response approved; it is sent at the next check-in.')}>Approve response</button>
+      { key: 'x', header: '', cell: r => r.state === 'DRAFT' && approve ? <span className="row">
+        <CheckboxField label="I have read this response: it contains no personal data (no names, contact details, health, financial or other details about any person)." checked={noPersonalData[r.id] ?? false} onChange={v => setNoPersonalData(x => ({ ...x, [r.id]: v }))} />
+        <button type="button" disabled={busy || !noPersonalData[r.id]} onClick={() => void run(() => call('approve_audit_finding_response', { personal_data: 'NONE_CONFIRMED' }, { params: { id: r.id }, idempotency_key: key() }), 'Response approved; it is sent at the next check-in.')}>Approve response</button>
         <button type="button" disabled={busy} onClick={() => void run(() => call('withdraw_audit_finding_response', undefined, { params: { id: r.id }, idempotency_key: key() }), 'Draft withdrawn.')}>Withdraw draft</button></span> : null }]} />}
     {prepare && engagement.state === 'ACTIVE' && (findings.length ? <form aria-label="Prepare management response" onSubmit={(ev: FormEvent) => { ev.preventDefault(); const f = findings.find(x => `${x.import_id}|${x.finding_id}` === resp.finding); if (!f) return;
       void run(() => call('create_audit_finding_response', { import_id: f.import_id, finding_id: f.finding_id, factual_accuracy: resp.factual_accuracy as 'AGREED' | 'DISPUTED', agreement: resp.agreement as 'AGREE' | 'PARTIALLY_AGREE' | 'DISAGREE', response: resp.response,

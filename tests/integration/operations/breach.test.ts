@@ -6,20 +6,24 @@
 // overdue work surfaces in Attention; and deadlines raise notifications only
 // where a template and a recipient are recorded.
 import * as S from '../../../shared/contracts/src/index.ts';
-import { operationsSuite, key, hoursFromNow } from '../../../shared/testing/src/operations-fixture.ts';
+import { operationsSuite, key } from '../../../shared/testing/src/operations-fixture.ts';
 import { fixturePackage, signFixture } from '../../../shared/testing/src/regulatory-fixture.ts';
 
 const t = operationsSuite('breach');
-const { h, check, ok, codes } = t;
+const { h, db, check, ok, codes, scope } = t;
 const facts = { nature: 'Unauthorised access to a synthetic mailing list', extent: 'One synthetic table', timing: 'Detected during a routine review', location: 'Synthetic CRM', likely_impact: 'Unwanted contact' };
 
 await t.run(async () => {
   await t.ensurePackage();
   const owner = await h.login('owner'); const reviewer = await h.login('reviewer'); const admin = await h.login('admin'); const auditor = await h.login('auditor'); const member = await h.login('member');
-  // A package effective three minutes before the oldest incident's awareness (80 hours ago), so it is the one in force then even when
-  // the shared development database holds packages from earlier runs: a wider margin lets any package from an earlier run that took
-  // effect inside it win, correctly, and the suite then failed depending on the hour it ran.
-  const older = signFixture(fixturePackage({ version: `3.${Date.now()}.0`, previous_version: null, effective_from: hoursFromNow(-80.05), requirement_effective_from: '2025-01-01' }), process.env.ORVIA_RELEASE_KEY_ID!, process.env.ORVIA_RELEASE_PRIVATE_KEY!);
+  // The fixture package must be the one in force at the oldest incident's awareness (80 hours ago, from one captured clock). The
+  // shared development database holds approved packages from earlier runs, so it takes effect just after the latest of them already
+  // in force at that moment (or three minutes before it, if none is close): the package in force is then this one by construction.
+  const awareAt = Date.now() - 80 * 3_600_000;
+  const priorInForce = (await db.query(`SELECT max(effective_from) AS m FROM app.regulatory_packages WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND state='APPROVED' AND effective_from<=$4`,
+    [scope().tenant_id, scope().legal_entity_id, scope().environment_id, new Date(awareAt)])).rows[0].m as Date | null;
+  const effectiveFrom = new Date(Math.max(awareAt - 3 * 60_000, (priorInForce?.getTime() ?? 0) + 1)).toISOString();
+  const older = signFixture(fixturePackage({ version: `3.${Date.now()}.0`, previous_version: null, effective_from: effectiveFrom, requirement_effective_from: '2025-01-01' }), process.env.ORVIA_RELEASE_KEY_ID!, process.env.ORVIA_RELEASE_PRIVATE_KEY!);
   const imported = await ok(owner.call('/api/v1/admin/regulatory/packages', older, key()), S.schemas.RegulatoryPackage);
   await ok(reviewer.call(`/api/v1/admin/regulatory/packages/${imported.id}/decision`, { decision: 'APPROVED', note: 'Back-dated fixture package for breach deadlines.', acknowledged_open_verification_items: false }, key()), S.schemas.RegulatoryPackage);
   const system = await t.boundSystem('Breach CRM');
