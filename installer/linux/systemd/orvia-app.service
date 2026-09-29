@@ -7,6 +7,8 @@ After=orvia-services.service
 User=@USER@
 WorkingDirectory=@ROOT@
 Environment=ORVIA_PROFILE=@PROFILE@ ORVIA_WORKSPACE_ROOT=@ROOT@ NEXT_TELEMETRY_DISABLED=1 DO_NOT_TRACK=1 BETTER_AUTH_TELEMETRY=0
+# The supervisor verifies its own HTTPS readiness against the installation's CA.
+Environment=NODE_EXTRA_CA_CERTS=@ROOT@/.local/profiles/@PROFILE@/tls/ca-cert.pem
 # Machine logins are renewed first so a boot after a long outage starts with valid enrollments.
 ExecStartPre=-/usr/bin/env bash -c '@RENEW_EXEC@'
 ExecStart=/usr/bin/env bash -c '@APP_EXEC@'

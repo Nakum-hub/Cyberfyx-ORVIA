@@ -10,14 +10,15 @@
 #   installer/linux/orvia-install.sh --check [--kind customer|vendor]
 #   sudo installer/linux/orvia-install.sh --kind customer --trust-file vendor-public-keys.json [--tls-cert cert.pem --tls-key key.pem --tls-ca ca.pem] [--service-user orvia] [--unit-dir /etc/systemd/system]
 #   sudo installer/linux/orvia-install.sh --kind vendor [--service-user orvia] [--unit-dir /etc/systemd/system]
-# Options: --no-install (dependencies already installed), --no-systemd (render units into --unit-dir only, do not enable).
+# Options: --no-install (dependencies already installed), --no-systemd (render units into --unit-dir only, do not enable),
+#          --resume (continue an interrupted installation: one-time steps already done are kept, never redone).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"; cd "$ROOT"
-KIND=""; CHECK_ONLY=0; TRUST=""; CERT=""; KEY=""; CA=""; USER_NAME="${SUDO_USER:-$(id -un)}"; UNIT_DIR="/etc/systemd/system"; INSTALL=1; SYSTEMD=1
+KIND=""; CHECK_ONLY=0; TRUST=""; CERT=""; KEY=""; CA=""; USER_NAME="${SUDO_USER:-$(id -un)}"; UNIT_DIR="/etc/systemd/system"; INSTALL=1; SYSTEMD=1; RESUME=0
 while [ $# -gt 0 ]; do case "$1" in
   --kind) KIND="$2"; shift 2;; --check) CHECK_ONLY=1; shift;; --trust-file) TRUST="$2"; shift 2;;
   --tls-cert) CERT="$2"; shift 2;; --tls-key) KEY="$2"; shift 2;; --tls-ca) CA="$2"; shift 2;;
-  --service-user) USER_NAME="$2"; shift 2;; --unit-dir) UNIT_DIR="$2"; shift 2;; --no-install) INSTALL=0; shift;; --no-systemd) SYSTEMD=0; shift;;
+  --service-user) USER_NAME="$2"; shift 2;; --unit-dir) UNIT_DIR="$2"; shift 2;; --no-install) INSTALL=0; shift;; --no-systemd) SYSTEMD=0; shift;; --resume) RESUME=1; shift;;
   *) echo "Unknown option: $1" >&2; exit 2;; esac; done
 say() { printf '  %s\n' "$*"; }
 fail() { printf '\n  ORVIA installer stopped: %s\n  Nothing was deleted; any state already created is kept.\n\n' "$*" >&2; exit 1; }
@@ -45,15 +46,19 @@ step() { printf '\n== %s\n' "$*"; }
 # ---------------------------------------------------------------- install
 if [ $INSTALL -eq 1 ]; then step "Installing pinned dependencies"; $PNPM install --frozen-lockfile; fi
 if [ "$KIND" = customer ]; then
-  [ -e ".local/profiles/rehearsal/config.json" ] && fail "a customer installation already exists here (.local/profiles/rehearsal). Upgrade it with installer/linux/orvia-upgrade.sh instead."
-  [ -n "$TRUST" ] || fail "--trust-file is required: the vendor's public keys file (vendor-public-keys.json) delivered with your licence."
-  step "Creating the installation profile"; node scripts/profile-init.mjs rehearsal
+  if [ -e ".local/profiles/rehearsal/config.json" ]; then
+    [ $RESUME -eq 1 ] || fail "a customer installation already exists here (.local/profiles/rehearsal). Continue an interrupted one with --resume, or upgrade with installer/linux/orvia-upgrade.sh."
+    [ -e .local/installer/installation.json ] && fail "this installation is already complete; use installer/linux/orvia-upgrade.sh."
+    say "resuming: the existing profile, its credentials and data are kept"
+  else step "Creating the installation profile"; node scripts/profile-init.mjs rehearsal; fi
+  [ -n "$TRUST" ] || [ -e .local/profiles/rehearsal/trust/vendor-public-keys.json ] || fail "--trust-file is required: the vendor's public keys file (vendor-public-keys.json) delivered with your licence."
   step "Installing the vendor's public keys (public keys only)"
   mkdir -p .local/profiles/rehearsal/trust && chmod 700 .local/profiles/rehearsal/trust
-  install -m 600 "$TRUST" .local/profiles/rehearsal/trust/vendor-public-keys.json
+  [ -n "$TRUST" ] && install -m 600 "$TRUST" .local/profiles/rehearsal/trust/vendor-public-keys.json
   node --import tsx -e "import('./scripts/credentials.ts').then(m=>{const t=m.installationTrust('rehearsal');if(!t)throw new Error('trust file missing');console.log('  trust file accepted: release, licence'+(t.audit?', audit':' (no audit key: signed audit files cannot be imported)'));})"
   step "TLS"
-  if [ -n "$CERT" ]; then
+  if [ -e .local/profiles/rehearsal/tls/server-cert.pem ]; then say "TLS material already present; kept"
+  elif [ -n "$CERT" ]; then
     [ -n "$KEY" ] && [ -n "$CA" ] || fail "--tls-cert needs --tls-key and --tls-ca (the issuing CA certificate)."
     openssl x509 -in "$CERT" -noout >/dev/null || fail "--tls-cert is not a PEM certificate."
     mkdir -p .local/profiles/rehearsal/tls && chmod 700 .local/profiles/rehearsal/tls
