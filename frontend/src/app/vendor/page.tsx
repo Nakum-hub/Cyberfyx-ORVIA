@@ -62,7 +62,7 @@ export default function VendorHome() {
   </>;
   return <>
     <div className="page-head"><h2>Welcome, {session.name}</h2><p>{VENDOR_ROLE_LABELS[session.role] ?? session.role}</p></div>
-    {can(session, 'vendor.overview.read') ? <LeadershipOverview />
+    {can(session, 'vendor.overview.read') ? <><p><a href="/vendor/engagements">Open engagements</a> · <a href="/vendor/organisations">Organisations</a> · <a href="/vendor/team">Vendor team</a></p><LeadershipOverview /></>
       : <NoticeBox tone="info" title="Where to start"><p>{session.actor_domain === 'CLIENT_ACCOUNT' ? <a href="/vendor/upload">Upload an audit evidence package</a> : <a href="/vendor/engagements">Open your engagements</a>}</p></NoticeBox>}
   </>;
 }

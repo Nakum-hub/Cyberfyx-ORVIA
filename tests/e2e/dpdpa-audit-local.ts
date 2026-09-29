@@ -117,7 +117,7 @@ await t.run(async () => {
     await vendorAdmin.goto('/vendor'); await vendorAdmin.getByRole('link', { name: 'Open engagements' }).click();
     await vendorAdmin.getByRole('heading', { name: 'DPDPA audit engagements' }).waitFor();
     await vendorAdmin.goto('/vendor/sign-in');
-    check('the website link and the in-app sign-in share one session', await vendorAdmin.getByRole('heading', { name: 'Signed in' }).isVisible(), true);
+    check('the website link and the in-app sign-in share one session', await vendorAdmin.getByRole('heading', { name: 'Signed in' }).waitFor({ timeout: 15000 }).then(() => true, () => false), true);
 
     t.setPhase('vendor organisation, accounts, team');
     if (!journal.organisation_id) {

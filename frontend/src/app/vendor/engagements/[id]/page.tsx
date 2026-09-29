@@ -9,7 +9,7 @@ type Engagement = { id: string; organisation_name: string; reference: string; st
 type Pkg = { id: string; client_package_id: string; uploaded_at: string; file_sha256: string; manifest_fingerprint: string; expires_at: string; contains_personal_data: boolean; state: string; quarantine_reason: string | null; scan_engine: string; item_count?: number };
 type Item = { item_id: string; requirement_id: string; kind: string; title: string; file_name: string | null; media_type: string; size_bytes: number; sha256: string; contains_personal_data: boolean; content_available: boolean;
   reviews: { id: string; decision: string; note: string; sampling: string | null; reviewed_at: string }[] };
-type Row = { requirement_id: string; expected_evidence: string[]; received_items: number; accepted_items: number; rejected_items: number; more_requested: number; result: string | null; rationale: string | null };
+type Row = { requirement_id: string; expected_evidence: string[]; received_items: number; channel_entries: number; accepted_items: number; rejected_items: number; more_requested: number; result: string | null; rationale: string | null };
 type Finding = { id: string; requirement_id: string; provision_ids: string[]; severity: string; title: string; observation: string; recommendation: string; due_date: string; status: string; events: { id: string; event: string; note: string; recorded_at: string }[] };
 type Report = { id: string; version: number; state: string; opinion_as_of: string; method: string; opinion: string; limitations: string[]; drafted_by: string; approved_by: string | null; pdf_sha256: string | null };
 
@@ -97,7 +97,7 @@ function Detail({ id, session }: { id: string; session: VendorSession }) {
       </Block>
       <Block title="DPDPA checklist">
         <DataTable caption="Expected versus received evidence per requirement" rowKey={r => r.requirement_id} rows={rows} columns={[{ key: 'r', header: 'Requirement', cell: r => r.requirement_id },
-          { key: 'e', header: 'Expected evidence', cell: r => r.expected_evidence.join('; ') }, { key: 'n', header: 'Received / accepted / rejected / more', cell: r => `${r.received_items} / ${r.accepted_items} / ${r.rejected_items} / ${r.more_requested}` },
+          { key: 'e', header: 'Expected evidence', cell: r => r.expected_evidence.join('; ') }, { key: 'm', header: 'Mandate evidence entries', cell: r => r.channel_entries }, { key: 'n', header: 'Package items received / accepted / rejected / more', cell: r => `${r.received_items} / ${r.accepted_items} / ${r.rejected_items} / ${r.more_requested}` },
           { key: 's', header: 'Result', cell: r => r.result ? `${r.result.replaceAll('_', ' ')} — ${r.rationale}` : 'Not recorded' }]} />
         {e.state !== 'CLOSED' && <form className="panel" aria-label="Record requirement result" onSubmit={(ev: FormEvent) => { ev.preventDefault(); void run(() => vendorCall(`/engagements/${id}/results`, result)); }}>
           <SelectField label="Requirement" value={result.requirement_id} onChange={v => setResult(r => ({ ...r, requirement_id: v }))} options={scope} required />

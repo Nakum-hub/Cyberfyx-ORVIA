@@ -125,6 +125,9 @@ await t.run(async () => {
     check('the worker computed exactly what staff see (row-level security hid nothing)', [Object.keys(snapIndicators).length > 0, JSON.stringify(snapIndicators) === JSON.stringify(staffIndicators)], [true, true]);
     check('the snapshot covers each category in the mandate except request-only sampling', [...new Set(doc.entries.map(e => e.category))].sort(), ['ACTIVITY_LOG_DIGEST', 'CONTROL_STANDING', 'INDICATORS', 'NOTICE_VERSIONS'].filter(x => doc.entries.some(e => e.category === x)).sort());
     check('the snapshot carries indicators, control standing and the audit-trail digest', [doc.entries.some(e => e.category === 'CONTROL_STANDING'), doc.entries.some(e => e.key === 'activity_log.digest')], [true, true]);
+    const checklist = await lead.s.json(`/api/v1/vendor/engagements/${vid}/checklist`);
+    check('the auditor\'s checklist counts the mandate evidence per requirement', checklist.data.rows.find((r: { requirement_id: string }) => r.requirement_id === reqA).channel_entries,
+      doc.entries.filter(e => e.requirement_id === reqA).length);
     check('no contact detail of any person is in the delivery', /@|\+91/.test(JSON.stringify(doc.entries)), false);
     const vis = await ok(owner.call('/api/v1/admin/vendor-visibility'), S.schemas.VendorVisibility);
     check('vendor-visibility lists the mandate and the delivery', [vis.audit_channel.mandates.some(x => x.mandate_id === m1.id), vis.audit_channel.deliveries.some(x => x.delivery_id === doc.delivery_id && x.personal_data === false)], [true, true]);

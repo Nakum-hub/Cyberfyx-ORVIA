@@ -19,9 +19,9 @@ function Engagements({ session }: { session: VendorSession }) {
     } catch (e) { setError(explain(e)); } finally { setBusy(false); }
   }
   return <>
-    <div className="page-head"><h2>DPDPA audit engagements</h2><p>DPDPA only. Criteria are the DPDP requirements; evidence arrives as client-approved packages uploaded to this installation. The output is an audit opinion as of a date for a stated scope, never a compliance certificate.</p></div>
+    <div className="page-head"><h2>DPDPA audit engagements</h2><p>DPDPA only. Criteria are the DPDP requirements; evidence arrives from the client&apos;s own installation under a mandate its approvers signed, or as sealed packages the client approved. The output is an audit opinion as of a date for a stated scope, never a compliance certificate.</p></div>
     {error && <div className="notice notice-stop" role="alert">{error}</div>}
-    {code && <NoticeBox tone="warn" title="Engagement code — shown once"><p>Give this code privately to the client organisation. They enter it in their own ORVIA installation and when uploading packages. Only its digest is kept.</p><code>{code.code}</code>
+    {code && <NoticeBox tone="warn" title="Engagement code — shown once"><p>Give this code privately to the client organisation. They enter it in their own ORVIA installation; it also keys the audit channel between their installation and this one. Only its digest (and the channel key, sealed) is kept.</p><code>{code.code}</code>
       <p><a href={`/vendor/engagements/${code.id}`}>Open the engagement</a> · <button type="button" onClick={() => setCode(null)}>I have recorded it</button></p></NoticeBox>}
     {items ? <DataTable caption="Engagements" rowKey={e => e.id} rows={items} columns={[{ key: 'r', header: 'Reference', cell: e => <a href={`/vendor/engagements/${e.id}`}>{e.reference}</a> },
       { key: 'o', header: 'Organisation', cell: e => e.organisation_name }, { key: 's', header: 'State', cell: e => e.state }, { key: 'p', header: 'Period', cell: e => `${e.period_from} → ${e.period_to}` },

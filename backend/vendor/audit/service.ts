@@ -288,9 +288,12 @@ export async function checklist(c: Ctx, id: string) {
     LEFT JOIN LATERAL (SELECT decision FROM vendor.item_reviews r WHERE r.package_id = i.package_id AND r.item_id = i.item_id ORDER BY reviewed_at DESC LIMIT 1) last ON true
     WHERE p.engagement_id = $1 GROUP BY i.requirement_id`, [id])).rows;
   const results = (await c.tx.query('SELECT DISTINCT ON (requirement_id) requirement_id, result, rationale, recorded_at FROM vendor.requirement_results WHERE engagement_id=$1 ORDER BY requirement_id, recorded_at DESC', [id])).rows;
+  // Evidence entries received under the client's mandate (revision 1.6), by requirement.
+  const channel = (await c.tx.query(`SELECT e->>'requirement_id' AS requirement_id, count(*)::int AS n FROM vendor.channel_deliveries d, jsonb_array_elements(d.document->'entries') e
+    WHERE d.engagement_id=$1 AND d.outcome='ACCEPTED' AND d.document IS NOT NULL GROUP BY 1`, [id])).rows;
   return V.Checklist.parse({ engagement_id: id, expectations_source: 'ORVIA DPDP baseline (scripts/regulatory/dpdp-baseline.ts); test-fixture regulatory content until the official package is signed',
     rows: (e.scope_requirement_ids as string[]).map(req => { const n = counts.find(x => x.requirement_id === req); const r = results.find(x => x.requirement_id === req);
-      return { requirement_id: req, expected_evidence: [...(baseline.get(req)?.evidence_expectations ?? [])], received_items: n?.received ?? 0, accepted_items: n?.accepted ?? 0, rejected_items: n?.rejected ?? 0, more_requested: n?.more ?? 0,
+      return { requirement_id: req, expected_evidence: [...(baseline.get(req)?.evidence_expectations ?? [])], received_items: n?.received ?? 0, channel_entries: channel.find(x => x.requirement_id === req)?.n ?? 0, accepted_items: n?.accepted ?? 0, rejected_items: n?.rejected ?? 0, more_requested: n?.more ?? 0,
         result: r?.result ?? null, rationale: r?.rationale ?? null, recorded_at: iso(r?.recorded_at) }; }) });
 }
 export async function recordResult(c: Ctx, id: string, input: unknown) {

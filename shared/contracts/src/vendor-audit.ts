@@ -71,7 +71,7 @@ export const EngagementInbox = z.strictObject({ packages: z.array(InboxPackageSu
 export const ItemContent = z.strictObject({ item_id: Id, media_type: z.string(), file_name: z.string().nullable(), sha256: z.string(), content_base64: z.string() });
 export const ItemReviewRecord = z.strictObject({ item_id: Id, decision: z.enum(['ACCEPT', 'REJECT', 'REQUEST_MORE']), note: z.string().trim().min(1).max(2000), sampling: z.string().trim().max(2000).nullable() });
 export const RequirementResultRecord = z.strictObject({ requirement_id: RequirementId, result: RequirementResult, rationale: z.string().trim().min(1).max(2000) });
-export const ChecklistRow = z.strictObject({ requirement_id: z.string(), expected_evidence: z.array(z.string()).max(20), received_items: z.number().int(), accepted_items: z.number().int(), rejected_items: z.number().int(),
+export const ChecklistRow = z.strictObject({ requirement_id: z.string(), expected_evidence: z.array(z.string()).max(20), received_items: z.number().int(), channel_entries: z.number().int(), accepted_items: z.number().int(), rejected_items: z.number().int(),
   more_requested: z.number().int(), result: RequirementResult.nullable(), rationale: z.string().nullable(), recorded_at: Time.nullable() });
 export const Checklist = z.strictObject({ engagement_id: Id, rows: z.array(ChecklistRow).max(200), expectations_source: z.string().max(200) });
 export const AuditRequestCreate = z.strictObject({ requirement_id: RequirementId, description: z.string().trim().min(1).max(2000), due_date: Day });
