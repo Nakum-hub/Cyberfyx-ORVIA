@@ -8,10 +8,16 @@ import { authSchema } from '../../../database/customer/src/auth-schema.ts';
 import { runtimePool } from '../../../database/customer/src/runtime.ts';
 import type { RuntimeConfig } from './config.ts';
 
-export type Domain = 'staff' | 'principal';
+export type Domain = 'staff' | 'principal' | 'vendor' | 'account';
+/** Identity store per domain. vendor and account exist only on the vendor's VENDOR_SERVICE installation. */
+export const AUTH_SCHEMA = { staff: 'staff_auth', principal: 'principal_auth', vendor: 'vendor_auth', account: 'account_auth' } as const;
+const AUTH_ROLE = { staff: 'orvia_staff_auth', principal: 'orvia_principal_auth', vendor: 'orvia_vendor_auth', account: 'orvia_vendor_auth' } as const;
+/** Domains whose logins must complete an authenticator ceremony. */
+export const mfaDomain = (domain: Domain) => domain !== 'principal';
+const signedInHome = { staff: '/workspace', principal: '/workspace', vendor: '/vendor', account: '/vendor/upload' } as const;
 export function createAuth(config: RuntimeConfig, domain: Domain, bootstrap = false) {
-  const pool = runtimePool(config, domain === 'staff' ? 'orvia_staff_auth' : 'orvia_principal_auth');
-  const schema = authSchema(domain === 'staff' ? 'staff_auth' : 'principal_auth');
+  const pool = runtimePool(config, AUTH_ROLE[domain]);
+  const schema = authSchema(AUTH_SCHEMA[domain]);
   const auth = betterAuth({
     appName: 'ORVIA local synthetic prototype', baseURL: config.origin, basePath: AUTH[domain].base_path,
     secret: config.secret(`${domain}-secret`), trustedOrigins: [config.origin],
@@ -24,7 +30,7 @@ export function createAuth(config: RuntimeConfig, domain: Domain, bootstrap = fa
       ipAddress: { ipAddressHeaders: ['x-orvia-loopback-ip'] } },
     rateLimit: { enabled: true, storage: 'database', window: 60, max: 60,
       customRules: { '/sign-in/email': { window: 60, max: 10 }, '/two-factor/*': { window: 60, max: 10 } } },
-    plugins: domain === 'staff' ? [twoFactor({ issuer: 'ORVIA', twoFactorCookieMaxAge: 300,
+    plugins: mfaDomain(domain) ? [twoFactor({ issuer: 'ORVIA', twoFactorCookieMaxAge: 300,
       accountLockout: { enabled: true, maxFailedAttempts: 5, durationSeconds: 900 } })] : [],
     logger: { disabled: true }, telemetry: { enabled: false },
   });
@@ -42,14 +48,15 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
   const path = url.pathname.slice(AUTH[instance.domain].base_path.length);
   const fail = (status: number, code: string) => Response.json({ code, message: 'Authentication request denied', request_id: requestId }, { status, headers: { 'Cache-Control': 'no-store' } });
   if ((request.headers.get('host') ?? url.host) !== new URL(config.origin).host || request.headers.has('authorization')) return fail(403, 'FORBIDDEN');
-  if (!commonPaths.has(path) && !(instance.domain === 'staff' && staffPaths.has(path))) return fail(404, 'NOT_FOUND');
+  if (!commonPaths.has(path) && !(mfaDomain(instance.domain) && staffPaths.has(path))) return fail(404, 'NOT_FOUND');
   if (request.method !== 'GET' && request.method !== 'POST') return fail(405, 'METHOD_NOT_ALLOWED');
   // Whether the signed-in staff login must replace its one-time password before anything else.
-  if (instance.domain === 'staff' && path === '/orvia/password-state') {
+  const schemaName = AUTH_SCHEMA[instance.domain];
+  if (mfaDomain(instance.domain) && path === '/orvia/password-state') {
     if (request.method !== 'GET') return fail(405, 'METHOD_NOT_ALLOWED');
     const session = await instance.auth.api.getSession({ headers: request.headers, query: { disableCookieCache: true } });
     if (!session) return fail(401, 'UNAUTHENTICATED');
-    const row = (await instance.pool.query('SELECT must_change_password FROM staff_auth.authority WHERE user_id=$1 AND active', [session.user.id])).rows[0];
+    const row = (await instance.pool.query(`SELECT must_change_password FROM ${schemaName}.authority WHERE user_id=$1 AND active`, [session.user.id])).rows[0];
     return Response.json({ must_change_password: row?.must_change_password === true }, { headers: { 'Cache-Control': 'no-store', 'X-Request-Id': requestId } });
   }
   const headers = new Headers(request.headers);
@@ -73,12 +80,12 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
     };
     if (Object.keys(data).some(key => !(fields[path] ?? []).includes(key))) return fail(400, 'INVALID_BODY');
     if (data.trustDevice === true || (data.method !== undefined && data.method !== 'totp')) return fail(400, 'UNSUPPORTED_METHOD');
-    if (data.callbackURL !== undefined && data.callbackURL !== config.origin + '/workspace') return fail(400, 'INVALID_CALLBACK');
+    if (data.callbackURL !== undefined && data.callbackURL !== config.origin + signedInHome[instance.domain]) return fail(400, 'INVALID_CALLBACK');
   }
   // Next may construct an internal localhost URL. Validate the actual Host first,
   // then give the library the configured canonical origin; do not trust forwarded hosts.
   const response = await instance.auth.handler(new Request(config.origin + url.pathname + url.search, { method: request.method, headers, body }));
-  if (response.ok && instance.domain === 'staff' && ['/two-factor/verify-totp', '/two-factor/verify-backup-code'].includes(path)) {
+  if (response.ok && mfaDomain(instance.domain) && ['/two-factor/verify-totp', '/two-factor/verify-backup-code'].includes(path)) {
     const cookieHeaders = new Headers(headers);
     const cookies = new Map((headers.get('cookie') ?? '').split(';').filter(Boolean).map(item => {
       const at = item.indexOf('='); return [item.slice(0, at).trim(), item.slice(at + 1)] as const;
@@ -91,20 +98,19 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
     if (!session) return fail(503, 'SESSION_UNAVAILABLE');
     // Recovery codes from an unverified enrollment are not an MFA ceremony.
     // Require the library's completed enrollment as well as this successful proof.
-    const proof = await instance.pool.query(`INSERT INTO staff_auth.mfa_sessions (session_id)
-      SELECT s.id FROM staff_auth.session s JOIN staff_auth."user" u ON u.id=s."userId"
-      JOIN staff_auth."twoFactor" f ON f."userId"=u.id
+    const proof = await instance.pool.query(`INSERT INTO ${schemaName}.mfa_sessions (session_id)
+      SELECT s.id FROM ${schemaName}.session s JOIN ${schemaName}."user" u ON u.id=s."userId"
+      JOIN ${schemaName}."twoFactor" f ON f."userId"=u.id
       WHERE s.id=$1 AND u."twoFactorEnabled" AND f.verified
-      ON CONFLICT (session_id) DO UPDATE SET verified_at=staff_auth.mfa_sessions.verified_at RETURNING session_id`, [session.session.id]);
+      ON CONFLICT (session_id) DO UPDATE SET verified_at=${schemaName}.mfa_sessions.verified_at RETURNING session_id`, [session.session.id]);
     if (proof.rowCount !== 1) return fail(403, 'MFA_ENROLLMENT_REQUIRED');
   }
-  if (response.ok && instance.domain === 'staff' && path === '/change-password') {
+  if (response.ok && mfaDomain(instance.domain) && path === '/change-password') {
     // The library has verified the current password and stored the new one; the one-time password is now spent.
     const session = await instance.auth.api.getSession({ headers, query: { disableCookieCache: true } });
-    if (session) await instance.pool.query('UPDATE staff_auth.authority SET must_change_password=false WHERE user_id=$1 AND must_change_password', [session.user.id]);
+    if (session) await instance.pool.query(`UPDATE ${schemaName}.authority SET must_change_password=false WHERE user_id=$1 AND must_change_password`, [session.user.id]);
   }
-  const schema = instance.domain === 'staff' ? 'staff_auth' : 'principal_auth';
-  await instance.pool.query(`INSERT INTO ${schema}.auth_audit (id,request_id,operation,status) VALUES ($1,$2,$3,$4)`, [randomUUID(), requestId, path, response.status]);
+  await instance.pool.query(`INSERT INTO ${schemaName}.auth_audit (id,request_id,operation,status) VALUES ($1,$2,$3,$4)`, [randomUUID(), requestId, path, response.status]);
   response.headers.set('Cache-Control', 'no-store');
   response.headers.set('X-Request-Id', requestId);
   return response;

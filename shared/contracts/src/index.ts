@@ -7,6 +7,8 @@ import { operationsSchemas } from './operations.ts';
 import { operationsRoutes } from './operations-routes.ts';
 import { expansionSchemas } from './expansion.ts';
 import { expansionRoutes } from './expansion-routes.ts';
+import { dpdpaAuditSchemas, dpdpaAuditRoutes } from './dpdpa-audit.ts';
+const dpdpaAuditNames = Object.keys(dpdpaAuditSchemas);
 // A schema name means one thing: the expansion module may add names, never replace them.
 const expansionNames = Object.keys(expansionSchemas);
 
@@ -37,7 +39,7 @@ const expansionNames = Object.keys(expansionSchemas);
  *  0.14.0 adds M29's preflight gates and M32's snapshot statement, restore
  *  quarantine and consent reconciliation. Additive again: no existing route,
  *  schema or wire meaning changed. */
-export const CONTRACT_VERSION = '0.41.0' as const;
+export const CONTRACT_VERSION = '0.42.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -48,11 +50,19 @@ export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
 export const AUTH = {
   staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff', secure_cookie_prefix: '__Secure-orvia.staff' },
   principal: { base_path: '/api/auth/principal', cookie_prefix: 'orvia.principal', secure_cookie_prefix: '__Secure-orvia.principal' },
+  // Vendor staff sign in only on the vendor's own VENDOR_SERVICE installation (revision 1.5 addendum).
+  vendor: { base_path: '/api/auth/vendor', cookie_prefix: 'orvia.vendor', secure_cookie_prefix: '__Secure-orvia.vendor' },
+  // Client organisations' vendor-account logins, used only to upload audit evidence packages on the vendor installation.
+  account: { base_path: '/api/auth/account', cookie_prefix: 'orvia.account', secure_cookie_prefix: '__Secure-orvia.account' },
 } as const;
 export const PROFILES = {
   'codex-a00': { compose_project: 'orvia-codex-a00', app_port: 4310, postgres_port: 55431, opa_port: 58181, temporal_port: 57233, database: 'orvia_codex_a00', temporal_namespace: 'orvia-codex-a00', seed: 'aster-birch-v1', reset: 'codex-a00-bootstrap-only' },
   'ui-b00': { compose_project: 'orvia-ui-b00', app_port: 4320, postgres_port: 55432, opa_port: 58182, temporal_port: 57234, database: 'orvia_ui_b00', temporal_namespace: 'orvia-ui-b00', seed: 'aster-birch-v1', reset: 'ui-b00-bootstrap-only' },
   rehearsal: { compose_project: 'orvia-rehearsal', app_port: 4330, postgres_port: 55433, opa_port: 58183, temporal_port: 57235, database: 'orvia_rehearsal', temporal_namespace: 'orvia-rehearsal', seed: 'aster-birch-v1', reset: 'rehearsal-bootstrap-only' },
+  // The vendor's own VENDOR_SERVICE installation. In development it shares the codex-a00
+  // PostgreSQL server and policy engine but has its own database, roles and port; a
+  // production vendor installation is provisioned on the vendor's own host.
+  'vendor-a00': { compose_project: 'orvia-codex-a00', app_port: 4340, postgres_port: 55431, opa_port: 58181, temporal_port: 57233, database: 'orvia_vendor_a00', temporal_namespace: 'orvia-vendor-a00', seed: 'vendor-service-v1', reset: 'vendor-a00-bootstrap-only' },
 } as const;
 
 export const Id = z.uuid();
@@ -68,7 +78,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['setup.first_run','account.own.delete','staff.manage','supplier.respond','cmp.record','registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
+export const Capability = z.enum(['setup.first_run','audit_exchange.read','audit_exchange.prepare','audit_exchange.approve','account.own.delete','staff.manage','supplier.respond','cmp.record','registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -1865,6 +1875,12 @@ export const VendorVisibility = z.strictObject({
   as_of: Time, profile: z.literal(PROFILE),
   vendor_service_health: VendorServiceHealth,
   disclosures: z.array(VendorDisclosure).max(200),
+  /** DPDPA audit evidence packages (revision 1.5 addendum): every package approved
+   *  to leave, with each export of its sealed file. Carried by a person; ORVIA
+   *  never transmits one. */
+  audit_packages: z.array(z.strictObject({ package_id: Id, engagement_reference: z.string().max(80), firm_name: z.string().max(160), state: z.enum(['APPROVED', 'REVOKED', 'EXPIRED']),
+    approved_at: Time, approved_by: Id, manifest_fingerprint: Digest, file_sha256: Digest, items: Epoch, personal_data_items: Epoch, expires_at: Time,
+    exports: z.array(z.strictObject({ exported_at: Time, exported_by: Id })).max(200), transported_by_orvia: z.literal(false) })).max(500),
   /** Approved and never carried. Counted separately because an approval is not
    *  a disclosure, and collapsing the two would overstate what left. */
   approved_but_not_carried: Epoch,
@@ -2040,7 +2056,7 @@ export const CatalogDiscoveryDetail = z.strictObject({target:CatalogDiscoveryTar
   freshness:z.enum(['CURRENT','STALE','NEVER_OBSERVED','UNKNOWN']),
 });
 
-export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...expansionSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...expansionSchemas, ...dpdpaAuditSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
   CatalogDiscoveryTargetCreate,CatalogDiscoveryApproval,CatalogDiscoveryTarget,CatalogDiscoveryObservation,CatalogDiscoveryDetail,CatalogDiscoveryTargetList:page(CatalogDiscoveryTarget),
   DataAssetCreate, CatalogAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
   GraphSearchQuery, GraphSearchResult, NeighbourhoodQuery, GraphNeighbourhood, ImpactAssessment,
@@ -2287,6 +2303,7 @@ export const routes: RouteDefinition[] = [
   {id:'revoke_mandate',method:'post',path:'/api/v1/admin/mandates/{id}/revoke',authority:'STAFF',capability:'rights.write',params:'IdPath',request:'MandateRevoke',response:'Mandate',status:200,idempotency:true},
   ...operationsRoutes as RouteDefinition[],
   ...expansionRoutes as RouteDefinition[],
+  ...dpdpaAuditRoutes as RouteDefinition[],
   {id:'poll_commands',method:'post',path:'/api/v1/machine/commands/poll',authority:'MACHINE',request:'PollRequest',response:'CommandList',status:200},
   {id:'command_receipt',method:'post',path:'/api/v1/machine/commands/{id}/receipts',authority:'MACHINE',params:'IdPath',request:'CommandReceipt',response:'AcceptedOperation',status:202,idempotency:true},
   {id:'send',method:'post',path:'/api/v1/machine/simulator/send',authority:'MACHINE',request:'SendRequest',response:'SendResult',status:200,idempotency:true},
@@ -2296,4 +2313,5 @@ export const routes: RouteDefinition[] = [
 ];
 
 // Fails the contract build if a later schema shadows an expansion schema name.
+for (const name of dpdpaAuditNames) if ((schemas as Record<string, unknown>)[name] !== (dpdpaAuditSchemas as Record<string, unknown>)[name]) throw new Error(`Schema name collision: ${name}`);
 for (const name of expansionNames) if ((schemas as Record<string, unknown>)[name] !== (expansionSchemas as Record<string, unknown>)[name]) throw new Error(`Schema name collision: ${name}`);

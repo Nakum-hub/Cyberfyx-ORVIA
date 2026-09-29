@@ -49,6 +49,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     const controller = new AbortController();
+    // The vendor area has its own session (VendorSessionProvider); a customer session does not exist there.
+    if (globalThis.location?.pathname.startsWith('/vendor')) { setState({ status: 'unauthenticated', session: null, failure: null }); return; }
     (async () => {
       try {
         const session = await call('session', undefined, { signal: controller.signal });

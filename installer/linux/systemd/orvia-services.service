@@ -1,0 +1,16 @@
+[Unit]
+Description=ORVIA local services (PostgreSQL, policy engine, workflow engine) for @PROFILE@
+Requires=docker.service
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=@USER@
+WorkingDirectory=@ROOT@
+Environment=ORVIA_PROFILE=@PROFILE@ ORVIA_WORKSPACE_ROOT=@ROOT@
+ExecStart=/usr/bin/env node --import tsx scripts/services.ts up
+ExecStop=/usr/bin/env node --import tsx scripts/services.ts stop
+
+[Install]
+WantedBy=multi-user.target

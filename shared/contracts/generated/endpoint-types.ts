@@ -404,4 +404,26 @@ export interface EndpointMap {
   delete_own_login: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LoginDeleteConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnLoginDeleted> };
   first_run_state: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunState> };
   first_run_complete: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunSetup>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunCompleted> };
+  dpdpa_gap_register: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GapRegister> };
+  export_dpdpa_gap_register: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GapRegisterExport> };
+  submit_evidence_file: { request: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFileSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFile> };
+  list_evidence_files: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFileList> };
+  evidence_file: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFile> };
+  evidence_file_content: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFileContent> };
+  confirm_evidence_personal_data: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PersonalDataConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFile> };
+  list_audit_engagements: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEngagementList> };
+  create_audit_engagement: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEngagementCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEngagement> };
+  audit_engagement: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEngagement> };
+  create_audit_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackageCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackage> };
+  audit_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackage> };
+  add_audit_package_item: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackageItemAdd>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackage> };
+  add_audit_package_exception: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackageExceptionAdd>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackage> };
+  withdraw_audit_package_item: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackageItemRemove>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackage> };
+  approve_audit_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackage> };
+  export_audit_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackageExport> };
+  revoke_audit_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackageRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditPackage> };
+  receive_signed_audit_document: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImportSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImport> };
+  audit_import: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImport> };
+  audit_import_pdf: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImportPdf> };
+  link_audit_finding: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FindingLinkCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImport> };
 }

@@ -88,7 +88,21 @@ export async function vendorVisibility(c: Context): Promise<unknown> {
         WHERE d.tenant_id=s.tenant_id AND d.legal_entity_id=s.legal_entity_id
           AND d.environment_id=s.environment_id AND d.case_id=s.id)`, scope);
 
+  // DPDPA audit evidence packages: approval is what makes one able to leave, so every approved package is listed, with each export.
+  const packages = (await c.tx.query(
+    `SELECT p.id, p.state, p.approved_at, p.approved_by, p.manifest_fingerprint, p.file_sha256, p.expires_at, e.engagement_reference, e.firm_name,
+            (SELECT count(*)::int FROM app.audit_package_items i WHERE i.package_id=p.id) AS items,
+            (SELECT count(*)::int FROM app.audit_package_items i WHERE i.package_id=p.id AND i.contains_personal_data='YES') AS personal,
+            coalesce((SELECT json_agg(json_build_object('exported_at', x.exported_at, 'exported_by', x.exported_by) ORDER BY x.exported_at) FROM app.audit_package_exports x WHERE x.package_id=p.id), '[]'::json) AS exports
+     FROM app.audit_packages p JOIN app.audit_engagements e ON e.id=p.engagement_id
+     WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.approved_at IS NOT NULL ORDER BY p.approved_at DESC LIMIT 500`, scope)).rows;
+  const audit_packages = packages.map(p => ({ package_id: p.id, engagement_reference: p.engagement_reference, firm_name: p.firm_name,
+    state: p.state === 'APPROVED' && (p.expires_at as Date).getTime() <= Date.now() ? 'EXPIRED' : p.state, approved_at: (p.approved_at as Date).toISOString(), approved_by: p.approved_by,
+    manifest_fingerprint: p.manifest_fingerprint, file_sha256: p.file_sha256, items: p.items, personal_data_items: p.personal, expires_at: (p.expires_at as Date).toISOString(),
+    exports: (p.exports as { exported_at: string; exported_by: string }[]).map(x => ({ exported_at: new Date(x.exported_at).toISOString(), exported_by: x.exported_by })), transported_by_orvia: false as const }));
+
   return S.VendorVisibility.parse({
+    audit_packages,
     as_of: new Date().toISOString(), profile: S.PROFILE,
     vendor_service_health: {
       observed: false,

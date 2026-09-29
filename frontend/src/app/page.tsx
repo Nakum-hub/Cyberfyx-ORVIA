@@ -1,3 +1,7 @@
+import { redirect } from 'next/navigation';
+import { connection } from 'next/server';
+import { configuredKind } from '@orvia/backend';
+
 export const metadata = { title: 'ORVIA — synthetic test environment' };
 
 const STAGES = [
@@ -10,7 +14,10 @@ const STAGES = [
   ['Regression test', 'Whether the control still works — including when it is deliberately broken.'],
 ] as const;
 
-export default function EntryPage() {
+export default async function EntryPage() {
+  // The vendor installation's entry is its vendor area; a customer installation keeps this page.
+  await connection();
+  if (configuredKind() === 'VENDOR_SERVICE') redirect('/vendor');
   return (
     <main className="landing">
       <div className="environment-banner" style={{ marginBottom: 32, borderRadius: 8 }}>

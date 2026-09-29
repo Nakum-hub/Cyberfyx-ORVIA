@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.41.0",
+  "contract_version": "0.42.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -14,6 +14,16 @@
       "base_path": "/api/auth/principal",
       "cookie_prefix": "orvia.principal",
       "secure_cookie_prefix": "__Secure-orvia.principal"
+    },
+    "vendor": {
+      "base_path": "/api/auth/vendor",
+      "cookie_prefix": "orvia.vendor",
+      "secure_cookie_prefix": "__Secure-orvia.vendor"
+    },
+    "account": {
+      "base_path": "/api/auth/account",
+      "cookie_prefix": "orvia.account",
+      "secure_cookie_prefix": "__Secure-orvia.account"
     }
   },
   "profiles": {
@@ -49,6 +59,17 @@
       "temporal_namespace": "orvia-rehearsal",
       "seed": "aster-birch-v1",
       "reset": "rehearsal-bootstrap-only"
+    },
+    "vendor-a00": {
+      "compose_project": "orvia-codex-a00",
+      "app_port": 4340,
+      "postgres_port": 55431,
+      "opa_port": 58181,
+      "temporal_port": 57233,
+      "database": "orvia_vendor_a00",
+      "temporal_namespace": "orvia-vendor-a00",
+      "seed": "vendor-service-v1",
+      "reset": "vendor-a00-bootstrap-only"
     }
   },
   "polling": {

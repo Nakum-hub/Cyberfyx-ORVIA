@@ -31,6 +31,18 @@ const PURGE_AFTER_DAYS = 30;
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 // Ten or more digits, optionally separated by single spaces or hyphens, not inside a longer token: a date or an identifier is not a phone number.
 const PHONE = /(?<![\w-])\+?\d(?:[\s-]?\d){9,13}(?![\w-])/g;
+const PAN = /\b[A-Z]{5}\d{4}[A-Z]\b/g;
+/**
+ * The same deterministic detection, applied to free text that is about to leave
+ * the installation (a DPDPA audit package statement): e-mail addresses, phone-like
+ * and Aadhaar-like digit runs and PAN-format identifiers are replaced. A second
+ * person still reviews the text when the package is approved.
+ */
+export function redactContactDetails(text: string) {
+  let count = 0;
+  const out = text.replace(EMAIL, () => { count++; return '[redacted: e-mail]'; }).replace(PHONE, () => { count++; return '[redacted: number]'; }).replace(PAN, () => { count++; return '[redacted: identifier]'; });
+  return { text: out, redactions: count };
+}
 const OWN_IDENTIFIER_FIELD = /^(e-?mail|mail|email_address|phone|mobile|telephone|phone_number)$/i;
 const OTHER_PERSON_FIELD = /contact|spouse|partner|referr|guardian|nominee|family|emergency|colleague|manager/i;
 const REASON_LABEL: Record<string, string> = { THIRD_PARTY: 'another person\'s data', LEGAL_PRIVILEGE: 'legal privilege', SECURITY: 'security', OTHER: 'withheld' };

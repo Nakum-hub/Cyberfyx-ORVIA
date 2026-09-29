@@ -4,6 +4,7 @@ import { operationsRoute } from './operations-routes.ts';
 import { operationsRoutes } from '../../../shared/contracts/src/operations-routes.ts';
 import { expansionRoute } from './expansion-routes.ts';
 import { expansionRoutes } from '../../../shared/contracts/src/expansion-routes.ts';
+import { dpdpaAuditRoutes } from '../../../shared/contracts/src/dpdpa-audit.ts';
 import type { OperationsEnv } from '../../domain/src/operations/shared.ts';
 import { platformRoute } from './platform-routes.ts';
 import { routes, schemas, Pagination, Id, PolicyReauthenticate, queryKeys, type RouteDefinition } from '../../../shared/contracts/src/index.ts';
@@ -38,6 +39,7 @@ const implemented=new Set(['grc_audit_response_history','list_grc_audits','creat
   'list_backup_snapshots','declare_snapshot','start_restore','list_restore_runs','restore_run','acknowledge_conflict','release_restore','vendor_visibility','audit_retention','set_audit_retention','list_imports','submit_import','import_batch','decide_import_row','apply_import','purge_import','report','own_rights_requests','raise_own_rights_request','own_rights_request']);
 for(const route of operationsRoutes)implemented.add(route.id);
 for(const route of expansionRoutes)implemented.add(route.id);
+for(const route of dpdpaAuditRoutes)implemented.add(route.id);
 let observerPool: ReturnType<typeof servicePool>|undefined;
 let agentPool: ReturnType<typeof servicePool>|undefined;
 function operationsEnv(r: ReturnType<typeof runtime>): OperationsEnv {

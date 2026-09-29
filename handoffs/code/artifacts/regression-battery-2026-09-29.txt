@@ -1,0 +1,21 @@
+auth exit=0 secs=8 
+first-run exit=0 secs=5 23 assertions, 0 failures. 
+first-run-http exit=0 secs=4 7 assertions, 0 failures. 
+operations exit=0 secs=701 10 assertions, 0 failures. 16 assertions, 0 failures. 
+exp-classification exit=0 secs=68 29 assertions, 0 failures. 
+exp-cmp exit=0 secs=14 44 assertions, 0 failures. 
+exp-delivery exit=0 secs=190 41 assertions, 0 failures. 
+exp-dpdpa-audit exit=0 secs=12 52 assertions, 0 failures. 
+exp-grc-lifecycle exit=0 secs=84 75 assertions, 0 failures. 
+exp-impact exit=0 secs=67 41 assertions, 0 failures. 
+exp-preferences exit=0 secs=5 39 assertions, 0 failures. 
+exp-response-packages exit=0 secs=67 52 assertions, 0 failures. 
+exp-ropa-exports exit=0 secs=75 58 assertions, 0 failures. 
+exp-staff-delete exit=0 secs=68 27 assertions, 0 failures. 
+exp-staff-members exit=0 secs=128 37 assertions, 0 failures. 
+exp-third-party exit=0 secs=73 43 assertions, 0 failures. 
+vendor-audit exit=0 secs=9 vendor-audit: 68/68 passed 
+e2e-expansion exit=1 secs=144 
+e2e-dpdpa exit=0 secs=29 13 assertions, 0 failures. 
+DONE
+e2e-expansion (rerun after paging fix) exit=0 69 assertions, 0 failures

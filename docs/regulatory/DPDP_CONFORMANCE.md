@@ -67,6 +67,28 @@ Legend: **Built**: implemented and exercised by the named suites on the syntheti
 | Transfers outside India, subject to restriction | s.16, R15 | Location declarations per system, transfer review | Partial | ropa-exports. **Limit:** no list of restricted countries yet, because none is notified |
 | Data Protection Board complaint channel | s.18, G.S.R. 844(E) | Board channel text on notices | Built | notices |
 
+## External DPDPA audit support (revision 1.5 addendum, 2026-09-29)
+
+The vendor also audits client organisations against the DPDP Act and Rules. ORVIA supports that audit without giving the auditor any live access (`docs/engineering/dpdpa-audit-exchange.md`).
+
+**Client installation.**
+- **Gap register:** one row per requirement of the package in force. Unresolved applicability is a gap.
+- **Evidence files:** each carries a personal-data flag confirmed by a second person.
+- **Evidence packages:** personal-data-free by default, dual-approved and sealed, carried out as a file.
+- **Audit outputs:** signed findings and reports are imported only after verification, and findings are tracked as GRC issues.
+
+**Vendor installation.**
+- Engagements record the auditor's independence declaration and conflict check. An optional Board empanelment reference (for Rule 13 SDF audits) is never assumed.
+- Packages containing personal data are quarantined until a processing agreement is recorded. The vendor then acts as the client's Data Processor under s.8(2).
+- Evidence is encrypted at rest, and every view and download is logged.
+- Each requirement gets a result (MEETS, PARTIALLY_MEETS, DOES_NOT_MEET, NOT_APPLICABLE or NOT_TESTED).
+- The report is drafted by the lead auditor and approved by a different reviewer.
+- Evidence retention is purged after the engagement closes.
+
+**Wording.** The output is an **audit opinion as of a date for a stated scope**. It is never a compliance certificate: only the Data Protection Board of India decides compliance. A unit test refuses certification wording in report templates and report text.
+
+**Limit.** Audit criteria come from the regulatory package in force. Until the official PRODUCTION package is built from the hashed Government sources (gap 6 below), the criteria are TEST_FIXTURE content and must not be relied on for a real audit.
+
 ## Gaps to close (in order)
 
 1. **Consent Managers** (s.6(7)–(9), R4), from 13 Nov 2026: accept consent and withdrawal routed through a registered Consent Manager, record the Consent Manager's identity and registration, and make it interoperable. This needs the First Schedule technical details from the official Rules text.

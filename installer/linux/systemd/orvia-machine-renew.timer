@@ -1,0 +1,10 @@
+[Unit]
+Description=Renew ORVIA machine logins every 30 minutes (enrollments expire after one hour; running services pick up renewals)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

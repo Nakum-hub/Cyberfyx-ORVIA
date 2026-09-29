@@ -17,17 +17,23 @@ for(const role of serviceRoles){const path=resolve(profile.directory,owners[role
 const signingPath=resolve(profile.directory,'worker/signing-key.pem');
 if(!existsSync(signingPath))writeFileSync(signingPath,generateKeyPairSync('ed25519').privateKey.export({type:'pkcs8',format:'pem'}),{flag:'wx',mode:0o600});
 const publicKey=createPublicKey(readFileSync(signingPath)).export({type:'spki',format:'pem'}).toString();
+const enrolled=(path:string)=>{if(!existsSync(path))return false;const raw=JSON.parse(readFileSync(path,'utf8'));return Array.isArray(raw.identities)&&raw.identities.length>0;};
 const workerPath=resolve(profile.directory,'worker/enrollment.json');const agentPath=resolve(profile.directory,'agent/enrollment.json');
-const worker: WorkerEnrollmentConfig=existsSync(workerPath)?WorkerEnrollment.parse(JSON.parse(readFileSync(workerPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:randomUUID(),identities:[]};
-const agent: AgentEnrollmentConfig=existsSync(agentPath)?AgentEnrollment.parse(JSON.parse(readFileSync(agentPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:worker.signing_key_id,public_key:publicKey,identities:[]};
+const worker: WorkerEnrollmentConfig=enrolled(workerPath)?WorkerEnrollment.parse(JSON.parse(readFileSync(workerPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:randomUUID(),identities:[]};
+const agent: AgentEnrollmentConfig=enrolled(agentPath)?AgentEnrollment.parse(JSON.parse(readFileSync(agentPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:worker.signing_key_id,public_key:publicKey,identities:[]};
 const senderPath=resolve(profile.directory,'sender/enrollment.json');
-const sender: SenderEnrollmentConfig=existsSync(senderPath)?SenderEnrollment.parse(JSON.parse(readFileSync(senderPath,'utf8'))):{installation_id:profile.installation_id,identities:[]};
+const sender: SenderEnrollmentConfig=enrolled(senderPath)?SenderEnrollment.parse(JSON.parse(readFileSync(senderPath,'utf8'))):{installation_id:profile.installation_id,identities:[]};
 const observerPath=resolve(profile.directory,'observer/enrollment.json');
-const observer:AgentEnrollmentConfig=existsSync(observerPath)?AgentEnrollment.parse(JSON.parse(readFileSync(observerPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:worker.signing_key_id,public_key:publicKey,identities:[]};
+const observer:AgentEnrollmentConfig=enrolled(observerPath)?AgentEnrollment.parse(JSON.parse(readFileSync(observerPath,'utf8'))):{installation_id:profile.installation_id,signing_key_id:worker.signing_key_id,public_key:publicKey,identities:[]};
 if(worker.installation_id!==profile.installation_id||agent.installation_id!==profile.installation_id||agent.public_key!==publicKey||agent.signing_key_id!==worker.signing_key_id)throw new Error('Existing enrollment does not match installation/key');
-const fixture=JSON.parse(readFileSync(resolve(profile.directory,'auth/bootstrap.json'),'utf8')) as AuthFixture;
-const scopes=[...new Map(Object.values(fixture.users).map(user=>[JSON.stringify(user.scope),user.scope])).values()];
 const pool=connectDatabase(profile).pool;
+// Synthetic profiles take their scopes from the fixture journal. A real installation has
+// no fixture: its scopes are the environments first-run setup created (none before setup;
+// the renewal timer and application start run this again afterwards and enrol them).
+const fixturePath=resolve(profile.directory,'auth/bootstrap.json');
+const scopes: {tenant_id:string;legal_entity_id:string;environment_id:string}[]=existsSync(fixturePath)
+ ?[...new Map(Object.values((JSON.parse(readFileSync(fixturePath,'utf8')) as AuthFixture).users).map(user=>[JSON.stringify(user.scope),user.scope])).values()]
+ :(await pool.query("SELECT tenant_id,legal_entity_id,id AS environment_id FROM app.environments ORDER BY tenant_id,legal_entity_id,id")).rows;
 try {
  const tx=await pool.connect();try {
   await tx.query('BEGIN');await tx.query('SELECT pg_advisory_xact_lock(728103)');
@@ -77,7 +83,8 @@ try {
     ON CONFLICT(id) DO UPDATE SET token_digest=EXCLUDED.token_digest,expires_at=EXCLUDED.expires_at`,[i.id,i.installation_id,scope.tenant_id,scope.legal_entity_id,scope.environment_id,i.kind,i.kind==='WORKER'?null:createHash('sha256').update(i.kind==='AGENT'?token:i.kind==='OBSERVER'?observerToken:senderToken).digest('hex'),expires_at]);
    for(const system of systems.filter(s=>s.connector!=='LEGACY_MANUAL'))await tx.query('INSERT INTO machine_auth.sender_systems VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING',[senderIdentity.id,scope.tenant_id,scope.legal_entity_id,scope.environment_id,system.id]);
   }
-  writePrivateJson(workerPath,worker);writePrivateJson(agentPath,agent);writePrivateJson(senderPath,sender);writePrivateJson(observerPath,observer);
+  // Before first-run setup there is no scope to enrol; enrollment files are written once there is.
+  if(scopes.length){writePrivateJson(workerPath,worker);writePrivateJson(agentPath,agent);writePrivateJson(senderPath,sender);writePrivateJson(observerPath,observer);}
   await tx.query('COMMIT');
  }catch(error){await tx.query('ROLLBACK');throw error;}finally{tx.release();}
  const database=profile.database+'_targets';

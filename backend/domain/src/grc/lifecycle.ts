@@ -109,7 +109,7 @@ async function issueRows(c: Context, id: string) {
   const events = (await c.tx.query(`SELECT * FROM app.grc_issue_events WHERE ${predicate} AND issue_id=$4 ORDER BY sequence DESC LIMIT 200`, [...scope(c), id])).rows;
   return { issue: r as Row, events };
 }
-async function issueView(c: Context, id: string) {
+export async function issueView(c: Context, id: string) {
   const { issue: r, events } = await issueRows(c, id);
   const now = Date.now(); const state = issueState(events, now);
   return X.Issue.parse({

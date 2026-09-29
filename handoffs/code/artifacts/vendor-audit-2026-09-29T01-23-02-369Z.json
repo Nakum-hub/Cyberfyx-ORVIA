@@ -1,0 +1,51 @@
+{
+  "suite": "vendor-audit",
+  "database": "orvia_vendor_test_8b52ce8064b54205b5290b23a3af56d0",
+  "passed": 7,
+  "failed": 3,
+  "results": [
+    {
+      "name": "setup: no code issued",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: wrong code refused and counted",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: completes and creates super admin and admin",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: closed afterwards",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor API refuses a session without MFA",
+      "result": "PASS"
+    },
+    {
+      "name": "super admin with MFA reads the team",
+      "result": "PASS"
+    },
+    {
+      "name": "unauthenticated vendor API is 401",
+      "result": "PASS"
+    },
+    {
+      "name": "admin cannot create another vendor admin",
+      "result": "FAIL",
+      "detail": "503 != 409"
+    },
+    {
+      "name": "admin creates audit members",
+      "result": "FAIL",
+      "detail": "[503,503,503] != [201,201,201]"
+    },
+    {
+      "name": "suite",
+      "result": "FAIL",
+      "detail": "TypeError: Cannot read properties of undefined (reading 'email')\n    at userOf (/home/user/Cyberfyx-ORVIA/tests/integration/vendor/vendor-audit.test.ts:65:63)\n    at <anonymous> (/home/user/Cyberfyx-ORVIA/tests/integration/vendor/vendor-audit.test.ts:66:17)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)"
+    }
+  ]
+}
