@@ -41,6 +41,7 @@ p('Where the product stands out: a grounded leadership comparison',deck)
 p('25 September 2026  |  For the CEO and co-founder  |  Internal positioning brief',small)
 p('ORVIA gives privacy teams a way to connect a person\'s choice to the downstream action it requires, check the result at the target, and retain the evidence. The same customer-local system links that work to policies, assets, owners, tests and coverage. This is the centre of the ORVIA story: decisions, action and proof live in one traceable chain. [O1-O3]')
 p('This brief describes capabilities recorded in ORVIA\'s customer-local synthetic engineering profile. Its market comparisons describe each peer\'s public emphasis and ORVIA\'s own evidence-backed approach; they are not a benchmark or a claim that a competitor lacks a feature. [O1-O3]',small)
+p('Speaking position: ORVIA has a working customer-local engineering foundation demonstrated with synthetic data. The merged product has not yet passed one full exact-build application acceptance. Present the workflow and its recorded evidence confidently; describe customer deployment, broad connector support and legal completeness as qualification gates. [O3,O4]',small)
 
 h('The product case in five points')
 tab(['Strength','What ORVIA does'],[
@@ -101,7 +102,7 @@ tab(['Platform','Public emphasis','ORVIA evidence-backed angle'],special,[98,160
 
 h('A leadership statement that can be defended')
 p('ORVIA is building its market case around operational proof. Its engineering foundation already connects exact consent and notice state, durable customer-local workflows, scoped connector commands, independent target observations, evidence, tests and coverage. That chain gives Cyberfyx a clear way to demonstrate value: show the same privacy event from a person\'s choice through the system response and the resulting record. [O1-O3]')
-p('This brief is an engineering positioning document. The current working tree has changes beyond the last documented qualification checkpoint. Full application acceptance and the two exact-candidate rehearsals are recorded as NOT_RUN, so this brief does not claim production release, legal certification or measured superiority. [O1,O3]',small)
+p('This brief is an engineering positioning document. The merged code has component-level checks, while full application scenarios T01-T34 and the two exact-candidate rehearsals remain NOT_RUN. It does not establish production release, legal certification or measured superiority. [O3,O4]',small)
 
 h('The twelve questions from the CEO and co-founder')
 p('The comparison above remains the market position. The following twelve sections answer the operating, technical and delivery questions behind it. “Current” refers to the repository capability register and documented engineering checkpoint, not a released customer installation. [O1-O3]')
@@ -113,7 +114,7 @@ tab(['Actor and input','Processing to result','Test basis and failure'],[
 ('Data Principal withdraws marketing consent.','ORVIA commits the new state, creates durable work, sends a signed scoped command, reads the target separately and records the observed result.','Positive: target suppression observed. Negative: timeout or acknowledgement without effect remains unresolved. [O2]'),
 ('Privacy administrator changes a notice.','A reviewed notice version is published with language, content digest and time; later consent references that version.','Positive: exact version served. Negative: mismatch or unapproved content cannot silently replace historical notice. [O2]'),
 ('Principal or representative submits a rights case.','The case is scoped by identity and mandate, assigned, and linked to permitted actions and response evidence.','Positive: own case is tracked. Negative: ambiguous identity, wrong principal or retention hold stops unsupported completion. [O2]'),
-('Owner reviews a retention or processor obligation.','ORVIA links copy, purpose, vendor, hold, evidence and action to the customer-local record.','Positive: evidence-backed decision. Negative: stale evidence, failed deletion or unobserved processor copy stays open. [O2]'),
+('Owner reviews a retention or processor obligation.','The coded record links copy, purpose, vendor, hold, evidence and action for review; merged DPDP execution paths still need full acceptance.','Positive: evidence-backed decision. Negative: stale evidence, failed deletion or unobserved processor copy stays open. [O2,O4]'),
 ('Control owner runs a privacy test.','The test executes real policy/target assertions and stores actual result, scope and evidence.','Positive: healthy run passes. Negative: deliberately broken fixture fails; interruption is an error, not success. [O2]')],[138,177,180])
 p('The current synthetic profile exercises substantial parts of these cases. Production target breadth, full customer journeys and exact-candidate acceptance have separate gates; the table is a test contract, not an assertion that those gates ran. [O2,O3]',small)
 
@@ -125,24 +126,25 @@ tab(['Function buyers inspect','ORVIA current position','Relevant peer emphasis'
 ('Discovery and data mapping','Built subset: typed graph, provenance, review and freshness.','BigID, Securiti, OneTrust, Privado and Lightbeam.'),
 ('Controls, evidence and tests','Built subset: policy decisions, evidence, executable regression and gaps.','Vanta, Drata, Sprinto, Scrut, ServiceNow and MetricStream.'),
 ('Vendors, incidents and reporting','Built subset: relationship and case records, evidence and reports.','Enterprise privacy/GRC suites and India-focused peers.'),
-('AI governance','Master includes AI roadmap modules; the current register marks M19-M25 deferred V2.','OneTrust, Securiti and PrivaSapien publicly position AI governance.'),
+('AI governance','V1 non-model inventory, linked use, risk, policy, control, evidence, monitoring and human review are coded and synthetically tested. Custom-model M19-M25 remain V2.','OneTrust, Securiti and PrivaSapien publicly position broader AI governance.'),
 ('Integrations and monitoring','Built subset against declared synthetic/local targets; signed commands and independent readback are a clear ORVIA design emphasis.','Large suites market broader connector ecosystems.')],[126,194,175])
 p('Packaging matters: feature availability and price vary by vendor contract or tier. A fair procurement comparison should request the exact module list, deployment model, connector permissions, evidence semantics and quote for the same buyer scenario. [P1-P12]')
 
 sub('3. Complete architecture and 33-module inventory')
-p('The architecture has an ordered spine: identity and tenant authority -> privacy graph -> policy -> durable workflow -> scoped connector -> independent verification -> evidence -> test. Privacy operations use that spine; commercial/runtime modules surround the installation. The approved master reserves modules 19-25 for the custom-AI roadmap. [O1,O2]')
+p('The architecture has an ordered spine: identity and tenant authority -> privacy graph -> policy -> durable workflow -> scoped connector -> independent verification -> evidence -> test. Privacy operations use that spine; commercial/runtime modules surround the installation. Non-model AI-use governance is in expanded V1; custom-model modules M19-M25 remain V2. The module register below predates merged expansion and is a legacy inventory, not a whole-product completion score. [O1,O2,O4]')
 caps=json.loads((ROOT/'tracking/capabilities.json').read_text(encoding='utf-8'))['capabilities']
 purpose={
 'M01':'Authenticates staff and principals; enforces roles.','M02':'Scopes organisation, entity and environment.','M03':'Links systems, assets, categories, purposes and provenance.','M04':'Evaluates published policy decisions.','M05':'Persists and resumes privacy work.','M06':'Restricts connector targets and operations.','M07':'Reads target state independently.','M08':'Preserves receipts, observations and reports.','M09':'Executes control assertions and records results.','M10':'Tracks notification obligations and status.','M11':'Records purpose-specific consent and withdrawal.','M12':'Versions and serves notices.','M13':'Presents principal-facing privacy actions.','M14':'Coordinates rights cases and actions.','M15':'Manages retention eligibility and holds.','M16':'Tracks processor relationships and evidence.','M17':'Tracks privacy incidents and duties.','M18':'Derives coverage, failures and gaps.','M19':'Custom AI privacy assistance.','M20':'Custom AI discovery.','M21':'Custom AI policy drafting.','M22':'Custom AI workflow drafting.','M23':'Custom AI risk and drift analysis.','M24':'Custom AI test generation.','M25':'Custom AI incident analysis.','M26':'Commercial billing.','M27':'Locally verifies signed licences.','M28':'Applies edition entitlements.','M29':'Guides customer onboarding.','M30':'Creates bounded local support diagnostics.','M31':'Validates signed update manifests and records steps.','M32':'Records service and boundary monitoring.','M33':'Administers scoped audit history.'}
 rows=[]
 for c in caps:
  st={'IMPLEMENTED_SANDBOX_SUBSET':'Built subset','PARTIAL_SANDBOX':'Partial','NOT_IMPLEMENTED':'Not built','DEFERRED_V2':'V2'}[c['implementation_status']]
+ if c['module_id']=='M26': st='Core coded; incomplete'
  rows.append((c['module_id']+' '+c['name'],purpose[c['module_id']],st))
-tab(['Module','What it does','Register status'],rows,[177,239,79])
-p('Customer runtime: the APIs, workspace, principal centre, database, worker, connectors, evidence and tests. Vendor side: account, licence/download/update and support metadata under a separate authority boundary. The register and requirement files provide the module-level implementation and test references. [O1,O2]')
+tab(['Module','What it does','Status / update'],rows,[177,239,79])
+p('Beyond this legacy 33-module register, merged V1 code includes non-model AI governance, PostgreSQL catalog-metadata observation, expanded GRC records, regulatory-package review, DPDP execution paths and vendor-side payment primitives. These vary in test depth; none makes the full expansion accepted. Customer runtime includes APIs, workspace, principal centre, database, worker, connectors, evidence and tests. Vendor account, licence/download/update and support metadata have a separate authority boundary. [O2,O4]')
 
 sub('4. The actual database and information model')
-p('ORVIA keeps a separate customer-local PostgreSQL operational database. It stores governance metadata and privacy state while the customer’s CRM, HR and other applications remain authoritative for their own records. Tenant and environment scope applies to business reads, jobs and exports. [O1,O2]')
+p('ORVIA uses a customer-local PostgreSQL operational database. It stores governance metadata and privacy state while customer source systems remain authoritative for their own records. Coded tables include regulatory sources/provisions/requirements/applicability decisions, GRC frameworks/controls/evidence/risks/audits, AI-system inventory and catalog discovery receipts. The discovery adapter observes approved PostgreSQL catalog metadata; it does not read rows or classify personal data. Tenant and environment scope applies to business reads, jobs and exports. [O1,O2,O4]')
 tab(['Record family','Relationship in the product'],[
 ('Organisation, environment, identity, role','Root of isolation and authority; owns all customer records.'),
 ('Source version, provision, obligation, control','Connects reviewed law or policy to an applicable customer implementation and required proof.'),
@@ -151,7 +153,7 @@ tab(['Record family','Relationship in the product'],[
 ('Processor, vendor, copy, hold, incident','Shows external relationships, preservation decisions and event duties.'),
 ('Workflow, command, acknowledgement, observation','Keeps intended action, external response and observed effect as distinct facts.'),
 ('Evidence, test, result, finding, audit','Makes a control claim traceable to a method, actual result and remediation history.')],[154,341])
-p('Target control graph: source -> provision -> obligation -> applicability -> control -> customer implementation -> evidence requirement -> verification method -> test -> result -> finding. The present schema contains substantial operational nodes and links; the complete reviewed regulatory-to-control catalog is a separate content deliverable. [O1,O2]')
+p('Target control graph: source -> provision -> obligation -> applicability -> control -> customer implementation -> evidence requirement -> verification method -> test -> result -> finding. The schema and signed regulatory-package import/review path now cover several of these links. A fully reviewed, legally approved Indian regulatory-to-control pack and end-to-end accepted journey remain separate gates. [O2,O4]')
 
 sub('5. How DPDP controls enter ORVIA')
 p('Every control should retain the official source version, section or rule, commencement date, interpretation owner, applicability, customer configuration, expected evidence, automated verification method, test and supersession. This keeps a legal interpretation distinct from a software observation. The Act and final Rules have phased commencement. [L1,L2]')
@@ -164,7 +166,7 @@ tab(['Control family','ORVIA / customer contribution','What can be checked; what
 ('Registered Consent Manager','A separate role-specific control family applies only if the customer actually holds that regulated role.','A consent product alone does not establish registration or satisfaction of Consent Manager duties.')],[112,196,187])
 
 sub('6. Synthetic database and test-data reference')
-p('The repeatable test reference is an ORVIA-owned synthetic Aster/Birch fixture, never customer operational data. A fixture version should pin schema migration, seed, controlled clock, source/build, target behaviour, requirement/control ID and expected outcome. Synthetic records allow deliberate wrong-tenant access, races, old events and faulty targets to be tested safely. [O2,O3]')
+p('The repeatable test reference is an ORVIA-owned synthetic Aster/Birch fixture, never customer operational data. A fixture version should pin schema migration, seed, controlled clock, source/build, target behaviour, requirement/control ID and expected outcome. Prior component checks exercise this profile; the merged DPDP suite files exist but have no committed execution result for the merged runtime. Synthetic records allow deliberate wrong-tenant access, races, old events and faulty targets to be tested safely. [O2-O4]')
 tab(['Fixture set','Example and expected result'],[
 ('Positive','Aster principal, notice, purpose, consent, declared CRM target, processor and control: correct action and observed result.'),
 ('Negative','Wrong role, stale notice, withdrawn consent, missing processor evidence: deny or open an explained finding.'),
@@ -184,9 +186,10 @@ tab(['Baseline','Source and owner','Version and ORVIA use'],[
 ('Release','Exact build, dependencies, catalogs and acceptance record; release authority.','Candidate and manifest hashes; bounds what may be claimed or shipped.')],[86,192,217])
 
 sub('8. What is built now')
-p('The repository has advanced beyond the original vertical slice. The latest documented engineering checkpoint recorded 100 of 104 routed requirements built and exercised; the four remaining routed items belonged to Billing. The current register marks 22 modules as built sandbox subsets, three partial, one not implemented and seven reserved for V2. This is code and component evidence, not formal full-application acceptance. [O1-O3]')
-p('Today’s worktree contains further uncommitted edits, so historical component results cannot automatically certify it. T01-T34 full application scenarios remain NOT_RUN in the canonical record, and the frozen candidate remains unidentified. The prior comparison pages deliberately lead with the demonstrable design and engineering strengths while this status remains visible to decision-makers. [O1-O3]')
-p('Requirement-level details live in tracking/tasks.json and tracking/capabilities.json. Each status should be promoted only with the corresponding running journey, test result and candidate identity. [O2,O3]')
+p('The repository has advanced beyond the original vertical slice. A historical bounded checkpoint recorded 100 of 104 routed requirements; that fraction is not an overall product completion measure. The legacy register records 22 built sandbox subsets, three partial, one then not built and seven custom-model V2 modules. Merged payment, DPDP, GRC, discovery and non-model AI-governance code extends beyond those labels. [O2,O4]')
+p('The overall 25 September assessment finds no defensible completion percentage: 218 master sections are indexed but not fully adjudicated; four of 14 expansion families are IN_PROGRESS and ten OPEN. The latest combined source passed 252 unit tests, typecheck, lint, web build and policy compilation, but that does not certify the combined runtime. All T01-T34 full application scenarios remain NOT_RUN; no frozen qualified candidate exists. The merged DPDP suites need execution evidence on that candidate. [O3,O4]')
+p('Requirement-level details live in tracking/tasks.json, tracking/capabilities.json and the overall completion assessment. Promote a status only with a running journey, result and exact candidate identity. [O2-O4]')
+p('Terms for the meeting: M01-M33 are numbered product modules; M19-M25 are seven proposed custom-model functions for V2. T01-T34 are 34 named full-application acceptance scenarios. An expansion family is one of 14 approved groups of added V1 requirements. NOT_RUN means no qualifying execution result has been recorded; it does not mean a test failed. A synthetic profile is a safe test installation using invented data and simulated target systems. [O1-O4]',small)
 
 sub('9. What the catalogs contain and how they are adopted')
 tab(['Catalog','Content and adoption'],[
@@ -196,16 +199,17 @@ tab(['Catalog','Content and adoption'],[
 ('Evidence and test','Evidence type, freshness, observation method, expected result and regression case; keep results tied to exact definitions.'),
 ('Policy and workflow','Reviewed template with safe parameters; instantiate for a customer environment and preserve earlier versions.'),
 ('Commercial/download','Edition, entitlement, signed artifact and support terms; keep vendor metadata separate from operational records.')],[119,376])
-p('Adoption sequence: sign and publish a catalog version; customer previews applicability, permissions and migrations; authorised owner selects and configures it; ORVIA instantiates scoped records; tests establish the new result; prior evidence retains its original version. The current application has policy, connector, evidence, test, licence and update primitives; a complete reviewed content/distribution catalog has its own delivery and sign-off gate. [O1,O2]')
+p('Adoption sequence: sign and publish a catalog version; customer previews applicability, permissions and migrations; authorised owner selects and configures it; ORVIA instantiates scoped records; tests establish the new result; prior evidence retains its original version. Signed regulatory-package import, review and applicability records are coded. The complete approved source pack, legal mapping and content/distribution acceptance still require sign-off. [O1,O2,O4]')
 
 sub('10. What the customer receives')
 p('The intended purchase is a licensed ORVIA installation with approved content and update/support terms. The downloaded runtime runs the Customer Workspace, Data Principal Privacy Centre, APIs, durable worker, customer-local database and allowed connectors inside the customer environment. A separate ORVIA Account and vendor website handle commercial identity, entitlement and signed download/update metadata. [O1]')
 p('The vendor boundary is narrow: operational records, principal identifiers, evidence, credentials and logs stay local. A customer may deliberately preview and approve a minimised diagnostic bundle. A connector is installed with named target, operation, permission, version and conformance checks. Licence and update records may cross as limited metadata; vendor authority does not become customer authority. [O1,O2]')
-p('Current engineering includes local licensing, support-bundle and update-manifest subsets. Commercial Billing and the complete vendor account/download operation are separate deliverables. This distinction keeps the customer product promise precise. [O2]')
+p('Current engineering includes local licensing, support-bundle and update-manifest subsets plus vendor-side UPI/card payment-processing primitives. Live provider integration, prices/taxes, production key custody, complete billing and the vendor account/download journey remain unqualified. [O2,O4]')
 
 sub('11. Delivery sequence and decision gates')
 tab(['Gate','Deliverable and evidence required'],[
 ('Reconcile current state','Freeze a clean source inventory, requirement map and one-writer boundaries; qualify every new change.'),
+('Expansion families','Close the 14 approved V1 expansion families with family-level acceptance evidence.'),
 ('DPDP control content','Legal/content owner reviews source-to-obligation-to-control mappings and effective dates.'),
 ('Production integrations','Select customer targets; qualify permissions, action safety, observation, timeout and rollback behaviour.'),
 ('Catalog and customer product','Versioned catalog adoption, installation, account/licence boundary and customer onboarding journeys.'),
@@ -215,14 +219,16 @@ tab(['Gate','Deliverable and evidence required'],[
 ('Custom AI roadmap','Evaluate the seven reserved V2 modules against separate model, data, safety and evidence gates.')],[120,375])
 
 sub('12. Research trail and its meaning')
-p('Official Indian law controls the regulatory analysis: the DPDP Act 2023, final DPDP Rules 2025, commencement notification and corrigenda. Official vendor pages describe vendor products; the supplied Redacto, IQWorks and miniOrange articles serve as discovery indexes, not independent product testing. NIST Privacy Framework and ISO/IEC 27701 are optional control-design references, not Indian legal requirements. A NIST workshop video is a useful orientation resource, not evidence of ORVIA implementation. [L1,L2,N1,N2,N3,I1-I3]')
+p('Official Indian law controls the regulatory analysis: the DPDP Act 2023, final DPDP Rules 2025, commencement notification and corrigenda. The repository still records commencement/source reconciliation issues, including a missing corrigendum and schedules in its content pack; legal review is required before asserting precise applicability. Official vendor pages describe vendor products; the supplied Redacto, IQWorks and miniOrange articles serve as discovery indexes, not independent product testing. NIST Privacy Framework and ISO/IEC 27701 are optional control-design references, not Indian legal requirements. [L1,L2,N1,N2,I1-I3,O4]')
 p('The full source table below separates ORVIA repository evidence, official vendor documentation, regulatory sources and external reference material. A source saying a control is desirable never means ORVIA has shipped it; the register and executed acceptance records decide that. [O1-O3]')
+p('Meeting rule: use “coded” for implemented paths, “synthetically tested” only where a recorded test ran, and “accepted” only after the exact merged candidate passes the applicable journey. For any question beyond this evidence, name the owner and next gate; do not supply a date, coverage percentage or legal conclusion from inference. [O3,O4]',small)
 
 h('Source notes')
 refs=[
 ('O1','Approved ORVIA Version 1 master, revision 1.4; CURRENT_STATE.md','Repository, 25 Sep 2026'),
 ('O2','tracking/capabilities.json; docs/prototype/CONTRACT.md; integration suites and code','Repository, 25 Sep 2026'),
 ('O3','docs/prototype/ACCEPTANCE.md; tracking/tasks.json','Repository, 25 Sep 2026'),
+('O4','docs/engineering/2026-09-25-overall-completion-and-resume.md; docs/leadership/2026-09-25-section-2-evidence-update.md; docs/engineering/V1_EXPANDED_BASELINE.md','Repository, 25 Sep 2026'),
 ('P1','OneTrust products','https://www.onetrust.com/products/'),
 ('P2','BigID discovery and classification','https://bigid.com/discovery-classification/'),
 ('P3','Securiti platform','https://securiti.ai/'),
@@ -235,7 +241,7 @@ refs=[
 ('P10','Sprinto continuous compliance','https://sprinto.com/continuous-compliance/'),
 ('P11','Scrut compliance automation','https://www.scrut.io/platform/compliance-automation'),
 ('P12','miniOrange DPDP','https://www.miniorange.com/data-privacy/dpdp/'),
-('L1','Digital Personal Data Protection Act, 2023','https://www.meity.gov.in/writereaddata/files/Digital%20Personal%20Data%20Protection%20Act%202023.pdf'),
+('L1','Digital Personal Data Protection Act, 2023','https://www.meity.gov.in/static/uploads/2024/02/Digital-Personal-Data-Protection-Act-2023-1.pdf'),
 ('L2','Final DPDP Rules 2025 and commencement materials','https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa'),
 ('N1','NIST Privacy Framework','https://www.nist.gov/privacy-framework/privacy-framework'),
 ('N2','ISO/IEC 27701:2025 overview','https://www.iso.org/standard/27701'),

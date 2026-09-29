@@ -1,0 +1,367 @@
+{
+  "task_id": "V1-INTEGRATIONS-01",
+  "recorded_at": "2026-09-28T16:39:01.986Z",
+  "fixture_kind": "ISOLATED_SYNTHETIC_VENDOR_DATABASE",
+  "database": "orvia_vendor_test_51a47b59684b4a6a8afdf7f3f6a958e3",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "concurrent identical order creates one durable order",
+      "result": "PASS"
+    },
+    {
+      "name": "price comes from approved server catalogue",
+      "result": "PASS"
+    },
+    {
+      "name": "changed idempotency body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-account read denied",
+      "result": "PASS"
+    },
+    {
+      "name": "forged account authority denied",
+      "result": "PASS"
+    },
+    {
+      "name": "read-only buyer cannot create",
+      "result": "PASS"
+    },
+    {
+      "name": "no entitlement before a verified capture",
+      "result": "PASS"
+    },
+    {
+      "name": "repeated pending checkout retains provider binding",
+      "result": "PASS"
+    },
+    {
+      "name": "repeated checkout does not create another provider order",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent capture yields exactly one original receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "one entitlement request per order",
+      "result": "PASS"
+    },
+    {
+      "name": "verified capture queues but does not issue licence",
+      "result": "PASS"
+    },
+    {
+      "name": "paid order cannot start another checkout",
+      "result": "PASS"
+    },
+    {
+      "name": "plain object cannot impersonate verified provider",
+      "result": "PASS"
+    },
+    {
+      "name": "same provider event ID with changed body rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "stale failure cannot downgrade captured order",
+      "result": "PASS"
+    },
+    {
+      "name": "different delivery ID does not duplicate issuance",
+      "result": "PASS"
+    },
+    {
+      "name": "one provider payment cannot pay two orders",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment retained as review required",
+      "result": "PASS"
+    },
+    {
+      "name": "underpayment never queues entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "fixture holds a payment on its own order lock",
+      "result": "PASS"
+    },
+    {
+      "name": "unrelated order can capture while first order is locked",
+      "result": "PASS"
+    },
+    {
+      "name": "card capture uses same verified durable path",
+      "result": "PASS"
+    },
+    {
+      "name": "test event cannot credit live merchant binding",
+      "result": "PASS"
+    },
+    {
+      "name": "refund received before capture remains unresolved",
+      "result": "PASS"
+    },
+    {
+      "name": "late capture does not undo refund",
+      "result": "PASS"
+    },
+    {
+      "name": "partial refund holds pending issuance",
+      "result": "PASS"
+    },
+    {
+      "name": "refund after fixture issuance requires review without remote command",
+      "result": "PASS"
+    },
+    {
+      "name": "lost checkout response is unknown",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown checkout cannot be blindly retried",
+      "result": "PASS"
+    },
+    {
+      "name": "lost provider create called only once",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown checkout effect is durable",
+      "result": "PASS"
+    },
+    {
+      "name": "in-flight checkout is not sent twice",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent checkout sends one provider request",
+      "result": "PASS"
+    },
+    {
+      "name": "outbox persistence failure aborts payment transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "failed transaction leaves no payment receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "failed transaction preserves pending order",
+      "result": "PASS"
+    },
+    {
+      "name": "payment ledger cannot be rewritten",
+      "result": "PASS"
+    },
+    {
+      "name": "audit cannot be erased",
+      "result": "PASS"
+    },
+    {
+      "name": "restart retains payment state",
+      "result": "PASS"
+    },
+    {
+      "name": "restart replay retains held entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "restart retains unknown checkout without resending",
+      "result": "PASS"
+    },
+    {
+      "name": "restart did not repeat unknown provider request",
+      "result": "PASS"
+    },
+    {
+      "name": "recovery rejects another account before provider call",
+      "result": "PASS"
+    },
+    {
+      "name": "unauthorised recovery made no provider call",
+      "result": "PASS"
+    },
+    {
+      "name": "recovery rejects wrong server receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "rejected recovery retains unknown state",
+      "result": "PASS"
+    },
+    {
+      "name": "matching independent GET restores provider binding",
+      "result": "PASS"
+    },
+    {
+      "name": "provider paid order snapshot alone does not credit order",
+      "result": "PASS"
+    },
+    {
+      "name": "recovery alone does not enqueue a licence",
+      "result": "PASS"
+    },
+    {
+      "name": "already bound recovery cannot overwrite identity",
+      "result": "PASS"
+    },
+    {
+      "name": "signed browser callback waits for capture",
+      "result": "PASS"
+    },
+    {
+      "name": "browser callback does not alter durable order",
+      "result": "PASS"
+    },
+    {
+      "name": "callback cannot cross account",
+      "result": "PASS"
+    },
+    {
+      "name": "verified capture after reconciliation queues once",
+      "result": "PASS"
+    },
+    {
+      "name": "reconciliation never repeats provider POST",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP anonymous purchase rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP client price cannot replace approved price",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP order creation",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP duplicate order retains identity",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP checkout calls only Razorpay orders endpoint",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP checkout",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP server price and public key",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP no API secret in checkout",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP callback does not claim capture",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP callback leaves order pending",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP signed webhook accepted",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP capture becomes durable paid",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP duplicate webhook acknowledged",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI HTTP exactly one pending entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP order creation",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP duplicate order retains identity",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP checkout calls only Razorpay orders endpoint",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP checkout",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP server price and public key",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP no API secret in checkout",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP callback does not claim capture",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP callback leaves order pending",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP signed webhook accepted",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP capture becomes durable paid",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP duplicate webhook acknowledged",
+      "result": "PASS"
+    },
+    {
+      "name": "CARD HTTP exactly one pending entitlement",
+      "result": "PASS"
+    },
+    {
+      "name": "UPI and card HTTP flows created one provider order each",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor database contains no customer operational schema",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor migration refuses customer schema sentinel",
+      "result": "PASS"
+    }
+  ],
+  "migration_sha256": "09509c7ab31d62217519a9d948f7d500ef106692625c8fbffffa23799fb91216",
+  "checkout_migration_sha256": "a443222af318607047ffc04106aa65dbfe4f62349e10c3c131d332b3163c2fd0",
+  "source_sha256": {
+    "backend/vendor/commerce/store.ts": "a78ab732a7f5509ddb9d72d92dcecbb2e1e566ff20eb3fc45d6a5e17c3570e79",
+    "backend/vendor/commerce/payment.ts": "829f9276cc7ee09d832c7f9f01c3f04f22657c947876b6246a72f52034e3385c",
+    "backend/vendor/commerce/checkout.ts": "366539e3dc5188e03992a7a4d689d13468ca6f7fcdae978f7b42c8f7148c117a",
+    "backend/vendor/commerce/razorpay.ts": "6e59e4ebb780cf9aa1992962d2fa9840ad5023f5b99d87dc4182c2802b97f161",
+    "backend/vendor/commerce/service.ts": "8063197aea04929adec60229cf7e8ecc695c9af75644e675b71f9118c44dd2fa",
+    "backend/vendor/commerce/http.ts": "5971e512f1fee7afe232a096c6aeafcf410a1cd31cb55a233ca5bf62f81f0bea",
+    "shared/contracts/src/commerce.ts": "12ef99c1074326316416232cfda7d3bc9c01dd0ec81a411b93c1845c863deaab",
+    "tests/integration/commerce/commerce.test.ts": "859d8a7422fd6e500988a16aac3334025e1ce982d4c6df6cc408a256677db6b3"
+  },
+  "limitations": [
+    "Fetch HTTP handler exercised in-process with a labelled session fixture; no network listener, browser login or actual payment provider used.",
+    "Provider transport uses explicitly synthetic responses; no Razorpay account exists yet.",
+    "No licence issued; one outbox row set to ISSUED by labelled fixture only.",
+    "Operator identity used in isolated test database; production role deployment not qualified."
+  ]
+}

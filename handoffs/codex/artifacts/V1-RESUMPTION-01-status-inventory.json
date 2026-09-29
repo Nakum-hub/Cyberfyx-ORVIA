@@ -1,0 +1,59 @@
+{
+    "source_commit":  "60f527d91779c654fbf66cf559ae02b65b3f7cb2",
+    "checked_at":  "2026-09-28T14:22:02.2029058Z",
+    "master_sha256":  "c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b",
+    "expansion_statuses":  [
+                               {
+                                   "Name":  "BUILT_PENDING_REVIEW",
+                                   "Count":  11
+                               },
+                               {
+                                   "Name":  "OPEN",
+                                   "Count":  1
+                               },
+                               {
+                                   "Name":  "IN_PROGRESS",
+                                   "Count":  2
+                               }
+                           ],
+    "family_acceptance":  [
+                              {
+                                  "Name":  "NOT_RUN",
+                                  "Count":  14
+                              }
+                          ],
+    "canonical_acceptance":  [
+                                 {
+                                     "Name":  "NOT_RUN",
+                                     "Count":  34
+                                 }
+                             ],
+    "source_section_reviews":  [
+                                   {
+                                       "Name":  "UNREVIEWED",
+                                       "Count":  218
+                                   }
+                               ],
+    "historical_module_statuses":  [
+                                       {
+                                           "Name":  "IMPLEMENTED_SANDBOX_SUBSET",
+                                           "Count":  22
+                                       },
+                                       {
+                                           "Name":  "DEFERRED_V2",
+                                           "Count":  7
+                                       },
+                                       {
+                                           "Name":  "NOT_IMPLEMENTED",
+                                           "Count":  1
+                                       },
+                                       {
+                                           "Name":  "PARTIAL_SANDBOX",
+                                           "Count":  3
+                                       }
+                                   ],
+    "missing_expansion_evidence":  [
+
+                                   ],
+    "note":  "Read-only status inventory; no acceptance or implementation percentage inferred."
+}

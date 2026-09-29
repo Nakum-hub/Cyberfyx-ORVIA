@@ -1,5 +1,6 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {preserveSourceReviews} from './source-review-state.ts';
 
 // Coverage index, not a completion generator. Preserve prior task acceptance;
 // never infer delivery, V2 deferral or applicability from a heading keyword.
@@ -33,20 +34,16 @@ const result={schema_version:1,source,source_revision:'1.4',source_sha256:expect
       normalized_content_sha256:hash(lines.slice(h.start,end).join('\n')),
       review_status:'UNREVIEWED',requirement_mappings:[],acceptance_status:'NOT_ASSESSED'};
   })};
-const output=JSON.stringify(result,null,2)+'\n';
 const args=process.argv.slice(2);
 if(args.length>1||(args.length===1&&args[0]!=='--check'))throw new Error('Usage: tsx scripts/v1-source-inventory.ts [--check]');
+let previous:unknown;
+try{previous=JSON.parse(readFileSync(target,'utf8'));}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
+const preserved=previous===undefined?result:preserveSourceReviews(result,previous);
+const output=JSON.stringify(preserved,null,2)+'\n';
 if(args[0]==='--check'){
   if(readFileSync(target,'utf8')!==output)throw new Error('Source inventory differs. Preserve reviewed mappings before regeneration.');
   console.log('PASS: all 218 numbered master sections match the immutable source inventory. No implementation acceptance inferred.');
 }else{
-  // Do not erase future reviewed mappings on regeneration.
-  let previous:unknown;
-  try{previous=JSON.parse(readFileSync(target,'utf8'));}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
-  if(previous){
-    const value=previous as typeof result;
-    if(!Array.isArray(value.sections)||value.sections.some(s=>s.review_status!=='UNREVIEWED'||s.requirement_mappings.length||s.acceptance_status!=='NOT_ASSESSED'))throw new Error('Existing reviewed mappings require a preserving migration, not regeneration.');
-  }
   writeFileSync(target,output);
-  console.log(`Wrote ${headings.length} source sections to ${target}; acceptance remains unassessed.`);
+  console.log(`Wrote ${headings.length} source sections to ${target}; existing reviews preserved, no acceptance inferred.`);
 }
