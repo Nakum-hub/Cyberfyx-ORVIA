@@ -52,7 +52,12 @@ export async function provisionVendor(profile: 'vendor-a00', root = process.cwd(
   } else writePrivateJson(installationFile, { kind: 'VENDOR_SERVICE', installation_id: config.installation_id, recorded_at: new Date().toISOString() });
   // Development only: the shared server's operator credential.
   const operatorFile = resolve(directory, 'postgres-password');
-  if (!existsSync(operatorFile)) copyFileSync(resolve(root, '.local/profiles/codex-a00/postgres-password'), operatorFile);
+  if (!existsSync(operatorFile)) {
+    // Development host: share the codex-a00 server's operator credential. A dedicated vendor host gets its own,
+    // which `pnpm run services up` then uses to initialise that host's PostgreSQL.
+    const shared = resolve(root, '.local/profiles/codex-a00/postgres-password');
+    if (existsSync(shared)) copyFileSync(shared, operatorFile); else secretFile(operatorFile);
+  }
   const operatorPassword = readFileSync(operatorFile, 'utf8').trim();
   const auth = resolve(directory, 'auth'); privateDirectory(auth);
   for (const name of ['vendor-secret', 'account-secret', 'vault-key']) secretFile(resolve(auth, name));

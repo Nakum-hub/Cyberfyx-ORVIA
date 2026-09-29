@@ -1,0 +1,10 @@
+[Unit]
+Description=Renew ORVIA machine logins (@PROFILE@)
+After=orvia-services.service
+
+[Service]
+Type=oneshot
+User=@USER@
+WorkingDirectory=@ROOT@
+Environment=ORVIA_PROFILE=@PROFILE@ ORVIA_WORKSPACE_ROOT=@ROOT@
+ExecStart=/usr/bin/env bash -c '@RENEW_EXEC@'
