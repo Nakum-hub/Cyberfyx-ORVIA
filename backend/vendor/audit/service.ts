@@ -2,6 +2,7 @@ import { randomBytes, randomInt, randomUUID, createHash } from 'node:crypto';
 import type pg from 'pg';
 import * as V from '../../../shared/contracts/src/vendor-audit.ts';
 import { verifyPackageFile, sha256, assertAttestationWording, type AuditPackageManifest } from '../../../shared/contracts/src/audit-exchange.ts';
+import { channelKey } from '../../../shared/contracts/src/audit-channel.ts';
 import { requirements as baselineRequirements } from '../../../scripts/regulatory/dpdp-baseline.ts';
 import { hashPassword } from '../../auth/src/bootstrap-password.ts';
 import { AccessError } from '../../authorization/src/index.ts';
@@ -18,7 +19,7 @@ import { renderPdf, type PdfLine } from './pdf.ts';
  * migrations 0003-0004 decide what is visible and writable; the checks here
  * add the workflow rules (who drafts, who approves, what may be opened).
  */
-export type Actor = { actor_id: string; actor_domain: 'VENDOR_STAFF' | 'CLIENT_ACCOUNT'; role: string; organisation_id: string | null };
+export type Actor = { actor_id: string; actor_domain: 'VENDOR_STAFF' | 'CLIENT_ACCOUNT' | 'CLIENT_INSTALLATION'; role: string; organisation_id: string | null };
 export type Ctx = { tx: pg.PoolClient; actor: Actor; requestId: string };
 export type Keys = { vault: Buffer; audit: () => AuditKey; licence: () => VendorKey };
 const iso = (v: unknown) => v === null || v === undefined ? null : (v as Date).toISOString();
@@ -133,7 +134,7 @@ export async function engagement(c: Ctx, id: string) {
     independence: { declared: r.independence_statement !== null, statement: r.independence_statement, conflict_check: r.conflict_check, conflict_note: r.conflict_note, declared_at: iso(r.independence_declared_at) },
     empanelment_reference: r.empanelment_reference, retention_days: r.retention_days, closed_at: iso(r.closed_at), purged_at: iso(r.purged_at) });
 }
-export async function createEngagement(c: Ctx, input: unknown) {
+export async function createEngagement(c: Ctx, input: unknown, keys?: Keys) {
   const v = V.EngagementCreate.parse(input);
   if (v.period_to < v.period_from) refuse(400, 'period_to', 'before_period_from');
   const unknown = v.scope_requirement_ids.filter(r => !baseline.has(r));
@@ -142,6 +143,9 @@ export async function createEngagement(c: Ctx, input: unknown) {
   return guarded(async () => {
     await c.tx.query(`INSERT INTO vendor.engagements (id, organisation_id, reference, code_digest, scope_requirement_ids, period_from, period_to, retention_days, created_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
       [id, v.organisation_id, v.reference, engagementCodeDigest(code), [...new Set(v.scope_requirement_ids)], v.period_from, v.period_to, v.retention_days, c.actor.actor_id]);
+    // The audit channel key (revision 1.6) is derived from the code and kept only sealed under the vault key.
+    if (keys) { const sealed = seal(keys.vault, channelKey(code), `channel-key:${id}`);
+      await c.tx.query('INSERT INTO vendor.channels (engagement_id, key_ciphertext, key_nonce, key_tag) VALUES ($1,$2,$3,$4)', [id, sealed.ciphertext, sealed.nonce, sealed.tag]); }
     await audit(c, 'vendor.engagement.created', id);
     return V.EngagementCreated.parse({ engagement_id: id, engagement_code: code, note: 'Shown once. Give it to the client organisation privately; ORVIA keeps only its digest.' });
   });
@@ -184,9 +188,14 @@ export async function closeEngagement(c: Ctx, id: string) {
 export const MAX_PACKAGE_BYTES = 64 * 1024 * 1024;
 export async function receivePackage(c: Ctx, engagementCode: string, bytes: Buffer, keys: Keys, now = new Date()) {
   if (c.actor.actor_domain !== 'CLIENT_ACCOUNT') throw new AccessError(403, 'FORBIDDEN');
+  return receivePackageForDigest(c, engagementCodeDigest(engagementCode), bytes, keys, now);
+}
+/** The same verification for a file a client user uploads and for a package the client installation sends over the audit channel (revision 1.6). */
+export async function receivePackageForDigest(c: Ctx, digest: string, bytes: Buffer, keys: Keys, now = new Date()) {
+  if (c.actor.actor_domain !== 'CLIENT_ACCOUNT' && c.actor.actor_domain !== 'CLIENT_INSTALLATION') throw new AccessError(403, 'FORBIDDEN');
   if (!(await c.tx.query('SELECT vendor.record_upload_attempt() AS ok')).rows[0].ok) throw new AccessError(429, 'RATE_LIMITED');
   const fileSha = sha256(bytes);
-  const found = (await c.tx.query('SELECT * FROM vendor.engagement_for_code($1)', [engagementCodeDigest(engagementCode)])).rows[0];
+  const found = (await c.tx.query('SELECT * FROM vendor.engagement_for_code($1)', [digest])).rows[0];
   const refused = async (reasons: string[]) => {
     await c.tx.query('SELECT vendor.refuse_package($1,$2,$3)', [found?.id ?? null, fileSha, reasons]);
     await audit(c, 'audit.package.refused', found?.id ?? null);
@@ -199,7 +208,7 @@ export async function receivePackage(c: Ctx, engagementCode: string, bytes: Buff
   if (!verified.ok) return refused(verified.problems);
   const m: AuditPackageManifest = verified.manifest;
   const reasons: string[] = [];
-  if (m.engagement_code_digest !== engagementCodeDigest(engagementCode)) reasons.push('WRONG_ENGAGEMENT');
+  if (m.engagement_code_digest !== digest) reasons.push('WRONG_ENGAGEMENT');
   const scope = new Set<string>(found.scope);
   if (m.scope_requirement_ids.some(r => !scope.has(r))) reasons.push('SCOPE_OUTSIDE_ENGAGEMENT');
   if ((await c.tx.query('SELECT 1 FROM vendor.packages WHERE client_package_id=$1 AND uploaded_by=$2', [m.package_id, c.actor.actor_id])).rowCount) reasons.push('PACKAGE_ALREADY_RECEIVED');
@@ -395,6 +404,12 @@ export async function signReport(c: Ctx, id: string, keys: Keys) {
   const list = await checklist(c, r.engagement_id); const f = await findingsView(c, r.engagement_id);
   const results = list.rows.map(row => ({ requirement_id: row.requirement_id, result: row.result ?? 'NOT_TESTED' as const, rationale: row.rationale ?? 'No result was recorded for this requirement; it was not tested.' }));
   const scope = { requirement_ids: e.scope_requirement_ids as string[], period: { from: day(e.period_from)!, to: day(e.period_to)! } };
+  // Auditor requests the client left unanswered past their due date are scope limitations; they are stated, never hidden.
+  const unanswered = (await c.tx.query(`SELECT kind, requirement_id, due_date, status FROM vendor.channel_requests WHERE engagement_id=$1 AND status IN ('PENDING','AWAITING_CLIENT_APPROVAL','REFUSED') AND due_date < $2::date ORDER BY due_date, id`,
+    [r.engagement_id, day(r.opinion_as_of)])).rows;
+  const limitations = [...(r.limitations as string[]), ...unanswered.map(u => `Auditor request (${String(u.kind).replaceAll('_', ' ').toLowerCase()}${u.requirement_id ? `, ${u.requirement_id}` : ''}) due ${day(u.due_date)} was ${u.status === 'REFUSED' ? 'declined' : 'not answered'} by the client by the opinion date.`)];
+  if (limitations.length > 20) limitations.splice(19, limitations.length - 19, `${limitations.length - 19} further limitations, including unanswered auditor requests, are recorded in the engagement file.`);
+  r.limitations = limitations;
   const pdf = renderPdf(reportLines(e, r, results, f.items), `${e.reference} - audit opinion as of ${day(r.opinion_as_of)} - version ${r.version}`);
   const pdfSha = sha256(pdf);
   const document = { kind: 'REPORT' as const, ...header(e), report_id: r.id, version: r.version, opinion_as_of: day(r.opinion_as_of)!, scope, method: r.method, results,

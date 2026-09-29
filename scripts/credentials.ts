@@ -29,14 +29,26 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+/** Same rule as ChannelAddress in shared/contracts/src/audit-channel.ts, kept dependency-free here. */
+const channelAddressValid = (v: unknown) => { if (typeof v !== 'string' || v.length > 300) return false;
+  try { const x = new URL(v); return !x.username && !x.password && !x.search && !x.hash && (x.protocol === 'https:' || (x.protocol === 'http:' && ['127.0.0.1', 'localhost', '[::1]'].includes(x.hostname))); } catch { return false; } };
+
 type PublicKey = { key_id: string; public: string };
-export type VendorTrust = { release: PublicKey; licence: PublicKey; audit: PublicKey | null };
+/** audit_service (revision 1.6): the one address the installation's audit channel may call; HTTPS, or plain HTTP only to loopback. */
+export type VendorTrust = { release: PublicKey; licence: PublicKey; audit: PublicKey | null; audit_service: { url: string } | null };
 const text = (v: unknown, what: string) => { if (typeof v !== 'string' || !v.length) throw new Error(`Invalid ${what}`); return v; };
 const publicKey = (v: unknown, what: string): PublicKey => { const o = (v ?? {}) as Record<string, unknown>; return { key_id: text(o.key_id, `${what} key_id`), public: text(o.public, `${what} public key`) }; };
 const keyPair = (v: unknown, what: string) => ({ ...publicKey(v, what), private: text((v as Record<string, unknown>).private, `${what} private key`) });
-const trustFile = (v: unknown): VendorTrust => { const o = (v ?? {}) as Record<string, unknown>; if (Object.keys(o).some(k => !['release', 'licence', 'audit'].includes(k))) throw new Error('Unexpected entry in trust file');
+const trustFile = (v: unknown): VendorTrust => { const o = (v ?? {}) as Record<string, unknown>; if (Object.keys(o).some(k => !['release', 'licence', 'audit', 'audit_service'].includes(k))) throw new Error('Unexpected entry in trust file');
   for (const k of ['release', 'licence', 'audit'] as const) if (Object.keys((o[k] ?? {}) as object).some(x => !['key_id', 'public'].includes(x))) throw new Error('A trust file holds public keys only');
-  return { release: publicKey(o.release, 'release'), licence: publicKey(o.licence, 'licence'), audit: o.audit === undefined ? null : publicKey(o.audit, 'audit') }; };
+  let audit_service: { url: string } | null = null;
+  if (o.audit_service !== undefined) {
+    const s = (o.audit_service ?? {}) as Record<string, unknown>;
+    if (Object.keys(s).some(x => x !== 'url')) throw new Error('audit_service holds only its url');
+    if (!channelAddressValid(s.url)) throw new Error('audit_service url must be HTTPS (plain HTTP only to loopback) with no credentials, query or fragment');
+    audit_service = { url: s.url as string };
+  }
+  return { release: publicKey(o.release, 'release'), licence: publicKey(o.licence, 'licence'), audit: o.audit === undefined ? null : publicKey(o.audit, 'audit'), audit_service }; };
 export type SigningKind = 'release' | 'licence' | 'audit';
 const PREFIX: Record<SigningKind, string> = { release: 'ORVIA_RELEASE', licence: 'ORVIA_LICENCE', audit: 'ORVIA_AUDIT' };
 
@@ -59,7 +71,11 @@ export function vendorSigningEnvironment(kind: SigningKind) {
 }
 /** Customer-side: the public keys an installation trusts, or null if none has been provisioned. */
 export function installationTrust(profile: string) {
-  const path = trustPath(profile);
+  return installationTrustAt(profileDirectory(profile));
+}
+/** The same, from an installation's profile directory (used by services that know their directory, not their profile name). */
+export function installationTrustAt(directory: string) {
+  const path = resolve(directory, 'trust', 'vendor-public-keys.json');
   return existsSync(path) ? trustFile(JSON.parse(readFileSync(path, 'utf8'))) : null;
 }
 /**
@@ -76,6 +92,10 @@ export function customerEnvironment(base: NodeJS.ProcessEnv, profile: string): N
       if (env[`${prefix}_PUBLIC_KEY`] && env[`${prefix}_PUBLIC_KEY`] !== key.public) throw new Error(`${prefix}_PUBLIC_KEY differs from the installation trust file; refusing to start with an untrusted key.`);
       env[`${prefix}_KEY_ID`] = key.key_id; env[`${prefix}_PUBLIC_KEY`] = key.public;
     }
+    if (trust.audit_service) {
+      if (env.ORVIA_AUDIT_SERVICE_URL && env.ORVIA_AUDIT_SERVICE_URL !== trust.audit_service.url) throw new Error('ORVIA_AUDIT_SERVICE_URL differs from the installation trust file; refusing to start with an untrusted address.');
+      env.ORVIA_AUDIT_SERVICE_URL = trust.audit_service.url;
+    } else delete env.ORVIA_AUDIT_SERVICE_URL;
   }
   return env;
 }

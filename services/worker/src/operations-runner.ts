@@ -17,6 +17,8 @@ import { escalationSweep } from '../../../backend/domain/src/assessments/impact.
 import { propagatePendingWithdrawals } from '../../../backend/domain/src/registry/consent.ts';
 import type { OperationsEnv } from '../../../backend/domain/src/operations/shared.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
+import { channelSweep, type ChannelEnv } from '../../../backend/domain/src/dpdpa-audit/channel.ts';
+import { installationTrustAt } from '../../../scripts/credentials.ts';
 
 /**
  * Background runner for DPDP operations (implementation plan s7 "jobs and timers").
@@ -35,9 +37,10 @@ import { safeError } from '../../../shared/testing/src/evidence.ts';
  * control tests, escalates overdue compliance issues and assessment findings,
  * removes the chunk copies of expired exports, and purges the content of rights
  * response packages thirty days after their delivery ended. It then delivers
- * reviewed messages through the customer's enabled transports.
+ * reviewed messages through the customer's enabled transports, and services
+ * approved DPDPA audit mandates over the outbound audit channel (revision 1.6).
  */
-export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; errors: string[] };
+export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; audit_check_ins: number; audit_deliveries_accepted: number; audit_requests_received: number; errors: string[] };
 const BATCH = { job: 200, evaluate: 200, execute: 50 };
 const MAX_BATCHES_PER_ITEM = 50;
 
@@ -48,6 +51,11 @@ export function operationsRunner() {
   const targets = { agent: servicePool(config, 'orvia_target_agent'), observer: servicePool(config, 'orvia_target_observer') };
   const key = createHash('sha256').update('orvia-registry-source-key:' + config.secret('principal-secret')).digest();
   const webhookKey = createHash('sha256').update('orvia-webhook-signing:' + config.secret('principal-secret')).digest();
+  // DPDPA audit mandate channel (revision 1.6): the only outbound call, to the one address in the trust file.
+  const trust = installationTrustAt(config.directory);
+  const channelEnv: ChannelEnv = { address: trust?.audit_service?.url ?? null, auditKey: trust?.audit ?? null,
+    sealKey: createHash('sha256').update('orvia-evidence-key-seal:' + config.secret('principal-secret')).digest(),
+    checkInSeconds: Number(process.env.ORVIA_AUDIT_CHECK_IN_SECONDS ?? 900) };
   const env: OperationsEnv = { sourceKeyDigest: value => createHmac('sha256', key).update(value, 'utf8').digest('hex'), targets, webhookSecret: id => createHmac('sha256', webhookKey).update(id, 'utf8').digest('hex') };
 
   async function once(): Promise<RunnerReport[]> {
@@ -55,7 +63,7 @@ export function operationsRunner() {
     for (const identity of currentEnrollment().identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
-      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, errors: [] };
+      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, audit_check_ins: 0, audit_deliveries_accepted: 0, audit_requests_received: 0, errors: [] };
       const scopeValues = [identity.scope.tenant_id, identity.scope.legal_entity_id, identity.scope.environment_id];
       // Withdrawals first: a recorded withdrawal without a propagation run is the
       // one gap here that can leave marketing active. Its runs then enter the
@@ -98,6 +106,9 @@ export function operationsRunner() {
           if (recorded === 'SENT') report.messages_sent++; else if (recorded === 'EXHAUSTED') report.messages_exhausted++; else report.messages_retrying++;
         }
       } catch (error) { report.errors.push(`delivery: ${safeError(error).code}`); }
+      // Audit mandate channel: check in, answer requests inside the mandate, send due evidence (revision 1.6).
+      try { const ch = await channelSweep(scoped, channelEnv); report.audit_check_ins = ch.check_ins; report.audit_deliveries_accepted = ch.deliveries_accepted; report.audit_requests_received = ch.requests_received; report.errors.push(...ch.errors); }
+      catch (error) { report.errors.push(`audit channel: ${safeError(error).code}`); }
       reports.push(report);
     }
     return reports;

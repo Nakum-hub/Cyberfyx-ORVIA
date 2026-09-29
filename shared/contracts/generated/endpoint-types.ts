@@ -426,4 +426,12 @@ export interface EndpointMap {
   audit_import: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImport> };
   audit_import_pdf: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImportPdf> };
   link_audit_finding: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FindingLinkCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditImport> };
+  audit_channel: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditChannel> };
+  close_audit_engagement: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEngagementClose>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditEngagement> };
+  create_audit_mandate: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditMandateCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditMandate> };
+  approve_audit_mandate: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditMandate> };
+  change_audit_mandate_state: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AuditMandateStateChange>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AuditMandate> };
+  audit_channel_delivery: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ChannelDeliveryContent> };
+  decide_audit_channel_request: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ChannelRequestDecision>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ChannelRequest> };
+  submit_audit_package_over_channel: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PackageSubmission> };
 }

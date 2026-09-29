@@ -9,6 +9,8 @@ import { authHandler } from '../../../auth/src/server.ts';
 import { vendorSigningKey } from '../../../../scripts/credentials.ts';
 import { vaultKeyFrom } from '../../../vendor/audit/vault.ts';
 import * as S from '../../../vendor/audit/service.ts';
+import * as CH from '../../../vendor/audit/channel.ts';
+import { CHANNEL_HEADERS, MAX_CHANNEL_BODY_BYTES } from '../../../../shared/contracts/src/audit-channel.ts';
 import { vendorRuntime, type VendorRuntime } from './runtime.ts';
 import { vendorActorFor, requireVendorCapability, vendorTransaction, vendorSafeRoute, jsonBody, parseWith, type VendorActor } from './authority.ts';
 
@@ -36,7 +38,12 @@ const routes: Route[] = [
   R('POST', '/organisations/{id}/accounts', 'organisations.manage', (c, id, i) => S.createClientAccount(c, id!, i)),
   R('POST', '/licences', 'licences.issue', (c, _, i, __, k) => S.issueOrganisationLicence(c, i, k)),
   R('GET', '/engagements', 'engagements.read', c => S.engagementList(c)),
-  R('POST', '/engagements', 'engagements.manage', (c, _, i) => S.createEngagement(c, i)),
+  R('POST', '/engagements', 'engagements.manage', (c, _, i, __, k) => S.createEngagement(c, i, k)),
+  R('GET', '/overview', 'vendor.overview.read', c => CH.overview(c)),
+  R('GET', '/engagements/{id}/channel', 'audit.fieldwork', (c, id) => CH.channelView(c, id!)),
+  R('POST', '/engagements/{id}/channel/requests', 'audit.fieldwork', (c, id, i, __, k) => CH.createChannelRequest(c, id!, i, k)),
+  R('POST', '/channel-requests/{id}/withdraw', 'audit.fieldwork', (c, id) => CH.withdrawChannelRequest(c, id!)),
+  R('GET', '/channel-deliveries/{id}', 'audit.fieldwork', (c, id) => CH.channelDelivery(c, id!)),
   R('GET', '/engagements/{id}', 'engagements.read', (c, id) => S.engagement(c, id!)),
   R('POST', '/engagements/{id}/team', 'engagements.manage', (c, id, i) => S.addTeamMember(c, id!, i)),
   R('POST', '/engagements/{id}/independence', 'audit.fieldwork', (c, id, i) => S.declareIndependence(c, id!, i)),
@@ -101,6 +108,7 @@ export function createVendorHandler(getRuntime: () => VendorRuntime = vendorRunt
     if (url.pathname === `${BASE}/setup`) return setup(request, r);
     if (url.pathname === `${BASE}/session`) { const actor = await vendorActorFor(request, r); return Response.json(V.VendorSession.parse({ actor_domain: actor.actor_domain, actor_id: actor.actor_id, role: actor.role, capabilities: actor.capabilities, organisation_id: actor.organisation_id, name: actor.name, email: actor.email, expires_at: actor.expires_at })); }
     if (url.pathname === `${BASE}/uploads` && request.method === 'POST') return upload(request, r, requestId);
+    if (url.pathname.startsWith(`${BASE}/channel/`)) return channel(request, url, r);
     const { route, id } = match(request.method, url.pathname);
     const actor = await vendorActorFor(request, r);
     await requireVendorCapability(r.config, actor, route.capability);
@@ -134,6 +142,22 @@ async function upload(request: Request, r: VendorRuntime, requestId: string) {
   if (!bytes) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'package', code: 'too_large' }]);
   const result = await vendorTransaction(r.pool, actor, tx => S.receivePackage(toCtx(tx, actor, requestId), code, bytes, keys(r)));
   return Response.json(result, { status: result.outcome === 'REFUSED' ? 422 : 201 });
+}
+/**
+ * Audit mandate channel (revision 1.6): called by a client installation's background worker, never by a browser.
+ * No session or cookie is accepted; the HMAC over the body with the engagement's channel key is the authentication.
+ */
+async function channel(request: Request, url: URL, r: VendorRuntime) {
+  const kind = url.pathname.slice(`${BASE}/channel/`.length);
+  if (request.method !== 'POST' || !['check-in', 'deliveries', 'packages'].includes(kind)) throw new AccessError(404, 'NOT_FOUND');
+  if (request.headers.has('cookie') || request.headers.has('authorization')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_session_credentials_accepted' }]);
+  const maximum = kind === 'packages' ? MAX_UPLOAD : MAX_CHANNEL_BODY_BYTES;
+  if (Number(request.headers.get('content-length') ?? '0') > maximum) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
+  const body = await boundedBytes(request, maximum);
+  if (!body) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
+  const result = await CH.channelCall(r.pool, keys(r), { kind: kind as 'check-in' | 'deliveries' | 'packages', digest: request.headers.get(CHANNEL_HEADERS.engagement),
+    timestamp: request.headers.get(CHANNEL_HEADERS.timestamp), signature: request.headers.get(CHANNEL_HEADERS.signature), contentType: request.headers.get('content-type')?.split(';')[0] ?? null, body });
+  return Response.json(result.body, { status: result.status });
 }
 async function boundedBytes(request: Request, maximum: number) {
   if (!request.body) return Buffer.alloc(0);

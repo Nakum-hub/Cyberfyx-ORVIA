@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.42.0",
+  "contract_version": "0.43.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4712,6 +4712,96 @@
       "status": 200,
       "idempotency": true,
       "capability": "audit_exchange.prepare",
+      "params": "IdPath"
+    },
+    {
+      "id": "audit_channel",
+      "method": "get",
+      "path": "/api/v1/admin/audit-engagements/{id}/channel",
+      "authority": "STAFF",
+      "response": "AuditChannel",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "close_audit_engagement",
+      "method": "post",
+      "path": "/api/v1/admin/audit-engagements/{id}/closure",
+      "authority": "STAFF",
+      "request": "AuditEngagementClose",
+      "response": "AuditEngagement",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "create_audit_mandate",
+      "method": "post",
+      "path": "/api/v1/admin/audit-engagements/{id}/mandates",
+      "authority": "STAFF",
+      "request": "AuditMandateCreate",
+      "response": "AuditMandate",
+      "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.prepare",
+      "params": "IdPath"
+    },
+    {
+      "id": "approve_audit_mandate",
+      "method": "post",
+      "path": "/api/v1/admin/audit-mandates/{id}/approval",
+      "authority": "STAFF",
+      "response": "AuditMandate",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "change_audit_mandate_state",
+      "method": "post",
+      "path": "/api/v1/admin/audit-mandates/{id}/state",
+      "authority": "STAFF",
+      "request": "AuditMandateStateChange",
+      "response": "AuditMandate",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "audit_channel_delivery",
+      "method": "get",
+      "path": "/api/v1/admin/audit-channel-deliveries/{id}",
+      "authority": "STAFF",
+      "response": "ChannelDeliveryContent",
+      "status": 200,
+      "capability": "audit_exchange.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "decide_audit_channel_request",
+      "method": "post",
+      "path": "/api/v1/admin/audit-channel-requests/{id}/decision",
+      "authority": "STAFF",
+      "request": "ChannelRequestDecision",
+      "response": "ChannelRequest",
+      "status": 200,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "submit_audit_package_over_channel",
+      "method": "post",
+      "path": "/api/v1/admin/audit-packages/{id}/channel-submission",
+      "authority": "STAFF",
+      "response": "PackageSubmission",
+      "status": 201,
+      "idempotency": true,
+      "capability": "audit_exchange.approve",
       "params": "IdPath"
     },
     {

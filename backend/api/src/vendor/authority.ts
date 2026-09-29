@@ -18,7 +18,7 @@ import { vendorRuntime, type VendorRuntime } from './runtime.ts';
  */
 export const VendorRole = VendorRoleName;
 export type VendorRole = 'VENDOR_SUPER_ADMIN' | 'VENDOR_ADMIN' | 'LEAD_AUDITOR' | 'AUDITOR' | 'AUDIT_REVIEWER';
-const administration = ['vendor.team.read', 'vendor.team.manage', 'organisations.read', 'organisations.manage', 'licences.read', 'licences.issue', 'engagements.read', 'engagements.manage', 'support.read', 'support.manage', 'vendor.audit.read', 'payments.read'];
+const administration = ['vendor.team.read', 'vendor.team.manage', 'organisations.read', 'organisations.manage', 'licences.read', 'licences.issue', 'engagements.read', 'engagements.manage', 'support.read', 'support.manage', 'vendor.audit.read', 'payments.read', 'vendor.overview.read'];
 const fieldwork = ['engagements.read', 'organisations.read', 'audit.fieldwork', 'support.read'];
 /** Mirrors backend/policy/vendor/authorization.rego; both must allow. */
 export const vendorRoleCapabilities: Record<VendorRole | 'CLIENT_ACCOUNT', string[]> = {

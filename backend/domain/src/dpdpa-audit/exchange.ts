@@ -4,6 +4,7 @@ import * as D from '../../../../shared/contracts/src/dpdpa-audit.ts';
 import * as G from '../../../../shared/contracts/src/grc.ts';
 import { canonicalJson } from '../../../../shared/contracts/src/crypto.ts';
 import { AuditPackageManifest, packageFileBytes, manifestFingerprint, sha256, sniffMediaType, verifyAuditDocument, MAX_EVIDENCE_FILE_BYTES, type AuditDocument, type PackageItem } from '../../../../shared/contracts/src/audit-exchange.ts';
+import { channelKey } from '../../../../shared/contracts/src/audit-channel.ts';
 import { AccessError } from '../../../authorization/src/index.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { iso, packageAt, predicate, refuse, scope, inForce, type RequirementClaim } from '../operations/shared.ts';
@@ -41,11 +42,12 @@ const day = (v: unknown) => v instanceof Date ? new Date(v.getTime() - v.getTime
 export const engagementCodeDigest = (code: string) => createHash('sha256').update('orvia-engagement:' + code.toUpperCase().replace(/[^A-Z0-9]/g, ''), 'utf8').digest('hex');
 
 // ---------------------------------------------------------------- gap register
-async function dpdpFramework(c: Context, version: string) {
+export async function dpdpFramework(c: Context, version: string) {
   const r = (await c.tx.query(`SELECT document FROM app.grc_frameworks WHERE ${predicate} AND document->>'source_reference'=$4 ORDER BY document->>'recorded_at' DESC LIMIT 1`, [...scope(c), `ORVIA regulatory package ${version}`])).rows[0];
   return r ? G.GrcFramework.parse(r.document) : null;
 }
-async function controlStandings(c: Context, frameworkId: string | null) {
+/** Standing of every control mapped to the DPDP framework, by requirement. The mandate worker passes countFiles=false: it never reads evidence files. */
+export async function controlStandings(c: Context, frameworkId: string | null, countFiles = true) {
   const out = new Map<string, { control_id: string; title: string; standing: D.Standing; evidence_id: string | null; files: number }[]>();
   if (!frameworkId) return out;
   const controls = (await c.tx.query(`SELECT document FROM app.grc_controls WHERE ${predicate} AND document->'mappings' @> $4::jsonb`, [...scope(c), JSON.stringify([{ framework_id: frameworkId }])])).rows.map(r => G.GrcControl.parse(r.document));
@@ -55,7 +57,7 @@ async function controlStandings(c: Context, frameworkId: string | null) {
     const evidence = ev ? G.GrcEvidence.parse(ev.document) : null;
     const rv = evidence ? (await c.tx.query(`SELECT document FROM app.grc_reviews WHERE ${predicate} AND evidence_id=$4`, [...scope(c), evidence.id])).rows[0] : undefined;
     const standing = G.controlStanding(control, evidence, rv ? G.GrcEvidenceReview.parse(rv.document) : null, now);
-    const files = (await c.tx.query(`SELECT count(*)::int AS n FROM app.evidence_files WHERE ${predicate} AND control_id=$4`, [...scope(c), control.id])).rows[0].n as number;
+    const files = countFiles ? (await c.tx.query(`SELECT count(*)::int AS n FROM app.evidence_files WHERE ${predicate} AND control_id=$4`, [...scope(c), control.id])).rows[0].n as number : 0;
     for (const m of control.mappings.filter(m => m.framework_id === frameworkId)) {
       const list = out.get(m.requirement_code) ?? []; list.push({ control_id: control.id, title: control.title, standing: standing.state, evidence_id: standing.evidence_id, files }); out.set(m.requirement_code, list);
     }
@@ -180,6 +182,8 @@ export async function createEngagement(c: Context, input: unknown) {
   await guarded(() => c.tx.query(`INSERT INTO app.audit_engagements (tenant_id, legal_entity_id, environment_id, id, code_digest, firm_name, engagement_reference, scope_requirement_ids, period_from, period_to,
     processing_agreement_reference, independence_statement, empanelment_reference, created_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
   [...scope(c), id, engagementCodeDigest(v.engagement_code), v.firm_name, v.engagement_reference, [...new Set(v.scope_requirement_ids)], v.period_from, v.period_to, v.processing_agreement_reference, v.independence_statement, v.empanelment_reference, c.actor.actor_id]));
+  // The audit channel key (revision 1.6) is derived here and readable only by the background worker; the code itself is not kept.
+  await guarded(() => c.tx.query('INSERT INTO app.audit_channel_keys (tenant_id, legal_entity_id, environment_id, engagement_id, channel_key) VALUES ($1,$2,$3,$4,$5)', [...scope(c), id, channelKey(v.engagement_code)]));
   await audit(c, 'audit_engagement.created', id);
   return engagement(c, id);
 }

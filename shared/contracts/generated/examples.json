@@ -13979,6 +13979,405 @@
       }
     },
     {
+      "operation_id": "audit_channel",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-engagements/{id}/channel",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "available": true,
+        "audit_service": {
+          "configured": true,
+          "address": "https://audit.vendor.example.in"
+        },
+        "evidence_key_id": "orvia-installation-00000000000000000000000000000000",
+        "mandates": [
+          {
+            "id": "00000000-0000-4000-8000-00000000062c",
+            "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+            "kind": "ENGAGEMENT",
+            "scope_requirement_ids": [
+              "DPDP-NOTICE-CONSENT-REQUEST"
+            ],
+            "categories": [
+              "INDICATORS",
+              "CONTROL_STANDING"
+            ],
+            "schedule": "WEEKLY",
+            "valid_from": "2026-09-16T10:00:00.000Z",
+            "valid_to": "2026-10-16T10:00:00.000Z",
+            "state": "ACTIVE",
+            "open": true,
+            "prepared_by": "00000000-0000-4000-8000-0000000005df",
+            "prepared_role": "ORG_ADMIN",
+            "approved_by": "00000000-0000-4000-8000-0000000005de",
+            "approved_role": "ORG_SUPER_ADMIN",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "state_changed_at": "2026-09-16T10:00:00.000Z",
+            "state_reason": null,
+            "reported_state": "ACTIVE",
+            "last_check_in_at": "2026-09-16T10:00:00.000Z",
+            "next_collection_at": "2026-10-16T10:00:00.000Z",
+            "channel_problem": null,
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "requests": [
+          {
+            "id": "00000000-0000-4000-8000-00000000062e",
+            "mandate_id": "00000000-0000-4000-8000-00000000062c",
+            "kind": "EVIDENCE_FILE",
+            "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+            "description": "Signed copy of the notice approval record.",
+            "due_date": "2026-10-30",
+            "received_at": "2026-09-16T10:00:00.000Z",
+            "decision": "AWAITING_CLIENT_APPROVAL",
+            "decision_reason": "EVIDENCE_FILES_NEED_A_CLIENT_APPROVER",
+            "decided_by": null,
+            "decided_at": null,
+            "delivery_id": null,
+            "package_id": null,
+            "reported_to_auditor": true,
+            "overdue": false,
+            "request": {}
+          }
+        ],
+        "deliveries": [
+          {
+            "id": "00000000-0000-4000-8000-00000000062d",
+            "mandate_id": "00000000-0000-4000-8000-00000000062c",
+            "sequence": 1,
+            "kind": "SNAPSHOT",
+            "request_id": null,
+            "period_from": "2026-09-16T10:00:00.000Z",
+            "period_to": "2026-09-16T10:00:00.000Z",
+            "entries": 4,
+            "categories": [
+              "INDICATORS",
+              "CONTROL_STANDING"
+            ],
+            "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "state": "ACCEPTED",
+            "attempts": 1,
+            "last_error": null,
+            "reasons": [],
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "completed_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "submissions": [
+          {
+            "id": "00000000-0000-4000-8000-00000000062f",
+            "package_id": "00000000-0000-4000-8000-0000000005f0",
+            "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+            "request_id": "00000000-0000-4000-8000-00000000062e",
+            "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "state": "ACCEPTED",
+            "attempts": 1,
+            "last_error": null,
+            "reasons": [],
+            "requested_by": "00000000-0000-4000-8000-0000000005de",
+            "requested_at": "2026-09-16T10:00:00.000Z",
+            "completed_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "limits": []
+      }
+    },
+    {
+      "operation_id": "close_audit_engagement",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-engagements/{id}/closure",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Engagement completed and report received."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000005fa",
+        "firm_name": "Synthetic audit practice",
+        "engagement_reference": "ENG-2026-01",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "period_from": "2026-01-01",
+        "period_to": "2026-06-30",
+        "processing_agreement": {
+          "status": "NOT_RECORDED",
+          "reference": null
+        },
+        "independence": {
+          "declared": true,
+          "statement": "The audit firm declared its independence in the engagement letter."
+        },
+        "empanelment_reference": null,
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-0000000005df",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "packages": [
+          {
+            "id": "00000000-0000-4000-8000-0000000005f0",
+            "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+            "state": "APPROVED",
+            "expires_at": "2026-10-16T10:00:00.000Z",
+            "effective_state": "APPROVED",
+            "prepared_by": "00000000-0000-4000-8000-0000000005df",
+            "prepared_role": "ORG_ADMIN",
+            "approved_by": "00000000-0000-4000-8000-0000000005de",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "manifest_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "revoked_at": null,
+            "revoke_reason": null,
+            "item_count": 1,
+            "exports": 1,
+            "created_at": "2026-09-16T10:00:00.000Z"
+          }
+        ],
+        "imports": [
+          {
+            "id": "00000000-0000-4000-8000-000000000604",
+            "kind": "FINDINGS",
+            "document_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "signing_key_id": "orvia-audit-synthetic",
+            "imported_at": "2026-09-16T10:00:00.000Z",
+            "imported_by": "00000000-0000-4000-8000-0000000005df",
+            "issued_at": "2026-09-16T10:00:00.000Z",
+            "entries": 1,
+            "pdf_sha256": null
+          }
+        ]
+      }
+    },
+    {
+      "operation_id": "create_audit_mandate",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-engagements/{id}/mandates",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "kind": "ENGAGEMENT",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "categories": [
+          "INDICATORS",
+          "CONTROL_STANDING"
+        ],
+        "schedule": "WEEKLY",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": "2026-10-16T10:00:00.000Z"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062c",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "kind": "ENGAGEMENT",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "categories": [
+          "INDICATORS",
+          "CONTROL_STANDING"
+        ],
+        "schedule": "WEEKLY",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": "2026-10-16T10:00:00.000Z",
+        "state": "ACTIVE",
+        "open": true,
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_role": "ORG_SUPER_ADMIN",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "state_changed_at": "2026-09-16T10:00:00.000Z",
+        "state_reason": null,
+        "reported_state": "ACTIVE",
+        "last_check_in_at": "2026-09-16T10:00:00.000Z",
+        "next_collection_at": "2026-10-16T10:00:00.000Z",
+        "channel_problem": null,
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "approve_audit_mandate",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-mandates/{id}/approval",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062c",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "kind": "ENGAGEMENT",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "categories": [
+          "INDICATORS",
+          "CONTROL_STANDING"
+        ],
+        "schedule": "WEEKLY",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": "2026-10-16T10:00:00.000Z",
+        "state": "ACTIVE",
+        "open": true,
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_role": "ORG_SUPER_ADMIN",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "state_changed_at": "2026-09-16T10:00:00.000Z",
+        "state_reason": null,
+        "reported_state": "ACTIVE",
+        "last_check_in_at": "2026-09-16T10:00:00.000Z",
+        "next_collection_at": "2026-10-16T10:00:00.000Z",
+        "channel_problem": null,
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "change_audit_mandate_state",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-mandates/{id}/state",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "state": "SUSPENDED",
+        "reason": "Paused while the privacy team reviews the categories."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062c",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "kind": "ENGAGEMENT",
+        "scope_requirement_ids": [
+          "DPDP-NOTICE-CONSENT-REQUEST"
+        ],
+        "categories": [
+          "INDICATORS",
+          "CONTROL_STANDING"
+        ],
+        "schedule": "WEEKLY",
+        "valid_from": "2026-09-16T10:00:00.000Z",
+        "valid_to": "2026-10-16T10:00:00.000Z",
+        "state": "ACTIVE",
+        "open": true,
+        "prepared_by": "00000000-0000-4000-8000-0000000005df",
+        "prepared_role": "ORG_ADMIN",
+        "approved_by": "00000000-0000-4000-8000-0000000005de",
+        "approved_role": "ORG_SUPER_ADMIN",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "state_changed_at": "2026-09-16T10:00:00.000Z",
+        "state_reason": null,
+        "reported_state": "ACTIVE",
+        "last_check_in_at": "2026-09-16T10:00:00.000Z",
+        "next_collection_at": "2026-10-16T10:00:00.000Z",
+        "channel_problem": null,
+        "created_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "audit_channel_delivery",
+      "method": "GET",
+      "path": "/api/v1/admin/audit-channel-deliveries/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062d",
+        "mandate_id": "00000000-0000-4000-8000-00000000062c",
+        "sequence": 1,
+        "kind": "SNAPSHOT",
+        "request_id": null,
+        "period_from": "2026-09-16T10:00:00.000Z",
+        "period_to": "2026-09-16T10:00:00.000Z",
+        "entries": 4,
+        "categories": [
+          "INDICATORS",
+          "CONTROL_STANDING"
+        ],
+        "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "state": "ACCEPTED",
+        "attempts": 1,
+        "last_error": null,
+        "reasons": [],
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "completed_at": "2026-09-16T10:00:00.000Z",
+        "document": {
+          "format": "orvia.dpdpa-audit-delivery"
+        },
+        "signed": {
+          "algorithm": "Ed25519"
+        },
+        "receipt": null
+      }
+    },
+    {
+      "operation_id": "decide_audit_channel_request",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-channel-requests/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "decision": "REFUSED",
+        "reason": "OUT_OF_PERIOD",
+        "package_id": null
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062e",
+        "mandate_id": "00000000-0000-4000-8000-00000000062c",
+        "kind": "EVIDENCE_FILE",
+        "requirement_id": "DPDP-NOTICE-CONSENT-REQUEST",
+        "description": "Signed copy of the notice approval record.",
+        "due_date": "2026-10-30",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "decision": "AWAITING_CLIENT_APPROVAL",
+        "decision_reason": "EVIDENCE_FILES_NEED_A_CLIENT_APPROVER",
+        "decided_by": null,
+        "decided_at": null,
+        "delivery_id": null,
+        "package_id": null,
+        "reported_to_auditor": true,
+        "overdue": false,
+        "request": {}
+      }
+    },
+    {
+      "operation_id": "submit_audit_package_over_channel",
+      "method": "POST",
+      "path": "/api/v1/admin/audit-packages/{id}/channel-submission",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000062f",
+        "package_id": "00000000-0000-4000-8000-0000000005f0",
+        "engagement_id": "00000000-0000-4000-8000-0000000005fa",
+        "request_id": "00000000-0000-4000-8000-00000000062e",
+        "file_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "state": "ACCEPTED",
+        "attempts": 1,
+        "last_error": null,
+        "reasons": [],
+        "requested_by": "00000000-0000-4000-8000-0000000005de",
+        "requested_at": "2026-09-16T10:00:00.000Z",
+        "completed_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
       "operation_id": "poll_commands",
       "method": "POST",
       "path": "/api/v1/machine/commands/poll",
