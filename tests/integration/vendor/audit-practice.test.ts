@@ -101,6 +101,24 @@ try {
   const e = await newEngagement('ENG-PRAC-1', [...scope, 'DPDP-NOTICE-LEGACY-CONSENT']);
   await adm.json(`${V}/engagements/${e.id}/team`, { user_id: R.u.id, engagement_role: 'REVIEWER' });
   await acceptEngagement({ admin: adm, reviewer, lead, engagementId: e.id, ...practice });
+  // Scope of the definer helpers (Codex review R6), as the application role itself, bound the way the application binds a person;
+  // no capability is granted, so only team membership can make the answer visible.
+  const asApp = async (actor: string, sql: string, params: unknown[]) => {
+    const c = await h.runtime.pool.connect();
+    try {
+      await c.query('BEGIN');
+      await c.query(`SELECT set_config('vendor.actor_id',$1,true), set_config('vendor.actor_domain','VENDOR_STAFF',true), set_config('vendor.role','AUDITOR',true),
+        set_config('vendor.capabilities','',true), set_config('vendor.organisation_id','',true)`, [actor]);
+      return (await c.query(sql, params)).rows[0] as Record<string, unknown>;
+    } catch (error) { return { error: (error as { code?: string }).code }; }
+    finally { await c.query('ROLLBACK').catch(() => {}); c.release(); }
+  };
+  check('scope: the acceptance helper answers a team member and not a person outside the team (application role)',
+    [(await asApp(L.u.id, 'SELECT vendor.engagement_accepted($1) AS v', [e.id])).v, (await asApp(R2.u.id, 'SELECT vendor.engagement_accepted($1) AS v', [e.id])).v], [true, false]);
+  check('scope: the conclusion-support helper says nothing to a person outside the team (application role)', (await asApp(R2.u.id, 'SELECT vendor.requirement_supported($1,$2) AS v', [e.id, scope[0]])).v, false);
+  check('scope: the application role cannot call the internal review-bar helper', (await asApp(L.u.id, 'SELECT vendor.review_barred($1,$2) AS v', [e.id, L.u.id])).error, '42501');
+  check('scope: no vendor definer function is executable by PUBLIC',
+    (await h.operator.query("SELECT count(*)::int AS n FROM pg_proc p WHERE p.pronamespace='vendor'::regnamespace AND p.prosecdef AND has_function_privilege('public', p.oid, 'EXECUTE')")).rows[0].n, 0);
   let file = await ok(auditor.json(`${V}/engagements/${e.id}/understanding`, { business_overview: 'Synthetic retailer; contact the DPO at dpo@cedar.example or +91 98765 43210.', processing_activities: ['Marketing consent'], systems: ['ORVIA'], data_categories: ['Contact details'],
     third_parties: [], sdf_status: { status: 'UNKNOWN', source: 'Not established (synthetic)' }, prior_audits: null, existing_records: [] }), 'understanding');
   check('understanding: contact details are redacted before storage', [file.understanding[0].redactions, JSON.stringify(file.understanding[0].content).includes('dpo@cedar.example')], [2, false]);

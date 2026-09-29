@@ -1,0 +1,1071 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T17:50:18.670Z",
+  "suite": "audit-mandate",
+  "assertions": [
+    {
+      "name": "a new engagement has a channel, not yet used",
+      "result": "PASS",
+      "expected": [
+        200,
+        true,
+        "NOT_STARTED",
+        null,
+        null
+      ],
+      "actual": [
+        200,
+        true,
+        "NOT_STARTED",
+        null,
+        null
+      ]
+    },
+    {
+      "name": "an auditor cannot issue channel requests before the engagement is accepted",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the channel key is kept sealed; neither side keeps the code",
+      "result": "PASS",
+      "expected": 32,
+      "actual": 32
+    },
+    {
+      "name": "a mandate outside the engagement scope is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "outside_engagement_scope"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "outside_engagement_scope"
+        ]
+      }
+    },
+    {
+      "name": "an engagement mandate cannot outlive the audit by more than 120 days",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "engagement_mandate_ends_within_120_days_of_the_audit_period"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "engagement_mandate_ends_within_120_days_of_the_audit_period"
+        ]
+      }
+    },
+    {
+      "name": "an auditor (read-only) cannot draft a mandate",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a drafted mandate authorises nothing yet",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        false
+      ],
+      "actual": [
+        "DRAFT",
+        false
+      ]
+    },
+    {
+      "name": "the preparer cannot approve their own mandate",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "approver_must_differ_from_preparer"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "approver_must_differ_from_preparer"
+        ]
+      }
+    },
+    {
+      "name": "an auditor cannot approve a mandate",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a different owner approves: the mandate is active and open",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        true,
+        true
+      ],
+      "actual": [
+        "ACTIVE",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a second mandate for the same engagement cannot be in force",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "another_mandate_in_force_end_it_first"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "another_mandate_in_force_end_it_first"
+        ]
+      }
+    },
+    {
+      "name": "the client stored the channel key for the worker",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the worker checks in and the scheduled snapshot is accepted",
+      "result": "PASS",
+      "expected": [
+        true,
+        1,
+        []
+      ],
+      "actual": [
+        true,
+        1,
+        []
+      ]
+    },
+    {
+      "name": "the client records the check-in and the accepted delivery",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        true,
+        null,
+        1,
+        true
+      ],
+      "actual": [
+        "ACTIVE",
+        true,
+        null,
+        1,
+        true
+      ]
+    },
+    {
+      "name": "the vendor pinned the installation key and holds the signed mandate",
+      "result": "PASS",
+      "expected": [
+        "orvia-installation-b5ed52b2b56c42ffbfc028ca3cdf6d4c",
+        "INTACT",
+        "ACTIVE",
+        true,
+        "NONE_AUTOMATIC"
+      ],
+      "actual": [
+        "orvia-installation-b5ed52b2b56c42ffbfc028ca3cdf6d4c",
+        "INTACT",
+        "ACTIVE",
+        true,
+        "NONE_AUTOMATIC"
+      ]
+    },
+    {
+      "name": "the delivery verifies against the installation key; its receipt against the audit key",
+      "result": "PASS",
+      "expected": [
+        1,
+        null,
+        "ACCEPTED"
+      ],
+      "actual": [
+        1,
+        null,
+        "ACCEPTED"
+      ]
+    },
+    {
+      "name": "the worker computed exactly what staff see (row-level security hid nothing)",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the snapshot covers each category in the mandate except request-only sampling",
+      "result": "PASS",
+      "expected": [
+        "ACTIVITY_LOG_DIGEST",
+        "CONTROL_STANDING",
+        "INDICATORS",
+        "NOTICE_VERSIONS"
+      ],
+      "actual": [
+        "ACTIVITY_LOG_DIGEST",
+        "CONTROL_STANDING",
+        "INDICATORS",
+        "NOTICE_VERSIONS"
+      ]
+    },
+    {
+      "name": "the snapshot carries indicators, control standing and the audit-trail digest",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the auditor's checklist counts the mandate evidence per requirement",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "no contact detail of any person is in the delivery",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "vendor-visibility lists the mandate and the delivery",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an auditor outside the engagement team cannot issue requests",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a sample without its population and size is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the worker receives five requests; two need a client approver",
+      "result": "PASS",
+      "expected": [
+        5,
+        2,
+        2
+      ],
+      "actual": [
+        5,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "inside the mandate: answered automatically",
+      "result": "PASS",
+      "expected": [
+        "DELIVERED",
+        "DELIVERED"
+      ],
+      "actual": [
+        "DELIVERED",
+        "DELIVERED"
+      ]
+    },
+    {
+      "name": "evidence files wait for a client approver; the auditor sees that at once",
+      "result": "PASS",
+      "expected": [
+        "AWAITING_CLIENT_APPROVAL",
+        "AWAITING_CLIENT_APPROVAL"
+      ],
+      "actual": [
+        "AWAITING_CLIENT_APPROVAL",
+        "AWAITING_CLIENT_APPROVAL"
+      ]
+    },
+    {
+      "name": "outside the mandate: refused with the reason",
+      "result": "PASS",
+      "expected": [
+        "REFUSED",
+        "CATEGORY_OUTSIDE_MANDATE"
+      ],
+      "actual": [
+        "REFUSED",
+        "CATEGORY_OUTSIDE_MANDATE"
+      ]
+    },
+    {
+      "name": "the sample follows the auditor's seed: same selection, same count, only counts leave",
+      "result": "PASS",
+      "expected": [
+        "739749f55b39dedf94587b5009fff8c657e78e218ea7bd105d63e42d820e01db",
+        3,
+        903,
+        false
+      ],
+      "actual": [
+        "739749f55b39dedf94587b5009fff8c657e78e218ea7bd105d63e42d820e01db",
+        3,
+        903,
+        false
+      ]
+    },
+    {
+      "name": "the chain stays intact across deliveries",
+      "result": "PASS",
+      "expected": {
+        "installation_key_id": "orvia-installation-b5ed52b2b56c42ffbfc028ca3cdf6d4c",
+        "pinned_at": "2026-09-29T17:50:00.530Z",
+        "last_check_in_at": "2026-09-29T17:50:02.077Z",
+        "check_ins": 3,
+        "chain_state": "INTACT",
+        "chain_problem": null,
+        "next_sequence": 4
+      },
+      "actual": {
+        "installation_key_id": "orvia-installation-b5ed52b2b56c42ffbfc028ca3cdf6d4c",
+        "pinned_at": "2026-09-29T17:50:00.530Z",
+        "last_check_in_at": "2026-09-29T17:50:02.077Z",
+        "check_ins": 3,
+        "chain_state": "INTACT",
+        "chain_problem": null,
+        "next_sequence": 4
+      }
+    },
+    {
+      "name": "the client sees what waits for it and that the auditor was told",
+      "result": "PASS",
+      "expected": [
+        "AWAITING_CLIENT_APPROVAL",
+        true
+      ],
+      "actual": [
+        "AWAITING_CLIENT_APPROVAL",
+        true
+      ]
+    },
+    {
+      "name": "an unapproved package cannot answer a request",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "package_not_sendable"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "package_not_sendable"
+        ]
+      }
+    },
+    {
+      "name": "an auditor cannot decide a request",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the approved package is queued to answer the request",
+      "result": "PASS",
+      "expected": [
+        "AWAITING_CLIENT_APPROVAL",
+        "aa8b1fec-b289-4d01-98a2-4ada9a8a13e2"
+      ],
+      "actual": [
+        "AWAITING_CLIENT_APPROVAL",
+        "aa8b1fec-b289-4d01-98a2-4ada9a8a13e2"
+      ]
+    },
+    {
+      "name": "a request decided once cannot be decided again",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "request_already_decided"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "request_already_decided"
+        ]
+      }
+    },
+    {
+      "name": "the package goes over the channel",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the vendor verifies and accepts the package received over the channel",
+      "result": "PASS",
+      "expected": [
+        "ACCEPTED"
+      ],
+      "actual": [
+        "ACCEPTED"
+      ]
+    },
+    {
+      "name": "the channel source is recorded on the vendor side",
+      "result": "PASS",
+      "expected": "CHANNEL",
+      "actual": "CHANNEL"
+    },
+    {
+      "name": "the file request shows delivered with its package; the decline shows declined with the reason",
+      "result": "PASS",
+      "expected": [
+        "DELIVERED",
+        "aa8b1fec-b289-4d01-98a2-4ada9a8a13e2",
+        "REFUSED",
+        "NOT_HELD_BY_THE_ORGANISATION"
+      ],
+      "actual": [
+        "DELIVERED",
+        "aa8b1fec-b289-4d01-98a2-4ada9a8a13e2",
+        "REFUSED",
+        "NOT_HELD_BY_THE_ORGANISATION"
+      ]
+    },
+    {
+      "name": "vendor-visibility says this package was sent by ORVIA over the channel",
+      "result": "PASS",
+      "expected": [
+        true,
+        "ACCEPTED"
+      ],
+      "actual": [
+        true,
+        "ACCEPTED"
+      ]
+    },
+    {
+      "name": "a wrong channel key is refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "an unknown engagement is refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a stale timestamp is refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a session cookie is never accepted on the channel",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a replayed delivery gets its original receipt and is not stored twice",
+      "result": "PASS",
+      "expected": [
+        200,
+        true,
+        1
+      ],
+      "actual": [
+        200,
+        true,
+        1
+      ]
+    },
+    {
+      "name": "a delivery signed by another installation key is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a delivery outside the mandate gets a signed refusal",
+      "result": "PASS",
+      "expected": [
+        200,
+        "REFUSED",
+        [
+          "CATEGORY_OUTSIDE_MANDATE"
+        ]
+      ],
+      "actual": [
+        200,
+        "REFUSED",
+        [
+          "CATEGORY_OUTSIDE_MANDATE"
+        ]
+      ]
+    },
+    {
+      "name": "a lost response leaves the delivery UNKNOWN, not failed and not accepted",
+      "result": "PASS",
+      "expected": [
+        0,
+        1
+      ],
+      "actual": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "the same signed delivery is sent again and settled by the vendor's original receipt",
+      "result": "PASS",
+      "expected": [
+        true,
+        "ACCEPTED",
+        1
+      ],
+      "actual": [
+        true,
+        "ACCEPTED",
+        1
+      ]
+    },
+    {
+      "name": "an answer not signed by the trusted audit key is ignored and shown as a problem",
+      "result": "PASS",
+      "expected": "CHECK_IN_ANSWER_NOT_SIGNED_BY_TRUSTED_AUDIT_KEY",
+      "actual": "CHECK_IN_ANSWER_NOT_SIGNED_BY_TRUSTED_AUDIT_KEY"
+    },
+    {
+      "name": "a delivery that skips one is accepted but the chain is marked broken for good",
+      "result": "PASS",
+      "expected": [
+        [
+          "CHAIN_BROKEN"
+        ],
+        "BROKEN",
+        "string"
+      ],
+      "actual": [
+        [
+          "CHAIN_BROKEN"
+        ],
+        "BROKEN",
+        "string"
+      ]
+    },
+    {
+      "name": "a signed channel entry is registered as system-generated evidence with its provenance and hash",
+      "result": "PASS",
+      "expected": [
+        "SYSTEM_GENERATED",
+        "CHANNEL_ENTRY",
+        true,
+        true
+      ],
+      "actual": [
+        "SYSTEM_GENERATED",
+        "CHANNEL_ENTRY",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "population from a sample the server seeded is refused until its signed entry is registered",
+      "result": "PASS",
+      "expected": "register_the_channel_entry_as_evidence_first",
+      "actual": "register_the_channel_entry_as_evidence_first"
+    },
+    {
+      "name": "a population is recorded from the signed sample once its entry is registered",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "the population takes the seed, size and counts from the signed sample, and stays UNVERIFIED",
+      "result": "PASS",
+      "expected": [
+        "31248320992461f78f305cc7f8e2f5c8",
+        5,
+        5,
+        "UNVERIFIED",
+        "739749f55b39dedf94587b5009fff8c657e78e218ea7bd105d63e42d820e01db"
+      ],
+      "actual": [
+        "31248320992461f78f305cc7f8e2f5c8",
+        5,
+        5,
+        "UNVERIFIED",
+        "739749f55b39dedf94587b5009fff8c657e78e218ea7bd105d63e42d820e01db"
+      ]
+    },
+    {
+      "name": "the signed findings file is offered to the client installation over the channel",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker stages the verified findings file; nothing is imported without a person",
+      "result": "PASS",
+      "expected": [
+        true,
+        null,
+        0
+      ],
+      "actual": [
+        true,
+        null,
+        0
+      ]
+    },
+    {
+      "name": "the client acknowledges it at the next check-in and the vendor stops offering it",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a person imports it through the verified import",
+      "result": "PASS",
+      "expected": [
+        "FINDINGS",
+        [
+          "already_imported"
+        ]
+      ],
+      "actual": [
+        "FINDINGS",
+        [
+          "already_imported"
+        ]
+      ]
+    },
+    {
+      "name": "the response is screened for contact details and carries the GRC remediation state only as a reference",
+      "result": "PASS",
+      "expected": [
+        1,
+        false,
+        "GRC_ISSUE"
+      ],
+      "actual": [
+        1,
+        false,
+        "GRC_ISSUE"
+      ]
+    },
+    {
+      "name": "the preparer cannot approve their own response",
+      "result": "PASS",
+      "expected": [
+        "approver_must_differ_from_preparer"
+      ],
+      "actual": [
+        "approver_must_differ_from_preparer"
+      ]
+    },
+    {
+      "name": "a response to a finding not in the imported file is refused",
+      "result": "PASS",
+      "expected": [
+        "not_in_this_findings_file"
+      ],
+      "actual": [
+        "not_in_this_findings_file"
+      ]
+    },
+    {
+      "name": "approval without the approver's record that the response holds no personal data is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a different owner approves, recording that it holds no personal data, and it is queued for the worker",
+      "result": "PASS",
+      "expected": [
+        "QUEUED",
+        "NONE_CONFIRMED"
+      ],
+      "actual": [
+        "QUEUED",
+        "NONE_CONFIRMED"
+      ]
+    },
+    {
+      "name": "staff cannot change an approved response directly",
+      "result": "PASS",
+      "expected": "finding_response_sealed",
+      "actual": "finding_response_sealed"
+    },
+    {
+      "name": "the worker signs and sends it; the vendor records it on the finding from the channel",
+      "result": "PASS",
+      "expected": [
+        1,
+        "ACCEPTED",
+        "CLIENT_RESPONDED",
+        "CHANNEL",
+        "PARTIALLY_AGREE",
+        false
+      ],
+      "actual": [
+        1,
+        "ACCEPTED",
+        "CLIENT_RESPONDED",
+        "CHANNEL",
+        "PARTIALLY_AGREE",
+        false
+      ]
+    },
+    {
+      "name": "the signed response carries the approver's no-personal-data record",
+      "result": "PASS",
+      "expected": "NONE_CONFIRMED_BY_APPROVER",
+      "actual": "NONE_CONFIRMED_BY_APPROVER"
+    },
+    {
+      "name": "a repeated response gets an accepted receipt and is stored once",
+      "result": "PASS",
+      "expected": [
+        "ACCEPTED",
+        1
+      ],
+      "actual": [
+        "ACCEPTED",
+        1
+      ]
+    },
+    {
+      "name": "a response signed by another installation key is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a mandate leased by another worker is left alone: no calls",
+      "result": "PASS",
+      "expected": [
+        1,
+        0
+      ],
+      "actual": [
+        1,
+        0
+      ]
+    },
+    {
+      "name": "a suspension during a cycle lets the in-flight send finish and stops the next one before it is generated",
+      "result": "PASS",
+      "expected": [
+        1,
+        1,
+        true,
+        null
+      ],
+      "actual": [
+        1,
+        1,
+        true,
+        null
+      ]
+    },
+    {
+      "name": "after resuming, the held snapshot is generated and sent",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a worker that loses its lease mid-cycle finishes the send in flight and generates nothing more",
+      "result": "PASS",
+      "expected": [
+        1,
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        1,
+        true
+      ]
+    },
+    {
+      "name": "the next worker picks up the rest",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a request past its due date is refused, never answered, and the vendor is told",
+      "result": "PASS",
+      "expected": [
+        "REFUSED",
+        "PAST_DUE",
+        {
+          "status": "REFUSED",
+          "status_reason": "PAST_DUE"
+        }
+      ],
+      "actual": [
+        "REFUSED",
+        "PAST_DUE",
+        {
+          "status": "REFUSED",
+          "status_reason": "PAST_DUE"
+        }
+      ]
+    },
+    {
+      "name": "two documents that fit one at a time are offered one per answer, and every answer is small enough to read",
+      "result": "PASS",
+      "expected": [
+        1,
+        1,
+        null,
+        1,
+        1,
+        null
+      ],
+      "actual": [
+        1,
+        1,
+        null,
+        1,
+        1,
+        null
+      ]
+    },
+    {
+      "name": "a document too large for any answer is not offered, is marked for the file route and shown to the audit team, and the check-in still succeeds",
+      "result": "PASS",
+      "expected": [
+        1,
+        0,
+        null,
+        "TOO_LARGE_FOR_CHANNEL",
+        true
+      ],
+      "actual": [
+        1,
+        0,
+        null,
+        "TOO_LARGE_FOR_CHANNEL",
+        true
+      ]
+    },
+    {
+      "name": "it is not offered again",
+      "result": "PASS",
+      "expected": [
+        1,
+        0
+      ],
+      "actual": [
+        1,
+        0
+      ]
+    },
+    {
+      "name": "the suspension is reported once; no request reaches a suspended mandate",
+      "result": "PASS",
+      "expected": [
+        "SUSPENDED",
+        false,
+        0,
+        "PENDING"
+      ],
+      "actual": [
+        "SUSPENDED",
+        false,
+        0,
+        "PENDING"
+      ]
+    },
+    {
+      "name": "a suspended mandate makes no further calls",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "an unanswered request past its due date is stated as a limitation in the signed report",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "leadership sees counts from real records",
+      "result": "PASS",
+      "expected": [
+        200,
+        1,
+        1,
+        true,
+        1
+      ],
+      "actual": [
+        200,
+        1,
+        1,
+        true,
+        1
+      ]
+    },
+    {
+      "name": "leadership overview carries no evidence content",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an auditor cannot read the leadership overview",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a second response is queued before the engagement closes",
+      "result": "PASS",
+      "expected": "QUEUED",
+      "actual": "QUEUED"
+    },
+    {
+      "name": "closing the engagement ends its mandate",
+      "result": "PASS",
+      "expected": [
+        "CLOSED",
+        "ENDED"
+      ],
+      "actual": [
+        "CLOSED",
+        "ENDED"
+      ]
+    },
+    {
+      "name": "with the vendor unreachable, the queued response still fails unsent at the end; nothing is left pending",
+      "result": "PASS",
+      "expected": [
+        true,
+        0,
+        0,
+        true,
+        {
+          "state": "FAILED",
+          "last_error": "MANDATE_ENDED_BEFORE_SENDING",
+          "attempts": 0
+        }
+      ],
+      "actual": [
+        true,
+        0,
+        0,
+        true,
+        {
+          "state": "FAILED",
+          "last_error": "MANDATE_ENDED_BEFORE_SENDING",
+          "attempts": 0
+        }
+      ]
+    },
+    {
+      "name": "the queued response never reached the vendor",
+      "result": "PASS",
+      "expected": [
+        1
+      ],
+      "actual": [
+        1
+      ]
+    },
+    {
+      "name": "the end is reported to the vendor",
+      "result": "PASS",
+      "expected": "ENDED",
+      "actual": "ENDED"
+    },
+    {
+      "name": "after the end the vendor refuses deliveries",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an ended mandate cannot be resumed",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "staff cannot read any channel key",
+      "result": "PASS",
+      "expected": "ROWS:0",
+      "actual": "ROWS:0"
+    },
+    {
+      "name": "staff cannot read the installation evidence key",
+      "result": "PASS",
+      "expected": "DENIED",
+      "actual": "DENIED"
+    },
+    {
+      "name": "staff cannot change a mandate directly",
+      "result": "PASS",
+      "expected": "DENIED",
+      "actual": "DENIED"
+    },
+    {
+      "name": "staff cannot write deliveries",
+      "result": "PASS",
+      "expected": "DENIED",
+      "actual": "DENIED"
+    }
+  ],
+  "passed": 95,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
