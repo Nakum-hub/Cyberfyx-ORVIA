@@ -1,0 +1,281 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-29T14:04:02.101Z",
+  "suite": "preferences",
+  "assertions": [
+    {
+      "name": "the fixture scope has a published purpose to depend on",
+      "result": "PASS",
+      "expected": "string",
+      "actual": "string"
+    },
+    {
+      "name": "a principal cannot define topics",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot define topics",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a topic is created active with its channels",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        [
+          "EMAIL",
+          "SMS"
+        ]
+      ],
+      "actual": [
+        "ACTIVE",
+        [
+          "EMAIL",
+          "SMS"
+        ]
+      ]
+    },
+    {
+      "name": "a topic code is unique in scope",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "code_in_use"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "code_in_use"
+        ]
+      }
+    },
+    {
+      "name": "duplicate channels are refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a topic can depend on a published purpose",
+      "result": "PASS",
+      "expected": "000a01c8-7bbb-4e98-9515-cb291cf5c771",
+      "actual": "000a01c8-7bbb-4e98-9515-cb291cf5c771"
+    },
+    {
+      "name": "no choice means no contact (there is no default opt-in)",
+      "result": "PASS",
+      "expected": [
+        false,
+        "NO_CHOICE"
+      ],
+      "actual": [
+        false,
+        "NO_CHOICE"
+      ]
+    },
+    {
+      "name": "an opt-in is effective and permits contact on that channel",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        "OPTED_IN"
+      ],
+      "actual": [
+        true,
+        true,
+        "OPTED_IN"
+      ]
+    },
+    {
+      "name": "the other channel is still not permitted",
+      "result": "PASS",
+      "expected": "NO_CHOICE",
+      "actual": "NO_CHOICE"
+    },
+    {
+      "name": "a channel the topic does not offer is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "channel_not_offered"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "channel_not_offered"
+        ]
+      }
+    },
+    {
+      "name": "a choice dated in the future is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "in_the_future"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "in_the_future"
+        ]
+      }
+    },
+    {
+      "name": "a later opt-out stops contact",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        true,
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "a replayed older opt-in is kept but not effective and does not re-enable contact",
+      "result": "PASS",
+      "expected": [
+        false,
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        false,
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "the portal centre shows the current choice and keeps the stale event in history",
+      "result": "PASS",
+      "expected": [
+        "OPTED_OUT",
+        [
+          false,
+          true,
+          true
+        ]
+      ],
+      "actual": [
+        "OPTED_OUT",
+        [
+          false,
+          true,
+          true
+        ]
+      ]
+    },
+    {
+      "name": "a first opt-in keeps the device clock allowance",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "R01: an opt-out received after a future-dated opt-in is effective and stops contact",
+      "result": "PASS",
+      "expected": [
+        true,
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        true,
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "a future-dated opt-in cannot override an existing opt-out",
+      "result": "PASS",
+      "expected": [
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "on equal device times the opt-out stands",
+      "result": "PASS",
+      "expected": [
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "a genuinely later opt-in restores contact",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "concurrent opt-out and an earlier-dated opt-in end opted out, whichever arrives first",
+      "result": "PASS",
+      "expected": [
+        201,
+        201,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        201,
+        201,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "an opt-in to a purpose-dependent topic permits contact while consent is granted",
+      "result": "PASS",
+      "expected": [
+        true
+      ],
+      "actual": [
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in consent dependency",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "fetch failed"
+    }
+  ],
+  "passed": 22,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
