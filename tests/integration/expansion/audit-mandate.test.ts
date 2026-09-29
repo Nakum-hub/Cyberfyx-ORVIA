@@ -410,12 +410,15 @@ await t.run(async () => {
     const cm8 = (await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/channel`), S.schemas.AuditChannel)).mandates.find(x => x.id === m1.id)!;
     check('closing the engagement ends its mandate', [closed.state, cm8.state], ['CLOSED', 'ENDED']);
     // The vendor is unreachable at the end: the queue still settles here, before any call succeeds.
-    env.address = 'http://127.0.0.1:59999';
+    // The test transport routes every call to the vendor handler, so an unreachable vendor is a transport that refuses the connection.
+    const reachable = env.transport;
+    let refusedCalls = 0;
+    env.transport = async () => { refusedCalls++; throw Object.assign(new Error('connect ECONNREFUSED'), { code: 'ECONNREFUSED' }); };
     const endSweep = await sweep();
-    env.address = vendor.config.origin;
+    env.transport = reachable;
     const lateRow = (await db.query('SELECT state, last_error, attempts FROM app.audit_finding_responses WHERE id=$1', [lateResp.id])).rows[0];
-    check('with the vendor unreachable, the queued response still fails unsent at the end; nothing is left pending', [endSweep.check_ins, endSweep.responses_sent, endSweep.stopped_by_mandate >= 1, lateRow],
-      [0, 0, true, { state: 'FAILED', last_error: 'MANDATE_ENDED_BEFORE_SENDING', attempts: 0 }]);
+    check('with the vendor unreachable, the queued response still fails unsent at the end; nothing is left pending', [refusedCalls >= 1, endSweep.check_ins, endSweep.responses_sent, endSweep.stopped_by_mandate >= 1, lateRow],
+      [true, 0, 0, true, { state: 'FAILED', last_error: 'MANDATE_ENDED_BEFORE_SENDING', attempts: 0 }]);
     await sweep();
     check('the queued response never reached the vendor', [(await vendor.operator.query('SELECT count(*)::int AS n FROM vendor.management_responses WHERE finding_id=$1', [vFinding.id])).rows[0].n],
       [1]);
