@@ -143,6 +143,18 @@ Five serial batteries ran on the shared codex-a00 profile. Earlier failures stay
 | interface crawl (105 routes, 450 visits, both installations, all roles, desktop and phone, nine workspace tabs) | 460/460 checks, 0 pages with issues |
 | typecheck, lint, contracts:check (0.46.0, 446 route examples) | clean |
 
+**Final battery (battery7) on the complete merged branch** — `main` (including PR #31), every Codex branch (commerce rename to vendor 0011, tracking, Attention paging, relay 256 MB, both reviews and reports) and the second-review fixes (`7fe3054`: no send or resend without the personal-data review; requests budgeted; vendor 0013 offers only unacknowledged requests). Source `bd92f85`; the audit-mandate rerun includes the test-only fix `8b68c90`.
+
+| Suite | Result |
+|---|---|
+| vendor-audit / audit-practice / schema-equivalence | 74/74, 99/99, 7/7 |
+| commerce / migration-ledger (fresh and legacy-name upgrade) | 116/116, both PASS |
+| audit-mandate | first run 80 checks, 1 failure (the backlog check expected exactly one check-in; a cycle that receives requests for approval reports them with a second check-in); after correcting the expectation: **98/98**, including the 250-request backlog (every answer readable, each request once) |
+| dpdpa-audit / operations (13 suites) / upgrade | 52/52, all PASS, 10/10 with the relay at the shipped 256 MB |
+| e2e dpdpa / mandate / expansion screens | 20/20, 19/19, 69/69 |
+| interface crawl | 460/460 checks, 450 visits, 0 pages with issues |
+| typecheck, lint, unit (334), contracts:check 0.46.0, tracking:check, qualification inventory | clean |
+
 Earlier suites in batteries 1–2 that failed in setup (upgrade, commerce, vendor-visibility, e2e expansion) failed because the relay had been OOM-killed; they pass on rerun (vendor-visibility 18/18 in battery3).
 
 The report PDF was checked by reading its text in order: the three marks, executive summary, engagement terms, coverage, results, finding detail with the advice-only label, opinion, limitations, reliance, independence and snapshot binding.
