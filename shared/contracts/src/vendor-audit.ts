@@ -13,6 +13,10 @@ const Day = z.iso.date();
 const Name = z.string().trim().min(1).max(100);
 const Email = z.string().email().max(254);
 const Password = z.string().min(16).max(128);
+/** Installation kinds (revision 1.5 addendum) and the protected installation record written by the installer. */
+export const InstallationKind = z.enum(['CUSTOMER_INSTALLATION', 'VENDOR_SERVICE']);
+export type InstallationKind = z.infer<typeof InstallationKind>;
+export const InstallationRecord = z.strictObject({ kind: InstallationKind, installation_id: Id, recorded_at: Time });
 export const VendorRoleName = z.enum(['VENDOR_SUPER_ADMIN', 'VENDOR_ADMIN', 'LEAD_AUDITOR', 'AUDITOR', 'AUDIT_REVIEWER']);
 
 export const VendorFirstRunState = z.strictObject({ state: z.enum(['OPEN', 'NO_CODE_ISSUED', 'LOCKED', 'EXPIRED', 'COMPLETED']) });

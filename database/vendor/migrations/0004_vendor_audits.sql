@@ -49,6 +49,15 @@ CREATE FUNCTION vendor.on_team(e uuid, r text DEFAULT NULL) RETURNS boolean LANG
   SELECT vendor.actor_domain() = 'VENDOR_STAFF' AND EXISTS (SELECT 1 FROM vendor.engagement_team t JOIN vendor_auth.authority a ON a.user_id = t.user_id AND a.active
     WHERE t.engagement_id = e AND t.user_id = vendor.actor() AND (r IS NULL OR t.engagement_role = r)) $$;
 
+-- Team members of an engagement with names and roles, for anyone who may see the engagement.
+CREATE FUNCTION vendor.engagement_members(e uuid) RETURNS TABLE(user_id uuid, name text, role text, engagement_role text)
+LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path = pg_catalog, vendor AS $$
+BEGIN
+  IF NOT (vendor.has_capability('engagements.read') OR vendor.on_team(e)) THEN RAISE EXCEPTION 'forbidden' USING ERRCODE = '42501'; END IF;
+  RETURN QUERY SELECT t.user_id, u.name, a.role, t.engagement_role FROM vendor.engagement_team t JOIN vendor_auth.authority a ON a.user_id = t.user_id JOIN vendor_auth."user" u ON u.id = t.user_id
+    WHERE t.engagement_id = e ORDER BY t.added_at, t.user_id;
+END $$;
+
 CREATE TABLE vendor.packages (
   id uuid PRIMARY KEY, engagement_id uuid NOT NULL REFERENCES vendor.engagements(id),
   client_package_id uuid NOT NULL, uploaded_by uuid NOT NULL, uploaded_at timestamptz NOT NULL DEFAULT clock_timestamp(),
@@ -292,6 +301,6 @@ GRANT SELECT, INSERT ON vendor.engagement_team, vendor.item_reviews, vendor.requ
   vendor.signed_documents, vendor.evidence_access_log, vendor.licence_issues TO orvia_vendor_app;
 GRANT SELECT, UPDATE ON vendor.packages, vendor.package_items TO orvia_vendor_app;
 GRANT SELECT ON vendor.package_refusals, vendor.retention_purges, vendor.upload_attempts TO orvia_vendor_app;
-GRANT EXECUTE ON FUNCTION vendor.on_team(uuid, text), vendor.record_upload_attempt(), vendor.engagement_for_code(text),
+GRANT EXECUTE ON FUNCTION vendor.on_team(uuid, text), vendor.engagement_members(uuid), vendor.record_upload_attempt(), vendor.engagement_for_code(text),
   vendor.store_package(uuid,uuid,uuid,text,jsonb,text,timestamptz,boolean,text,bytea,bytea,bytea,jsonb), vendor.refuse_package(uuid,text,text[]),
   vendor.own_uploads(), vendor.retention_sweep(uuid), vendor.record_processing_agreement(uuid, text) TO orvia_vendor_app;

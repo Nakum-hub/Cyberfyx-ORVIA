@@ -1,6 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { z } from 'zod';
 import { runtimeConfig } from '../../auth/src/config.ts';
 
 /**
@@ -15,9 +14,8 @@ import { runtimeConfig } from '../../auth/src/config.ts';
  * before anything is served (otherwise 503). A profile without the file is a
  * customer installation, the default.
  */
-export const InstallationKind = z.enum(['CUSTOMER_INSTALLATION', 'VENDOR_SERVICE']);
-export type InstallationKind = z.infer<typeof InstallationKind>;
-export const InstallationRecord = z.strictObject({ kind: InstallationKind, installation_id: z.uuid(), recorded_at: z.iso.datetime() });
+import { InstallationKind, InstallationRecord } from '../../../shared/contracts/src/vendor-audit.ts';
+export { InstallationKind };
 
 export function installationFile(directory = runtimeConfig().directory) { return resolve(directory, 'installation.json'); }
 
@@ -41,7 +39,7 @@ let verified: Promise<InstallationKind> | undefined;
 export function verifiedKind(): Promise<InstallationKind> {
   return verified ??= (async () => {
     const kind = configuredKind();
-    const recorded = await readers[kind]();
+    const recorded = await readers[kind]!();
     if (recorded !== kind) throw new Error('Installation kind in the database differs from the configured kind');
     return kind;
   })().catch(error => { verified = undefined; throw error; });

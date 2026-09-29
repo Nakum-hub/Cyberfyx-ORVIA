@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type pg from 'pg';
-import { z } from 'zod';
+import { VendorRoleName } from '../../../../shared/contracts/src/vendor-audit.ts';
 import { AccessError } from '../../../authorization/src/index.ts';
 import { limitedBody } from '../../../auth/src/server.ts';
 import type { RuntimeConfig } from '../../../auth/src/config.ts';
@@ -16,8 +16,8 @@ import { vendorRuntime, type VendorRuntime } from './runtime.ts';
  * Both must have completed an authenticator ceremony in this session. A
  * customer staff, principal or supplier credential does not exist here.
  */
-export const VendorRole = z.enum(['VENDOR_SUPER_ADMIN', 'VENDOR_ADMIN', 'LEAD_AUDITOR', 'AUDITOR', 'AUDIT_REVIEWER']);
-export type VendorRole = z.infer<typeof VendorRole>;
+export const VendorRole = VendorRoleName;
+export type VendorRole = 'VENDOR_SUPER_ADMIN' | 'VENDOR_ADMIN' | 'LEAD_AUDITOR' | 'AUDITOR' | 'AUDIT_REVIEWER';
 const administration = ['vendor.team.read', 'vendor.team.manage', 'organisations.read', 'organisations.manage', 'licences.read', 'licences.issue', 'engagements.read', 'engagements.manage', 'support.read', 'support.manage', 'vendor.audit.read', 'payments.read'];
 const fieldwork = ['engagements.read', 'organisations.read', 'audit.fieldwork', 'support.read'];
 /** Mirrors backend/policy/vendor/authorization.rego; both must allow. */
@@ -47,7 +47,7 @@ export async function vendorActorFor(request: Request, r: VendorRuntime = vendor
   const mfa = await instance.pool.query(`SELECT 1 FROM ${schema}.mfa_sessions WHERE session_id=$1`, [session.session.id]);
   if (mfa.rowCount !== 1) throw new AccessError(403, 'FORBIDDEN', [{ field: 'mfa', code: 'mfa_required' }]);
   const role = staff ? VendorRole.parse(binding.role) : 'CLIENT_ACCOUNT' as const;
-  return { actor_domain: staff ? 'VENDOR_STAFF' : 'CLIENT_ACCOUNT', actor_id: session.user.id, role, capabilities: vendorRoleCapabilities[role],
+  return { actor_domain: staff ? 'VENDOR_STAFF' : 'CLIENT_ACCOUNT', actor_id: session.user.id, role, capabilities: vendorRoleCapabilities[role] ?? [],
     organisation_id: staff ? null : binding.organisation_id, name: session.user.name, email: session.user.email,
     expires_at: session.session.expiresAt.toISOString(), session_id: session.session.id };
 }
@@ -86,8 +86,11 @@ const errorCodes = new Set(['UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'SERVIC
 export async function vendorSafeRoute(work: (requestId: string) => Promise<Response>, operation: string, getRuntime: () => VendorRuntime = vendorRuntime) {
   const requestId = randomUUID(); let response: Response;
   try { response = await work(requestId); }
-  catch (error) {
-    if (!(error instanceof AccessError)) console.error(JSON.stringify({ request_id: requestId, operation, ...safeError(error) }));
+  catch (caught) {
+    // A request body that fails its canonical schema is the caller's error, not the service's.
+    const issues = (caught as { name?: string; issues?: { path: PropertyKey[]; code: string }[] })?.name === 'ZodError' ? (caught as { issues: { path: PropertyKey[]; code: string }[] }).issues : null;
+    const error = issues ? new AccessError(400, 'VALIDATION_ERROR', issues.slice(0, 16).map(i => ({ field: i.path.map(String).join('.').slice(0, 120), code: i.code }))) : caught;
+    if (!(error instanceof AccessError)) console.error(JSON.stringify({ request_id: requestId, operation, ...safeError(error), ...(process.env.ORVIA_DEBUG_ERRORS === '1' ? { debug: String((error as Error)?.message).slice(0, 300) } : {}) }));
     const status = error instanceof AccessError ? error.status : 503;
     const code = error instanceof AccessError && errorCodes.has(error.code) ? error.code : 'SERVICE_UNAVAILABLE';
     response = Response.json({ error: { code, message: code === 'FORBIDDEN' ? 'Access denied.' : 'Request could not be completed.',
@@ -108,8 +111,9 @@ export async function jsonBody(request: Request, config: RuntimeConfig, maximum 
   if (text === undefined) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
   try { return JSON.parse(text); } catch { throw new AccessError(400, 'VALIDATION_ERROR'); }
 }
-export function parseWith<T>(schema: z.ZodType<T>, value: unknown): T {
+type Issue = { path: PropertyKey[]; code: string };
+export function parseWith<T>(schema: { safeParse(value: unknown): { success: true; data: T } | { success: false; error: { issues: Issue[] } } }, value: unknown): T {
   const parsed = schema.safeParse(value);
-  if (!parsed.success) throw new AccessError(400, 'VALIDATION_ERROR', parsed.error.issues.slice(0, 16).map(i => ({ field: i.path.join('.').slice(0, 120), code: i.code })));
+  if (!parsed.success) throw new AccessError(400, 'VALIDATION_ERROR', parsed.error.issues.slice(0, 16).map((i: Issue) => ({ field: i.path.join('.').slice(0, 120), code: i.code })));
   return parsed.data;
 }

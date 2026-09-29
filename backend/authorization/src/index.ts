@@ -19,7 +19,7 @@ export const roleCapabilities: Record<string, string[]> = {
   DATA_PRINCIPAL: ['consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write'],
 };
 export class AccessError extends Error {
-  constructor(public status: number, public code: 'UNAUTHENTICATED' | 'FORBIDDEN' | 'NOT_FOUND' | 'SERVICE_UNAVAILABLE' | 'VALIDATION_ERROR' | 'IDEMPOTENCY_CONFLICT' | 'EPOCH_CONFLICT' | 'STALE_GENERATION' | 'INVALID_COMMAND',
+  constructor(public status: number, public code: 'UNAUTHENTICATED' | 'FORBIDDEN' | 'NOT_FOUND' | 'SERVICE_UNAVAILABLE' | 'VALIDATION_ERROR' | 'IDEMPOTENCY_CONFLICT' | 'EPOCH_CONFLICT' | 'STALE_GENERATION' | 'INVALID_COMMAND' | 'RATE_LIMITED',
     public fieldErrors?: { field: string; code: string }[]) { super(code); }
 }
 export async function authorityFor(request: Request, staff: AuthInstance, principal: AuthInstance): Promise<Authority> {

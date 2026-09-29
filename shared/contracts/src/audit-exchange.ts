@@ -53,7 +53,7 @@ export function sniffMediaType(bytes: Uint8Array, fileName: string): EvidenceMed
   } else if (claimed === 'text/plain' || claimed === 'text/csv') {
     // Text: valid UTF-8, no NUL or other control bytes except tab, CR, LF.
     const text = b.toString('utf8');
-    if (Buffer.from(text, 'utf8').equals(b) && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(text)) actual = claimed;
+    if (Buffer.from(text, 'utf8').equals(b) && ![...text].some(ch => { const n = ch.charCodeAt(0); return (n < 32 && n !== 9 && n !== 10 && n !== 13) || n === 127; })) actual = claimed;
   }
   return actual === claimed ? actual : null;
 }
@@ -64,7 +64,7 @@ export const PersonalDataException = z.strictObject({ justification: z.string().
 export const PackageItemKind = z.enum(['FILE', 'INDICATOR', 'STATEMENT']);
 export const PackageItem = z.strictObject({
   item_id: Id, requirement_id: RequirementId, kind: PackageItemKind, title: z.string().trim().min(1).max(200),
-  file_name: z.string().regex(/^[A-Za-z0-9 ._()\-]{1,200}$/).nullable(),
+  file_name: z.string().regex(/^[A-Za-z0-9 ._()-]{1,200}$/).nullable(),
   media_type: z.union([EvidenceMediaType, z.literal('application/json')]),
   size_bytes: z.number().int().min(1).max(MAX_EVIDENCE_FILE_BYTES), sha256: Digest,
   contains_personal_data: z.enum(['NO', 'YES']), personal_data_exception: PersonalDataException.nullable(),
