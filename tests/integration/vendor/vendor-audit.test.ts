@@ -191,6 +191,7 @@ try {
   const workspaceApi = await onlyOn('CUSTOMER_INSTALLATION', businessRoute)(new Request(h.config.origin + '/api/v1/admin/grc/frameworks'));
   check('staff login and workspace API are 404 on the vendor installation', [staffSignIn.status, workspaceApi.status], [404, 404]);
   check('orvia_vendor_app cannot read identity tables directly', await h.runtime.pool.query('SELECT * FROM vendor_auth.account').then(() => 'READ', e => e.code), '42501');
+  check('every vendor table forces row-level security', (await h.operator.query("SELECT count(*)::int AS n FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname IN ('vendor','vendor_auth','account_auth') AND c.relkind='r' AND (NOT c.relrowsecurity OR NOT c.relforcerowsecurity)")).rows[0].n, 0);
   check('orvia_vendor_app cannot bypass RLS on packages', (await h.runtime.pool.query('SELECT count(*)::int AS n FROM vendor.packages')).rows[0].n, 0);
 
   // Upload rate limit: ten per ten minutes per account
