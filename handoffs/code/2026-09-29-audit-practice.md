@@ -7,7 +7,7 @@
 **Source master:** revision 1.4, plus the revision 1.5 and 1.6 addenda. The legal review of the engagement letter and DPA is still pending.
 
 **Contracts:**
-- customer 0.43.0 → **0.44.0** (additive);
+- customer 0.43.0 → 0.44.0 (additive) → 0.45.0 (Attention items 200 → 600) → **0.46.0** (management-response personal-data review);
 - vendor-internal `vendor-audit.ts` 0.2.0 plus a new `vendor-practice.ts`;
 - channel protocol additions (defaults keep older peers valid).
 
@@ -100,7 +100,50 @@
 | `pnpm test` | 0 | 331/331 | — |
 | `pnpm run tracking:check`, `qualification-inventory.ts --check`, `v1-source-inventory.ts --check` | 0 | Pass | — |
 
-Regression battery on `4ba57fd` (serial, clean tree): see **Regression battery** below.
+## Regression battery and review fixes (after the table above)
+
+Five serial batteries ran on the shared codex-a00 profile. Earlier failures stay recorded; nothing below is a rerun of a failure presented as a first pass.
+
+**Product defects the batteries and the crawl found (all fixed):**
+
+| Found by | Defect | Fix (commit) |
+|---|---|---|
+| operations/sdf | Attention accepted items up to 200 in query order; kinds read late (SDF, holds, imports) vanished silently on a busy installation | Per-kind caps ordered by urgency, stated when truncated; contract 0.45.0 raises items to 600 (`a73573f`); exact limit+1 truncation, all kinds named (`a4f7651`) |
+| audit-mandate | An ended mandate returned before settling queued responses | Settled locally before any call (`8115330`, `a4f7651`) |
+| e2e expansion | The Data Principal portal listed a person's own requests by random id, so a new request could be on any page | Newest first (`rights/portal.ts`, `362cd62`) |
+| crawl | `/setup` rendered with no frame; on an installed system one notice on an empty page | `SetupShell` (`a82f14a`) |
+| crawl | `/workspace/capabilities` overflowed 310 px at phone width | Code text wraps (`a4f7651`) |
+
+**Codex review of `a82f14a` (`codex/review-audit-practice`, R1–R7), all fixed and verified:**
+
+| Finding | Fix | Verified by |
+|---|---|---|
+| R1 HIGH responses bypass the personal-data rule | Approver records "no personal data" (customer 0070; contract 0.46.0 `FindingResponseApproval`; signed `approval.personal_data`); worker refuses unreviewed responses; UI checkbox | audit-mandate 95/95; e2e mandate 19/19 |
+| R2 HIGH offered PDFs can block check-in | Answer budget; a document that can never fit is marked `TOO_LARGE_FOR_CHANNEL` (vendor 0012) and shown to the audit team | audit-mandate 95/95 (one-per-answer, too-large, not re-offered) |
+| R3 truncation notes dropped | limit+1 queries; all truncated kinds named | sdf 22/22; operations 13/13 |
+| R4 breach fixture depends on history | Fixture effective just after the latest package in force at awareness, one captured clock | breach 19/19; operations 13/13 |
+| R5 lease without fencing | Holder-only renewal before every generation and send | audit-mandate 95/95 (lease taken mid-cycle) |
+| R6 definer helpers unscoped | Vendor 0012: PUBLIC execute revoked from every vendor definer; helpers scoped to visible engagements; `review_barred` removed from the app role | audit-practice 99/99 (as `orvia_vendor_app`) |
+| R7 inactive-mandate calls | Queue settled locally before any call | audit-mandate 95/95 (vendor refusing connections). The single state-only check-in stays pending an **owner decision** (revision 1.6 says no call when no mandate is active). |
+
+**Final results on the current source (product code as of `d820898`; later commits through `dc46ad0` change tests and records only):**
+
+| Suite | Result |
+|---|---|
+| vendor-audit | 74/74 |
+| audit-practice | 99/99 |
+| vendor schema-equivalence | 7/7 |
+| expansion audit-mandate | 95/95 (first battery5 run failed 1 on a test mistake: the unreachable-vendor simulation still reached the vendor; fixed in the test) |
+| expansion dpdpa-audit | 52/52 |
+| operations (13 suites, incl. breach, sdf, runner) | all PASS |
+| upgrade | 10/10, **with the loopback relay raised to 256 MB by `docker update` on this container only**; with the shipped 64 MB it was OOM-killed four times today under this suite |
+| commerce | 116/116 |
+| unit | 331/331 |
+| e2e dpdpa-audit / audit-mandate / expansion screens | 20/20, 19/19, 69/69 |
+| interface crawl (105 routes, 450 visits, both installations, all roles, desktop and phone, nine workspace tabs) | 460/460 checks, 0 pages with issues |
+| typecheck, lint, contracts:check (0.46.0, 446 route examples) | clean |
+
+Earlier suites in batteries 1–2 that failed in setup (upgrade, commerce, vendor-visibility, e2e expansion) failed because the relay had been OOM-killed; they pass on rerun (vendor-visibility 18/18 in battery3).
 
 The report PDF was checked by reading its text in order: the three marks, executive summary, engagement terms, coverage, results, finding detail with the advice-only label, opinion, limitations, reliance, independence and snapshot binding.
 
@@ -134,7 +177,9 @@ Denial and failure cases executed are listed per requirement in the reconciliati
    - a production audit key;
    - real TLS hosting of the vendor installation;
    - installer qualification on real hosts.
-2. **Revocation or end with queued items** is implemented but not driven by a test.
+2. **Loopback relay memory (Codex area, `infrastructure/compose.yaml`).** The relay idles at 45 MB under a 64 MB limit and was OOM-killed four times today, cutting the installation off from Postgres. Proposed: `mem_limit: 128m` or more, or cap Node's heap in its command. Not changed here; the upgrade result above used 256 MB on this container.
+2a. **Owner decision (R7):** keep or remove the single state-only check-in after suspension, revocation or end.
+2b. **Contract 0.46.0 and migrations customer 0070, vendor 0012** need Codex review. Vendor 0012 was numbered around the commerce lane's rename of its duplicate 0003 to 0011.
 3. **Engagement-withdrawn closure** and a retest after a channel response were not exercised end to end in one suite.
 4. **Redaction** covers e-mail, phone-like and PAN-format text only; names and other personal data are not detected.
 5. **Continuous assurance** has no vendor workflow separate from engagements.
