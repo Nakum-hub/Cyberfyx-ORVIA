@@ -93,7 +93,7 @@ await t.run(async () => {
     check('the client stored the channel key for the worker', keyRows.rows[0].n, 1);
 
     // Everything the worker sends goes through the vendor's real channel handler.
-    let intercept: ((url: string, response: { status: number; text: string }) => { status: number; text: string } | 'THROW') | null = null;
+    let intercept: ((url: string, response: { status: number; text: string }) => { status: number; text: string } | 'THROW' | null) | null = null;
     const transport: Transport = async (url, init) => {
       const r = await vendor.handler(new Request(url, { method: 'POST', headers: init.headers, body: new Uint8Array(init.body) }));
       const response = { status: r.status, text: await r.text() };
