@@ -59,6 +59,7 @@ export function useVendorSession() { const c = useContext(Context); if (!c) thro
 export const can = (s: VendorSession | null, capability: string) => !!s?.capabilities.includes(capability);
 
 const NAV: { group: string; items: { href: string; label: string; capability: string }[] }[] = [
+  { group: 'Leadership', items: [{ href: '/vendor', label: 'Overview', capability: 'vendor.overview.read' }] },
   { group: 'Audits', items: [
     { href: '/vendor/engagements', label: 'Engagements', capability: 'engagements.read' },
     { href: '/vendor/retention', label: 'Evidence retention', capability: 'engagements.manage' }] },
@@ -78,7 +79,7 @@ function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>
-      <div className="environment-banner"><strong>Vendor installation</strong><span className="area">VENDOR_SERVICE</span><span className="meta">No client installation is reachable from here; clients carry audit packages to this installation as files.</span></div>
+      <div className="environment-banner"><strong>Vendor installation</strong><span className="area">VENDOR_SERVICE</span><span className="meta">No client installation is reachable from here. Client installations send evidence under a mandate their approvers signed, or clients carry sealed packages as files.</span></div>
       <header className="shell-head">
         <div className="shell-title"><span className="mark">ORVIA</span><span className="rule" aria-hidden="true" /><h1>Vendor &amp; audit</h1></div>
         {session ? <div className="shell-context"><span className="context-chip"><span className="k">Role</span><span className="v">{ROLE[session.role] ?? session.role}</span></span>
@@ -87,7 +88,7 @@ function Shell({ children }: { children: ReactNode }) {
       </header>
       <div className="shell-body">
         <nav className="shell-nav" aria-label="Vendor">
-          {groups.length ? groups.map(g => <div key={g.group}><p className="group-label">{g.group}</p><ul>{g.items.map(i => <li key={i.href}><a href={i.href} aria-current={pathname === i.href || pathname.startsWith(`${i.href}/`) ? 'page' : undefined}>{i.label}</a></li>)}</ul></div>)
+          {groups.length ? groups.map(g => <div key={g.group}><p className="group-label">{g.group}</p><ul>{g.items.map(i => <li key={i.href}><a href={i.href} aria-current={pathname === i.href || (i.href !== '/vendor' && pathname.startsWith(`${i.href}/`)) ? 'page' : undefined}>{i.label}</a></li>)}</ul></div>)
             : <div><p className="group-label">Vendor</p><ul><li><a href="/vendor/sign-in">Vendor / auditor sign in</a></li><li><a href="/vendor/sign-in?account=client">Client account sign in</a></li></ul></div>}
         </nav>
         <main className="shell-main" id="main" tabIndex={-1}>{children}</main>

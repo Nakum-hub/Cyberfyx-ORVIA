@@ -77,6 +77,7 @@ function Detail({ id, session }: { id: string; session: VendorSession }) {
         <button type="submit" disabled={busy}>Declare independence</button></form>}
     </Block>
     {!e.on_team ? <NoticeBox tone="info" title="Evidence is for the engagement team only"><p>You are not on this engagement&apos;s team, so its evidence, findings and reports are not shown.</p></NoticeBox> : <>
+      <ChannelBlock id={id} scope={e.scope_requirement_ids} closed={e.state === 'CLOSED'} />
       <Block title="Evidence inbox">
         <p className="muted">Each upload was verified before storage: manifest fingerprint, per-item SHA-256 and size, file type by content, expiry, engagement and scope, and a malware screen. Files are encrypted at rest with a key per package; every view and download is logged.</p>
         <DataTable caption="Received packages" rowKey={p => p.id} rows={inbox?.packages ?? []} columns={[{ key: 'u', header: 'Received', cell: p => p.uploaded_at.slice(0, 16).replace('T', ' ') },
@@ -150,5 +151,70 @@ function Detail({ id, session }: { id: string; session: VendorSession }) {
       </Block>
     </>}
   </>;
+}
+type Channel = { available: boolean; health: { installation_key_id: string | null; pinned_at: string | null; last_check_in_at: string | null; check_ins: number; chain_state: string; chain_problem: string | null; next_sequence: number } | null;
+  mandate: { mandate_id: string; kind: string; state: string; valid_from: string; valid_to: string; open: boolean; received_at: string; document: { categories: string[]; scope_requirement_ids: string[]; schedule: string; organisation_name: string; approval: { preparer_role: string; approver_role: string; approved_at: string } } } | null;
+  requests: { id: string; kind: string; requirement_id: string | null; categories: string[]; population: string | null; sample_size: number | null; description: string; due_date: string; status: string; status_reason: string | null; delivery_id: string | null; package_id: string | null; overdue: boolean }[];
+  deliveries: { delivery_id: string; sequence: number; kind: string; request_id: string | null; generated_at: string | null; period_from: string | null; period_to: string | null; entries: number; outcome: string; reasons: string[]; received_at: string; purged: boolean }[];
+  events: { kind: string; outcome: string; recorded_at: string }[] };
+type Entry = { category: string; requirement_id: string | null; key: string; label: string; value: string | number | boolean | null; unit: string; basis: string; detail: Record<string, string | number | boolean | null> | null };
+const CATEGORIES = ['INDICATORS', 'CONTROL_STANDING', 'CONTROL_TESTS', 'NOTICE_VERSIONS', 'POLICY_VERSIONS', 'ACTIVITY_LOG_DIGEST'];
+const POPULATIONS: Record<string, string> = { CONSENT_EVENTS_WITH_EVIDENCE: 'Consent events — evidence available', BREACH_TASKS_WITHIN_TIMER: 'Breach intimation tasks — completed within the timer',
+  GRIEVANCES_RESOLVED_WITHIN_90_DAYS: 'Grievances — closed within 90 days', WITHDRAWAL_RUNS_VERIFIED: 'Withdrawal propagation runs — independently verified' };
+/**
+ * Evidence from the client's mandate (revision 1.6): what the client authorised,
+ * whether its installation is checking in and the delivery chain is intact, every
+ * delivery ORVIA generated there and signed, and the requests the team issues.
+ * Samples are drawn by the server's seed, so neither side chooses the records.
+ */
+function ChannelBlock({ id, scope, closed }: { id: string; scope: string[]; closed: boolean }) {
+  const [ch, setCh] = useState<Channel | null>(null); const [entries, setEntries] = useState<{ id: string; list: Entry[]; limits: string[] } | null>(null); const [loadError, setLoadError] = useState<string | null>(null);
+  const load = useCallback(async () => { try { setCh(await vendorCall<Channel>(`/engagements/${id}/channel`)); } catch (err) { setLoadError(explain(err)); } }, [id]);
+  useEffect(() => { void load(); }, [load]);
+  const { busy, error, run } = useAction(load);
+  const [r, setR] = useState({ kind: 'COLLECT_NOW', requirement_id: '', categories: ['INDICATORS'] as string[], population: 'CONSENT_EVENTS_WITH_EVIDENCE', sample_size: '25', description: '', due_date: new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10) });
+  if (!ch) return loadError ? <NoticeBox tone="stop" title="Channel unavailable"><p>{loadError}</p></NoticeBox> : <p role="status">Reading the audit channel…</p>;
+  if (!ch.available) return <Block title="Client mandate and evidence"><p className="muted">This engagement was created before the audit channel existed; evidence arrives only as uploaded files.</p></Block>;
+  const h = ch.health!; const m = ch.mandate;
+  const show = (deliveryId: string) => run(async () => { const d = await vendorCall<{ document: { entries: Entry[]; limits: string[] } | null }>(`/channel-deliveries/${deliveryId}`); setEntries({ id: deliveryId, list: d.document?.entries ?? [], limits: d.document?.limits ?? ['Content purged under the retention period; digest and receipt remain.'] }); });
+  return <Block title="Client mandate and evidence">
+    {error && <div className="notice notice-stop" role="alert">{error}</div>}
+    <Facts items={[
+      { term: 'Mandate', value: m ? `${m.state.toLowerCase()}${m.open ? ' (open)' : ''} · ${m.kind === 'CONTINUOUS_ASSURANCE' ? 'continuous assurance' : 'engagement'} · ${m.valid_from.slice(0, 10)} to ${m.valid_to.slice(0, 10)}` : 'Not yet received — the client drafts and approves it in their ORVIA' },
+      ...(m ? [{ term: 'Authorised by the client', value: `${m.document.approval.preparer_role.replaceAll('_', ' ').toLowerCase()} prepared, ${m.document.approval.approver_role.replaceAll('_', ' ').toLowerCase()} approved on ${m.document.approval.approved_at.slice(0, 10)}` },
+        { term: 'Evidence authorised', value: `${m.document.categories.map(c => c.replaceAll('_', ' ').toLowerCase()).join(', ')} · ${m.document.schedule.toLowerCase()} · ${m.document.scope_requirement_ids.join(', ')}` }] : []),
+      { term: 'Client installation key', value: h.installation_key_id ? `${h.installation_key_id} (pinned ${h.pinned_at?.slice(0, 10)})` : 'Not yet pinned — no check-in so far' },
+      { term: 'Last check-in', value: h.last_check_in_at ? `${h.last_check_in_at.slice(0, 16).replace('T', ' ')} UTC (${h.check_ins} in total)` : 'Never' },
+      { term: 'Evidence chain', value: h.chain_state === 'BROKEN' ? `BROKEN — ${h.chain_problem}. Deliveries after the break are kept; treat the gap as a limitation.` : h.chain_state === 'INTACT' ? `Intact through delivery ${h.next_sequence - 1}` : 'No delivery yet' }]} />
+    <h4>Requests to the client</h4>
+    <DataTable caption="Requests issued over the channel" rowKey={x => x.id} rows={ch.requests} columns={[
+      { key: 'k', header: 'Request', cell: x => <span className="cell-primary">{x.kind.replaceAll('_', ' ').toLowerCase()}{x.requirement_id ? ` · ${x.requirement_id}` : ''}<span className="cell-sub">{x.description}{x.population ? ` — ${POPULATIONS[x.population] ?? x.population}, ${x.sample_size} records` : ''}</span></span> },
+      { key: 'd', header: 'Due', cell: x => <>{x.due_date}{x.overdue && <span className="cell-sub">overdue — a limitation if unanswered at the opinion date</span>}</> },
+      { key: 's', header: 'Status', cell: x => <>{x.status.replaceAll('_', ' ').toLowerCase()}{x.status_reason && <span className="cell-sub">{x.status_reason.replaceAll('_', ' ').toLowerCase()}</span>}{x.package_id && <span className="cell-sub">answered with a sealed package (see the inbox)</span>}</> },
+      { key: 'x', header: '', cell: x => <span className="row">{x.delivery_id && <button type="button" disabled={busy} onClick={() => void show(x.delivery_id!)}>View answer</button>}
+        {x.status === 'PENDING' && <button type="button" disabled={busy} onClick={() => void run(() => vendorCall(`/channel-requests/${x.id}/withdraw`, {}))}>Withdraw</button>}</span> }]} />
+    {!closed && <form className="panel" aria-label="Issue request" onSubmit={(ev: FormEvent) => { ev.preventDefault(); void run(() => vendorCall(`/engagements/${id}/channel/requests`, { kind: r.kind, requirement_id: r.requirement_id || null,
+      categories: r.kind === 'COLLECT_NOW' ? r.categories : [], population: r.kind === 'SAMPLE_COUNT' ? r.population : null, sample_size: r.kind === 'SAMPLE_COUNT' ? Number(r.sample_size) : null, description: r.description, due_date: r.due_date })); }}>
+      <SelectField label="Request" value={r.kind} onChange={v => setR(x => ({ ...x, kind: v }))} options={[{ value: 'COLLECT_NOW', label: 'Collect current evidence now (answered automatically)' }, { value: 'SAMPLE_COUNT', label: 'Test a sample drawn by the server\'s seed (answered automatically)' }, { value: 'EVIDENCE_FILE', label: 'Ask for a document (a client approver answers)' }]} required />
+      <SelectField label="Requirement" value={r.requirement_id} onChange={v => setR(x => ({ ...x, requirement_id: v }))} options={[{ value: '', label: 'All in scope' }, ...scope.map(q => ({ value: q, label: q }))]} />
+      {r.kind === 'COLLECT_NOW' && <fieldset><legend>Categories</legend>{CATEGORIES.map(c => <label key={c} className="row"><input type="checkbox" checked={r.categories.includes(c)} onChange={() => setR(x => ({ ...x, categories: x.categories.includes(c) ? x.categories.filter(y => y !== c) : [...x.categories, c] }))} /> {c.replaceAll('_', ' ').toLowerCase()}</label>)}</fieldset>}
+      {r.kind === 'SAMPLE_COUNT' && <><SelectField label="Population" value={r.population} onChange={v => setR(x => ({ ...x, population: v }))} options={Object.entries(POPULATIONS).map(([value, label]) => ({ value, label }))} required />
+        <TextField label="Sample size" value={r.sample_size} onChange={v => setR(x => ({ ...x, sample_size: v }))} required inputMode="numeric" /></>}
+      <TextAreaField label="What you need and why" value={r.description} onChange={v => setR(x => ({ ...x, description: v }))} required />
+      <TextField label="Due date (YYYY-MM-DD)" value={r.due_date} onChange={v => setR(x => ({ ...x, due_date: v }))} required />
+      <button type="submit" disabled={busy}>Issue request</button>
+      <p className="muted">Requests are signed with the audit key and collected by the client&apos;s installation at its next check-in. Anything outside the mandate, or any document, goes to the client&apos;s approver; you see the outcome here.</p></form>}
+    <h4>Evidence timeline</h4>
+    <DataTable caption="Deliveries from the client installation" rowKey={d => d.delivery_id} rows={ch.deliveries} columns={[{ key: 'n', header: '#', cell: d => d.sequence },
+      { key: 'k', header: 'Kind', cell: d => d.kind === 'SNAPSHOT' ? 'scheduled snapshot' : 'answer to a request' }, { key: 'p', header: 'Period', cell: d => d.period_from ? `${d.period_from.slice(0, 10)} → ${d.period_to?.slice(0, 10)}` : '—' },
+      { key: 'e', header: 'Entries', cell: d => d.entries }, { key: 'o', header: 'Outcome', cell: d => <>{d.outcome.toLowerCase()}{d.reasons.length > 0 && <span className="cell-sub">{d.reasons.join(', ').toLowerCase()}</span>}</> },
+      { key: 'r', header: 'Received', cell: d => d.received_at.slice(0, 16).replace('T', ' ') }, { key: 'x', header: '', cell: d => d.outcome === 'ACCEPTED' ? <button type="button" disabled={busy} onClick={() => void show(d.delivery_id)}>{d.purged ? 'Purged' : 'View'}</button> : null }]} />
+    {entries && <div className="panel"><h4>Delivery content</h4>
+      <ul className="cell-sub">{entries.limits.map(l => <li key={l}>{l}</li>)}</ul>
+      <DataTable caption="Evidence entries, signed by the client installation" rowKey={x => `${x.category}-${x.key}-${x.requirement_id}-${JSON.stringify(x.detail)}`} rows={entries.list} columns={[
+        { key: 'c', header: 'Category', cell: x => x.category.replaceAll('_', ' ').toLowerCase() }, { key: 'q', header: 'Requirement', cell: x => x.requirement_id ?? '—' },
+        { key: 'l', header: 'Evidence', cell: x => <span className="cell-primary">{x.label}<span className="cell-sub">{x.basis}</span></span> },
+        { key: 'v', header: 'Value', cell: x => <>{String(x.value ?? '—')} {x.unit}{x.detail && <span className="cell-sub">{Object.entries(x.detail).map(([k, v]) => `${k.replaceAll('_', ' ')}: ${v ?? '—'}`).join(' · ')}</span>}</> }]} /></div>}
+  </Block>;
 }
 export default function Page({ params }: { params: Promise<{ id: string }> }) { const { id } = use(params); return <VendorArea capability="engagements.read">{s => <Detail id={id} session={s} />}</VendorArea>; }
