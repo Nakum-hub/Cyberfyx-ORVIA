@@ -78,7 +78,7 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 - **Audit outputs:** signed findings and reports are imported only after verification, and findings are tracked as GRC issues.
 
 **Vendor installation.**
-- Engagements record the auditor's independence declaration and conflict check. An optional Board empanelment reference (for Rule 13 SDF audits) is never assumed.
+- Engagements record the auditor's independence declaration and conflict check. An optional auditor eligibility reference can be recorded as stated by the auditor. ORVIA never asserts statutory eligibility (the earlier Rule 13 empanelment statement is withdrawn as unverified; see `LEGAL_SOURCE_STATUS.md`).
 - Packages containing personal data are quarantined until a processing agreement is recorded. The vendor then acts as the client's Data Processor under s.8(2).
 - Evidence is encrypted at rest, and every view and download is logged.
 - Each requirement gets a result (MEETS, PARTIALLY_MEETS, DOES_NOT_MEET, NOT_APPLICABLE or NOT_TESTED).

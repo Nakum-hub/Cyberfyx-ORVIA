@@ -445,7 +445,7 @@ export function reportLines(e: pg.QueryResultRow, r: pg.QueryResultRow, results:
     { text: 'Opinion', style: 'heading' }, { text: r.opinion },
     { text: 'Limitations', style: 'heading' }, ...(r.limitations as string[]).map(x => ({ text: `- ${x}` })),
     { text: 'Independence', style: 'heading' }, { text: e.independence_statement },
-    ...(e.empanelment_reference ? [{ text: `Empanelment reference recorded by the auditor: ${e.empanelment_reference}`, style: 'small' as const }] : []),
+    ...(e.empanelment_reference ? [{ text: `Eligibility reference stated by the auditor (not verified by ORVIA): ${e.empanelment_reference}`, style: 'small' as const }] : []),
     { text: 'Drafted by the lead auditor and approved by a different audit reviewer before signing. The signed JSON issued with this PDF carries its SHA-256.', style: 'small' },
   ];
   assertAttestationWording(...lines.slice(4).map(l => l.text));

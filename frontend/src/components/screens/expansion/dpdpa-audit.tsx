@@ -100,7 +100,7 @@ export function DpdpaAudit({ capabilities }: { capabilities: readonly string[] }
         <TextField label="Audit period to (YYYY-MM-DD)" value={eng.to} onChange={v => setEng(x => ({ ...x, to: v }))} required />
         <TextField label="Processing agreement reference" value={eng.pa} onChange={v => setEng(x => ({ ...x, pa: v }))} hint="Only if a processing agreement with the audit firm is signed; without one, packages must hold no personal data." />
         <TextAreaField label="Auditor's independence declaration" value={eng.independence} onChange={v => setEng(x => ({ ...x, independence: v }))} />
-        <TextField label="Auditor's Board empanelment reference" value={eng.empanelment} onChange={v => setEng(x => ({ ...x, empanelment: v }))} hint="Only if the auditor states one (Rule 13 audits); never assumed." />
+        <TextField label="Auditor's eligibility reference (optional)" value={eng.empanelment} onChange={v => setEng(x => ({ ...x, empanelment: v }))} hint="Only if the auditor states one. ORVIA records it as stated and never decides statutory eligibility." />
         <button className="primary" type="submit" disabled={busy}>Record engagement</button></form>}
     </Section>
     {openId && <EngagementDetail key={openId} id={openId} files={files} capabilities={capabilities} onChange={load} />}
@@ -123,7 +123,7 @@ function EngagementDetail({ id, files, capabilities, onChange }: { id: string; f
   return <Section title={`Engagement ${e.engagement_reference} — ${e.firm_name}`}>
     <Messages error={error} note={note} />
     <Facts items={[{ term: 'Scope', value: e.scope_requirement_ids.join(', ') }, { term: 'Processing agreement', value: e.processing_agreement.reference ?? 'Not recorded' },
-      { term: 'Independence', value: e.independence.statement ?? 'Not declared' }, { term: 'Empanelment', value: e.empanelment_reference ?? 'None stated' }]} />
+      { term: 'Independence', value: e.independence.statement ?? 'Not declared' }, { term: 'Auditor eligibility reference', value: e.empanelment_reference ?? 'None stated' }]} />
     <DataTable caption="Evidence packages" rowKey={p => p.id} rows={e.packages} columns={[{ key: 'c', header: 'Created', cell: p => p.created_at.slice(0, 16).replace('T', ' ') },
       { key: 's', header: 'State', cell: p => p.effective_state.toLowerCase() }, { key: 'i', header: 'Items', cell: p => p.item_count }, { key: 'e', header: 'Exports', cell: p => p.exports },
       { key: 'f', header: 'Fingerprint', cell: p => p.manifest_fingerprint ? <code>{p.manifest_fingerprint.slice(0, 16)}…</code> : '—' },

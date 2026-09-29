@@ -49,7 +49,7 @@ The vendor's public website links to `https://<vendor-domain>/vendor/sign-in`: t
 - ORVIA produces an **audit opinion, as of a date, for a stated scope**. It never produces a "DPDPA compliance certificate". Only the Data Protection Board of India decides compliance. A unit test refuses report templates that use certification wording.
 - When a package contains personal data under an approved exception, the vendor acts as the client's **Data Processor** (s.8(2)). The engagement must record that a processing agreement is in place before such a package is accepted.
 - Each engagement records the auditor's **independence declaration** and a **conflict check**.
-- Rule 13 audits of Significant Data Fiduciaries need an auditor empanelled by the Board. The empanelment reference is an optional field. ORVIA never states that an auditor is empanelled unless a reference has been entered, and even then it only displays that reference.
+- **Correction (2026-09-29):** an earlier version of this line stated that Rule 13 audits of Significant Data Fiduciaries need an auditor empanelled by the Board. That statement was never verified against the official Rule 13 text, and a later review could not substantiate it. It is withdrawn; see `docs/regulatory/LEGAL_SOURCE_STATUS.md`. ORVIA does not decide who is eligible to perform a statutory audit. The optional field (stored as `empanelment_reference`) records an eligibility reference the auditor states, and ORVIA only displays it; it never asserts eligibility. Any statutory SDF audit claim needs validated legal applicability and eligibility evidence, which is a legal/owner decision.
 
 ## Security principles (unchanged from 1.4, restated)
 

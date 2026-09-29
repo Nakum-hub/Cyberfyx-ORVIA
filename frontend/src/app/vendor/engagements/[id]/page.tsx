@@ -57,7 +57,7 @@ function Detail({ id, session }: { id: string; session: VendorSession }) {
       <Facts items={[{ term: 'Requirements in scope', value: e.scope_requirement_ids.join(', ') },
         { term: 'Processing agreement', value: e.processing_agreement.recorded ? `Recorded: ${e.processing_agreement.reference}` : 'Not recorded — packages containing personal data stay quarantined' },
         { term: 'Independence', value: e.independence.declared ? `${e.independence.statement} (${e.independence.conflict_check?.replaceAll('_', ' ')}${e.independence.conflict_note ? `: ${e.independence.conflict_note}` : ''})` : 'Not yet declared' },
-        { term: 'Board empanelment reference', value: e.empanelment_reference ?? 'None entered — no empanelment is claimed' },
+        { term: 'Eligibility reference', value: e.empanelment_reference ?? 'None entered — no statutory eligibility is claimed' },
         { term: 'Evidence retention', value: `${e.retention_days} days after closure${e.purged_at ? `; purged ${e.purged_at.slice(0, 10)}` : ''}` }]} />
       <DataTable caption="Engagement team" rowKey={t => t.user_id} rows={e.team} columns={[{ key: 'n', header: 'Name', cell: t => t.name }, { key: 'r', header: 'Vendor role', cell: t => VENDOR_ROLE_LABELS[t.role] ?? t.role }, { key: 'e', header: 'On this engagement', cell: t => t.engagement_role }]} />
       {can(session, 'engagements.manage') && e.state !== 'CLOSED' && <>
@@ -73,7 +73,7 @@ function Detail({ id, session }: { id: string; session: VendorSession }) {
         <TextAreaField label="Independence statement" value={ind.statement} onChange={v => setInd(x => ({ ...x, statement: v }))} required />
         <SelectField label="Conflict check" value={ind.conflict} onChange={v => setInd(x => ({ ...x, conflict: v }))} options={[{ value: 'NO_CONFLICT', label: 'No conflict' }, { value: 'CONFLICT_MITIGATED', label: 'Conflict identified and mitigated' }]} required />
         <TextField label="Conflict note" value={ind.note} onChange={v => setInd(x => ({ ...x, note: v }))} />
-        <TextField label="Board empanelment reference (optional)" value={ind.empanelment} onChange={v => setInd(x => ({ ...x, empanelment: v }))} hint="Only if the auditor is empanelled by the Data Protection Board (Rule 13 audits). Never entered means never claimed." />
+        <TextField label="Eligibility reference (optional)" value={ind.empanelment} onChange={v => setInd(x => ({ ...x, empanelment: v }))} hint="A reference the auditor can substantiate. ORVIA displays it as stated and never asserts statutory eligibility." />
         <button type="submit" disabled={busy}>Declare independence</button></form>}
     </Block>
     {!e.on_team ? <NoticeBox tone="info" title="Evidence is for the engagement team only"><p>You are not on this engagement&apos;s team, so its evidence, findings and reports are not shown.</p></NoticeBox> : <>
