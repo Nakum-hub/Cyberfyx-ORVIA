@@ -324,9 +324,12 @@ async function sendResponses(run: Scoped, env: ChannelEnv, l: Loaded, report: Ch
   const queued = await run(async c => (await c.tx.query(`SELECT * FROM app.audit_finding_responses WHERE ${predicate} AND engagement_id=$4 AND state IN ('QUEUED','UNKNOWN') ORDER BY approved_at LIMIT 20`, [...scope(c), l.m.engagement_id])).rows);
   for (let r of queued) {
     if (!(await stillOpen(run, l, report))) return;
-    // Only a response whose approver recorded that it holds no personal data travels over the channel (revision 1.6).
-    if (!r.signed && r.personal_data_review !== 'NONE_CONFIRMED') {
-      await run(c => c.tx.query(`UPDATE app.audit_finding_responses SET state='FAILED', last_error='NO_PERSONAL_DATA_REVIEW_RECORDED' WHERE ${predicate} AND id=$4`, [...scope(c), r.id]));
+    // Only a response whose approver recorded that it holds no personal data travels over the channel (revision 1.6), whether it is
+    // sent for the first time or retried: one signed before the review existed is never sent again. If an earlier attempt's outcome
+    // was unknown it may have reached the vendor, and the recorded reason says so.
+    if (r.personal_data_review !== 'NONE_CONFIRMED') {
+      await run(c => c.tx.query(`UPDATE app.audit_finding_responses SET state='FAILED', last_error=$5 WHERE ${predicate} AND id=$4`,
+        [...scope(c), r.id, r.state === 'UNKNOWN' ? 'NO_PERSONAL_DATA_REVIEW_NOT_RESENT_EARLIER_OUTCOME_UNKNOWN' : 'NO_PERSONAL_DATA_REVIEW_RECORDED']));
       continue;
     }
     if (!r.signed) {

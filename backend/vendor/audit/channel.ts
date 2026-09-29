@@ -43,10 +43,14 @@ async function asInstallation<T>(pool: Pool, engagementId: string | null, work: 
   } catch (error) { await tx.query('ROLLBACK').catch(() => {}); throw error; } finally { tx.release(); }
 }
 
-/** Authenticates a channel call and runs it as the engagement. Refusals are recorded; no content of a refused call is kept. */
-/** A check-in answer stays well under the 1 MiB the client reads; one document never takes more than the space left beside a full request list. */
+/**
+ * A check-in answer stays well under the 1 MiB the client reads. Pending requests take at most REQUEST_BUDGET of it, in order, and
+ * the rest follow at later check-ins; documents use what is left, and one larger than DOCUMENT_BUDGET is sent as a file instead.
+ */
 const ANSWER_BUDGET = 900_000;
+const REQUEST_BUDGET = 400_000;
 const DOCUMENT_BUDGET = 850_000;
+/** Authenticates a channel call and runs it as the engagement. Refusals are recorded; no content of a refused call is kept. */
 export async function channelCall(pool: Pool, keys: Keys, call: ChannelCall, now = new Date()): Promise<{ status: number; body: unknown }> {
   const expectedType = call.kind === 'packages' ? 'application/vnd.orvia.audit-package+json' : C.CHANNEL_CONTENT_TYPE;
   if (call.contentType !== expectedType) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'content-type', code: 'channel_content_type_required' }]);
@@ -114,14 +118,21 @@ async function checkIn(b: Bound, keys: Keys, raw: Buffer, now: Date) {
   for (const a of body.acknowledgements) await b.tx.query('SELECT vendor.channel_acknowledge($1,$2,$3,$4,$5)', [a.request_id, a.outcome, a.reason, a.delivery_id, a.package_id]);
   // Requests flow only while the mandate the client signed is open: nothing is asked of a suspended, revoked or ended mandate.
   const open = !problem && C.mandateOpen(mandate, now);
-  const requests = open ? (await b.tx.query('SELECT signed FROM vendor.channel_pending_requests()')).rows.map(r => r.signed) : [];
+  // The client reads at most 1 MiB of an answer: requests are offered in order while they fit their share, the rest at later
+  // check-ins (the client acknowledges what it received), so no number of pending requests can make an answer unreadable.
+  const requests: unknown[] = [];
+  let used = Buffer.byteLength(JSON.stringify(instructions({ mandate_id: mandate.mandate_id, accepted: true, problem: null }, [])));
+  if (open) for (const r of (await b.tx.query('SELECT signed FROM vendor.channel_pending_requests()')).rows) {
+    const bytes = Buffer.byteLength(JSON.stringify(r.signed)) + 1;
+    if (used + bytes > REQUEST_BUDGET) break;
+    requests.push(r.signed); used += bytes;
+  }
   // Signed findings, request lists and reports the client has not yet acknowledged; acknowledged ones are not offered again.
   if (!problem) for (const id of body.documents_received) await b.tx.query('SELECT vendor.channel_acknowledge_document($1)', [id]);
   const documents: C.ChannelInstructions['documents'] = [];
   if (open) {
-    // The client reads at most 1 MiB of an answer, so documents are offered in order only while the whole signed answer fits the
-    // budget; the rest follow at later check-ins. One document that could never fit is marked for the file route, not dropped.
-    let used = Buffer.byteLength(JSON.stringify(instructions({ mandate_id: mandate.mandate_id, accepted: true, problem: null }, requests)));
+    // Documents are offered in order only while the whole signed answer fits the budget; the rest follow at later check-ins. One
+    // document that could never fit is marked for the file route, not dropped.
     for (const d of (await b.tx.query('SELECT * FROM vendor.channel_offered_documents()')).rows) {
       const entry = { document_id: d.document_id as string, kind: d.kind as 'REQUEST_LIST' | 'FINDINGS' | 'REPORT',
         signed: { algorithm: 'Ed25519', signing_key_id: d.signing_key_id, document: d.document, signature: d.signature }, pdf_base64: d.pdf ? (d.pdf as Buffer).toString('base64') : null };

@@ -375,6 +375,21 @@ await t.run(async () => {
     check('a document too large for any answer is not offered, is marked for the file route and shown to the audit team, and the check-in still succeeds', [b3.check_ins, ignored(b3), p3, hugeRow.channel_state, (hugeRow.encoded_bytes ?? 0) > 1_000_000], [1, 0, null, 'TOO_LARGE_FOR_CHANNEL', true]);
     await staleCheckIn(); const b4 = await sweep();
     check('it is not offered again', [b4.check_ins, ignored(b4)], [1, 0]);
+    // A backlog of valid, signed requests (each at the 2,000-character description limit) larger than one answer can carry: they are
+    // offered in order across check-ins, every answer stays readable, and each request arrives exactly once.
+    const backlog: string[] = [];
+    for (let i = 0; i < 250; i++) {
+      const signedRequest = C.signByVendor(C.AuditorRequest.parse({ request_id: randomUUID(), engagement_code_digest: digest, kind: 'EVIDENCE_FILE', requirement_id: reqA, categories: [], population: null, sample_size: null, seed: null,
+        description: `Backlog request ${i} (synthetic). ${'x'.repeat(1_960)}`, due_date: inDays(20), issued_at: at(0) }), audit);
+      const r = signedRequest.document as C.AuditorRequest; backlog.push(r.request_id);
+      await vendor.operator.query(`INSERT INTO vendor.channel_requests (id, engagement_id, kind, requirement_id, categories, description, due_date, signed, issued_by) VALUES ($1,$2,'EVIDENCE_FILE',$3,'{}',$4,$5,$6,$7)`,
+        [r.request_id, vid, reqA, r.description, r.due_date, JSON.stringify(signedRequest), lead.id]);
+    }
+    const received: number[] = [];
+    for (let i = 0; i < 4 && received.reduce((a, b) => a + b, 0) < 250; i++) { await staleCheckIn(); const r = await sweep(); received.push(r.requests_received); check(`backlog check-in ${i + 1} is readable`, [r.check_ins, await channelProblem()], [1, null]); }
+    const onClient = (await db.query('SELECT count(*)::int AS n FROM app.audit_channel_requests WHERE id = ANY($1::uuid[])', [backlog])).rows[0].n;
+    check('a backlog larger than one answer arrives across check-ins, each request once, none lost', [received.length > 1, received[0]! < 250, received.reduce((a, b) => a + b, 0), onClient], [true, true, 250, 250]);
+    await vendor.operator.query("UPDATE vendor.channel_requests SET status='WITHDRAWN', status_reason='SYNTHETIC_BACKLOG_TEST' WHERE id = ANY($1::uuid[])", [backlog]);
 
     t.setPhase('suspension');
     await ok(owner.call(`/api/v1/admin/audit-mandates/${m1.id}/state`, { state: 'SUSPENDED', reason: 'Paused while the privacy team reviews the scope.' }, key()), S.schemas.AuditMandate);
