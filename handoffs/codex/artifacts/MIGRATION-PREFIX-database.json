@@ -1,0 +1,9 @@
+{
+  "synthetic": true,
+  "results": [
+    {
+      "name": "database proof",
+      "result": "ERROR:42501"
+    }
+  ]
+}

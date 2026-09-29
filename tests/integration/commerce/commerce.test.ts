@@ -60,7 +60,7 @@ try{
   const checkoutMigration=readFileSync('database/vendor/migrations/0002_checkout_attempts.sql','utf8');
   await pool.query(checkoutMigration);
   phase='apply vendor migration 0003';
-  const fulfilmentMigration=readFileSync('database/vendor/migrations/0003_licence_fulfilment.sql','utf8');
+  const fulfilmentMigration=readFileSync('database/vendor/migrations/0011_licence_fulfilment.sql','utf8');
   await pool.query(fulfilmentMigration);
   phase='seed isolated vendor identities';
   const account=randomUUID(),actor=randomUUID(),otherAccount=randomUUID(),otherActor=randomUUID(),plan=randomUUID();
@@ -331,7 +331,7 @@ try{
   }finally{await guard.query('ROLLBACK');guard.release();}
   writeFileSync(artifact,JSON.stringify({task_id:'V1-COMMERCE-ISSUANCE-01',recorded_at:new Date().toISOString(),fixture_kind:'ISOLATED_SYNTHETIC_VENDOR_DATABASE',database,
     result:'PASS',assertions,migration_sha256:createHash('sha256').update(migration).digest('hex'),checkout_migration_sha256:createHash('sha256').update(checkoutMigration).digest('hex'),
-    source_sha256:Object.fromEntries(['backend/vendor/commerce/store.ts','backend/vendor/commerce/payment.ts','backend/vendor/commerce/checkout.ts','backend/vendor/commerce/razorpay.ts','backend/vendor/commerce/service.ts','backend/vendor/commerce/http.ts','shared/contracts/src/commerce.ts','database/vendor/migrations/0003_licence_fulfilment.sql','tests/integration/commerce/commerce.test.ts'].map(path=>[path,createHash('sha256').update(readFileSync(path)).digest('hex')])),
+    source_sha256:Object.fromEntries(['backend/vendor/commerce/store.ts','backend/vendor/commerce/payment.ts','backend/vendor/commerce/checkout.ts','backend/vendor/commerce/razorpay.ts','backend/vendor/commerce/service.ts','backend/vendor/commerce/http.ts','shared/contracts/src/commerce.ts','database/vendor/migrations/0011_licence_fulfilment.sql','tests/integration/commerce/commerce.test.ts'].map(path=>[path,createHash('sha256').update(readFileSync(path)).digest('hex')])),
     limitations:['Fetch HTTP handler exercised in-process with a labelled session fixture; no network listener, browser login or actual payment provider used.','Provider transport uses explicitly synthetic responses; no Razorpay account exists yet.','Real Ed25519 licence signatures use ephemeral synthetic test keys and fictional claims; no commercial entitlement or production trust was created. Earlier refund case retains its labelled issued-state fixture.','Operator identity used in isolated test database; production role deployment not qualified.']},null,2));
   console.log(`Artifact: ${artifact}`);
 }catch(error){
