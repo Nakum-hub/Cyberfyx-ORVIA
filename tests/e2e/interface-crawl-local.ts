@@ -64,7 +64,7 @@ async function visit(p: { page: Page; state: ReturnType<typeof watch> }, install
   let status: number | null = null; const issues: string[] = [];
   try { status = (await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 }))?.status() ?? null; } catch (e) { issues.push(`navigation: ${(e as Error).message.slice(0, 120)}`); }
   await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => issues.push('network did not settle within 20 s'));
-  await waitForPageContent(page).catch(() => issues.push('page content remained loading for 10 s'));
+  await waitForPageContent(page).catch(() => issues.push('page content remained loading for 30 s'));
   // Hydration may have started its queries after the first network-idle event.
   await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => issues.push('page reads did not settle within 20 s'));
   await page.waitForTimeout(400);

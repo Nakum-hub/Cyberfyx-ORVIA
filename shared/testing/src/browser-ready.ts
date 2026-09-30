@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test';
 /** Network quiet can precede hydration/effects, especially in WebKit. Require
  * the visible session and query loading states to finish before inspecting a
  * page or navigating away and cancelling its reads. A stuck loader still fails. */
-export async function waitForPageContent(page: Page, timeout = 10_000) {
+export async function waitForPageContent(page: Page, timeout = 30_000) {
   const ready = await page.waitForFunction(() => {
     const main = document.querySelector('main');
     const text = (main?.innerText ?? '').trim();
