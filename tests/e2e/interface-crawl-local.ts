@@ -18,6 +18,7 @@ import { authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
 import { operationsSuite } from '../../shared/testing/src/operations-fixture.ts';
 import { PROFILES } from '../../shared/contracts/src/index.ts';
 import { webProcess } from '../../scripts/web-process.ts';
+import { waitForPageContent } from '../../shared/testing/src/browser-ready.ts';
 
 const t = operationsSuite('interface-crawl');
 const { h, check } = t;
@@ -63,6 +64,9 @@ async function visit(p: { page: Page; state: ReturnType<typeof watch> }, install
   let status: number | null = null; const issues: string[] = [];
   try { status = (await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 }))?.status() ?? null; } catch (e) { issues.push(`navigation: ${(e as Error).message.slice(0, 120)}`); }
   await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => issues.push('network did not settle within 20 s'));
+  await waitForPageContent(page).catch(() => issues.push('page content remained loading for 10 s'));
+  // Hydration may have started its queries after the first network-idle event.
+  await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => issues.push('page reads did not settle within 20 s'));
   await page.waitForTimeout(400);
   const expected = o.expectStatus ?? 200;
   if (status !== null && status !== expected && !(expected === 200 && status === 304)) issues.push(`HTTP ${status} (expected ${expected})`);
@@ -158,6 +162,7 @@ await t.run(async () => {
     for (const r of ['/workspace/sign-in', '/privacy/sign-in', '/setup', '/supplier', '/privacy']) record(`signed out: ${r} renders`, await visit(anon, 'customer', 'signed-out', r, r, { shot: true }));
     record('signed out: an unknown page is a 404', await visit(anon, 'customer', 'signed-out', '/no-such-page', '/no-such-page', { expectStatus: 404 }));
     record('signed out: vendor pages are 404 on a customer installation', await visit(anon, 'customer', 'signed-out', '/vendor', '/vendor', { expectStatus: 404 }));
+    await anon.page.context().close();
 
     // ---------------------------------------------------------------- customer: each staff role, every page
     for (const role of ['owner', 'admin', 'auditor', 'member']) {
@@ -204,6 +209,7 @@ await t.run(async () => {
     const vanon = await newPage(browser, VENDOR);
     for (const r of ['/vendor/sign-in', '/vendor/setup']) record(`vendor signed out: ${r} renders`, await visit(vanon, 'vendor', 'signed-out', r, r, { shot: true }));
     record('vendor signed out: the client workspace is 404 on the vendor installation', await visit(vanon, 'vendor', 'signed-out', '/workspace', '/workspace', { expectStatus: 404 }));
+    await vanon.page.context().close();
     const vendorStatic = ALL.filter(r => r.startsWith('/vendor') && !dynamic(r) && !['/vendor/sign-in', '/vendor/setup'].includes(r));
     const people = (['admin', 'lead', 'reviewer', 'owner'] as const).filter(k => typeof journal[k] === 'object' && (journal[k] as VendorUser).totp);
     soft('vendor users from the browser journeys are available for the crawl', people.length >= 3, true);
