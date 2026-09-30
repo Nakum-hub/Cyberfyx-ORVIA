@@ -671,7 +671,10 @@
       ],
       "status": "NOT_STARTED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md",
+        "handoffs/code/2026-09-29-audit-practice.md"
+      ]
     },
     {
       "id": "B06",
@@ -697,7 +700,10 @@
       ],
       "status": "NOT_STARTED",
       "commit": null,
-      "evidence": []
+      "evidence": [
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md",
+        "handoffs/code/2026-09-29-audit-practice.md"
+      ]
     },
     {
       "id": "C02",
@@ -761,7 +767,9 @@
       "evidence": [
         "docs/reviews/work/FINAL_GATE_REPORT.md",
         "handoffs/work/W03-preparation-a5b6ff7.md",
-        "docs/reviews/work/W01_W03_PREPARATION.json"
+        "docs/reviews/work/W01_W03_PREPARATION.json",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md",
+        "handoffs/code/2026-09-29-audit-practice.md"
       ]
     }
   ]

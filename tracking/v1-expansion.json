@@ -221,13 +221,16 @@
       "acceptance_status": "NOT_RUN",
       "evidence": [
         "handoffs/codex/artifacts/V1-EXPANSION-01-commerce-0a7deffa-8eee-496d-8f7c-0390073f6f97.json",
-        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md",
+        "handoffs/code/2026-09-29-audit-practice.md",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md"
       ],
       "limitations": [
         "45 isolated PostgreSQL component assertions; injected synthetic checkout responses and signed payment fixtures. No live provider conformance, vendor HTTP identity/UI, invoices/subscriptions, production role deployment or licence signer. Not release-qualified.",
         "Not advanced in the Claude takeover: blocked on the user's choice of payment provider and commercial terms.",
         "2026-09-28 decision: Indian providers only; Razorpay selected (docs/engineering/PAYMENTS_PROVIDER_DECISION.md). Activation needs merchant KYC, keys in .local/vendor/commerce/razorpay.json, network allowance, approved prices/GST, sandbox conformance and the vendor website.",
-        "2026-09-29: the vendor area now runs inside the same ORVIA application on the vendor's VENDOR_SERVICE installation (vendor staff identity with mandatory MFA, organisations, client vendor accounts, licence issuing from the tier catalogue, support cases, team with typed DELETE). Payments remain a placeholder (Razorpay on hold: KYC, prices, GST). Vendor website sign-up/subscription/download not built; only its link to /vendor/sign-in is in scope."
+        "2026-09-29: the vendor area now runs inside the same ORVIA application on the vendor's VENDOR_SERVICE installation (vendor staff identity with mandatory MFA, organisations, client vendor accounts, licence issuing from the tier catalogue, support cases, team with typed DELETE). Payments remain a placeholder (Razorpay on hold: KYC, prices, GST). Vendor website sign-up/subscription/download not built; only its link to /vendor/sign-in is in scope.",
+        "Post-merge reconciliation: vendor commerce migration is 0011; Claude battery7 reports commerce 116/116 and fresh/legacy-name migration-ledger checks PASS. The earlier 45-assertion entry is historical, not the latest local coverage. Razorpay sandbox/live provider activation remains unqualified."
       ]
     },
     {
@@ -249,11 +252,15 @@
         "installer/linux/orvia-install.sh",
         "handoffs/codex/artifacts/A00-auth-security-1790647830143-49547cb7-f7d0-4cf5-bb3f-60f0ed875734.json",
         "handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790649827843-8aefcd99-401e-45b6-bcb2-61561420ebb8.json",
-        "handoffs/code/artifacts/regression-battery-2026-09-29.txt"
+        "handoffs/code/artifacts/regression-battery-2026-09-29.txt",
+        "handoffs/code/2026-09-29-audit-practice.md",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md"
       ],
       "limitations": [
         "Applied since last update (Claude, 2026-09-28): 0063 typed scope predicate (audit list 110 ms -> 0.44 ms, Index Scan) verified by unit, auth, all expansion and all 13 DPDP suites; machine-enrollment renewal pickup; vendor/customer credential separation; licence-limited member logins; delete-login with typed DELETE; first-run setup with installer one-time code. Still open: installer packaging (only a Windows rehearsal package exists) and scheduled machine-login renewal; SSO/SCIM (needs IdP decision); customer-held recovery (OPEN-07); 1M qualification on declared hardware; signing-key custody; accessibility/browser matrix; security review; frozen-candidate acceptance and release approval.",
-        "2026-09-29: installation kinds CUSTOMER_INSTALLATION / VENDOR_SERVICE (immutable record, 404 gating both ways); Linux installer for both kinds executed in a container (fresh customer install through first-run setup, restart with data retained); systemd enablement, reboot survival, RHEL, Windows Server hardening, upgrade/rollback on a live installation NOT_RUN. Full regression battery green on codex-a00."
+        "2026-09-29: installation kinds CUSTOMER_INSTALLATION / VENDOR_SERVICE (immutable record, 404 gating both ways); Linux installer for both kinds executed in a container (fresh customer install through first-run setup, restart with data retained); systemd enablement, reboot survival, RHEL, Windows Server hardening, upgrade/rollback on a live installation NOT_RUN. Full regression battery green on codex-a00.",
+        "Round 3: preserved historical codex-a00 migration failed and rolled back on divergent 0048_grc. User-approved fresh isolated profile migrated through 0070; backup restore passed with 71 migration entries and forced RLS, but zero withdrawn consent records. Mixed capacity rerun diagnosed statement timeouts (historical 18, current schema zero); 45 seconds/16 clients retained, not declared production hardware qualification. Clean Linux installer preflight still lacks five prerequisites; fresh install/setup/previous-RC upgrade NOT_RUN in this Codex environment. SCIM scope/provider and customer recovery require owner decisions. See reconciliation handoff for branch-pinned evidence.",
+        "Round 3 cross-browser execution: all eight requested Firefox/WebKit commands exited 1; Firefox crawl completed 450 visits with 414 pages reporting issues, mainly CSP eval diagnostics. WebKit authenticated routes were not reached because the authenticator step never appeared. No cross-browser PASS or acceptance is inferred from partial checks. On the UI branch, form/pagination feature checks pass but the focused Firefox check still fails on CSP; unchanged expansion journey passes 69/69 under installed Google Chrome 154.0.8037.58. Final crawl status is in the reconciliation handoff."
       ],
       "required_actions": []
     },
@@ -264,10 +271,13 @@
       "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
       "evidence": [
-        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md",
+        "handoffs/code/2026-09-29-audit-practice.md",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md"
       ],
       "limitations": [
-        "Immutable CUSTOMER_INSTALLATION / VENDOR_SERVICE separation is implemented; real-host installer, upgrade/rollback and exact-candidate isolation acceptance remain unqualified."
+        "Immutable CUSTOMER_INSTALLATION / VENDOR_SERVICE separation is implemented; real-host installer, upgrade/rollback and exact-candidate isolation acceptance remain unqualified.",
+        "Claude battery7 has installation-kind isolation checks in the successful Chromium journeys. Codex Firefox also exercised bidirectional 404 gating; the overall Firefox suite failed later. Neither result qualifies a real-host installer."
       ]
     },
     {
@@ -277,10 +287,13 @@
       "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
       "evidence": [
-        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md",
+        "handoffs/code/2026-09-29-audit-practice.md",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md"
       ],
       "limitations": [
-        "Vendor identity, MFA and area implemented. Independent authority review and full browser/platform qualification remain incomplete."
+        "Vendor identity, MFA and area implemented. Independent authority review and full browser/platform qualification remain incomplete.",
+        "Codex round-3 Firefox completed the audit mandate business flow but failed the final browser-error assertion on blocked Zod eval probes. No external requests were recorded. File-exchange journey separately failed when Report tab did not become active. Full Firefox/WebKit results are recorded in the reconciliation handoff; a business-flow subset is not a suite PASS."
       ]
     },
     {
@@ -290,10 +303,13 @@
       "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
       "evidence": [
-        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md"
+        "docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md",
+        "handoffs/code/2026-09-29-audit-practice.md",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md"
       ],
       "limitations": [
-        "Sealed dual-approved packages and signed file return implemented. Production criteria, signing custody, legal review and exact-candidate acceptance remain pending."
+        "Sealed dual-approved packages and signed file return implemented. Production criteria, signing custody, legal review and exact-candidate acceptance remain pending.",
+        "Second review fixes are merged: no send/resend of responses without personal-data approval, request response-size budgeting, and vendor 0013 unacknowledged-only offers. Claude battery7 audit-mandate 98/98 includes the 250-request backlog. Inactive-mandate state-only check-in remains an explicit owner decision."
       ]
     },
     {
@@ -303,10 +319,13 @@
       "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
       "evidence": [
-        "docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md"
+        "docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md",
+        "handoffs/code/2026-09-29-audit-practice.md",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md"
       ],
       "limitations": [
-        "Synthetic loopback evidence exists. Local TLS, production hosting, multi-day operation and independent channel review are not acceptance. Legal review of the engagement letter and DPA is pending before real use."
+        "Synthetic loopback evidence exists. Local TLS, production hosting, multi-day operation and independent channel review are not acceptance. Legal review of the engagement letter and DPA is pending before real use.",
+        "Round 3 local TLS PASS: 10/10 assertions over real HTTPS to the real vendor handler and separate vendor database, including signed delivery, auditor request/response, durable receipts, untrusted CA rejection and hostname rejection. Owner approved NODE_EXTRA_CA_CERTS for this qualification; no CA-in-trust-file schema change, no 0.47.0 implementation, no OS trust change. This is a local handler harness, not full vendor hosting or production certificate/key custody."
       ]
     },
     {
@@ -316,11 +335,15 @@
       "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
       "evidence": [
-        "docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md"
+        "docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md",
+        "handoffs/code/2026-09-29-audit-practice.md",
+        "handoffs/codex/2026-09-30-tracking-reconciliation.md"
       ],
       "limitations": [
-        "Implementation under review on claude/upbeat-newton-w4h53x at 213ce5450da64b70b05d3d639fcfa5acf0000700; not merged into this branch. Review findings require Claude action. Legal review of the engagement letter and DPA, production criteria and audit keys remain pending."
+        "Merged into main by PR #32 at bf29c436911d33cbbafcbb6ce7f6d04a5704a64d. Claude battery7 reports vendor-audit 74/74, audit-practice 99/99, schema-equivalence 7/7, audit-mandate 98/98, dpdpa-audit 52/52, Chromium journeys 20/20, 19/19 and 69/69, and crawl 460/460. Engineering execution only; owner acceptance remains NOT_RUN. Legal engagement/DPA review, production criteria, signing custody, real TLS hosting and inactive-mandate check-in decision remain open."
       ]
     }
-  ]
+  ],
+  "reconciled_merge_commit": "bf29c436911d33cbbafcbb6ce7f6d04a5704a64d",
+  "reconciled_at": "2026-09-30"
 }

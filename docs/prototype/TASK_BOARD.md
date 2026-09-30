@@ -226,7 +226,7 @@ Record locked build/profile, real clean-start/bootstrap/seed/reset commands, pac
 
 **Planned files:** `scripts/**`; `infrastructure/**`; `artifacts/release-manifest.json`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/2026-09-30-tracking-reconciliation.md`; `handoffs/code/2026-09-29-audit-practice.md`
 
 ## B06 — Final UI fixes and candidate browser regression
 
@@ -236,7 +236,7 @@ Fix only accepted issues after freeze; rerun candidate browser tests, capture ac
 
 **Planned files:** `frontend/src/app/workspace/**`; `frontend/src/app/privacy/**`; `packages/ui/**`; `tests/e2e/**`
 
-**Evidence:** None recorded
+**Evidence:** `handoffs/codex/2026-09-30-tracking-reconciliation.md`; `handoffs/code/2026-09-29-audit-practice.md`
 
 ## C02 — Prepare evidence-backed presentation handover
 
@@ -256,4 +256,4 @@ Confirm exact candidate, all mandatory evidence, source/contract versions and li
 
 **Planned files:** `docs/reviews/work/FINAL_GATE_REPORT.md`; `CURRENT_STATE.md`; `handoffs/work/W03-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `docs/reviews/work/WORK_REVIEW_QUEUE.md`; `docs/reviews/work/repro/W01-W03-document-check.py`; `docs/reviews/work/artifacts/W01-W03-preparation-a5b6ff7/**`; `tracking/tasks.json`; `tracking/acceptance.json`; `docs/prototype/TASK_BOARD.md`; `docs/prototype/ACCEPTANCE.md`
 
-**Evidence:** `docs/reviews/work/FINAL_GATE_REPORT.md`; `handoffs/work/W03-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`
+**Evidence:** `docs/reviews/work/FINAL_GATE_REPORT.md`; `handoffs/work/W03-preparation-a5b6ff7.md`; `docs/reviews/work/W01_W03_PREPARATION.json`; `handoffs/codex/2026-09-30-tracking-reconciliation.md`; `handoffs/code/2026-09-29-audit-practice.md`
