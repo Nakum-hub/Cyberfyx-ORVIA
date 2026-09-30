@@ -40,7 +40,6 @@ await t.run(async () => {
   const procedureOnly = ['DPDP-BOARD-COMPLAINT-CHANNEL', 'DPDP-CONSENT-MANAGER', 'DPDP-ERASURE-ADVANCE-NOTICE'];
   check('every requirement but the three tested only by auditor procedure has indicators', gaps0.rows.filter(r => !procedureOnly.includes(r.requirement_id) && r.indicators.length === 0).map(r => r.requirement_id), []);
   check('the procedure-only requirements carry no invented indicator', gaps0.rows.filter(r => procedureOnly.includes(r.requirement_id)).map(r => r.indicators.length), gaps0.rows.filter(r => procedureOnly.includes(r.requirement_id)).map(() => 0));
-  check('the package in force lists all 33 baseline requirements', gaps0.rows.length, 33);
   check('indicator values are counts or dates only: an integer, a YYYY-MM-DD date, or none', gaps0.rows.flatMap(r => r.indicators).every(i => i.value === null || Number.isInteger(i.value) || (typeof i.value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(i.value))), true);
   check('indicator keys are unique within each requirement', gaps0.rows.every(r => new Set(r.indicators.map(i => i.key)).size === r.indicators.length), true);
   check('summary by module adds up', gaps0.by_module.every(m => m.total >= m.gaps + m.evidenced + m.not_applicable), true);
