@@ -1,0 +1,10 @@
+Verified qualification network/volume and stopped preserved containers.
+orvia-codex-a00-postgres-1
+orvia-codex-a00-opa-1
+orvia-codex-a00-loopback-1
+/orvia-codex-a00-postgres-1 running=false memory=402653184 oom=false restarts=0
+/orvia-codex-a00-opa-1 running=false memory=134217728 oom=false restarts=0
+/orvia-codex-a00-loopback-1 running=false memory=268435456 oom=false restarts=0
+/orvia-qualification-20260930-postgres running=false memory=402653184 oom=false restarts=0
+/orvia-qualification-20260930-opa running=false memory=134217728 oom=false restarts=0
+/orvia-qualification-20260930-loopback running=false memory=268435456 oom=false restarts=0
