@@ -16,6 +16,8 @@ Every approval-dependent step names OWNER, LEGAL or KEY CUSTODIAN. Proposed sche
 
 The customer checklist also records the round-4 reproduced first-run supervisor/enrollment defect. The installer branch contains its owned correction and distinguishes the 14-check patched first-run pass from the unmodified candidate's failure and successful upgrade. Integration and owner release acceptance remain gates.
 
+The additional e46babe qualification is also represented: upgrade and repeated retention/MFA checks pass, while initial agent/database timeouts and the earlier worker exit remain an explicit engineering reliability gate. No successful retry is treated as a fix.
+
 ## Commands actually executed
 
 | Check | Exit | Result |
