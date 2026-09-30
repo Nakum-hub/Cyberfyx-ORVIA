@@ -13,7 +13,7 @@ import { useVendorSession, VENDOR_ROLE_LABELS } from '../../../components/vendor
  */
 export default function VendorSignIn() {
   const hydrated = useHydrated();
-  const { session, status, reload } = useVendorSession();
+  const { session, status } = useVendorSession();
   const [client, setClient] = useState(false);
   useEffect(() => { setClient(new URLSearchParams(globalThis.location.search).get('account') === 'client'); }, []);
   const auth = client ? accountAuthClient : vendorAuthClient; const base = client ? '/api/auth/account' : '/api/auth/vendor';
@@ -49,7 +49,9 @@ export default function VendorSignIn() {
       } else {
         const result = await auth.twoFactor.verifyTotp({ code, trustDevice: false }); setCode('');
         if (result.error) throw new Error('The authenticator code was not accepted.');
-        setEnrollment(null); reload();
+        setEnrollment(null);
+        // The destination reads its session. A reload here starts a read on the
+        // departing document, which WebKit can refuse during navigation.
         globalThis.location.assign(client ? '/vendor/upload' : '/vendor/engagements');
       }
     } catch (e) { setError(e instanceof TypeError ? 'The vendor installation is not answering; the outcome is unknown.' : e instanceof Error ? e.message : 'Sign in could not be completed.'); }

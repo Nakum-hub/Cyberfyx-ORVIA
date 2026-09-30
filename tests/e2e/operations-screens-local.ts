@@ -71,6 +71,13 @@ await t.run(async () => {
       const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const field = (f: Locator, label: string) => f.getByLabel(new RegExp(`^${escape(label)}( \\*)?$`));
       async function submit<T>(f: Locator, path: RegExp, schema: { parse(v: unknown): T }, button: string) {
+        const invalid = await f.locator('input:invalid, select:invalid, textarea:invalid').evaluateAll(elements => elements.map(element => {
+          const field = element as HTMLInputElement;
+          return { name: field.name, type: field.type, hasValue: Boolean(field.value), valueMissing: field.validity.valueMissing,
+            badInput: field.validity.badInput, stepMismatch: field.validity.stepMismatch, patternMismatch: field.validity.patternMismatch,
+            rangeOverflow: field.validity.rangeOverflow, rangeUnderflow: field.validity.rangeUnderflow, typeMismatch: field.validity.typeMismatch };
+        }));
+        if (invalid.length) throw new Error(`Native form validation refused ${button}: ${JSON.stringify(invalid)}`);
         const response = page.waitForResponse(r => path.test(new URL(r.url()).pathname) && r.request().method() === 'POST');
         await f.getByRole('button', { name: button, exact: true }).click();
         const received = await response; const body = await received.json();
