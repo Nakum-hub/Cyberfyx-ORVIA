@@ -37,7 +37,7 @@ Sign in as the **client owner**. The sign-in needs the password and then an auth
 | 13 | Frameworks & controls, then Continuous compliance | DPDP framework controls, scheduled control tests, drift alerts | |
 | 14 | Impact assessments and Processor assessments | A DPIA with independent approval | |
 | 15 | AI governance | AI systems register | |
-| 16 | **DPDPA external audit** | **Gap register:** 33 requirements, applicability, controls, **ORVIA indicators** (30 of 33 have automatic evidence). Evidence files, engagements. | "This is what Cyberfyx audits against." |
+| 16 | **DPDPA external audit** | **Gap register:** 33 requirements, applicability, controls, **ORVIA indicators** (32 of 33 have automatic evidence; the Board complaint channel is procedure only). Evidence files, engagements. | "This is what Cyberfyx audits against." |
 | 17 | Open an engagement in DPDPA external audit | **The audit mandate:** what the client authorised, both approvers, channel health, auditor requests, deliveries | "The client approves once, with two people. From then on ORVIA sends signed, personal-data-free evidence to Cyberfyx on its own, outbound only. Cyberfyx can never log in." |
 | 18 | What the vendor can see | Every check-in, delivery and refused request, with digests | "Nothing leaves without appearing here." |
 | 19 | Audit trail | Every action by every person | |
