@@ -27,12 +27,17 @@ await t.run(async () => {
     check('the synthetic fixture organisation has the Privacy Centre on', setting.enabled, true);
     check('a Data Principal can use it while it is on', (await portal()).status, 200);
     check('an organisation admin cannot switch it', (await admin.call('/api/v1/admin/privacy-centre', { enabled: false, reason: 'Admin must not change the Privacy Centre.' }, key())).status, 403);
+    // Whatever happens below, the Privacy Centre is switched back on: other suites depend on it, and a failed check here must not cascade.
+    const restore = async () => { const now = await ok(owner.call('/api/v1/admin/privacy-centre'), S.schemas.PrivacyCentreSetting);
+      if (!now.enabled) await ok(owner.call('/api/v1/admin/privacy-centre', { enabled: true, reason: 'Restored for the remaining journeys (synthetic).' }, key()), S.schemas.PrivacyCentreSetting); };
+    try {
     const off = await ok(owner.call('/api/v1/admin/privacy-centre', { enabled: false, reason: 'Customers use our own account pages instead (synthetic).' }, key()), S.schemas.PrivacyCentreSetting);
     check('the owner switches it off', off.enabled, false);
     check('every Data Principal request is then refused, saying why', await codes(portal()), { status: 403, codes: ['privacy_centre_not_offered'] });
     check('switching it off twice is refused', (await owner.call('/api/v1/admin/privacy-centre', { enabled: false, reason: 'Already off, must be refused.' }, key())).status, 409);
-    await ok(owner.call('/api/v1/admin/privacy-centre', { enabled: true, reason: 'Restored for the remaining journeys (synthetic).' }, key()), S.schemas.PrivacyCentreSetting);
+    await restore();
     check('switched back on, the same session works again', (await portal()).status, 200);
+    } finally { await restore(); }
 
     t.setPhase('intake keys');
     const system = await t.boundSystem('Customer account site');

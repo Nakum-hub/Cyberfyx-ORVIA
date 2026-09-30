@@ -1,0 +1,163 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T15:27:55.287Z",
+  "suite": "organisation-intake",
+  "assertions": [
+    {
+      "name": "the synthetic fixture organisation has the Privacy Centre on",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a Data Principal can use it while it is on",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an organisation admin cannot switch it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner switches it off",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "every Data Principal request is then refused, saying why",
+      "result": "PASS",
+      "expected": {
+        "status": 403,
+        "codes": [
+          "privacy_centre_not_offered"
+        ]
+      },
+      "actual": {
+        "status": 403,
+        "codes": [
+          "privacy_centre_not_offered"
+        ]
+      }
+    },
+    {
+      "name": "switching it off twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "switched back on, the same session works again",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an organisation admin cannot create an intake key",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the key is returned once, 64 hex characters",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the key list never carries the key",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the database keeps only its digest",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "no key: refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a wrong key: refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a request from a browser page (Origin) is refused, so the key cannot live in a web page",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a request carrying cookies is refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a key limited to consent cannot send a rights request",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a submission is recorded as received, and a receipt is not completion",
+      "result": "PASS",
+      "expected": [
+        "RECEIVED",
+        true,
+        null
+      ],
+      "actual": [
+        "RECEIVED",
+        true,
+        null
+      ]
+    },
+    {
+      "name": "the same idempotency key returns the same submission",
+      "result": "PASS",
+      "expected": "cc650595-dc85-43dc-91a2-ec36ba06c332",
+      "actual": "cc650595-dc85-43dc-91a2-ec36ba06c332"
+    },
+    {
+      "name": "the same idempotency key with a different body is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "another key cannot read this key's submission",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "staff in another organisation see none of these submissions",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "unexpected failure in runner applies",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Machine enrollment expired; renew through protected local setup"
+    }
+  ],
+  "passed": 21,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
