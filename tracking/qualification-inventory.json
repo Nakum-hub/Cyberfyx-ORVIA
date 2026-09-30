@@ -7,13 +7,13 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "44f3cc2cffa1659541b317b57f4bc33375381dfa5c70253ab51d341703dc9afc",
+  "test_file_digest": "154cfbea82f7836fce7a2ada23917939081a45af394e2c6152d77462991703d8",
   "counts": {
     "UNIT": 50,
     "INTEGRATION": 80,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
-    "BROWSER_OR_TRANSPORT": 13,
+    "BROWSER_OR_TRANSPORT": 15,
     "SUPPORT": 9
   },
   "entries": [
@@ -31,6 +31,11 @@
       "path": "tests/e2e/auth.spec.ts",
       "sha256": "552ef3318250cd29931950df962226b539c2475fb9c7f9032fc9a77c1187ec73",
       "kind": "PLAYWRIGHT"
+    },
+    {
+      "path": "tests/e2e/backups-and-recovery-local.ts",
+      "sha256": "9ce0a7c5c70e3ecc7cf86d10e682e14b63ff45b4997bccfb8603518e8d588293",
+      "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/candidate.spec.ts",
@@ -135,6 +140,11 @@
     {
       "path": "tests/e2e/transport-preflight.ts",
       "sha256": "aa34c0660fa2a8950cfe78f8a7969909b1ada0af1da8ce3d0902a0ec8c90aed5",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
+      "path": "tests/e2e/vendor-production-criteria-local.ts",
+      "sha256": "2b73c3aa61856d5315a49e6215ffbee786c1fb7f65929b750c89882d1e31978d",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
