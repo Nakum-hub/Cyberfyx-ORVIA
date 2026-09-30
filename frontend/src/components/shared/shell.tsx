@@ -34,9 +34,14 @@ function TestEnvironmentBanner({ area }: { area: string }) {
     <div className="environment-banner">
       <strong>Synthetic test environment</strong>
       <span className="area">{area}</span>
-      <span className="meta">profile={profile}</span>
-      <span className="meta">data_profile={PROFILE}</span>
-      <span className="meta">contract={CONTRACT_VERSION} ({CONTRACT_REVIEW_STATUS})</span>
+      <details className="environment-details">
+        <summary>Environment details</summary>
+        <div>
+          <span className="meta">profile={profile}</span>
+          <span className="meta">data_profile={PROFILE}</span>
+          <span className="meta">contract={CONTRACT_VERSION} ({CONTRACT_REVIEW_STATUS})</span>
+        </div>
+      </details>
     </div>
   );
 }
@@ -64,12 +69,15 @@ function ActorSummary({ detailed }: { detailed: boolean }) {
   return (
     <div className="shell-context">
       <Chip term="Role" value={<>{ROLE_LABELS[session.role] ?? session.role}{staff && detailed ? <> · MFA {session.mfa_verified ? 'verified' : 'not verified'}</> : null}</>} />
-      {detailed ? <Chip term="Organisation" value={shortId(session.scope.legal_entity_id)} code /> : null}
-      <Chip term="Environment" value={profile} code />
-      <span className="context-chip">
-        <span className="k">Session</span>
-        <span className="v" style={{ fontWeight: 500 }}>expires {formatTime(session.expires_at)}</span>
-      </span>
+      <details className="session-details">
+        <summary>Session details</summary>
+        <div className="session-details-body">
+          {detailed ? <Chip term="Organisation" value={shortId(session.scope.legal_entity_id)} code /> : null}
+          <Chip term="Environment" value={profile} code />
+          <Chip term="Session" value={<>expires {formatTime(session.expires_at)}</>} />
+          {detailed ? <ScopeDetails /> : null}
+        </div>
+      </details>
       {/* Kept outside the chip: the chip value clips with an ellipsis, which
           would make this control unclickable at narrow widths. */}
       <button type="button" className="link" onClick={() => void signOut(session.actor_domain)}>Sign out</button>
@@ -97,15 +105,24 @@ function ScopeDetails() {
 
 function Nav({ groups }: { groups: NavGroup[] }) {
   const pathname = usePathname();
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const isActive = (href: string) => pathname === href
+    || (href !== '/workspace' && href !== '/privacy' && pathname.startsWith(`${href}/`));
   return (
     <nav className="shell-nav" aria-label="Primary">
-      {groups.map(group => (
-        <div key={group.group}>
-          <p className="group-label">{group.group}</p>
-          <ul>
+      {groups.map((group, index) => {
+        const current = group.items.some(item => isActive(item.href));
+        const open = current || expanded[group.group] === true;
+        return (
+        <div className="nav-group" key={group.group}>
+          <button type="button" className="group-label" aria-expanded={open}
+            aria-controls={`nav-group-${index}`} aria-disabled={current || undefined}
+            onClick={() => { if (!current) setExpanded(value => ({ ...value, [group.group]: !open })); }}>
+            {group.group}<span className="nav-chevron" aria-hidden="true" />
+          </button>
+          <ul id={`nav-group-${index}`} hidden={!open}>
             {group.items.map(item => {
-              const active = pathname === item.href
-                || (item.href !== '/workspace' && item.href !== '/privacy' && pathname.startsWith(`${item.href}/`));
+              const active = isActive(item.href);
               return (
                 <li key={item.href}>
                   <a href={item.href} aria-current={active ? 'page' : undefined}>{item.label}</a>
@@ -114,7 +131,7 @@ function Nav({ groups }: { groups: NavGroup[] }) {
             })}
           </ul>
         </div>
-      ))}
+      ); })}
     </nav>
   );
 }
@@ -146,7 +163,6 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
         <Nav groups={visible} />
         <main className="shell-main" id="main" tabIndex={-1}>
           {children}
-          {detailedActor ? <ScopeDetails /> : null}
         </main>
       </div>
       <footer className="shell-foot">

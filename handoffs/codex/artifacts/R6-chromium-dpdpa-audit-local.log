@@ -1,0 +1,27 @@
+R6 unchanged suite: dpdpa-audit-local; engine: chromium
+PASS the vendor installation reports VENDOR_SERVICE and a verified kind
+PASS client workspace and staff sign-in are 404 on the vendor installation
+PASS the vendor area and vendor sign-in are 404 on a customer installation
+PASS the website link and the in-app sign-in share one session
+PASS the engagement code is shown once in the browser
+PASS the client gap register lists DPDP requirements with gap statuses
+PASS a second person confirms the personal-data flag in the browser
+PASS the preparer sees the approve control but approval is refused for them
+PASS a different owner approves and downloads the sealed package file
+PASS the client uploads the file and the vendor verifies it
+PASS the practice page shows real use refused and the development key marked
+PASS acceptance cannot be prepared without the licence-independence statement
+PASS the workspace marks the engagement synthetic and its criteria test-fixture
+PASS contact details in the understanding are redacted before storage
+PASS the residual rating is computed by the methodology, not typed
+PASS an open review note blocks the review
+PASS the browser shows why an unsupported favourable conclusion is refused
+PASS the report is bound to its approved snapshot and carries its marks, issued as JSON and PDF
+PASS the client imports the signed findings and report and tracks remediation
+PASS no browser errors and no request left either installation
+PASS a gap-register 503 is retried once, then shown only in its own section
+PASS the engagements stay usable while the gap register is unavailable
+PASS Try again recovers the gap register
+Artifact: handoffs/codex/artifacts/A00-operations-dpdpa-audit-browser-1790765047465-bf1ff01d-8b73-46b9-a88e-e7a5aea5146b.json
+
+23 assertions, 0 failures.

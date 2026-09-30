@@ -1,0 +1,43 @@
+[
+  {
+    "name": "client-overview",
+    "path": "/workspace",
+    "status": 200,
+    "errors": []
+  },
+  {
+    "name": "client-overview",
+    "keyboard_group_toggle": "PASS",
+    "current_group_stays_open": "PASS",
+    "phone_overflow": "PASS"
+  },
+  {
+    "name": "client-list",
+    "path": "/workspace/rights",
+    "status": 200,
+    "errors": []
+  },
+  {
+    "name": "client-list",
+    "keyboard_group_toggle": "PASS",
+    "current_group_stays_open": "PASS",
+    "phone_overflow": "PASS"
+  },
+  {
+    "name": "dpdpa-audit",
+    "path": "/workspace/dpdpa-audit",
+    "status": 200,
+    "errors": []
+  },
+  {
+    "name": "dpdpa-audit",
+    "keyboard_group_toggle": "PASS",
+    "current_group_stays_open": "PASS",
+    "phone_overflow": "PASS"
+  },
+  {
+    "name": "vendor-overview",
+    "status": 200,
+    "errors": []
+  }
+]

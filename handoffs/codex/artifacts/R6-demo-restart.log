@@ -1,0 +1,1 @@
+{"result":"READY","processes":[{"profile":"codex-a00","pid":28468,"origin":"http://127.0.0.1:4310"},{"profile":"vendor-a00","pid":24180,"origin":"http://127.0.0.1:4340"}],"sign_in_file":".local/round6/sign-in-details.json"}

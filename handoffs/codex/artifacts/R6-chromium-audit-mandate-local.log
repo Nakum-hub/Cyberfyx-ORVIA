@@ -1,0 +1,28 @@
+R6 unchanged suite: audit-mandate-local; engine: chromium
+PASS leadership sees the practice overview from real records
+PASS the client sees the audit address from its trust file
+PASS a second owner approves the mandate in the browser
+node.exe : Error: Expired authority
+At C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\handoffs\codex\round6-checks.ps1:8 char:3
++   & node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-browser. ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error: Expired authority:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at scopedTransaction 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\database\customer\src\runtime.ts:21:138)
+    at channelSweep.address 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:101:79)
+    at channelSweep 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\backend\domain\src\dpdpa-audit\channel.ts:112:21)
+    at sweep (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:101:25)
+    at <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:161:24)
+    at async Object.run 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:93:3)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-audit-mandate-browser-1790765101669-53160a17-48c4-4b1f-856c-bd9bd90a0522.json
+
+4 assertions, 1 failures.
