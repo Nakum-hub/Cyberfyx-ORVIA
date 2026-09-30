@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { DataTable, Facts, NoticeBox } from '../../components/shared/ui.tsx';
+import { DataTable, Metric, NoticeBox } from '../../components/shared/ui.tsx';
 import { useVendorSession, vendorCall, explain, can, VENDOR_ROLE_LABELS } from '../../components/vendor/vendor.tsx';
 
 /**
@@ -37,17 +37,18 @@ function LeadershipOverview() {
       {attention.length ? <DataTable caption="Items needing attention" rowKey={a => a.what} rows={attention} columns={[{ key: 'w', header: 'What', cell: a => a.what }, { key: 'c', header: 'Count', cell: a => a.count }, { key: 'n', header: 'Next step', cell: a => a.where }]} />
         : <p className="muted">Nothing needs attention in the records as of {o.as_of.slice(0, 16).replace('T', ' ')} UTC.</p>}
     </section>
-    <section className="section" aria-label="Practice"><div className="section-head"><h3>Practice</h3></div>
-      <Facts items={[
-        { term: 'Client organisations', value: `${o.organisations} (licences: ${list(o.licence_states, ['ACTIVE', 'EXPIRED', 'SUSPENDED', 'NONE'])})` },
-        { term: 'Engagements', value: list(o.engagements_by_state, ['PLANNING', 'FIELDWORK', 'REPORTING', 'CLOSED']) },
-        { term: 'Clients sending evidence under a mandate', value: o.channels.with_active_mandate },
-        { term: 'Evidence deliveries accepted, last 30 days', value: o.channels.deliveries_30_days },
-        { term: 'Packages received, last 30 days', value: list(o.packages_30_days, ['CHANNEL', 'UPLOAD']) },
-        { term: 'Open auditor requests', value: o.requests.open },
-        { term: 'Open findings by severity', value: list(o.findings_open_by_severity, ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW']) },
-        { term: 'Reports signed', value: o.reports_signed },
-        { term: 'Open support cases', value: list(o.support_open_by_urgency, ['HIGH', 'NORMAL', 'LOW']) }]} />
+    <section className="section" aria-label="Practice"><div className="section-head"><h3>Practice</h3><span className="muted">As of {o.as_of.slice(0, 16).replace('T', ' ')} UTC</span></div>
+      <div className="grid-4">
+        <Metric label="Client organisations" value={o.organisations} note={`Licences: ${list(o.licence_states, ['ACTIVE', 'EXPIRED', 'SUSPENDED', 'NONE'])}`} link={{ href: '/vendor/organisations', label: 'Organisations' }} />
+        <Metric label="Engagements" value={Object.values(o.engagements_by_state).reduce((a, b) => a + b, 0)} note={list(o.engagements_by_state, ['PLANNING', 'FIELDWORK', 'REPORTING', 'CLOSED'])} link={{ href: '/vendor/engagements', label: 'Open engagements' }} />
+        <Metric label="Clients sending evidence under a mandate" value={o.channels.with_active_mandate} tone={o.channels.chain_broken ? 'stop' : 'neutral'} note={o.channels.chain_broken ? `${o.channels.chain_broken} with a broken evidence chain` : 'Evidence chains intact'} />
+        <Metric label="Evidence deliveries accepted" value={o.channels.deliveries_30_days} note="Last 30 days" />
+        <Metric label="Packages received" value={Object.values(o.packages_30_days).reduce((a, b) => a + b, 0)} note={`Last 30 days: ${list(o.packages_30_days, ['CHANNEL', 'UPLOAD'])}`} />
+        <Metric label="Open auditor requests" value={o.requests.open} tone={o.requests.overdue_with_clients ? 'warn' : 'neutral'} note={o.requests.overdue_with_clients ? `${o.requests.overdue_with_clients} overdue with clients` : 'None overdue with clients'} />
+        <Metric label="Open findings" value={Object.values(o.findings_open_by_severity).reduce((a, b) => a + b, 0)} tone={o.findings_open_by_severity.CRITICAL || o.findings_open_by_severity.HIGH ? 'warn' : 'neutral'} note={list(o.findings_open_by_severity, ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'])} />
+        <Metric label="Reports signed" value={o.reports_signed} note={o.reports_awaiting_review ? `${o.reports_awaiting_review} awaiting reviewer approval` : 'None awaiting review'} />
+        <Metric label="Open support cases" value={Object.values(o.support_open_by_urgency).reduce((a, b) => a + b, 0)} note={list(o.support_open_by_urgency, ['HIGH', 'NORMAL', 'LOW'])} link={{ href: '/vendor/support', label: 'Support cases' }} />
+      </div>
       <p className="muted">Counts are read from this installation&apos;s records when the page opens. Evidence content is visible only to each engagement&apos;s team.</p>
     </section>
   </>;
