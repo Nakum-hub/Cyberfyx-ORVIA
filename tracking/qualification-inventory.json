@@ -7,13 +7,13 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "623c26c7b4e6c02bfc786ad1f875550d0daadd8c533889315aacf8d435e80954",
+  "test_file_digest": "3c807c548947a080593ea703917801375d25688a9465b54cd49f9664ddfed9ef",
   "counts": {
     "UNIT": 49,
     "INTEGRATION": 75,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
-    "BROWSER_OR_TRANSPORT": 12,
+    "BROWSER_OR_TRANSPORT": 13,
     "SUPPORT": 9
   },
   "entries": [
@@ -111,6 +111,11 @@
       "path": "tests/e2e/reporter.ts",
       "sha256": "11407beba87a40fef97ba6e338e1dcab48eccfa34af739624c8b960495db9d76",
       "kind": "SUPPORT"
+    },
+    {
+      "path": "tests/e2e/sign-in-hydration-local.ts",
+      "sha256": "b5ba7982e70379103927b40422ec5d94e6605b0aa3219bd67e09d5098183a73e",
+      "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/team-local.ts",

@@ -1,0 +1,19 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T09:04:19.470Z",
+  "suite": "sign-in-hydration",
+  "assertions": [
+    {
+      "name": "unexpected failure in customer sign-in pages",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4310/workspace/sign-in\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

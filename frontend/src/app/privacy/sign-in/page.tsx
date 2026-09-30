@@ -2,7 +2,7 @@
 import { useState, type FormEvent } from 'react';
 import { principalAuthClient } from '@orvia/auth/client';
 import { useSession } from '../../../components/shared/session-context.tsx';
-import { NoticeBox, TextField } from '../../../components/shared/ui.tsx';
+import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
 
 /**
  * Data principal sign in. Credentials go to the local Better Auth principal
@@ -10,6 +10,7 @@ import { NoticeBox, TextField } from '../../../components/shared/ui.tsx';
  * session cookie is set and read by the server.
  */
 export default function PrincipalSignInPage() {
+  const hydrated = useHydrated();
   const { status, session, reload } = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,7 +60,7 @@ export default function PrincipalSignInPage() {
         <TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" />
         <TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" />
         {error ? <div className="notice notice-stop" role="alert"><p>{error}</p></div> : null}
-        <button type="submit" className="primary" disabled={busy || !email || !password}>
+        <button type="submit" className="primary" disabled={!hydrated || busy || !email || !password}>
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
