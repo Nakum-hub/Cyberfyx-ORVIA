@@ -1,0 +1,25 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T15:30:44.466Z",
+  "suite": "organisation-intake",
+  "assertions": [
+    {
+      "name": "the synthetic fixture organisation has the Privacy Centre on",
+      "result": "FAIL",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "name": "unexpected failure in privacy centre switch",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the synthetic fixture organisation has the Privacy Centre on"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

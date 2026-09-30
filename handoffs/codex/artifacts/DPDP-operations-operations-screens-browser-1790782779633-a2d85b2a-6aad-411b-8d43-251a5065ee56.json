@@ -1,0 +1,169 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T15:39:39.634Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a breach registered on screen is pinned with deadlines from the package",
+      "result": "PASS",
+      "expected": [
+        "86be1ed9-2728-40a2-a49f-97301b74ec7d",
+        "UNKNOWN",
+        true
+      ],
+      "actual": [
+        "86be1ed9-2728-40a2-a49f-97301b74ec7d",
+        "UNKNOWN",
+        true
+      ]
+    },
+    {
+      "name": "correcting the facts keeps the pinned package and deadlines",
+      "result": "PASS",
+      "expected": [
+        40,
+        "0b9bcf73-2833-4ea9-9ff3-1eefd8c0cb93",
+        [
+          null,
+          null,
+          "2026-10-02T13:38:09.852Z"
+        ]
+      ],
+      "actual": [
+        40,
+        "0b9bcf73-2833-4ea9-9ff3-1eefd8c0cb93",
+        [
+          null,
+          null,
+          "2026-10-02T13:38:09.852Z"
+        ]
+      ]
+    },
+    {
+      "name": "a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)",
+      "result": "PASS",
+      "expected": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ],
+      "actual": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ]
+    },
+    {
+      "name": "a person is registered with a keyed reference and no stored identifier",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "a relationship context is recorded with unknown evidence kept unknown",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ],
+      "actual": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ]
+    },
+    {
+      "name": "a representative starts unverified",
+      "result": "PASS",
+      "expected": "UNVERIFIED",
+      "actual": "UNVERIFIED"
+    },
+    {
+      "name": "the person who recorded a representative cannot verify them",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a different staff member verifies the representative",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        true
+      ],
+      "actual": [
+        "VERIFIED",
+        true
+      ]
+    },
+    {
+      "name": "child status is recorded with its guardian",
+      "result": "PASS",
+      "expected": [
+        "CHILD",
+        "46737731-5af7-438f-b7b5-1374676dcbe2",
+        "NOT_ESTABLISHED"
+      ],
+      "actual": [
+        "CHILD",
+        "46737731-5af7-438f-b7b5-1374676dcbe2",
+        "NOT_ESTABLISHED"
+      ]
+    },
+    {
+      "name": "a consent record starts unknown, never granted",
+      "result": "PASS",
+      "expected": "UNKNOWN",
+      "actual": "UNKNOWN"
+    },
+    {
+      "name": "a withdrawal recorded on screen opens exactly one propagation run",
+      "result": "PASS",
+      "expected": [
+        "WITHDRAWN",
+        1
+      ],
+      "actual": [
+        "WITHDRAWN",
+        1
+      ]
+    },
+    {
+      "name": "the run suppresses in the linked system",
+      "result": "PASS",
+      "expected": [
+        "CONSENT_WITHDRAWAL",
+        1
+      ],
+      "actual": [
+        "CONSENT_WITHDRAWAL",
+        1
+      ]
+    },
+    {
+      "name": "unexpected failure in processors, sharing, safeguards, connectors",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.selectOption: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('form', { name: 'Terminate engagement' }).getByLabel(/^Engagement( \\*)?$/)\u001b[22m\n\u001b[2m    - locator resolved to <select id=\"_r_8_\" required=\"\" name=\"engagement\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - did not find some options\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × w"
+    }
+  ],
+  "passed": 13,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

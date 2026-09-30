@@ -117,6 +117,13 @@ export function DomainGuard({ domain, signInHref, children }: { domain: 'STAFF' 
       </NoticeBox>
     );
   }
+  if (!session && failure?.fieldErrors.some(e => e.code === 'privacy_centre_not_offered')) {
+    return (
+      <NoticeBox tone="info" title="This organisation does not offer the Privacy Centre">
+        <p>Use the organisation&apos;s own website or app to manage your consent and make privacy requests, or contact the organisation directly.</p>
+      </NoticeBox>
+    );
+  }
   if (!session && failure) {
     return (
       <>

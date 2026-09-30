@@ -17,6 +17,7 @@
 | Security and privacy | Independent threat assessment and penetration test, dependency and secret review, tenant and role isolation, customer-local data/egress evidence | OPEN: qualification not recorded |
 | Operations and recovery | Clean install and upgrade, backup/restore, monitoring, incident handling, retention, rollback, supported hardware, failure drills | OPEN: full production exercise not recorded |
 | Supply and licensing | Production signing/key custody, update provenance, commercial provider/terms and licence behavior as applicable | OPEN: provider and signing decisions unresolved |
+| Real people as principals | `app.principal_references` accepts only synthetic `@aster.example` / `@birch.example` addresses (prototype safety rule, migration 0001); lifting it is part of production installation qualification, with the production installer | OPEN: until then an intake or staff rights request naming a real person cannot be recorded (revision 1.7) |
 | Candidate and sign-off | Immutable source/lockfile/build identity, repeatable acceptance on that exact build, human release approval | OPEN: frozen candidate not identified |
 
 ## Rules for status changes

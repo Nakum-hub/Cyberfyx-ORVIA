@@ -1,0 +1,2 @@
+{"at":"2026-09-30T15:50:30.511Z","page":"http://127.0.0.1:4310/workspace/principals","url":"http://127.0.0.1:4310/api/v1/admin/principals?limit=100","status":503,"request_id":"a2eeec63-5ca5-48e0-996c-4fec9b43b544","error":{"code":"SERVICE_UNAVAILABLE"}}
+{"at":"2026-09-30T15:50:30.653Z","server":{"round7_diagnostic":true,"request_id":["a2eeec63-5ca5-48e0-996c-4fec9b43b544"],"status":503,"path":"/api/v1/admin/principals","method":"GET","dependencies":[{"dependency":"OPA","error":"TimeoutError","elapsed_ms":2399}]}}

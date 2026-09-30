@@ -15,6 +15,7 @@ import { purgeEndedPackages } from '../../../backend/domain/src/rights/response-
 import { raiseAlertMessages, claimDue, sendClaim, recordResult } from '../../../backend/domain/src/delivery/delivery.ts';
 import { escalationSweep } from '../../../backend/domain/src/assessments/impact.ts';
 import { propagatePendingWithdrawals } from '../../../backend/domain/src/registry/consent.ts';
+import { processIntake } from '../../../backend/domain/src/registry/intake.ts';
 import type { OperationsEnv } from '../../../backend/domain/src/operations/shared.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
 import { channelSweep, type ChannelEnv } from '../../../backend/domain/src/dpdpa-audit/channel.ts';
@@ -23,6 +24,7 @@ import { installationTrustAt } from '../../../scripts/credentials.ts';
 /**
  * Background runner for DPDP operations (implementation plan s7 "jobs and timers").
  *
+ * It first applies consent changes and rights requests the organisation's own website or app sent (revision 1.7).
  * It resumes work that staff started but did not drive to the end: estate
  * imports still processing, retention evaluations still evaluating, and runs a
  * second person has already approved. Each batch is its own transaction as the
@@ -40,7 +42,7 @@ import { installationTrustAt } from '../../../scripts/credentials.ts';
  * reviewed messages through the customer's enabled transports, and services
  * approved DPDPA audit mandates over the outbound audit channel (revision 1.6).
  */
-export type RunnerReport = { scope: string; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; audit_check_ins: number; audit_deliveries_accepted: number; audit_requests_received: number; errors: string[] };
+export type RunnerReport = { scope: string; intake_applied: number; intake_needs_staff: number; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; audit_check_ins: number; audit_deliveries_accepted: number; audit_requests_received: number; errors: string[] };
 const BATCH = { job: 200, evaluate: 200, execute: 50 };
 const MAX_BATCHES_PER_ITEM = 50;
 
@@ -63,8 +65,12 @@ export function operationsRunner() {
     for (const identity of currentEnrollment().identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
-      const report: RunnerReport = { scope: identity.scope.environment_id, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, audit_check_ins: 0, audit_deliveries_accepted: 0, audit_requests_received: 0, errors: [] };
+      const report: RunnerReport = { scope: identity.scope.environment_id, intake_applied: 0, intake_needs_staff: 0, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, audit_check_ins: 0, audit_deliveries_accepted: 0, audit_requests_received: 0, errors: [] };
       const scopeValues = [identity.scope.tenant_id, identity.scope.legal_entity_id, identity.scope.environment_id];
+      // Submissions from the organisation's own website or app first (revision 1.7): a withdrawal sent that way becomes a
+      // recorded withdrawal here, so the propagation step just below picks it up in this same cycle.
+      try { const intake = await scoped(c => processIntake(c)); report.intake_applied = intake.applied; report.intake_needs_staff = intake.needs_staff; }
+      catch (error) { report.errors.push(`intake: ${safeError(error).code}`); }
       // Withdrawals first: a recorded withdrawal without a propagation run is the
       // one gap here that can leave marketing active. Its runs then enter the
       // evaluating list read below and are driven in this same cycle.

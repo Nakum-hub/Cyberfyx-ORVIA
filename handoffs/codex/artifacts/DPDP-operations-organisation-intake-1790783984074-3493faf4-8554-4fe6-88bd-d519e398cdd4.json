@@ -1,0 +1,57 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T15:59:44.074Z",
+  "suite": "organisation-intake",
+  "assertions": [
+    {
+      "name": "the synthetic fixture organisation has the Privacy Centre on",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a Data Principal can use it while it is on",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an organisation admin cannot switch it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner switches it off",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "every Data Principal request is then refused, saying why",
+      "result": "FAIL",
+      "expected": {
+        "status": 403,
+        "codes": [
+          "privacy_centre_not_offered"
+        ]
+      },
+      "actual": {
+        "status": 200,
+        "codes": []
+      }
+    },
+    {
+      "name": "unexpected failure in privacy centre switch",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: every Data Principal request is then refused, saying why"
+    }
+  ],
+  "passed": 4,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

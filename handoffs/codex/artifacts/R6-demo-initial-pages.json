@@ -1,0 +1,162 @@
+{
+  "script": "docs/demo/DEMO_SCRIPT.md",
+  "checked": 25,
+  "dataProof": {
+    "mandate_engagement": "ENG-MB-238f8db7",
+    "delivery_rows": 2,
+    "mandate": "None"
+  },
+  "pages_with_issues": [],
+  "visits": [
+    {
+      "role": "client owner",
+      "route": "/workspace",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/operations-attention",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/configuration",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/processing-activities",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/registry-notices",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/website-consent",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/consent-records",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/operations-runs",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/rights",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/personal-data-breaches",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/processors",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/processor-engagements",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/registry-retention",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/retention/outcomes",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/inventory",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/catalog-discovery",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/grc",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/compliance",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/impact-assessments",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/assessments",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/ai-governance",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/dpdpa-audit",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/vendor-visibility",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/audit-trail",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/dpdpa-audit#mandate-engagement",
+      "status": 200,
+      "issues": []
+    }
+  ]
+}

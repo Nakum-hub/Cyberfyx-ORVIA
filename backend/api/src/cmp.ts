@@ -42,7 +42,10 @@ export async function cmpConsentRoute(request: Request) {
   }
   const response = await safeRoute(async requestId => {
     if (!match || !KEY.test(match[1]!) || request.method !== 'POST') throw new AccessError(404, 'NOT_FOUND');
-    if (request.headers.has('cookie') || request.headers.has('authorization')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_credentials_accepted' }]);
+    // This route reads no session and grants nothing, so a Cookie header carries no authority here and is ignored: the SDK
+    // sends credentials: 'omit', yet some WebKit builds still attach cookies, and refusing them refused real visitors'
+    // choices (round 7, WebKit 400). An Authorization header is still refused, since no caller should send one.
+    if (request.headers.has('authorization')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_credentials_accepted' }]);
     if (!origin) throw new AccessError(403, 'FORBIDDEN');
     if (request.headers.get('content-type')?.split(';')[0] !== 'application/json') throw new AccessError(400, 'VALIDATION_ERROR');
     let input: unknown;

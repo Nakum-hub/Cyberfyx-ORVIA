@@ -239,6 +239,39 @@ export const ConsentManagerLink = z.strictObject({ consent_manager_id: Id, artef
 export const ConsentManagerWithdrawal = z.strictObject({ consent_manager_id: Id, artefact_reference: z.string().min(3).max(200), occurred_at: Time, evidence_reference: z.string().min(3).max(500) });
 export const ConsentSync = z.strictObject({ examined_records: z.number().int().min(0), mirrored_events: z.number().int().min(0), withdrawal_runs: z.array(Id).max(100) });
 
+/**
+ * Organisation website/app intake and the optional Privacy Centre (revision 1.7, contract 0.48.0).
+ * Rule 14(1): the means of making a request are published on the organisation's own website or app. The organisation's
+ * application sends consent changes and rights requests for its signed-in customers with a key created in the Workspace.
+ */
+export const IntakeRightType = z.enum(['ACCESS', 'CORRECTION', 'ERASURE', 'GRIEVANCE', 'NOMINATION']);
+export const IntakeClientCreate = z.strictObject({ name: z.string().min(2).max(120), system_id: Id, authenticates_customers: z.boolean(), accepts_consent: z.boolean(), accepts_rights: z.boolean() })
+  .refine(v => v.accepts_consent || v.accepts_rights, { message: 'A key accepts consent changes, rights requests or both', path: ['accepts_rights'] });
+export const IntakeClient = z.strictObject({ id: Id, name: SafeText, system_id: Id, system_name: SafeText, authenticates_customers: z.boolean(), accepts_consent: z.boolean(), accepts_rights: z.boolean(),
+  created_at: Time, revoked_at: Time.nullable(), revocation_reason: SafeText.nullable(), last_used_at: Time.nullable(), submissions: z.number().int().min(0) });
+/** Returned once, when the key is created. Only its SHA-256 digest is kept; a lost key is revoked and replaced. */
+export const IntakeClientCreated = z.strictObject({ client: IntakeClient, key: z.string().regex(/^[a-f0-9]{64}$/), shown_once: z.literal(true) });
+export const IntakeClientRevoke = z.strictObject({ reason: z.string().min(10).max(500) });
+export const IntakeSubmissionStatus = z.enum(['RECEIVED', 'APPLIED', 'NEEDS_STAFF', 'HANDLED']);
+export const IntakeSubmission = z.strictObject({ id: Id, client_id: Id, client_name: SafeText, kind: z.enum(['CONSENT', 'RIGHTS']), customer_reference: TargetReference,
+  summary: SafeText, status: IntakeSubmissionStatus, outcome_reason: SafeText.nullable(), consent_record_id: Id.nullable(), rights_request_id: Id.nullable(),
+  received_at: Time, processed_at: Time.nullable(), handled_note: SafeText.nullable(), handled_at: Time.nullable() });
+export const IntakeSubmissionQuery = z.strictObject({ status: IntakeSubmissionStatus.optional() });
+export const IntakeSubmissionHandle = z.strictObject({ note: z.string().min(10).max(500) });
+export const PrivacyCentreSetting = z.strictObject({ enabled: z.boolean(), reason: SafeText.nullable(), changed_at: Time.nullable(), changed_by: Id.nullable(),
+  /** Customer accounts that exist for this organisation; with the Privacy Centre off none of them can sign in. */
+  customer_accounts: z.number().int().min(0) });
+export const PrivacyCentreChange = z.strictObject({ enabled: z.boolean(), reason: z.string().min(10).max(500) });
+/** Sent by the organisation's application server. The customer is identified by their identifier in that application. */
+export const IntakeConsentSubmit = z.strictObject({ customer_reference: TargetReference, activity_id: Id, decision: z.enum(['GRANTED', 'WITHDRAWN']), occurred_at: Time,
+  notice_version_id: Id.nullable(), evidence_reference: z.string().min(3).max(500) });
+export const IntakeRightsSubmit = z.strictObject({ customer_reference: TargetReference, right_type: IntakeRightType, description: z.string().min(10).max(2000),
+  display_name: z.string().min(1).max(100), email: z.email().max(254) });
+export const IntakeReceipt = z.strictObject({ submission_id: Id, kind: z.enum(['CONSENT', 'RIGHTS']), status: IntakeSubmissionStatus, received_at: Time, processed_at: Time.nullable(),
+  outcome_reason: SafeText.nullable(), consent: z.strictObject({ record_id: Id, current_status: SafeText }).nullable(), rights_request: z.strictObject({ id: Id, state: SafeText }).nullable(),
+  /** A receipt records that ORVIA received the submission. It is not proof that anything downstream has changed. */
+  receipt_is_not_completion: z.literal(true) });
+
 export const EngagementLinkInput = z.strictObject({ link_kind: z.enum(['DATA_CATEGORY', 'PRINCIPAL_CATEGORY', 'SYSTEM']), target_id: Id });
 export const EngagementCreate = z.strictObject({
   processor_id: Id, service_description: SafeText, subprocessor_of: Id.nullable(), effective_from: Time,
@@ -363,4 +396,6 @@ export const registrySchemas = {
   ErasureIntimationRecord, ErasureReEngagement, ErasureIntimation, ErasureIntimationDue, ErasureIntimationQuery,
   ConsentManagerCreate, ConsentManagerStatusChange, ConsentManager, ConsentManagerLink, ConsentManagerWithdrawal, ConsentManagerList: page(ConsentManager),
   ConnectorBindingList: page(ConnectorBinding),
+  IntakeClientCreate, IntakeClient, IntakeClientCreated, IntakeClientRevoke, IntakeSubmission, IntakeSubmissionQuery, IntakeSubmissionHandle, PrivacyCentreSetting, PrivacyCentreChange,
+  IntakeConsentSubmit, IntakeRightsSubmit, IntakeReceipt, IntakeClientList: page(IntakeClient), IntakeSubmissionList: page(IntakeSubmission),
 };

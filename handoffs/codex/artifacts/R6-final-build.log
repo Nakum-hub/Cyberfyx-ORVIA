@@ -1,0 +1,141 @@
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 71ms
+- Experiments (use with caution):
+  · cpus: 1
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 57s
+  Running TypeScript ...
+  Finished TypeScript in 20.3s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/96) ...
+  Generating static pages using 1 worker (24/96) 
+  Generating static pages using 1 worker (48/96) 
+  Generating static pages using 1 worker (72/96) 
+✓ Generating static pages using 1 worker (96/96) in 1730ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /api/auth/account/[...all]
+├ ƒ /api/auth/principal/[...all]
+├ ƒ /api/auth/staff/[...all]
+├ ƒ /api/auth/vendor/[...all]
+├ ƒ /api/v1/[...segments]
+├ ƒ /api/v1/admin/principals
+├ ƒ /api/v1/session
+├ ƒ /api/v1/setup
+├ ƒ /api/v1/vendor/[...segments]
+├ ƒ /cmp/[siteKey]/orvia-cmp.js
+├ ƒ /healthz
+├ ƒ /privacy
+├ ƒ /privacy/notices
+├ ƒ /privacy/preferences
+├ ƒ /privacy/receipt/[id]
+├ ƒ /privacy/receipts
+├ ƒ /privacy/rights
+├ ƒ /privacy/sign-in
+├ ƒ /readyz
+├ ƒ /setup
+├ ƒ /supplier
+├ ƒ /vendor
+├ ƒ /vendor/engagements
+├ ƒ /vendor/engagements/[id]
+├ ƒ /vendor/licences
+├ ƒ /vendor/organisations
+├ ƒ /vendor/organisations/[id]
+├ ƒ /vendor/payments
+├ ƒ /vendor/practice
+├ ƒ /vendor/retention
+├ ƒ /vendor/setup
+├ ƒ /vendor/sign-in
+├ ƒ /vendor/support
+├ ƒ /vendor/team
+├ ƒ /vendor/upload
+├ ƒ /workspace
+├ ƒ /workspace/ai-governance
+├ ƒ /workspace/assessments
+├ ƒ /workspace/audit-coverage
+├ ƒ /workspace/audit-retention
+├ ƒ /workspace/audit-trail
+├ ƒ /workspace/capabilities
+├ ƒ /workspace/catalog-discovery
+├ ƒ /workspace/compliance
+├ ƒ /workspace/configuration
+├ ƒ /workspace/connections
+├ ƒ /workspace/connections/[id]
+├ ƒ /workspace/consent-records
+├ ƒ /workspace/contact-preferences
+├ ƒ /workspace/control-map
+├ ƒ /workspace/coverage
+├ ƒ /workspace/data-principals
+├ ƒ /workspace/delivery
+├ ƒ /workspace/dpdpa-audit
+├ ƒ /workspace/estate-imports
+├ ƒ /workspace/evidence
+├ ƒ /workspace/evidence/[id]
+├ ƒ /workspace/failures
+├ ƒ /workspace/findings
+├ ƒ /workspace/gaps
+├ ƒ /workspace/grc
+├ ƒ /workspace/grc/audits
+├ ƒ /workspace/impact-assessments
+├ ƒ /workspace/imports
+├ ƒ /workspace/incidents
+├ ƒ /workspace/incidents/[id]
+├ ƒ /workspace/installed-versions
+├ ƒ /workspace/inventory
+├ ƒ /workspace/inventory/[id]
+├ ƒ /workspace/inventory/search
+├ ƒ /workspace/message-templates
+├ ƒ /workspace/my-login
+├ ƒ /workspace/notification-rules
+├ ƒ /workspace/notifications
+├ ƒ /workspace/operations-attention
+├ ƒ /workspace/operations-evidence
+├ ƒ /workspace/operations-runs
+├ ƒ /workspace/operations-runs/[id]
+├ ƒ /workspace/organisation-profile
+├ ƒ /workspace/personal-data-breaches
+├ ƒ /workspace/personal-data-breaches/[id]
+├ ƒ /workspace/policy-preview
+├ ƒ /workspace/preflight
+├ ƒ /workspace/principals
+├ ƒ /workspace/processing-activities
+├ ƒ /workspace/processor-engagements
+├ ƒ /workspace/processors
+├ ƒ /workspace/readiness
+├ ƒ /workspace/records-of-processing
+├ ƒ /workspace/registry-notices
+├ ƒ /workspace/registry-retention
+├ ƒ /workspace/registry-setup
+├ ƒ /workspace/regulatory
+├ ƒ /workspace/regulatory/applicability
+├ ƒ /workspace/regulatory/impacts
+├ ƒ /workspace/releases
+├ ƒ /workspace/reports
+├ ƒ /workspace/representation
+├ ƒ /workspace/restores
+├ ƒ /workspace/retention
+├ ƒ /workspace/retention/holds
+├ ƒ /workspace/retention/outcomes
+├ ƒ /workspace/rights
+├ ƒ /workspace/rights/[id]
+├ ƒ /workspace/sign-in
+├ ƒ /workspace/support-canaries
+├ ƒ /workspace/support-cases
+├ ƒ /workspace/team
+├ ƒ /workspace/test-lab
+├ ƒ /workspace/test-lab/[id]
+├ ƒ /workspace/third-parties
+├ ƒ /workspace/updates
+├ ƒ /workspace/vendor-visibility
+├ ƒ /workspace/website-consent
+├ ƒ /workspace/workflows
+└ ƒ /workspace/workflows/[id]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -1,0 +1,21 @@
+node : node:internal/modules/run_main:107
+At line:5 char:1
++ node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-screens.ts b ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:107:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    triggerUncaughtException(
+    ^
+
+locator.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByLabel(/^Email( \*)?$/)[22m
+
+    at <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\handoffs\codex\round6-screens.ts:42:42) {
+  log: [ '  - waiting for getByLabel(/^Email( \\*)?$/)' ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.21.0

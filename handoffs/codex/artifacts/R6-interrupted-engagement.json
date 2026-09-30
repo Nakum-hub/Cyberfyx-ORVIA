@@ -1,0 +1,10 @@
+{
+  "changed": [
+    {
+      "id": "7c6b958f-80c2-41b9-a00f-665389df0d3c",
+      "reference": "ENG-MB-40dfbee3",
+      "state": "CLOSED"
+    }
+  ],
+  "method": "authenticated audited closure; no deletion or database reset"
+}

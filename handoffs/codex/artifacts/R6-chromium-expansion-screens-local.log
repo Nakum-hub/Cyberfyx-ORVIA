@@ -1,0 +1,68 @@
+R6 unchanged suite: expansion-screens-local; engine: chromium
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a template authored in the builder is recorded as a draft with its questions
+PASS an organisation admin sees no publish control
+PASS a super admin who did not author it publishes it from the list
+PASS an answer without required evidence is named as missing on screen
+PASS after saving, the form shows the stored answer rather than clearing it
+PASS with evidence nothing is missing
+PASS submission raises the answer-rule finding
+PASS the screen cannot approve while a finding is unresolved
+PASS a second person accepts the risk with an expiry
+PASS an independent reviewer approves on screen
+PASS a retest is revision 2 with answers carried forward
+PASS the approved revision is still approved until its retest is approved
+PASS an agreement recorded on screen is in force
+PASS the region gap appears on screen
+PASS the link is shown once with its token in the fragment
+PASS the token is removed from the address bar once read
+PASS the supplier saves answers without an account
+PASS staff see the answer labelled as a supplier attestation
+PASS a revoked link is refused on the supplier page
+PASS a control test added on screen has never run
+PASS running it on screen records a passing manual run
+PASS the draft is version 1
+PASS an admin without approval authority sees no publish control
+PASS another person publishes it from the list
+PASS a reader acknowledges it
+PASS the issue is remediated on screen with its evidence
+PASS someone other than the remediator verifies it on screen
+PASS the undeclared location is shown as a gap on screen
+PASS the location is declared on screen
+PASS the location gap is gone
+PASS a version is recorded from the screen
+PASS another person approves it from the list
+PASS the export driven from the screen completed with a manifest
+PASS the browser saved the file and its manifest
+PASS the saved CSV has the header and every counted row
+PASS the package is prepared from the request screen
+PASS the second person redacts the suggested field on screen
+PASS the package is released on screen
+PASS the person collects the copy from the portal
+PASS the collected copy shows the redaction and not the other person
+PASS a sample is requested from the screen and queued for the worker
+node.exe : Error: Machine enrollment expired; renew through protected local setup
+At C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\handoffs\codex\round6-checks.ps1:8 char:3
++   & node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-browser. ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error: Machine ...ted local setup:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\backend\auth\src\machine-profile.ts:45:27)
+    at Object.get enrollment 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\services\worker\src\withdrawal-worker.ts:36:52)
+    at <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\expansion-screens-local.ts:367:59)
+    at async Object.run 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\expansion-screens-local.ts:60:1) {
+  code: 'MACHINE_ENROLLMENT_EXPIRED'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790765315981-4e9cb2e9-50ae-4ac8-bbb6-036ebc9849fd.json
+
+42 assertions, 1 failures.

@@ -36,6 +36,10 @@ export async function authorityFor(request: Request, staff: AuthInstance, princi
   const result = await instance.pool.query(`SELECT * FROM ${schema}.authority WHERE user_id=$1 AND active`, [session.user.id]);
   if (result.rowCount !== 1) throw new AccessError(403, 'FORBIDDEN');
   const binding = result.rows[0];
+  // Revision 1.7: the Privacy Centre is optional and off unless the organisation turned it on. Every Data Principal request
+  // passes here, so a switched-off Privacy Centre refuses them all, whatever page or route asked.
+  if (principalSession && !(await principal.pool.query('SELECT principal_auth.privacy_centre_enabled($1,$2,$3) AS on', [binding.tenant_id, binding.legal_entity_id, binding.environment_id])).rows[0]?.on)
+    throw new AccessError(403, 'FORBIDDEN', [{ field: 'privacy_centre', code: 'privacy_centre_not_offered' }]);
   // A login created by an administrator has no authority until its holder replaces the one-time password.
   if (staffSession && binding.must_change_password) throw new AccessError(403, 'FORBIDDEN', [{ field: 'password', code: 'password_change_required' }]);
   const role = staffSession ? binding.role : 'DATA_PRINCIPAL';
@@ -53,11 +57,21 @@ export async function authorityFor(request: Request, staff: AuthInstance, princi
 export async function requireCapability(config: RuntimeConfig, actor: Authority, domain: 'STAFF' | 'PRINCIPAL', capability: string) {
   if (actor.actor_domain !== domain || !actor.capabilities.includes(capability)) throw new AccessError(403, 'FORBIDDEN');
   if (domain === 'PRINCIPAL') return;
-  let response: Response;
-  try { response = await fetch(`http://127.0.0.1:${config.opa_port}/v1/data/orvia/admin/authorize`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(2000),
-    body: JSON.stringify({ input: { actor_domain: actor.actor_domain, role: actor.role, capability, mfa_verified: actor.mfa_verified } }),
-  }); } catch { throw new AccessError(503, 'SERVICE_UNAVAILABLE'); }
+  let response: Response | undefined;
+  // One retry when the policy engine does not answer in time: a single slow evaluation on a busy host (round 7, Firefox
+  // crawl: OPA TimeoutError after 2.4 s) otherwise turned a readable page into a 503. Still fail-closed: two misses deny.
+  // The cause is logged (dependency, attempt, elapsed, error name only) instead of being hidden behind the 503.
+  for (let attempt = 1; attempt <= 2 && !response; attempt++) {
+    const started = Date.now();
+    try { response = await fetch(`http://127.0.0.1:${config.opa_port}/v1/data/orvia/admin/authorize`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(2000),
+      body: JSON.stringify({ input: { actor_domain: actor.actor_domain, role: actor.role, capability, mfa_verified: actor.mfa_verified } }),
+    }); } catch (error) {
+      console.error(JSON.stringify({ dependency: 'policy_engine', attempt, elapsed_ms: Date.now() - started, error: error instanceof Error ? error.name : 'unknown' }));
+      if (attempt === 2) throw new AccessError(503, 'SERVICE_UNAVAILABLE');
+    }
+  }
+  if (!response) throw new AccessError(503, 'SERVICE_UNAVAILABLE');
   if (!response.ok) throw new AccessError(503, 'SERVICE_UNAVAILABLE');
   let decision: unknown; try { decision = await response.json(); } catch { throw new AccessError(503, 'SERVICE_UNAVAILABLE'); }
   if (!decision || typeof decision !== 'object' || !('result' in decision) || typeof decision.result !== 'boolean') throw new AccessError(503, 'SERVICE_UNAVAILABLE');

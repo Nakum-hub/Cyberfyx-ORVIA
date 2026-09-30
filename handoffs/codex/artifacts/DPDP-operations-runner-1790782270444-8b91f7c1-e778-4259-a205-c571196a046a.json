@@ -1,0 +1,31 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T15:31:10.444Z",
+  "suite": "runner",
+  "assertions": [
+    {
+      "name": "staff processed only a first batch",
+      "result": "PASS",
+      "expected": [
+        "PROCESSING",
+        5
+      ],
+      "actual": [
+        "PROCESSING",
+        5
+      ]
+    },
+    {
+      "name": "unexpected failure in import resumed",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Machine enrollment expired; renew through protected local setup"
+    }
+  ],
+  "passed": 1,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

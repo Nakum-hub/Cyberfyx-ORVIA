@@ -37,6 +37,15 @@ export function operationsExample(name: string): unknown {
     case 'ConsentEventRecord': return { event: 'WITHDRAWN', occurred_at: at, evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'Portal receipt SYN-001', notice_version_id: null };
     case 'SharingLinkCreate': return { activity_id: uuid(706), data_category_id: uuid(707), principal_category_id: null, engagement_id: uuid(708), recipient_reference: null,
       purpose_version_id: uuid(709), system_id: null, valid_from: at, evidence_reference: null };
+    case 'IntakeClientCreate': return { name: 'Customer account site (synthetic)', system_id: uuid(712), authenticates_customers: true, accepts_consent: true, accepts_rights: true };
+    case 'IntakeConsentSubmit': return { customer_reference: 'syn_customer_0001', activity_id: uuid(713), decision: 'WITHDRAWN', occurred_at: at, notice_version_id: null, evidence_reference: 'Account privacy page event SYN-001' };
+    case 'IntakeRightsSubmit': return { customer_reference: 'syn_customer_0001', right_type: 'ACCESS', description: 'Please tell me what personal data you hold about me (synthetic).', display_name: 'Synthetic Customer', email: 'customer@aster.example' };
+    case 'IntakeSubmission': return { id: uuid(714), client_id: uuid(715), client_name: 'Customer account site (synthetic)', kind: 'CONSENT', customer_reference: 'syn_customer_0001',
+      summary: 'Consent withdrawn for activity Marketing email (synthetic)', status: 'APPLIED', outcome_reason: null, consent_record_id: uuid(716), rights_request_id: null,
+      received_at: at, processed_at: at, handled_note: null, handled_at: null };
+    case 'IntakeSubmissionList': return { items: [{ id: uuid(714), client_id: uuid(715), client_name: 'Customer account site (synthetic)', kind: 'CONSENT', customer_reference: 'syn_customer_0001',
+      summary: 'Consent withdrawn for activity Marketing email (synthetic)', status: 'APPLIED', outcome_reason: null, consent_record_id: uuid(716), rights_request_id: null,
+      received_at: at, processed_at: at, handled_note: null, handled_at: null }], next_cursor: null };
     case 'ConsentManagerCreate': return { name: 'Synthetic Consent Manager', board_registration_number: 'DPB-CM-SYN-001', registered_on: '2026-11-20', evidence_reference: 'Board registration certificate (synthetic)' };
     case 'RetentionHoldCreate': return { hold_type: 'OTHER_LAW_RETENTION', authority_reference: 'Customer legal register entry SYN-LR-01', reason: 'Records must be kept under a customer-recorded statutory obligation.',
       subject_id: uuid(710), activity_id: null, system_id: null, data_category_id: null, starts_at: at, ends_at: null, review_at: at, owner_reference: 'Legal team', evidence_reference: null, requirement_id: null };

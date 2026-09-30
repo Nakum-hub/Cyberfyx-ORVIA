@@ -17,7 +17,8 @@ The name describes how the product works:
 The approved product baseline is [master revision 1.4](ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md), extended by these owner decisions:
 - [revision 1.5](docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md): DPDPA audit exchange and the vendor installation;
 - [revision 1.6](docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md): audit mandate, signed evidence and the outbound-only channel;
-- [the V1 expanded baseline](docs/engineering/V1_EXPANDED_BASELINE.md).
+- [the V1 expanded baseline](docs/engineering/V1_EXPANDED_BASELINE.md);
+- [revision 1.7](docs/engineering/V1_BASELINE_REV_1_7_ORGANISATION_INTAKE.md): the organisation's own website or app sends consent changes and privacy requests to ORVIA; the Privacy Centre is optional.
 
 Earlier prototype documents are historical evidence only.
 
@@ -47,6 +48,14 @@ Vendor installation areas:
 - support;
 - the audit practice: engagements, evidence, working papers, findings and signed reports.
 
+**How the organisation's customers reach ORVIA.** They don't have to. Rule 14(1) of the DPDP Rules, 2025 puts the means of making a request on the organisation's own website or app, so:
+- **the organisation's website or app** sends consent changes and privacy requests straight to its ORVIA installation, with an intake key created in the Workspace ([developer guide](docs/integration/ORGANISATION_INTAKE.md));
+- **the website consent banner** records visitors' cookie and tracking choices;
+- **staff** record requests that arrive by email or phone;
+- **the Privacy Centre**, a separate customer sign-in site, is optional and off unless the organisation turns it on.
+
+Everything lands in the Workspace and is handled there.
+
 **Customer data stays with the customer.** The vendor never connects to, signs in to or reads a client installation, and nothing is inbound. The single exception is audit evidence ([AGENTS.md](AGENTS.md)), which the client sends outbound only, to one address:
 - personal-data-free evidence that ORVIA generates and signs, under a dual-approved audit mandate; or
 - sealed packages the client approves item by item.
@@ -66,6 +75,7 @@ Vendor installation areas:
   - consent records linked to a Consent Manager's artefact;
   - relayed withdrawals, which are always honoured.
   - The Data Fiduciary's duty applies from 13 May 2027. No Consent Manager is registered with the Board yet.
+- **Website & app intake:** intake keys (shown once, revocable, server-to-server only); consent changes and privacy requests from the organisation's own application, applied automatically; anything that cannot be applied waits for staff with the reason.
 - **Rights and grievances:**
   - access, correction, erasure, grievance (90-day clock, Rule 14) and nomination;
   - reviewed response packages with redaction.
@@ -127,6 +137,7 @@ ORVIA deliberately refuses real audit engagements until these steps are done. Th
 | Host the vendor service ([runbook](docs/runbooks/VENDOR_HOSTING_READINESS.md)) | Cyberfyx |
 | Switch payments from test to live (Razorpay merchant account) | Cyberfyx |
 | Connectors to each client's real systems (needs that client's sandbox) | Per client |
+| Qualify the production installation, which lifts the synthetic-people-only rule (until then a request naming a real person waits for staff and is not stored) | Cyberfyx |
 
 ## Run locally
 
@@ -144,7 +155,7 @@ npm run status
 npm stop
 ```
 
-The staff workspace is at `https://127.0.0.1:4330/workspace`, and the Privacy Centre is at `https://127.0.0.1:4330/privacy`. Local credentials, TLS material and machine tokens are generated into the ignored `.local/profiles/rehearsal` directory.
+The staff workspace is at `https://127.0.0.1:4330/workspace`. The optional Privacy Centre is at `https://127.0.0.1:4330/privacy`; it is on for the synthetic fixture organisations and off for a new organisation. Local credentials, TLS material and machine tokens are generated into the ignored `.local/profiles/rehearsal` directory.
 
 Read the [operator instructions](docs/engineering/local-packaging-and-operation.md) before using the local certificate or handling evidence. Never share secrets or real customer data in development fixtures.
 
@@ -173,7 +184,7 @@ npm test
 | Database migrations | [database/customer/migrations](database/customer/migrations), [database/vendor/migrations](database/vendor/migrations) |
 | Worker and agent | [services/worker/src](services/worker/src), [services/agent/src](services/agent/src) |
 | Connectors and test targets | [connectors/src](connectors/src), [services/synthetic-target](services/synthetic-target) |
-| Contract (0.47.0) | [shared/contracts](shared/contracts) |
+| Contract (0.48.0) | [shared/contracts](shared/contracts) |
 | Law baseline and official sources | [scripts/regulatory](scripts/regulatory), [regulatory-sources](regulatory-sources) |
 | Tests and operations | [tests](tests), [scripts](scripts), [docs/engineering](docs/engineering), [docs/runbooks](docs/runbooks) |
 

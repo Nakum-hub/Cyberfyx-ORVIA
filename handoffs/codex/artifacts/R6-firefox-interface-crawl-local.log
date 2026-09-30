@@ -1,0 +1,478 @@
+R6 unchanged suite: interface-crawl-local; engine: firefox
+PASS signed out: /workspace/sign-in renders
+PASS signed out: /privacy/sign-in renders
+PASS signed out: /setup renders
+PASS signed out: /supplier renders
+PASS signed out: /privacy renders
+PASS signed out: an unknown page is a 404
+PASS signed out: vendor pages are 404 on a customer installation
+PASS owner: /workspace
+PASS owner: /workspace/ai-governance
+PASS owner: /workspace/assessments
+PASS owner: /workspace/audit-coverage
+PASS owner: /workspace/audit-retention
+PASS owner: /workspace/audit-trail
+PASS owner: /workspace/capabilities
+PASS owner: /workspace/catalog-discovery
+PASS owner: /workspace/compliance
+PASS owner: /workspace/configuration
+PASS owner: /workspace/connections
+PASS owner: /workspace/consent-records
+PASS owner: /workspace/contact-preferences
+PASS owner: /workspace/control-map
+PASS owner: /workspace/coverage
+PASS owner: /workspace/data-principals
+FAIL owner: /workspace/delivery {"expected":[],"actual":["API 503 GET /api/v1/admin/outbound-messages"]}
+PASS owner: /workspace/dpdpa-audit
+PASS owner: /workspace/estate-imports
+PASS owner: /workspace/evidence
+PASS owner: /workspace/failures
+PASS owner: /workspace/findings
+PASS owner: /workspace/gaps
+PASS owner: /workspace/grc
+PASS owner: /workspace/grc/audits
+PASS owner: /workspace/impact-assessments
+PASS owner: /workspace/imports
+PASS owner: /workspace/incidents
+PASS owner: /workspace/installed-versions
+PASS owner: /workspace/inventory
+PASS owner: /workspace/inventory/search
+PASS owner: /workspace/message-templates
+PASS owner: /workspace/my-login
+PASS owner: /workspace/notification-rules
+PASS owner: /workspace/notifications
+PASS owner: /workspace/operations-attention
+PASS owner: /workspace/operations-evidence
+PASS owner: /workspace/operations-runs
+PASS owner: /workspace/organisation-profile
+PASS owner: /workspace/personal-data-breaches
+PASS owner: /workspace/policy-preview
+PASS owner: /workspace/preflight
+PASS owner: /workspace/principals
+PASS owner: /workspace/processing-activities
+PASS owner: /workspace/processor-engagements
+PASS owner: /workspace/processors
+PASS owner: /workspace/readiness
+PASS owner: /workspace/records-of-processing
+PASS owner: /workspace/registry-notices
+PASS owner: /workspace/registry-retention
+PASS owner: /workspace/registry-setup
+PASS owner: /workspace/regulatory
+PASS owner: /workspace/regulatory/applicability
+PASS owner: /workspace/regulatory/impacts
+PASS owner: /workspace/releases
+PASS owner: /workspace/reports
+PASS owner: /workspace/representation
+PASS owner: /workspace/restores
+PASS owner: /workspace/retention
+PASS owner: /workspace/retention/holds
+PASS owner: /workspace/retention/outcomes
+PASS owner: /workspace/rights
+PASS owner: /workspace/rights/[id] (10e286dd)
+PASS owner: /workspace/support-canaries
+PASS owner: /workspace/support-cases
+PASS owner: /workspace/team
+PASS owner: /workspace/test-lab
+PASS owner: /workspace/third-parties
+PASS owner: /workspace/updates
+PASS owner: /workspace/vendor-visibility
+PASS owner: /workspace/website-consent
+PASS owner: /workspace/workflows
+PASS every sidebar link points to an existing page
+PASS the sidebar lists pages
+PASS admin: /workspace
+PASS admin: /workspace/ai-governance
+PASS admin: /workspace/assessments
+PASS admin: /workspace/audit-coverage
+PASS admin: /workspace/audit-retention
+PASS admin: /workspace/audit-trail
+PASS admin: /workspace/capabilities
+PASS admin: /workspace/catalog-discovery
+PASS admin: /workspace/compliance
+PASS admin: /workspace/configuration
+PASS admin: /workspace/connections
+PASS admin: /workspace/consent-records
+PASS admin: /workspace/contact-preferences
+PASS admin: /workspace/control-map
+PASS admin: /workspace/coverage
+PASS admin: /workspace/data-principals
+PASS admin: /workspace/delivery
+PASS admin: /workspace/dpdpa-audit
+PASS admin: /workspace/estate-imports
+PASS admin: /workspace/evidence
+PASS admin: /workspace/failures
+PASS admin: /workspace/findings
+PASS admin: /workspace/gaps
+PASS admin: /workspace/grc
+PASS admin: /workspace/grc/audits
+PASS admin: /workspace/impact-assessments
+PASS admin: /workspace/imports
+PASS admin: /workspace/incidents
+PASS admin: /workspace/installed-versions
+PASS admin: /workspace/inventory
+PASS admin: /workspace/inventory/search
+FAIL admin: /workspace/message-templates {"expected":[],"actual":["still loading after the network settled"]}
+PASS admin: /workspace/my-login
+PASS admin: /workspace/notification-rules
+PASS admin: /workspace/notifications
+PASS admin: /workspace/operations-attention
+PASS admin: /workspace/operations-evidence
+PASS admin: /workspace/operations-runs
+PASS admin: /workspace/organisation-profile
+PASS admin: /workspace/personal-data-breaches
+PASS admin: /workspace/policy-preview
+PASS admin: /workspace/preflight
+PASS admin: /workspace/principals
+PASS admin: /workspace/processing-activities
+PASS admin: /workspace/processor-engagements
+PASS admin: /workspace/processors
+PASS admin: /workspace/readiness
+PASS admin: /workspace/records-of-processing
+PASS admin: /workspace/registry-notices
+PASS admin: /workspace/registry-retention
+PASS admin: /workspace/registry-setup
+PASS admin: /workspace/regulatory
+PASS admin: /workspace/regulatory/applicability
+PASS admin: /workspace/regulatory/impacts
+PASS admin: /workspace/releases
+PASS admin: /workspace/reports
+PASS admin: /workspace/representation
+PASS admin: /workspace/restores
+PASS admin: /workspace/retention
+PASS admin: /workspace/retention/holds
+PASS admin: /workspace/retention/outcomes
+PASS admin: /workspace/rights
+PASS admin: /workspace/support-canaries
+PASS admin: /workspace/support-cases
+PASS admin: /workspace/team
+PASS admin: /workspace/test-lab
+PASS admin: /workspace/third-parties
+PASS admin: /workspace/updates
+PASS admin: /workspace/vendor-visibility
+PASS admin: /workspace/website-consent
+PASS admin: /workspace/workflows
+PASS auditor: /workspace
+PASS auditor: /workspace/ai-governance
+PASS auditor: /workspace/assessments
+PASS auditor: /workspace/audit-coverage
+PASS auditor: /workspace/audit-retention
+PASS auditor: /workspace/audit-trail
+PASS auditor: /workspace/capabilities
+PASS auditor: /workspace/catalog-discovery
+PASS auditor: /workspace/compliance
+PASS auditor: /workspace/configuration
+PASS auditor: /workspace/connections
+PASS auditor: /workspace/consent-records
+PASS auditor: /workspace/contact-preferences
+PASS auditor: /workspace/control-map
+PASS auditor: /workspace/coverage
+PASS auditor: /workspace/data-principals
+PASS auditor: /workspace/delivery
+PASS auditor: /workspace/dpdpa-audit
+PASS auditor: /workspace/estate-imports
+PASS auditor: /workspace/evidence
+PASS auditor: /workspace/failures
+PASS auditor: /workspace/findings
+PASS auditor: /workspace/gaps
+PASS auditor: /workspace/grc
+PASS auditor: /workspace/grc/audits
+PASS auditor: /workspace/impact-assessments
+PASS auditor: /workspace/imports
+PASS auditor: /workspace/incidents
+PASS auditor: /workspace/installed-versions
+PASS auditor: /workspace/inventory
+PASS auditor: /workspace/inventory/search
+PASS auditor: /workspace/message-templates
+PASS auditor: /workspace/my-login
+PASS auditor: /workspace/notification-rules
+PASS auditor: /workspace/notifications
+PASS auditor: /workspace/operations-attention
+PASS auditor: /workspace/operations-evidence
+FAIL auditor: /workspace/operations-runs {"expected":[],"actual":["still loading after the network settled"]}
+PASS auditor: /workspace/organisation-profile
+PASS auditor: /workspace/personal-data-breaches
+PASS auditor: /workspace/policy-preview
+PASS auditor: /workspace/preflight
+PASS auditor: /workspace/principals
+PASS auditor: /workspace/processing-activities
+PASS auditor: /workspace/processor-engagements
+PASS auditor: /workspace/processors
+PASS auditor: /workspace/readiness
+PASS auditor: /workspace/records-of-processing
+PASS auditor: /workspace/registry-notices
+PASS auditor: /workspace/registry-retention
+PASS auditor: /workspace/registry-setup
+PASS auditor: /workspace/regulatory
+PASS auditor: /workspace/regulatory/applicability
+PASS auditor: /workspace/regulatory/impacts
+PASS auditor: /workspace/releases
+PASS auditor: /workspace/reports
+PASS auditor: /workspace/representation
+PASS auditor: /workspace/restores
+PASS auditor: /workspace/retention
+PASS auditor: /workspace/retention/holds
+PASS auditor: /workspace/retention/outcomes
+PASS auditor: /workspace/rights
+PASS auditor: /workspace/support-canaries
+PASS auditor: /workspace/support-cases
+PASS auditor: /workspace/team
+PASS auditor: /workspace/test-lab
+PASS auditor: /workspace/third-parties
+PASS auditor: /workspace/updates
+PASS auditor: /workspace/vendor-visibility
+PASS auditor: /workspace/website-consent
+PASS auditor: /workspace/workflows
+PASS member: /workspace
+PASS member: /workspace/ai-governance
+PASS member: /workspace/assessments
+PASS member: /workspace/audit-coverage
+PASS member: /workspace/audit-retention
+PASS member: /workspace/audit-trail
+PASS member: /workspace/capabilities
+PASS member: /workspace/catalog-discovery
+PASS member: /workspace/compliance
+PASS member: /workspace/configuration
+PASS member: /workspace/connections
+PASS member: /workspace/consent-records
+PASS member: /workspace/contact-preferences
+PASS member: /workspace/control-map
+PASS member: /workspace/coverage
+PASS member: /workspace/data-principals
+PASS member: /workspace/delivery
+PASS member: /workspace/dpdpa-audit
+PASS member: /workspace/estate-imports
+PASS member: /workspace/evidence
+PASS member: /workspace/failures
+PASS member: /workspace/findings
+PASS member: /workspace/gaps
+PASS member: /workspace/grc
+PASS member: /workspace/grc/audits
+PASS member: /workspace/impact-assessments
+PASS member: /workspace/imports
+PASS member: /workspace/incidents
+PASS member: /workspace/installed-versions
+PASS member: /workspace/inventory
+PASS member: /workspace/inventory/search
+PASS member: /workspace/message-templates
+PASS member: /workspace/my-login
+PASS member: /workspace/notification-rules
+PASS member: /workspace/notifications
+PASS member: /workspace/operations-attention
+PASS member: /workspace/operations-evidence
+PASS member: /workspace/operations-runs
+PASS member: /workspace/organisation-profile
+PASS member: /workspace/personal-data-breaches
+PASS member: /workspace/policy-preview
+PASS member: /workspace/preflight
+PASS member: /workspace/principals
+PASS member: /workspace/processing-activities
+PASS member: /workspace/processor-engagements
+PASS member: /workspace/processors
+PASS member: /workspace/readiness
+PASS member: /workspace/records-of-processing
+PASS member: /workspace/registry-notices
+PASS member: /workspace/registry-retention
+PASS member: /workspace/registry-setup
+PASS member: /workspace/regulatory
+PASS member: /workspace/regulatory/applicability
+PASS member: /workspace/regulatory/impacts
+PASS member: /workspace/releases
+PASS member: /workspace/reports
+PASS member: /workspace/representation
+PASS member: /workspace/restores
+PASS member: /workspace/retention
+PASS member: /workspace/retention/holds
+PASS member: /workspace/retention/outcomes
+PASS member: /workspace/rights
+PASS member: /workspace/support-canaries
+PASS member: /workspace/support-cases
+PASS member: /workspace/team
+PASS member: /workspace/test-lab
+PASS member: /workspace/third-parties
+PASS member: /workspace/updates
+PASS member: /workspace/vendor-visibility
+PASS member: /workspace/website-consent
+PASS member: /workspace/workflows
+PASS owner at phone width: /workspace
+PASS owner at phone width: /workspace/ai-governance
+PASS owner at phone width: /workspace/assessments
+PASS owner at phone width: /workspace/audit-coverage
+PASS owner at phone width: /workspace/audit-retention
+PASS owner at phone width: /workspace/audit-trail
+PASS owner at phone width: /workspace/capabilities
+PASS owner at phone width: /workspace/catalog-discovery
+PASS owner at phone width: /workspace/compliance
+PASS owner at phone width: /workspace/configuration
+PASS owner at phone width: /workspace/connections
+PASS owner at phone width: /workspace/consent-records
+PASS owner at phone width: /workspace/contact-preferences
+PASS owner at phone width: /workspace/control-map
+PASS owner at phone width: /workspace/coverage
+PASS owner at phone width: /workspace/data-principals
+PASS owner at phone width: /workspace/delivery
+PASS owner at phone width: /workspace/dpdpa-audit
+PASS owner at phone width: /workspace/estate-imports
+PASS owner at phone width: /workspace/evidence
+PASS owner at phone width: /workspace/failures
+PASS owner at phone width: /workspace/findings
+PASS owner at phone width: /workspace/gaps
+PASS owner at phone width: /workspace/grc
+PASS owner at phone width: /workspace/grc/audits
+PASS owner at phone width: /workspace/impact-assessments
+PASS owner at phone width: /workspace/imports
+PASS owner at phone width: /workspace/incidents
+PASS owner at phone width: /workspace/installed-versions
+PASS owner at phone width: /workspace/inventory
+PASS owner at phone width: /workspace/inventory/search
+PASS owner at phone width: /workspace/message-templates
+PASS owner at phone width: /workspace/my-login
+PASS owner at phone width: /workspace/notification-rules
+PASS owner at phone width: /workspace/notifications
+PASS owner at phone width: /workspace/operations-attention
+PASS owner at phone width: /workspace/operations-evidence
+PASS owner at phone width: /workspace/operations-runs
+PASS owner at phone width: /workspace/organisation-profile
+PASS owner at phone width: /workspace/personal-data-breaches
+PASS owner at phone width: /workspace/policy-preview
+PASS owner at phone width: /workspace/preflight
+PASS owner at phone width: /workspace/principals
+PASS owner at phone width: /workspace/processing-activities
+PASS owner at phone width: /workspace/processor-engagements
+PASS owner at phone width: /workspace/processors
+PASS owner at phone width: /workspace/readiness
+PASS owner at phone width: /workspace/records-of-processing
+PASS owner at phone width: /workspace/registry-notices
+PASS owner at phone width: /workspace/registry-retention
+PASS owner at phone width: /workspace/registry-setup
+PASS owner at phone width: /workspace/regulatory
+PASS owner at phone width: /workspace/regulatory/applicability
+PASS owner at phone width: /workspace/regulatory/impacts
+PASS owner at phone width: /workspace/releases
+PASS owner at phone width: /workspace/reports
+PASS owner at phone width: /workspace/representation
+PASS owner at phone width: /workspace/restores
+PASS owner at phone width: /workspace/retention
+PASS owner at phone width: /workspace/retention/holds
+PASS owner at phone width: /workspace/retention/outcomes
+PASS owner at phone width: /workspace/rights
+PASS owner at phone width: /workspace/support-canaries
+PASS owner at phone width: /workspace/support-cases
+PASS owner at phone width: /workspace/team
+PASS owner at phone width: /workspace/test-lab
+PASS owner at phone width: /workspace/third-parties
+PASS owner at phone width: /workspace/updates
+PASS owner at phone width: /workspace/vendor-visibility
+PASS owner at phone width: /workspace/website-consent
+PASS owner at phone width: /workspace/workflows
+PASS principal: /privacy
+PASS principal: /privacy/notices
+PASS principal: /privacy/preferences
+PASS principal: /privacy/receipts
+PASS principal: /privacy/rights
+PASS vendor signed out: /vendor/sign-in renders
+PASS vendor signed out: /vendor/setup renders
+PASS vendor signed out: the client workspace is 404 on the vendor installation
+PASS vendor users from the browser journeys are available for the crawl
+PASS vendor admin: /vendor
+PASS vendor admin: /vendor/engagements
+PASS vendor admin: /vendor/licences
+PASS vendor admin: /vendor/organisations
+PASS vendor admin: /vendor/organisations/[id]
+PASS vendor admin: /vendor/payments
+PASS vendor admin: /vendor/practice
+PASS vendor admin: /vendor/retention
+PASS vendor admin: /vendor/support
+PASS vendor admin: /vendor/team
+PASS vendor admin: /vendor/upload
+PASS vendor admin: the engagement workspace has nine tabs
+PASS vendor admin: workspace tab "Overview"
+PASS vendor admin: workspace tab "Scope and applicability"
+PASS vendor admin: workspace tab "Plan"
+PASS vendor admin: workspace tab "Requests"
+PASS vendor admin: workspace tab "Evidence"
+PASS vendor admin: workspace tab "Tests and working papers"
+PASS vendor admin: workspace tab "Findings and actions"
+PASS vendor admin: workspace tab "Report"
+PASS vendor admin: workspace tab "Follow-up"
+PASS vendor admin: arrow keys move between workspace tabs
+PASS vendor lead: /vendor
+PASS vendor lead: /vendor/engagements
+PASS vendor lead: /vendor/licences
+PASS vendor lead: /vendor/organisations
+PASS vendor lead: /vendor/payments
+PASS vendor lead: /vendor/practice
+PASS vendor lead: /vendor/retention
+PASS vendor lead: /vendor/support
+PASS vendor lead: /vendor/team
+PASS vendor lead: /vendor/upload
+PASS vendor lead: the engagement workspace has nine tabs
+PASS vendor lead: workspace tab "Overview"
+PASS vendor lead: workspace tab "Scope and applicability"
+PASS vendor lead: workspace tab "Plan"
+PASS vendor lead: workspace tab "Requests"
+PASS vendor lead: workspace tab "Evidence"
+PASS vendor lead: workspace tab "Tests and working papers"
+PASS vendor lead: workspace tab "Findings and actions"
+PASS vendor lead: workspace tab "Report"
+PASS vendor lead: workspace tab "Follow-up"
+PASS vendor lead: arrow keys move between workspace tabs
+PASS vendor reviewer: /vendor
+PASS vendor reviewer: /vendor/engagements
+PASS vendor reviewer: /vendor/licences
+PASS vendor reviewer: /vendor/organisations
+PASS vendor reviewer: /vendor/payments
+PASS vendor reviewer: /vendor/practice
+PASS vendor reviewer: /vendor/retention
+PASS vendor reviewer: /vendor/support
+PASS vendor reviewer: /vendor/team
+PASS vendor reviewer: /vendor/upload
+PASS vendor reviewer: the engagement workspace has nine tabs
+PASS vendor reviewer: workspace tab "Overview"
+PASS vendor reviewer: workspace tab "Scope and applicability"
+PASS vendor reviewer: workspace tab "Plan"
+PASS vendor reviewer: workspace tab "Requests"
+PASS vendor reviewer: workspace tab "Evidence"
+PASS vendor reviewer: workspace tab "Tests and working papers"
+PASS vendor reviewer: workspace tab "Findings and actions"
+PASS vendor reviewer: workspace tab "Report"
+PASS vendor reviewer: workspace tab "Follow-up"
+PASS vendor reviewer: arrow keys move between workspace tabs
+PASS client account: /vendor/upload
+PASS client account: the vendor area is refused, not broken
+PASS vendor lead at phone width: /vendor
+PASS vendor lead at phone width: /vendor/engagements
+PASS vendor lead at phone width: /vendor/licences
+PASS vendor lead at phone width: /vendor/organisations
+PASS vendor lead at phone width: /vendor/payments
+PASS vendor lead at phone width: /vendor/practice
+PASS vendor lead at phone width: /vendor/retention
+PASS vendor lead at phone width: /vendor/support
+PASS vendor lead at phone width: /vendor/team
+PASS vendor lead at phone width: /vendor/upload
+PASS vendor lead at phone width: engagement workspace
+
+interface crawl: 450 visits, 3 with issues
+  [customer owner desktop] /workspace/delivery: API 503 GET /api/v1/admin/outbound-messages
+  [customer admin desktop] /workspace/message-templates: still loading after the network settled
+  [customer auditor desktop] /workspace/operations-runs: still loading after the network settled
+FAIL the crawl found nothing wrong on any page, tab or link {"expected":[],"actual":["owner: /workspace/delivery","admin: /workspace/message-templates","auditor: /workspace/operations-runs"]}
+node : Error: Assertion failed: the crawl found nothing wrong on any page, tab or link
+At line:2 char:341
++ ... tring('o'); node node_modules/tsx/dist/cli.mjs handoffs/codex/round6- ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error: Assertio...ge, tab or link:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at check 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\interface-crawl-local.ts:272:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\interface-crawl-local.ts:148:1)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-interface-crawl-1790771209272-3c42170e-f8bf-40d6-b62b-437f95ba09e4.json
+
+2 assertions, 2 failures.

@@ -3,7 +3,7 @@
  * operational workflows. index.ts merges these into the canonical route list;
  * the shape is RouteDefinition's, restated here because index.ts imports this file.
  */
-type Route = { maximum_body_bytes?: number; id: string; method: 'get' | 'post'; path: string; authority: 'STAFF' | 'PRINCIPAL'; request?: string; response: string; status: 200 | 201 | 202; params?: string; query?: string; paginated?: boolean; idempotency?: boolean; capability: string };
+type Route = { maximum_body_bytes?: number; id: string; method: 'get' | 'post'; path: string; authority: 'STAFF' | 'PRINCIPAL' | 'INTAKE_CLIENT'; request?: string; response: string; status: 200 | 201 | 202; params?: string; query?: string; paginated?: boolean; idempotency?: boolean; capability: string };
 const A = '/api/v1/admin';
 const list = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, paginated: true, capability, ...query ? { query } : {} });
 const read = (id: string, path: string, response: string, capability: string, query?: string): Route => ({ id, method: 'get', path: A + path, authority: 'STAFF', response, status: 200, capability, ...path.includes('{id}') ? { params: 'IdPath' } : {}, ...query ? { query } : {} });
@@ -93,6 +93,17 @@ export const operationsRoutes: Route[] = [
   write('change_consent_manager_status', '/consent-managers/{id}/status', 'ConsentManagerStatusChange', 'ConsentManager', 'registry.write', 200),
   write('link_consent_manager', '/consent-records/{id}/consent-manager', 'ConsentManagerLink', 'ConsentRecord', 'registry.write', 200),
   write('record_consent_manager_withdrawal', '/consent-records/{id}/consent-manager-withdrawal', 'ConsentManagerWithdrawal', 'ConsentRecord', 'registry.write', 200),
+  // Organisation website/app intake and the optional Privacy Centre (revision 1.7, 0.48.0).
+  list('list_intake_clients', '/intake-clients', 'IntakeClientList', 'registry.read'),
+  write('create_intake_client', '/intake-clients', 'IntakeClientCreate', 'IntakeClientCreated', 'connection.enable'),
+  write('revoke_intake_client', '/intake-clients/{id}/revocation', 'IntakeClientRevoke', 'IntakeClient', 'connection.enable', 200),
+  list('list_intake_submissions', '/intake-submissions', 'IntakeSubmissionList', 'registry.read', 'IntakeSubmissionQuery'),
+  write('handle_intake_submission', '/intake-submissions/{id}/handled', 'IntakeSubmissionHandle', 'IntakeSubmission', 'registry.write', 200),
+  read('privacy_centre_setting', '/privacy-centre', 'PrivacyCentreSetting', 'registry.read'),
+  write('change_privacy_centre', '/privacy-centre', 'PrivacyCentreChange', 'PrivacyCentreSetting', 'connection.enable', 200),
+  { id: 'intake_consent', method: 'post', path: '/api/v1/intake/consents', authority: 'INTAKE_CLIENT', request: 'IntakeConsentSubmit', response: 'IntakeReceipt', status: 202, idempotency: true, capability: 'intake.submit', maximum_body_bytes: 8192 },
+  { id: 'intake_rights_request', method: 'post', path: '/api/v1/intake/rights-requests', authority: 'INTAKE_CLIENT', request: 'IntakeRightsSubmit', response: 'IntakeReceipt', status: 202, idempotency: true, capability: 'intake.submit', maximum_body_bytes: 8192 },
+  { id: 'intake_submission', method: 'get', path: '/api/v1/intake/submissions/{id}', authority: 'INTAKE_CLIENT', params: 'IdPath', response: 'IntakeReceipt', status: 200, capability: 'intake.submit' },
   // Rule 8(2): 48-hour intimation before Third Schedule erasure (0.47.0)
   list('list_erasure_intimations_due', '/erasure-intimations/due', 'ErasureIntimationDueList', 'registry.read'),
   list('list_erasure_intimations', '/erasure-intimations', 'ErasureIntimationList', 'registry.read', 'ErasureIntimationQuery'),
