@@ -1,0 +1,131 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T10:44:40.524Z",
+  "suite": "erasure-intimation",
+  "assertions": [
+    {
+      "name": "without an intimation nobody under the Third Schedule rule is scheduled",
+      "result": "PASS",
+      "expected": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "actual": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "name": "the reason names Rule 8(2)",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the erasure date is still recorded, so the intimation can be scheduled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the same people under a rule not citing the Third Schedule are scheduled as before",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "the due list shows each person, overdue because the erasure date has passed",
+      "result": "PASS",
+      "expected": [
+        4,
+        true
+      ],
+      "actual": [
+        4,
+        true
+      ]
+    },
+    {
+      "name": "a read-only role cannot record an intimation",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an intimation against a rule not citing the Third Schedule is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a recent intimation makes erasure possible 48 hours after it",
+      "result": "PASS",
+      "expected": 48,
+      "actual": 48
+    },
+    {
+      "name": "a re-engagement is recorded once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the database refuses to change a recorded intimation",
+      "result": "PASS",
+      "expected": "intimation_is_immutable",
+      "actual": "intimation_is_immutable"
+    },
+    {
+      "name": "no intimation: still waiting",
+      "result": "PASS",
+      "expected": "UNRESOLVED",
+      "actual": "UNRESOLVED"
+    },
+    {
+      "name": "intimation under 48 hours ago: not yet eligible, until 48 hours after it",
+      "result": "PASS",
+      "expected": [
+        "NOT_YET_ELIGIBLE",
+        48
+      ],
+      "actual": [
+        "NOT_YET_ELIGIBLE",
+        48
+      ]
+    },
+    {
+      "name": "intimation over 48 hours ago: scheduled for erasure",
+      "result": "PASS",
+      "expected": "SCHEDULED",
+      "actual": "SCHEDULED"
+    },
+    {
+      "name": "re-engaged after the intimation: purpose active, not erased",
+      "result": "PASS",
+      "expected": "PURPOSE_ACTIVE",
+      "actual": "PURPOSE_ACTIVE"
+    },
+    {
+      "name": "the intimation list shows the re-engagement",
+      "result": "PASS",
+      "expected": [
+        1,
+        "LOGGED_IN"
+      ],
+      "actual": [
+        1,
+        "LOGGED_IN"
+      ]
+    }
+  ],
+  "passed": 15,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
