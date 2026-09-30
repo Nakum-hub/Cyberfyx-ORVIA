@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { RecordAction } from '../../shared/record-action.tsx';
 import { useQuery, useMutation } from '../../shared/api.ts';
 import { formatTime, shortId, type Label } from '../../shared/state-labels.ts';
 import { Badge, DataTable, FailureState, Freshness, NoticeBox, PageHead, QueryBoundary, Section, StateBadge } from '../../shared/ui.tsx';
@@ -35,7 +36,7 @@ function SetPeriod({ purpose, onSaved }: { purpose: string; onSaved: () => void 
   const [days, setDays] = useState('365');
   const [source, setSource] = useState('');
   return (
-    <form
+    <RecordAction label="Record retention period"><form
       className="inline-form"
       onSubmit={async event => {
         event.preventDefault();
@@ -53,7 +54,7 @@ function SetPeriod({ purpose, onSaved }: { purpose: string; onSaved: () => void 
       </label>
       <button type="submit" disabled={mutation.status === 'pending' || source.length < 10}>Record this period</button>
       {mutation.failure && <FailureState failure={mutation.failure} />}
-    </form>
+    </form></RecordAction>
   );
 }
 

@@ -4,6 +4,7 @@ import type { schemas } from '@orvia/contracts';
 import { DataCategoryCode } from '@orvia/contracts';
 import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
 import { call, useCollection, useMutation, useRequestGuard } from '../../shared/api.ts';
+import { RecordAction } from '../../shared/record-action.tsx';
 import { MutationFeedback } from '../../shared/mutation-feedback.tsx';
 import { describeFailure, type UiFailure } from '../../shared/errors.ts';
 import { hasCapability, type StaffSession } from '../../shared/session-context.tsx';
@@ -37,7 +38,7 @@ function CreateRecord<K extends CreateOperation>({operation,label,allowed,build,
   const [localError,setLocalError]=useState<UiFailure|null>(null);
   const submit=async(event:FormEvent<HTMLFormElement>)=>{event.preventDefault();const form=event.currentTarget;setLocalError(null);try{const result=await mutation.run(build(new FormData(form)));if(result){form.reset();onSaved();}}catch(error){setLocalError(describeFailure(error));}};
   if(!allowed)return <NoticeBox tone="info" title="Read-only for this session"><p>Your current capabilities do not allow {label.toLowerCase()}.</p></NoticeBox>;
-  return <form className="panel" onSubmit={submit}><h3>{label}</h3><fieldset disabled={mutation.status==='pending'||mutation.unsettled}>{children}<button className="primary" type="submit">{mutation.status==='pending'?'Recording…':label}</button></fieldset>{localError?<FailureState failure={localError}/>:null}<MutationFeedback mutation={mutation} onReplayed={onSaved}/>{mutation.result?<p role="status">Recorded <code>{mutation.result.id}</code>. <button type="button" onClick={mutation.newInteraction}>Start another request</button></p>:null}</form>;
+  return <RecordAction label={label}><form className="panel" onSubmit={submit}><h3>{label}</h3><fieldset disabled={mutation.status==='pending'||mutation.unsettled}>{children}<button className="primary" type="submit">{mutation.status==='pending'?'Recording…':label}</button></fieldset>{localError?<FailureState failure={localError}/>:null}<MutationFeedback mutation={mutation} onReplayed={onSaved}/>{mutation.result?<p role="status">Recorded <code>{mutation.result.id}</code>. <button type="button" onClick={mutation.newInteraction}>Start another request</button></p>:null}</form></RecordAction>;
 }
 
 const TABS = ['purposes','notices','policies','systems'] as const;

@@ -1,0 +1,19 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T03:09:42.652Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "unexpected failure in setup",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "browserType.launch: Executable doesn't exist at C:\\Users\\sadas\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1243\\chrome-headless-shell-win64\\chrome-headless-shell.exe\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║          "
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

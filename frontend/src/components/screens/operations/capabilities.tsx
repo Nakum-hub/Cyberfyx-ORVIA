@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import programme from '../../../../../tracking/capabilities.json';
 import { usePagedQuery } from '../../shared/api.ts';
 import { CAPABILITY_LABELS, CAPABILITY_TEST_LABELS } from '../../shared/state-labels.ts';
@@ -10,6 +11,9 @@ import { Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, Sta
 
 export function Capabilities() {
   const query = usePagedQuery('capabilities', { limit: 20 });
+  const [page, setPage] = useState(0);
+  const pageSize = 5;
+  const pages = Math.ceil(programme.capabilities.length / pageSize);
   return (
     <>
       <PageHead
@@ -19,7 +23,12 @@ export function Capabilities() {
       />
       <NoticeBox tone="info" title="How to read this register"><p>{programme.note}</p></NoticeBox>
       <Section title="Programme modules">
-        {programme.capabilities.map(capability => (
+        <nav aria-label="Programme module pages" className="row row-between">
+          <button type="button" disabled={page === 0} onClick={() => setPage(page - 1)}>Previous modules</button>
+          <span role="status">Modules {page * pageSize + 1}–{Math.min((page + 1) * pageSize, programme.capabilities.length)} of {programme.capabilities.length}</span>
+          <button type="button" disabled={page + 1 >= pages} onClick={() => setPage(page + 1)}>Next modules</button>
+        </nav>
+        {programme.capabilities.slice(page * pageSize, (page + 1) * pageSize).map(capability => (
           <article className="panel" key={capability.module_id}>
             <div className="row row-between" style={{ marginBottom: 'var(--s3)' }}>
               <h4 style={{ margin: 0, fontSize: 15 }}>{capability.module_id} — {capability.name}</h4>
