@@ -1,0 +1,37 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T08:19:14.295Z",
+  "profile": "rehearsal",
+  "backup_file": "<profile>/backups/orvia_rehearsal-2026-09-30T08-18-57-196Z.dump",
+  "scratch_database": "orvia_restore_drill_611ea5e1034d",
+  "bytes": 1468706,
+  "sha256": "66fd3d1fc376f1b94a1708bc91558a0e5d8de56b5246fbb17fbf14e85c60b9c0",
+  "backup_ms": 2414,
+  "restore_ms": 13255,
+  "withdrawn_consents": 0,
+  "migrations": 71,
+  "counts": {
+    "consent_records": 0,
+    "consent_record_events": 0,
+    "workflow_runs": 0,
+    "downstream_actions": 0,
+    "registry_activities": 0,
+    "rights_requests": 0,
+    "audit_events": 48,
+    "retention_rules": 0,
+    "grc_issues": 0,
+    "cmp_consents": 0
+  },
+  "checks": {
+    "migrations_identical": true,
+    "counts_identical": [],
+    "withdrawals_preserved": true,
+    "row_security_forced": true
+  },
+  "result": "PASS",
+  "limits": [
+    "A logical backup of one database on this host, restored on the same host. Off-host copies, encryption at rest and the customer's retention schedule are the customer's to configure.",
+    "Timings describe this host and data volume; they are not a recovery-time objective for other hardware."
+  ]
+}

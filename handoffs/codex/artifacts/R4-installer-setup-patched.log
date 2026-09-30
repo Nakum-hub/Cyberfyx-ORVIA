@@ -1,0 +1,15 @@
+PASS fresh installation setup is OPEN
+PASS first-run HTTPS setup creates owner and administrator
+PASS setup response confirms completion
+PASS setup code cannot be reused
+PASS installation identity is retained
+PASS first-run setup remains COMPLETED
+PASS owner password sign-in
+PASS owner authenticator enrollment
+PASS owner authenticator verification
+PASS owner authenticated session remains available
+PASS admin password sign-in
+PASS admin authenticator enrollment
+PASS admin authenticator verification
+PASS admin authenticated session remains available
+{"mode":"setup","checks":14,"fixture":"SYNTHETIC_ONLY","transport":"HTTPS_WITH_CA_AND_HOSTNAME_VERIFICATION"}

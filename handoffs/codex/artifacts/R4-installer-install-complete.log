@@ -1,0 +1,215 @@
+  os      Debian GNU/Linux 12 (bookworm)
+  ok      docker
+  ok      docker compose v2
+  ok      node
+  ok      openssl
+  ok      pnpm
+  WARN    systemd not running: units are rendered but not enabled (no start on boot)
+  ok      docker daemon reachable
+  ok      disk
+  result  0 missing, 1 warning(s)
+
+== Installing pinned dependencies
+Scope: all 11 workspace projects
+✓ Lockfile passes supply-chain policies (verified 2h ago)
+Lockfile is up to date, resolution step is skipped
+Done in 668ms using pnpm v12.4.2
+  resuming: the existing profile, its credentials and data are kept
+
+== Installing the vendor's public keys (public keys only)
+  trust file accepted: release, licence, audit
+  no audit service address: audit evidence moves only as files
+
+== TLS
+  TLS material already present; kept
+
+== Starting the local services
+$ tsx scripts/services.ts up
+ Container orvia-rehearsal-opa-1  Starting
+ Container orvia-rehearsal-loopback-1  Starting
+ Container orvia-rehearsal-temporal-1  Starting
+ Container orvia-rehearsal-postgres-1  Starting
+ Container orvia-rehearsal-temporal-1  Started
+ Container orvia-rehearsal-opa-1  Started
+ Container orvia-rehearsal-postgres-1  Started
+ Container orvia-rehearsal-loopback-1  Started
+
+== Database roles and schema
+$ tsx scripts/roles-init.ts confirm:rehearsal
+Allowlisted unprivileged roles present; credentials remain protected locally.
+$ tsx scripts/migrate.ts
+Artifact: handoffs/codex/artifacts/A00-migration-1790755467131-58d4483d-401a-4887-a74d-4bb9cfa0332f.json
+
+== Authentication stores and machine logins
+$ tsx scripts/auth-init.ts confirm:rehearsal
+Runtime roles provisioned; generated credentials remain in the protected local auth directory.
+$ tsx scripts/machine-init.ts confirm:rehearsal
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+
+== Building the application
+$ tsx scripts/web.ts build
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 150ms
+- Experiments (use with caution):
+  · cpus: 1
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 55s
+  Running TypeScript ...
+  Finished TypeScript in 42s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/96) ...
+  Generating static pages using 1 worker (24/96) 
+  Generating static pages using 1 worker (48/96) 
+  Generating static pages using 1 worker (72/96) 
+✓ Generating static pages using 1 worker (96/96) in 6.9s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /api/auth/account/[...all]
+├ ƒ /api/auth/principal/[...all]
+├ ƒ /api/auth/staff/[...all]
+├ ƒ /api/auth/vendor/[...all]
+├ ƒ /api/v1/[...segments]
+├ ƒ /api/v1/admin/principals
+├ ƒ /api/v1/session
+├ ƒ /api/v1/setup
+├ ƒ /api/v1/vendor/[...segments]
+├ ƒ /cmp/[siteKey]/orvia-cmp.js
+├ ƒ /healthz
+├ ƒ /privacy
+├ ƒ /privacy/notices
+├ ƒ /privacy/preferences
+├ ƒ /privacy/receipt/[id]
+├ ƒ /privacy/receipts
+├ ƒ /privacy/rights
+├ ƒ /privacy/sign-in
+├ ƒ /readyz
+├ ƒ /setup
+├ ƒ /supplier
+├ ƒ /vendor
+├ ƒ /vendor/engagements
+├ ƒ /vendor/engagements/[id]
+├ ƒ /vendor/licences
+├ ƒ /vendor/organisations
+├ ƒ /vendor/organisations/[id]
+├ ƒ /vendor/payments
+├ ƒ /vendor/practice
+├ ƒ /vendor/retention
+├ ƒ /vendor/setup
+├ ƒ /vendor/sign-in
+├ ƒ /vendor/support
+├ ƒ /vendor/team
+├ ƒ /vendor/upload
+├ ƒ /workspace
+├ ƒ /workspace/ai-governance
+├ ƒ /workspace/assessments
+├ ƒ /workspace/audit-coverage
+├ ƒ /workspace/audit-retention
+├ ƒ /workspace/audit-trail
+├ ƒ /workspace/capabilities
+├ ƒ /workspace/catalog-discovery
+├ ƒ /workspace/compliance
+├ ƒ /workspace/configuration
+├ ƒ /workspace/connections
+├ ƒ /workspace/connections/[id]
+├ ƒ /workspace/consent-records
+├ ƒ /workspace/contact-preferences
+├ ƒ /workspace/control-map
+├ ƒ /workspace/coverage
+├ ƒ /workspace/data-principals
+├ ƒ /workspace/delivery
+├ ƒ /workspace/dpdpa-audit
+├ ƒ /workspace/estate-imports
+├ ƒ /workspace/evidence
+├ ƒ /workspace/evidence/[id]
+├ ƒ /workspace/failures
+├ ƒ /workspace/findings
+├ ƒ /workspace/gaps
+├ ƒ /workspace/grc
+├ ƒ /workspace/grc/audits
+├ ƒ /workspace/impact-assessments
+├ ƒ /workspace/imports
+├ ƒ /workspace/incidents
+├ ƒ /workspace/incidents/[id]
+├ ƒ /workspace/installed-versions
+├ ƒ /workspace/inventory
+├ ƒ /workspace/inventory/[id]
+├ ƒ /workspace/inventory/search
+├ ƒ /workspace/message-templates
+├ ƒ /workspace/my-login
+├ ƒ /workspace/notification-rules
+├ ƒ /workspace/notifications
+├ ƒ /workspace/operations-attention
+├ ƒ /workspace/operations-evidence
+├ ƒ /workspace/operations-runs
+├ ƒ /workspace/operations-runs/[id]
+├ ƒ /workspace/organisation-profile
+├ ƒ /workspace/personal-data-breaches
+├ ƒ /workspace/personal-data-breaches/[id]
+├ ƒ /workspace/policy-preview
+├ ƒ /workspace/preflight
+├ ƒ /workspace/principals
+├ ƒ /workspace/processing-activities
+├ ƒ /workspace/processor-engagements
+├ ƒ /workspace/processors
+├ ƒ /workspace/readiness
+├ ƒ /workspace/records-of-processing
+├ ƒ /workspace/registry-notices
+├ ƒ /workspace/registry-retention
+├ ƒ /workspace/registry-setup
+├ ƒ /workspace/regulatory
+├ ƒ /workspace/regulatory/applicability
+├ ƒ /workspace/regulatory/impacts
+├ ƒ /workspace/releases
+├ ƒ /workspace/reports
+├ ƒ /workspace/representation
+├ ƒ /workspace/restores
+├ ƒ /workspace/retention
+├ ƒ /workspace/retention/holds
+├ ƒ /workspace/retention/outcomes
+├ ƒ /workspace/rights
+├ ƒ /workspace/rights/[id]
+├ ƒ /workspace/sign-in
+├ ƒ /workspace/support-canaries
+├ ƒ /workspace/support-cases
+├ ƒ /workspace/team
+├ ƒ /workspace/test-lab
+├ ƒ /workspace/test-lab/[id]
+├ ƒ /workspace/third-parties
+├ ƒ /workspace/updates
+├ ƒ /workspace/vendor-visibility
+├ ƒ /workspace/website-consent
+├ ƒ /workspace/workflows
+└ ƒ /workspace/workflows/[id]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+== First-run setup code
+$ tsx scripts/setup-code.ts confirm:rehearsal
+
+  First-run setup code (valid 24 hours, one use):
+
+      [REDACTED]
+
+  Open ORVIA in your browser at https://127.0.0.1:4330/setup and enter it.
+  It is also saved in the installation's protected auth/setup-code.txt.
+
+
+== Service units (start on boot, scheduled machine-login renewal, backups)
+  wrote /qualification/units/orvia-services.service
+  wrote /qualification/units/orvia-app.service
+  wrote /qualification/units/orvia-machine-renew.service
+  wrote /qualification/units/orvia-machine-renew.timer
+  wrote /qualification/units/orvia-backup.service
+  wrote /qualification/units/orvia-backup.timer
+  units rendered only; enable them with systemctl on a systemd host
+
+  ORVIA customer installation complete. Open it in a browser (Windows, macOS, Linux or tablet).
+  Credentials and TLS material stay in the protected .local directory.
+

@@ -44,16 +44,33 @@ try{
  const command=webProcess(config);const web=start(command.args,'web',command.cwd,command.env);
  let ready=false;for(let i=0;i<90;i++){if(web.exitCode!==null)throw new Error('Owned web process exited before readiness');try{ready=(await fetch(config.origin+'/readyz',{signal:AbortSignal.timeout(3000)})).ok;}catch{/* bounded startup; readiness includes a warm authorization decision */}if(ready)break;await new Promise(r=>setTimeout(r,500));}
  if(!ready)throw new Error('HTTPS readiness failed');
- start(['--import','tsx','services/worker/src/main.ts'],'worker');start(['--import','tsx','services/agent/src/main.ts'],'agent');
- // DPDP operations runner: resumes imports and evaluations, executes approved runs,
- // propagates recorded withdrawals and raises due DPDP alerts (operations-runner.ts).
- start(['--import','tsx','services/worker/src/operations-runner.ts'],'operations_runner');
+ const startMachines=()=>{
+  start(['--import','tsx','services/worker/src/main.ts'],'worker');start(['--import','tsx','services/agent/src/main.ts'],'agent');
+  // DPDP operations runner: resumes imports and evaluations, executes approved runs,
+  // propagates recorded withdrawals and raises due DPDP alerts (operations-runner.ts).
+  start(['--import','tsx','services/worker/src/operations-runner.ts'],'operations_runner');
+ };
+ // Before first-run setup there is no organisation scope to enrol. Keep the web
+ // process available for setup instead of starting machines that must fail on
+ // missing enrollment and taking the setup page down with them. Enrollment is
+ // still created only by the protected local command/renewal timer, never here.
+ let waitingForFirstRun=(await db.query<{state:string}>('SELECT app.first_run_state() AS state')).rows[0]?.state!=='COMPLETED';
+ let lastSetupCheck=Date.now();
+ if(waitingForFirstRun)console.log('First-run setup is pending; web available, workers waiting for setup and local machine enrollment.');
+ else startMachines(); // Established installations retain fail-closed startup.
  writePrivateJson(journal,identity);created=true;console.log(`Application supervisor running: ${config.origin}. Stop with app:stop confirm:rehearsal.`);
  while(!stopping){
   if(ownership.lost)throw ownership.lost;
   const dead=children.find(c=>c.exitCode!==null||c.signalCode!==null);
   if(dead)throw exited(dead);
   if(existsSync(stopFile)){const value=JSON.parse(readFileSync(stopFile,'utf8'));if(value.run_id!==identity.run_id||value.installation_id!==identity.installation_id)throw new Error('Mismatched stop request');requestStop();}
+  if(!stopping&&waitingForFirstRun&&Date.now()-lastSetupCheck>=5000){
+   lastSetupCheck=Date.now();
+   const completed=(await db.query<{state:string}>('SELECT app.first_run_state() AS state')).rows[0]?.state==='COMPLETED';
+   if(completed&&['worker','agent'].every(name=>existsSync(resolve(p.directory,name,'enrollment.json')))){
+    startMachines();waitingForFirstRun=false;console.log('First-run setup and local enrollment complete; starting owned workers.');
+   }
+  }
   if(Date.now()-lastBeat>=HEARTBEAT_MS){await lock.query('SELECT 1');lastBeat=Date.now();}
   await new Promise(r=>setTimeout(r,500));
  }
