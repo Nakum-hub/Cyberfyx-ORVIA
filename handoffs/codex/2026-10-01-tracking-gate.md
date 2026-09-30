@@ -6,6 +6,8 @@ Read-only checks on 2026-09-30: `gh pr list --state all --head claude/upbeat-new
 
 Therefore `tracking/` reconciliation is NOT_RUN, waiting for [PR #33](https://github.com/Nakum-hub/Cyberfyx-ORVIA/pull/33) to merge. No task, test or acceptance state was promoted. The separate round-4 browser, repeat-save, crawl, installer and readiness handoffs provide evidence for the future reconciliation; isolated passing controls must not replace the failed full crawl or blocked WebKit journeys.
 
+Final read-only recheck (`gh pr view 33 --json state,mergedAt,headRefOid,url` and remote-ref lookup, exit 0): PR #33 remains OPEN with mergedAt null, now at `e46babe40f4fa12cb42e1c6ef951bee2359bd4b1`; main remains bf29c43. The installer handoff separately records the additional upgrade to that head, successful retention-check retry and retained startup failures. The gate remains unsatisfied; none of those failures may be overwritten by a retry pass.
+
 SCIM implementation is NOT_RUN, waiting for the owner's scope/implementation decision. No SCIM code, contract, migration or fixture changed.
 
 Changed file: this handoff only. `git diff --cached --check`: exit 0. No runtime test is appropriate for this read-only gate check. Next action: after the actual merge, reconcile handoffs against tracking while retaining FAIL/NOT_RUN and requiring owner acceptance for any promotion. Do not merge main on the owner's behalf.
