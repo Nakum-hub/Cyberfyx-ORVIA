@@ -19,7 +19,7 @@ ORVIA evidence shows what the organisation records and does inside ORVIA. It can
 |---|---|---|---|
 | Readiness assessment | `READINESS_ADVISORY` | Gap register review, findings and a remediation plan. **No opinion.** | Engagement letter and processing agreement signed. |
 | Evidence audit | `EVIDENCE_AUDIT` | A signed report giving an **opinion as of a stated date, for a stated scope**, per requirement. | As above, plus: production criteria in ORVIA; production audit key; independence checks in section 2 passed; every requirement in scope has at least one auditor procedure (section 5). |
-| Statutory audit of a Significant Data Fiduciary | `STATUTORY_SDF_AUDIT_CLAIM` | The independent data audit under s.10(2)(b) and Rule 13. | **Not offered until** the Government publishes auditor eligibility criteria and Cyberfyx meets them. The applicability basis and eligibility evidence are recorded in ORVIA; ORVIA refuses the claim without them. |
+| Statutory audit of a Significant Data Fiduciary | `STATUTORY_SDF_AUDIT_CLAIM` | The audit by the "independent data auditor" under s.10(2)(b), yearly under Rule 13(1). Under Rule 13(2), **the auditor furnishes to the Board** a report of the significant observations. | The official Act and Rules (checked 2026-09-30) set no eligibility test beyond independence, and no Board empanelment. Cyberfyx offers it only where the section 2 independence rules hold in full: no ORVIA implementation or DPDPA consulting for that client, and a reviewer with no commercial role. The applicability basis and the independence evidence are recorded in ORVIA; ORVIA refuses the claim without them. |
 
 Wording rules, which apply to every service:
 - The report is never a "certificate", "certification", "DPDP certified" or "compliant organisation".
@@ -117,7 +117,7 @@ Rules:
 | DPDP-NOTICE-LEGACY-CONSENT | s.5(2) | Notice delivery evidence records | Inquire about the pre-commencement population; seeded sample of delivery evidence inspected in a remote session | No legacy notice plan; deliveries missing |
 | DPDP-CONSENT-VALIDITY | s.6(1), s.6(4) | Consent records total and withdrawn | Seeded sample: affirmative, purpose-specific grant. External test: give and then withdraw consent as a synthetic principal, and compare the steps. | Pre-ticked or bundled consent; withdrawal harder than giving |
 | DPDP-CONSENT-WITHDRAWAL-CESSATION | s.6(6) | Withdrawal runs verified, with exceptions, open | Seeded sample of withdrawals: reperform the check in the downstream system in a remote session; inquire about processors | Processing continues after withdrawal; processor not told |
-| DPDP-CONSENT-MANAGER | s.6(7)–(9), R4 | None: ORVIA does not support Consent Managers | Inquiry: does the organisation accept consent through a registered Consent Manager? If yes, walk through it. In force 13 Nov 2026. | Consent Manager requests not honoured |
+| DPDP-CONSENT-MANAGER | s.6(7)–(9), R4 | None: ORVIA does not support Consent Managers | Inquiry: does the organisation accept consent through a registered Consent Manager? If yes, walk through it. The Data Fiduciary's duty under s.6(7)–(8) is in force from 13 May 2027; s.6(9) and Rule 4 (Consent Managers' own registration) from 13 Nov 2026. | Consent Manager requests not honoured |
 | DPDP-CONSENT-PROOF | s.6(10) | Consent events; events with evidence | Seeded sample: trace each event to its notice version and evidence | Consent that cannot be proven |
 | DPDP-LEGITIMATE-USES | s.4, s.7 | Legitimate-use conditions; unresolved conditions; activities on a legitimate use; activities with no condition | Inspect each legitimate-use justification against s.7(a)–(i); inquire about activities with no condition | Legitimate use claimed outside s.7; activity without any ground |
 | DPDP-PROCESSOR-CONTRACT | s.8(2) | Active engagements; active without agreement; expired agreements; disposition unverified | Seeded sample of processor agreements inspected (purpose limit, security, erasure, breach notice) | Processor without a valid contract |
@@ -217,6 +217,6 @@ The reviewer is independent under section 2 and never a commercial or implementa
 
 ## 12. What this methodology does not cover yet
 
-- Statutory SDF audit claims: section 1.
-- Consent Manager support in ORVIA (in force 13 Nov 2026) and the R8(2) 48-hour intimation: tested only by auditor procedure until ORVIA supports them.
+- Statutory SDF audit claims: section 1, including the Rule 13(2) report to the Board, which ORVIA does not yet produce or send.
+- Consent Manager support in ORVIA (the Data Fiduciary's duty under s.6(7)–(8) is in force from 13 May 2027) and the R8(2) 48-hour intimation: tested only by auditor procedure until ORVIA supports them.
 - Official texts: the criteria used for real engagements must be the **production** criteria built from the official gazette PDFs, retrieved and hashed. Until then, ORVIA refuses real engagements.
