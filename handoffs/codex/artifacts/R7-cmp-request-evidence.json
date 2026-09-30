@@ -1,0 +1,144 @@
+[
+  {
+    "engine": "chromium",
+    "page": "http://127.0.0.1:7295",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/2e314caa-5c6d-48c2-9c05-0cdadb39cf14/consents",
+    "method": "POST",
+    "headers": {
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "connection": "keep-alive",
+      "content-length": "147",
+      "host": "127.0.0.1:4310",
+      "origin": "http://127.0.0.1:7295",
+      "referer": "http://127.0.0.1:7295/",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+      "content-type": "application/json",
+      "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"Windows\""
+    },
+    "credentialHeaders": {},
+    "body": "{\"visitor_id\":\"6877e529-65f8-456c-9d3a-0d660d3ce310\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 201,
+    "response": {
+      "receipt_id": "4bfb38c4-3dbb-40f0-b398-c9fce11c05c6",
+      "recorded_at": "2026-09-30T15:47:44.687Z",
+      "config_version": 1
+    }
+  },
+  {
+    "engine": "webkit",
+    "page": "http://127.0.0.1:7295",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/2e314caa-5c6d-48c2-9c05-0cdadb39cf14/consents",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "origin": "http://127.0.0.1:7295",
+      "referer": "http://127.0.0.1:7295/",
+      "accept": "*/*",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+      "cookie": "[REDACTED: credential-bearing header]",
+      "host": "127.0.0.1:4310"
+    },
+    "credentialHeaders": {
+      "cookie": {
+        "present": true,
+        "bytes": 172,
+        "empty": false
+      }
+    },
+    "body": "{\"visitor_id\":\"dc3edbe2-0e24-4f69-8e1f-edf11a71b2ce\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 400,
+    "response": {
+      "error": {
+        "code": "VALIDATION_ERROR",
+        "message": "Request could not be completed.",
+        "retry": "NEVER",
+        "field_errors": [
+          {
+            "field": "credentials",
+            "code": "no_credentials_accepted"
+          }
+        ]
+      },
+      "request_id": "0a7cc76b-fa88-44de-a745-07eb395c1a51"
+    }
+  },
+  {
+    "engine": "firefox",
+    "page": "http://127.0.0.1:7295",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/2e314caa-5c6d-48c2-9c05-0cdadb39cf14/consents",
+    "method": "POST",
+    "headers": {
+      "host": "127.0.0.1:4310",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:155.0) Gecko/20100101 Firefox/155.0",
+      "accept": "*/*",
+      "accept-language": "en-US,en;q=0.9",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "content-type": "application/json",
+      "referer": "http://127.0.0.1:7295/",
+      "content-length": "147",
+      "origin": "http://127.0.0.1:7295",
+      "connection": "keep-alive",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site"
+    },
+    "credentialHeaders": {},
+    "body": "{\"visitor_id\":\"1c1b0b58-5531-4336-95e7-82eb4204bc51\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 201,
+    "response": {
+      "receipt_id": "81923089-79b9-449d-9d6e-2c3b172e56c0",
+      "recorded_at": "2026-09-30T15:47:49.400Z",
+      "config_version": 1
+    }
+  },
+  {
+    "engine": "webkit-no-keepalive",
+    "page": "http://127.0.0.1:7295",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/2e314caa-5c6d-48c2-9c05-0cdadb39cf14/consents",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "origin": "http://127.0.0.1:7295",
+      "referer": "http://127.0.0.1:7295/",
+      "accept": "*/*",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+      "cookie": "[REDACTED: credential-bearing header]",
+      "host": "127.0.0.1:4310"
+    },
+    "credentialHeaders": {
+      "cookie": {
+        "present": true,
+        "bytes": 172,
+        "empty": false
+      }
+    },
+    "body": "{\"visitor_id\":\"104819db-362b-4c50-9700-91bb2f738dd9\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 400,
+    "response": {
+      "error": {
+        "code": "VALIDATION_ERROR",
+        "message": "Request could not be completed.",
+        "retry": "NEVER",
+        "field_errors": [
+          {
+            "field": "credentials",
+            "code": "no_credentials_accepted"
+          }
+        ]
+      },
+      "request_id": "261da4ca-d409-426e-83a4-cb1522eb6464"
+    }
+  }
+]
