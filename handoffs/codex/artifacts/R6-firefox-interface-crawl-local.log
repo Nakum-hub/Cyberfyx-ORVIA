@@ -1,4 +1,4 @@
-R6 unchanged suite: interface-crawl-local; engine: chromium
+R6 unchanged suite: interface-crawl-local; engine: firefox
 PASS signed out: /workspace/sign-in renders
 PASS signed out: /privacy/sign-in renders
 PASS signed out: /setup renders
@@ -22,7 +22,7 @@ PASS owner: /workspace/contact-preferences
 PASS owner: /workspace/control-map
 PASS owner: /workspace/coverage
 PASS owner: /workspace/data-principals
-PASS owner: /workspace/delivery
+FAIL owner: /workspace/delivery {"expected":[],"actual":["API 503 GET /api/v1/admin/outbound-messages"]}
 PASS owner: /workspace/dpdpa-audit
 PASS owner: /workspace/estate-imports
 PASS owner: /workspace/evidence
@@ -37,7 +37,7 @@ PASS owner: /workspace/incidents
 PASS owner: /workspace/installed-versions
 PASS owner: /workspace/inventory
 PASS owner: /workspace/inventory/search
-FAIL owner: /workspace/message-templates {"expected":[],"actual":["API 503 GET /api/v1/admin/notification-templates"]}
+PASS owner: /workspace/message-templates
 PASS owner: /workspace/my-login
 PASS owner: /workspace/notification-rules
 PASS owner: /workspace/notifications
@@ -111,7 +111,7 @@ PASS admin: /workspace/incidents
 PASS admin: /workspace/installed-versions
 PASS admin: /workspace/inventory
 PASS admin: /workspace/inventory/search
-PASS admin: /workspace/message-templates
+FAIL admin: /workspace/message-templates {"expected":[],"actual":["still loading after the network settled"]}
 PASS admin: /workspace/my-login
 PASS admin: /workspace/notification-rules
 PASS admin: /workspace/notifications
@@ -188,7 +188,7 @@ PASS auditor: /workspace/notification-rules
 PASS auditor: /workspace/notifications
 PASS auditor: /workspace/operations-attention
 PASS auditor: /workspace/operations-evidence
-PASS auditor: /workspace/operations-runs
+FAIL auditor: /workspace/operations-runs {"expected":[],"actual":["still loading after the network settled"]}
 PASS auditor: /workspace/organisation-profile
 PASS auditor: /workspace/personal-data-breaches
 PASS auditor: /workspace/policy-preview
@@ -451,13 +451,15 @@ PASS vendor lead at phone width: /vendor/team
 PASS vendor lead at phone width: /vendor/upload
 PASS vendor lead at phone width: engagement workspace
 
-interface crawl: 450 visits, 1 with issues
-  [customer owner desktop] /workspace/message-templates: API 503 GET /api/v1/admin/notification-templates
-FAIL the crawl found nothing wrong on any page, tab or link {"expected":[],"actual":["owner: /workspace/message-templates"]}
-node.exe : Error: Assertion failed: the crawl found nothing wrong on any page, tab or link
-At C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\handoffs\codex\round6-checks.ps1:8 char:3
-+   & node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-browser. ...
-+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+interface crawl: 450 visits, 3 with issues
+  [customer owner desktop] /workspace/delivery: API 503 GET /api/v1/admin/outbound-messages
+  [customer admin desktop] /workspace/message-templates: still loading after the network settled
+  [customer auditor desktop] /workspace/operations-runs: still loading after the network settled
+FAIL the crawl found nothing wrong on any page, tab or link {"expected":[],"actual":["owner: /workspace/delivery","admin: /workspace/message-templates","auditor: /workspace/operations-runs"]}
+node : Error: Assertion failed: the crawl found nothing wrong on any page, tab or link
+At line:2 char:341
++ ... tring('o'); node node_modules/tsx/dist/cli.mjs handoffs/codex/round6- ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (Error: Assertio...ge, tab or link:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
@@ -471,6 +473,6 @@ At C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\handoffs\codex\r
     at async <anonymous> 
 (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\interface-crawl-local.ts:148:1)
 Server diagnostics (safe codes only): 
-Artifact: handoffs/codex/artifacts/A00-operations-interface-crawl-1790766181531-a5e3d13a-1604-42f9-8988-76463a21eb52.json
+Artifact: handoffs/codex/artifacts/A00-operations-interface-crawl-1790771209272-3c42170e-f8bf-40d6-b62b-437f95ba09e4.json
 
 2 assertions, 2 failures.

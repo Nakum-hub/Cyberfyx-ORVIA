@@ -2,7 +2,7 @@
 
 **Base commit:** `425bf116fd712bedf2489ff442028a2548c882b9` (`claude/upbeat-newton-w4h53x`, freshly fetched and pulled fast-forward).
 **Branch:** `codex/design-refresh-20261002`.
-**Implementation commit:** pending final verification.
+**Implementation commit:** `db93067` (pushed before starting persistent demo installations).
 **Master SHA-256:** `c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b` (unchanged).
 **Contract:** 0.46.0, unchanged. Synthetic `codex-a00` and `vendor-a00` only.
 
@@ -71,4 +71,46 @@ Additional 390-pixel phone captures: [overview](artifacts/R6-screens/after/clien
 
 No merge to main, public deployment, real data, database reset, relay-limit change or acceptance promotion. Vendor markup belongs to Claude; it inherits the CSS changes without a markup edit. Existing records and unrelated dirty checkout files are preserved. Review the branch and rerun integration verification after combining it with Claude's concurrent changes.
 
+## Laptop installations and demo walkthrough
+
+Customer: <http://127.0.0.1:4310/workspace/sign-in>. Vendor: <http://127.0.0.1:4340/vendor/sign-in>. Both use build `rgu7z21LSvTmWQSgQOsZK` from the pushed implementation. The detached web processes run with their respective synthetic profiles; the existing PostgreSQL, OPA and loopback containers remain running. No background worker daemon is claimed. Runtime PIDs and stdout/stderr are in `.local/round6/`.
+
+**Private sign-in details:** `.local/round6/sign-in-details.json` in this worktree. Includes the client owner/reviewer and vendor administrator/lead auditor, passwords and authenticator setup URIs. `git check-ignore .local/round6/sign-in-details.json` exited 0. This file is deliberately ignored and never committed or included in artifacts.
+
+The Chromium demo helper visits every page named in `docs/demo/DEMO_SCRIPT.md`, then engagement workspaces and their tabs. The initial helper wrongly required an active mandate: the unchanged journey deliberately closes its engagement and ends the mandate. It found two retained deliveries but failed that helper assertion (exit 1; `R6-demo-initial-check.log`, `R6-demo-initial-pages.json`). The corrected read-only check validates the canonical channel response's retained `ENDED` mandate instead. It passed 53 page/tab visits with no issues, and found the signed report and findings. No engagement was reopened or history altered for this check. See `R6-demo-before-optional-pages.json` for that successful walkthrough; `R6-demo-pages.json` records the final walkthrough after optional tests.
+
+| Exact command | Exit | Artifact / result |
+|---|---:|---|
+| `git commit -m "Refresh shared enterprise UI and verify Chromium journeys"` | 0 | `db93067`, scoped app changes plus handoff helpers and evidence |
+| `git push -u origin codex/design-refresh-20261002` | 0 | Branch created on origin before demo startup |
+| `node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-start-demo.ts` | 0 | `R6-demo-start.log`, both READY |
+| `node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-demo-check.ts` | 1, 0 | Initial helper error above; corrected 53 checks / 0 issues, `R6-demo-check.log` |
+| `node node_modules/@playwright/test/cli.js install webkit firefox` | 0 | `R6-optional-browser-install.log`, locked existing dependency |
+| `node node_modules/tsx/dist/cli.mjs scripts/machine-init.ts confirm:codex-a00` | 0 | `R6-optional-machine-renewal.log`, ordinary development enrollment renewal |
+| `node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-browser.mjs webkit audit-mandate-local` | 1 | `R6-webkit-audit-mandate-local.log` |
+| `node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-browser.mjs webkit expansion-screens-local` | 1 | `R6-webkit-expansion-screens-local.log` |
+| `node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-browser.mjs firefox interface-crawl-local` | 1 | `R6-firefox-interface-crawl-local.log`, `R6-firefox-crawl.json` |
+| `node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-start-demo.ts` | 0 | `R6-demo-restart.log`, both READY after optional runs |
+
+Before optional tests, only the two demo PIDs from `.local/round6/runtime.json` were stopped with `Stop-Process -Id <pid>` after `Get-CimInstance Win32_Process` confirmed the exact worktree Next command line. The tests then owned the ports sequentially. No unrelated process was stopped.
+
+## Optional-browser failures: next dependency for Claude / integration
+
+- **WebKit mandate:** 18 domain/browser assertions passed, including closure and the ended mandate. The final no-browser-errors assertion failed with two `/127.0.0.1:4340/api/v1/vendor/session due to access control checks.` messages. The harness reports 20 assertions / 2 failures because the thrown assertion is also recorded by its run wrapper. No request left either installation. Cause not established; vendor application paths are protected.
+- **WebKit expansion:** 59 assertions passed before keyboard refusal on the consent banner returned HTTP 400 instead of 201; tracker loads remained 0. The harness reports 61 assertions / 2 failures including the thrown assertion. Investigate the consent choice response in Claude's protected consent lane. No assertion was filtered or weakened.
+- **Idle Firefox crawl:** 450 visits / 3 issues: owner `/workspace/delivery` received `503 GET /api/v1/admin/outbound-messages` (`SERVICE_UNAVAILABLE`); admin `/workspace/message-templates` and auditor `/workspace/operations-runs` were still loading after network idle. The passive error artifact contains only safe error code/path/status/timing. It was run without a concurrent build or test workload. No layout/overflow issue was reported in these three entries. No root-cause or backend fix is claimed.
+
+The required final Chromium suite is green; these optional runs are **failed**, not qualified. The supplied demo script's broader browser/production statements are not re-certified by this handoff.
+
 The first final-build crawl also had 450 visits / 1 issue: admin /workspace/processor-engagements, HTTP 503 from /api/v1/admin/personal-data-categories. Both earlier crawl artifacts are retained. The final idle rerun passed all 450 visits; no backend fix is claimed. Final targeted lint of both TSX files and all round6 TypeScript/JavaScript helpers exited 0 (R6-final-lint.log).
+
+## Final state
+
+The final post-optional `node node_modules/tsx/dist/cli.mjs handoffs/codex/round6-demo-check.ts` exited **0**: **53 visits, 0 issues**, including the retained ended mandate on `ENG-MB-238f8db7` (see the exact reference in `R6-demo-pages.json`), two delivery rows, one signed report and one signed findings import. The report engagement is `ENG-3c4a0d8b`. Final log: `R6-demo-final-check.log`. Both local web installations remain running after this check.
+
+Changed application files are exactly the three paths listed in Scope. Supporting changes are this handoff, the seven `round6-*` helpers, and the `R6-*` / generated `A00-operations-*` artifacts added by this round. `git show --name-only db93067` provides the exact initial manifest; subsequent evidence commits contain no additional application changes. All requested before/after screenshots are attached in this handoff's table.
+
+Next dependency: review/integrate this branch with Claude's concurrent work, then investigate the three optional-browser failures above within their owning lanes. Do not promote synthetic/development results to production acceptance.
+Final helper lint (node node_modules/eslint/bin/eslint.js handoffs/codex/round6-demo-check.ts --max-warnings 0) and source guard (node handoffs/codex/round6-source-check.mjs) both exited 0. A final git diff --check initially exited 2 for PowerShell-appended CRLF lines in R6-results.jsonl; line endings were normalized and the check rerun. Test result contents were unchanged.
+
+Final readiness: `Invoke-WebRequest -UseBasicParsing -Uri http://127.0.0.1:4310/readyz` and the same command for port 4340 both returned 200, exit 0 (`R6-final-ready.json`). An earlier inline `node --input-type=module -e ...` readiness probe exited 1 because Windows shell argument quoting removed its string quotes; it did not execute a request. The PowerShell probes above establish readiness. R6 text artifacts were normalized from PowerShell UTF-16/CRLF to UTF-8/LF for review; their text content and recorded results were preserved. Final `git diff --check` and staged diff check exited 0 after normalization. Private sign-in file tracked count: 0.

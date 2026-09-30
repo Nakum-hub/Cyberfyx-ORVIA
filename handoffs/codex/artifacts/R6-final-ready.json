@@ -1,0 +1,14 @@
+{
+    "checked_at":  "2026-09-30T12:31:49.7267127Z",
+    "build":  "rgu7z21LSvTmWQSgQOsZK",
+    "checks":  [
+                   {
+                       "origin":  "http://127.0.0.1:4310",
+                       "status":  200
+                   },
+                   {
+                       "origin":  "http://127.0.0.1:4340",
+                       "status":  200
+                   }
+               ]
+}
