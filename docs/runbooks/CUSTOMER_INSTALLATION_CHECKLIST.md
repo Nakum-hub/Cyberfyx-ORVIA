@@ -4,6 +4,8 @@ Prepared against application source `e42f573`, contract 0.46.0 and approved base
 
 ## Before installation
 
+**Engineering + OWNER release gate:** round-4 Linux qualification reproduced a first-run startup defect in the unmodified candidate: the supervisor starts machines before an organisation scope/enrollment exists, then their failure shuts down the setup page. `codex/installer-20261001` proposes the supervisor correction and records 14 passing first-run checks with it. Integrate/requalify that correction before releasing a fresh installation; the successful upgrade and 8 post-upgrade checks on `639d905` do not qualify its unmodified first-run path. See `handoffs/codex/2026-10-01-installer.md` on that branch.
+
 - [ ] **OWNER:** approve a dedicated customer-local host, storage location, installation administrator, scope, licence and exact release candidate. Keep operational records, identifiers, evidence, logs and assets local.
 - [ ] **OWNER/operator:** confirm the Linux target and pinned Node 24.21.0/pnpm 12.4.2, Docker Engine, Compose v2, openssl, reachable daemon and sufficient disk/memory. Run `bash installer/linux/orvia-install.sh --check --kind customer`; retain the exit code and exact missing prerequisites. Warnings require review, including systemd absence.
 - [ ] **OWNER/operator:** confirm no existing installation occupies the profile's ports, Compose project, database or volume. Preserve existing installations. An interrupted install may use documented resume after inspection; never delete or reset it to obtain a pass.

@@ -14,6 +14,8 @@
 
 Every approval-dependent step names OWNER, LEGAL or KEY CUSTODIAN. Proposed schedules remain proposals. Documents identify source limitations instead of claiming production readiness: fixed loopback auth origin, fresh vendor provisioning order, customer-oriented vendor service command and unenforced vendor backup reminder.
 
+The customer checklist also records the round-4 reproduced first-run supervisor/enrollment defect. The installer branch contains its owned correction and distinguishes the 14-check patched first-run pass from the unmodified candidate's failure and successful upgrade. Integration and owner release acceptance remain gates.
+
 ## Commands actually executed
 
 | Check | Exit | Result |
