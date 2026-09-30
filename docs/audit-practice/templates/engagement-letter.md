@@ -53,6 +53,9 @@ Requests unanswered by their due date are reported as scope limitations.
 
 ## 5. Report and use
 
+- **The report is delivered only to the Client.** Cyberfyx does not send it, or any part of it, to the Data Protection Board of India or any other authority, unless the law compels disclosure, in which case Cyberfyx tells the Client first where the law permits.
+- This engagement is **not** the audit by an independent data auditor that a Significant Data Fiduciary must have under section 10(2)(b) of the Act and Rule 13 of the Rules. Cyberfyx does not offer that audit.
+
 - The report is addressed to the Client's [[board / management]] for the intended users named in the acceptance record.
 - The Client may share the report in full, including every limitation, but not in extracts that change its meaning.
 - Cyberfyx may correct an issued report by a signed correction, which the Client's ORVIA imports and shows.

@@ -19,7 +19,9 @@ ORVIA evidence shows what the organisation records and does inside ORVIA. It can
 |---|---|---|---|
 | Readiness assessment | `READINESS_ADVISORY` | Gap register review, findings and a remediation plan. **No opinion.** | Engagement letter and processing agreement signed. |
 | Evidence audit | `EVIDENCE_AUDIT` | A signed report giving an **opinion as of a stated date, for a stated scope**, per requirement. | As above, plus: production criteria in ORVIA; production audit key; independence checks in section 2 passed; every requirement in scope has at least one auditor procedure (section 5). |
-| Statutory audit of a Significant Data Fiduciary | `STATUTORY_SDF_AUDIT_CLAIM` | The audit by the "independent data auditor" under s.10(2)(b), yearly under Rule 13(1). Under Rule 13(2), **the auditor furnishes to the Board** a report of the significant observations. | The official Act and Rules (checked 2026-09-30) set no eligibility test beyond independence, and no Board empanelment. Cyberfyx offers it only where the section 2 independence rules hold in full: no ORVIA implementation or DPDPA consulting for that client, and a reviewer with no commercial role. The applicability basis and the independence evidence are recorded in ORVIA; ORVIA refuses the claim without them. |
+| Statutory audit of a Significant Data Fiduciary | `STATUTORY_SDF_AUDIT_CLAIM` | The yearly audit by the "independent data auditor" under s.10(2)(b) and Rule 13(1). | **Not offered** (firm decision 2026-09-30, `DECISIONS.md` D1). Rule 13(2) requires the auditor of that audit to send the Board a report of significant observations, and Cyberfyx reports only to its clients. A Significant Data Fiduciary may still buy a readiness assessment or an evidence audit; its statutory audit is done by another firm. The acceptance reviewer refuses this service type. |
+
+**Who receives the report (firm decision 2026-09-30, `DECISIONS.md` D1):** every report, finding and working-paper conclusion goes **only to the client organisation**. Cyberfyx sends nothing to the Data Protection Board or to any other authority. ORVIA has no connection to the Board.
 
 Wording rules, which apply to every service:
 - The report is never a "certificate", "certification", "DPDP certified" or "compliant organisation".
@@ -217,6 +219,6 @@ The reviewer is independent under section 2 and never a commercial or implementa
 
 ## 12. What this methodology does not cover yet
 
-- Statutory SDF audit claims: section 1, including the Rule 13(2) report to the Board, which ORVIA does not yet produce or send.
+- Statutory SDF audits: not offered (section 1). ORVIA has no Board reporting path, and none is planned while that decision stands.
 - Consent Manager support in ORVIA (the Data Fiduciary's duty under s.6(7)–(8) is in force from 13 May 2027) and the R8(2) 48-hour intimation: tested only by auditor procedure until ORVIA supports them.
 - Official texts: the criteria used for real engagements must be the **production** criteria built from the official gazette PDFs, retrieved and hashed. Until then, ORVIA refuses real engagements.
