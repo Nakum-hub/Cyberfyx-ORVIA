@@ -169,7 +169,10 @@ export async function replayErrors(c: Context, id: string) {
 }
 
 export async function jobList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.bulk_jobs WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  // Newest first, so the import someone has just started is on the first page; the cursor stays the last row's id.
+  const rows = (await c.tx.query(`SELECT id FROM app.bulk_jobs WHERE ${predicate}
+      AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.bulk_jobs WHERE ${predicate} AND id=$4))
+    ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const row of paged.items) items.push(await jobView(c, row.id));

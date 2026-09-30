@@ -78,7 +78,10 @@ await t.run(async () => {
     check('a choice from the approved origin is recorded with a receipt', [granted.status, granted.headers.get('access-control-allow-origin'), receipt.config_version], [201, origin, published.version]);
     check('a choice from another origin is refused', (await post(choice(true), { origin: 'https://evil.example' })).status, 403);
     check('a choice with no origin is refused', (await post(choice(true), {})).status, 403);
-    check('a request carrying cookies is refused', (await post(choice(true), { origin, cookie: 'session=1' })).status, 400);
+    // Round 7: some WebKit builds attach cookies despite credentials: 'omit'. The route reads no session, so cookies are ignored.
+    const withCookie = await post(choice(false), { origin, cookie: 'session=1' });
+    check('a choice whose browser attached a cookie is still recorded, and sets no cookie', [withCookie.status, withCookie.headers.get('set-cookie')], [201, null]);
+    check('a request carrying an Authorization header is refused', (await post(choice(true), { origin, authorization: 'Bearer x' })).status, 400);
     check('an unknown category is refused', (await post({ ...choice(true), choices: { necessary: true, analytics: true, marketing: true } })).status, 400);
     check('a missing category is refused', (await post({ ...choice(true), choices: { necessary: true } })).status, 400);
     check('the strictly necessary category cannot be refused', (await post({ ...choice(true), choices: { necessary: false, analytics: false } })).status, 400);

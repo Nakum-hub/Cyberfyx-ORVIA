@@ -57,11 +57,21 @@ export async function authorityFor(request: Request, staff: AuthInstance, princi
 export async function requireCapability(config: RuntimeConfig, actor: Authority, domain: 'STAFF' | 'PRINCIPAL', capability: string) {
   if (actor.actor_domain !== domain || !actor.capabilities.includes(capability)) throw new AccessError(403, 'FORBIDDEN');
   if (domain === 'PRINCIPAL') return;
-  let response: Response;
-  try { response = await fetch(`http://127.0.0.1:${config.opa_port}/v1/data/orvia/admin/authorize`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(2000),
-    body: JSON.stringify({ input: { actor_domain: actor.actor_domain, role: actor.role, capability, mfa_verified: actor.mfa_verified } }),
-  }); } catch { throw new AccessError(503, 'SERVICE_UNAVAILABLE'); }
+  let response: Response | undefined;
+  // One retry when the policy engine does not answer in time: a single slow evaluation on a busy host (round 7, Firefox
+  // crawl: OPA TimeoutError after 2.4 s) otherwise turned a readable page into a 503. Still fail-closed: two misses deny.
+  // The cause is logged (dependency, attempt, elapsed, error name only) instead of being hidden behind the 503.
+  for (let attempt = 1; attempt <= 2 && !response; attempt++) {
+    const started = Date.now();
+    try { response = await fetch(`http://127.0.0.1:${config.opa_port}/v1/data/orvia/admin/authorize`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(2000),
+      body: JSON.stringify({ input: { actor_domain: actor.actor_domain, role: actor.role, capability, mfa_verified: actor.mfa_verified } }),
+    }); } catch (error) {
+      console.error(JSON.stringify({ dependency: 'policy_engine', attempt, elapsed_ms: Date.now() - started, error: error instanceof Error ? error.name : 'unknown' }));
+      if (attempt === 2) throw new AccessError(503, 'SERVICE_UNAVAILABLE');
+    }
+  }
+  if (!response) throw new AccessError(503, 'SERVICE_UNAVAILABLE');
   if (!response.ok) throw new AccessError(503, 'SERVICE_UNAVAILABLE');
   let decision: unknown; try { decision = await response.json(); } catch { throw new AccessError(503, 'SERVICE_UNAVAILABLE'); }
   if (!decision || typeof decision !== 'object' || !('result' in decision) || typeof decision.result !== 'boolean') throw new AccessError(503, 'SERVICE_UNAVAILABLE');
