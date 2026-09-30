@@ -1,0 +1,157 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T09:23:30.450Z",
+  "suite": "sign-in-hydration",
+  "assertions": [
+    {
+      "name": "staff sign-in: before hydration the email field is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "staff sign-in: before hydration the submit button is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "staff sign-in: typed input survives hydration",
+      "result": "PASS",
+      "expected": [
+        "nobody@example.invalid",
+        16
+      ],
+      "actual": [
+        "nobody@example.invalid",
+        16
+      ]
+    },
+    {
+      "name": "staff sign-in: submitting sends the sign-in request",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "staff sign-in: the password never appears in the address",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "Data Principal sign-in: before hydration the email field is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Data Principal sign-in: before hydration the submit button is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Data Principal sign-in: typed input survives hydration",
+      "result": "PASS",
+      "expected": [
+        "nobody@example.invalid",
+        16
+      ],
+      "actual": [
+        "nobody@example.invalid",
+        16
+      ]
+    },
+    {
+      "name": "Data Principal sign-in: submitting sends the sign-in request",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Data Principal sign-in: the password never appears in the address",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "vendor sign-in: before hydration the email field is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "vendor sign-in: before hydration the submit button is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "vendor sign-in: typed input survives hydration",
+      "result": "PASS",
+      "expected": [
+        "nobody@example.invalid",
+        16
+      ],
+      "actual": [
+        "nobody@example.invalid",
+        16
+      ]
+    },
+    {
+      "name": "vendor sign-in: submitting sends the sign-in request",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "vendor sign-in: the password never appears in the address",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "client account sign-in: before hydration the email field is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "client account sign-in: before hydration the submit button is disabled",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "client account sign-in: typed input survives hydration",
+      "result": "PASS",
+      "expected": [
+        "nobody@example.invalid",
+        16
+      ],
+      "actual": [
+        "nobody@example.invalid",
+        16
+      ]
+    },
+    {
+      "name": "client account sign-in: submitting sends the sign-in request",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "client account sign-in: the password never appears in the address",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "passed": 20,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
