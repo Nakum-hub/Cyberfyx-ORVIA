@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, type FormEvent } from 'react';
-import { NoticeBox, TextField } from '../../components/shared/ui.tsx';
+import { NoticeBox, TextField, useHydrated } from '../../components/shared/ui.tsx';
 
 type State = 'OPEN' | 'NO_CODE_ISSUED' | 'LOCKED' | 'EXPIRED' | 'COMPLETED';
 const CLOSED: Record<Exclude<State, 'OPEN'>, { title: string; body: string }> = {
@@ -15,6 +15,7 @@ const CLOSED: Record<Exclude<State, 'OPEN'>, { title: string; body: string }> = 
  * organisation, its owner and its administrator, with passwords of their own.
  */
 export default function FirstRunSetup() {
+  const hydrated = useHydrated();
   const [state, setState] = useState<State | null>(null);
   const [f, setF] = useState({ code: '', org: '', ownerName: '', ownerEmail: '', ownerPassword: '', ownerConfirm: '', adminName: '', adminEmail: '', adminPassword: '', adminConfirm: '' });
   const [busy, setBusy] = useState(false); const [error, setError] = useState<string | null>(null); const [done, setDone] = useState(false);
@@ -64,7 +65,7 @@ export default function FirstRunSetup() {
         <TextField label="Administrator password" type="password" value={f.adminPassword} onChange={set('adminPassword')} required autoComplete="new-password" />
         <TextField label="Confirm administrator password" type="password" value={f.adminConfirm} onChange={set('adminConfirm')} required autoComplete="new-password" />
         {error && <div className="notice notice-stop" role="alert">{error}</div>}
-        <button className="primary" type="submit" disabled={busy}>{busy ? 'Setting up…' : 'Create owner and administrator'}</button>
+        <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Setting up…' : 'Create owner and administrator'}</button>
       </form>
     </>
   );

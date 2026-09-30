@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode } from 'react';
 import { useRequestGuard } from './api.ts';
 import type { Query } from './api.ts';
 import { failureTone, type UiFailure } from './errors.ts';
@@ -235,6 +235,15 @@ type FieldProps = {
   children: (id: string, describedBy: string | undefined) => ReactNode;
 };
 
+const noSubscribe = () => () => undefined;
+/**
+ * False while the page is server-rendered or hydrating, true once React owns it. Form controls stay disabled until
+ * then: a server-rendered controlled input accepts typing before hydration and React then resets it to its state,
+ * silently losing what was typed (seen in WebKit on the sign-in pages), and a submit before hydration would be a
+ * native form submission instead of the page's own handler. Controls mounted after hydration are enabled at once.
+ */
+export function useHydrated() { return useSyncExternalStore(noSubscribe, () => true, () => false); }
+
 export function Field({ label, hint, error, required, children }: FieldProps) {
   const id = useId();
   const hintId = hint ? `${id}-hint` : undefined;
@@ -257,10 +266,11 @@ export function TextField({ label, value, onChange, hint, error, required, type 
   required?: boolean; type?: 'text' | 'email' | 'password'; autoComplete?: string; placeholder?: string;
   inputMode?: 'text' | 'numeric'; maxLength?: number;
 }) {
+  const hydrated = useHydrated();
   return (
     <Field label={label} hint={hint} error={error} required={required}>
       {(id, describedBy) => (
-        <input id={id} type={type} value={value} required={required} autoComplete={autoComplete}
+        <input id={id} type={type} value={value} required={required} autoComplete={autoComplete} disabled={!hydrated}
           placeholder={placeholder} inputMode={inputMode} maxLength={maxLength}
           aria-labelledby={`${id}-label`} aria-describedby={describedBy} aria-invalid={error ? true : undefined}
           onChange={event => onChange(event.target.value)} />
@@ -272,10 +282,11 @@ export function TextField({ label, value, onChange, hint, error, required, type 
 export function TextAreaField({ label, value, onChange, hint, error, required, maxLength }: {
   label: string; value: string; onChange: (value: string) => void; hint?: string; error?: string | null; required?: boolean; maxLength?: number;
 }) {
+  const hydrated = useHydrated();
   return (
     <Field label={label} hint={hint} error={error} required={required}>
       {(id, describedBy) => (
-        <textarea id={id} value={value} required={required} maxLength={maxLength}
+        <textarea id={id} value={value} required={required} maxLength={maxLength} disabled={!hydrated}
           aria-labelledby={`${id}-label`} aria-describedby={describedBy} aria-invalid={error ? true : undefined}
           onChange={event => onChange(event.target.value)} />
       )}
@@ -287,10 +298,11 @@ export function SelectField({ label, value, onChange, options, hint, error, requ
   label: string; value: string; onChange: (value: string) => void;
   options: { value: string; label: string }[]; hint?: string; error?: string | null; required?: boolean;
 }) {
+  const hydrated = useHydrated();
   return (
     <Field label={label} hint={hint} error={error} required={required}>
       {(id, describedBy) => (
-        <select id={id} value={value} required={required} aria-labelledby={`${id}-label`} aria-describedby={describedBy}
+        <select id={id} value={value} required={required} disabled={!hydrated} aria-labelledby={`${id}-label`} aria-describedby={describedBy}
           aria-invalid={error ? true : undefined} onChange={event => onChange(event.target.value)}>
           <option value="">— select —</option>
           {options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
@@ -302,9 +314,10 @@ export function SelectField({ label, value, onChange, options, hint, error, requ
 
 export function CheckboxField({ label, checked, onChange, name }: { label: ReactNode; checked: boolean; onChange: (checked: boolean) => void; name?: string }) {
   const id = useId();
+  const hydrated = useHydrated();
   return (
     <div className="checkbox">
-      <input id={id} name={name} type="checkbox" checked={checked} onChange={event => onChange(event.target.checked)} />
+      <input id={id} name={name} type="checkbox" checked={checked} disabled={!hydrated} onChange={event => onChange(event.target.checked)} />
       <label htmlFor={id}><span>{label}</span></label>
     </div>
   );

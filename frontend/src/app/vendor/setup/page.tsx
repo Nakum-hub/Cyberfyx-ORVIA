@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, type FormEvent } from 'react';
-import { NoticeBox, TextField } from '../../../components/shared/ui.tsx';
+import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
 
 type State = 'OPEN' | 'NO_CODE_ISSUED' | 'LOCKED' | 'EXPIRED' | 'COMPLETED';
 const CLOSED: Record<Exclude<State, 'OPEN'>, { title: string; body: string }> = {
@@ -12,6 +12,7 @@ const CLOSED: Record<Exclude<State, 'OPEN'>, { title: string; body: string }> = 
 
 /** First-run setup of the vendor installation: the holder of the one-time code creates the vendor super administrator and administrator. */
 export default function VendorFirstRun() {
+  const hydrated = useHydrated();
   const [state, setState] = useState<State | null>(null);
   const [f, setF] = useState({ code: '', ownerName: '', ownerEmail: '', ownerPassword: '', adminName: '', adminEmail: '', adminPassword: '' });
   const [busy, setBusy] = useState(false); const [error, setError] = useState<string | null>(null); const [done, setDone] = useState(false);
@@ -46,7 +47,7 @@ export default function VendorFirstRun() {
       <TextField label="Administrator email" type="email" value={f.adminEmail} onChange={set('adminEmail')} required autoComplete="off" />
       <TextField label="Administrator password" type="password" value={f.adminPassword} onChange={set('adminPassword')} required autoComplete="new-password" />
       {error && <div className="notice notice-stop" role="alert">{error}</div>}
-      <button className="primary" type="submit" disabled={busy}>{busy ? 'Setting up…' : 'Create vendor logins'}</button>
+      <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Setting up…' : 'Create vendor logins'}</button>
     </form>
   </>;
 }

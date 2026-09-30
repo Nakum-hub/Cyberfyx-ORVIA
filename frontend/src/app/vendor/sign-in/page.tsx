@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { vendorAuthClient, accountAuthClient } from '@orvia/auth/client';
-import { NoticeBox, TextField } from '../../../components/shared/ui.tsx';
+import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
 import { useVendorSession, VENDOR_ROLE_LABELS } from '../../../components/vendor/vendor.tsx';
 
 /**
@@ -12,6 +12,7 @@ import { useVendorSession, VENDOR_ROLE_LABELS } from '../../../components/vendor
  * organisation's vendor-account login, which can only upload audit packages.
  */
 export default function VendorSignIn() {
+  const hydrated = useHydrated();
   const { session, status, reload } = useVendorSession();
   const [client, setClient] = useState(false);
   useEffect(() => { setClient(new URLSearchParams(globalThis.location.search).get('account') === 'client'); }, []);
@@ -65,7 +66,7 @@ export default function VendorSignIn() {
       {step === 'enroll' ? <><h3>Set up your authenticator</h3>{!enrollment ? <TextField label="Current password for authenticator set-up" type="password" value={password} onChange={setPassword} required autoComplete="current-password" /> : <><p>Add this to your authenticator app, then enter the code it shows. Keep the recovery codes private.</p><details><summary>Show authenticator set-up and recovery codes</summary><code style={{ overflowWrap: 'anywhere' }}>{enrollment.totpURI}</code><ul>{enrollment.backupCodes.map(c => <li key={c}><code>{c}</code></li>)}</ul></details></>}</> : null}
       {step === 'challenge' || enrollment ? <TextField label="Authenticator code" value={code} onChange={setCode} required autoComplete="one-time-code" inputMode="numeric" maxLength={6} /> : null}
       {error ? <div className="notice notice-stop" role="alert">{error}</div> : null}
-      <button className="primary" type="submit" disabled={busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
+      <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
     </form>
     <p className="meta">New vendor installation? <a href="/vendor/setup">First-run setup</a></p>
   </>;

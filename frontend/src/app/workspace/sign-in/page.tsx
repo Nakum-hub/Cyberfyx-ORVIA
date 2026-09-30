@@ -4,9 +4,10 @@ import { staffAuthClient } from '@orvia/auth/client';
 import { describeFailure } from '../../../components/shared/errors.ts';
 import { call } from '../../../components/shared/api.ts';
 import { useSession } from '../../../components/shared/session-context.tsx';
-import { NoticeBox, TextField } from '../../../components/shared/ui.tsx';
+import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
 
 export default function StaffSignIn() {
+  const hydrated = useHydrated();
   const { session, reload } = useSession();
   const [email,setEmail] = useState(''); const [password,setPassword] = useState('');
   const [code,setCode] = useState(''); const [step,setStep] = useState<'password'|'challenge'|'replace'|'enroll'>('password');
@@ -57,7 +58,7 @@ export default function StaffSignIn() {
       {step === 'enroll' ? <><h3>Set up privileged MFA</h3><p>Password authentication alone does not authorize workspace access.</p>{!enrollment ? <TextField label="Current password for enrollment" type="password" value={password} onChange={setPassword} required autoComplete="current-password" /> : <><p>Open this local URI in your authenticator. Keep recovery codes private; this page clears them after verification.</p><details><summary>Show my authenticator enrollment and recovery codes</summary><code style={{overflowWrap:'anywhere'}}>{enrollment.totpURI}</code><ul>{enrollment.backupCodes.map(c => <li key={c}><code>{c}</code></li>)}</ul></details></>}</> : null}
       {step === 'challenge' || enrollment ? <TextField label="Authenticator code" value={code} onChange={setCode} required autoComplete="one-time-code" inputMode="numeric" maxLength={6} /> : null}
       {error ? <div className="notice notice-stop" role="alert">{error}</div> : null}
-      <button className="primary" type="submit" disabled={busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
+      <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
       <button type="button" onClick={reload} disabled={busy}>Check my session</button>
     </form></>;
 }
