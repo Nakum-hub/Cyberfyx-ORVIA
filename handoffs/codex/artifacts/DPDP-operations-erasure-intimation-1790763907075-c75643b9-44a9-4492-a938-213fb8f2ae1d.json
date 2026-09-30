@@ -1,0 +1,35 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T10:25:07.076Z",
+  "suite": "erasure-intimation",
+  "assertions": [
+    {
+      "name": "without an intimation nobody under the Third Schedule rule is scheduled",
+      "result": "FAIL",
+      "expected": [
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED",
+        "UNRESOLVED"
+      ],
+      "actual": [
+        "SCHEDULED",
+        "SCHEDULED",
+        "SCHEDULED",
+        "SCHEDULED"
+      ]
+    },
+    {
+      "name": "unexpected failure in no intimation yet",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: without an intimation nobody under the Third Schedule rule is scheduled"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -87,6 +87,11 @@ export const operationsRoutes: Route[] = [
   list('list_retention_holds', '/retention-holds', 'RetentionHoldList', 'registry.read', 'RetentionHoldQuery'),
   write('create_retention_hold', '/retention-holds', 'RetentionHoldCreate', 'RetentionHold', 'registry.write'),
   write('release_retention_hold', '/retention-holds/{id}/release', 'RetentionHoldRelease', 'RetentionHold', 'operations.approve', 200),
+  // Rule 8(2): 48-hour intimation before Third Schedule erasure (0.47.0)
+  list('list_erasure_intimations_due', '/erasure-intimations/due', 'ErasureIntimationDueList', 'registry.read'),
+  list('list_erasure_intimations', '/erasure-intimations', 'ErasureIntimationList', 'registry.read', 'ErasureIntimationQuery'),
+  write('record_erasure_intimation', '/erasure-intimations', 'ErasureIntimationRecord', 'ErasureIntimation', 'registry.write'),
+  write('record_erasure_re_engagement', '/erasure-intimations/{id}/re-engagement', 'ErasureReEngagement', 'ErasureIntimation', 'registry.write', 200),
   // Connectors
   list('list_connector_bindings', '/connector-bindings', 'ConnectorBindingList', 'registry.read'),
   write('bind_connector', '/connector-bindings', 'ConnectorBindingCreate', 'ConnectorBinding', 'registry.write'),

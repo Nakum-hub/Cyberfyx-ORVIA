@@ -12,7 +12,7 @@ test('every DPDP baseline requirement has indicators or is procedure-only, never
   assert.deepEqual(baseline.filter(r => !withIndicators.includes(r) && !procedureOnly.includes(r)), []);
   assert.deepEqual(withIndicators.filter(r => procedureOnly.includes(r)), []);
   assert.deepEqual(withIndicators.filter(r => !baseline.includes(r)), [], 'an indicator names a requirement the baseline does not have');
-  assert.equal(withIndicators.length, 30);
+  assert.equal(withIndicators.length, 31);
 });
 
 test('each requirement has at most 10 indicators with unique, contract-valid keys', () => {

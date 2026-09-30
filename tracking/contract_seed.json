@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.46.0",
+  "contract_version": "0.47.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -2893,6 +2893,50 @@
       "status": 200,
       "idempotency": true,
       "capability": "operations.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_erasure_intimations_due",
+      "method": "get",
+      "path": "/api/v1/admin/erasure-intimations/due",
+      "authority": "STAFF",
+      "response": "ErasureIntimationDueList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.read"
+    },
+    {
+      "id": "list_erasure_intimations",
+      "method": "get",
+      "path": "/api/v1/admin/erasure-intimations",
+      "authority": "STAFF",
+      "response": "ErasureIntimationList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.read",
+      "query": "ErasureIntimationQuery"
+    },
+    {
+      "id": "record_erasure_intimation",
+      "method": "post",
+      "path": "/api/v1/admin/erasure-intimations",
+      "authority": "STAFF",
+      "request": "ErasureIntimationRecord",
+      "response": "ErasureIntimation",
+      "status": 201,
+      "idempotency": true,
+      "capability": "registry.write"
+    },
+    {
+      "id": "record_erasure_re_engagement",
+      "method": "post",
+      "path": "/api/v1/admin/erasure-intimations/{id}/re-engagement",
+      "authority": "STAFF",
+      "request": "ErasureReEngagement",
+      "response": "ErasureIntimation",
+      "status": 200,
+      "idempotency": true,
+      "capability": "registry.write",
       "params": "IdPath"
     },
     {

@@ -167,6 +167,8 @@ const onTeamAs = async (c: Ctx, id: string, person: string, role: string) => (aw
 export async function prepareAcceptance(c: Ctx, id: string, input: unknown) {
   const v = P.AcceptancePrepare.parse(input); const e = await engagementRow(c, id);
   if (e.state === 'CLOSED') refuse(409, 'engagement', 'closed');
+  // Decision D1 (docs/audit-practice/DECISIONS.md): the statutory SDF audit is not offered; migration 0015 enforces it too.
+  if (v.service_type === 'STATUTORY_SDF_AUDIT_CLAIM') refuse(409, 'service_type', 'statutory_sdf_audit_not_offered');
   if (!e.criteria_version_id || !e.methodology_id) refuse(409, 'engagement', 'configure_criteria_and_methodology_first');
   const t = clean({ objectives: v.objectives, intended_users: v.intended_users, client_responsibilities: v.client_responsibilities, auditor_responsibilities: v.auditor_responsibilities, confidentiality: v.confidentiality,
     evidence_handling: v.evidence_handling, scope_restrictions: v.scope_restrictions, competence: v.competence, sdf_applicability_basis: v.sdf_applicability_basis, eligibility_evidence: v.eligibility_evidence }).value;

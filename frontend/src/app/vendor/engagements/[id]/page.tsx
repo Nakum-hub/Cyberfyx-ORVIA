@@ -109,7 +109,9 @@ type Ctx = { id: string; e: Engagement; file: File; practice: Practice | null; i
 const nameOf = (c: Ctx, id: string | null | undefined) => id ? (c.e.team.find(t => t.user_id === id)?.name ?? c.members.find(m => m.user_id === id)?.name ?? short(id)) : '—';
 
 // ---------------------------------------------------------------- Overview: engagement, team, acceptance, conflicts, independence
-const SERVICE: Record<string, string> = { READINESS_ADVISORY: 'Readiness / advisory (no audit opinion)', EVIDENCE_AUDIT: 'Evidence-based audit', STATUTORY_SDF_AUDIT_CLAIM: 'Statutory SDF audit claim (needs validated applicability and eligibility)' };
+const SERVICE: Record<string, string> = { READINESS_ADVISORY: 'Readiness / advisory (no audit opinion)', EVIDENCE_AUDIT: 'Evidence-based audit', STATUTORY_SDF_AUDIT_CLAIM: 'Statutory SDF audit (not offered: decision D1)' };
+// Decision D1: the statutory SDF audit is shown for acceptances recorded earlier but can no longer be chosen.
+const OFFERED = ['READINESS_ADVISORY', 'EVIDENCE_AUDIT'];
 function Overview({ c }: { c: Ctx }) {
   const { id, e, file, action: { busy, run } } = c;
   const [team, setTeam] = useState({ user_id: '', engagement_role: '' }); const [pa, setPa] = useState('');
@@ -156,7 +158,7 @@ function Overview({ c }: { c: Ctx }) {
           <SelectField label="Implementation owner (optional)" value={conf.implementation_owner_id} onChange={v => setConf(x => ({ ...x, implementation_owner_id: v }))} options={[{ value: '', label: 'None' }, ...staff]} /></Act>
         <Act label="Prepare acceptance" submit="Prepare acceptance" busy={busy} disabled={!acc.licence_independence} onRun={() => void run(() => vendorCall(`/engagements/${id}/acceptance`, { ...acc, scope_restrictions: acc.scope_restrictions.trim() || null,
           sdf_applicability_basis: acc.sdf_applicability_basis.trim() || null, eligibility_evidence: acc.eligibility_evidence.trim() || null, licence_independence: true }), 'Acceptance prepared; an audit reviewer decides it.')}>
-          <SelectField label="Service type" value={acc.service_type} onChange={v => setAcc(x => ({ ...x, service_type: v }))} options={Object.entries(SERVICE).map(([value, label]) => ({ value, label }))} required />
+          <SelectField label="Service type" value={acc.service_type} onChange={v => setAcc(x => ({ ...x, service_type: v }))} options={OFFERED.map(value => ({ value, label: SERVICE[value]! }))} required />
           {(['objectives', 'intended_users', 'client_responsibilities', 'auditor_responsibilities', 'confidentiality', 'evidence_handling', 'competence'] as const).map(k => <TextAreaField key={k} label={words(k).replace(/^./, s => s.toUpperCase())} value={acc[k]} onChange={v => setAcc(x => ({ ...x, [k]: v }))} required />)}
           <TextAreaField label="Scope restrictions (optional)" value={acc.scope_restrictions} onChange={v => setAcc(x => ({ ...x, scope_restrictions: v }))} />
           {acc.service_type === 'STATUTORY_SDF_AUDIT_CLAIM' && <><TextAreaField label="Significant Data Fiduciary applicability basis" value={acc.sdf_applicability_basis} onChange={v => setAcc(x => ({ ...x, sdf_applicability_basis: v }))} required hint="The notification or determination relied on, with its source. ORVIA does not infer SDF status." />

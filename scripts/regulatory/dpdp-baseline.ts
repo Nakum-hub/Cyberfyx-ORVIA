@@ -215,5 +215,4 @@ export const conditionVocabulary = [
 export const openVerificationItems = [
   'The Third Schedule periods and the Fourth Schedule child-data exemptions are not encoded as executable durations or exemptions; a customer rule or exemption must cite them explicitly.',
   'Rule 11 (lawful guardian of a person with disability) is not yet a separate provision because no applicability fact records disability.',
-  'Rule 8(2) (48-hour intimation before erasure) is encoded as a requirement; the operational pre-erasure intimation step is not yet built in the retention runner (docs/regulatory/DPDP_CONFORMANCE.md).',
 ];

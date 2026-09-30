@@ -130,7 +130,7 @@ Rules:
 | DPDP-BREACH-BOARD-REPORT | R7(2)(b) | 72-hour timer met, missed and open | Inspect the detailed report and when it was submitted | Report later than 72 hours without an extension |
 | DPDP-ERASURE-PURPOSE-SERVED | s.8(7) | Erasure runs; active rules; outcomes failed or unknown | Seeded sample of erasures: reperform the check in the target system in a remote session | Data kept after the purpose ended |
 | DPDP-RETENTION-THIRD-SCHEDULE | s.8(8), R8(1) | Retention rules citing the Third Schedule | Confirm whether the organisation is in a Third Schedule class; inspect the rule period against it | Class applies, rule missing |
-| DPDP-ERASURE-ADVANCE-NOTICE | R8(2) | None: the 48-hour intimation is not built in ORVIA | Inquiry and walkthrough of the organisation's own process | No 48-hour intimation |
+| DPDP-ERASURE-ADVANCE-NOTICE | R8(2) | Intimations recorded; people who re-engaged; intimations overdue. ORVIA blocks Third Schedule erasure until an intimation was recorded 48 hours earlier. | Seeded sample of intimations: inspect the message and its timing against the erasure date in a remote session | Erasure without a 48-hour intimation |
 | DPDP-LOG-RETENTION-MINIMUM | R8(3) | Active log-retention holds; activity-log digest chain | Inspect log retention settings for in-scope systems outside ORVIA | Logs kept less than one year |
 | DPDP-CONTACT-PUBLICATION | s.8(9), R9 | Contact recorded in the current profile (1 = yes); published notices | External test: find the contact on the website and app; send a question and time the answer | Contact not published or not answered |
 | DPDP-GRIEVANCE-RESPONSE | s.8(10), s.13, R14 | Grievances open; open over 90 days | Seeded sample of closed grievances: response inside the published period. External test: file a synthetic grievance. | Response later than the published period |
@@ -220,5 +220,5 @@ The reviewer is independent under section 2 and never a commercial or implementa
 ## 12. What this methodology does not cover yet
 
 - Statutory SDF audits: not offered (section 1). ORVIA has no Board reporting path, and none is planned while that decision stands.
-- Consent Manager support in ORVIA (the Data Fiduciary's duty under s.6(7)–(8) is in force from 13 May 2027) and the R8(2) 48-hour intimation: tested only by auditor procedure until ORVIA supports them.
+- Consent Manager support in ORVIA (the Data Fiduciary's duty under s.6(7)–(8) is in force from 13 May 2027): tested only by auditor procedure until ORVIA supports it.
 - Official texts: the criteria used for real engagements must be the **production** criteria built from the official gazette PDFs, retrieved and hashed. Until then, ORVIA refuses real engagements.

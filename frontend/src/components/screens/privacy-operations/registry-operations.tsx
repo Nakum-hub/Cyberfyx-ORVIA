@@ -68,6 +68,7 @@ export function RegistryRetention() {
           )}
         </QueryBoundary>
       </Section>
+      <ErasureIntimations />
       <RetentionForms onSaved={() => { rules.refresh(); holds.refresh(); }} />
     </>
   );
@@ -181,6 +182,49 @@ const DISPOSITION_TEXT: Record<string, { label: string; tone: 'ok' | 'warn' | 'n
   VERIFIED: { label: 'Verified', tone: 'ok', meaning: 'Independent audit evidence or a target check confirmed it.' },
   UNKNOWN: { label: 'Unknown', tone: 'unknown', meaning: 'The outcome is not known.' },
 };
+
+/**
+ * Rule 8(2): at least 48 hours before Third Schedule erasure, the Data Principal is told it will happen unless she logs in or
+ * makes contact. A person under a rule citing the Third Schedule is scheduled for erasure only after an intimation recorded here
+ * at least 48 hours earlier, and never after she re-engaged. ORVIA records the intimation and its evidence; it does not send it.
+ */
+function ErasureIntimations() {
+  const due = usePagedQuery('list_erasure_intimations_due', { limit: 50 });
+  const record = useMutation('record_erasure_intimation', true);
+  const reEngage = useMutation('record_erasure_re_engagement', true);
+  const [form, setForm] = useState<Record<string, { channel: string; evidence: string }>>({});
+  const key = (r: { subject_id: string; rule_id: string }) => `${r.subject_id}:${r.rule_id}`;
+  return (
+    <Section title="Erasure intimations (Rule 8(2))">
+      <p className="muted">For rules citing the Third Schedule: the person must be told at least 48 hours before erasure. Erasure waits for a recorded intimation, and is cancelled if they log in or make contact afterwards.</p>
+      <Freshness query={due} />
+      <QueryBoundary query={due} label="erasure intimations" isEmpty={data => !data.items.length}>
+        {data => (
+          <>
+            <DataTable caption="Intimations before Third Schedule erasure" rows={data.items} rowKey={key}
+              columns={[
+                { key: 'who', header: 'Person', cell: r => <span className="cell-primary">{shortId(r.subject_id)}<span className="cell-sub">{r.rule_name}</span></span> },
+                { key: 'due', header: 'Erasure due', cell: r => formatTime(r.erasure_due_at) },
+                { key: 'by', header: 'Tell by', cell: r => <>{formatTime(r.intimate_by)}{r.overdue && <> <Badge label="Intimation overdue" tone="warn" meaning="The 48-hour point has passed without a recorded intimation; erasure waits." /></>}</> },
+                { key: 'told', header: 'Intimation', cell: r => r.intimation_id ? <>Recorded {formatTime(r.intimated_at!)} <button type="button" disabled={reEngage.status === 'pending'} onClick={async () => { reEngage.newInteraction(); if (await reEngage.run({ re_engaged_at: new Date().toISOString(), basis: 'INITIATED_CONTACT' }, { params: { id: r.intimation_id! } })) due.refresh(); }}>They made contact</button></>
+                  : <span className="row">
+                      <select aria-label="Intimation channel" value={form[key(r)]?.channel ?? 'EMAIL'} onChange={e => setForm({ ...form, [key(r)]: { channel: e.target.value, evidence: form[key(r)]?.evidence ?? '' } })}>
+                        {['EMAIL', 'SMS', 'USER_ACCOUNT', 'POSTAL', 'OTHER'].map(c => <option key={c} value={c}>{c.replaceAll('_', ' ').toLowerCase()}</option>)}
+                      </select>
+                      <input aria-label="Intimation evidence" placeholder="Message or delivery reference" value={form[key(r)]?.evidence ?? ''} maxLength={500} onChange={e => setForm({ ...form, [key(r)]: { channel: form[key(r)]?.channel ?? 'EMAIL', evidence: e.target.value } })} />
+                      <button type="button" disabled={(form[key(r)]?.evidence ?? '').trim().length < 3 || record.status === 'pending'} onClick={async () => { record.newInteraction();
+                        if (await record.run({ subject_id: r.subject_id, rule_id: r.rule_id, intimated_at: new Date().toISOString(), channel: (form[key(r)]?.channel ?? 'EMAIL') as 'EMAIL', evidence_reference: form[key(r)]!.evidence.trim() })) due.refresh(); }}>Record intimation sent</button>
+                    </span> },
+              ]} />
+            {record.failure && <FailureState failure={record.failure} />}
+            {reEngage.failure && <FailureState failure={reEngage.failure} />}
+            <Pagination query={due} />
+          </>
+        )}
+      </QueryBoundary>
+    </Section>
+  );
+}
 
 export function ProcessorEngagements() {
   const engagements = usePagedQuery('list_processor_engagements', { limit: 50 });

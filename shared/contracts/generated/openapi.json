@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.46.0",
-    "description": "Contract 0.46.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.47.0",
+    "description": "Contract 0.47.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/api/v1/admin/grc/audit-requests/{id}/responses": {
@@ -51687,6 +51687,772 @@
         }
       }
     },
+    "/api/v1/admin/erasure-intimations/due": {
+      "get": {
+        "operationId": "list_erasure_intimations_due",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasureIntimationDueList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "registry.read",
+        "x-orvia-implementation": "IMPLEMENTED_DPDP_OPERATIONS_PENDING_REVIEW"
+      }
+    },
+    "/api/v1/admin/erasure-intimations": {
+      "get": {
+        "operationId": "list_erasure_intimations",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject_id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasureIntimationList"
+                },
+                "example": {
+                  "items": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "registry.read",
+        "x-orvia-implementation": "IMPLEMENTED_DPDP_OPERATIONS_PENDING_REVIEW"
+      },
+      "post": {
+        "operationId": "record_erasure_intimation",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasureIntimation"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000001fc",
+                  "subject_id": "00000000-0000-4000-8000-0000000001fd",
+                  "rule_id": "00000000-0000-4000-8000-0000000001fe",
+                  "erasure_due_at": "2026-09-16T10:00:00.000Z",
+                  "intimated_at": "2026-09-16T10:00:00.000Z",
+                  "channel": "USER_ACCOUNT",
+                  "evidence_reference": "Synthetic example",
+                  "erasable_from": "2026-09-16T10:00:00.000Z",
+                  "re_engaged_at": null,
+                  "re_engagement_basis": null,
+                  "recorded_at": "2026-09-16T10:00:00.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-maximum-body-bytes": 16384,
+        "x-orvia-capability": "registry.write",
+        "x-orvia-implementation": "IMPLEMENTED_DPDP_OPERATIONS_PENDING_REVIEW",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErasureIntimationRecord"
+              },
+              "example": {
+                "subject_id": "00000000-0000-4000-8000-0000000001fa",
+                "rule_id": "00000000-0000-4000-8000-0000000001fb",
+                "intimated_at": "2026-09-16T10:00:00.000Z",
+                "channel": "USER_ACCOUNT",
+                "evidence_reference": "Synthetic example"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/erasure-intimations/{id}/re-engagement": {
+      "post": {
+        "operationId": "record_erasure_re_engagement",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasureIntimation"
+                },
+                "example": {
+                  "id": "00000000-0000-4000-8000-0000000001ff",
+                  "subject_id": "00000000-0000-4000-8000-000000000200",
+                  "rule_id": "00000000-0000-4000-8000-000000000201",
+                  "erasure_due_at": "2026-09-16T10:00:00.000Z",
+                  "intimated_at": "2026-09-16T10:00:00.000Z",
+                  "channel": "USER_ACCOUNT",
+                  "evidence_reference": "Synthetic example",
+                  "erasable_from": "2026-09-16T10:00:00.000Z",
+                  "re_engaged_at": null,
+                  "re_engagement_basis": null,
+                  "recorded_at": "2026-09-16T10:00:00.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-maximum-body-bytes": 16384,
+        "x-orvia-capability": "registry.write",
+        "x-orvia-implementation": "IMPLEMENTED_DPDP_OPERATIONS_PENDING_REVIEW",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErasureReEngagement"
+              },
+              "example": {
+                "re_engaged_at": "2026-09-16T10:00:00.000Z",
+                "basis": "LOGGED_IN"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/connector-bindings": {
       "get": {
         "operationId": "list_connector_bindings",
@@ -51896,8 +52662,8 @@
                   "$ref": "#/components/schemas/ConnectorBinding"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-0000000001fb",
-                  "system_id": "00000000-0000-4000-8000-0000000001fc",
+                  "id": "00000000-0000-4000-8000-000000000203",
+                  "system_id": "00000000-0000-4000-8000-000000000204",
                   "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
                   "capabilities": {
                     "adapter_kind": "TEST_ADAPTER",
@@ -52065,7 +52831,7 @@
                 "$ref": "#/components/schemas/ConnectorBindingCreate"
               },
               "example": {
-                "system_id": "00000000-0000-4000-8000-0000000001fa",
+                "system_id": "00000000-0000-4000-8000-000000000202",
                 "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
                 "system_of_record_for": [],
                 "holds_data_categories": []
@@ -52319,12 +53085,12 @@
                   "$ref": "#/components/schemas/WorkflowRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-0000000001fd",
+                  "id": "00000000-0000-4000-8000-000000000205",
                   "kind": "CONSENT_WITHDRAWAL",
                   "status": "EVALUATING",
                   "workflow_version": "1.0.0",
                   "package": {
-                    "id": "00000000-0000-4000-8000-0000000001fe",
+                    "id": "00000000-0000-4000-8000-000000000206",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -52355,7 +53121,7 @@
                   "preview": null,
                   "block_reason": null,
                   "created_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-0000000001ff",
+                  "created_by": "00000000-0000-4000-8000-000000000207",
                   "started_at": null,
                   "ended_at": null,
                   "open_exceptions": []
@@ -52735,12 +53501,12 @@
                   "$ref": "#/components/schemas/WorkflowRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000202",
+                  "id": "00000000-0000-4000-8000-00000000020a",
                   "kind": "CONSENT_WITHDRAWAL",
                   "status": "EVALUATING",
                   "workflow_version": "1.0.0",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000203",
+                    "id": "00000000-0000-4000-8000-00000000020b",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -52771,7 +53537,7 @@
                   "preview": null,
                   "block_reason": null,
                   "created_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-000000000204",
+                  "created_by": "00000000-0000-4000-8000-00000000020c",
                   "started_at": null,
                   "ended_at": null,
                   "open_exceptions": []
@@ -52918,8 +53684,8 @@
                 "$ref": "#/components/schemas/RightsRunCreate"
               },
               "example": {
-                "rights_request_id": "00000000-0000-4000-8000-000000000200",
-                "subject_id": "00000000-0000-4000-8000-000000000201",
+                "rights_request_id": "00000000-0000-4000-8000-000000000208",
+                "subject_id": "00000000-0000-4000-8000-000000000209",
                 "corrections": []
               }
             }
@@ -52960,12 +53726,12 @@
                   "$ref": "#/components/schemas/WorkflowRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000206",
+                  "id": "00000000-0000-4000-8000-00000000020e",
                   "kind": "CONSENT_WITHDRAWAL",
                   "status": "EVALUATING",
                   "workflow_version": "1.0.0",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000207",
+                    "id": "00000000-0000-4000-8000-00000000020f",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -52996,7 +53762,7 @@
                   "preview": null,
                   "block_reason": null,
                   "created_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-000000000208",
+                  "created_by": "00000000-0000-4000-8000-000000000210",
                   "started_at": null,
                   "ended_at": null,
                   "open_exceptions": []
@@ -53143,7 +53909,7 @@
                 "$ref": "#/components/schemas/RetentionRunCreate"
               },
               "example": {
-                "retention_rule_id": "00000000-0000-4000-8000-000000000205"
+                "retention_rule_id": "00000000-0000-4000-8000-00000000020d"
               }
             }
           }
@@ -53192,12 +53958,12 @@
                   "$ref": "#/components/schemas/WorkflowRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000209",
+                  "id": "00000000-0000-4000-8000-000000000211",
                   "kind": "CONSENT_WITHDRAWAL",
                   "status": "EVALUATING",
                   "workflow_version": "1.0.0",
                   "package": {
-                    "id": "00000000-0000-4000-8000-00000000020a",
+                    "id": "00000000-0000-4000-8000-000000000212",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -53228,7 +53994,7 @@
                   "preview": null,
                   "block_reason": null,
                   "created_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-00000000020b",
+                  "created_by": "00000000-0000-4000-8000-000000000213",
                   "started_at": null,
                   "ended_at": null,
                   "open_exceptions": []
@@ -53424,12 +54190,12 @@
                   "$ref": "#/components/schemas/WorkflowRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000020c",
+                  "id": "00000000-0000-4000-8000-000000000214",
                   "kind": "CONSENT_WITHDRAWAL",
                   "status": "EVALUATING",
                   "workflow_version": "1.0.0",
                   "package": {
-                    "id": "00000000-0000-4000-8000-00000000020d",
+                    "id": "00000000-0000-4000-8000-000000000215",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -53460,7 +54226,7 @@
                   "preview": null,
                   "block_reason": null,
                   "created_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-00000000020e",
+                  "created_by": "00000000-0000-4000-8000-000000000216",
                   "started_at": null,
                   "ended_at": null,
                   "open_exceptions": []
@@ -53658,12 +54424,12 @@
                   "$ref": "#/components/schemas/WorkflowRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000020f",
+                  "id": "00000000-0000-4000-8000-000000000217",
                   "kind": "CONSENT_WITHDRAWAL",
                   "status": "EVALUATING",
                   "workflow_version": "1.0.0",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000210",
+                    "id": "00000000-0000-4000-8000-000000000218",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -53694,7 +54460,7 @@
                   "preview": null,
                   "block_reason": null,
                   "created_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-000000000211",
+                  "created_by": "00000000-0000-4000-8000-000000000219",
                   "started_at": null,
                   "ended_at": null,
                   "open_exceptions": []
@@ -53890,12 +54656,12 @@
                   "$ref": "#/components/schemas/WorkflowRun"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000212",
+                  "id": "00000000-0000-4000-8000-00000000021a",
                   "kind": "CONSENT_WITHDRAWAL",
                   "status": "EVALUATING",
                   "workflow_version": "1.0.0",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000213",
+                    "id": "00000000-0000-4000-8000-00000000021b",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -53926,7 +54692,7 @@
                   "preview": null,
                   "block_reason": null,
                   "created_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-000000000214",
+                  "created_by": "00000000-0000-4000-8000-00000000021c",
                   "started_at": null,
                   "ended_at": null,
                   "open_exceptions": []
@@ -54114,12 +54880,12 @@
                   "package_kind": "ORVIA_WORKFLOW_EVIDENCE_PACKAGE",
                   "generated_at": "2026-09-16T10:00:00.000Z",
                   "run": {
-                    "id": "00000000-0000-4000-8000-000000000215",
+                    "id": "00000000-0000-4000-8000-00000000021d",
                     "kind": "CONSENT_WITHDRAWAL",
                     "status": "EVALUATING",
                     "workflow_version": "1.0.0",
                     "package": {
-                      "id": "00000000-0000-4000-8000-000000000216",
+                      "id": "00000000-0000-4000-8000-00000000021e",
                       "version": "1.0.0",
                       "distribution": "PRODUCTION"
                     },
@@ -54150,13 +54916,13 @@
                     "preview": null,
                     "block_reason": null,
                     "created_at": "2026-09-16T10:00:00.000Z",
-                    "created_by": "00000000-0000-4000-8000-000000000217",
+                    "created_by": "00000000-0000-4000-8000-00000000021f",
                     "started_at": null,
                     "ended_at": null,
                     "open_exceptions": []
                   },
                   "regulatory_package": {
-                    "id": "00000000-0000-4000-8000-000000000218",
+                    "id": "00000000-0000-4000-8000-000000000220",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION",
                     "package_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -54893,7 +55659,7 @@
                   "$ref": "#/components/schemas/BulkJob"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000219",
+                  "id": "00000000-0000-4000-8000-000000000221",
                   "kind": "ESTATE_IMPORT",
                   "source_label": "Synthetic example",
                   "mapping_version": "Synthetic example",
@@ -55091,7 +55857,7 @@
                   "$ref": "#/components/schemas/BulkJob"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000021a",
+                  "id": "00000000-0000-4000-8000-000000000222",
                   "kind": "ESTATE_IMPORT",
                   "source_label": "Synthetic example",
                   "mapping_version": "Synthetic example",
@@ -55285,7 +56051,7 @@
                   "$ref": "#/components/schemas/BulkJob"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000021b",
+                  "id": "00000000-0000-4000-8000-000000000223",
                   "kind": "ESTATE_IMPORT",
                   "source_label": "Synthetic example",
                   "mapping_version": "Synthetic example",
@@ -55508,7 +56274,7 @@
                   "$ref": "#/components/schemas/BulkJob"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000021c",
+                  "id": "00000000-0000-4000-8000-000000000224",
                   "kind": "ESTATE_IMPORT",
                   "source_label": "Synthetic example",
                   "mapping_version": "Synthetic example",
@@ -55716,7 +56482,7 @@
                   "$ref": "#/components/schemas/BulkJob"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000021d",
+                  "id": "00000000-0000-4000-8000-000000000225",
                   "kind": "ESTATE_IMPORT",
                   "source_label": "Synthetic example",
                   "mapping_version": "Synthetic example",
@@ -56077,9 +56843,9 @@
                   "$ref": "#/components/schemas/Breach"
                 },
                 "example": {
-                  "incident_id": "00000000-0000-4000-8000-00000000021f",
+                  "incident_id": "00000000-0000-4000-8000-000000000227",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000220",
+                    "id": "00000000-0000-4000-8000-000000000228",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -56246,7 +57012,7 @@
                 "$ref": "#/components/schemas/BreachRegister"
               },
               "example": {
-                "incident_id": "00000000-0000-4000-8000-00000000021e",
+                "incident_id": "00000000-0000-4000-8000-000000000226",
                 "affected_count": null,
                 "affected_count_state": "UNKNOWN",
                 "data_category_ids": [],
@@ -56298,9 +57064,9 @@
                   "$ref": "#/components/schemas/Breach"
                 },
                 "example": {
-                  "incident_id": "00000000-0000-4000-8000-000000000221",
+                  "incident_id": "00000000-0000-4000-8000-000000000229",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000222",
+                    "id": "00000000-0000-4000-8000-00000000022a",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -56502,9 +57268,9 @@
                   "$ref": "#/components/schemas/Breach"
                 },
                 "example": {
-                  "incident_id": "00000000-0000-4000-8000-000000000223",
+                  "incident_id": "00000000-0000-4000-8000-00000000022b",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000224",
+                    "id": "00000000-0000-4000-8000-00000000022c",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -56729,9 +57495,9 @@
                   "$ref": "#/components/schemas/Breach"
                 },
                 "example": {
-                  "incident_id": "00000000-0000-4000-8000-000000000225",
+                  "incident_id": "00000000-0000-4000-8000-00000000022d",
                   "package": {
-                    "id": "00000000-0000-4000-8000-000000000226",
+                    "id": "00000000-0000-4000-8000-00000000022e",
                     "version": "1.0.0",
                     "distribution": "PRODUCTION"
                   },
@@ -57126,7 +57892,7 @@
                   "$ref": "#/components/schemas/CaseProfile"
                 },
                 "example": {
-                  "rights_request_id": "00000000-0000-4000-8000-000000000227",
+                  "rights_request_id": "00000000-0000-4000-8000-00000000022f",
                   "right_type": "Synthetic example",
                   "received_at": "2026-09-16T10:00:00.000Z",
                   "package": null,
@@ -57317,7 +58083,7 @@
                   "$ref": "#/components/schemas/CaseProfile"
                 },
                 "example": {
-                  "rights_request_id": "00000000-0000-4000-8000-000000000228",
+                  "rights_request_id": "00000000-0000-4000-8000-000000000230",
                   "right_type": "Synthetic example",
                   "received_at": "2026-09-16T10:00:00.000Z",
                   "package": null,
@@ -61714,8 +62480,8 @@
                   "$ref": "#/components/schemas/Agreement"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000229",
-                  "processor_id": "00000000-0000-4000-8000-00000000022a",
+                  "id": "00000000-0000-4000-8000-000000000231",
+                  "processor_id": "00000000-0000-4000-8000-000000000232",
                   "kind": "DPA",
                   "reference": "Synthetic example",
                   "signed_at": "2026-09-16T10:00:00.000Z",
@@ -61732,7 +62498,7 @@
                   "termination_reason": null,
                   "in_force": false,
                   "superseded": false,
-                  "recorded_by": "00000000-0000-4000-8000-00000000022b",
+                  "recorded_by": "00000000-0000-4000-8000-000000000233",
                   "recorded_at": "2026-09-16T10:00:00.000Z"
                 }
               }
@@ -61940,8 +62706,8 @@
                   "$ref": "#/components/schemas/Agreement"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000022c",
-                  "processor_id": "00000000-0000-4000-8000-00000000022d",
+                  "id": "00000000-0000-4000-8000-000000000234",
+                  "processor_id": "00000000-0000-4000-8000-000000000235",
                   "kind": "DPA",
                   "reference": "Synthetic example",
                   "signed_at": "2026-09-16T10:00:00.000Z",
@@ -61958,7 +62724,7 @@
                   "termination_reason": null,
                   "in_force": false,
                   "superseded": false,
-                  "recorded_by": "00000000-0000-4000-8000-00000000022e",
+                  "recorded_by": "00000000-0000-4000-8000-000000000236",
                   "recorded_at": "2026-09-16T10:00:00.000Z"
                 }
               }
@@ -62155,9 +62921,9 @@
                   "tier": "LOW",
                   "reassessment_interval_days": 30,
                   "reason": "Synthetic example",
-                  "id": "00000000-0000-4000-8000-00000000022f",
-                  "processor_id": "00000000-0000-4000-8000-000000000230",
-                  "recorded_by": "00000000-0000-4000-8000-000000000231",
+                  "id": "00000000-0000-4000-8000-000000000237",
+                  "processor_id": "00000000-0000-4000-8000-000000000238",
+                  "recorded_by": "00000000-0000-4000-8000-000000000239",
                   "recorded_at": "2026-09-16T10:00:00.000Z"
                 }
               }
@@ -62342,7 +63108,7 @@
                   "$ref": "#/components/schemas/ThirdPartyStanding"
                 },
                 "example": {
-                  "processor_id": "00000000-0000-4000-8000-000000000232",
+                  "processor_id": "00000000-0000-4000-8000-00000000023a",
                   "processor_name": "Synthetic example",
                   "region": "Synthetic example",
                   "as_of": "2026-09-16T10:00:00.000Z",
@@ -62856,7 +63622,7 @@
                 "$ref": "#/components/schemas/SupplierLinkCreate"
               },
               "example": {
-                "assessment_id": "00000000-0000-4000-8000-000000000233",
+                "assessment_id": "00000000-0000-4000-8000-00000000023b",
                 "expires_at": "2026-09-16T10:00:00.000Z"
               }
             }
@@ -63092,14 +63858,14 @@
                   "$ref": "#/components/schemas/SupplierLink"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000234",
-                  "assessment_id": "00000000-0000-4000-8000-000000000235",
+                  "id": "00000000-0000-4000-8000-00000000023c",
+                  "assessment_id": "00000000-0000-4000-8000-00000000023d",
                   "expires_at": "2026-09-16T10:00:00.000Z",
                   "state": "ACTIVE",
                   "revoked_at": null,
                   "revocation_reason": null,
                   "last_used_at": null,
-                  "created_by": "00000000-0000-4000-8000-000000000236",
+                  "created_by": "00000000-0000-4000-8000-00000000023e",
                   "created_at": "2026-09-16T10:00:00.000Z"
                 }
               }
@@ -63460,8 +64226,8 @@
                   "$ref": "#/components/schemas/GrcPolicy"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000237",
-                  "policy_key": "00000000-0000-4000-8000-000000000238",
+                  "id": "00000000-0000-4000-8000-00000000023f",
+                  "policy_key": "00000000-0000-4000-8000-000000000240",
                   "version": 1,
                   "title": "Synthetic example",
                   "body": "Synthetic example",
@@ -63471,7 +64237,7 @@
                   "requirement_ids": [],
                   "change_summary": "Synthetic example",
                   "status": "DRAFT",
-                  "recorded_by": "00000000-0000-4000-8000-000000000239",
+                  "recorded_by": "00000000-0000-4000-8000-000000000241",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "approved_by": null,
                   "published_at": null,
@@ -63679,8 +64445,8 @@
                   "$ref": "#/components/schemas/GrcPolicy"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000023a",
-                  "policy_key": "00000000-0000-4000-8000-00000000023b",
+                  "id": "00000000-0000-4000-8000-000000000242",
+                  "policy_key": "00000000-0000-4000-8000-000000000243",
                   "version": 1,
                   "title": "Synthetic example",
                   "body": "Synthetic example",
@@ -63690,7 +64456,7 @@
                   "requirement_ids": [],
                   "change_summary": "Synthetic example",
                   "status": "DRAFT",
-                  "recorded_by": "00000000-0000-4000-8000-00000000023c",
+                  "recorded_by": "00000000-0000-4000-8000-000000000244",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "approved_by": null,
                   "published_at": null,
@@ -63891,8 +64657,8 @@
                   "$ref": "#/components/schemas/GrcPolicy"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-00000000023d",
-                  "policy_key": "00000000-0000-4000-8000-00000000023e",
+                  "id": "00000000-0000-4000-8000-000000000245",
+                  "policy_key": "00000000-0000-4000-8000-000000000246",
                   "version": 1,
                   "title": "Synthetic example",
                   "body": "Synthetic example",
@@ -63902,7 +64668,7 @@
                   "requirement_ids": [],
                   "change_summary": "Synthetic example",
                   "status": "DRAFT",
-                  "recorded_by": "00000000-0000-4000-8000-00000000023f",
+                  "recorded_by": "00000000-0000-4000-8000-000000000247",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "approved_by": null,
                   "published_at": null,
@@ -64288,7 +65054,7 @@
                   "$ref": "#/components/schemas/Issue"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000240",
+                  "id": "00000000-0000-4000-8000-000000000248",
                   "source_kind": "MANUAL",
                   "source_id": null,
                   "title": "Synthetic example",
@@ -64300,7 +65066,7 @@
                   "state": "OPEN",
                   "overdue": false,
                   "events": [],
-                  "created_by": "00000000-0000-4000-8000-000000000241",
+                  "created_by": "00000000-0000-4000-8000-000000000249",
                   "created_at": "2026-09-16T10:00:00.000Z"
                 }
               }
@@ -64490,7 +65256,7 @@
                   "$ref": "#/components/schemas/Issue"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000242",
+                  "id": "00000000-0000-4000-8000-00000000024a",
                   "source_kind": "MANUAL",
                   "source_id": null,
                   "title": "Synthetic example",
@@ -64502,7 +65268,7 @@
                   "state": "OPEN",
                   "overdue": false,
                   "events": [],
-                  "created_by": "00000000-0000-4000-8000-000000000243",
+                  "created_by": "00000000-0000-4000-8000-00000000024b",
                   "created_at": "2026-09-16T10:00:00.000Z"
                 }
               }
@@ -64682,7 +65448,7 @@
                   "$ref": "#/components/schemas/Issue"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000244",
+                  "id": "00000000-0000-4000-8000-00000000024c",
                   "source_kind": "MANUAL",
                   "source_id": null,
                   "title": "Synthetic example",
@@ -64694,7 +65460,7 @@
                   "state": "OPEN",
                   "overdue": false,
                   "events": [],
-                  "created_by": "00000000-0000-4000-8000-000000000245",
+                  "created_by": "00000000-0000-4000-8000-00000000024d",
                   "created_at": "2026-09-16T10:00:00.000Z"
                 }
               }
@@ -64893,9 +65659,9 @@
                       "description": "Synthetic example"
                     }
                   ],
-                  "id": "00000000-0000-4000-8000-000000000246",
+                  "id": "00000000-0000-4000-8000-00000000024e",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
-                  "recorded_by": "00000000-0000-4000-8000-000000000247"
+                  "recorded_by": "00000000-0000-4000-8000-00000000024f"
                 }
               }
             }
@@ -65255,15 +66021,15 @@
                   "$ref": "#/components/schemas/ControlTest"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000249",
-                  "control_id": "00000000-0000-4000-8000-00000000024a",
+                  "id": "00000000-0000-4000-8000-000000000251",
+                  "control_id": "00000000-0000-4000-8000-000000000252",
                   "name": "Synthetic example",
                   "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                   "maximum_violations": -9007199254740991,
                   "interval_minutes": -9007199254740991,
                   "enabled": false,
                   "next_run_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-00000000024b",
+                  "created_by": "00000000-0000-4000-8000-000000000253",
                   "created_at": "2026-09-16T10:00:00.000Z",
                   "latest_run": null,
                   "standing": "PASSING",
@@ -65411,7 +66177,7 @@
                 "$ref": "#/components/schemas/ControlTestCreate"
               },
               "example": {
-                "control_id": "00000000-0000-4000-8000-000000000248",
+                "control_id": "00000000-0000-4000-8000-000000000250",
                 "name": "Synthetic example",
                 "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                 "maximum_violations": 0,
@@ -65454,15 +66220,15 @@
                 },
                 "example": {
                   "test": {
-                    "id": "00000000-0000-4000-8000-00000000024c",
-                    "control_id": "00000000-0000-4000-8000-00000000024d",
+                    "id": "00000000-0000-4000-8000-000000000254",
+                    "control_id": "00000000-0000-4000-8000-000000000255",
                     "name": "Synthetic example",
                     "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                     "maximum_violations": -9007199254740991,
                     "interval_minutes": -9007199254740991,
                     "enabled": false,
                     "next_run_at": "2026-09-16T10:00:00.000Z",
-                    "created_by": "00000000-0000-4000-8000-00000000024e",
+                    "created_by": "00000000-0000-4000-8000-000000000256",
                     "created_at": "2026-09-16T10:00:00.000Z",
                     "latest_run": null,
                     "standing": "PASSING",
@@ -65648,15 +66414,15 @@
                 },
                 "example": {
                   "test": {
-                    "id": "00000000-0000-4000-8000-00000000024f",
-                    "control_id": "00000000-0000-4000-8000-000000000250",
+                    "id": "00000000-0000-4000-8000-000000000257",
+                    "control_id": "00000000-0000-4000-8000-000000000258",
                     "name": "Synthetic example",
                     "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                     "maximum_violations": -9007199254740991,
                     "interval_minutes": -9007199254740991,
                     "enabled": false,
                     "next_run_at": "2026-09-16T10:00:00.000Z",
-                    "created_by": "00000000-0000-4000-8000-000000000251",
+                    "created_by": "00000000-0000-4000-8000-000000000259",
                     "created_at": "2026-09-16T10:00:00.000Z",
                     "latest_run": null,
                     "standing": "PASSING",
@@ -65841,15 +66607,15 @@
                   "$ref": "#/components/schemas/ControlTest"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000252",
-                  "control_id": "00000000-0000-4000-8000-000000000253",
+                  "id": "00000000-0000-4000-8000-00000000025a",
+                  "control_id": "00000000-0000-4000-8000-00000000025b",
                   "name": "Synthetic example",
                   "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                   "maximum_violations": -9007199254740991,
                   "interval_minutes": -9007199254740991,
                   "enabled": false,
                   "next_run_at": "2026-09-16T10:00:00.000Z",
-                  "created_by": "00000000-0000-4000-8000-000000000254",
+                  "created_by": "00000000-0000-4000-8000-00000000025c",
                   "created_at": "2026-09-16T10:00:00.000Z",
                   "latest_run": null,
                   "standing": "PASSING",
@@ -67648,7 +68414,7 @@
                 },
                 "example": {
                   "kind": "SYSTEM",
-                  "target_id": "00000000-0000-4000-8000-000000000255",
+                  "target_id": "00000000-0000-4000-8000-00000000025d",
                   "activities": [],
                   "retention_rule_ids": [],
                   "engagement_ids": [],
@@ -68000,14 +68766,14 @@
                   "$ref": "#/components/schemas/RopaVersion"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000256",
+                  "id": "00000000-0000-4000-8000-00000000025e",
                   "version": 1,
                   "note": "Synthetic example",
                   "as_of": "2026-09-16T10:00:00.000Z",
                   "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                   "activity_count": -9007199254740991,
                   "gap_count": -9007199254740991,
-                  "recorded_by": "00000000-0000-4000-8000-000000000257",
+                  "recorded_by": "00000000-0000-4000-8000-00000000025f",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "approved_by": null,
                   "approved_at": null,
@@ -68204,14 +68970,14 @@
                   "$ref": "#/components/schemas/RopaVersion"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000258",
+                  "id": "00000000-0000-4000-8000-000000000260",
                   "version": 1,
                   "note": "Synthetic example",
                   "as_of": "2026-09-16T10:00:00.000Z",
                   "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                   "activity_count": -9007199254740991,
                   "gap_count": -9007199254740991,
-                  "recorded_by": "00000000-0000-4000-8000-000000000259",
+                  "recorded_by": "00000000-0000-4000-8000-000000000261",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "approved_by": null,
                   "approved_at": null,
@@ -69652,7 +70418,7 @@
                   "$ref": "#/components/schemas/DataExportChunk"
                 },
                 "example": {
-                  "job_id": "00000000-0000-4000-8000-00000000025a",
+                  "job_id": "00000000-0000-4000-8000-000000000262",
                   "sequence": -9007199254740991,
                   "row_count": -9007199254740991,
                   "sha256": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -77595,7 +78361,7 @@
                   "$ref": "#/components/schemas/CmpConsentStats"
                 },
                 "example": {
-                  "site_id": "00000000-0000-4000-8000-00000000025b",
+                  "site_id": "00000000-0000-4000-8000-000000000263",
                   "visitors": -9007199254740991,
                   "records": -9007199254740991,
                   "gpc_visitors": -9007199254740991,
@@ -78208,7 +78974,7 @@
                   "$ref": "#/components/schemas/CmpConsentReceipt"
                 },
                 "example": {
-                  "receipt_id": "00000000-0000-4000-8000-00000000025c",
+                  "receipt_id": "00000000-0000-4000-8000-000000000264",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "config_version": -9007199254740991
                 }
@@ -79917,8 +80683,8 @@
                 },
                 "example": {
                   "event": {
-                    "id": "00000000-0000-4000-8000-00000000025e",
-                    "topic_id": "00000000-0000-4000-8000-00000000025f",
+                    "id": "00000000-0000-4000-8000-000000000266",
+                    "topic_id": "00000000-0000-4000-8000-000000000267",
                     "channel": "EMAIL",
                     "choice": "OPTED_IN",
                     "source": "PORTAL",
@@ -80075,7 +80841,7 @@
                 "$ref": "#/components/schemas/PreferenceChoice"
               },
               "example": {
-                "topic_id": "00000000-0000-4000-8000-00000000025d",
+                "topic_id": "00000000-0000-4000-8000-000000000265",
                 "channel": "EMAIL",
                 "choice": "OPTED_IN",
                 "observed_at": "2026-09-16T10:00:00.000Z"
@@ -80282,7 +81048,7 @@
                 },
                 "example": {
                   "member": {
-                    "id": "00000000-0000-4000-8000-000000000260",
+                    "id": "00000000-0000-4000-8000-000000000268",
                     "display_name": "Synthetic example",
                     "email": "asha@aster.example",
                     "role": "ORG_SUPER_ADMIN",
@@ -80496,7 +81262,7 @@
                   "$ref": "#/components/schemas/StaffMember"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000261",
+                  "id": "00000000-0000-4000-8000-000000000269",
                   "display_name": "Synthetic example",
                   "email": "asha@aster.example",
                   "role": "ORG_SUPER_ADMIN",
@@ -80686,7 +81452,7 @@
                   "$ref": "#/components/schemas/StaffMember"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000262",
+                  "id": "00000000-0000-4000-8000-00000000026a",
                   "display_name": "Synthetic example",
                   "email": "asha@aster.example",
                   "role": "ORG_SUPER_ADMIN",
@@ -80876,7 +81642,7 @@
                   "$ref": "#/components/schemas/StaffMember"
                 },
                 "example": {
-                  "id": "00000000-0000-4000-8000-000000000263",
+                  "id": "00000000-0000-4000-8000-00000000026b",
                   "display_name": "Synthetic example",
                   "email": "asha@aster.example",
                   "role": "ORG_SUPER_ADMIN",
@@ -88935,8 +89701,8 @@
                 "$ref": "#/components/schemas/PollRequest"
               },
               "example": {
-                "installation_id": "00000000-0000-4000-8000-000000000264",
-                "environment_id": "00000000-0000-4000-8000-000000000265",
+                "installation_id": "00000000-0000-4000-8000-00000000026c",
+                "environment_id": "00000000-0000-4000-8000-00000000026d",
                 "maximum_commands": 1
               }
             }
@@ -88983,7 +89749,7 @@
                   "$ref": "#/components/schemas/AcceptedOperation"
                 },
                 "example": {
-                  "operation_id": "00000000-0000-4000-8000-000000000268",
+                  "operation_id": "00000000-0000-4000-8000-000000000270",
                   "status": "ACCEPTED",
                   "accepted_at": "2026-09-16T10:00:00.000Z"
                 }
@@ -89128,9 +89894,9 @@
                 "$ref": "#/components/schemas/CommandReceipt"
               },
               "example": {
-                "command_id": "00000000-0000-4000-8000-000000000266",
+                "command_id": "00000000-0000-4000-8000-00000000026e",
                 "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "attempt_id": "00000000-0000-4000-8000-000000000267",
+                "attempt_id": "00000000-0000-4000-8000-00000000026f",
                 "execution_state": "ACKNOWLEDGED",
                 "recorded_at": "2026-09-16T10:00:00.000Z",
                 "reason_code": "SYNTHETIC_EXAMPLE",
@@ -89321,10 +90087,10 @@
                 "$ref": "#/components/schemas/SendRequest"
               },
               "example": {
-                "attempt_id": "00000000-0000-4000-8000-000000000269",
-                "principal_reference_id": "00000000-0000-4000-8000-00000000026a",
-                "purpose_id": "00000000-0000-4000-8000-00000000026b",
-                "system_id": "00000000-0000-4000-8000-00000000026c",
+                "attempt_id": "00000000-0000-4000-8000-000000000271",
+                "principal_reference_id": "00000000-0000-4000-8000-000000000272",
+                "purpose_id": "00000000-0000-4000-8000-000000000273",
+                "system_id": "00000000-0000-4000-8000-000000000274",
                 "message_class": "MARKETING",
                 "order_reference": null
               }
@@ -89372,9 +90138,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-00000000026d",
+                  "command_id": "00000000-0000-4000-8000-000000000275",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-00000000026e",
+                  "attempt_id": "00000000-0000-4000-8000-000000000276",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -89601,7 +90367,7 @@
                   "$ref": "#/components/schemas/SimulatorState"
                 },
                 "example": {
-                  "resource_id": "00000000-0000-4000-8000-00000000026f",
+                  "resource_id": "00000000-0000-4000-8000-000000000277",
                   "generation": 0,
                   "last_applied_epoch": 0,
                   "marketing_restricted": false,
@@ -89769,9 +90535,9 @@
                   "$ref": "#/components/schemas/CommandReceipt"
                 },
                 "example": {
-                  "command_id": "00000000-0000-4000-8000-000000000270",
+                  "command_id": "00000000-0000-4000-8000-000000000278",
                   "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "attempt_id": "00000000-0000-4000-8000-000000000271",
+                  "attempt_id": "00000000-0000-4000-8000-000000000279",
                   "execution_state": "ACKNOWLEDGED",
                   "recorded_at": "2026-09-16T10:00:00.000Z",
                   "reason_code": "SYNTHETIC_EXAMPLE",
@@ -109843,6 +110609,461 @@
           "items",
           "next_cursor"
         ],
+        "additionalProperties": false
+      },
+      "ErasureIntimationList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "subject_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "rule_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "erasure_due_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "intimated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "channel": {
+                  "type": "string",
+                  "enum": [
+                    "USER_ACCOUNT",
+                    "EMAIL",
+                    "SMS",
+                    "POSTAL",
+                    "OTHER"
+                  ]
+                },
+                "evidence_reference": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "erasable_from": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "re_engaged_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "re_engagement_basis": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "LOGGED_IN",
+                        "INITIATED_CONTACT",
+                        "EXERCISED_RIGHTS"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "recorded_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "subject_id",
+                "rule_id",
+                "erasure_due_at",
+                "intimated_at",
+                "channel",
+                "evidence_reference",
+                "erasable_from",
+                "re_engaged_at",
+                "re_engagement_basis",
+                "recorded_at"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "ErasureIntimationDueList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "subject_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "rule_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "rule_name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "erasure_due_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "intimate_by": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "overdue": {
+                  "type": "boolean"
+                },
+                "intimation_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "intimated_at": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "subject_id",
+                "rule_id",
+                "rule_name",
+                "erasure_due_at",
+                "intimate_by",
+                "overdue",
+                "intimation_id",
+                "intimated_at"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "ErasureIntimationRecord": {
+        "type": "object",
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "rule_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "intimated_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "USER_ACCOUNT",
+              "EMAIL",
+              "SMS",
+              "POSTAL",
+              "OTHER"
+            ]
+          },
+          "evidence_reference": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "subject_id",
+          "rule_id",
+          "intimated_at",
+          "channel",
+          "evidence_reference"
+        ],
+        "additionalProperties": false
+      },
+      "ErasureReEngagement": {
+        "type": "object",
+        "properties": {
+          "re_engaged_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "LOGGED_IN",
+              "INITIATED_CONTACT",
+              "EXERCISED_RIGHTS"
+            ]
+          }
+        },
+        "required": [
+          "re_engaged_at",
+          "basis"
+        ],
+        "additionalProperties": false
+      },
+      "ErasureIntimation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "rule_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "erasure_due_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "intimated_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "USER_ACCOUNT",
+              "EMAIL",
+              "SMS",
+              "POSTAL",
+              "OTHER"
+            ]
+          },
+          "evidence_reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "erasable_from": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "re_engaged_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "re_engagement_basis": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "LOGGED_IN",
+                  "INITIATED_CONTACT",
+                  "EXERCISED_RIGHTS"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "subject_id",
+          "rule_id",
+          "erasure_due_at",
+          "intimated_at",
+          "channel",
+          "evidence_reference",
+          "erasable_from",
+          "re_engaged_at",
+          "re_engagement_basis",
+          "recorded_at"
+        ],
+        "additionalProperties": false
+      },
+      "ErasureIntimationDue": {
+        "type": "object",
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "rule_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "rule_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "erasure_due_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "intimate_by": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "overdue": {
+            "type": "boolean"
+          },
+          "intimation_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "intimated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "subject_id",
+          "rule_id",
+          "rule_name",
+          "erasure_due_at",
+          "intimate_by",
+          "overdue",
+          "intimation_id",
+          "intimated_at"
+        ],
+        "additionalProperties": false
+      },
+      "ErasureIntimationQuery": {
+        "type": "object",
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
         "additionalProperties": false
       },
       "ConnectorBindingList": {

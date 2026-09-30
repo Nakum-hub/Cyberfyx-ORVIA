@@ -10,7 +10,7 @@ import { createPurpose, revisePurpose, purposeList, createCondition, conditionLi
 import { createNotice, createNoticeVersion, publishNoticeVersion, noticeList, noticeAt, recordDelivery, deliveryList, portalNotices } from '../../domain/src/registry/notices.ts';
 import { createConsentRecord, recordConsentEvent, consentRecordView, consentRecordList, syncPortalConsent } from '../../domain/src/registry/consent.ts';
 import { createEngagement, terminateEngagement, recordDisposition, engagementList, createSharingLink, sharingList } from '../../domain/src/registry/processors.ts';
-import { createRule, reviseRule, ruleList, createHold, releaseHold, holdList } from '../../domain/src/registry/retention.ts';
+import { createRule, reviseRule, ruleList, createHold, releaseHold, holdList, recordIntimation, recordReEngagement, intimationList, intimationsDue } from '../../domain/src/registry/retention.ts';
 import { bindConnector, bindingList } from '../../domain/src/registry/connectors.ts';
 import { createRightsRun, createRetentionRun, evaluateRun, decideRun, cancelRun, runView, runList, actionList } from '../../domain/src/operations/runs.ts';
 import { executeRun } from '../../domain/src/operations/executor.ts';
@@ -97,6 +97,10 @@ export async function operationsRoute(c: Context, route: RouteDefinition, id: st
     case 'list_retention_holds': return holdList(c, page, query);
     case 'create_retention_hold': return createHold(c, input);
     case 'release_retention_hold': return releaseHold(c, id!, input);
+    case 'list_erasure_intimations_due': return intimationsDue(c, page);
+    case 'list_erasure_intimations': return intimationList(c, page, query);
+    case 'record_erasure_intimation': return recordIntimation(c, input);
+    case 'record_erasure_re_engagement': return recordReEngagement(c, id!, input);
     case 'list_connector_bindings': return bindingList(c, page);
     case 'bind_connector': return bindConnector(c, input);
     case 'list_workflow_runs': return runList(c, page, query);

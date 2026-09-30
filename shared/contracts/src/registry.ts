@@ -301,6 +301,20 @@ export const RetentionHold = z.strictObject({
 });
 export const RetentionHoldQuery = z.strictObject({ subject_id: Id.optional(), active: z.enum(['true', 'false']).optional() });
 
+/** Rule 8(2): the 48-hour intimation before Third Schedule erasure, recorded by staff with its evidence (0.47.0). */
+export const ErasureChannel = z.enum(['USER_ACCOUNT', 'EMAIL', 'SMS', 'POSTAL', 'OTHER']);
+export const ErasureIntimationRecord = z.strictObject({ subject_id: Id, rule_id: Id, intimated_at: Time, channel: ErasureChannel, evidence_reference: z.string().min(3).max(500) });
+export const ErasureReEngagement = z.strictObject({ re_engaged_at: Time, basis: z.enum(['LOGGED_IN', 'INITIATED_CONTACT', 'EXERCISED_RIGHTS']) });
+export const ErasureIntimation = z.strictObject({
+  id: Id, subject_id: Id, rule_id: Id, erasure_due_at: Time, intimated_at: Time, channel: ErasureChannel, evidence_reference: SafeText,
+  /** The earliest time erasure may run: the due time, or 48 hours after a late intimation. */
+  erasable_from: Time, re_engaged_at: Time.nullable(), re_engagement_basis: z.enum(['LOGGED_IN', 'INITIATED_CONTACT', 'EXERCISED_RIGHTS']).nullable(), recorded_at: Time,
+});
+export const ErasureIntimationDue = z.strictObject({
+  subject_id: Id, rule_id: Id, rule_name: SafeText, erasure_due_at: Time, intimate_by: Time, overdue: z.boolean(), intimation_id: Id.nullable(), intimated_at: Time.nullable(),
+});
+export const ErasureIntimationQuery = z.strictObject({ subject_id: Id.optional() });
+
 /** integrations/CONNECTORS_EXECUTION_AND_VERIFICATION.md s9: a machine-readable, factual declaration. */
 export const ConnectorCapabilities = z.strictObject({
   adapter_kind: z.enum(['TEST_ADAPTER', 'MANUAL']),
@@ -335,6 +349,7 @@ export const registrySchemas = {
   PrincipalCategoryList: page(PrincipalCategory), DataCategoryList: page(DataCategory), SubjectList: page(SubjectSummary),
   RepresentativeList: page(Representative), RegistryPurposeList: page(RegistryPurpose), ConditionList: page(Condition), SafeguardList: page(Safeguard),
   ActivityList: page(Activity), RegistryNoticeList: page(RegistryNotice), NoticeDeliveryList: page(NoticeDelivery), ConsentRecordList: page(ConsentRecord),
-  EngagementList: page(Engagement), SharingLinkList: page(SharingLink), RetentionRuleList: page(RetentionRule), RetentionHoldList: page(RetentionHold),
+  EngagementList: page(Engagement), SharingLinkList: page(SharingLink), RetentionRuleList: page(RetentionRule), RetentionHoldList: page(RetentionHold), ErasureIntimationList: page(ErasureIntimation), ErasureIntimationDueList: page(ErasureIntimationDue),
+  ErasureIntimationRecord, ErasureReEngagement, ErasureIntimation, ErasureIntimationDue, ErasureIntimationQuery,
   ConnectorBindingList: page(ConnectorBinding),
 };
