@@ -1,0 +1,134 @@
+{
+  "fixture": "SYNTHETIC_ONLY",
+  "recorded_at": "2026-09-30T08:28:13.185Z",
+  "source": "639d905bcd7f4861cd6bb02b0efe7e2919493dd4",
+  "tracked_changes": "",
+  "installation_id_retained": true,
+  "installation": {
+    "kind": "customer",
+    "profile": "rehearsal",
+    "release": "bf29c436911d33cbbafcbb6ce7f6d04a5704a64d",
+    "installed_at": "2026-09-30T08:06:57Z"
+  },
+  "upgrade": {
+    "previous_release": "bf29c436911d33cbbafcbb6ce7f6d04a5704a64d",
+    "upgraded_to": "639d905bcd7f4861cd6bb02b0efe7e2919493dd4",
+    "at": "2026-09-30T08:19:14Z",
+    "migrations_before": 84
+  },
+  "supervisor": {
+    "started_at": "2026-09-30T08:23:48.260Z",
+    "observed_seconds": 265
+  },
+  "https_readiness_status": 200,
+  "containers": [
+    {
+      "name": "orvia-rehearsal-postgres-1",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 659,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-09-30T08:04:16.000724447Z",
+        "FinishedAt": "2026-09-30T08:03:00.520203559Z",
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-09-30T08:27:49.526527979Z",
+              "End": "2026-09-30T08:27:49.643190831Z",
+              "ExitCode": 0,
+              "Output": "/var/run/postgresql:5432 - accepting connections\n"
+            },
+            {
+              "Start": "2026-09-30T08:27:54.644162362Z",
+              "End": "2026-09-30T08:27:54.774716621Z",
+              "ExitCode": 0,
+              "Output": "/var/run/postgresql:5432 - accepting connections\n"
+            },
+            {
+              "Start": "2026-09-30T08:27:59.775576142Z",
+              "End": "2026-09-30T08:27:59.884561178Z",
+              "ExitCode": 0,
+              "Output": "/var/run/postgresql:5432 - accepting connections\n"
+            },
+            {
+              "Start": "2026-09-30T08:28:04.885629577Z",
+              "End": "2026-09-30T08:28:05.00107368Z",
+              "ExitCode": 0,
+              "Output": "/var/run/postgresql:5432 - accepting connections\n"
+            },
+            {
+              "Start": "2026-09-30T08:28:10.001932364Z",
+              "End": "2026-09-30T08:28:10.110952619Z",
+              "ExitCode": 0,
+              "Output": "/var/run/postgresql:5432 - accepting connections\n"
+            }
+          ]
+        }
+      },
+      "restarts": 0,
+      "memory_bytes": 402653184
+    },
+    {
+      "name": "orvia-rehearsal-loopback-1",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 641,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-09-30T08:04:16.009574509Z",
+        "FinishedAt": "2026-09-30T08:03:07.674580241Z"
+      },
+      "restarts": 0,
+      "memory_bytes": 268435456
+    },
+    {
+      "name": "orvia-rehearsal-temporal-1",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 657,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-09-30T08:04:16.0065803Z",
+        "FinishedAt": "2026-09-30T08:02:59.43798004Z"
+      },
+      "restarts": 0,
+      "memory_bytes": 805306368
+    },
+    {
+      "name": "orvia-rehearsal-opa-1",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 658,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-09-30T08:04:16.003066964Z",
+        "FinishedAt": "2026-09-30T08:02:57.638579754Z"
+      },
+      "restarts": 0,
+      "memory_bytes": 134217728
+    }
+  ]
+}

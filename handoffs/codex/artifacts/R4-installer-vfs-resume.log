@@ -1,0 +1,62 @@
+  os      Debian GNU/Linux 12 (bookworm)
+  ok      docker
+  ok      docker compose v2
+  ok      node
+  ok      openssl
+  ok      pnpm
+  WARN    systemd not running: units are rendered but not enabled (no start on boot)
+  ok      docker daemon reachable
+  ok      disk
+  result  0 missing, 1 warning(s)
+
+== Installing pinned dependencies
+Scope: all 11 workspace projects
+✓ Lockfile passes supply-chain policies (verified 2h ago)
+Lockfile is up to date, resolution step is skipped
+Done in 999ms using pnpm v12.4.2
+  resuming: the existing profile, its credentials and data are kept
+
+== Installing the vendor's public keys (public keys only)
+  trust file accepted: release, licence, audit
+  no audit service address: audit evidence moves only as files
+
+== TLS
+  TLS material already present; kept
+
+== Starting the local services
+$ tsx scripts/services.ts up
+ Container orvia-rehearsal-loopback-1  Creating
+ Container orvia-rehearsal-postgres-1  Creating
+ Container orvia-rehearsal-loopback-1  Created
+ Container orvia-rehearsal-postgres-1  Created
+ Container orvia-rehearsal-postgres-1  Starting
+ Container orvia-rehearsal-temporal-1  Starting
+ Container orvia-rehearsal-loopback-1  Starting
+ Container orvia-rehearsal-opa-1  Starting
+ Container orvia-rehearsal-temporal-1  Started
+ Container orvia-rehearsal-opa-1  Started
+ Container orvia-rehearsal-postgres-1  Started
+ Container orvia-rehearsal-loopback-1  Started
+
+== Database roles and schema
+$ tsx scripts/roles-init.ts confirm:rehearsal
+Allowlisted unprivileged roles present; credentials remain protected locally.
+$ tsx scripts/migrate.ts
+Artifact: handoffs/codex/artifacts/A00-migration-1790755240973-cf528d1a-6e6a-4603-9510-4fdb94a545d2.json
+
+== Authentication stores and machine logins
+$ tsx scripts/auth-init.ts confirm:rehearsal
+Runtime roles provisioned; generated credentials remain in the protected local auth directory.
+$ tsx scripts/machine-init.ts confirm:rehearsal
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+
+== Building the application
+$ tsx scripts/web.ts build
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 182ms
+- Experiments (use with caution):
+  · cpus: 1
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 98s
+  Running TypeScript ...

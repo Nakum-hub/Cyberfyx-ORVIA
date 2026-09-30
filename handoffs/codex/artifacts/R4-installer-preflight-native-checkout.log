@@ -1,0 +1,10 @@
+  os      Debian GNU/Linux 12 (bookworm)
+  ok      docker
+  ok      docker compose v2
+  ok      node
+  ok      openssl
+  ok      pnpm
+  WARN    systemd not running: units are rendered but not enabled (no start on boot)
+  ok      docker daemon reachable
+  ok      disk
+  result  0 missing, 1 warning(s)

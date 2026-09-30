@@ -1,0 +1,78 @@
+[
+  {
+    "browser": "firefox",
+    "suite": "dpdpa-audit-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-dpdpa-audit-browser-1790741360659-08e4f5ba-65a1-4c05-b657-7cc075fdb01f.json",
+    "passed": 20,
+    "failures": 0,
+    "summary": [],
+    "browser_version": "155.0"
+  },
+  {
+    "browser": "firefox",
+    "suite": "audit-mandate-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-audit-mandate-browser-1790741555066-921c3cf3-3390-469e-9a0f-a7985ce6e32a.json",
+    "passed": 19,
+    "failures": 0,
+    "summary": [],
+    "browser_version": "155.0"
+  },
+  {
+    "browser": "firefox",
+    "suite": "expansion-screens-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790741809529-0ab39b64-5fee-4f46-b476-fea2c9bf94da.json",
+    "passed": 69,
+    "failures": 0,
+    "summary": [],
+    "browser_version": "155.0"
+  },
+  {
+    "browser": "firefox",
+    "suite": "interface-crawl-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-interface-crawl-1790743082874-e6d1a75a-da8b-4c52-a49a-90adfeecd65e.json",
+    "passed": 0,
+    "failures": 2,
+    "summary": [
+      "interface crawl: 450 visits, 8 with issues\r"
+    ],
+    "browser_version": "155.0"
+  },
+  {
+    "browser": "webkit",
+    "suite": "dpdpa-audit-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-dpdpa-audit-browser-1790743173356-260c8161-5ae9-4665-ab97-4941304d083a.json",
+    "passed": 3,
+    "failures": 1,
+    "summary": [],
+    "browser_version": "26.6"
+  },
+  {
+    "browser": "webkit",
+    "suite": "audit-mandate-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-audit-mandate-browser-1790743211941-6fed3233-8da0-4002-9c3e-29a30f385abc.json",
+    "passed": 0,
+    "failures": 1,
+    "summary": [],
+    "browser_version": "26.6"
+  },
+  {
+    "browser": "webkit",
+    "suite": "expansion-screens-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790743281903-896c07be-d6d5-4992-8cfd-0f6a548d2747.json",
+    "passed": 0,
+    "failures": 1,
+    "summary": [],
+    "browser_version": "26.6"
+  },
+  {
+    "browser": "webkit",
+    "suite": "interface-crawl-local",
+    "artifact": "handoffs/codex/artifacts/A00-operations-interface-crawl-1790743333856-9b46b031-dad4-4830-8ab2-cef737840085.json",
+    "passed": 0,
+    "failures": 2,
+    "summary": [
+      "interface crawl: 7 visits, 1 with issues\r"
+    ],
+    "browser_version": "26.6"
+  }
+]

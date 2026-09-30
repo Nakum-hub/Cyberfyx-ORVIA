@@ -1,0 +1,22 @@
+{
+  "archive": "context-2.zip",
+  "sha256": "7750a138a12db2fe2154ff1bef41ea0bc6adb8b2372226c1717116ca49647c98",
+  "parts": [
+    {
+      "file": "context-2.zip.part001",
+      "bytes": 41943040,
+      "sha256": "7098328b84bcba0e35794645afab988ae8605323c9fbccd7b34420f99f931c0b"
+    },
+    {
+      "file": "context-2.zip.part002",
+      "bytes": 41943040,
+      "sha256": "0b4c42a7f9d56f7aea5579e752783537ba2326c1b3022b79a2b66b8be3697622"
+    },
+    {
+      "file": "context-2.zip.part003",
+      "bytes": 37547456,
+      "sha256": "0b91a7b57101426bb390d6892418057608a8607c4179c4c50d1a41fd1ab06c06"
+    }
+  ],
+  "restore": "Concatenate parts in listed order in binary mode; verify SHA256; open the resulting ZIP in the local Playwright trace viewer. No external upload is needed."
+}

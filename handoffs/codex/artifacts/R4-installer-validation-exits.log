@@ -1,0 +1,9 @@
+Patched previous candidate: pnpm run typecheck exit=0
+Patched previous candidate: pnpm exec eslint scripts/app-run.ts --max-warnings 0 exit=0
+Final target: repeated verify exit=0; owned supervisor stop exit=0
+Inner service stop exit=0; outer qualification host stop exit=0
+Final docker ps exit=0, no running containers
+Latest-head actual upgrade 639d905 to e46babe exit=0
+Latest first startup/verification FAIL retained; retry verification exit=0 (8/8)
+Latest owned supervisor stop exit=0, all four children exit=0, none forced
+Latest inner/outer container stops exit=0; final docker ps exit=0 and empty

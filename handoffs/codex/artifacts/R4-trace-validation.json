@@ -1,0 +1,58 @@
+[
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\baseline-firefox-interface-crawl-local\\context-2.zip",
+    "sha256": "7750a138a12db2fe2154ff1bef41ea0bc6adb8b2372226c1717116ca49647c98",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  },
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\baseline-firefox-interface-crawl-local\\context-5.zip",
+    "sha256": "837ff77ba7475475e0efe48d7240f5de21f8e4c5f4130667f069b9c0160a67a4",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  },
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\baseline-webkit-audit-mandate-local\\context-1.zip",
+    "sha256": "d18278b39df0e61092e98263c7637ce260de975f041bb19fc2062acd67dd31a1",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  },
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\baseline-webkit-dpdpa-audit-local\\context-1.zip",
+    "sha256": "0a983b98178b527be6b3c487fd2e15b64685c4a507974523d6e547179827c9f2",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  },
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\baseline-webkit-expansion-screens-local\\context-1.zip",
+    "sha256": "ba8652c92251b8d255789e2ec24e95f22e0c45acbe62504eaaf2144b1d5bc087",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  },
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\baseline-webkit-interface-crawl-local\\context-1.zip",
+    "sha256": "4e0652f39d210f687eb6d9b71a448dc8a9e5dd98497d06090889b879faba24c0",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  },
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\baseline-webkit-interface-crawl-local\\context-2.zip",
+    "sha256": "9cfc9cfcb2792fa0bfa995c32b736db9712bcbe43b9b29de4c39a539e4f51f55",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  },
+  {
+    "trace": "handoffs\\codex\\artifacts\\R4-traces\\hydration-probe-webkit-expansion-screens-local\\context-1.zip",
+    "sha256": "6e892a0955e29e02a579423af317b50876a974f1167873937ba7befe20aced6d",
+    "zip_crc": "PASS",
+    "trace_json": "PASS",
+    "published_bytes": "PASS"
+  }
+]

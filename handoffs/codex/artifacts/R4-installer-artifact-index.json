@@ -1,0 +1,288 @@
+{
+  "base": "e42f573c91340eadbcd42ad010c79c56fd50010a",
+  "previous_candidate": "bf29c436911d33cbbafcbb6ce7f6d04a5704a64d",
+  "target": "639d905bcd7f4861cd6bb02b0efe7e2919493dd4",
+  "files": [
+    {
+      "path": "handoffs/codex/2026-10-01-installer.md",
+      "bytes": 14883,
+      "sha256": "4cb98e75288d7453dce3636b8e2fb71a81bf33c80fe295998f626b0c2205ff38"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-application-lifecycle-1790755651940-db310f32-d08d-41a9-ac5f-beb14c3cf41e.json",
+      "bytes": 1097,
+      "sha256": "6c4a0a1b0c6338b9dbc23a6f068530b7fa737e0f6abc32e2691e5461316d7fe3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-application-lifecycle-1790756099729-50db1f04-98f5-44f1-b8a3-75be4efe0488.json",
+      "bytes": 1097,
+      "sha256": "a9088c35bfe54fe1ec8a10c7dea4c03a756e2d6b25e2b17039672ffd8d5d4485"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-application-lifecycle-1790756916458-f426e0a1-573e-4fcc-b5c7-527d24f8267e.json",
+      "bytes": 1105,
+      "sha256": "f21f869101ddb34a12e535406efb26e3376fc03d9bac06cbd10437f89ac5b58e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-application-lifecycle-1790757738919-584799fa-b2c6-4d0a-926f-c7dac1564cbd.json",
+      "bytes": 1097,
+      "sha256": "b26531d5ed44081ce2fada8fc0796f53ddb65ec2d04a556868eb751ee43e4ad5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-application-lifecycle-1790758109416-45d2cc41-066f-422b-8f55-aae80c9b8ae6.json",
+      "bytes": 1105,
+      "sha256": "7be047b9091716f9c4a588c1624be8490189515ce328ec69ac40b051dae3548f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-backup-drill-1790756354295-265cb936-d5ac-40bb-9b62-761b91d35cb2.json",
+      "bytes": 1236,
+      "sha256": "38e077e2727a85e5f1e4c70bab1876b7648b22ca1768796270f76099ee3eef13"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-backup-drill-1790757581516-4c7ad951-c7c4-404b-86c0-7428d4f365f0.json",
+      "bytes": 1235,
+      "sha256": "5e364ef663b72e37eb3b9d19924ae9aee8ca7315b0a22d572c1185f2a71200ab"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-migration-1790755240973-cf528d1a-6e6a-4603-9510-4fdb94a545d2.json",
+      "bytes": 2398,
+      "sha256": "8eb4fc78be6bdbaca9be99a9c5558e51b02e15306c44923103c5be95bae4fe42"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-migration-1790755467131-58d4483d-401a-4887-a74d-4bb9cfa0332f.json",
+      "bytes": 279,
+      "sha256": "37f7a20c2688ecea77be5b19054d4429c51e0d568685d48318555842e0397417"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-migration-1790756382301-6fb219e6-9726-4c85-a15f-6f39b576f5f9.json",
+      "bytes": 279,
+      "sha256": "eadd885a3490a34f2003816a0c0c05919eb50ca76af0166ea5420b773b140bae"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-migration-1790757589377-85f31fe9-8225-43f6-80a1-f30ab62b4f07.json",
+      "bytes": 279,
+      "sha256": "175913679ad6552385c1dccdb3987da65dc977d9e35264d4e93f8ef3a9ba2602"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-tls-material-1790744910084-5783cf51-e5c1-4083-aa84-12819103eaa6.json",
+      "bytes": 783,
+      "sha256": "73045f858a98956cfafb911707fa80d40a3bdff8fe18625b88f3a7b47a307692"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-final-state.json",
+      "bytes": 3964,
+      "sha256": "9d08c5e9635d86716d4c845e12a589c3be91aab2551643bb3379920b2720c479"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-head-advance.json",
+      "bytes": 894,
+      "sha256": "32377cedc0b1c23f957152192c68f13883ea9ef9034743d59c8a0414cbf5e27d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-image-build.log",
+      "bytes": 59286,
+      "sha256": "3e802a76bf99c30215839623c809953b832b5f0b92ade9d7052597914d3c8372"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-install-complete.log",
+      "bytes": 7048,
+      "sha256": "6bfce30accca043c30b97fea135c9344eb705370a8b76667b5e2e5c33a00dd3c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-install-progress.log",
+      "bytes": 80613,
+      "sha256": "ab7f3a105201ac488dcc49dce63fe3edf29e1c62d303be0524e2746c924e8164"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-latest-state.json",
+      "bytes": 3966,
+      "sha256": "53651c65055d3885c2ae68616ea84d7829a2b813bf3c6651eef854cf1805ae51"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-post-upgrade-verify.log",
+      "bytes": 422,
+      "sha256": "2bbe60dbc41235dbc6c553b379e8be6cb5bac87ca712d0191fa600e2ae839ec7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-preflight-native-checkout.log",
+      "bytes": 302,
+      "sha256": "d1c1ca94e51a6c31fc3bb3245f885c1b2d8661fabad4a7dee818fdde9836f511"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-preflight.log",
+      "bytes": 840,
+      "sha256": "e7c2e39cf8d0161de76d484f0a9460cdcb5f9978e74e74b9ed58770eb97c2205"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-publication-check.log",
+      "bytes": 148,
+      "sha256": "be0a01bdc9e67fabab9aeb252c3bd24cad15ac9856ad6926baaab6cef3026939"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-runtime-initial.log",
+      "bytes": 3958,
+      "sha256": "b0b64f0d663ff40365bd273b95caa394f60bd8572c31ff27d3be976592cb282b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-runtime-latest-complete.log",
+      "bytes": 6983,
+      "sha256": "638fc1f34f4c3169d9a282a0554a320b899f6748d0daa246e46a5a35bcb766ea"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-runtime-latest-initial.log",
+      "bytes": 3861,
+      "sha256": "38b2161e95d5e28792da72e3633762d713e27c5a2246958bafb563b1137de762"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-runtime-patched-complete.log",
+      "bytes": 5356,
+      "sha256": "42e9fefef188d519d68bbf22f31a926291a8333d0e5b0b6c5b9ff6e553fa7c80"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-runtime-patched.log",
+      "bytes": 2802,
+      "sha256": "81d38361905ec9f35af5a326dea3adb8f7abfdf22b1014aa1b2ebf4cec7e1a63"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-runtime-upgraded-complete.log",
+      "bytes": 7507,
+      "sha256": "cddb28ad3d4f2305f9cc824555f4973d93ef0a07e5f05886d8f2e8cff8a2cf57"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-runtime-upgraded.log",
+      "bytes": 3682,
+      "sha256": "f3fe170237a7c1274009d0715876b548af6798033e9a2c11cdb357c408384a77"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-setup-initial.log",
+      "bytes": 360,
+      "sha256": "2dc1e0ad4fae4ea6e64136a028200fd3f54628cfaecfa75de62eb3bd4815a4a0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-setup-patched.log",
+      "bytes": 664,
+      "sha256": "dc3282fdedb59ce9fc14602cc0fd0434cf8f8ba47b8114a1abaffe4174727939"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-supervisor-lint.log",
+      "bytes": 209,
+      "sha256": "e2af4bf0ca4ab812fc088decee93a68e32ebba5035057c57c454c868635a9011"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-supervisor-typecheck.log",
+      "bytes": 672,
+      "sha256": "2a5563aa2e09cbe494c0cba555524ce5f631b7d1c5686e5c96bba1f1ffbb6740"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-upgrade-complete.log",
+      "bytes": 5929,
+      "sha256": "bb2a344338949e52d6853f9d13364b69e92a974d3158d040f6e5d92be38d1fcf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-upgrade-initial.log",
+      "bytes": 63,
+      "sha256": "0125859c7a30e9cc8919304878e74276f25c5137e06202637d833928f5da7d13"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-upgrade-latest.log",
+      "bytes": 5246,
+      "sha256": "f611da7a9d25d3396d098817832ec3a195a697d240dfdb31558b60f0d9011130"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-validation-exits.log",
+      "bytes": 604,
+      "sha256": "8e52c32efdf59a1882abb35f8248bcec4ccaeb3db581edd2a88fb79cb5c11d27"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-verify-latest-initial-failure.log",
+      "bytes": 432,
+      "sha256": "7d5276cfad0291b9fffde5689da2e36dbe13995051e61e874c9fbef44f1c4f16"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-verify-latest.log",
+      "bytes": 422,
+      "sha256": "2bbe60dbc41235dbc6c553b379e8be6cb5bac87ca712d0191fa600e2ae839ec7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-vfs-resume.log",
+      "bytes": 2349,
+      "sha256": "372e0f2bc8b23e28ab1284dfbfdb14eb6c8603f10e26afa73ba8249ebe92b58a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-worker-diagnostic-tool-error.log",
+      "bytes": 1244,
+      "sha256": "caa80d1111652aa7faaa748e344d3712758239f9e588b7d9335987ac87d442ca"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-worker-diagnostic.log",
+      "bytes": 1244,
+      "sha256": "caa80d1111652aa7faaa748e344d3712758239f9e588b7d9335987ac87d442ca"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R4-installer-worker-target-cycle.log",
+      "bytes": 2636,
+      "sha256": "9cf5ffddc5f544b1cd845226bb31717898166fb0bf1f1c27354ad4a4f0a5ea9e"
+    },
+    {
+      "path": "handoffs/codex/capture-installer-state-round4.mjs",
+      "bytes": 2029,
+      "sha256": "03729c609c4e60153eb4a50974067682d42eb3682b9a93b9668d469510f4cf42"
+    },
+    {
+      "path": "handoffs/codex/create-installer-trust-round4.mjs",
+      "bytes": 804,
+      "sha256": "52cbce93e82907a6d9838445ecde527073bf5f22545ececbc05fc7a2e168e35f"
+    },
+    {
+      "path": "handoffs/codex/diagnose-worker-round4.mjs",
+      "bytes": 1901,
+      "sha256": "d13acbd726ec6974f9aeb901cbb6135b932920a1b48a0679ccf6639e33ca876c"
+    },
+    {
+      "path": "handoffs/codex/publish-installer-log-round4.mjs",
+      "bytes": 1879,
+      "sha256": "0f1f0529880dc853a8a6bef46146c6a1f67554271d9d42c78710deab3982ea01"
+    },
+    {
+      "path": "handoffs/codex/qualify-first-run-round4.mjs",
+      "bytes": 4227,
+      "sha256": "4ce0e56f8e9151fdf344ca2d61dad4b1f73dde0c97563dffb327e3b02dc7c56d"
+    },
+    {
+      "path": "handoffs/codex/round4-install-host.sh",
+      "bytes": 941,
+      "sha256": "fa5fc3a30f82b031aba1ff72976d6bd9e0c62a71c64ab9e2fdb2941912b45381"
+    },
+    {
+      "path": "handoffs/codex/round4-installer-phase.sh",
+      "bytes": 1383,
+      "sha256": "d0a0e21bf77b7d74c7c138021f41dfc84a63feaccb30b1a6d30afc684333addf"
+    },
+    {
+      "path": "handoffs/codex/round4-installer.Dockerfile",
+      "bytes": 717,
+      "sha256": "857a14c92ce5a1f1fd84728d26f83d912eaff036518608a7266b541cdf362a5f"
+    },
+    {
+      "path": "handoffs/codex/round4-refresh-source-index.sh",
+      "bytes": 499,
+      "sha256": "1df761e5c977465e714bd092c2001075701f7e4a3297bbfaac4f3c199052c685"
+    },
+    {
+      "path": "handoffs/codex/round4-resume-install.sh",
+      "bytes": 657,
+      "sha256": "5477ccde2d01fcea6e620896b9526b7d012bf20a2c4a7305373ce8c31041dba1"
+    },
+    {
+      "path": "handoffs/codex/round4-upgrade-latest.sh",
+      "bytes": 856,
+      "sha256": "76c21735576ceaf014288ae9b297155fbd73d8c5f6d1d03aeef9d1801dad54b7"
+    },
+    {
+      "path": "scripts/app-run.ts",
+      "bytes": 8188,
+      "sha256": "c8a61c4b939afb1e9cc72fab7e5694cf68425f9891b4b3b3c38832714a187475"
+    }
+  ],
+  "latest_target": "e46babe40f4fa12cb42e1c6ef951bee2359bd4b1"
+}

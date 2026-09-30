@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-09-30T08:40:04.894787+00:00",
+  "new_head": "e46babe40f4fa12cb42e1c6ef951bee2359bd4b1",
+  "pr_33_state_at_last_check": "OPEN",
+  "main_at_last_check": "bf29c436911d33cbbafcbb6ce7f6d04a5704a64d",
+  "supervisor_blobs": {
+    "bf29c43": "e42d98e3203d73fdcee323a0e02a4e436da963c3",
+    "e42f573": "e42d98e3203d73fdcee323a0e02a4e436da963c3",
+    "639d905": "e42d98e3203d73fdcee323a0e02a4e436da963c3",
+    "e46babe": "e42d98e3203d73fdcee323a0e02a4e436da963c3"
+  },
+  "all_candidate_supervisor_blobs_identical": true,
+  "source_changes_since_initial_target": [
+    "backend/domain/src/dpdpa-audit/indicators.ts",
+    "backend/vendor/audit/practice.ts",
+    "database/vendor/migrations/0014_practice_gates_management_approval.sql",
+    "frontend/src/app/vendor/practice/page.tsx",
+    "shared/contracts/src/vendor-audit.ts",
+    "shared/contracts/src/vendor-practice.ts"
+  ]
+}
