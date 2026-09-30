@@ -91,7 +91,9 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 - Auditor requests inside the mandate are answered automatically. Requests for documents go to a client approver.
 - Unanswered requests past their due date become limitations in the signed report.
 - No live access exists in either direction, and anything carrying personal data still needs the per-item exception and a processing agreement.
-- Legal review of the engagement letter and DPA is pending before a real engagement (`docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md`).
+- Automatic indicators cover 30 of the 33 requirements (`backend/domain/src/dpdpa-audit/indicators.ts`). DPDP-CONSENT-MANAGER, DPDP-ERASURE-ADVANCE-NOTICE and DPDP-BOARD-COMPLAINT-CHANNEL are tested by auditor procedure only, because ORVIA holds no record that could show them.
+- How Cyberfyx audits, and the client documents it uses, are in `docs/audit-practice/` (methodology v1.0 and eight templates).
+- Owner decision 2026-09-30: no external legal review. Real engagements instead need Cyberfyx management to approve the engagement letter and processing agreement templates. This is recorded as the `ENGAGEMENT_LETTER_TEMPLATE_APPROVED` and `PROCESSING_AGREEMENT_TEMPLATE_APPROVED` gates (vendor migration 0014), plus production criteria and the production audit key.
 
 **Wording.** The output is an **audit opinion as of a date for a stated scope**. It is never a compliance certificate: only the Data Protection Board of India decides compliance. A unit test refuses certification wording in report templates and report text.
 
@@ -104,15 +106,35 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 3. **Rule 12 / Fourth Schedule** child-consent exemptions, as applicability facts.
 4. **Rule 11** as its own provision for guardians of persons with disability.
 5. Add **s.6(10)** (burden of proof) as an explicit requirement, so the package reports it.
-6. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules), obtain legal review, then build and sign the PRODUCTION package.
+6. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules) against the official text, then build the PRODUCTION package and have it approved by a second person and signed. On 2026-09-30 the official hosts were still refused by this environment's network policy (HTTP 403 at the egress proxy).
 7. **Real connectors** for withdrawal, erasure and correction outcomes. All automated effects are synthetic today.
 
 ## How to supply the official PDFs
 
-Download these from meity.gov.in and commit them unchanged under `regulatory-sources/`:
-- the Act;
-- G.S.R. 843(E), the commencement notification;
-- G.S.R. 844(E), the Board establishment notification;
-- G.S.R. 846(E), the Rules, including the Schedules.
+**Option 1 (preferred): allow the hosts.**
+1. Allow `www.meity.gov.in` in the environment's network settings.
+2. Run `node --import tsx scripts/regulatory-package.ts retrieve confirm:official-download`.
+3. The tool downloads the four files from their official URLs and hashes them.
 
-Alternatively, allow those hosts in the environment's network settings. Either way, `scripts/regulatory-package.ts` can then hash them and build the PRODUCTION package for independent approval and signing.
+**Option 2: download them yourself.**
+1. Download these four files unchanged. The URLs are the `official_url` entries in `scripts/regulatory/dpdp-baseline.ts`:
+
+   | Save as | Document | Official URL |
+   |---|---|---|
+   | `DPDP-ACT-2023.pdf` | The Act, No. 22 of 2023 | https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf |
+   | `GSR-843E-2025.pdf` | G.S.R. 843(E), commencement | https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf |
+   | `GSR-844E-2025.pdf` | G.S.R. 844(E), Board establishment | https://www.meity.gov.in/static/uploads/2025/11/cc217843dc3bcb37b2b05bcc3b4e031f.pdf |
+   | `DPDP-RULES-2025.pdf` | G.S.R. 846(E), the Rules with Schedules | https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf |
+
+2. Put them in `regulatory-sources/` and commit them.
+3. Run `node --import tsx scripts/regulatory-package.ts import regulatory-sources confirm:downloaded-from-official-urls`.
+4. The import records each file's SHA-256 with method `MANUAL_IMPORT`.
+5. A package built from imported files carries one open verification item per file. Before approving, the approving reviewer downloads each file again and confirms that its digest matches.
+
+**Then, for either option:**
+1. Resolve the other open verification items against the official text.
+2. Build the package: `node --import tsx scripts/regulatory-package.ts build <version> <effective-from-ISO>`. This needs the release signing key in `ORVIA_RELEASE_KEY_ID` and `ORVIA_RELEASE_PRIVATE_KEY`, set by its custodian, never pasted in chat.
+3. Have the package approved by a second person.
+4. Record the vendor's `PRODUCTION_CRITERIA` gate.
+
+If the URLs have moved, update the baseline's `official_url` entries first. The import cannot tell where a file came from; the reviewer's digest comparison against the official URL is what checks this.

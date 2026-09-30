@@ -1,0 +1,34 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T04:38:02.875Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "the crawl found nothing wrong on any page, tab or link",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "owner: /workspace/evidence",
+        "owner: /workspace/installed-versions",
+        "owner: /workspace/operations-runs",
+        "owner: /workspace/preflight",
+        "owner: /workspace/processor-engagements",
+        "owner: /workspace/support-cases",
+        "owner: /workspace/updates",
+        "member: /workspace/failures"
+      ]
+    },
+    {
+      "name": "unexpected failure in vendor installation at phone width",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the crawl found nothing wrong on any page, tab or link"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

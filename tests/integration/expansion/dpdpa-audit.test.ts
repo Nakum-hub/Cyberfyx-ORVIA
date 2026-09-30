@@ -37,6 +37,11 @@ await t.run(async () => {
   check('gap register covers the package in force and labels a test fixture', [gaps0.package?.distribution, gaps0.rows.length > 0, gaps0.limits.some(l => l.includes('TEST FIXTURE')), rowA0 !== undefined], ['TEST_FIXTURE', true, true, true]);
   check('each row carries expectations and indicators, and a gap status', [rowA0!.evidence_expectations.length > 0, rowA0!.indicators.some(i => i.key === 'notices.published_versions'), S.schemas.GapRow.shape.gap_status.options.includes(rowA0!.gap_status)], [true, true, true]);
   check('unresolved applicability is a gap, never assumed not applicable', gaps0.rows.filter(r => r.applicability === 'UNRESOLVED').every(r => r.gap_status === 'UNRESOLVED_APPLICABILITY'), true);
+  const procedureOnly = ['DPDP-BOARD-COMPLAINT-CHANNEL', 'DPDP-CONSENT-MANAGER', 'DPDP-ERASURE-ADVANCE-NOTICE'];
+  check('every requirement but the three tested only by auditor procedure has indicators', gaps0.rows.filter(r => !procedureOnly.includes(r.requirement_id) && r.indicators.length === 0).map(r => r.requirement_id), []);
+  check('the procedure-only requirements carry no invented indicator', gaps0.rows.filter(r => procedureOnly.includes(r.requirement_id)).map(r => r.indicators.length), gaps0.rows.filter(r => procedureOnly.includes(r.requirement_id)).map(() => 0));
+  check('indicator values are counts or dates only: an integer, a YYYY-MM-DD date, or none', gaps0.rows.flatMap(r => r.indicators).every(i => i.value === null || Number.isInteger(i.value) || (typeof i.value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(i.value))), true);
+  check('indicator keys are unique within each requirement', gaps0.rows.every(r => new Set(r.indicators.map(i => i.key)).size === r.indicators.length), true);
   check('summary by module adds up', gaps0.by_module.every(m => m.total >= m.gaps + m.evidenced + m.not_applicable), true);
   const csv = await ok(admin.call('/api/v1/admin/dpdpa-audit/gaps/export', {}, key()), S.schemas.GapRegisterExport);
   check('gap register exports as CSV', [csv.csv.startsWith('requirement_id,'), csv.rows], [true, gaps0.rows.length]);

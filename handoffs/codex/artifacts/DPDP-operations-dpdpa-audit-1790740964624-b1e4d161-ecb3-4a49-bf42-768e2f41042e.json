@@ -1,0 +1,579 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T04:02:44.624Z",
+  "suite": "dpdpa-audit",
+  "assertions": [
+    {
+      "name": "gap register covers the package in force and labels a test fixture",
+      "result": "PASS",
+      "expected": [
+        "TEST_FIXTURE",
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        "TEST_FIXTURE",
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "each row carries expectations and indicators, and a gap status",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "unresolved applicability is a gap, never assumed not applicable",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "summary by module adds up",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "gap register exports as CSV",
+      "result": "PASS",
+      "expected": [
+        true,
+        32
+      ],
+      "actual": [
+        true,
+        32
+      ]
+    },
+    {
+      "name": "a file whose bytes do not match its type is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "type_not_permitted_or_content_mismatch"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "type_not_permitted_or_content_mismatch"
+        ]
+      }
+    },
+    {
+      "name": "a type outside the allowed list is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "type_not_permitted_or_content_mismatch"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "type_not_permitted_or_content_mismatch"
+        ]
+      }
+    },
+    {
+      "name": "a file over 20 MB is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "stored file: server-side hash, sniffed type, unconfirmed flag blocks sharing",
+      "result": "PASS",
+      "expected": [
+        "56c2ac043c28d3543275a6f50b593a6beb0b6888ed8159ac02e3e7f4a32ccb26",
+        "application/pdf",
+        "BLOCKED_UNCONFIRMED"
+      ],
+      "actual": [
+        "56c2ac043c28d3543275a6f50b593a6beb0b6888ed8159ac02e3e7f4a32ccb26",
+        "application/pdf",
+        "BLOCKED_UNCONFIRMED"
+      ]
+    },
+    {
+      "name": "file content reads back byte for byte",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the submitter cannot confirm their own flag",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "confirmer_must_differ_from_submitter"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "confirmer_must_differ_from_submitter"
+        ]
+      }
+    },
+    {
+      "name": "a second person confirms: shareable",
+      "result": "PASS",
+      "expected": [
+        "NO",
+        "SHAREABLE"
+      ],
+      "actual": [
+        "NO",
+        "SHAREABLE"
+      ]
+    },
+    {
+      "name": "the control appears on the requirement with its files",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an auditor (read-only) cannot create an engagement",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "engagement recorded with processing-agreement status and declared independence",
+      "result": "PASS",
+      "expected": [
+        "NOT_RECORDED",
+        true,
+        null
+      ],
+      "actual": [
+        "NOT_RECORDED",
+        true,
+        null
+      ]
+    },
+    {
+      "name": "another organisation cannot see it",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "UNKNOWN / unconfirmed personal data is blocked",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "personal_data_unconfirmed"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "personal_data_unconfirmed"
+        ]
+      }
+    },
+    {
+      "name": "confirmed personal data needs an approved exception",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "personal_data_requires_approved_exception"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "personal_data_requires_approved_exception"
+        ]
+      }
+    },
+    {
+      "name": "the preparer cannot approve an exception to their own package",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "exception_approver_must_differ"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "exception_approver_must_differ"
+        ]
+      }
+    },
+    {
+      "name": "an item outside the engagement scope is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "outside_engagement_scope"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "outside_engagement_scope"
+        ]
+      }
+    },
+    {
+      "name": "statement text is redacted before it can leave",
+      "result": "PASS",
+      "expected": [
+        false,
+        false,
+        2
+      ],
+      "actual": [
+        false,
+        false,
+        2
+      ]
+    },
+    {
+      "name": "the preparer cannot approve",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "approver_must_differ_from_preparer"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "approver_must_differ_from_preparer"
+        ]
+      }
+    },
+    {
+      "name": "an auditor cannot approve",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "export before approval is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "approval_required"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "approval_required"
+        ]
+      }
+    },
+    {
+      "name": "a different owner approves and the package is sealed",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        true,
+        true
+      ],
+      "actual": [
+        "APPROVED",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a sealed package cannot change",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "exported file verifies and is exactly the approved bytes",
+      "result": "PASS",
+      "expected": [
+        true,
+        "4c75185d6901fa8ed64f8b84d421688f5e21725f1bfd1bf76fe18c58b3ee395d",
+        3
+      ],
+      "actual": [
+        true,
+        "4c75185d6901fa8ed64f8b84d421688f5e21725f1bfd1bf76fe18c58b3ee395d",
+        3
+      ]
+    },
+    {
+      "name": "manifest names roles, never people",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "exporting again yields the same bytes",
+      "result": "PASS",
+      "expected": "4c75185d6901fa8ed64f8b84d421688f5e21725f1bfd1bf76fe18c58b3ee395d",
+      "actual": "4c75185d6901fa8ed64f8b84d421688f5e21725f1bfd1bf76fe18c58b3ee395d"
+    },
+    {
+      "name": "vendor-visibility lists the package and both exports, carried by a person",
+      "result": "PASS",
+      "expected": [
+        2,
+        false,
+        0
+      ],
+      "actual": [
+        2,
+        false,
+        0
+      ]
+    },
+    {
+      "name": "the vendor installation verifies and accepts the client file",
+      "result": "PASS",
+      "expected": [
+        201,
+        "ACCEPTED",
+        "c7e1e2621cbab3711a1bcab2cc4a387902e8915dabaec8fb3050bef2657a6000"
+      ],
+      "actual": [
+        201,
+        "ACCEPTED",
+        "c7e1e2621cbab3711a1bcab2cc4a387902e8915dabaec8fb3050bef2657a6000"
+      ]
+    },
+    {
+      "name": "a findings file with a bad signature is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "signature_invalid"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "signature_invalid"
+        ]
+      }
+    },
+    {
+      "name": "a file signed by an untrusted key is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "untrusted_signing_key"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "untrusted_signing_key"
+        ]
+      }
+    },
+    {
+      "name": "the signed findings file imports",
+      "result": "PASS",
+      "expected": [
+        "FINDINGS",
+        1
+      ],
+      "actual": [
+        "FINDINGS",
+        1
+      ]
+    },
+    {
+      "name": "the same file twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the finding becomes a GRC issue for remediation",
+      "result": "PASS",
+      "expected": [
+        "EXTERNAL_AUDIT_FINDING",
+        "HIGH",
+        "OPEN"
+      ],
+      "actual": [
+        "EXTERNAL_AUDIT_FINDING",
+        "HIGH",
+        "OPEN"
+      ]
+    },
+    {
+      "name": "a report without its PDF is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "report_pdf_required"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "report_pdf_required"
+        ]
+      }
+    },
+    {
+      "name": "a report with a different PDF is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "pdf_does_not_match_signed_report"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "pdf_does_not_match_signed_report"
+        ]
+      }
+    },
+    {
+      "name": "the signed report and its PDF are stored and read back",
+      "result": "PASS",
+      "expected": [
+        "REPORT",
+        true
+      ],
+      "actual": [
+        "REPORT",
+        true
+      ]
+    },
+    {
+      "name": "imports are immutable",
+      "result": "PASS",
+      "expected": "audit_exchange_history_is_append_only",
+      "actual": "audit_exchange_history_is_append_only"
+    },
+    {
+      "name": "client revokes the package; it can no longer be exported",
+      "result": "PASS",
+      "expected": [
+        "REVOKED",
+        409
+      ],
+      "actual": [
+        "REVOKED",
+        409
+      ]
+    },
+    {
+      "name": "the next package relays the revocation and carries the approved exception",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the vendor quarantines personal data without a processing agreement and withdraws the revoked package",
+      "result": "PASS",
+      "expected": [
+        "QUARANTINED",
+        "REVOKED"
+      ],
+      "actual": [
+        "QUARANTINED",
+        "REVOKED"
+      ]
+    },
+    {
+      "name": "orvia_app cannot approve by updating the row directly",
+      "result": "PASS",
+      "expected": "DENIED",
+      "actual": "DENIED"
+    },
+    {
+      "name": "orvia_app cannot confirm a flag directly",
+      "result": "PASS",
+      "expected": "DENIED",
+      "actual": "DENIED"
+    },
+    {
+      "name": "orvia_app cannot insert a personal-data item without the approval function",
+      "result": "PASS",
+      "expected": "DENIED",
+      "actual": "DENIED"
+    },
+    {
+      "name": "the customer database records CUSTOMER_INSTALLATION immutably",
+      "result": "PASS",
+      "expected": "installation_kind_immutable",
+      "actual": "installation_kind_immutable"
+    },
+    {
+      "name": "/vendor/sign-in is a 404 on a customer installation",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "/vendor is a 404 on a customer installation",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "/api/v1/vendor/session is a 404 on a customer installation",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "/api/auth/vendor/get-session is a 404 on a customer installation",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "/api/auth/account/get-session is a 404 on a customer installation",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "passed": 52,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -1,0 +1,61 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T03:06:24.236Z",
+  "suite": "local-audit-tls",
+  "assertions": [
+    {
+      "name": "untrusted CA is rejected before channel data is sent",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "wrong TLS hostname is rejected",
+      "result": "PASS",
+      "expected": "ERR_TLS_CERT_ALTNAME_INVALID",
+      "actual": "ERR_TLS_CERT_ALTNAME_INVALID"
+    },
+    {
+      "name": "configured trust file names only the local HTTPS vendor",
+      "result": "PASS",
+      "expected": "https://127.0.0.1:54430",
+      "actual": "https://127.0.0.1:54430"
+    },
+    {
+      "name": "isolated vendor setup",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "distinct approver activates the mandate",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "real HTTPS accepts a signed snapshot",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "auditor request recorded",
+      "result": "FAIL",
+      "expected": 201,
+      "actual": 200
+    },
+    {
+      "name": "unexpected failure in setup",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: auditor request recorded"
+    }
+  ],
+  "passed": 6,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

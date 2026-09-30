@@ -1,13 +1,14 @@
 import { z } from 'zod';
-import { RequirementId, ProvisionId, Severity, RequirementResult, PersonalDataFlag } from './audit-exchange.ts';
-import { EvidenceCategory, SamplePopulation } from './audit-channel.ts';
+import { RequirementId, ProvisionId, Severity, RequirementResult, PersonalDataFlag, EvidenceCategory, SamplePopulation } from './audit-primitives.ts';
 
 /**
  * Canonical contract of the vendor area on the vendor's own VENDOR_SERVICE
  * installation (revision 1.5 addendum). Vendor-internal: it is never served by
  * a customer installation, where every /api/v1/vendor path is a 404.
+ * 0.4.0: the two legal-review activation gates become management template approvals (owner decision 2026-09-30);
+ * activations recorded under the old names are still listed and still count.
  */
-export const VENDOR_AUDIT_CONTRACT_VERSION = '0.3.0' as const;
+export const VENDOR_AUDIT_CONTRACT_VERSION = '0.4.0' as const;
 const Id = z.uuid();
 const Time = z.iso.datetime();
 const Day = z.iso.date();

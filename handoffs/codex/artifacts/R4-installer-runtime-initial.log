@@ -1,0 +1,74 @@
+✓ Running next.config.ts took 101ms
+Rehearsal HTTPS ready at https://127.0.0.1:4330; local CA verification required.
+Application supervisor running: https://127.0.0.1:4330. Stop with app:stop confirm:rehearsal.
+node:fs:483
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/qualification/repo/.local/profiles/rehearsal/agent/enrollment.json'
+    at readFileSync (node:fs:483:20)
+    at agentEnrollment (/qualification/repo/backend/auth/src/machine-profile.ts:19:48)
+    at <anonymous> (/qualification/repo/services/agent/src/main.ts:8:77)
+    at renewingEnrollment (/qualification/repo/backend/auth/src/machine-profile.ts:41:17)
+    at <anonymous> (/qualification/repo/services/agent/src/main.ts:8:54)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/qualification/repo/.local/profiles/rehearsal/agent/enrollment.json'
+}
+
+Node.js v24.21.0
+node:fs:483
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/qualification/repo/.local/profiles/rehearsal/worker/enrollment.json'
+    at readFileSync (node:fs:483:20)
+    at workerEnrollment (/qualification/repo/backend/auth/src/machine-profile.ts:15:49)
+    at <anonymous> (/qualification/repo/services/worker/src/operations-runner.ts:49:54)
+    at renewingEnrollment (/qualification/repo/backend/auth/src/machine-profile.ts:41:17)
+    at operationsRunner (/qualification/repo/services/worker/src/operations-runner.ts:49:29)
+    at <anonymous> (/qualification/repo/services/worker/src/operations-runner.ts:120:18)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/qualification/repo/.local/profiles/rehearsal/worker/enrollment.json'
+}
+
+Node.js v24.21.0
+{
+  name: 'Error',
+  code: 'AGENT_PROCESS_EXITED',
+  operator_guidance: 'The connector agent stopped, so the application supervisor stopped with it. An expired machine enrollment is the usual cause: renew it with machine:init confirm:<profile>, then start the application again. No business state is reset by a restart.'
+}
+node:fs:483
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/qualification/repo/.local/profiles/rehearsal/worker/enrollment.json'
+    at readFileSync (node:fs:483:20)
+    at workerEnrollment (/qualification/repo/backend/auth/src/machine-profile.ts:15:49)
+    at <anonymous> (/qualification/repo/services/worker/src/withdrawal-worker.ts:18:78)
+    at renewingEnrollment (/qualification/repo/backend/auth/src/machine-profile.ts:41:17)
+    at workflowActivities (/qualification/repo/services/worker/src/withdrawal-worker.ts:18:55)
+    at createWithdrawalWorker (/qualification/repo/services/worker/src/withdrawal-worker.ts:40:16)
+    at <anonymous> (/qualification/repo/services/worker/src/main.ts:15:21)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:647:26 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/qualification/repo/.local/profiles/rehearsal/worker/enrollment.json'
+}
+
+Node.js v24.21.0
+Artifact: handoffs/codex/artifacts/A00-application-lifecycle-1790755651940-db310f32-d08d-41a9-ac5f-beb14c3cf41e.json

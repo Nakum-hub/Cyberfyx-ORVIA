@@ -1,0 +1,2 @@
+Recorded command: docker exec -w /qualification/repo orvia-installer-round4-cgroup pnpm exec eslint scripts/app-run.ts --max-warnings 0
+Exit code: 0 (captured by the command runner). ESLint emitted no output.

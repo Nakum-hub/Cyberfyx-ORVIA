@@ -13,7 +13,8 @@ type State = { criteria: { id: string; version: string; distribution: string; re
   methodologies: { id: string; version: string; digest: string; recorded_by: string; approved_by: string | null; approved_at: string | null; definition: { matrix: string[][]; residual_steps: Record<string, number>; considerations: string[]; severity_rules: string } }[];
   activations: { id: string; gate: string; reference: string; recorded_at: string }[]; gates_missing: string[]; real_use_allowed: boolean; audit_key: { key_id: string; development: boolean } | null; statement: string };
 const words = (v: string) => v.replaceAll('_', ' ').toLowerCase();
-const GATES: Record<string, string> = { LEGAL_REVIEW_ENGAGEMENT_LETTER: 'Legal review of the engagement letter', LEGAL_REVIEW_PROCESSING_AGREEMENT: 'Legal review of the processing agreement', PRODUCTION_CRITERIA: 'Production criteria from the official, signed regulatory package', PRODUCTION_AUDIT_KEY: 'Production audit signing key' };
+const GATES: Record<string, string> = { ENGAGEMENT_LETTER_TEMPLATE_APPROVED: 'Engagement letter template approved by management', PROCESSING_AGREEMENT_TEMPLATE_APPROVED: 'Processing agreement template approved by management', PRODUCTION_CRITERIA: 'Production criteria from the official, signed regulatory package', PRODUCTION_AUDIT_KEY: 'Production audit signing key' };
+const LEGACY: Record<string, string> = { ENGAGEMENT_LETTER_TEMPLATE_APPROVED: 'LEGAL_REVIEW_ENGAGEMENT_LETTER', PROCESSING_AGREEMENT_TEMPLATE_APPROVED: 'LEGAL_REVIEW_PROCESSING_AGREEMENT' };
 const DEFAULT_MATRIX = [1, 2, 3, 4, 5].map(l => [1, 2, 3, 4, 5].map(i => { const s = l * i; return s <= 4 ? 'LOW' : s <= 9 ? 'MEDIUM' : s <= 16 ? 'HIGH' : 'CRITICAL'; }));
 
 function Practice({ session }: { session: VendorSession }) {
@@ -30,10 +31,11 @@ function Practice({ session }: { session: VendorSession }) {
     <section className="section" aria-label="Activation gates"><div className="section-head"><h3>Activation for real engagements</h3></div>
       <Facts items={[{ term: 'Real engagements', value: s.real_use_allowed ? 'Allowed (each still needs production criteria and its own acceptance)' : 'Refused until every gate below is recorded' },
         { term: 'Audit signing key', value: s.audit_key ? `${s.audit_key.key_id}${s.audit_key.development ? ' — DEVELOPMENT key: every signed output is marked and cannot be relied on' : ''}` : 'Not available' },
-        ...Object.entries(GATES).map(([g, label]) => ({ term: label, value: s.activations.find(a => a.gate === g) ? `Recorded ${s.activations.find(a => a.gate === g)!.recorded_at.slice(0, 10)}: ${s.activations.find(a => a.gate === g)!.reference}` : 'Missing' }))]} />
+        ...Object.entries(GATES).map(([g, label]) => { const a = s.activations.find(x => x.gate === g || x.gate === LEGACY[g]);
+          return { term: label, value: a ? `Recorded ${a.recorded_at.slice(0, 10)}${a.gate !== g ? ' (as a legal review)' : ''}: ${a.reference}` : 'Missing' }; })]} />
       {can(session, 'practice.activate') && s.gates_missing.length > 0 && <form className="panel" aria-label="Record activation gate" onSubmit={(ev: FormEvent) => { ev.preventDefault(); void run(() => vendorCall('/practice/activations', gate), 'Gate recorded.'); }}>
         <SelectField label="Gate" value={gate.gate} onChange={v => setGate(x => ({ ...x, gate: v }))} options={s.gates_missing.map(g => ({ value: g, label: GATES[g] ?? words(g) }))} required />
-        <TextField label="Reference" value={gate.reference} onChange={v => setGate(x => ({ ...x, reference: v }))} required hint="The legal opinion, package signature or key ceremony record this relies on. Recording a gate is an attestation by you." />
+        <TextField label="Reference" value={gate.reference} onChange={v => setGate(x => ({ ...x, reference: v }))} required hint="The approved template version and its SHA-256 (docs/audit-practice/templates), the package signature or the key ceremony record. Recording a gate is an attestation by you." />
         <button type="submit" disabled={busy}>Record gate</button></form>}
     </section>
     <section className="section" aria-label="Criteria versions"><div className="section-head"><h3>Criteria versions</h3></div>

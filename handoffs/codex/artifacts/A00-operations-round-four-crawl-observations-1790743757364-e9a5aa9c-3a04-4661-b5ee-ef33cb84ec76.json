@@ -1,0 +1,79 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T04:49:17.365Z",
+  "suite": "round-four-crawl-observations",
+  "assertions": [
+    {
+      "name": "admin /workspace/installed-versions settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "auditor /workspace/assessments settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "auditor /workspace/audit-coverage settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "owner /workspace/evidence settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "owner /workspace/installed-versions settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "owner /workspace/operations-runs settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "owner /workspace/preflight settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "owner /workspace/processor-engagements settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "owner /workspace/support-cases settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "owner /workspace/updates settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "member /workspace/failures settles without API/server errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 11,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

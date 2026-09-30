@@ -22,7 +22,8 @@ const key = () => crypto.randomUUID().replaceAll('-', '');
 const TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral' | 'info'> = { EVIDENCED: 'ok', NOT_APPLICABLE: 'neutral', PENDING_REVIEW: 'info', STALE: 'warn', REJECTED: 'stop', NO_EVIDENCE: 'stop', UNRESOLVED_APPLICABILITY: 'warn' };
 const explain = (e: unknown) => e instanceof ApiError ? (e.envelope.error.field_errors?.map(f => `${f.field}: ${f.code.replaceAll('_', ' ')}`).join('; ') || e.envelope.error.message) : e instanceof Error ? e.message : 'The request could not be completed; the outcome is unknown.';
 const toBase64 = async (blob: Blob) => { const bytes = new Uint8Array(await blob.arrayBuffer()); let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(s); };
-const save = (name: string, data: BlobPart, type: string) => { const url = URL.createObjectURL(new Blob([data], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); };
+const save = (name: string, data: BlobPart, type: string) => { const url = URL.createObjectURL(new Blob([data], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.hidden = true;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }; // attached for the click: detached-link clicks differ across browsers
 const fromBase64 = (b64: string) => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
 
 function useRunner(reload: () => Promise<void>) {

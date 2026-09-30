@@ -1,0 +1,81 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T05:58:13.358Z",
+  "suite": "dpdpa-audit",
+  "assertions": [
+    {
+      "name": "gap register covers the package in force and labels a test fixture",
+      "result": "PASS",
+      "expected": [
+        "TEST_FIXTURE",
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        "TEST_FIXTURE",
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "each row carries expectations and indicators, and a gap status",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "unresolved applicability is a gap, never assumed not applicable",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "every requirement but the three tested only by auditor procedure has indicators",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the procedure-only requirements carry no invented indicator",
+      "result": "PASS",
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "actual": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "the package in force lists all 33 baseline requirements",
+      "result": "FAIL",
+      "expected": 33,
+      "actual": 32
+    },
+    {
+      "name": "unexpected failure in gap register",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the package in force lists all 33 baseline requirements"
+    }
+  ],
+  "passed": 5,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

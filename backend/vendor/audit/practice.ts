@@ -66,7 +66,7 @@ export async function practiceState(c: Ctx, keys?: Keys) {
     methodologies: methodologies.map(r => ({ id: r.id, version: r.version, digest: r.digest, definition: methodologyDefinition(r), recorded_by: r.recorded_by, approved_by: r.approved_by, approved_at: iso(r.approved_at), created_at: iso(r.created_at) })),
     activations: activations.map(r => ({ id: r.id, gate: r.gate, reference: r.reference, recorded_by: r.recorded_by, recorded_at: iso(r.recorded_at) })),
     gates_missing: missing, real_use_allowed: missing.length === 0, audit_key: auditKeyState(keys),
-    statement: missing.length ? `Real client engagements are refused until every gate is recorded: ${missing.join(', ')}. Synthetic engagements carry a visible SYNTHETIC mark and test-fixture criteria.` : 'All activation gates are recorded. Each real engagement still needs production criteria and its own acceptance decision.',
+    statement: missing.length ? `Real client engagements are refused until every gate is recorded: ${missing.map(g => GATE_LABELS[g] ?? g).join('; ')}. Synthetic engagements carry a visible SYNTHETIC mark and test-fixture criteria.` : 'All activation gates are recorded. Each real engagement still needs production criteria and its own acceptance decision.',
   });
 }
 const methodologyDefinition = (r: pg.QueryResultRow) => ({ likelihood_scale: r.likelihood_scale, impact_scale: r.impact_scale, matrix: r.matrix, severity_rules: r.severity_rules, ...r.factors });
@@ -112,6 +112,9 @@ export async function approveMethodology(c: Ctx, id: string) {
   return guarded(async () => { await c.tx.query('UPDATE vendor.methodologies SET approved_by=$2, approved_at=clock_timestamp() WHERE id=$1', [id, c.actor.actor_id]);
     await audit(c, 'vendor.practice.methodology-approved', id); return practiceState(c); });
 }
+const GATE_LABELS: Record<string, string> = { ENGAGEMENT_LETTER_TEMPLATE_APPROVED: 'engagement letter template approved by management',
+  PROCESSING_AGREEMENT_TEMPLATE_APPROVED: 'processing agreement template approved by management', PRODUCTION_AUDIT_KEY: 'production audit signing key',
+  PRODUCTION_CRITERIA: 'production criteria from the official, signed regulatory package' };
 export async function recordActivation(c: Ctx, input: unknown, keys: Keys) {
   const v = P.ActivationRecord.parse(input);
   if (v.gate === 'PRODUCTION_AUDIT_KEY') { const k = auditKeyState(keys); if (!k || k.development) refuse(409, 'gate', 'audit_key_is_a_development_key'); }

@@ -1,0 +1,17 @@
+{
+  "archive": "context-5.zip",
+  "sha256": "837ff77ba7475475e0efe48d7240f5de21f8e4c5f4130667f069b9c0160a67a4",
+  "parts": [
+    {
+      "file": "context-5.zip.part001",
+      "bytes": 41943040,
+      "sha256": "52e3d83f1f22826795a8221a6240da138189cd8cf3698fc30974608fea52178d"
+    },
+    {
+      "file": "context-5.zip.part002",
+      "bytes": 10856784,
+      "sha256": "ae348d7a8505bec86bcb71e1db356822226ebb1019a4b242c834df77ed93a55b"
+    }
+  ],
+  "restore": "Concatenate parts in listed order in binary mode; verify SHA256; open the resulting ZIP in the local Playwright trace viewer. No external upload is needed."
+}

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RequirementId, ProvisionId, Severity, RequirementResult } from './audit-exchange.ts';
+import { RequirementId, ProvisionId, Severity, RequirementResult } from './audit-primitives.ts';
 
 /**
  * Canonical contract of the evidence-based DPDPA audit practice on the vendor's
@@ -33,12 +33,15 @@ export const MethodologyRecord = z.strictObject({
   residual_steps: z.strictObject({ EFFECTIVE: z.number().int().min(0).max(3), PARTIALLY_EFFECTIVE: z.number().int().min(0).max(3), INEFFECTIVE: z.literal(0), NOT_ASSESSED: z.literal(0) }),
   severity_rules: Text(20, 8000), considerations: List(12, Text(3, 300)).min(1),
 });
-export const PracticeGate = z.enum(['LEGAL_REVIEW_ENGAGEMENT_LETTER', 'LEGAL_REVIEW_PROCESSING_AGREEMENT', 'PRODUCTION_CRITERIA', 'PRODUCTION_AUDIT_KEY']);
+// 0.47.0: management approves the engagement letter and processing agreement templates (owner decision 2026-09-30, no external
+// legal review). Gates recorded under the former legal-review names stay readable as history and still satisfy the new gate.
+export const PracticeGate = z.enum(['ENGAGEMENT_LETTER_TEMPLATE_APPROVED', 'PROCESSING_AGREEMENT_TEMPLATE_APPROVED', 'PRODUCTION_CRITERIA', 'PRODUCTION_AUDIT_KEY']);
+export const RecordedPracticeGate = z.enum([...PracticeGate.options, 'LEGAL_REVIEW_ENGAGEMENT_LETTER', 'LEGAL_REVIEW_PROCESSING_AGREEMENT']);
 export const ActivationRecord = z.strictObject({ gate: PracticeGate, reference: Text(3, 300) });
 export const PracticeState = z.strictObject({
   criteria: z.array(z.strictObject({ id: Id, version: z.string(), distribution: CriteriaDistribution, requirements: z.number().int(), digest: z.string(), recorded_by: Id, approved_by: Id.nullable(), approved_at: Time.nullable(), created_at: Time })).max(200),
   methodologies: z.array(z.strictObject({ id: Id, version: z.string(), digest: z.string(), definition: z.unknown(), recorded_by: Id, approved_by: Id.nullable(), approved_at: Time.nullable(), created_at: Time })).max(200),
-  activations: z.array(z.strictObject({ id: Id, gate: PracticeGate, reference: z.string(), recorded_by: Id, recorded_at: Time })).max(200),
+  activations: z.array(z.strictObject({ id: Id, gate: RecordedPracticeGate, reference: z.string(), recorded_by: Id, recorded_at: Time })).max(200),
   gates_missing: z.array(PracticeGate), real_use_allowed: z.boolean(),
   audit_key: z.strictObject({ key_id: z.string(), development: z.boolean() }).nullable(),
   statement: z.string().max(600),

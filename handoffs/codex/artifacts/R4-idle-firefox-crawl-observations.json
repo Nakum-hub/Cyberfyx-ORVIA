@@ -1,0 +1,156 @@
+[
+  {
+    "role": "admin",
+    "route": "/workspace/installed-versions",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "auditor",
+    "route": "/workspace/assessments",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "auditor",
+    "route": "/workspace/audit-coverage",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "owner",
+    "route": "/workspace/evidence",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "owner",
+    "route": "/workspace/installed-versions",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "owner",
+    "route": "/workspace/operations-runs",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "owner",
+    "route": "/workspace/preflight",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "owner",
+    "route": "/workspace/processor-engagements",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "owner",
+    "route": "/workspace/support-cases",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "owner",
+    "route": "/workspace/updates",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "role": "member",
+    "route": "/workspace/failures",
+    "status": 200,
+    "heading": "Privacy Control Workspace",
+    "loadingOnly": false,
+    "session": [
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "issues": []
+  }
+]

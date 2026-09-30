@@ -1,0 +1,19 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T03:27:48.141Z",
+  "suite": "local-tls-fixture-closure",
+  "assertions": [
+    {
+      "name": "synthetic TLS fixture closed through the application",
+      "result": "PASS",
+      "expected": "CLOSED",
+      "actual": "CLOSED"
+    }
+  ],
+  "passed": 1,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

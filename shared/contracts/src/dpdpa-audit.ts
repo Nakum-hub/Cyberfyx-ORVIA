@@ -1,6 +1,5 @@
 import { z } from 'zod';
-import { EvidenceMediaType, PersonalDataFlag, RequirementId, Severity } from './audit-exchange.ts';
-import { EvidenceCategory, MandateKind, MandateSchedule, MandateState } from './audit-channel.ts';
+import { EvidenceCategory, EvidenceMediaType, MandateKind, MandateSchedule, MandateState, PersonalDataFlag, RequirementId, Severity } from './audit-primitives.ts';
 
 /**
  * Client side of the DPDPA external audit exchange (revision 1.5 addendum):
