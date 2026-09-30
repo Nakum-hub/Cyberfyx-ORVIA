@@ -2,6 +2,7 @@
 
 **Base:** `e4ad01ac185bb28058427a13b23d23b64bcde79f`, `codex/design-refresh-20261002`.
 **Branch:** `codex/round7-browser-fixes`.
+**Diagnostic commit:** `e5ea61d`, pushed to origin; application code unchanged.
 **Status:** BLOCKED; no application fix implemented or qualified.
 **Source master SHA-256:** `c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b`, unchanged.
 **Existing build:** `rgu7z21LSvTmWQSgQOsZK`; contract 0.46.0. This is the requested Round 6 base, not the revision 1.7 acceptance candidate.
@@ -64,6 +65,8 @@ Working directory: `C:/Cyberfyx-projects/Cyberfyx_ORVIA/.worktrees/design-round6
 | Same command, no preload, with header metadata | 0 | 201 / 400 / 201; `R7-cmp-header-check.log` |
 | Same command, with labelled no-keepalive diagnostic case | 0 | 201 / 400 / 201 / 400; `R7-cmp-keepalive-probe.log` |
 | `node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-browser.mjs firefox interface-crawl-local` | -1 | Interrupted at explicit protected-file stop; partial failure retained |
+| `git commit -m "Capture Round 7 browser failures and protected authorization blocker"` | 0 | `e5ea61d`, diagnostics only |
+| `git push -u origin codex/round7-browser-fixes` | 0 | Published diagnostic handoff |
 
 Full typecheck, full lint, `pnpm test`, the completed three-browser crawl matrix and three journeys per browser: **NOT_RUN for a fixed candidate**. There is no fixed candidate. Existing Round 6 results are not promoted to Round 7.
 
