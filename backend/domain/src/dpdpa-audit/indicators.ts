@@ -65,8 +65,7 @@ const SPECS: Record<string, Spec[]> = {
   'DPDP-SDF-DPIA': sdf('PERIODIC_DPIA', 'sdf.dpia'),
   'DPDP-SDF-AUDIT': sdf('PERIODIC_AUDIT', 'sdf.audit'),
   // Added with the audit methodology (docs/audit-practice/METHODOLOGY.md). Requirements with no indicator here are tested only by
-  // auditor procedures, because ORVIA holds no record that could show them: DPDP-CONSENT-MANAGER (not supported) and
-  // DPDP-BOARD-COMPLAINT-CHANNEL (notice text, inspected).
+  // auditor procedures, because ORVIA holds no record that could show them: DPDP-BOARD-COMPLAINT-CHANNEL (notice text, inspected).
   'DPDP-LEGITIMATE-USES': [
     count('conditions.legitimate_use', 'Legitimate-use conditions in effect', 'resolved processing conditions citing DPDP-LEGITIMATE-USES and in effect', `app.processing_conditions WHERE ${predicate} AND 'DPDP-LEGITIMATE-USES'=ANY(requirement_ids) AND NOT unresolved AND effective_from<=clock_timestamp() AND (effective_to IS NULL OR effective_to>clock_timestamp())`),
     count('conditions.unresolved', 'Processing conditions unresolved', 'processing conditions recorded as unresolved', `app.processing_conditions WHERE ${predicate} AND unresolved`),
@@ -87,6 +86,10 @@ const SPECS: Record<string, Spec[]> = {
   'DPDP-ERASURE-PURPOSE-SERVED': [...runs('RETENTION_ERASURE', 'erasure', 'Retention erasure'),
     count('retention.rules_active', 'Retention rules active', 'retention rules in status ACTIVE', `app.retention_rules WHERE ${predicate} AND status='ACTIVE'`),
     count('retention.outcomes_failed_or_unknown', 'Erasure outcomes failed or unknown', 'retention outcomes recorded as FAILED or EFFECT_UNKNOWN', `app.retention_outcomes WHERE ${predicate} AND result IN ('FAILED','EFFECT_UNKNOWN')`)],
+  'DPDP-CONSENT-MANAGER': [
+    count('consent_managers.active', 'Consent Managers accepted (active)', 'registered Consent Managers in status ACTIVE', `app.consent_managers WHERE ${predicate} AND status='ACTIVE'`),
+    count('consent_managers.records', 'Consent records given through a Consent Manager', 'consent records linked to a Consent Manager artefact', `app.consent_manager_links WHERE ${predicate}`),
+    count('consent_managers.relayed_withdrawals', 'Withdrawals relayed by a Consent Manager', 'consent withdrawal events with source CONSENT_MANAGER', `app.consent_record_events WHERE ${predicate} AND event='WITHDRAWN' AND source='CONSENT_MANAGER'`)],
   'DPDP-ERASURE-ADVANCE-NOTICE': [
     count('intimations.recorded', 'Erasure intimations recorded', 'Rule 8(2) intimations recorded with their evidence', `app.erasure_intimations WHERE ${predicate}`),
     count('intimations.re_engaged', 'People who re-engaged after an intimation', 'intimations followed by a login, contact or exercise of rights', `app.erasure_intimations WHERE ${predicate} AND re_engaged_at IS NOT NULL`),
@@ -129,7 +132,7 @@ const SPECS: Record<string, Spec[]> = {
     count('processors.onward_transfer_allowed', 'Active agreements allowing onward transfer', 'active processor agreements that allow onward transfer', `app.processor_agreements WHERE ${predicate} AND status='ACTIVE' AND onward_transfer_allowed`)],
 };
 /** Requirements the audit tests by auditor procedure only, with the reason stated in the methodology. */
-export const PROCEDURE_ONLY_REQUIREMENTS = ['DPDP-BOARD-COMPLAINT-CHANNEL', 'DPDP-CONSENT-MANAGER'] as const;
+export const PROCEDURE_ONLY_REQUIREMENTS = ['DPDP-BOARD-COMPLAINT-CHANNEL'] as const;
 export const indicatorRequirements = () => Object.keys(SPECS);
 export const indicatorKeys = (requirementId: string) => (SPECS[requirementId] ?? []).map(s => s.key);
 export async function indicatorsFor(c: Context, requirementId: string, now: Date): Promise<D.Indicator[]> {

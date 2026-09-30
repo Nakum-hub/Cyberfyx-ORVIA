@@ -41,7 +41,7 @@ Legend: **Built**: implemented and exercised by the named suites on the syntheti
 | Valid consent; withdrawal as easy as giving | s.6(1), s.6(4) | Affirmative, purpose-specific grant; one-click withdrawal in the privacy portal | Built | consent, portal suites |
 | Stop processing on withdrawal, including by processors | s.6(6) | Durable withdrawal propagation, signed agent commands, independent read-back; preference decisions refuse contact once withdrawn | Partial | consent-withdrawal, workflows, preferences. **Limit:** synthetic connectors only; no real downstream system yet |
 | Burden of proving notice and consent | s.6(10) | Immutable consent receipts bound to the notice version and digest; evidence export | Built (requirement not in the package) | consent suite |
-| **Consent Managers** (accept consent given or withdrawn through a registered Consent Manager) | s.6(7)–(9), R4, First Schedule | Not supported | **Gap**; the Data Fiduciary's duty (s.6(7)–(8)) is in force from 13 May 2027 | none |
+| Consent Managers (accept consent given or withdrawn through a registered Consent Manager) | s.6(7)–(9), R4, First Schedule | Register of Board-registered Consent Managers with evidence and status; consent records linked to a Consent Manager artefact; relayed withdrawals always honoured through the normal pipeline (contract 0.47.0, migration 0072). No Consent Manager is registered with the Board yet, so no live Consent Manager interface has been exercised. | Built (in force for Data Fiduciaries 13 May 2027) | consent-manager 12/12 |
 | Processors only under contract | s.8(2) | Processor engagements, agreements lifecycle, restrictions, reassessment | Built | processors, third-party |
 | Accuracy where used for a decision or disclosed | s.8(3) | Correction workflow with verification | Built | correction suite |
 | Reasonable security safeguards | s.8(5), R6 | Security-safeguard register, access control, MFA, row-level security, audit trail | Partial | safeguards screens, auth 88/88. **Limit:** a register of the customer's own safeguards; ORVIA cannot secure the customer's other systems |
@@ -91,7 +91,7 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 - Auditor requests inside the mandate are answered automatically. Requests for documents go to a client approver.
 - Unanswered requests past their due date become limitations in the signed report.
 - No live access exists in either direction, and anything carrying personal data still needs the per-item exception and a processing agreement.
-- Automatic indicators cover 31 of the 33 requirements (`backend/domain/src/dpdpa-audit/indicators.ts`). DPDP-CONSENT-MANAGER and DPDP-BOARD-COMPLAINT-CHANNEL are tested by auditor procedure only, because ORVIA holds no record that could show them.
+- Automatic indicators cover 32 of the 33 requirements (`backend/domain/src/dpdpa-audit/indicators.ts`). DPDP-BOARD-COMPLAINT-CHANNEL is tested by auditor procedure only (the notice text is inspected).
 - How Cyberfyx audits, and the client documents it uses, are in `docs/audit-practice/` (methodology v1.0 and eight templates).
 - Owner decision 2026-09-30: no external legal review. Real engagements instead need Cyberfyx management to approve the engagement letter and processing agreement templates. This is recorded as the `ENGAGEMENT_LETTER_TEMPLATE_APPROVED` and `PROCESSING_AGREEMENT_TEMPLATE_APPROVED` gates (vendor migration 0014), plus production criteria and the production audit key.
 
@@ -101,12 +101,11 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 
 ## Gaps to close (in order)
 
-1. **Consent Managers** (s.6(7)–(8), from 13 May 2027; Consent Managers' own registration under s.6(9) and R4 from 13 Nov 2026): accept consent and withdrawal routed through a registered Consent Manager, record the Consent Manager's identity and registration, and make it interoperable. This needs the First Schedule technical details from the official Rules text.
-2. **Rule 12 / Fourth Schedule** child-consent exemptions, as applicability facts.
-3. **Rule 11** as its own provision for guardians of persons with disability.
-4. Add **s.6(10)** (burden of proof) as an explicit requirement, so the package reports it.
-5. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules) against the official text, then build the PRODUCTION package and have it approved by a second person and signed. On 2026-09-30 the official hosts were still refused by this environment's network policy (HTTP 403 at the egress proxy).
-6. **Real connectors** for withdrawal, erasure and correction outcomes. All automated effects are synthetic today.
+1. **Rule 12 / Fourth Schedule** child-consent exemptions, as applicability facts.
+2. **Rule 11** as its own provision for guardians of persons with disability.
+3. Add **s.6(10)** (burden of proof) as an explicit requirement, so the package reports it.
+4. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules) against the official text, then build the PRODUCTION package and have it approved by a second person and signed. On 2026-09-30 the official hosts were still refused by this environment's network policy (HTTP 403 at the egress proxy).
+5. **Real connectors** for withdrawal, erasure and correction outcomes. All automated effects are synthetic today.
 
 ## How to supply the official PDFs
 

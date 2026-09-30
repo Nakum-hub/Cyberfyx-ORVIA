@@ -47,8 +47,9 @@ const expansionNames = Object.keys(expansionSchemas);
  *  566, so no item is dropped by a global cap any more. No route changed.
  *  0.46.0 (Codex review R1): approving a management response for the audit channel takes the approver's record that it contains
  *  no personal data (FindingResponseApproval); FindingResponse shows that review, and the signed response carries it.
- *  0.47.0 adds the Rule 8(2) erasure intimation: four routes under /erasure-intimations (due list, list, record, re-engagement).
- *  Additive: no existing route or schema changed. */
+ *  0.47.0 adds the Rule 8(2) erasure intimation (four routes under /erasure-intimations) and Consent Managers (s.6(7)-(9),
+ *  rule 4: register, status, link a consent record, relayed withdrawal). ConsentRecord gains consent_manager (nullable) and
+ *  ConsentEvent.source gains CONSENT_MANAGER. Otherwise additive. */
 export const CONTRACT_VERSION = '0.47.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit

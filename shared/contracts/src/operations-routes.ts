@@ -87,6 +87,12 @@ export const operationsRoutes: Route[] = [
   list('list_retention_holds', '/retention-holds', 'RetentionHoldList', 'registry.read', 'RetentionHoldQuery'),
   write('create_retention_hold', '/retention-holds', 'RetentionHoldCreate', 'RetentionHold', 'registry.write'),
   write('release_retention_hold', '/retention-holds/{id}/release', 'RetentionHoldRelease', 'RetentionHold', 'operations.approve', 200),
+  // Consent Managers, s.6(7)-(9) and rule 4 (0.47.0)
+  list('list_consent_managers', '/consent-managers', 'ConsentManagerList', 'registry.read'),
+  write('create_consent_manager', '/consent-managers', 'ConsentManagerCreate', 'ConsentManager', 'registry.write'),
+  write('change_consent_manager_status', '/consent-managers/{id}/status', 'ConsentManagerStatusChange', 'ConsentManager', 'registry.write', 200),
+  write('link_consent_manager', '/consent-records/{id}/consent-manager', 'ConsentManagerLink', 'ConsentRecord', 'registry.write', 200),
+  write('record_consent_manager_withdrawal', '/consent-records/{id}/consent-manager-withdrawal', 'ConsentManagerWithdrawal', 'ConsentRecord', 'registry.write', 200),
   // Rule 8(2): 48-hour intimation before Third Schedule erasure (0.47.0)
   list('list_erasure_intimations_due', '/erasure-intimations/due', 'ErasureIntimationDueList', 'registry.read'),
   list('list_erasure_intimations', '/erasure-intimations', 'ErasureIntimationList', 'registry.read', 'ErasureIntimationQuery'),

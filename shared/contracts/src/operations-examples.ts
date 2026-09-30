@@ -37,6 +37,7 @@ export function operationsExample(name: string): unknown {
     case 'ConsentEventRecord': return { event: 'WITHDRAWN', occurred_at: at, evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'Portal receipt SYN-001', notice_version_id: null };
     case 'SharingLinkCreate': return { activity_id: uuid(706), data_category_id: uuid(707), principal_category_id: null, engagement_id: uuid(708), recipient_reference: null,
       purpose_version_id: uuid(709), system_id: null, valid_from: at, evidence_reference: null };
+    case 'ConsentManagerCreate': return { name: 'Synthetic Consent Manager', board_registration_number: 'DPB-CM-SYN-001', registered_on: '2026-11-20', evidence_reference: 'Board registration certificate (synthetic)' };
     case 'RetentionHoldCreate': return { hold_type: 'OTHER_LAW_RETENTION', authority_reference: 'Customer legal register entry SYN-LR-01', reason: 'Records must be kept under a customer-recorded statutory obligation.',
       subject_id: uuid(710), activity_id: null, system_id: null, data_category_id: null, starts_at: at, ends_at: null, review_at: at, owner_reference: 'Legal team', evidence_reference: null, requirement_id: null };
     case 'BulkJobCreate': return { source_label: 'Legacy customer store export', mapping_version: 'mapping-1.0' };

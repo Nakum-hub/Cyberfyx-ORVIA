@@ -27,11 +27,12 @@ Sign in as the **client owner**. The sign-in needs the password and then an auth
 | 4 | Notices | Versioned notices in Indian languages, each with a content digest | "The consent record points at the exact notice version the person saw." |
 | 5 | Website consent | Banner configuration and visitor consent records | "Script blocking until consent, proven per visitor." |
 | 6 | Consent records | A record: grant, withdrawal, evidence | "Withdrawal is as easy as giving." |
+| 6a | Consent records → Consent Managers | The register of Board-registered Consent Managers; a record linked to one; a withdrawal it relayed | "Consent Manager withdrawals are always honoured, even if the Consent Manager is later suspended (s.6(7)–(9), applies from 13 May 2027)." |
 | 7 | Operational runs | A consent-withdrawal run and its verification | "We don't trust an acknowledgement; ORVIA reads the target system back." |
 | 8 | Privacy requests | Access, correction, erasure, grievance and nomination requests and their states | "Grievance clock: 90 days, from the official Rule 14." |
 | 9 | Personal-data breaches | A breach with its timers | "Board intimation without delay, and the detailed report in 72 hours (Rule 7(2)(b), checked against the official text)." |
 | 10 | Processors, then Processor engagements | Agreements, restrictions, terminations and data return | "No processor without a valid contract: s.8(2)." |
-| 11 | Retention rules & holds, then Retention outcomes | Rules, holds, erasure outcomes including "effect unknown" | "A backup is never reported as erased." |
+| 11 | Retention rules & holds, then Retention outcomes | Rules, holds, the Rule 8(2) intimations panel, erasure outcomes including "effect unknown" | "Third Schedule erasure waits until the person was told 48 hours earlier, and stops if they come back (Rule 8(2)). A backup is never reported as erased." |
 | 12 | Data inventory and Catalog observations | Systems, data assets, classification results with measured quality | |
 | 13 | Frameworks & controls, then Continuous compliance | DPDP framework controls, scheduled control tests, drift alerts | |
 | 14 | Impact assessments and Processor assessments | A DPIA with independent approval | |
@@ -67,9 +68,7 @@ Sign in as the **vendor administrator**.
 - hosting;
 - live payments.
 
-**Built next, due by 13 May 2027:**
-- Consent Manager support;
-- the 48-hour notice before Third Schedule erasure.
+**Built this week:** Consent Manager support and the 48-hour notice before Third Schedule erasure. No Consent Manager is registered with the Board yet, so there is no live one to connect.
 
 **Connectors:** they are simulated today. A client's first installation is connected to its real systems.
 

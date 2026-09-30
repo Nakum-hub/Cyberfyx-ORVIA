@@ -48,7 +48,7 @@ type EventInput = { event: string; occurred_at: string | null; evidence_state: s
  * created, if any. Imported history never triggers propagation: what happened to
  * downstream systems before deployment is not known and is not re-enacted.
  */
-export async function appendConsentEvent(c: Context, recordId: string, value: EventInput, source: 'OPERATOR' | 'IMPORT' | 'V1_PORTAL' | 'SOURCE_SYSTEM', provenance: Record<string, unknown>, v1EventId: string | null = null) {
+export async function appendConsentEvent(c: Context, recordId: string, value: EventInput, source: 'OPERATOR' | 'IMPORT' | 'V1_PORTAL' | 'SOURCE_SYSTEM' | 'CONSENT_MANAGER', provenance: Record<string, unknown>, v1EventId: string | null = null) {
   const s = scope(c);
   const record = (await c.tx.query(`SELECT * FROM app.consent_records WHERE ${predicate} AND id=$4 FOR UPDATE`, [...s, recordId])).rows[0];
   if (!record) refuse(404, 'id', 'not_found');
@@ -127,11 +127,13 @@ export async function consentRecordView(c: Context, id: string) {
   const runRows = (await c.tx.query(`SELECT r.id,r.consent_event_id FROM app.workflow_runs r JOIN app.consent_record_events e ON e.tenant_id=r.tenant_id AND e.legal_entity_id=r.legal_entity_id AND e.environment_id=r.environment_id AND e.id=r.consent_event_id
     WHERE r.tenant_id=$1 AND r.legal_entity_id=$2 AND r.environment_id=$3 AND e.record_id=$4 ORDER BY r.created_at LIMIT 20`, [...s, id])).rows;
   const runs = runRows.map(r => r.id as string);
+  const cm = (await c.tx.query(`SELECT m.id, m.name, m.board_registration_number, m.status, l.artefact_reference FROM app.consent_manager_links l JOIN app.consent_managers m ON m.tenant_id=l.tenant_id AND m.legal_entity_id=l.legal_entity_id AND m.environment_id=l.environment_id AND m.id=l.consent_manager_id
+    WHERE l.tenant_id=$1 AND l.legal_entity_id=$2 AND l.environment_id=$3 AND l.record_id=$4`, [...s, id])).rows[0] ?? null;
   return R.ConsentRecord.parse({ id: row.id, subject_id: row.subject_id, relationship_id: row.relationship_id, activity_id: row.activity_id, purpose_version_id: row.purpose_version_id,
     current_status: row.current_status, notice_version_id: row.notice_version_id, channel: row.channel, expiry_policy: row.expiry_policy, v1_principal_id: row.v1_principal_id, v1_purpose_id: row.v1_purpose_id,
     events: events.map(e => ({ id: e.id, event: e.event, occurred_at: iso(e.occurred_at), recorded_at: iso(e.recorded_at), actor_id: e.actor_id, source: e.source, evidence_state: e.evidence_state,
       evidence_reference: e.evidence_reference, notice_version_id: e.notice_version_id, package_row_id: e.package_row_id, run_id: runRows.find(r => r.consent_event_id === e.id)?.id ?? null, v1_event_id: e.v1_event_id })),
-    withdrawal_run_ids: runs, updated_at: iso(row.updated_at) });
+    withdrawal_run_ids: runs, updated_at: iso(row.updated_at), consent_manager: cm });
 }
 export async function consentRecordList(c: Context, page: Page) {
   const rows = (await c.tx.query(`SELECT id FROM app.consent_records WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
@@ -163,4 +165,67 @@ export async function syncPortalConsent(c: Context) {
   }
   await audit(c, 'consent_record.portal_sync');
   return R.ConsentSync.parse({ examined_records: records.length, mirrored_events: mirrored, withdrawal_runs: runs.slice(0, 100) });
+}
+
+// ---------------------------------------------------------------- Consent Managers (DPDP Act s.6(7)-(9), rule 4)
+type CmRow = { id: string; name: string; board_registration_number: string; registered_on: Date | string; status: string; status_reason: string | null; evidence_reference: string; recorded_at: Date; status_changed_at: Date | null; linked: number };
+const dayOf = (d: Date | string) => typeof d === 'string' ? d.slice(0, 10) : `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const cmView = (r: CmRow) => R.ConsentManager.parse({ id: r.id, name: r.name, board_registration_number: r.board_registration_number, registered_on: dayOf(r.registered_on), status: r.status, status_reason: r.status_reason,
+  evidence_reference: r.evidence_reference, linked_records: Number(r.linked ?? 0), recorded_at: iso(r.recorded_at), status_changed_at: iso(r.status_changed_at) });
+const CM_SELECT = `SELECT m.*, (SELECT count(*)::int FROM app.consent_manager_links l WHERE l.tenant_id=m.tenant_id AND l.legal_entity_id=m.legal_entity_id AND l.environment_id=m.environment_id AND l.consent_manager_id=m.id) AS linked FROM app.consent_managers m`;
+async function cmRow(c: Context, id: string) {
+  return ((await c.tx.query(`${CM_SELECT} WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND m.id=$4`, [...scope(c), id])).rows[0] ?? null) as CmRow | null;
+}
+export async function consentManagerList(c: Context, page: Page) {
+  const rows = (await c.tx.query(`${CM_SELECT} WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND ($4::uuid IS NULL OR m.id>$4) ORDER BY m.id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as CmRow[];
+  const paged = pageOf(rows, page.limit, r => r.id);
+  return { items: paged.items.map(cmView), next_cursor: paged.next_cursor };
+}
+export async function createConsentManager(c: Context, input: unknown) {
+  const v = R.ConsentManagerCreate.parse(input);
+  if (Date.parse(v.registered_on) > Date.now()) refuse(400, 'registered_on', 'in_the_future');
+  const id = randomUUID();
+  try {
+    await c.tx.query(`INSERT INTO app.consent_managers(tenant_id,legal_entity_id,environment_id,id,name,board_registration_number,registered_on,evidence_reference,recorded_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+      [...scope(c), id, v.name.trim(), v.board_registration_number.trim(), v.registered_on, v.evidence_reference.trim(), c.actor.actor_id]);
+  } catch (error) { if ((error as { code?: string }).code === '23505') refuse(409, 'board_registration_number', 'already_registered'); throw error; }
+  await audit(c, 'consent_manager.create', id);
+  return cmView((await cmRow(c, id))!);
+}
+export async function changeConsentManagerStatus(c: Context, id: string, input: unknown) {
+  const v = R.ConsentManagerStatusChange.parse(input);
+  const row = await cmRow(c, id); if (!row) refuse(404, 'id', 'not_found');
+  if (row!.status === 'CANCELLED') refuse(409, 'status', 'cancelled_is_final');
+  await c.tx.query(`UPDATE app.consent_managers SET status=$5, status_reason=$6, status_changed_at=clock_timestamp() WHERE ${predicate} AND id=$4`, [...scope(c), id, v.status, v.reason.trim()]);
+  await audit(c, 'consent_manager.status', id);
+  return cmView((await cmRow(c, id))!);
+}
+export async function linkConsentManager(c: Context, recordId: string, input: unknown) {
+  const v = R.ConsentManagerLink.parse(input);
+  const record = (await c.tx.query(`SELECT id FROM app.consent_records WHERE ${predicate} AND id=$4`, [...scope(c), recordId])).rows[0];
+  if (!record) refuse(404, 'id', 'not_found');
+  const cm = await cmRow(c, v.consent_manager_id); if (!cm) refuse(404, 'consent_manager_id', 'not_found');
+  if (cm!.status !== 'ACTIVE') refuse(409, 'consent_manager_id', 'consent_manager_not_active');
+  try {
+    await c.tx.query(`INSERT INTO app.consent_manager_links(tenant_id,legal_entity_id,environment_id,id,record_id,consent_manager_id,artefact_reference,recorded_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,
+      [...scope(c), randomUUID(), recordId, v.consent_manager_id, v.artefact_reference.trim(), c.actor.actor_id]);
+  } catch (error) { if ((error as { code?: string }).code === '23505') refuse(409, 'id', 'already_linked_to_a_consent_manager'); throw error; }
+  await audit(c, 'consent_record.consent_manager_linked', recordId);
+  return consentRecordView(c, recordId);
+}
+/**
+ * A withdrawal relayed by the Consent Manager the consent was given through. It is honoured even if that Consent Manager has
+ * since been suspended or cancelled: withdrawing consent is never refused. It must name the linked Consent Manager and artefact.
+ */
+export async function recordConsentManagerWithdrawal(c: Context, recordId: string, input: unknown) {
+  const v = R.ConsentManagerWithdrawal.parse(input);
+  const link = (await c.tx.query(`SELECT consent_manager_id, artefact_reference FROM app.consent_manager_links WHERE ${predicate} AND record_id=$4`, [...scope(c), recordId])).rows[0];
+  if (!link) refuse(409, 'id', 'consent_was_not_given_through_a_consent_manager');
+  if (link.consent_manager_id !== v.consent_manager_id || link.artefact_reference !== v.artefact_reference.trim()) refuse(409, 'artefact_reference', 'does_not_match_the_linked_consent_manager_artefact');
+  if (Date.parse(v.occurred_at) > Date.now() + 5 * 60_000) refuse(400, 'occurred_at', 'in_the_future');
+  const cm = await cmRow(c, v.consent_manager_id);
+  await appendConsentEvent(c, recordId, { event: 'WITHDRAWN', occurred_at: v.occurred_at, evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: v.evidence_reference.trim(), notice_version_id: null }, 'CONSENT_MANAGER',
+    { source: 'CONSENT_MANAGER', consent_manager_id: v.consent_manager_id, board_registration_number: cm?.board_registration_number ?? null, consent_manager_status: cm?.status ?? null, artefact_reference: link.artefact_reference, recorded_by: c.actor.actor_id });
+  await audit(c, 'consent_record.consent_manager_withdrawal', recordId);
+  return consentRecordView(c, recordId);
 }
