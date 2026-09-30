@@ -8,8 +8,11 @@ export async function waitForPageContent(page: Page, timeout = 30_000) {
     const main = document.querySelector('main');
     const text = (main?.innerText ?? '').trim();
     if (/^(loading|reading|opening)/i.test(text) && text.length < 80) return false;
-    return ![...(main?.querySelectorAll<HTMLElement>('[role="status"]') ?? [])].some(state =>
-      state.getClientRects().length > 0 && state.querySelector('h3')?.textContent?.trim() === 'Loading');
+    return ![...(main?.querySelectorAll<HTMLElement>('[role="status"]') ?? [])].some(state => {
+      const statusText = state.innerText.trim();
+      return state.getClientRects().length > 0 && (state.querySelector('h3')?.textContent?.trim() === 'Loading'
+        || (statusText.length < 120 && /^(loading|reading|opening)(?:[.\u2026\s]|$)/i.test(statusText)));
+    });
   }, undefined, { timeout, polling: 100 });
   await ready.dispose();
 }

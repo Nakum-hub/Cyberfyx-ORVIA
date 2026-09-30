@@ -179,7 +179,7 @@ await t.run(async () => {
       }
       if (role === 'owner') {
         // Every sidebar link resolves to a page that exists.
-        await p.page.goto('/workspace'); await p.page.waitForLoadState('networkidle');
+        await p.page.goto('/workspace'); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page);
         const links = await p.page.evaluate(() => [...document.querySelectorAll('nav a[href]')].map(a => (a as HTMLAnchorElement).getAttribute('href')!).filter(h => h.startsWith('/')));
         const unknown = [...new Set(links)].filter(l => !ALL.includes(l.split('?')[0]!) && !ALL.some(r => dynamic(r) && new RegExp(`^${r.replace(/\[[^\]]+\]/g, '[^/]+')}$`).test(l)));
         soft('every sidebar link points to an existing page', unknown, []);
@@ -222,12 +222,12 @@ await t.run(async () => {
         if (r === '/vendor/organisations' && role === 'admin') { const link = await detailLink(p.page, '/vendor/organisations/[id]'); if (link) record('vendor admin: /vendor/organisations/[id]', await visit(p, 'vendor', role, '/vendor/organisations/[id]', link, { shot: true })); }
       }
       // The engagement workspace: the most recent accepted engagement the person can open, every tab.
-      await p.page.goto('/vendor/engagements'); await p.page.waitForLoadState('networkidle');
+      await p.page.goto('/vendor/engagements'); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page);
       // Engagements open from their reference link; the first one that shows an accepted workspace is used.
       const links = await p.page.evaluate(() => [...document.querySelectorAll('a[href^="/vendor/engagements/"]')].map(a => (a as HTMLAnchorElement).getAttribute('href')!));
       let opened = false;
       for (const href of links.slice(0, 12)) {
-        await p.page.goto(href); await p.page.waitForLoadState('networkidle');
+        await p.page.goto(href); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page);
         if (await p.page.getByRole('tablist', { name: 'Engagement workspace' }).count() && await p.page.getByText(/Accepted\./).count()) { opened = true; break; }
       }
       if (!opened) { soft(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); await p.page.context().close(); continue; }
@@ -237,7 +237,7 @@ await t.run(async () => {
       for (let i = 0; i < tabs.length; i++) {
         const name = tabs[i]!.replace(/\s*\d+$/, '').trim();
         const before = { e: p.state.errors.length, f: p.state.failed.length };
-        await p.page.getByRole('tab').nth(i).click(); await p.page.waitForLoadState('networkidle'); await p.page.waitForTimeout(400);
+        await p.page.getByRole('tab').nth(i).click(); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page); await p.page.waitForTimeout(400);
         const selected = await p.page.getByRole('tab', { selected: true }).innerText();
         const overflow = await p.page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         const shot = `vendor-${role}-tab-${name.replace(/[^a-z0-9]+/gi, '_')}.png`;
