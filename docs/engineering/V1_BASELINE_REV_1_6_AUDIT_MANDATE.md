@@ -2,7 +2,9 @@
 
 **Status:** owner decision recorded 2026-09-29. Additive to the approved master (Rev 1.4) and to the Rev 1.5 addendum (`V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md`). Where this addendum and Rev 1.5 disagree, this addendum wins **only** on the points under "What changes from 1.5". Everything else in 1.5 and in the master still applies.
 
-**Pending outside engineering:** a lawyer reviews the engagement letter and the data processing agreement against this model before the first real engagement uses it. Until that is recorded, the channel exists in the product but a real client engagement must not be run on it.
+**Owner decision, 2026-09-30 (relayed by the user from Cyberfyx management):** real client engagements may proceed without an external legal review of the engagement letter and the data processing agreement. Management states the collected evidence is used only for the audit and the results are returned to the client organisation, and accepts responsibility for this decision. This replaces the earlier condition that a lawyer review be recorded before the first real engagement.
+
+What does not change: personal data still reaches the vendor only as a sealed-package item with its revision 1.5 per-item exception and a processing agreement recorded by the vendor. Engineering note, not legal advice: the DPDP Act, 2023, section 8(2), allows a Data Fiduciary to use a Data Processor only under a valid contract, so a signed engagement letter and processing agreement with each client remain necessary even without an external review. The official text was not retrievable in the build environment (see `docs/regulatory/LEGAL_SOURCE_STATUS.md`).
 
 ## Why
 
