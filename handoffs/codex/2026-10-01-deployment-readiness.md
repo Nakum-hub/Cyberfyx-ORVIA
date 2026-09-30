@@ -3,6 +3,7 @@
 **Base commit:** e42f573c91340eadbcd42ad010c79c56fd50010a
 **New commit:** this handoff's commit on codex/deployment-readiness-20261001.
 **Source master:** approved revision 1.4 and 1.5/1.6 addenda, unchanged.
+**Policy update inspected:** 639d905 records management approval to proceed without external legal review; application source has no diff from e42f573. Readiness documents now reflect that decision while retaining signed agreements and the personal-data exception. No real engagement or deployment was performed.
 **Contract:** 0.46.0 unchanged. **Scope:** documents only, no deployment.
 
 ## Delivered
@@ -33,4 +34,4 @@ None. Claude-owned source findings are documented, not patched. No 0.47.0 change
 
 ## Next integration action
 
-Human review/merge of the documentation branch. Engineering must qualify the noted deployment gates; OWNER supplies hosting/domain/RPO/RTO and release decisions; LEGAL approves engagement/DPA; KEY CUSTODIAN approves real key custody/distribution. Installer and cross-browser execution are separate round-4 handoffs.
+Human review/merge of the documentation branch. Engineering must qualify the noted deployment gates; OWNER supplies hosting/domain/RPO/RTO and release decisions; LEGAL addresses reviews commissioned by OWNER; signed client agreements remain required; KEY CUSTODIAN approves real key custody/distribution. Installer and cross-browser execution are separate round-4 handoffs.

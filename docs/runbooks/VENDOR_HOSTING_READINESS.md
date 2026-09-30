@@ -1,6 +1,6 @@
 # Vendor installation hosting readiness
 
-Source inspected: `e42f573`, contract 0.46.0, baseline revisions 1.4–1.6. This is a preparation runbook, not deployment approval or evidence of a qualified public installation. No hosting, DNS, firewall or account changes were executed. Synthetic local HTTPS qualification does not qualify a public domain.
+Application source inspected: `e42f573`, contract 0.46.0, baseline revisions 1.4, 1.5 and 1.6. Management decision aligned with `639d905`; application source is unchanged between these commits. This is a preparation runbook, not deployment approval or evidence of a qualified public installation. No hosting, DNS, firewall or account changes were executed. Synthetic local HTTPS qualification does not qualify a public domain.
 
 Approval labels below name the person needed: **OWNER**, **LEGAL**, **KEY CUSTODIAN**. An operator may prepare evidence; an unchecked gate is not implicitly approved.
 
@@ -10,7 +10,7 @@ Approval labels below name the person needed: **OWNER**, **LEGAL**, **KEY CUSTOD
 |---|---|---|
 | Indian hosting location, provider, availability target, budget and support responsibility | OWNER | Approved location, capacity, recovery point/time objectives, escalation contacts |
 | Domain and DNS ownership | OWNER | Exact HTTPS hostname, registrar/DNS custodian, change approval and renewal contact |
-| Engagement letter, DPA and audit evidence retention/deletion terms | LEGAL + OWNER | Approved documents and version; revision 1.6 legal review is still pending |
+| Engagement letter, processing agreement and audit evidence retention/deletion terms | OWNER; LEGAL if commissioned | Signed client agreements and document versions. The recorded 2026-09-30 management decision removes the mandatory external-review prerequisite; it does not remove the agreements or personal-data exception. |
 | Signing keys, TLS keys, backup encryption keys and recovery custody | KEY CUSTODIAN | Separate responsibilities, access register, offline recovery and rotation procedure |
 | Release and commissioning | OWNER | Exact reviewed commit, qualification evidence, outstanding defects, signed go/no-go |
 
@@ -44,7 +44,7 @@ The current customer trust file is `.local/profiles/<profile>/trust/vendor-publi
 
 **OWNER + KEY CUSTODIAN:** approve distribution and rotation. Maintain compatibility with in-flight signed packages and retained evidence; verify rotation on an isolated installation first. Contract 0.46.0 accepts no CA field in this trust file. The previous process-local `NODE_EXTRA_CA_CERTS` mechanism is synthetic qualification evidence, not an approved deployment-wide trust change. Any schema change requires the reserved next version and coordination.
 
-Audit transport is outbound from the customer to that one address, only under an active dual-approved mandate or approved sealed transfer. Personal-data-free automatic categories, suspension/revocation/expiry, receipt replay and signature rejection must be tested. Evidence files and personal-data exceptions require their recorded approvals; **LEGAL** must approve the engagement/DPA before real use. File fallback remains available.
+Audit transport is outbound from the customer to that one address, only under an active dual-approved mandate or approved sealed transfer. Personal-data-free automatic categories, suspension/revocation/expiry, receipt replay and signature rejection must be tested. Evidence files and personal-data exceptions require their recorded approvals and the recorded processing agreement. **OWNER** remains responsible for signed client agreements. The decision in revision 1.6 at `639d905` permits proceeding without an external legal review; **LEGAL** review is a step only when the owner commissions it or an unresolved contractual issue requires specialist input. File fallback remains available.
 
 ## Backups, monitoring and recovery
 
@@ -58,4 +58,4 @@ On a failed upgrade, preserve logs and the migration ledger, stop further writes
 
 ## Release record
 
-The commissioning record must link actual fresh install/setup/upgrade evidence, browser matrix, TLS/proxy checks, backup/restore drill and resolved engineering gates. Record all NOT_RUN items and their owners. Only **OWNER** can promote acceptance and authorise deployment; **LEGAL** and **KEY CUSTODIAN** must close their respective gates first.
+The commissioning record must link actual fresh install/setup/upgrade evidence, browser matrix, TLS/proxy checks, backup/restore drill and resolved engineering gates. Record all NOT_RUN items and their owners. Only **OWNER** can promote acceptance and authorise deployment; **KEY CUSTODIAN** must close key-custody gates; any **LEGAL** review the owner commissions must have its disposition recorded. The signed-agreement and personal-data-exception requirements remain in force despite the external-review waiver.

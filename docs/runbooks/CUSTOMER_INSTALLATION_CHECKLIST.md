@@ -1,6 +1,6 @@
 # Customer installation checklist
 
-Prepared against `e42f573`, contract 0.46.0 and approved baseline revisions 1.4â€“1.6. Each checkbox requires evidence; none is checked by publishing this checklist. This does not authorise installation, DNS/firewall changes or a real audit engagement.
+Prepared against application source `e42f573`, contract 0.46.0 and approved baseline revisions 1.4, 1.5 and 1.6; management decision aligned with `639d905` (no application-source change). Each checkbox requires evidence; none is checked by publishing this checklist. This does not authorise installation, DNS/firewall changes or a real audit engagement.
 
 ## Before installation
 
@@ -9,7 +9,7 @@ Prepared against `e42f573`, contract 0.46.0 and approved baseline revisions 1.4â
 - [ ] **OWNER/operator:** confirm no existing installation occupies the profile's ports, Compose project, database or volume. Preserve existing installations. An interrupted install may use documented resume after inspection; never delete or reset it to obtain a pass.
 - [ ] **KEY CUSTODIAN:** obtain vendor public trust material through an authenticated channel; verify fingerprints and checksum independently. No vendor private signing key belongs on the customer host.
 - [ ] **OWNER + KEY CUSTODIAN:** select hostname/certificate/CA trust and backup encryption/recovery custody. The rehearsal profile is fixed to loopback HTTPS at port 4330 in this source; a real domain needs coordinated canonical-origin support and qualification. A generated local CA is not public TLS qualification.
-- [ ] **LEGAL + OWNER:** approve retention and data-processing arrangements. Before any real DPDPA external engagement, approve the revision 1.6 engagement letter and DPA. Engineering evidence is not legal sign-off.
+- [ ] **OWNER:** approve retention and data-processing arrangements and sign the client engagement letter and processing agreement. The management decision recorded at `639d905` removes mandatory external legal review; it preserves the signed agreements and per-item exception. **LEGAL, if commissioned:** record the review disposition. Engineering evidence is not legal sign-off.
 
 ## Install and first-run setup
 
@@ -24,7 +24,7 @@ Prepared against `e42f573`, contract 0.46.0 and approved baseline revisions 1.4â
 ## Audit exchange, only when selected
 
 - [ ] **OWNER + KEY CUSTODIAN:** verify the one approved HTTPS audit address in the public trust file; no arbitrary destination, credentials, query or fragment. Contract 0.46.0 does not accept a CA field there.
-- [ ] **LEGAL + OWNER:** confirm the real engagement/DPA and any personal-data exception before release. Automatic evidence is restricted to personal-data-free categories in the dual-approved mandate.
+- [ ] **OWNER:** confirm the signed engagement/processing agreement and any personal-data exception before release. **LEGAL, if commissioned:** resolve the assigned contractual review questions. Automatic evidence is restricted to personal-data-free categories in the dual-approved mandate.
 - [ ] **Two authorised approvers:** record scope, categories, schedule, start/end and the distinct approver. Test suspension, revocation, expiry and signed receipt replay with synthetic evidence before real use.
 - [ ] **Network operator + OWNER:** approve only the required outbound HTTPS path. The vendor never connects inbound, signs in to, or reads the customer installation. Retain sealed-file fallback where outbound transport is unavailable.
 - [ ] **Operator:** inspect vendor-visibility records against actual transmissions. Continuous assurance needs its own separate mandate and approval; it does not silently continue an engagement.
@@ -36,4 +36,4 @@ Prepared against `e42f573`, contract 0.46.0 and approved baseline revisions 1.4â
 - [ ] **Operator:** before upgrade, record current and target commits, successful verified backup, original migration ledger, maintenance window and rollback constraints. Use `installer/linux/orvia-upgrade.sh --to <reviewed-commit>` only with approved target and a clean tracked checkout.
 - [ ] **Operator:** record migration/build/restart exits and repeat setup-independent health, authentication, authorisation, consent/withdrawal and evidence checks. Never overwrite local changes or reset the database to conceal upgrade failure.
 - [ ] **OWNER + KEY CUSTODIAN:** approve any real restore; assess forward-only schema compatibility before code rollback. Preserve all failure evidence.
-- [ ] **OWNER:** sign handover only after unresolved FAIL/NOT_RUN items have explicit dispositions, legal/key-custody gates are closed, monitoring is assigned and actual release acceptance is recorded. This checklist itself promotes nothing in tracking.
+- [ ] **OWNER:** sign handover only after unresolved FAIL/NOT_RUN items have explicit dispositions, signed-agreement/key-custody gates and any commissioned legal-review steps are closed, monitoring is assigned and actual release acceptance is recorded. This checklist itself promotes nothing in tracking.
