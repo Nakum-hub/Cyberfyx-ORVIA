@@ -1,1 +1,1 @@
-PASS: 29 new logs/JSON checked for private PEM, MFA URI and credentialed PostgreSQL URL. Logs were exported with generated credentials redacted inside the isolated host.
+PASS: 43 delivered logs/JSON checked for private PEM, MFA URI and credentialed PostgreSQL URL. Runtime logs were redacted inside the isolated host.

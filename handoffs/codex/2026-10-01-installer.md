@@ -2,7 +2,11 @@
 
 **Base:** e42f573c91340eadbcd42ad010c79c56fd50010a. **Branch:** codex/installer-20261001, this handoff's commit. **Contract:** 0.46.0 unchanged. Source master revision 1.4 and approved addenda unchanged.
 
+**Result:** customer installation completed; the owned first-run supervisor fix passed its 14-check regression; actual upgrades bf29c43 -> 639d905 -> e46babe completed and retention/MFA verification passed. Intermittent startup failures remain recorded and are a release concern, not fixed by a passing retry.
+
 **Qualification candidates:** previous release `bf29c436911d33cbbafcbb6ce7f6d04a5704a64d`; upgrade target `639d905bcd7f4861cd6bb02b0efe7e2919493dd4`, pinned from Claude's head at qualification start. No application/installer/dependency changes between e42f573 and 639d905.
+
+**Later observed head:** `e46babe40f4fa12cb42e1c6ef951bee2359bd4b1`. After the initial qualification, Claude's branch advanced with audit indicators, vendor-practice changes and vendor migration 0014. A second actual upgrade of the preserved installation to this exact head also completed. See the separate latest-head results below; browser matrix evidence remains explicitly on e42f573.
 
 ## Delivered and scope
 
@@ -15,6 +19,8 @@ The unchanged first-run harness passed 14 checks with that supervisor correction
 Changed paths: `scripts/app-run.ts`; this handoff; qualification-only helpers `handoffs/codex/{round4-installer.Dockerfile,round4-install-host.sh,round4-resume-install.sh,round4-installer-phase.sh,round4-refresh-source-index.sh,create-installer-trust-round4.mjs,qualify-first-run-round4.mjs,publish-installer-log-round4.mjs,diagnose-worker-round4.mjs}`; the exact artifact paths in `artifacts/R4-installer-artifact-index.json`. No existing test, fixture, assertion or threshold was changed. No contract, migration or protected Claude source was edited.
 
 `handoffs/codex/capture-installer-state-round4.mjs` additionally records only non-secret release identity, retained installation identity, supervisor duration and inner-container health/resource state.
+
+`handoffs/codex/round4-upgrade-latest.sh` records the separately guarded upgrade to the later observed head. Exact changed-file hashes remain in the artifact index.
 
 ## Host and prerequisites
 
@@ -77,6 +83,18 @@ The later previous-candidate worker exit remains **FAIL**: lifecycle `A00-applic
 The target supervisor was observed for 265 seconds with HTTPS readiness 200, retained installation ID and a clean tracked checkout (`R4-installer-final-state.json`). The repeated identity/MFA verification passed and the complete owned shutdown passed. Backup drill evidence records 4/4 passing checks. Upgrade schema result was ALREADY_APPLIED, not a claim that new migrations were needed. The relay's actual memory limit is 268435456 bytes (256 MiB); services had no OOM or restart during this final observation.
 
 ## Limits and next dependency
+
+### Additional latest-head upgrade
+
+Source-object bundle transfer contains no profile or credentials. `round4-upgrade-latest.sh` guards both exact commits and runs the original backup/upgrade command from 639d905 to e46babe. It returned 0: `R4-installer-upgrade-latest.log`. The second backup drill passed and customer migrations were already applied. This customer installation does not qualify vendor migration 0014. `R4-installer-head-advance.json` records the observed open PR #33, source changes and identical supervisor blobs across all four inspected candidates.
+
+The first latest-head runtime **FAILED**: the agent's 5-second poll timed out, the supervisor shut down, and a setup-state read also logged a database connection timeout. The unchanged verification completed only its identity check before failing to parse the empty response. Evidence: `R4-installer-runtime-latest-initial.log`, `R4-installer-verify-latest-initial-failure.log`, and lifecycle 1790757738919-584799fa-b2c6-4d0a-926f-c7dac1564cbd. A later publication command returning 0 is not the verification's result. This is not a passing startup and was not erased.
+
+The retry executed the existing systemd unit's protected `machine-init.ts confirm:rehearsal` pre-start step (0), restarted the unchanged target, observed HTTPS readiness 200, and reran the exact same verification (0, 8/8). No assertion, fixture expectation or timeout changed. `R4-installer-verify-latest.log` records the successful retry. The retry does not establish a root cause or fix for the intermittent startup/connection failure; engineering must retain it as a release concern alongside the earlier worker exit.
+
+`R4-installer-latest-state.json` records 206 seconds of supervisor availability, clean e46babe source, retained identity and HTTPS readiness 200. Its controlled shutdown exited 0; lifecycle 1790758109416-45d2cc41-066f-422b-8f55-aae80c9b8ae6 is PASS, all four children exit 0 and none forced. The latest backup drill is PASS (4/4). All four inner services and the outer qualification host were stopped with exit 0 afterward; profiles and volumes remain preserved.
+
+The proposed supervisor first-run fix remains needed on e46babe: its original supervisor blob is identical to the earlier candidates. Fresh first-run qualification still includes the proposed patch, not a claim about the unmodified latest source. No additional product fix is claimed for the intermittent timeouts.
 
 This is synthetic local Linux-container evidence. First-run was exercised through the actual HTTPS API, not a Linux browser. Systemd enablement, timer execution, boot survival, production hosting, vendor fresh install, rollback and real key custody remain NOT_RUN. Existing unsupported vendor hosting/origin/entry-point gates remain in the readiness runbook. The cgroup and interrupted-host recoveries are test-host setup, not customer deployment instructions.
 
