@@ -11,6 +11,8 @@ User approved installation of Playwright Firefox and WebKit. Installed Firefox 1
 
 No application or protected test source changed on this branch. Tests generate their own output files; selected evidence is retained under `handoffs/codex/` rather than committing changes in Claude's handoff area. The product/test source under backend, frontend, shared, tests, scripts and database has no diff between this pinned base and merged main bf29c43; subsequent integration commits were records/artifacts.
 
+Raw crawl reports were moved from test-generated untracked `handoffs/code/artifacts/` files to `handoffs/codex/artifacts/R3-generated-interface-crawl-*`. Their screenshot fields describe transient `output/playwright/crawl/` paths at execution time; the complete screenshot directory is not archived here. The named masked R3 screenshots are the retained visual evidence. Tracked transient output images were restored to this worktree's base after execution, without changing test source or other worktrees.
+
 ## Setup failures and corrections
 
 All failures are retained; none is reclassified as a pass.
