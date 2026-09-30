@@ -1,8 +1,18 @@
 # ORVIA Version 1
 
-**ORVIA** is Cyberfyx's customer-local privacy control platform for the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025. A client organisation runs ORVIA in its own environment to operate its DPDPA programme. **Cyberfyx Consulting** uses the same product, in a separate vendor installation, to audit that organisation against the Act and Rules.
+**ORVIA — Observe · Review · Verify · Inspect · Assure**
 
-> **Full form of "ORVIA":** not yet recorded in this repository. The approved master document uses only the name. *Awaiting confirmation from Cyberfyx management.*
+ORVIA is Cyberfyx's customer-local privacy control platform for the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025. A client organisation runs ORVIA in its own environment to operate its DPDPA programme. **Cyberfyx Consulting** uses the same product, in a separate vendor installation, to audit that organisation against the Act and Rules.
+
+The name describes how the product works:
+
+| | Step | What ORVIA does |
+|---|---|---|
+| **O** | **Observe** | Reads the organisation's own records and systems: consent, requests, breaches, processors, retention, data inventory. |
+| **R** | **Review** | Puts every consequential action (erasure, disclosure, audit mandate, evidence release, report) before a second person. |
+| **V** | **Verify** | Checks each outcome independently by reading the target back. An acknowledgement is never treated as proof. |
+| **I** | **Inspect** | Gives the auditor signed, chained, personal-data-free evidence to examine, delivered outbound only. |
+| **A** | **Assure** | Issues the audit opinion as of a date for a stated scope. It is never a certificate. |
 
 The approved product baseline is [master revision 1.4](ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md), extended by these owner decisions:
 - [revision 1.5](docs/engineering/V1_BASELINE_REV_1_5_AUDIT_EXCHANGE.md): DPDPA audit exchange and the vendor installation;

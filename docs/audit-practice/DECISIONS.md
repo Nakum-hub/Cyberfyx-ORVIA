@@ -29,3 +29,20 @@ The law names the auditor of that statutory audit as the one who sends the repor
 - The `STATUTORY_SDF_AUDIT_CLAIM` service type still exists in the vendor code (`database/vendor/migrations/0008_audit_practice.sql`). Under this decision the acceptance reviewer refuses it. Removing or blocking it in code is a later engineering change, which needs a vendor migration.
 
 **Revisit if:** management later wants to offer the statutory audit. It would then need an engagement-letter clause in which the client instructs Cyberfyx to send the Rule 13(2) report of significant observations to the Board, with a copy to the client, and a Board reporting procedure.
+
+## D2: the name ORVIA
+
+**Date:** 2026-09-30. **Decided by:** the product owner, for Cyberfyx.
+
+**Decision.** ORVIA stands for **Observe · Review · Verify · Inspect · Assure**.
+
+**Why.** The name describes the product's method:
+- **Observe:** read the organisation's own records;
+- **Review:** put every consequential action before a second person;
+- **Verify:** check outcomes independently, never trusting an acknowledgement;
+- **Inspect:** give the auditor signed evidence to examine;
+- **Assure:** issue the audit opinion.
+
+A form with "Intelligence" was rejected, because Version 1 deliberately has no AI model.
+
+**Applied in:** `README.md`.
