@@ -91,7 +91,9 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 - Auditor requests inside the mandate are answered automatically. Requests for documents go to a client approver.
 - Unanswered requests past their due date become limitations in the signed report.
 - No live access exists in either direction, and anything carrying personal data still needs the per-item exception and a processing agreement.
-- Legal review of the engagement letter and DPA is pending before a real engagement (`docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md`).
+- Automatic indicators cover 30 of the 33 requirements (`backend/domain/src/dpdpa-audit/indicators.ts`). DPDP-CONSENT-MANAGER, DPDP-ERASURE-ADVANCE-NOTICE and DPDP-BOARD-COMPLAINT-CHANNEL are tested by auditor procedure only, because ORVIA holds no record that could show them.
+- How Cyberfyx audits, and the client documents it uses, are in `docs/audit-practice/` (methodology v1.0 and eight templates).
+- Owner decision 2026-09-30: no external legal review. Real engagements instead need Cyberfyx management to approve the engagement letter and processing agreement templates. This is recorded as the `ENGAGEMENT_LETTER_TEMPLATE_APPROVED` and `PROCESSING_AGREEMENT_TEMPLATE_APPROVED` gates (vendor migration 0014), plus production criteria and the production audit key.
 
 **Wording.** The output is an **audit opinion as of a date for a stated scope**. It is never a compliance certificate: only the Data Protection Board of India decides compliance. A unit test refuses certification wording in report templates and report text.
 
@@ -104,7 +106,7 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 3. **Rule 12 / Fourth Schedule** child-consent exemptions, as applicability facts.
 4. **Rule 11** as its own provision for guardians of persons with disability.
 5. Add **s.6(10)** (burden of proof) as an explicit requirement, so the package reports it.
-6. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules), obtain legal review, then build and sign the PRODUCTION package.
+6. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules) against the official text, then build the PRODUCTION package and have it approved by a second person and signed. On 2026-09-30 the official hosts were still refused by this environment's network policy (HTTP 403 at the egress proxy).
 7. **Real connectors** for withdrawal, erasure and correction outcomes. All automated effects are synthetic today.
 
 ## How to supply the official PDFs
