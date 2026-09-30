@@ -1,0 +1,27 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T04:42:13.857Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "the crawl found nothing wrong on any page, tab or link",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "signed out: /privacy renders"
+      ]
+    },
+    {
+      "name": "unexpected failure in customer workspace as owner",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the crawl found nothing wrong on any page, tab or link"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

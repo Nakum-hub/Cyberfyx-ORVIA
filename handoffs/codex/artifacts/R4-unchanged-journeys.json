@@ -1,0 +1,22 @@
+[
+    {
+        "path":  "tests/e2e/dpdpa-audit-local.ts",
+        "git_blob":  "b1de4416e4c310155a6b2cfd3877c67be3aee1a2",
+        "unchanged":  true
+    },
+    {
+        "path":  "tests/e2e/audit-mandate-local.ts",
+        "git_blob":  "a37cc8ec32cd5570c6f599a248dfa49318746998",
+        "unchanged":  true
+    },
+    {
+        "path":  "tests/e2e/expansion-screens-local.ts",
+        "git_blob":  "63b5e69f8293d9ec52a3ef1f92ed1a1a5a5478dc",
+        "unchanged":  true
+    },
+    {
+        "path":  "tests/e2e/interface-crawl-local.ts",
+        "git_blob":  "f5341945d78b215d532f12391bdfe48f49948321",
+        "unchanged":  true
+    }
+]
