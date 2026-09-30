@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RequirementId, ProvisionId, Severity, RequirementResult } from './audit-exchange.ts';
+import { RequirementId, ProvisionId, Severity, RequirementResult } from './audit-primitives.ts';
 
 /**
  * Canonical contract of the evidence-based DPDPA audit practice on the vendor's

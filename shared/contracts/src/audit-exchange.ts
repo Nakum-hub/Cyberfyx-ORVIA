@@ -1,6 +1,8 @@
 import { createHash, createPublicKey, verify } from 'node:crypto';
 import { z } from 'zod';
 import { canonicalJson } from './canonical.ts';
+import { RequirementId, ProvisionId, PersonalDataFlag, EvidenceMediaType, Severity, RequirementResult } from './audit-primitives.ts';
+export { RequirementId, ProvisionId, PersonalDataFlag, EvidenceMediaType, Severity, RequirementResult };
 
 /**
  * DPDPA external audit exchange (revision 1.5 addendum). The only artefacts
@@ -19,13 +21,8 @@ const Id = z.uuid();
 const Digest = z.string().regex(/^[a-f0-9]{64}$/);
 const Time = z.iso.datetime();
 const Day = z.iso.date();
-export const RequirementId = z.string().regex(/^DPDP-[A-Z0-9-]{2,60}$/);
-export const ProvisionId = z.string().regex(/^[A-Z0-9()\-.]{2,40}$/);
 
-export const PersonalDataFlag = z.enum(['YES', 'NO', 'UNKNOWN']);
 export const MAX_EVIDENCE_FILE_BYTES = 20 * 1024 * 1024;
-export const EvidenceMediaType = z.enum(['application/pdf', 'image/png', 'image/jpeg', 'text/plain', 'text/csv',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
 export type EvidenceMediaType = z.infer<typeof EvidenceMediaType>;
 const extensions: Record<EvidenceMediaType, string[]> = {
   'application/pdf': ['pdf'], 'image/png': ['png'], 'image/jpeg': ['jpg', 'jpeg'], 'text/plain': ['txt'], 'text/csv': ['csv'],
@@ -141,8 +138,6 @@ export function verifyPackageFile(bytes: Uint8Array, now = new Date()): { ok: tr
 }
 
 // Signed documents returned by the vendor.
-export const Severity = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
-export const RequirementResult = z.enum(['MEETS', 'PARTIALLY_MEETS', 'DOES_NOT_MEET', 'NOT_APPLICABLE', 'NOT_TESTED']);
 const Engagement = { engagement_code_digest: Digest, engagement_reference: z.string().max(80), firm_name: z.string().max(160), organisation_name: z.string().max(160), issued_at: Time };
 const Text = (max: number) => z.string().trim().min(1).max(max);
 export const RequestListDocument = z.strictObject({ kind: z.literal('REQUEST_LIST'), ...Engagement,

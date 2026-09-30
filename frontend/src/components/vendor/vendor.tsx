@@ -35,7 +35,10 @@ export function explain(error: unknown) {
 /** Saves a server-produced file in the browser, byte for byte. */
 export function saveFile(name: string, bytes: Uint8Array | string, type: string) {
   const blob = new Blob([typeof bytes === 'string' ? bytes : new Uint8Array(bytes)], { type });
-  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  // The link is attached to the page for the click and removed afterwards: a detached link's click is not handled the same way in
+  // every browser (Firefox and WebKit differ from Chromium).
+  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = name; a.hidden = true;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 export const fromBase64 = (b64: string) => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
 

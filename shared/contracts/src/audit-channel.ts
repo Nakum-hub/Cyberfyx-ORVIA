@@ -1,7 +1,8 @@
 import { createHash, createHmac, createPrivateKey, createPublicKey, generateKeyPairSync, sign, timingSafeEqual, verify } from 'node:crypto';
 import { z } from 'zod';
 import { canonicalJson } from './canonical.ts';
-import { RequirementId } from './audit-exchange.ts';
+import { RequirementId, EvidenceCategory, SamplePopulation, MandateKind, MandateSchedule, MandateState } from './audit-primitives.ts';
+export { EvidenceCategory, SamplePopulation, MandateKind, MandateSchedule, MandateState };
 
 /**
  * DPDPA audit mandate channel (revision 1.6 addendum,
@@ -40,14 +41,12 @@ export const CHANNEL_CONTENT_TYPE = 'application/vnd.orvia.audit-channel+json';
 export const MAX_CHANNEL_BODY_BYTES = 4 * 1024 * 1024;
 
 // ---------------------------------------------------------------- evidence categories
-export const EvidenceCategory = z.enum(['INDICATORS', 'CONTROL_STANDING', 'CONTROL_TESTS', 'NOTICE_VERSIONS', 'POLICY_VERSIONS', 'ACTIVITY_LOG_DIGEST', 'SAMPLE_COUNTS']);
 export type EvidenceCategory = z.infer<typeof EvidenceCategory>;
 /**
  * Populations an auditor may sample automatically. Each is a set of records in
  * the client's ORVIA with a yes/no test; only counts and a digest of the
  * selected identifiers ever leave, never the records.
  */
-export const SamplePopulation = z.enum(['CONSENT_EVENTS_WITH_EVIDENCE', 'BREACH_TASKS_WITHIN_TIMER', 'GRIEVANCES_RESOLVED_WITHIN_90_DAYS', 'WITHDRAWAL_RUNS_VERIFIED']);
 export type SamplePopulation = z.infer<typeof SamplePopulation>;
 export const samplePopulationLabels: Record<SamplePopulation, { population: string; test: string }> = {
   CONSENT_EVENTS_WITH_EVIDENCE: { population: 'Consent record events', test: 'evidence of the event is available' },
@@ -92,9 +91,6 @@ export function verifyInstallationSigned<T extends z.ZodType>(signed: unknown, p
 export const signedDigest = (signed: unknown) => createHash('sha256').update(canonicalJson(signed)).digest('hex');
 
 // ---------------------------------------------------------------- mandate (signed by the client installation)
-export const MandateKind = z.enum(['ENGAGEMENT', 'CONTINUOUS_ASSURANCE']);
-export const MandateSchedule = z.enum(['DAILY', 'WEEKLY']);
-export const MandateState = z.enum(['DRAFT', 'ACTIVE', 'SUSPENDED', 'REVOKED', 'ENDED']);
 export const MAX_MANDATE_DAYS = 400;
 export const scheduleSeconds = (s: z.infer<typeof MandateSchedule>) => s === 'DAILY' ? 86_400 : 7 * 86_400;
 export const MandateDocument = z.strictObject({

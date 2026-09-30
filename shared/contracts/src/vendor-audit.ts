@@ -1,6 +1,5 @@
 import { z } from 'zod';
-import { RequirementId, ProvisionId, Severity, RequirementResult, PersonalDataFlag } from './audit-exchange.ts';
-import { EvidenceCategory, SamplePopulation } from './audit-channel.ts';
+import { RequirementId, ProvisionId, Severity, RequirementResult, PersonalDataFlag, EvidenceCategory, SamplePopulation } from './audit-primitives.ts';
 
 /**
  * Canonical contract of the vendor area on the vendor's own VENDOR_SERVICE
