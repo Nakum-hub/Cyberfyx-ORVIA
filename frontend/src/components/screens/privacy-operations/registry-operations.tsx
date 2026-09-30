@@ -1,4 +1,5 @@
 'use client';
+import { BackupObligations } from './backup-obligations.tsx';
 import { useState } from 'react';
 import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { useDirectory } from '../../shared/directory.ts';
@@ -69,6 +70,7 @@ export function RegistryRetention() {
         </QueryBoundary>
       </Section>
       <ErasureIntimations />
+      <BackupObligations />
       <RetentionForms onSaved={() => { rules.refresh(); holds.refresh(); }} />
     </>
   );

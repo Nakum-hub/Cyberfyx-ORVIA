@@ -74,9 +74,10 @@ test('a hold records its release and never stands half-released', () => {
 
 test('releasing a hold and deciding a conflict are approval acts, not ordinary writes', () => {
   const retentionRoutes = routes.filter(route => route.capability?.startsWith('retention.'));
-  assert.equal(retentionRoutes.length, 9);
+  // 9 retention routes plus 5 EX07 backup-obligation routes (migration 0076).
+  assert.equal(retentionRoutes.length, 14);
   const approve = retentionRoutes.filter(route => route.capability === 'retention.approve').map(route => route.id).sort();
-  assert.deepEqual(approve, ['release_hold', 'retention_decision']);
+  assert.deepEqual(approve, ['approve_backup_treatment', 'release_hold', 'retention_decision']);
   for (const route of retentionRoutes) {
     assert.equal(route.authority, 'STAFF', `${route.id} is not staff-only`);
     if (route.method === 'post') assert.ok(route.idempotency, `${route.id} is a write without idempotency`);

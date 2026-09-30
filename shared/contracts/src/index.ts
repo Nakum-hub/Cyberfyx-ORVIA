@@ -54,8 +54,10 @@ const expansionNames = Object.keys(expansionSchemas);
  *  /api/v1/intake (consent change, rights request, submission status), staff routes for intake keys, submissions and the
  *  optional Privacy Centre switch, and capability intake.submit. RightsRequest.submitted_channel gains ORGANISATION_APP.
  *  0.49.0 adds customer-held owner recovery (OPEN-07): public POST /api/v1/setup/owner-recovery, authorised by a one-time code
- *  issued by a protected command on the installation's server; capability setup.owner_recovery. Otherwise additive. */
-export const CONTRACT_VERSION = '0.49.0' as const;
+ *  issued by a protected command on the installation's server; capability setup.owner_recovery. Otherwise additive.
+ *  0.50.0 adds EX07 backup-copy obligations: backup treatments (second-person approval), backup coverage, system restores that
+ *  mark re-erasure, and the protected erasure ledger (sensitive capability). Otherwise additive. */
+export const CONTRACT_VERSION = '0.50.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */

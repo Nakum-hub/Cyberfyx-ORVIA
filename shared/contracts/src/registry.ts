@@ -272,6 +272,29 @@ export const IntakeReceipt = z.strictObject({ submission_id: Id, kind: z.enum(['
   /** A receipt records that ORVIA received the submission. It is not proof that anything downstream has changed. */
   receipt_is_not_completion: z.literal(true) });
 
+/**
+ * EX07 backup-copy obligations (contract 0.50.0; master §§50, 52, 91). A backup treatment records, per system, the five facts the
+ * master requires for backups that cannot be selectively edited. The erasure ledger records, for each verified erasure on such a
+ * system, when that person's data will have aged out of its backups. That date is never proof of erasure.
+ */
+export const BackupTreatmentCreate = z.strictObject({ system_id: Id, technical_restriction: z.string().min(10).max(1000), isolation_controls: z.string().min(10).max(1000),
+  retention_days: z.number().int().min(1).max(3650), restore_procedure_reference: z.string().min(3).max(500), legal_treatment: z.string().min(10).max(1000) });
+export const BackupTreatment = z.strictObject({ id: Id, system_id: Id, system_name: SafeText, technical_restriction: LongText, isolation_controls: LongText, retention_days: z.number().int(),
+  restore_procedure_reference: SafeText, legal_treatment: LongText, status: z.enum(['PROPOSED', 'CURRENT', 'SUPERSEDED']), recorded_by: Id, recorded_at: Time,
+  approved_by: Id.nullable(), approved_at: Time.nullable(), superseded_at: Time.nullable() });
+export const BackupCoverageSystem = z.strictObject({ system_id: Id, system_name: SafeText, treatment: z.enum(['NONE', 'PROPOSED', 'CURRENT']), verified_erasures: z.number().int().min(0),
+  in_backups: z.number().int().min(0), reapply_required: z.number().int().min(0), earliest_clear_after: Time.nullable() });
+export const BackupCoverage = z.strictObject({ systems: z.array(BackupCoverageSystem).max(500),
+  /** Systems with verified erasures and no current backup treatment: their backup handling is unknown and stays visibly unverified. */
+  unknown_backup_handling: z.number().int().min(0), a_backup_expiry_date_is_not_proof_of_erasure: z.literal(true) });
+export const SystemRestoreRecord = z.strictObject({ system_id: Id, backup_taken_at: Time, restored_at: Time, evidence_reference: z.string().min(3).max(500) });
+export const SystemRestore = z.strictObject({ id: Id, system_id: Id, backup_taken_at: Time, restored_at: Time, evidence_reference: SafeText, recorded_at: Time, marked_for_reerasure: z.number().int().min(0) });
+export const ErasureLedgerState = z.enum(['IN_BACKUPS', 'BACKUPS_AGED_OUT', 'REAPPLY_REQUIRED', 'REAPPLIED']);
+export const ErasureLedgerEntry = z.strictObject({ id: Id, subject_id: Id, system_id: Id, erased_at: Time, backups_clear_after: Time, state: ErasureLedgerState,
+  restore_id: Id.nullable(), reapplied_at: Time.nullable(), reapplied_evidence: SafeText.nullable() });
+export const ErasureLedgerQuery = z.strictObject({ system_id: Id.optional(), state: ErasureLedgerState.optional() });
+export const ReerasureConfirm = z.strictObject({ evidence_reference: z.string().min(3).max(500) });
+
 export const EngagementLinkInput = z.strictObject({ link_kind: z.enum(['DATA_CATEGORY', 'PRINCIPAL_CATEGORY', 'SYSTEM']), target_id: Id });
 export const EngagementCreate = z.strictObject({
   processor_id: Id, service_description: SafeText, subprocessor_of: Id.nullable(), effective_from: Time,
@@ -398,4 +421,6 @@ export const registrySchemas = {
   ConnectorBindingList: page(ConnectorBinding),
   IntakeClientCreate, IntakeClient, IntakeClientCreated, IntakeClientRevoke, IntakeSubmission, IntakeSubmissionQuery, IntakeSubmissionHandle, PrivacyCentreSetting, PrivacyCentreChange,
   IntakeConsentSubmit, IntakeRightsSubmit, IntakeReceipt, IntakeClientList: page(IntakeClient), IntakeSubmissionList: page(IntakeSubmission),
+  BackupTreatmentCreate, BackupTreatment, BackupCoverage, SystemRestoreRecord, SystemRestore, ErasureLedgerEntry, ErasureLedgerQuery, ReerasureConfirm,
+  BackupTreatmentList: page(BackupTreatment), ErasureLedgerList: page(ErasureLedgerEntry),
 };

@@ -107,11 +107,16 @@
     {
       "id": "EX07",
       "title": "Retention holds deletion and backup obligations",
-      "status": "OPEN",
-      "owner": "codex_with_dpdp_lane_coordination",
+      "status": "BUILT_PENDING_REVIEW",
+      "owner": "claude_code_takeover_pending_codex_review",
       "acceptance_status": "NOT_RUN",
-      "evidence": [],
-      "limitations": []
+      "evidence": [
+        "docs/engineering/BACKUP_OBLIGATIONS_AND_CRYPTO_ERASURE.md",
+        "handoffs/codex/artifacts/DPDP-operations-backup-obligations-1790795577571-08de6f00-8531-46e8-b552-47ad04001c64.json"
+      ],
+      "limitations": [
+        "Backup treatments with two-person approval, minimal erasure ledger, restore re-erasure marking, unknown-handling attention and ledger ageing (migration 0076, contract 0.50.0) built by Claude Code on synthetic data; 22/22 on codex-a00. Retention holds and deletion orchestration are the existing retention/rights engine. No cryptographic deletion is performed; the assessment records key-boundary questions and never calls key destruction erasure. No real backup system, restore or key destruction exercised. Acceptance stays NOT_RUN."
+      ]
     },
     {
       "id": "EX08",

@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.49.0",
+  "contract_version": "0.50.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -3027,6 +3027,81 @@
       "status": 200,
       "idempotency": true,
       "capability": "connection.enable"
+    },
+    {
+      "id": "list_backup_treatments",
+      "method": "get",
+      "path": "/api/v1/admin/backup-treatments",
+      "authority": "STAFF",
+      "response": "BackupTreatmentList",
+      "status": 200,
+      "paginated": true,
+      "capability": "retention.read"
+    },
+    {
+      "id": "create_backup_treatment",
+      "method": "post",
+      "path": "/api/v1/admin/backup-treatments",
+      "authority": "STAFF",
+      "request": "BackupTreatmentCreate",
+      "response": "BackupTreatment",
+      "status": 201,
+      "idempotency": true,
+      "capability": "retention.write"
+    },
+    {
+      "id": "approve_backup_treatment",
+      "method": "post",
+      "path": "/api/v1/admin/backup-treatments/{id}/approval",
+      "authority": "STAFF",
+      "response": "BackupTreatment",
+      "status": 200,
+      "idempotency": true,
+      "capability": "retention.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "backup_coverage",
+      "method": "get",
+      "path": "/api/v1/admin/backup-coverage",
+      "authority": "STAFF",
+      "response": "BackupCoverage",
+      "status": 200,
+      "capability": "retention.read"
+    },
+    {
+      "id": "record_system_restore",
+      "method": "post",
+      "path": "/api/v1/admin/system-restores",
+      "authority": "STAFF",
+      "request": "SystemRestoreRecord",
+      "response": "SystemRestore",
+      "status": 201,
+      "idempotency": true,
+      "capability": "retention.write"
+    },
+    {
+      "id": "list_erasure_ledger",
+      "method": "get",
+      "path": "/api/v1/admin/erasure-ledger",
+      "authority": "STAFF",
+      "response": "ErasureLedgerList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.sensitive.read",
+      "query": "ErasureLedgerQuery"
+    },
+    {
+      "id": "confirm_reerasure",
+      "method": "post",
+      "path": "/api/v1/admin/erasure-ledger/{id}/reapplied",
+      "authority": "STAFF",
+      "request": "ReerasureConfirm",
+      "response": "ErasureLedgerEntry",
+      "status": 200,
+      "idempotency": true,
+      "capability": "registry.sensitive.write",
+      "params": "IdPath"
     },
     {
       "id": "intake_consent",

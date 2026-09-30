@@ -273,6 +273,13 @@ export interface EndpointMap {
   handle_intake_submission: { request: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeSubmissionHandle>; response: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeSubmission> };
   privacy_centre_setting: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreSetting> };
   change_privacy_centre: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreChange>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreSetting> };
+  list_backup_treatments: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatmentList> };
+  create_backup_treatment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatmentCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatment> };
+  approve_backup_treatment: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatment> };
+  backup_coverage: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupCoverage> };
+  record_system_restore: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestoreRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestore> };
+  list_erasure_ledger: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureLedgerList> };
+  confirm_reerasure: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ReerasureConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureLedgerEntry> };
   list_erasure_intimations_due: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationDueList> };
   list_erasure_intimations: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationList> };
   record_erasure_intimation: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimation> };
