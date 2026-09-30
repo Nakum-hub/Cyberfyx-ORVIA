@@ -349,6 +349,17 @@ await t.run(async () => {
     await admin.screenshot({ path: resolve(shots, 'dpdpa-client-imports.png'), fullPage: true });
 
     check('no browser errors and no request left either installation', [errors, external], [[], []]);
+
+    // Resilience (Codex round 5, WebKit): a 503 from the gap register once hid the whole page, including the Engagements table.
+    // Forced here after the error check above, so the deliberate 503 is not counted as a browser error.
+    let failures = 0;
+    await admin.route('**/api/v1/admin/dpdpa-audit/gaps', route => { failures++; return route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: 'SERVICE_UNAVAILABLE', message: 'Request could not be completed.', retry: 'AFTER_DELAY' }, request_id: '00000000-0000-4000-8000-000000000000' }) }); });
+    await admin.reload(); await admin.getByText('Gap register unavailable').waitFor();
+    check('a gap-register 503 is retried once, then shown only in its own section', failures, 2);
+    check('the engagements stay usable while the gap register is unavailable', await admin.getByRole('table', { name: 'Engagements' }).getByRole('row').filter({ hasText: `ENG-${suffix}` }).getByRole('button', { name: 'Open' }).isVisible(), true);
+    await admin.unroute('**/api/v1/admin/dpdpa-audit/gaps');
+    await admin.getByRole('button', { name: 'Try again' }).click(); await admin.getByRole('table', { name: 'Requirements' }).waitFor();
+    check('Try again recovers the gap register', await admin.getByText('Gap register unavailable').count(), 0);
   } finally {
     await browser.close();
     if (vendorProcess.exitCode === null) { const closed = once(vendorProcess, 'close'); vendorProcess.kill(); await closed; }
