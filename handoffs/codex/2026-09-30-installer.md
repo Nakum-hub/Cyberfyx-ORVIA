@@ -17,6 +17,9 @@ Both commands used cached image `node@sha256:2fe369e969550cde8e867afc3fe370b2601
 |---|---|---|
 | `bash installer/linux/orvia-install.sh --check` | 1 | R3-installer-preflight.log: five missing prerequisites |
 | `bash -n installer/linux/orvia-install.sh installer/linux/orvia-upgrade.sh installer/linux/orvia-rollback.sh` | 0 | R3-installer-syntax.log |
+| `bash -n installer/linux/<script>` separately for install, upgrade and rollback | 0 each | R3-installer-syntax-individual.log |
+
+The original multi-filename `bash -n` command only parsed the first script; the three individual invocations above supply the full syntax evidence. An intervening shell-loop attempt failed with exit 2 because Windows argument quoting broke the loop (`R3-installer-syntax-all.log`); this is a command construction failure, not an installer result.
 
 Exact prerequisites, both previous and current local attempt:
 
