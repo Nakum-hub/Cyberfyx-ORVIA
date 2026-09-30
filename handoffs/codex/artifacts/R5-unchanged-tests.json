@@ -1,0 +1,32 @@
+[
+  {
+    "path": "tests/e2e/dpdpa-audit-local.ts",
+    "base_blob": "b1de4416e4c310155a6b2cfd3877c67be3aee1a2",
+    "current_blob": "b1de4416e4c310155a6b2cfd3877c67be3aee1a2",
+    "unchanged": true
+  },
+  {
+    "path": "tests/e2e/audit-mandate-local.ts",
+    "base_blob": "a37cc8ec32cd5570c6f599a248dfa49318746998",
+    "current_blob": "a37cc8ec32cd5570c6f599a248dfa49318746998",
+    "unchanged": true
+  },
+  {
+    "path": "tests/e2e/expansion-screens-local.ts",
+    "base_blob": "63b5e69f8293d9ec52a3ef1f92ed1a1a5a5478dc",
+    "current_blob": "63b5e69f8293d9ec52a3ef1f92ed1a1a5a5478dc",
+    "unchanged": true
+  },
+  {
+    "path": "tests/e2e/interface-crawl-local.ts",
+    "base_blob": "f5341945d78b215d532f12391bdfe48f49948321",
+    "current_blob": "f5341945d78b215d532f12391bdfe48f49948321",
+    "unchanged": true
+  },
+  {
+    "path": "tests/e2e/sign-in-hydration-local.ts",
+    "base_blob": "dd3933210c3bb8f62c82cd425606fd37b5a4a3a9",
+    "current_blob": "dd3933210c3bb8f62c82cd425606fd37b5a4a3a9",
+    "unchanged": true
+  }
+]
