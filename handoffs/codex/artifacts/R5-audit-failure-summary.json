@@ -1,0 +1,33 @@
+{
+  "sign_in_responses": [
+    {
+      "context": 1,
+      "url": "http://127.0.0.1:4340/api/auth/vendor/sign-in/email",
+      "status": 200
+    },
+    {
+      "context": 2,
+      "url": "http://127.0.0.1:4310/api/auth/staff/sign-in/email",
+      "status": 200
+    },
+    {
+      "context": 3,
+      "url": "http://127.0.0.1:4310/api/auth/staff/sign-in/email",
+      "status": 200
+    }
+  ],
+  "http_5xx": [
+    {
+      "context": 3,
+      "url": "http://127.0.0.1:4310/api/v1/admin/dpdpa-audit/gaps",
+      "status": 503
+    }
+  ],
+  "first_failure": {
+    "context": 3,
+    "test_line": 196,
+    "step": "Reviewer reload; locate engagement reference in Engagements table; click Open",
+    "timeout_ms": 30000
+  },
+  "root_cause": "OPEN; no diagnosis beyond captured evidence in this time-box"
+}
