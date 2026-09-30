@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.47.0",
+  "contract_version": "0.48.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -2951,6 +2951,116 @@
       "idempotency": true,
       "capability": "registry.write",
       "params": "IdPath"
+    },
+    {
+      "id": "list_intake_clients",
+      "method": "get",
+      "path": "/api/v1/admin/intake-clients",
+      "authority": "STAFF",
+      "response": "IntakeClientList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.read"
+    },
+    {
+      "id": "create_intake_client",
+      "method": "post",
+      "path": "/api/v1/admin/intake-clients",
+      "authority": "STAFF",
+      "request": "IntakeClientCreate",
+      "response": "IntakeClientCreated",
+      "status": 201,
+      "idempotency": true,
+      "capability": "connection.enable"
+    },
+    {
+      "id": "revoke_intake_client",
+      "method": "post",
+      "path": "/api/v1/admin/intake-clients/{id}/revocation",
+      "authority": "STAFF",
+      "request": "IntakeClientRevoke",
+      "response": "IntakeClient",
+      "status": 200,
+      "idempotency": true,
+      "capability": "connection.enable",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_intake_submissions",
+      "method": "get",
+      "path": "/api/v1/admin/intake-submissions",
+      "authority": "STAFF",
+      "response": "IntakeSubmissionList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.read",
+      "query": "IntakeSubmissionQuery"
+    },
+    {
+      "id": "handle_intake_submission",
+      "method": "post",
+      "path": "/api/v1/admin/intake-submissions/{id}/handled",
+      "authority": "STAFF",
+      "request": "IntakeSubmissionHandle",
+      "response": "IntakeSubmission",
+      "status": 200,
+      "idempotency": true,
+      "capability": "registry.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "privacy_centre_setting",
+      "method": "get",
+      "path": "/api/v1/admin/privacy-centre",
+      "authority": "STAFF",
+      "response": "PrivacyCentreSetting",
+      "status": 200,
+      "capability": "registry.read"
+    },
+    {
+      "id": "change_privacy_centre",
+      "method": "post",
+      "path": "/api/v1/admin/privacy-centre",
+      "authority": "STAFF",
+      "request": "PrivacyCentreChange",
+      "response": "PrivacyCentreSetting",
+      "status": 200,
+      "idempotency": true,
+      "capability": "connection.enable"
+    },
+    {
+      "id": "intake_consent",
+      "method": "post",
+      "path": "/api/v1/intake/consents",
+      "authority": "INTAKE_CLIENT",
+      "request": "IntakeConsentSubmit",
+      "response": "IntakeReceipt",
+      "status": 202,
+      "idempotency": true,
+      "capability": "intake.submit",
+      "maximum_body_bytes": 8192
+    },
+    {
+      "id": "intake_rights_request",
+      "method": "post",
+      "path": "/api/v1/intake/rights-requests",
+      "authority": "INTAKE_CLIENT",
+      "request": "IntakeRightsSubmit",
+      "response": "IntakeReceipt",
+      "status": 202,
+      "idempotency": true,
+      "capability": "intake.submit",
+      "maximum_body_bytes": 8192
+    },
+    {
+      "id": "intake_submission",
+      "method": "get",
+      "path": "/api/v1/intake/submissions/{id}",
+      "authority": "INTAKE_CLIENT",
+      "params": "IdPath",
+      "response": "IntakeReceipt",
+      "status": 200,
+      "capability": "intake.submit"
     },
     {
       "id": "list_erasure_intimations_due",

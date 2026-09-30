@@ -141,7 +141,7 @@ export function RightsRequestDetail({ id }: { id: string }) {
                 { term: 'Right', value: RIGHT_LABELS[request.right_type] ?? request.right_type },
                 { term: 'Description', value: request.description },
                 { term: 'Received', value: formatTime(request.received_at) },
-                { term: 'Arrived through', value: request.submitted_channel === 'PORTAL' ? 'The privacy portal' : 'Recorded manual intake' },
+                { term: 'Arrived through', value: request.submitted_channel === 'PORTAL' ? 'The Privacy Centre' : request.submitted_channel === 'ORGANISATION_APP' ? 'Your website or app (intake)' : 'Recorded manual intake' },
               ]} />
             </Section>
             <Section title="Where it stands">

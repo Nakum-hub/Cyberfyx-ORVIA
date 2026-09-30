@@ -28,6 +28,7 @@ Sign in as the **client owner**. The sign-in needs the password and then an auth
 | 5 | Website consent | Banner configuration and visitor consent records | "Script blocking until consent, proven per visitor." |
 | 6 | Consent records | A record: grant, withdrawal, evidence | "Withdrawal is as easy as giving." |
 | 6a | Consent records → Consent Managers | The register of Board-registered Consent Managers; a record linked to one; a withdrawal it relayed | "Consent Manager withdrawals are always honoured, even if the Consent Manager is later suspended (s.6(7)–(9), applies from 13 May 2027)." |
+| 6b | Website & app intake | The intake keys, submissions received from the organisation's app, one applied withdrawal, one waiting for staff; the Privacy Centre switch | "Customers never visit ORVIA. The organisation's own account page sends the change here, and a withdrawal propagates like any other. The Privacy Centre is optional and off unless they want it." |
 | 7 | Operational runs | A consent-withdrawal run and its verification | "We don't trust an acknowledgement; ORVIA reads the target system back." |
 | 8 | Privacy requests | Access, correction, erasure, grievance and nomination requests and their states | "Grievance clock: 90 days, from the official Rule 14." |
 | 9 | Personal-data breaches | A breach with its timers | "Board intimation without delay, and the detailed report in 72 hours (Rule 7(2)(b), checked against the official text)." |

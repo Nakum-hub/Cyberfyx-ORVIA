@@ -266,6 +266,13 @@ export interface EndpointMap {
   change_consent_manager_status: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerStatusChange>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManager> };
   link_consent_manager: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerLink>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentRecord> };
   record_consent_manager_withdrawal: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerWithdrawal>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentRecord> };
+  list_intake_clients: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeClientList> };
+  create_intake_client: { request: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeClientCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeClientCreated> };
+  revoke_intake_client: { request: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeClientRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeClient> };
+  list_intake_submissions: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeSubmissionList> };
+  handle_intake_submission: { request: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeSubmissionHandle>; response: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeSubmission> };
+  privacy_centre_setting: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreSetting> };
+  change_privacy_centre: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreChange>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreSetting> };
   list_erasure_intimations_due: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationDueList> };
   list_erasure_intimations: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationList> };
   record_erasure_intimation: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimation> };

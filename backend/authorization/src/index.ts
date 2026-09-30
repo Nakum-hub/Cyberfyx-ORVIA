@@ -36,6 +36,10 @@ export async function authorityFor(request: Request, staff: AuthInstance, princi
   const result = await instance.pool.query(`SELECT * FROM ${schema}.authority WHERE user_id=$1 AND active`, [session.user.id]);
   if (result.rowCount !== 1) throw new AccessError(403, 'FORBIDDEN');
   const binding = result.rows[0];
+  // Revision 1.7: the Privacy Centre is optional and off unless the organisation turned it on. Every Data Principal request
+  // passes here, so a switched-off Privacy Centre refuses them all, whatever page or route asked.
+  if (principalSession && !(await principal.pool.query('SELECT principal_auth.privacy_centre_enabled($1,$2,$3) AS on', [binding.tenant_id, binding.legal_entity_id, binding.environment_id])).rows[0]?.on)
+    throw new AccessError(403, 'FORBIDDEN', [{ field: 'privacy_centre', code: 'privacy_centre_not_offered' }]);
   // A login created by an administrator has no authority until its holder replaces the one-time password.
   if (staffSession && binding.must_change_password) throw new AccessError(403, 'FORBIDDEN', [{ field: 'password', code: 'password_change_required' }]);
   const role = staffSession ? binding.role : 'DATA_PRINCIPAL';

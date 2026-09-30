@@ -7796,6 +7796,244 @@
       }
     },
     {
+      "operation_id": "list_intake_clients",
+      "method": "GET",
+      "path": "/api/v1/admin/intake-clients",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_intake_client",
+      "method": "POST",
+      "path": "/api/v1/admin/intake-clients",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "name": "Customer account site (synthetic)",
+        "system_id": "00000000-0000-4000-8000-0000000002c8",
+        "authenticates_customers": true,
+        "accepts_consent": true,
+        "accepts_rights": true
+      },
+      "response_status": 201,
+      "response": {
+        "client": {
+          "id": "00000000-0000-4000-8000-000000000206",
+          "name": "Synthetic example",
+          "system_id": "00000000-0000-4000-8000-000000000207",
+          "system_name": "Synthetic example",
+          "authenticates_customers": false,
+          "accepts_consent": false,
+          "accepts_rights": false,
+          "created_at": "2026-09-16T10:00:00.000Z",
+          "revoked_at": null,
+          "revocation_reason": null,
+          "last_used_at": null,
+          "submissions": 0
+        },
+        "key": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "shown_once": true
+      }
+    },
+    {
+      "operation_id": "revoke_intake_client",
+      "method": "POST",
+      "path": "/api/v1/admin/intake-clients/{id}/revocation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000208",
+        "name": "Synthetic example",
+        "system_id": "00000000-0000-4000-8000-000000000209",
+        "system_name": "Synthetic example",
+        "authenticates_customers": false,
+        "accepts_consent": false,
+        "accepts_rights": false,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "revoked_at": null,
+        "revocation_reason": null,
+        "last_used_at": null,
+        "submissions": 0
+      }
+    },
+    {
+      "operation_id": "list_intake_submissions",
+      "method": "GET",
+      "path": "/api/v1/admin/intake-submissions",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000002ca",
+            "client_id": "00000000-0000-4000-8000-0000000002cb",
+            "client_name": "Customer account site (synthetic)",
+            "kind": "CONSENT",
+            "customer_reference": "syn_customer_0001",
+            "summary": "Consent withdrawn for activity Marketing email (synthetic)",
+            "status": "APPLIED",
+            "outcome_reason": null,
+            "consent_record_id": "00000000-0000-4000-8000-0000000002cc",
+            "rights_request_id": null,
+            "received_at": "2026-09-16T10:00:00.000Z",
+            "processed_at": "2026-09-16T10:00:00.000Z",
+            "handled_note": null,
+            "handled_at": null
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "handle_intake_submission",
+      "method": "POST",
+      "path": "/api/v1/admin/intake-submissions/{id}/handled",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002ca",
+        "client_id": "00000000-0000-4000-8000-0000000002cb",
+        "client_name": "Customer account site (synthetic)",
+        "kind": "CONSENT",
+        "customer_reference": "syn_customer_0001",
+        "summary": "Consent withdrawn for activity Marketing email (synthetic)",
+        "status": "APPLIED",
+        "outcome_reason": null,
+        "consent_record_id": "00000000-0000-4000-8000-0000000002cc",
+        "rights_request_id": null,
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "processed_at": "2026-09-16T10:00:00.000Z",
+        "handled_note": null,
+        "handled_at": null
+      }
+    },
+    {
+      "operation_id": "privacy_centre_setting",
+      "method": "GET",
+      "path": "/api/v1/admin/privacy-centre",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "enabled": false,
+        "reason": null,
+        "changed_at": null,
+        "changed_by": null,
+        "customer_accounts": 0
+      }
+    },
+    {
+      "operation_id": "change_privacy_centre",
+      "method": "POST",
+      "path": "/api/v1/admin/privacy-centre",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "enabled": false,
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "enabled": false,
+        "reason": null,
+        "changed_at": null,
+        "changed_by": null,
+        "customer_accounts": 0
+      }
+    },
+    {
+      "operation_id": "intake_consent",
+      "method": "POST",
+      "path": "/api/v1/intake/consents",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "customer_reference": "syn_customer_0001",
+        "activity_id": "00000000-0000-4000-8000-0000000002c9",
+        "decision": "WITHDRAWN",
+        "occurred_at": "2026-09-16T10:00:00.000Z",
+        "notice_version_id": null,
+        "evidence_reference": "Account privacy page event SYN-001"
+      },
+      "response_status": 202,
+      "response": {
+        "submission_id": "00000000-0000-4000-8000-00000000020a",
+        "kind": "CONSENT",
+        "status": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "processed_at": null,
+        "outcome_reason": null,
+        "consent": null,
+        "rights_request": null,
+        "receipt_is_not_completion": true
+      }
+    },
+    {
+      "operation_id": "intake_rights_request",
+      "method": "POST",
+      "path": "/api/v1/intake/rights-requests",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "customer_reference": "syn_customer_0001",
+        "right_type": "ACCESS",
+        "description": "Please tell me what personal data you hold about me (synthetic).",
+        "display_name": "Synthetic Customer",
+        "email": "customer@aster.example"
+      },
+      "response_status": 202,
+      "response": {
+        "submission_id": "00000000-0000-4000-8000-00000000020b",
+        "kind": "CONSENT",
+        "status": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "processed_at": null,
+        "outcome_reason": null,
+        "consent": null,
+        "rights_request": null,
+        "receipt_is_not_completion": true
+      }
+    },
+    {
+      "operation_id": "intake_submission",
+      "method": "GET",
+      "path": "/api/v1/intake/submissions/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "submission_id": "00000000-0000-4000-8000-00000000020c",
+        "kind": "CONSENT",
+        "status": "RECEIVED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "processed_at": null,
+        "outcome_reason": null,
+        "consent": null,
+        "rights_request": null,
+        "receipt_is_not_completion": true
+      }
+    },
+    {
       "operation_id": "list_erasure_intimations_due",
       "method": "GET",
       "path": "/api/v1/admin/erasure-intimations/due",
@@ -7827,17 +8065,17 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "subject_id": "00000000-0000-4000-8000-000000000206",
-        "rule_id": "00000000-0000-4000-8000-000000000207",
+        "subject_id": "00000000-0000-4000-8000-00000000020d",
+        "rule_id": "00000000-0000-4000-8000-00000000020e",
         "intimated_at": "2026-09-16T10:00:00.000Z",
         "channel": "USER_ACCOUNT",
         "evidence_reference": "Synthetic example"
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000208",
-        "subject_id": "00000000-0000-4000-8000-000000000209",
-        "rule_id": "00000000-0000-4000-8000-00000000020a",
+        "id": "00000000-0000-4000-8000-00000000020f",
+        "subject_id": "00000000-0000-4000-8000-000000000210",
+        "rule_id": "00000000-0000-4000-8000-000000000211",
         "erasure_due_at": "2026-09-16T10:00:00.000Z",
         "intimated_at": "2026-09-16T10:00:00.000Z",
         "channel": "USER_ACCOUNT",
@@ -7861,9 +8099,9 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000020b",
-        "subject_id": "00000000-0000-4000-8000-00000000020c",
-        "rule_id": "00000000-0000-4000-8000-00000000020d",
+        "id": "00000000-0000-4000-8000-000000000212",
+        "subject_id": "00000000-0000-4000-8000-000000000213",
+        "rule_id": "00000000-0000-4000-8000-000000000214",
         "erasure_due_at": "2026-09-16T10:00:00.000Z",
         "intimated_at": "2026-09-16T10:00:00.000Z",
         "channel": "USER_ACCOUNT",
@@ -7894,15 +8132,15 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "system_id": "00000000-0000-4000-8000-00000000020e",
+        "system_id": "00000000-0000-4000-8000-000000000215",
         "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
         "system_of_record_for": [],
         "holds_data_categories": []
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000020f",
-        "system_id": "00000000-0000-4000-8000-000000000210",
+        "id": "00000000-0000-4000-8000-000000000216",
+        "system_id": "00000000-0000-4000-8000-000000000217",
         "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
         "capabilities": {
           "adapter_kind": "TEST_ADAPTER",
@@ -7949,12 +8187,12 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000211",
+        "id": "00000000-0000-4000-8000-000000000218",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000212",
+          "id": "00000000-0000-4000-8000-000000000219",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -7985,7 +8223,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000213",
+        "created_by": "00000000-0000-4000-8000-00000000021a",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -8011,119 +8249,11 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "rights_request_id": "00000000-0000-4000-8000-000000000214",
-        "subject_id": "00000000-0000-4000-8000-000000000215",
+        "rights_request_id": "00000000-0000-4000-8000-00000000021b",
+        "subject_id": "00000000-0000-4000-8000-00000000021c",
         "corrections": []
       },
       "response_status": 201,
-      "response": {
-        "id": "00000000-0000-4000-8000-000000000216",
-        "kind": "CONSENT_WITHDRAWAL",
-        "status": "EVALUATING",
-        "workflow_version": "1.0.0",
-        "package": {
-          "id": "00000000-0000-4000-8000-000000000217",
-          "version": "1.0.0",
-          "distribution": "PRODUCTION"
-        },
-        "configuration": {},
-        "trigger": {},
-        "subject_id": null,
-        "rights_request_id": null,
-        "retention_rule_id": null,
-        "engagement_id": null,
-        "consent_event_id": null,
-        "approval_required": false,
-        "approval": null,
-        "scope_hash": null,
-        "evaluation_complete": false,
-        "counts": {
-          "total_discovered": 0,
-          "eligible": 0,
-          "blocked": 0,
-          "unresolved": 0,
-          "submitted": 0,
-          "succeeded": 0,
-          "verified": 0,
-          "failed": 0,
-          "inconclusive": 0,
-          "not_supported": 0,
-          "pending": 0
-        },
-        "preview": null,
-        "block_reason": null,
-        "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000218",
-        "started_at": null,
-        "ended_at": null,
-        "open_exceptions": []
-      }
-    },
-    {
-      "operation_id": "create_retention_run",
-      "method": "POST",
-      "path": "/api/v1/admin/workflow-runs/retention",
-      "headers": {
-        "Idempotency-Key": "synthetic_example_key_0001"
-      },
-      "request": {
-        "retention_rule_id": "00000000-0000-4000-8000-000000000219"
-      },
-      "response_status": 201,
-      "response": {
-        "id": "00000000-0000-4000-8000-00000000021a",
-        "kind": "CONSENT_WITHDRAWAL",
-        "status": "EVALUATING",
-        "workflow_version": "1.0.0",
-        "package": {
-          "id": "00000000-0000-4000-8000-00000000021b",
-          "version": "1.0.0",
-          "distribution": "PRODUCTION"
-        },
-        "configuration": {},
-        "trigger": {},
-        "subject_id": null,
-        "rights_request_id": null,
-        "retention_rule_id": null,
-        "engagement_id": null,
-        "consent_event_id": null,
-        "approval_required": false,
-        "approval": null,
-        "scope_hash": null,
-        "evaluation_complete": false,
-        "counts": {
-          "total_discovered": 0,
-          "eligible": 0,
-          "blocked": 0,
-          "unresolved": 0,
-          "submitted": 0,
-          "succeeded": 0,
-          "verified": 0,
-          "failed": 0,
-          "inconclusive": 0,
-          "not_supported": 0,
-          "pending": 0
-        },
-        "preview": null,
-        "block_reason": null,
-        "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-00000000021c",
-        "started_at": null,
-        "ended_at": null,
-        "open_exceptions": []
-      }
-    },
-    {
-      "operation_id": "evaluate_run",
-      "method": "POST",
-      "path": "/api/v1/admin/workflow-runs/{id}/evaluation",
-      "headers": {
-        "Idempotency-Key": "synthetic_example_key_0001"
-      },
-      "request": {
-        "limit": 1
-      },
-      "response_status": 200,
       "response": {
         "id": "00000000-0000-4000-8000-00000000021d",
         "kind": "CONSENT_WITHDRAWAL",
@@ -8168,25 +8298,23 @@
       }
     },
     {
-      "operation_id": "decide_run",
+      "operation_id": "create_retention_run",
       "method": "POST",
-      "path": "/api/v1/admin/workflow-runs/{id}/decision",
+      "path": "/api/v1/admin/workflow-runs/retention",
       "headers": {
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "decision": "APPROVED",
-        "note": "Synthetic example",
-        "scope_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        "retention_rule_id": "00000000-0000-4000-8000-000000000220"
       },
-      "response_status": 200,
+      "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000220",
+        "id": "00000000-0000-4000-8000-000000000221",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000221",
+          "id": "00000000-0000-4000-8000-000000000222",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8217,7 +8345,117 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000222",
+        "created_by": "00000000-0000-4000-8000-000000000223",
+        "started_at": null,
+        "ended_at": null,
+        "open_exceptions": []
+      }
+    },
+    {
+      "operation_id": "evaluate_run",
+      "method": "POST",
+      "path": "/api/v1/admin/workflow-runs/{id}/evaluation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "limit": 1
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000224",
+        "kind": "CONSENT_WITHDRAWAL",
+        "status": "EVALUATING",
+        "workflow_version": "1.0.0",
+        "package": {
+          "id": "00000000-0000-4000-8000-000000000225",
+          "version": "1.0.0",
+          "distribution": "PRODUCTION"
+        },
+        "configuration": {},
+        "trigger": {},
+        "subject_id": null,
+        "rights_request_id": null,
+        "retention_rule_id": null,
+        "engagement_id": null,
+        "consent_event_id": null,
+        "approval_required": false,
+        "approval": null,
+        "scope_hash": null,
+        "evaluation_complete": false,
+        "counts": {
+          "total_discovered": 0,
+          "eligible": 0,
+          "blocked": 0,
+          "unresolved": 0,
+          "submitted": 0,
+          "succeeded": 0,
+          "verified": 0,
+          "failed": 0,
+          "inconclusive": 0,
+          "not_supported": 0,
+          "pending": 0
+        },
+        "preview": null,
+        "block_reason": null,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "created_by": "00000000-0000-4000-8000-000000000226",
+        "started_at": null,
+        "ended_at": null,
+        "open_exceptions": []
+      }
+    },
+    {
+      "operation_id": "decide_run",
+      "method": "POST",
+      "path": "/api/v1/admin/workflow-runs/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "decision": "APPROVED",
+        "note": "Synthetic example",
+        "scope_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000227",
+        "kind": "CONSENT_WITHDRAWAL",
+        "status": "EVALUATING",
+        "workflow_version": "1.0.0",
+        "package": {
+          "id": "00000000-0000-4000-8000-000000000228",
+          "version": "1.0.0",
+          "distribution": "PRODUCTION"
+        },
+        "configuration": {},
+        "trigger": {},
+        "subject_id": null,
+        "rights_request_id": null,
+        "retention_rule_id": null,
+        "engagement_id": null,
+        "consent_event_id": null,
+        "approval_required": false,
+        "approval": null,
+        "scope_hash": null,
+        "evaluation_complete": false,
+        "counts": {
+          "total_discovered": 0,
+          "eligible": 0,
+          "blocked": 0,
+          "unresolved": 0,
+          "submitted": 0,
+          "succeeded": 0,
+          "verified": 0,
+          "failed": 0,
+          "inconclusive": 0,
+          "not_supported": 0,
+          "pending": 0
+        },
+        "preview": null,
+        "block_reason": null,
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "created_by": "00000000-0000-4000-8000-000000000229",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -8235,12 +8473,12 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000223",
+        "id": "00000000-0000-4000-8000-00000000022a",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000224",
+          "id": "00000000-0000-4000-8000-00000000022b",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8271,7 +8509,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000225",
+        "created_by": "00000000-0000-4000-8000-00000000022c",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -8289,12 +8527,12 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000226",
+        "id": "00000000-0000-4000-8000-00000000022d",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000227",
+          "id": "00000000-0000-4000-8000-00000000022e",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8325,7 +8563,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000228",
+        "created_by": "00000000-0000-4000-8000-00000000022f",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -8342,12 +8580,12 @@
         "package_kind": "ORVIA_WORKFLOW_EVIDENCE_PACKAGE",
         "generated_at": "2026-09-16T10:00:00.000Z",
         "run": {
-          "id": "00000000-0000-4000-8000-000000000229",
+          "id": "00000000-0000-4000-8000-000000000230",
           "kind": "CONSENT_WITHDRAWAL",
           "status": "EVALUATING",
           "workflow_version": "1.0.0",
           "package": {
-            "id": "00000000-0000-4000-8000-00000000022a",
+            "id": "00000000-0000-4000-8000-000000000231",
             "version": "1.0.0",
             "distribution": "PRODUCTION"
           },
@@ -8378,13 +8616,13 @@
           "preview": null,
           "block_reason": null,
           "created_at": "2026-09-16T10:00:00.000Z",
-          "created_by": "00000000-0000-4000-8000-00000000022b",
+          "created_by": "00000000-0000-4000-8000-000000000232",
           "started_at": null,
           "ended_at": null,
           "open_exceptions": []
         },
         "regulatory_package": {
-          "id": "00000000-0000-4000-8000-00000000022c",
+          "id": "00000000-0000-4000-8000-000000000233",
           "version": "1.0.0",
           "distribution": "PRODUCTION",
           "package_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -8452,7 +8690,7 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000022d",
+        "id": "00000000-0000-4000-8000-000000000234",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8478,7 +8716,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000022e",
+        "id": "00000000-0000-4000-8000-000000000235",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8523,7 +8761,7 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000022f",
+        "id": "00000000-0000-4000-8000-000000000236",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8553,7 +8791,7 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000230",
+        "id": "00000000-0000-4000-8000-000000000237",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8581,7 +8819,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000231",
+        "id": "00000000-0000-4000-8000-000000000238",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8619,7 +8857,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "incident_id": "00000000-0000-4000-8000-000000000232",
+        "incident_id": "00000000-0000-4000-8000-000000000239",
         "affected_count": null,
         "affected_count_state": "UNKNOWN",
         "data_category_ids": [],
@@ -8637,9 +8875,9 @@
       },
       "response_status": 201,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-000000000233",
+        "incident_id": "00000000-0000-4000-8000-00000000023a",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000234",
+          "id": "00000000-0000-4000-8000-00000000023b",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8673,9 +8911,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-000000000235",
+        "incident_id": "00000000-0000-4000-8000-00000000023c",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000236",
+          "id": "00000000-0000-4000-8000-00000000023d",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8722,9 +8960,9 @@
       },
       "response_status": 200,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-000000000237",
+        "incident_id": "00000000-0000-4000-8000-00000000023e",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000238",
+          "id": "00000000-0000-4000-8000-00000000023f",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8763,9 +9001,9 @@
       },
       "response_status": 200,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-000000000239",
+        "incident_id": "00000000-0000-4000-8000-000000000240",
         "package": {
-          "id": "00000000-0000-4000-8000-00000000023a",
+          "id": "00000000-0000-4000-8000-000000000241",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8815,7 +9053,7 @@
       },
       "response_status": 201,
       "response": {
-        "rights_request_id": "00000000-0000-4000-8000-00000000023b",
+        "rights_request_id": "00000000-0000-4000-8000-000000000242",
         "right_type": "Synthetic example",
         "received_at": "2026-09-16T10:00:00.000Z",
         "package": null,
@@ -8837,7 +9075,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "rights_request_id": "00000000-0000-4000-8000-00000000023c",
+        "rights_request_id": "00000000-0000-4000-8000-000000000243",
         "right_type": "Synthetic example",
         "received_at": "2026-09-16T10:00:00.000Z",
         "package": null,
@@ -9839,8 +10077,8 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000023d",
-        "processor_id": "00000000-0000-4000-8000-00000000023e",
+        "id": "00000000-0000-4000-8000-000000000244",
+        "processor_id": "00000000-0000-4000-8000-000000000245",
         "kind": "DPA",
         "reference": "Synthetic example",
         "signed_at": "2026-09-16T10:00:00.000Z",
@@ -9857,7 +10095,7 @@
         "termination_reason": null,
         "in_force": false,
         "superseded": false,
-        "recorded_by": "00000000-0000-4000-8000-00000000023f",
+        "recorded_by": "00000000-0000-4000-8000-000000000246",
         "recorded_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9873,8 +10111,8 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000240",
-        "processor_id": "00000000-0000-4000-8000-000000000241",
+        "id": "00000000-0000-4000-8000-000000000247",
+        "processor_id": "00000000-0000-4000-8000-000000000248",
         "kind": "DPA",
         "reference": "Synthetic example",
         "signed_at": "2026-09-16T10:00:00.000Z",
@@ -9891,7 +10129,7 @@
         "termination_reason": null,
         "in_force": false,
         "superseded": false,
-        "recorded_by": "00000000-0000-4000-8000-000000000242",
+        "recorded_by": "00000000-0000-4000-8000-000000000249",
         "recorded_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9912,9 +10150,9 @@
         "tier": "LOW",
         "reassessment_interval_days": 30,
         "reason": "Synthetic example",
-        "id": "00000000-0000-4000-8000-000000000243",
-        "processor_id": "00000000-0000-4000-8000-000000000244",
-        "recorded_by": "00000000-0000-4000-8000-000000000245",
+        "id": "00000000-0000-4000-8000-00000000024a",
+        "processor_id": "00000000-0000-4000-8000-00000000024b",
+        "recorded_by": "00000000-0000-4000-8000-00000000024c",
         "recorded_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9926,7 +10164,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "processor_id": "00000000-0000-4000-8000-000000000246",
+        "processor_id": "00000000-0000-4000-8000-00000000024d",
         "processor_name": "Synthetic example",
         "region": "Synthetic example",
         "as_of": "2026-09-16T10:00:00.000Z",
@@ -9959,7 +10197,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "assessment_id": "00000000-0000-4000-8000-000000000247",
+        "assessment_id": "00000000-0000-4000-8000-00000000024e",
         "expires_at": "2026-09-16T10:00:00.000Z"
       },
       "response_status": 201,
@@ -10003,14 +10241,14 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000248",
-        "assessment_id": "00000000-0000-4000-8000-000000000249",
+        "id": "00000000-0000-4000-8000-00000000024f",
+        "assessment_id": "00000000-0000-4000-8000-000000000250",
         "expires_at": "2026-09-16T10:00:00.000Z",
         "state": "ACTIVE",
         "revoked_at": null,
         "revocation_reason": null,
         "last_used_at": null,
-        "created_by": "00000000-0000-4000-8000-00000000024a",
+        "created_by": "00000000-0000-4000-8000-000000000251",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -10045,8 +10283,8 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000024b",
-        "policy_key": "00000000-0000-4000-8000-00000000024c",
+        "id": "00000000-0000-4000-8000-000000000252",
+        "policy_key": "00000000-0000-4000-8000-000000000253",
         "version": 1,
         "title": "Synthetic example",
         "body": "Synthetic example",
@@ -10056,7 +10294,7 @@
         "requirement_ids": [],
         "change_summary": "Synthetic example",
         "status": "DRAFT",
-        "recorded_by": "00000000-0000-4000-8000-00000000024d",
+        "recorded_by": "00000000-0000-4000-8000-000000000254",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "published_at": null,
@@ -10079,8 +10317,8 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000024e",
-        "policy_key": "00000000-0000-4000-8000-00000000024f",
+        "id": "00000000-0000-4000-8000-000000000255",
+        "policy_key": "00000000-0000-4000-8000-000000000256",
         "version": 1,
         "title": "Synthetic example",
         "body": "Synthetic example",
@@ -10090,7 +10328,7 @@
         "requirement_ids": [],
         "change_summary": "Synthetic example",
         "status": "DRAFT",
-        "recorded_by": "00000000-0000-4000-8000-000000000250",
+        "recorded_by": "00000000-0000-4000-8000-000000000257",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "published_at": null,
@@ -10111,8 +10349,8 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000251",
-        "policy_key": "00000000-0000-4000-8000-000000000252",
+        "id": "00000000-0000-4000-8000-000000000258",
+        "policy_key": "00000000-0000-4000-8000-000000000259",
         "version": 1,
         "title": "Synthetic example",
         "body": "Synthetic example",
@@ -10122,7 +10360,7 @@
         "requirement_ids": [],
         "change_summary": "Synthetic example",
         "status": "DRAFT",
-        "recorded_by": "00000000-0000-4000-8000-000000000253",
+        "recorded_by": "00000000-0000-4000-8000-00000000025a",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "published_at": null,
@@ -10164,7 +10402,7 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000254",
+        "id": "00000000-0000-4000-8000-00000000025b",
         "source_kind": "MANUAL",
         "source_id": null,
         "title": "Synthetic example",
@@ -10176,7 +10414,7 @@
         "state": "OPEN",
         "overdue": false,
         "events": [],
-        "created_by": "00000000-0000-4000-8000-000000000255",
+        "created_by": "00000000-0000-4000-8000-00000000025c",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -10188,7 +10426,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000256",
+        "id": "00000000-0000-4000-8000-00000000025d",
         "source_kind": "MANUAL",
         "source_id": null,
         "title": "Synthetic example",
@@ -10200,7 +10438,7 @@
         "state": "OPEN",
         "overdue": false,
         "events": [],
-        "created_by": "00000000-0000-4000-8000-000000000257",
+        "created_by": "00000000-0000-4000-8000-00000000025e",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -10221,7 +10459,7 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000258",
+        "id": "00000000-0000-4000-8000-00000000025f",
         "source_kind": "MANUAL",
         "source_id": null,
         "title": "Synthetic example",
@@ -10233,7 +10471,7 @@
         "state": "OPEN",
         "overdue": false,
         "events": [],
-        "created_by": "00000000-0000-4000-8000-000000000259",
+        "created_by": "00000000-0000-4000-8000-000000000260",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -10258,9 +10496,9 @@
             "description": "Synthetic example"
           }
         ],
-        "id": "00000000-0000-4000-8000-00000000025a",
+        "id": "00000000-0000-4000-8000-000000000261",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-00000000025b"
+        "recorded_by": "00000000-0000-4000-8000-000000000262"
       }
     },
     {
@@ -10283,7 +10521,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "control_id": "00000000-0000-4000-8000-00000000025c",
+        "control_id": "00000000-0000-4000-8000-000000000263",
         "name": "Synthetic example",
         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
         "maximum_violations": 0,
@@ -10291,15 +10529,15 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000025d",
-        "control_id": "00000000-0000-4000-8000-00000000025e",
+        "id": "00000000-0000-4000-8000-000000000264",
+        "control_id": "00000000-0000-4000-8000-000000000265",
         "name": "Synthetic example",
         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
         "maximum_violations": -9007199254740991,
         "interval_minutes": -9007199254740991,
         "enabled": false,
         "next_run_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-00000000025f",
+        "created_by": "00000000-0000-4000-8000-000000000266",
         "created_at": "2026-09-16T10:00:00.000Z",
         "latest_run": null,
         "standing": "PASSING",
@@ -10315,15 +10553,15 @@
       "response_status": 200,
       "response": {
         "test": {
-          "id": "00000000-0000-4000-8000-000000000260",
-          "control_id": "00000000-0000-4000-8000-000000000261",
+          "id": "00000000-0000-4000-8000-000000000267",
+          "control_id": "00000000-0000-4000-8000-000000000268",
           "name": "Synthetic example",
           "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
           "maximum_violations": -9007199254740991,
           "interval_minutes": -9007199254740991,
           "enabled": false,
           "next_run_at": "2026-09-16T10:00:00.000Z",
-          "created_by": "00000000-0000-4000-8000-000000000262",
+          "created_by": "00000000-0000-4000-8000-000000000269",
           "created_at": "2026-09-16T10:00:00.000Z",
           "latest_run": null,
           "standing": "PASSING",
@@ -10343,15 +10581,15 @@
       "response_status": 200,
       "response": {
         "test": {
-          "id": "00000000-0000-4000-8000-000000000263",
-          "control_id": "00000000-0000-4000-8000-000000000264",
+          "id": "00000000-0000-4000-8000-00000000026a",
+          "control_id": "00000000-0000-4000-8000-00000000026b",
           "name": "Synthetic example",
           "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
           "maximum_violations": -9007199254740991,
           "interval_minutes": -9007199254740991,
           "enabled": false,
           "next_run_at": "2026-09-16T10:00:00.000Z",
-          "created_by": "00000000-0000-4000-8000-000000000265",
+          "created_by": "00000000-0000-4000-8000-00000000026c",
           "created_at": "2026-09-16T10:00:00.000Z",
           "latest_run": null,
           "standing": "PASSING",
@@ -10372,15 +10610,15 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000266",
-        "control_id": "00000000-0000-4000-8000-000000000267",
+        "id": "00000000-0000-4000-8000-00000000026d",
+        "control_id": "00000000-0000-4000-8000-00000000026e",
         "name": "Synthetic example",
         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
         "maximum_violations": -9007199254740991,
         "interval_minutes": -9007199254740991,
         "enabled": false,
         "next_run_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000268",
+        "created_by": "00000000-0000-4000-8000-00000000026f",
         "created_at": "2026-09-16T10:00:00.000Z",
         "latest_run": null,
         "standing": "PASSING",
@@ -10701,7 +10939,7 @@
       "response_status": 200,
       "response": {
         "kind": "SYSTEM",
-        "target_id": "00000000-0000-4000-8000-000000000269",
+        "target_id": "00000000-0000-4000-8000-000000000270",
         "activities": [],
         "retention_rule_ids": [],
         "engagement_ids": [],
@@ -10734,14 +10972,14 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000026a",
+        "id": "00000000-0000-4000-8000-000000000271",
         "version": 1,
         "note": "Synthetic example",
         "as_of": "2026-09-16T10:00:00.000Z",
         "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "activity_count": -9007199254740991,
         "gap_count": -9007199254740991,
-        "recorded_by": "00000000-0000-4000-8000-00000000026b",
+        "recorded_by": "00000000-0000-4000-8000-000000000272",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "approved_at": null,
@@ -10760,14 +10998,14 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000026c",
+        "id": "00000000-0000-4000-8000-000000000273",
         "version": 1,
         "note": "Synthetic example",
         "as_of": "2026-09-16T10:00:00.000Z",
         "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "activity_count": -9007199254740991,
         "gap_count": -9007199254740991,
-        "recorded_by": "00000000-0000-4000-8000-00000000026d",
+        "recorded_by": "00000000-0000-4000-8000-000000000274",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "approved_at": null,
@@ -11038,7 +11276,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "job_id": "00000000-0000-4000-8000-00000000026e",
+        "job_id": "00000000-0000-4000-8000-000000000275",
         "sequence": -9007199254740991,
         "row_count": -9007199254740991,
         "sha256": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -12734,7 +12972,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "site_id": "00000000-0000-4000-8000-00000000026f",
+        "site_id": "00000000-0000-4000-8000-000000000276",
         "visitors": -9007199254740991,
         "records": -9007199254740991,
         "gpc_visitors": -9007199254740991,
@@ -12855,7 +13093,7 @@
       },
       "response_status": 201,
       "response": {
-        "receipt_id": "00000000-0000-4000-8000-000000000270",
+        "receipt_id": "00000000-0000-4000-8000-000000000277",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "config_version": -9007199254740991
       }
@@ -13099,7 +13337,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "topic_id": "00000000-0000-4000-8000-000000000271",
+        "topic_id": "00000000-0000-4000-8000-000000000278",
         "channel": "EMAIL",
         "choice": "OPTED_IN",
         "observed_at": "2026-09-16T10:00:00.000Z"
@@ -13107,8 +13345,8 @@
       "response_status": 201,
       "response": {
         "event": {
-          "id": "00000000-0000-4000-8000-000000000272",
-          "topic_id": "00000000-0000-4000-8000-000000000273",
+          "id": "00000000-0000-4000-8000-000000000279",
+          "topic_id": "00000000-0000-4000-8000-00000000027a",
           "channel": "EMAIL",
           "choice": "OPTED_IN",
           "source": "PORTAL",
@@ -13157,7 +13395,7 @@
       "response_status": 201,
       "response": {
         "member": {
-          "id": "00000000-0000-4000-8000-000000000274",
+          "id": "00000000-0000-4000-8000-00000000027b",
           "display_name": "Synthetic example",
           "email": "asha@aster.example",
           "role": "ORG_SUPER_ADMIN",
@@ -13189,7 +13427,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000275",
+        "id": "00000000-0000-4000-8000-00000000027c",
         "display_name": "Synthetic example",
         "email": "asha@aster.example",
         "role": "ORG_SUPER_ADMIN",
@@ -13213,7 +13451,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000276",
+        "id": "00000000-0000-4000-8000-00000000027d",
         "display_name": "Synthetic example",
         "email": "asha@aster.example",
         "role": "ORG_SUPER_ADMIN",
@@ -13239,7 +13477,7 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000277",
+        "id": "00000000-0000-4000-8000-00000000027e",
         "display_name": "Synthetic example",
         "email": "asha@aster.example",
         "role": "ORG_SUPER_ADMIN",
@@ -14810,8 +15048,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000278",
-        "environment_id": "00000000-0000-4000-8000-000000000279",
+        "installation_id": "00000000-0000-4000-8000-00000000027f",
+        "environment_id": "00000000-0000-4000-8000-000000000280",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -14828,9 +15066,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-00000000027a",
+        "command_id": "00000000-0000-4000-8000-000000000281",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000027b",
+        "attempt_id": "00000000-0000-4000-8000-000000000282",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -14838,7 +15076,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-00000000027c",
+        "operation_id": "00000000-0000-4000-8000-000000000283",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -14851,10 +15089,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-00000000027d",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000027e",
-        "purpose_id": "00000000-0000-4000-8000-00000000027f",
-        "system_id": "00000000-0000-4000-8000-000000000280",
+        "attempt_id": "00000000-0000-4000-8000-000000000284",
+        "principal_reference_id": "00000000-0000-4000-8000-000000000285",
+        "purpose_id": "00000000-0000-4000-8000-000000000286",
+        "system_id": "00000000-0000-4000-8000-000000000287",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -14927,9 +15165,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000281",
+        "command_id": "00000000-0000-4000-8000-000000000288",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000282",
+        "attempt_id": "00000000-0000-4000-8000-000000000289",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -14944,7 +15182,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-000000000283",
+        "resource_id": "00000000-0000-4000-8000-00000000028a",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -14959,9 +15197,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000284",
+        "command_id": "00000000-0000-4000-8000-00000000028b",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000285",
+        "attempt_id": "00000000-0000-4000-8000-00000000028c",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

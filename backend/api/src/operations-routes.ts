@@ -20,6 +20,7 @@ import { registerBreach, updateBreach, completeBreachTask, breachView, breachLis
 import { openCaseProfile, caseProfile, caseProfileList } from '../../domain/src/operations/cases.ts';
 import { operationsAttention, operationsCoverage, notificationSweep } from '../../domain/src/operations/attention.ts';
 import { ownRequestHistory } from '../../domain/src/rights/portal.ts';
+import { intakeClientList, createIntakeClient, revokeIntakeClient, intakeSubmissionList, handleIntakeSubmission, privacyCentreSetting, changePrivacyCentre } from '../../domain/src/registry/intake.ts';
 
 /**
  * Dispatch for the regulatory core, the data & processing registry and the
@@ -102,6 +103,13 @@ export async function operationsRoute(c: Context, route: RouteDefinition, id: st
     case 'change_consent_manager_status': return changeConsentManagerStatus(c, id!, input);
     case 'link_consent_manager': return linkConsentManager(c, id!, input);
     case 'record_consent_manager_withdrawal': return recordConsentManagerWithdrawal(c, id!, input);
+    case 'list_intake_clients': return intakeClientList(c, page);
+    case 'create_intake_client': return createIntakeClient(c, input);
+    case 'revoke_intake_client': return revokeIntakeClient(c, id!, input);
+    case 'list_intake_submissions': return intakeSubmissionList(c, page, query);
+    case 'handle_intake_submission': return handleIntakeSubmission(c, id!, input);
+    case 'privacy_centre_setting': return privacyCentreSetting(c);
+    case 'change_privacy_centre': return changePrivacyCentre(c, input);
     case 'list_erasure_intimations_due': return intimationsDue(c, page);
     case 'list_erasure_intimations': return intimationList(c, page, query);
     case 'record_erasure_intimation': return recordIntimation(c, input);

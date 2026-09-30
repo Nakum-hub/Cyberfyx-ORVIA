@@ -210,6 +210,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/processing-activities', label: 'Processing activities' },
     { href: '/workspace/registry-notices', label: 'Notices' },
     { href: '/workspace/consent-records', label: 'Consent records' },
+    { href: '/workspace/organisation-intake', label: 'Website & app intake' },
     { href: '/workspace/registry-retention', label: 'Retention rules & holds' },
     { href: '/workspace/processor-engagements', label: 'Processor engagements' },
     { href: '/workspace/estate-imports', label: 'Existing-data onboarding' },
