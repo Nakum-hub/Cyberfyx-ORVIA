@@ -1,0 +1,19 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T11:38:59.378Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "the crawl found nothing wrong on any page, tab or link",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 1,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

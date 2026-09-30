@@ -329,21 +329,26 @@ export function CheckboxField({ label, checked, onChange, name }: { label: React
 
 export function DataTable<T>({ caption, columns, rows, rowKey }: {
   caption: string;
-  columns: { key: string; header: string; cell: (row: T) => ReactNode }[];
+  columns: { key: string; header: string; cell: (row: T) => ReactNode; align?: 'left' | 'right' }[];
   rows: T[];
   rowKey: (row: T) => string;
 }) {
+  // Evaluate each cell once; plain numeric columns align with their headings.
+  // Callers can also explicitly align formatted numeric values without a DTO change.
+  const rendered = rows.map(row => ({ key: rowKey(row), cells: columns.map(column => column.cell(row)) }));
+  const numeric = columns.map((column, index) => column.align === 'right'
+    || (column.align === undefined && rendered.length > 0 && rendered.every(row => typeof row.cells[index] === 'number')));
   return (
-    <div className="table-wrap">
+    <div className="table-wrap" role="region" aria-label={caption} tabIndex={0}>
       <table className="data">
         <caption>{caption}</caption>
         <thead>
-          <tr>{columns.map(column => <th key={column.key} scope="col">{column.header}</th>)}</tr>
+          <tr>{columns.map((column, index) => <th key={column.key} scope="col" className={numeric[index] ? 'cell-number' : undefined}>{column.header}</th>)}</tr>
         </thead>
         <tbody>
-          {rows.map(row => (
-            <tr key={rowKey(row)}>
-              {columns.map(column => <td key={column.key}>{column.cell(row)}</td>)}
+          {rendered.map(row => (
+            <tr key={row.key}>
+              {columns.map((column, index) => <td key={column.key} className={numeric[index] ? 'cell-number' : undefined}>{row.cells[index]}</td>)}
             </tr>
           ))}
         </tbody>
