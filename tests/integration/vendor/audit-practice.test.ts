@@ -15,7 +15,9 @@ import { acceptEngagement, evidenceFor, paper, ok, ACCEPTANCE, METHODOLOGY } fro
 import { packageFileBytes, sha256, verifyAuditDocument, type AuditPackageManifest } from '../../../shared/contracts/src/audit-exchange.ts';
 import { engagementCodeDigest } from '../../../backend/vendor/audit/service.ts';
 import { rate } from '../../../backend/vendor/audit/practice.ts';
-import { installationTrust } from '../../../scripts/credentials.ts';
+import { installationTrust, vendorSigningKey } from '../../../scripts/credentials.ts';
+import { fixturePackage, signFixture } from '../../../shared/testing/src/regulatory-fixture.ts';
+import { generateKeyPairSync } from 'node:crypto';
 
 const results: { name: string; result: 'PASS' | 'FAIL'; detail?: string }[] = [];
 function check(name: string, actual: unknown, expected: unknown) {
@@ -352,6 +354,30 @@ try {
   await ok(own.json(`${V}/holds/${hold.items[0].id}/release`, { reason: 'Inquiry closed; no further hold needed.' }), 'release');
   check('hold: once released, retention purges the evidence', (await adm.json(`${V}/retention/sweep`, {})).data.purged.map((p: { engagement_id: string }) => p.engagement_id).includes(e.id), true);
   check('findings: every finding ends closed with a recorded closure type', (await h.operator.query("SELECT count(*)::int AS n FROM vendor.findings WHERE engagement_id=$1 AND status<>'CLOSED'", [e.id])).rows[0].n, 0);
+
+  // ---------------------------------------------------------------- production criteria from the signed official package (vendor contract 0.5.0)
+  // A synthetic package shaped as PRODUCTION (official host URLs, hashed sources) and signed with this vendor's release key.
+  const release = vendorSigningKey('release');
+  const fixtureClaims = fixturePackage({ version: `9.${Math.floor(Math.random() * 1e6)}.0`, previous_version: null, effective_from: new Date().toISOString(), requirement_effective_from: today });
+  const productionClaims = { ...fixtureClaims, distribution: 'PRODUCTION' as const, release_notes: ['SYNTHETIC production-shaped package for automated validation only.'],
+    open_verification_items: ['Approver re-downloads each source and confirms its digest (synthetic).'],
+    sources: fixtureClaims.sources.map((src, i) => ({ ...src, official_url: `https://www.meity.gov.in/static/uploads/synthetic-${i}.pdf`, artifact_digest: 'a'.repeat(64), retrieved_at: new Date().toISOString(), verification: 'ARTIFACT_HASHED' as const })) };
+  const signedProduction = signFixture(productionClaims as unknown as typeof fixtureClaims, release.key_id, release.private);
+  const PC = `${V}/practice/criteria/production`;
+  check('production criteria: an auditor cannot record them', (await auditor.json(PC, signedProduction)).status, 403);
+  check('production criteria: a TEST_FIXTURE package is refused', code(await lead.json(PC, signFixture(fixtureClaims, release.key_id, release.private))), [409, 'not_a_production_package']);
+  const stranger = generateKeyPairSync('ed25519');
+  check('production criteria: a package signed with another key is refused', code(await lead.json(PC, signFixture(productionClaims as unknown as typeof fixtureClaims, randomUUID(), stranger.privateKey.export({ format: 'der', type: 'pkcs8' }).toString('base64')))), [409, 'not_signed_with_this_vendor_release_key']);
+  const tampered = structuredClone(signedProduction); tampered.package.claims.requirements[0]!.title = 'Tampered after signing';
+  check('production criteria: a package changed after signing is refused', code(await lead.json(PC, tampered)), [409, 'invalid_signature']);
+  const recorded = await ok(lead.json(PC, signedProduction), 'record production criteria');
+  const prod = recorded.criteria.find((x: { version: string }) => x.version === productionClaims.version);
+  check('production criteria: recorded as PRODUCTION with every requirement and a digest', [prod?.distribution, prod?.requirements, /^[a-f0-9]{64}$/.test(prod?.digest ?? '')], ['PRODUCTION', productionClaims.requirements.length, true]);
+  check('production criteria: the same version cannot be recorded twice', (await lead.json(PC, signedProduction)).status >= 400, true);
+  check('production criteria: recorded unapproved; a REAL engagement cannot use them yet', [prod?.approved_by, code(await adm.json(`${V}/engagements/${e0.id}/configure`, { use_kind: 'REAL', criteria_version_id: prod.id, methodology_id: unapproved.id, commercial_owner_id: null, implementation_owner_id: null }))], [null, [409, 'production_criteria_not_approved']]);
+  await ok(reviewer2.json(`${V}/criteria/${prod.id}/approve`, {}), 'approve production criteria');
+  const gate = await own.json(`${V}/practice/activations`, { gate: 'PRODUCTION_CRITERIA', reference: `Signed package ${productionClaims.version} (synthetic)` });
+  check('production criteria: once approved, the production-criteria gate can be recorded', [gate.status, gate.data.gates_missing?.includes('PRODUCTION_CRITERIA')], [200, false]);
 } catch (error) { results.push({ name: 'suite', result: 'FAIL', detail: String((error as Error).stack ?? error).slice(0, 800) }); console.error(error); }
 finally {
   await h.close();

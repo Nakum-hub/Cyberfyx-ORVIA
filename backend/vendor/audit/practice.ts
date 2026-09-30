@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { createPublicKey, randomUUID, verify } from 'node:crypto';
 import type pg from 'pg';
 import * as P from '../../../shared/contracts/src/vendor-practice.ts';
 import * as V from '../../../shared/contracts/src/vendor-audit.ts';
@@ -82,6 +82,32 @@ export async function recordCriteriaFixture(c: Ctx, input: unknown) {
     await audit(c, 'vendor.practice.criteria-recorded', id); return practiceState(c);
   });
 }
+/**
+ * Records production criteria from the official regulatory package signed with this vendor's release key (vendor contract 0.5.0).
+ * The package schema already requires, for PRODUCTION, official Government of India source URLs and hashed source files. Here the
+ * signature is checked against the release key held by this service, and only a PRODUCTION package is accepted. The package's
+ * open verification items are kept with the criteria so the approver (a different person, approveCriteria) sees them.
+ */
+export async function recordProductionCriteria(c: Ctx, input: unknown, keys: Keys) {
+  const pkg = P.CriteriaPackageRecord.parse(input).package;
+  if (pkg.claims.distribution !== 'PRODUCTION') refuse(409, 'distribution', 'not_a_production_package');
+  let release: { key_id: string; public: string };
+  try { release = keys.release(); } catch { throw new AccessError(503, 'SERVICE_UNAVAILABLE'); }
+  if (pkg.signing_key_id !== release.key_id) refuse(409, 'signing_key_id', 'not_signed_with_this_vendor_release_key');
+  let valid = false;
+  try { valid = verify(null, Buffer.from(canonicalJson(pkg.claims), 'utf8'), createPublicKey({ key: Buffer.from(release.public, 'base64'), format: 'der', type: 'spki' }), Buffer.from(pkg.signature, 'base64url')); }
+  catch { refuse(409, 'signature', 'malformed_signature'); }
+  if (!valid) refuse(409, 'signature', 'invalid_signature');
+  const requirements = pkg.claims.requirements.map(r => ({ requirement_id: r.requirement_id, title: r.title, provision_ids: [...r.provision_ids], statement: r.statement, evidence_expectations: [...r.evidence_expectations] }));
+  const sources = pkg.claims.sources.map(s => ({ source_id: s.source_id, title: s.title, notification_reference: s.notification_reference, official_url: s.official_url, retrieved_and_hashed: s.verification === 'ARTIFACT_HASHED', artifact_digest: s.artifact_digest }));
+  const provenance = { package_id: pkg.claims.package_id, package_version: pkg.claims.version, signing_key_id: pkg.signing_key_id, open_verification_items: pkg.claims.open_verification_items };
+  const id = randomUUID(); const digest = digestOf({ version: pkg.claims.version, distribution: 'PRODUCTION', sources, requirements });
+  return guarded(async () => {
+    await c.tx.query(`INSERT INTO vendor.criteria_versions (id, version, distribution, sources, requirements, digest, recorded_by) VALUES ($1,$2,'PRODUCTION',$3,$4,$5,$6)`,
+      [id, pkg.claims.version, JSON.stringify([...sources, { package: provenance }]), JSON.stringify(requirements), digest, c.actor.actor_id]);
+    await audit(c, 'vendor.practice.production-criteria-recorded', id); return practiceState(c, keys);
+  });
+}
 export async function approveCriteria(c: Ctx, id: string) {
   const r = (await c.tx.query('SELECT * FROM vendor.criteria_versions WHERE id=$1', [id])).rows[0] ?? refuse(404, 'id', 'not_found');
   if (r.approved_by) refuse(409, 'criteria', 'already_approved');
@@ -152,6 +178,7 @@ export async function configureEngagement(c: Ctx, id: string, input: unknown) {
   const known = new Set((criteria.requirements as { requirement_id: string }[]).map(r => r.requirement_id));
   if ((e.scope_requirement_ids as string[]).some(r => !known.has(r))) refuse(409, 'criteria_version_id', 'criteria_do_not_cover_the_commissioned_scope');
   if (v.use_kind === 'REAL' && criteria.distribution !== 'PRODUCTION') refuse(409, 'criteria_version_id', 'real_engagement_needs_production_criteria');
+  if (v.use_kind === 'REAL' && !criteria.approved_by) refuse(409, 'criteria_version_id', 'production_criteria_not_approved');
   const m = (await c.tx.query('SELECT approved_by FROM vendor.methodologies WHERE id=$1', [v.methodology_id])).rows[0] ?? refuse(404, 'methodology_id', 'not_found');
   if (!m.approved_by) refuse(409, 'methodology_id', 'methodology_not_approved');
   for (const [field, person] of [['commercial_owner_id', v.commercial_owner_id], ['implementation_owner_id', v.implementation_owner_id]] as const)

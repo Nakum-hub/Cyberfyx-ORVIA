@@ -23,7 +23,7 @@ function Practice({ session }: { session: VendorSession }) {
   const load = useCallback(async () => { try { setLoadError(null); setS(await vendorCall<State>('/practice')); } catch (e) { setLoadError(explain(e)); } }, []);
   useEffect(() => { void load(); }, [load]);
   const run = async (work: () => Promise<unknown>, ok: string) => { setBusy(true); setError(null); setDone(null); try { await work(); await load(); setDone(ok); } catch (e) { setError(explain(e)); } finally { setBusy(false); } };
-  const [cv, setCv] = useState(''); const [mv, setMv] = useState(''); const [gate, setGate] = useState({ gate: '', reference: '' });
+  const [cv, setCv] = useState(''); const [mv, setMv] = useState(''); const [pkgFile, setPkgFile] = useState<File | null>(null); const [gate, setGate] = useState({ gate: '', reference: '' });
   if (!s) return loadError ? <NoticeBox tone="stop" title="Practice settings unavailable"><p>{loadError}</p><button type="button" onClick={() => void load()}>Try again</button></NoticeBox> : <p role="status">Loading practice settings…</p>;
   return <>
     <div className="page-head"><p className="eyebrow">Audits</p><h2>Audit practice</h2><p>{s.statement}</p></div>
@@ -39,13 +39,19 @@ function Practice({ session }: { session: VendorSession }) {
         <button type="submit" disabled={busy}>Record gate</button></form>}
     </section>
     <section className="section" aria-label="Criteria versions"><div className="section-head"><h3>Criteria versions</h3></div>
-      <p className="muted">The ORVIA DPDP baseline is recorded only as TEST_FIXTURE criteria: the official Act and Rules have not been retrieved and hashed here, so it is not the official text. Production criteria come only from the signed regulatory package.</p>
+      <p className="muted">The ORVIA DPDP baseline can be recorded as TEST_FIXTURE criteria for synthetic engagements. Production criteria come only from the signed official regulatory package, uploaded below.</p>
       {s.criteria.length ? <DataTable caption="Criteria versions" rowKey={x => x.id} rows={s.criteria} columns={[{ key: 'v', header: 'Version', cell: x => x.version }, { key: 'd', header: 'Distribution', cell: x => words(x.distribution) }, { key: 'n', header: 'Requirements', cell: x => x.requirements },
         { key: 'g', header: 'Digest', cell: x => <code>{x.digest.slice(0, 16)}…</code> },
         { key: 'a', header: 'Approval', cell: x => x.approved_by ? `Approved ${x.approved_at?.slice(0, 10)}` : can(session, 'practice.approve') && x.recorded_by !== session.actor_id ? <button type="button" disabled={busy} onClick={() => void run(() => vendorCall(`/criteria/${x.id}/approve`, {}), 'Criteria approved.')}>Approve</button> : 'Awaiting a different approver' }]} />
         : <EmptyState title="No criteria recorded" />}
       {can(session, 'practice.manage') && <form className="panel" aria-label="Record test-fixture criteria" onSubmit={(ev: FormEvent) => { ev.preventDefault(); void run(() => vendorCall('/practice/criteria', { version: cv }), 'Criteria recorded.'); }}>
         <TextField label="Criteria version label" value={cv} onChange={setCv} required hint="Letters, digits, dot, dash or underscore." /><button type="submit" disabled={busy}>Record test-fixture criteria</button></form>}
+      {can(session, 'practice.manage') && <form className="panel" aria-label="Record production criteria" onSubmit={(ev: FormEvent) => { ev.preventDefault();
+        void run(async () => { if (!pkgFile) throw new Error('Choose the signed package file.'); let body: unknown; try { body = JSON.parse(await pkgFile.text()); } catch { throw new Error('The file is not a signed package (JSON).'); }
+          return vendorCall('/practice/criteria/production', body); }, 'Production criteria recorded. A different reviewer must approve them before the gate can be recorded.'); }}>
+        <p className="muted">Upload the official regulatory package built from the official PDFs and signed with the Cyberfyx release key (docs/regulatory/DPDP_CONFORMANCE.md). Only a PRODUCTION package with a valid signature from this service&apos;s release key is accepted. A different reviewer then approves it.</p>
+        <label className="field"><span className="label">Signed package file (.json)</span><input type="file" accept="application/json,.json" onChange={e => setPkgFile(e.target.files?.[0] ?? null)} required /></label>
+        <button type="submit" disabled={busy}>Record production criteria</button></form>}
     </section>
     <section className="section" aria-label="Risk methodology"><div className="section-head"><h3>Risk methodology</h3></div>
       <p className="muted">Engagements compute inherent risk from this matrix (likelihood × impact) and lower it by the steps shown for an assessed control. A new version is recorded with the standard 5 × 5 matrix below; it applies only to engagements configured with it.</p>

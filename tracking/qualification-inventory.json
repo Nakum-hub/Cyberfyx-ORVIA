@@ -7,9 +7,9 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "513facf063b0484a214d7349bc2334cdc4f796751a967f8822da01c7a083e159",
+  "test_file_digest": "4f8fcde35780b52e9d74057313eba18ddf3aaeef18b3fbab53a8c339962d9723",
   "counts": {
-    "UNIT": 49,
+    "UNIT": 50,
     "INTEGRATION": 78,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
@@ -519,7 +519,7 @@
     },
     {
       "path": "tests/integration/vendor/audit-practice.test.ts",
-      "sha256": "dbd4fcc957af83264605e0d56eeaf6eb5d63f5e7ea2ded22a062e2c87eb9a6ab",
+      "sha256": "1b29ab3099ca5a32e5940f93d68a02e8d62054044d76c2ba4a91d55c24cf5f55",
       "kind": "INTEGRATION"
     },
     {
@@ -800,6 +800,11 @@
     {
       "path": "tests/unit/value-classifiers.test.ts",
       "sha256": "9d48c1ab6c189eb53c1a5dacc88061cc0b21273dc1bb8a915495f2145d870bfa",
+      "kind": "UNIT"
+    },
+    {
+      "path": "tests/unit/vendor-audit-key.test.ts",
+      "sha256": "ea5e306818d65ad23fe8bb563d02e87e55ce0a5eaf1eff944d6e201509d55754",
       "kind": "UNIT"
     },
     {
