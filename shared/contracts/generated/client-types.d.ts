@@ -5359,6 +5359,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/setup/owner-recovery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["owner_recovery"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/dpdpa-audit/gaps": {
         parameters: {
             query?: never;
@@ -13538,6 +13554,19 @@ export interface components {
             sign_in: "/workspace/sign-in";
             next_steps: string[];
         };
+        OwnerRecoveryComplete: {
+            /** Format: email */
+            email: string;
+            recovery_code: string;
+            new_password: string;
+        };
+        OwnerRecoveryCompleted: {
+            /** @constant */
+            recovered: true;
+            /** @constant */
+            sign_in: "/workspace/sign-in";
+            next_steps: string[];
+        };
         ChannelDocumentView: {
             /** Format: uuid */
             id: string;
@@ -15442,7 +15471,7 @@ export interface components {
             };
             /** @enum {string} */
             role: "ORG_SUPER_ADMIN" | "ORG_ADMIN" | "MEMBER" | "AUDITOR";
-            capabilities: ("setup.first_run" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+            capabilities: ("setup.first_run" | "setup.owner_recovery" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
             mfa_verified: boolean;
             /** Format: date-time */
             expires_at: string;
@@ -18460,7 +18489,7 @@ export interface components {
             introduces_network_egress: false;
             /** @constant */
             requires_model_runtime: false;
-            introduces_capabilities: ("setup.first_run" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+            introduces_capabilities: ("setup.first_run" | "setup.owner_recovery" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
         };
         SignedRelease: {
             /** @constant */
@@ -18503,7 +18532,7 @@ export interface components {
                 introduces_network_egress: false;
                 /** @constant */
                 requires_model_runtime: false;
-                introduces_capabilities: ("setup.first_run" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+                introduces_capabilities: ("setup.first_run" | "setup.owner_recovery" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
             };
             /** Format: uuid */
             signing_key_id: string;
@@ -18551,7 +18580,7 @@ export interface components {
                     introduces_network_egress: false;
                     /** @constant */
                     requires_model_runtime: false;
-                    introduces_capabilities: ("setup.first_run" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
+                    introduces_capabilities: ("setup.first_run" | "setup.owner_recovery" | "audit_exchange.read" | "audit_exchange.prepare" | "audit_exchange.approve" | "account.own.delete" | "staff.manage" | "supplier.respond" | "intake.submit" | "cmp.record" | "registry.read" | "registry.write" | "registry.sensitive.read" | "registry.sensitive.write" | "operations.execute" | "operations.approve" | "regulatory.manage" | "sdf.manage" | "grc.read" | "grc.write" | "grc.approve" | "ai_governance.read" | "ai_governance.write" | "ai_governance.approve" | "overview.read" | "configuration.read" | "configuration.write" | "policy.publish" | "systems.check" | "principals.read" | "principals.create" | "workflow.read" | "action.reconcile" | "manual.attest" | "evidence.read" | "evidence.export" | "policy.preview" | "tests.run" | "tests.read" | "capabilities.read" | "graph.read" | "graph.write" | "rights.read" | "rights.write" | "rights.release" | "retention.read" | "retention.write" | "retention.approve" | "coverage.read" | "coverage.manage" | "processor.read" | "processor.write" | "incident.read" | "incident.write" | "incident.approve" | "notification.read" | "notification.manage" | "licence.read" | "licence.manage" | "support.read" | "support.manage" | "support.approve" | "update.read" | "update.approve" | "audit.read" | "audit.export" | "audit.administer" | "connection.enable" | "restore.release" | "consent.own.read" | "consent.own.write" | "receipt.own.read" | "rights.own.read" | "rights.own.write" | "health.read")[];
                 };
                 /** Format: uuid */
                 signing_key_id: string;
@@ -98650,6 +98679,177 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["FirstRunCompleted"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    owner_recovery: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "email": "asha@aster.example",
+                 *       "recovery_code": "Synthetic example",
+                 *       "new_password": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["OwnerRecoveryComplete"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "recovered": true,
+                     *       "sign_in": "/workspace/sign-in",
+                     *       "next_steps": []
+                     *     }
+                     */
+                    "application/json": components["schemas"]["OwnerRecoveryCompleted"];
                 };
             };
             /** @description VALIDATION_ERROR */

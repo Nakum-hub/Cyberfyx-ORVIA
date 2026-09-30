@@ -446,6 +446,9 @@ export const FirstRunState = z.strictObject({ state: z.enum(['OPEN', 'NO_CODE_IS
 const SetupPerson = z.strictObject({ name: z.string().trim().min(1).max(100), email: z.string().email().max(254), password: z.string().min(16).max(128) });
 export const FirstRunSetup = z.strictObject({ setup_code: z.string().min(8).max(40), organisation_name: z.string().trim().min(2).max(120), owner: SetupPerson, admin: SetupPerson });
 export const FirstRunCompleted = z.strictObject({ completed: z.literal(true), sign_in: z.literal('/workspace/sign-in'), next_steps: z.array(z.string().max(200)).max(5) });
+/** Customer-held owner recovery (0.49.0, OPEN-07): authorised by a one-time code issued by a protected command on the server. */
+export const OwnerRecoveryComplete = z.strictObject({ email: z.string().email().max(254), recovery_code: z.string().min(8).max(40), new_password: z.string().min(16).max(128) });
+export const OwnerRecoveryCompleted = z.strictObject({ recovered: z.literal(true), sign_in: z.literal('/workspace/sign-in'), next_steps: z.array(z.string().max(200)).max(5) });
 export const OwnLoginDeleted = z.strictObject({ deleted_at: Time, signed_out: z.literal(true) });
 
 export const expansionSchemas = {
@@ -467,5 +470,5 @@ export const expansionSchemas = {
   CmpConfigDocument, CmpSiteCreate, CmpSite, CmpSiteList: page(CmpSite), CmpConfigCreate, CmpConfig, CmpConfigList: page(CmpConfig), CmpConfigDecision, CmpConsentSubmit, CmpConsentReceipt, CmpConsentStats,
   CmpScanRequest, CmpScan, CmpScanList: page(CmpScan),
   PreferenceTopicCreate, PreferenceTopic, PreferenceTopicList: page(PreferenceTopic), PreferenceChoice, PreferenceDecision, PreferenceEvent, PreferenceChoiceReceipt, PreferenceCentre, PreferenceDecisionQuery,
-  StaffMemberCreate, StaffMember, MemberSeats, StaffTeam, StaffMemberCreated, LoginDeleteConfirm, OwnLoginDeleted, FirstRunState, FirstRunSetup, FirstRunCompleted,
+  StaffMemberCreate, StaffMember, MemberSeats, StaffTeam, StaffMemberCreated, LoginDeleteConfirm, OwnLoginDeleted, FirstRunState, FirstRunSetup, FirstRunCompleted, OwnerRecoveryComplete, OwnerRecoveryCompleted,
 };

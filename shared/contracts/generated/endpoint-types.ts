@@ -420,6 +420,7 @@ export interface EndpointMap {
   delete_own_login: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LoginDeleteConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnLoginDeleted> };
   first_run_state: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunState> };
   first_run_complete: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunSetup>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunCompleted> };
+  owner_recovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.OwnerRecoveryComplete>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnerRecoveryCompleted> };
   dpdpa_gap_register: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GapRegister> };
   export_dpdpa_gap_register: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GapRegisterExport> };
   submit_evidence_file: { request: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFileSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFile> };

@@ -13545,6 +13545,23 @@
       }
     },
     {
+      "operation_id": "owner_recovery",
+      "method": "POST",
+      "path": "/api/v1/setup/owner-recovery",
+      "headers": {},
+      "request": {
+        "email": "asha@aster.example",
+        "recovery_code": "Synthetic example",
+        "new_password": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "recovered": true,
+        "sign_in": "/workspace/sign-in",
+        "next_steps": []
+      }
+    },
+    {
       "operation_id": "dpdpa_gap_register",
       "method": "GET",
       "path": "/api/v1/admin/dpdpa-audit/gaps",

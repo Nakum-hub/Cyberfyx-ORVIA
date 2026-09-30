@@ -138,4 +138,5 @@ export const expansionRoutes: Route[] = [
   // First-run setup: public, served by frontend/src/app/api/v1/setup/route.ts; authorised by the installer's one-time code, not a role
   { id: 'first_run_state', method: 'get', path: '/api/v1/setup', authority: 'PUBLIC', response: 'FirstRunState', status: 200, capability: 'setup.first_run' },
   { id: 'first_run_complete', method: 'post', path: '/api/v1/setup', authority: 'PUBLIC', request: 'FirstRunSetup', response: 'FirstRunCompleted', status: 201, capability: 'setup.first_run', maximum_body_bytes: 8192 },
+  { id: 'owner_recovery', method: 'post', path: '/api/v1/setup/owner-recovery', authority: 'PUBLIC', request: 'OwnerRecoveryComplete', response: 'OwnerRecoveryCompleted', status: 200, capability: 'setup.owner_recovery', maximum_body_bytes: 4096 },
 ];

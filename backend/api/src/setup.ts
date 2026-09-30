@@ -54,3 +54,36 @@ export async function setupCompleteRoute(request: Request) {
       next_steps: ['Sign in as the owner and set up your authenticator.', 'Give the administrator their password privately; they set up their own authenticator at first sign-in.'] }), { status: 201, headers: noStore });
   }, 'BUSINESS');
 }
+
+/**
+ * POST /api/v1/setup/owner-recovery — customer-held owner recovery (OPEN-07, migration 0074). Reached without a session: what
+ * authorises it is the one-time code a person with administrator access to the server issued with
+ * `pnpm run owner:recovery-code`. A wrong email, a login that is not the active owner and a wrong code all get the same answer.
+ */
+export async function ownerRecoveryRoute(request: Request) {
+  return safeRoute(async () => {
+    if (request.method !== 'POST') throw new AccessError(404, 'NOT_FOUND');
+    if (request.headers.has('cookie') || request.headers.has('authorization')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_credentials_accepted' }]);
+    const origin = request.headers.get('origin');
+    if (origin !== null && origin !== new URL(runtime().config.origin).origin) throw new AccessError(403, 'FORBIDDEN');
+    if (request.headers.get('content-type')?.split(';')[0] !== 'application/json') throw new AccessError(400, 'VALIDATION_ERROR');
+    let input: unknown;
+    try { input = JSON.parse(await limitedBody(request, 4096) ?? ''); } catch { throw new AccessError(400, 'VALIDATION_ERROR'); }
+    const parsed = schemas.OwnerRecoveryComplete.safeParse(input);
+    if (!parsed.success) throw new AccessError(400, 'VALIDATION_ERROR', parsed.error.issues.slice(0, 8).map(i => ({ field: i.path.join('.').slice(0, 120), code: i.code })));
+    const v = parsed.data;
+    let recovered: boolean;
+    try {
+      recovered = (await runtime().pool.query('SELECT app.owner_recovery_complete($1,$2,$3) AS ok', [v.email, setupCodeDigest(v.recovery_code), await hashPassword(v.new_password)])).rows[0]!.ok === true;
+    } catch (error) {
+      const e = error as { code?: string; message?: string; hint?: string };
+      // An expired, spent or locked code is reported like a wrong one: a distinct answer would tell a stranger which email is the
+      // owner's (found by the owner-recovery test). The database keeps the specific reason; the audit trail records completions.
+      if (e.code === 'P0001') throw new AccessError(403, 'FORBIDDEN', [{ field: 'recovery_code', code: 'recovery_not_accepted' }]);
+      throw error;
+    }
+    if (!recovered) throw new AccessError(403, 'FORBIDDEN', [{ field: 'recovery_code', code: 'recovery_not_accepted' }]);
+    return Response.json(schemas.OwnerRecoveryCompleted.parse({ recovered: true, sign_in: '/workspace/sign-in',
+      next_steps: ['Sign in with the new password.', 'Set up a new authenticator at sign-in: the old one was removed.', 'Every earlier session of this login has ended. The recovery is in the audit trail.'] }), { headers: noStore });
+  }, 'BUSINESS');
+}

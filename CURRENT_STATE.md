@@ -85,8 +85,7 @@ Three modules stay `PARTIAL_SANDBOX` even though every routed requirement under 
 each case one clause is satisfied by an absence rather than by built behaviour, and promoting on that basis would
 overstate what exists:
 
-- **M29** — FR-M29-02's customer-held recovery route is not built. Building one would pre-empt OPEN-07, whose
-  interim rule is *reuse existing safe identity implementation; no custom auth/backdoor*.
+- **M29** — FR-M29-02's customer-held recovery route is built (owner decision 2026-09-30, OPEN-07: a protected server command issues a one-time code; `docs/runbooks/OPERATOR.md` "Owner recovery"; migrations 0074–0075; `tests/integration/onboarding/owner-recovery.test.ts`).
 - **M32** — FR-M32-04 has no vendor-side surface to render because no vendor service exists anywhere in this
   build. Vendor service health is reported as unobserved with the reason, never as healthy.
 - **M33** — FR-M33-02's separation holds because there is no vendor-facing audit surface at all, not because this

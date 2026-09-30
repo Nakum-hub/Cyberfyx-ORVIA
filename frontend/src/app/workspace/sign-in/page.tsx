@@ -60,5 +60,6 @@ export default function StaffSignIn() {
       {error ? <div className="notice notice-stop" role="alert">{error}</div> : null}
       <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
       <button type="button" onClick={reload} disabled={busy}>Check my session</button>
+      {step === 'password' ? <p className="muted">Owner who lost their password or authenticator? <a href="/workspace/recover">Recover the owner login</a> with a code issued on the ORVIA server.</p> : null}
     </form></>;
 }
