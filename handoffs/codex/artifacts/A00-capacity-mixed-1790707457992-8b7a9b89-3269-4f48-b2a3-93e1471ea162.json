@@ -1,0 +1,126 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-29T18:44:17.992Z",
+  "profile": "codex-a00",
+  "scratch_database_dropped": true,
+  "database_container_memory_bytes": 402653184,
+  "seconds": 45,
+  "clients": 16,
+  "seeded": {
+    "audit_events": 1000000,
+    "principal_references": 100000,
+    "rights_requests": 200000
+  },
+  "timings": {
+    "schema_ms": 4184,
+    "seed_ms": 84105,
+    "database_bytes": 605381135
+  },
+  "plans": {
+    "list_requests": [
+      "Limit  (cost=36834.01..36834.01 rows=1 width=33) (actual time=330.651..330.659 rows=50 loops=1)",
+      "  Buffers: shared hit=8340",
+      "  ->  Sort  (cost=36834.01..36834.01 rows=1 width=33) (actual time=330.649..330.652 rows=50 loops=1)",
+      "        Sort Key: received_at DESC, id DESC",
+      "        Sort Method: top-N heapsort  Memory: 28kB",
+      "        Buffers: shared hit=8340",
+      "        ->  Seq Scan on rights_requests  (cost=0.00..36834.00 rows=1 width=33) (actual time=1.131..295.473 rows=199404 loops=1)",
+      "              Filter: ((tenant_id = '8cc9e3af-8753-4b1e-ba6f-92f39c06c117'::uuid) AND (legal_entity_id = '37a1307e-9439-4801-a08d-1cc8d081bbb5'::uuid) AND (environment_id = 'bfbae731-6f33-4ad3-9b21-f36fc391bd49'::uuid) AND (COALESCE(current_setting('orvia.actor_id'::text, true), ''::text) <> ''::text) AND (received_at < (now() - '01:40:00'::interval)) AND ((tenant_id)::text = current_setting('orvia.tenant_id'::text, true)) AND ((legal_entity_id)::text = current_setting('orvia.legal_entity_id'::text, true)) AND ((environment_id)::text = current_setting('orvia.environment_id'::text, true)) AND (((current_setting('orvia.actor_domain'::text, true) = 'STAFF'::text) AND ('rights.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) OR ((current_setting('orvia.actor_domain'::text, true) = 'PRINCIPAL'::text) AND (('rights.own.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text))) OR ('rights.own.write'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) AND (current_setting('orvia.actor_domain'::text, true) = 'PRINCIPAL'::text) AND ((principal_id)::text = current_setting('orvia.principal_id'::text, true)) AND ((document ->> 'submitted_channel'::text) = 'PORTAL'::text))))",
+      "              Rows Removed by Filter: 596",
+      "              Buffers: shared hit=8334",
+      "Planning:",
+      "  Buffers: shared hit=248 read=12 dirtied=3",
+      "Planning Time: 5.766 ms",
+      "Execution Time: 330.700 ms"
+    ],
+    "list_audit": [
+      "Limit  (cost=125691.58..125691.58 rows=1 width=39) (actual time=1873.558..1875.061 rows=50 loops=1)",
+      "  Buffers: shared read=18204 written=5941",
+      "  ->  Sort  (cost=125691.58..125691.58 rows=1 width=39) (actual time=1824.420..1825.169 rows=50 loops=1)",
+      "        Sort Key: created_at DESC, id DESC",
+      "        Sort Method: top-N heapsort  Memory: 28kB",
+      "        Buffers: shared read=18204 written=5941",
+      "        ->  Bitmap Heap Scan on audit_events  (cost=35412.12..125691.57 rows=1 width=39) (actual time=230.797..1717.447 rows=568077 loops=1)",
+      "              Recheck Cond: ((tenant_id = '8cc9e3af-8753-4b1e-ba6f-92f39c06c117'::uuid) AND (legal_entity_id = '37a1307e-9439-4801-a08d-1cc8d081bbb5'::uuid) AND (environment_id = 'bfbae731-6f33-4ad3-9b21-f36fc391bd49'::uuid) AND (created_at < (now() - '5 days'::interval)))",
+      "              Filter: ((COALESCE(current_setting('orvia.actor_id'::text, true), ''::text) <> ''::text) AND ((tenant_id)::text = current_setting('orvia.tenant_id'::text, true)) AND ((legal_entity_id)::text = current_setting('orvia.legal_entity_id'::text, true)) AND ((environment_id)::text = current_setting('orvia.environment_id'::text, true)) AND (('evidence.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text))) OR ((current_setting('orvia.actor_domain'::text, true) = 'STAFF'::text) AND ('audit.export'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) OR ((current_setting('orvia.actor_domain'::text, true) = 'STAFF'::text) AND ('audit.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text))))))",
+      "              Heap Blocks: exact=11595",
+      "              Buffers: shared read=18204 written=5941",
+      "              ->  Bitmap Index Scan on audit_events_scope_time_id  (cost=0.00..35412.12 rows=570371 width=0) (actual time=227.200..227.933 rows=568077 loops=1)",
+      "                    Index Cond: ((tenant_id = '8cc9e3af-8753-4b1e-ba6f-92f39c06c117'::uuid) AND (legal_entity_id = '37a1307e-9439-4801-a08d-1cc8d081bbb5'::uuid) AND (environment_id = 'bfbae731-6f33-4ad3-9b21-f36fc391bd49'::uuid) AND (created_at < (now() - '5 days'::interval)))",
+      "                    Buffers: shared read=6609 written=3714",
+      "Planning:",
+      "  Buffers: shared hit=97",
+      "Planning Time: 0.438 ms",
+      "JIT:",
+      "  Functions: 8",
+      "  Options: Inlining false, Optimization false, Expressions true, Deforming true",
+      "  Timing: Generation 1.454 ms (Deform 0.192 ms), Inlining 0.000 ms, Optimization 8.126 ms, Emission 41.085 ms, Total 50.665 ms",
+      "Execution Time: 2246.133 ms"
+    ]
+  },
+  "operations_per_second": 9,
+  "operations": {
+    "list_requests": {
+      "count": 194,
+      "per_second": 4,
+      "p50_ms": 1228.7,
+      "p95_ms": 1978.1,
+      "p99_ms": 2483.4,
+      "max_ms": 2587.7
+    },
+    "read_request": {
+      "count": 85,
+      "per_second": 2,
+      "p50_ms": 75.2,
+      "p95_ms": 274.1,
+      "p99_ms": 315.4,
+      "max_ms": 315.4
+    },
+    "list_audit": {
+      "count": 58,
+      "per_second": 1,
+      "p50_ms": 4770.7,
+      "p95_ms": 8410.8,
+      "p99_ms": 9211,
+      "max_ms": 9211
+    },
+    "write_request": {
+      "count": 48,
+      "per_second": 1,
+      "p50_ms": 125,
+      "p95_ms": 431.4,
+      "p99_ms": 492.8,
+      "max_ms": 492.8
+    },
+    "write_audit": {
+      "count": 59,
+      "per_second": 1,
+      "p50_ms": 108.4,
+      "p95_ms": 407.5,
+      "p99_ms": 511.5,
+      "max_ms": 511.5
+    },
+    "export_chunk": {
+      "count": 20,
+      "per_second": 0,
+      "p50_ms": 3984.5,
+      "p95_ms": 8717,
+      "p99_ms": 8717,
+      "max_ms": 8717
+    }
+  },
+  "errors": {
+    "list_audit:57014": 18
+  },
+  "error_causes": {
+    "list_audit:STATEMENT_TIMEOUT": 18
+  },
+  "result": "FAIL",
+  "path": "orvia_app role with scoped settings and forced row-level security, as request handlers run",
+  "limits": [
+    "Diagnostic evidence on this development host with synthetic rows in one scope. It is not a capacity qualification: that needs the declared deployment hardware, representative data distribution and agreed service targets.",
+    "HTTP, authentication and policy decision time are not included; they add to each operation.",
+    "Statements are cancelled by the server at 9 seconds and by the client at 10; a cancelled statement is counted as an error, not a sample."
+  ]
+}

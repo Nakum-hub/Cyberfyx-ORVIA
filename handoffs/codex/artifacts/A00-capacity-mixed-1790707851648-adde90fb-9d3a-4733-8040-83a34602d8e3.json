@@ -1,0 +1,112 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-29T18:50:51.649Z",
+  "profile": "codex-a00",
+  "scratch_database_dropped": true,
+  "database_container_memory_bytes": 402653184,
+  "seconds": 45,
+  "clients": 16,
+  "seeded": {
+    "audit_events": 1000000,
+    "principal_references": 100000,
+    "rights_requests": 200000
+  },
+  "timings": {
+    "schema_ms": 5308,
+    "seed_ms": 139472,
+    "database_bytes": 612180495
+  },
+  "plans": {
+    "list_requests": [
+      "Limit  (cost=0.42..80.10 rows=50 width=33) (actual time=0.930..1.353 rows=50 loops=1)",
+      "  Buffers: shared hit=3 read=4",
+      "  ->  Result  (cost=0.42..105448.65 rows=66176 width=33) (actual time=0.928..1.345 rows=50 loops=1)",
+      "        One-Time Filter: (((NULLIF(current_setting('orvia.tenant_id'::text, true), ''::text))::uuid = 'b64c45db-3059-4a33-a6c0-271863eb31e3'::uuid) AND ((NULLIF(current_setting('orvia.legal_entity_id'::text, true), ''::text))::uuid = '910aa3ff-3149-4dd5-920e-beacd7853069'::uuid) AND ((NULLIF(current_setting('orvia.environment_id'::text, true), ''::text))::uuid = 'c6f3a201-115d-404c-bf3b-3627009355eb'::uuid))",
+      "        Buffers: shared hit=3 read=4",
+      "        ->  Index Scan using rights_requests_scope_time_id on rights_requests  (cost=0.42..105448.65 rows=66176 width=33) (actual time=0.918..1.329 rows=50 loops=1)",
+      "              Index Cond: ((tenant_id = 'b64c45db-3059-4a33-a6c0-271863eb31e3'::uuid) AND (legal_entity_id = '910aa3ff-3149-4dd5-920e-beacd7853069'::uuid) AND (environment_id = 'c6f3a201-115d-404c-bf3b-3627009355eb'::uuid) AND (received_at < (now() - '01:40:00'::interval)))",
+      "              Filter: ((COALESCE(current_setting('orvia.actor_id'::text, true), ''::text) <> ''::text) AND (((current_setting('orvia.actor_domain'::text, true) = 'STAFF'::text) AND ('rights.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) OR ((current_setting('orvia.actor_domain'::text, true) = 'MACHINE'::text) AND ('operations.execute'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) OR ((current_setting('orvia.actor_domain'::text, true) = 'PRINCIPAL'::text) AND (('rights.own.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text))) OR ('rights.own.write'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) AND (current_setting('orvia.actor_domain'::text, true) = 'PRINCIPAL'::text) AND ((principal_id)::text = current_setting('orvia.principal_id'::text, true)) AND ((document ->> 'submitted_channel'::text) = 'PORTAL'::text)) OR app.mandate_collector()))",
+      "              Buffers: shared hit=3 read=4",
+      "Planning:",
+      "  Buffers: shared hit=257 read=16 dirtied=4",
+      "Planning Time: 4.598 ms",
+      "Execution Time: 1.417 ms"
+    ],
+    "list_audit": [
+      "Limit  (cost=0.56..67.78 rows=50 width=39) (actual time=0.988..1.400 rows=50 loops=1)",
+      "  Buffers: shared read=7",
+      "  ->  Result  (cost=0.56..263652.26 rows=196103 width=39) (actual time=0.986..1.394 rows=50 loops=1)",
+      "        One-Time Filter: (((NULLIF(current_setting('orvia.tenant_id'::text, true), ''::text))::uuid = 'b64c45db-3059-4a33-a6c0-271863eb31e3'::uuid) AND ((NULLIF(current_setting('orvia.legal_entity_id'::text, true), ''::text))::uuid = '910aa3ff-3149-4dd5-920e-beacd7853069'::uuid) AND ((NULLIF(current_setting('orvia.environment_id'::text, true), ''::text))::uuid = 'c6f3a201-115d-404c-bf3b-3627009355eb'::uuid))",
+      "        Buffers: shared read=7",
+      "        ->  Index Scan using audit_events_scope_time_id on audit_events  (cost=0.56..263652.26 rows=196103 width=39) (actual time=0.978..1.378 rows=50 loops=1)",
+      "              Index Cond: ((tenant_id = 'b64c45db-3059-4a33-a6c0-271863eb31e3'::uuid) AND (legal_entity_id = '910aa3ff-3149-4dd5-920e-beacd7853069'::uuid) AND (environment_id = 'c6f3a201-115d-404c-bf3b-3627009355eb'::uuid) AND (created_at < (now() - '5 days'::interval)))",
+      "              Filter: ((COALESCE(current_setting('orvia.actor_id'::text, true), ''::text) <> ''::text) AND (('evidence.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text))) OR ((current_setting('orvia.actor_domain'::text, true) = 'STAFF'::text) AND ('audit.export'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) OR ((current_setting('orvia.actor_domain'::text, true) = 'STAFF'::text) AND ('audit.read'::text = ANY (string_to_array(current_setting('orvia.capabilities'::text, true), ','::text)))) OR app.mandate_collector()))",
+      "              Buffers: shared read=7",
+      "Planning:",
+      "  Buffers: shared hit=83 read=3",
+      "Planning Time: 0.544 ms",
+      "Execution Time: 1.432 ms"
+    ]
+  },
+  "operations_per_second": 300,
+  "operations": {
+    "list_requests": {
+      "count": 5444,
+      "per_second": 120,
+      "p50_ms": 33.9,
+      "p95_ms": 79.7,
+      "p99_ms": 189.8,
+      "max_ms": 1915.2
+    },
+    "read_request": {
+      "count": 2690,
+      "per_second": 60,
+      "p50_ms": 34.7,
+      "p95_ms": 84.9,
+      "p99_ms": 243.5,
+      "max_ms": 1875.8
+    },
+    "list_audit": {
+      "count": 2009,
+      "per_second": 44,
+      "p50_ms": 41.5,
+      "p95_ms": 128.1,
+      "p99_ms": 418.3,
+      "max_ms": 1872.5
+    },
+    "write_request": {
+      "count": 1351,
+      "per_second": 30,
+      "p50_ms": 44.5,
+      "p95_ms": 155.9,
+      "p99_ms": 773,
+      "max_ms": 1676.3
+    },
+    "write_audit": {
+      "count": 1366,
+      "per_second": 30,
+      "p50_ms": 46.3,
+      "p95_ms": 141.3,
+      "p99_ms": 581.4,
+      "max_ms": 1915.7
+    },
+    "export_chunk": {
+      "count": 682,
+      "per_second": 15,
+      "p50_ms": 55.4,
+      "p95_ms": 109.3,
+      "p99_ms": 271.1,
+      "max_ms": 1535.9
+    }
+  },
+  "errors": {},
+  "error_causes": {},
+  "result": "PASS",
+  "path": "orvia_app role with scoped settings and forced row-level security, as request handlers run",
+  "limits": [
+    "Diagnostic evidence on this development host with synthetic rows in one scope. It is not a capacity qualification: that needs the declared deployment hardware, representative data distribution and agreed service targets.",
+    "HTTP, authentication and policy decision time are not included; they add to each operation.",
+    "Statements are cancelled by the server at 9 seconds and by the client at 10; a cancelled statement is counted as an error, not a sample."
+  ]
+}
