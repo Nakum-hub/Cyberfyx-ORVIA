@@ -35,7 +35,7 @@ async function probe(browser: Browser, origin: string, path: string, name: strin
   const page = await context.newPage();
   let release!: () => void; const held = new Promise<void>(r => { release = r; });
   await page.route('**/_next/static/chunks/**', async route => { await held; await route.continue(); });
-  await page.goto(path, { waitUntil: 'domcontentloaded' });
+  await page.goto(path, { waitUntil: 'commit' }); // Next's chunk scripts hold DOMContentLoaded, and they are being held
   const email = page.locator('input[type=email]').first(); const password = page.locator('input[type=password]').first();
   const submit = page.locator('form button[type=submit]').first();
   await email.waitFor({ state: 'attached' });

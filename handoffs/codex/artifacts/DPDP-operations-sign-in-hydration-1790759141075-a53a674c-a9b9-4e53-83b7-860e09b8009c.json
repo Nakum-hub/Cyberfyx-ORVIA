@@ -1,0 +1,25 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T09:05:41.075Z",
+  "suite": "sign-in-hydration",
+  "assertions": [
+    {
+      "name": "staff sign-in: before hydration the email field is disabled",
+      "result": "FAIL",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "name": "unexpected failure in customer sign-in pages",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: staff sign-in: before hydration the email field is disabled"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
