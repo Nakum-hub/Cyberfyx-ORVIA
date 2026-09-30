@@ -10,7 +10,7 @@ const tables={frameworks:'grc_frameworks',controls:'grc_controls'} as const;
 export async function grcList(c:Context,kind:keyof typeof tables,page:Page){
   guard(c,'grc.read');
   const schema=kind==='frameworks'?S.GrcFramework:S.GrcControl;
-  const rows=await c.tx.query(`SELECT document FROM app.${tables[kind]} WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+  const rows=await c.tx.query(`SELECT document FROM app.${tables[kind]} WHERE ${predicate} AND ($4::uuid IS NULL OR ((document->>'recorded_at')::timestamptz,id) < (SELECT (document->>'recorded_at')::timestamptz,id FROM app.${tables[kind]} WHERE ${predicate} AND id=$4)) ORDER BY (document->>'recorded_at')::timestamptz DESC, id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
   return paged(rows.rows.map(r=>schema.parse(r.document)),page);
 }
 export async function createGrcFramework(c:Context,input:unknown){

@@ -122,7 +122,7 @@ const readConnection = async (c: Context, id: string) => requireOne<ConnectionRo
 
 export async function connectionList(c: Context, page: Page) {
   const rows = await c.tx.query(
-    `SELECT * FROM app.connections WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+    `SELECT * FROM app.connections WHERE ${predicate} AND ($4::uuid IS NULL OR (started_at,id) < (SELECT started_at,id FROM app.connections WHERE ${predicate} AND id=$4)) ORDER BY started_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   const items = [];
   for (const row of rows.rows.slice(0, page.limit + 1)) items.push(await present(c, row as ConnectionRow));

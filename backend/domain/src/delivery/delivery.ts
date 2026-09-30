@@ -78,7 +78,7 @@ export async function revealSigningSecret(c: Context, env: OperationsEnv, id: st
   return X.SigningSecret.parse({ transport_id: id, secret: env.webhookSecret(id), algorithm: 'HMAC-SHA256', signed_content: 'X-Orvia-Timestamp + "." + request body', header: 'X-Orvia-Signature' });
 }
 export async function transportList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.delivery_transports WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.delivery_transports WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.delivery_transports WHERE ${predicate} AND id=$4)) ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(transportView), next_cursor: paged.next_cursor };
 }
@@ -118,7 +118,7 @@ export async function decideRouting(c: Context, id: string, input: unknown) {
   return routingView(row);
 }
 export async function routingList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.alert_routings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.alert_routings WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.alert_routings WHERE ${predicate} AND id=$4)) ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(routingView), next_cursor: paged.next_cursor };
 }

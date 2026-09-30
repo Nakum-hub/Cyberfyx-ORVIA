@@ -226,7 +226,7 @@ export async function declareLocation(c: Context, systemId: string, input: unkno
 }
 export async function locationList(c: Context, systemId: string, page: Page) {
   await exists(c, 'systems', systemId, 'id');
-  const rows = (await c.tx.query(`SELECT * FROM app.system_locations WHERE ${predicate} AND system_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`, [...scope(c), systemId, page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.system_locations WHERE ${predicate} AND system_id=$4 AND ($5::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.system_locations WHERE ${predicate} AND system_id=$4 AND id=$5)) ORDER BY recorded_at DESC, id DESC LIMIT $6`, [...scope(c), systemId, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(locationView), next_cursor: paged.next_cursor };
 }

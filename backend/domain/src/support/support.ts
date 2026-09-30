@@ -59,7 +59,7 @@ const supportCase = (row: CaseRow) => S.SupportCase.parse({
 });
 
 export async function supportCaseList(c: Context, page: Page) {
-  const rows = await c.tx.query(`SELECT * FROM app.support_cases WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+  const rows = await c.tx.query(`SELECT * FROM app.support_cases WHERE ${predicate} AND ($4::uuid IS NULL OR (opened_at,id) < (SELECT opened_at,id FROM app.support_cases WHERE ${predicate} AND id=$4)) ORDER BY opened_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(rows.rows.map(supportCase), page);
 }
@@ -139,7 +139,7 @@ const canary = (row: CanaryRow) => S.Canary.parse({
 });
 
 export async function canaryList(c: Context, page: Page) {
-  const rows = await c.tx.query(`SELECT * FROM app.support_canaries WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+  const rows = await c.tx.query(`SELECT * FROM app.support_canaries WHERE ${predicate} AND ($4::uuid IS NULL OR (registered_at,id) < (SELECT registered_at,id FROM app.support_canaries WHERE ${predicate} AND id=$4)) ORDER BY registered_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(rows.rows.map(canary), page);
 }

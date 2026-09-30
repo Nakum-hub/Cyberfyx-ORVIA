@@ -17,6 +17,6 @@ export async function startTest(c:Context,config:RuntimeConfig,input:unknown){
 }
 export async function readTest(c:Context,id:string){return TestRun.parse(requireOne((await c.tx.query(`SELECT document FROM app.test_runs WHERE ${predicate} AND id=$4`,[...scopeValues(c.actor),id])).rows).document);}
 export async function listTests(c:Context,page:Page){
- const rows=await c.tx.query(`SELECT document FROM app.test_runs WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+ const rows=await c.tx.query(`SELECT document FROM app.test_runs WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.test_runs WHERE ${predicate} AND id=$4)) ORDER BY created_at DESC, id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
  return paged(rows.rows.map(row=>TestRun.parse(row.document)),page);
 }

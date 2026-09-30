@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { usePagedQuery, useQuery } from '../../shared/api.ts';
+import { useCollection, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { ActionButton, Area, Input, WriteForm, text } from '../privacy-operations/registry-forms.tsx';
@@ -61,8 +61,8 @@ export function WebsiteConsent() {
 }
 
 function SiteDetail({ id, onChanged }: { id: string; onChanged: () => void }) {
-  const sites = usePagedQuery('list_cmp_sites', { limit: 100 });
-  const configs = usePagedQuery('list_cmp_configs', { limit: 25, params: { id } });
+  const sites = useCollection('list_cmp_sites');
+  const configs = useCollection('list_cmp_configs', { params: { id } });
   const stats = useQuery('cmp_consent_stats', { params: { id } });
   const scans = usePagedQuery('list_cmp_scans', { limit: 10, params: { id } });
   const site = sites.data?.items.find(s => s.id === id);

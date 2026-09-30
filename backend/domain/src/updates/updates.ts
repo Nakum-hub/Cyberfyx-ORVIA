@@ -122,7 +122,7 @@ const releaseState = (row: ManifestRow) => S.ReleaseState.parse({
 });
 
 export async function releaseList(c: Context, page: Page) {
-  const rows = await c.tx.query(`SELECT * FROM app.release_manifests WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+  const rows = await c.tx.query(`SELECT * FROM app.release_manifests WHERE ${predicate} AND ($4::uuid IS NULL OR (imported_at,id) < (SELECT imported_at,id FROM app.release_manifests WHERE ${predicate} AND id=$4)) ORDER BY imported_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(rows.rows.map(releaseState), page);
 }
@@ -317,7 +317,7 @@ export async function recordUpdateStep(c: Context, id: string, input: unknown) {
 }
 
 export async function installationVersionList(c: Context, page: Page) {
-  const rows = await c.tx.query(`SELECT * FROM app.installation_versions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+  const rows = await c.tx.query(`SELECT * FROM app.installation_versions WHERE ${predicate} AND ($4::uuid IS NULL OR (applied_at,id) < (SELECT applied_at,id FROM app.installation_versions WHERE ${predicate} AND id=$4)) ORDER BY applied_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(rows.rows.map(row => S.InstallationVersion.parse({
     id: row.id, version: row.version, applied_at: time(row.applied_at), plan_id: row.plan_id, note: row.note,

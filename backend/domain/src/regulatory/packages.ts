@@ -151,7 +151,7 @@ export async function decidePackage(c: Context, id: string, input: unknown) {
 }
 
 export async function packageList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_packages WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as PackageRow[];
+  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_packages WHERE ${predicate} AND ($4::uuid IS NULL OR (imported_at,id) < (SELECT imported_at,id FROM app.regulatory_packages WHERE ${predicate} AND id=$4)) ORDER BY imported_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as PackageRow[];
   const active = await packageAt(c, new Date());
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => packageView(r, active?.id ?? null)), next_cursor: paged.next_cursor };
@@ -180,7 +180,7 @@ type ImpactRow = { id: string; package_row_id: string; requirement_id: string; c
 const impactView = (r: ImpactRow) => S.schemas.RegulatoryImpact.parse({ ...only(S.schemas.RegulatoryImpact, r), reviewed_at: iso(r.reviewed_at), created_at: iso(r.created_at) });
 export async function impactList(c: Context, page: Page, query: unknown) {
   const packageRowId = (query as { package_row_id?: string } | undefined)?.package_row_id ?? null;
-  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_impacts WHERE ${predicate} AND ($4::uuid IS NULL OR package_row_id=$4) AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`,
+  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_impacts WHERE ${predicate} AND ($4::uuid IS NULL OR package_row_id=$4) AND ($5::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.regulatory_impacts WHERE ${predicate} AND ($4::uuid IS NULL OR package_row_id=$4) AND id=$5)) ORDER BY created_at DESC, id DESC LIMIT $6`,
     [...scope(c), packageRowId, page.cursor, page.limit + 1])).rows as ImpactRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(impactView), next_cursor: paged.next_cursor };

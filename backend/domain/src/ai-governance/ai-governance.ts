@@ -39,7 +39,7 @@ export async function createAiSystem(c: Context, input: unknown) {
 }
 
 export async function aiSystemList(c: Context, page: Page) {
-  const rows = await c.tx.query(`SELECT id,document FROM app.ai_systems WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor),page.cursor,page.limit+1]);
+  const rows = await c.tx.query(`SELECT id,document FROM app.ai_systems WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.ai_systems WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor),page.cursor,page.limit+1]);
   return paged(rows.rows.map(row=>S.AiSystem.parse(row.document)),page);
 }
 
