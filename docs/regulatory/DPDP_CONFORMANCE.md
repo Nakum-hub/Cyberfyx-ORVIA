@@ -111,10 +111,30 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 
 ## How to supply the official PDFs
 
-Download these from meity.gov.in and commit them unchanged under `regulatory-sources/`:
-- the Act;
-- G.S.R. 843(E), the commencement notification;
-- G.S.R. 844(E), the Board establishment notification;
-- G.S.R. 846(E), the Rules, including the Schedules.
+**Option 1 (preferred): allow the hosts.**
+1. Allow `www.meity.gov.in` in the environment's network settings.
+2. Run `node --import tsx scripts/regulatory-package.ts retrieve confirm:official-download`.
+3. The tool downloads the four files from their official URLs and hashes them.
 
-Alternatively, allow those hosts in the environment's network settings. Either way, `scripts/regulatory-package.ts` can then hash them and build the PRODUCTION package for independent approval and signing.
+**Option 2: download them yourself.**
+1. Download these four files unchanged. The URLs are the `official_url` entries in `scripts/regulatory/dpdp-baseline.ts`:
+
+   | Save as | Document | Official URL |
+   |---|---|---|
+   | `DPDP-ACT-2023.pdf` | The Act, No. 22 of 2023 | https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf |
+   | `GSR-843E-2025.pdf` | G.S.R. 843(E), commencement | https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf |
+   | `GSR-844E-2025.pdf` | G.S.R. 844(E), Board establishment | https://www.meity.gov.in/static/uploads/2025/11/cc217843dc3bcb37b2b05bcc3b4e031f.pdf |
+   | `DPDP-RULES-2025.pdf` | G.S.R. 846(E), the Rules with Schedules | https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf |
+
+2. Put them in `regulatory-sources/` and commit them.
+3. Run `node --import tsx scripts/regulatory-package.ts import regulatory-sources confirm:downloaded-from-official-urls`.
+4. The import records each file's SHA-256 with method `MANUAL_IMPORT`.
+5. A package built from imported files carries one open verification item per file. Before approving, the approving reviewer downloads each file again and confirms that its digest matches.
+
+**Then, for either option:**
+1. Resolve the other open verification items against the official text.
+2. Build the package: `node --import tsx scripts/regulatory-package.ts build <version> <effective-from-ISO>`. This needs the release signing key in `ORVIA_RELEASE_KEY_ID` and `ORVIA_RELEASE_PRIVATE_KEY`, set by its custodian, never pasted in chat.
+3. Have the package approved by a second person.
+4. Record the vendor's `PRODUCTION_CRITERIA` gate.
+
+If the URLs have moved, update the baseline's `official_url` entries first. The import cannot tell where a file came from; the reviewer's digest comparison against the official URL is what checks this.

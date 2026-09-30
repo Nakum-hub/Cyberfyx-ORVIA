@@ -23,6 +23,7 @@
    - gate checks in `tests/integration/vendor/audit-practice.test.ts`;
    - coverage checks in `tests/integration/expansion/dpdpa-audit.test.ts`;
    - new `tests/unit/audit-indicators.test.ts`;
+   - new `tests/integration/expansion/audit-indicator-counts.test.ts` (exact counts);
    - `tracking/qualification-inventory.json` regenerated.
 
 ## Commands actually executed
@@ -36,6 +37,8 @@
 | `tests/integration/vendor/schema-equivalence.test.ts` | 0 | 7/7 (first run 4/7: vendor-a00 not yet migrated to 0014; passed after `vendor:init`) | — |
 | `run-signed-suite.sh tests/integration/expansion/audit-mandate.test.ts` | 0 | 98 assertions, 0 failures | handoffs/codex/artifacts |
 | `run-signed-suite.sh tests/integration/expansion/dpdpa-audit.test.ts` (after the test fix) | 0 | 56 assertions, 0 failures (first run failed on my own 33-row assumption; the fixture package has 32) | handoffs/codex/artifacts |
+| `npx tsx tests/integration/expansion/audit-indicator-counts.test.ts` | 0 | 21/21: every indicator for the 18 newly covered requirements returns the exact count over seeded records, including rows each filter must exclude and a second scope (one transaction, always rolled back) | — |
+| Mutation control: `a.status='ACTIVE'` removed from `processors.active_without_agreement`, then restored | 1 | Expected detection: 20/21, `processor contracts` FAIL (1 != 2). This is a planted fault, not a passing control. | — |
 | `tests/e2e/dpdpa-audit-local.ts` | 0 | 20/0 | — |
 | `tests/e2e/audit-mandate-local.ts` | 0 | 19/0 | — |
 | `tests/e2e/expansion-screens-local.ts` | 0 | 69/0 | — |
@@ -52,6 +55,7 @@ Tests not run: commerce (not touched), Firefox and WebKit (not installed here: N
 
 ## Remaining limitations and blockers
 
+0. **Official-source import path added** (`scripts/regulatory-package.ts import <dir> confirm:downloaded-from-official-urls`). It was tested with four synthetic PDFs and a throwaway key in a scratch directory: the import refuses without the confirmation argument; a PRODUCTION package builds with 4 ARTIFACT_HASHED sources and 4 added open verification items (one per imported file, naming its official URL and digest). Nothing from that test is in the repository.
 1. **BLOCKED_EXTERNAL: official sources.**
    - meity.gov.in, egazette.gov.in and indiacode.nic.in are refused by the egress proxy (HTTP 403 on CONNECT, 2026-09-30).
    - Real engagements stay refused until the PRODUCTION criteria are built from the hashed official PDFs.
@@ -62,7 +66,7 @@ Tests not run: commerce (not touched), Firefox and WebKit (not installed here: N
    - hosting provider.
 3. **Retention sweep** is manual (a monthly routine, committed to in the templates). It has no scheduler.
 4. **Consent Manager support** (in force 13 Nov 2026) and **R8(2) 48-hour intimation** are not built.
-5. **Indicator semantics** are counts over what the client records in ORVIA. Completeness depends on the client scope statement (METHODOLOGY section 5).
+5. **Indicator semantics** are counts over what the client records in ORVIA. Completeness depends on the client scope statement (METHODOLOGY section 5). The count of each indicator is verified against known records (`audit-indicator-counts`); the 12 indicators that existed before this task are covered by their earlier suites, not by this one.
 
 ## Next integration action
 

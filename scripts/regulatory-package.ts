@@ -7,6 +7,13 @@
  *     the retrieval time, byte length and SHA-256 beside it. Nothing is downloaded without the
  *     explicit confirmation argument.
  *
+ *   node --import tsx scripts/regulatory-package.ts import <directory> confirm:downloaded-from-official-urls
+ *     For an environment that cannot reach the Government hosts: takes <directory>/<source_id>.pdf for each
+ *     source, exactly as a person downloaded it from the official URL above, checks it is a PDF, and records its
+ *     SHA-256 with method MANUAL_IMPORT. A package built from imported files carries an open verification item
+ *     naming each imported source and its digest, so the approving reviewer compares them with the official
+ *     download before approving. Nothing is imported without the confirmation argument.
+ *
  *   node --import tsx scripts/regulatory-package.ts build <version> <effective-from-ISO> [previous-version]
  *     Builds a PRODUCTION package from the baseline and the retrieved artifacts and signs it with
  *     the release key (ORVIA_RELEASE_KEY_ID / ORVIA_RELEASE_PRIVATE_KEY). It refuses to build if
@@ -24,7 +31,7 @@ import { officialSources, provisions, requirements, conditionVocabulary, openVer
 const directory = resolve('.local', 'regulatory-sources');
 const [command, ...args] = process.argv.slice(2);
 
-type Retrieval = { source_id: string; official_url: string; retrieved_at: string; bytes: number; sha256: string };
+type Retrieval = { source_id: string; official_url: string; retrieved_at: string; bytes: number; sha256: string; method?: 'DOWNLOAD' | 'MANUAL_IMPORT' };
 
 async function retrieve() {
   if (args[0] !== 'confirm:official-download') throw new Error('Retrieval downloads official artifacts; run with confirm:official-download.');
@@ -42,6 +49,22 @@ async function retrieve() {
   }
 }
 
+function importManual() {
+  const [from, confirmation] = args;
+  if (!from || confirmation !== 'confirm:downloaded-from-official-urls') throw new Error('Use: import <directory> confirm:downloaded-from-official-urls (each file must be the unchanged download from its official URL).');
+  const missing = officialSources.filter(source => !existsSync(resolve(from, `${source.source_id}.pdf`))).map(source => `${source.source_id}.pdf`);
+  if (missing.length) throw new Error(`Missing in ${from}: ${missing.join(', ')}. Name each file after its source_id.`);
+  mkdirSync(directory, { recursive: true });
+  for (const source of officialSources) {
+    const bytes = readFileSync(resolve(from, `${source.source_id}.pdf`));
+    if (bytes.subarray(0, 5).toString('latin1') !== '%PDF-') throw new Error(`${source.source_id}: not a PDF`);
+    const record: Retrieval = { source_id: source.source_id, official_url: source.official_url, retrieved_at: new Date().toISOString(), bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), method: 'MANUAL_IMPORT' };
+    writeFileSync(resolve(directory, `${source.source_id}.pdf`), bytes);
+    writeFileSync(resolve(directory, `${source.source_id}.json`), JSON.stringify(record, null, 2) + '\n');
+    console.log(`${source.source_id}: imported ${record.bytes} bytes, sha256 ${record.sha256}`);
+  }
+}
+
 function build() {
   const [version, effectiveFrom, previous] = args;
   if (!version || !/^\d+\.\d+\.\d+$/.test(version) || !effectiveFrom || Number.isNaN(Date.parse(effectiveFrom))) throw new Error('Usage: build <version> <effective-from-ISO> [previous-version]');
@@ -56,7 +79,9 @@ function build() {
     if (actual !== record.sha256 || record.official_url !== source.official_url) throw new Error(`${source.source_id}: artifact does not match its retrieval record`);
     return { ...source, artifact_digest: record.sha256, retrieved_at: record.retrieved_at, verification: 'ARTIFACT_HASHED' as const };
   });
-  if (missing.length) throw new Error(`Refusing to build a production package: not retrieved and hashed: ${missing.join(', ')}. Run retrieve first.`);
+  if (missing.length) throw new Error(`Refusing to build a production package: not retrieved and hashed: ${missing.join(', ')}. Run retrieve or import first.`);
+  const imported = officialSources.map(source => JSON.parse(readFileSync(resolve(directory, `${source.source_id}.json`), 'utf8')) as Retrieval).filter(r => r.method === 'MANUAL_IMPORT');
+  const importItems = imported.map(r => `${r.source_id} was imported from a manual download, not retrieved by this tool: before approving, download ${r.official_url} and confirm its SHA-256 is ${r.sha256}.`);
   const now = new Date();
   const claims = RegulatoryPackageClaims.parse({
     package_id: randomUUID(), version, previous_version: previous ?? null, audience: 'ORVIA_CUSTOMER_INSTALLATION', distribution: 'PRODUCTION',
@@ -65,7 +90,7 @@ function build() {
     requirements: requirements.map(r => ({ ...r, version: 1, effective_from: r.provision_ids.map(id => provisions.find(p => p.provision_id === id)!.commences_on).sort().at(-1)! })),
     condition_vocabulary: conditionVocabulary,
     release_notes: ['Baseline package authored from the DPDP Act, 2023, G.S.R. 843(E), G.S.R. 844(E) and the DPDP Rules, 2025.'],
-    open_verification_items: openVerificationItems,
+    open_verification_items: [...openVerificationItems, ...importItems],
   });
   const signature = sign(null, Buffer.from(canonicalJson(claims)), { key: Buffer.from(privateKey, 'base64'), format: 'der', type: 'pkcs8' }).toString('base64url');
   mkdirSync('artifacts/regulatory', { recursive: true });
@@ -75,5 +100,6 @@ function build() {
 }
 
 if (command === 'retrieve') await retrieve();
+else if (command === 'import') importManual();
 else if (command === 'build') build();
-else throw new Error('Use: retrieve confirm:official-download | build <version> <effective-from-ISO> [previous-version]');
+else throw new Error('Use: retrieve confirm:official-download | import <directory> confirm:downloaded-from-official-urls | build <version> <effective-from-ISO> [previous-version]');

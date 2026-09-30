@@ -2,7 +2,7 @@
 
 **Template v1.0.** Draft for management approval; not legal advice.
 
-**From:** [[Cyberfyx Consulting legal name]], CIN [[CIN]], [[registered address]] ("Cyberfyx")
+**From:** [[Cyberfyx legal name]], CIN [[CIN]], [[registered address]] ("Cyberfyx")
 **To:** [[Client legal name]], [[registered address]] ("the Client")
 **Date:** [[date]] **Engagement reference:** [[ENG-reference]]
 

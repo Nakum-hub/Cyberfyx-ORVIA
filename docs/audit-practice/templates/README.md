@@ -15,7 +15,7 @@
 
 ## Approving a version
 
-1. Replace every `[[...]]` placeholder that is fixed for Cyberfyx: company name, CIN, address, court, contact. Leave client-specific placeholders in place.
+1. Fill in part A of `COMPANY_DETAILS.md` and replace those placeholders in every template. Leave the part-B (per-client) placeholders in place.
 2. Compute the digest: `sha256sum docs/audit-practice/templates/<file>.md`.
 3. A Cyberfyx director approves the version in writing.
 4. In the vendor area → Audit practice, the super administrator records these gates:
