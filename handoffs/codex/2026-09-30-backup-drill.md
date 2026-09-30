@@ -42,4 +42,6 @@ The historical profile still needs an explicit data-preserving migration reconci
 
 ## Next integration action
 
+**Runtime relay follow-through (2026-09-30):** the preserved original loopback container still had 64 MiB RAM / 128 MiB RAM+swap despite the merged Compose limit of 256 MiB. `docker update --memory 256m --memory-swap 512m orvia-preserved-20260930-loopback` exited 0; inspect confirmed 268435456 RAM bytes, 536870912 RAM+swap bytes, running=false. This preserves the prior 2:1 total-memory ratio and aligns RAM with Compose. `R3-preserved-relay-memory.log` records the result. No original database/container restart or data reset was performed. The active isolated qualification relay separately reported 256 MiB, zero restarts and OOMKilled=false.
+
 Review evidence and coordinate any historical-profile reconciliation separately. No merge or acceptance promotion. Qualification environment lifecycle is recorded in the round-3 final handoffs.
