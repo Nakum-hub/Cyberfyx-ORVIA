@@ -7246,7 +7246,8 @@
         "v1_purpose_id": null,
         "events": [],
         "withdrawal_run_ids": [],
-        "updated_at": "2026-09-16T10:00:00.000Z"
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "consent_manager": null
       }
     },
     {
@@ -7270,7 +7271,8 @@
         "v1_purpose_id": null,
         "events": [],
         "withdrawal_run_ids": [],
-        "updated_at": "2026-09-16T10:00:00.000Z"
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "consent_manager": null
       }
     },
     {
@@ -7302,7 +7304,8 @@
         "v1_purpose_id": null,
         "events": [],
         "withdrawal_run_ids": [],
-        "updated_at": "2026-09-16T10:00:00.000Z"
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "consent_manager": null
       }
     },
     {
@@ -7667,6 +7670,211 @@
       }
     },
     {
+      "operation_id": "list_consent_managers",
+      "method": "GET",
+      "path": "/api/v1/admin/consent-managers",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_consent_manager",
+      "method": "POST",
+      "path": "/api/v1/admin/consent-managers",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "name": "Synthetic Consent Manager",
+        "board_registration_number": "DPB-CM-SYN-001",
+        "registered_on": "2026-11-20",
+        "evidence_reference": "Board registration certificate (synthetic)"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000001fa",
+        "name": "Synthetic example",
+        "board_registration_number": "Synthetic example",
+        "registered_on": "Synthetic example",
+        "status": "ACTIVE",
+        "status_reason": null,
+        "evidence_reference": "Synthetic example",
+        "linked_records": 0,
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "status_changed_at": null
+      }
+    },
+    {
+      "operation_id": "change_consent_manager_status",
+      "method": "POST",
+      "path": "/api/v1/admin/consent-managers/{id}/status",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "status": "SUSPENDED",
+        "reason": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000001fb",
+        "name": "Synthetic example",
+        "board_registration_number": "Synthetic example",
+        "registered_on": "Synthetic example",
+        "status": "ACTIVE",
+        "status_reason": null,
+        "evidence_reference": "Synthetic example",
+        "linked_records": 0,
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "status_changed_at": null
+      }
+    },
+    {
+      "operation_id": "link_consent_manager",
+      "method": "POST",
+      "path": "/api/v1/admin/consent-records/{id}/consent-manager",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "consent_manager_id": "00000000-0000-4000-8000-0000000001fc",
+        "artefact_reference": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000001fd",
+        "subject_id": "00000000-0000-4000-8000-0000000001fe",
+        "relationship_id": null,
+        "activity_id": "00000000-0000-4000-8000-0000000001ff",
+        "purpose_version_id": "00000000-0000-4000-8000-000000000200",
+        "current_status": "UNKNOWN",
+        "notice_version_id": null,
+        "channel": "Synthetic example",
+        "expiry_policy": null,
+        "v1_principal_id": null,
+        "v1_purpose_id": null,
+        "events": [],
+        "withdrawal_run_ids": [],
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "consent_manager": null
+      }
+    },
+    {
+      "operation_id": "record_consent_manager_withdrawal",
+      "method": "POST",
+      "path": "/api/v1/admin/consent-records/{id}/consent-manager-withdrawal",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "consent_manager_id": "00000000-0000-4000-8000-000000000201",
+        "artefact_reference": "Synthetic example",
+        "occurred_at": "2026-09-16T10:00:00.000Z",
+        "evidence_reference": "Synthetic example"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000202",
+        "subject_id": "00000000-0000-4000-8000-000000000203",
+        "relationship_id": null,
+        "activity_id": "00000000-0000-4000-8000-000000000204",
+        "purpose_version_id": "00000000-0000-4000-8000-000000000205",
+        "current_status": "UNKNOWN",
+        "notice_version_id": null,
+        "channel": "Synthetic example",
+        "expiry_policy": null,
+        "v1_principal_id": null,
+        "v1_purpose_id": null,
+        "events": [],
+        "withdrawal_run_ids": [],
+        "updated_at": "2026-09-16T10:00:00.000Z",
+        "consent_manager": null
+      }
+    },
+    {
+      "operation_id": "list_erasure_intimations_due",
+      "method": "GET",
+      "path": "/api/v1/admin/erasure-intimations/due",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "list_erasure_intimations",
+      "method": "GET",
+      "path": "/api/v1/admin/erasure-intimations",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "record_erasure_intimation",
+      "method": "POST",
+      "path": "/api/v1/admin/erasure-intimations",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "subject_id": "00000000-0000-4000-8000-000000000206",
+        "rule_id": "00000000-0000-4000-8000-000000000207",
+        "intimated_at": "2026-09-16T10:00:00.000Z",
+        "channel": "USER_ACCOUNT",
+        "evidence_reference": "Synthetic example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000208",
+        "subject_id": "00000000-0000-4000-8000-000000000209",
+        "rule_id": "00000000-0000-4000-8000-00000000020a",
+        "erasure_due_at": "2026-09-16T10:00:00.000Z",
+        "intimated_at": "2026-09-16T10:00:00.000Z",
+        "channel": "USER_ACCOUNT",
+        "evidence_reference": "Synthetic example",
+        "erasable_from": "2026-09-16T10:00:00.000Z",
+        "re_engaged_at": null,
+        "re_engagement_basis": null,
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
+      "operation_id": "record_erasure_re_engagement",
+      "method": "POST",
+      "path": "/api/v1/admin/erasure-intimations/{id}/re-engagement",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "re_engaged_at": "2026-09-16T10:00:00.000Z",
+        "basis": "LOGGED_IN"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-00000000020b",
+        "subject_id": "00000000-0000-4000-8000-00000000020c",
+        "rule_id": "00000000-0000-4000-8000-00000000020d",
+        "erasure_due_at": "2026-09-16T10:00:00.000Z",
+        "intimated_at": "2026-09-16T10:00:00.000Z",
+        "channel": "USER_ACCOUNT",
+        "evidence_reference": "Synthetic example",
+        "erasable_from": "2026-09-16T10:00:00.000Z",
+        "re_engaged_at": null,
+        "re_engagement_basis": null,
+        "recorded_at": "2026-09-16T10:00:00.000Z"
+      }
+    },
+    {
       "operation_id": "list_connector_bindings",
       "method": "GET",
       "path": "/api/v1/admin/connector-bindings",
@@ -7686,15 +7894,15 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "system_id": "00000000-0000-4000-8000-0000000001fa",
+        "system_id": "00000000-0000-4000-8000-00000000020e",
         "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
         "system_of_record_for": [],
         "holds_data_categories": []
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-0000000001fb",
-        "system_id": "00000000-0000-4000-8000-0000000001fc",
+        "id": "00000000-0000-4000-8000-00000000020f",
+        "system_id": "00000000-0000-4000-8000-000000000210",
         "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
         "capabilities": {
           "adapter_kind": "TEST_ADAPTER",
@@ -7741,12 +7949,12 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-0000000001fd",
+        "id": "00000000-0000-4000-8000-000000000211",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-0000000001fe",
+          "id": "00000000-0000-4000-8000-000000000212",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -7777,7 +7985,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-0000000001ff",
+        "created_by": "00000000-0000-4000-8000-000000000213",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -7803,18 +8011,18 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "rights_request_id": "00000000-0000-4000-8000-000000000200",
-        "subject_id": "00000000-0000-4000-8000-000000000201",
+        "rights_request_id": "00000000-0000-4000-8000-000000000214",
+        "subject_id": "00000000-0000-4000-8000-000000000215",
         "corrections": []
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000202",
+        "id": "00000000-0000-4000-8000-000000000216",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000203",
+          "id": "00000000-0000-4000-8000-000000000217",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -7845,7 +8053,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000204",
+        "created_by": "00000000-0000-4000-8000-000000000218",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -7859,16 +8067,16 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "retention_rule_id": "00000000-0000-4000-8000-000000000205"
+        "retention_rule_id": "00000000-0000-4000-8000-000000000219"
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000206",
+        "id": "00000000-0000-4000-8000-00000000021a",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000207",
+          "id": "00000000-0000-4000-8000-00000000021b",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -7899,7 +8107,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000208",
+        "created_by": "00000000-0000-4000-8000-00000000021c",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -7917,12 +8125,12 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000209",
+        "id": "00000000-0000-4000-8000-00000000021d",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-00000000020a",
+          "id": "00000000-0000-4000-8000-00000000021e",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -7953,7 +8161,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-00000000020b",
+        "created_by": "00000000-0000-4000-8000-00000000021f",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -7973,12 +8181,12 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000020c",
+        "id": "00000000-0000-4000-8000-000000000220",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-00000000020d",
+          "id": "00000000-0000-4000-8000-000000000221",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8009,7 +8217,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-00000000020e",
+        "created_by": "00000000-0000-4000-8000-000000000222",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -8027,12 +8235,12 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000020f",
+        "id": "00000000-0000-4000-8000-000000000223",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000210",
+          "id": "00000000-0000-4000-8000-000000000224",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8063,7 +8271,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000211",
+        "created_by": "00000000-0000-4000-8000-000000000225",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -8081,12 +8289,12 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000212",
+        "id": "00000000-0000-4000-8000-000000000226",
         "kind": "CONSENT_WITHDRAWAL",
         "status": "EVALUATING",
         "workflow_version": "1.0.0",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000213",
+          "id": "00000000-0000-4000-8000-000000000227",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8117,7 +8325,7 @@
         "preview": null,
         "block_reason": null,
         "created_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000214",
+        "created_by": "00000000-0000-4000-8000-000000000228",
         "started_at": null,
         "ended_at": null,
         "open_exceptions": []
@@ -8134,12 +8342,12 @@
         "package_kind": "ORVIA_WORKFLOW_EVIDENCE_PACKAGE",
         "generated_at": "2026-09-16T10:00:00.000Z",
         "run": {
-          "id": "00000000-0000-4000-8000-000000000215",
+          "id": "00000000-0000-4000-8000-000000000229",
           "kind": "CONSENT_WITHDRAWAL",
           "status": "EVALUATING",
           "workflow_version": "1.0.0",
           "package": {
-            "id": "00000000-0000-4000-8000-000000000216",
+            "id": "00000000-0000-4000-8000-00000000022a",
             "version": "1.0.0",
             "distribution": "PRODUCTION"
           },
@@ -8170,13 +8378,13 @@
           "preview": null,
           "block_reason": null,
           "created_at": "2026-09-16T10:00:00.000Z",
-          "created_by": "00000000-0000-4000-8000-000000000217",
+          "created_by": "00000000-0000-4000-8000-00000000022b",
           "started_at": null,
           "ended_at": null,
           "open_exceptions": []
         },
         "regulatory_package": {
-          "id": "00000000-0000-4000-8000-000000000218",
+          "id": "00000000-0000-4000-8000-00000000022c",
           "version": "1.0.0",
           "distribution": "PRODUCTION",
           "package_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -8244,7 +8452,7 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000219",
+        "id": "00000000-0000-4000-8000-00000000022d",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8270,7 +8478,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000021a",
+        "id": "00000000-0000-4000-8000-00000000022e",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8315,7 +8523,7 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000021b",
+        "id": "00000000-0000-4000-8000-00000000022f",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8345,7 +8553,7 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000021c",
+        "id": "00000000-0000-4000-8000-000000000230",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8373,7 +8581,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000021d",
+        "id": "00000000-0000-4000-8000-000000000231",
         "kind": "ESTATE_IMPORT",
         "source_label": "Synthetic example",
         "mapping_version": "Synthetic example",
@@ -8411,7 +8619,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "incident_id": "00000000-0000-4000-8000-00000000021e",
+        "incident_id": "00000000-0000-4000-8000-000000000232",
         "affected_count": null,
         "affected_count_state": "UNKNOWN",
         "data_category_ids": [],
@@ -8429,9 +8637,9 @@
       },
       "response_status": 201,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-00000000021f",
+        "incident_id": "00000000-0000-4000-8000-000000000233",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000220",
+          "id": "00000000-0000-4000-8000-000000000234",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8465,9 +8673,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-000000000221",
+        "incident_id": "00000000-0000-4000-8000-000000000235",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000222",
+          "id": "00000000-0000-4000-8000-000000000236",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8514,9 +8722,9 @@
       },
       "response_status": 200,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-000000000223",
+        "incident_id": "00000000-0000-4000-8000-000000000237",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000224",
+          "id": "00000000-0000-4000-8000-000000000238",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8555,9 +8763,9 @@
       },
       "response_status": 200,
       "response": {
-        "incident_id": "00000000-0000-4000-8000-000000000225",
+        "incident_id": "00000000-0000-4000-8000-000000000239",
         "package": {
-          "id": "00000000-0000-4000-8000-000000000226",
+          "id": "00000000-0000-4000-8000-00000000023a",
           "version": "1.0.0",
           "distribution": "PRODUCTION"
         },
@@ -8607,7 +8815,7 @@
       },
       "response_status": 201,
       "response": {
-        "rights_request_id": "00000000-0000-4000-8000-000000000227",
+        "rights_request_id": "00000000-0000-4000-8000-00000000023b",
         "right_type": "Synthetic example",
         "received_at": "2026-09-16T10:00:00.000Z",
         "package": null,
@@ -8629,7 +8837,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "rights_request_id": "00000000-0000-4000-8000-000000000228",
+        "rights_request_id": "00000000-0000-4000-8000-00000000023c",
         "right_type": "Synthetic example",
         "received_at": "2026-09-16T10:00:00.000Z",
         "package": null,
@@ -9631,8 +9839,8 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000229",
-        "processor_id": "00000000-0000-4000-8000-00000000022a",
+        "id": "00000000-0000-4000-8000-00000000023d",
+        "processor_id": "00000000-0000-4000-8000-00000000023e",
         "kind": "DPA",
         "reference": "Synthetic example",
         "signed_at": "2026-09-16T10:00:00.000Z",
@@ -9649,7 +9857,7 @@
         "termination_reason": null,
         "in_force": false,
         "superseded": false,
-        "recorded_by": "00000000-0000-4000-8000-00000000022b",
+        "recorded_by": "00000000-0000-4000-8000-00000000023f",
         "recorded_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9665,8 +9873,8 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000022c",
-        "processor_id": "00000000-0000-4000-8000-00000000022d",
+        "id": "00000000-0000-4000-8000-000000000240",
+        "processor_id": "00000000-0000-4000-8000-000000000241",
         "kind": "DPA",
         "reference": "Synthetic example",
         "signed_at": "2026-09-16T10:00:00.000Z",
@@ -9683,7 +9891,7 @@
         "termination_reason": null,
         "in_force": false,
         "superseded": false,
-        "recorded_by": "00000000-0000-4000-8000-00000000022e",
+        "recorded_by": "00000000-0000-4000-8000-000000000242",
         "recorded_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9704,9 +9912,9 @@
         "tier": "LOW",
         "reassessment_interval_days": 30,
         "reason": "Synthetic example",
-        "id": "00000000-0000-4000-8000-00000000022f",
-        "processor_id": "00000000-0000-4000-8000-000000000230",
-        "recorded_by": "00000000-0000-4000-8000-000000000231",
+        "id": "00000000-0000-4000-8000-000000000243",
+        "processor_id": "00000000-0000-4000-8000-000000000244",
+        "recorded_by": "00000000-0000-4000-8000-000000000245",
         "recorded_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9718,7 +9926,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "processor_id": "00000000-0000-4000-8000-000000000232",
+        "processor_id": "00000000-0000-4000-8000-000000000246",
         "processor_name": "Synthetic example",
         "region": "Synthetic example",
         "as_of": "2026-09-16T10:00:00.000Z",
@@ -9751,7 +9959,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "assessment_id": "00000000-0000-4000-8000-000000000233",
+        "assessment_id": "00000000-0000-4000-8000-000000000247",
         "expires_at": "2026-09-16T10:00:00.000Z"
       },
       "response_status": 201,
@@ -9795,14 +10003,14 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000234",
-        "assessment_id": "00000000-0000-4000-8000-000000000235",
+        "id": "00000000-0000-4000-8000-000000000248",
+        "assessment_id": "00000000-0000-4000-8000-000000000249",
         "expires_at": "2026-09-16T10:00:00.000Z",
         "state": "ACTIVE",
         "revoked_at": null,
         "revocation_reason": null,
         "last_used_at": null,
-        "created_by": "00000000-0000-4000-8000-000000000236",
+        "created_by": "00000000-0000-4000-8000-00000000024a",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9837,8 +10045,8 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000237",
-        "policy_key": "00000000-0000-4000-8000-000000000238",
+        "id": "00000000-0000-4000-8000-00000000024b",
+        "policy_key": "00000000-0000-4000-8000-00000000024c",
         "version": 1,
         "title": "Synthetic example",
         "body": "Synthetic example",
@@ -9848,7 +10056,7 @@
         "requirement_ids": [],
         "change_summary": "Synthetic example",
         "status": "DRAFT",
-        "recorded_by": "00000000-0000-4000-8000-000000000239",
+        "recorded_by": "00000000-0000-4000-8000-00000000024d",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "published_at": null,
@@ -9871,8 +10079,8 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000023a",
-        "policy_key": "00000000-0000-4000-8000-00000000023b",
+        "id": "00000000-0000-4000-8000-00000000024e",
+        "policy_key": "00000000-0000-4000-8000-00000000024f",
         "version": 1,
         "title": "Synthetic example",
         "body": "Synthetic example",
@@ -9882,7 +10090,7 @@
         "requirement_ids": [],
         "change_summary": "Synthetic example",
         "status": "DRAFT",
-        "recorded_by": "00000000-0000-4000-8000-00000000023c",
+        "recorded_by": "00000000-0000-4000-8000-000000000250",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "published_at": null,
@@ -9903,8 +10111,8 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-00000000023d",
-        "policy_key": "00000000-0000-4000-8000-00000000023e",
+        "id": "00000000-0000-4000-8000-000000000251",
+        "policy_key": "00000000-0000-4000-8000-000000000252",
         "version": 1,
         "title": "Synthetic example",
         "body": "Synthetic example",
@@ -9914,7 +10122,7 @@
         "requirement_ids": [],
         "change_summary": "Synthetic example",
         "status": "DRAFT",
-        "recorded_by": "00000000-0000-4000-8000-00000000023f",
+        "recorded_by": "00000000-0000-4000-8000-000000000253",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "published_at": null,
@@ -9956,7 +10164,7 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000240",
+        "id": "00000000-0000-4000-8000-000000000254",
         "source_kind": "MANUAL",
         "source_id": null,
         "title": "Synthetic example",
@@ -9968,7 +10176,7 @@
         "state": "OPEN",
         "overdue": false,
         "events": [],
-        "created_by": "00000000-0000-4000-8000-000000000241",
+        "created_by": "00000000-0000-4000-8000-000000000255",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -9980,7 +10188,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000242",
+        "id": "00000000-0000-4000-8000-000000000256",
         "source_kind": "MANUAL",
         "source_id": null,
         "title": "Synthetic example",
@@ -9992,7 +10200,7 @@
         "state": "OPEN",
         "overdue": false,
         "events": [],
-        "created_by": "00000000-0000-4000-8000-000000000243",
+        "created_by": "00000000-0000-4000-8000-000000000257",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -10013,7 +10221,7 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000244",
+        "id": "00000000-0000-4000-8000-000000000258",
         "source_kind": "MANUAL",
         "source_id": null,
         "title": "Synthetic example",
@@ -10025,7 +10233,7 @@
         "state": "OPEN",
         "overdue": false,
         "events": [],
-        "created_by": "00000000-0000-4000-8000-000000000245",
+        "created_by": "00000000-0000-4000-8000-000000000259",
         "created_at": "2026-09-16T10:00:00.000Z"
       }
     },
@@ -10050,9 +10258,9 @@
             "description": "Synthetic example"
           }
         ],
-        "id": "00000000-0000-4000-8000-000000000246",
+        "id": "00000000-0000-4000-8000-00000000025a",
         "recorded_at": "2026-09-16T10:00:00.000Z",
-        "recorded_by": "00000000-0000-4000-8000-000000000247"
+        "recorded_by": "00000000-0000-4000-8000-00000000025b"
       }
     },
     {
@@ -10075,7 +10283,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "control_id": "00000000-0000-4000-8000-000000000248",
+        "control_id": "00000000-0000-4000-8000-00000000025c",
         "name": "Synthetic example",
         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
         "maximum_violations": 0,
@@ -10083,15 +10291,15 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000249",
-        "control_id": "00000000-0000-4000-8000-00000000024a",
+        "id": "00000000-0000-4000-8000-00000000025d",
+        "control_id": "00000000-0000-4000-8000-00000000025e",
         "name": "Synthetic example",
         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
         "maximum_violations": -9007199254740991,
         "interval_minutes": -9007199254740991,
         "enabled": false,
         "next_run_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-00000000024b",
+        "created_by": "00000000-0000-4000-8000-00000000025f",
         "created_at": "2026-09-16T10:00:00.000Z",
         "latest_run": null,
         "standing": "PASSING",
@@ -10107,15 +10315,15 @@
       "response_status": 200,
       "response": {
         "test": {
-          "id": "00000000-0000-4000-8000-00000000024c",
-          "control_id": "00000000-0000-4000-8000-00000000024d",
+          "id": "00000000-0000-4000-8000-000000000260",
+          "control_id": "00000000-0000-4000-8000-000000000261",
           "name": "Synthetic example",
           "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
           "maximum_violations": -9007199254740991,
           "interval_minutes": -9007199254740991,
           "enabled": false,
           "next_run_at": "2026-09-16T10:00:00.000Z",
-          "created_by": "00000000-0000-4000-8000-00000000024e",
+          "created_by": "00000000-0000-4000-8000-000000000262",
           "created_at": "2026-09-16T10:00:00.000Z",
           "latest_run": null,
           "standing": "PASSING",
@@ -10135,15 +10343,15 @@
       "response_status": 200,
       "response": {
         "test": {
-          "id": "00000000-0000-4000-8000-00000000024f",
-          "control_id": "00000000-0000-4000-8000-000000000250",
+          "id": "00000000-0000-4000-8000-000000000263",
+          "control_id": "00000000-0000-4000-8000-000000000264",
           "name": "Synthetic example",
           "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
           "maximum_violations": -9007199254740991,
           "interval_minutes": -9007199254740991,
           "enabled": false,
           "next_run_at": "2026-09-16T10:00:00.000Z",
-          "created_by": "00000000-0000-4000-8000-000000000251",
+          "created_by": "00000000-0000-4000-8000-000000000265",
           "created_at": "2026-09-16T10:00:00.000Z",
           "latest_run": null,
           "standing": "PASSING",
@@ -10164,15 +10372,15 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000252",
-        "control_id": "00000000-0000-4000-8000-000000000253",
+        "id": "00000000-0000-4000-8000-000000000266",
+        "control_id": "00000000-0000-4000-8000-000000000267",
         "name": "Synthetic example",
         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
         "maximum_violations": -9007199254740991,
         "interval_minutes": -9007199254740991,
         "enabled": false,
         "next_run_at": "2026-09-16T10:00:00.000Z",
-        "created_by": "00000000-0000-4000-8000-000000000254",
+        "created_by": "00000000-0000-4000-8000-000000000268",
         "created_at": "2026-09-16T10:00:00.000Z",
         "latest_run": null,
         "standing": "PASSING",
@@ -10493,7 +10701,7 @@
       "response_status": 200,
       "response": {
         "kind": "SYSTEM",
-        "target_id": "00000000-0000-4000-8000-000000000255",
+        "target_id": "00000000-0000-4000-8000-000000000269",
         "activities": [],
         "retention_rule_ids": [],
         "engagement_ids": [],
@@ -10526,14 +10734,14 @@
       },
       "response_status": 201,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000256",
+        "id": "00000000-0000-4000-8000-00000000026a",
         "version": 1,
         "note": "Synthetic example",
         "as_of": "2026-09-16T10:00:00.000Z",
         "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "activity_count": -9007199254740991,
         "gap_count": -9007199254740991,
-        "recorded_by": "00000000-0000-4000-8000-000000000257",
+        "recorded_by": "00000000-0000-4000-8000-00000000026b",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "approved_at": null,
@@ -10552,14 +10760,14 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000258",
+        "id": "00000000-0000-4000-8000-00000000026c",
         "version": 1,
         "note": "Synthetic example",
         "as_of": "2026-09-16T10:00:00.000Z",
         "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "activity_count": -9007199254740991,
         "gap_count": -9007199254740991,
-        "recorded_by": "00000000-0000-4000-8000-000000000259",
+        "recorded_by": "00000000-0000-4000-8000-00000000026d",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "approved_by": null,
         "approved_at": null,
@@ -10830,7 +11038,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "job_id": "00000000-0000-4000-8000-00000000025a",
+        "job_id": "00000000-0000-4000-8000-00000000026e",
         "sequence": -9007199254740991,
         "row_count": -9007199254740991,
         "sha256": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -12526,7 +12734,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "site_id": "00000000-0000-4000-8000-00000000025b",
+        "site_id": "00000000-0000-4000-8000-00000000026f",
         "visitors": -9007199254740991,
         "records": -9007199254740991,
         "gpc_visitors": -9007199254740991,
@@ -12647,7 +12855,7 @@
       },
       "response_status": 201,
       "response": {
-        "receipt_id": "00000000-0000-4000-8000-00000000025c",
+        "receipt_id": "00000000-0000-4000-8000-000000000270",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "config_version": -9007199254740991
       }
@@ -12891,7 +13099,7 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "topic_id": "00000000-0000-4000-8000-00000000025d",
+        "topic_id": "00000000-0000-4000-8000-000000000271",
         "channel": "EMAIL",
         "choice": "OPTED_IN",
         "observed_at": "2026-09-16T10:00:00.000Z"
@@ -12899,8 +13107,8 @@
       "response_status": 201,
       "response": {
         "event": {
-          "id": "00000000-0000-4000-8000-00000000025e",
-          "topic_id": "00000000-0000-4000-8000-00000000025f",
+          "id": "00000000-0000-4000-8000-000000000272",
+          "topic_id": "00000000-0000-4000-8000-000000000273",
           "channel": "EMAIL",
           "choice": "OPTED_IN",
           "source": "PORTAL",
@@ -12949,7 +13157,7 @@
       "response_status": 201,
       "response": {
         "member": {
-          "id": "00000000-0000-4000-8000-000000000260",
+          "id": "00000000-0000-4000-8000-000000000274",
           "display_name": "Synthetic example",
           "email": "asha@aster.example",
           "role": "ORG_SUPER_ADMIN",
@@ -12981,7 +13189,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000261",
+        "id": "00000000-0000-4000-8000-000000000275",
         "display_name": "Synthetic example",
         "email": "asha@aster.example",
         "role": "ORG_SUPER_ADMIN",
@@ -13005,7 +13213,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000262",
+        "id": "00000000-0000-4000-8000-000000000276",
         "display_name": "Synthetic example",
         "email": "asha@aster.example",
         "role": "ORG_SUPER_ADMIN",
@@ -13031,7 +13239,7 @@
       },
       "response_status": 200,
       "response": {
-        "id": "00000000-0000-4000-8000-000000000263",
+        "id": "00000000-0000-4000-8000-000000000277",
         "display_name": "Synthetic example",
         "email": "asha@aster.example",
         "role": "ORG_SUPER_ADMIN",
@@ -14602,8 +14810,8 @@
       "path": "/api/v1/machine/commands/poll",
       "headers": {},
       "request": {
-        "installation_id": "00000000-0000-4000-8000-000000000264",
-        "environment_id": "00000000-0000-4000-8000-000000000265",
+        "installation_id": "00000000-0000-4000-8000-000000000278",
+        "environment_id": "00000000-0000-4000-8000-000000000279",
         "maximum_commands": 1
       },
       "response_status": 200,
@@ -14620,9 +14828,9 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "command_id": "00000000-0000-4000-8000-000000000266",
+        "command_id": "00000000-0000-4000-8000-00000000027a",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000267",
+        "attempt_id": "00000000-0000-4000-8000-00000000027b",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -14630,7 +14838,7 @@
       },
       "response_status": 202,
       "response": {
-        "operation_id": "00000000-0000-4000-8000-000000000268",
+        "operation_id": "00000000-0000-4000-8000-00000000027c",
         "status": "ACCEPTED",
         "accepted_at": "2026-09-16T10:00:00.000Z"
       }
@@ -14643,10 +14851,10 @@
         "Idempotency-Key": "synthetic_example_key_0001"
       },
       "request": {
-        "attempt_id": "00000000-0000-4000-8000-000000000269",
-        "principal_reference_id": "00000000-0000-4000-8000-00000000026a",
-        "purpose_id": "00000000-0000-4000-8000-00000000026b",
-        "system_id": "00000000-0000-4000-8000-00000000026c",
+        "attempt_id": "00000000-0000-4000-8000-00000000027d",
+        "principal_reference_id": "00000000-0000-4000-8000-00000000027e",
+        "purpose_id": "00000000-0000-4000-8000-00000000027f",
+        "system_id": "00000000-0000-4000-8000-000000000280",
         "message_class": "MARKETING",
         "order_reference": null
       },
@@ -14719,9 +14927,9 @@
       },
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-00000000026d",
+        "command_id": "00000000-0000-4000-8000-000000000281",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-00000000026e",
+        "attempt_id": "00000000-0000-4000-8000-000000000282",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",
@@ -14736,7 +14944,7 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "resource_id": "00000000-0000-4000-8000-00000000026f",
+        "resource_id": "00000000-0000-4000-8000-000000000283",
         "generation": 0,
         "last_applied_epoch": 0,
         "marketing_restricted": false,
@@ -14751,9 +14959,9 @@
       "request": null,
       "response_status": 200,
       "response": {
-        "command_id": "00000000-0000-4000-8000-000000000270",
+        "command_id": "00000000-0000-4000-8000-000000000284",
         "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "attempt_id": "00000000-0000-4000-8000-000000000271",
+        "attempt_id": "00000000-0000-4000-8000-000000000285",
         "execution_state": "ACKNOWLEDGED",
         "recorded_at": "2026-09-16T10:00:00.000Z",
         "reason_code": "SYNTHETIC_EXAMPLE",

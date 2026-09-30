@@ -1,0 +1,4 @@
+{"browser":"webkit","suite":"sign-in-hydration-local","finished":"2026-09-30T09:27:09.7424075Z","exit":0}
+{"browser":"firefox","suite":"sign-in-hydration-local","finished":"2026-09-30T09:28:24.9323698Z","exit":0}
+{"browser": "webkit", "suite": "dpdpa-audit-local", "exit": null, "shell_exit": 1, "native_exit": "NOT_CAPTURED: PowerShell Stop treated stderr as terminating error", "result": "FAIL", "passed": 8, "failures": 1, "artifact": "A00-operations-dpdpa-audit-browser-1790760376246-bf556e38-1a85-4654-abf8-183cb21b6cff.json"}
+{"browser":"webkit","suite":"audit-mandate-local","finished":"2026-09-30T09:32:06.5600729Z","exit":124}

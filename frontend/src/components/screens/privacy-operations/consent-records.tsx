@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { useCollection, usePagedQuery, useQuery } from '../../shared/api.ts';
+import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
-import { Badge, DataTable, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
+import { Badge, DataTable, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { ActionButton, Choice, Input, WriteForm, nullable, nullableTime, text } from './registry-forms.tsx';
 
 const STATUS: Record<string, { label: string; tone: 'ok' | 'warn' | 'stop' | 'neutral' | 'unknown' | 'info' }> = {
@@ -51,6 +51,7 @@ export function ConsentRecords() {
       <Section title="Create a consent record">
         <CreateConsentRecord onSaved={r => { list.refresh(); setSelected(r.id); }} />
       </Section>
+      <ConsentManagers />
     </>
   );
 }
@@ -91,6 +92,7 @@ function ConsentRecordDetail({ id, onChanged }: { id: string; onChanged: () => v
               { key: 'evidence', header: 'Evidence', cell: e => e.evidence_reference ?? e.evidence_state.replaceAll('_', ' ').toLowerCase() },
               { key: 'run', header: 'Propagation', cell: e => e.run_id ? <a href={`/workspace/operations-runs/${e.run_id}`}>run {shortId(e.run_id)}</a> : e.event === 'WITHDRAWN' ? (e.source === 'IMPORT' ? 'Imported history; not re-enacted' : <Badge label="Not yet propagated" tone="warn" meaning="Waiting for a regulatory package in force; the runner creates the run." />) : '—' },
             ]} />
+          <ConsentManagerPanel record={data} onChanged={() => { record.refresh(); onChanged(); }} />
           {event === 'WITHDRAWN' && <NoticeBox tone="warn" title="A withdrawal is propagated"><p>Recording it opens a run that suppresses this person in every linked system and verifies each one independently.</p></NoticeBox>}
           <WriteForm operation="record_consent_event" label="Record a consent event" params={{ id }} onSaved={() => { record.refresh(); onChanged(); }}
             describe={r => `status now ${r.current_status.toLowerCase()}${r.withdrawal_run_ids.length ? `; ${r.withdrawal_run_ids.length} propagation run(s)` : ''}`}
@@ -111,4 +113,73 @@ function ConsentRecordDetail({ id, onChanged }: { id: string; onChanged: () => v
       )}
     </QueryBoundary>
   );
+}
+
+/**
+ * Consent Managers (DPDP Act s.6(7)-(9), rule 4): the register of Consent Managers registered with the Data Protection Board
+ * that this organisation accepts consent through. The Data Fiduciary's duty applies from 13 May 2027.
+ */
+function ConsentManagers() {
+  const list = usePagedQuery('list_consent_managers', { limit: 50 });
+  const status = useMutation('change_consent_manager_status', true);
+  const [reasons, setReasons] = useState<Record<string, string>>({});
+  return (
+    <Section title="Consent Managers">
+      <p className="muted">Consent Managers registered with the Data Protection Board through which people may give, manage, review or withdraw consent. A withdrawal a Consent Manager relays is always honoured; new consent can be linked only to an active one.</p>
+      <Freshness query={list} />
+      <QueryBoundary query={list} label="Consent Managers" isEmpty={d => !d.items.length}>
+        {d => (
+          <>
+            <DataTable caption="Registered Consent Managers" rows={d.items} rowKey={m => m.id}
+              columns={[
+                { key: 'name', header: 'Consent Manager', cell: m => <span className="cell-primary">{m.name}<span className="cell-sub">Board registration {m.board_registration_number} · {m.registered_on}</span></span> },
+                { key: 'status', header: 'Status', cell: m => <><Badge label={m.status.toLowerCase()} tone={m.status === 'ACTIVE' ? 'ok' : 'stop'} />{m.status_reason && <span className="cell-sub">{m.status_reason}</span>}</> },
+                { key: 'linked', header: 'Consent records', cell: m => m.linked_records },
+                { key: 'evidence', header: 'Registration evidence', cell: m => m.evidence_reference },
+                { key: 'change', header: '', cell: m => m.status === 'CANCELLED' ? '—' : (
+                  <span className="row">
+                    <input aria-label="Status reason" placeholder="Reason (at least 10 characters)" value={reasons[m.id] ?? ''} maxLength={500} onChange={e => setReasons({ ...reasons, [m.id]: e.target.value })} />
+                    {m.status === 'ACTIVE' && <button type="button" disabled={(reasons[m.id] ?? '').trim().length < 10} onClick={async () => { status.newInteraction(); if (await status.run({ status: 'SUSPENDED', reason: reasons[m.id]!.trim() }, { params: { id: m.id } })) list.refresh(); }}>Suspend</button>}
+                    <button type="button" disabled={(reasons[m.id] ?? '').trim().length < 10} onClick={async () => { status.newInteraction(); if (await status.run({ status: 'CANCELLED', reason: reasons[m.id]!.trim() }, { params: { id: m.id } })) list.refresh(); }}>Cancel registration</button>
+                  </span>) },
+              ]} />
+            {status.failure && <FailureState failure={status.failure} />}
+            <Pagination query={list} />
+          </>
+        )}
+      </QueryBoundary>
+      <WriteForm operation="create_consent_manager" label="Register a Consent Manager" onSaved={() => list.refresh()}
+        describe={m => `${m.name} registered (${m.board_registration_number})`}
+        build={f => ({ name: text(f, 'name'), board_registration_number: text(f, 'registration'), registered_on: text(f, 'on'), evidence_reference: text(f, 'evidence') })}>
+        <Input label="Name" name="name" maxLength={200} />
+        <Input label="Board registration number" name="registration" maxLength={80} />
+        <Input label="Registered on (YYYY-MM-DD)" name="on" maxLength={10} />
+        <Input label="Registration evidence" name="evidence" maxLength={500} hint="Where the Board registration is recorded, for example the certificate reference." />
+      </WriteForm>
+    </Section>
+  );
+}
+
+/** The Consent Manager a consent was given through, and a withdrawal it relays. */
+function ConsentManagerPanel({ record, onChanged }: { record: { id: string; consent_manager: { id: string; name: string; board_registration_number: string; status: string; artefact_reference: string } | null }; onChanged: () => void }) {
+  const managers = useCollection('list_consent_managers');
+  const active = (managers.data?.items ?? []).filter(m => m.status === 'ACTIVE').map(m => ({ value: m.id, label: `${m.name} (${m.board_registration_number})` }));
+  const cm = record.consent_manager;
+  if (cm) return (
+    <div className="panel">
+      <p><strong>Given through a Consent Manager:</strong> {cm.name} (Board registration {cm.board_registration_number}, {cm.status.toLowerCase()}); artefact {cm.artefact_reference}.</p>
+      <WriteForm operation="record_consent_manager_withdrawal" label="Record a withdrawal relayed by the Consent Manager" params={{ id: record.id }} onSaved={onChanged}
+        describe={r => `status now ${r.current_status.toLowerCase()}`}
+        build={f => ({ consent_manager_id: cm.id, artefact_reference: cm.artefact_reference, occurred_at: new Date(text(f, 'at')).toISOString(), evidence_reference: text(f, 'evidence') })}>
+        <Input label="Withdrawn at" name="at" type="datetime-local" />
+        <Input label="Relay evidence" name="evidence" maxLength={500} hint="The Consent Manager's message or reference for this withdrawal." />
+      </WriteForm>
+    </div>);
+  return active.length ? (
+    <WriteForm operation="link_consent_manager" label="Link to the Consent Manager it was given through" params={{ id: record.id }} onSaved={onChanged}
+      describe={() => 'linked to the Consent Manager'}
+      build={f => ({ consent_manager_id: text(f, 'manager'), artefact_reference: text(f, 'artefact') })}>
+      <Choice label="Consent Manager" name="manager" options={active} />
+      <Input label="Consent artefact reference" name="artefact" maxLength={200} hint="The Consent Manager's own identifier for this consent." />
+    </WriteForm>) : null;
 }

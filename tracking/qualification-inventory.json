@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "3c807c548947a080593ea703917801375d25688a9465b54cd49f9664ddfed9ef",
+  "test_file_digest": "fe1a83dadf99617da3c3ba87709718c114e5e23c345c4a3500bdbe451ee40093",
   "counts": {
     "UNIT": 49,
-    "INTEGRATION": 75,
+    "INTEGRATION": 77,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 13,
@@ -59,7 +59,7 @@
     },
     {
       "path": "tests/e2e/dpdpa-audit-local.ts",
-      "sha256": "77ca228242460e11a6d4976010e4f953ef9e7b6ce33253e87af03a3b8e0668fb",
+      "sha256": "ae02db390dec9487e291cf3a5edff565d3b827f4556455a444885b835d5291da",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -249,7 +249,7 @@
     },
     {
       "path": "tests/integration/expansion/dpdpa-audit.test.ts",
-      "sha256": "55b3ffe6e5084084ba75920f4edb5319d437a3efb9283e9b4ab3bc99b0658a0e",
+      "sha256": "9c2ee346379bbbfefb1e920b72473209dc0e5c2a3c4b3aef38dd330c5cc1f9d1",
       "kind": "INTEGRATION"
     },
     {
@@ -408,6 +408,11 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/operations/consent-manager.test.ts",
+      "sha256": "82e078e57501624df6eda8519ff4189a3398a4f8bfd8bb61b8c7215b360876cc",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/operations/consent-withdrawal.test.ts",
       "sha256": "bab818a16ade63dca45e9f9fee4a9039e9e0b17ad4ec8930b5f56d80ecd62dc2",
       "kind": "INTEGRATION"
@@ -415,6 +420,11 @@
     {
       "path": "tests/integration/operations/correction.test.ts",
       "sha256": "4aa9a12ed540988bc68f0f575ea4a8df8e2f8211d305612a0fa4904b634f6858",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/operations/erasure-intimation.test.ts",
+      "sha256": "7066e4d9947cd56fee457728d6f99a076aa44f8628fb00bdcaa24dd1148ace25",
       "kind": "INTEGRATION"
     },
     {
@@ -504,7 +514,7 @@
     },
     {
       "path": "tests/integration/vendor/audit-practice.test.ts",
-      "sha256": "8096172b47b4f25d3829957d4a361f79a54fe6989670705ad9f089ece3e98d18",
+      "sha256": "dbd4fcc957af83264605e0d56eeaf6eb5d63f5e7ea2ded22a062e2c87eb9a6ab",
       "kind": "INTEGRATION"
     },
     {
@@ -579,7 +589,7 @@
     },
     {
       "path": "tests/unit/audit-indicators.test.ts",
-      "sha256": "574f1476ae214654c225ee5ea86e8b02079ec838538875eb61ed5f4828609009",
+      "sha256": "4d4387eac768787509dcf0f503a7c7cc1e9d6273a40c40a3d381b1509a65ddd5",
       "kind": "UNIT"
     },
     {

@@ -21,6 +21,11 @@ type Pkg = ReturnType<typeof schemas.AuditPackage.parse>;
 const key = () => crypto.randomUUID().replaceAll('-', '');
 const TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral' | 'info'> = { EVIDENCED: 'ok', NOT_APPLICABLE: 'neutral', PENDING_REVIEW: 'info', STALE: 'warn', REJECTED: 'stop', NO_EVIDENCE: 'stop', UNRESOLVED_APPLICABILITY: 'warn' };
 const explain = (e: unknown) => e instanceof ApiError ? (e.envelope.error.field_errors?.map(f => `${f.field}: ${f.code.replaceAll('_', ' ')}`).join('; ') || e.envelope.error.message) : e instanceof Error ? e.message : 'The request could not be completed; the outcome is unknown.';
+/** One read, retried once when the server answers "retry after delay" (a temporary 503). */
+async function read<T>(work: () => Promise<T>): Promise<T> {
+  try { return await work(); }
+  catch (e) { if (!(e instanceof ApiError) || e.envelope.error.retry !== 'AFTER_DELAY') throw e; await new Promise(r => setTimeout(r, 1500)); return work(); }
+}
 const toBase64 = async (blob: Blob) => { const bytes = new Uint8Array(await blob.arrayBuffer()); let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(s); };
 const save = (name: string, data: BlobPart, type: string) => { const url = URL.createObjectURL(new Blob([data], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.hidden = true;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }; // attached for the click: detached-link clicks differ across browsers
@@ -35,24 +40,29 @@ const Messages = ({ error, note }: { error: string | null; note: string | null }
 
 export function DpdpaAudit({ capabilities }: { capabilities: readonly string[] }) {
   const [gap, setGap] = useState<Gap | null>(null); const [files, setFiles] = useState<File[]>([]); const [engagements, setEngagements] = useState<Omit<Engagement, 'packages' | 'imports'>[]>([]);
-  const [openId, setOpenId] = useState<string | null>(null); const [loadError, setLoadError] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null); const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState<{ gap?: string; files?: string; engagements?: string }>({});
   const prepare = capabilities.includes('audit_exchange.prepare'); const upload = capabilities.includes('grc.write');
+  // The three parts load and fail independently: one unavailable read (for example a 503 from the gap register) must not hide
+  // the engagements or evidence files. A read the server marks "retry after delay" is retried once.
   const load = useCallback(async () => {
-    try {
-      const [g, f, e] = await Promise.all([call('dpdpa_gap_register', undefined), call('list_evidence_files', undefined, { limit: 100 }), call('list_audit_engagements', undefined, { limit: 100 })]);
-      setGap(g); setFiles(f.items); setEngagements(e.items);
-    } catch (e) { setLoadError(explain(e)); }
+    const [g, f, e] = await Promise.allSettled([read(() => call('dpdpa_gap_register', undefined)), read(() => call('list_evidence_files', undefined, { limit: 100 })), read(() => call('list_audit_engagements', undefined, { limit: 100 }))]);
+    if (g.status === 'fulfilled') setGap(g.value); if (f.status === 'fulfilled') setFiles(f.value.items); if (e.status === 'fulfilled') setEngagements(e.value.items);
+    setFailed({ gap: g.status === 'rejected' ? explain(g.reason) : undefined, files: f.status === 'rejected' ? explain(f.reason) : undefined, engagements: e.status === 'rejected' ? explain(e.reason) : undefined });
+    setLoaded(true);
   }, []);
   useEffect(() => { void load(); }, [load]);
   const { busy, error, note, run } = useRunner(load);
   const [ev, setEv] = useState({ control_id: '', description: '', personal: 'UNKNOWN', valid: '90' }); const [chosen, setChosen] = useState<Blob & { name?: string } | null>(null);
   const [eng, setEng] = useState({ code: '', firm: '', reference: '', scope: '', from: '', to: '', pa: '', independence: '', empanelment: '' });
-  if (!gap) return loadError ? <NoticeBox tone="stop" title="DPDPA audit unavailable"><p>{loadError}</p></NoticeBox> : <p role="status">Reading the gap register…</p>;
-  const controls = gap.rows.flatMap(r => r.controls.map(c => ({ value: c.control_id, label: `${r.requirement_id} — ${c.title}` })));
+  if (!loaded) return <p role="status">Reading the gap register…</p>;
+  const controls = (gap?.rows ?? []).flatMap(r => r.controls.map(c => ({ value: c.control_id, label: `${r.requirement_id} — ${c.title}` })));
+  const unavailable = (what: string, message: string) => <NoticeBox tone="stop" title={`${what} unavailable`}><p>{message}</p><button type="button" disabled={busy} onClick={() => void load()}>Try again</button></NoticeBox>;
   return <>
     <PageHead eyebrow="GRC" title="DPDPA external audit" lede="Readiness against the DPDP Act and Rules, the audit mandate you sign for your external auditor, and every piece of evidence that leaves. Evidence leaves only under a mandate or a sealed package, each approved by a second owner or administrator; everything that left is listed under Vendor visibility." />
     <Messages error={error} note={note} />
     <Section title="Gap register" aside={<button type="button" disabled={busy} onClick={() => void run(async () => { const r = await call('export_dpdpa_gap_register', undefined, { idempotency_key: key() }); save(r.file_name, r.csv, 'text/csv'); }, 'Gap register exported.')}>Export CSV</button>}>
+      {!gap ? unavailable('Gap register', failed.gap ?? 'Not read.') : <>
       <Facts items={[{ term: 'Regulatory package', value: gap.package ? `${gap.package.version} (${gap.package.distribution === 'TEST_FIXTURE' ? 'test fixture' : 'production'})` : 'None in force' },
         { term: 'DPDP framework imported', value: gap.framework_id ? 'Yes' : 'No — import it in Frameworks & controls to see evidence standing' },
         { term: 'Totals', value: Object.entries(gap.totals).filter(([, n]) => n > 0).map(([s, n]) => `${s.replaceAll('_', ' ').toLowerCase()}: ${n}`).join(' · ') || 'No requirements' }]} />
@@ -66,9 +76,11 @@ export function DpdpaAudit({ capabilities }: { capabilities: readonly string[] }
         { key: 'c', header: 'Controls', cell: r => r.controls.length ? r.controls.map(c => <span key={c.control_id} className="cell-sub">{c.title}: {c.standing.replaceAll('_', ' ').toLowerCase()} ({c.files} file{c.files === 1 ? '' : 's'})</span>) : '—' },
         { key: 'i', header: 'ORVIA indicators', cell: r => r.indicators.length ? r.indicators.map(i => <span key={i.key} className="cell-sub" title={i.basis}>{i.label}: {i.value ?? '—'}</span>) : '—' },
         { key: 'g', header: 'Gap status', cell: r => <Badge label={r.gap_status.replaceAll('_', ' ').toLowerCase()} tone={TONE[r.gap_status] ?? 'neutral'} /> }]} />
+      </>}
     </Section>
     <Section title="Evidence files">
       <p className="muted">PDF, PNG, JPEG, TXT, CSV, DOCX or XLSX up to 20 MB; the type is checked from the file&apos;s content and its SHA-256 is computed here. Mark whether it contains personal data; a different person confirms. Unconfirmed or &ldquo;unknown&rdquo; files cannot be shared.</p>
+      {failed.files && unavailable('Evidence files', failed.files)}
       <DataTable caption="Evidence files" rowKey={f => f.id} rows={files} columns={[{ key: 'n', header: 'File', cell: f => <span className="cell-primary">{f.file_name}<span className="cell-sub">{f.media_type} · {f.size_bytes} bytes · <code>{f.sha256.slice(0, 12)}…</code></span></span> },
         { key: 'p', header: 'Personal data', cell: f => `${f.contains_personal_data.toLowerCase()}${f.personal_data_confirmed ? ` (confirmed ${f.personal_data_confirmed.toLowerCase()})` : ' (unconfirmed)'}` },
         { key: 's', header: 'Sharing', cell: f => <Badge label={f.shareable.replaceAll('_', ' ').toLowerCase()} tone={f.shareable === 'SHAREABLE' ? 'ok' : 'warn'} /> },
@@ -87,6 +99,7 @@ export function DpdpaAudit({ capabilities }: { capabilities: readonly string[] }
         : <NoticeBox tone="info" title="No DPDP controls yet"><p>Import the DPDP framework and map a control to a requirement in <a href="/workspace/grc">Frameworks &amp; controls</a> to attach evidence files.</p></NoticeBox>)}
     </Section>
     <Section title="External audit engagements">
+      {failed.engagements && unavailable('Engagements', failed.engagements)}
       <DataTable caption="Engagements" rowKey={e => e.id} rows={engagements} columns={[{ key: 'r', header: 'Reference', cell: e => e.engagement_reference }, { key: 'f', header: 'Audit firm', cell: e => e.firm_name },
         { key: 'p', header: 'Period', cell: e => `${e.period_from} → ${e.period_to}` }, { key: 'a', header: 'Processing agreement', cell: e => e.processing_agreement.status.replaceAll('_', ' ').toLowerCase() },
         { key: 'o', header: '', cell: e => <button type="button" onClick={() => setOpenId(e.id)}>Open</button> }]} />

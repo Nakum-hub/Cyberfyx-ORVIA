@@ -5,6 +5,7 @@ import { AccessError } from '../../../authorization/src/index.ts';
 import { adapterFor } from '../../../../connectors/src/shared/connector-adapters.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { emit, iso, packageById, pageOf, predicate, recordEvidence, refuse, requirePackage, scope } from './shared.ts';
+import { THIRD_SCHEDULE, latestIntimation } from '../registry/retention.ts';
 
 /**
  * Workflow runs (architecture s9-s10, integrations s3-s6, s13-s14).
@@ -198,7 +199,7 @@ export async function createRetentionRun(c: Context, input: unknown) {
   return runView(c, runId);
 }
 
-type RuleRow = { id: string; activity_id: string | null; principal_category_id: string; data_category_id: string | null; system_id: string | null; trigger: string; duration_days: number | null; erasure_action: string };
+type RuleRow = { id: string; activity_id: string | null; principal_category_id: string; data_category_id: string | null; system_id: string | null; trigger: string; duration_days: number | null; erasure_action: string; requirement_id?: string | null };
 /** One subject's retention position under one rule, from recorded facts only. */
 export async function evaluateSubject(c: Context, rule: RuleRow, subjectId: string, conditionUnresolved: boolean, activitySystems: string[], purposeRetiredAt: Date | null, now: Date) {
   const s = scope(c);
@@ -228,6 +229,14 @@ export async function evaluateSubject(c: Context, rule: RuleRow, subjectId: stri
   const triggeredAt = result.trigger_at as Date;
   result.eligible_at = new Date(triggeredAt.getTime() + rule.duration_days * 86_400_000);
   if (result.eligible_at > now) { result.state = 'NOT_YET_ELIGIBLE'; return result; }
+  if (rule.requirement_id === THIRD_SCHEDULE) {
+    // Rule 8(2): erase only after the person was told at least 48 hours earlier, and not if she re-engaged since.
+    const told = await latestIntimation(c, subjectId, rule.id);
+    if (!told || told.intimated_at > now) { result.reason = 'Rule 8(2): no intimation to the Data Principal is recorded; erasure waits until one is recorded at least 48 hours before.'; return result; }
+    if (told.re_engaged_at) { result.state = 'PURPOSE_ACTIVE'; result.purpose = 'KNOWN_TRUE'; return result; }
+    const erasable = new Date(told.intimated_at.getTime() + 48 * 3_600_000);
+    if (erasable > now) { result.state = 'NOT_YET_ELIGIBLE'; result.eligible_at = erasable; return result; }
+  }
   const systems = rule.system_id ? [rule.system_id] : activitySystems.length ? activitySystems
     : (await c.tx.query(`SELECT DISTINCT system_id FROM app.data_principal_references WHERE ${predicate} AND subject_id=$4`, [...s, subjectId])).rows.map(r => r.system_id);
   result.systems = systems;

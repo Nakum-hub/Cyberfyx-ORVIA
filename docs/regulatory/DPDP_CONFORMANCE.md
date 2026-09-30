@@ -24,8 +24,8 @@ The laws in scope:
 | Date | What commences |
 |---|---|
 | 13 Nov 2025 | Board provisions (s.18 onwards, G.S.R. 844(E)) |
-| 13 Nov 2026 | Consent Manager provisions: s.6(7)–(9), Rule 4, First Schedule |
-| 13 May 2027 | All remaining substantive obligations |
+| 13 Nov 2026 | s.6(9) (registration of Consent Managers) and s.27(1)(d); Rule 4 and the First Schedule |
+| 13 May 2027 | All remaining substantive obligations, including s.6(1)–(8) and (10): the Data Fiduciary's duty to act on consent through a Consent Manager |
 
 ORVIA stores a commencement date per provision and never treats a provision as in force before it (Regulatory Core).
 
@@ -41,7 +41,7 @@ Legend: **Built**: implemented and exercised by the named suites on the syntheti
 | Valid consent; withdrawal as easy as giving | s.6(1), s.6(4) | Affirmative, purpose-specific grant; one-click withdrawal in the privacy portal | Built | consent, portal suites |
 | Stop processing on withdrawal, including by processors | s.6(6) | Durable withdrawal propagation, signed agent commands, independent read-back; preference decisions refuse contact once withdrawn | Partial | consent-withdrawal, workflows, preferences. **Limit:** synthetic connectors only; no real downstream system yet |
 | Burden of proving notice and consent | s.6(10) | Immutable consent receipts bound to the notice version and digest; evidence export | Built (requirement not in the package) | consent suite |
-| **Consent Managers** (accept consent given or withdrawn through a registered Consent Manager) | s.6(7)–(9), R4, First Schedule | Not supported | **Gap**, in force 13 Nov 2026 | none |
+| Consent Managers (accept consent given or withdrawn through a registered Consent Manager) | s.6(7)–(9), R4, First Schedule | Register of Board-registered Consent Managers with evidence and status; consent records linked to a Consent Manager artefact; relayed withdrawals always honoured through the normal pipeline (contract 0.47.0, migration 0072). No Consent Manager is registered with the Board yet, so no live Consent Manager interface has been exercised. | Built (in force for Data Fiduciaries 13 May 2027) | consent-manager 12/12 |
 | Processors only under contract | s.8(2) | Processor engagements, agreements lifecycle, restrictions, reassessment | Built | processors, third-party |
 | Accuracy where used for a decision or disclosed | s.8(3) | Correction workflow with verification | Built | correction suite |
 | Reasonable security safeguards | s.8(5), R6 | Security-safeguard register, access control, MFA, row-level security, audit trail | Partial | safeguards screens, auth 88/88. **Limit:** a register of the customer's own safeguards; ORVIA cannot secure the customer's other systems |
@@ -49,7 +49,7 @@ Legend: **Built**: implemented and exercised by the named suites on the syntheti
 | Breach: intimate the Board without delay; detailed report within **72 hours** | R7(2)(a),(b) | BOARD_INTIMATION timer and a 72-hour BOARD_DETAILED_REPORT timer; extensions recorded | Built | breach suite. ORVIA records the report; it does not submit to the Board's portal |
 | Erase when consent is withdrawn or the purpose is served; cause processors to erase | s.8(7) | Retention evaluation, holds, approved erasure runs, verified outcomes | Partial | retention-scale. **Limit:** synthetic targets |
 | Third Schedule: deemed end of purpose (3 years of inactivity for e-commerce 2 crore+, online gaming 50 lakh+ and social media 2 crore+ users) | s.8(8), R8(1) | Applicability by organisation class; retention rule cites the Schedule period | Built | applicability |
-| **48-hour advance intimation before erasure** under R8(1) | R8(2) | Not implemented | **Gap** | none |
+| 48-hour advance intimation before erasure under R8(1) | R8(2) | Intimations recorded with evidence; Third Schedule erasure is blocked until one was recorded 48 hours earlier, and cancelled on re-engagement (contract 0.47.0, migration 0071) | Built | erasure-intimation 15/15 |
 | Keep logs at least one year | R8(3) | Log-retention minimum requirement enforced through holds | Built | retention-scale |
 | Publish contact for questions / DPO | s.8(9), R9 | Organisation profile; contact on notices and the portal | Built | notices, portal |
 | Grievance redressal within the published period, **≤ 90 days** | s.8(10), s.13, R14 | Grievance cases with a 2,160-hour timer from receipt | Built | rights suite |
@@ -91,7 +91,7 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 - Auditor requests inside the mandate are answered automatically. Requests for documents go to a client approver.
 - Unanswered requests past their due date become limitations in the signed report.
 - No live access exists in either direction, and anything carrying personal data still needs the per-item exception and a processing agreement.
-- Automatic indicators cover 30 of the 33 requirements (`backend/domain/src/dpdpa-audit/indicators.ts`). DPDP-CONSENT-MANAGER, DPDP-ERASURE-ADVANCE-NOTICE and DPDP-BOARD-COMPLAINT-CHANNEL are tested by auditor procedure only, because ORVIA holds no record that could show them.
+- Automatic indicators cover 32 of the 33 requirements (`backend/domain/src/dpdpa-audit/indicators.ts`). DPDP-BOARD-COMPLAINT-CHANNEL is tested by auditor procedure only (the notice text is inspected).
 - How Cyberfyx audits, and the client documents it uses, are in `docs/audit-practice/` (methodology v1.0 and eight templates).
 - Owner decision 2026-09-30: no external legal review. Real engagements instead need Cyberfyx management to approve the engagement letter and processing agreement templates. This is recorded as the `ENGAGEMENT_LETTER_TEMPLATE_APPROVED` and `PROCESSING_AGREEMENT_TEMPLATE_APPROVED` gates (vendor migration 0014), plus production criteria and the production audit key.
 
@@ -101,13 +101,11 @@ The vendor also audits client organisations against the DPDP Act and Rules. ORVI
 
 ## Gaps to close (in order)
 
-1. **Consent Managers** (s.6(7)–(9), R4), from 13 Nov 2026: accept consent and withdrawal routed through a registered Consent Manager, record the Consent Manager's identity and registration, and make it interoperable. This needs the First Schedule technical details from the official Rules text.
-2. **Rule 8(2) 48-hour advance intimation** before Third Schedule erasure: notify the person, wait 48 hours, and cancel erasure if they re-engage.
-3. **Rule 12 / Fourth Schedule** child-consent exemptions, as applicability facts.
-4. **Rule 11** as its own provision for guardians of persons with disability.
-5. Add **s.6(10)** (burden of proof) as an explicit requirement, so the package reports it.
-6. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules) against the official text, then build the PRODUCTION package and have it approved by a second person and signed. On 2026-09-30 the official hosts were still refused by this environment's network policy (HTTP 403 at the egress proxy).
-7. **Real connectors** for withdrawal, erasure and correction outcomes. All automated effects are synthetic today.
+1. **Rule 12 / Fourth Schedule** child-consent exemptions, as applicability facts.
+2. **Rule 11** as its own provision for guardians of persons with disability.
+3. Add **s.6(10)** (burden of proof) as an explicit requirement, so the package reports it.
+4. **Official sources:** retrieve and hash the four Government PDFs, resolve the open verification items (commencement discrepancy, corrigendum, Schedules) against the official text, then build the PRODUCTION package and have it approved by a second person and signed. On 2026-09-30 the official hosts were still refused by this environment's network policy (HTTP 403 at the egress proxy).
+5. **Real connectors** for withdrawal, erasure and correction outcomes. All automated effects are synthetic today.
 
 ## How to supply the official PDFs
 

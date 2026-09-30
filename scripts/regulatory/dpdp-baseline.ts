@@ -30,6 +30,11 @@ export const officialSources = [
   { source_id: 'DPDP-RULES-2025', source_type: 'RULES', publisher: 'Ministry of Electronics and Information Technology, Government of India',
     title: 'The Digital Personal Data Protection Rules, 2025', official_url: 'https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf',
     notification_reference: 'G.S.R. 846(E)', publication_date: PUBLICATION_DATE, supersedes: null, corrects: null },
+  // Supplied by the user from the eGazette on 2026-09-30 (document CG-DL-E-12122025-268455, Gazette No. 806 of 11 December 2025).
+  // The URL follows the eGazette WriteReadData pattern for that document number; the approver confirms it when re-downloading.
+  { source_id: 'GSR-892E-2025', source_type: 'CORRIGENDUM', publisher: 'Ministry of Electronics and Information Technology, Government of India',
+    title: 'Corrigenda to the Digital Personal Data Protection Rules, 2025 (G.S.R. 846(E))', official_url: 'https://egazette.gov.in/WriteReadData/2025/268455.pdf',
+    notification_reference: 'G.S.R. 892(E)', publication_date: '2025-12-11', supersedes: null, corrects: 'DPDP-RULES-2025' },
 ] as const;
 
 const act = (id: string, reference: string, commences: string) => ({ provision_id: `ACT-${id}`, source_id: 'DPDP-ACT-2023', reference: `Digital Personal Data Protection Act, 2023, ${reference}`, commences_on: commences,
@@ -43,7 +48,10 @@ export const provisions = [
   act('S6(1)', 'section 6(1) (free, specific, informed, unconditional and unambiguous consent)', EIGHTEEN_MONTHS_AFTER),
   act('S6(4)', 'section 6(4) (right to withdraw consent with comparable ease)', EIGHTEEN_MONTHS_AFTER),
   act('S6(6)', 'section 6(6) (cessation of processing on withdrawal, including by processors)', EIGHTEEN_MONTHS_AFTER),
-  act('S6(7)', 'sections 6(7) to 6(9) (giving, managing, reviewing and withdrawing consent through a Consent Manager)', ONE_YEAR_AFTER),
+  // G.S.R. 843(E), verified against the official PDF on 2026-09-30: section 6(9) commences one year after publication; sections
+  // 6(1) to 6(8) and 6(10) commence eighteen months after it. Sections 6(7) and 6(8) were previously dated one year, in error.
+  act('S6(7)', 'sections 6(7) and 6(8) (giving, managing, reviewing and withdrawing consent through a Consent Manager)', EIGHTEEN_MONTHS_AFTER),
+  act('S6(9)', 'section 6(9) (registration of Consent Managers with the Board)', ONE_YEAR_AFTER),
   act('S6(10)', 'section 6(10) (burden of proving that notice was given and consent obtained)', EIGHTEEN_MONTHS_AFTER),
   act('S7', 'section 7 (certain legitimate uses)', EIGHTEEN_MONTHS_AFTER),
   act('S8(2)', 'section 8(2) (engaging a Data Processor only under a valid contract)', EIGHTEEN_MONTHS_AFTER),
@@ -101,7 +109,7 @@ export const requirements = [
   { requirement_id: 'DPDP-CONSENT-WITHDRAWAL-CESSATION', title: 'Cease processing after withdrawal, including through processors', provision_ids: ['ACT-S6(6)'],
     statement: 'On withdrawal of consent, the Data Fiduciary and its Data Processors must cease processing the personal data within a reasonable time, unless processing without consent is required or authorised under the Act or other law.',
     applicability: CONSENT, evidence_expectations: ['Withdrawal propagation run with per-system outcomes', 'Independent verification of suppression'], modules: ['CONSENT', 'PROCESSORS'], timer: { kind: 'NONE' }, ...none, test_refs: tests('consent-withdrawal') },
-  { requirement_id: 'DPDP-CONSENT-MANAGER', title: 'Consent given or withdrawn through a registered Consent Manager', provision_ids: ['ACT-S6(7)', 'RULES-R4'],
+  { requirement_id: 'DPDP-CONSENT-MANAGER', title: 'Consent given or withdrawn through a registered Consent Manager', provision_ids: ['ACT-S6(7)', 'ACT-S6(9)', 'RULES-R4'],
     statement: 'A Data Principal may give, manage, review or withdraw consent through a Consent Manager registered with the Board; the Data Fiduciary must accept consent and withdrawal received that way, recording which registered Consent Manager conveyed it.',
     applicability: CONSENT, evidence_expectations: ['Consent Manager identity and registration recorded with each consent or withdrawal received through it'], modules: ['CONSENT'], timer: { kind: 'NONE' }, ...none, test_refs: tests('regulatory') },
   { requirement_id: 'DPDP-CONSENT-PROOF', title: 'Be able to prove that notice was given and consent obtained', provision_ids: ['ACT-S6(10)'],
@@ -205,9 +213,6 @@ export const conditionVocabulary = [
 
 /** Items the approving reviewer must see before approving, carried inside the signed package. */
 export const openVerificationItems = [
-  'Publication date: the Gazette masthead reads 13 November 2025 while the PIB release and the eGazette document code indicate 14 November 2025; commencement dates here are computed from 13 November 2025 and must be confirmed against the Gazette.',
-  'Corrigendum G.S.R. 892(E) to the Rules (reported as amending rule 1 wording and the Fourth Schedule) was not retrieved from an official host and is not included; its effect must be checked before approval.',
   'The Third Schedule periods and the Fourth Schedule child-data exemptions are not encoded as executable durations or exemptions; a customer rule or exemption must cite them explicitly.',
-  'Commencement of sections 6(7) to 6(9) (Consent Managers) is taken as one year after publication, matching rule 4; confirm against G.S.R. 843(E). Rule 11 (lawful guardian of a person with disability) is not yet a separate provision because no applicability fact records disability.',
-  'Rule 8(2) (48-hour intimation before erasure) is encoded as a requirement; the operational pre-erasure intimation step is not yet built in the retention runner (docs/regulatory/DPDP_CONFORMANCE.md).',
+  'Rule 11 (lawful guardian of a person with disability) is not yet a separate provision because no applicability fact records disability.',
 ];

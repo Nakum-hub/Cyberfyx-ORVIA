@@ -218,7 +218,7 @@ export const ConsentEventRecord = z.strictObject({
   if (e.occurred_at === null && e.evidence_state !== 'EVIDENCE_MISSING') c.addIssue({ code: 'custom', message: 'An unknown time is recorded only as missing evidence' });
 });
 export const ConsentEvent = z.strictObject({
-  id: Id, event: ConsentEventKind, occurred_at: Time.nullable(), recorded_at: Time, actor_id: Id, source: z.enum(['OPERATOR', 'IMPORT', 'V1_PORTAL', 'SOURCE_SYSTEM']),
+  id: Id, event: ConsentEventKind, occurred_at: Time.nullable(), recorded_at: Time, actor_id: Id, source: z.enum(['OPERATOR', 'IMPORT', 'V1_PORTAL', 'SOURCE_SYSTEM', 'CONSENT_MANAGER']),
   evidence_state: z.enum(['EVIDENCE_AVAILABLE', 'EVIDENCE_MISSING', 'NEEDS_VERIFICATION']), evidence_reference: SafeText.nullable(),
   notice_version_id: Id.nullable(), package_row_id: Id.nullable(), run_id: Id.nullable(), v1_event_id: Id.nullable(),
 });
@@ -226,7 +226,17 @@ export const ConsentRecord = z.strictObject({
   id: Id, subject_id: Id, relationship_id: Id.nullable(), activity_id: Id, purpose_version_id: Id, current_status: ConsentStatus,
   notice_version_id: Id.nullable(), channel: SafeText, expiry_policy: SafeText.nullable(), v1_principal_id: Id.nullable(), v1_purpose_id: Id.nullable(),
   events: z.array(ConsentEvent).max(100), withdrawal_run_ids: z.array(Id).max(20), updated_at: Time,
+  /** 0.47.0: the Consent Manager through which the consent was given, if any. */
+  consent_manager: z.strictObject({ id: Id, name: SafeText, board_registration_number: SafeText, status: z.enum(['ACTIVE', 'SUSPENDED', 'CANCELLED']), artefact_reference: SafeText }).nullable(),
 });
+/** Consent Managers, DPDP Act s.6(7)-(9) and rule 4 (0.47.0). */
+export const ConsentManagerStatus = z.enum(['ACTIVE', 'SUSPENDED', 'CANCELLED']);
+export const ConsentManagerCreate = z.strictObject({ name: z.string().min(2).max(200), board_registration_number: z.string().min(3).max(80), registered_on: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), evidence_reference: z.string().min(3).max(500) });
+export const ConsentManagerStatusChange = z.strictObject({ status: z.enum(['SUSPENDED', 'CANCELLED']), reason: z.string().min(10).max(500) });
+export const ConsentManager = z.strictObject({ id: Id, name: SafeText, board_registration_number: SafeText, registered_on: z.string(), status: ConsentManagerStatus, status_reason: SafeText.nullable(),
+  evidence_reference: SafeText, linked_records: z.number().int().min(0), recorded_at: Time, status_changed_at: Time.nullable() });
+export const ConsentManagerLink = z.strictObject({ consent_manager_id: Id, artefact_reference: z.string().min(3).max(200) });
+export const ConsentManagerWithdrawal = z.strictObject({ consent_manager_id: Id, artefact_reference: z.string().min(3).max(200), occurred_at: Time, evidence_reference: z.string().min(3).max(500) });
 export const ConsentSync = z.strictObject({ examined_records: z.number().int().min(0), mirrored_events: z.number().int().min(0), withdrawal_runs: z.array(Id).max(100) });
 
 export const EngagementLinkInput = z.strictObject({ link_kind: z.enum(['DATA_CATEGORY', 'PRINCIPAL_CATEGORY', 'SYSTEM']), target_id: Id });
@@ -301,6 +311,20 @@ export const RetentionHold = z.strictObject({
 });
 export const RetentionHoldQuery = z.strictObject({ subject_id: Id.optional(), active: z.enum(['true', 'false']).optional() });
 
+/** Rule 8(2): the 48-hour intimation before Third Schedule erasure, recorded by staff with its evidence (0.47.0). */
+export const ErasureChannel = z.enum(['USER_ACCOUNT', 'EMAIL', 'SMS', 'POSTAL', 'OTHER']);
+export const ErasureIntimationRecord = z.strictObject({ subject_id: Id, rule_id: Id, intimated_at: Time, channel: ErasureChannel, evidence_reference: z.string().min(3).max(500) });
+export const ErasureReEngagement = z.strictObject({ re_engaged_at: Time, basis: z.enum(['LOGGED_IN', 'INITIATED_CONTACT', 'EXERCISED_RIGHTS']) });
+export const ErasureIntimation = z.strictObject({
+  id: Id, subject_id: Id, rule_id: Id, erasure_due_at: Time, intimated_at: Time, channel: ErasureChannel, evidence_reference: SafeText,
+  /** The earliest time erasure may run: the due time, or 48 hours after a late intimation. */
+  erasable_from: Time, re_engaged_at: Time.nullable(), re_engagement_basis: z.enum(['LOGGED_IN', 'INITIATED_CONTACT', 'EXERCISED_RIGHTS']).nullable(), recorded_at: Time,
+});
+export const ErasureIntimationDue = z.strictObject({
+  subject_id: Id, rule_id: Id, rule_name: SafeText, erasure_due_at: Time, intimate_by: Time, overdue: z.boolean(), intimation_id: Id.nullable(), intimated_at: Time.nullable(),
+});
+export const ErasureIntimationQuery = z.strictObject({ subject_id: Id.optional() });
+
 /** integrations/CONNECTORS_EXECUTION_AND_VERIFICATION.md s9: a machine-readable, factual declaration. */
 export const ConnectorCapabilities = z.strictObject({
   adapter_kind: z.enum(['TEST_ADAPTER', 'MANUAL']),
@@ -335,6 +359,8 @@ export const registrySchemas = {
   PrincipalCategoryList: page(PrincipalCategory), DataCategoryList: page(DataCategory), SubjectList: page(SubjectSummary),
   RepresentativeList: page(Representative), RegistryPurposeList: page(RegistryPurpose), ConditionList: page(Condition), SafeguardList: page(Safeguard),
   ActivityList: page(Activity), RegistryNoticeList: page(RegistryNotice), NoticeDeliveryList: page(NoticeDelivery), ConsentRecordList: page(ConsentRecord),
-  EngagementList: page(Engagement), SharingLinkList: page(SharingLink), RetentionRuleList: page(RetentionRule), RetentionHoldList: page(RetentionHold),
+  EngagementList: page(Engagement), SharingLinkList: page(SharingLink), RetentionRuleList: page(RetentionRule), RetentionHoldList: page(RetentionHold), ErasureIntimationList: page(ErasureIntimation), ErasureIntimationDueList: page(ErasureIntimationDue),
+  ErasureIntimationRecord, ErasureReEngagement, ErasureIntimation, ErasureIntimationDue, ErasureIntimationQuery,
+  ConsentManagerCreate, ConsentManagerStatusChange, ConsentManager, ConsentManagerLink, ConsentManagerWithdrawal, ConsentManagerList: page(ConsentManager),
   ConnectorBindingList: page(ConnectorBinding),
 };

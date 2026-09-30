@@ -1,0 +1,87 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T09:26:16.246Z",
+  "suite": "dpdpa-audit-browser",
+  "assertions": [
+    {
+      "name": "the vendor installation reports VENDOR_SERVICE and a verified kind",
+      "result": "PASS",
+      "expected": [
+        "VENDOR_SERVICE",
+        true
+      ],
+      "actual": [
+        "VENDOR_SERVICE",
+        true
+      ]
+    },
+    {
+      "name": "client workspace and staff sign-in are 404 on the vendor installation",
+      "result": "PASS",
+      "expected": [
+        404,
+        404,
+        404
+      ],
+      "actual": [
+        404,
+        404,
+        404
+      ]
+    },
+    {
+      "name": "the vendor area and vendor sign-in are 404 on a customer installation",
+      "result": "PASS",
+      "expected": [
+        404,
+        404
+      ],
+      "actual": [
+        404,
+        404
+      ]
+    },
+    {
+      "name": "the website link and the in-app sign-in share one session",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the engagement code is shown once in the browser",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the client gap register lists DPDP requirements with gap statuses",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a second person confirms the personal-data flag in the browser",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the preparer sees the approve control but approval is refused for them",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "unexpected failure in client engagement and package",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('table', { name: 'Engagements' }).getByRole('row').filter({ hasText: 'ENG-8ede00c7' }).getByRole('button', { name: 'Open' })\u001b[22m\n"
+    }
+  ],
+  "passed": 8,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

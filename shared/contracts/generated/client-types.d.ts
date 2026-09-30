@@ -3247,6 +3247,118 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/consent-managers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_consent_managers"];
+        put?: never;
+        post: operations["create_consent_manager"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/consent-managers/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["change_consent_manager_status"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/consent-records/{id}/consent-manager": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["link_consent_manager"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/consent-records/{id}/consent-manager-withdrawal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["record_consent_manager_withdrawal"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/erasure-intimations/due": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_erasure_intimations_due"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/erasure-intimations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_erasure_intimations"];
+        put?: never;
+        post: operations["record_erasure_intimation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/erasure-intimations/{id}/re-engagement": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["record_erasure_re_engagement"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/connector-bindings": {
         parameters: {
             query?: never;
@@ -8109,7 +8221,7 @@ export interface components {
                 /** Format: uuid */
                 actor_id: string;
                 /** @enum {string} */
-                source: "OPERATOR" | "IMPORT" | "V1_PORTAL" | "SOURCE_SYSTEM";
+                source: "OPERATOR" | "IMPORT" | "V1_PORTAL" | "SOURCE_SYSTEM" | "CONSENT_MANAGER";
                 /** @enum {string} */
                 evidence_state: "EVIDENCE_AVAILABLE" | "EVIDENCE_MISSING" | "NEEDS_VERIFICATION";
                 evidence_reference: string | null;
@@ -8121,6 +8233,15 @@ export interface components {
             withdrawal_run_ids: string[];
             /** Format: date-time */
             updated_at: string;
+            consent_manager: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                board_registration_number: string;
+                /** @enum {string} */
+                status: "ACTIVE" | "SUSPENDED" | "CANCELLED";
+                artefact_reference: string;
+            } | null;
         };
         ConsentSync: {
             examined_records: number;
@@ -8675,7 +8796,7 @@ export interface components {
                     /** Format: uuid */
                     actor_id: string;
                     /** @enum {string} */
-                    source: "OPERATOR" | "IMPORT" | "V1_PORTAL" | "SOURCE_SYSTEM";
+                    source: "OPERATOR" | "IMPORT" | "V1_PORTAL" | "SOURCE_SYSTEM" | "CONSENT_MANAGER";
                     /** @enum {string} */
                     evidence_state: "EVIDENCE_AVAILABLE" | "EVIDENCE_MISSING" | "NEEDS_VERIFICATION";
                     evidence_reference: string | null;
@@ -8687,6 +8808,15 @@ export interface components {
                 withdrawal_run_ids: string[];
                 /** Format: date-time */
                 updated_at: string;
+                consent_manager: {
+                    /** Format: uuid */
+                    id: string;
+                    name: string;
+                    board_registration_number: string;
+                    /** @enum {string} */
+                    status: "ACTIVE" | "SUSPENDED" | "CANCELLED";
+                    artefact_reference: string;
+                } | null;
             }[];
             next_cursor: string | null;
         };
@@ -8806,6 +8936,160 @@ export interface components {
                 review_overdue: boolean;
                 /** Format: date-time */
                 recorded_at: string;
+            }[];
+            next_cursor: string | null;
+        };
+        ErasureIntimationList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                subject_id: string;
+                /** Format: uuid */
+                rule_id: string;
+                /** Format: date-time */
+                erasure_due_at: string;
+                /** Format: date-time */
+                intimated_at: string;
+                /** @enum {string} */
+                channel: "USER_ACCOUNT" | "EMAIL" | "SMS" | "POSTAL" | "OTHER";
+                evidence_reference: string;
+                /** Format: date-time */
+                erasable_from: string;
+                re_engaged_at: string | null;
+                re_engagement_basis: ("LOGGED_IN" | "INITIATED_CONTACT" | "EXERCISED_RIGHTS") | null;
+                /** Format: date-time */
+                recorded_at: string;
+            }[];
+            next_cursor: string | null;
+        };
+        ErasureIntimationDueList: {
+            items: {
+                /** Format: uuid */
+                subject_id: string;
+                /** Format: uuid */
+                rule_id: string;
+                rule_name: string;
+                /** Format: date-time */
+                erasure_due_at: string;
+                /** Format: date-time */
+                intimate_by: string;
+                overdue: boolean;
+                intimation_id: string | null;
+                intimated_at: string | null;
+            }[];
+            next_cursor: string | null;
+        };
+        ErasureIntimationRecord: {
+            /** Format: uuid */
+            subject_id: string;
+            /** Format: uuid */
+            rule_id: string;
+            /** Format: date-time */
+            intimated_at: string;
+            /** @enum {string} */
+            channel: "USER_ACCOUNT" | "EMAIL" | "SMS" | "POSTAL" | "OTHER";
+            evidence_reference: string;
+        };
+        ErasureReEngagement: {
+            /** Format: date-time */
+            re_engaged_at: string;
+            /** @enum {string} */
+            basis: "LOGGED_IN" | "INITIATED_CONTACT" | "EXERCISED_RIGHTS";
+        };
+        ErasureIntimation: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            subject_id: string;
+            /** Format: uuid */
+            rule_id: string;
+            /** Format: date-time */
+            erasure_due_at: string;
+            /** Format: date-time */
+            intimated_at: string;
+            /** @enum {string} */
+            channel: "USER_ACCOUNT" | "EMAIL" | "SMS" | "POSTAL" | "OTHER";
+            evidence_reference: string;
+            /** Format: date-time */
+            erasable_from: string;
+            re_engaged_at: string | null;
+            re_engagement_basis: ("LOGGED_IN" | "INITIATED_CONTACT" | "EXERCISED_RIGHTS") | null;
+            /** Format: date-time */
+            recorded_at: string;
+        };
+        ErasureIntimationDue: {
+            /** Format: uuid */
+            subject_id: string;
+            /** Format: uuid */
+            rule_id: string;
+            rule_name: string;
+            /** Format: date-time */
+            erasure_due_at: string;
+            /** Format: date-time */
+            intimate_by: string;
+            overdue: boolean;
+            intimation_id: string | null;
+            intimated_at: string | null;
+        };
+        ErasureIntimationQuery: {
+            /** Format: uuid */
+            subject_id?: string;
+        };
+        ConsentManagerCreate: {
+            name: string;
+            board_registration_number: string;
+            registered_on: string;
+            evidence_reference: string;
+        };
+        ConsentManagerStatusChange: {
+            /** @enum {string} */
+            status: "SUSPENDED" | "CANCELLED";
+            reason: string;
+        };
+        ConsentManager: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            board_registration_number: string;
+            registered_on: string;
+            /** @enum {string} */
+            status: "ACTIVE" | "SUSPENDED" | "CANCELLED";
+            status_reason: string | null;
+            evidence_reference: string;
+            linked_records: number;
+            /** Format: date-time */
+            recorded_at: string;
+            status_changed_at: string | null;
+        };
+        ConsentManagerLink: {
+            /** Format: uuid */
+            consent_manager_id: string;
+            artefact_reference: string;
+        };
+        ConsentManagerWithdrawal: {
+            /** Format: uuid */
+            consent_manager_id: string;
+            artefact_reference: string;
+            /** Format: date-time */
+            occurred_at: string;
+            evidence_reference: string;
+        };
+        ConsentManagerList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                board_registration_number: string;
+                registered_on: string;
+                /** @enum {string} */
+                status: "ACTIVE" | "SUSPENDED" | "CANCELLED";
+                status_reason: string | null;
+                evidence_reference: string;
+                linked_records: number;
+                /** Format: date-time */
+                recorded_at: string;
+                status_changed_at: string | null;
             }[];
             next_cursor: string | null;
         };
@@ -64526,7 +64810,8 @@ export interface operations {
                      *       "v1_purpose_id": null,
                      *       "events": [],
                      *       "withdrawal_run_ids": [],
-                     *       "updated_at": "2026-09-16T10:00:00.000Z"
+                     *       "updated_at": "2026-09-16T10:00:00.000Z",
+                     *       "consent_manager": null
                      *     }
                      */
                     "application/json": components["schemas"]["ConsentRecord"];
@@ -64699,7 +64984,8 @@ export interface operations {
                      *       "v1_purpose_id": null,
                      *       "events": [],
                      *       "withdrawal_run_ids": [],
-                     *       "updated_at": "2026-09-16T10:00:00.000Z"
+                     *       "updated_at": "2026-09-16T10:00:00.000Z",
+                     *       "consent_manager": null
                      *     }
                      */
                     "application/json": components["schemas"]["ConsentRecord"];
@@ -64887,7 +65173,8 @@ export interface operations {
                      *       "v1_purpose_id": null,
                      *       "events": [],
                      *       "withdrawal_run_ids": [],
-                     *       "updated_at": "2026-09-16T10:00:00.000Z"
+                     *       "updated_at": "2026-09-16T10:00:00.000Z",
+                     *       "consent_manager": null
                      *     }
                      */
                     "application/json": components["schemas"]["ConsentRecord"];
@@ -67382,6 +67669,1594 @@ export interface operations {
             };
         };
     };
+    list_consent_managers: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ConsentManagerList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_consent_manager: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "name": "Synthetic Consent Manager",
+                 *       "board_registration_number": "DPB-CM-SYN-001",
+                 *       "registered_on": "2026-11-20",
+                 *       "evidence_reference": "Board registration certificate (synthetic)"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ConsentManagerCreate"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000001fa",
+                     *       "name": "Synthetic example",
+                     *       "board_registration_number": "Synthetic example",
+                     *       "registered_on": "Synthetic example",
+                     *       "status": "ACTIVE",
+                     *       "status_reason": null,
+                     *       "evidence_reference": "Synthetic example",
+                     *       "linked_records": 0,
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "status_changed_at": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ConsentManager"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    change_consent_manager_status: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "status": "SUSPENDED",
+                 *       "reason": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ConsentManagerStatusChange"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000001fb",
+                     *       "name": "Synthetic example",
+                     *       "board_registration_number": "Synthetic example",
+                     *       "registered_on": "Synthetic example",
+                     *       "status": "ACTIVE",
+                     *       "status_reason": null,
+                     *       "evidence_reference": "Synthetic example",
+                     *       "linked_records": 0,
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z",
+                     *       "status_changed_at": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ConsentManager"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    link_consent_manager: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "consent_manager_id": "00000000-0000-4000-8000-0000000001fc",
+                 *       "artefact_reference": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ConsentManagerLink"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-0000000001fd",
+                     *       "subject_id": "00000000-0000-4000-8000-0000000001fe",
+                     *       "relationship_id": null,
+                     *       "activity_id": "00000000-0000-4000-8000-0000000001ff",
+                     *       "purpose_version_id": "00000000-0000-4000-8000-000000000200",
+                     *       "current_status": "UNKNOWN",
+                     *       "notice_version_id": null,
+                     *       "channel": "Synthetic example",
+                     *       "expiry_policy": null,
+                     *       "v1_principal_id": null,
+                     *       "v1_purpose_id": null,
+                     *       "events": [],
+                     *       "withdrawal_run_ids": [],
+                     *       "updated_at": "2026-09-16T10:00:00.000Z",
+                     *       "consent_manager": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ConsentRecord"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    record_consent_manager_withdrawal: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "consent_manager_id": "00000000-0000-4000-8000-000000000201",
+                 *       "artefact_reference": "Synthetic example",
+                 *       "occurred_at": "2026-09-16T10:00:00.000Z",
+                 *       "evidence_reference": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ConsentManagerWithdrawal"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000202",
+                     *       "subject_id": "00000000-0000-4000-8000-000000000203",
+                     *       "relationship_id": null,
+                     *       "activity_id": "00000000-0000-4000-8000-000000000204",
+                     *       "purpose_version_id": "00000000-0000-4000-8000-000000000205",
+                     *       "current_status": "UNKNOWN",
+                     *       "notice_version_id": null,
+                     *       "channel": "Synthetic example",
+                     *       "expiry_policy": null,
+                     *       "v1_principal_id": null,
+                     *       "v1_purpose_id": null,
+                     *       "events": [],
+                     *       "withdrawal_run_ids": [],
+                     *       "updated_at": "2026-09-16T10:00:00.000Z",
+                     *       "consent_manager": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ConsentRecord"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_erasure_intimations_due: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErasureIntimationDueList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_erasure_intimations: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                subject_id?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "items": [],
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErasureIntimationList"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    record_erasure_intimation: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "subject_id": "00000000-0000-4000-8000-000000000206",
+                 *       "rule_id": "00000000-0000-4000-8000-000000000207",
+                 *       "intimated_at": "2026-09-16T10:00:00.000Z",
+                 *       "channel": "USER_ACCOUNT",
+                 *       "evidence_reference": "Synthetic example"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ErasureIntimationRecord"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-000000000208",
+                     *       "subject_id": "00000000-0000-4000-8000-000000000209",
+                     *       "rule_id": "00000000-0000-4000-8000-00000000020a",
+                     *       "erasure_due_at": "2026-09-16T10:00:00.000Z",
+                     *       "intimated_at": "2026-09-16T10:00:00.000Z",
+                     *       "channel": "USER_ACCOUNT",
+                     *       "evidence_reference": "Synthetic example",
+                     *       "erasable_from": "2026-09-16T10:00:00.000Z",
+                     *       "re_engaged_at": null,
+                     *       "re_engagement_basis": null,
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErasureIntimation"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    record_erasure_re_engagement: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "re_engaged_at": "2026-09-16T10:00:00.000Z",
+                 *       "basis": "LOGGED_IN"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ErasureReEngagement"];
+            };
+        };
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "id": "00000000-0000-4000-8000-00000000020b",
+                     *       "subject_id": "00000000-0000-4000-8000-00000000020c",
+                     *       "rule_id": "00000000-0000-4000-8000-00000000020d",
+                     *       "erasure_due_at": "2026-09-16T10:00:00.000Z",
+                     *       "intimated_at": "2026-09-16T10:00:00.000Z",
+                     *       "channel": "USER_ACCOUNT",
+                     *       "evidence_reference": "Synthetic example",
+                     *       "erasable_from": "2026-09-16T10:00:00.000Z",
+                     *       "re_engaged_at": null,
+                     *       "re_engagement_basis": null,
+                     *       "recorded_at": "2026-09-16T10:00:00.000Z"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErasureIntimation"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     list_connector_bindings: {
         parameters: {
             query?: {
@@ -67557,7 +69432,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "system_id": "00000000-0000-4000-8000-0000000001fa",
+                 *       "system_id": "00000000-0000-4000-8000-00000000020e",
                  *       "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
                  *       "system_of_record_for": [],
                  *       "holds_data_categories": []
@@ -67575,8 +69450,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000001fb",
-                     *       "system_id": "00000000-0000-4000-8000-0000000001fc",
+                     *       "id": "00000000-0000-4000-8000-00000000020f",
+                     *       "system_id": "00000000-0000-4000-8000-000000000210",
                      *       "adapter": "SYNTHETIC_RECORDS_TEST_ADAPTER",
                      *       "capabilities": {
                      *         "adapter_kind": "TEST_ADAPTER",
@@ -67924,12 +69799,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-0000000001fd",
+                     *       "id": "00000000-0000-4000-8000-000000000211",
                      *       "kind": "CONSENT_WITHDRAWAL",
                      *       "status": "EVALUATING",
                      *       "workflow_version": "1.0.0",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-0000000001fe",
+                     *         "id": "00000000-0000-4000-8000-000000000212",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -67960,7 +69835,7 @@ export interface operations {
                      *       "preview": null,
                      *       "block_reason": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-0000000001ff",
+                     *       "created_by": "00000000-0000-4000-8000-000000000213",
                      *       "started_at": null,
                      *       "ended_at": null,
                      *       "open_exceptions": []
@@ -68282,8 +70157,8 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "rights_request_id": "00000000-0000-4000-8000-000000000200",
-                 *       "subject_id": "00000000-0000-4000-8000-000000000201",
+                 *       "rights_request_id": "00000000-0000-4000-8000-000000000214",
+                 *       "subject_id": "00000000-0000-4000-8000-000000000215",
                  *       "corrections": []
                  *     }
                  */
@@ -68299,12 +70174,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000202",
+                     *       "id": "00000000-0000-4000-8000-000000000216",
                      *       "kind": "CONSENT_WITHDRAWAL",
                      *       "status": "EVALUATING",
                      *       "workflow_version": "1.0.0",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000203",
+                     *         "id": "00000000-0000-4000-8000-000000000217",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -68335,7 +70210,7 @@ export interface operations {
                      *       "preview": null,
                      *       "block_reason": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-000000000204",
+                     *       "created_by": "00000000-0000-4000-8000-000000000218",
                      *       "started_at": null,
                      *       "ended_at": null,
                      *       "open_exceptions": []
@@ -68492,7 +70367,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "retention_rule_id": "00000000-0000-4000-8000-000000000205"
+                 *       "retention_rule_id": "00000000-0000-4000-8000-000000000219"
                  *     }
                  */
                 "application/json": components["schemas"]["RetentionRunCreate"];
@@ -68507,12 +70382,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000206",
+                     *       "id": "00000000-0000-4000-8000-00000000021a",
                      *       "kind": "CONSENT_WITHDRAWAL",
                      *       "status": "EVALUATING",
                      *       "workflow_version": "1.0.0",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000207",
+                     *         "id": "00000000-0000-4000-8000-00000000021b",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -68543,7 +70418,7 @@ export interface operations {
                      *       "preview": null,
                      *       "block_reason": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-000000000208",
+                     *       "created_by": "00000000-0000-4000-8000-00000000021c",
                      *       "started_at": null,
                      *       "ended_at": null,
                      *       "open_exceptions": []
@@ -68717,12 +70592,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000209",
+                     *       "id": "00000000-0000-4000-8000-00000000021d",
                      *       "kind": "CONSENT_WITHDRAWAL",
                      *       "status": "EVALUATING",
                      *       "workflow_version": "1.0.0",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-00000000020a",
+                     *         "id": "00000000-0000-4000-8000-00000000021e",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -68753,7 +70628,7 @@ export interface operations {
                      *       "preview": null,
                      *       "block_reason": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-00000000020b",
+                     *       "created_by": "00000000-0000-4000-8000-00000000021f",
                      *       "started_at": null,
                      *       "ended_at": null,
                      *       "open_exceptions": []
@@ -68929,12 +70804,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000020c",
+                     *       "id": "00000000-0000-4000-8000-000000000220",
                      *       "kind": "CONSENT_WITHDRAWAL",
                      *       "status": "EVALUATING",
                      *       "workflow_version": "1.0.0",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-00000000020d",
+                     *         "id": "00000000-0000-4000-8000-000000000221",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -68965,7 +70840,7 @@ export interface operations {
                      *       "preview": null,
                      *       "block_reason": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-00000000020e",
+                     *       "created_by": "00000000-0000-4000-8000-000000000222",
                      *       "started_at": null,
                      *       "ended_at": null,
                      *       "open_exceptions": []
@@ -69139,12 +71014,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000020f",
+                     *       "id": "00000000-0000-4000-8000-000000000223",
                      *       "kind": "CONSENT_WITHDRAWAL",
                      *       "status": "EVALUATING",
                      *       "workflow_version": "1.0.0",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000210",
+                     *         "id": "00000000-0000-4000-8000-000000000224",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -69175,7 +71050,7 @@ export interface operations {
                      *       "preview": null,
                      *       "block_reason": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-000000000211",
+                     *       "created_by": "00000000-0000-4000-8000-000000000225",
                      *       "started_at": null,
                      *       "ended_at": null,
                      *       "open_exceptions": []
@@ -69349,12 +71224,12 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000212",
+                     *       "id": "00000000-0000-4000-8000-000000000226",
                      *       "kind": "CONSENT_WITHDRAWAL",
                      *       "status": "EVALUATING",
                      *       "workflow_version": "1.0.0",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000213",
+                     *         "id": "00000000-0000-4000-8000-000000000227",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -69385,7 +71260,7 @@ export interface operations {
                      *       "preview": null,
                      *       "block_reason": null,
                      *       "created_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-000000000214",
+                     *       "created_by": "00000000-0000-4000-8000-000000000228",
                      *       "started_at": null,
                      *       "ended_at": null,
                      *       "open_exceptions": []
@@ -69551,12 +71426,12 @@ export interface operations {
                      *       "package_kind": "ORVIA_WORKFLOW_EVIDENCE_PACKAGE",
                      *       "generated_at": "2026-09-16T10:00:00.000Z",
                      *       "run": {
-                     *         "id": "00000000-0000-4000-8000-000000000215",
+                     *         "id": "00000000-0000-4000-8000-000000000229",
                      *         "kind": "CONSENT_WITHDRAWAL",
                      *         "status": "EVALUATING",
                      *         "workflow_version": "1.0.0",
                      *         "package": {
-                     *           "id": "00000000-0000-4000-8000-000000000216",
+                     *           "id": "00000000-0000-4000-8000-00000000022a",
                      *           "version": "1.0.0",
                      *           "distribution": "PRODUCTION"
                      *         },
@@ -69587,13 +71462,13 @@ export interface operations {
                      *         "preview": null,
                      *         "block_reason": null,
                      *         "created_at": "2026-09-16T10:00:00.000Z",
-                     *         "created_by": "00000000-0000-4000-8000-000000000217",
+                     *         "created_by": "00000000-0000-4000-8000-00000000022b",
                      *         "started_at": null,
                      *         "ended_at": null,
                      *         "open_exceptions": []
                      *       },
                      *       "regulatory_package": {
-                     *         "id": "00000000-0000-4000-8000-000000000218",
+                     *         "id": "00000000-0000-4000-8000-00000000022c",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION",
                      *         "package_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -70267,7 +72142,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000219",
+                     *       "id": "00000000-0000-4000-8000-00000000022d",
                      *       "kind": "ESTATE_IMPORT",
                      *       "source_label": "Synthetic example",
                      *       "mapping_version": "Synthetic example",
@@ -70442,7 +72317,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000021a",
+                     *       "id": "00000000-0000-4000-8000-00000000022e",
                      *       "kind": "ESTATE_IMPORT",
                      *       "source_label": "Synthetic example",
                      *       "mapping_version": "Synthetic example",
@@ -70643,7 +72518,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000021b",
+                     *       "id": "00000000-0000-4000-8000-00000000022f",
                      *       "kind": "ESTATE_IMPORT",
                      *       "source_label": "Synthetic example",
                      *       "mapping_version": "Synthetic example",
@@ -70829,7 +72704,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000021c",
+                     *       "id": "00000000-0000-4000-8000-000000000230",
                      *       "kind": "ESTATE_IMPORT",
                      *       "source_label": "Synthetic example",
                      *       "mapping_version": "Synthetic example",
@@ -71006,7 +72881,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000021d",
+                     *       "id": "00000000-0000-4000-8000-000000000231",
                      *       "kind": "ESTATE_IMPORT",
                      *       "source_label": "Synthetic example",
                      *       "mapping_version": "Synthetic example",
@@ -71337,7 +73212,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "incident_id": "00000000-0000-4000-8000-00000000021e",
+                 *       "incident_id": "00000000-0000-4000-8000-000000000232",
                  *       "affected_count": null,
                  *       "affected_count_state": "UNKNOWN",
                  *       "data_category_ids": [],
@@ -71366,9 +73241,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "incident_id": "00000000-0000-4000-8000-00000000021f",
+                     *       "incident_id": "00000000-0000-4000-8000-000000000233",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000220",
+                     *         "id": "00000000-0000-4000-8000-000000000234",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -71551,9 +73426,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "incident_id": "00000000-0000-4000-8000-000000000221",
+                     *       "incident_id": "00000000-0000-4000-8000-000000000235",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000222",
+                     *         "id": "00000000-0000-4000-8000-000000000236",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -71756,9 +73631,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "incident_id": "00000000-0000-4000-8000-000000000223",
+                     *       "incident_id": "00000000-0000-4000-8000-000000000237",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000224",
+                     *         "id": "00000000-0000-4000-8000-000000000238",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -71953,9 +73828,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "incident_id": "00000000-0000-4000-8000-000000000225",
+                     *       "incident_id": "00000000-0000-4000-8000-000000000239",
                      *       "package": {
-                     *         "id": "00000000-0000-4000-8000-000000000226",
+                     *         "id": "00000000-0000-4000-8000-00000000023a",
                      *         "version": "1.0.0",
                      *         "distribution": "PRODUCTION"
                      *       },
@@ -72300,7 +74175,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "rights_request_id": "00000000-0000-4000-8000-000000000228",
+                     *       "rights_request_id": "00000000-0000-4000-8000-00000000023c",
                      *       "right_type": "Synthetic example",
                      *       "received_at": "2026-09-16T10:00:00.000Z",
                      *       "package": null,
@@ -72482,7 +74357,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "rights_request_id": "00000000-0000-4000-8000-000000000227",
+                     *       "rights_request_id": "00000000-0000-4000-8000-00000000023b",
                      *       "right_type": "Synthetic example",
                      *       "received_at": "2026-09-16T10:00:00.000Z",
                      *       "package": null,
@@ -76525,8 +78400,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000229",
-                     *       "processor_id": "00000000-0000-4000-8000-00000000022a",
+                     *       "id": "00000000-0000-4000-8000-00000000023d",
+                     *       "processor_id": "00000000-0000-4000-8000-00000000023e",
                      *       "kind": "DPA",
                      *       "reference": "Synthetic example",
                      *       "signed_at": "2026-09-16T10:00:00.000Z",
@@ -76543,7 +78418,7 @@ export interface operations {
                      *       "termination_reason": null,
                      *       "in_force": false,
                      *       "superseded": false,
-                     *       "recorded_by": "00000000-0000-4000-8000-00000000022b",
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000023f",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z"
                      *     }
                      */
@@ -76715,8 +78590,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000022c",
-                     *       "processor_id": "00000000-0000-4000-8000-00000000022d",
+                     *       "id": "00000000-0000-4000-8000-000000000240",
+                     *       "processor_id": "00000000-0000-4000-8000-000000000241",
                      *       "kind": "DPA",
                      *       "reference": "Synthetic example",
                      *       "signed_at": "2026-09-16T10:00:00.000Z",
@@ -76733,7 +78608,7 @@ export interface operations {
                      *       "termination_reason": null,
                      *       "in_force": false,
                      *       "superseded": false,
-                     *       "recorded_by": "00000000-0000-4000-8000-00000000022e",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000242",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z"
                      *     }
                      */
@@ -76910,9 +78785,9 @@ export interface operations {
                      *       "tier": "LOW",
                      *       "reassessment_interval_days": 30,
                      *       "reason": "Synthetic example",
-                     *       "id": "00000000-0000-4000-8000-00000000022f",
-                     *       "processor_id": "00000000-0000-4000-8000-000000000230",
-                     *       "recorded_by": "00000000-0000-4000-8000-000000000231",
+                     *       "id": "00000000-0000-4000-8000-000000000243",
+                     *       "processor_id": "00000000-0000-4000-8000-000000000244",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000245",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z"
                      *     }
                      */
@@ -77073,7 +78948,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "processor_id": "00000000-0000-4000-8000-000000000232",
+                     *       "processor_id": "00000000-0000-4000-8000-000000000246",
                      *       "processor_name": "Synthetic example",
                      *       "region": "Synthetic example",
                      *       "as_of": "2026-09-16T10:00:00.000Z",
@@ -77562,7 +79437,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "assessment_id": "00000000-0000-4000-8000-000000000233",
+                 *       "assessment_id": "00000000-0000-4000-8000-000000000247",
                  *       "expires_at": "2026-09-16T10:00:00.000Z"
                  *     }
                  */
@@ -77761,14 +79636,14 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000234",
-                     *       "assessment_id": "00000000-0000-4000-8000-000000000235",
+                     *       "id": "00000000-0000-4000-8000-000000000248",
+                     *       "assessment_id": "00000000-0000-4000-8000-000000000249",
                      *       "expires_at": "2026-09-16T10:00:00.000Z",
                      *       "state": "ACTIVE",
                      *       "revoked_at": null,
                      *       "revocation_reason": null,
                      *       "last_used_at": null,
-                     *       "created_by": "00000000-0000-4000-8000-000000000236",
+                     *       "created_by": "00000000-0000-4000-8000-00000000024a",
                      *       "created_at": "2026-09-16T10:00:00.000Z"
                      *     }
                      */
@@ -78107,8 +79982,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000237",
-                     *       "policy_key": "00000000-0000-4000-8000-000000000238",
+                     *       "id": "00000000-0000-4000-8000-00000000024b",
+                     *       "policy_key": "00000000-0000-4000-8000-00000000024c",
                      *       "version": 1,
                      *       "title": "Synthetic example",
                      *       "body": "Synthetic example",
@@ -78118,7 +79993,7 @@ export interface operations {
                      *       "requirement_ids": [],
                      *       "change_summary": "Synthetic example",
                      *       "status": "DRAFT",
-                     *       "recorded_by": "00000000-0000-4000-8000-000000000239",
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000024d",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "approved_by": null,
                      *       "published_at": null,
@@ -78297,8 +80172,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000023a",
-                     *       "policy_key": "00000000-0000-4000-8000-00000000023b",
+                     *       "id": "00000000-0000-4000-8000-00000000024e",
+                     *       "policy_key": "00000000-0000-4000-8000-00000000024f",
                      *       "version": 1,
                      *       "title": "Synthetic example",
                      *       "body": "Synthetic example",
@@ -78308,7 +80183,7 @@ export interface operations {
                      *       "requirement_ids": [],
                      *       "change_summary": "Synthetic example",
                      *       "status": "DRAFT",
-                     *       "recorded_by": "00000000-0000-4000-8000-00000000023c",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000250",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "approved_by": null,
                      *       "published_at": null,
@@ -78478,8 +80353,8 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-00000000023d",
-                     *       "policy_key": "00000000-0000-4000-8000-00000000023e",
+                     *       "id": "00000000-0000-4000-8000-000000000251",
+                     *       "policy_key": "00000000-0000-4000-8000-000000000252",
                      *       "version": 1,
                      *       "title": "Synthetic example",
                      *       "body": "Synthetic example",
@@ -78489,7 +80364,7 @@ export interface operations {
                      *       "requirement_ids": [],
                      *       "change_summary": "Synthetic example",
                      *       "status": "DRAFT",
-                     *       "recorded_by": "00000000-0000-4000-8000-00000000023f",
+                     *       "recorded_by": "00000000-0000-4000-8000-000000000253",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "approved_by": null,
                      *       "published_at": null,
@@ -78837,7 +80712,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000240",
+                     *       "id": "00000000-0000-4000-8000-000000000254",
                      *       "source_kind": "MANUAL",
                      *       "source_id": null,
                      *       "title": "Synthetic example",
@@ -78849,7 +80724,7 @@ export interface operations {
                      *       "state": "OPEN",
                      *       "overdue": false,
                      *       "events": [],
-                     *       "created_by": "00000000-0000-4000-8000-000000000241",
+                     *       "created_by": "00000000-0000-4000-8000-000000000255",
                      *       "created_at": "2026-09-16T10:00:00.000Z"
                      *     }
                      */
@@ -79010,7 +80885,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000242",
+                     *       "id": "00000000-0000-4000-8000-000000000256",
                      *       "source_kind": "MANUAL",
                      *       "source_id": null,
                      *       "title": "Synthetic example",
@@ -79022,7 +80897,7 @@ export interface operations {
                      *       "state": "OPEN",
                      *       "overdue": false,
                      *       "events": [],
-                     *       "created_by": "00000000-0000-4000-8000-000000000243",
+                     *       "created_by": "00000000-0000-4000-8000-000000000257",
                      *       "created_at": "2026-09-16T10:00:00.000Z"
                      *     }
                      */
@@ -79199,7 +81074,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000244",
+                     *       "id": "00000000-0000-4000-8000-000000000258",
                      *       "source_kind": "MANUAL",
                      *       "source_id": null,
                      *       "title": "Synthetic example",
@@ -79211,7 +81086,7 @@ export interface operations {
                      *       "state": "OPEN",
                      *       "overdue": false,
                      *       "events": [],
-                     *       "created_by": "00000000-0000-4000-8000-000000000245",
+                     *       "created_by": "00000000-0000-4000-8000-000000000259",
                      *       "created_at": "2026-09-16T10:00:00.000Z"
                      *     }
                      */
@@ -79390,9 +81265,9 @@ export interface operations {
                      *           "description": "Synthetic example"
                      *         }
                      *       ],
-                     *       "id": "00000000-0000-4000-8000-000000000246",
+                     *       "id": "00000000-0000-4000-8000-00000000025a",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
-                     *       "recorded_by": "00000000-0000-4000-8000-000000000247"
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000025b"
                      *     }
                      */
                     "application/json": components["schemas"]["GrcFramework"];
@@ -79708,7 +81583,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "control_id": "00000000-0000-4000-8000-000000000248",
+                 *       "control_id": "00000000-0000-4000-8000-00000000025c",
                  *       "name": "Synthetic example",
                  *       "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                  *       "maximum_violations": 0,
@@ -79727,15 +81602,15 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000249",
-                     *       "control_id": "00000000-0000-4000-8000-00000000024a",
+                     *       "id": "00000000-0000-4000-8000-00000000025d",
+                     *       "control_id": "00000000-0000-4000-8000-00000000025e",
                      *       "name": "Synthetic example",
                      *       "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                      *       "maximum_violations": -9007199254740991,
                      *       "interval_minutes": -9007199254740991,
                      *       "enabled": false,
                      *       "next_run_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-00000000024b",
+                     *       "created_by": "00000000-0000-4000-8000-00000000025f",
                      *       "created_at": "2026-09-16T10:00:00.000Z",
                      *       "latest_run": null,
                      *       "standing": "PASSING",
@@ -79900,15 +81775,15 @@ export interface operations {
                     /**
                      * @example {
                      *       "test": {
-                     *         "id": "00000000-0000-4000-8000-00000000024c",
-                     *         "control_id": "00000000-0000-4000-8000-00000000024d",
+                     *         "id": "00000000-0000-4000-8000-000000000260",
+                     *         "control_id": "00000000-0000-4000-8000-000000000261",
                      *         "name": "Synthetic example",
                      *         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                      *         "maximum_violations": -9007199254740991,
                      *         "interval_minutes": -9007199254740991,
                      *         "enabled": false,
                      *         "next_run_at": "2026-09-16T10:00:00.000Z",
-                     *         "created_by": "00000000-0000-4000-8000-00000000024e",
+                     *         "created_by": "00000000-0000-4000-8000-000000000262",
                      *         "created_at": "2026-09-16T10:00:00.000Z",
                      *         "latest_run": null,
                      *         "standing": "PASSING",
@@ -80077,15 +81952,15 @@ export interface operations {
                     /**
                      * @example {
                      *       "test": {
-                     *         "id": "00000000-0000-4000-8000-00000000024f",
-                     *         "control_id": "00000000-0000-4000-8000-000000000250",
+                     *         "id": "00000000-0000-4000-8000-000000000263",
+                     *         "control_id": "00000000-0000-4000-8000-000000000264",
                      *         "name": "Synthetic example",
                      *         "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                      *         "maximum_violations": -9007199254740991,
                      *         "interval_minutes": -9007199254740991,
                      *         "enabled": false,
                      *         "next_run_at": "2026-09-16T10:00:00.000Z",
-                     *         "created_by": "00000000-0000-4000-8000-000000000251",
+                     *         "created_by": "00000000-0000-4000-8000-000000000265",
                      *         "created_at": "2026-09-16T10:00:00.000Z",
                      *         "latest_run": null,
                      *         "standing": "PASSING",
@@ -80262,15 +82137,15 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000252",
-                     *       "control_id": "00000000-0000-4000-8000-000000000253",
+                     *       "id": "00000000-0000-4000-8000-000000000266",
+                     *       "control_id": "00000000-0000-4000-8000-000000000267",
                      *       "name": "Synthetic example",
                      *       "check_kind": "SYSTEMS_HAVE_CONNECTOR_BINDING",
                      *       "maximum_violations": -9007199254740991,
                      *       "interval_minutes": -9007199254740991,
                      *       "enabled": false,
                      *       "next_run_at": "2026-09-16T10:00:00.000Z",
-                     *       "created_by": "00000000-0000-4000-8000-000000000254",
+                     *       "created_by": "00000000-0000-4000-8000-000000000268",
                      *       "created_at": "2026-09-16T10:00:00.000Z",
                      *       "latest_run": null,
                      *       "standing": "PASSING",
@@ -81939,7 +83814,7 @@ export interface operations {
                     /**
                      * @example {
                      *       "kind": "SYSTEM",
-                     *       "target_id": "00000000-0000-4000-8000-000000000255",
+                     *       "target_id": "00000000-0000-4000-8000-000000000269",
                      *       "activities": [],
                      *       "retention_rule_ids": [],
                      *       "engagement_ids": [],
@@ -82276,14 +84151,14 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000256",
+                     *       "id": "00000000-0000-4000-8000-00000000026a",
                      *       "version": 1,
                      *       "note": "Synthetic example",
                      *       "as_of": "2026-09-16T10:00:00.000Z",
                      *       "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                      *       "activity_count": -9007199254740991,
                      *       "gap_count": -9007199254740991,
-                     *       "recorded_by": "00000000-0000-4000-8000-000000000257",
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000026b",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "approved_by": null,
                      *       "approved_at": null,
@@ -82458,14 +84333,14 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000258",
+                     *       "id": "00000000-0000-4000-8000-00000000026c",
                      *       "version": 1,
                      *       "note": "Synthetic example",
                      *       "as_of": "2026-09-16T10:00:00.000Z",
                      *       "content_digest": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                      *       "activity_count": -9007199254740991,
                      *       "gap_count": -9007199254740991,
-                     *       "recorded_by": "00000000-0000-4000-8000-000000000259",
+                     *       "recorded_by": "00000000-0000-4000-8000-00000000026d",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "approved_by": null,
                      *       "approved_at": null,
@@ -83789,7 +85664,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "job_id": "00000000-0000-4000-8000-00000000025a",
+                     *       "job_id": "00000000-0000-4000-8000-00000000026e",
                      *       "sequence": -9007199254740991,
                      *       "row_count": -9007199254740991,
                      *       "sha256": "Synthetic examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -91105,7 +92980,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "site_id": "00000000-0000-4000-8000-00000000025b",
+                     *       "site_id": "00000000-0000-4000-8000-00000000026f",
                      *       "visitors": -9007199254740991,
                      *       "records": -9007199254740991,
                      *       "gpc_visitors": -9007199254740991,
@@ -91690,7 +93565,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "receipt_id": "00000000-0000-4000-8000-00000000025c",
+                     *       "receipt_id": "00000000-0000-4000-8000-000000000270",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "config_version": -9007199254740991
                      *     }
@@ -93278,7 +95153,7 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "topic_id": "00000000-0000-4000-8000-00000000025d",
+                 *       "topic_id": "00000000-0000-4000-8000-000000000271",
                  *       "channel": "EMAIL",
                  *       "choice": "OPTED_IN",
                  *       "observed_at": "2026-09-16T10:00:00.000Z"
@@ -93297,8 +95172,8 @@ export interface operations {
                     /**
                      * @example {
                      *       "event": {
-                     *         "id": "00000000-0000-4000-8000-00000000025e",
-                     *         "topic_id": "00000000-0000-4000-8000-00000000025f",
+                     *         "id": "00000000-0000-4000-8000-000000000272",
+                     *         "topic_id": "00000000-0000-4000-8000-000000000273",
                      *         "channel": "EMAIL",
                      *         "choice": "OPTED_IN",
                      *         "source": "PORTAL",
@@ -93648,7 +95523,7 @@ export interface operations {
                     /**
                      * @example {
                      *       "member": {
-                     *         "id": "00000000-0000-4000-8000-000000000260",
+                     *         "id": "00000000-0000-4000-8000-000000000274",
                      *         "display_name": "Synthetic example",
                      *         "email": "asha@aster.example",
                      *         "role": "ORG_SUPER_ADMIN",
@@ -93829,7 +95704,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000261",
+                     *       "id": "00000000-0000-4000-8000-000000000275",
                      *       "display_name": "Synthetic example",
                      *       "email": "asha@aster.example",
                      *       "role": "ORG_SUPER_ADMIN",
@@ -94002,7 +95877,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000262",
+                     *       "id": "00000000-0000-4000-8000-000000000276",
                      *       "display_name": "Synthetic example",
                      *       "email": "asha@aster.example",
                      *       "role": "ORG_SUPER_ADMIN",
@@ -94184,7 +96059,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "id": "00000000-0000-4000-8000-000000000263",
+                     *       "id": "00000000-0000-4000-8000-000000000277",
                      *       "display_name": "Synthetic example",
                      *       "email": "asha@aster.example",
                      *       "role": "ORG_SUPER_ADMIN",
@@ -101527,8 +103402,8 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "installation_id": "00000000-0000-4000-8000-000000000264",
-                 *       "environment_id": "00000000-0000-4000-8000-000000000265",
+                 *       "installation_id": "00000000-0000-4000-8000-000000000278",
+                 *       "environment_id": "00000000-0000-4000-8000-000000000279",
                  *       "maximum_commands": 1
                  *     }
                  */
@@ -101701,9 +103576,9 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "command_id": "00000000-0000-4000-8000-000000000266",
+                 *       "command_id": "00000000-0000-4000-8000-00000000027a",
                  *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                 *       "attempt_id": "00000000-0000-4000-8000-000000000267",
+                 *       "attempt_id": "00000000-0000-4000-8000-00000000027b",
                  *       "execution_state": "ACKNOWLEDGED",
                  *       "recorded_at": "2026-09-16T10:00:00.000Z",
                  *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -101722,7 +103597,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "operation_id": "00000000-0000-4000-8000-000000000268",
+                     *       "operation_id": "00000000-0000-4000-8000-00000000027c",
                      *       "status": "ACCEPTED",
                      *       "accepted_at": "2026-09-16T10:00:00.000Z"
                      *     }
@@ -101878,10 +103753,10 @@ export interface operations {
             content: {
                 /**
                  * @example {
-                 *       "attempt_id": "00000000-0000-4000-8000-000000000269",
-                 *       "principal_reference_id": "00000000-0000-4000-8000-00000000026a",
-                 *       "purpose_id": "00000000-0000-4000-8000-00000000026b",
-                 *       "system_id": "00000000-0000-4000-8000-00000000026c",
+                 *       "attempt_id": "00000000-0000-4000-8000-00000000027d",
+                 *       "principal_reference_id": "00000000-0000-4000-8000-00000000027e",
+                 *       "purpose_id": "00000000-0000-4000-8000-00000000027f",
+                 *       "system_id": "00000000-0000-4000-8000-000000000280",
                  *       "message_class": "MARKETING",
                  *       "order_reference": null
                  *     }
@@ -102121,9 +103996,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-00000000026d",
+                     *       "command_id": "00000000-0000-4000-8000-000000000281",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-00000000026e",
+                     *       "attempt_id": "00000000-0000-4000-8000-000000000282",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",
@@ -102287,7 +104162,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "resource_id": "00000000-0000-4000-8000-00000000026f",
+                     *       "resource_id": "00000000-0000-4000-8000-000000000283",
                      *       "generation": 0,
                      *       "last_applied_epoch": 0,
                      *       "marketing_restricted": false,
@@ -102451,9 +104326,9 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "command_id": "00000000-0000-4000-8000-000000000270",
+                     *       "command_id": "00000000-0000-4000-8000-000000000284",
                      *       "command_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                     *       "attempt_id": "00000000-0000-4000-8000-000000000271",
+                     *       "attempt_id": "00000000-0000-4000-8000-000000000285",
                      *       "execution_state": "ACKNOWLEDGED",
                      *       "recorded_at": "2026-09-16T10:00:00.000Z",
                      *       "reason_code": "SYNTHETIC_EXAMPLE",

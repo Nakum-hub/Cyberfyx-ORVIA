@@ -106,3 +106,62 @@ export async function holdList(c: Context, page: Page, query: unknown) {
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(holdView), next_cursor: paged.next_cursor };
 }
+
+// ---------------------------------------------------------------- Rule 8(2): 48-hour intimation before Third Schedule erasure
+export const THIRD_SCHEDULE = 'DPDP-RETENTION-THIRD-SCHEDULE';
+const HOURS_48 = 48 * 3_600_000;
+type IntimationRow = { id: string; subject_id: string; rule_id: string; erasure_due_at: Date; intimated_at: Date; channel: string; evidence_reference: string; re_engaged_at: Date | null; re_engagement_basis: string | null; recorded_at: Date };
+const intimationView = (r: IntimationRow) => R.ErasureIntimation.parse({ id: r.id, subject_id: r.subject_id, rule_id: r.rule_id, erasure_due_at: iso(r.erasure_due_at), intimated_at: iso(r.intimated_at),
+  channel: r.channel, evidence_reference: r.evidence_reference, erasable_from: iso(new Date(Math.max(r.erasure_due_at.getTime(), r.intimated_at.getTime() + HOURS_48))),
+  re_engaged_at: iso(r.re_engaged_at), re_engagement_basis: r.re_engagement_basis, recorded_at: iso(r.recorded_at) });
+/** The latest intimation for a person under a rule, or null. The retention evaluator gates Third Schedule erasure on it. */
+export async function latestIntimation(c: Context, subjectId: string, ruleId: string) {
+  return ((await c.tx.query(`SELECT * FROM app.erasure_intimations WHERE ${predicate} AND subject_id=$4 AND rule_id=$5 ORDER BY intimated_at DESC, id DESC LIMIT 1`, [...scope(c), subjectId, ruleId])).rows[0] ?? null) as IntimationRow | null;
+}
+export async function recordIntimation(c: Context, input: unknown) {
+  const v = R.ErasureIntimationRecord.parse(input);
+  const rule = (await c.tx.query(`SELECT id, requirement_id FROM app.retention_rules WHERE ${predicate} AND id=$4`, [...scope(c), v.rule_id])).rows[0];
+  if (!rule) refuse(404, 'rule_id', 'not_found');
+  if (rule.requirement_id !== THIRD_SCHEDULE) refuse(409, 'rule_id', 'rule_does_not_cite_the_third_schedule');
+  const state = (await c.tx.query(`SELECT state, eligible_at FROM app.retention_states WHERE ${predicate} AND subject_id=$4 AND rule_id=$5`, [...scope(c), v.subject_id, v.rule_id])).rows[0];
+  if (!state || !state.eligible_at) refuse(409, 'subject_id', 'no_erasure_date_evaluated_for_this_person');
+  if (state.state === 'ERASED') refuse(409, 'subject_id', 'already_erased');
+  if (Date.parse(v.intimated_at) > Date.now() + 5 * 60_000) refuse(400, 'intimated_at', 'in_the_future');
+  const id = randomUUID();
+  const row = (await c.tx.query(`INSERT INTO app.erasure_intimations(tenant_id,legal_entity_id,environment_id,id,subject_id,rule_id,erasure_due_at,intimated_at,channel,evidence_reference,recorded_by)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`, [...scope(c), id, v.subject_id, v.rule_id, state.eligible_at, v.intimated_at, v.channel, v.evidence_reference, c.actor.actor_id])).rows[0] as IntimationRow;
+  await audit(c, 'retention.erasure_intimation.recorded', id);
+  return intimationView(row);
+}
+export async function recordReEngagement(c: Context, id: string, input: unknown) {
+  const v = R.ErasureReEngagement.parse(input);
+  const row = (await c.tx.query(`SELECT * FROM app.erasure_intimations WHERE ${predicate} AND id=$4 FOR UPDATE`, [...scope(c), id])).rows[0] as IntimationRow | undefined;
+  if (!row) refuse(404, 'id', 'not_found');
+  if (row!.re_engaged_at) refuse(409, 'id', 'already_recorded');
+  if (Date.parse(v.re_engaged_at) < row!.intimated_at.getTime()) refuse(400, 're_engaged_at', 'before_the_intimation');
+  const updated = (await c.tx.query(`UPDATE app.erasure_intimations SET re_engaged_at=$5, re_engagement_basis=$6 WHERE ${predicate} AND id=$4 RETURNING *`, [...scope(c), id, v.re_engaged_at, v.basis])).rows[0] as IntimationRow;
+  await audit(c, 'retention.erasure_intimation.re_engaged', id);
+  return intimationView(updated);
+}
+export async function intimationList(c: Context, page: Page, query: unknown) {
+  const q = R.ErasureIntimationQuery.parse(query ?? {});
+  const rows = (await c.tx.query(`SELECT * FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`,
+    [...scope(c), q.subject_id ?? null, page.cursor, page.limit + 1])).rows as IntimationRow[];
+  const paged = pageOf(rows, page.limit, r => r.id);
+  return { items: paged.items.map(intimationView), next_cursor: paged.next_cursor };
+}
+type DueRow = { subject_id: string; rule_id: string; rule_name: string; eligible_at: Date; intimation_id: string | null; intimated_at: Date | null };
+/** People under Third Schedule rules whose erasure date is known and not yet carried out, with the time the intimation is due. */
+export async function intimationsDue(c: Context, page: Page) {
+  const rows = (await c.tx.query(`SELECT st.subject_id, st.rule_id, r.name AS rule_name, st.eligible_at,
+      (SELECT i.id FROM app.erasure_intimations i WHERE i.tenant_id=st.tenant_id AND i.legal_entity_id=st.legal_entity_id AND i.environment_id=st.environment_id AND i.subject_id=st.subject_id AND i.rule_id=st.rule_id ORDER BY i.intimated_at DESC LIMIT 1) AS intimation_id,
+      (SELECT i.intimated_at FROM app.erasure_intimations i WHERE i.tenant_id=st.tenant_id AND i.legal_entity_id=st.legal_entity_id AND i.environment_id=st.environment_id AND i.subject_id=st.subject_id AND i.rule_id=st.rule_id ORDER BY i.intimated_at DESC LIMIT 1) AS intimated_at
+    FROM app.retention_states st JOIN app.retention_rules r ON r.tenant_id=st.tenant_id AND r.legal_entity_id=st.legal_entity_id AND r.environment_id=st.environment_id AND r.id=st.rule_id
+    WHERE st.tenant_id=$1 AND st.legal_entity_id=$2 AND st.environment_id=$3 AND r.requirement_id=$4 AND st.eligible_at IS NOT NULL AND st.state NOT IN ('ERASED','SCHEDULED')
+      AND ($5::text IS NULL OR (st.subject_id::text || ':' || st.rule_id::text) > $5)
+    ORDER BY st.subject_id::text || ':' || st.rule_id::text LIMIT $6`, [...scope(c), THIRD_SCHEDULE, page.cursor, page.limit + 1])).rows as DueRow[];
+  const paged = pageOf(rows, page.limit, r => `${r.subject_id}:${r.rule_id}`);
+  return { items: paged.items.map(r => R.ErasureIntimationDue.parse({
+    subject_id: r.subject_id, rule_id: r.rule_id, rule_name: r.rule_name, erasure_due_at: iso(r.eligible_at), intimate_by: iso(new Date(r.eligible_at.getTime() - HOURS_48)),
+    overdue: !r.intimation_id && r.eligible_at.getTime() - HOURS_48 < Date.now(), intimation_id: r.intimation_id, intimated_at: iso(r.intimated_at) })), next_cursor: paged.next_cursor };
+}

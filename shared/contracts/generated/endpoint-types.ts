@@ -261,6 +261,15 @@ export interface EndpointMap {
   list_retention_holds: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.RetentionHoldList> };
   create_retention_hold: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RetentionHoldCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RetentionHold> };
   release_retention_hold: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RetentionHoldRelease>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RetentionHold> };
+  list_consent_managers: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerList> };
+  create_consent_manager: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManager> };
+  change_consent_manager_status: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerStatusChange>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManager> };
+  link_consent_manager: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerLink>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentRecord> };
+  record_consent_manager_withdrawal: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentManagerWithdrawal>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentRecord> };
+  list_erasure_intimations_due: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationDueList> };
+  list_erasure_intimations: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationList> };
+  record_erasure_intimation: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimation> };
+  record_erasure_re_engagement: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureReEngagement>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimation> };
   list_connector_bindings: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConnectorBindingList> };
   bind_connector: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ConnectorBindingCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConnectorBinding> };
   list_workflow_runs: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.WorkflowRunList> };
