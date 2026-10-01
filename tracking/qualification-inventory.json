@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "173090a467a456ea992347736a51b4d4cffc94c9397ed68b2f034026ad10939d",
+  "test_file_digest": "6d8b4d19be8f436c8075a0f52e7cb17035356e54da929b03611683fcea145c58",
   "counts": {
-    "UNIT": 52,
-    "INTEGRATION": 87,
+    "UNIT": 54,
+    "INTEGRATION": 88,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
@@ -199,7 +199,12 @@
     },
     {
       "path": "tests/integration/consent/canaries.test.ts",
-      "sha256": "67b9ddcd07ce135009ec2c4e899d467d35462fcbec2ba6de5d8b91a3ab0ce68a",
+      "sha256": "2266b6117985718328d963add167ad71137d78c098de3bee52b338d3f09633fc",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/consent/canary-retirement.test.ts",
+      "sha256": "060c61fe1503e0e0028a868c2186839b6584094169fa74b2bde2d0da3de30d69",
       "kind": "INTEGRATION"
     },
     {
@@ -229,7 +234,7 @@
     },
     {
       "path": "tests/integration/discovery/schema-drift.test.ts",
-      "sha256": "fa26848f7c0cca1b95ab6183093af9c01d9160f9753793102f6f091809a7b362",
+      "sha256": "5a8759c341f3bc50b7df268e6d557addce8bf687c52c0a20634bb7b2e9e2282a",
       "kind": "INTEGRATION"
     },
     {
@@ -239,7 +244,7 @@
     },
     {
       "path": "tests/integration/enforcement/withdrawal-timing.test.ts",
-      "sha256": "b73f40b3dfbee14f0763cc62ba73cc9bc00827a96a6c92a86160405b20e79dfe",
+      "sha256": "22ce719ccdca078f2449059ddcb363c7505aeb7a7e0cba974ea9c79b3dae9f1e",
       "kind": "INTEGRATION"
     },
     {
@@ -259,7 +264,7 @@
     },
     {
       "path": "tests/integration/expansion/audit-mandate.test.ts",
-      "sha256": "c14e0db917afd46eab9d224f1912957d4310d49ea740f9f6ab9e5618a9bc29b6",
+      "sha256": "40911a7634de4bdd5b59c201585f9b55dabf6c2c028b26b6c081d3e1aaa09d21",
       "kind": "INTEGRATION"
     },
     {
@@ -349,7 +354,7 @@
     },
     {
       "path": "tests/integration/grc/http.test.ts",
-      "sha256": "2c807e36616b52829dd1ca573baedbc588b57ed6d7267ab96f5be19c921b26fa",
+      "sha256": "da90cab5c29b10e82825c693870a837dc192b39edb02646b47d389f75a0f4f41",
       "kind": "INTEGRATION"
     },
     {
@@ -599,7 +604,7 @@
     },
     {
       "path": "tests/integration/web.test.ts",
-      "sha256": "795398367e34ba542212ce0d1cd394449c01f7cb9c590569f32c2db6c87909e0",
+      "sha256": "f3db9c6114238aea6b2eaedf4fcef1b764da9e4629d2b4327c125219bcd48bdc",
       "kind": "INTEGRATION"
     },
     {
@@ -768,6 +773,11 @@
       "kind": "UNIT"
     },
     {
+      "path": "tests/unit/notice-context-drift.test.ts",
+      "sha256": "ce24d7ff5d0b91b238a30d3d9195fca3d5c3409167ffd51e0397230db679f1f8",
+      "kind": "UNIT"
+    },
+    {
       "path": "tests/unit/notice-itemisation.test.ts",
       "sha256": "0b165ec05a623aa533b90f9a7ac2b1167351fb5de3fa690cb1479cc7765cec17",
       "kind": "UNIT"
@@ -815,6 +825,11 @@
     {
       "path": "tests/unit/razorpay.test.ts",
       "sha256": "c668f9aaaae905219ce9c91d4f3cf7c79e04417452499a442c8959a18ac26b79",
+      "kind": "UNIT"
+    },
+    {
+      "path": "tests/unit/read-queue.test.ts",
+      "sha256": "39c4726c8b4f231ce23395af2820370677c7c0cd224f4d6ca84fa5b1c33e8175",
       "kind": "UNIT"
     },
     {
