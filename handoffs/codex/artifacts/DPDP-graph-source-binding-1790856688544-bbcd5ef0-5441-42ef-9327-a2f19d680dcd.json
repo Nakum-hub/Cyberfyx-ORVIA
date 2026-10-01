@@ -1,0 +1,18 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T12:11:28.544Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "result": "PASS",
+  "assertions": [
+    {
+      "name": "database rejects new observed asset without source",
+      "result": "PASS"
+    },
+    {
+      "name": "database rejects JSON and column provenance disagreement",
+      "result": "PASS"
+    }
+  ]
+}
