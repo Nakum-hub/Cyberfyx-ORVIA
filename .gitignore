@@ -1,4 +1,6 @@
 node_modules/
+# Also the symlinks a linked worktree uses instead of installed directories.
+node_modules
 .next/
 dist/
 # Anchored, and it has to stay anchored. Unanchored, this matched every
