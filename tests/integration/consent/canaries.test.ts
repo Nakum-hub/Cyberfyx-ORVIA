@@ -11,6 +11,7 @@ import { randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { allPages } from '../../../shared/testing/src/all-pages.ts';
 import { operationsSuite, key, unique, hoursFromNow } from '../../../shared/testing/src/operations-fixture.ts';
 import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
 import { senderEnrollment } from '../../../backend/auth/src/machine-profile.ts';
@@ -35,6 +36,8 @@ await t.run(async () => {
     body: JSON.stringify({ attempt_id: randomUUID(), principal_reference_id: principal, purpose_id: scenario.purpose.id, system_id: scenario.system.id, message_class: 'MARKETING', order_reference: null }), signal: AbortSignal.timeout(15000) });
   const hits = async (canary: string) => (await ok(owner.call(`/api/v1/admin/canary-hits?canary_id=${canary}&limit=100`), S.schemas.CanaryHitList)).items;
   const attention = async () => (await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention)).items.find(i => i.kind === 'CANARY_TRAP_HIT');
+  // Attention counts every unreviewed hit in the environment, including any an earlier run left: assert the change from here.
+  const baseline = (await attention())?.count ?? 0;
 
   t.setPhase('registration');
   check('an administrator without sensitive access cannot see canaries', (await admin.call('/api/v1/admin/withdrawal-canaries?limit=10')).status, 403);
@@ -55,7 +58,7 @@ await t.run(async () => {
   check('the send is blocked and the sender is not told it hit a canary', [response.status, body.decision, JSON.stringify(body).toLowerCase().includes('canary')], [200, 'BLOCK', false]);
   const sendHit = (await hits(k.id)).find(x => x.source === 'SEND_ADMISSION');
   check('a SEND_ADMISSION hit names the sending machine and system', [sendHit?.actor_domain, sendHit?.actor_id, sendHit?.system_id, sendHit?.detail.includes('MARKETING')], ['MACHINE', sender.id, scenario.system.id, true]);
-  check('Operations attention shows the hit to an administrator who cannot see canaries', (await attention())?.count, 1);
+  check('Operations attention shows the hit to an administrator who cannot see canaries', ((await attention())?.count ?? 0) - baseline, 1);
 
   t.setPhase('an outbound message to the decoy');
   const transport = await ok(admin.call('/api/v1/admin/delivery-transports', { kind: 'SMTP', name: unique('Relay'), host: '127.0.0.1', port: 2525, security: 'NONE', from_address: 'privacy@customer.example', credential_env: 'ORVIA_TRANSPORT_TEST_SINK' }, key()), S.schemas.DeliveryTransport);
@@ -76,14 +79,14 @@ await t.run(async () => {
   check('an administrator cannot record a receipt', (await admin.call(`/api/v1/admin/withdrawal-canaries/${k.id}/hits`, { detail: 'x x x', evidence_reference: 'x x x', observed_at: hoursFromNow(-1), system_id: null }, key())).status, 403);
   const reported = await ok(owner.call(`/api/v1/admin/withdrawal-canaries/${k.id}/hits`, { detail: 'Newsletter "Weekend deals" from news@shop.example (synthetic).', evidence_reference: 'Mailbox export MX-12 (synthetic)', observed_at: hoursFromNow(-2), system_id: null }, key()), S.schemas.CanaryHit);
   check('staff record the receipt with its evidence', [reported.source, reported.evidence_reference], ['REPORTED_RECEIPT', 'Mailbox export MX-12 (synthetic)']);
-  check('attention counts every unreviewed hit', (await attention())?.count, 4);
-  check('the canary list shows four open hits', (await ok(owner.call('/api/v1/admin/withdrawal-canaries?limit=100'), S.schemas.WithdrawalCanaryList)).items.find(x => x.id === k.id)?.open_hits, 4);
+  check('attention counts every unreviewed hit', ((await attention())?.count ?? 0) - baseline, 4);
+  check('the canary list shows four open hits', (await allPages(p => owner.call(p), '/api/v1/admin/withdrawal-canaries', v => S.schemas.WithdrawalCanaryList.parse(v))).find(x => x.id === k.id)?.open_hits, 4);
 
   t.setPhase('review');
   const reviewed = await ok(reviewer.call(`/api/v1/admin/canary-hits/${sendHit!.id}/review`, { note: 'Traced to the campaign tool importing the full list; suppression list now applied (synthetic).' }, key()), S.schemas.CanaryHit);
   check('a hit is reviewed with who and what was found', [reviewed.reviewed_by !== null, reviewed.review_note?.startsWith('Traced')], [true, true]);
   check('a hit is reviewed once', (await codes(reviewer.call(`/api/v1/admin/canary-hits/${sendHit!.id}/review`, { note: 'Again.' }, key()))).codes, ['already_reviewed']);
-  check('attention drops to the unreviewed hits', (await attention())?.count, 3);
+  check('attention drops to the unreviewed hits', ((await attention())?.count ?? 0) - baseline, 3);
   const refused = (sql: string, values: unknown[]) => db.query(sql, values).then(() => 'changed', (e: Error) => e.message);
   check('a hit cannot be edited', await refused('UPDATE app.canary_hits SET detail=$2 WHERE id=$1', [reported.id, 'rewritten']), 'canary_hit_is_reviewed_once_and_never_edited');
   check('a hit cannot be deleted', await refused('DELETE FROM app.canary_hits WHERE id=$1', [reported.id]), 'canary_records_are_retained');
