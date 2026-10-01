@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // W01-A02-F01. Real HTTP, real PostgreSQL locks, test-owned synthetic rows only.
 // Original-source mode labels observations; it never changes expected results.
 import assert from 'node:assert/strict';
@@ -119,11 +120,9 @@ try {
   }
 
   async function choice() {
-    let cursor:string|null=null;
-    do {
-      const page=S.schemas.ConsentList.parse(await (await alice.call('/api/v1/portal/me/consents?limit=100'+(cursor?'&cursor='+cursor:''))).json());
-      const item=page.items.find(i=>i.purpose_id===purpose.id);if(item)return item;cursor=page.next_cursor;
-    }while(cursor);throw new Error('Consent setup missing purpose');
+    const item=(await allPageList(p=>alice.call(p),'/api/v1/portal/me/consents',value=>S.schemas.ConsentList.parse(value))).items.find(i=>i.purpose_id===purpose.id);
+    if(item)return item;
+    throw new Error('Consent setup missing purpose');
   }
   async function consentSnapshot(interactionId:string,key:string) {
     const result:Record<string,unknown>={};

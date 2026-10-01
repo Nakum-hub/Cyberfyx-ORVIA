@@ -36,7 +36,7 @@ async function client(c: Context, id: string) {
 }
 
 export async function intakeClientList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`${CLIENT} AND ($4::uuid IS NULL OR c.id>$4) ORDER BY c.id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`${CLIENT} AND ($4::uuid IS NULL OR (c.created_at,c.id) < (SELECT created_at,id FROM app.intake_clients WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND id=$4)) ORDER BY c.created_at DESC,c.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const p = pageOf(rows, page.limit, r => r.id);
   return { items: p.items.map(clientView), next_cursor: p.next_cursor };
 }

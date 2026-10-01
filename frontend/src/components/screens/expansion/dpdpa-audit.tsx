@@ -1,8 +1,10 @@
 'use client';
-import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import type { schemas } from '@orvia/contracts';
 import { ApiError } from '@orvia/contracts/client';
 import { call } from '../../shared/api.ts';
+import { collectPages } from '../../shared/collection-pages.ts';
+import { beginRead } from '../../shared/read-activity.ts';
 import { Badge, CheckboxField, DataTable, Facts, NoticeBox, PageHead, Section, SelectField, TextAreaField, TextField } from '../../shared/ui.tsx';
 
 /**
@@ -42,16 +44,28 @@ export function DpdpaAudit({ capabilities }: { capabilities: readonly string[] }
   const [gap, setGap] = useState<Gap | null>(null); const [files, setFiles] = useState<File[]>([]); const [engagements, setEngagements] = useState<Omit<Engagement, 'packages' | 'imports'>[]>([]);
   const [openId, setOpenId] = useState<string | null>(null); const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState<{ gap?: string; files?: string; engagements?: string }>({});
+  const activeLoad = useRef<{ controller: AbortController; finish: () => void } | null>(null);
   const prepare = capabilities.includes('audit_exchange.prepare'); const upload = capabilities.includes('grc.write');
   // The three parts load and fail independently: one unavailable read (for example a 503 from the gap register) must not hide
   // the engagements or evidence files. A read the server marks "retry after delay" is retried once.
   const load = useCallback(async () => {
-    const [g, f, e] = await Promise.allSettled([read(() => call('dpdpa_gap_register', undefined)), read(() => call('list_evidence_files', undefined, { limit: 100 })), read(() => call('list_audit_engagements', undefined, { limit: 100 }))]);
-    if (g.status === 'fulfilled') setGap(g.value); if (f.status === 'fulfilled') setFiles(f.value.items); if (e.status === 'fulfilled') setEngagements(e.value.items);
+    activeLoad.current?.controller.abort(); activeLoad.current?.finish();
+    const controller = new AbortController();
+    const finish = beginRead();
+    const generation = { controller, finish }; activeLoad.current = generation;
+    try {
+    const [g, f, e] = await Promise.allSettled([
+      read(() => call('dpdpa_gap_register', undefined, { signal: controller.signal })),
+      collectPages(cursor => read(() => call('list_evidence_files', undefined, { limit: 100, cursor, signal: controller.signal }))),
+      collectPages(cursor => read(() => call('list_audit_engagements', undefined, { limit: 100, cursor, signal: controller.signal }))),
+    ]);
+    if (controller.signal.aborted || activeLoad.current !== generation) return;
+    if (g.status === 'fulfilled') setGap(g.value); if (f.status === 'fulfilled') setFiles(f.value); if (e.status === 'fulfilled') setEngagements(e.value);
     setFailed({ gap: g.status === 'rejected' ? explain(g.reason) : undefined, files: f.status === 'rejected' ? explain(f.reason) : undefined, engagements: e.status === 'rejected' ? explain(e.reason) : undefined });
     setLoaded(true);
+    } finally { finish(); if (activeLoad.current === generation) activeLoad.current = null; }
   }, []);
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => { void load(); return () => { activeLoad.current?.controller.abort(); activeLoad.current?.finish(); activeLoad.current = null; }; }, [load]);
   const { busy, error, note, run } = useRunner(load);
   const [ev, setEv] = useState({ control_id: '', description: '', personal: 'UNKNOWN', valid: '90' }); const [chosen, setChosen] = useState<Blob & { name?: string } | null>(null);
   const [eng, setEng] = useState({ code: '', firm: '', reference: '', scope: '', from: '', to: '', pa: '', independence: '', empanelment: '' });

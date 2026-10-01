@@ -11,6 +11,7 @@ import { sweepCatalogDiscovery } from '../../../services/worker/src/catalog-disc
 import { observerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { sweepAiGovernance } from '../../../services/worker/src/ai-governance-monitor.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 
 const profile=loadProfile();
 if(profile.profile!=='codex-a00')throw new Error('Synthetic codex-a00 profile only');
@@ -127,7 +128,7 @@ try{
   check('exhausted observer creates one durable target gap',failedGaps,
     [{source:'CATALOG_READ_EXHAUSTED',subject_kind:'CATALOG_TARGET',state:'OPEN'}]);
   check('other tenant cannot see exhausted target gap',(await birch.call('/api/v1/admin/gaps?limit=100')).status,200);
-  const otherGaps=await (await birch.call('/api/v1/admin/gaps?limit=100')).json() as {items:{subject_id:string}[]};
+  const otherGaps=await allPageList(p=>birch.call(p),'/api/v1/admin/gaps',value=>S.schemas.GapList.parse(value));
   check('other tenant gap page excludes target',otherGaps.items.some(x=>x.subject_id===failedTarget.id),false);
   phase='schema drift';
   let driftColumnAdded=false;

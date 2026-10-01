@@ -176,7 +176,7 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
             if(seen.has(next) || seen.size >= 100) throw new Error('Collection pagination did not complete; no partial list is displayed.');
             seen.add(next);
             const page = await client.call(operation, undefined as EndpointMap[K]['request'],
-              { ...(effectiveParams ? {params:effectiveParams} : {}), limit:100,cursor:next,signal:controller.signal }) as Result & {items:unknown[];next_cursor:string|null};
+              { ...(effectiveParams ? {params:effectiveParams} : {}), ...(effectiveQuery ? {query:effectiveQuery} : {}), limit:100,cursor:next,signal:controller.signal }) as Result & {items:unknown[];next_cursor:string|null};
             items.push(...page.items); next=page.next_cursor;
           }
           data={...collection,items,next_cursor:null};

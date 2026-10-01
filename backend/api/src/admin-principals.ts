@@ -19,8 +19,7 @@ export const listPrincipals = (request: Request) => safeRoute(async requestId =>
     await tx.query(`INSERT INTO app.audit_events (id,tenant_id,legal_entity_id,environment_id,actor_id,actor_domain,operation,request_id)
       VALUES ($1,$2,$3,$4,$5,'STAFF','principals.list',$6)`,[randomUUID(),actor.scope.tenant_id,actor.scope.legal_entity_id,actor.scope.environment_id,actor.actor_id,requestId]);
     return tx.query(`SELECT id,legal_entity_id,environment_id,display_name,email,synthetic
-    FROM app.principal_references WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND ($4::uuid IS NULL OR id>$4)
-    ORDER BY id LIMIT $5`, [actor.scope.tenant_id,actor.scope.legal_entity_id,actor.scope.environment_id,cursor,parsed.data.limit+1]);
+    FROM app.principal_references WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.principal_references WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5`, [actor.scope.tenant_id,actor.scope.legal_entity_id,actor.scope.environment_id,cursor,parsed.data.limit+1]);
   });
   const items = rows.rows.slice(0,parsed.data.limit);
   return Response.json(schemas.PrincipalList.parse({ items, next_cursor: rows.rows.length>parsed.data.limit ? Buffer.from(items.at(-1).id).toString('base64url') : null }));

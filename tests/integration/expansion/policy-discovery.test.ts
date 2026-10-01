@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // Website privacy-policy discovery (migration 0077, contract 0.51.0) through the HTTP boundary and the worker.
 // Loopback test sites stand in for the organisation's website, another origin and a third-party tracker (synthetic, local).
 // Scenarios: a declared <link rel="privacy-policy"> is followed and its text kept with a digest; a recheck of unchanged text says
@@ -114,9 +115,9 @@ await t.run(async () => {
 
     t.setPhase('weekly schedule');
     mode = 'declared';
-    const before = (await ok(admin.call(`${D(created.id)}?limit=100`), S.schemas.PolicyDiscoveryList)).items.length;
+    const before = (await allPageList(p => admin.call(p), `${D(created.id)}`, value => S.schemas.PolicyDiscoveryList.parse(value))).items.length;
     await sweepPolicyDiscoveries(runtime.scoped, workers);
-    check('no rediscovery is scheduled within a week of the last', (await ok(admin.call(`${D(created.id)}?limit=100`), S.schemas.PolicyDiscoveryList)).items.length, before);
+    check('no rediscovery is scheduled within a week of the last', (await allPageList(p => admin.call(p), `${D(created.id)}`, value => S.schemas.PolicyDiscoveryList.parse(value))).items.length, before);
     // Other enabled sites in this scope are due too; sweep until this site's weekly discovery has run (bounded).
     let scheduled = await latest(created.id);
     for (let i = 0; i < 40 && !(scheduled.trigger === 'SCHEDULE' && scheduled.state !== 'QUEUED'); i++) { await sweepPolicyDiscoveries(runtime.scoped, workers, () => Date.now() + 8 * 86_400_000); scheduled = await latest(created.id); }

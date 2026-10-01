@@ -12,6 +12,7 @@ import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { postgresContainer } from '../../../shared/testing/src/postgres-container.ts';
 import { writeEvidence } from '../../../shared/testing/src/evidence.ts';
 import { issueSetupCode } from '../../../scripts/setup-code.ts';
 import { admitRealPrincipals, realPrincipalState } from '../../../scripts/real-principals.ts';
@@ -25,7 +26,7 @@ const check = (name: string, actual: unknown, expected: unknown) => {
 };
 const profile = loadProfile();
 const scratch = `orvia_real_principals_${randomUUID().replace(/-/g, '').slice(0, 12)}`;
-const container = `${profile.compose_project}-postgres-1`;
+const container = postgresContainer(profile);
 const exec = (args: string[], input?: Buffer) => { const r = spawnSync('docker', ['exec', '-i', '-e', `PGPASSWORD=${profile.password}`, container, ...args], { input, maxBuffer: 256 * 1024 * 1024 }); if (r.status !== 0) throw new Error(`docker exec failed: ${r.stderr?.toString().slice(0, 300)}`); return r.stdout; };
 const failure = (e: unknown) => ({ code: (e as { code?: string }).code, message: (e as { message?: string }).message, constraint: (e as { constraint?: string }).constraint });
 const bootstrap = connectDatabase({ ...profile, database: 'postgres' }).pool;

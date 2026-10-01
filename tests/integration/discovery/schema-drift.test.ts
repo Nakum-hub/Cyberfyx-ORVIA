@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // Metadata discovery when the source changes (EX04, M03/M18; worker services/worker/src/catalog-discovery.ts).
 // Scenario: the organisation registers a customer table in its synthetic target for scheduled metadata discovery. Under test:
 // the first read records the columns and a digest without reading values; an unchanged re-read keeps the digest and opens no
@@ -57,11 +58,7 @@ await t.run(async () => {
     const opened = await gaps();
     check('the next read records the new column and a new digest', [changed.columns.map(c => c.name).includes('aadhaar_number'), changed.digest !== first.digest], [true, true]);
     check('one HIGH schema-change gap tells staff to review the mapping', [opened.length, opened[0]?.severity, opened[0]?.state, opened[0]?.description.includes('Review data mapping')], [1, 'HIGH', 'OPEN', true]);
-    let visible = false;
-    for (let cursor: string | null = null, n = 0; n < 50 && !visible; n++) {
-      const listed: { items: { id: string }[]; next_cursor: string | null } = await ok(admin.call(`/api/v1/admin/gaps?limit=100${cursor ? `&cursor=${cursor}` : ''}`), S.schemas.GapList);
-      visible = listed.items.some(g => g.id === opened[0]!.id); cursor = listed.next_cursor; if (!cursor) break;
-    }
+    const visible=(await allPageList(p=>admin.call(p),'/api/v1/admin/gaps',value=>S.schemas.GapList.parse(value))).items.some(g=>g.id===opened[0]!.id);
     check('the gap is visible to staff in the coverage list', visible, true);
     await sweep();
     check('a further unchanged read does not duplicate the gap', (await gaps()).length, 1);

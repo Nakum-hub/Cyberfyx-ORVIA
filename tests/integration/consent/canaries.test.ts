@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // Withdrawal canaries ("canary trap"; migration 0079, contract 0.53.0) through the HTTP boundary, the machine sender and the
 // database. Scenario: an online shop plants a decoy customer, who never consented, in its marketing list and CRM. Under test:
 // only people with sensitive access see canaries; one owner registers and another activates (self-activation refused); a decoy
@@ -33,7 +34,7 @@ await t.run(async () => {
   const sender = senderEnrollment(h.config).identities.find(i => i.scope.environment_id === s.environment_id)!;
   const send = (principal: string) => fetch(`${h.config.origin}/api/v1/machine/simulator/send`, { method: 'POST', headers: { authorization: `Bearer ${sender.token}`, 'content-type': 'application/json', 'idempotency-key': randomUUID() },
     body: JSON.stringify({ attempt_id: randomUUID(), principal_reference_id: principal, purpose_id: scenario.purpose.id, system_id: scenario.system.id, message_class: 'MARKETING', order_reference: null }), signal: AbortSignal.timeout(15000) });
-  const hits = async (canary: string) => (await ok(owner.call(`/api/v1/admin/canary-hits?canary_id=${canary}&limit=100`), S.schemas.CanaryHitList)).items;
+  const hits = async (canary: string) => (await allPageList(p => owner.call(p), `/api/v1/admin/canary-hits?canary_id=${canary}`, value => S.schemas.CanaryHitList.parse(value))).items;
   const attention = async () => (await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention)).items.find(i => i.kind === 'CANARY_TRAP_HIT');
 
   t.setPhase('registration');
@@ -77,7 +78,7 @@ await t.run(async () => {
   const reported = await ok(owner.call(`/api/v1/admin/withdrawal-canaries/${k.id}/hits`, { detail: 'Newsletter "Weekend deals" from news@shop.example (synthetic).', evidence_reference: 'Mailbox export MX-12 (synthetic)', observed_at: hoursFromNow(-2), system_id: null }, key()), S.schemas.CanaryHit);
   check('staff record the receipt with its evidence', [reported.source, reported.evidence_reference], ['REPORTED_RECEIPT', 'Mailbox export MX-12 (synthetic)']);
   check('attention counts every unreviewed hit', (await attention())?.count, 4);
-  check('the canary list shows four open hits', (await ok(owner.call('/api/v1/admin/withdrawal-canaries?limit=100'), S.schemas.WithdrawalCanaryList)).items.find(x => x.id === k.id)?.open_hits, 4);
+  check('the canary list shows four open hits', (await allPageList(p => owner.call(p), '/api/v1/admin/withdrawal-canaries', value => S.schemas.WithdrawalCanaryList.parse(value))).items.find(x => x.id === k.id)?.open_hits, 4);
 
   t.setPhase('review');
   const reviewed = await ok(reviewer.call(`/api/v1/admin/canary-hits/${sendHit!.id}/review`, { note: 'Traced to the campaign tool importing the full list; suppression list now applied (synthetic).' }, key()), S.schemas.CanaryHit);
@@ -93,5 +94,5 @@ await t.run(async () => {
   const before = (await hits(k.id)).length;
   await send(A.id);
   check('a retired canary traps nothing', (await hits(k.id)).length, before);
-  check('another tenant sees none of it', [(await birch.call('/api/v1/admin/withdrawal-canaries?limit=100')).status === 200 ? (await ok(birch.call('/api/v1/admin/withdrawal-canaries?limit=100'), S.schemas.WithdrawalCanaryList)).items.some(x => x.id === k.id) : false], [false]);
+  check('another tenant sees none of it', [(await birch.call('/api/v1/admin/withdrawal-canaries?limit=100')).status === 200 ? (await allPageList(p => birch.call(p), '/api/v1/admin/withdrawal-canaries', value => S.schemas.WithdrawalCanaryList.parse(value))).items.some(x => x.id === k.id) : false], [false]);
 });

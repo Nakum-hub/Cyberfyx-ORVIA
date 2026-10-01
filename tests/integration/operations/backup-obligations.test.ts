@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX07 backup-copy obligations (master §§50, 52, 91; migration 0076; contract 0.50.0).
 // Under test: a backup treatment records the five required facts and needs a second person's approval (the recorder, an
 // administrator without approval rights and a read-only role cannot); when erasures are verified, only the system with a current
@@ -72,7 +73,7 @@ await t.run(async () => {
     const attention = await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention);
     check('Operations attention names the unknown backup handling', attention.items.some(i => i.kind === 'BACKUP_HANDLING_UNKNOWN' && i.entity_id === noTreatment.id), true);
     check('the ledger itself needs sensitive access', (await admin.call(`/api/v1/admin/erasure-ledger?system_id=${withBackups.id}&limit=10`)).status, 403);
-    const listed = await ok(owner.call(`/api/v1/admin/erasure-ledger?system_id=${withBackups.id}&limit=100`), S.schemas.ErasureLedgerList);
+    const listed = await allPageList(p => owner.call(p), `/api/v1/admin/erasure-ledger?system_id=${withBackups.id}`, value => S.schemas.ErasureLedgerList.parse(value));
     check('the owner reads the ledger', listed.items.filter(e => e.state === 'IN_BACKUPS').length >= N, true);
 
     t.setPhase('restore');
@@ -83,7 +84,7 @@ await t.run(async () => {
     check('a restore from a backup older than the erasures marks everyone erased since', older.marked_for_reerasure >= N, true);
     const attention2 = await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention);
     check('Operations attention shows the re-erasure', attention2.items.some(i => i.kind === 'REERASURE_AFTER_RESTORE' && i.entity_id === withBackups.id && i.count >= N), true);
-    const toErase = (await ok(owner.call(`/api/v1/admin/erasure-ledger?system_id=${withBackups.id}&state=REAPPLY_REQUIRED&limit=100`), S.schemas.ErasureLedgerList)).items;
+    const toErase = (await allPageList(p => owner.call(p), `/api/v1/admin/erasure-ledger?system_id=${withBackups.id}&state=REAPPLY_REQUIRED`, value => S.schemas.ErasureLedgerList.parse(value))).items;
     check('an administrator cannot confirm re-erasure (sensitive)', (await admin.call(`/api/v1/admin/erasure-ledger/${toErase[0]!.id}/reapplied`, { evidence_reference: 'CRM delete log (synthetic)' }, key())).status, 403);
     const confirmed = await ok(owner.call(`/api/v1/admin/erasure-ledger/${toErase[0]!.id}/reapplied`, { evidence_reference: 'CRM delete log DL-9 (synthetic)' }, key()), S.schemas.ErasureLedgerEntry);
     check('the owner confirms one re-erasure with evidence', [confirmed.state, confirmed.reapplied_evidence], ['REAPPLIED', 'CRM delete log DL-9 (synthetic)']);

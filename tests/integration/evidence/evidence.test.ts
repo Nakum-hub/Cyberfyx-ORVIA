@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { execFile,spawn,type ChildProcess } from 'node:child_process';
@@ -73,7 +74,7 @@ try{
  const assigned=S.Workflow.parse(await (await member.call('/api/v1/admin/workflows/'+manualId)).json());check('member sees only exact assigned workflow',assigned.id,manualId);
  check('member still cannot see other workflow',(await member.call('/api/v1/admin/workflows/'+mandatoryId)).status,404);
  const assignments=(await db.query('SELECT workflow_id FROM app.workflow_assignments WHERE staff_actor_id=$1 ORDER BY workflow_id',[h.users.member!.id])).rows.map(r=>r.workflow_id);
- check('member list equals exact persisted assignments',S.schemas.WorkflowList.parse(await (await member.call('/api/v1/admin/workflows?limit=100')).json()).items.map(w=>w.id).sort(),assignments);
+ check('member list equals exact persisted assignments',(await allPageList(p => member.call(p), '/api/v1/admin/workflows', value => S.schemas.WorkflowList.parse(value))).items.map(w=>w.id).sort(),assignments);
  const task=assigned.obligations[0]!;const storedVersion=Number((await db.query('SELECT manual_version FROM app.obligations WHERE id=$1',[task.id])).rows[0].manual_version);
  check('manual task read exposes authoritative stored version',task.task_version,storedVersion);
  const attestation={statement:'Synthetic operator reports completing the declared manual restriction task.',evidence_record_ids:[manualWithdrawal.receipt.receipt_id],expected_task_version:task.task_version};

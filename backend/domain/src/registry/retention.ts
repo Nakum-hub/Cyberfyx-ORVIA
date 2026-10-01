@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import * as R from '../../../../shared/contracts/src/registry.ts';
+import { Id } from '../../../../shared/contracts/src/index.ts';
 import { AccessError } from '../../../authorization/src/index.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { exists, iso, packageAt, pageOf, predicate, refuse, scope } from '../operations/shared.ts';
@@ -60,7 +61,7 @@ export async function reviseRule(c: Context, id: string, input: unknown) {
   return ruleView(row);
 }
 export async function ruleList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.retention_rules WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.retention_rules WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.retention_rules WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(ruleView), next_cursor: paged.next_cursor };
 }
@@ -102,7 +103,7 @@ export async function releaseHold(c: Context, id: string, input: unknown) {
 export async function holdList(c: Context, page: Page, query: unknown) {
   const q = (query ?? {}) as { subject_id?: string; active?: 'true' | 'false' };
   const rows = (await c.tx.query(`SELECT * FROM app.retention_holds WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::text IS NULL OR (state='ACTIVE')=($5='true'))
-    AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7`, [...scope(c), q.subject_id ?? null, q.active ?? null, page.cursor, page.limit + 1])).rows as HoldRow[];
+    AND ($6::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.retention_holds WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::text IS NULL OR (state='ACTIVE')=($5='true')) AND id=$6)) ORDER BY recorded_at DESC,id DESC LIMIT $7`, [...scope(c), q.subject_id ?? null, q.active ?? null, page.cursor, page.limit + 1])).rows as HoldRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(holdView), next_cursor: paged.next_cursor };
 }
@@ -145,7 +146,7 @@ export async function recordReEngagement(c: Context, id: string, input: unknown)
 }
 export async function intimationList(c: Context, page: Page, query: unknown) {
   const q = R.ErasureIntimationQuery.parse(query ?? {});
-  const rows = (await c.tx.query(`SELECT * FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`,
+  const rows = (await c.tx.query(`SELECT * FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND id=$5)) ORDER BY recorded_at DESC,id DESC LIMIT $6`,
     [...scope(c), q.subject_id ?? null, page.cursor, page.limit + 1])).rows as IntimationRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(intimationView), next_cursor: paged.next_cursor };
@@ -153,13 +154,22 @@ export async function intimationList(c: Context, page: Page, query: unknown) {
 type DueRow = { subject_id: string; rule_id: string; rule_name: string; eligible_at: Date; intimation_id: string | null; intimated_at: Date | null };
 /** People under Third Schedule rules whose erasure date is known and not yet carried out, with the time the intimation is due. */
 export async function intimationsDue(c: Context, page: Page) {
+  if (page.cursor) {
+    const parts = page.cursor.split(':');
+    if (parts.length !== 2 || parts.some(part => !Id.safeParse(part).success)) refuse(400, 'cursor', 'invalid_cursor');
+  }
   const rows = (await c.tx.query(`SELECT st.subject_id, st.rule_id, r.name AS rule_name, st.eligible_at,
       (SELECT i.id FROM app.erasure_intimations i WHERE i.tenant_id=st.tenant_id AND i.legal_entity_id=st.legal_entity_id AND i.environment_id=st.environment_id AND i.subject_id=st.subject_id AND i.rule_id=st.rule_id ORDER BY i.intimated_at DESC LIMIT 1) AS intimation_id,
       (SELECT i.intimated_at FROM app.erasure_intimations i WHERE i.tenant_id=st.tenant_id AND i.legal_entity_id=st.legal_entity_id AND i.environment_id=st.environment_id AND i.subject_id=st.subject_id AND i.rule_id=st.rule_id ORDER BY i.intimated_at DESC LIMIT 1) AS intimated_at
     FROM app.retention_states st JOIN app.retention_rules r ON r.tenant_id=st.tenant_id AND r.legal_entity_id=st.legal_entity_id AND r.environment_id=st.environment_id AND r.id=st.rule_id
     WHERE st.tenant_id=$1 AND st.legal_entity_id=$2 AND st.environment_id=$3 AND r.requirement_id=$4 AND st.eligible_at IS NOT NULL AND st.state NOT IN ('ERASED','SCHEDULED')
-      AND ($5::text IS NULL OR (st.subject_id::text || ':' || st.rule_id::text) > $5)
-    ORDER BY st.subject_id::text || ':' || st.rule_id::text LIMIT $6`, [...scope(c), THIRD_SCHEDULE, page.cursor, page.limit + 1])).rows as DueRow[];
+      AND ($5::text IS NULL OR (COALESCE(st.inserted_at,'-infinity'::timestamptz),st.subject_id,st.rule_id) < (
+        SELECT COALESCE(anchor.inserted_at,'-infinity'::timestamptz),anchor.subject_id,anchor.rule_id
+        FROM app.retention_states anchor JOIN app.retention_rules ar ON ar.tenant_id=anchor.tenant_id AND ar.legal_entity_id=anchor.legal_entity_id AND ar.environment_id=anchor.environment_id AND ar.id=anchor.rule_id
+        WHERE anchor.tenant_id=$1 AND anchor.legal_entity_id=$2 AND anchor.environment_id=$3 AND ar.requirement_id=$4
+          AND anchor.eligible_at IS NOT NULL AND anchor.state NOT IN ('ERASED','SCHEDULED')
+          AND anchor.subject_id=split_part($5,':',1)::uuid AND anchor.rule_id=split_part($5,':',2)::uuid))
+    ORDER BY COALESCE(st.inserted_at,'-infinity'::timestamptz) DESC,st.subject_id DESC,st.rule_id DESC LIMIT $6`, [...scope(c), THIRD_SCHEDULE, page.cursor, page.limit + 1])).rows as DueRow[];
   const paged = pageOf(rows, page.limit, r => `${r.subject_id}:${r.rule_id}`);
   return { items: paged.items.map(r => R.ErasureIntimationDue.parse({
     subject_id: r.subject_id, rule_id: r.rule_id, rule_name: r.rule_name, erasure_due_at: iso(r.eligible_at), intimate_by: iso(new Date(r.eligible_at.getTime() - HOURS_48)),

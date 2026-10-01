@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX02 website consent management through the HTTP boundary and the worker scanner.
 // A loopback test site and tracker host stand in for the customer's website and a
 // third-party analytics provider (synthetic, local only). Under test: origins
@@ -122,7 +123,7 @@ await t.run(async () => {
 
     t.setPhase('disable, isolation and history');
     check('an auditor reads but cannot change anything', [(await auditor.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`)).status, (await auditor.call(`/api/v1/admin/cmp-sites/${created.id}/scans`, { url: `${origin}/` }, key())).status], [200, 403]);
-    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`)).status, (await ok(birch.call('/api/v1/admin/cmp-sites?limit=100'), S.schemas.CmpSiteList)).items.some(x => x.id === created.id)], [404, false]);
+    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`)).status, (await allPageList(p => birch.call(p), '/api/v1/admin/cmp-sites', value => S.schemas.CmpSiteList.parse(value))).items.some(x => x.id === created.id)], [404, false]);
     const direct = (sql: string, values: unknown[]) => db.query(sql, values).then(() => 'accepted').catch((x: { code?: string }) => x.code ?? 'rejected');
     check('a consent record cannot be altered', await direct(`UPDATE app.cmp_consents SET choices='{}' WHERE id=$1`, [receipt.receipt_id]), '23514');
     check('a consent record cannot be deleted', await direct(`DELETE FROM app.cmp_consents WHERE id=$1`, [receipt.receipt_id]), '23514');
