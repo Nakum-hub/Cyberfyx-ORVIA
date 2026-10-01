@@ -7,7 +7,7 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "8eabadee699460ba6859189d60fa0f30a779eb66cbda71fc9a1736f6d3f2e1fa",
+  "test_file_digest": "445bb7a5afc9704adefc5e1d2874f541ce20615437ea1a0cb4c5834045c525ab",
   "counts": {
     "UNIT": 50,
     "INTEGRATION": 87,
@@ -219,7 +219,7 @@
     },
     {
       "path": "tests/integration/discovery/catalog-flow.test.ts",
-      "sha256": "8dcc620f15186b0d59fcff5a2ede064fc0bfa39ff0102093b3c67249e941e233",
+      "sha256": "ef3e3aad6ed6f9973db404d7570b469a9299b2d7dd9a8c9c45d59439d695d8ff",
       "kind": "INTEGRATION"
     },
     {
@@ -229,7 +229,7 @@
     },
     {
       "path": "tests/integration/discovery/schema-drift.test.ts",
-      "sha256": "d66c033c0216048354c2b9917a6abbc4fe3c1b0c9d1eed08f97c18845e910140",
+      "sha256": "cd2caeb004f3b32f2ef7115fb95047c03354e4c343a2cf5b8f48bb5decb2e664",
       "kind": "INTEGRATION"
     },
     {
@@ -239,7 +239,7 @@
     },
     {
       "path": "tests/integration/enforcement/withdrawal-timing.test.ts",
-      "sha256": "45e276418bbc9ec82c1ad460ba125163cf626f33c9f0a27adc23036025a34f0c",
+      "sha256": "b73f40b3dfbee14f0763cc62ba73cc9bc00827a96a6c92a86160405b20e79dfe",
       "kind": "INTEGRATION"
     },
     {

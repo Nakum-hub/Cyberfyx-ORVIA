@@ -119,7 +119,8 @@ try{
     const current=S.CatalogDiscoveryDetail.parse(await (await auditor.call(`${path}/${failedTarget.id}`)).json());
     check(`failure state after attempt ${attempt}`,[current.job?.state,current.job?.attempts,current.observations.length],
       [attempt===3?'EXHAUSTED':'RETRY',attempt,0]);
-    if(attempt<3)await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() WHERE target_id=$1',[failedTarget.id]);
+    // Due before every other target the long-lived profile holds (a sweep reads the ten due longest), so it is read next.
+    if(attempt<3)await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() - make_interval(years => 10) WHERE target_id=$1',[failedTarget.id]);
   }
   const failedGaps=(await db.query(`SELECT source,subject_kind,state FROM app.coverage_gaps
     WHERE subject_id=$1 AND source='CATALOG_READ_EXHAUSTED'`,[failedTarget.id])).rows;
@@ -133,7 +134,7 @@ try{
   try{
     await targetDb.query('ALTER TABLE public.marketing_memberships ADD COLUMN orvia_catalog_drift_marker text');
     driftColumnAdded=true;
-    await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() WHERE target_id=$1',[target.id]);
+    await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() - make_interval(years => 10) WHERE target_id=$1',[target.id]);
     check('changed relation is rescanned',await sweepCatalogDiscovery(runtime.scoped,
       runtime.enrollment.identities.map(x=>x.id),observerEnrollment(runtime.config).identities,runtime.observer)>=1,true);
     const changed=S.CatalogDiscoveryDetail.parse(await (await auditor.call(`${path}/${target.id}`)).json());

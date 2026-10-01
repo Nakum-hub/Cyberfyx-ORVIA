@@ -29,7 +29,8 @@ await t.run(async () => {
   const sender = senderEnrollment(h.config).identities.find(i => i.scope.environment_id === scenario.scope.environment_id)!;
   const send = async () => { const started = performance.now(); const r = await fetch(`${h.config.origin}/api/v1/machine/simulator/send`, { method: 'POST', headers: { authorization: `Bearer ${sender.token}`, 'content-type': 'application/json', 'idempotency-key': randomUUID() },
     body: JSON.stringify({ attempt_id: randomUUID(), principal_reference_id: h.users.alice!.principal_id, purpose_id: scenario.purpose.id, system_id: scenario.system.id, message_class: 'MARKETING', order_reference: null }), signal: AbortSignal.timeout(15000) });
-    return { decision: ((await r.json()) as { decision: string }).decision, ms: performance.now() - started }; };
+    const body = await r.text(); let decision = `HTTP ${r.status}`; try { if (r.status === 200) decision = (JSON.parse(body) as { decision: string }).decision; else decision += ` ${body.slice(0, 160)}`; } catch { /* the status says enough */ }
+    return { decision, ms: performance.now() - started }; };
   const firstAfter: string[] = []; const decisionMs: number[] = []; const grantedAllowed: string[] = [];
   for (let i = 0; i < 20; i++) {
     grantedAllowed.push((await send()).decision);
@@ -37,8 +38,8 @@ await t.run(async () => {
     const after = await send(); firstAfter.push(after.decision); decisionMs.push(after.ms);
     await scenario.change('grant');
   }
-  check('every send while consent stood was admitted (the control)', grantedAllowed.every(d => d === 'ALLOW'), true);
-  check('in 20 of 20 cycles the first send after the withdrawal returned was refused: no window in which an old grant is used', firstAfter.filter(d => d === 'BLOCK').length, 20);
+  check('every send while consent stood was admitted (the control)', grantedAllowed, Array(20).fill('ALLOW'));
+  check('in 20 of 20 cycles the first send after the withdrawal returned was refused: no window in which an old grant is used', firstAfter, Array(20).fill('BLOCK'));
   const measured = { cycles: 20, decision_ms_p50: Math.round(pct(decisionMs, 0.5)), decision_ms_p95: Math.round(pct(decisionMs, 0.95)), decision_ms_max: Math.round(Math.max(...decisionMs)) };
   console.log('MEASURED processing boundary', JSON.stringify(measured));
   check('the post-withdrawal admission decision is measured (p50, p95, max ms) and each took under 5 seconds on this host', [measured.decision_ms_max < 5000, measured], [true, measured]);

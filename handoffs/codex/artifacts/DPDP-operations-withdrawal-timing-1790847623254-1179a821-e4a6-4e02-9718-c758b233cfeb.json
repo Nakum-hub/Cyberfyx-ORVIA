@@ -1,0 +1,25 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T09:40:23.254Z",
+  "suite": "withdrawal-timing",
+  "assertions": [
+    {
+      "name": "every send while consent stood was admitted (the control)",
+      "result": "FAIL",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "name": "unexpected failure in A: the processing boundary",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: every send while consent stood was admitted (the control)"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
