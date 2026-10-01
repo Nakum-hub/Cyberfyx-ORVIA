@@ -6,6 +6,7 @@ import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
 import interfaces from '@orvia/contracts/generated/interfaces.json';
 import { describeFailure, type UiFailure } from './errors.ts';
 import { beginRead } from './read-activity.ts';
+import { createQueuedFetch } from './read-queue.ts';
 
 /**
  * One transport for the whole interface: the generated client from
@@ -32,15 +33,7 @@ export const CONTRACT_REVIEW_STATUS = interfaces.review_status;
  * no semantics: each request still carries its own timeout, abort signal and
  * idempotency key, and a cancelled request leaves the queue immediately.
  */
-let gate: Promise<unknown> = Promise.resolve();
-function queued(input: RequestInfo | URL, init?: RequestInit) {
-  const run = gate.then(
-    () => fetch(input, { ...init, signal: init?.signal
-      ? AbortSignal.any([init.signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000) }),
-  );
-  gate = run.then(() => undefined, () => undefined);
-  return run;
-}
+const queued = createQueuedFetch();
 const client = createClient(queued);
 
 export type Operation = keyof EndpointMap;
