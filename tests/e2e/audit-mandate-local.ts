@@ -160,8 +160,21 @@ try {
       check('a second owner approves the mandate in the browser', true, true);
 
       t.setPhase('worker sends the first snapshot');
+      // The worker services every due mandate in this durable synthetic scope.
+      // Earlier journeys may have active mandates; assert this engagement's
+      // exact outcome and reconcile the report against all newly accepted rows.
+      const accepted = async () => (await db.query(`SELECT count(*)::int total,
+        count(*) FILTER (WHERE d.engagement_id=e.id AND e.engagement_reference=$4 AND d.kind='SNAPSHOT')::int own
+        FROM app.audit_channel_deliveries d JOIN app.audit_engagements e
+          ON e.tenant_id=d.tenant_id AND e.legal_entity_id=d.legal_entity_id AND e.environment_id=d.environment_id AND e.id=d.engagement_id
+        WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3 AND d.state='ACCEPTED'`,
+      [scopeIds.tenant_id, scopeIds.legal_entity_id, scopeIds.environment_id, reference])).rows[0] as {total:number;own:number};
+      const beforeAccepted = await accepted();
+      check('this engagement has no accepted snapshot before its worker cycle', beforeAccepted.own, 0);
       const r1 = await sweep();
-      check('the worker checks in over HTTP and the signed snapshot is accepted', [r1.check_ins >= 1, r1.deliveries_accepted], [true, 1]);
+      const afterAccepted = await accepted();
+      check('the worker checks in over HTTP and the signed snapshot is accepted',
+        [r1.check_ins >= 1, r1.deliveries_accepted, afterAccepted.own], [true, afterAccepted.total - beforeAccepted.total, 1]);
       await openEngagement(admin, reference);
       const sent = admin.getByRole('table', { name: 'Evidence deliveries' });
       check('the client sees what ORVIA sent and that it was accepted', await sent.getByRole('row').filter({ hasText: 'scheduled snapshot' }).filter({ hasText: 'accepted' }).count(), 1);

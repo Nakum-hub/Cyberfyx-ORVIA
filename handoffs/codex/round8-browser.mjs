@@ -64,7 +64,9 @@ kind.launch = async options => {
 process.env.R7_RUN_LABEL=`round8-${label}`;
 let stopPolicySamples=()=>{};
 if(process.env.R8_POLICY_SAMPLES==='1') {
-  const sampler=spawn(process.execPath,['--import','tsx','handoffs/codex/round7-opa-sampler.ts'],{windowsHide:true,stdio:'ignore',env:{...process.env,R7_METRIC_LABEL:`roundeight-${engine}-${suite}`}});
+  const metricLabel=`${label}-${engine}-${suite}`;
+  if(!/^[a-z-]+$/.test(metricLabel)) throw new Error('Metric labels must contain letters and hyphens');
+  const sampler=spawn(process.execPath,['--import','tsx','handoffs/codex/round7-opa-sampler.ts'],{windowsHide:true,stdio:'ignore',env:{...process.env,R7_METRIC_LABEL:metricLabel}});
   const stop=()=>{if(sampler.exitCode===null)sampler.kill();};
   stopPolicySamples=stop;
   process.once('exit',stop);
