@@ -7,7 +7,7 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "48af91da3c1734d1c2ab7016da169082473e13d89096a8c33efeffcc8e2d87a5",
+  "test_file_digest": "61b4afcf103b7f1dd56d17688bba68e0c44a94761fe14f700e19010066cf33c3",
   "counts": {
     "UNIT": 50,
     "INTEGRATION": 84,
@@ -244,7 +244,7 @@
     },
     {
       "path": "tests/integration/expansion/audit-mandate.test.ts",
-      "sha256": "3f25ab776c641464470401a790f58b2e4acac81c8c28494a529f31b35ba29d85",
+      "sha256": "c14e0db917afd46eab9d224f1912957d4310d49ea740f9f6ab9e5618a9bc29b6",
       "kind": "INTEGRATION"
     },
     {
@@ -259,7 +259,7 @@
     },
     {
       "path": "tests/integration/expansion/delivery.test.ts",
-      "sha256": "1f64e8be8d7e5f3174387f198d76c68001fc9ad71f4f8291a853d159884f532b",
+      "sha256": "8065ba1465efca0c3d60337b97f78ef7c77d77473790f753a426162591fc09c4",
       "kind": "INTEGRATION"
     },
     {
@@ -539,7 +539,7 @@
     },
     {
       "path": "tests/integration/rights/portal.test.ts",
-      "sha256": "50a33b9a62df6a40a69d658fffef41818acc182efcba33230be7724028ad1bb7",
+      "sha256": "8859cf8e24c05e997fb52e1b5cdbf12172de508a15c67997de30a9ff7d2af7c0",
       "kind": "INTEGRATION"
     },
     {

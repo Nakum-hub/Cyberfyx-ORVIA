@@ -103,10 +103,14 @@ try {
 
   // --- the same request is the one staff work on ------------------------------------
   phase = 'one record';
-  const asStaff = S.schemas.RightsRequestList.parse(
-    await (await staff.call('/api/v1/admin/rights-requests?limit=100')).json());
-  check('the portal request is the same record staff handle, not a parallel one',
-    asStaff.items.some(i => i.id === raised.id), true);
+  // The staff list is paged (at most 100 per page), and a long-lived profile holds more requests than one page.
+  let seenByStaff = false;
+  for (let cursor: string | null = null, n = 0; n < 50 && !seenByStaff; n++) {
+    const asStaff: { items: { id: string }[]; next_cursor: string | null } = S.schemas.RightsRequestList.parse(
+      await (await staff.call(`/api/v1/admin/rights-requests?limit=100${cursor ? `&cursor=${cursor}` : ''}`)).json());
+    seenByStaff = asStaff.items.some(i => i.id === raised.id); cursor = asStaff.next_cursor; if (!cursor) break;
+  }
+  check('the portal request is the same record staff handle, not a parallel one', seenByStaff, true);
   check('raising a request in the portal is recorded in the audit trail',
     Number((await db.query(
       `SELECT count(*)::int AS n FROM app.audit_events WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3
