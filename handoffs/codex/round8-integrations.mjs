@@ -92,6 +92,18 @@ async function prerequisites(suite, output) {
     if (errors.length) throw new Error(errors.join('; '));
   }
   try {
+    // The protected enrollment expires after one hour. Renew only between
+    // serial suites, before any worker/agent starts; never relax the expiry.
+    const enrollmentArgs = ['--import', 'tsx', 'scripts/machine-init.ts', 'confirm:codex-a00'];
+    output.write(JSON.stringify({ prerequisite_command: [process.execPath, ...enrollmentArgs] }) + '\n');
+    const enrollment = spawn(process.execPath, enrollmentArgs, { cwd: process.cwd(), env, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+    enrollment.stdout.pipe(output, { end: false }); enrollment.stderr.pipe(output, { end: false });
+    const enrollmentExit = await new Promise((resolve, reject) => {
+      enrollment.once('error', reject); enrollment.once('close', (code, signal) => resolve({ code, signal }));
+    });
+    output.write(JSON.stringify({ prerequisite: 'MACHINE_ENROLLMENT', ...enrollmentExit }) + '\n');
+    assert.equal(enrollmentExit.code, 0, 'Protected machine enrollment prerequisite failed');
+    assert.equal(enrollmentExit.signal, null, 'Protected machine enrollment was interrupted');
     if (['tests/integration/evidence/evidence.test.ts', 'tests/integration/regression/regression.test.ts', 'tests/integration/workflows/workflow.test.ts'].includes(suite)) {
       await freePort(57233);
       for (const name of [PRIVATE, LOOPBACK]) {
