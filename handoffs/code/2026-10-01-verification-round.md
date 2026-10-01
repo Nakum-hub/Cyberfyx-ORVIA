@@ -39,6 +39,12 @@
 - Migration `0081` (NOTIFY); `services/worker/src/operations-runner.ts`.
 - Measured in `withdrawal-timing`.
 
+**Postgres memory settings for the 512 MB container (`infrastructure/compose.yaml`).**
+- Battery 20 hit a kernel memory-cgroup kill of a Postgres backend during `migration-upgrade`; Postgres then restarted every connection.
+- The cause: the container limit was 384 MB with default Postgres memory settings.
+- The fix: `mem_limit: 512m`, `shared_buffers=64MB`, `work_mem=2MB`, `hash_mem_multiplier=1`, `maintenance_work_mem=32MB`, `autovacuum_max_workers=2`, `max_connections=60`. The same file is used by real installations.
+- Verified: the container was recreated with its data kept; `migration-upgrade` passed 10/10 and the rest of the battery ran with no further kill.
+
 **Catalog discovery: first read before freshness re-reads.**
 - `services/worker/src/catalog-discovery.ts`.
 
@@ -106,6 +112,7 @@ All on `codex-a00`. Runner: `scripts/run-signed-suite.sh`, one suite at a time. 
 | Pass 4: audit-mandate with continuous assurance | 0 | 102/102 |
 | Pass 5: `security/fixture-isolation.ts`, `security/graph-source-binding.ts`, `scripts/policy-gate.sh` | 0 each | PASS. The policy gate catches all 8 deliberate defects. |
 | Operations attention timing, 8 calls | — | 233–346 ms |
+| Battery 20: the full regression battery after every fix above, serially, including `tests/security/*.ts` | — | 107 passed, 0 failed, NOT_RUN for TLS and network-core only (reasons below) |
 
 **Tests not run:**
 - `tests/security/tls.test.ts`. It runs only on `rehearsal`. That profile is the clean customer install with one first-run owner, and seeding fixture users would add owners, breaking the revision 1.8 invariant.
@@ -135,7 +142,7 @@ Every executed result is in the matrix. These are local synthetic results: not c
 
 1. Review and merge Codex round 8 (`codex/round8`) when it is pushed.
 2. Do whatever it left of the timestamp work.
-3. Run the full regression battery on the final candidate. Collect `tests/security/*.ts`, not only `*.test.ts`.
+3. Run the full regression battery again on the final candidate (battery 20 already passed on `9979c75`). Collect `tests/security/*.ts`, not only `*.test.ts`.
 4. Regenerate the matrix.
 5. Update PR #37.
 6. Ask the owner to approve the merge into main. Nobody merges without that approval.

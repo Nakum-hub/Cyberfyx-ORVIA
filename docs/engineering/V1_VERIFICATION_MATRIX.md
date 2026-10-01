@@ -1,6 +1,6 @@
 # ORVIA V1 verification matrix
 
-Generated from executed battery summaries on the codex-a00 development profile (synthetic data only), source `50c64fa`. A suite with no execution in these batteries is shown NOT_RUN. PASS means the suite exited 0 with every assertion passing on this host; it is not release qualification, production qualification or acceptance by Codex.
+Generated from executed battery summaries (battery 19, post-merge passes 1-5 and the final-candidate battery 20) on the codex-a00 development profile (synthetic data only), source `9979c75`. A suite with no execution in these batteries is shown NOT_RUN. PASS means the suite exited 0 with every assertion passing on this host; it is not release qualification, production qualification or acceptance by Codex.
 
 
 ## The presentation claims, scenario by scenario
