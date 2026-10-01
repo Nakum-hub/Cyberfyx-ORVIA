@@ -42,6 +42,26 @@ function routes(dir = resolve('frontend/src/app'), prefix = ''): string[] {
 }
 const ALL = routes();
 const dynamic = (r: string) => r.includes('[');
+const desktopOnly = process.env.R7_DESKTOP_ONLY === '1';
+// Explicit continuation of the interrupted Round 7 WebKit run. Preserve its
+// original checks and failures; never present this as one uninterrupted crawl.
+const resumePrincipal = process.env.R7_CRAWL_FROM === 'principal';
+if (process.env.R7_CRAWL_FROM && !resumePrincipal) throw new Error('Unknown crawl continuation phase');
+const precedingChecks: string[] = [];
+if (resumePrincipal) {
+  if (process.env.ORVIA_PROFILE !== 'codex-a00' || !['resumed', 'desktop-complete'].includes(process.env.R7_RUN_LABEL ?? '')) throw new Error('Named Round 7 continuation only');
+  if (readFileSync('frontend/.next/BUILD_ID', 'utf8').trim() !== 'Qe8us5qs66kBogywSGX1t') throw new Error('Continuation requires the same frozen build');
+  const prior = readFileSync('handoffs/codex/artifacts/R7V-candidate-webkit-interface-crawl-local.log', 'utf8');
+  precedingChecks.push(...prior.split(/\r?\n/).filter(line => /^(PASS|FAIL) /.test(line)));
+  const required = ALL.filter(r => r.startsWith('/workspace') && !dynamic(r) && r !== '/workspace/sign-in');
+  for (const prefix of ['owner', 'admin', 'auditor', 'member', 'owner at phone width']) {
+    for (const route of required) {
+      if (!precedingChecks.some(line => line === `PASS ${prefix}: ${route}` || line.startsWith(`FAIL ${prefix}: ${route} {`))) throw new Error(`Missing preceding check: ${prefix}: ${route}`);
+    }
+  }
+  if (!precedingChecks.includes('PASS principal: /privacy/preferences')) throw new Error('Prior crawl did not reach the expected continuation boundary');
+  console.log(`Continuing at Data Principal portal; retaining ${precedingChecks.length} preceding checks and all their failures. Portal pages are rechecked to restore browser state.`);
+}
 
 type Visit = { installation: string; role: string; viewport: string; route: string; url: string; status: number | null; heading: string | null; issues: string[]; api_denied: number; screenshot: string | null };
 const visits: Visit[] = [];
@@ -141,7 +161,8 @@ async function detailLink(page: Page, route: string) {
 }
 // A crawl must visit everything, so each finding is collected (and printed) instead of stopping the run; one check at the end fails
 // the suite if anything was found.
-const findings: string[] = [];
+const precedingAcceptanceFailures = precedingChecks.filter(line => line.startsWith('FAIL ') && (!desktopOnly || !line.startsWith('FAIL owner at phone width:')));
+const findings: string[] = precedingAcceptanceFailures.map(line => `preceding interrupted run: ${line}`);
 function soft(name: string, actual: unknown, expected: unknown) {
   const ok = JSON.stringify(actual) === JSON.stringify(expected);
   console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${ok ? '' : ` ${JSON.stringify({ expected, actual }).slice(0, 400)}`}`);
@@ -156,6 +177,7 @@ await t.run(async () => {
     const customerStatic = ALL.filter(r => r.startsWith('/workspace') && !dynamic(r) && r !== '/workspace/sign-in');
     const customerDynamic = ALL.filter(r => r.startsWith('/workspace') && dynamic(r));
 
+    if (!resumePrincipal) {
     // ---------------------------------------------------------------- customer: signed out
     t.setPhase('customer installation, signed out');
     const anon = await newPage(browser, h.config.origin);
@@ -189,10 +211,13 @@ await t.run(async () => {
     }
 
     // ---------------------------------------------------------------- customer: phone width
+    if (!desktopOnly) {
     t.setPhase('customer workspace at phone width');
     const phone = await staffSignIn(browser, 'owner', PHONE);
     for (const r of customerStatic) record(`owner at phone width: ${r}`, await visit(phone, 'customer', 'owner', r, r, { shot: true, viewport: 'phone' }));
     await phone.page.context().close();
+    }
+    }
 
     // ---------------------------------------------------------------- customer: Data Principal portal
     t.setPhase('Data Principal portal');
@@ -215,7 +240,9 @@ await t.run(async () => {
     soft('vendor users from the browser journeys are available for the crawl', people.length >= 3, true);
     let engagementUrl: string | null = null;
     for (const role of people) {
-      const p = await vendorSignIn(browser, journal[role] as VendorUser);
+      let rolePage: Awaited<ReturnType<typeof vendorSignIn>> | null = null;
+      try {
+      const p = await vendorSignIn(browser, journal[role] as VendorUser); rolePage = p;
       for (const r of vendorStatic) {
         const v = await visit(p, 'vendor', role, r, r, { shot: role === 'lead' || role === 'admin' });
         record(`vendor ${role}: ${r}`, v);
@@ -230,7 +257,7 @@ await t.run(async () => {
         await p.page.goto(href); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page);
         if (await p.page.getByRole('tablist', { name: 'Engagement workspace' }).count() && await p.page.getByText(/Accepted\./).count()) { opened = true; break; }
       }
-      if (!opened) { soft(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); await p.page.context().close(); continue; }
+      if (!opened) { soft(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); continue; }
       engagementUrl = p.page.url();
       const tabs = await p.page.getByRole('tab').allInnerTexts();
       soft(`vendor ${role}: the engagement workspace has nine tabs`, tabs.map(x => x.replace(/\s*\d+$/, '').trim()), ['Overview', 'Scope and applicability', 'Plan', 'Requests', 'Evidence', 'Tests and working papers', 'Findings and actions', 'Report', 'Follow-up']);
@@ -250,7 +277,11 @@ await t.run(async () => {
       // Keyboard: arrow keys move between tabs.
       await p.page.getByRole('tab').first().focus(); await p.page.keyboard.press('ArrowRight');
       soft(`vendor ${role}: arrow keys move between workspace tabs`, (await p.page.getByRole('tab', { selected: true }).innerText()).replace(/\s*\d+$/, '').trim(), 'Scope and applicability');
-      await p.page.context().close();
+      } catch (error) {
+        const issue = `vendor workspace check interrupted: ${(error as Error).message.slice(0, 500)}`;
+        soft(`vendor ${role}: complete engagement workspace checks`, issue, 'all checks completed');
+        visits.push({ installation: 'vendor', role, viewport: 'desktop', route: '/vendor/engagements/[id]', url: rolePage?.page.url() ?? `${VENDOR}/vendor/sign-in`, status: null, heading: null, issues: [issue], api_denied: 0, screenshot: null });
+      } finally { if (rolePage) await rolePage.page.context().close(); }
     }
     if (typeof journal.uploader === 'object') {
       const up = await vendorSignIn(browser, journal.uploader as VendorUser, '/vendor/sign-in?account=client');
@@ -258,6 +289,7 @@ await t.run(async () => {
       record('client account: the vendor area is refused, not broken', await visit(up, 'vendor', 'client-account', '/vendor/engagements', '/vendor/engagements', { shot: true }));
       await up.page.context().close();
     }
+    if (!desktopOnly) {
     t.setPhase('vendor installation at phone width');
     const lead = typeof journal.lead === 'object' ? journal.lead as VendorUser : null;
     if (lead) {
@@ -266,12 +298,16 @@ await t.run(async () => {
       if (engagementUrl) record('vendor lead at phone width: engagement workspace', await visit(vp, 'vendor', 'lead', '/vendor/engagements/[id]', engagementUrl, { shot: true, viewport: 'phone' }));
       await vp.page.context().close();
     }
+    }
+  } catch (error) {
+    soft('crawl execution completed', (error as Error).message.slice(0, 500), 'no unexpected exception');
   } finally {
     await browser.close();
     if (vendorProcess && vendorProcess.exitCode === null) { const closed = once(vendorProcess, 'close'); vendorProcess.kill(); await closed; }
     const withIssues = visits.filter(v => v.issues.length);
     mkdirSync('handoffs/code/artifacts', { recursive: true });
-    writeFileSync(`handoffs/code/artifacts/interface-crawl-${new Date().toISOString().replace(/[:.]/g, '-')}.json`, JSON.stringify({ suite: 'interface-crawl', routes: ALL, visits: visits.length, pages_with_issues: withIssues.length,
+    writeFileSync(`handoffs/code/artifacts/interface-crawl-${new Date().toISOString().replace(/[:.]/g, '-')}.json`, JSON.stringify({ suite: 'interface-crawl', routes: ALL, viewport_scope: desktopOnly ? 'desktop only, per owner scope update' : 'desktop and phone', visits: visits.length, pages_with_issues: withIssues.length,
+      continuation: resumePrincipal ? { phase: 'principal', preceding_log: 'handoffs/codex/artifacts/R7V-candidate-webkit-interface-crawl-local.log', preceding_checks: precedingChecks, preceding_failed_checks: precedingChecks.filter(line => line.startsWith('FAIL ')), preceding_acceptance_failures: precedingAcceptanceFailures, note: 'Visits below cover the continuation only. Preceding outcomes are preserved as logged, including truncated diagnostic text; this is not one uninterrupted full crawl. Phone results remain historical evidence and are excluded from desktop-only acceptance.' } : null,
       unvisited_detail_routes: visits.filter(v => v.url === '(no record listed)').map(v => v.route), issues: withIssues.map(v => ({ installation: v.installation, role: v.role, viewport: v.viewport, route: v.route, issues: v.issues })), visits_detail: visits }, null, 2));
     console.log(`\ninterface crawl: ${visits.length} visits, ${withIssues.length} with issues`);
     for (const v of withIssues.slice(0, 80)) console.log(`  [${v.installation} ${v.role} ${v.viewport}] ${v.route}: ${v.issues.join(' | ').slice(0, 300)}`);
