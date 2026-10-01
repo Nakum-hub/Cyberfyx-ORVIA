@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { vendorHarness } from './harness.ts';
-import { acceptEngagement, evidenceFor, paper, ok, ACCEPTANCE, METHODOLOGY } from './practice-flow.ts';
+import { acceptEngagement, approveCriteria, evidenceFor, paper, ok, ACCEPTANCE, METHODOLOGY } from './practice-flow.ts';
 import { packageFileBytes, sha256, verifyAuditDocument, type AuditPackageManifest } from '../../../shared/contracts/src/audit-exchange.ts';
 import { engagementCodeDigest } from '../../../backend/vendor/audit/service.ts';
 import { rate } from '../../../backend/vendor/audit/practice.ts';
@@ -67,7 +67,11 @@ try {
   const fixture = state.criteria[0];
   check('practice: baseline recorded as TEST_FIXTURE criteria with its digest', [fixture.distribution, fixture.requirements > 20, /^[a-f0-9]{64}$/.test(fixture.digest)], ['TEST_FIXTURE', true, true]);
   check('practice: an administrator cannot approve criteria', (await adm.json(`${V}/criteria/${fixture.id}/approve`, {})).status, 403);
-  await ok(reviewer.json(`${V}/criteria/${fixture.id}/approve`, {}), 'approve criteria');
+  const fixtureEvidence = (await reviewer.json(`${V}/criteria/${fixture.id}/evidence`)).data;
+  check('criteria evidence: a test-fixture version shows its sources and that package provenance is unknown', [fixtureEvidence.distribution, fixtureEvidence.sources.length > 0, fixtureEvidence.package, fixtureEvidence.open_verification_items, /not recorded from a signed package/.test(fixtureEvidence.limitation)],
+    ['TEST_FIXTURE', true, null, null, true]);
+  check('criteria evidence: approval without a review is refused', (await reviewer.json(`${V}/criteria/${fixture.id}/approve`, {})).status, 400);
+  await approveCriteria(reviewer, fixture.id);
   const bad = METHODOLOGY('RM-BAD'); bad.matrix[4]![4] = 'LOW';
   check('methodology: a matrix whose rating falls as risk rises is refused', code(await lead.json(`${V}/practice/methodologies`, bad)), [400, 'ratings_must_not_decrease_with_likelihood_or_impact']);
   state = await ok(lead.json(`${V}/practice/methodologies`, METHODOLOGY('RM-A')), 'methodology');
@@ -381,7 +385,27 @@ try {
   check('production criteria: recorded as PRODUCTION with every requirement and a digest', [prod?.distribution, prod?.requirements, /^[a-f0-9]{64}$/.test(prod?.digest ?? '')], ['PRODUCTION', productionClaims.requirements.length, true]);
   check('production criteria: the same version cannot be recorded twice', (await lead.json(PC, signedProduction)).status >= 400, true);
   check('production criteria: recorded unapproved; a REAL engagement cannot use them yet', [prod?.approved_by, code(await adm.json(`${V}/engagements/${e0.id}/configure`, { use_kind: 'REAL', criteria_version_id: prod.id, methodology_id: unapproved.id, commercial_owner_id: null, implementation_owner_id: null }))], [null, [409, 'production_criteria_not_approved']]);
-  await ok(reviewer2.json(`${V}/criteria/${prod.id}/approve`, {}), 'approve production criteria');
+  const evidence = (await reviewer2.json(`${V}/criteria/${prod.id}/evidence`)).data;
+  check('criteria evidence: the approver sees every source with its hash, the signed package identity and the open verification items before approving',
+    [evidence.sources.length, evidence.sources.every((x: { retrieved_and_hashed: boolean; artifact_digest: string }) => x.retrieved_and_hashed && x.artifact_digest === 'a'.repeat(64)), evidence.package?.package_version, evidence.package?.signing_key_id, evidence.open_verification_items, evidence.review],
+    [productionClaims.sources.length, true, productionClaims.version, release.key_id, productionClaims.open_verification_items, null]);
+  check('criteria evidence: it says a signature does not prove the sources were checked', /does not prove that anyone checked the source documents/.test(evidence.limitation), true);
+  check('criteria evidence: an unknown version is 404', (await reviewer2.json(`${V}/criteria/${randomUUID()}/evidence`)).status, 404);
+  check('criteria evidence: readable with the same access as the practice summary (an auditor reads it) but an auditor cannot approve', [(await auditor.json(`${V}/criteria/${prod.id}/evidence`)).status, (await auditor.json(`${V}/criteria/${prod.id}/approve`, {})).status], [200, 403]);
+  const review = { expected_digest: evidence.digest, review_reference: 'Sources re-downloaded and digests compared, review note RV-1 (synthetic).', acknowledged_open_items_digest: evidence.open_items_digest };
+  check('criteria approval: the recorder cannot approve', code(await lead.json(`${V}/criteria/${prod.id}/approve`, review)), [409, 'approver_must_differ_from_recorder']);
+  check('criteria approval: a digest other than the version reviewed is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, expected_digest: 'b'.repeat(64) })), [409, 'criteria_digest_does_not_match_the_version_reviewed']);
+  check('criteria approval: open items not acknowledged are refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, acknowledged_open_items_digest: 'c'.repeat(64) })), [409, 'open_verification_items_not_acknowledged']);
+  check('criteria approval: a review reference with contact details is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, review_reference: 'Checked by reviewer at reviewer@example.com' })), [400, 'review_reference_must_not_contain_contact_details']);
+  check('criteria approval: the refusals approved nothing', (await reviewer2.json(`${V}/criteria/${prod.id}/evidence`)).data.approved_by, null);
+  const direct = await h.operator.query(`UPDATE vendor.criteria_versions SET approved_by=$2, approved_at=now() WHERE id=$1`, [prod.id, randomUUID()]).then(() => 'approved', (e: { message: string }) => e.message);
+  check('criteria approval: the database refuses a production approval without a review', direct, 'production_criteria_review_required');
+  await ok(reviewer2.json(`${V}/criteria/${prod.id}/approve`, review), 'approve production criteria');
+  const approvedEvidence = (await reviewer2.json(`${V}/criteria/${prod.id}/evidence`)).data;
+  check('criteria approval: the review reference and acknowledged items are kept with the approval', approvedEvidence.review, { review_reference: review.review_reference, acknowledged_open_items_digest: evidence.open_items_digest });
+  check('criteria approval: a second approval is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, review)), [409, 'already_approved']);
+  check('criteria approval: approved content cannot be rewritten', await h.operator.query(`UPDATE vendor.criteria_versions SET requirements='[]'::jsonb WHERE id=$1`, [prod.id]).then(() => 'rewritten', (e: { message: string }) => e.message), 'criteria_content_is_immutable');
+  check('criteria approval: the review cannot be rewritten afterwards', await h.operator.query(`UPDATE vendor.criteria_versions SET review_reference='Rewritten review reference' WHERE id=$1`, [prod.id]).then(() => 'rewritten', (e: { message: string }) => e.message), 'criteria_already_approved');
   const gate = await own.json(`${V}/practice/activations`, { gate: 'PRODUCTION_CRITERIA', reference: `Signed package ${productionClaims.version} (synthetic)` });
   check('production criteria: once approved, the production-criteria gate can be recorded', [gate.status, gate.data.gates_missing?.includes('PRODUCTION_CRITERIA')], [200, false]);
 } catch (error) { results.push({ name: 'suite', result: 'FAIL', detail: String((error as Error).stack ?? error).slice(0, 800) }); console.error(error); }

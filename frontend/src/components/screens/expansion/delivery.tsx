@@ -5,7 +5,7 @@ import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { ActionButton, Area, Choice, Input, Many, WriteForm, all, nullable, text } from '../privacy-operations/registry-forms.tsx';
 
-const STATE_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral'> = { AWAITING_REVIEW: 'warn', QUEUED: 'warn', RETRYING: 'warn', SENT: 'ok', EXHAUSTED: 'stop', REJECTED: 'neutral', CANCELLED: 'neutral' };
+const STATE_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral'> = { AWAITING_REVIEW: 'warn', QUEUED: 'warn', RETRYING: 'warn', SENT: 'ok', EXHAUSTED: 'stop', REJECTED: 'neutral', CANCELLED: 'neutral', WITHHELD: 'neutral' };
 const label = (v: string) => v.toLowerCase().replaceAll('_', ' ');
 
 /**

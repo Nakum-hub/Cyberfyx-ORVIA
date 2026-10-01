@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.54.0",
-    "description": "Contract 0.54.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.55.0",
+    "description": "Contract 0.55.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/api/v1/admin/grc/audit-requests/{id}/responses": {
@@ -141446,7 +141446,8 @@
               "RETRYING",
               "SENT",
               "EXHAUSTED",
-              "CANCELLED"
+              "CANCELLED",
+              "WITHHELD"
             ]
           },
           "next_attempt_at": {
@@ -141703,7 +141704,8 @@
                     "RETRYING",
                     "SENT",
                     "EXHAUSTED",
-                    "CANCELLED"
+                    "CANCELLED",
+                    "WITHHELD"
                   ]
                 },
                 "next_attempt_at": {

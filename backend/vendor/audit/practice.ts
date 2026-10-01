@@ -108,11 +108,50 @@ export async function recordProductionCriteria(c: Ctx, input: unknown, keys: Key
     await audit(c, 'vendor.practice.production-criteria-recorded', id); return practiceState(c, keys);
   });
 }
-export async function approveCriteria(c: Ctx, id: string) {
+type CriteriaSource = { source_id: string; title: string; notification_reference?: string | null; official_url?: string | null; retrieved_and_hashed?: boolean; artifact_digest?: string | null };
+type CriteriaPackage = { package_id: string; package_version: string; signing_key_id: string; open_verification_items?: string[] };
+/** The evidence retained with a criteria version (vendor contract 0.6.0), shown to the approver before approval. */
+function criteriaEvidenceOf(r: pg.QueryResultRow) {
+  const entries = (r.sources ?? []) as (CriteriaSource | { package: CriteriaPackage })[];
+  const pkg = (entries.find(e => 'package' in e) as { package: CriteriaPackage } | undefined)?.package ?? null;
+  const sources = entries.filter((e): e is CriteriaSource => !('package' in e)).map(e => ({ source_id: e.source_id, title: e.title, notification_reference: e.notification_reference ?? null,
+    official_url: e.official_url ?? null, retrieved_and_hashed: e.retrieved_and_hashed === true, artifact_digest: e.artifact_digest ?? null }));
+  const open = pkg ? (pkg.open_verification_items ?? []) : null;
+  return P.CriteriaEvidence.parse({
+    id: r.id, version: r.version, distribution: r.distribution, digest: r.digest, requirements: Array.isArray(r.requirements) ? r.requirements.length : 0, sources,
+    package: pkg ? { package_id: pkg.package_id, package_version: pkg.package_version, signing_key_id: pkg.signing_key_id } : null,
+    open_verification_items: open, open_items_digest: digestOf(open ?? []),
+    recorded_by: r.recorded_by, created_at: iso(r.created_at), approved_by: r.approved_by, approved_at: iso(r.approved_at),
+    review: r.review_reference ? { review_reference: r.review_reference, acknowledged_open_items_digest: r.acknowledged_open_items_digest } : null,
+    limitation: [
+      pkg ? 'The package signature proves these claims came from the vendor release key. It does not prove that anyone checked the source documents; the approver\'s review reference is the record of that check.'
+        : 'This version was not recorded from a signed package, so its package provenance and open verification items are unknown.',
+      r.approved_by && !r.review_reference ? 'It was approved before reviews were recorded (vendor migration 0017), so no review reference exists.' : '',
+    ].filter(Boolean).join(' '),
+  });
+}
+export async function criteriaEvidence(c: Ctx, id: string) {
   const r = (await c.tx.query('SELECT * FROM vendor.criteria_versions WHERE id=$1', [id])).rows[0] ?? refuse(404, 'id', 'not_found');
+  return criteriaEvidenceOf(r);
+}
+/**
+ * Approves a criteria version (vendor contract 0.6.0). The approver names the digest of the version reviewed, a review reference
+ * and the digest of the open verification items shown; a version that changed, or open items not acknowledged, are refused.
+ * Vendor migration 0017 makes recorded content immutable and requires the review for a production approval.
+ */
+export async function approveCriteria(c: Ctx, id: string, input: unknown) {
+  const v = P.CriteriaApprove.parse(input);
+  const r = (await c.tx.query('SELECT * FROM vendor.criteria_versions WHERE id=$1 FOR UPDATE', [id])).rows[0] ?? refuse(404, 'id', 'not_found');
   if (r.approved_by) refuse(409, 'criteria', 'already_approved');
   if (r.recorded_by === c.actor.actor_id) refuse(409, 'approved_by', 'approver_must_differ_from_recorder');
-  return guarded(async () => { await c.tx.query('UPDATE vendor.criteria_versions SET approved_by=$2, approved_at=clock_timestamp() WHERE id=$1', [id, c.actor.actor_id]);
+  const evidence = criteriaEvidenceOf(r);
+  if (v.expected_digest !== evidence.digest) refuse(409, 'expected_digest', 'criteria_digest_does_not_match_the_version_reviewed');
+  if (v.acknowledged_open_items_digest !== evidence.open_items_digest) refuse(409, 'acknowledged_open_items_digest', 'open_verification_items_not_acknowledged');
+  const review = clean(v.review_reference);
+  if (review.redactions) refuse(400, 'review_reference', 'review_reference_must_not_contain_contact_details');
+  return guarded(async () => {
+    await c.tx.query('UPDATE vendor.criteria_versions SET approved_by=$2, approved_at=clock_timestamp(), review_reference=$3, acknowledged_open_items_digest=$4 WHERE id=$1',
+      [id, c.actor.actor_id, v.review_reference, v.acknowledged_open_items_digest]);
     await audit(c, 'vendor.practice.criteria-approved', id); return practiceState(c); });
 }
 export async function recordMethodology(c: Ctx, input: unknown) {

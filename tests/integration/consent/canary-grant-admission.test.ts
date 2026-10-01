@@ -1,6 +1,6 @@
-// DIAGNOSTIC ONLY: observes the missing active-canary -> grant -> admission
-// case. It does not choose unconditional blocking versus observational traps.
-// All setup/targets are synthetic; no external or real message is sent.
+// Active canary -> recorded grant -> marketing admission. Written by Codex round 8 as a diagnostic; the owner decided on
+// 2026-10-01 (revision 1.10, decision A, migration 0088) that an active decoy is never admitted for marketing, even after a
+// recorded grant, so the suite now asserts BLOCK. All setup/targets are synthetic; no external or real message is sent.
 import { randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -12,7 +12,7 @@ import { writeEvidence } from '../../../shared/testing/src/evidence.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 
-const t = operationsSuite('canary-grant-admission-diagnostic');
+const t = operationsSuite('canary-grant-admission');
 const { h, db, check, ok } = t;
 const observations: Record<string, unknown>[] = [];
 let classification = 'NOT_OBSERVED';
@@ -143,17 +143,27 @@ await t.run(async () => {
     { generation: Number(mapping.target_generation), marketing_restricted: false, quarantined: false });
   const attempt = fresh(); const transportKey = randomUUID();
   const observed = await result(attempt, transportKey); const afterAdverse = await counts();
-  classification = observed.decision === 'ALLOW' ? 'OBSERVED_ALLOW_CONTRADICTS_UNCONDITIONAL_BLOCK_COMMENT'
-    : observed.decision === 'BLOCK' ? 'OBSERVED_BLOCK_REASON_REQUIRES_REVIEW' : 'INDETERMINATE_NO_POLICY_CONCLUSION';
+  classification = observed.decision === 'BLOCK' && observed.reason_codes.join() === 'RECIPIENT_MARKETING_HOLD' ? 'BLOCKED_BY_ACTIVE_CANARY_HOLD'
+    : `UNEXPECTED_${observed.decision}`;
   observations.push({ stage: 'ACTIVE_CANARY_WITH_REGISTRY_AND_A00_GRANTS', result: observed,
     before: beforeAdverse, after: afterAdverse, delta: delta(beforeAdverse, afterAdverse), gates, target: targetFacts,
-    ordinary_control: control, classification, migration_comment_claim: 'SEND_ADMISSION decision is BLOCK',
-    policy_acceptance: 'NOT_ASSERTED_OWNER_DECISION_PENDING' });
-  console.log('DIAGNOSTIC canary grant admission observation', JSON.stringify(observations.at(-1)));
-  check('diagnostic obtains a determinate result rather than claiming an outage as policy behavior', ['ALLOW', 'BLOCK'].includes(observed.decision), true);
-  check('observed decision and durable effects agree, with exactly one trap hit', delta(beforeAdverse, afterAdverse),
-    { decisions: 1, sends: observed.decision === 'ALLOW' ? 1 : 0, send_hits: 1, consent_hits: 0 });
+    ordinary_control: control, classification, owner_decision: 'revision 1.10 decision A: active decoy is never admitted for marketing' });
+  console.log('canary grant admission observation', JSON.stringify(observations.at(-1)));
+  check('an otherwise-ALLOW marketing send to an active decoy with a recorded grant is BLOCK', observed.decision, 'BLOCK');
+  check('the reason is the generic recipient hold, not a canary label', observed.reason_codes, ['RECIPIENT_MARKETING_HOLD']);
+  check('one decision and one trap hit are recorded, and no send record', delta(beforeAdverse, afterAdverse),
+    { decisions: 1, sends: 0, send_hits: 1, consent_hits: 0 });
+  check('the stored decision is BLOCK, so a BLOCK never coexists with an ALLOW send record', (await db.query(`SELECT decision FROM app.processing_decisions
+    WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND principal_id=$4 AND NOT preview_only ORDER BY evaluated_at DESC LIMIT 1`, [...scope, decoy.id])).rows[0]?.decision, 'BLOCK');
   check('admission result does not explicitly reveal the canary', JSON.stringify(observed).toLowerCase().includes('canary'), false);
+  const preview = await ok(owner.call('/api/v1/admin/policy/evaluate', { principal_id: decoy.id, purpose_id: scenario.purpose.id, system_id: scenario.system.id, action: 'MARKETING_SEND' }, key()), S.schemas.Decision);
+  check('the staff preview predicts the same BLOCK, so preview and send agree', [preview.decision, preview.reason_codes], ['BLOCK', ['RECIPIENT_MARKETING_HOLD']]);
+  const ordinaryPreview = await ok(owner.call('/api/v1/admin/policy/evaluate', { principal_id: ordinary.id, purpose_id: scenario.purpose.id, system_id: scenario.system.id, action: 'MARKETING_SEND' }, key()), S.schemas.Decision);
+  check('the ordinary control is still ALLOW in preview', ordinaryPreview.decision, 'ALLOW');
+  const roles = (await db.query(`SELECT r.rolname, has_function_privilege(r.rolname, 'app.canary_marketing_hold(uuid)', 'EXECUTE') AS can
+    FROM pg_roles r WHERE r.rolname = ANY($1) ORDER BY r.rolname`, [['orvia_app', 'orvia_worker', 'orvia_agent_control', 'orvia_machine_auth', 'orvia_sender']])).rows;
+  check('only send admission and its staff preview may ask for the hold', Object.fromEntries(roles.map(r => [r.rolname, r.can])),
+    { orvia_agent_control: false, orvia_app: true, orvia_machine_auth: false, orvia_sender: true, orvia_worker: false });
 
   t.setPhase('replay and conflicting attempt');
   check('same HTTP idempotency key returns the exact observation', await result(attempt, transportKey), observed);
@@ -162,8 +172,28 @@ await t.run(async () => {
   check('changed payload under the same HTTP key is refused', (await send({ ...attempt, principal_reference_id: ordinary.id }, transportKey)).status, 409);
   check('changed payload for the same attempt under a new key is refused', (await send({ ...attempt, principal_reference_id: ordinary.id })).status, 409);
   check('conflicting replays leave durable counts unchanged', await counts(), afterAdverse);
+
+  t.setPhase('a canary transition and an admission check serialise on one principal-wide lock');
+  const pending = await ok(owner.call('/api/v1/admin/withdrawal-canaries', {
+    label: unique('Lock ordering probe'), principal_id: ordinary.id, planted_in: 'Test-owned synthetic marketing target; no real mailbox or delivery.',
+  }, key()), S.schemas.WithdrawalCanary);
+  const transition = await db.connect(); const admission = await db.connect();
+  try {
+    await transition.query('BEGIN');
+    await transition.query(`UPDATE app.withdrawal_canaries SET state='RETIRED' WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND id=$4`, [...scope, pending.id]);
+    await admission.query('BEGIN');
+    await admission.query("SELECT set_config('orvia.tenant_id',$1,true),set_config('orvia.legal_entity_id',$2,true),set_config('orvia.environment_id',$3,true),set_config('lock_timeout','700ms',true)", scope);
+    const waited = await admission.query('SELECT app.canary_marketing_hold($1)', [ordinary.id]).then(() => 'NOT_BLOCKED', (e: { code?: string }) => e.code ?? 'ERROR');
+    check('while a transition is uncommitted, the admission check waits for it (lock timeout 55P03)', waited, '55P03');
+    await admission.query('ROLLBACK');
+  } finally { await transition.query('ROLLBACK').catch(() => undefined); transition.release(); admission.release(); }
+  await ok(owner.call(`/api/v1/admin/withdrawal-canaries/${pending.id}/retirement`, {}, key()), S.schemas.WithdrawalCanary);
+
+  t.setPhase('retirement returns the record to the ordinary rules');
   await ok(owner.call(`/api/v1/admin/withdrawal-canaries/${canary.id}/retirement`, {}, key()), S.schemas.WithdrawalCanary);
+  const retired = await result(fresh());
+  check('after retirement the ordinary consent rules decide again (the recorded grant stands, and its hit stays for review)', retired.decision, 'ALLOW');
 });
-writeEvidence('canary-grant-admission-observation', { diagnostic_only: true, policy_acceptance: 'NOT_ASSERTED_OWNER_DECISION_PENDING',
+writeEvidence('canary-grant-admission-observation', { owner_decision: 'revision 1.10 decision A',
   classification, observations, synthetic_source_fixture: true,
   limitation: 'Registry HTTP grant and deliberately seeded A00 grant are distinct; no real delivery or production admission was exercised.' });

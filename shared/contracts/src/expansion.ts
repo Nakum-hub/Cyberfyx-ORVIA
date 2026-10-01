@@ -367,7 +367,7 @@ export const OutboundMessageCreate = z.strictObject({
   subject: z.string().min(3).max(300).regex(/^[^\r\n]*$/), body: z.string().min(10).max(20000),
 }).superRefine((m, c) => { if ((m.source_kind === 'MANUAL') !== (m.source_id === null)) c.addIssue({ code: 'custom', path: ['source_id'], message: 'Only a manual message has no source' }); });
 export const OutboundMessageReview = z.strictObject({ decision: z.enum(['APPROVE', 'REJECT']), note: z.string().min(3).max(500) });
-export const OutboundDeliveryState = z.enum(['AWAITING_REVIEW', 'REJECTED', 'QUEUED', 'RETRYING', 'SENT', 'EXHAUSTED', 'CANCELLED']);
+export const OutboundDeliveryState = z.enum(['AWAITING_REVIEW', 'REJECTED', 'QUEUED', 'RETRYING', 'SENT', 'EXHAUSTED', 'CANCELLED', 'WITHHELD']);
 export const OutboundMessage = z.strictObject({
   id: Id, transport_id: Id, source_kind: z.string().max(40), source_id: Id.nullable(), routing_id: Id.nullable(), recipient: z.string().max(254), subject: z.string().max(300), body: z.string().max(20000), content_digest: z.string().length(64),
   review_state: z.enum(['DRAFT', 'APPROVED', 'REJECTED']), authored_by: Id, authored_at: Time, reviewed_by: Id.nullable(), reviewed_at: Time.nullable(), review_note: SafeText.nullable(),

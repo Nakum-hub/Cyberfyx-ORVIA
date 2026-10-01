@@ -13417,7 +13417,7 @@ export interface components {
             reviewed_at: string | null;
             review_note: string | null;
             /** @enum {string} */
-            delivery_state: "AWAITING_REVIEW" | "REJECTED" | "QUEUED" | "RETRYING" | "SENT" | "EXHAUSTED" | "CANCELLED";
+            delivery_state: "AWAITING_REVIEW" | "REJECTED" | "QUEUED" | "RETRYING" | "SENT" | "EXHAUSTED" | "CANCELLED" | "WITHHELD";
             next_attempt_at: string | null;
             outcome_at: string | null;
             attempts: {
@@ -13457,7 +13457,7 @@ export interface components {
                 reviewed_at: string | null;
                 review_note: string | null;
                 /** @enum {string} */
-                delivery_state: "AWAITING_REVIEW" | "REJECTED" | "QUEUED" | "RETRYING" | "SENT" | "EXHAUSTED" | "CANCELLED";
+                delivery_state: "AWAITING_REVIEW" | "REJECTED" | "QUEUED" | "RETRYING" | "SENT" | "EXHAUSTED" | "CANCELLED" | "WITHHELD";
                 next_attempt_at: string | null;
                 outcome_at: string | null;
                 attempts: {

@@ -10,6 +10,12 @@ export async function ok(p: Promise<{ status: number; data: any }>, what: string
   const r = await p; if (!expected.includes(r.status)) throw new FlowError(`${what}: ${r.status} ${JSON.stringify(r.data).slice(0, 400)}`); return r.data;
 }
 
+/** Approves criteria the 0.6.0 way: reads the retained evidence, then approves naming its digest, a review reference and the open items shown. */
+export async function approveCriteria(approver: Session, id: string, review_reference = 'Synthetic review of the retained criteria evidence (automated test).') {
+  const evidence = await ok(approver.json(`${V}/criteria/${id}/evidence`), 'read criteria evidence');
+  return ok(approver.json(`${V}/criteria/${id}/approve`, { expected_digest: evidence.digest, review_reference, acknowledged_open_items_digest: evidence.open_items_digest }), 'approve criteria');
+}
+
 /** A 5x5 matrix rated by likelihood x impact: up to 4 LOW, up to 9 MEDIUM, up to 16 HIGH, above that CRITICAL. */
 export const METHODOLOGY = (version = 'RM-TEST-1') => ({
   version,
@@ -25,7 +31,7 @@ export const METHODOLOGY = (version = 'RM-TEST-1') => ({
 export async function setupPractice(recorder: Session, approver: Session, suffix = '1') {
   let state = await ok(recorder.json(`${V}/practice/criteria`, { version: `DPDP-FIXTURE-${suffix}` }), 'record criteria');
   const criteria = state.criteria.find((c: { version: string }) => c.version === `DPDP-FIXTURE-${suffix}`);
-  await ok(approver.json(`${V}/criteria/${criteria.id}/approve`, {}), 'approve criteria');
+  await approveCriteria(approver, criteria.id);
   state = await ok(recorder.json(`${V}/practice/methodologies`, METHODOLOGY(`RM-TEST-${suffix}`)), 'record methodology');
   const methodology = state.methodologies.find((m: { version: string }) => m.version === `RM-TEST-${suffix}`);
   await ok(approver.json(`${V}/methodologies/${methodology.id}/approve`, {}), 'approve methodology');

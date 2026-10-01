@@ -7,7 +7,7 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "a613a02d9211dfc3a610cd7ff6701431586a8bc15d2af62815f8c31d2e62c9c3",
+  "test_file_digest": "c105d39178b5a4e9458e7293d5e38e7603f9eb2b55b84435220bec0f0084936b",
   "counts": {
     "UNIT": 57,
     "INTEGRATION": 91,
@@ -144,7 +144,7 @@
     },
     {
       "path": "tests/e2e/vendor-production-criteria-local.ts",
-      "sha256": "e71d7fa728a50c89d6123383490b9edb5e865c47bc575e1b059df24ca289bd10",
+      "sha256": "2b8af7e4b27f42b0a5a3cd196a8a33206d4c41d9670f814a54c2ff16286bec0f",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -204,7 +204,7 @@
     },
     {
       "path": "tests/integration/consent/canary-grant-admission.test.ts",
-      "sha256": "419786ed7b6a0aa6f6dfa18b8549f9ad373d2023660dda040e557f484a762e98",
+      "sha256": "25f5cb031eaacb6a2f5f7452ca9e006f160bbc353cb764568906400469cc97a2",
       "kind": "INTEGRATION"
     },
     {
@@ -444,7 +444,7 @@
     },
     {
       "path": "tests/integration/onboarding/real-principals.test.ts",
-      "sha256": "b1fba6c7c406047b55dd50f9e703e6c3444b681b52289ffdfc20b68bf00c89b3",
+      "sha256": "b256401cd4a4207ebf32f259fa68382178f019abbb3a2187e8f5af369299069e",
       "kind": "INTEGRATION"
     },
     {
@@ -594,7 +594,7 @@
     },
     {
       "path": "tests/integration/vendor/audit-practice.test.ts",
-      "sha256": "55480f8b3ff2aeb1d946d628eb4c0a2a455c23f952b20a88e94a22556da5168f",
+      "sha256": "b91ffabf853c819fbfa8638a651db32ce75eb6b365ba2c1a3e4701e497205c26",
       "kind": "INTEGRATION"
     },
     {
@@ -604,7 +604,7 @@
     },
     {
       "path": "tests/integration/vendor/practice-flow.ts",
-      "sha256": "b879d7090b0759a2e86d0b59ed7005a2a41aeab9a2070c00c7d0a57867ff7741",
+      "sha256": "112f2808078953a2fc735bdca6dee74abac81acbe16ffe9bca1e0a70f50ca1fd",
       "kind": "SUPPORT"
     },
     {

@@ -28,6 +28,9 @@ async function evaluateCurrent(c: Context, config: RuntimeConfig, observer: pg.P
  let result=targetUnavailable?{decision:'INDETERMINATE' as const,reason_codes:['TARGET_OBSERVATION_UNAVAILABLE']}:await processingDecision(config,input);
  const boundary=(await c.tx.query('SELECT clock_timestamp() AS at')).rows[0].at as Date;
  if(result.decision==='ALLOW'&&value.message_class==='ORDER_SERVICE'&&(!service.rowCount||service.rows[0].expires_at<=boundary))result={decision:'BLOCK',reason_codes:['SERVICE_CONDITION_EXPIRED']};
+ // Owner decision A (revision 1.10, migration 0088): an active withdrawal canary is never admitted for marketing, even after a
+ // recorded grant. Decided before any decision or send record is written; the reason does not name canaries.
+ if(value.message_class==='MARKETING'&&result.decision!=='BLOCK'&&(await c.tx.query('SELECT app.canary_marketing_hold($1) AS hold',[value.principal_reference_id])).rows[0].hold)result={decision:'BLOCK',reason_codes:['RECIPIENT_MARKETING_HOLD']};
  if(Date.parse(c.actor.expires_at)<=boundary.getTime())throw new AccessError(401,'UNAUTHENTICATED');
  const decisionId=randomUUID();const now=boundary.toISOString();const epoch=Number(aggregate?.epoch??0);
  await c.tx.query(`INSERT INTO app.processing_decisions VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)`,[...scope,decisionId,c.actor.actor_id,value.principal_reference_id,value.purpose_id,value.system_id,policy?.version_id??null,epoch,Number(mapping.target_generation),result.decision,JSON.stringify(result.reason_codes),preview,now]);
@@ -49,8 +52,8 @@ export async function admitSend(c: Context, config: RuntimeConfig, observer: pg.
  if(sendId)await c.tx.query(`INSERT INTO app.send_records VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,true)`,[...scope,sendId,decision.decision_id,c.actor.actor_id,value.principal_reference_id,value.purpose_id,value.system_id,value.attempt_id,value.message_class,decision.evaluated_at]);
  const result=SendResult.parse({attempt_id:value.attempt_id,decision:decision.decision,send_record_id:sendId,admitted_at:sendId?decision.evaluated_at:null,evaluated_epoch:decision.consent_epoch,reason_codes:decision.reason_codes});
  await c.tx.query(`INSERT INTO app.send_attempts(tenant_id,legal_entity_id,environment_id,id,actor_id,principal_id,purpose_id,system_id,digest,result) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,[...scope,value.attempt_id,c.actor.actor_id,value.principal_reference_id,value.purpose_id,value.system_id,digest(value),result]);
- // Withdrawal canary trap (migration 0079): a send requested for a decoy principal is recorded, whatever the decision; the
- // sender is not told, so it cannot learn which principals are canaries.
+ // Withdrawal canary trap (migration 0079): a send requested for a decoy principal is recorded once per new attempt (a replayed
+ // attempt returns above). Marketing to an active decoy is already BLOCK (0088); the trap itself never changes the decision.
  await c.tx.query('SELECT app.canary_trap($1,NULL,$2,$3,$4)',[value.principal_reference_id,'SEND_ADMISSION',value.system_id,`A ${value.message_class} send was requested for a withdrawal canary by sender ${c.actor.actor_id}; ORVIA decided ${decision.decision}.`]);
  await audit(c,'send.'+decision.decision.toLowerCase(),value.attempt_id);return result;
 }

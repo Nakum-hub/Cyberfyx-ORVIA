@@ -7,6 +7,8 @@
 // synthetic address stays synthetic and nobody can relabel either; a repeat is refused; the admission cannot be updated or
 // deleted; a malformed email is still refused. The development and test profiles refuse the command outright, and on the
 // development installation the admin API refuses a real email with `synthetic_principals_only` and labels a synthetic one.
+// After admission a real person may be a withdrawal canary, but a message to them is withheld and never transmitted
+// (revision 1.10, migration 0089).
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
@@ -18,6 +20,8 @@ import { issueSetupCode } from '../../../scripts/setup-code.ts';
 import { admitRealPrincipals, realPrincipalState } from '../../../scripts/real-principals.ts';
 import { setupCodeDigest } from '../../../backend/api/src/setup.ts';
 import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { claimDue } from '../../../backend/domain/src/delivery/delivery.ts';
+import type { Context } from '../../../backend/domain/src/shared/transaction.ts';
 
 const results: { name: string; result: 'PASS' | 'FAIL'; expected?: unknown; actual?: unknown }[] = [];
 const check = (name: string, actual: unknown, expected: unknown) => {
@@ -93,6 +97,51 @@ try {
       (await realPrincipalState(profile.profile, scratch)).qualification_reference], ['Real people are already admitted on this installation. Nothing changed.', reference]);
     check('the admission cannot be rewritten', await db.query(`UPDATE app.principal_admission SET qualification_reference='REWRITTEN-REFERENCE'`).then(() => 'changed', (e: Error) => e.message), 'principal_admission_is_permanent');
     check('the admission cannot be removed', await db.query('DELETE FROM app.principal_admission').then(() => 'deleted', (e: Error) => e.message), 'principal_admission_is_permanent');
+
+    // Real-person decoys (owner decision 2026-10-01, revision 1.10; migration 0089): a real person may be a withdrawal canary,
+    // but nothing is ever transmitted to them. A message to them is withheld by the runner; a synthetic decoy's message is not.
+    const k = [env.tenant_id, env.legal_entity_id, env.id];
+    const person = async (email: string) => (await db.query('INSERT INTO app.principal_references(tenant_id,legal_entity_id,environment_id,id,display_name,email) VALUES($1,$2,$3,$4,$5,$6) RETURNING id, synthetic',
+      [...k, randomUUID(), 'Decoy person', email])).rows[0] as { id: string; synthetic: boolean };
+    const realDecoy = await person(`decoy.${randomUUID().slice(0, 6)}@customer.example`);
+    const syntheticDecoy = await person(`decoy.${randomUUID().slice(0, 6)}@aster.example`);
+    check('the real decoy is labelled real and the synthetic decoy synthetic', [realDecoy.synthetic, syntheticDecoy.synthetic], [false, true]);
+    const [staffA, staffB] = [randomUUID(), randomUUID()];
+    const canary = (principal: string, state: 'PENDING' | 'ACTIVE') => db.query(`INSERT INTO app.withdrawal_canaries(tenant_id,legal_entity_id,environment_id,id,label,principal_id,planted_in,state,created_by,activated_by,activated_at)
+      VALUES($1,$2,$3,$4,'Decoy for delivery test',$5,'Synthetic marketing list for the delivery test.',$6,$7,$8,$9) RETURNING id`, [...k, randomUUID(), principal, state, staffA, state === 'ACTIVE' ? staffB : null, state === 'ACTIVE' ? new Date() : null]).then(r => r.rows[0].id as string);
+    const realCanary = await canary(realDecoy.id, 'ACTIVE'); await canary(syntheticDecoy.id, 'ACTIVE');
+    check('a real person can be designated and activated as a decoy', (await db.query('SELECT state FROM app.withdrawal_canaries WHERE id=$1', [realCanary])).rows[0].state, 'ACTIVE');
+    const transport = randomUUID();
+    await db.query(`INSERT INTO app.delivery_transports(tenant_id,legal_entity_id,environment_id,id,kind,name,url,state,created_by,approved_by,approved_at) VALUES($1,$2,$3,$4,'WEBHOOK','Decoy test webhook','http://127.0.0.1:9/never','ENABLED',$5,$6,now())`, [...k, transport, staffA, staffB]);
+    const message = (recipient: string) => db.query(`INSERT INTO app.outbound_messages(tenant_id,legal_entity_id,environment_id,id,transport_id,source_kind,recipient,subject,body,content_digest,review_state,authored_by,reviewed_by,reviewed_at,next_attempt_at)
+      VALUES($1,$2,$3,$4,$5,'MANUAL',$6,'Newsletter','Synthetic newsletter body.',$7,'APPROVED',$8,$9,now(),now()-interval '1 minute') RETURNING id`, [...k, randomUUID(), transport, recipient, 'a'.repeat(64), staffA, staffB]).then(r => r.rows[0].id as string);
+    const toReal = await message((await db.query('SELECT email FROM app.principal_references WHERE id=$1', [realDecoy.id])).rows[0].email.toUpperCase());
+    const toSynthetic = await message((await db.query('SELECT email FROM app.principal_references WHERE id=$1', [syntheticDecoy.id])).rows[0].email);
+    const worker = await db.connect();
+    let claimed: string[] = [];
+    try {
+      await worker.query('BEGIN'); await worker.query('SET LOCAL ROLE orvia_worker');
+      await worker.query(`SELECT set_config('orvia.tenant_id',$1,true),set_config('orvia.legal_entity_id',$2,true),set_config('orvia.environment_id',$3,true),
+        set_config('orvia.actor_id',$4,true),set_config('orvia.actor_domain','MACHINE',true),set_config('orvia.capabilities','operations.execute',true)`, [...k, randomUUID()]);
+      const ctx = { tx: worker, actor: { scope: { tenant_id: env.tenant_id, legal_entity_id: env.legal_entity_id, environment_id: env.id }, actor_id: randomUUID() } } as unknown as Context;
+      claimed = (await claimDue(ctx, 50)).map(cl => cl.message.id as string);
+      await worker.query('COMMIT');
+    } catch (e) { await worker.query('ROLLBACK').catch(() => {}); throw e; } finally { worker.release(); }
+    const outcome = async (id: string) => (await db.query('SELECT outcome, attempts FROM app.outbound_messages WHERE id=$1', [id])).rows[0];
+    check('the runner never claims the message to the real decoy (matched case-insensitively)', claimed.includes(toReal), false);
+    check('the message to the real decoy is WITHHELD with no attempt', await outcome(toReal), { outcome: 'WITHHELD', attempts: 0 });
+    check('the message to the synthetic decoy is claimed as before', [claimed.includes(toSynthetic), (await outcome(toSynthetic)).attempts], [true, 1]);
+    const another = await message((await db.query('SELECT email FROM app.principal_references WHERE id=$1', [realDecoy.id])).rows[0].email);
+    check('the database refuses any delivery attempt to a real decoy, whatever code path claims it',
+      await db.query('UPDATE app.outbound_messages SET attempts=1 WHERE id=$1', [another]).then(() => 'claimed', (e: Error) => e.message), 'real_decoy_delivery_refused');
+    await db.query(`UPDATE app.withdrawal_canaries SET state='RETIRED', retired_at=now() WHERE id=$1`, [realCanary]);
+    check('after the real decoy is retired, the person is ordinary again and a message may be attempted',
+      await db.query('UPDATE app.outbound_messages SET attempts=1 WHERE id=$1 RETURNING attempts', [another]).then(r => r.rows[0].attempts, (e: Error) => e.message), 1);
+    const privileges = (await db.query(`SELECT r.rolname, has_function_privilege(r.rolname,'app.withhold_real_decoy_message(uuid)','EXECUTE') AS withhold,
+      has_function_privilege(r.rolname,'app.real_decoy_recipient(uuid,uuid,uuid,text)','EXECUTE') AS ask FROM pg_roles r WHERE r.rolname = ANY($1) ORDER BY 1`,
+    [['orvia_app', 'orvia_worker', 'orvia_agent_control', 'orvia_machine_auth', 'orvia_sender']])).rows;
+    check('only the delivery runner can withhold, and no runtime role can ask who the real decoys are', Object.fromEntries(privileges.map(r => [r.rolname, [r.withhold, r.ask]])),
+      { orvia_agent_control: [false, false], orvia_app: [false, false], orvia_machine_auth: [false, false], orvia_sender: [false, false], orvia_worker: [true, false] });
   } finally { await db.end(); }
 } finally {
   await bootstrap.query(`DROP DATABASE IF EXISTS ${scratch} WITH (FORCE)`);
