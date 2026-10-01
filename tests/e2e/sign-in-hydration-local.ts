@@ -7,6 +7,7 @@
 // survives, and submitting sends the sign-in request. Chromium only here; WebKit reruns are Codex's.
 // It signs in with a wrong password only; it records nothing. Synthetic data only.
 import { spawn, type ChildProcess } from 'node:child_process';
+import { once } from 'node:events';
 import { existsSync } from 'node:fs';
 import { chromium, type Browser } from '@playwright/test';
 import { operationsSuite } from '../../shared/testing/src/operations-fixture.ts';
@@ -18,16 +19,30 @@ const { h, check } = t;
 const VENDOR = `http://127.0.0.1:${PROFILES['vendor-a00'].app_port}`;
 const executablePath = process.env.ORVIA_CHROMIUM_PATH ?? (existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined);
 
+async function stopVendor(child: ChildProcess) {
+  if (!child.pid || child.exitCode !== null || child.signalCode !== null) return;
+  const closed = once(child, 'close');
+  child.kill('SIGTERM');
+  await closed;
+}
 async function startVendor() {
   const command = webProcess({ profile: 'vendor-a00', app_port: PROFILES['vendor-a00'].app_port });
-  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
+  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
   let diagnostics = ''; child.stderr?.on('data', c => { diagnostics += c.toString(); });
-  for (let i = 0; i < 120; i++) {
-    if (child.exitCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`);
-    try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* not ready */ }
-    await new Promise(r => setTimeout(r, 1000));
+  let spawnError: Error | undefined;
+  child.once('error', error => { spawnError = error; });
+  try {
+    for (let i = 0; i < 120; i++) {
+      if (spawnError) throw new Error('Vendor web process failed to start', { cause: spawnError });
+      if (child.exitCode !== null || child.signalCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`);
+      try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* not ready */ }
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    throw new Error('Vendor installation readiness timeout');
+  } catch (error) {
+    await stopVendor(child);
+    throw error;
   }
-  throw new Error('Vendor installation readiness timeout');
 }
 
 async function probe(browser: Browser, origin: string, path: string, name: string) {
@@ -65,7 +80,7 @@ await t.run(async () => {
     await probe(browser, VENDOR, '/vendor/sign-in', 'vendor sign-in');
     await probe(browser, VENDOR, '/vendor/sign-in?account=client', 'client account sign-in');
   } finally {
-    await browser.close();
-    if (vendor) { vendor.kill('SIGTERM'); }
+    try { await browser.close(); }
+    finally { if (vendor) await stopVendor(vendor); }
   }
 });

@@ -108,6 +108,29 @@ await t.run(async()=>{
     check('uncertainty is not reported as completed verified',(await view(uncertainId)).status,'PARTIALLY_FAILED');
     const operations=await target.operations(uncertain.id,reference);
     check('target execution is not repeated while verification is unavailable',[operations.length,operations[0]?.applied],[1,true]);
+    t.setPhase('independent recovery of the same uncertain action, without re-dispatch');
+    const uncertainRows=(await db.query(`SELECT id,idempotency_key,attempts FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 ORDER BY ordinal,id`,[...values,uncertainId])).rows;
+    check('the recovery owns exactly one existing action',uncertainRows.length,1);
+    const uncertainAction=uncertainRows[0]!;
+    const attemptsBefore=(await db.query(`SELECT id,attempt,target_result,replayed FROM app.downstream_action_attempts WHERE ${predicate} AND action_id=$4 ORDER BY attempt,target_result,id`,[...values,uncertainAction.id])).rows;
+    const verificationsBefore=(await db.query(`SELECT id FROM app.action_verifications WHERE ${predicate} AND action_id=$4`,[...values,uncertainAction.id])).rows.map(row=>row.id);
+    const evidenceBefore=(await db.query(`SELECT id FROM app.evidence_records WHERE ${predicate} AND entity_kind='downstream_action' AND entity_id=$4`,[...values,uncertainAction.id])).rows.map(row=>row.id);
+    check('a row edit cannot promote uncertainty without a fresh independent verification',await db.query(`UPDATE app.downstream_actions SET state='verified',verification='VERIFIED' WHERE ${predicate} AND id=$4`,[...values,uncertainAction.id]).then(()=> 'ACCEPTED').catch(error=>typeof error?.code==='string'?error.code:'UNKNOWN_ERROR'),'23514');
+    const recoveryPath=`/api/v1/admin/workflow-runs/${uncertainId}/execution`;
+    check('auditor cannot recover the uncertain action',(await auditor.call(recoveryPath,{limit:50},key())).status,403);
+    check('foreign tenant cannot recover the uncertain action',(await birch.call(recoveryPath,{limit:50},key())).status,404);
+    await target.mode(s,uncertain.id,'HEALTHY','AVAILABLE');
+    // Public execute already admits PARTIALLY_FAILED runs; do not alter the
+    // supervised admission predicate or fabricate a replacement action.
+    const recovered=await ok(admin.call(recoveryPath,{limit:50},key()),S.schemas.WorkflowRun);
+    check('a real independent read recovers the run',recovered.status,'COMPLETED_VERIFIED');
+    const recoveredRows=(await db.query(`SELECT id,idempotency_key,state,target_result,verification,attempts FROM app.downstream_actions WHERE ${predicate} AND run_id=$4`,[...values,uncertainId])).rows;
+    check('recovery preserves action identity, effect uncertainty and original attempt',recoveredRows.map(row=>[row.id,row.idempotency_key,row.state,row.target_result,row.verification,row.attempts]),[[uncertainAction.id,uncertainAction.idempotency_key,'verified','TIMEOUT_EFFECT_UNKNOWN','VERIFIED',1]]);
+    const fresh=(await db.query(`SELECT v.id,v.method,v.result,v.evidence_id,e.entity_id,e.origin,e.entity_kind,e.method AS evidence_method,e.integrity_state,e.content_digest FROM app.action_verifications v LEFT JOIN app.evidence_records e ON e.tenant_id=v.tenant_id AND e.legal_entity_id=v.legal_entity_id AND e.environment_id=v.environment_id AND e.id=v.evidence_id WHERE v.tenant_id=$1 AND v.legal_entity_id=$2 AND v.environment_id=$3 AND v.action_id=$4 ORDER BY v.verified_at,v.id`,[...values,uncertainAction.id])).rows.filter(row=>!verificationsBefore.includes(row.id));
+    check('exactly one new independent PASS is linked to new matching connector evidence',fresh.map(row=>[row.method,row.result,!!row.evidence_id&&!evidenceBefore.includes(row.evidence_id),row.entity_id,row.origin,row.entity_kind,row.evidence_method,row.integrity_state,typeof row.content_digest==='string'&&/^[a-f0-9]{64}$/.test(row.content_digest)]),[['INDEPENDENT_READ_BACK','PASS',true,uncertainAction.id,'CONNECTOR','downstream_action','INDEPENDENT_READ_BACK','DIGEST_RECORDED',true]]);
+    check('target operation ledger is unchanged by read-only recovery',await target.operations(uncertain.id,reference),operations);
+    check('dispatch attempt history is unchanged by read-only recovery',(await db.query(`SELECT id,attempt,target_result,replayed FROM app.downstream_action_attempts WHERE ${predicate} AND action_id=$4 ORDER BY attempt,target_result,id`,[...values,uncertainAction.id])).rows,attemptsBefore);
+    check('recovered target is independently read back suppressed',(await target.record(uncertain.id,reference)).suppressed,true);
     check('earlier manual waiting still remains pending after all other work',await actions(manualId),manualBefore);
   } finally {
     try { for(const id of changedSystems) await target.mode(t.scope(),id,'HEALTHY','AVAILABLE'); }

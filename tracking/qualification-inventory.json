@@ -7,9 +7,9 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "79b13fb1c0614204bfeb7ebd2cfde168a01a5e55931fbcd4f8288a313a9015af",
+  "test_file_digest": "1ec94b0fc33ccfd2f403bd4ff8d80bca29328b50f33538b3b653939f44d305bc",
   "counts": {
-    "UNIT": 56,
+    "UNIT": 57,
     "INTEGRATION": 91,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
@@ -24,7 +24,7 @@
     },
     {
       "path": "tests/e2e/audit-mandate-local.ts",
-      "sha256": "cd994ed148b04f2d6e4c4702b3e6fc7f5c70398b04bdd55f5e188211d688801e",
+      "sha256": "d4ab9a7278441dbc9182f31aa428dc94b01d07609867389ca51be53579712922",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -79,7 +79,7 @@
     },
     {
       "path": "tests/e2e/interface-crawl-local.ts",
-      "sha256": "a5f51e5c27a76499f38761a9e95aa36681c7d5afa7b61d6158ee5aa1c961a3f3",
+      "sha256": "4321a964077e0edc31ba4cebd50b1c370e4afaa6c182a87141e74b5868596d1a",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -119,7 +119,7 @@
     },
     {
       "path": "tests/e2e/sign-in-hydration-local.ts",
-      "sha256": "b5ba7982e70379103927b40422ec5d94e6605b0aa3219bd67e09d5098183a73e",
+      "sha256": "ccfa3fcb5bb79da4cb6ed1292436cf66419c7862fd17f204e3a16c57f27a2eef",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -534,7 +534,7 @@
     },
     {
       "path": "tests/integration/operations/runner-progress.test.ts",
-      "sha256": "5b51ff63327149815eda5ab643a6d95bf3e1cc956f52dd5bac7f5fecf0e25bd2",
+      "sha256": "e07317f470ceecf484a2d7821c8c0c01379603d81886ce9c947a244a2f164aa3",
       "kind": "INTEGRATION"
     },
     {
@@ -594,7 +594,7 @@
     },
     {
       "path": "tests/integration/vendor/audit-practice.test.ts",
-      "sha256": "1b29ab3099ca5a32e5940f93d68a02e8d62054044d76c2ba4a91d55c24cf5f55",
+      "sha256": "55480f8b3ff2aeb1d946d628eb4c0a2a455c23f952b20a88e94a22556da5168f",
       "kind": "INTEGRATION"
     },
     {
@@ -920,6 +920,11 @@
     {
       "path": "tests/unit/vendor-audit-key.test.ts",
       "sha256": "ca4c4a0ae54cf9020004c61bafff14cbebac22c7f79c6256b84bea0298127aa5",
+      "kind": "UNIT"
+    },
+    {
+      "path": "tests/unit/vendor-dependency-diagnostics.test.ts",
+      "sha256": "b094cf6ee94460f5e598f2607228f948cc05beecda2da359b8e08478486dcba1",
       "kind": "UNIT"
     },
     {

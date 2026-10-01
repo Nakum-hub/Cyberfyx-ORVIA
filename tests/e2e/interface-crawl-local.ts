@@ -145,16 +145,30 @@ async function vendorSignIn(browser: Browser, user: VendorUser, path = '/vendor/
   await p.page.waitForURL(/\/vendor\/(engagements|upload)/, { timeout: 30000 });
   return p;
 }
+async function stopVendor(child: ChildProcess) {
+  if (!child.pid || child.exitCode !== null || child.signalCode !== null) return;
+  const closed = once(child, 'close');
+  child.kill('SIGTERM');
+  await closed;
+}
 async function startVendor() {
   const command = webProcess({ profile: 'vendor-a00', app_port: PROFILES['vendor-a00'].app_port });
-  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
+  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
   let diagnostics = ''; child.stderr?.on('data', c => { diagnostics += c.toString(); });
-  for (let i = 0; i < 120; i++) {
-    if (child.exitCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`);
-    try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* not ready */ }
-    await new Promise(r => setTimeout(r, 1000));
+  let spawnError: Error | undefined;
+  child.once('error', error => { spawnError = error; });
+  try {
+    for (let i = 0; i < 120; i++) {
+      if (spawnError) throw new Error('Vendor web process failed to start', { cause: spawnError });
+      if (child.exitCode !== null || child.signalCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`);
+      try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* not ready */ }
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    throw new Error('Vendor installation readiness timeout');
+  } catch (error) {
+    await stopVendor(child);
+    throw error;
   }
-  throw new Error('Vendor installation readiness timeout');
 }
 /** The first link on the current page to a detail of the list route, if any. */
 async function detailLink(page: Page, route: string) {
@@ -305,8 +319,8 @@ await t.run(async () => {
   } catch (error) {
     soft('crawl execution completed', (error as Error).message.slice(0, 500), 'no unexpected exception');
   } finally {
-    await browser.close();
-    if (vendorProcess && vendorProcess.exitCode === null) { const closed = once(vendorProcess, 'close'); vendorProcess.kill(); await closed; }
+    try { await browser.close(); }
+    finally { if (vendorProcess) await stopVendor(vendorProcess); }
     const withIssues = visits.filter(v => v.issues.length);
     mkdirSync('handoffs/code/artifacts', { recursive: true });
     writeFileSync(`handoffs/code/artifacts/interface-crawl-${new Date().toISOString().replace(/[:.]/g, '-')}.json`, JSON.stringify({ suite: 'interface-crawl', routes: ALL, viewport_scope: desktopOnly ? 'desktop only, per owner scope update' : 'desktop and phone', visits: visits.length, pages_with_issues: withIssues.length,

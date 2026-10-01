@@ -6,6 +6,7 @@ import { limitedBody } from '../../../auth/src/server.ts';
 import type { RuntimeConfig } from '../../../auth/src/config.ts';
 import { safeError } from '../../../../shared/testing/src/evidence.ts';
 import { vendorRuntime, type VendorRuntime } from './runtime.ts';
+import { markVendorFailure, vendorFailureMetadata } from './dependency-errors.ts';
 
 /**
  * Vendor-area authority (revision 1.5 addendum). Two kinds of actor exist on
@@ -36,8 +37,8 @@ export type VendorActor = {
 export async function vendorActorFor(request: Request, r: VendorRuntime = vendorRuntime()): Promise<VendorActor> {
   if (request.headers.has('authorization')) throw new AccessError(401, 'UNAUTHENTICATED');
   const [staff, account] = await Promise.all([
-    r.vendor.auth.api.getSession({ headers: request.headers, query: { disableCookieCache: true } }),
-    r.account.auth.api.getSession({ headers: request.headers, query: { disableCookieCache: true } }),
+    r.vendor.auth.api.getSession({ headers: request.headers, query: { disableCookieCache: true } }).catch(error => markVendorFailure(error, 'VENDOR_SESSION_READ')),
+    r.account.auth.api.getSession({ headers: request.headers, query: { disableCookieCache: true } }).catch(error => markVendorFailure(error, 'ACCOUNT_SESSION_READ')),
   ]);
   if (staff && account) throw new AccessError(403, 'FORBIDDEN');
   const session = staff ?? account;
@@ -92,7 +93,7 @@ export async function vendorSafeRoute(work: (requestId: string) => Promise<Respo
     // A request body that fails its canonical schema is the caller's error, not the service's.
     const issues = (caught as { name?: string; issues?: { path: PropertyKey[]; code: string }[] })?.name === 'ZodError' ? (caught as { issues: { path: PropertyKey[]; code: string }[] }).issues : null;
     const error = issues ? new AccessError(400, 'VALIDATION_ERROR', issues.slice(0, 16).map(i => ({ field: i.path.map(String).join('.').slice(0, 120), code: i.code }))) : caught;
-    if (!(error instanceof AccessError)) console.error(JSON.stringify({ request_id: requestId, operation, ...safeError(error), ...(process.env.ORVIA_DEBUG_ERRORS === '1' ? { debug: String((error as Error)?.message).slice(0, 300) } : {}) }));
+    if (!(error instanceof AccessError)) console.error(JSON.stringify({ request_id: requestId, operation, ...safeError(error), ...vendorFailureMetadata(error) }));
     const status = error instanceof AccessError ? error.status : 503;
     const code = error instanceof AccessError && errorCodes.has(error.code) ? error.code : 'SERVICE_UNAVAILABLE';
     response = Response.json({ error: { code, message: code === 'FORBIDDEN' ? 'Access denied.' : 'Request could not be completed.',

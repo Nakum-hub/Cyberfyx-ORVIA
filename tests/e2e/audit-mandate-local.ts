@@ -78,12 +78,26 @@ async function vendorSignIn(page: Page, user: User) {
   await waitForPageContent(page); await page.waitForLoadState('networkidle');
   persist();
 }
+async function stopVendor(child: ChildProcess) {
+  if (!child.pid || child.exitCode !== null || child.signalCode !== null) return;
+  const closed = once(child, 'close');
+  child.kill('SIGTERM');
+  await closed;
+}
 async function startVendor() {
   const command = webProcess({ profile: 'vendor-a00', app_port: PROFILES['vendor-a00'].app_port });
-  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
+  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
   let diagnostics = ''; child.stderr?.on('data', c => { diagnostics += c.toString(); });
-  for (let i = 0; i < 120; i++) { if (child.exitCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`); try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* starting */ } await new Promise(r => setTimeout(r, 500)); }
-  throw new Error('Vendor installation readiness timeout');
+  let spawnError: Error | undefined;
+  child.once('error', error => { spawnError = error; });
+  try {
+    for (let i = 0; i < 120; i++) { if (spawnError) throw new Error('Vendor web process failed to start', { cause: spawnError });
+      if (child.exitCode !== null || child.signalCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`); try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* starting */ } await new Promise(r => setTimeout(r, 500)); }
+    throw new Error('Vendor installation readiness timeout');
+  } catch (error) {
+    await stopVendor(child);
+    throw error;
+  }
 }
 const openEngagement = async (page: Page, reference: string) => {
   await page.goto('/workspace/dpdpa-audit'); await page.getByRole('heading', { name: 'DPDPA external audit' }).waitFor();
@@ -268,8 +282,11 @@ try {
 
       check('no browser errors and no request left either installation', [errors, external], [[], []]);
     } finally {
-      await browser.close(); await workerPool.end();
-      if (vendorProcess.exitCode === null) { const closed = once(vendorProcess, 'close'); vendorProcess.kill(); await closed; }
+      try { await browser.close(); }
+      finally {
+        try { await workerPool.end(); }
+        finally { await stopVendor(vendorProcess); }
+      }
     }
   });
 } finally { writePrivateJson(trustPath, JSON.parse(originalTrust)); }
