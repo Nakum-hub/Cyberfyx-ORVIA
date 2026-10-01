@@ -3,6 +3,7 @@ import { audit, type Context } from '../shared/transaction.ts';
 import { createNotificationTask } from '../notifications/notifications.ts';
 import { iso, packageAt, predicate, scope } from './shared.ts';
 import { pendingWithdrawalCount } from '../registry/consent.ts';
+import { noticeDriftReport } from '../registry/notice-drift.ts';
 
 /**
  * Attention, coverage and notifications (requirements s24; backend Coverage,
@@ -57,6 +58,12 @@ export async function operationsAttention(c: Context) {
     GROUP BY a.system_id ORDER BY count(*) DESC LIMIT 51`, s)).rows, 50, 'systems with unknown backup handling'))
     push({ kind: 'BACKUP_HANDLING_UNKNOWN', severity: 'UNRESOLVED', entity_kind: 'system', entity_id: b.system_id, count: b.n,
       detail: `${b.n} verified erasure(s) on this system, but no approved backup treatment: what its backups still hold is unknown.`, due_at: null });
+
+  // Eighth Schedule language drift: a notice whose current locales state different purposes or data categories, or a translation
+  // whose source has been replaced.
+  for (const n of capped((await noticeDriftReport(c)).notices.filter(n => n.out_of_step > 0), 50, 'notices with languages out of step'))
+    push({ kind: 'NOTICE_LANGUAGE_DRIFT', severity: 'REVIEW_REQUIRED', entity_kind: 'registry_notice', entity_id: n.notice_id, count: n.out_of_step,
+      detail: `${n.out_of_step} language version(s) of "${n.name.slice(0, 80)}" are out of step with the ${n.reference_locale} notice: ${n.locales.filter(l => l.state === 'SCOPE_MISMATCH' || l.state === 'BEHIND_ITS_SOURCE').map(l => l.locale).join(', ')}.`, due_at: null });
 
   // Website privacy policies: the latest completed discovery per site that is missing, unreachable, empty or changed and not yet reviewed.
   for (const d of capped((await c.tx.query(`SELECT DISTINCT ON (d.site_id) d.id, d.site_id, d.results, d.reviewed_at FROM app.policy_discoveries d

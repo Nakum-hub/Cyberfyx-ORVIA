@@ -242,6 +242,7 @@ export interface EndpointMap {
   create_notice_version: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RegistryNoticeVersionCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RegistryNotice> };
   publish_notice_version: { request: import('zod').infer<typeof import('../src/index.ts').schemas.NoticePublish>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RegistryNotice> };
   notice_at_time: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeAt> };
+  notice_language_drift: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDriftReport> };
   list_notice_deliveries: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDeliveryList> };
   record_notice_delivery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDeliveryRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDelivery> };
   list_consent_records: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentRecordList> };

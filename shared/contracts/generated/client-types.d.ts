@@ -3039,6 +3039,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/registry-notices/language-drift": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["notice_language_drift"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/notice-delivery-evidence": {
         parameters: {
             query?: never;
@@ -8308,10 +8324,12 @@ export interface components {
             };
             template_reference: string | null;
             v1_notice_version_id: string | null;
+            translates_version_id?: string | null;
         };
         NoticePublish: {
             /** Format: date-time */
             effective_from: string;
+            acknowledge_locale_drift?: boolean;
         };
         RegistryNoticeVersion: {
             /** Format: uuid */
@@ -8334,6 +8352,7 @@ export interface components {
             };
             template_reference: string | null;
             v1_notice_version_id: string | null;
+            translates_version_id: string | null;
             /** @enum {string} */
             status: "DRAFT" | "PUBLISHED" | "SUPERSEDED";
             effective_from: string | null;
@@ -8369,6 +8388,7 @@ export interface components {
                 };
                 template_reference: string | null;
                 v1_notice_version_id: string | null;
+                translates_version_id: string | null;
                 /** @enum {string} */
                 status: "DRAFT" | "PUBLISHED" | "SUPERSEDED";
                 effective_from: string | null;
@@ -8378,6 +8398,83 @@ export interface components {
                 /** Format: date-time */
                 recorded_at: string;
             }[];
+        };
+        NoticeLocaleDrift: {
+            /** @enum {string} */
+            locale: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+            /** Format: uuid */
+            version_id: string;
+            version: number;
+            /** Format: date-time */
+            published_at: string;
+            /** Format: date-time */
+            effective_from: string;
+            translates_version_id: string | null;
+            /** @enum {string} */
+            state: "REFERENCE" | "IN_STEP" | "SCOPE_MISMATCH" | "BEHIND_ITS_SOURCE" | "MAY_BE_BEHIND";
+            missing_purpose_version_ids: string[];
+            extra_purpose_version_ids: string[];
+            missing_data_category_ids: string[];
+            extra_data_category_ids: string[];
+            detail: string;
+        };
+        NoticeDrift: {
+            /** Format: uuid */
+            notice_id: string;
+            name: string;
+            reference_locale: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur") | null;
+            locales: {
+                /** @enum {string} */
+                locale: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+                /** Format: uuid */
+                version_id: string;
+                version: number;
+                /** Format: date-time */
+                published_at: string;
+                /** Format: date-time */
+                effective_from: string;
+                translates_version_id: string | null;
+                /** @enum {string} */
+                state: "REFERENCE" | "IN_STEP" | "SCOPE_MISMATCH" | "BEHIND_ITS_SOURCE" | "MAY_BE_BEHIND";
+                missing_purpose_version_ids: string[];
+                extra_purpose_version_ids: string[];
+                missing_data_category_ids: string[];
+                extra_data_category_ids: string[];
+                detail: string;
+            }[];
+            out_of_step: number;
+            languages_without_notice: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur")[];
+        };
+        NoticeDriftReport: {
+            notices: {
+                /** Format: uuid */
+                notice_id: string;
+                name: string;
+                reference_locale: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur") | null;
+                locales: {
+                    /** @enum {string} */
+                    locale: "en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur";
+                    /** Format: uuid */
+                    version_id: string;
+                    version: number;
+                    /** Format: date-time */
+                    published_at: string;
+                    /** Format: date-time */
+                    effective_from: string;
+                    translates_version_id: string | null;
+                    /** @enum {string} */
+                    state: "REFERENCE" | "IN_STEP" | "SCOPE_MISMATCH" | "BEHIND_ITS_SOURCE" | "MAY_BE_BEHIND";
+                    missing_purpose_version_ids: string[];
+                    extra_purpose_version_ids: string[];
+                    missing_data_category_ids: string[];
+                    extra_data_category_ids: string[];
+                    detail: string;
+                }[];
+                out_of_step: number;
+                languages_without_notice: ("en" | "as" | "bn" | "brx" | "doi" | "gu" | "hi" | "kn" | "ks" | "kok" | "mai" | "ml" | "mni" | "mr" | "ne" | "or" | "pa" | "sa" | "sat" | "sd" | "ta" | "te" | "ur")[];
+            }[];
+            notices_out_of_step: number;
+            limits: string[];
         };
         NoticeAtQuery: {
             /** Format: date-time */
@@ -8413,6 +8510,7 @@ export interface components {
                 };
                 template_reference: string | null;
                 v1_notice_version_id: string | null;
+                translates_version_id: string | null;
                 /** @enum {string} */
                 status: "DRAFT" | "PUBLISHED" | "SUPERSEDED";
                 effective_from: string | null;
@@ -9018,6 +9116,7 @@ export interface components {
                     };
                     template_reference: string | null;
                     v1_notice_version_id: string | null;
+                    translates_version_id: string | null;
                     /** @enum {string} */
                     status: "DRAFT" | "PUBLISHED" | "SUPERSEDED";
                     effective_from: string | null;
@@ -10385,7 +10484,7 @@ export interface components {
             as_of: string;
             items: {
                 /** @enum {string} */
-                kind: "WEBSITE_POLICY_REVIEW" | "RIGHTS_CASE_DUE" | "BREACH_TASK_DUE" | "ACTION_FAILED" | "ACTION_INCONCLUSIVE" | "ACTION_NOT_SUPPORTED" | "ACTION_AWAITING_VERIFICATION" | "RUN_AWAITING_APPROVAL" | "CONDITION_UNRESOLVED" | "ACTIVITY_MAPPING_MISSING" | "SYSTEM_UNBOUND" | "CONSENT_EVIDENCE_MISSING" | "RELATIONSHIP_EVIDENCE_MISSING" | "REGULATORY_IMPACT_OPEN" | "APPLICABILITY_UNRESOLVED" | "RETENTION_UNRESOLVED" | "HOLD_REVIEW_DUE" | "SDF_OBLIGATION_DUE" | "IMPORT_ROWS_FAILED" | "NO_ACTIVE_PACKAGE" | "WITHDRAWAL_NOT_PROPAGATED" | "REERASURE_AFTER_RESTORE" | "BACKUP_HANDLING_UNKNOWN";
+                kind: "WEBSITE_POLICY_REVIEW" | "NOTICE_LANGUAGE_DRIFT" | "RIGHTS_CASE_DUE" | "BREACH_TASK_DUE" | "ACTION_FAILED" | "ACTION_INCONCLUSIVE" | "ACTION_NOT_SUPPORTED" | "ACTION_AWAITING_VERIFICATION" | "RUN_AWAITING_APPROVAL" | "CONDITION_UNRESOLVED" | "ACTIVITY_MAPPING_MISSING" | "SYSTEM_UNBOUND" | "CONSENT_EVIDENCE_MISSING" | "RELATIONSHIP_EVIDENCE_MISSING" | "REGULATORY_IMPACT_OPEN" | "APPLICABILITY_UNRESOLVED" | "RETENTION_UNRESOLVED" | "HOLD_REVIEW_DUE" | "SDF_OBLIGATION_DUE" | "IMPORT_ROWS_FAILED" | "NO_ACTIVE_PACKAGE" | "WITHDRAWAL_NOT_PROPAGATED" | "REERASURE_AFTER_RESTORE" | "BACKUP_HANDLING_UNKNOWN";
                 /** @enum {string} */
                 severity: "OVERDUE" | "DUE_SOON" | "FAILED" | "INCONCLUSIVE" | "UNRESOLVED" | "MISSING" | "NOT_SUPPORTED" | "REVIEW_REQUIRED" | "OPEN";
                 entity_kind: string;
@@ -64826,6 +64925,166 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["NoticeAt"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    notice_language_drift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "notices": [],
+                     *       "notices_out_of_step": 0,
+                     *       "limits": []
+                     *     }
+                     */
+                    "application/json": components["schemas"]["NoticeDriftReport"];
                 };
             };
             /** @description VALIDATION_ERROR */

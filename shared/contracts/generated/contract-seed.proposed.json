@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.51.0",
+  "contract_version": "0.52.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -2685,6 +2685,15 @@
       "capability": "registry.read",
       "params": "IdPath",
       "query": "NoticeAtQuery"
+    },
+    {
+      "id": "notice_language_drift",
+      "method": "get",
+      "path": "/api/v1/admin/registry-notices/language-drift",
+      "authority": "STAFF",
+      "response": "NoticeDriftReport",
+      "status": 200,
+      "capability": "registry.read"
     },
     {
       "id": "list_notice_deliveries",

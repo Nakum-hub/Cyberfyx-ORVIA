@@ -20,7 +20,8 @@
         "handoffs/code/2026-09-26-expansion-takeover.md"
       ],
       "limitations": [
-        "Communication preferences built in the Claude takeover, pending Codex review: topics, append-only portal choices, stale-replay protection, decision at time of use with consent dependency. Integration 39/39 and browser 10/10 on codex-a00, synthetic data. Not built: staff-recorded choices, downstream readback from external senders, EX09 delivery consulting topics, embeddable website widget/SDK. Acceptance NOT_RUN."
+        "Communication preferences built in the Claude takeover, pending Codex review: topics, append-only portal choices, stale-replay protection, decision at time of use with consent dependency. Integration 39/39 and browser 10/10 on codex-a00, synthetic data. Not built: staff-recorded choices, downstream readback from external senders, EX09 delivery consulting topics, embeddable website widget/SDK. Acceptance NOT_RUN.",
+        "2026-10-01 (Claude): Eighth Schedule language drift guard for DPDP notices (migration 0078, contract 0.52.0): translations may record the version they translate; a report compares every current language's purposes and data categories with the latest original (no language assumed to be the source); publishing a scope change while other languages are current is refused unless acknowledged and names them; catching up needs no acknowledgement; Operations attention until in step. notice-language-drift 20/20 synthetic; notices/estate-import/impact/third-party/intake reruns green. Wording equivalence is not judged, and what Data Principals are shown while a language is behind is unchanged pending an owner decision."
       ]
     },
     {

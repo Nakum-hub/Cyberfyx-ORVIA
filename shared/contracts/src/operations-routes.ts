@@ -65,6 +65,7 @@ export const operationsRoutes: Route[] = [
   write('create_notice_version', '/registry-notices/{id}/versions', 'RegistryNoticeVersionCreate', 'RegistryNotice', 'registry.write'),
   write('publish_notice_version', '/registry-notice-versions/{id}/publication', 'NoticePublish', 'RegistryNotice', 'registry.write', 200),
   read('notice_at_time', '/registry-notices/{id}/at', 'NoticeAt', 'registry.read', 'NoticeAtQuery'),
+  read('notice_language_drift', '/registry-notices/language-drift', 'NoticeDriftReport', 'registry.read'),
   list('list_notice_deliveries', '/notice-delivery-evidence', 'NoticeDeliveryList', 'registry.read'),
   write('record_notice_delivery', '/notice-delivery-evidence', 'NoticeDeliveryRecord', 'NoticeDelivery', 'registry.write'),
   // Registry: consent

@@ -7156,6 +7156,19 @@
       }
     },
     {
+      "operation_id": "notice_language_drift",
+      "method": "GET",
+      "path": "/api/v1/admin/registry-notices/language-drift",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "notices": [],
+        "notices_out_of_step": 0,
+        "limits": []
+      }
+    },
+    {
       "operation_id": "list_notice_deliveries",
       "method": "GET",
       "path": "/api/v1/admin/notice-delivery-evidence",

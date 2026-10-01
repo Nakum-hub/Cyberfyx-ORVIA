@@ -57,7 +57,7 @@ const expansionNames = Object.keys(expansionSchemas);
  *  issued by a protected command on the installation's server; capability setup.owner_recovery. Otherwise additive.
  *  0.50.0 adds EX07 backup-copy obligations: backup treatments (second-person approval), backup coverage, system restores that
  *  mark re-erasure, and the protected erasure ledger (sensitive capability). Otherwise additive. */
-export const CONTRACT_VERSION = '0.51.0' as const;
+export const CONTRACT_VERSION = '0.52.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */

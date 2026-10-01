@@ -179,17 +179,28 @@ export const RegistryNoticeVersionCreate = z.strictObject({
   locale: Locale, title: z.string().min(1).max(120), content: LongText,
   purpose_version_ids: z.array(Id).min(1).max(20), data_category_ids: z.array(Id).min(1).max(40),
   channels: NoticeChannels, template_reference: SafeText.nullable(), v1_notice_version_id: Id.nullable(),
+  /** The version of another locale of this notice that this one translates; null or absent for an original. */
+  translates_version_id: Id.nullable().optional(),
 });
-export const NoticePublish = z.strictObject({ effective_from: Time });
+/** Publishing a version whose purposes or data categories differ from other current locales needs this set to true. */
+export const NoticePublish = z.strictObject({ effective_from: Time, acknowledge_locale_drift: z.boolean().optional() });
 export const RegistryNoticeVersion = z.strictObject({
   id: Id, notice_id: Id, version: z.number().int().positive(), locale: Locale, title: SafeText, content: LongText, content_digest: Digest,
   purpose_version_ids: z.array(Id).max(20), data_category_ids: z.array(Id).max(40), channels: NoticeChannels,
-  template_reference: SafeText.nullable(), v1_notice_version_id: Id.nullable(),
+  template_reference: SafeText.nullable(), v1_notice_version_id: Id.nullable(), translates_version_id: Id.nullable(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'SUPERSEDED']), effective_from: Time.nullable(), effective_to: Time.nullable(),
   published_at: Time.nullable(), superseded_by: Id.nullable(), recorded_at: Time,
 });
 export type RegistryNoticeVersionValue = z.infer<typeof RegistryNoticeVersion>;
 export const RegistryNotice = z.strictObject({ id: Id, name: SafeText, audience_category_ids: z.array(Id).max(20), versions: z.array(RegistryNoticeVersion).max(100) });
+/** Eighth Schedule language drift: each current locale of a notice against the most recently published one. */
+export const NoticeLocaleState = z.enum(['REFERENCE', 'IN_STEP', 'SCOPE_MISMATCH', 'BEHIND_ITS_SOURCE', 'MAY_BE_BEHIND']);
+export const NoticeLocaleDrift = z.strictObject({ locale: Locale, version_id: Id, version: z.number().int().positive(), published_at: Time, effective_from: Time,
+  translates_version_id: Id.nullable(), state: NoticeLocaleState, missing_purpose_version_ids: z.array(Id).max(20), extra_purpose_version_ids: z.array(Id).max(20),
+  missing_data_category_ids: z.array(Id).max(40), extra_data_category_ids: z.array(Id).max(40), detail: SafeText });
+export const NoticeDrift = z.strictObject({ notice_id: Id, name: SafeText, reference_locale: Locale.nullable(), locales: z.array(NoticeLocaleDrift).max(23), out_of_step: z.number().int().min(0),
+  languages_without_notice: z.array(Locale).max(23) });
+export const NoticeDriftReport = z.strictObject({ notices: z.array(NoticeDrift).max(200), notices_out_of_step: z.number().int().min(0), limits: z.array(SafeText).max(5) });
 export const NoticeAtQuery = z.strictObject({ as_of: Time, locale: Locale });
 export const NoticeAt = z.strictObject({ notice_id: Id, as_of: Time, locale: Locale, version: RegistryNoticeVersion.nullable(), reason: SafeText });
 export const NoticeDeliveryRecord = z.strictObject({
@@ -407,7 +418,7 @@ export const registrySchemas = {
   RepresentativeCreate, RepresentativeVerify, NominationActivate, Representative, ChildStatusRecord, ChildStatusView,
   RegistryPurposeCreate, RegistryPurposeRevise, RegistryPurpose, ConditionCreate, Condition, SafeguardCreate, Safeguard,
   ActivityCreate, ActivityRevise, ActivityLinkCreate, LinkClose, ActivityLink, Activity, ActivityQuery,
-  RegistryNoticeCreate, RegistryNoticeVersionCreate, NoticePublish, RegistryNoticeVersion, RegistryNotice, NoticeAtQuery, NoticeAt, NoticeDeliveryRecord, NoticeDelivery,
+  RegistryNoticeCreate, RegistryNoticeVersionCreate, NoticePublish, RegistryNoticeVersion, RegistryNotice, NoticeLocaleDrift, NoticeDrift, NoticeDriftReport, NoticeAtQuery, NoticeAt, NoticeDeliveryRecord, NoticeDelivery,
   ConsentRecordCreate, ConsentEventRecord, ConsentRecord, ConsentSync,
   EngagementCreate, EngagementTerminate, EngagementDisposition, Engagement, EngagementQuery, SharingLinkCreate, SharingLink, SharingQuery,
   RetentionRuleCreate, RetentionRuleRevise, RetentionRule, RetentionHoldCreate, RetentionHoldRelease, RetentionHold, RetentionHoldQuery,

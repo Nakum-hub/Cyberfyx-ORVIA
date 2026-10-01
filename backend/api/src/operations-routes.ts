@@ -8,6 +8,7 @@ import { createPrincipalCategory, principalCategoryList, createDataCategory, dat
   createRelationship, endRelationship, createRepresentative, representativeList, verifyRepresentative, activateNomination, recordChildStatus, childStatus } from '../../domain/src/registry/principals.ts';
 import { createPurpose, revisePurpose, purposeList, createCondition, conditionList, createSafeguard, safeguardList, createActivity, reviseActivity, linkActivity, closeLink, activityView, activityList } from '../../domain/src/registry/processing.ts';
 import { createNotice, createNoticeVersion, publishNoticeVersion, noticeList, noticeAt, recordDelivery, deliveryList, portalNotices } from '../../domain/src/registry/notices.ts';
+import { noticeDriftReport } from '../../domain/src/registry/notice-drift.ts';
 import { createConsentRecord, recordConsentEvent, consentRecordView, consentRecordList, syncPortalConsent, consentManagerList, createConsentManager, changeConsentManagerStatus, linkConsentManager, recordConsentManagerWithdrawal } from '../../domain/src/registry/consent.ts';
 import { createEngagement, terminateEngagement, recordDisposition, engagementList, createSharingLink, sharingList } from '../../domain/src/registry/processors.ts';
 import { createRule, reviseRule, ruleList, createHold, releaseHold, holdList, recordIntimation, recordReEngagement, intimationList, intimationsDue } from '../../domain/src/registry/retention.ts';
@@ -80,6 +81,7 @@ export async function operationsRoute(c: Context, route: RouteDefinition, id: st
     case 'create_notice_version': return createNoticeVersion(c, id!, input);
     case 'publish_notice_version': return publishNoticeVersion(c, id!, input);
     case 'notice_at_time': return noticeAt(c, id!, query);
+    case 'notice_language_drift': return noticeDriftReport(c);
     case 'list_notice_deliveries': return deliveryList(c, page);
     case 'record_notice_delivery': return recordDelivery(c, input);
     case 'list_consent_records': return consentRecordList(c, page);
