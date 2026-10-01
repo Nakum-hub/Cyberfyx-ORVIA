@@ -8,8 +8,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 IMAGE=openpolicyagent/opa@sha256:2de1e6619246955695b982d0bcb6c73bcee22aa34ff96f2455996616ec1d21c1
 opa_test() { # $1 = directory holding policy/ and tests/
-  if command -v opa >/dev/null 2>&1; then (cd "$1" && opa test policy tests >/dev/null 2>&1)
-  else docker run --rm -v "$1":/w:ro -w /w "$IMAGE" test policy tests >/dev/null 2>&1; fi
+  local report="$1/opa-test-result.json" status=0
+  if command -v opa >/dev/null 2>&1; then (cd "$1" && opa test --format=json policy tests) >"$report" 2>/dev/null || status=$?
+  else docker run --rm -v "$1":/w:ro -w /w "$IMAGE" test --format=json policy tests >"$report" 2>/dev/null || status=$?; fi
+  node scripts/policy-test-outcome.mjs "$report" "$status"
 }
 work=$(mktemp -d); trap 'rm -rf "$work"' EXIT
 stage() { rm -rf "$work/case"; mkdir -p "$work/case/policy" "$work/case/tests"; cp -r backend/policy/processing backend/policy/admin "$work/case/policy/"; cp tests/policy/*.rego "$work/case/tests/"; }
@@ -21,7 +23,12 @@ failed=0
 mutate() { # name, file under policy/, sed expression
   stage; sed -i "$3" "$work/case/policy/$2"
   if cmp -s "backend/policy/$2" "$work/case/policy/$2"; then echo "FAIL defect '$1' could not be applied (the policy changed; update this gate)"; failed=1; return; fi
-  if opa_test "$work/case"; then echo "FAIL defect '$1' was NOT caught by the privacy tests"; failed=1; else echo "PASS defect '$1' is caught (expected regression detection)"; fi
+  if opa_test "$work/case"; then echo "FAIL defect '$1' was NOT caught by the privacy tests"; failed=1
+  else
+    local status=$?
+    if [ "$status" -eq 2 ]; then echo "PASS defect '$1' is caught (expected regression detection)"
+    else echo "FAIL defect '$1' did not produce usable failed-test evidence (OPA execution/evaluation error)"; failed=1; fi
+  fi
 }
 mutate 'withdrawn consent still allows marketing' processing/decision.rego '/input.consent_state == "GRANTED"/d'
 mutate 'an unresolved suppression is ignored' processing/decision.rego '/input.unresolved_suppression == false/d'
