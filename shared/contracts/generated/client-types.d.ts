@@ -5416,7 +5416,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["report_canary_hit"];
+        post: operations["record_canary_receipt"];
         delete?: never;
         options?: never;
         head?: never;
@@ -16563,7 +16563,8 @@ export interface components {
             /** Format: uuid */
             legal_entity_id: string;
             display_name: string;
-            email: string & (unknown & unknown);
+            /** Format: email */
+            email: string;
         };
         Principal: {
             /** Format: uuid */
@@ -16571,11 +16572,11 @@ export interface components {
             /** Format: uuid */
             legal_entity_id: string;
             display_name: string;
-            email: string & (unknown & unknown);
+            /** Format: email */
+            email: string;
             /** Format: uuid */
             id: string;
-            /** @constant */
-            synthetic: true;
+            synthetic: boolean;
         };
         ConsentChoice: {
             /** Format: uuid */
@@ -21127,11 +21128,11 @@ export interface components {
                 /** Format: uuid */
                 legal_entity_id: string;
                 display_name: string;
-                email: string & (unknown & unknown);
+                /** Format: email */
+                email: string;
                 /** Format: uuid */
                 id: string;
-                /** @constant */
-                synthetic: true;
+                synthetic: boolean;
             }[];
             next_cursor: string | null;
         };
@@ -29482,7 +29483,7 @@ export interface operations {
                      *       "display_name": "Synthetic example",
                      *       "email": "asha@aster.example",
                      *       "id": "00000000-0000-4000-8000-0000000000db",
-                     *       "synthetic": true
+                     *       "synthetic": false
                      *     }
                      */
                     "application/json": components["schemas"]["Principal"];
@@ -100243,7 +100244,7 @@ export interface operations {
             };
         };
     };
-    report_canary_hit: {
+    record_canary_receipt: {
         parameters: {
             query?: never;
             header: {

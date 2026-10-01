@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.53.0",
-    "description": "Contract 0.53.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.54.0",
+    "description": "Contract 0.54.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/api/v1/admin/grc/audit-requests/{id}/responses": {
@@ -8775,7 +8775,7 @@
                   "display_name": "Synthetic example",
                   "email": "asha@aster.example",
                   "id": "00000000-0000-4000-8000-0000000000db",
-                  "synthetic": true
+                  "synthetic": false
                 }
               }
             }
@@ -85990,7 +85990,7 @@
     },
     "/api/v1/admin/withdrawal-canaries/{id}/hits": {
       "post": {
-        "operationId": "report_canary_hit",
+        "operationId": "record_canary_receipt",
         "security": [
           {
             "staffSession": []
@@ -157294,14 +157294,9 @@
           },
           "email": {
             "type": "string",
-            "allOf": [
-              {
-                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
-              },
-              {
-                "pattern": "@(?:aster|birch)\\.example$"
-              }
-            ]
+            "maxLength": 254,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
           }
         },
         "required": [
@@ -157332,14 +157327,9 @@
           },
           "email": {
             "type": "string",
-            "allOf": [
-              {
-                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
-              },
-              {
-                "pattern": "@(?:aster|birch)\\.example$"
-              }
-            ]
+            "maxLength": 254,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
           },
           "id": {
             "type": "string",
@@ -157347,8 +157337,7 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "synthetic": {
-            "type": "boolean",
-            "const": true
+            "type": "boolean"
           }
         },
         "required": [
@@ -180529,14 +180518,9 @@
                 },
                 "email": {
                   "type": "string",
-                  "allOf": [
-                    {
-                      "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
-                    },
-                    {
-                      "pattern": "@(?:aster|birch)\\.example$"
-                    }
-                  ]
+                  "maxLength": 254,
+                  "format": "email",
+                  "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
                 },
                 "id": {
                   "type": "string",
@@ -180544,8 +180528,7 @@
                   "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                 },
                 "synthetic": {
-                  "type": "boolean",
-                  "const": true
+                  "type": "boolean"
                 }
               },
               "required": [

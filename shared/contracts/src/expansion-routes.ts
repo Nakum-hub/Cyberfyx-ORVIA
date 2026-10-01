@@ -130,7 +130,7 @@ export const expansionRoutes: Route[] = [
   write('create_withdrawal_canary', '/withdrawal-canaries', 'WithdrawalCanaryCreate', 'WithdrawalCanary', 'registry.sensitive.write'),
   write('activate_withdrawal_canary', '/withdrawal-canaries/{id}/activation', undefined, 'WithdrawalCanary', 'registry.sensitive.write', 200),
   write('retire_withdrawal_canary', '/withdrawal-canaries/{id}/retirement', undefined, 'WithdrawalCanary', 'registry.sensitive.write', 200),
-  write('report_canary_hit', '/withdrawal-canaries/{id}/hits', 'CanaryHitReport', 'CanaryHit', 'registry.sensitive.write'),
+  write('record_canary_receipt', '/withdrawal-canaries/{id}/hits', 'CanaryHitReport', 'CanaryHit', 'registry.sensitive.write'),
   list('list_canary_hits', '/canary-hits', 'CanaryHitList', 'registry.sensitive.read', 'CanaryHitQuery'),
   write('review_canary_hit', '/canary-hits/{id}/review', 'CanaryHitReview', 'CanaryHit', 'registry.sensitive.write', 200),
   // A visitor's choice, posted by the banner script from an approved site origin. The site key is public; the origin is checked.

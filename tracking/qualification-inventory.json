@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "4b9aa1c5dcc0f892fade6e0f2e8e8a24200213b8ead9b23b0201f23328188058",
+  "test_file_digest": "8eabadee699460ba6859189d60fa0f30a779eb66cbda71fc9a1736f6d3f2e1fa",
   "counts": {
     "UNIT": 50,
-    "INTEGRATION": 84,
+    "INTEGRATION": 87,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
@@ -24,7 +24,7 @@
     },
     {
       "path": "tests/e2e/audit-mandate-local.ts",
-      "sha256": "9e857418b59cd535e42bb1d6ffe66bb70f8024823d22efec419e090349e5e103",
+      "sha256": "73cbeb352c2c3813c616e69a0c8a259e5e0eecf8bf2c423db70c71a0301637e4",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "path": "tests/e2e/expansion-screens-local.ts",
-      "sha256": "1e1416f7dbb83498ec19dfb5bee26528b58ce0ef228b0d39010496342c2d2c5e",
+      "sha256": "4caff057f94eff98368aa8f0bd6dff4eb8e388a75fff03952462e2b8e054c632",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -79,12 +79,12 @@
     },
     {
       "path": "tests/e2e/interface-crawl-local.ts",
-      "sha256": "92681474923a4ebe67e0237092b0481b2a14f2a396fc8e8a51077540a34462c8",
+      "sha256": "342b016b962f5f7023482358b8f9218091e933a38e80ac44d35a2a57582c7038",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/operations-screens-local.ts",
-      "sha256": "fa4334047301c92b8528ae39909c10625bcf6adaeab5d0ba72c70f6d74871535",
+      "sha256": "0bb280a40ea98d66c71d4a23192daca36b851eac788192b5662ef381c1fb7f10",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -163,6 +163,11 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/ai-governance/model-versions.test.ts",
+      "sha256": "8e6b11353e00f84143ec8549472f6d7ca398473b9cbfd6152841ae6c291feadc",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/ai-governance/monitor.test.ts",
       "sha256": "2ad481ee9f96409bd47d00a440560d9559848f1d960f02a2f4499fe8b63f6053",
       "kind": "INTEGRATION"
@@ -190,6 +195,11 @@
     {
       "path": "tests/integration/commerce/migration-ledger.test.ts",
       "sha256": "5ce38e0aa62741f823af0dd1d270770153a22e67e3d2e0c23b6229b21bc994c8",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/consent/canaries.test.ts",
+      "sha256": "669ef641491ea9ac0806ee0d01a9bd63d97178f88c6ebbf4d65768ed78468833",
       "kind": "INTEGRATION"
     },
     {
@@ -225,6 +235,11 @@
     {
       "path": "tests/integration/enforcement/send.test.ts",
       "sha256": "ad86bdfd2fde72420d2bb18f8b4df034fc0019b5c8995b382633d577edfc1dbf",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/enforcement/withdrawal-timing.test.ts",
+      "sha256": "45e276418bbc9ec82c1ad460ba125163cf626f33c9f0a27adc23036025a34f0c",
       "kind": "INTEGRATION"
     },
     {

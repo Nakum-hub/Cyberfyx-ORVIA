@@ -75,7 +75,7 @@ function Canaries() {
           <Choice label="Decoy person" name="principal" options={(principals.data?.items ?? []).map(p => ({ value: p.id, label: `${p.display_name} (${p.email})` }))} hint="A synthetic person with no consent. Activation is refused if they hold any granted consent." />
           <Input label="Where it is planted" name="planted" maxLength={500} hint="Which lists and systems contain this decoy, so a hit can be traced." />
         </WriteForm>
-        <WriteForm operation="report_canary_hit" label="Record a message the decoy received" params={reportId ? { id: reportId } : undefined} onSaved={refresh} describe={() => 'Hit recorded'}
+        <WriteForm operation="record_canary_receipt" label="Record a message the decoy received" params={reportId ? { id: reportId } : undefined} onSaved={refresh} describe={() => 'Hit recorded'}
           build={f => { if (!reportId) throw new Error('Choose the canary.'); return { detail: text(f, 'detail'), evidence_reference: text(f, 'evidence'), observed_at: localToIso(f, 'at'), system_id: null }; }}>
           <Choice label="Canary" name="canary" value={reportId} onChange={setReportId} options={(canaries.data?.items ?? []).filter(k => k.state === 'ACTIVE').map(k => ({ value: k.id, label: k.label }))} />
           <Input label="What arrived" name="detail" maxLength={1000} hint="Sender, subject and channel." />

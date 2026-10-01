@@ -425,7 +425,7 @@ export interface EndpointMap {
   create_withdrawal_canary: { request: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanaryCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanary> };
   activate_withdrawal_canary: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanary> };
   retire_withdrawal_canary: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanary> };
-  report_canary_hit: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHitReport>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHit> };
+  record_canary_receipt: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHitReport>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHit> };
   list_canary_hits: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHitList> };
   review_canary_hit: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHitReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHit> };
   record_cmp_consent: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentReceipt> };

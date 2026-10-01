@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.53.0",
+  "contract_version": "0.54.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4721,7 +4721,7 @@
       "params": "IdPath"
     },
     {
-      "id": "report_canary_hit",
+      "id": "record_canary_receipt",
       "method": "post",
       "path": "/api/v1/admin/withdrawal-canaries/{id}/hits",
       "authority": "STAFF",

@@ -1082,7 +1082,7 @@
         "display_name": "Synthetic example",
         "email": "asha@aster.example",
         "id": "00000000-0000-4000-8000-0000000000db",
-        "synthetic": true
+        "synthetic": false
       }
     },
     {
@@ -13682,7 +13682,7 @@
       }
     },
     {
-      "operation_id": "report_canary_hit",
+      "operation_id": "record_canary_receipt",
       "method": "POST",
       "path": "/api/v1/admin/withdrawal-canaries/{id}/hits",
       "headers": {

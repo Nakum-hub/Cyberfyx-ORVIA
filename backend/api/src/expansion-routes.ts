@@ -145,7 +145,7 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'create_withdrawal_canary': return createCanary(c, input);
     case 'activate_withdrawal_canary': return activateCanary(c, id!);
     case 'retire_withdrawal_canary': return retireCanary(c, id!);
-    case 'report_canary_hit': return reportCanaryHit(c, id!, input);
+    case 'record_canary_receipt': return reportCanaryHit(c, id!, input);
     case 'list_canary_hits': return canaryHitList(c, page, query);
     case 'review_canary_hit': return reviewCanaryHit(c, id!, input);
     // DPDPA external audit exchange (revision 1.5 addendum)
