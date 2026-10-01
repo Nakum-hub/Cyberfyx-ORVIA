@@ -1,0 +1,36 @@
+typecheck exit=0
+lint exit=0
+test exit=0
+build exit=0
+final typecheck exit=0
+final lint exit=0
+final test exit=0
+final build exit=0
+readiness typecheck exit=0
+readiness lint exit=0
+readiness test exit=0
+ready typecheck exit=0
+ready lint exit=0
+ready test exit=0
+node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-vendor-session.ts [R7_SESSION_LABEL=before] => 0
+node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-vendor-session.ts [R7_SESSION_LABEL=before-traced] => 0
+node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-vendor-session.ts [R7_SESSION_LABEL=before-delay,R7_SESSION_DELAY=1; previous frozen build] => 0
+R7_RUN_LABEL=diagnostic node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-browser.mjs firefox operations-screens-local => 0
+node <pinned-pnpm> typecheck [candidate] => 0
+node <pinned-pnpm> lint [candidate] => 0
+node <pinned-pnpm> test [candidate] => 0
+node <pinned-pnpm> build [candidate] => 0
+node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-vendor-session.ts [R7_SESSION_LABEL=after-delay,R7_SESSION_DELAY=1] => 0
+node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-form-pages.ts => 0
+node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-crawl-readiness.ts [final helper] => 0
+node handoffs/codex/round7-matrix.mjs webkit firefox [R7_RUN_LABEL=resumed,R7_CRAWL_FROM=principal] => 1
+node handoffs/codex/round7-matrix.mjs webkit [R7_RUN_LABEL=desktop-complete,R7_CRAWL_FROM=principal,R7_SUITES=interface-crawl-local,expansion-screens-local,audit-mandate-local,operations-screens-local] => 1
+node handoffs/codex/round7-matrix.mjs chromium [R7_RUN_LABEL=control,R7_SUITES=expansion-screens-local,audit-mandate-local,operations-screens-local] => 0
+node node_modules/tsx/dist/cli.mjs scripts/machine-init.ts confirm:codex-a00 [candidate CMP] => 0
+node node_modules/tsx/dist/cli.mjs handoffs/codex/round7-cmp-repro.ts [R7_CMP_LABEL=candidate] => 0
+node handoffs/codex/round7-matrix.mjs webkit firefox chromium [R7_RUN_LABEL=journey-settled,R7_SUITES=audit-mandate-local,operations-screens-local] => 1
+runtime database exit=0
+runtime off exit=0
+typecheck exit=0
+lint exit=0
+test exit=0

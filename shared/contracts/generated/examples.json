@@ -13374,6 +13374,402 @@
       }
     },
     {
+      "operation_id": "list_ai_model_versions",
+      "method": "GET",
+      "path": "/api/v1/admin/ai-systems/{id}/model-versions",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-000000000462",
+            "ai_system_id": "00000000-0000-4000-8000-000000000463",
+            "version_label": "churn-2026.10",
+            "model_kind": "CUSTOM_TRAINED",
+            "training_asset_ids": [
+              "00000000-0000-4000-8000-000000000460"
+            ],
+            "training_purpose_id": "00000000-0000-4000-8000-000000000461",
+            "training_basis": "Customer retention analytics under consent purpose P-7 (synthetic).",
+            "training_data_as_of": "2026-09-16T10:00:00.000Z",
+            "evaluation_reference": "Evaluation report EV-3 (synthetic)",
+            "evaluation_summary": "Holdout AUC 0.81; no protected attribute used as a feature (synthetic).",
+            "known_limitations": "Not validated for customers with under 90 days of history (synthetic).",
+            "state": "DEPLOYED",
+            "recorded_by": "00000000-0000-4000-8000-000000000386",
+            "recorded_at": "2026-09-16T10:00:00.000Z",
+            "approved_by": "00000000-0000-4000-8000-000000000387",
+            "approved_at": "2026-09-16T10:00:00.000Z",
+            "deployed_by": "00000000-0000-4000-8000-000000000387",
+            "deployed_at": "2026-09-16T10:00:00.000Z",
+            "retired_at": null,
+            "withdrawals_since_training_data": 0,
+            "retraining_review_due": false,
+            "limits": [
+              "Synthetic example."
+            ]
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "record_ai_model_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ai-systems/{id}/model-versions",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "version_label": "churn-2026.10",
+        "model_kind": "CUSTOM_TRAINED",
+        "training_asset_ids": [
+          "00000000-0000-4000-8000-000000000460"
+        ],
+        "training_purpose_id": "00000000-0000-4000-8000-000000000461",
+        "training_basis": "Customer retention analytics under consent purpose P-7 (synthetic).",
+        "training_data_as_of": "2026-09-16T10:00:00.000Z",
+        "evaluation_reference": "Evaluation report EV-3 (synthetic)",
+        "evaluation_summary": "Holdout AUC 0.81; no protected attribute used as a feature (synthetic).",
+        "known_limitations": "Not validated for customers with under 90 days of history (synthetic)."
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000462",
+        "ai_system_id": "00000000-0000-4000-8000-000000000463",
+        "version_label": "churn-2026.10",
+        "model_kind": "CUSTOM_TRAINED",
+        "training_asset_ids": [
+          "00000000-0000-4000-8000-000000000460"
+        ],
+        "training_purpose_id": "00000000-0000-4000-8000-000000000461",
+        "training_basis": "Customer retention analytics under consent purpose P-7 (synthetic).",
+        "training_data_as_of": "2026-09-16T10:00:00.000Z",
+        "evaluation_reference": "Evaluation report EV-3 (synthetic)",
+        "evaluation_summary": "Holdout AUC 0.81; no protected attribute used as a feature (synthetic).",
+        "known_limitations": "Not validated for customers with under 90 days of history (synthetic).",
+        "state": "DEPLOYED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "deployed_by": "00000000-0000-4000-8000-000000000387",
+        "deployed_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null,
+        "withdrawals_since_training_data": 0,
+        "retraining_review_due": false,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
+      "operation_id": "approve_ai_model_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ai-model-versions/{id}/approval",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000462",
+        "ai_system_id": "00000000-0000-4000-8000-000000000463",
+        "version_label": "churn-2026.10",
+        "model_kind": "CUSTOM_TRAINED",
+        "training_asset_ids": [
+          "00000000-0000-4000-8000-000000000460"
+        ],
+        "training_purpose_id": "00000000-0000-4000-8000-000000000461",
+        "training_basis": "Customer retention analytics under consent purpose P-7 (synthetic).",
+        "training_data_as_of": "2026-09-16T10:00:00.000Z",
+        "evaluation_reference": "Evaluation report EV-3 (synthetic)",
+        "evaluation_summary": "Holdout AUC 0.81; no protected attribute used as a feature (synthetic).",
+        "known_limitations": "Not validated for customers with under 90 days of history (synthetic).",
+        "state": "DEPLOYED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "deployed_by": "00000000-0000-4000-8000-000000000387",
+        "deployed_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null,
+        "withdrawals_since_training_data": 0,
+        "retraining_review_due": false,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
+      "operation_id": "deploy_ai_model_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ai-model-versions/{id}/deployment",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000462",
+        "ai_system_id": "00000000-0000-4000-8000-000000000463",
+        "version_label": "churn-2026.10",
+        "model_kind": "CUSTOM_TRAINED",
+        "training_asset_ids": [
+          "00000000-0000-4000-8000-000000000460"
+        ],
+        "training_purpose_id": "00000000-0000-4000-8000-000000000461",
+        "training_basis": "Customer retention analytics under consent purpose P-7 (synthetic).",
+        "training_data_as_of": "2026-09-16T10:00:00.000Z",
+        "evaluation_reference": "Evaluation report EV-3 (synthetic)",
+        "evaluation_summary": "Holdout AUC 0.81; no protected attribute used as a feature (synthetic).",
+        "known_limitations": "Not validated for customers with under 90 days of history (synthetic).",
+        "state": "DEPLOYED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "deployed_by": "00000000-0000-4000-8000-000000000387",
+        "deployed_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null,
+        "withdrawals_since_training_data": 0,
+        "retraining_review_due": false,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
+      "operation_id": "retire_ai_model_version",
+      "method": "POST",
+      "path": "/api/v1/admin/ai-model-versions/{id}/retirement",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000462",
+        "ai_system_id": "00000000-0000-4000-8000-000000000463",
+        "version_label": "churn-2026.10",
+        "model_kind": "CUSTOM_TRAINED",
+        "training_asset_ids": [
+          "00000000-0000-4000-8000-000000000460"
+        ],
+        "training_purpose_id": "00000000-0000-4000-8000-000000000461",
+        "training_basis": "Customer retention analytics under consent purpose P-7 (synthetic).",
+        "training_data_as_of": "2026-09-16T10:00:00.000Z",
+        "evaluation_reference": "Evaluation report EV-3 (synthetic)",
+        "evaluation_summary": "Holdout AUC 0.81; no protected attribute used as a feature (synthetic).",
+        "known_limitations": "Not validated for customers with under 90 days of history (synthetic).",
+        "state": "DEPLOYED",
+        "recorded_by": "00000000-0000-4000-8000-000000000386",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "approved_by": "00000000-0000-4000-8000-000000000387",
+        "approved_at": "2026-09-16T10:00:00.000Z",
+        "deployed_by": "00000000-0000-4000-8000-000000000387",
+        "deployed_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null,
+        "withdrawals_since_training_data": 0,
+        "retraining_review_due": false,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
+      "operation_id": "list_withdrawal_canaries",
+      "method": "GET",
+      "path": "/api/v1/admin/withdrawal-canaries",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-000000000456",
+            "label": "Decoy shopper A (synthetic)",
+            "principal_id": "00000000-0000-4000-8000-000000000457",
+            "principal_email": "decoy.a@aster.example",
+            "planted_in": "CRM marketing list \"All customers\" (synthetic)",
+            "state": "ACTIVE",
+            "created_by": "00000000-0000-4000-8000-000000000386",
+            "created_at": "2026-09-16T10:00:00.000Z",
+            "activated_by": "00000000-0000-4000-8000-000000000387",
+            "activated_at": "2026-09-16T10:00:00.000Z",
+            "retired_at": null,
+            "open_hits": 1
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "create_withdrawal_canary",
+      "method": "POST",
+      "path": "/api/v1/admin/withdrawal-canaries",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "label": "Decoy shopper A (synthetic)",
+        "principal_id": "00000000-0000-4000-8000-000000000457",
+        "planted_in": "CRM marketing list \"All customers\" (synthetic)"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000456",
+        "label": "Decoy shopper A (synthetic)",
+        "principal_id": "00000000-0000-4000-8000-000000000457",
+        "principal_email": "decoy.a@aster.example",
+        "planted_in": "CRM marketing list \"All customers\" (synthetic)",
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "activated_by": "00000000-0000-4000-8000-000000000387",
+        "activated_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null,
+        "open_hits": 1
+      }
+    },
+    {
+      "operation_id": "activate_withdrawal_canary",
+      "method": "POST",
+      "path": "/api/v1/admin/withdrawal-canaries/{id}/activation",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000456",
+        "label": "Decoy shopper A (synthetic)",
+        "principal_id": "00000000-0000-4000-8000-000000000457",
+        "principal_email": "decoy.a@aster.example",
+        "planted_in": "CRM marketing list \"All customers\" (synthetic)",
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "activated_by": "00000000-0000-4000-8000-000000000387",
+        "activated_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null,
+        "open_hits": 1
+      }
+    },
+    {
+      "operation_id": "retire_withdrawal_canary",
+      "method": "POST",
+      "path": "/api/v1/admin/withdrawal-canaries/{id}/retirement",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000456",
+        "label": "Decoy shopper A (synthetic)",
+        "principal_id": "00000000-0000-4000-8000-000000000457",
+        "principal_email": "decoy.a@aster.example",
+        "planted_in": "CRM marketing list \"All customers\" (synthetic)",
+        "state": "ACTIVE",
+        "created_by": "00000000-0000-4000-8000-000000000386",
+        "created_at": "2026-09-16T10:00:00.000Z",
+        "activated_by": "00000000-0000-4000-8000-000000000387",
+        "activated_at": "2026-09-16T10:00:00.000Z",
+        "retired_at": null,
+        "open_hits": 1
+      }
+    },
+    {
+      "operation_id": "report_canary_hit",
+      "method": "POST",
+      "path": "/api/v1/admin/withdrawal-canaries/{id}/hits",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "detail": "The decoy mailbox received a promotional email (synthetic).",
+        "evidence_reference": "Mailbox export MX-12 (synthetic)",
+        "observed_at": "2026-09-16T10:00:00.000Z",
+        "system_id": null
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000458",
+        "canary_id": "00000000-0000-4000-8000-000000000456",
+        "canary_label": "Decoy shopper A (synthetic)",
+        "source": "SEND_ADMISSION",
+        "actor_id": "00000000-0000-4000-8000-000000000388",
+        "actor_domain": "MACHINE",
+        "system_id": "00000000-0000-4000-8000-000000000459",
+        "detail": "A MARKETING send was requested for a withdrawal canary (synthetic).",
+        "evidence_reference": null,
+        "observed_at": "2026-09-16T10:00:00.000Z",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": null,
+        "reviewed_at": null,
+        "review_note": null
+      }
+    },
+    {
+      "operation_id": "list_canary_hits",
+      "method": "GET",
+      "path": "/api/v1/admin/canary-hits",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-000000000458",
+            "canary_id": "00000000-0000-4000-8000-000000000456",
+            "canary_label": "Decoy shopper A (synthetic)",
+            "source": "SEND_ADMISSION",
+            "actor_id": "00000000-0000-4000-8000-000000000388",
+            "actor_domain": "MACHINE",
+            "system_id": "00000000-0000-4000-8000-000000000459",
+            "detail": "A MARKETING send was requested for a withdrawal canary (synthetic).",
+            "evidence_reference": null,
+            "observed_at": "2026-09-16T10:00:00.000Z",
+            "recorded_at": "2026-09-16T10:00:00.000Z",
+            "reviewed_by": null,
+            "reviewed_at": null,
+            "review_note": null
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "review_canary_hit",
+      "method": "POST",
+      "path": "/api/v1/admin/canary-hits/{id}/review",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Traced to the newsletter tool, which ignored the suppression list; ticket raised (synthetic)."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000458",
+        "canary_id": "00000000-0000-4000-8000-000000000456",
+        "canary_label": "Decoy shopper A (synthetic)",
+        "source": "SEND_ADMISSION",
+        "actor_id": "00000000-0000-4000-8000-000000000388",
+        "actor_domain": "MACHINE",
+        "system_id": "00000000-0000-4000-8000-000000000459",
+        "detail": "A MARKETING send was requested for a withdrawal canary (synthetic).",
+        "evidence_reference": null,
+        "observed_at": "2026-09-16T10:00:00.000Z",
+        "recorded_at": "2026-09-16T10:00:00.000Z",
+        "reviewed_by": null,
+        "reviewed_at": null,
+        "review_note": null
+      }
+    },
+    {
       "operation_id": "record_cmp_consent",
       "method": "POST",
       "path": "/api/v1/cmp/{id}/consents",

@@ -1,0 +1,29 @@
+R7 webkit audit-mandate-local: suite entry point with passive diagnostic instrumentation
+PASS leadership sees the practice overview from real records
+PASS the client sees the audit address from its trust file
+PASS a second owner approves the mandate in the browser
+PASS the worker checks in over HTTP and the signed snapshot is accepted
+PASS the client sees what ORVIA sent and that it was accepted
+PASS the lead sees the signed mandate and an intact chain
+PASS the lead reads the evidence entries signed by the client installation
+PASS the worker receives both requests; the document waits for a client approver
+PASS the owner sees the document request waiting for them
+PASS the lead sees the sample answered and the document declined with the client's reason
+PASS the sample answer is counts over the auditor's selection
+PASS the worker collects the signed findings file at check-in and only stages it
+PASS a person imports the staged findings file in the browser
+PASS the drafted response shows its redaction
+PASS the worker signs and sends the approved response and the client sees it accepted
+PASS the auditor sees the client's response on the finding, from the channel, without the contact detail
+PASS the client's vendor-visibility page lists every delivery ORVIA sent
+PASS closing the engagement ends the mandate, and the vendor sees it
+FAIL no browser errors and no request left either installation {"expected":[[],[]],"actual":[["/127.0.0.1:4340/api/v1/vendor/session due to access control checks."],[]]}
+Error: Assertion failed: no browser errors and no request left either installation
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:255:7)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:94:3)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-audit-mandate-browser-1790832029356-ac926359-c87d-4ab4-9ea1-fd6a9031b3f1.json
+
+20 assertions, 2 failures.

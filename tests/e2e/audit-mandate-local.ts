@@ -23,6 +23,7 @@ import { webProcess } from '../../scripts/web-process.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
 import { vendorSigningKey } from '../../scripts/credentials.ts';
 import { runtimeConfig } from '../../backend/auth/src/config.ts';
+import { waitForPageContent } from '../../shared/testing/src/browser-ready.ts';
 import { workerEnrollment } from '../../backend/auth/src/machine-profile.ts';
 import { servicePool, machineAuthority } from '../../backend/auth/src/machine.ts';
 import { scopedTransaction } from '../../database/customer/src/runtime.ts';
@@ -74,6 +75,7 @@ async function vendorSignIn(page: Page, user: User) {
   await page.getByLabel(label('Authenticator code')).fill(authenticatorCode(user.totp!));
   await page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
   await page.waitForURL(/\/vendor\/(engagements|upload)/);
+  await waitForPageContent(page); await page.waitForLoadState('networkidle');
   persist();
 }
 async function startVendor() {
@@ -166,7 +168,7 @@ try {
       await admin.screenshot({ path: resolve(shots, 'mandate-client-channel.png'), fullPage: true });
 
       t.setPhase('vendor sees the evidence');
-      await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Requests/ }).click(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
+      await lead.goto(engagementUrl, { waitUntil: 'domcontentloaded' }); await waitForPageContent(lead); await lead.getByRole('tab', { name: /^Requests/ }).click(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
       check('the lead sees the signed mandate and an intact chain', [await seen(lead.getByText(/active \(open\)/).first()), await seen(lead.getByText('Intact through delivery 1'))], [true, true]);
       await lead.getByRole('table', { name: 'Deliveries from the client installation' }).getByRole('button', { name: 'View' }).first().click();
       await lead.getByRole('heading', { name: 'Delivery content' }).waitFor();
@@ -234,7 +236,7 @@ try {
       await reviewer.reload(); await openEngagement(reviewer, reference);
       check('the worker signs and sends the approved response and the client sees it accepted', [r4.responses_sent, await seen(reviewer.getByRole('table', { name: 'Management responses' }).getByText('accepted', { exact: true }))], [1, true]);
       await reviewer.screenshot({ path: resolve(shots, 'mandate-client-responses.png'), fullPage: true });
-      await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Findings and actions/ }).click();
+      await lead.goto(engagementUrl, { waitUntil: 'domcontentloaded' }); await waitForPageContent(lead); await lead.getByRole('tab', { name: /^Findings and actions/ }).click();
       const vf = lead.getByRole('table', { name: 'Findings' }).getByRole('row').filter({ hasText: 'Notice indicator gap (browser)' });
       check('the auditor sees the client\'s response on the finding, from the channel, without the contact detail', [await seen(vf.getByText(/partially agree/)), await seen(vf.getByText(/channel/)), await vf.getByText(/privacy@aster/).count()], [true, true, 0]);
       await lead.screenshot({ path: resolve(shots, 'mandate-vendor-response.png'), fullPage: true });

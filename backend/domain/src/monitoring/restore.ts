@@ -77,7 +77,7 @@ const snapshot = (row: Record<string, unknown>) => S.BackupSnapshot.parse({
 
 export async function snapshotList(c: Context, page: Page) {
   const rows = await c.tx.query(
-    `SELECT * FROM app.backup_snapshots WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+    `SELECT * FROM app.backup_snapshots WHERE ${predicate} AND ($4::uuid IS NULL OR (taken_at,id) < (SELECT taken_at,id FROM app.backup_snapshots WHERE ${predicate} AND id=$4)) ORDER BY taken_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(rows.rows.map(snapshot), page);
 }
@@ -166,7 +166,7 @@ export const readRestore = (c: Context, id: string) => reconciliation(c, id);
  */
 export async function restoreList(c: Context, page: Page) {
   const rows = await c.tx.query(
-    `SELECT id FROM app.restore_runs WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+    `SELECT id FROM app.restore_runs WHERE ${predicate} AND ($4::uuid IS NULL OR (started_at,id) < (SELECT started_at,id FROM app.restore_runs WHERE ${predicate} AND id=$4)) ORDER BY started_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   const items = [];
   for (const row of rows.rows) items.push(await reconciliation(c, row.id as string));

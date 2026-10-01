@@ -1,0 +1,27 @@
+{
+    "base":  "a033035f5e126b9c39ffc591b78cf6ec4997119c",
+    "implementation_commit":  "900b6a03d5da96ff0b84be8204f48c6331891607",
+    "protected_paths":  [
+                            "backend/api/src/cmp.ts",
+                            "backend/authorization",
+                            "backend/domain/src/operations/bulk-import.ts",
+                            "backend/domain/src/registry",
+                            "backend/domain/src/consent",
+                            "backend/domain/src/operations/runs.ts",
+                            ":(glob)backend/**/intake.ts",
+                            "shared/contracts",
+                            "database/customer/migrations",
+                            "database/vendor/migrations",
+                            "frontend/src/components/screens/privacy-operations/registry.tsx",
+                            "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+                            "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+                            "frontend/src/components/screens/expansion/dpdpa-audit.tsx",
+                            "frontend/src/app/vendor",
+                            ":(exclude)frontend/src/app/vendor/sign-in/page.tsx"
+                        ],
+    "unexpected_changes":  [
+
+                           ],
+    "authorised_exception":  "frontend/src/app/vendor/sign-in/page.tsx: Round 7 item 3 explicitly requests the confirmed frontend session fix",
+    "master_sha256":  "C51102A7CDA5FE15C1346E8C34167C406E186C691E9BA86576A3D8FD03BB550B"
+}

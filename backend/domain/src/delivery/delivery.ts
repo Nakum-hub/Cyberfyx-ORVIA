@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import type { QueryResultRow } from 'pg';
 import * as X from '../../../../shared/contracts/src/expansion.ts';
+import { trapCanary } from '../consent/canaries.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { exists, iso, pageOf, predicate, refuse, scope, type OperationsEnv } from '../operations/shared.ts';
 import { isLoopback, sendSmtp, sendWebhook, validEmail, type SendResult } from './clients.ts';
@@ -78,7 +79,7 @@ export async function revealSigningSecret(c: Context, env: OperationsEnv, id: st
   return X.SigningSecret.parse({ transport_id: id, secret: env.webhookSecret(id), algorithm: 'HMAC-SHA256', signed_content: 'X-Orvia-Timestamp + "." + request body', header: 'X-Orvia-Signature' });
 }
 export async function transportList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.delivery_transports WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.delivery_transports WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.delivery_transports WHERE ${predicate} AND id=$4)) ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(transportView), next_cursor: paged.next_cursor };
 }
@@ -118,7 +119,7 @@ export async function decideRouting(c: Context, id: string, input: unknown) {
   return routingView(row);
 }
 export async function routingList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.alert_routings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.alert_routings WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.alert_routings WHERE ${predicate} AND id=$4)) ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(routingView), next_cursor: paged.next_cursor };
 }
@@ -153,6 +154,9 @@ export async function composeMessage(c: Context, input: unknown) {
   if (v.source_id) await exists(c, SOURCE_TABLE[v.source_kind]!, v.source_id, 'source_id');
   const row = (await c.tx.query(`INSERT INTO app.outbound_messages(tenant_id,legal_entity_id,environment_id,id,transport_id,source_kind,source_id,recipient,subject,body,content_digest,authored_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
     [...scope(c), randomUUID(), v.transport_id, v.source_kind, v.source_id, v.recipient, v.subject, v.body, sha(JSON.stringify([v.recipient, v.subject, v.body])), c.actor.actor_id])).rows[0];
+  // Withdrawal canary trap (migration 0079): a message addressed to a decoy principal is recorded for review. It is not
+  // refused, so the author cannot learn which addresses are canaries; the decoy mailbox belongs to the organisation.
+  await trapCanary(c, { email: v.recipient }, 'OUTBOUND_MESSAGE', null, `An outbound ${v.source_kind.toLowerCase().replaceAll('_', ' ')} message "${v.subject.slice(0, 120)}" was addressed to a withdrawal canary.`);
   await audit(c, 'outbound_message.compose', row.id);
   return messageView(c, row);
 }

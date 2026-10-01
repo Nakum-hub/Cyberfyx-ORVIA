@@ -69,6 +69,17 @@ const policyDiscovery = { id: uuid(1105), site_id: uuid(1100), origin: 'https://
   found_by: 'DECLARED_LINK' as const, policy_url: 'https://www.customer.example/privacy', http_status: 200, content_type: 'text/html; charset=utf-8', last_modified: null, title: 'Privacy policy (synthetic)', language: 'en', terms_url: null,
   text_digest: 'e'.repeat(64), text_length: 4200, previous_discovery_id: null, changed_since_previous: null, findings: [], reviewed_by: null, reviewed_at: null, review_note: null, limits: ['Synthetic example.'] };
 
+const canary = { id: uuid(1110), label: 'Decoy shopper A (synthetic)', principal_id: uuid(1111), principal_email: 'decoy.a@aster.example', planted_in: 'CRM marketing list "All customers" (synthetic)', state: 'ACTIVE' as const,
+  created_by: uuid(902), created_at: at, activated_by: uuid(903), activated_at: at, retired_at: null, open_hits: 1 };
+const canaryHit = { id: uuid(1112), canary_id: uuid(1110), canary_label: 'Decoy shopper A (synthetic)', source: 'SEND_ADMISSION' as const, actor_id: uuid(904), actor_domain: 'MACHINE' as const, system_id: uuid(1113),
+  detail: 'A MARKETING send was requested for a withdrawal canary (synthetic).', evidence_reference: null, observed_at: at, recorded_at: at, reviewed_by: null, reviewed_at: null, review_note: null };
+
+const modelCreate = { version_label: 'churn-2026.10', model_kind: 'CUSTOM_TRAINED' as const, training_asset_ids: [uuid(1120)], training_purpose_id: uuid(1121),
+  training_basis: 'Customer retention analytics under consent purpose P-7 (synthetic).', training_data_as_of: at, evaluation_reference: 'Evaluation report EV-3 (synthetic)',
+  evaluation_summary: 'Holdout AUC 0.81; no protected attribute used as a feature (synthetic).', known_limitations: 'Not validated for customers with under 90 days of history (synthetic).' };
+const modelVersion = { ...modelCreate, id: uuid(1122), ai_system_id: uuid(1123), state: 'DEPLOYED' as const, recorded_by: uuid(902), recorded_at: at, approved_by: uuid(903), approved_at: at, deployed_by: uuid(903), deployed_at: at, retired_at: null,
+  withdrawals_since_training_data: 0, retraining_review_due: false, limits: ['Synthetic example.'] };
+
 export function expansionExample(name: string): unknown {
   switch (name) {
     case 'ImpactQuestion': return question;
@@ -141,6 +152,17 @@ export function expansionExample(name: string): unknown {
     case 'PolicyDiscoveryList': return { items: [policyDiscovery], next_cursor: null };
     case 'PolicyDiscoveryText': return { id: uuid(1105), policy_url: 'https://www.customer.example/privacy', text_digest: 'e'.repeat(64), text: 'Privacy policy (synthetic example text).' };
     case 'PolicyDiscoveryReview': return { note: 'Reviewed the changed policy against our notices (synthetic).' };
+    case 'AiModelVersionCreate': return modelCreate;
+    case 'AiModelVersion': return modelVersion;
+    case 'AiModelVersionList': return { items: [modelVersion], next_cursor: null };
+    case 'WithdrawalCanaryCreate': return { label: 'Decoy shopper A (synthetic)', principal_id: uuid(1111), planted_in: 'CRM marketing list "All customers" (synthetic)' };
+    case 'WithdrawalCanary': return canary;
+    case 'WithdrawalCanaryList': return { items: [canary], next_cursor: null };
+    case 'CanaryHitReport': return { detail: 'The decoy mailbox received a promotional email (synthetic).', evidence_reference: 'Mailbox export MX-12 (synthetic)', observed_at: at, system_id: null };
+    case 'CanaryHit': return canaryHit;
+    case 'CanaryHitList': return { items: [canaryHit], next_cursor: null };
+    case 'CanaryHitQuery': return {};
+    case 'CanaryHitReview': return { note: 'Traced to the newsletter tool, which ignored the suppression list; ticket raised (synthetic).' };
     default: return undefined;
   }
 }

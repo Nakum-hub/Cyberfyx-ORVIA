@@ -99,7 +99,7 @@ async function assetDocuments(c: Context, rows: { id: string; document: unknown 
 }
 
 export async function dataAssetList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT id,document FROM app.data_assets WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT id,document FROM app.data_assets WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.data_assets WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(await assetDocuments(c, result.rows), page);
 }
 
@@ -144,7 +144,7 @@ export async function createActivity(c: Context, input: unknown) {
 }
 
 export async function activityList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document FROM app.processing_activities WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document FROM app.processing_activities WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.processing_activities WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.ProcessingActivity.parse(row.document)), page);
 }
 
@@ -194,7 +194,7 @@ export async function createRelationship(c: Context, input: unknown) {
 }
 
 export async function relationshipList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT * FROM app.graph_relationships WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT * FROM app.graph_relationships WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.graph_relationships WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(relationshipDocument), page);
 }
 

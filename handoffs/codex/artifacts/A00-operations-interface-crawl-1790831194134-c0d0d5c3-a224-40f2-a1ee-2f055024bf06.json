@@ -1,0 +1,30 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T05:06:34.136Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "the crawl found nothing wrong on any page, tab or link",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "preceding interrupted run: FAIL owner: /workspace/personal-data-breaches/[id] (78f85c8c) {\"expected\":[],\"actual\":[\"pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/processor-engagements?limit=100 due to access control checks.\"]}",
+        "preceding interrupted run: FAIL owner: /workspace/updates {\"expected\":[],\"actual\":[\"API 503 GET /api/v1/admin/update-plans\"]}",
+        "preceding interrupted run: FAIL admin: /workspace/policy-preview {\"expected\":[],\"actual\":[\"pageerror: /127.0.0.1:4310/api/v1/admin/personal-data-categories?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.\"]}",
+        "preceding interrupted run: FAIL auditor: /workspace/policy-preview {\"expected\":[],\"actual\":[\"pageerror: /127.0.0.1:4310/api/v1/admin/personal-data-categories?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/processor-engagements?limit=100 due to access control checks.\"]}"
+      ]
+    },
+    {
+      "name": "unexpected failure in vendor installation",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the crawl found nothing wrong on any page, tab or link"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

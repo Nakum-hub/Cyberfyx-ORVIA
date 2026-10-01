@@ -25,8 +25,8 @@ export async function createCatalogTarget(c:Context,input:unknown) {
 }
 
 export async function catalogTargetList(c:Context,page:Page) {
-  const rows=await c.tx.query(`SELECT * FROM app.catalog_discovery_targets WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4)
-    ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+  const rows=await c.tx.query(`SELECT * FROM app.catalog_discovery_targets WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.catalog_discovery_targets WHERE ${predicate} AND id=$4))
+    ORDER BY created_at DESC, id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
   return paged(rows.rows.map(target),page);
 }
 

@@ -49,5 +49,8 @@ export async function admitSend(c: Context, config: RuntimeConfig, observer: pg.
  if(sendId)await c.tx.query(`INSERT INTO app.send_records VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,true)`,[...scope,sendId,decision.decision_id,c.actor.actor_id,value.principal_reference_id,value.purpose_id,value.system_id,value.attempt_id,value.message_class,decision.evaluated_at]);
  const result=SendResult.parse({attempt_id:value.attempt_id,decision:decision.decision,send_record_id:sendId,admitted_at:sendId?decision.evaluated_at:null,evaluated_epoch:decision.consent_epoch,reason_codes:decision.reason_codes});
  await c.tx.query(`INSERT INTO app.send_attempts(tenant_id,legal_entity_id,environment_id,id,actor_id,principal_id,purpose_id,system_id,digest,result) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,[...scope,value.attempt_id,c.actor.actor_id,value.principal_reference_id,value.purpose_id,value.system_id,digest(value),result]);
+ // Withdrawal canary trap (migration 0079): a send requested for a decoy principal is recorded, whatever the decision; the
+ // sender is not told, so it cannot learn which principals are canaries.
+ await c.tx.query('SELECT app.canary_trap($1,NULL,$2,$3,$4)',[value.principal_reference_id,'SEND_ADMISSION',value.system_id,`A ${value.message_class} send was requested for a withdrawal canary by sender ${c.actor.actor_id}; ORVIA decided ${decision.decision}.`]);
  await audit(c,'send.'+decision.decision.toLowerCase(),value.attempt_id);return result;
 }

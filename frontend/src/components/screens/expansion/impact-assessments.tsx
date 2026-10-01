@@ -26,6 +26,8 @@ const FINDING_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral' | 'unknown
  */
 export function ImpactAssessments() {
   const templates = usePagedQuery('list_impact_templates', { limit: 25 });
+  const templateChoices = useCollection('list_impact_templates');
+  const refreshTemplates = () => { templates.refresh(); templateChoices.refresh(); };
   const [status, setStatus] = useState('');
   const assessments = usePagedQuery('list_impact_assessments', { limit: 25, query: status ? { status } : {} });
   const [selected, setSelected] = useState<string | null>(null);
@@ -56,7 +58,9 @@ export function ImpactAssessments() {
             </>
           )}
         </QueryBoundary>
-        <CreateAssessment templates={(templates.data?.items ?? []).filter(t => t.status === 'PUBLISHED')} onSaved={a => { assessments.refresh(); setSelected(a.id); }} />
+        <QueryBoundary query={templateChoices} label="template choices" isEmpty={() => false}>
+          {d => <CreateAssessment templates={d.items.filter(t => t.status === 'PUBLISHED')} onSaved={a => { assessments.refresh(); setSelected(a.id); }} />}
+        </QueryBoundary>
       </Section>
       {selected && <AssessmentDetail key={selected} id={selected} onChanged={() => assessments.refresh()} onOpen={setSelected} />}
       <Section title="Questionnaire templates">
@@ -69,14 +73,16 @@ export function ImpactAssessments() {
                   { key: 'name', header: 'Template', cell: t => <span className="cell-primary">{t.name}<span className="cell-sub">{t.kind.replaceAll('_', ' ').toLowerCase()} · version {t.version} · {t.questions.length} questions</span></span> },
                   { key: 'status', header: 'Status', cell: t => t.status.toLowerCase() },
                   { key: 'review', header: 'Review every', cell: t => `${t.review_interval_days} days` },
-                  { key: 'act', header: '', cell: t => t.status === 'DRAFT' ? <ActionButton operation="publish_impact_template" label="Publish" input={{ action: 'PUBLISH' }} params={{ id: t.id }} onDone={() => templates.refresh()} />
-                    : t.status === 'PUBLISHED' ? <ActionButton operation="publish_impact_template" label="Retire" input={{ action: 'RETIRE' }} params={{ id: t.id }} onDone={() => templates.refresh()} /> : null },
+                  { key: 'act', header: '', cell: t => t.status === 'DRAFT' ? <ActionButton operation="publish_impact_template" label="Publish" input={{ action: 'PUBLISH' }} params={{ id: t.id }} onDone={refreshTemplates} />
+                    : t.status === 'PUBLISHED' ? <ActionButton operation="publish_impact_template" label="Retire" input={{ action: 'RETIRE' }} params={{ id: t.id }} onDone={refreshTemplates} /> : null },
                 ]} />
               <Pagination query={templates} />
             </>
           )}
         </QueryBoundary>
-        <CreateTemplate templates={templates.data?.items ?? []} onSaved={() => templates.refresh()} />
+        <QueryBoundary query={templateChoices} label="template choices" isEmpty={() => false}>
+          {d => <CreateTemplate templates={d.items} onSaved={refreshTemplates} />}
+        </QueryBoundary>
       </Section>
     </>
   );

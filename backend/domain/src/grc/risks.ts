@@ -12,7 +12,7 @@ export async function createGrcRisk(c:Context,input:unknown){
   await audit(c,'grc.risk.created',doc.id);return doc;
 }
 export async function grcRiskList(c:Context,page:Page){
-  guard(c,'grc.read');const r=await c.tx.query(`SELECT document FROM app.grc_risks WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+  guard(c,'grc.read');const r=await c.tx.query(`SELECT document FROM app.grc_risks WHERE ${predicate} AND ($4::uuid IS NULL OR ((document->>'recorded_at')::timestamptz,id) < (SELECT (document->>'recorded_at')::timestamptz,id FROM app.grc_risks WHERE ${predicate} AND id=$4)) ORDER BY (document->>'recorded_at')::timestamptz DESC, id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
   return paged(r.rows.map(row=>S.GrcRisk.parse(row.document)),page);
 }
 async function risk(c:Context,id:string){

@@ -134,7 +134,7 @@ export async function submitImport(c: Context, input: unknown) {
 
 export async function importList(c: Context, page: Page) {
   const batches = await c.tx.query(
-    `SELECT * FROM app.import_batches WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,
+    `SELECT * FROM app.import_batches WHERE ${predicate} AND ($4::uuid IS NULL OR (submitted_at,id) < (SELECT submitted_at,id FROM app.import_batches WHERE ${predicate} AND id=$4)) ORDER BY submitted_at DESC, id DESC LIMIT $5`,
     [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   const items = [];
   for (const batch of batches.rows) {

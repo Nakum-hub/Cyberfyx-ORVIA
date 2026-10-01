@@ -106,7 +106,7 @@ export const withCorrections = `(SELECT count(*) FROM app.audit_corrections k
 
 /**
  * FR-M33-03. Scoped by the same predicate as everything else, filtered by
- * declared keys only, and paginated by id so a page boundary cannot hide a row.
+ * declared keys only, newest first with the id breaking timestamp ties.
  */
 export async function auditEventList(c: Context, page: Page, query: unknown) {
   const filter = S.AuditQuery.parse(query ?? {});
@@ -115,8 +115,9 @@ export async function auditEventList(c: Context, page: Page, query: unknown) {
     `SELECT e.*, ${withCorrections}
      FROM app.audit_events e
      WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3
-       AND ($4::uuid IS NULL OR e.id>$4)${filterClauses(filter, values)}
-     ORDER BY e.id LIMIT $5`, values);
+       AND ($4::uuid IS NULL OR (e.created_at,e.id) <
+         (SELECT created_at,id FROM app.audit_events WHERE ${predicate} AND id=$4))${filterClauses(filter, values)}
+     ORDER BY e.created_at DESC, e.id DESC LIMIT $5`, values);
   return paged(rows.rows.map(auditEvent), page);
 }
 

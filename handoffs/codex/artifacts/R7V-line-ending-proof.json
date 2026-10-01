@@ -1,0 +1,27 @@
+[
+  {
+    "path": "backend/domain/src/notifications/notifications.ts",
+    "canonical_sha256": "da37cd899eedc0415293d86aa540bc721696fea7e8efac787739168167d23ea7",
+    "canonical_source_unchanged": true
+  },
+  {
+    "path": "backend/domain/src/operations/evidence.ts",
+    "canonical_sha256": "96b5aaab6f39a6cbc11ccb9a7a029abf0437c2d5821fa1aec656b502007ed4fa",
+    "canonical_source_unchanged": true
+  },
+  {
+    "path": "backend/domain/src/regulatory/applicability.ts",
+    "canonical_sha256": "11c71846c6ff49ac9cc21c84e8f23c48aeb4373dc67d85aa131b8557a90bf895",
+    "canonical_source_unchanged": true
+  },
+  {
+    "path": "backend/domain/src/regulatory/packages.ts",
+    "canonical_sha256": "b178482ce1b6ca38847a5ff07fa2868becf29086a1f38d51412d773419120b0c",
+    "canonical_source_unchanged": true
+  },
+  {
+    "path": "backend/domain/src/rights/rights.ts",
+    "canonical_sha256": "f027140c96c4a20c4585616a1209fd5b53b3d3cadc3dde9dfe2fb7a350bb0cc6",
+    "canonical_source_unchanged": true
+  }
+]

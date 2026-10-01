@@ -1,0 +1,25 @@
+R7 firefox operations-screens-local: unchanged suite, passive diagnostic instrumentation
+PASS registration is accepted
+PASS a breach registered on screen is pinned with deadlines from the package
+PASS correcting the facts keeps the pinned package and deadlines
+PASS a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)
+PASS a person is registered with a keyed reference and no stored identifier
+PASS a relationship context is recorded with unknown evidence kept unknown
+PASS a representative starts unverified
+PASS the person who recorded a representative cannot verify them
+PASS a different staff member verifies the representative
+PASS child status is recorded with its guardian
+PASS a consent record starts unknown, never granted
+page.waitForResponse: Timeout 30000ms exceeded while waiting for event "response"
+    at submit (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\operations-screens-local.ts:74:31)
+    at event (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\operations-screens-local.ts:191:16)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\operations-screens-local.ts:194:7)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\operations-screens-local.ts:29:1) {
+  log: [],
+  name: 'TimeoutError'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790793635632-dde4c955-a6c3-4609-95e4-7b7a85ff7fea.json
+
+12 assertions, 1 failures.

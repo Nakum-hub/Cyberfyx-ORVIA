@@ -35,7 +35,7 @@ export async function createObligationRule(c: Context, input: unknown) {
 }
 
 export async function obligationRuleList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document,active FROM app.obligation_rules WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document,active FROM app.obligation_rules WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.obligation_rules WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.ObligationRule.parse({ ...row.document, active: row.active })), page);
 }
 
@@ -93,7 +93,7 @@ export async function createIncident(c: Context, input: unknown) {
 }
 
 export async function incidentList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT * FROM app.incidents WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT * FROM app.incidents WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.incidents WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   const items = [];
   for (const row of result.rows) items.push(incidentDocument(row as IncidentRow, await incidentScope(c, row.id)));
   return paged(items, page);

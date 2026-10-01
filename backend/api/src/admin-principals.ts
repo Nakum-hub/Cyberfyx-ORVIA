@@ -48,8 +48,10 @@ export const createPrincipal = (request: Request) => safeRoute(async requestId =
     const old = await tx.query(`SELECT digest,response FROM app.idempotency_records WHERE tenant_id=$1 AND legal_entity_id=$2
       AND environment_id=$3 AND actor_id=$4 AND operation='principal.create' AND key=$5`, [...scope,key]);
     if (old.rowCount) { if (old.rows[0].digest !== digest) throw new AccessError(409,'IDEMPOTENCY_CONFLICT'); return Principal.parse(old.rows[0].response); }
-    const principal = Principal.parse({ ...value, id: randomUUID(), synthetic: true });
-    await tx.query('INSERT INTO app.principal_references VALUES ($1,$2,$3,$4,$5,$6,true)', [...scope.slice(0,3),principal.id,principal.display_name,principal.email]);
+    // The database decides whether this address may be recorded and labels it (migration 0082, revision 1.9).
+    const id = randomUUID();
+    const inserted = await tx.query('INSERT INTO app.principal_references(tenant_id,legal_entity_id,environment_id,id,display_name,email) VALUES ($1,$2,$3,$4,$5,$6) RETURNING synthetic', [...scope.slice(0,3),id,value.display_name,value.email]);
+    const principal = Principal.parse({ ...value, id, synthetic: inserted.rows[0].synthetic });
     await tx.query(`INSERT INTO app.idempotency_records (tenant_id,legal_entity_id,environment_id,actor_id,operation,key,digest,response)
       VALUES ($1,$2,$3,$4,'principal.create',$5,$6,$7)`, [...scope,key,digest,JSON.stringify(principal)]);
     await tx.query(`INSERT INTO app.audit_events (id,tenant_id,legal_entity_id,environment_id,actor_id,actor_domain,operation,resource_id,request_id)
@@ -57,6 +59,8 @@ export const createPrincipal = (request: Request) => safeRoute(async requestId =
     return principal;
   }).catch((error: unknown) => {
     if (error && typeof error === 'object' && 'code' in error && error.code === '23505') throw new AccessError(400,'VALIDATION_ERROR',[{field:'email',code:'ALREADY_EXISTS_IN_SCOPE'}]);
+    if (error && typeof error === 'object' && 'constraint' in error && error.constraint === 'principal_references_email_synthetic_only') throw new AccessError(400,'VALIDATION_ERROR',[{field:'email',code:'synthetic_principals_only'}]);
+    if (error && typeof error === 'object' && 'constraint' in error && error.constraint === 'principal_references_email_shape') throw new AccessError(400,'VALIDATION_ERROR',[{field:'email',code:'invalid_format'}]);
     throw error;
   });
   return Response.json(result,{ status: 201 });

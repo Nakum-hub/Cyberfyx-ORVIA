@@ -1,0 +1,3699 @@
+[
+  {
+    "at": "2026-09-30T17:16:03.476Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:16:03.500Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 401
+  },
+  {
+    "at": "2026-09-30T17:16:03.501Z",
+    "role": "owner",
+    "event": "console",
+    "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "source": "http://127.0.0.1:4310/api/v1/session"
+  },
+  {
+    "at": "2026-09-30T17:16:04.401Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:16:04.455Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:04.763Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace"
+  },
+  {
+    "at": "2026-09-30T17:16:04.831Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:05.992Z",
+    "role": "owner",
+    "path": "/workspace",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3041,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:06.661Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/ai-governance"
+  },
+  {
+    "at": "2026-09-30T17:16:06.722Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/ai-governance",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:08.613Z",
+    "role": "owner",
+    "path": "/workspace/ai-governance",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1266,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:09.031Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/assessments"
+  },
+  {
+    "at": "2026-09-30T17:16:09.067Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/assessments",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:10.153Z",
+    "role": "owner",
+    "path": "/workspace/assessments",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 326,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:10.403Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/audit-coverage"
+  },
+  {
+    "at": "2026-09-30T17:16:10.444Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/audit-coverage",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:11.631Z",
+    "role": "owner",
+    "path": "/workspace/audit-coverage",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3784,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:11.975Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/audit-retention"
+  },
+  {
+    "at": "2026-09-30T17:16:12.020Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/audit-retention",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:13.194Z",
+    "role": "owner",
+    "path": "/workspace/audit-retention",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2825,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:13.717Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/audit-trail"
+  },
+  {
+    "at": "2026-09-30T17:16:13.771Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/audit-trail",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:14.955Z",
+    "role": "owner",
+    "path": "/workspace/audit-trail",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3916,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:15.274Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/capabilities"
+  },
+  {
+    "at": "2026-09-30T17:16:15.323Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/capabilities",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:16.415Z",
+    "role": "owner",
+    "path": "/workspace/capabilities",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 9819,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:16.739Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/catalog-discovery"
+  },
+  {
+    "at": "2026-09-30T17:16:16.790Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/catalog-discovery",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:18.197Z",
+    "role": "owner",
+    "path": "/workspace/catalog-discovery",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2631,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:18.630Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/compliance"
+  },
+  {
+    "at": "2026-09-30T17:16:18.683Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/compliance",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:21.048Z",
+    "role": "owner",
+    "path": "/workspace/compliance",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 13525,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:21.441Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/configuration"
+  },
+  {
+    "at": "2026-09-30T17:16:21.501Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/configuration",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:23.140Z",
+    "role": "owner",
+    "path": "/workspace/configuration",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3843,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:24.682Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/connections"
+  },
+  {
+    "at": "2026-09-30T17:16:24.780Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/connections",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:25.094Z",
+    "role": "owner",
+    "path": "/workspace/connections",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 656,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:25.345Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/consent-records"
+  },
+  {
+    "at": "2026-09-30T17:16:25.407Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/consent-records",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:27.342Z",
+    "role": "owner",
+    "path": "/workspace/consent-records",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2028,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:27.673Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/contact-preferences"
+  },
+  {
+    "at": "2026-09-30T17:16:27.721Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/contact-preferences",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:28.811Z",
+    "role": "owner",
+    "path": "/workspace/contact-preferences",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 754,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:29.188Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/control-map"
+  },
+  {
+    "at": "2026-09-30T17:16:29.356Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/control-map",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:30.882Z",
+    "role": "owner",
+    "path": "/workspace/control-map",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 475,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:31.397Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/coverage"
+  },
+  {
+    "at": "2026-09-30T17:16:31.436Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/coverage",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:32.563Z",
+    "role": "owner",
+    "path": "/workspace/coverage",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2045,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:32.952Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/data-principals"
+  },
+  {
+    "at": "2026-09-30T17:16:32.999Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/data-principals",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:34.580Z",
+    "role": "owner",
+    "path": "/workspace/data-principals",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 5215,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:34.922Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/delivery"
+  },
+  {
+    "at": "2026-09-30T17:16:34.966Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/delivery",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:36.416Z",
+    "role": "owner",
+    "path": "/workspace/delivery",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2436,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:36.912Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/dpdpa-audit"
+  },
+  {
+    "at": "2026-09-30T17:16:36.967Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/dpdpa-audit",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:38.447Z",
+    "role": "owner",
+    "path": "/workspace/dpdpa-audit",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 13858,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:38.773Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/estate-imports"
+  },
+  {
+    "at": "2026-09-30T17:16:38.819Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/estate-imports",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:39.917Z",
+    "role": "owner",
+    "path": "/workspace/estate-imports",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 827,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:40.259Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/evidence"
+  },
+  {
+    "at": "2026-09-30T17:16:40.317Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/evidence",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:41.467Z",
+    "role": "owner",
+    "path": "/workspace/evidence",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 407,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:41.715Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/failures"
+  },
+  {
+    "at": "2026-09-30T17:16:41.750Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/failures",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:43.051Z",
+    "role": "owner",
+    "path": "/workspace/failures",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 817,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:43.299Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/findings"
+  },
+  {
+    "at": "2026-09-30T17:16:43.356Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/findings",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:44.450Z",
+    "role": "owner",
+    "path": "/workspace/findings",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 321,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:44.732Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/gaps"
+  },
+  {
+    "at": "2026-09-30T17:16:44.790Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/gaps",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:45.885Z",
+    "role": "owner",
+    "path": "/workspace/gaps",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 696,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:46.163Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/grc"
+  },
+  {
+    "at": "2026-09-30T17:16:46.294Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/grc",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:47.569Z",
+    "role": "owner",
+    "path": "/workspace/grc",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3984,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:48.031Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/grc/audits"
+  },
+  {
+    "at": "2026-09-30T17:16:48.087Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/grc/audits",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:49.204Z",
+    "role": "owner",
+    "path": "/workspace/grc/audits",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 515,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:49.498Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/impact-assessments"
+  },
+  {
+    "at": "2026-09-30T17:16:49.557Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/impact-assessments",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:50.926Z",
+    "role": "owner",
+    "path": "/workspace/impact-assessments",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 7249,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:51.270Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/imports"
+  },
+  {
+    "at": "2026-09-30T17:16:51.312Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/imports",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:52.377Z",
+    "role": "owner",
+    "path": "/workspace/imports",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 794,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:52.655Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/incidents"
+  },
+  {
+    "at": "2026-09-30T17:16:52.695Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/incidents",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:53.809Z",
+    "role": "owner",
+    "path": "/workspace/incidents",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 807,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:54.153Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/installed-versions"
+  },
+  {
+    "at": "2026-09-30T17:16:54.228Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/installed-versions",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:55.326Z",
+    "role": "owner",
+    "path": "/workspace/installed-versions",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 621,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:55.747Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/inventory"
+  },
+  {
+    "at": "2026-09-30T17:16:55.795Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/inventory",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:57.074Z",
+    "role": "owner",
+    "path": "/workspace/inventory",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 700,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:57.460Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/inventory/search"
+  },
+  {
+    "at": "2026-09-30T17:16:57.495Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/inventory/search",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:58.424Z",
+    "role": "owner",
+    "path": "/workspace/inventory/search",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 197,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:16:58.673Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/message-templates"
+  },
+  {
+    "at": "2026-09-30T17:16:58.723Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/message-templates",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:16:59.785Z",
+    "role": "owner",
+    "path": "/workspace/message-templates",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 358,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:00.222Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/my-login"
+  },
+  {
+    "at": "2026-09-30T17:17:00.258Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/my-login",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:01.175Z",
+    "role": "owner",
+    "path": "/workspace/my-login",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 245,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:01.623Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/notification-rules"
+  },
+  {
+    "at": "2026-09-30T17:17:01.674Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/notification-rules",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:02.830Z",
+    "role": "owner",
+    "path": "/workspace/notification-rules",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 355,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:04.932Z",
+    "role": "owner",
+    "path": "/workspace/notifications",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:05.950Z",
+    "role": "owner",
+    "path": "/workspace/notifications",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:06.932Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/notifications"
+  },
+  {
+    "at": "2026-09-30T17:17:07.003Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/notifications",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:07.987Z",
+    "role": "owner",
+    "path": "/workspace/notifications",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1010,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:09.025Z",
+    "role": "owner",
+    "path": "/workspace/notifications",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1010,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:10.647Z",
+    "role": "owner",
+    "path": "/workspace/operations-attention",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:10.951Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/operations-attention"
+  },
+  {
+    "at": "2026-09-30T17:17:10.994Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/operations-attention",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:11.668Z",
+    "role": "owner",
+    "path": "/workspace/operations-attention",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2258,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:12.686Z",
+    "role": "owner",
+    "path": "/workspace/operations-attention",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2258,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:14.030Z",
+    "role": "owner",
+    "path": "/workspace/operations-evidence",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:15.066Z",
+    "role": "owner",
+    "path": "/workspace/operations-evidence",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:16.555Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/operations-evidence"
+  },
+  {
+    "at": "2026-09-30T17:17:16.648Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/operations-evidence",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:17.095Z",
+    "role": "owner",
+    "path": "/workspace/operations-evidence",
+    "label": "additional 2000ms",
+    "pending": [
+      "/api/v1/admin/operational-events"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 361,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:18.116Z",
+    "role": "owner",
+    "path": "/workspace/operations-evidence",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3422,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:18.836Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/operations-runs"
+  },
+  {
+    "at": "2026-09-30T17:17:18.895Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/operations-runs",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:20.049Z",
+    "role": "owner",
+    "path": "/workspace/operations-runs",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 954,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:21.316Z",
+    "role": "owner",
+    "path": "/workspace/organisation-intake",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:22.352Z",
+    "role": "owner",
+    "path": "/workspace/organisation-intake",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:24.375Z",
+    "role": "owner",
+    "path": "/workspace/organisation-intake",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:25.093Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/organisation-intake"
+  },
+  {
+    "at": "2026-09-30T17:17:25.194Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/organisation-intake",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:29.401Z",
+    "role": "owner",
+    "path": "/workspace/organisation-intake",
+    "label": "additional 5000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 4543,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:30.428Z",
+    "role": "owner",
+    "path": "/workspace/organisation-intake",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 4543,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:32.279Z",
+    "role": "owner",
+    "path": "/workspace/organisation-profile",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:33.324Z",
+    "role": "owner",
+    "path": "/workspace/organisation-profile",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:34.535Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/organisation-profile"
+  },
+  {
+    "at": "2026-09-30T17:17:34.608Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/organisation-profile",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:35.339Z",
+    "role": "owner",
+    "path": "/workspace/organisation-profile",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1260,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:36.353Z",
+    "role": "owner",
+    "path": "/workspace/organisation-profile",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1260,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:37.722Z",
+    "role": "owner",
+    "path": "/workspace/personal-data-breaches",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:38.748Z",
+    "role": "owner",
+    "path": "/workspace/personal-data-breaches",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:39.522Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/personal-data-breaches"
+  },
+  {
+    "at": "2026-09-30T17:17:39.576Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/personal-data-breaches",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:40.757Z",
+    "role": "owner",
+    "path": "/workspace/personal-data-breaches",
+    "label": "additional 2000ms",
+    "pending": [
+      "/api/v1/admin/systems"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1530,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:41.782Z",
+    "role": "owner",
+    "path": "/workspace/personal-data-breaches",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2694,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:43.922Z",
+    "role": "owner",
+    "path": "/workspace/policy-preview",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:44.948Z",
+    "role": "owner",
+    "path": "/workspace/policy-preview",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:45.118Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/policy-preview"
+  },
+  {
+    "at": "2026-09-30T17:17:45.179Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/policy-preview",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:46.977Z",
+    "role": "owner",
+    "path": "/workspace/policy-preview",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1647,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:48.006Z",
+    "role": "owner",
+    "path": "/workspace/policy-preview",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1647,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:49.955Z",
+    "role": "owner",
+    "path": "/workspace/preflight",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:49.981Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/preflight"
+  },
+  {
+    "at": "2026-09-30T17:17:50.047Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/preflight",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:50.973Z",
+    "role": "owner",
+    "path": "/workspace/preflight",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 4782,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:52.001Z",
+    "role": "owner",
+    "path": "/workspace/preflight",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 4782,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:54.349Z",
+    "role": "owner",
+    "path": "/workspace/principals",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:54.890Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/principals"
+  },
+  {
+    "at": "2026-09-30T17:17:55.362Z",
+    "role": "owner",
+    "path": "/workspace/principals",
+    "label": "additional 1000ms",
+    "pending": [
+      "/api/v1/session"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:17:55.410Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/principals",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:17:57.386Z",
+    "role": "owner",
+    "path": "/workspace/principals",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 957,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:58.426Z",
+    "role": "owner",
+    "path": "/workspace/principals",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 957,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:17:59.960Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/processing-activities"
+  },
+  {
+    "at": "2026-09-30T17:18:00.029Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/processing-activities",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:00.194Z",
+    "role": "owner",
+    "path": "/workspace/processing-activities",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1486,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:00.515Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/processing-conditions?limit=100 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:01.729Z",
+    "role": "owner",
+    "path": "/workspace/processor-engagements",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:02.775Z",
+    "role": "owner",
+    "path": "/workspace/processor-engagements",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:04.439Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/processor-engagements"
+  },
+  {
+    "at": "2026-09-30T17:18:04.523Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/processor-engagements",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:04.796Z",
+    "role": "owner",
+    "path": "/workspace/processor-engagements",
+    "label": "additional 2000ms",
+    "pending": [
+      "/api/v1/admin/processors"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1514,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:05.845Z",
+    "role": "owner",
+    "path": "/workspace/processor-engagements",
+    "label": "after bringToFront + 1000ms",
+    "pending": [
+      "/api/v1/admin/personal-data-categories"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3297,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:06.148Z",
+    "role": "owner",
+    "event": "request-failed",
+    "page": "http://127.0.0.1:4310/workspace/processor-engagements",
+    "path": "/api/v1/admin/registry-purposes",
+    "type": "fetch",
+    "error": "Load request cancelled"
+  },
+  {
+    "at": "2026-09-30T17:18:06.195Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:06.205Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/processor-engagements?limit=50 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:07.338Z",
+    "role": "owner",
+    "path": "/workspace/processors",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:08.383Z",
+    "role": "owner",
+    "path": "/workspace/processors",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:09.523Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/processors"
+  },
+  {
+    "at": "2026-09-30T17:18:09.582Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/processors",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:10.405Z",
+    "role": "owner",
+    "path": "/workspace/processors",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1112,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:11.421Z",
+    "role": "owner",
+    "path": "/workspace/processors",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1112,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:12.774Z",
+    "role": "owner",
+    "path": "/workspace/readiness",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:13.814Z",
+    "role": "owner",
+    "path": "/workspace/readiness",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:14.865Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/readiness"
+  },
+  {
+    "at": "2026-09-30T17:18:14.925Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/readiness",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:15.830Z",
+    "role": "owner",
+    "path": "/workspace/readiness",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 4593,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:16.862Z",
+    "role": "owner",
+    "path": "/workspace/readiness",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 4593,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:18.793Z",
+    "role": "owner",
+    "path": "/workspace/records-of-processing",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:19.815Z",
+    "role": "owner",
+    "path": "/workspace/records-of-processing",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:21.066Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/records-of-processing"
+  },
+  {
+    "at": "2026-09-30T17:18:21.139Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/records-of-processing",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:21.874Z",
+    "role": "owner",
+    "path": "/workspace/records-of-processing",
+    "label": "additional 2000ms",
+    "pending": [
+      "/api/v1/admin/systems"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 937,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:22.919Z",
+    "role": "owner",
+    "path": "/workspace/records-of-processing",
+    "label": "after bringToFront + 1000ms",
+    "pending": [
+      "/api/v1/admin/personal-data-categories"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1916,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:24.024Z",
+    "role": "owner",
+    "event": "request-failed",
+    "page": "http://127.0.0.1:4310/workspace/records-of-processing",
+    "path": "/api/v1/admin/ropa/versions",
+    "type": "fetch",
+    "error": "Load request cancelled"
+  },
+  {
+    "at": "2026-09-30T17:18:24.038Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/data-exports?limit=25 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:24.156Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/ropa/versions?limit=100 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:25.244Z",
+    "role": "owner",
+    "path": "/workspace/registry-notices",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:26.001Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/registry-notices"
+  },
+  {
+    "at": "2026-09-30T17:18:26.080Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/registry-notices",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:26.291Z",
+    "role": "owner",
+    "path": "/workspace/registry-notices",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:28.437Z",
+    "role": "owner",
+    "path": "/workspace/registry-notices",
+    "label": "additional 2000ms",
+    "pending": [
+      "/api/v1/admin/personal-data-categories"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3059,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:29.463Z",
+    "role": "owner",
+    "path": "/workspace/registry-notices",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3497,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:30.818Z",
+    "role": "owner",
+    "path": "/workspace/registry-retention",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:31.372Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/registry-retention"
+  },
+  {
+    "at": "2026-09-30T17:18:31.426Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/registry-retention",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:31.900Z",
+    "role": "owner",
+    "path": "/workspace/registry-retention",
+    "label": "additional 1000ms",
+    "pending": [
+      "/api/v1/admin/retention-rules"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2342,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:33.022Z",
+    "role": "owner",
+    "path": "/workspace/registry-retention",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2874,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:34.164Z",
+    "role": "owner",
+    "event": "request-failed",
+    "page": "http://127.0.0.1:4310/workspace/registry-retention",
+    "path": "/api/v1/admin/systems",
+    "type": "fetch",
+    "error": "Load request cancelled"
+  },
+  {
+    "at": "2026-09-30T17:18:34.180Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/retention-rules?limit=50 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:34.305Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/retention-holds?limit=50&active=true due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:35.396Z",
+    "role": "owner",
+    "path": "/workspace/registry-setup",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:35.532Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/registry-setup"
+  },
+  {
+    "at": "2026-09-30T17:18:35.598Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/registry-setup",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:36.439Z",
+    "role": "owner",
+    "path": "/workspace/registry-setup",
+    "label": "additional 1000ms",
+    "pending": [
+      "/api/v1/admin/systems"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2594,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:37.509Z",
+    "role": "owner",
+    "path": "/workspace/registry-setup",
+    "label": "after bringToFront + 1000ms",
+    "pending": [
+      "/api/v1/admin/registry-purposes"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2594,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:38.371Z",
+    "role": "owner",
+    "event": "request-failed",
+    "page": "http://127.0.0.1:4310/workspace/registry-setup",
+    "path": "/api/v1/admin/data-principal-categories",
+    "type": "fetch",
+    "error": "Load request cancelled"
+  },
+  {
+    "at": "2026-09-30T17:18:38.387Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/personal-data-categories?limit=25 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:38.466Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/registry-purposes?limit=25 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:38.501Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/processing-conditions?limit=25 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:18:40.141Z",
+    "role": "owner",
+    "path": "/workspace/regulatory",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:41.162Z",
+    "role": "owner",
+    "path": "/workspace/regulatory",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:43.223Z",
+    "role": "owner",
+    "path": "/workspace/regulatory",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:44.466Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/regulatory"
+  },
+  {
+    "at": "2026-09-30T17:18:44.594Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/regulatory",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:48.286Z",
+    "role": "owner",
+    "path": "/workspace/regulatory",
+    "label": "additional 5000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 993,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:49.315Z",
+    "role": "owner",
+    "path": "/workspace/regulatory",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 993,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:50.737Z",
+    "role": "owner",
+    "path": "/workspace/regulatory/applicability",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:50.951Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/regulatory/applicability"
+  },
+  {
+    "at": "2026-09-30T17:18:51.007Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/regulatory/applicability",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:51.771Z",
+    "role": "owner",
+    "path": "/workspace/regulatory/applicability",
+    "label": "additional 1000ms",
+    "pending": [
+      "/api/v1/admin/registry-activities"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 7717,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:52.811Z",
+    "role": "owner",
+    "path": "/workspace/regulatory/applicability",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 9772,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:54.710Z",
+    "role": "owner",
+    "path": "/workspace/regulatory/impacts",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:55.306Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/regulatory/impacts"
+  },
+  {
+    "at": "2026-09-30T17:18:55.356Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/regulatory/impacts",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:55.735Z",
+    "role": "owner",
+    "path": "/workspace/regulatory/impacts",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 7164,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:56.757Z",
+    "role": "owner",
+    "path": "/workspace/regulatory/impacts",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 7164,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:18:58.729Z",
+    "role": "owner",
+    "path": "/workspace/releases",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:18:59.131Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/releases"
+  },
+  {
+    "at": "2026-09-30T17:18:59.179Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/releases",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:18:59.746Z",
+    "role": "owner",
+    "path": "/workspace/releases",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 641,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:00.768Z",
+    "role": "owner",
+    "path": "/workspace/releases",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 641,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:02.353Z",
+    "role": "owner",
+    "path": "/workspace/reports",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:03.404Z",
+    "role": "owner",
+    "path": "/workspace/reports",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:04.658Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/reports"
+  },
+  {
+    "at": "2026-09-30T17:19:04.727Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/reports",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:05.420Z",
+    "role": "owner",
+    "path": "/workspace/reports",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1575,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:06.444Z",
+    "role": "owner",
+    "path": "/workspace/reports",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1575,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:08.139Z",
+    "role": "owner",
+    "path": "/workspace/representation",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:08.847Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/representation"
+  },
+  {
+    "at": "2026-09-30T17:19:08.906Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/representation",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:09.174Z",
+    "role": "owner",
+    "path": "/workspace/representation",
+    "label": "additional 1000ms",
+    "pending": [
+      "/api/v1/admin/mandates"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 508,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:10.205Z",
+    "role": "owner",
+    "path": "/workspace/representation",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 602,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:11.572Z",
+    "role": "owner",
+    "path": "/workspace/restores",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:12.626Z",
+    "role": "owner",
+    "path": "/workspace/restores",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:14.015Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/restores"
+  },
+  {
+    "at": "2026-09-30T17:19:14.076Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/restores",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:14.648Z",
+    "role": "owner",
+    "path": "/workspace/restores",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 859,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:15.677Z",
+    "role": "owner",
+    "path": "/workspace/restores",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 859,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:17.378Z",
+    "role": "owner",
+    "path": "/workspace/retention",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:18.222Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/retention"
+  },
+  {
+    "at": "2026-09-30T17:19:18.275Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/retention",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:18.401Z",
+    "role": "owner",
+    "path": "/workspace/retention",
+    "label": "additional 1000ms",
+    "pending": [
+      "/api/v1/admin/retention/constraints"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 268,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:19.421Z",
+    "role": "owner",
+    "path": "/workspace/retention",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 349,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:20.634Z",
+    "role": "owner",
+    "path": "/workspace/retention/holds",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:21.664Z",
+    "role": "owner",
+    "path": "/workspace/retention/holds",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:23.188Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/retention/holds"
+  },
+  {
+    "at": "2026-09-30T17:19:23.240Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/retention/holds",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:23.690Z",
+    "role": "owner",
+    "path": "/workspace/retention/holds",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 573,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:24.727Z",
+    "role": "owner",
+    "path": "/workspace/retention/holds",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 573,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:26.529Z",
+    "role": "owner",
+    "path": "/workspace/retention/outcomes",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:27.453Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/retention/outcomes"
+  },
+  {
+    "at": "2026-09-30T17:19:27.512Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/retention/outcomes",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:27.563Z",
+    "role": "owner",
+    "path": "/workspace/retention/outcomes",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:29.591Z",
+    "role": "owner",
+    "path": "/workspace/retention/outcomes",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 630,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:30.629Z",
+    "role": "owner",
+    "path": "/workspace/retention/outcomes",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 630,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:31.779Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/rights"
+  },
+  {
+    "at": "2026-09-30T17:19:31.842Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/rights",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:32.030Z",
+    "role": "owner",
+    "path": "/workspace/rights",
+    "label": "networkidle + 400ms",
+    "pending": [
+      "/api/v1/admin/rights-requests"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 655,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:32.189Z",
+    "role": "owner",
+    "event": "pageerror",
+    "message": "/127.0.0.1:4310/api/v1/admin/rights-case-profiles?limit=25 due to access control checks."
+  },
+  {
+    "at": "2026-09-30T17:19:33.231Z",
+    "role": "owner",
+    "path": "/workspace/support-canaries",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:34.273Z",
+    "role": "owner",
+    "path": "/workspace/support-canaries",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:34.516Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/support-canaries"
+  },
+  {
+    "at": "2026-09-30T17:19:34.622Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/support-canaries",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:36.287Z",
+    "role": "owner",
+    "path": "/workspace/support-canaries",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 803,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:37.305Z",
+    "role": "owner",
+    "path": "/workspace/support-canaries",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 803,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:38.578Z",
+    "role": "owner",
+    "path": "/workspace/support-cases",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:39.599Z",
+    "role": "owner",
+    "path": "/workspace/support-cases",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:41.025Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/support-cases"
+  },
+  {
+    "at": "2026-09-30T17:19:41.074Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/support-cases",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:41.617Z",
+    "role": "owner",
+    "path": "/workspace/support-cases",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 885,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:42.651Z",
+    "role": "owner",
+    "path": "/workspace/support-cases",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 885,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:44.980Z",
+    "role": "owner",
+    "path": "/workspace/team",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:46.008Z",
+    "role": "owner",
+    "path": "/workspace/team",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:46.122Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/team"
+  },
+  {
+    "at": "2026-09-30T17:19:46.188Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/team",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:48.039Z",
+    "role": "owner",
+    "path": "/workspace/team",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1341,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:49.095Z",
+    "role": "owner",
+    "path": "/workspace/team",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1341,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:50.958Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/test-lab"
+  },
+  {
+    "at": "2026-09-30T17:19:50.980Z",
+    "role": "owner",
+    "path": "/workspace/test-lab",
+    "label": "networkidle + 400ms",
+    "pending": [
+      "/api/v1/session"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:51.026Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/test-lab",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:52.001Z",
+    "role": "owner",
+    "path": "/workspace/test-lab",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2831,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:53.040Z",
+    "role": "owner",
+    "path": "/workspace/test-lab",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2831,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:55.305Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/third-parties"
+  },
+  {
+    "at": "2026-09-30T17:19:55.369Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/third-parties",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:55.647Z",
+    "role": "owner",
+    "path": "/workspace/third-parties",
+    "label": "networkidle + 400ms",
+    "pending": [
+      "/api/v1/admin/third-party-standing"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 249,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:55.840Z",
+    "role": "owner",
+    "event": "request-failed",
+    "page": "http://127.0.0.1:4310/workspace/third-parties",
+    "path": "/api/v1/admin/third-party-standing",
+    "type": "fetch",
+    "error": "Load request cancelled"
+  },
+  {
+    "at": "2026-09-30T17:19:56.969Z",
+    "role": "owner",
+    "path": "/workspace/updates",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:19:57.571Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/updates"
+  },
+  {
+    "at": "2026-09-30T17:19:57.675Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/updates",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:19:58.019Z",
+    "role": "owner",
+    "path": "/workspace/updates",
+    "label": "additional 1000ms",
+    "pending": [
+      "/api/v1/admin/update-plans"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 310,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:19:59.058Z",
+    "role": "owner",
+    "path": "/workspace/updates",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 310,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:00.265Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/vendor-visibility"
+  },
+  {
+    "at": "2026-09-30T17:20:00.334Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/vendor-visibility",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:00.506Z",
+    "role": "owner",
+    "path": "/workspace/vendor-visibility",
+    "label": "networkidle + 400ms",
+    "pending": [
+      "/api/v1/admin/vendor-visibility"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 417,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:01.910Z",
+    "role": "owner",
+    "path": "/workspace/website-consent",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:02.972Z",
+    "role": "owner",
+    "path": "/workspace/website-consent",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:04.987Z",
+    "role": "owner",
+    "path": "/workspace/website-consent",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:05.267Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/website-consent"
+  },
+  {
+    "at": "2026-09-30T17:20:05.357Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/website-consent",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:10.007Z",
+    "role": "owner",
+    "path": "/workspace/website-consent",
+    "label": "additional 5000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 811,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:11.023Z",
+    "role": "owner",
+    "path": "/workspace/website-consent",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 811,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:12.382Z",
+    "role": "owner",
+    "path": "/workspace/workflows",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:13.422Z",
+    "role": "owner",
+    "path": "/workspace/workflows",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:14.525Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/workflows"
+  },
+  {
+    "at": "2026-09-30T17:20:14.586Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/workflows",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:15.438Z",
+    "role": "owner",
+    "path": "/workspace/workflows",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 368,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:16.460Z",
+    "role": "owner",
+    "path": "/workspace/workflows",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 368,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:19.403Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:20:19.419Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 401
+  },
+  {
+    "at": "2026-09-30T17:20:19.419Z",
+    "role": "admin",
+    "event": "console",
+    "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "source": "http://127.0.0.1:4310/api/v1/session"
+  },
+  {
+    "at": "2026-09-30T17:20:20.918Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:20:20.954Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:22.135Z",
+    "role": "admin",
+    "path": "/workspace",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:23.178Z",
+    "role": "admin",
+    "path": "/workspace",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:24.436Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace"
+  },
+  {
+    "at": "2026-09-30T17:20:24.490Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:25.193Z",
+    "role": "admin",
+    "path": "/workspace",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3041,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:26.241Z",
+    "role": "admin",
+    "path": "/workspace",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3041,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:27.484Z",
+    "role": "admin",
+    "path": "/workspace/coverage",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:28.509Z",
+    "role": "admin",
+    "path": "/workspace/coverage",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:30.037Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/coverage"
+  },
+  {
+    "at": "2026-09-30T17:20:30.105Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/coverage",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:30.542Z",
+    "role": "admin",
+    "path": "/workspace/coverage",
+    "label": "additional 2000ms",
+    "pending": [
+      "/api/v1/admin/coverage"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 190,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:31.578Z",
+    "role": "admin",
+    "path": "/workspace/coverage",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2045,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:33.807Z",
+    "role": "admin",
+    "path": "/workspace/data-principals",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:34.822Z",
+    "role": "admin",
+    "path": "/workspace/data-principals",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:36.855Z",
+    "role": "admin",
+    "path": "/workspace/data-principals",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:37.132Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/data-principals"
+  },
+  {
+    "at": "2026-09-30T17:20:37.362Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/data-principals",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:41.882Z",
+    "role": "admin",
+    "path": "/workspace/data-principals",
+    "label": "additional 5000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 5215,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:42.920Z",
+    "role": "admin",
+    "path": "/workspace/data-principals",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 5215,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:45.996Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:20:46.051Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 401
+  },
+  {
+    "at": "2026-09-30T17:20:46.051Z",
+    "role": "auditor",
+    "event": "console",
+    "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "source": "http://127.0.0.1:4310/api/v1/session"
+  },
+  {
+    "at": "2026-09-30T17:20:47.533Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:20:47.642Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:47.788Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:20:47.893Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:49.303Z",
+    "role": "auditor",
+    "path": "/workspace",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:49.653Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace"
+  },
+  {
+    "at": "2026-09-30T17:20:49.710Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:50.316Z",
+    "role": "auditor",
+    "path": "/workspace",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3041,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:51.345Z",
+    "role": "auditor",
+    "path": "/workspace",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3041,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:52.895Z",
+    "role": "auditor",
+    "path": "/workspace/coverage",
+    "label": "networkidle + 400ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:53.910Z",
+    "role": "auditor",
+    "path": "/workspace/coverage",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:54.290Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/coverage"
+  },
+  {
+    "at": "2026-09-30T17:20:54.334Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/coverage",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:55.933Z",
+    "role": "auditor",
+    "path": "/workspace/coverage",
+    "label": "additional 2000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2045,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:56.961Z",
+    "role": "auditor",
+    "path": "/workspace/coverage",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 2045,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:20:58.299Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/data-principals"
+  },
+  {
+    "at": "2026-09-30T17:20:58.320Z",
+    "role": "auditor",
+    "path": "/workspace/data-principals",
+    "label": "networkidle + 400ms",
+    "pending": [
+      "/api/v1/session"
+    ],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 59,
+    "loading": true,
+    "loading_text": "Loading\n\nReading the authenticated session from the server."
+  },
+  {
+    "at": "2026-09-30T17:20:58.354Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/data-principals",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:20:59.340Z",
+    "role": "auditor",
+    "path": "/workspace/data-principals",
+    "label": "additional 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1843,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:21:00.365Z",
+    "role": "auditor",
+    "path": "/workspace/data-principals",
+    "label": "after bringToFront + 1000ms",
+    "pending": [],
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1843,
+    "loading": false,
+    "loading_text": null
+  }
+]

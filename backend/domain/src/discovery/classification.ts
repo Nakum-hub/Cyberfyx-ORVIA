@@ -138,17 +138,17 @@ export async function measureQuality(c: Context, runId: string) {
 }
 export async function qualityList(c: Context, runId: string, page: Page) {
   await runDetail(c, runId);
-  const rows = (await c.tx.query(`SELECT * FROM app.classification_quality WHERE ${predicate} AND run_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`, [...scope(c), runId, page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.classification_quality WHERE ${predicate} AND run_id=$4 AND ($5::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.classification_quality WHERE ${predicate} AND run_id=$4 AND id=$5)) ORDER BY recorded_at DESC, id DESC LIMIT $6`, [...scope(c), runId, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(qualityView), next_cursor: paged.next_cursor };
 }
 
 /** The latest completed classification of each target with its exposure findings. */
 export async function exposureList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM (SELECT DISTINCT ON (r.target_id) r.*, t.schema_name, t.relation_name FROM app.classification_runs r
+  const rows = (await c.tx.query(`WITH latest AS (SELECT DISTINCT ON (r.target_id) r.*, t.schema_name, t.relation_name FROM app.classification_runs r
       JOIN app.catalog_discovery_targets t ON t.tenant_id=r.tenant_id AND t.legal_entity_id=r.legal_entity_id AND t.environment_id=r.environment_id AND t.id=r.target_id
-      WHERE r.tenant_id=$1 AND r.legal_entity_id=$2 AND r.environment_id=$3 AND r.state='COMPLETED' ORDER BY r.target_id, r.observed_at DESC) latest
-    WHERE ($4::uuid IS NULL OR target_id>$4) ORDER BY target_id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+      WHERE r.tenant_id=$1 AND r.legal_entity_id=$2 AND r.environment_id=$3 AND r.state='COMPLETED' ORDER BY r.target_id, r.observed_at DESC, r.id DESC)
+    SELECT * FROM latest WHERE ($4::uuid IS NULL OR (requested_at,target_id) < (SELECT requested_at,target_id FROM latest WHERE target_id=$4)) ORDER BY requested_at DESC, target_id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.target_id);
   return { items: paged.items.map(r => { const v = runView(r); return X.ExposureSummary.parse({ target_id: v.target_id, schema_name: v.schema_name, relation_name: v.relation_name, run_id: v.id, observed_at: v.observed_at,
     sensitive_columns: v.columns.filter(col => col.confidence === 'CONFIRMED').map(col => col.column), findings: v.findings }); }), next_cursor: paged.next_cursor };
