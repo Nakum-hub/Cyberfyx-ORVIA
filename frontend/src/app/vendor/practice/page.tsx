@@ -1,7 +1,8 @@
 'use client';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { DataTable, EmptyState, Facts, NoticeBox, SelectField, TextField } from '../../../components/shared/ui.tsx';
+import { CheckboxField, DataTable, EmptyState, Facts, NoticeBox, SelectField, TextField } from '../../../components/shared/ui.tsx';
 import { VendorArea, vendorCall, explain, can, type VendorSession } from '../../../components/vendor/vendor.tsx';
+import type { CriteriaEvidence } from '../../../../../shared/contracts/src/vendor-practice.ts';
 
 /**
  * Audit practice settings (task AUDIT-PRACTICE-01): criteria versions, the risk
@@ -15,6 +16,32 @@ type State = { criteria: { id: string; version: string; distribution: string; re
 const words = (v: string) => v.replaceAll('_', ' ').toLowerCase();
 const GATES: Record<string, string> = { ENGAGEMENT_LETTER_TEMPLATE_APPROVED: 'Engagement letter template approved by management', PROCESSING_AGREEMENT_TEMPLATE_APPROVED: 'Processing agreement template approved by management', PRODUCTION_CRITERIA: 'Production criteria from the official, signed regulatory package', PRODUCTION_AUDIT_KEY: 'Production audit signing key' };
 const LEGACY: Record<string, string> = { ENGAGEMENT_LETTER_TEMPLATE_APPROVED: 'LEGAL_REVIEW_ENGAGEMENT_LETTER', PROCESSING_AGREEMENT_TEMPLATE_APPROVED: 'LEGAL_REVIEW_PROCESSING_AGREEMENT' };
+/**
+ * Vendor contract 0.6.0 (owner decision 2026-10-01): the approver reads the retained evidence (sources and hashes, the signed
+ * package and its open verification items) and approves naming the version reviewed, a review reference and the open items
+ * acknowledged. The review reference is the approver's own statement; the screen never calls it system verification.
+ */
+function CriteriaReview({ id, busy, onApprove, onClose }: { id: string; busy: boolean; onApprove: (body: unknown) => void; onClose: () => void }) {
+  const [e, setE] = useState<CriteriaEvidence | null>(null); const [err, setErr] = useState<string | null>(null);
+  const [reference, setReference] = useState(''); const [ack, setAck] = useState(false);
+  useEffect(() => { let live = true; vendorCall<CriteriaEvidence>(`/criteria/${id}/evidence`).then(v => { if (live) setE(v); }, x => { if (live) setErr(explain(x)); }); return () => { live = false; }; }, [id]);
+  if (err) return <NoticeBox tone="stop" title="Criteria evidence unavailable"><p>{err}</p></NoticeBox>;
+  if (!e) return <p role="status">Loading criteria evidence…</p>;
+  const open = e.open_verification_items;
+  return <form className="panel" aria-label="Review criteria evidence" onSubmit={(ev: FormEvent) => { ev.preventDefault(); onApprove({ expected_digest: e.digest, review_reference: reference, acknowledged_open_items_digest: e.open_items_digest }); }}>
+    <h4>Review {e.version} before approving</h4>
+    <Facts items={[{ term: 'Distribution', value: words(e.distribution) }, { term: 'Digest', value: <code>{e.digest}</code> }, { term: 'Requirements', value: e.requirements },
+      { term: 'Signed package', value: e.package ? `${e.package.package_id} version ${e.package.package_version}, signed with ${e.package.signing_key_id}` : 'Unknown: not recorded from a signed package' }]} />
+    <DataTable caption="Criteria sources" rowKey={x => x.source_id} rows={e.sources} columns={[{ key: 's', header: 'Source', cell: x => x.title }, { key: 'r', header: 'Notification', cell: x => x.notification_reference ?? 'Not given' },
+      { key: 'u', header: 'Official URL', cell: x => x.official_url ?? 'Not given' }, { key: 'h', header: 'Source file hash', cell: x => x.retrieved_and_hashed && x.artifact_digest ? <code>{x.artifact_digest.slice(0, 16)}…</code> : 'Not hashed' }]} />
+    <section aria-label="Open verification items"><h5>Open verification items</h5>
+      {open === null ? <p className="muted">Unknown: this version was not recorded from a signed package.</p> : open.length ? <ul>{open.map(i => <li key={i}>{i}</li>)}</ul> : <p className="muted">None listed in the package.</p>}</section>
+    <p className="muted">{e.limitation}</p>
+    <TextField label="Review reference" value={reference} onChange={setReference} required hint="Where your review of the sources is recorded, for example a review note number. This is your statement as approver." />
+    <CheckboxField label="I have reviewed the evidence and the open verification items listed above" checked={ack} onChange={setAck} />
+    <button type="submit" disabled={busy || !ack || reference.trim().length < 8}>Approve criteria</button> <button type="button" className="secondary" onClick={onClose}>Cancel</button>
+  </form>;
+}
 const DEFAULT_MATRIX = [1, 2, 3, 4, 5].map(l => [1, 2, 3, 4, 5].map(i => { const s = l * i; return s <= 4 ? 'LOW' : s <= 9 ? 'MEDIUM' : s <= 16 ? 'HIGH' : 'CRITICAL'; }));
 
 function Practice({ session }: { session: VendorSession }) {
@@ -23,6 +50,7 @@ function Practice({ session }: { session: VendorSession }) {
   const load = useCallback(async () => { try { setLoadError(null); setS(await vendorCall<State>('/practice')); } catch (e) { setLoadError(explain(e)); } }, []);
   useEffect(() => { void load(); }, [load]);
   const run = async (work: () => Promise<unknown>, ok: string) => { setBusy(true); setError(null); setDone(null); try { await work(); await load(); setDone(ok); } catch (e) { setError(explain(e)); } finally { setBusy(false); } };
+  const [reviewing, setReviewing] = useState<string | null>(null);
   const [cv, setCv] = useState(''); const [mv, setMv] = useState(''); const [pkgFile, setPkgFile] = useState<File | null>(null); const [gate, setGate] = useState({ gate: '', reference: '' });
   if (!s) return loadError ? <NoticeBox tone="stop" title="Practice settings unavailable"><p>{loadError}</p><button type="button" onClick={() => void load()}>Try again</button></NoticeBox> : <p role="status">Loading practice settings…</p>;
   return <>
@@ -42,8 +70,10 @@ function Practice({ session }: { session: VendorSession }) {
       <p className="muted">The ORVIA DPDP baseline can be recorded as TEST_FIXTURE criteria for synthetic engagements. Production criteria come only from the signed official regulatory package, uploaded below.</p>
       {s.criteria.length ? <DataTable caption="Criteria versions" rowKey={x => x.id} rows={s.criteria} columns={[{ key: 'v', header: 'Version', cell: x => x.version }, { key: 'd', header: 'Distribution', cell: x => words(x.distribution) }, { key: 'n', header: 'Requirements', cell: x => x.requirements },
         { key: 'g', header: 'Digest', cell: x => <code>{x.digest.slice(0, 16)}…</code> },
-        { key: 'a', header: 'Approval', cell: x => x.approved_by ? `Approved ${x.approved_at?.slice(0, 10)}` : can(session, 'practice.approve') && x.recorded_by !== session.actor_id ? <button type="button" disabled={busy} onClick={() => void run(() => vendorCall(`/criteria/${x.id}/approve`, {}), 'Criteria approved.')}>Approve</button> : 'Awaiting a different approver' }]} />
+        { key: 'a', header: 'Approval', cell: x => x.approved_by ? `Approved ${x.approved_at?.slice(0, 10)}` : can(session, 'practice.approve') && x.recorded_by !== session.actor_id ? <button type="button" disabled={busy} onClick={() => setReviewing(x.id)}>Review and approve</button> : 'Awaiting a different approver' }]} />
         : <EmptyState title="No criteria recorded" />}
+      {reviewing && <CriteriaReview key={reviewing} id={reviewing} busy={busy} onClose={() => setReviewing(null)}
+        onApprove={body => void run(async () => { await vendorCall(`/criteria/${reviewing}/approve`, body); setReviewing(null); }, 'Criteria approved.')} />}
       {can(session, 'practice.manage') && <form className="panel" aria-label="Record test-fixture criteria" onSubmit={(ev: FormEvent) => { ev.preventDefault(); void run(() => vendorCall('/practice/criteria', { version: cv }), 'Criteria recorded.'); }}>
         <TextField label="Criteria version label" value={cv} onChange={setCv} required hint="Letters, digits, dot, dash or underscore." /><button type="submit" disabled={busy}>Record test-fixture criteria</button></form>}
       {can(session, 'practice.manage') && <form className="panel" aria-label="Record production criteria" onSubmit={(ev: FormEvent) => { ev.preventDefault();

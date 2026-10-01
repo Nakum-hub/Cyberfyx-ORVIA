@@ -21,7 +21,7 @@ import { registerBreach, updateBreach, completeBreachTask, breachView, breachLis
 import { openCaseProfile, caseProfile, caseProfileList } from '../../domain/src/operations/cases.ts';
 import { operationsAttention, operationsCoverage, notificationSweep } from '../../domain/src/operations/attention.ts';
 import { ownRequestHistory } from '../../domain/src/rights/portal.ts';
-import { backupTreatmentList, createBackupTreatment, approveBackupTreatment, backupCoverage, recordSystemRestore, erasureLedger, confirmReerasure } from '../../domain/src/registry/backups.ts';
+import { backupTreatmentList, createBackupTreatment, approveBackupTreatment, backupCoverage, recordSystemRestore, systemRestoreList, reviewRestoreCoverage, erasureLedger, confirmReerasure } from '../../domain/src/registry/backups.ts';
 import { intakeClientList, createIntakeClient, revokeIntakeClient, intakeSubmissionList, handleIntakeSubmission, privacyCentreSetting, changePrivacyCentre } from '../../domain/src/registry/intake.ts';
 
 /**
@@ -118,6 +118,8 @@ export async function operationsRoute(c: Context, route: RouteDefinition, id: st
     case 'approve_backup_treatment': return approveBackupTreatment(c, id!);
     case 'backup_coverage': return backupCoverage(c);
     case 'record_system_restore': return recordSystemRestore(c, input);
+    case 'list_system_restores': return systemRestoreList(c, page, query);
+    case 'review_restore_coverage': return reviewRestoreCoverage(c, id!, input);
     case 'list_erasure_ledger': return erasureLedger(c, page, query);
     case 'confirm_reerasure': return confirmReerasure(c, id!, input);
     case 'list_erasure_intimations_due': return intimationsDue(c, page);

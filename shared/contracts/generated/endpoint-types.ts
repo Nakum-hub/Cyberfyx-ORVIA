@@ -279,6 +279,8 @@ export interface EndpointMap {
   approve_backup_treatment: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatment> };
   backup_coverage: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupCoverage> };
   record_system_restore: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestoreRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestore> };
+  list_system_restores: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestoreList> };
+  review_restore_coverage: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RestoreCoverageReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestore> };
   list_erasure_ledger: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureLedgerList> };
   confirm_reerasure: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ReerasureConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureLedgerEntry> };
   list_erasure_intimations_due: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationDueList> };

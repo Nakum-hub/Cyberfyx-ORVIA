@@ -155,7 +155,8 @@ export async function composeMessage(c: Context, input: unknown) {
   const row = (await c.tx.query(`INSERT INTO app.outbound_messages(tenant_id,legal_entity_id,environment_id,id,transport_id,source_kind,source_id,recipient,subject,body,content_digest,authored_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
     [...scope(c), randomUUID(), v.transport_id, v.source_kind, v.source_id, v.recipient, v.subject, v.body, sha(JSON.stringify([v.recipient, v.subject, v.body])), c.actor.actor_id])).rows[0];
   // Withdrawal canary trap (migration 0079): a message addressed to a decoy principal is recorded for review. It is not
-  // refused, so the author cannot learn which addresses are canaries; the decoy mailbox belongs to the organisation.
+  // refused at composition. A synthetic decoy's mailbox belongs to the organisation; a message to a real-person decoy is
+  // withheld by the runner and never transmitted (revision 1.10, migration 0089).
   await trapCanary(c, { email: v.recipient }, 'OUTBOUND_MESSAGE', null, `An outbound ${v.source_kind.toLowerCase().replaceAll('_', ' ')} message "${v.subject.slice(0, 120)}" was addressed to a withdrawal canary.`);
   await audit(c, 'outbound_message.compose', row.id);
   return messageView(c, row);
@@ -223,6 +224,8 @@ export async function claimDue(c: Context, limit = 20): Promise<Claim[]> {
     AND m.next_attempt_at<=clock_timestamp() AND (m.lease_until IS NULL OR m.lease_until<clock_timestamp()) ORDER BY m.next_attempt_at LIMIT $4 FOR UPDATE SKIP LOCKED`, [...scope(c), limit])).rows;
   const claims: Claim[] = [];
   for (const m of rows) {
+    // Real-person withdrawal canaries (revision 1.10, migration 0089): nothing is ever transmitted to them.
+    if ((await c.tx.query('SELECT app.withhold_real_decoy_message($1) AS withheld', [m.id])).rows[0].withheld) continue;
     let possibleDuplicate = false;
     if (m.lease_until && m.attempts > 0) {
       const recorded = (await c.tx.query(`SELECT 1 FROM app.outbound_attempts WHERE ${predicate} AND message_id=$4 AND attempt=$5`, [...scope(c), m.id, m.attempts])).rowCount;

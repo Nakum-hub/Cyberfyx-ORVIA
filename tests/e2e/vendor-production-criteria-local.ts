@@ -123,7 +123,17 @@ try {
       const reviewer = await context(browser); await vendorSignIn(reviewer, journal.reviewer);
       await reviewer.goto('/vendor/practice'); await reviewer.getByRole('heading', { name: 'Audit practice' }).waitFor();
       const reviewerRow = reviewer.getByRole('table', { name: 'Criteria versions' }).getByRole('row').filter({ hasText: version });
-      await reviewerRow.getByRole('button', { name: 'Approve' }).click();
+      await reviewerRow.getByRole('button', { name: 'Review and approve' }).click();
+      const panel = reviewer.getByRole('form', { name: 'Review criteria evidence' });
+      await panel.getByRole('table', { name: 'Criteria sources' }).waitFor();
+      check('before approving, the reviewer sees the sources with their hashes and the signed package', [await panel.getByRole('table', { name: 'Criteria sources' }).getByRole('row').count() > 1,
+        await panel.getByText('Not hashed').count(), await panel.getByText(/signed with /).count()], [true, 0, 1]);
+      check('the open verification items of the package are listed', await panel.getByRole('region', { name: 'Open verification items' }).getByRole('listitem').count() > 0, true);
+      check('approval stays disabled until a review reference is given and the items are acknowledged', await panel.getByRole('button', { name: 'Approve criteria' }).isDisabled(), true);
+      await panel.getByLabel('Review reference').fill('Review note RV-E2E-1, sources compared (synthetic).');
+      check('a reference alone is not enough: the acknowledgement is required', await panel.getByRole('button', { name: 'Approve criteria' }).isDisabled(), true);
+      await panel.getByLabel('I have reviewed the evidence and the open verification items listed above').check();
+      await panel.getByRole('button', { name: 'Approve criteria' }).click();
       await reviewer.getByRole('status').filter({ hasText: 'Criteria approved.' }).waitFor();
       await reviewerRow.getByText(/^Approved \d{4}-\d{2}-\d{2}$/).waitFor();
       check('the reviewer approves it on the same screen', await reviewerRow.getByText(/^Approved/).count(), 1);

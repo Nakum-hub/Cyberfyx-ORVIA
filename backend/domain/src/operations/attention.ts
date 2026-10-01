@@ -53,6 +53,13 @@ export async function operationsAttention(c: Context) {
       SELECT s.system_id, k.reapply_required FROM s CROSS JOIN LATERAL app.erasure_ledger_counts(s.system_id) k WHERE k.reapply_required > 0 ORDER BY s.system_id LIMIT 51`, s)).rows, 50, 'systems needing re-erasure after a restore'))
     push({ kind: 'REERASURE_AFTER_RESTORE', severity: 'OPEN', entity_kind: 'system', entity_id: b.system_id, count: b.reapply_required,
       detail: `${b.reapply_required} person(s) erased on this system since the restored backup was taken must be erased again.`, due_at: null });
+  // A restore from a backup older than erasures the ledger already purged cannot name everyone it brought back (migration 0090):
+  // it stays here until someone records how the restored data was reviewed by hand.
+  for (const r of capped((await c.tx.query(`SELECT s.id, s.backup_taken_at, s.ledger_purged_through FROM app.system_restores s WHERE s.tenant_id=$1 AND s.legal_entity_id=$2 AND s.environment_id=$3
+      AND s.ledger_coverage='INCOMPLETE' AND NOT EXISTS (SELECT 1 FROM app.restore_coverage_reviews v WHERE v.tenant_id=s.tenant_id AND v.legal_entity_id=s.legal_entity_id AND v.environment_id=s.environment_id AND v.restore_id=s.id)
+    ORDER BY s.recorded_at DESC LIMIT 51`, s)).rows, 50, 'restores older than the erasure ledger'))
+    push({ kind: 'RESTORE_PREDATES_LEDGER', severity: 'UNRESOLVED', entity_kind: 'system_restore', entity_id: r.id, count: 1,
+      detail: `The restored backup was taken before erasures the ledger has already purged (through ${(r.ledger_purged_through as Date).toISOString().slice(0, 10)}), so ORVIA cannot name everyone it brought back. Review the restored data by hand and record how.`, due_at: null });
   for (const b of capped((await c.tx.query(`SELECT a.system_id, count(*)::int n FROM app.downstream_actions a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3
       AND a.action_type IN ('ERASE','ANONYMISE') AND a.verification='VERIFIED' AND a.system_id IS NOT NULL
       AND NOT EXISTS (SELECT 1 FROM app.backup_treatments t WHERE t.tenant_id=a.tenant_id AND t.legal_entity_id=a.legal_entity_id AND t.environment_id=a.environment_id AND t.system_id=a.system_id AND t.status='CURRENT')

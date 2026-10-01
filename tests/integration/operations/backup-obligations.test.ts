@@ -7,7 +7,8 @@ import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // backup handling (also in Operations attention); the ledger itself needs sensitive access; recording a restore from a backup older
 // than the erasures marks exactly those people for re-erasure (a restore from a newer backup marks none) and raises attention
 // until staff confirm it; the database refuses to rewrite a treatment or delete a live ledger row; and the runner ages rows out
-// and purges them 30 days past their clear date (the ledger's own retention).
+// and purges them 30 days past their clear date (the ledger's own retention). A restore from a backup older than erasures already
+// purged is recorded with INCOMPLETE ledger coverage and stays in Operations attention until a manual review is recorded (0090).
 import { randomUUID } from 'node:crypto';
 import * as S from '../../../shared/contracts/src/index.ts';
 import { operationsSuite, key, hoursFromNow } from '../../../shared/testing/src/operations-fixture.ts';
@@ -102,5 +103,31 @@ await t.run(async () => {
     const report = (await runner.once()).find(r => r.scope === s.environment_id)!;
     check('the runner ages out and purges a row 30 days past its clear date', [report.backup_ledger_purged >= 1, (await db.query('SELECT count(*)::int n FROM app.erasure_ledger WHERE id=$1', [oldRow])).rows[0].n], [true, 0]);
     check('rows still within their backups are untouched by the sweep', (await db.query(`SELECT count(*)::int n FROM app.erasure_ledger WHERE system_id=$1 AND state IN ('IN_BACKUPS','REAPPLY_REQUIRED','REAPPLIED') AND erased_at > now() - interval '1 day'`, [withBackups.id])).rows[0].n >= N, true);
+
+    t.setPhase('a restore older than the ledger (migration 0090)');
+    const mark = (await db.query(`SELECT purged_through, purged_rows FROM app.erasure_ledger_purges WHERE system_id=$1 ORDER BY purged_at DESC LIMIT 1`, [withBackups.id])).rows[0];
+    check('the purge records the latest erasure it removed for that system, without naming anyone', [!!mark, mark && Math.abs(new Date(mark.purged_through).getTime() - (Date.now() - 400 * 864e5)) < 864e5, mark?.purged_rows >= 1], [true, true, true]);
+    const ancient = await ok(admin.call('/api/v1/admin/system-restores', { system_id: withBackups.id, backup_taken_at: hoursFromNow(-24 * 500), restored_at: hoursFromNow(0), evidence_reference: 'Archive restore ARC-9 (synthetic)' }, key()), S.schemas.SystemRestore);
+    check('a restore from a backup older than purged erasures is recorded, with INCOMPLETE ledger coverage and the purge point', [ancient.ledger_coverage, ancient.ledger_purged_through !== null, ancient.coverage_review], ['INCOMPLETE', true, null]);
+    check('the people the ledger can still name are still marked', ancient.marked_for_reerasure >= N, true);
+    const recent = await ok(admin.call('/api/v1/admin/system-restores', { system_id: withBackups.id, backup_taken_at: hoursFromNow(-24 * 300), restored_at: hoursFromNow(0), evidence_reference: 'Change CHG-2 (synthetic)' }, key()), S.schemas.SystemRestore);
+    check('a restore from a backup taken after the purged erasures keeps COMPLETE coverage', [recent.ledger_coverage, recent.ledger_purged_through], ['COMPLETE', null]);
+    const flagged = await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention);
+    check('Operations attention names the restore for a manual review', flagged.items.some(i => i.kind === 'RESTORE_PREDATES_LEDGER' && i.entity_id === ancient.id), true);
+    check('the complete restore is not flagged', flagged.items.some(i => i.kind === 'RESTORE_PREDATES_LEDGER' && i.entity_id === recent.id), false);
+    const restores = await ok(admin.call('/api/v1/admin/system-restores?coverage=INCOMPLETE&unreviewed=true&limit=100'), S.schemas.SystemRestoreList);
+    check('the restore list shows it among unreviewed INCOMPLETE restores', restores.items.some(r => r.id === ancient.id) && restores.items.every(r => r.ledger_coverage === 'INCOMPLETE' && r.coverage_review === null), true);
+    const reviewPath = (id: string) => `/api/v1/admin/system-restores/${id}/coverage-review`;
+    check('an auditor cannot record the review', (await auditor.call(reviewPath(ancient.id), { evidence_reference: 'Synthetic attempt.' }, key())).status, 403);
+    check('a complete restore takes no review', await admin.call(reviewPath(recent.id), { evidence_reference: 'Synthetic attempt.' }, key()).then(async r => [r.status, ((await r.json()) as { error?: { field_errors?: { code: string }[] } }).error?.field_errors?.[0]?.code]), [409, 'restore_ledger_coverage_is_complete']);
+    check('an unknown restore is 404', (await admin.call(reviewPath(randomUUID()), { evidence_reference: 'Synthetic attempt.' }, key())).status, 404);
+    const reviewed = await ok(admin.call(reviewPath(ancient.id), { evidence_reference: 'Restored tables compared against the erasure audit export by DBA pair (synthetic).' }, key()), S.schemas.SystemRestore, [200]);
+    check('the manual review is recorded with the restore', [reviewed.ledger_coverage, reviewed.coverage_review?.evidence_reference], ['INCOMPLETE', 'Restored tables compared against the erasure audit export by DBA pair (synthetic).']);
+    check('a second review is refused', (await admin.call(reviewPath(ancient.id), { evidence_reference: 'Again.' }, key())).status, 409);
+    const cleared = await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention);
+    check('once reviewed, the restore leaves Operations attention', cleared.items.some(i => i.kind === 'RESTORE_PREDATES_LEDGER' && i.entity_id === ancient.id), false);
+    check('the review cannot be rewritten', await refused('UPDATE app.restore_coverage_reviews SET evidence_reference=$2 WHERE restore_id=$1', [ancient.id, 'Rewritten']).then(m => m !== 'changed'), true);
+    check('the coverage of a recorded restore cannot be changed', await refused(`UPDATE app.system_restores SET ledger_coverage='COMPLETE', ledger_purged_through=NULL WHERE id=$1`, [ancient.id]).then(m => m !== 'changed'), true);
+    check('purge records cannot be removed', await refused('DELETE FROM app.erasure_ledger_purges WHERE system_id=$1', [withBackups.id]).then(m => m !== 'changed'), true);
   } finally { await runner.close(); }
 });

@@ -24,6 +24,26 @@ export const CriteriaDistribution = z.enum(['TEST_FIXTURE', 'PRODUCTION']);
 export const CriteriaFixtureRecord = z.strictObject({ version: z.string().regex(/^[0-9A-Za-z._-]{1,40}$/) });
 /** Vendor contract 0.5.0: production criteria come only from the official regulatory package signed with the vendor release key. */
 export const CriteriaPackageRecord = RegulatoryPackageImport;
+const Sha = z.string().regex(/^[a-f0-9]{64}$/);
+/**
+ * Vendor contract 0.6.0 (owner decision 2026-10-01, revision 1.10 decision B): the evidence retained with a criteria version,
+ * shown to the approver before approval. `package` and the open items are null when the version was not recorded from a
+ * signed package (test fixtures, or provenance never retained); that is shown as unknown, never reconstructed.
+ * `open_items_digest` is what the approver acknowledges. `review` is the approver's own statement, not system verification.
+ */
+export const CriteriaEvidence = z.strictObject({
+  id: Id, version: z.string(), distribution: CriteriaDistribution, digest: Sha, requirements: z.number().int().min(0),
+  sources: z.array(z.strictObject({ source_id: z.string().max(120), title: z.string().max(300), notification_reference: z.string().max(300).nullable(),
+    official_url: z.string().max(500).nullable(), retrieved_and_hashed: z.boolean(), artifact_digest: Sha.nullable() })).max(50),
+  package: z.strictObject({ package_id: z.string().max(120), package_version: z.string().max(40), signing_key_id: z.string().max(120) }).nullable(),
+  open_verification_items: z.array(z.string().max(1000)).max(20).nullable(), open_items_digest: Sha,
+  recorded_by: Id, created_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(),
+  review: z.strictObject({ review_reference: z.string(), acknowledged_open_items_digest: Sha }).nullable(),
+  limitation: z.string(),
+});
+/** Vendor contract 0.6.0: approving criteria names the version reviewed, the review reference and the open items acknowledged. */
+export const CriteriaApprove = z.strictObject({ expected_digest: Sha, review_reference: Text(8, 500), acknowledged_open_items_digest: Sha });
+export type CriteriaEvidence = z.infer<typeof CriteriaEvidence>;
 export const RiskRating = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
 export const ControlEffectiveness = z.enum(['NOT_ASSESSED', 'EFFECTIVE', 'PARTIALLY_EFFECTIVE', 'INEFFECTIVE']);
 const Scale = z.array(z.strictObject({ value: z.number().int().min(1).max(5), label: Text(2, 60), description: Text(5, 400) })).length(5)
