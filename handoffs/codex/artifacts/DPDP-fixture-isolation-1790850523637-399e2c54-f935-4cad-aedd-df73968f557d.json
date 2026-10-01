@@ -1,0 +1,177 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T10:28:43.637Z",
+  "test_ids": [
+    "T28"
+  ],
+  "profile": "codex-a00",
+  "checks": [
+    {
+      "name": "unknown production profile denied",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "wrong confirmation denied",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "business schema blocks bootstrap reset",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "reset denials preserve ledger workflows and target controls",
+      "actual": {
+        "control": [
+          {
+            "events": "258",
+            "workflows": "122",
+            "probes": "2",
+            "ledger": "477d294137eeee2eb339ea37b25bc36c"
+          }
+        ],
+        "target": [
+          {
+            "fingerprint": "edbaee1bb9d274ce6f2c5ebeb9c44250"
+          }
+        ]
+      },
+      "expected": {
+        "control": [
+          {
+            "events": "258",
+            "workflows": "122",
+            "probes": "2",
+            "ledger": "477d294137eeee2eb339ea37b25bc36c"
+          }
+        ],
+        "target": [
+          {
+            "fingerprint": "edbaee1bb9d274ce6f2c5ebeb9c44250"
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "name": "foreign lane confirmation",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "unenrolled resource",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "arbitrary simulator operation",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "invalid fault operations preserve database state",
+      "actual": {
+        "control": [
+          {
+            "events": "258",
+            "workflows": "122",
+            "probes": "2",
+            "ledger": "477d294137eeee2eb339ea37b25bc36c"
+          }
+        ],
+        "target": [
+          {
+            "fingerprint": "edbaee1bb9d274ce6f2c5ebeb9c44250"
+          }
+        ]
+      },
+      "expected": {
+        "control": [
+          {
+            "events": "258",
+            "workflows": "122",
+            "probes": "2",
+            "ledger": "477d294137eeee2eb339ea37b25bc36c"
+          }
+        ],
+        "target": [
+          {
+            "fingerprint": "edbaee1bb9d274ce6f2c5ebeb9c44250"
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "name": "test-owned workflow is actually running",
+      "actual": "RUNNING",
+      "expected": "RUNNING",
+      "result": "PASS"
+    },
+    {
+      "name": "running execution visible to reset guard",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "active workflow blocks reset before database mutation",
+      "actual": "Active workflows block reset",
+      "expected": "Active workflows block reset",
+      "result": "PASS"
+    },
+    {
+      "name": "active-job denial preserves database state",
+      "actual": {
+        "control": [
+          {
+            "events": "258",
+            "workflows": "122",
+            "probes": "2",
+            "ledger": "477d294137eeee2eb339ea37b25bc36c"
+          }
+        ],
+        "target": [
+          {
+            "fingerprint": "edbaee1bb9d274ce6f2c5ebeb9c44250"
+          }
+        ]
+      },
+      "expected": {
+        "control": [
+          {
+            "events": "258",
+            "workflows": "122",
+            "probes": "2",
+            "ledger": "477d294137eeee2eb339ea37b25bc36c"
+          }
+        ],
+        "target": [
+          {
+            "fingerprint": "edbaee1bb9d274ce6f2c5ebeb9c44250"
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "name": "all frozen lane ports and namespaces differ",
+      "actual": 18,
+      "expected": 18,
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "No business data reset; reset refuses A01+ schema. Other lane databases, profiles and networks were not accessed."
+  ]
+}
