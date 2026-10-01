@@ -175,12 +175,19 @@ await t.run(async () => {
       await second.getByRole('heading', { name: 'Maintain this person' }).waitFor(); await second.waitForLoadState('networkidle');
       const vf = second.getByRole('form', { name: 'Verify a representative' });
       await vf.getByLabel(/^Representative/).selectOption(guardian.id); await vf.getByLabel(/^Outcome/).selectOption('VERIFIED'); await vf.getByLabel(/^Verification evidence/).fill('Order checked against the court register');
+      await waitForPageContent(second);
+      const invalidVerification = await vf.locator('input:invalid, select:invalid, textarea:invalid').evaluateAll(elements => elements.map(element => {
+        const field = element as HTMLInputElement;
+        return { name: field.name, type: field.type, hasValue: Boolean(field.value), valueMissing: field.validity.valueMissing,
+          tooShort: field.validity.tooShort, patternMismatch: field.validity.patternMismatch };
+      }));
+      if (invalidVerification.length) throw new Error(`Native representative verification validation refused: ${JSON.stringify(invalidVerification)}`);
       const verifiedResponse = second.waitForResponse(r => r.url().endsWith(`/data-principal-representatives/${guardian.id}/verification`));
       await vf.getByRole('button', { name: 'Verify a representative', exact: true }).click();
       const verified = S.schemas.Representative.parse(await (await verifiedResponse).json());
       check('a different staff member verifies the representative', [verified.verification, verified.verified_by !== null], ['VERIFIED', true]);
       await second.context().close();
-      await page.reload(); await page.waitForLoadState('networkidle');
+      await waitForPageContent(page); await page.reload(); await waitForPageContent(page); await page.waitForLoadState('networkidle');
       const own = page.getByRole('form', { name: 'Search Data Principals' });
       await own.getByLabel('System', { exact: true }).selectOption(system.id); await own.getByLabel('Record key in that system').fill(personRef);
       await own.getByRole('button', { name: 'Search', exact: true }).click();
@@ -221,7 +228,7 @@ await t.run(async () => {
       await field(f, 'Engagement').selectOption(engagement.id); await field(f, 'Reason').fill('Service ended at contract expiry.');
       const terminated = await submit(f, /\/termination$/, S.schemas.Engagement, 'Terminate engagement');
       check('termination closes the engagement and requires return or deletion', [terminated.status, terminated.disposition_state], ['TERMINATED', 'PENDING']);
-      await page.reload(); await page.waitForLoadState('networkidle');
+      await waitForPageContent(page); await page.reload(); await waitForPageContent(page); await page.waitForLoadState('networkidle');
       f = form('Record return or deletion');
       await field(f, 'Engagement').selectOption(engagement.id); await field(f, 'Evidence kind').selectOption('PROCESSOR_STATEMENT'); await field(f, 'Evidence reference').fill('Vendor deletion letter DL-3');
       const disposed = await submit(f, /\/disposition$/, S.schemas.Engagement, 'Record return or deletion');
@@ -240,7 +247,7 @@ await t.run(async () => {
       const safeguard = await submit(f, /\/security-safeguards$/, S.schemas.Safeguard, 'Record a safeguard');
       check('a safeguard is recorded with its evidence', [safeguard.kind, safeguard.evidence_reference], ['ENCRYPTION', 'Encryption report ER-9']);
       const manualSystem = await ok(admin.call('/api/v1/admin/systems', { legal_entity_id: s.legal_entity_id, environment_id: s.environment_id, name: `Screens paper index ${suffix}`, connector: 'LEGACY_MANUAL' }, key()), S.schemas.System);
-      await page.reload(); await page.waitForLoadState('networkidle');
+      await waitForPageContent(page); await page.reload(); await waitForPageContent(page); await page.waitForLoadState('networkidle');
       f = form('Bind a connector');
       await field(f, 'System').selectOption(manualSystem.id); await field(f, 'Adapter').selectOption('MANUAL_ONLY');
       const binding = await submit(f, /\/connector-bindings$/, S.schemas.ConnectorBinding, 'Bind a connector');

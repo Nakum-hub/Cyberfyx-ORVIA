@@ -13,7 +13,9 @@ if ($Mode -in @('database', 'off')) {
 }
 $wanted = switch ($Mode) {
     'browser' { $names }
-    'database' { $names[0] }
+    # The loopback proxy publishes PostgreSQL's host port; the database itself
+    # has no host binding. Keep that required dependency, but not OPA.
+    'database' { @($names[0], $names[2]) }
     default { @() }
 }
 foreach ($name in $names) {

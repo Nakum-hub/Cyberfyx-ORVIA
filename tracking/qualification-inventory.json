@@ -7,7 +7,7 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "4b9aa1c5dcc0f892fade6e0f2e8e8a24200213b8ead9b23b0201f23328188058",
+  "test_file_digest": "af887c353fa09b50acc422b064e606e0d5624d72da6ec385380af2787afcf7d6",
   "counts": {
     "UNIT": 50,
     "INTEGRATION": 84,
@@ -24,7 +24,7 @@
     },
     {
       "path": "tests/e2e/audit-mandate-local.ts",
-      "sha256": "9e857418b59cd535e42bb1d6ffe66bb70f8024823d22efec419e090349e5e103",
+      "sha256": "73cbeb352c2c3813c616e69a0c8a259e5e0eecf8bf2c423db70c71a0301637e4",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "path": "tests/e2e/expansion-screens-local.ts",
-      "sha256": "1e1416f7dbb83498ec19dfb5bee26528b58ce0ef228b0d39010496342c2d2c5e",
+      "sha256": "4caff057f94eff98368aa8f0bd6dff4eb8e388a75fff03952462e2b8e054c632",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -79,12 +79,12 @@
     },
     {
       "path": "tests/e2e/interface-crawl-local.ts",
-      "sha256": "92681474923a4ebe67e0237092b0481b2a14f2a396fc8e8a51077540a34462c8",
+      "sha256": "342b016b962f5f7023482358b8f9218091e933a38e80ac44d35a2a57582c7038",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/operations-screens-local.ts",
-      "sha256": "fa4334047301c92b8528ae39909c10625bcf6adaeab5d0ba72c70f6d74871535",
+      "sha256": "f46c10a672448c42f997f6444890ef730b92cf1732dedd850443809607003dd6",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
