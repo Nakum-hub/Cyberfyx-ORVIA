@@ -99,6 +99,12 @@ try{
   const requestAudit=configuration.match(/ALTER TABLE app\.request_audit (?:DROP CONSTRAINT|ADD CHECK)[^;]+;/g);
   if(requestAudit?.length!==2)throw new Error('Missing business audit operation migration');
   for(const sql of requestAudit)await db.query(sql);
+  // Sign-in reads whether the organisation offers the Privacy Centre (revision 1.7, migration 0073): its settings table and the
+  // reader function only, which is what authentication uses. A fresh organisation has no setting, so the Privacy Centre is off.
+  const intake=readFileSync('database/customer/migrations/0073_organisation_intake.sql','utf8');
+  const centre=[/CREATE TABLE app\.privacy_centre_settings \([\s\S]*?id\)\);/,/CREATE INDEX privacy_centre_latest[^;]+;/,/CREATE FUNCTION principal_auth\.privacy_centre_enabled[\s\S]*?\$\$;/,/REVOKE ALL ON FUNCTION principal_auth\.privacy_centre_enabled[^;]+;/,/GRANT EXECUTE ON FUNCTION principal_auth\.privacy_centre_enabled[^;]+;/].map(re=>intake.match(re)?.[0]);
+  if(centre.some(sql=>!sql))throw new Error('Missing Privacy Centre setting migration');
+  for(const sql of centre)await db.query(sql!);
   await db.query(readFileSync('database/customer/migrations/0049_grc.sql','utf8'));
   await db.query(readFileSync('database/customer/migrations/0050_grc_audits.sql','utf8'));
   // Same prerequisite grants as auth-init, limited to this fresh isolated DB.

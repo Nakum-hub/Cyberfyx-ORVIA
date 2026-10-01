@@ -1,0 +1,24 @@
+{
+  "task_id": "V1-EXPANSION-04",
+  "result": "FAIL",
+  "database": "orvia_grc_http_f63f066d86ff4e22be89da6057facc45",
+  "phase": "real authentication and policy",
+  "results": [
+    {
+      "name": "privileged session without MFA denied",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous request denied",
+      "result": "PASS"
+    },
+    {
+      "name": "principal denied staff GRC",
+      "result": "FAIL"
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}
