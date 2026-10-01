@@ -10,6 +10,7 @@ import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts
 import { writeEvidence,safeError } from '../../../shared/testing/src/evidence.ts';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { customerEnvironment } from '../../../scripts/credentials.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
 import { digest } from '../../../shared/contracts/src/crypto.ts';
 import { observerEnrollment,agentEnrollment,senderEnrollment } from '../../../backend/auth/src/machine-profile.ts';
@@ -19,7 +20,7 @@ const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unkno
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed');}}
 const run=promisify(execFile);
 const cli=(file:string,args:string[]=[])=>run(process.execPath,['--import','tsx',file,`confirm:${profile.profile}`,...args],{encoding:'utf8',windowsHide:true,timeout:60000});
-function start(file:string){const child=spawn(process.execPath,['--import','tsx',file],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});child.stdout?.on('data',c=>{output+=c;});child.stderr?.on('data',c=>{output+=c;});children.push(child);return child;}
+function start(file:string){const child=spawn(process.execPath,['--import','tsx',file],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:customerEnvironment({...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()},profile.profile)});child.stdout?.on('data',c=>{output+=c;});child.stderr?.on('data',c=>{output+=c;});children.push(child);return child;}
 async function stop(child:ChildProcess){if(child.exitCode===null&&child.signalCode===null){const closed=once(child,'close');child.kill();await closed;}}
 async function until<T>(read:()=>Promise<T>,ready:(value:T)=>boolean){for(let i=0;i<160;i++){const value=await read();if(ready(value))return value;await new Promise(r=>setTimeout(r,500));}throw new Error('Durable state timeout');}
 const clients=new Map<string,ReturnType<HttpFixture['browser']>>();const login=h.login.bind(h);h.login=async name=>{let browser=clients.get(name);if(!browser){browser=await login(name);clients.set(name,browser);}return browser;};

@@ -7,6 +7,7 @@ import { AUTH } from '../../../shared/contracts/src/index.ts';
 import { authSchema } from '../../../database/customer/src/auth-schema.ts';
 import { runtimePool } from '../../../database/customer/src/runtime.ts';
 import type { RuntimeConfig } from './config.ts';
+import { logAuthDependencyFailure, type AuthFailureStage } from './errors.ts';
 
 export type Domain = 'staff' | 'principal' | 'vendor' | 'account';
 /** Identity store per domain. vendor and account exist only on the vendor's VENDOR_SERVICE installation. */
@@ -84,7 +85,10 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
   }
   // Next may construct an internal localhost URL. Validate the actual Host first,
   // then give the library the configured canonical origin; do not trust forwarded hosts.
+  let stage: AuthFailureStage = 'AUTH_LIBRARY_HANDLER'; let responseStatus: number | undefined;
+  try {
   const response = await instance.auth.handler(new Request(config.origin + url.pathname + url.search, { method: request.method, headers, body }));
+  responseStatus = response.status;
   if (response.ok && mfaDomain(instance.domain) && ['/two-factor/verify-totp', '/two-factor/verify-backup-code'].includes(path)) {
     const cookieHeaders = new Headers(headers);
     const cookies = new Map((headers.get('cookie') ?? '').split(';').filter(Boolean).map(item => {
@@ -94,10 +98,12 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
       const value = cookie.split(';')[0]!; const at = value.indexOf('='); cookies.set(value.slice(0, at), value.slice(at + 1));
     }
     cookieHeaders.set('cookie', [...cookies].map(([key, value]) => `${key}=${value}`).join('; '));
+    stage = 'AUTH_MFA_SESSION_READ';
     const session = await instance.auth.api.getSession({ headers: cookieHeaders, query: { disableCookieCache: true } });
     if (!session) return fail(503, 'SESSION_UNAVAILABLE');
     // Recovery codes from an unverified enrollment are not an MFA ceremony.
     // Require the library's completed enrollment as well as this successful proof.
+    stage = 'AUTH_MFA_PROOF_INSERT';
     const proof = await instance.pool.query(`INSERT INTO ${schemaName}.mfa_sessions (session_id)
       SELECT s.id FROM ${schemaName}.session s JOIN ${schemaName}."user" u ON u.id=s."userId"
       JOIN ${schemaName}."twoFactor" f ON f."userId"=u.id
@@ -107,13 +113,19 @@ export async function authHandler(instance: AuthInstance, config: RuntimeConfig,
   }
   if (response.ok && mfaDomain(instance.domain) && path === '/change-password') {
     // The library has verified the current password and stored the new one; the one-time password is now spent.
+    stage = 'AUTH_PASSWORD_SESSION_READ';
     const session = await instance.auth.api.getSession({ headers, query: { disableCookieCache: true } });
-    if (session) await instance.pool.query(`UPDATE ${schemaName}.authority SET must_change_password=false WHERE user_id=$1 AND must_change_password`, [session.user.id]);
+    if (session) { stage = 'AUTH_PASSWORD_STATE_UPDATE'; await instance.pool.query(`UPDATE ${schemaName}.authority SET must_change_password=false WHERE user_id=$1 AND must_change_password`, [session.user.id]); }
   }
+  stage = 'AUTH_AUDIT_INSERT';
   await instance.pool.query(`INSERT INTO ${schemaName}.auth_audit (id,request_id,operation,status) VALUES ($1,$2,$3,$4)`, [randomUUID(), requestId, path, response.status]);
   response.headers.set('Cache-Control', 'no-store');
   response.headers.set('X-Request-Id', requestId);
   return response;
+  } catch (error) {
+    logAuthDependencyFailure(error, { request_id: requestId, domain: instance.domain, stage, response_status: responseStatus });
+    throw error;
+  }
 }
 
 export async function limitedBody(request: Request, maximum: number): Promise<string | undefined> {

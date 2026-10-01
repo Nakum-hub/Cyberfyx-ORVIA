@@ -7,6 +7,7 @@
 //    in the evidence, because it bounds the worst case when nothing wakes it.
 import { randomUUID } from 'node:crypto';
 import { execFile, spawn } from 'node:child_process';
+import { once } from 'node:events';
 import { promisify } from 'node:util';
 import * as S from '../../../shared/contracts/src/index.ts';
 import { operationsSuite, key, hoursFromNow } from '../../../shared/testing/src/operations-fixture.ts';
@@ -14,6 +15,7 @@ import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts
 import { recordsTarget } from '../../../shared/testing/src/records-target.ts';
 import { senderEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { operationsRunner } from '../../../services/worker/src/operations-runner.ts';
+import { customerEnvironment } from '../../../scripts/credentials.ts';
 
 const t = operationsSuite('withdrawal-timing');
 const { h, check, ok } = t;
@@ -21,7 +23,7 @@ const run = promisify(execFile);
 const target = recordsTarget();
 const pct = (xs: number[], p: number) => { const s = [...xs].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.ceil(p * s.length) - 1)]!; };
 
-await t.run(async () => {
+try { await t.run(async () => {
   t.setPhase('A: the processing boundary');
   // Twenty independent purposes for the same person, each granted, so every cycle starts from standing consent with no earlier
   // withdrawal. (A re-grant after a withdrawal is not admitted until the withdrawal's suppression work is resolved: checked below.)
@@ -77,10 +79,18 @@ await t.run(async () => {
     t.setPhase('C: the supervised runner wakes on a withdrawal');
     // The real runner loop as a separate process. It has just finished a pass and would sleep 30 seconds; the withdrawal's
     // NOTIFY (migration 0081) must start the next pass at once. Nothing in this test calls the runner.
-    const loop = spawn(process.execPath, ['--import', 'tsx', 'services/worker/src/operations-runner.ts'], { env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
-    let passes = 0; loop.stdout.on('data', (chunk: Buffer) => { passes += chunk.toString().split('\n').filter(l => l.startsWith('{"at"')).length; });
+    const loop = spawn(process.execPath, ['--import', 'tsx', 'services/worker/src/operations-runner.ts'], { windowsHide: true, env: customerEnvironment({ ...process.env, ORVIA_WORKSPACE_ROOT: process.cwd() }, h.config.profile), stdio: ['ignore', 'pipe', 'pipe', 'ipc'] });
+    let passes = 0; let pending = ''; let failedToStart = false;
+    loop.once('error', () => { failedToStart = true; });
+    loop.stdout.on('data', (chunk: Buffer) => {
+      pending += chunk.toString(); const lines = pending.split('\n'); pending = lines.pop() ?? '';
+      for (const line of lines) {
+        try { const value = JSON.parse(line); if (value.at && Array.isArray(value.reports)) passes++; } catch { /* Incomplete/non-report output is not readiness. */ }
+      }
+    });
     try {
       for (let i = 0; i < 300 && passes < 1; i++) await new Promise(r => setTimeout(r, 100));
+      check('the real supervised runner completed a pass before measuring its notification wake', [passes > 0, !failedToStart, loop.exitCode === null && loop.signalCode === null], [true, true, true]);
       await new Promise(r => setTimeout(r, 1500));
       const ref = `tl_${randomUUID().slice(0, 12)}`;
       const subject = await ok(admin.call('/api/v1/admin/data-principals', { principal_id: null, references: [{ system_id: crm.id, target_reference: ref, source_key: null }] }, key()), S.schemas.Subject);
@@ -94,6 +104,13 @@ await t.run(async () => {
       const wokenMs = Math.round(performance.now() - started);
       console.log('MEASURED supervised runner', JSON.stringify({ withdrawal_to_verified_suppression_ms: wokenMs }));
       check('the running runner suppressed the target well inside its 30-second loop: it was woken, not waiting', [suppressed, wokenMs < 15_000, { withdrawal_to_verified_suppression_ms: wokenMs }], [true, true, { withdrawal_to_verified_suppression_ms: wokenMs }]);
-    } finally { loop.kill('SIGTERM'); }
+    } finally {
+      if (loop.pid && loop.exitCode === null && loop.signalCode === null) {
+        const closed = once(loop, 'close');
+        if (loop.connected) loop.send('orvia-stop', () => {}); else loop.kill('SIGTERM');
+        const forced = setTimeout(() => { if (loop.exitCode === null && loop.signalCode === null) loop.kill(); }, 10000);
+        try { await closed; } finally { clearTimeout(forced); }
+      }
+    }
   } finally { await runner.close(); }
-});
+}); } finally { await target.end(); }

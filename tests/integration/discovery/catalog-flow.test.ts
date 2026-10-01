@@ -55,6 +55,9 @@ try{
   check('missing relation receives separate approval',(await owner.call(`${path}/${missingTarget.id}/approve`,{},key())).status,200);
   phase='worker observation';
   runtime=workflowActivities();
+  // The global sweep is bounded; prioritise only this fixture's two approved jobs.
+  await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() - make_interval(years => 10) WHERE target_id=ANY($1::uuid[])',
+    [[target.id,missingTarget.id]]);
   const processed=await sweepCatalogDiscovery(runtime.scoped,runtime.enrollment.identities.map(x=>x.id),
     observerEnrollment(runtime.config).identities,runtime.observer);
   check('due catalog jobs processed',processed>=2,true);

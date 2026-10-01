@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "b655f95f76f70d3a39bdc58ada5c1c1cb533283e6f8c84314373886d4d3dff69",
+  "test_file_digest": "6ac333c453367b9dd3019ff972584b9f20a810d5399e3a7f1a4ce0367f573d78",
   "counts": {
-    "UNIT": 55,
-    "INTEGRATION": 88,
+    "UNIT": 56,
+    "INTEGRATION": 91,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
@@ -79,7 +79,7 @@
     },
     {
       "path": "tests/e2e/interface-crawl-local.ts",
-      "sha256": "342b016b962f5f7023482358b8f9218091e933a38e80ac44d35a2a57582c7038",
+      "sha256": "a5f51e5c27a76499f38761a9e95aa36681c7d5afa7b61d6158ee5aa1c961a3f3",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -144,7 +144,7 @@
     },
     {
       "path": "tests/e2e/vendor-production-criteria-local.ts",
-      "sha256": "2b73c3aa61856d5315a49e6215ffbee786c1fb7f65929b750c89882d1e31978d",
+      "sha256": "e71d7fa728a50c89d6123383490b9edb5e865c47bc575e1b059df24ca289bd10",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -203,6 +203,11 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/consent/canary-grant-admission.test.ts",
+      "sha256": "419786ed7b6a0aa6f6dfa18b8549f9ad373d2023660dda040e557f484a762e98",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/consent/canary-retirement.test.ts",
       "sha256": "060c61fe1503e0e0028a868c2186839b6584094169fa74b2bde2d0da3de30d69",
       "kind": "INTEGRATION"
@@ -224,7 +229,7 @@
     },
     {
       "path": "tests/integration/discovery/catalog-flow.test.ts",
-      "sha256": "76d9706c3e282694d055e23cb3683d2dea60e2885fc709062875c1cc7565d9ce",
+      "sha256": "765238f6d7ac7efff5936068a6437f90a84d5bb0d559ed5cf425af8bde80e47d",
       "kind": "INTEGRATION"
     },
     {
@@ -244,12 +249,12 @@
     },
     {
       "path": "tests/integration/enforcement/withdrawal-timing.test.ts",
-      "sha256": "22ce719ccdca078f2449059ddcb363c7505aeb7a7e0cba974ea9c79b3dae9f1e",
+      "sha256": "5b7ab62985524522e5af1d795c57255467c711bd64b0121b3738b3f294bd94f3",
       "kind": "INTEGRATION"
     },
     {
       "path": "tests/integration/evidence/evidence.test.ts",
-      "sha256": "38054f08f651622a329537f05ba3eabcf406f35abc0898a7989af3f10403cd27",
+      "sha256": "b9d9783eec901e21930d305126fc7c2d391dcf73c2ab20b918eb14b1a8682f3b",
       "kind": "INTEGRATION"
     },
     {
@@ -528,6 +533,11 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/operations/runner-progress.test.ts",
+      "sha256": "5b51ff63327149815eda5ab643a6d95bf3e1cc956f52dd5bac7f5fecf0e25bd2",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/operations/runner.test.ts",
       "sha256": "7cb258993bafc7fc12cf67cf29570f3042c4d67d86064ddbc7d1816ad342d3ca",
       "kind": "INTEGRATION"
@@ -535,6 +545,11 @@
     {
       "path": "tests/integration/operations/sdf.test.ts",
       "sha256": "8da07725602d8feeebeb2e649431f4a1b84ad6f83eb75fea042f9feef1b446d2",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/operations/withdrawal-single-pass.test.ts",
+      "sha256": "92bffe56a0426c33bbea348d518f5b39f625495467b065d4ee19915f4fd007ae",
       "kind": "INTEGRATION"
     },
     {
@@ -609,7 +624,7 @@
     },
     {
       "path": "tests/integration/workflows/workflow.test.ts",
-      "sha256": "696fc22d23f1ad11e75419d9464c07d4b863d597d14794ce0c22033ffcf7daf3",
+      "sha256": "95e69ac651eaaa50867b5a8fa246eff15a6ffff5facdb2559a6522906c24f5c8",
       "kind": "INTEGRATION"
     },
     {
@@ -680,6 +695,11 @@
     {
       "path": "tests/unit/audit.test.ts",
       "sha256": "a247125b8427eba828431f8e60f1b7adb228100824c1aaf2dc15e5846812ac12",
+      "kind": "UNIT"
+    },
+    {
+      "path": "tests/unit/auth-diagnostics.test.ts",
+      "sha256": "90d52f8e3bd867551d53ebf4f5c68b05da07311667f338bbff2caa7189537a94",
       "kind": "UNIT"
     },
     {

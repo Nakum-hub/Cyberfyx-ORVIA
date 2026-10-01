@@ -7,7 +7,7 @@ import { scopedTransaction } from '../../../database/customer/src/runtime.ts';
 import { predicate, type Context } from '../../../backend/domain/src/shared/transaction.ts';
 import { processJob } from '../../../backend/domain/src/operations/bulk-import.ts';
 import { evaluateRun } from '../../../backend/domain/src/operations/runs.ts';
-import { executeRun } from '../../../backend/domain/src/operations/executor.ts';
+import { executeRun, executionProgress, pendingExecutionRunIds } from '../../../backend/domain/src/operations/executor.ts';
 import { notificationSweep } from '../../../backend/domain/src/operations/attention.ts';
 import { controlTestSweep } from '../../../backend/domain/src/grc/lifecycle.ts';
 import { purgeExpiredExports } from '../../../backend/domain/src/exports/exports.ts';
@@ -80,19 +80,29 @@ export function operationsRunner() {
       const pending = await scoped(async c => ({
         jobs: (await c.tx.query(`SELECT id FROM app.bulk_jobs WHERE ${predicate} AND status='PROCESSING' ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),
         evaluating: (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status='EVALUATING' ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),
-        executable: (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status IN ('APPROVED','RUNNING') AND rights_request_id IS NULL ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),
+        executable: await pendingExecutionRunIds(c, 20),
       }));
-      const drive = async (ids: string[], step: (c: Context, id: string) => Promise<{ status: string }>, done: (status: string) => boolean, count: () => void) => {
+      const drive = async (ids: string[], step: (c: Context, id: string) => Promise<{ status: string }>, done: (status: string) => boolean, count: () => void, progress?: (c: Context, id: string) => Promise<string | null>) => {
         for (const id of ids) {
           try {
-            for (let i = 0; i < MAX_BATCHES_PER_ITEM; i++) { const result = await scoped(c => step(c, id)); if (done(result.status)) break; }
+            for (let i = 0; i < MAX_BATCHES_PER_ITEM; i++) {
+              const batch = await scoped(async c => {
+                const before = progress ? await progress(c, id) : undefined;
+                const result = await step(c, id);
+                const after = progress ? await progress(c, id) : undefined;
+                return { result, progressed: !progress || before !== after };
+              });
+              // A run can stay RUNNING for a manual confirmation or uncertain
+              // target outcome. Preserve that state; do not repeat 50 no-op audits.
+              if (done(batch.result.status) || !batch.progressed) break;
+            }
             count();
           } catch (error) { report.errors.push(`${id}: ${safeError(error).code}`); }
         }
       };
       await drive(pending.jobs, (c, id) => processJob(c, env, id, { limit: BATCH.job }), s => s !== 'PROCESSING', () => report.jobs_processed++);
       await drive(pending.evaluating, (c, id) => evaluateRun(c, id, { limit: BATCH.evaluate }), s => s !== 'EVALUATING', () => report.runs_evaluated++);
-      await drive(pending.executable, (c, id) => executeRun(c, env, id, { limit: BATCH.execute }), s => s !== 'RUNNING', () => report.runs_executed++);
+      await drive(pending.executable, (c, id) => executeRun(c, env, id, { limit: BATCH.execute }), s => s !== 'RUNNING', () => report.runs_executed++, (c, id) => executionProgress(c, id, BATCH.execute));
       try { report.notifications_created = (await scoped(c => notificationSweep(c))).created; }
       catch (error) { report.errors.push(`notification sweep: ${safeError(error).code}`); }
       // Continuous compliance (EX11): due control tests run, drift raises one alert per change, and overdue issues escalate once.

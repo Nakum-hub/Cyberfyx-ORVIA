@@ -1,10 +1,11 @@
 // Explicitly started, bounded, metadata-only diagnostic. Never a qualification test.
-import pg from 'pg';
+import { createRequire } from 'node:module';
 import { writeFileSync, appendFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { freemem, totalmem } from 'node:os';
 import { monitorEventLoopDelay, performance } from 'node:perf_hooks';
 import { loadProfile, safeArtifactPath } from '../../shared/testing/src/config.ts';
+const pg = createRequire(new URL('../../database/customer/package.json', import.meta.url))('pg') as typeof import('pg');
 
 const profile = loadProfile();
 if (profile.profile !== 'codex-a00') throw new Error('Synthetic codex-a00 profile required');

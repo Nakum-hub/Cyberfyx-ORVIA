@@ -1,6 +1,7 @@
 // Serial, frozen-candidate qualification. No selective engines/suites or retries.
 import { spawn, spawnSync } from 'node:child_process';
-import { appendFileSync, createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync, cpSync } from 'node:fs';
+import { appendFileSync, createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 
 if (process.env.ORVIA_PROFILE !== 'codex-a00') throw new Error('Named synthetic profile only');
@@ -94,9 +95,22 @@ try {
       const harness = engine === 'webkit' && suite === 'operations-screens-local' && process.env.R8_VERBOSE_WEBKIT_OPERATIONS === '1'
         ? 'handoffs/codex/round8-browser.mjs' : 'handoffs/codex/round7-browser.mjs';
       const result = await start(['node_modules/tsx/dist/cli.mjs', harness, engine, suite],
-        `${artifacts}/R8-${label}-${engine}-${suite}.log`).done;
+        `${artifacts}/R8-${label}-${engine}-${suite}.log`, {
+          R8_CRAWL_DIR: suite === 'interface-crawl-local' ? `output/playwright/round8/matrix-${label}/${engine}` : '',
+        }).done;
       completed++;
       if (result.exit_code !== 0) failed = true;
+      if (engine === 'webkit' && suite === 'interface-crawl-local') {
+        const log = readFileSync(result.log, 'utf8');
+        const originalChecks = [
+          ['owner', '/workspace/personal-data-breaches/[id]'], ['owner', '/workspace/updates'],
+          ['admin', '/workspace/policy-preview'], ['auditor', '/workspace/policy-preview'],
+        ];
+        const coverage = originalChecks.map(([role, route]) => ({ role, route,
+          observed: log.split(/\r?\n/).some(line => line.startsWith(`PASS ${role}: ${route}`) || line.startsWith(`FAIL ${role}: ${route}`)) }));
+        if (coverage.some(check => !check.observed)) failed = true;
+        record({ kind: 'ORIGINAL_WEBKIT_CRAWL_CONTROLS', coverage });
+      }
       frozen();
     } finally {
       if (sampler) {
@@ -111,10 +125,17 @@ try {
       }
       if (suite === 'interface-crawl-local') {
         const destination = resolve(archiveRoot, engine);
-        if (existsSync(destination)) throw new Error('Crawl archive already exists');
-        if (existsSync('output/playwright/crawl')) cpSync('output/playwright/crawl', destination, { recursive: true, errorOnExist: true, force: false });
+        const screenshots = existsSync(destination) ? readdirSync(destination).filter(name => name.endsWith('.png')).sort().map(name => {
+          const bytes = readFileSync(resolve(destination, name));
+          return { name, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') };
+        }) : [];
+        if (!screenshots.length) failed = true;
+        writeFileSync(resolve(archiveRoot, `${engine}-screenshots.json`), JSON.stringify({ commit, build, engine,
+          provenance: 'Captured directly by this crawl into a previously absent engine directory; no historical copying',
+          destination, screenshots }, null, 2), { flag: 'wx' });
         for (const [path, bytes] of historical) if (!existsSync(path) || !readFileSync(path).equals(bytes)) writeFileSync(path, bytes);
-        record({ kind: 'CRAWL_ARCHIVE', engine, destination, restored_initially_clean_tracked_paths: historical.size });
+        record({ kind: 'CRAWL_ARCHIVE', engine, destination, fresh_screenshots: screenshots.length,
+          screenshot_manifest: resolve(archiveRoot, `${engine}-screenshots.json`), restored_initially_clean_tracked_paths: historical.size });
       }
     }
   }
