@@ -1,6 +1,8 @@
 import { chromium, webkit, firefox } from '@playwright/test';
 import { appendFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawn } from 'node:child_process';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
 const [engine, suite] = process.argv.slice(2);
 const label = process.env.R8_LABEL ?? 'baseline';
 if(!/^[a-z0-9-]+$/.test(label)) throw new Error('Invalid diagnostic label');
@@ -62,6 +64,7 @@ kind.launch = async options => {
 };
 }
 process.env.R7_RUN_LABEL=`round8-${label}`;
+process.env.NODE_OPTIONS=`${process.env.NODE_OPTIONS??''} --import=${pathToFileURL(resolve('handoffs/codex/round8-policy-trace.mjs')).href}`.trim();
 let stopPolicySamples=()=>{};
 if(process.env.R8_POLICY_SAMPLES==='1') {
   const metricLabel=`${label}-${engine}-${suite}`;
