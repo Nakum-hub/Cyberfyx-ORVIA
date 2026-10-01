@@ -12,6 +12,7 @@ import { chromium, type Locator, type Page } from '@playwright/test';
 import * as S from '../../shared/contracts/src/index.ts';
 import { authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
 import { operationsSuite, key, hoursFromNow } from '../../shared/testing/src/operations-fixture.ts';
+import { waitForPageContent } from '../../shared/testing/src/browser-ready.ts';
 import { fixturePackage, signFixture } from '../../shared/testing/src/regulatory-fixture.ts';
 import { recordsTarget } from '../../shared/testing/src/records-target.ts';
 import { loadProfile } from '../../shared/testing/src/config.ts';
@@ -71,6 +72,13 @@ await t.run(async () => {
       const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const field = (f: Locator, label: string) => f.getByLabel(new RegExp(`^${escape(label)}( \\*)?$`));
       async function submit<T>(f: Locator, path: RegExp, schema: { parse(v: unknown): T }, button: string) {
+        const invalid = await f.locator('input:invalid, select:invalid, textarea:invalid').evaluateAll(elements => elements.map(element => {
+          const field = element as HTMLInputElement;
+          return { name: field.name, type: field.type, hasValue: Boolean(field.value), valueMissing: field.validity.valueMissing,
+            badInput: field.validity.badInput, stepMismatch: field.validity.stepMismatch, patternMismatch: field.validity.patternMismatch,
+            rangeOverflow: field.validity.rangeOverflow, rangeUnderflow: field.validity.rangeUnderflow, typeMismatch: field.validity.typeMismatch };
+        }));
+        if (invalid.length) throw new Error(`Native form validation refused ${button}: ${JSON.stringify(invalid)}`);
         const response = page.waitForResponse(r => path.test(new URL(r.url()).pathname) && r.request().method() === 'POST');
         await f.getByRole('button', { name: button, exact: true }).click();
         const received = await response; const body = await received.json();
@@ -83,7 +91,14 @@ await t.run(async () => {
         await f.getByRole('button', { name: button, exact: true }).click();
         return (await response).status();
       }
-      const open = async (p: Page, path: string, heading: string) => { await p.goto(path); await p.getByRole('heading', { name: heading, exact: true }).first().waitFor(); await p.waitForLoadState('networkidle'); };
+      const open = async (p: Page, path: string, heading: string) => {
+        // A successful write starts a read of the refreshed screen. Finish that
+        // visible state before the journey moves to its next page.
+        await waitForPageContent(p); await p.waitForLoadState('networkidle');
+        await p.goto(path, { waitUntil: 'domcontentloaded' });
+        await p.getByRole('heading', { name: heading, exact: true }).first().waitFor();
+        await waitForPageContent(p); await p.waitForLoadState('networkidle');
+      };
 
       t.setPhase('breach');
       await open(page, '/workspace/personal-data-breaches', 'Personal-data breaches');
@@ -109,6 +124,9 @@ await t.run(async () => {
       await open(page, '/workspace/organisation-profile', 'Organisation profile');
       f = form('Record profile version');
       await field(f, 'Significant Data Fiduciary status').selectOption('DESIGNATED');
+      // The named synthetic profile is durable and may already have a cited
+      // designation. This denial case must explicitly leave the citation empty.
+      await field(f, 'Designation reference').fill('');
       await field(f, 'Reason for this version').fill('Recording the DPO contact from the workspace.');
       await f.getByRole('button', { name: 'Record profile version', exact: true }).click();
       await f.getByText('A designation cites the Government notification that made it.').waitFor();

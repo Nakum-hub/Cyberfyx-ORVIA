@@ -1,0 +1,1807 @@
+[
+  {
+    "file": "backend/domain/src/ai-governance/ai-governance.ts",
+    "line": 42,
+    "function": "aiSystemList",
+    "table": "ai_systems",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id,document FROM app.ai_systems WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_ai_systems"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_ai_systems",
+        "path": "/api/v1/admin/ai-systems"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/audit/audit.ts",
+    "line": 115,
+    "function": "auditEventList",
+    "table": "audit_events",
+    "key": "e.id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT e.*, ${withCorrections}\n     FROM app.audit_events e\n     WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3\n       AND ($4::uuid IS NULL OR e.id>$4)${filterClauses(filter, values)}\n     ORDER BY e.id LIMIT $5",
+    "endpoints": [
+      "list_audit_events"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_audit_events",
+        "path": "/api/v1/admin/audit-events"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/cmp/cmp.ts",
+    "line": 46,
+    "function": "siteList",
+    "table": "cmp_sites",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.cmp_sites WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_cmp_sites"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_cmp_sites",
+        "path": "/api/v1/admin/cmp-sites"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/cmp/cmp.ts",
+    "line": 82,
+    "function": "configList",
+    "table": "cmp_configs",
+    "key": "id",
+    "timestamp": "authored_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.cmp_configs WHERE ${predicate} AND site_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "list_cmp_configs"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_cmp_configs",
+        "path": "/api/v1/admin/cmp-sites/{id}/configs"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/configuration/configuration.ts",
+    "line": 28,
+    "function": "configurationList",
+    "table": null,
+    "key": "id",
+    "timestamp": null,
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.${table} WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_purposes",
+      "list_notices",
+      "list_policies",
+      "list_systems"
+    ],
+    "result": "NEEDS_CREATION_TIMESTAMP",
+    "routes": [
+      {
+        "id": "list_purposes",
+        "path": "/api/v1/admin/purposes"
+      },
+      {
+        "id": "list_notices",
+        "path": "/api/v1/admin/notices"
+      },
+      {
+        "id": "list_policies",
+        "path": "/api/v1/admin/policies"
+      },
+      {
+        "id": "list_systems",
+        "path": "/api/v1/admin/systems"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/configuration/configuration.ts",
+    "line": 107,
+    "function": "mappingList",
+    "table": "target_mappings",
+    "key": "id",
+    "timestamp": null,
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id,principal_id,purpose_id,system_id,target_subject_reference,target_generation FROM app.target_mappings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_mappings"
+    ],
+    "result": "NEEDS_CREATION_TIMESTAMP",
+    "routes": [
+      {
+        "id": "list_mappings",
+        "path": "/api/v1/admin/target-mappings"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/configuration/configuration.ts",
+    "line": 111,
+    "function": "controlMap",
+    "table": "target_mappings",
+    "key": "m.id",
+    "timestamp": null,
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT m.purpose_id,m.system_id,m.id resource_id,s.document FROM app.target_mappings m JOIN app.systems s USING(tenant_id,legal_entity_id,environment_id) WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND s.id=m.system_id AND ($4::uuid IS NULL OR m.id>$4) ORDER BY m.id LIMIT $5",
+    "endpoints": [
+      "control_map"
+    ],
+    "result": "NEEDS_CREATION_TIMESTAMP",
+    "routes": [
+      {
+        "id": "control_map",
+        "path": "/api/v1/admin/control-map"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/consent/consent.ts",
+    "line": 8,
+    "function": "ownChoices",
+    "table": "purpose_versions",
+    "key": "p.id",
+    "timestamp": null,
+    "protected": true,
+    "audience": "principal",
+    "sql": "SELECT p.id,p.document,n.document notice,n.published_at,\n      a.state consent_state,a.epoch consent_epoch FROM app.purpose_versions p\n    JOIN app.policy_versions v ON (v.tenant_id=p.tenant_id AND v.legal_entity_id=p.legal_entity_id AND v.environment_id=p.environment_id AND v.purpose_id=p.id AND v.status='PUBLISHED')\n    JOIN app.notice_versions n ON (n.tenant_id=v.tenant_id AND n.legal_entity_id=v.legal_entity_id AND n.environment_id=v.environment_id AND n.version_id=v.notice_version_id)\n    LEFT JOIN app.consent_aggregates a ON (a.tenant_id=p.tenant_id AND a.legal_entity_id=p.legal_entity_id AND a.environment_id=p.environment_id AND a.purpose_id=p.id AND a.principal_id=$6)\n    WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.code='promotional_marketing' AND p.status='PUBLISHED'\n    AND ($4::uuid IS NULL OR p.id>$4) ORDER BY p.id LIMIT $5",
+    "endpoints": [
+      "own_consents"
+    ],
+    "result": "PRINCIPAL_OUT_OF_SCOPE",
+    "routes": [
+      {
+        "id": "own_consents",
+        "path": "/api/v1/portal/me/consents"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/consent/consent.ts",
+    "line": 90,
+    "function": "ownHistory",
+    "table": "consent_events",
+    "key": "receipt_id",
+    "timestamp": null,
+    "protected": true,
+    "audience": "principal",
+    "sql": "SELECT receipt FROM app.consent_events WHERE ${predicate} AND purpose_id=$4 AND principal_id=$5 AND ($6::uuid IS NULL OR receipt_id>$6) ORDER BY receipt_id LIMIT $7",
+    "endpoints": [
+      "own_history"
+    ],
+    "result": "PRINCIPAL_OUT_OF_SCOPE",
+    "routes": [
+      {
+        "id": "own_history",
+        "path": "/api/v1/portal/me/consents/{purpose_id}/history"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/coverage/coverage.ts",
+    "line": 199,
+    "function": "gapList",
+    "table": "coverage_gaps",
+    "key": "id",
+    "timestamp": "detected_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.coverage_gaps WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_gaps"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_gaps",
+        "path": "/api/v1/admin/gaps"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/delivery/delivery.ts",
+    "line": 81,
+    "function": "transportList",
+    "table": "delivery_transports",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.delivery_transports WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_delivery_transports"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_delivery_transports",
+        "path": "/api/v1/admin/delivery-transports"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/delivery/delivery.ts",
+    "line": 121,
+    "function": "routingList",
+    "table": "alert_routings",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.alert_routings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_alert_routings"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_alert_routings",
+        "path": "/api/v1/admin/alert-routings"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/discovery/catalog.ts",
+    "line": 28,
+    "function": "catalogTargetList",
+    "table": "catalog_discovery_targets",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.catalog_discovery_targets WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4)\n    ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_catalog_discovery_targets"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_catalog_discovery_targets",
+        "path": "/api/v1/admin/catalog-discovery-targets"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/discovery/classification.ts",
+    "line": 141,
+    "function": "qualityList",
+    "table": "classification_quality",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.classification_quality WHERE ${predicate} AND run_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "list_classification_quality"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_classification_quality",
+        "path": "/api/v1/admin/classification-runs/{id}/quality"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/discovery/classification.ts",
+    "line": 148,
+    "function": "exposureList",
+    "table": "classification_runs",
+    "key": "target_id",
+    "timestamp": "requested_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM (SELECT DISTINCT ON (r.target_id) r.*, t.schema_name, t.relation_name FROM app.classification_runs r\n      JOIN app.catalog_discovery_targets t ON t.tenant_id=r.tenant_id AND t.legal_entity_id=r.legal_entity_id AND t.environment_id=r.environment_id AND t.id=r.target_id\n      WHERE r.tenant_id=$1 AND r.legal_entity_id=$2 AND r.environment_id=$3 AND r.state='COMPLETED' ORDER BY r.target_id, r.observed_at DESC) latest\n    WHERE ($4::uuid IS NULL OR target_id>$4) ORDER BY target_id LIMIT $5",
+    "endpoints": [
+      "list_exposure_findings"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_exposure_findings",
+        "path": "/api/v1/admin/exposure-findings"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/dpdpa-audit/exchange.ts",
+    "line": 129,
+    "function": "evidenceFileList",
+    "table": "evidence_files",
+    "key": "id",
+    "timestamp": "uploaded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT ${FILE_COLUMNS} FROM app.evidence_files WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_evidence_files"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_evidence_files",
+        "path": "/api/v1/admin/evidence-files"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/dpdpa-audit/exchange.ts",
+    "line": 171,
+    "function": "engagementList",
+    "table": "audit_engagements",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.audit_engagements WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_audit_engagements"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_audit_engagements",
+        "path": "/api/v1/admin/audit-engagements"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/evidence/evidence.ts",
+    "line": 58,
+    "function": "failures",
+    "table": "obligations",
+    "key": "id",
+    "timestamp": null,
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id,workflow_id FROM app.obligations WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "failures"
+    ],
+    "result": "NEEDS_CREATION_TIMESTAMP",
+    "routes": [
+      {
+        "id": "failures",
+        "path": "/api/v1/admin/failures"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/evidence/evidence.ts",
+    "line": 88,
+    "function": "capabilities",
+    "table": "systems",
+    "key": "id",
+    "timestamp": null,
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id,connector FROM app.systems WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "capabilities"
+    ],
+    "result": "NEEDS_CREATION_TIMESTAMP",
+    "routes": [
+      {
+        "id": "capabilities",
+        "path": "/api/v1/admin/capabilities"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/graph/graph.ts",
+    "line": 102,
+    "function": "dataAssetList",
+    "table": "data_assets",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id,document FROM app.data_assets WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_data_assets"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_data_assets",
+        "path": "/api/v1/admin/data-assets"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/graph/graph.ts",
+    "line": 147,
+    "function": "activityList",
+    "table": "processing_activities",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.processing_activities WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_activities"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_activities",
+        "path": "/api/v1/admin/processing-activities"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/graph/graph.ts",
+    "line": 197,
+    "function": "relationshipList",
+    "table": "graph_relationships",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.graph_relationships WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_relationships"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_relationships",
+        "path": "/api/v1/admin/graph/relationships"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/grc/audits.ts",
+    "line": 30,
+    "function": "grcAuditList",
+    "table": "grc_audits",
+    "key": "id",
+    "timestamp": "(document->>'recorded_at')::timestamptz",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.grc_audits WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_grc_audits"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_grc_audits",
+        "path": "/api/v1/admin/grc/audits"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/grc/audits.ts",
+    "line": 41,
+    "function": "grcAuditRequests",
+    "table": "grc_audit_requests",
+    "key": "id",
+    "timestamp": "(document->>'recorded_at')::timestamptz",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.grc_audit_requests WHERE ${predicate} AND audit_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "grc_audit_requests"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "grc_audit_requests",
+        "path": "/api/v1/admin/grc/audits/{id}/requests"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/grc/grc.ts",
+    "line": 13,
+    "function": "grcList",
+    "table": null,
+    "key": "id",
+    "timestamp": "(document->>'recorded_at')::timestamptz",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.${tables[kind]} WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_grc_frameworks",
+      "list_grc_controls"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_grc_frameworks",
+        "path": "/api/v1/admin/grc/frameworks"
+      },
+      {
+        "id": "list_grc_controls",
+        "path": "/api/v1/admin/grc/controls"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/grc/risks.ts",
+    "line": 15,
+    "function": "grcRiskList",
+    "table": "grc_risks",
+    "key": "id",
+    "timestamp": "(document->>'recorded_at')::timestamptz",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.grc_risks WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_grc_risks"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_grc_risks",
+        "path": "/api/v1/admin/grc/risks"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/incidents/incidents.ts",
+    "line": 38,
+    "function": "obligationRuleList",
+    "table": "obligation_rules",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document,active FROM app.obligation_rules WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_obligation_rules"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_obligation_rules",
+        "path": "/api/v1/admin/obligation-rules"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/incidents/incidents.ts",
+    "line": 96,
+    "function": "incidentList",
+    "table": "incidents",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.incidents WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_incidents"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_incidents",
+        "path": "/api/v1/admin/incidents"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/mapping/ropa.ts",
+    "line": 229,
+    "function": "locationList",
+    "table": "system_locations",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.system_locations WHERE ${predicate} AND system_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "list_system_locations"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_system_locations",
+        "path": "/api/v1/admin/systems/{id}/locations"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/monitoring/restore.ts",
+    "line": 80,
+    "function": "snapshotList",
+    "table": "backup_snapshots",
+    "key": "id",
+    "timestamp": "taken_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.backup_snapshots WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_backup_snapshots"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_backup_snapshots",
+        "path": "/api/v1/admin/backup-snapshots"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/monitoring/restore.ts",
+    "line": 169,
+    "function": "restoreList",
+    "table": "restore_runs",
+    "key": "id",
+    "timestamp": "started_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id FROM app.restore_runs WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_restore_runs"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_restore_runs",
+        "path": "/api/v1/admin/restore-runs"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/notices/languages.ts",
+    "line": 138,
+    "function": "noticeRevisionList",
+    "table": "notice_revisions",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.notice_revisions WHERE ${predicate} AND notice_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "list_notice_revisions"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_notice_revisions",
+        "path": "/api/v1/admin/notices/{id}/revisions"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/notifications/notifications.ts",
+    "line": 48,
+    "function": "templateList",
+    "table": "notification_templates",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.notification_templates WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_templates"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_templates",
+        "path": "/api/v1/admin/notification-templates"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/notifications/notifications.ts",
+    "line": 123,
+    "function": "notificationTaskList",
+    "table": "notification_tasks",
+    "key": "t.id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT t.*,m.document AS template FROM app.notification_tasks t\r\n    JOIN app.notification_templates m ON m.tenant_id=t.tenant_id AND m.legal_entity_id=t.legal_entity_id AND m.environment_id=t.environment_id AND m.id=t.template_id\r\n    WHERE t.tenant_id=$1 AND t.legal_entity_id=$2 AND t.environment_id=$3 AND ($4::uuid IS NULL OR t.id>$4) ORDER BY t.id LIMIT $5",
+    "endpoints": [
+      "list_notification_tasks"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_notification_tasks",
+        "path": "/api/v1/admin/notification-tasks"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/onboarding/connection.ts",
+    "line": 125,
+    "function": "connectionList",
+    "table": "connections",
+    "key": "id",
+    "timestamp": "started_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.connections WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_connections"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_connections",
+        "path": "/api/v1/admin/connections"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/onboarding/imports.ts",
+    "line": 137,
+    "function": "importList",
+    "table": "import_batches",
+    "key": "id",
+    "timestamp": "submitted_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.import_batches WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_imports"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_imports",
+        "path": "/api/v1/admin/imports"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/operations/breach.ts",
+    "line": 105,
+    "function": "breachList",
+    "table": "personal_data_breaches",
+    "key": "incident_id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT incident_id FROM app.personal_data_breaches WHERE ${predicate} AND ($4::uuid IS NULL OR incident_id>$4) ORDER BY incident_id LIMIT $5",
+    "endpoints": [
+      "list_breaches"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_breaches",
+        "path": "/api/v1/admin/personal-data-breaches"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/operations/cases.ts",
+    "line": 55,
+    "function": "caseProfileList",
+    "table": "rights_case_profiles",
+    "key": "rights_request_id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT rights_request_id FROM app.rights_case_profiles WHERE ${predicate} AND ($4::uuid IS NULL OR rights_request_id>$4) ORDER BY rights_request_id LIMIT $5",
+    "endpoints": [
+      "list_case_profiles"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_case_profiles",
+        "path": "/api/v1/admin/rights-case-profiles"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/operations/evidence.ts",
+    "line": 20,
+    "function": "evidenceList",
+    "table": "evidence_records",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.evidence_records WHERE ${predicate} AND ($4::text IS NULL OR $4=ANY(requirement_ids)) AND ($5::uuid IS NULL OR entity_id=$5)\r\n    AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7",
+    "endpoints": [
+      "list_evidence_records"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_evidence_records",
+        "path": "/api/v1/admin/evidence-records"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/operations/evidence.ts",
+    "line": 27,
+    "function": "eventList",
+    "table": "operational_events",
+    "key": "id",
+    "timestamp": "occurred_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.operational_events WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_operational_events"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_operational_events",
+        "path": "/api/v1/admin/operational-events"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/operations/runs.ts",
+    "line": 270,
+    "function": "evaluateRun",
+    "table": "data_principals",
+    "key": "p.id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT DISTINCT p.id FROM app.data_principals p JOIN app.data_principal_relationships r ON r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id\n    WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.status='ACTIVE' AND r.category_id=$4 AND ($5::uuid IS NULL OR p.id>$5) ORDER BY p.id LIMIT $6",
+    "endpoints": [
+      "evaluate_run"
+    ],
+    "result": "INTERNAL_WORKER_CURSOR",
+    "routes": [
+      {
+        "id": "evaluate_run",
+        "path": "/api/v1/admin/workflow-runs/{id}/evaluation"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/operations/runs.ts",
+    "line": 378,
+    "function": "actionList",
+    "table": "downstream_actions",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ($5::text IS NULL OR state=$5) AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7",
+    "endpoints": [
+      "list_run_actions"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_run_actions",
+        "path": "/api/v1/admin/workflow-runs/{id}/actions"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/operations/runs.ts",
+    "line": 446,
+    "function": "runList",
+    "table": "workflow_runs",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT id FROM app.workflow_runs WHERE ${predicate} AND ($4::text IS NULL OR kind=$4) AND ($5::text IS NULL OR status=$5) AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7",
+    "endpoints": [
+      "list_workflow_runs"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_workflow_runs",
+        "path": "/api/v1/admin/workflow-runs"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/processors/processors.ts",
+    "line": 38,
+    "function": "processorList",
+    "table": "processors",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.processors WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_processors"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_processors",
+        "path": "/api/v1/admin/processors"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/processors/processors.ts",
+    "line": 131,
+    "function": "assessmentList",
+    "table": "assessments",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document,state,completed_at,conclusion FROM app.assessments WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_assessments"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_assessments",
+        "path": "/api/v1/admin/assessments"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/processors/processors.ts",
+    "line": 170,
+    "function": "findingList",
+    "table": "assessment_findings",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document,state,closed_at,closure_evidence,retest_reference,closure_note FROM app.assessment_findings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_findings"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_findings",
+        "path": "/api/v1/admin/findings"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/connectors.ts",
+    "line": 34,
+    "function": "bindingList",
+    "table": "connector_bindings",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.connector_bindings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_connector_bindings"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_connector_bindings",
+        "path": "/api/v1/admin/connector-bindings"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/consent.ts",
+    "line": 139,
+    "function": "consentRecordList",
+    "table": "consent_records",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT id FROM app.consent_records WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_consent_records"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_consent_records",
+        "path": "/api/v1/admin/consent-records"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/consent.ts",
+    "line": 180,
+    "function": "consentManagerList",
+    "table": null,
+    "key": "m.id",
+    "timestamp": null,
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "${CM_SELECT} WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND ($4::uuid IS NULL OR m.id>$4) ORDER BY m.id LIMIT $5",
+    "endpoints": [
+      "list_consent_managers"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_consent_managers",
+        "path": "/api/v1/admin/consent-managers"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/intake.ts",
+    "line": 39,
+    "function": "intakeClientList",
+    "table": null,
+    "key": "c.id",
+    "timestamp": null,
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "${CLIENT} AND ($4::uuid IS NULL OR c.id>$4) ORDER BY c.id LIMIT $5",
+    "endpoints": [
+      "list_intake_clients"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_intake_clients",
+        "path": "/api/v1/admin/intake-clients"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/notices.ts",
+    "line": 72,
+    "function": "noticeList",
+    "table": "registry_notices",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_registry_notices"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_registry_notices",
+        "path": "/api/v1/admin/registry-notices"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/notices.ts",
+    "line": 124,
+    "function": "deliveryList",
+    "table": "notice_delivery_evidence",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_notice_deliveries"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_notice_deliveries",
+        "path": "/api/v1/admin/notice-delivery-evidence"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/notices.ts",
+    "line": 132,
+    "function": "portalNotices",
+    "table": "registry_notice_versions",
+    "key": "v.id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT v.*,n.name FROM app.registry_notice_versions v JOIN app.registry_notices n ON n.tenant_id=v.tenant_id AND n.legal_entity_id=v.legal_entity_id AND n.environment_id=v.environment_id AND n.id=v.notice_id\r\n    WHERE v.tenant_id=$1 AND v.legal_entity_id=$2 AND v.environment_id=$3 AND v.status='PUBLISHED' AND v.effective_from<=clock_timestamp() AND ($4::text IS NULL OR v.locale=$4)\r\n      AND ($5::uuid IS NULL OR v.id>$5) ORDER BY v.id LIMIT $6",
+    "endpoints": [
+      "portal_notices"
+    ],
+    "result": "PRINCIPAL_OUT_OF_SCOPE",
+    "routes": [
+      {
+        "id": "portal_notices",
+        "path": "/api/v1/portal/notices"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "line": 34,
+    "function": "principalCategoryList",
+    "table": "data_principal_categories",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.data_principal_categories WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_principal_categories"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_principal_categories",
+        "path": "/api/v1/admin/data-principal-categories"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "line": 49,
+    "function": "dataCategoryList",
+    "table": "personal_data_categories",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.personal_data_categories WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_data_categories"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_data_categories",
+        "path": "/api/v1/admin/personal-data-categories"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "line": 102,
+    "function": "subjectList",
+    "table": "data_principals",
+    "key": "p.id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT p.id,p.principal_id,p.status,p.recorded_at,\r\n      (SELECT count(*)::int FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id) relationship_count\r\n    FROM app.data_principals p WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3\r\n      AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id AND r.category_id=$4))\r\n      AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_references f WHERE f.tenant_id=p.tenant_id AND f.legal_entity_id=p.legal_entity_id AND f.environment_id=p.environment_id AND f.subject_id=p.id AND f.system_id=$5 AND ($6::text IS NULL OR f.target_reference=$6)))\r\n      AND ($9::uuid IS NULL OR p.principal_id=$9)\r\n      AND ($7::uuid IS NULL OR p.id>$7) ORDER BY p.id LIMIT $8",
+    "endpoints": [
+      "list_data_principals"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_data_principals",
+        "path": "/api/v1/admin/data-principals"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "line": 214,
+    "function": "representativeList",
+    "table": "data_principal_representatives",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.data_principal_representatives WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_representatives"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_representatives",
+        "path": "/api/v1/admin/data-principal-representatives"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "line": 66,
+    "function": "purposeList",
+    "table": "registry_purposes",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT id FROM app.registry_purposes WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_registry_purposes"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_registry_purposes",
+        "path": "/api/v1/admin/registry-purposes"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "line": 100,
+    "function": "conditionList",
+    "table": "processing_conditions",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.processing_conditions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_processing_conditions"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_processing_conditions",
+        "path": "/api/v1/admin/processing-conditions"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "line": 114,
+    "function": "safeguardList",
+    "table": "security_safeguards",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.security_safeguards WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_security_safeguards"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_security_safeguards",
+        "path": "/api/v1/admin/security-safeguards"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "line": 238,
+    "function": "activityList",
+    "table": "registry_activities",
+    "key": "a.id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3\r\n    AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))\r\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))\r\n    AND ($7::uuid IS NULL OR a.id>$7) ORDER BY a.id LIMIT $8",
+    "endpoints": [
+      "list_registry_activities"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_registry_activities",
+        "path": "/api/v1/admin/registry-activities"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/processors.ts",
+    "line": 104,
+    "function": "engagementList",
+    "table": "processor_engagements",
+    "key": "e.id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT e.id FROM app.processor_engagements e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3\n    AND ($4::timestamptz IS NULL OR (e.effective_from<=$4 AND (e.effective_to IS NULL OR e.effective_to>$4)))\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5\n      AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4)))))\n    AND ($6::uuid IS NULL OR e.id>$6) ORDER BY e.id LIMIT $7",
+    "endpoints": [
+      "list_processor_engagements"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_processor_engagements",
+        "path": "/api/v1/admin/processor-engagements"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/processors.ts",
+    "line": 139,
+    "function": "sharingList",
+    "table": "data_sharing_links",
+    "key": "d.id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT d.* FROM app.data_sharing_links d WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3\n    AND ($4::uuid IS NULL OR d.activity_id=$4)\n    AND ($5::uuid IS NULL OR d.activity_id IN (SELECT l.activity_id FROM app.registry_activity_links l JOIN app.data_principal_relationships r ON r.tenant_id=l.tenant_id AND r.legal_entity_id=l.legal_entity_id AND r.environment_id=l.environment_id AND r.category_id=l.principal_category_id\n      WHERE l.tenant_id=d.tenant_id AND l.legal_entity_id=d.legal_entity_id AND l.environment_id=d.environment_id AND l.link_kind='PRINCIPAL_CATEGORY' AND r.subject_id=$5))\n    AND ($6::uuid IS NULL OR d.id>$6) ORDER BY d.id LIMIT $7",
+    "endpoints": [
+      "list_data_sharing_links"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_data_sharing_links",
+        "path": "/api/v1/admin/data-sharing-links"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/retention.ts",
+    "line": 63,
+    "function": "ruleList",
+    "table": "retention_rules",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.retention_rules WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_retention_rules"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_retention_rules",
+        "path": "/api/v1/admin/retention-rules"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/retention.ts",
+    "line": 104,
+    "function": "holdList",
+    "table": "retention_holds",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.retention_holds WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::text IS NULL OR (state='ACTIVE')=($5='true'))\n    AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7",
+    "endpoints": [
+      "list_retention_holds"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_retention_holds",
+        "path": "/api/v1/admin/retention-holds"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/registry/retention.ts",
+    "line": 148,
+    "function": "intimationList",
+    "table": "erasure_intimations",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": true,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "list_erasure_intimations"
+    ],
+    "result": "CLAUDE",
+    "routes": [
+      {
+        "id": "list_erasure_intimations",
+        "path": "/api/v1/admin/erasure-intimations"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/regulatory/applicability.ts",
+    "line": 103,
+    "function": "applicabilityList",
+    "table": "applicability_decisions",
+    "key": "id",
+    "timestamp": "evaluated_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.applicability_decisions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_applicability_decisions"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_applicability_decisions",
+        "path": "/api/v1/admin/regulatory/applicability"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/regulatory/packages.ts",
+    "line": 154,
+    "function": "packageList",
+    "table": "regulatory_packages",
+    "key": "id",
+    "timestamp": "imported_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.regulatory_packages WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_regulatory_packages"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_regulatory_packages",
+        "path": "/api/v1/admin/regulatory/packages"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/regulatory/packages.ts",
+    "line": 183,
+    "function": "impactList",
+    "table": "regulatory_impacts",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.regulatory_impacts WHERE ${predicate} AND ($4::uuid IS NULL OR package_row_id=$4) AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "list_regulatory_impacts"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_regulatory_impacts",
+        "path": "/api/v1/admin/regulatory/impacts"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/retention/retention.ts",
+    "line": 39,
+    "function": "constraintList",
+    "table": "retention_constraints",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.retention_constraints WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_constraints"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_constraints",
+        "path": "/api/v1/admin/retention/constraints"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/retention/retention.ts",
+    "line": 63,
+    "function": "holdList",
+    "table": "legal_holds",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document,state,released_at,release_reason FROM app.legal_holds WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_holds"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_holds",
+        "path": "/api/v1/admin/retention/holds"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/retention/retention.ts",
+    "line": 224,
+    "function": "retentionOutcomeList",
+    "table": "retention_outcomes",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id,data_asset_id,copy_class,result,method,evidence_reference,note,recorded_at,recorded_by\n    FROM app.retention_outcomes WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_retention_outcomes"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_retention_outcomes",
+        "path": "/api/v1/admin/retention/outcomes"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/rights/response-packages.ts",
+    "line": 191,
+    "function": "packageList",
+    "table": "rights_response_packages",
+    "key": "id",
+    "timestamp": "prepared_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.rights_response_packages WHERE ${predicate} AND request_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "endpoints": [
+      "list_response_packages"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_response_packages",
+        "path": "/api/v1/admin/rights-requests/{id}/response-packages"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/rights/rights.ts",
+    "line": 95,
+    "function": "mandateList",
+    "table": "representation_mandates",
+    "key": "id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document,state,revoked_at FROM app.representation_mandates WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_mandates"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_mandates",
+        "path": "/api/v1/admin/mandates"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/rights/rights.ts",
+    "line": 149,
+    "function": "requestList",
+    "table": "rights_requests",
+    "key": "id",
+    "timestamp": "received_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.rights_requests WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_rights_requests"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_rights_requests",
+        "path": "/api/v1/admin/rights-requests"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/support/support.ts",
+    "line": 62,
+    "function": "supportCaseList",
+    "table": "support_cases",
+    "key": "id",
+    "timestamp": "opened_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.support_cases WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_support_cases"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_support_cases",
+        "path": "/api/v1/admin/support-cases"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/support/support.ts",
+    "line": 142,
+    "function": "canaryList",
+    "table": "support_canaries",
+    "key": "id",
+    "timestamp": "registered_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.support_canaries WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_canaries"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_canaries",
+        "path": "/api/v1/admin/support-canaries"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/test-runs/test-runs.ts",
+    "line": 20,
+    "function": "listTests",
+    "table": "test_runs",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT document FROM app.test_runs WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_test_runs"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_test_runs",
+        "path": "/api/v1/admin/test-runs"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/third-party/third-party.ts",
+    "line": 69,
+    "function": "agreementList",
+    "table": null,
+    "key": "a.id",
+    "timestamp": "recorded_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "${AGREEMENT_SELECT} WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND ($4::uuid IS NULL OR a.id>$4) AND ($6::uuid IS NULL OR a.processor_id=$6) ORDER BY a.id LIMIT $5",
+    "endpoints": [
+      "list_processor_agreements"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_processor_agreements",
+        "path": "/api/v1/admin/processor-agreements"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/third-party/third-party.ts",
+    "line": 187,
+    "function": "supplierLinkList",
+    "table": "supplier_links",
+    "key": "id",
+    "timestamp": "created_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.supplier_links WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) AND ($6::uuid IS NULL OR assessment_id=$6) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_supplier_links"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_supplier_links",
+        "path": "/api/v1/admin/supplier-links"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/updates/updates.ts",
+    "line": 125,
+    "function": "releaseList",
+    "table": "release_manifests",
+    "key": "id",
+    "timestamp": "imported_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.release_manifests WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_releases"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "list_releases",
+        "path": "/api/v1/admin/releases"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/updates/updates.ts",
+    "line": 270,
+    "function": "updatePlanList",
+    "table": "update_plans",
+    "key": "id",
+    "timestamp": null,
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.update_plans WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_update_plans"
+    ],
+    "result": "NEEDS_CREATION_TIMESTAMP",
+    "routes": [
+      {
+        "id": "list_update_plans",
+        "path": "/api/v1/admin/update-plans"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/updates/updates.ts",
+    "line": 320,
+    "function": "installationVersionList",
+    "table": "installation_versions",
+    "key": "id",
+    "timestamp": "applied_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT * FROM app.installation_versions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "installation_versions"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "installation_versions",
+        "path": "/api/v1/admin/installation-versions"
+      }
+    ]
+  },
+  {
+    "file": "backend/domain/src/workflow/workflow.ts",
+    "line": 96,
+    "function": "workflowList",
+    "table": "workflows",
+    "key": "id",
+    "timestamp": "accepted_at",
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id FROM app.workflows WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "endpoints": [
+      "workflows"
+    ],
+    "result": "FIXED",
+    "routes": [
+      {
+        "id": "workflows",
+        "path": "/api/v1/admin/workflows"
+      }
+    ]
+  },
+  {
+    "file": "backend/api/src/admin-principals.ts",
+    "line": 21,
+    "function": "rows",
+    "table": "principal_references",
+    "key": "id",
+    "timestamp": null,
+    "protected": false,
+    "audience": "staff-review",
+    "sql": "SELECT id,legal_entity_id,environment_id,display_name,email,synthetic\n    FROM app.principal_references WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND ($4::uuid IS NULL OR id>$4)\n    ORDER BY id LIMIT $5",
+    "endpoints": [
+      "list_principals"
+    ],
+    "result": "NEEDS_CREATION_TIMESTAMP",
+    "routes": [
+      {
+        "id": "list_principals",
+        "path": "/api/v1/admin/principals"
+      }
+    ]
+  }
+]

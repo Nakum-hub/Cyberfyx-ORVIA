@@ -92,7 +92,7 @@ export async function createMandate(c: Context, input: unknown) {
 }
 
 export async function mandateList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document,state,revoked_at FROM app.representation_mandates WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document,state,revoked_at FROM app.representation_mandates WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.representation_mandates WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.Mandate.parse({ ...row.document, state: row.state, revoked_at: row.revoked_at ? time(row.revoked_at) : row.document.revoked_at })), page);
 }
 
@@ -146,7 +146,7 @@ export async function createRequest(c: Context, input: unknown) {
 }
 
 export async function requestList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT * FROM app.rights_requests WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT * FROM app.rights_requests WHERE ${predicate} AND ($4::uuid IS NULL OR (received_at,id) < (SELECT received_at,id FROM app.rights_requests WHERE ${predicate} AND id=$4)) ORDER BY received_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   const items = [];
   for (const row of result.rows) items.push(await assemble(c, row as RequestRow));
   return paged(items, page);

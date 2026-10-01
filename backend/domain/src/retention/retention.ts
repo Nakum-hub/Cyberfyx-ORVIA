@@ -36,7 +36,7 @@ export async function createConstraint(c: Context, input: unknown) {
 }
 
 export async function constraintList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document FROM app.retention_constraints WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document FROM app.retention_constraints WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.retention_constraints WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.RetentionConstraint.parse(row.document)), page);
 }
 
@@ -60,7 +60,7 @@ export async function createHold(c: Context, input: unknown) {
 }
 
 export async function holdList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document,state,released_at,release_reason FROM app.legal_holds WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document,state,released_at,release_reason FROM app.legal_holds WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.legal_holds WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.LegalHold.parse({ ...row.document, state: row.state, released_at: row.released_at ? time(row.released_at) : null, release_reason: row.release_reason })), page);
 }
 
@@ -222,7 +222,7 @@ export async function recordRetentionOutcome(c: Context, assetId: string, input:
 
 export async function retentionOutcomeList(c: Context, page: Page) {
   const result = await c.tx.query(`SELECT id,data_asset_id,copy_class,result,method,evidence_reference,note,recorded_at,recorded_by
-    FROM app.retention_outcomes WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+    FROM app.retention_outcomes WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.retention_outcomes WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   // Paging is by the outcome's own row id, which the wire shape does not carry:
   // an outcome is identified by the copy it describes and when it was recorded.
   const rows = result.rows.slice(0, page.limit);

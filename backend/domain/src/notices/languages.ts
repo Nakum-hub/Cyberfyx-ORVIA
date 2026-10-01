@@ -135,7 +135,7 @@ export async function recordNoticeRevision(c: Context, noticeId: string, input: 
 
 export async function noticeRevisionList(c: Context, noticeId: string, page: Page) {
   const rows = await c.tx.query(
-    `SELECT * FROM app.notice_revisions WHERE ${predicate} AND notice_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`,
+    `SELECT * FROM app.notice_revisions WHERE ${predicate} AND notice_id=$4 AND ($5::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.notice_revisions WHERE ${predicate} AND notice_id=$4 AND id=$5)) ORDER BY recorded_at DESC, id DESC LIMIT $6`,
     [...scopeValues(c.actor), noticeId, page.cursor, page.limit + 1]);
   return paged(rows.rows.map(revision), page);
 }

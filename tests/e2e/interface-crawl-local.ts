@@ -18,6 +18,7 @@ import { authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
 import { operationsSuite } from '../../shared/testing/src/operations-fixture.ts';
 import { PROFILES } from '../../shared/contracts/src/index.ts';
 import { webProcess } from '../../scripts/web-process.ts';
+import { waitForPageContent } from '../../shared/testing/src/browser-ready.ts';
 
 const t = operationsSuite('interface-crawl');
 const { h, check } = t;
@@ -41,6 +42,26 @@ function routes(dir = resolve('frontend/src/app'), prefix = ''): string[] {
 }
 const ALL = routes();
 const dynamic = (r: string) => r.includes('[');
+const desktopOnly = process.env.R7_DESKTOP_ONLY === '1';
+// Explicit continuation of the interrupted Round 7 WebKit run. Preserve its
+// original checks and failures; never present this as one uninterrupted crawl.
+const resumePrincipal = process.env.R7_CRAWL_FROM === 'principal';
+if (process.env.R7_CRAWL_FROM && !resumePrincipal) throw new Error('Unknown crawl continuation phase');
+const precedingChecks: string[] = [];
+if (resumePrincipal) {
+  if (process.env.ORVIA_PROFILE !== 'codex-a00' || !['resumed', 'desktop-complete'].includes(process.env.R7_RUN_LABEL ?? '')) throw new Error('Named Round 7 continuation only');
+  if (readFileSync('frontend/.next/BUILD_ID', 'utf8').trim() !== 'Qe8us5qs66kBogywSGX1t') throw new Error('Continuation requires the same frozen build');
+  const prior = readFileSync('handoffs/codex/artifacts/R7V-candidate-webkit-interface-crawl-local.log', 'utf8');
+  precedingChecks.push(...prior.split(/\r?\n/).filter(line => /^(PASS|FAIL) /.test(line)));
+  const required = ALL.filter(r => r.startsWith('/workspace') && !dynamic(r) && r !== '/workspace/sign-in');
+  for (const prefix of ['owner', 'admin', 'auditor', 'member', 'owner at phone width']) {
+    for (const route of required) {
+      if (!precedingChecks.some(line => line === `PASS ${prefix}: ${route}` || line.startsWith(`FAIL ${prefix}: ${route} {`))) throw new Error(`Missing preceding check: ${prefix}: ${route}`);
+    }
+  }
+  if (!precedingChecks.includes('PASS principal: /privacy/preferences')) throw new Error('Prior crawl did not reach the expected continuation boundary');
+  console.log(`Continuing at Data Principal portal; retaining ${precedingChecks.length} preceding checks and all their failures. Portal pages are rechecked to restore browser state.`);
+}
 
 type Visit = { installation: string; role: string; viewport: string; route: string; url: string; status: number | null; heading: string | null; issues: string[]; api_denied: number; screenshot: string | null };
 const visits: Visit[] = [];
@@ -63,6 +84,9 @@ async function visit(p: { page: Page; state: ReturnType<typeof watch> }, install
   let status: number | null = null; const issues: string[] = [];
   try { status = (await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 }))?.status() ?? null; } catch (e) { issues.push(`navigation: ${(e as Error).message.slice(0, 120)}`); }
   await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => issues.push('network did not settle within 20 s'));
+  await waitForPageContent(page).catch(() => issues.push('page content remained loading for 30 s'));
+  // Hydration may have started its queries after the first network-idle event.
+  await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => issues.push('page reads did not settle within 20 s'));
   await page.waitForTimeout(400);
   const expected = o.expectStatus ?? 200;
   if (status !== null && status !== expected && !(expected === 200 && status === 304)) issues.push(`HTTP ${status} (expected ${expected})`);
@@ -137,7 +161,8 @@ async function detailLink(page: Page, route: string) {
 }
 // A crawl must visit everything, so each finding is collected (and printed) instead of stopping the run; one check at the end fails
 // the suite if anything was found.
-const findings: string[] = [];
+const precedingAcceptanceFailures = precedingChecks.filter(line => line.startsWith('FAIL ') && (!desktopOnly || !line.startsWith('FAIL owner at phone width:')));
+const findings: string[] = precedingAcceptanceFailures.map(line => `preceding interrupted run: ${line}`);
 function soft(name: string, actual: unknown, expected: unknown) {
   const ok = JSON.stringify(actual) === JSON.stringify(expected);
   console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${ok ? '' : ` ${JSON.stringify({ expected, actual }).slice(0, 400)}`}`);
@@ -152,12 +177,14 @@ await t.run(async () => {
     const customerStatic = ALL.filter(r => r.startsWith('/workspace') && !dynamic(r) && r !== '/workspace/sign-in');
     const customerDynamic = ALL.filter(r => r.startsWith('/workspace') && dynamic(r));
 
+    if (!resumePrincipal) {
     // ---------------------------------------------------------------- customer: signed out
     t.setPhase('customer installation, signed out');
     const anon = await newPage(browser, h.config.origin);
     for (const r of ['/workspace/sign-in', '/privacy/sign-in', '/setup', '/supplier', '/privacy']) record(`signed out: ${r} renders`, await visit(anon, 'customer', 'signed-out', r, r, { shot: true }));
     record('signed out: an unknown page is a 404', await visit(anon, 'customer', 'signed-out', '/no-such-page', '/no-such-page', { expectStatus: 404 }));
     record('signed out: vendor pages are 404 on a customer installation', await visit(anon, 'customer', 'signed-out', '/vendor', '/vendor', { expectStatus: 404 }));
+    await anon.page.context().close();
 
     // ---------------------------------------------------------------- customer: each staff role, every page
     for (const role of ['owner', 'admin', 'auditor', 'member']) {
@@ -174,7 +201,7 @@ await t.run(async () => {
       }
       if (role === 'owner') {
         // Every sidebar link resolves to a page that exists.
-        await p.page.goto('/workspace'); await p.page.waitForLoadState('networkidle');
+        await p.page.goto('/workspace'); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page);
         const links = await p.page.evaluate(() => [...document.querySelectorAll('nav a[href]')].map(a => (a as HTMLAnchorElement).getAttribute('href')!).filter(h => h.startsWith('/')));
         const unknown = [...new Set(links)].filter(l => !ALL.includes(l.split('?')[0]!) && !ALL.some(r => dynamic(r) && new RegExp(`^${r.replace(/\[[^\]]+\]/g, '[^/]+')}$`).test(l)));
         soft('every sidebar link points to an existing page', unknown, []);
@@ -184,10 +211,13 @@ await t.run(async () => {
     }
 
     // ---------------------------------------------------------------- customer: phone width
+    if (!desktopOnly) {
     t.setPhase('customer workspace at phone width');
     const phone = await staffSignIn(browser, 'owner', PHONE);
     for (const r of customerStatic) record(`owner at phone width: ${r}`, await visit(phone, 'customer', 'owner', r, r, { shot: true, viewport: 'phone' }));
     await phone.page.context().close();
+    }
+    }
 
     // ---------------------------------------------------------------- customer: Data Principal portal
     t.setPhase('Data Principal portal');
@@ -204,34 +234,37 @@ await t.run(async () => {
     const vanon = await newPage(browser, VENDOR);
     for (const r of ['/vendor/sign-in', '/vendor/setup']) record(`vendor signed out: ${r} renders`, await visit(vanon, 'vendor', 'signed-out', r, r, { shot: true }));
     record('vendor signed out: the client workspace is 404 on the vendor installation', await visit(vanon, 'vendor', 'signed-out', '/workspace', '/workspace', { expectStatus: 404 }));
+    await vanon.page.context().close();
     const vendorStatic = ALL.filter(r => r.startsWith('/vendor') && !dynamic(r) && !['/vendor/sign-in', '/vendor/setup'].includes(r));
     const people = (['admin', 'lead', 'reviewer', 'owner'] as const).filter(k => typeof journal[k] === 'object' && (journal[k] as VendorUser).totp);
     soft('vendor users from the browser journeys are available for the crawl', people.length >= 3, true);
     let engagementUrl: string | null = null;
     for (const role of people) {
-      const p = await vendorSignIn(browser, journal[role] as VendorUser);
+      let rolePage: Awaited<ReturnType<typeof vendorSignIn>> | null = null;
+      try {
+      const p = await vendorSignIn(browser, journal[role] as VendorUser); rolePage = p;
       for (const r of vendorStatic) {
         const v = await visit(p, 'vendor', role, r, r, { shot: role === 'lead' || role === 'admin' });
         record(`vendor ${role}: ${r}`, v);
         if (r === '/vendor/organisations' && role === 'admin') { const link = await detailLink(p.page, '/vendor/organisations/[id]'); if (link) record('vendor admin: /vendor/organisations/[id]', await visit(p, 'vendor', role, '/vendor/organisations/[id]', link, { shot: true })); }
       }
       // The engagement workspace: the most recent accepted engagement the person can open, every tab.
-      await p.page.goto('/vendor/engagements'); await p.page.waitForLoadState('networkidle');
+      await p.page.goto('/vendor/engagements'); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page);
       // Engagements open from their reference link; the first one that shows an accepted workspace is used.
       const links = await p.page.evaluate(() => [...document.querySelectorAll('a[href^="/vendor/engagements/"]')].map(a => (a as HTMLAnchorElement).getAttribute('href')!));
       let opened = false;
       for (const href of links.slice(0, 12)) {
-        await p.page.goto(href); await p.page.waitForLoadState('networkidle');
+        await p.page.goto(href); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page);
         if (await p.page.getByRole('tablist', { name: 'Engagement workspace' }).count() && await p.page.getByText(/Accepted\./).count()) { opened = true; break; }
       }
-      if (!opened) { soft(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); await p.page.context().close(); continue; }
+      if (!opened) { soft(`vendor ${role}: an accepted engagement is available to open`, role === 'admin' ? 'skipped for administrators' : 'none found', role === 'admin' ? 'skipped for administrators' : 'found'); continue; }
       engagementUrl = p.page.url();
       const tabs = await p.page.getByRole('tab').allInnerTexts();
       soft(`vendor ${role}: the engagement workspace has nine tabs`, tabs.map(x => x.replace(/\s*\d+$/, '').trim()), ['Overview', 'Scope and applicability', 'Plan', 'Requests', 'Evidence', 'Tests and working papers', 'Findings and actions', 'Report', 'Follow-up']);
       for (let i = 0; i < tabs.length; i++) {
         const name = tabs[i]!.replace(/\s*\d+$/, '').trim();
         const before = { e: p.state.errors.length, f: p.state.failed.length };
-        await p.page.getByRole('tab').nth(i).click(); await p.page.waitForLoadState('networkidle'); await p.page.waitForTimeout(400);
+        await p.page.getByRole('tab').nth(i).click(); await p.page.waitForLoadState('networkidle'); await waitForPageContent(p.page); await p.page.waitForTimeout(400);
         const selected = await p.page.getByRole('tab', { selected: true }).innerText();
         const overflow = await p.page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         const shot = `vendor-${role}-tab-${name.replace(/[^a-z0-9]+/gi, '_')}.png`;
@@ -244,7 +277,11 @@ await t.run(async () => {
       // Keyboard: arrow keys move between tabs.
       await p.page.getByRole('tab').first().focus(); await p.page.keyboard.press('ArrowRight');
       soft(`vendor ${role}: arrow keys move between workspace tabs`, (await p.page.getByRole('tab', { selected: true }).innerText()).replace(/\s*\d+$/, '').trim(), 'Scope and applicability');
-      await p.page.context().close();
+      } catch (error) {
+        const issue = `vendor workspace check interrupted: ${(error as Error).message.slice(0, 500)}`;
+        soft(`vendor ${role}: complete engagement workspace checks`, issue, 'all checks completed');
+        visits.push({ installation: 'vendor', role, viewport: 'desktop', route: '/vendor/engagements/[id]', url: rolePage?.page.url() ?? `${VENDOR}/vendor/sign-in`, status: null, heading: null, issues: [issue], api_denied: 0, screenshot: null });
+      } finally { if (rolePage) await rolePage.page.context().close(); }
     }
     if (typeof journal.uploader === 'object') {
       const up = await vendorSignIn(browser, journal.uploader as VendorUser, '/vendor/sign-in?account=client');
@@ -252,6 +289,7 @@ await t.run(async () => {
       record('client account: the vendor area is refused, not broken', await visit(up, 'vendor', 'client-account', '/vendor/engagements', '/vendor/engagements', { shot: true }));
       await up.page.context().close();
     }
+    if (!desktopOnly) {
     t.setPhase('vendor installation at phone width');
     const lead = typeof journal.lead === 'object' ? journal.lead as VendorUser : null;
     if (lead) {
@@ -260,12 +298,16 @@ await t.run(async () => {
       if (engagementUrl) record('vendor lead at phone width: engagement workspace', await visit(vp, 'vendor', 'lead', '/vendor/engagements/[id]', engagementUrl, { shot: true, viewport: 'phone' }));
       await vp.page.context().close();
     }
+    }
+  } catch (error) {
+    soft('crawl execution completed', (error as Error).message.slice(0, 500), 'no unexpected exception');
   } finally {
     await browser.close();
     if (vendorProcess && vendorProcess.exitCode === null) { const closed = once(vendorProcess, 'close'); vendorProcess.kill(); await closed; }
     const withIssues = visits.filter(v => v.issues.length);
     mkdirSync('handoffs/code/artifacts', { recursive: true });
-    writeFileSync(`handoffs/code/artifacts/interface-crawl-${new Date().toISOString().replace(/[:.]/g, '-')}.json`, JSON.stringify({ suite: 'interface-crawl', routes: ALL, visits: visits.length, pages_with_issues: withIssues.length,
+    writeFileSync(`handoffs/code/artifacts/interface-crawl-${new Date().toISOString().replace(/[:.]/g, '-')}.json`, JSON.stringify({ suite: 'interface-crawl', routes: ALL, viewport_scope: desktopOnly ? 'desktop only, per owner scope update' : 'desktop and phone', visits: visits.length, pages_with_issues: withIssues.length,
+      continuation: resumePrincipal ? { phase: 'principal', preceding_log: 'handoffs/codex/artifacts/R7V-candidate-webkit-interface-crawl-local.log', preceding_checks: precedingChecks, preceding_failed_checks: precedingChecks.filter(line => line.startsWith('FAIL ')), preceding_acceptance_failures: precedingAcceptanceFailures, note: 'Visits below cover the continuation only. Preceding outcomes are preserved as logged, including truncated diagnostic text; this is not one uninterrupted full crawl. Phone results remain historical evidence and are excluded from desktop-only acceptance.' } : null,
       unvisited_detail_routes: visits.filter(v => v.url === '(no record listed)').map(v => v.route), issues: withIssues.map(v => ({ installation: v.installation, role: v.role, viewport: v.viewport, route: v.route, issues: v.issues })), visits_detail: visits }, null, 2));
     console.log(`\ninterface crawl: ${visits.length} visits, ${withIssues.length} with issues`);
     for (const v of withIssues.slice(0, 80)) console.log(`  [${v.installation} ${v.role} ${v.viewport}] ${v.route}: ${v.issues.join(' | ').slice(0, 300)}`);

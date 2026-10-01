@@ -1,0 +1,130 @@
+[
+  {
+    "build": "Qe8us5qs66kBogywSGX1t",
+    "engine": "chromium",
+    "page": "http://127.0.0.1:23345",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/1fb6b605-4d89-4773-97f5-5b385818017a/consents",
+    "method": "POST",
+    "headers": {
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "connection": "keep-alive",
+      "content-length": "147",
+      "host": "127.0.0.1:4310",
+      "origin": "http://127.0.0.1:23345",
+      "referer": "http://127.0.0.1:23345/",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+      "content-type": "application/json",
+      "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"Windows\""
+    },
+    "credentialHeaders": {},
+    "body": "{\"visitor_id\":\"2f72fe15-8dab-48c8-80a3-85b1f7f1c267\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 201,
+    "response": {
+      "receipt_id": "3c1f46a5-83a1-4e11-9bcc-ee836481c96e",
+      "recorded_at": "2026-10-01T05:26:34.432Z",
+      "config_version": 1
+    }
+  },
+  {
+    "build": "Qe8us5qs66kBogywSGX1t",
+    "engine": "webkit",
+    "page": "http://127.0.0.1:23345",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/1fb6b605-4d89-4773-97f5-5b385818017a/consents",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "origin": "http://127.0.0.1:23345",
+      "referer": "http://127.0.0.1:23345/",
+      "accept": "*/*",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+      "cookie": "[REDACTED: credential-bearing header]",
+      "host": "127.0.0.1:4310"
+    },
+    "credentialHeaders": {
+      "cookie": {
+        "present": true,
+        "bytes": 172,
+        "empty": false
+      }
+    },
+    "body": "{\"visitor_id\":\"b24317e4-66f0-4922-9e2f-96823fe83210\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 201,
+    "response": {
+      "receipt_id": "aee62d1d-10ba-400f-8cba-c1a9148101d5",
+      "recorded_at": "2026-10-01T05:26:36.026Z",
+      "config_version": 1
+    }
+  },
+  {
+    "build": "Qe8us5qs66kBogywSGX1t",
+    "engine": "firefox",
+    "page": "http://127.0.0.1:23345",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/1fb6b605-4d89-4773-97f5-5b385818017a/consents",
+    "method": "POST",
+    "headers": {
+      "host": "127.0.0.1:4310",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:155.0) Gecko/20100101 Firefox/155.0",
+      "accept": "*/*",
+      "accept-language": "en-US,en;q=0.9",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "content-type": "application/json",
+      "referer": "http://127.0.0.1:23345/",
+      "content-length": "147",
+      "origin": "http://127.0.0.1:23345",
+      "connection": "keep-alive",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site"
+    },
+    "credentialHeaders": {},
+    "body": "{\"visitor_id\":\"43c3c40d-3ff8-45e2-b0ac-f1bd72a7b52a\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 201,
+    "response": {
+      "receipt_id": "3611ab89-f59d-4257-91b5-1557d3cbb7dc",
+      "recorded_at": "2026-10-01T05:26:40.658Z",
+      "config_version": 1
+    }
+  },
+  {
+    "build": "Qe8us5qs66kBogywSGX1t",
+    "engine": "webkit-no-keepalive",
+    "page": "http://127.0.0.1:23345",
+    "url": "http://127.0.0.1:4310/api/v1/cmp/1fb6b605-4d89-4773-97f5-5b385818017a/consents",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "origin": "http://127.0.0.1:23345",
+      "referer": "http://127.0.0.1:23345/",
+      "accept": "*/*",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Safari/605.1.15",
+      "cookie": "[REDACTED: credential-bearing header]",
+      "host": "127.0.0.1:4310"
+    },
+    "credentialHeaders": {
+      "cookie": {
+        "present": true,
+        "bytes": 172,
+        "empty": false
+      }
+    },
+    "body": "{\"visitor_id\":\"40aad95e-a98c-4758-9683-8473b3e23109\",\"config_version\":1,\"choices\":{\"necessary\":true,\"analytics\":false},\"gpc\":false,\"language\":\"en\"}",
+    "status": 201,
+    "response": {
+      "receipt_id": "f607f53d-ed0b-48b5-9009-99b5a07e47b1",
+      "recorded_at": "2026-10-01T05:26:42.147Z",
+      "config_version": 1
+    }
+  }
+]

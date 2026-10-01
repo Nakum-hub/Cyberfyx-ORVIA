@@ -1,0 +1,358 @@
+{
+  "label": "before-delay",
+  "controlled_delay": true,
+  "build": "WRZQHoaVRT6qmzZxj7Is9",
+  "events": [
+    {
+      "recorded_at": "2026-09-30T18:44:42.747Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:42.740Z",
+      "page": "blank",
+      "event": "pagehide"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:42.756Z",
+      "role": "admin",
+      "event": "navigation",
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:43.948Z",
+      "role": "admin",
+      "event": "navigation",
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:43.991Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:43.987Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:44.089Z",
+      "role": "admin",
+      "event": "console",
+      "page": "/vendor/sign-in",
+      "url": "http://127.0.0.1:4340/api/v1/vendor/session",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:44.102Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:44.096Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_response",
+      "url": "/api/v1/vendor/session",
+      "status": 401
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:46.097Z",
+      "role": "admin",
+      "event": "mfa_response",
+      "status": 200,
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:46.181Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:46.177Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:46.186Z",
+      "role": "admin",
+      "event": "pageerror",
+      "page": "/vendor/sign-in",
+      "message": "/127.0.0.1:4340/api/v1/vendor/session due to access control checks."
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:46.203Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:46.198Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_rejected",
+      "url": "/api/v1/vendor/session",
+      "status": null,
+      "error": "Load failed"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:46.406Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:46.402Z",
+      "page": "/vendor/sign-in",
+      "event": "pagehide"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:46.417Z",
+      "role": "admin",
+      "event": "navigation",
+      "page": "/vendor/engagements"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:51.019Z",
+      "role": "admin",
+      "event": "navigation",
+      "page": "/vendor/engagements"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:51.057Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:51.051Z",
+      "page": "/vendor/engagements",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:51.247Z",
+      "role": "admin",
+      "at": "2026-09-30T18:44:51.242Z",
+      "page": "/vendor/engagements",
+      "event": "session_fetch_response",
+      "url": "/api/v1/vendor/session",
+      "status": 200
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:52.855Z",
+      "role": "admin",
+      "event": "destination_verified"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:53.454Z",
+      "role": "lead",
+      "at": "2026-09-30T18:44:53.443Z",
+      "page": "blank",
+      "event": "pagehide"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:53.460Z",
+      "role": "lead",
+      "event": "navigation",
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:54.894Z",
+      "role": "lead",
+      "event": "navigation",
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:54.922Z",
+      "role": "lead",
+      "at": "2026-09-30T18:44:54.918Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:54.978Z",
+      "role": "lead",
+      "event": "console",
+      "page": "/vendor/sign-in",
+      "url": "http://127.0.0.1:4340/api/v1/vendor/session",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:54.980Z",
+      "role": "lead",
+      "at": "2026-09-30T18:44:54.976Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_response",
+      "url": "/api/v1/vendor/session",
+      "status": 401
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:57.186Z",
+      "role": "lead",
+      "event": "mfa_response",
+      "status": 200,
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:57.293Z",
+      "role": "lead",
+      "at": "2026-09-30T18:44:57.287Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:57.295Z",
+      "role": "lead",
+      "event": "pageerror",
+      "page": "/vendor/sign-in",
+      "message": "/127.0.0.1:4340/api/v1/vendor/session due to access control checks."
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:57.303Z",
+      "role": "lead",
+      "at": "2026-09-30T18:44:57.295Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_rejected",
+      "url": "/api/v1/vendor/session",
+      "status": null,
+      "error": "Load failed"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:57.478Z",
+      "role": "lead",
+      "at": "2026-09-30T18:44:57.473Z",
+      "page": "/vendor/sign-in",
+      "event": "pagehide"
+    },
+    {
+      "recorded_at": "2026-09-30T18:44:57.489Z",
+      "role": "lead",
+      "event": "navigation",
+      "page": "/vendor/engagements"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:03.421Z",
+      "role": "lead",
+      "event": "navigation",
+      "page": "/vendor/engagements"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:03.461Z",
+      "role": "lead",
+      "at": "2026-09-30T18:45:03.456Z",
+      "page": "/vendor/engagements",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:03.571Z",
+      "role": "lead",
+      "at": "2026-09-30T18:45:03.563Z",
+      "page": "/vendor/engagements",
+      "event": "session_fetch_response",
+      "url": "/api/v1/vendor/session",
+      "status": 200
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:04.767Z",
+      "role": "lead",
+      "event": "destination_verified"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:05.160Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:05.156Z",
+      "page": "blank",
+      "event": "pagehide"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:05.163Z",
+      "role": "reviewer",
+      "event": "navigation",
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:06.745Z",
+      "role": "reviewer",
+      "event": "navigation",
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:06.785Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:06.779Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:06.851Z",
+      "role": "reviewer",
+      "event": "console",
+      "page": "/vendor/sign-in",
+      "url": "http://127.0.0.1:4340/api/v1/vendor/session",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:06.859Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:06.855Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_response",
+      "url": "/api/v1/vendor/session",
+      "status": 401
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:09.320Z",
+      "role": "reviewer",
+      "event": "mfa_response",
+      "status": 200,
+      "page": "/vendor/sign-in"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:09.423Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:09.419Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:09.426Z",
+      "role": "reviewer",
+      "event": "pageerror",
+      "page": "/vendor/sign-in",
+      "message": "/127.0.0.1:4340/api/v1/vendor/session due to access control checks."
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:09.435Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:09.428Z",
+      "page": "/vendor/sign-in",
+      "event": "session_fetch_rejected",
+      "url": "/api/v1/vendor/session",
+      "status": null,
+      "error": "Load failed"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:09.629Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:09.623Z",
+      "page": "/vendor/sign-in",
+      "event": "pagehide"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:09.643Z",
+      "role": "reviewer",
+      "event": "navigation",
+      "page": "/vendor/engagements"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:14.894Z",
+      "role": "reviewer",
+      "event": "navigation",
+      "page": "/vendor/engagements"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:14.953Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:14.941Z",
+      "page": "/vendor/engagements",
+      "event": "session_fetch_started",
+      "url": "/api/v1/vendor/session"
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:15.086Z",
+      "role": "reviewer",
+      "at": "2026-09-30T18:45:15.078Z",
+      "page": "/vendor/engagements",
+      "event": "session_fetch_response",
+      "url": "/api/v1/vendor/session",
+      "status": 200
+    },
+    {
+      "recorded_at": "2026-09-30T18:45:16.488Z",
+      "role": "reviewer",
+      "event": "destination_verified"
+    }
+  ]
+}

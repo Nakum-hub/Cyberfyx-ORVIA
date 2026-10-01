@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
+import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, CheckboxField, DataTable, Facts, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section, SelectField, StateBadge, TextAreaField } from '../../shared/ui.tsx';
 import { APPLICABILITY_LABELS, IMPACT_STATE_LABELS, LEGAL_STATUS_LABELS, PACKAGE_STATE_LABELS } from './operations-labels.ts';
@@ -112,8 +112,10 @@ function PackageDetail({ id, onDecided }: { id: string; onDecided: () => void })
 
 export function Applicability() {
   const decisions = usePagedQuery('list_applicability_decisions', { limit: 100 });
+  const decisionChoices = useCollection('list_applicability_decisions');
+  const refreshDecisions = () => { decisions.refresh(); decisionChoices.refresh(); };
   const evaluate = useMutation('evaluate_applicability', true);
-  const activities = usePagedQuery('list_registry_activities', { limit: 100 });
+  const activities = useCollection('list_registry_activities');
   const [scope, setScope] = useState('ORGANISATION');
   const result = evaluate.result;
   return (
@@ -125,7 +127,7 @@ export function Applicability() {
           options={[{ value: 'ORGANISATION', label: 'The organisation' }, ...(activities.data?.items ?? []).map(a => ({ value: a.id, label: `Activity: ${a.name}` }))]} />
         <button type="button" disabled={evaluate.status === 'pending'} onClick={async () => {
           evaluate.newInteraction();
-          if (await evaluate.run(scope === 'ORGANISATION' ? { scope_kind: 'ORGANISATION', scope_id: null, as_of: null } : { scope_kind: 'ACTIVITY', scope_id: scope, as_of: null })) decisions.refresh();
+          if (await evaluate.run(scope === 'ORGANISATION' ? { scope_kind: 'ORGANISATION', scope_id: null, as_of: null } : { scope_kind: 'ACTIVITY', scope_id: scope, as_of: null })) refreshDecisions();
         }}>Evaluate</button>
         {evaluate.failure && <FailureState failure={evaluate.failure} />}
         {result && (
@@ -141,7 +143,9 @@ export function Applicability() {
           {data => (<><DecisionTable rows={data.items} /><Pagination query={decisions} /></>)}
         </QueryBoundary>
       </Section>
-      <ApplicabilityOverride decisions={decisions.data?.items ?? []} onSaved={() => decisions.refresh()} />
+      <QueryBoundary query={decisionChoices} label="decision choices" isEmpty={() => false}>
+        {d => <ApplicabilityOverride decisions={d.items} onSaved={refreshDecisions} />}
+      </QueryBoundary>
     </>
   );
 }

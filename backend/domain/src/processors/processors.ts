@@ -35,7 +35,7 @@ export async function createProcessor(c: Context, input: unknown) {
 }
 
 export async function processorList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document FROM app.processors WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document FROM app.processors WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.processors WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.Processor.parse(row.document)), page);
 }
 
@@ -128,7 +128,7 @@ export async function createAssessment(c: Context, input: unknown) {
 }
 
 export async function assessmentList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document,state,completed_at,conclusion FROM app.assessments WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document,state,completed_at,conclusion FROM app.assessments WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.assessments WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.Assessment.parse({ ...row.document, state: row.state, completed_at: row.completed_at ? time(row.completed_at) : null, conclusion: row.conclusion })), page);
 }
 
@@ -167,7 +167,7 @@ export async function createFinding(c: Context, input: unknown) {
 }
 
 export async function findingList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document,state,closed_at,closure_evidence,retest_reference,closure_note FROM app.assessment_findings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document,state,closed_at,closure_evidence,retest_reference,closure_note FROM app.assessment_findings WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.assessment_findings WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.Finding.parse({
     ...row.document, state: row.state, closed_at: row.closed_at ? time(row.closed_at) : null,
     closure_evidence: row.closure_evidence, retest_reference: row.retest_reference, closure_note: row.closure_note,

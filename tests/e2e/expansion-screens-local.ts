@@ -491,8 +491,10 @@ await t.run(async () => {
       await visitorPage.keyboard.press('Tab'); const second = await visitorPage.evaluate(() => document.activeElement?.textContent);
       await visitorPage.keyboard.press('Tab'); await visitorPage.keyboard.press('Tab'); const wrapped = await visitorPage.evaluate(() => document.activeElement?.textContent);
       check('keyboard focus moves through the choices and stays in the dialog', [second, wrapped], ['Reject all', 'Accept all']);
+      const rejectionRecorded = visitorPage.waitForResponse(r => r.url().endsWith('/consents') && r.request().method() === 'POST', { timeout: 30000 });
       await visitorPage.keyboard.press('Tab'); await visitorPage.keyboard.press('Enter');
-      await banner.waitFor({ state: 'detached' }); await visitorPage.waitForTimeout(500);
+      await Promise.all([banner.waitFor({ state: 'detached' }), rejectionRecorded]);
+      await visitorPage.waitForTimeout(500);
       check('refusing with the keyboard records the choice and loads no tracker', [consentPosts, trackerHits.length], [[201], 0]);
       await visitorPage.getByRole('link', { name: 'Privacy choices' }).click();
       await banner.getByRole('button', { name: 'Choose' }).click();

@@ -66,7 +66,7 @@ export async function terminateAgreement(c: Context, id: string, input: unknown)
 
 export async function agreementList(c: Context, page: Page, query: unknown) {
   const q = X.AgreementQuery.parse(query ?? {});
-  const rows = (await c.tx.query(`${AGREEMENT_SELECT} WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND ($4::uuid IS NULL OR a.id>$4) AND ($6::uuid IS NULL OR a.processor_id=$6) ORDER BY a.id LIMIT $5`,
+  const rows = (await c.tx.query(`${AGREEMENT_SELECT} WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND ($4::uuid IS NULL OR (a.recorded_at,a.id) < (SELECT recorded_at,id FROM app.processor_agreements WHERE ${predicate} AND id=$4 AND ($6::uuid IS NULL OR processor_id=$6))) AND ($6::uuid IS NULL OR a.processor_id=$6) ORDER BY a.recorded_at DESC, a.id DESC LIMIT $5`,
     [...scope(c), page.cursor, page.limit + 1, q.processor_id ?? null])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => agreementView(r)), next_cursor: paged.next_cursor };
@@ -184,7 +184,7 @@ export async function revokeSupplierLink(c: Context, id: string, input: unknown)
 
 export async function supplierLinkList(c: Context, page: Page, query: unknown) {
   const q = X.SupplierLinkQuery.parse(query ?? {});
-  const rows = (await c.tx.query(`SELECT * FROM app.supplier_links WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) AND ($6::uuid IS NULL OR assessment_id=$6) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1, q.assessment_id ?? null])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.supplier_links WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.supplier_links WHERE ${predicate} AND id=$4 AND ($6::uuid IS NULL OR assessment_id=$6))) AND ($6::uuid IS NULL OR assessment_id=$6) ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1, q.assessment_id ?? null])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => linkView(r)), next_cursor: paged.next_cursor };
 }

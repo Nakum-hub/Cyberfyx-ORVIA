@@ -43,7 +43,7 @@ export async function disableSite(c: Context, id: string) {
   return siteView(row);
 }
 export async function siteList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.cmp_sites WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.cmp_sites WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.cmp_sites WHERE ${predicate} AND id=$4)) ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(siteView), next_cursor: paged.next_cursor };
 }
@@ -79,7 +79,7 @@ export async function decideConfig(c: Context, id: string, input: unknown) {
 }
 export async function configList(c: Context, siteId: string, page: Page) {
   await siteRow(c, siteId);
-  const rows = (await c.tx.query(`SELECT * FROM app.cmp_configs WHERE ${predicate} AND site_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`, [...scope(c), siteId, page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.cmp_configs WHERE ${predicate} AND site_id=$4 AND ($5::uuid IS NULL OR (authored_at,id) < (SELECT authored_at,id FROM app.cmp_configs WHERE ${predicate} AND site_id=$4 AND id=$5)) ORDER BY authored_at DESC, id DESC LIMIT $6`, [...scope(c), siteId, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(configView), next_cursor: paged.next_cursor };
 }

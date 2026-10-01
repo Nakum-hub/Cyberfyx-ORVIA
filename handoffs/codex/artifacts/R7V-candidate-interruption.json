@@ -1,0 +1,8 @@
+{
+    "run_label":  "candidate",
+    "suite":  "webkit interface-crawl-local",
+    "result":  "INTERRUPTED",
+    "exit_code":  null,
+    "reason":  "Previous process no longer running after interruption; all three synthetic containers exited 255 together, OOMKilled=false. Partial crawl and diagnostics preserved.",
+    "build":  "Qe8us5qs66kBogywSGX1t"
+}

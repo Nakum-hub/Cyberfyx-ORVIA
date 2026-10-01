@@ -1,0 +1,2818 @@
+[
+  {
+    "file": "frontend/src/app/privacy/page.tsx",
+    "function": "Choices",
+    "hook": "usePagedQuery",
+    "operation": "'own_consents'",
+    "name": "choices",
+    "references": []
+  },
+  {
+    "file": "frontend/src/app/privacy/receipt/[id]/page.tsx",
+    "function": "ReceiptDetail",
+    "hook": "useQuery",
+    "operation": "'own_receipt'",
+    "name": "query",
+    "references": [
+      {
+        "line": 37,
+        "context": "{query.data?.current.as_of ?? null}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/app/privacy/receipts/page.tsx",
+    "function": "History",
+    "hook": "useCollection",
+    "operation": "'own_consents'",
+    "name": "choices",
+    "references": []
+  },
+  {
+    "file": "frontend/src/app/privacy/receipts/page.tsx",
+    "function": "History",
+    "hook": "usePagedQuery",
+    "operation": "'own_history'",
+    "name": "history",
+    "references": []
+  },
+  {
+    "file": "frontend/src/app/privacy/rights/page.tsx",
+    "function": "MyRights",
+    "hook": "usePagedQuery",
+    "operation": "'own_rights_requests'",
+    "name": "requests",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/attention.tsx",
+    "function": "Attention",
+    "hook": "usePagedQuery",
+    "operation": "'failures'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Configuration",
+    "hook": "useCollection",
+    "operation": "'list_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 58,
+        "context": "purposeOptions=purposes.data?.items.map(p=>({id:p.id,name:p.name}))??[]"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Configuration",
+    "hook": "useCollection",
+    "operation": "'list_notices'",
+    "name": "notices",
+    "references": [
+      {
+        "line": 72,
+        "context": "{notices.data?.items??[]}"
+      },
+      {
+        "line": 141,
+        "context": "{notices.data!.items.map(n=>({id:n.version_id,name:n.title+' · '+n.version_id}))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Configuration",
+    "hook": "useCollection",
+    "operation": "'list_policies'",
+    "name": "policies",
+    "references": [
+      {
+        "line": 72,
+        "context": "{policies.data?.items??[]}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Configuration",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 59,
+        "context": "systemOptions=systems.data?.items.map(s=>({id:s.id,name:s.name}))??[]"
+      },
+      {
+        "line": 72,
+        "context": "{systems.data?.items??[]}"
+      },
+      {
+        "line": 133,
+        "context": "{systems.data?.items??[]}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Principals",
+    "hook": "useCollection",
+    "operation": "'list_principals'",
+    "name": "principals",
+    "references": [
+      {
+        "line": 321,
+        "context": "principalName=(id:string)=>principals.data?.items.find(item=>item.id===id)?.display_name??`Person ${shortId(id)}`"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Principals",
+    "hook": "useCollection",
+    "operation": "'list_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 319,
+        "context": "purposeName=(id:string)=>purposes.data?.items.find(item=>item.id===id)?.name??`Purpose ${shortId(id)}`"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Principals",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 320,
+        "context": "system=systems.data?.items.find(item=>item.id===id)"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/configuration.tsx",
+    "function": "Principals",
+    "hook": "useCollection",
+    "operation": "'list_mappings'",
+    "name": "mappings",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/evidence.tsx",
+    "function": "EvidenceDetail",
+    "hook": "useQuery",
+    "operation": "'evidence'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/overview.tsx",
+    "function": "Overview",
+    "hook": "useQuery",
+    "operation": "'overview'",
+    "name": "overview",
+    "references": [
+      {
+        "line": 35,
+        "context": "{overview.data?.as_of}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/controls/policy-controls.tsx",
+    "function": "PolicyPreview",
+    "hook": "useCollection",
+    "operation": "'list_principals'",
+    "name": "principals",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/policy-controls.tsx",
+    "function": "PolicyPreview",
+    "hook": "useCollection",
+    "operation": "'list_purposes'",
+    "name": "purposes",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/policy-controls.tsx",
+    "function": "PolicyPreview",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/policy-controls.tsx",
+    "function": "ControlMap",
+    "hook": "usePagedQuery",
+    "operation": "'control_map'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/workflows.tsx",
+    "function": "Workflows",
+    "hook": "usePagedQuery",
+    "operation": "'workflows'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/controls/workflows.tsx",
+    "function": "WorkflowDetail",
+    "hook": "useQuery",
+    "operation": "'workflow'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/classification.tsx",
+    "function": "Classification",
+    "hook": "usePagedQuery",
+    "operation": "'list_classification_runs'",
+    "name": "runs",
+    "references": [
+      {
+        "line": 18,
+        "context": "latest = runs.data?.items[0]"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/classification.tsx",
+    "function": "RunDetail",
+    "hook": "useQuery",
+    "operation": "'classification_run'",
+    "name": "run",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/classification.tsx",
+    "function": "RunDetail",
+    "hook": "useQuery",
+    "operation": "'classification_labels'",
+    "name": "labels",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/classification.tsx",
+    "function": "RunDetail",
+    "hook": "usePagedQuery",
+    "operation": "'list_classification_quality'",
+    "name": "quality",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/classification.tsx",
+    "function": "ExposureOverview",
+    "hook": "usePagedQuery",
+    "operation": "'list_exposure_findings'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Compliance",
+    "hook": "useQuery",
+    "operation": "'compliance_report'",
+    "name": "report",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "ControlTests",
+    "hook": "usePagedQuery",
+    "operation": "'list_control_tests'",
+    "name": "tests",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "ControlTests",
+    "hook": "useCollection",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": [
+      {
+        "line": 94,
+        "context": "{(controls.data?.items ?? []).map(c => ({ value: c.id, label: c.title }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "ControlTestDetail",
+    "hook": "useQuery",
+    "operation": "'control_test'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Alerts",
+    "hook": "usePagedQuery",
+    "operation": "'list_compliance_alerts'",
+    "name": "alerts",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Issues",
+    "hook": "usePagedQuery",
+    "operation": "'list_grc_issues'",
+    "name": "issues",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Issues",
+    "hook": "useCollection",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": [
+      {
+        "line": 189,
+        "context": "{(controls.data?.items ?? []).map(c => ({ value: c.id, label: c.title }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Issues",
+    "hook": "useCollection",
+    "operation": "'list_grc_risks'",
+    "name": "risks",
+    "references": [
+      {
+        "line": 190,
+        "context": "{(risks.data?.items ?? []).map(r => ({ value: r.id, label: r.title }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "IssueDetail",
+    "hook": "useQuery",
+    "operation": "'grc_issue'",
+    "name": "issue",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Policies",
+    "hook": "usePagedQuery",
+    "operation": "'list_grc_policies'",
+    "name": "policies",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Policies",
+    "hook": "useCollection",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": [
+      {
+        "line": 276,
+        "context": "{(controls.data?.items ?? []).map(c => ({ value: c.id, label: c.title }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Policies",
+    "hook": "useQuery",
+    "operation": "'active_regulatory_package'",
+    "name": "active",
+    "references": [
+      {
+        "line": 238,
+        "context": "activeId = active.data?.package?.id"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/compliance.tsx",
+    "function": "Policies",
+    "hook": "useQuery",
+    "operation": "'regulatory_package'",
+    "name": "pkg",
+    "references": [
+      {
+        "line": 242,
+        "context": "requirements = pkg.data?.requirements ?? []"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/delivery.tsx",
+    "function": "Transports",
+    "hook": "usePagedQuery",
+    "operation": "'list_delivery_transports'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/delivery.tsx",
+    "function": "Routings",
+    "hook": "usePagedQuery",
+    "operation": "'list_alert_routings'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/delivery.tsx",
+    "function": "Routings",
+    "hook": "useCollection",
+    "operation": "'list_delivery_transports'",
+    "name": "transports",
+    "references": [
+      {
+        "line": 99,
+        "context": "{(transports.data?.items ?? []).filter(t => t.state === 'ENABLED').map(t => ({ value: t.id, label: t.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/delivery.tsx",
+    "function": "Messages",
+    "hook": "usePagedQuery",
+    "operation": "'list_outbound_messages'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/delivery.tsx",
+    "function": "Messages",
+    "hook": "useCollection",
+    "operation": "'list_delivery_transports'",
+    "name": "transports",
+    "references": [
+      {
+        "line": 138,
+        "context": "{(transports.data?.items ?? []).filter(t => t.state === 'ENABLED').map(t => ({ value: t.id, label: t.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/delivery.tsx",
+    "function": "MessageDetail",
+    "hook": "useQuery",
+    "operation": "'outbound_message'",
+    "name": "m",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "ImpactAssessments",
+    "hook": "usePagedQuery",
+    "operation": "'list_impact_templates'",
+    "name": "templates",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "ImpactAssessments",
+    "hook": "useCollection",
+    "operation": "'list_impact_templates'",
+    "name": "templateChoices",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "ImpactAssessments",
+    "hook": "usePagedQuery",
+    "operation": "'list_impact_assessments'",
+    "name": "assessments",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "CreateAssessment",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 143,
+        "context": "subjects: Record<string, { value: string; label: string }[]> = {\n    ACTIVITY: (activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name })), SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR: (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name })), PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).map(e => ({ value: e.id, label: e.service_description })),\n    AI_SYSTEM: (ai.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n  }"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "CreateAssessment",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 143,
+        "context": "subjects: Record<string, { value: string; label: string }[]> = {\n    ACTIVITY: (activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name })), SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR: (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name })), PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).map(e => ({ value: e.id, label: e.service_description })),\n    AI_SYSTEM: (ai.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n  }"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "CreateAssessment",
+    "hook": "useCollection",
+    "operation": "'list_processors'",
+    "name": "processors",
+    "references": [
+      {
+        "line": 144,
+        "context": "subjects: Record<string, { value: string; label: string }[]> = {\n    ACTIVITY: (activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name })), SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR: (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name })), PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).map(e => ({ value: e.id, label: e.service_description })),\n    AI_SYSTEM: (ai.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n  }"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "CreateAssessment",
+    "hook": "useCollection",
+    "operation": "'list_processor_engagements'",
+    "name": "engagements",
+    "references": [
+      {
+        "line": 144,
+        "context": "subjects: Record<string, { value: string; label: string }[]> = {\n    ACTIVITY: (activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name })), SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR: (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name })), PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).map(e => ({ value: e.id, label: e.service_description })),\n    AI_SYSTEM: (ai.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n  }"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "CreateAssessment",
+    "hook": "useCollection",
+    "operation": "'list_ai_systems'",
+    "name": "ai",
+    "references": [
+      {
+        "line": 145,
+        "context": "subjects: Record<string, { value: string; label: string }[]> = {\n    ACTIVITY: (activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name })), SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR: (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name })), PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).map(e => ({ value: e.id, label: e.service_description })),\n    AI_SYSTEM: (ai.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n  }"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "AssessmentDetail",
+    "hook": "useQuery",
+    "operation": "'impact_assessment'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "Findings",
+    "hook": "useCollection",
+    "operation": "'list_grc_risks'",
+    "name": "risks",
+    "references": [
+      {
+        "line": 269,
+        "context": "{(risks.data?.items ?? []).map(r => ({ value: r.id, label: r.title }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/impact-assessments.tsx",
+    "function": "Findings",
+    "hook": "useCollection",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": [
+      {
+        "line": 270,
+        "context": "{(controls.data?.items ?? []).map(c => ({ value: c.id, label: c.title }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/preferences.tsx",
+    "function": "PortalPreferences",
+    "hook": "useQuery",
+    "operation": "'own_preferences'",
+    "name": "centre",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/preferences.tsx",
+    "function": "PreferenceAdmin",
+    "hook": "usePagedQuery",
+    "operation": "'list_preference_topics'",
+    "name": "topics",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/preferences.tsx",
+    "function": "PrincipalPreferences",
+    "hook": "useQuery",
+    "operation": "'principal_preferences'",
+    "name": "centre",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "RecordsOfProcessing",
+    "hook": "useQuery",
+    "operation": "'ropa_summary'",
+    "name": "summary",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "RecordsOfProcessing",
+    "hook": "usePagedQuery",
+    "operation": "'list_ropa_entries'",
+    "name": "entries",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "EntryDetail",
+    "hook": "useQuery",
+    "operation": "'ropa_entry'",
+    "name": "entry",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Impact",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 138,
+        "context": "options = kind === 'SYSTEM' ? (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })) : kind === 'PROCESSOR' ? (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))\n    : kind === 'PURPOSE' ? (purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name })) : kind === 'DATA_CATEGORY' ? (categories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))\n      : (principals.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Impact",
+    "hook": "useCollection",
+    "operation": "'list_processors'",
+    "name": "processors",
+    "references": [
+      {
+        "line": 138,
+        "context": "options = kind === 'SYSTEM' ? (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })) : kind === 'PROCESSOR' ? (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))\n    : kind === 'PURPOSE' ? (purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name })) : kind === 'DATA_CATEGORY' ? (categories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))\n      : (principals.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Impact",
+    "hook": "useCollection",
+    "operation": "'list_registry_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 139,
+        "context": "options = kind === 'SYSTEM' ? (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })) : kind === 'PROCESSOR' ? (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))\n    : kind === 'PURPOSE' ? (purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name })) : kind === 'DATA_CATEGORY' ? (categories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))\n      : (principals.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Impact",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "categories",
+    "references": [
+      {
+        "line": 139,
+        "context": "options = kind === 'SYSTEM' ? (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })) : kind === 'PROCESSOR' ? (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))\n    : kind === 'PURPOSE' ? (purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name })) : kind === 'DATA_CATEGORY' ? (categories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))\n      : (principals.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Impact",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "principals",
+    "references": [
+      {
+        "line": 140,
+        "context": "options = kind === 'SYSTEM' ? (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })) : kind === 'PROCESSOR' ? (processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))\n    : kind === 'PURPOSE' ? (purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name })) : kind === 'DATA_CATEGORY' ? (categories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))\n      : (principals.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Impact",
+    "hook": "useQuery",
+    "operation": "'ropa_impact'",
+    "name": "impact",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Versions",
+    "hook": "usePagedQuery",
+    "operation": "'list_ropa_versions'",
+    "name": "versions",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Versions",
+    "hook": "useQuery",
+    "operation": "'ropa_version_diff'",
+    "name": "diff",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Exports",
+    "hook": "usePagedQuery",
+    "operation": "'list_data_exports'",
+    "name": "jobs",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/records-of-processing.tsx",
+    "function": "Exports",
+    "hook": "useCollection",
+    "operation": "'list_ropa_versions'",
+    "name": "versions",
+    "references": [
+      {
+        "line": 259,
+        "context": "{(versions.data?.items ?? []).map(v => ({ value: v.id, label: `Version ${v.version}${v.approved_by ? ' (approved)' : ''}` }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/response-packages.tsx",
+    "function": "ResponsePackages",
+    "hook": "usePagedQuery",
+    "operation": "'list_response_packages'",
+    "name": "packages",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/team.tsx",
+    "function": "Team",
+    "hook": "useQuery",
+    "operation": "'staff_team'",
+    "name": "team",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/third-parties.tsx",
+    "function": "ThirdParties",
+    "hook": "usePagedQuery",
+    "operation": "'list_third_party_standing'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/third-parties.tsx",
+    "function": "ProcessorDetail",
+    "hook": "useQuery",
+    "operation": "'third_party_standing'",
+    "name": "standing",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/third-parties.tsx",
+    "function": "ProcessorDetail",
+    "hook": "useCollection",
+    "operation": "'list_registry_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 88,
+        "context": "{(purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/third-parties.tsx",
+    "function": "ProcessorDetail",
+    "hook": "useCollection",
+    "operation": "'list_impact_assessments'",
+    "name": "assessments",
+    "references": [
+      {
+        "line": 109,
+        "context": "{(assessments.data?.items ?? []).filter(a => a.kind === 'VENDOR_DUE_DILIGENCE' && a.status === 'DRAFT')}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/third-parties.tsx",
+    "function": "SupplierLinks",
+    "hook": "usePagedQuery",
+    "operation": "'list_supplier_links'",
+    "name": "links",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/website-consent.tsx",
+    "function": "WebsiteConsent",
+    "hook": "usePagedQuery",
+    "operation": "'list_cmp_sites'",
+    "name": "sites",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/website-consent.tsx",
+    "function": "SiteDetail",
+    "hook": "useCollection",
+    "operation": "'list_cmp_sites'",
+    "name": "sites",
+    "references": [
+      {
+        "line": 68,
+        "context": "site = sites.data?.items.find(s => s.id === id)"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/website-consent.tsx",
+    "function": "SiteDetail",
+    "hook": "useCollection",
+    "operation": "'list_cmp_configs'",
+    "name": "configs",
+    "references": [
+      {
+        "line": 69,
+        "context": "published = configs.data?.items.find(c => c.state === 'PUBLISHED')"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/website-consent.tsx",
+    "function": "SiteDetail",
+    "hook": "useQuery",
+    "operation": "'cmp_consent_stats'",
+    "name": "stats",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/expansion/website-consent.tsx",
+    "function": "SiteDetail",
+    "hook": "usePagedQuery",
+    "operation": "'list_cmp_scans'",
+    "name": "scans",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "AiGovernance",
+    "hook": "usePagedQuery",
+    "operation": "'list_ai_systems'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "AiGovernance",
+    "hook": "useQuery",
+    "operation": "'ai_governance_report'",
+    "name": "report",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "CreateAiSystem",
+    "hook": "useCollection",
+    "operation": "'list_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 73,
+        "context": "{purposes.data?.items.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "CreateAiSystem",
+    "hook": "useCollection",
+    "operation": "'list_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 74,
+        "context": "{activities.data?.items.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "CreateAiSystem",
+    "hook": "useCollection",
+    "operation": "'list_data_assets'",
+    "name": "assets",
+    "references": [
+      {
+        "line": 75,
+        "context": "{assets.data?.items.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "CreateAiSystem",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 76,
+        "context": "{systems.data?.items.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "CreateAiSystem",
+    "hook": "useCollection",
+    "operation": "'list_processors'",
+    "name": "processors",
+    "references": [
+      {
+        "line": 77,
+        "context": "{processors.data?.items.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/ai-governance.tsx",
+    "function": "AiDetail",
+    "hook": "useQuery",
+    "operation": "'ai_system'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/catalog-discovery.tsx",
+    "function": "CatalogDiscovery",
+    "hook": "usePagedQuery",
+    "operation": "'list_catalog_discovery_targets'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/catalog-discovery.tsx",
+    "function": "CatalogDiscovery",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 44,
+        "context": "{systems.data?.items.filter(item=>item.connector==='SYNTHETIC_CRM').map(item=><option key={item.id} value={item.id}>{item.name}</option>)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/catalog-discovery.tsx",
+    "function": "CatalogDiscovery",
+    "hook": "useQuery",
+    "operation": "'catalog_discovery_target'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/coverage.tsx",
+    "function": "Coverage",
+    "hook": "useQuery",
+    "operation": "'coverage'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/coverage.tsx",
+    "function": "Gaps",
+    "hook": "usePagedQuery",
+    "operation": "'list_gaps'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/coverage.tsx",
+    "function": "GapGuidance",
+    "hook": "useQuery",
+    "operation": "'gap_guidance'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "GrcAuditWorkspace",
+    "hook": "usePagedQuery",
+    "operation": "'list_grc_audits'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "PlanForm",
+    "hook": "useCollection",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "AuditDetail",
+    "hook": "useQuery",
+    "operation": "'grc_audit_detail'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "AuditDetail",
+    "hook": "usePagedQuery",
+    "operation": "'grc_audit_requests'",
+    "name": "requests",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "RequestForm",
+    "hook": "useCollection",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "RequestDetail",
+    "hook": "useQuery",
+    "operation": "'grc_audit_request_detail'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "RequestDetail",
+    "hook": "usePagedQuery",
+    "operation": "'grc_audit_response_history'",
+    "name": "history",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc-audits.tsx",
+    "function": "ResponseForm",
+    "hook": "useQuery",
+    "operation": "'grc_control_detail'",
+    "name": "control",
+    "references": [
+      {
+        "line": 79,
+        "context": "evidence=control.data?.evidence"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "GrcWorkspace",
+    "hook": "usePagedQuery",
+    "operation": "'list_grc_frameworks'",
+    "name": "frameworks",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "GrcWorkspace",
+    "hook": "usePagedQuery",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "GrcWorkspace",
+    "hook": "usePagedQuery",
+    "operation": "'list_grc_risks'",
+    "name": "risks",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "ControlForm",
+    "hook": "useCollection",
+    "operation": "'list_grc_frameworks'",
+    "name": "frameworks",
+    "references": [
+      {
+        "line": 83,
+        "context": "mappings=frameworks.data?.items.flatMap(f=>f.requirements.filter(r=>selected.has(`${f.id}:${r.code}`)).map(r=>({framework_id:f.id,requirement_code:r.code})))??[]"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "RiskForm",
+    "hook": "useCollection",
+    "operation": "'list_grc_controls'",
+    "name": "controls",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "ControlDetail",
+    "hook": "useQuery",
+    "operation": "'grc_control_detail'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "ControlDetail",
+    "hook": "usePagedQuery",
+    "operation": "'grc_evidence_history'",
+    "name": "history",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "RiskDetail",
+    "hook": "useQuery",
+    "operation": "'grc_risk_detail'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/grc.tsx",
+    "function": "RiskDetail",
+    "hook": "usePagedQuery",
+    "operation": "'grc_treatment_history'",
+    "name": "history",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/incidents.tsx",
+    "function": "Incidents",
+    "hook": "usePagedQuery",
+    "operation": "'list_incidents'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/incidents.tsx",
+    "function": "IncidentDetail",
+    "hook": "useQuery",
+    "operation": "'incident_assessment'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/incidents.tsx",
+    "function": "ObligationRules",
+    "hook": "usePagedQuery",
+    "operation": "'list_obligation_rules'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/inventory.tsx",
+    "function": "Inventory",
+    "hook": "usePagedQuery",
+    "operation": "'list_data_assets'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/inventory.tsx",
+    "function": "AssetDetail",
+    "hook": "useQuery",
+    "operation": "'data_asset'",
+    "name": "asset",
+    "references": [
+      {
+        "line": 115,
+        "context": "record = asset.data"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/inventory.tsx",
+    "function": "AssetDetail",
+    "hook": "useQuery",
+    "operation": "'graph_neighbourhood'",
+    "name": "neighbourhood",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/inventory.tsx",
+    "function": "ImpactPanel",
+    "hook": "useQuery",
+    "operation": "'graph_impact'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/inventory.tsx",
+    "function": "GraphSearch",
+    "hook": "useQuery",
+    "operation": "'graph_search'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/notifications.tsx",
+    "function": "NotificationTasks",
+    "hook": "usePagedQuery",
+    "operation": "'list_notification_tasks'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/notifications.tsx",
+    "function": "NotificationTemplates",
+    "hook": "usePagedQuery",
+    "operation": "'list_templates'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/processors.tsx",
+    "function": "Processors",
+    "hook": "usePagedQuery",
+    "operation": "'list_processors'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/processors.tsx",
+    "function": "Standing",
+    "hook": "useQuery",
+    "operation": "'processor_standing'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/processors.tsx",
+    "function": "Assessments",
+    "hook": "usePagedQuery",
+    "operation": "'list_assessments'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/processors.tsx",
+    "function": "Findings",
+    "hook": "usePagedQuery",
+    "operation": "'list_findings'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/reports.tsx",
+    "function": "ReportsScreen",
+    "hook": "useQuery",
+    "operation": "'report'",
+    "name": "query",
+    "references": [
+      {
+        "line": 164,
+        "context": "{query.data && (\n          <NoticeBox tone=\"info\" title=\"Ready to print\">\n            <p>Use your browser’s Print command and choose “Save as PDF”. The builder above is hidden in print; what follows is the report.</p>\n            <p>\n              Or take the tables as spreadsheets:\n              {' '}\n              <button type=\"button\" onClick={() => {\n                for (const section of query.data!.sections) {\n                  download(csvName(section.kind, query.data!.content_digest), toCsv(section.columns, section.rows));\n                }\n              }}>Download every section as CSV</button>\n            </p>\n            <p classNam"
+      },
+      {
+        "line": 171,
+        "context": "{() => {\n                for (const section of query.data!.sections) {\n                  download(csvName(section.kind, query.data!.content_digest), toCsv(section.columns, section.rows));\n                }\n              }}"
+      },
+      {
+        "line": 172,
+        "context": "{() => {\n                for (const section of query.data!.sections) {\n                  download(csvName(section.kind, query.data!.content_digest), toCsv(section.columns, section.rows));\n                }\n              }}"
+      },
+      {
+        "line": 186,
+        "context": "{query.data && (\n        <article className=\"report\">\n          <header className=\"report-cover\">\n            <p className=\"report-mark\">ORVIA</p>\n            <h1>{query.data.title}</h1>\n            <dl className=\"report-facts\">\n              <div><dt>Organisation</dt><dd>{query.data.scope_label}</dd></div>\n              <div><dt>Period</dt><dd>\n                {query.data.period_from ? formatTime(query.data.period_from) : 'From the beginning of the record'}\n                {' — '}\n                {query.data.period_to ? formatTime(query.data.period_to) : 'up to the moment this was generated'}\n              </dd></div>\n              <div><dt>"
+      },
+      {
+        "line": 190,
+        "context": "{query.data.title}"
+      },
+      {
+        "line": 192,
+        "context": "{query.data.scope_label}"
+      },
+      {
+        "line": 194,
+        "context": "{query.data.period_from ? formatTime(query.data.period_from) : 'From the beginning of the record'}"
+      },
+      {
+        "line": 194,
+        "context": "{query.data.period_from ? formatTime(query.data.period_from) : 'From the beginning of the record'}"
+      },
+      {
+        "line": 196,
+        "context": "{query.data.period_to ? formatTime(query.data.period_to) : 'up to the moment this was generated'}"
+      },
+      {
+        "line": 196,
+        "context": "{query.data.period_to ? formatTime(query.data.period_to) : 'up to the moment this was generated'}"
+      },
+      {
+        "line": 198,
+        "context": "{formatTime(query.data.generated_at)}"
+      },
+      {
+        "line": 199,
+        "context": "{query.data.profile}"
+      },
+      {
+        "line": 200,
+        "context": "{query.data.content_digest}"
+      },
+      {
+        "line": 210,
+        "context": "{query.data.limits.map(limit => <li key={limit}>{limit}</li>)}"
+      },
+      {
+        "line": 215,
+        "context": "{query.data.omitted.length === 0\n                ? <p>Every section this installation can produce is included.</p>\n                : (\n                  <>\n                    <p>These exist and are not in this report:</p>\n                    <ul>\n                      {query.data.omitted.map(item => (\n                        <li key={item.kind}>\n                          <strong>{SECTION_LABELS[item.kind] ?? item.kind}</strong>\n                          {' — '}\n                          {item.reason === 'WITHHELD_FOR_AUTHORITY'\n                            ? 'withheld: the person who generated this report is not permitted to read it. It was n"
+      },
+      {
+        "line": 221,
+        "context": "{query.data.omitted.map(item => (\n                        <li key={item.kind}>\n                          <strong>{SECTION_LABELS[item.kind] ?? item.kind}</strong>\n                          {' — '}\n                          {item.reason === 'WITHHELD_FOR_AUTHORITY'\n                            ? 'withheld: the person who generated this report is not permitted to read it. It was not read, and this is not evidence that there was nothing to show.'\n                            : 'not selected for this report.'}\n                        </li>\n                      ))}"
+      },
+      {
+        "line": 237,
+        "context": "{query.data.sections.map(s => <li key={s.kind}>{s.heading}</li>)}"
+      },
+      {
+        "line": 241,
+        "context": "{query.data.sections.map((section, index) => (\n            <section key={section.kind} className=\"report-section\">\n              <h2>{index + 1}. {section.heading}</h2>\n              <p className=\"report-covers\">{section.covers}</p>\n              {section.rows.length === 0 ? (\n                <p className=\"report-empty\">\n                  Nothing was recorded for this section in this period.\n                  {' '}This is an absence of records, not a statement that nothing happened.\n                </p>\n              ) : (\n                <table className=\"report-table\">\n                  <thead><tr>{section.columns.map(column => <th key={col"
+      },
+      {
+        "line": 262,
+        "context": "{() => download(csvName(section.kind, query.data!.content_digest), toCsv(section.columns, section.rows))}"
+      },
+      {
+        "line": 279,
+        "context": "{query.data.title}"
+      },
+      {
+        "line": 279,
+        "context": "{query.data.scope_label}"
+      },
+      {
+        "line": 279,
+        "context": "{formatTime(query.data.generated_at)}"
+      },
+      {
+        "line": 280,
+        "context": "{query.data.content_digest.slice(0, 16)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/governance/retention.tsx",
+    "function": "RetentionEligibility",
+    "hook": "useQuery",
+    "operation": "'asset_eligibility'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/retention.tsx",
+    "function": "RetentionConstraints",
+    "hook": "usePagedQuery",
+    "operation": "'list_constraints'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/retention.tsx",
+    "function": "LegalHolds",
+    "hook": "usePagedQuery",
+    "operation": "'list_holds'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/retention.tsx",
+    "function": "RetentionOutcomes",
+    "hook": "usePagedQuery",
+    "operation": "'list_retention_outcomes'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/rights.tsx",
+    "function": "RightsRequests",
+    "hook": "usePagedQuery",
+    "operation": "'list_rights_requests'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/rights.tsx",
+    "function": "RightsRequestDetail",
+    "hook": "useQuery",
+    "operation": "'rights_request'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/governance/rights.tsx",
+    "function": "Mandates",
+    "hook": "usePagedQuery",
+    "operation": "'list_mandates'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/onboarding/imports.tsx",
+    "function": "ImportsScreen",
+    "hook": "usePagedQuery",
+    "operation": "'list_imports'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/onboarding/onboarding.tsx",
+    "function": "ConnectionsScreen",
+    "hook": "usePagedQuery",
+    "operation": "'list_connections'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/onboarding/onboarding.tsx",
+    "function": "ConnectionDetail",
+    "hook": "useQuery",
+    "operation": "'connection'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/onboarding/preflight.tsx",
+    "function": "PreflightScreen",
+    "hook": "useQuery",
+    "operation": "'preflight'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/audit-retention.tsx",
+    "function": "AuditRetentionScreen",
+    "hook": "useQuery",
+    "operation": "'audit_retention'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/audit.tsx",
+    "function": "AuditCoverageScreen",
+    "hook": "useQuery",
+    "operation": "'audit_coverage'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/audit.tsx",
+    "function": "AuditTrail",
+    "hook": "usePagedQuery",
+    "operation": "'list_audit_events'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/capabilities.tsx",
+    "function": "Capabilities",
+    "hook": "usePagedQuery",
+    "operation": "'capabilities'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/readiness.tsx",
+    "function": "Readiness",
+    "hook": "useQuery",
+    "operation": "'operational_readiness'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/restores.tsx",
+    "function": "RestoresScreen",
+    "hook": "usePagedQuery",
+    "operation": "'list_restore_runs'",
+    "name": "runs",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/restores.tsx",
+    "function": "RestoresScreen",
+    "hook": "usePagedQuery",
+    "operation": "'list_backup_snapshots'",
+    "name": "snapshots",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/support.tsx",
+    "function": "SupportCases",
+    "hook": "usePagedQuery",
+    "operation": "'list_support_cases'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/support.tsx",
+    "function": "Standing",
+    "hook": "useQuery",
+    "operation": "'support_case'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/support.tsx",
+    "function": "SupportCanaries",
+    "hook": "usePagedQuery",
+    "operation": "'list_canaries'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/test-lab.tsx",
+    "function": "TestLab",
+    "hook": "usePagedQuery",
+    "operation": "'list_test_runs'",
+    "name": "history",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/test-lab.tsx",
+    "function": "TestRunDetail",
+    "hook": "useQuery",
+    "operation": "'test_run'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/updates.tsx",
+    "function": "Releases",
+    "hook": "usePagedQuery",
+    "operation": "'list_releases'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/updates.tsx",
+    "function": "Eligibility",
+    "hook": "useQuery",
+    "operation": "'update_eligibility'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/updates.tsx",
+    "function": "UpdatePlans",
+    "hook": "usePagedQuery",
+    "operation": "'list_update_plans'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/updates.tsx",
+    "function": "Ledger",
+    "hook": "useQuery",
+    "operation": "'update_plan'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/updates.tsx",
+    "function": "InstallationVersions",
+    "hook": "usePagedQuery",
+    "operation": "'installation_versions'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/operations/vendor-visibility.tsx",
+    "function": "VendorVisibilityScreen",
+    "hook": "useQuery",
+    "operation": "'vendor_visibility'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "PersonalDataBreaches",
+    "hook": "usePagedQuery",
+    "operation": "'list_breaches'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "PersonalDataBreaches",
+    "hook": "useCollection",
+    "operation": "'list_breaches'",
+    "name": "registered",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "RegisterBreach",
+    "hook": "useCollection",
+    "operation": "'list_incidents'",
+    "name": "incidents",
+    "references": [
+      {
+        "line": 86,
+        "context": "candidates = (incidents.data?.items ?? []).filter(i => !registered.has(i.id))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "RegisterBreach",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 96,
+        "context": "{(activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "RegisterBreach",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "dataCategories",
+    "references": [
+      {
+        "line": 95,
+        "context": "{(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "RegisterBreach",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 97,
+        "context": "{(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "RegisterBreach",
+    "hook": "useCollection",
+    "operation": "'list_processor_engagements'",
+    "name": "engagements",
+    "references": [
+      {
+        "line": 98,
+        "context": "{(engagements.data?.items ?? []).map(e => ({ value: e.id, label: e.service_description }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "PersonalDataBreachDetail",
+    "hook": "useQuery",
+    "operation": "'breach'",
+    "name": "breach",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "OperationsAttention",
+    "hook": "useQuery",
+    "operation": "'operations_attention'",
+    "name": "attention",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx",
+    "function": "OperationsAttention",
+    "hook": "useQuery",
+    "operation": "'operations_coverage'",
+    "name": "coverage",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "ConsentRecords",
+    "hook": "usePagedQuery",
+    "operation": "'list_consent_records'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "ConsentRecords",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 25,
+        "context": "activityName = (id: string) => activities.data?.items.find(a => a.id === id)?.name ?? shortId(id)"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "CreateConsentRecord",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 69,
+        "context": "{(activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "CreateConsentRecord",
+    "hook": "useCollection",
+    "operation": "'list_principals'",
+    "name": "principals",
+    "references": [
+      {
+        "line": 72,
+        "context": "{(principals.data?.items ?? []).map(p => ({ value: p.id, label: p.display_name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "CreateConsentRecord",
+    "hook": "useCollection",
+    "operation": "'list_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 73,
+        "context": "{(purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "ConsentRecordDetail",
+    "hook": "useQuery",
+    "operation": "'consent_record'",
+    "name": "record",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "ConsentRecordDetail",
+    "hook": "useCollection",
+    "operation": "'list_registry_notices'",
+    "name": "notices",
+    "references": [
+      {
+        "line": 81,
+        "context": "noticeVersions = (notices.data?.items ?? []).flatMap(n => n.versions.filter(v => v.status !== 'DRAFT').map(v => ({ value: v.id, label: `${n.name} v${v.version} (${v.locale})` })))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "ConsentManagers",
+    "hook": "usePagedQuery",
+    "operation": "'list_consent_managers'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/consent-records.tsx",
+    "function": "ConsentManagerPanel",
+    "hook": "useCollection",
+    "operation": "'list_consent_managers'",
+    "name": "managers",
+    "references": [
+      {
+        "line": 166,
+        "context": "active = (managers.data?.items ?? []).filter(m => m.status === 'ACTIVE').map(m => ({ value: m.id, label: `${m.name} (${m.board_registration_number})` }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "RightsExecution",
+    "hook": "useQuery",
+    "operation": "'case_profile'",
+    "name": "profile",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "RightsExecution",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "categories",
+    "references": [
+      {
+        "line": 23,
+        "context": "categoryOptions = (categories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "RightsCaseProfiles",
+    "hook": "usePagedQuery",
+    "operation": "'list_case_profiles'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "NoticeHistory",
+    "hook": "useCollection",
+    "operation": "'list_registry_notices'",
+    "name": "notices",
+    "references": [
+      {
+        "line": 157,
+        "context": "versions = (notices.data?.items ?? []).flatMap(n => n.versions.filter(v => v.status !== 'DRAFT').map(v => ({ value: v.id, label: `${n.name} v${v.version} (${v.locale})` })))"
+      },
+      {
+        "line": 165,
+        "context": "{(notices.data?.items ?? []).map(n => ({ value: n.id, label: n.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "NoticeHistory",
+    "hook": "usePagedQuery",
+    "operation": "'list_notice_deliveries'",
+    "name": "deliveries",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "NoticeHistory",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 206,
+        "context": "{(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "NoticeHistory",
+    "hook": "useQuery",
+    "operation": "'notice_at_time'",
+    "name": "answer",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "OperationsEvidence",
+    "hook": "usePagedQuery",
+    "operation": "'list_evidence_records'",
+    "name": "evidence",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/operations-extras.tsx",
+    "function": "OperationsEvidence",
+    "hook": "usePagedQuery",
+    "operation": "'list_operational_events'",
+    "name": "events",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/organisation-intake.tsx",
+    "function": "PrivacyCentreSwitch",
+    "hook": "useQuery",
+    "operation": "'privacy_centre_setting'",
+    "name": "setting",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/organisation-intake.tsx",
+    "function": "IntakeKeys",
+    "hook": "usePagedQuery",
+    "operation": "'list_intake_clients'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/organisation-intake.tsx",
+    "function": "IntakeKeys",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 74,
+        "context": "systemOptions = (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/organisation-intake.tsx",
+    "function": "Submissions",
+    "hook": "usePagedQuery",
+    "operation": "'list_intake_submissions'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "ReferenceRows",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 22,
+        "context": "options = (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "CreatePrincipal",
+    "hook": "useCollection",
+    "operation": "'list_principals'",
+    "name": "principals",
+    "references": [
+      {
+        "line": 43,
+        "context": "{(principals.data?.items ?? []).map(p => ({ value: p.id, label: p.display_name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "PrincipalActions",
+    "hook": "useQuery",
+    "operation": "'data_principal'",
+    "name": "subject",
+    "references": [
+      {
+        "line": 57,
+        "context": "relationships = subject.data?.relationships ?? []"
+      },
+      {
+        "line": 94,
+        "context": "{subject.data?.status === 'MERGED' ? (\n            <WriteForm operation=\"unmerge_data_principal\" label=\"Undo the merge\" params={{ id }} onSaved={refresh} build={f => ({ reason: text(f, 'reason') })}>\n              <p className=\"cell-sub\">Merged into {shortId(subject.data.merged_into ?? '')}. Undoing restores this record with its history.</p>\n              <Input label=\"Reason\" name=\"reason\" minLength={10} maxLength={500} />\n            </WriteForm>\n          ) : (\n            <WriteForm operation=\"merge_data_principal\" label=\"Merge into another record\" params={{ id }} onSaved={refresh} describe={() => 'merged; history kept'}\n              bui"
+      },
+      {
+        "line": 96,
+        "context": "{shortId(subject.data.merged_into ?? '')}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "PrincipalActions",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "categories",
+    "references": [
+      {
+        "line": 76,
+        "context": "{(categories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "PrincipalActions",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 80,
+        "context": "{(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "Representatives",
+    "hook": "useCollection",
+    "operation": "'list_representatives'",
+    "name": "list",
+    "references": [
+      {
+        "line": 117,
+        "context": "mine = (list.data?.items ?? []).filter(r => r.subject_id === subjectId)"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "Representatives",
+    "hook": "useCollection",
+    "operation": "'list_mandates'",
+    "name": "mandates",
+    "references": [
+      {
+        "line": 139,
+        "context": "{(mandates.data?.items ?? []).map(m => ({ value: m.id, label: shortId(m.id) }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "ChildStatus",
+    "hook": "useQuery",
+    "operation": "'child_status'",
+    "name": "current",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/principal-operations.tsx",
+    "function": "ChildStatus",
+    "hook": "useCollection",
+    "operation": "'list_representatives'",
+    "name": "reps",
+    "references": [
+      {
+        "line": 173,
+        "context": "guardians = (reps.data?.items ?? []).filter(r => r.subject_id === subjectId && r.kind === 'GUARDIAN')"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/privacy-centre.tsx",
+    "function": "PrivacyNotices",
+    "hook": "usePagedQuery",
+    "operation": "'portal_notices'",
+    "name": "notices",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/privacy-centre.tsx",
+    "function": "OwnRequestHistory",
+    "hook": "usePagedQuery",
+    "operation": "'own_rights_request_history'",
+    "name": "history",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "RegistryRetention",
+    "hook": "usePagedQuery",
+    "operation": "'list_retention_rules'",
+    "name": "rules",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "RegistryRetention",
+    "hook": "usePagedQuery",
+    "operation": "'list_retention_holds'",
+    "name": "holds",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "RuleRevision",
+    "hook": "useCollection",
+    "operation": "'list_retention_rules'",
+    "name": "rules",
+    "references": [
+      {
+        "line": 96,
+        "context": "{(rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "RetentionForms",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 133,
+        "context": "{opt(activities.data?.items)}"
+      },
+      {
+        "line": 163,
+        "context": "{opt(activities.data?.items)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "RetentionForms",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "principalCategories",
+    "references": [
+      {
+        "line": 132,
+        "context": "{opt(principalCategories.data?.items)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "RetentionForms",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "dataCategories",
+    "references": [
+      {
+        "line": 134,
+        "context": "{opt(dataCategories.data?.items)}"
+      },
+      {
+        "line": 165,
+        "context": "{opt(dataCategories.data?.items)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "RetentionForms",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 135,
+        "context": "{opt(systems.data?.items)}"
+      },
+      {
+        "line": 164,
+        "context": "{opt(systems.data?.items)}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "ErasureIntimations",
+    "hook": "usePagedQuery",
+    "operation": "'list_erasure_intimations_due'",
+    "name": "due",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "ProcessorEngagements",
+    "hook": "usePagedQuery",
+    "operation": "'list_processor_engagements'",
+    "name": "engagements",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "ProcessorEngagements",
+    "hook": "useCollection",
+    "operation": "'list_processor_engagements'",
+    "name": "allEngagements",
+    "references": [
+      {
+        "line": 276,
+        "context": "{allEngagements.data?.items ?? []}"
+      },
+      {
+        "line": 278,
+        "context": "{allEngagements.data?.items ?? []}"
+      },
+      {
+        "line": 279,
+        "context": "{allEngagements.data?.items ?? []}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "ProcessorEngagements",
+    "hook": "usePagedQuery",
+    "operation": "'list_data_sharing_links'",
+    "name": "sharing",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "SharingForm",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 337,
+        "context": "{(activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "SharingForm",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "dataCategories",
+    "references": [
+      {
+        "line": 338,
+        "context": "{(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "SharingForm",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "principalCategories",
+    "references": [
+      {
+        "line": 339,
+        "context": "{(principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "SharingForm",
+    "hook": "useCollection",
+    "operation": "'list_registry_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 327,
+        "context": "purposeVersions = (purposes.data?.items ?? []).flatMap(p => p.versions.filter(v => v.effective_to === null).map(v => ({ value: v.id, label: `${p.name} (v${v.version})` })))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "SharingForm",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 343,
+        "context": "{(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "EngagementForm",
+    "hook": "useCollection",
+    "operation": "'list_processors'",
+    "name": "processors",
+    "references": [
+      {
+        "line": 364,
+        "context": "{(processors.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "EngagementForm",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "principalCategories",
+    "references": [
+      {
+        "line": 371,
+        "context": "{(principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "EngagementForm",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "dataCategories",
+    "references": [
+      {
+        "line": 370,
+        "context": "{(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "EngagementForm",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 372,
+        "context": "{(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "EstateImports",
+    "hook": "usePagedQuery",
+    "operation": "'list_bulk_jobs'",
+    "name": "jobs",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-operations.tsx",
+    "function": "EstateImportDetail",
+    "hook": "useQuery",
+    "operation": "'bulk_job'",
+    "name": "job",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "principalCategories",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "dataCategories",
+    "references": [
+      {
+        "line": 134,
+        "context": "{(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "useCollection",
+    "operation": "'list_registry_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 97,
+        "context": "{(purposes.data?.items ?? []).map(p => ({ value: p.id, label: p.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "useCollection",
+    "operation": "'list_processing_conditions'",
+    "name": "conditions",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "usePagedQuery",
+    "operation": "'list_principal_categories'",
+    "name": "principalPage",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "usePagedQuery",
+    "operation": "'list_data_categories'",
+    "name": "dataPage",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "usePagedQuery",
+    "operation": "'list_registry_purposes'",
+    "name": "purposePage",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "usePagedQuery",
+    "operation": "'list_processing_conditions'",
+    "name": "conditionPage",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "useQuery",
+    "operation": "'active_regulatory_package'",
+    "name": "active",
+    "references": [
+      {
+        "line": 32,
+        "context": "packageId = active.data?.package?.id"
+      },
+      {
+        "line": 101,
+        "context": "{!active.data?.package && active.status !== 'loading' && (\n          <NoticeBox tone=\"warn\" title=\"No regulatory package is in force\">\n            <p>A condition recorded now is stored as unresolved, because it cannot be traced to an official provision. Destructive work that depends on it is blocked until it is resolved.</p>\n          </NoticeBox>\n        )}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistrySetup",
+    "hook": "useQuery",
+    "operation": "'regulatory_package'",
+    "name": "detail",
+    "references": [
+      {
+        "line": 34,
+        "context": "vocabulary = detail.data?.condition_vocabulary ?? []"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "SafeguardsAndConnectors",
+    "hook": "useCollection",
+    "operation": "'list_security_safeguards'",
+    "name": "safeguards",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "SafeguardsAndConnectors",
+    "hook": "useCollection",
+    "operation": "'list_connector_bindings'",
+    "name": "bindings",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "SafeguardsAndConnectors",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 151,
+        "context": "systemName = (id: string) => systems.data?.items.find(s => s.id === id)?.name ?? id.slice(0, 8)"
+      },
+      {
+        "line": 192,
+        "context": "{(systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistryNotices",
+    "hook": "useCollection",
+    "operation": "'list_registry_notices'",
+    "name": "notices",
+    "references": [
+      {
+        "line": 234,
+        "context": "versions = (notices.data?.items ?? []).flatMap(n => n.versions.map(v => ({ ...v, notice_name: n.name })))"
+      },
+      {
+        "line": 277,
+        "context": "{(notices.data?.items ?? []).map(n => ({ value: n.id, label: n.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistryNotices",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "principalCategories",
+    "references": [
+      {
+        "line": 256,
+        "context": "{(principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistryNotices",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "dataCategories",
+    "references": [
+      {
+        "line": 282,
+        "context": "{(dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry-setup.tsx",
+    "function": "RegistryNotices",
+    "hook": "useCollection",
+    "operation": "'list_registry_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 235,
+        "context": "purposeVersions = (purposes.data?.items ?? []).flatMap(p => p.versions.filter(v => v.status === 'ACTIVE' && v.effective_to === null).map(v => ({ value: v.id, label: `${p.name} (v${v.version})` })))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "DataPrincipals",
+    "hook": "usePagedQuery",
+    "operation": "'list_data_principals'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "PrincipalDetail",
+    "hook": "useQuery",
+    "operation": "'data_principal'",
+    "name": "subject",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "PrincipalDetail",
+    "hook": "useQuery",
+    "operation": "'data_principal_processing'",
+    "name": "processing",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ProcessingActivities",
+    "hook": "usePagedQuery",
+    "operation": "'list_registry_activities'",
+    "name": "list",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_registry_purposes'",
+    "name": "purposes",
+    "references": [
+      {
+        "line": 172,
+        "context": "purposeVersions = (purposes.data?.items ?? []).flatMap(p => p.versions.filter(v => v.status === 'ACTIVE' && v.effective_to === null).map(v => ({ value: v.id, label: `${p.name} (v${v.version})` })))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_processing_conditions'",
+    "name": "conditions",
+    "references": [
+      {
+        "line": 197,
+        "context": "{(conditions.data?.items ?? []).filter(c => c.effective_to === null).map(c => ({ value: c.id, label: `${c.label} (${c.code}${c.unresolved ? ', unresolved' : ''})` }))}"
+      },
+      {
+        "line": 222,
+        "context": "{(conditions.data?.items ?? []).filter(c => c.effective_to === null).map(c => ({ value: c.id, label: `${c.label} (${c.code}${c.unresolved ? ', unresolved' : ''})` }))}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_registry_notices'",
+    "name": "notices",
+    "references": [
+      {
+        "line": 173,
+        "context": "publishedNotices = (notices.data?.items ?? []).flatMap(n => n.versions.filter(v => v.status === 'PUBLISHED').map(v => ({ value: v.id, label: `${n.name} v${v.version} (${v.locale})` })))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 212,
+        "context": "{(activities.data?.items ?? []).map(a => ({ value: a.id, label: a.name }))}"
+      },
+      {
+        "line": 221,
+        "context": "{activities.data?.items ?? []}"
+      },
+      {
+        "line": 223,
+        "context": "{activities.data?.items ?? []}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_principal_categories'",
+    "name": "principalCategories",
+    "references": [
+      {
+        "line": 175,
+        "context": "targets: Record<string, { value: string; label: string }[]> = {\n    PRINCIPAL_CATEGORY: (principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    DATA_CATEGORY: (dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description })),\n    RETENTION_RULE: (rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_data_categories'",
+    "name": "dataCategories",
+    "references": [
+      {
+        "line": 176,
+        "context": "targets: Record<string, { value: string; label: string }[]> = {\n    PRINCIPAL_CATEGORY: (principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    DATA_CATEGORY: (dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description })),\n    RETENTION_RULE: (rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_systems'",
+    "name": "systems",
+    "references": [
+      {
+        "line": 177,
+        "context": "targets: Record<string, { value: string; label: string }[]> = {\n    PRINCIPAL_CATEGORY: (principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    DATA_CATEGORY: (dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description })),\n    RETENTION_RULE: (rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_processor_engagements'",
+    "name": "engagements",
+    "references": [
+      {
+        "line": 178,
+        "context": "targets: Record<string, { value: string; label: string }[]> = {\n    PRINCIPAL_CATEGORY: (principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    DATA_CATEGORY: (dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description })),\n    RETENTION_RULE: (rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_retention_rules'",
+    "name": "rules",
+    "references": [
+      {
+        "line": 179,
+        "context": "targets: Record<string, { value: string; label: string }[]> = {\n    PRINCIPAL_CATEGORY: (principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    DATA_CATEGORY: (dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description })),\n    RETENTION_RULE: (rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "ActivityForms",
+    "hook": "useCollection",
+    "operation": "'list_security_safeguards'",
+    "name": "safeguards",
+    "references": [
+      {
+        "line": 180,
+        "context": "targets: Record<string, { value: string; label: string }[]> = {\n    PRINCIPAL_CATEGORY: (principalCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    DATA_CATEGORY: (dataCategories.data?.items ?? []).map(c => ({ value: c.id, label: c.name })),\n    SYSTEM: (systems.data?.items ?? []).map(s => ({ value: s.id, label: s.name })),\n    PROCESSOR_ENGAGEMENT: (engagements.data?.items ?? []).filter(e => e.status === 'ACTIVE').map(e => ({ value: e.id, label: e.service_description })),\n    RETENTION_RULE: (rules.data?.items ?? []).filter(r => r.status === 'ACTIVE').map(r => ({ value: r.id, label: `${r.name} (v${r.version})` }))"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/registry.tsx",
+    "function": "OrganisationProfile",
+    "hook": "useQuery",
+    "operation": "'organisation_profile'",
+    "name": "profile",
+    "references": [
+      {
+        "line": 277,
+        "context": "{profile.data?.current?.id ?? 'none'}"
+      },
+      {
+        "line": 277,
+        "context": "{profile.data?.current ?? null}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/regulatory.tsx",
+    "function": "RegulatoryPackages",
+    "hook": "usePagedQuery",
+    "operation": "'list_regulatory_packages'",
+    "name": "packages",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/regulatory.tsx",
+    "function": "RegulatoryPackages",
+    "hook": "useQuery",
+    "operation": "'active_regulatory_package'",
+    "name": "active",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/regulatory.tsx",
+    "function": "PackageDetail",
+    "hook": "useQuery",
+    "operation": "'regulatory_package'",
+    "name": "detail",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/regulatory.tsx",
+    "function": "Applicability",
+    "hook": "usePagedQuery",
+    "operation": "'list_applicability_decisions'",
+    "name": "decisions",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/regulatory.tsx",
+    "function": "Applicability",
+    "hook": "useCollection",
+    "operation": "'list_applicability_decisions'",
+    "name": "decisionChoices",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/regulatory.tsx",
+    "function": "Applicability",
+    "hook": "useCollection",
+    "operation": "'list_registry_activities'",
+    "name": "activities",
+    "references": [
+      {
+        "line": 127,
+        "context": "{[{ value: 'ORGANISATION', label: 'The organisation' }, ...(activities.data?.items ?? []).map(a => ({ value: a.id, label: `Activity: ${a.name}` }))]}"
+      }
+    ]
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/regulatory.tsx",
+    "function": "RegulatoryImpacts",
+    "hook": "usePagedQuery",
+    "operation": "'list_regulatory_impacts'",
+    "name": "impacts",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/workflow-runs.tsx",
+    "function": "WorkflowRuns",
+    "hook": "usePagedQuery",
+    "operation": "'list_workflow_runs'",
+    "name": "query",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/workflow-runs.tsx",
+    "function": "WorkflowRunDetail",
+    "hook": "useQuery",
+    "operation": "'workflow_run'",
+    "name": "run",
+    "references": []
+  },
+  {
+    "file": "frontend/src/components/screens/privacy-operations/workflow-runs.tsx",
+    "function": "WorkflowRunDetail",
+    "hook": "usePagedQuery",
+    "operation": "'list_run_actions'",
+    "name": "actions",
+    "references": []
+  }
+]

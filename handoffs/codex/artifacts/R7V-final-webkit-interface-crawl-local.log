@@ -1,0 +1,519 @@
+R7 webkit interface-crawl-local: unchanged suite, passive diagnostic instrumentation
+PASS signed out: /workspace/sign-in renders
+PASS signed out: /privacy/sign-in renders
+PASS signed out: /setup renders
+PASS signed out: /supplier renders
+PASS signed out: /privacy renders
+PASS signed out: an unknown page is a 404
+PASS signed out: vendor pages are 404 on a customer installation
+PASS owner: /workspace
+PASS owner: /workspace/ai-governance
+PASS owner: /workspace/assessments
+PASS owner: /workspace/audit-coverage
+PASS owner: /workspace/audit-retention
+PASS owner: /workspace/audit-trail
+PASS owner: /workspace/capabilities
+PASS owner: /workspace/catalog-discovery
+PASS owner: /workspace/compliance
+PASS owner: /workspace/configuration
+PASS owner: /workspace/connections
+PASS owner: /workspace/consent-records
+PASS owner: /workspace/contact-preferences
+PASS owner: /workspace/control-map
+PASS owner: /workspace/coverage
+PASS owner: /workspace/data-principals
+FAIL owner: /workspace/delivery {"expected":[],"actual":["still loading after the network settled","pageerror: /127.0.0.1:4310/api/v1/admin/data-principals?limit=25 due to access control checks.","pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks."]}
+FAIL owner: /workspace/dpdpa-audit {"expected":[],"actual":["pageerror: /127.0.0.1:4310/api/v1/admin/delivery-transports?limit=100 due to access control checks.","pageerror: /127.0.0.1:4310/api/v1/admin/outbound-messages?limit=25 due to access control checks."]}
+PASS owner: /workspace/estate-imports
+PASS owner: /workspace/evidence
+PASS owner: /workspace/failures
+PASS owner: /workspace/findings
+PASS owner: /workspace/gaps
+PASS owner: /workspace/grc
+FAIL owner: /workspace/grc/audits {"expected":[],"actual":["still loading after the network settled","pageerror: /127.0.0.1:4310/api/v1/admin/grc/risks?limit=20 due to access control checks."]}
+PASS owner: /workspace/impact-assessments
+FAIL owner: /workspace/imports {"expected":[],"actual":["still loading after the network settled"]}
+PASS owner: /workspace/incidents
+PASS owner: /workspace/incidents/[id] (f61ba2a2)
+PASS owner: /workspace/installed-versions
+FAIL owner: /workspace/inventory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/inventory/search {"expected":[],"actual":["still loading after the network settled"]}
+PASS owner: /workspace/message-templates
+PASS owner: /workspace/my-login
+FAIL owner: /workspace/notification-rules {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/notifications {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/operations-attention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/operations-evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/operations-runs {"expected":[],"actual":["still loading after the network settled"]}
+PASS owner: /workspace/organisation-intake
+FAIL owner: /workspace/organisation-profile {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/personal-data-breaches {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/policy-preview {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/preflight {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/processing-activities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/processor-engagements {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/processors {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/readiness {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/records-of-processing {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/registry-notices {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/registry-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/registry-setup {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/regulatory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/regulatory/applicability {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/regulatory/impacts {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/releases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/reports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/representation {"expected":[],"actual":["still loading after the network settled"]}
+PASS owner: /workspace/restores
+PASS owner: /workspace/retention
+PASS owner: /workspace/retention/holds
+PASS owner: /workspace/retention/outcomes
+PASS owner: /workspace/rights
+PASS owner: /workspace/rights/[id] (4b3b3471)
+PASS owner: /workspace/support-canaries
+PASS owner: /workspace/support-cases
+PASS owner: /workspace/team
+PASS owner: /workspace/test-lab
+PASS owner: /workspace/third-parties
+PASS owner: /workspace/updates
+FAIL owner: /workspace/vendor-visibility {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/website-consent {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner: /workspace/workflows {"expected":[],"actual":["still loading after the network settled"]}
+PASS every sidebar link points to an existing page
+PASS the sidebar lists pages
+FAIL admin: /workspace {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/ai-governance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/audit-coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/audit-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/audit-trail {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/capabilities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/catalog-discovery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/compliance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/configuration {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/connections {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/consent-records {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/contact-preferences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/control-map {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/data-principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/delivery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/dpdpa-audit {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/estate-imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/failures {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/findings {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/gaps {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/grc {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/grc/audits {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/impact-assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/incidents {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/installed-versions {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/inventory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/inventory/search {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/message-templates {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/my-login {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/notification-rules {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/notifications {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/operations-attention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/operations-evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/operations-runs {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/organisation-intake {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/organisation-profile {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/personal-data-breaches {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/policy-preview {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/preflight {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/processing-activities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/processor-engagements {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/processors {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/readiness {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/records-of-processing {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/registry-notices {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/registry-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/registry-setup {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/regulatory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/regulatory/applicability {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/regulatory/impacts {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/releases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/reports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/representation {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/restores {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/retention {"expected":[],"actual":["still loading after the network settled","pageerror: /127.0.0.1:4310/api/v1/session due to access control checks."]}
+FAIL admin: /workspace/retention/holds {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/retention/outcomes {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/rights {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/support-canaries {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/support-cases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/test-lab {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/third-parties {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/updates {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/vendor-visibility {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/website-consent {"expected":[],"actual":["still loading after the network settled"]}
+FAIL admin: /workspace/workflows {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/ai-governance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/audit-coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/audit-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/audit-trail {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/capabilities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/catalog-discovery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/compliance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/configuration {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/connections {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/consent-records {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/contact-preferences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/control-map {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/data-principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/delivery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/dpdpa-audit {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/estate-imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/failures {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/findings {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/gaps {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/grc {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/grc/audits {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/impact-assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/incidents {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/installed-versions {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/inventory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/inventory/search {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/message-templates {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/my-login {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/notification-rules {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/notifications {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/operations-attention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/operations-evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/operations-runs {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/organisation-intake {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/organisation-profile {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/personal-data-breaches {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/policy-preview {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/preflight {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/processing-activities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/processor-engagements {"expected":[],"actual":["still loading after the network settled","pageerror: /127.0.0.1:4310/api/v1/session due to access control checks."]}
+FAIL auditor: /workspace/processors {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/readiness {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/records-of-processing {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/registry-notices {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/registry-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/registry-setup {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/regulatory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/regulatory/applicability {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/regulatory/impacts {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/releases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/reports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/representation {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/restores {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/retention/holds {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/retention/outcomes {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/rights {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/support-canaries {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/support-cases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/test-lab {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/third-parties {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/updates {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/vendor-visibility {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/website-consent {"expected":[],"actual":["still loading after the network settled"]}
+FAIL auditor: /workspace/workflows {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/ai-governance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/audit-coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/audit-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/audit-trail {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/capabilities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/catalog-discovery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/compliance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/configuration {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/connections {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/consent-records {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/contact-preferences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/control-map {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/data-principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/delivery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/dpdpa-audit {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/estate-imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/failures {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/findings {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/gaps {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/grc {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/grc/audits {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/impact-assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/incidents {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/installed-versions {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/inventory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/inventory/search {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/message-templates {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/my-login {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/notification-rules {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/notifications {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/operations-attention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/operations-evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/operations-runs {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/organisation-intake {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/organisation-profile {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/personal-data-breaches {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/policy-preview {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/preflight {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/processing-activities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/processor-engagements {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/processors {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/readiness {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/records-of-processing {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/registry-notices {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/registry-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/registry-setup {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/regulatory {"expected":[],"actual":["still loading after the network settled","pageerror: /127.0.0.1:4310/api/v1/session due to access control checks."]}
+FAIL member: /workspace/regulatory/applicability {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/regulatory/impacts {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/releases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/reports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/representation {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/restores {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/retention/holds {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/retention/outcomes {"expected":[],"actual":["still loading after the network settled"]}
+PASS member: /workspace/rights
+FAIL member: /workspace/support-canaries {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/support-cases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/test-lab {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/third-parties {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/updates {"expected":[],"actual":["still loading after the network settled"]}
+PASS member: /workspace/vendor-visibility
+FAIL member: /workspace/website-consent {"expected":[],"actual":["still loading after the network settled"]}
+FAIL member: /workspace/workflows {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/ai-governance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/audit-coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/audit-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/audit-trail {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/capabilities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/catalog-discovery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/compliance {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/configuration {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/connections {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/consent-records {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/contact-preferences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/control-map {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/coverage {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/data-principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/delivery {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/dpdpa-audit {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/estate-imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/failures {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/findings {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/gaps {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/grc {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/grc/audits {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/impact-assessments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/imports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/incidents {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/installed-versions {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/inventory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/inventory/search {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/message-templates {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/my-login {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/notification-rules {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/notifications {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/operations-attention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/operations-evidence {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/operations-runs {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/organisation-intake {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/organisation-profile {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/personal-data-breaches {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/policy-preview {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/preflight {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/principals {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/processing-activities {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/processor-engagements {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/processors {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/readiness {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/records-of-processing {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/registry-notices {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/registry-retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/registry-setup {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/regulatory {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/regulatory/applicability {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/regulatory/impacts {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/releases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/reports {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/representation {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/restores {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/retention/holds {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/retention/outcomes {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/rights {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/support-canaries {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/support-cases {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/test-lab {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/third-parties {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/updates {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/vendor-visibility {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/website-consent {"expected":[],"actual":["still loading after the network settled"]}
+FAIL owner at phone width: /workspace/workflows {"expected":[],"actual":["still loading after the network settled"]}
+FAIL principal: /privacy {"expected":[],"actual":["still loading after the network settled"]}
+FAIL principal: /privacy/notices {"expected":[],"actual":["still loading after the network settled"]}
+FAIL principal: /privacy/preferences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL principal: /privacy/receipts {"expected":[],"actual":["still loading after the network settled","pageerror: /127.0.0.1:4310/api/v1/session due to access control checks."]}
+FAIL principal: /privacy/rights {"expected":[],"actual":["still loading after the network settled"]}
+PASS vendor signed out: /vendor/sign-in renders
+PASS vendor signed out: /vendor/setup renders
+PASS vendor signed out: the client workspace is 404 on the vendor installation
+PASS vendor users from the browser journeys are available for the crawl
+FAIL vendor admin: /vendor {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/engagements {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/licences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/organisations {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/payments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/practice {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/support {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor admin: /vendor/upload {"expected":[],"actual":["still loading after the network settled"]}
+PASS vendor admin: an accepted engagement is available to open
+FAIL vendor lead: /vendor {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/engagements {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/licences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/organisations {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/payments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/practice {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/support {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: /vendor/upload {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead: an accepted engagement is available to open {"expected":"found","actual":"none found"}
+FAIL vendor reviewer: /vendor {"expected":[],"actual":["still loading after the network settled"]}
+PASS vendor reviewer: /vendor/engagements
+PASS vendor reviewer: /vendor/licences
+FAIL vendor reviewer: /vendor/organisations {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor reviewer: /vendor/payments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor reviewer: /vendor/practice {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor reviewer: /vendor/retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor reviewer: /vendor/support {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor reviewer: /vendor/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor reviewer: /vendor/upload {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor reviewer: an accepted engagement is available to open {"expected":"found","actual":"none found"}
+PASS client account: /vendor/upload
+FAIL client account: the vendor area is refused, not broken {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/engagements {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/licences {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/organisations {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/payments {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/practice {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/retention {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/support {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/team {"expected":[],"actual":["still loading after the network settled"]}
+FAIL vendor lead at phone width: /vendor/upload {"expected":[],"actual":["still loading after the network settled"]}
+
+interface crawl: 426 visits, 363 with issues
+  [customer owner desktop] /workspace/delivery: still loading after the network settled | pageerror: /127.0.0.1:4310/api/v1/admin/data-principals?limit=25 due to access control checks. | pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.
+  [customer owner desktop] /workspace/dpdpa-audit: pageerror: /127.0.0.1:4310/api/v1/admin/delivery-transports?limit=100 due to access control checks. | pageerror: /127.0.0.1:4310/api/v1/admin/outbound-messages?limit=25 due to access control checks.
+  [customer owner desktop] /workspace/grc/audits: still loading after the network settled | pageerror: /127.0.0.1:4310/api/v1/admin/grc/risks?limit=20 due to access control checks.
+  [customer owner desktop] /workspace/imports: still loading after the network settled
+  [customer owner desktop] /workspace/inventory: still loading after the network settled
+  [customer owner desktop] /workspace/inventory/search: still loading after the network settled
+  [customer owner desktop] /workspace/notification-rules: still loading after the network settled
+  [customer owner desktop] /workspace/notifications: still loading after the network settled
+  [customer owner desktop] /workspace/operations-attention: still loading after the network settled
+  [customer owner desktop] /workspace/operations-evidence: still loading after the network settled
+  [customer owner desktop] /workspace/operations-runs: still loading after the network settled
+  [customer owner desktop] /workspace/organisation-profile: still loading after the network settled
+  [customer owner desktop] /workspace/personal-data-breaches: still loading after the network settled
+  [customer owner desktop] /workspace/policy-preview: still loading after the network settled
+  [customer owner desktop] /workspace/preflight: still loading after the network settled
+  [customer owner desktop] /workspace/principals: still loading after the network settled
+  [customer owner desktop] /workspace/processing-activities: still loading after the network settled
+  [customer owner desktop] /workspace/processor-engagements: still loading after the network settled
+  [customer owner desktop] /workspace/processors: still loading after the network settled
+  [customer owner desktop] /workspace/readiness: still loading after the network settled
+  [customer owner desktop] /workspace/records-of-processing: still loading after the network settled
+  [customer owner desktop] /workspace/registry-notices: still loading after the network settled
+  [customer owner desktop] /workspace/registry-retention: still loading after the network settled
+  [customer owner desktop] /workspace/registry-setup: still loading after the network settled
+  [customer owner desktop] /workspace/regulatory: still loading after the network settled
+  [customer owner desktop] /workspace/regulatory/applicability: still loading after the network settled
+  [customer owner desktop] /workspace/regulatory/impacts: still loading after the network settled
+  [customer owner desktop] /workspace/releases: still loading after the network settled
+  [customer owner desktop] /workspace/reports: still loading after the network settled
+  [customer owner desktop] /workspace/representation: still loading after the network settled
+  [customer owner desktop] /workspace/vendor-visibility: still loading after the network settled
+  [customer owner desktop] /workspace/website-consent: still loading after the network settled
+  [customer owner desktop] /workspace/workflows: still loading after the network settled
+  [customer admin desktop] /workspace: still loading after the network settled
+  [customer admin desktop] /workspace/ai-governance: still loading after the network settled
+  [customer admin desktop] /workspace/assessments: still loading after the network settled
+  [customer admin desktop] /workspace/audit-coverage: still loading after the network settled
+  [customer admin desktop] /workspace/audit-retention: still loading after the network settled
+  [customer admin desktop] /workspace/audit-trail: still loading after the network settled
+  [customer admin desktop] /workspace/capabilities: still loading after the network settled
+  [customer admin desktop] /workspace/catalog-discovery: still loading after the network settled
+  [customer admin desktop] /workspace/compliance: still loading after the network settled
+  [customer admin desktop] /workspace/configuration: still loading after the network settled
+  [customer admin desktop] /workspace/connections: still loading after the network settled
+  [customer admin desktop] /workspace/consent-records: still loading after the network settled
+  [customer admin desktop] /workspace/contact-preferences: still loading after the network settled
+  [customer admin desktop] /workspace/control-map: still loading after the network settled
+  [customer admin desktop] /workspace/coverage: still loading after the network settled
+  [customer admin desktop] /workspace/data-principals: still loading after the network settled
+  [customer admin desktop] /workspace/delivery: still loading after the network settled
+  [customer admin desktop] /workspace/dpdpa-audit: still loading after the network settled
+  [customer admin desktop] /workspace/estate-imports: still loading after the network settled
+  [customer admin desktop] /workspace/evidence: still loading after the network settled
+  [customer admin desktop] /workspace/failures: still loading after the network settled
+  [customer admin desktop] /workspace/findings: still loading after the network settled
+  [customer admin desktop] /workspace/gaps: still loading after the network settled
+  [customer admin desktop] /workspace/grc: still loading after the network settled
+  [customer admin desktop] /workspace/grc/audits: still loading after the network settled
+  [customer admin desktop] /workspace/impact-assessments: still loading after the network settled
+  [customer admin desktop] /workspace/imports: still loading after the network settled
+  [customer admin desktop] /workspace/incidents: still loading after the network settled
+  [customer admin desktop] /workspace/installed-versions: still loading after the network settled
+  [customer admin desktop] /workspace/inventory: still loading after the network settled
+  [customer admin desktop] /workspace/inventory/search: still loading after the network settled
+  [customer admin desktop] /workspace/message-templates: still loading after the network settled
+  [customer admin desktop] /workspace/my-login: still loading after the network settled
+  [customer admin desktop] /workspace/notification-rules: still loading after the network settled
+  [customer admin desktop] /workspace/notifications: still loading after the network settled
+  [customer admin desktop] /workspace/operations-attention: still loading after the network settled
+  [customer admin desktop] /workspace/operations-evidence: still loading after the network settled
+  [customer admin desktop] /workspace/operations-runs: still loading after the network settled
+  [customer admin desktop] /workspace/organisation-intake: still loading after the network settled
+  [customer admin desktop] /workspace/organisation-profile: still loading after the network settled
+  [customer admin desktop] /workspace/personal-data-breaches: still loading after the network settled
+  [customer admin desktop] /workspace/policy-preview: still loading after the network settled
+  [customer admin desktop] /workspace/preflight: still loading after the network settled
+  [customer admin desktop] /workspace/principals: still loading after the network settled
+  [customer admin desktop] /workspace/processing-activities: still loading after the network settled
+  [customer admin desktop] /workspace/processor-engagements: still loading after the network settled
+  [customer admin desktop] /workspace/processors: still loading after the network settled
+FAIL the crawl found nothing wrong on any page, tab or link {"expected":[],"actual":["owner: /workspace/delivery","owner: /workspace/dpdpa-audit","owner: /workspace/grc/audits","owner: /workspace/imports","owner: /workspace/inventory","owner: /workspace/inventory/search","owner: /workspace/notification-rules","owner: /workspace/notifications","owner: /workspace/operations-attention","owner: /workspace/operations-evidence","owner: /workspace/operations-runs","owner: /workspace/organisation-profile","owner: /workspace/personal-data-breaches","owner: /workspace/policy-preview","owner: /workspace/preflight","owner: /workspace/principals","owner: /workspace/processing-activities","owner: /workspace/processor-engagements","owner: /workspace/processors","owner: /workspace/readiness","owner: /workspace/records-of-processing","owner: /workspace/registry-notices","owner: /workspace/registry-retention","owner: /workspace/registry-setup","owner: /workspace/regulatory","owner: /workspace/regulatory/applicability","owner: /workspace/regulatory/impacts","owner: /workspace/releases","owner: /workspace/reports","owner: /workspace/representation","owner: /workspace/vendor-visibility","owner: /workspace/website-consent","owner: /workspace/workflows","admin: /workspace","admin: /workspace/ai-governance","admin: /workspace/assessments","admin: /workspace/audit-coverage","admin: /workspace/audit-retention","admin: /workspace/audit-trail","admin: /workspace/capabilities","admin: /workspace/catalog-discovery","admin: /workspace/compliance","admin: /workspace/configuration","admin: /workspace/connections","admin: /workspace/consent-records","admin: /workspace/contact-preferences","admin: /workspace/control-map","admin: /workspace/coverage","admin: /workspace/data-principals","admin: /workspace/delivery","admin: /workspace/dpdpa-audit","admin: /workspace/estate-imports","admin: /workspace/evidence","admin: /workspace/failures","admin: /workspace/findings","admin: /workspace/gaps","admin: /workspace/grc","admin: /workspace/grc/audits","admin: /workspace/impact-assessments","admin: /workspace/imports","admin: /workspace/incidents","admin: /workspace/installed-versions","admin: /workspace/inventory","admin: /workspace/inventory/search","admin: /workspace/message-templates","admin: /workspace/my-login","admin: /workspace/notification-rules","admin: /workspace/notifications","admin: /workspace/operations-attention","admin: /workspace/operations-evidence","admin: /workspace/operations-runs","admin: /workspace/organisation-intake","admin: /workspace/organisation-profile","admin: /workspace/personal-data-breaches","admin: /workspace/policy-preview","admin: /workspace/preflight","admin: /workspace/principals","admin: /workspace/processing-activities","admin: /workspace/processor-engagements","admin: /workspace/processors","admin: /workspace/readiness","admin: /workspace/records-of-processing","admin: /workspace/registry-notices","admin: /workspace/registry-retention","admin: /workspace/registry-setup","admin: /workspace/regulatory","admin: /workspace/regulatory/applicability","admin: /workspace/regulatory/impacts","admin: /workspace/releases","admin: /workspace/reports","admin: /workspace/representation","admin: /workspace/restores","admin: /workspace/retention","admin: /workspace/retention/holds","admin: /workspace/retention/outcomes","admin: /workspace/rights","admin: /workspace/support-canaries","admin: /workspace/support-cases","admin: /workspace/team","admin: /workspace/test-lab","admin: /workspace/third-parties","admin: /workspace/updates","admin: /workspace/vendor-visibility","admin: /workspace/website-consent","admin: /workspace/workflows","auditor: /workspace","auditor: /workspace/ai-governance","auditor: /workspace/assessments","auditor: /workspace/audit-coverage","auditor: /workspace/audit-retention","auditor: /workspace/audit-trail","auditor: /workspace/capabilities","auditor: /workspace/catalog-discovery","auditor: /workspace/compliance","auditor: /workspace/configuration","auditor: /workspace/connections","auditor: /workspace/consent-records","auditor: /workspace/contact-preferences","auditor: /workspace/control-map","auditor: /workspace/coverage","auditor: /workspace/data-principals","auditor: /workspace/delivery","auditor: /workspace/dpdpa-audit","auditor: /workspace/estate-imports","auditor: /workspace/evidence","auditor: /workspace/failures","auditor: /workspace/findings","auditor: /workspace/gaps","auditor: /workspace/grc","auditor: /workspace/grc/audits","auditor: /workspace/impact-assessments","auditor: /workspace/imports","auditor: /workspace/incidents","auditor: /workspace/installed-versions","auditor: /workspace/inventory","auditor: /workspace/inventory/search","auditor: /workspace/message-templates","auditor: /workspace/my-login","auditor: /workspace/notification-rules","auditor: /workspace/notifications","auditor: /workspace/operations-attention","auditor: /workspace/operations-evidence","auditor: /workspace/operations-runs","auditor: /workspace/organisation-intake","auditor: /workspace/organisation-profile","auditor: /workspace/personal-data-breaches","auditor: /workspace/policy-preview","auditor: /workspace/preflight","auditor: /workspace/principals","auditor: /workspace/processing-activities","auditor: /workspace/processor-engagements","auditor: /workspace/processors","auditor: /workspace/readiness","auditor: /workspace/records-of-processing","auditor: /workspace/registry-notices","auditor: /workspace/registry-retention","auditor: /workspace/registry-setup","auditor: /workspace/regulatory","auditor: /workspace/regulatory/applicability","auditor: /workspace/regulatory/impacts","auditor: /workspace/releases","auditor: /workspace/reports","auditor: /workspace/representation","auditor: /workspace/restores","auditor: /workspace/retention","auditor: /workspace/retention/holds","auditor: /workspace/retention/outcomes","auditor: /workspace/rights","auditor: /workspace/support-canaries","auditor: /workspace/support-cases","auditor: /workspace/team","auditor: /workspace/test-lab","auditor: /workspace/third-parties","auditor: /workspace/updates","auditor: /workspace/vendor-visibility","auditor: /workspace/website-consent","auditor: /workspace/workflows","member: /workspace","member: /workspace/ai-governance","member: /workspace/assessments","member: /workspace/audit-coverage","member: /workspace/audit-retention","member: /workspace/audit-trail","member: /workspace/capabilities","member: /workspace/catalog-discovery","member: /workspace/compliance","member: /workspace/configuration","member: /workspace/connections","member: /workspace/consent-records","member: /workspace/contact-preferences","member: /workspace/control-map","member: /workspace/coverage","member: /workspace/data-principals","member: /workspace/delivery","member: /workspace/dpdpa-audit","member: /workspace/estate-imports","member: /workspace/evidence","member: /workspace/failures","member: /workspace/findings","member: /workspace/gaps","member: /workspace/grc","member: /workspace/grc/audits","member: /workspace/impact-assessments","member: /workspace/imports","member: /workspace/incidents","member: /workspace/installed-versions","member: /workspace/inventory","member: /workspace/inventory/search","member: /workspace/message-templates","member: /workspace/my-login","member: /workspace/notification-rules","member: /workspace/notifications","member: /workspace/operations-attention","member: /workspace/operations-evidence","member: /workspace/operations-runs","member: /workspace/organisation-intake","member: /workspace/organisation-profile","member: /workspace/personal-data-breaches","member: /workspace/policy-preview","member: /workspace/preflight","member: /workspace/principals","member: /workspace/processing-activities","member: /workspace/processor-engagements","member: /workspace/processors","member: /workspace/readiness","member: /workspace/records-of-processing","member: /workspace/registry-notices","member: /workspace/registry-retention","member: /workspace/registry-setup","member: /workspace/regulatory","member: /workspace/regulatory/applicability","member: /workspace/regulatory/impacts","member: /workspace/releases","member: /workspace/reports","member: /workspace/representation","member: /workspace/restores","member: /workspace/retention","member: /workspace/retention/holds","member: /workspace/retention/outcomes","member: /workspace/support-canaries","member: /workspace/support-cases","member: /workspace/team","member: /workspace/test-lab","member: /workspace/third-parties","member: /workspace/updates","member: /workspace/website-consent","member: /workspace/workflows","owner at phone width: /workspace","owner at phone width: /workspace/ai-governance","owner at phone width: /workspace/assessments","owner at phone width: /workspace/audit-coverage","owner at phone width: /workspace/audit-retention","owner at phone width: /workspace/audit-trail","owner at phone width: /workspace/capabilities","owner at phone width: /workspace/catalog-discovery","owner at phone width: /workspace/compliance","owner at phone width: /workspace/configuration","owner at phone width: /workspace/connections","owner at phone width: /workspace/consent-records","owner at phone width: /workspace/contact-preferences","owner at phone width: /workspace/control-map","owner at phone width: /workspace/coverage","owner at phone width: /workspace/data-principals","owner at phone width: /workspace/delivery","owner at phone width: /workspace/dpdpa-audit","owner at phone width: /workspace/estate-imports","owner at phone width: /workspace/evidence","owner at phone width: /workspace/failures","owner at phone width: /workspace/findings","owner at phone width: /workspace/gaps","owner at phone width: /workspace/grc","owner at phone width: /workspace/grc/audits","owner at phone width: /workspace/impact-assessments","owner at phone width: /workspace/imports","owner at phone width: /workspace/incidents","owner at phone width: /workspace/installed-versions","owner at phone width: /workspace/inventory","owner at phone width: /workspace/inventory/search","owner at phone width: /workspace/message-templates","owner at phone width: /workspace/my-login","owner at phone width: /workspace/notification-rules","owner at phone width: /workspace/notifications","owner at phone width: /workspace/operations-attention","owner at phone width: /workspace/operations-evidence","owner at phone width: /workspace/operations-runs","owner at phone width: /workspace/organisation-intake","owner at phone width: /workspace/organisation-profile","owner at phone width: /workspace/personal-data-breaches","owner at phone width: /workspace/policy-preview","owner at phone width: /workspace/preflight","owner at phone width: /workspace/principals","owner at phone width: /workspace/processing-activities","owner at phone width: /workspace/processor-engagements","owner at phone width: /workspace/processors","owner at phone width: /workspace/readiness","owner at phone width: /workspace/records-of-processing","owner at phone width: /workspace/registry-notices","owner at phone width: /workspace/registry-retention","owner at phone width: /workspace/registry-setup","owner at phone width: /workspace/regulatory","owner at phone width: /workspace/regulatory/applicability","owner at phone width: /workspace/regulatory/impacts","owner at phone width: /workspace/releases","owner at phone width: /workspace/reports","owner at phone width: /workspace/representation","owner at phone width: /workspace/restores","owner at phone width: /workspace/retention","owner at phone width: /workspace/retention/holds","owner at phone width: /workspace/retention/outcomes","owner at phone width: /workspace/rights","owner at phone width: /workspace/support-canaries","owner at phone width: /workspace/support-cases","owner at phone width: /workspace/team","owner at phone width: /workspace/test-lab","owner at phone width: /workspace/third-parties","owner at phone width: /workspace/updates","owner at phone width: /workspace/vendor-visibility","owner at phone width: /workspace/website-consent","owner at phone width: /workspace/workflows","principal: /privacy","principal: /privacy/notices","principal: /privacy/preferences","principal: /privacy/receipts","principal: /privacy/rights","vendor admin: /vendor","vendor admin: /vendor/engagements","vendor admin: /vendor/licences","vendor admin: /vendor/organisations","vendor admin: /vendor/payments","vendor admin: /vendor/practice","vendor admin: /vendor/retention","vendor admin: /vendor/support","vendor admin: /vendor/team","vendor admin: /vendor/upload","vendor lead: /vendor","vendor lead: /vendor/engagements","vendor lead: /vendor/licences","vendor lead: /vendor/organisations","vendor lead: /vendor/payments","vendor lead: /vendor/practice","vendor lead: /vendor/retention","vendor lead: /vendor/support","vendor lead: /vendor/team","vendor lead: /vendor/upload","vendor lead: an accepted engagement is available to open","vendor reviewer: /vendor","vendor reviewer: /vendor/organisations","vendor reviewer: /vendor/payments","vendor reviewer: /vendor/practice","vendor reviewer: /vendor/retention","vendor reviewer: /vendor/support","vendor reviewer: /vendor/team","vendor reviewer: /vendor/upload","vendor reviewer: an accepted engagement is available to open","client account: the vendor area is refused, not broken","vendor lead at phone width: /vendor","vendor lead at phone width: /vendor/engagements","vendor lead at phone width: /vendor/licences","vendor lead at phone width: /vendor/organisations","vendor lead at phone width: /vendor/payments","vendor lead at phone width: /vendor/practice","vendor lead at phone width: /vendor/retention","vendor lead at phone width: /vendor/support","vendor lead at phone width: /vendor/team","vendor lead at phone width: /vendor/upload"]}
+Error: Assertion failed: the crawl found nothing wrong on any page, tab or link
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\interface-crawl-local.ts:272:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\interface-crawl-local.ts:148:1)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-interface-crawl-1790788388150-38ec8d1f-64cc-46ba-8c8b-e8702c714dde.json
+
+2 assertions, 2 failures.
