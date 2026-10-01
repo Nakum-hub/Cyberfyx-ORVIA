@@ -56,8 +56,12 @@ await t.run(async () => {
     const opened = await gaps();
     check('the next read records the new column and a new digest', [changed.columns.map(c => c.name).includes('aadhaar_number'), changed.digest !== first.digest], [true, true]);
     check('one HIGH schema-change gap tells staff to review the mapping', [opened.length, opened[0]?.severity, opened[0]?.state, opened[0]?.description.includes('Review data mapping')], [1, 'HIGH', 'OPEN', true]);
-    const listed = await ok(admin.call('/api/v1/admin/gaps?limit=200'), S.schemas.GapList);
-    check('the gap is visible to staff in the coverage list', listed.items.some(g => g.id === opened[0]!.id), true);
+    let visible = false;
+    for (let cursor: string | null = null, n = 0; n < 50 && !visible; n++) {
+      const listed: { items: { id: string }[]; next_cursor: string | null } = await ok(admin.call(`/api/v1/admin/gaps?limit=100${cursor ? `&cursor=${cursor}` : ''}`), S.schemas.GapList);
+      visible = listed.items.some(g => g.id === opened[0]!.id); cursor = listed.next_cursor; if (!cursor) break;
+    }
+    check('the gap is visible to staff in the coverage list', visible, true);
     await sweep();
     check('a further unchanged read does not duplicate the gap', (await gaps()).length, 1);
 

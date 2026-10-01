@@ -34,7 +34,7 @@ After A1–A8, each real engagement still needs its own signed engagement letter
 
 | # | Step | Who | Status |
 |---|---|---|---|
-| C1 | Qualify the production installation. This lifts the synthetic-people-only rule; until then a request naming a real person cannot be recorded. | Cyberfyx engineering, owner approval | Open (`docs/engineering/PRODUCTION_READINESS.md`) |
+| C1 | Qualify the production installation, then the client's server administrator runs `pnpm run principals:admit-real confirm:rehearsal admit "<qualification reference>" "<name and role>"` (one-way; revision 1.9). Until then a request naming a real person cannot be recorded. | Cyberfyx engineering and the client, owner approval | Open: mechanism built (`docs/engineering/V1_BASELINE_REV_1_9_REAL_PRINCIPALS.md`); qualification itself open (`docs/engineering/PRODUCTION_READINESS.md`) |
 | C2 | Host the vendor service | Cyberfyx | Open (`docs/runbooks/VENDOR_HOSTING_READINESS.md`) |
 | C3 | Switch payments to live (Razorpay merchant account) | Cyberfyx | Open |
 | C4 | Independent penetration test and dependency/secret review | Outside testers | Open |
