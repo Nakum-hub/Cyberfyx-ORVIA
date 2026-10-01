@@ -66,6 +66,8 @@ await t.run(async () => {
   const msg = await admin.call('/api/v1/admin/outbound-messages', { transport_id: transport.id, source_kind: 'MANUAL', source_id: null, recipient: A.email.toUpperCase(), subject: 'Festive sale (synthetic)', body: 'Synthetic promotional text.' }, key());
   check('the message is not refused, so its author cannot probe for canaries', msg.status, 201);
   check('an OUTBOUND_MESSAGE hit is recorded, matching the address case-insensitively', (await hits(k.id)).some(x => x.source === 'OUTBOUND_MESSAGE' && x.detail.includes('Festive sale')), true);
+  // The relay was only needed to address a message; disable it so other suites see the environment's real channel state.
+  await ok(admin.call(`/api/v1/admin/delivery-transports/${transport.id}/disable`, { reason: 'Relay used only by the canary suite.' }, key()), S.schemas.DeliveryTransport);
 
   t.setPhase('consent recorded for the decoy');
   const { activity } = await t.activity({ condition: 'CONSENT', systems: [scenario.system.id] });
