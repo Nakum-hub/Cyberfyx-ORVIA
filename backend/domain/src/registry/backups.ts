@@ -140,12 +140,13 @@ export async function systemRestoreList(c: Context, page: Page, query: unknown) 
 /** A restore older than the ledger was reviewed by hand: record how. Only an INCOMPLETE restore takes one, once (migration 0090). */
 export async function reviewRestoreCoverage(c: Context, id: string, input: unknown) {
   const v = R.RestoreCoverageReview.parse(input);
-  const r = (await c.tx.query(`SELECT ledger_coverage FROM app.system_restores WHERE ${predicate} AND id=$4 FOR UPDATE`, [...scope(c), id])).rows[0];
+  // Restores are append-only (no UPDATE policy), so no row lock: the review table's key allows one review per restore.
+  const r = (await c.tx.query(`SELECT ledger_coverage FROM app.system_restores WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0];
   if (!r) refuse(404, 'id', 'not_found');
   if (r.ledger_coverage !== 'INCOMPLETE') refuse(409, 'ledger_coverage', 'restore_ledger_coverage_is_complete');
-  if ((await c.tx.query(`SELECT 1 FROM app.restore_coverage_reviews WHERE ${predicate} AND restore_id=$4`, [...scope(c), id])).rowCount) refuse(409, 'coverage_review', 'already_reviewed');
-  await c.tx.query(`INSERT INTO app.restore_coverage_reviews(tenant_id,legal_entity_id,environment_id,restore_id,evidence_reference,reviewed_by) VALUES($1,$2,$3,$4,$5,$6)`,
+  const inserted = await c.tx.query(`INSERT INTO app.restore_coverage_reviews(tenant_id,legal_entity_id,environment_id,restore_id,evidence_reference,reviewed_by) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING`,
     [...scope(c), id, v.evidence_reference, c.actor.actor_id]);
+  if (!inserted.rowCount) refuse(409, 'coverage_review', 'already_reviewed');
   await audit(c, 'system_restore.coverage_reviewed', id);
   return restoreView(c, id, Number((await c.tx.query('SELECT app.restore_marked_count($1) AS n', [id])).rows[0].n));
 }

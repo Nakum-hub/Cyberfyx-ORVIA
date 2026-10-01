@@ -7,7 +7,7 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "c4b8fcb47604d8ae1e97672dc032bf3f198a2eab29defdc94b4c6a8514246dd0",
+  "test_file_digest": "23a169badb464b69027a0744e41af80cf69c87ccc53dcd7f9431f02ad5ddcf7e",
   "counts": {
     "UNIT": 58,
     "INTEGRATION": 91,
@@ -204,7 +204,7 @@
     },
     {
       "path": "tests/integration/consent/canary-grant-admission.test.ts",
-      "sha256": "25f5cb031eaacb6a2f5f7452ca9e006f160bbc353cb764568906400469cc97a2",
+      "sha256": "5cdef7c977390b45cd8e08ee216a3fd08545b0b72ae1e77d65b87fec06a103c4",
       "kind": "INTEGRATION"
     },
     {
@@ -459,7 +459,7 @@
     },
     {
       "path": "tests/integration/operations/backup-obligations.test.ts",
-      "sha256": "1183845c8e96a4610a0114b4f5b38112d907c2e06899581eae6b2d0c36909f1a",
+      "sha256": "bdd6bdf4da2b597716b5e316f8efca9a3267462afca49632460b9aa87362bab9",
       "kind": "INTEGRATION"
     },
     {
@@ -594,7 +594,7 @@
     },
     {
       "path": "tests/integration/vendor/audit-practice.test.ts",
-      "sha256": "b91ffabf853c819fbfa8638a651db32ce75eb6b365ba2c1a3e4701e497205c26",
+      "sha256": "649b210dd5afd19e9c9dd1589b970cff47f15fff45e82993fb36942d19580d24",
       "kind": "INTEGRATION"
     },
     {

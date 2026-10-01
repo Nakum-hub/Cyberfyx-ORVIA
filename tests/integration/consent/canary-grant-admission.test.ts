@@ -180,7 +180,7 @@ await t.run(async () => {
   const transition = await db.connect(); const admission = await db.connect();
   try {
     await transition.query('BEGIN');
-    await transition.query(`UPDATE app.withdrawal_canaries SET state='RETIRED' WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND id=$4`, [...scope, pending.id]);
+    await transition.query(`UPDATE app.withdrawal_canaries SET state='RETIRED', retired_at=clock_timestamp() WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND id=$4`, [...scope, pending.id]);
     await admission.query('BEGIN');
     await admission.query("SELECT set_config('orvia.tenant_id',$1,true),set_config('orvia.legal_entity_id',$2,true),set_config('orvia.environment_id',$3,true),set_config('lock_timeout','700ms',true)", scope);
     const waited = await admission.query('SELECT app.canary_marketing_hold($1)', [ordinary.id]).then(() => 'NOT_BLOCKED', (e: { code?: string }) => e.code ?? 'ERROR');

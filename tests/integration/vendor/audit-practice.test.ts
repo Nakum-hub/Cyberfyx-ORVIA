@@ -393,7 +393,9 @@ try {
   check('criteria evidence: an unknown version is 404', (await reviewer2.json(`${V}/criteria/${randomUUID()}/evidence`)).status, 404);
   check('criteria evidence: readable with the same access as the practice summary (an auditor reads it) but an auditor cannot approve', [(await auditor.json(`${V}/criteria/${prod.id}/evidence`)).status, (await auditor.json(`${V}/criteria/${prod.id}/approve`, {})).status], [200, 403]);
   const review = { expected_digest: evidence.digest, review_reference: 'Sources re-downloaded and digests compared, review note RV-1 (synthetic).', acknowledged_open_items_digest: evidence.open_items_digest };
-  check('criteria approval: the recorder cannot approve', code(await lead.json(`${V}/criteria/${prod.id}/approve`, review)), [409, 'approver_must_differ_from_recorder']);
+  // The recorder (lead) holds no approval capability at all, so the request stops at authorisation; the database two-person
+  // check (approved_by <> recorded_by) is the second line and is covered with the fixture criteria above.
+  check('criteria approval: the recorder cannot approve', (await lead.json(`${V}/criteria/${prod.id}/approve`, review)).status, 403);
   check('criteria approval: a digest other than the version reviewed is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, expected_digest: 'b'.repeat(64) })), [409, 'criteria_digest_does_not_match_the_version_reviewed']);
   check('criteria approval: open items not acknowledged are refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, acknowledged_open_items_digest: 'c'.repeat(64) })), [409, 'open_verification_items_not_acknowledged']);
   check('criteria approval: a review reference with contact details is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, review_reference: 'Checked by reviewer at reviewer@example.com' })), [400, 'review_reference_must_not_contain_contact_details']);

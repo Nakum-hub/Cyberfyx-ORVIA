@@ -49,8 +49,9 @@ export async function operationsAttention(c: Context) {
   }
   // EX07: a system restored from an older backup brought erased people back; re-erasure stays here until confirmed. And a system
   // with verified erasures but no current backup treatment has unknown backup handling, which stays visibly unverified (master §50).
-  for (const b of capped((await c.tx.query(`WITH s AS (SELECT DISTINCT system_id FROM app.system_restores WHERE ${predicate})
-      SELECT s.system_id, k.reapply_required FROM s CROSS JOIN LATERAL app.erasure_ledger_counts(s.system_id) k WHERE k.reapply_required > 0 ORDER BY s.system_id LIMIT 51`, s)).rows, 50, 'systems needing re-erasure after a restore'))
+  // Newest restore first, so the system most recently restored is never the one cut off by the limit.
+  for (const b of capped((await c.tx.query(`WITH s AS (SELECT system_id, max(recorded_at) AS last_restore FROM app.system_restores WHERE ${predicate} GROUP BY system_id)
+      SELECT s.system_id, k.reapply_required FROM s CROSS JOIN LATERAL app.erasure_ledger_counts(s.system_id) k WHERE k.reapply_required > 0 ORDER BY s.last_restore DESC, s.system_id LIMIT 51`, s)).rows, 50, 'systems needing re-erasure after a restore'))
     push({ kind: 'REERASURE_AFTER_RESTORE', severity: 'OPEN', entity_kind: 'system', entity_id: b.system_id, count: b.reapply_required,
       detail: `${b.reapply_required} person(s) erased on this system since the restored backup was taken must be erased again.`, due_at: null });
   // A restore from a backup older than erasures the ledger already purged cannot name everyone it brought back (migration 0090):
