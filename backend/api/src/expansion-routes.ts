@@ -15,6 +15,8 @@ import * as A from '../../domain/src/dpdpa-audit/exchange.ts';
 import * as M from '../../domain/src/dpdpa-audit/mandate.ts';
 import { createSite, enableSite, disableSite, siteList, createConfig, decideConfig, configList, consentStats, requestScan, scanList } from '../../domain/src/cmp/cmp.ts';
 import { requestPolicyDiscovery, policyDiscoveryList, policyDiscoveryText, reviewPolicyDiscovery } from '../../domain/src/cmp/policy-discovery.ts';
+import { modelVersionList, recordModelVersion, approveModelVersion, deployModelVersion, retireModelVersion } from '../../domain/src/ai-governance/model-versions.ts';
+import { canaryList, createCanary, activateCanary, retireCanary, reportCanaryHit, canaryHitList, reviewCanaryHit } from '../../domain/src/consent/canaries.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
@@ -134,6 +136,18 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'request_policy_discovery': return requestPolicyDiscovery(c, id!, input);
     case 'policy_discovery_text': return policyDiscoveryText(c, id!);
     case 'review_policy_discovery': return reviewPolicyDiscovery(c, id!, input);
+    case 'list_ai_model_versions': return modelVersionList(c, id!, page);
+    case 'record_ai_model_version': return recordModelVersion(c, id!, input);
+    case 'approve_ai_model_version': return approveModelVersion(c, id!);
+    case 'deploy_ai_model_version': return deployModelVersion(c, id!);
+    case 'retire_ai_model_version': return retireModelVersion(c, id!);
+    case 'list_withdrawal_canaries': return canaryList(c, page);
+    case 'create_withdrawal_canary': return createCanary(c, input);
+    case 'activate_withdrawal_canary': return activateCanary(c, id!);
+    case 'retire_withdrawal_canary': return retireCanary(c, id!);
+    case 'record_canary_receipt': return reportCanaryHit(c, id!, input);
+    case 'list_canary_hits': return canaryHitList(c, page, query);
+    case 'review_canary_hit': return reviewCanaryHit(c, id!, input);
     // DPDPA external audit exchange (revision 1.5 addendum)
     case 'dpdpa_gap_register': return A.gapRegister(c);
     case 'export_dpdpa_gap_register': return A.exportGapRegister(c);

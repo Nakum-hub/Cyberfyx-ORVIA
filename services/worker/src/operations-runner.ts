@@ -123,7 +123,14 @@ export function operationsRunner() {
     }
     return reports;
   }
-  return { once, close: () => Promise.all([control.end(), targets.agent.end(), targets.observer.end()]) };
+  /** Wakes the caller when a run becomes executable (migration 0081: NOTIFY orvia_operations). Resolves once listening. */
+  async function listen(onWake: () => void) {
+    const client = await control.connect();
+    client.on('notification', () => onWake());
+    await client.query('LISTEN orvia_operations');
+    return () => { client.release(); };
+  }
+  return { once, listen, close: () => Promise.all([control.end(), targets.agent.end(), targets.observer.end()]) };
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
@@ -136,6 +143,10 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   process.on('SIGINT', stop); process.on('SIGTERM', stop);
   process.on('message', message => { if (message === 'orvia-stop') stop(); });
   const loop = !process.argv.includes('--once');
+  // A withdrawal or newly approved run starts a pass at once instead of waiting out the 30-second loop. A wake that arrives
+  // during a pass is kept, so the next wait returns immediately rather than losing it.
+  let pending = false;
+  const unlisten = loop ? await runner.listen(() => { pending = true; wake(); }) : () => {};
   try {
     do {
       const reports = await runner.once();
@@ -144,9 +155,10 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
       // loop keeps running and reports them in each pass's output instead, so a
       // clean stop is not recorded as a failed child; a thrown error still ends it.
       if (!loop && reports.some(r => r.errors.length)) process.exitCode = 1;
-      if (loop && !stopped) await new Promise<void>(resolve => { const timer = setTimeout(resolve, 30_000); wake = () => { clearTimeout(timer); resolve(); }; });
+      if (loop && !stopped && !pending) await new Promise<void>(resolve => { const timer = setTimeout(resolve, 30_000); wake = () => { clearTimeout(timer); resolve(); }; });
+      pending = false;
     } while (loop && !stopped);
-  } finally { await runner.close(); }
+  } finally { unlisten(); await runner.close(); }
   // An IPC channel keeps the event loop alive after the last pass.
   if (process.connected) process.disconnect();
 }

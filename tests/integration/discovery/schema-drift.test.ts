@@ -33,7 +33,8 @@ await t.run(async () => {
     const target = await ok(admin.call(path, { system_id: system.id, schema_name: 'public', relation_name: relation }, key()), S.schemas.CatalogDiscoveryTarget);
     await ok(owner.call(`${path}/${target.id}/approve`, {}, key()), S.schemas.CatalogDiscoveryTarget);
     const sweep = async () => {
-      await db.query(`UPDATE app.catalog_discovery_jobs SET next_run_at=now() - interval '1 second' WHERE target_id=$1`, [target.id]);
+      // Due before every other target the long-lived profile holds (a sweep reads the ten due longest), so this target is read next.
+      await db.query(`UPDATE app.catalog_discovery_jobs SET next_run_at=now() - interval '10 years' WHERE target_id=$1`, [target.id]);
       return sweepCatalogDiscovery(runtime.scoped, runtime.enrollment.identities.map(x => x.id), observerEnrollment(runtime.config).identities, runtime.observer);
     };
     const detail = async () => S.CatalogDiscoveryDetail.parse(await (await admin.call(`${path}/${target.id}`)).json());

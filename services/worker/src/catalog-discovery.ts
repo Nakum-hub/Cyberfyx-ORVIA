@@ -29,7 +29,8 @@ export async function sweepCatalogDiscovery(
       JOIN app.catalog_discovery_targets t USING(tenant_id,legal_entity_id,environment_id)
       WHERE j.tenant_id=$1 AND j.legal_entity_id=$2 AND j.environment_id=$3 AND t.id=j.target_id
         AND t.state='APPROVED' AND j.state<>'EXHAUSTED' AND j.next_run_at<=clock_timestamp()
-      ORDER BY j.next_run_at,j.target_id LIMIT 10 FOR UPDATE OF j SKIP LOCKED`,scope);
+      ORDER BY (j.last_run_at IS NULL) DESC,j.next_run_at,j.target_id LIMIT 10 FOR UPDATE OF j SKIP LOCKED`,scope);
+    // A target never read yet (just approved; nothing is known about it) goes before freshness re-reads, however many are due.
     for(const job of jobs.rows){
       await c.tx.query('SAVEPOINT catalog_discovery_item');
       try{

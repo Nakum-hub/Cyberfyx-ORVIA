@@ -153,6 +153,8 @@ await t.run(async () => {
     const off = await ok(admin.call(`/api/v1/admin/grc/control-tests/${evidence.id}/enabled`, { enabled: false }, key()), Test);
     check('a disabled test says so and cannot be run', [off.standing, (await admin.call(`/api/v1/admin/grc/control-tests/${evidence.id}/runs`, {}, key())).status], ['DISABLED', 409]);
     const scheduled = await create('Row security is forced', 'FORCED_ROW_SECURITY', 0);
+    // The long-lived profile holds many due tests from earlier runs and a pass takes the longest-due first: make this one first.
+    await db.query(`UPDATE app.control_tests SET next_run_at=now() - interval '10 years' WHERE id=$1`, [scheduled.id]);
     const reports = await runner.once();
     const report = reports.find(r => r.scope === s.environment_id)!;
     check('the operations runner ran the due test without compliance errors', [report.control_tests_run >= 1, report.errors.filter(e => e.startsWith('control test') || e.startsWith('assessment finding'))], [true, []]);

@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "1ad60cbaf45ee6410faa30a35b73a59b795df03451196e22e85c7d705d8700b1",
+  "test_file_digest": "f6fb7615fd838a196da862fd6f4ed59582de240124c37d7a76f4fe1767ca7bd6",
   "counts": {
     "UNIT": 50,
-    "INTEGRATION": 84,
+    "INTEGRATION": 87,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
@@ -163,6 +163,11 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/ai-governance/model-versions.test.ts",
+      "sha256": "8e6b11353e00f84143ec8549472f6d7ca398473b9cbfd6152841ae6c291feadc",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/ai-governance/monitor.test.ts",
       "sha256": "2ad481ee9f96409bd47d00a440560d9559848f1d960f02a2f4499fe8b63f6053",
       "kind": "INTEGRATION"
@@ -193,6 +198,11 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/consent/canaries.test.ts",
+      "sha256": "669ef641491ea9ac0806ee0d01a9bd63d97178f88c6ebbf4d65768ed78468833",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/consent/consent.test.ts",
       "sha256": "dfccb7b00da4ed6fc19cef17c09a31df808391359879d0e03fe878e4f5ad2297",
       "kind": "INTEGRATION"
@@ -209,7 +219,7 @@
     },
     {
       "path": "tests/integration/discovery/catalog-flow.test.ts",
-      "sha256": "8dcc620f15186b0d59fcff5a2ede064fc0bfa39ff0102093b3c67249e941e233",
+      "sha256": "ef3e3aad6ed6f9973db404d7570b469a9299b2d7dd9a8c9c45d59439d695d8ff",
       "kind": "INTEGRATION"
     },
     {
@@ -219,12 +229,17 @@
     },
     {
       "path": "tests/integration/discovery/schema-drift.test.ts",
-      "sha256": "d66c033c0216048354c2b9917a6abbc4fe3c1b0c9d1eed08f97c18845e910140",
+      "sha256": "cd2caeb004f3b32f2ef7115fb95047c03354e4c343a2cf5b8f48bb5decb2e664",
       "kind": "INTEGRATION"
     },
     {
       "path": "tests/integration/enforcement/send.test.ts",
       "sha256": "ad86bdfd2fde72420d2bb18f8b4df034fc0019b5c8995b382633d577edfc1dbf",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/enforcement/withdrawal-timing.test.ts",
+      "sha256": "b73f40b3dfbee14f0763cc62ba73cc9bc00827a96a6c92a86160405b20e79dfe",
       "kind": "INTEGRATION"
     },
     {
@@ -269,7 +284,7 @@
     },
     {
       "path": "tests/integration/expansion/grc-lifecycle.test.ts",
-      "sha256": "3acae571fd6f6b2e5f39e79ab71a12bf6ab7f9077117e5d4e0e223545cdeb7b4",
+      "sha256": "ff21428eb8392b73c2b17633990e7dee8462a62e96454ef93df5c9bd08b8da5c",
       "kind": "INTEGRATION"
     },
     {

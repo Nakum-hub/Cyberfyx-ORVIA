@@ -416,6 +416,18 @@ export interface EndpointMap {
   request_policy_discovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscovery> };
   policy_discovery_text: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryText> };
   review_policy_discovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscovery> };
+  list_ai_model_versions: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiModelVersionList> };
+  record_ai_model_version: { request: import('zod').infer<typeof import('../src/index.ts').schemas.AiModelVersionCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiModelVersion> };
+  approve_ai_model_version: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiModelVersion> };
+  deploy_ai_model_version: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiModelVersion> };
+  retire_ai_model_version: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.AiModelVersion> };
+  list_withdrawal_canaries: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanaryList> };
+  create_withdrawal_canary: { request: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanaryCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanary> };
+  activate_withdrawal_canary: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanary> };
+  retire_withdrawal_canary: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.WithdrawalCanary> };
+  record_canary_receipt: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHitReport>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHit> };
+  list_canary_hits: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHitList> };
+  review_canary_hit: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHitReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CanaryHit> };
   record_cmp_consent: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentReceipt> };
   list_preference_topics: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicList> };
   create_preference_topic: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopic> };
