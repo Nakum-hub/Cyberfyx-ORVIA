@@ -421,12 +421,20 @@ await t.run(async () => {
 
     t.setPhase('closing ends the channel');
     await ok(owner.call(`/api/v1/admin/audit-mandates/${m1.id}/state`, { state: 'ACTIVE', reason: 'Scope review complete.' }, key()), S.schemas.AuditMandate);
+
+    // Continuous assurance (revision 1.6 §3): a separate mandate of its own kind, with its own dual approval, at most 400 days,
+    // which may outlast the audit window but never comes into force beside the engagement mandate and ends with the engagement.
+    const ca = await ok(draft({ kind: 'CONTINUOUS_ASSURANCE', valid_to: at(300 * 86_400_000) }), S.schemas.AuditMandate);
+    check('a continuous-assurance mandate is its own draft and may run past the audit window an engagement mandate may not', [ca.kind, ca.state, ca.open], ['CONTINUOUS_ASSURANCE', 'DRAFT', false]);
+    check('a continuous-assurance mandate lasts at most 400 days', await codes(draft({ kind: 'CONTINUOUS_ASSURANCE', valid_to: at(401 * 86_400_000) })), { status: 400, codes: ['at_most_400_days'] });
+    check('its preparer cannot approve it: it needs its own second person', await codes(admin.call(`/api/v1/admin/audit-mandates/${ca.id}/approval`, {}, key())), { status: 409, codes: ['approver_must_differ_from_preparer'] });
+    check('it does not come into force beside the engagement mandate, so it cannot silently extend it', await codes(reviewer.call(`/api/v1/admin/audit-mandates/${ca.id}/approval`, {}, key())), { status: 409, codes: ['another_mandate_in_force_end_it_first'] });
     // An approved response still queued when the engagement closes must never be sent after the end.
     const lateResp = await ok(admin.call(`/api/v1/admin/audit-engagements/${ce.id}/finding-responses`, { ...respBody, response: 'Updated plan: the notice is published.', remediation_status: 'COMPLETED_CLAIMED' }, key()), S.schemas.FindingResponse);
     check('a second response is queued before the engagement closes', (await ok(reviewer.call(`/api/v1/admin/audit-finding-responses/${lateResp.id}/approval`, { personal_data: 'NONE_CONFIRMED' }, key()), S.schemas.FindingResponse)).state, 'QUEUED');
     const closed = await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/closure`, { reason: 'Report received; engagement complete.' }, key()), S.schemas.AuditEngagement);
     const cm8 = (await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/channel`), S.schemas.AuditChannel)).mandates.find(x => x.id === m1.id)!;
-    check('closing the engagement ends its mandate', [closed.state, cm8.state], ['CLOSED', 'ENDED']);
+    check('closing the engagement ends its mandate and revokes the continuous-assurance draft', [closed.state, cm8.state, (await ok(owner.call(`/api/v1/admin/audit-engagements/${ce.id}/channel`), S.schemas.AuditChannel)).mandates.find(x => x.id === ca.id)?.state], ['CLOSED', 'ENDED', 'REVOKED']);
     // The vendor is unreachable at the end: the queue still settles here, before any call succeeds.
     // The test transport routes every call to the vendor handler, so an unreachable vendor is a transport that refuses the connection.
     const reachable = env.transport;
