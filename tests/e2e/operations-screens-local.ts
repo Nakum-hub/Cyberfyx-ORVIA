@@ -141,7 +141,7 @@ await t.run(async () => {
       await field(f, 'System 1').selectOption(system.id); await field(f, 'Record key 1').fill(personRef); await field(f, 'Source identifier 1').fill('person@synthetic.example');
       const person = await submit(f, /\/data-principals$/, S.schemas.Subject, 'Register Data Principal');
       check('a person is registered with a keyed reference and no stored identifier', [person.references.length, person.references[0]!.has_source_key], [1, true]);
-      await page.getByRole('heading', { name: 'Maintain this person' }).waitFor(); await page.waitForLoadState('networkidle');
+      await page.getByRole('heading', { name: 'Maintain this person' }).waitFor(); await page.waitForLoadState('networkidle'); await waitForPageContent(page);
       f = form('Start a relationship context');
       await field(f, 'Context').selectOption({ label: setup.category.name }); await field(f, 'Status').selectOption('ACTIVE'); await field(f, 'Evidence').selectOption('UNKNOWN');
       const relationship = await submit(f, /\/data-principal-relationships$/, S.schemas.Relationship, 'Start a relationship context');
@@ -172,7 +172,7 @@ await t.run(async () => {
       await search.getByLabel('System', { exact: true }).selectOption(system.id); await search.getByLabel('Record key in that system').fill(personRef);
       await search.getByRole('button', { name: 'Search', exact: true }).click();
       await second.getByRole('row').filter({ hasText: person.id.slice(0, 8) }).getByRole('button', { name: 'Open' }).click();
-      await second.getByRole('heading', { name: 'Maintain this person' }).waitFor(); await second.waitForLoadState('networkidle');
+      await second.getByRole('heading', { name: 'Maintain this person' }).waitFor(); await second.waitForLoadState('networkidle'); await waitForPageContent(second);
       const vf = second.getByRole('form', { name: 'Verify a representative' });
       await vf.getByLabel(/^Representative/).selectOption(guardian.id); await vf.getByLabel(/^Outcome/).selectOption('VERIFIED'); await vf.getByLabel(/^Verification evidence/).fill('Order checked against the court register');
       await waitForPageContent(second);
@@ -192,10 +192,16 @@ await t.run(async () => {
       await own.getByLabel('System', { exact: true }).selectOption(system.id); await own.getByLabel('Record key in that system').fill(personRef);
       await own.getByRole('button', { name: 'Search', exact: true }).click();
       await page.getByRole('row').filter({ hasText: person.id.slice(0, 8) }).getByRole('button', { name: 'Open' }).click();
-      await page.getByRole('heading', { name: 'Maintain this person' }).waitFor(); await page.waitForLoadState('networkidle');
+      await page.getByRole('heading', { name: 'Maintain this person' }).waitFor(); await page.waitForLoadState('networkidle'); await waitForPageContent(page);
       f = form('Record child status');
       await field(f, 'Status').selectOption('CHILD'); await field(f, 'Basis').fill('Date of birth in the enrolment record');
       await field(f, 'Guardian').selectOption(guardian.id); await field(f, 'Verifiable consent').selectOption('NOT_ESTABLISHED');
+      const invalidChildStatus = await f.locator('input:invalid, select:invalid, textarea:invalid').evaluateAll(elements => elements.map(element => {
+        const field = element as HTMLInputElement;
+        return { name: field.name, type: field.type, hasValue: Boolean(field.value), valueMissing: field.validity.valueMissing,
+          tooShort: field.validity.tooShort, patternMismatch: field.validity.patternMismatch };
+      }));
+      if (invalidChildStatus.length) throw new Error(`Native child-status validation refused: ${JSON.stringify(invalidChildStatus)}`);
       await f.getByRole('button', { name: 'Record child status', exact: true }).click();
       await f.getByText('A known status is recorded with the evidence it rests on.').waitFor();
       await field(f, 'Evidence reference').fill('Enrolment record ER-2 (synthetic)');
