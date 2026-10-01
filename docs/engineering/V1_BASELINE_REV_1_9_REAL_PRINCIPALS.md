@@ -59,7 +59,7 @@ The owner's position was that email alone is enough. Engineering agreed, for the
 - Contract 0.54.0:
   - `PrincipalCreate.email` is any email, and the database decides admission;
   - `Principal.synthetic` is a boolean set by the database;
-  - the admin principal route returns 422 `synthetic_principals_only` before admission.
+  - before admission, the admin principal route refuses a real email with 400 and the field error `email: synthetic_principals_only`; the Principals screen labels each person "Synthetic record" or "Real person".
 - Test `tests/integration/onboarding/real-principals.test.ts`. It runs against a scratch database seeded as a customer installation, plus a refusal check on the development profile.
 
 ## What this does not do

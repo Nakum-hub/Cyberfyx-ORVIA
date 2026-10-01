@@ -5,7 +5,8 @@
 // admit real people; a short reference is refused; the protected command admits them once, records the reference and who ran
 // it, and writes the audit trail of every environment; from then on a real email is accepted and labelled real while a
 // synthetic address stays synthetic and nobody can relabel either; a repeat is refused; the admission cannot be updated or
-// deleted; a malformed email is still refused. The development and test profiles refuse the command outright.
+// deleted; a malformed email is still refused. The development and test profiles refuse the command outright, and on the
+// development installation the admin API refuses a real email with `synthetic_principals_only` and labels a synthetic one.
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
@@ -15,6 +16,7 @@ import { writeEvidence } from '../../../shared/testing/src/evidence.ts';
 import { issueSetupCode } from '../../../scripts/setup-code.ts';
 import { admitRealPrincipals, realPrincipalState } from '../../../scripts/real-principals.ts';
 import { setupCodeDigest } from '../../../backend/api/src/setup.ts';
+import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
 
 const results: { name: string; result: 'PASS' | 'FAIL'; expected?: unknown; actual?: unknown }[] = [];
 const check = (name: string, actual: unknown, expected: unknown) => {
@@ -96,6 +98,19 @@ try {
   check('the scratch database was removed', (await bootstrap.query('SELECT 1 FROM pg_database WHERE datname=$1', [scratch])).rowCount, 0);
   await bootstrap.end();
 }
+
+// Through the real HTTP boundary of the running application on the development profile, which has not admitted real people.
+const h = new HttpFixture();
+try {
+  await h.start();
+  const owner = await h.login('owner');
+  const scope = h.users.owner!.scope;
+  const create = (email: string) => owner.call('/api/v1/admin/principals', { environment_id: scope.environment_id, legal_entity_id: scope.legal_entity_id, display_name: 'Synthetic person', email }, { 'idempotency-key': randomUUID() });
+  const real = await create(`meera.${randomUUID().slice(0, 6)}@customer.example`);
+  check('HTTP: the admin API refuses a real email before admission, saying why', [real.status, ((await real.json()) as { error?: { field_errors?: { code: string }[] } }).error?.field_errors?.[0]?.code], [400, 'synthetic_principals_only']);
+  const synthetic = await create(`s.${randomUUID().slice(0, 8)}@aster.example`);
+  check('HTTP: a synthetic address is created and labelled synthetic by the database', [synthetic.status, ((await synthetic.json()) as { synthetic?: boolean }).synthetic], [201, true]);
+} finally { await h.stop(); }
 
 const failures = results.filter(r => r.result === 'FAIL').length;
 writeEvidence('real-principals', { suite: 'real-principals', assertions: results, passed: results.length - failures, failures, scratch_database: scratch });
