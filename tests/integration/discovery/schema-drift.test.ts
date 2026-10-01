@@ -76,7 +76,7 @@ await t.run(async () => {
     } finally { await targetDb.query(`REVOKE INSERT ON public.${relation} FROM orvia_target_observer`); }
 
     t.setPhase('table dropped');
-    await db.query(`UPDATE app.catalog_discovery_jobs SET state='READY', attempts=0 WHERE target_id=$1`, [target.id]);
+    await db.query(`UPDATE app.catalog_discovery_jobs SET state='READY', attempts=0, last_error_code=NULL, next_run_at=now() - interval '10 years' WHERE target_id=$1`, [target.id]);
     await targetDb.query(`DROP TABLE public.${relation}`);
     await sweep();
     check('a dropped table is reported MISSING, not unchanged', (await latest()).state, 'MISSING');
