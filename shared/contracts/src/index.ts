@@ -57,7 +57,7 @@ const expansionNames = Object.keys(expansionSchemas);
  *  issued by a protected command on the installation's server; capability setup.owner_recovery. Otherwise additive.
  *  0.50.0 adds EX07 backup-copy obligations: backup treatments (second-person approval), backup coverage, system restores that
  *  mark re-erasure, and the protected erasure ledger (sensitive capability). Otherwise additive. */
-export const CONTRACT_VERSION = '0.53.0' as const;
+export const CONTRACT_VERSION = '0.54.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -255,8 +255,10 @@ export const MappingCreate = z.strictObject({ principal_id: Id, purpose_id: Id, 
 export const TargetMapping = MappingCreate.extend({ id: Id, target_subject_reference: z.string().regex(/^syn_[a-z0-9_]{1,80}$/), target_generation: Epoch });
 export const SystemCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, name: z.string().min(1).max(120), connector: z.enum(['SYNTHETIC_CRM', 'ORVIA_REST_SIMULATOR', 'LEGACY_MANUAL']) });
 export const System = SystemCreate.extend({ id: Id, capability_version: Version, supports_restrict: z.boolean(), supports_read: z.boolean(), checked_at: Time.nullable() });
-export const PrincipalCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, display_name: z.string().min(1).max(100), email: z.email().regex(/@(?:aster|birch)\.example$/) });
-export const Principal = PrincipalCreate.extend({ id: Id, synthetic: z.literal(true) });
+export const PrincipalCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, display_name: z.string().min(1).max(100), email: z.email().max(254) });
+/** `synthetic` is set by the database (revision 1.9): synthetic fixture addresses are always synthetic; any other address is accepted only
+ *  once the installation has admitted real people by its protected server command, and is then labelled real. */
+export const Principal = PrincipalCreate.extend({ id: Id, synthetic: z.boolean() });
 /**
  * `notice` is what the principal is actually shown, and `language` says whether
  * that is the language they chose. The two are separate because Act §5 gives
