@@ -1,7 +1,7 @@
 // Isolated synthetic browser readback. No customer target or release claim.
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium,type Page } from '@playwright/test';
 import { HttpFixture,authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
@@ -18,6 +18,8 @@ import { waitForAuthWindow } from '../../shared/testing/src/auth-window.ts';
 const profile=loadProfile();
 if(profile.profile!=='codex-a00')throw new Error('Synthetic codex-a00 profile only');
 process.env.PLAYWRIGHT_BROWSERS_PATH=resolve('.local/tools/playwright');
+// The bundled Windows headless shell where it exists, otherwise the host's Chromium (ORVIA_CHROMIUM_PATH or the preinstalled one).
+const chromiumPath=()=>process.env.ORVIA_CHROMIUM_PATH??[resolve('.local/tools/playwright/chromium_headless_shell-1243/chrome-headless-shell-win64/chrome-headless-shell.exe'),'/opt/pw-browsers/chromium'].find(p=>existsSync(p));
 const h=new HttpFixture(),steps:string[]=[],external:string[]=[],errors:string[]=[];
 const db=connectDatabase(profile).pool;
 let runtime:ReturnType<typeof workflowActivities>|undefined;
@@ -38,7 +40,7 @@ try{
   assert((await sweepCatalogDiscovery(runtime.scoped,runtime.enrollment.identities.map(x=>x.id),
     observerEnrollment(runtime.config).identities,runtime.observer))>=1);
   phase='browser';
-  browser=await chromium.launch({headless:true,executablePath:resolve('.local/tools/playwright/chromium_headless_shell-1243/chrome-headless-shell-win64/chrome-headless-shell.exe')});
+  browser=await chromium.launch({headless:true,...(chromiumPath()?{executablePath:chromiumPath()}:{})});
   const context=await browser.newContext({baseURL:h.config.origin,viewport:{width:1440,height:900}});
   page=await context.newPage();
   page.on('pageerror',error=>errors.push(error.message));
