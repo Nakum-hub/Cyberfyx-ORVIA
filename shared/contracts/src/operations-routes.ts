@@ -65,6 +65,7 @@ export const operationsRoutes: Route[] = [
   write('create_notice_version', '/registry-notices/{id}/versions', 'RegistryNoticeVersionCreate', 'RegistryNotice', 'registry.write'),
   write('publish_notice_version', '/registry-notice-versions/{id}/publication', 'NoticePublish', 'RegistryNotice', 'registry.write', 200),
   read('notice_at_time', '/registry-notices/{id}/at', 'NoticeAt', 'registry.read', 'NoticeAtQuery'),
+  read('notice_language_drift', '/registry-notices/language-drift', 'NoticeDriftReport', 'registry.read'),
   list('list_notice_deliveries', '/notice-delivery-evidence', 'NoticeDeliveryList', 'registry.read'),
   write('record_notice_delivery', '/notice-delivery-evidence', 'NoticeDeliveryRecord', 'NoticeDelivery', 'registry.write'),
   // Registry: consent
@@ -101,6 +102,14 @@ export const operationsRoutes: Route[] = [
   write('handle_intake_submission', '/intake-submissions/{id}/handled', 'IntakeSubmissionHandle', 'IntakeSubmission', 'registry.write', 200),
   read('privacy_centre_setting', '/privacy-centre', 'PrivacyCentreSetting', 'registry.read'),
   write('change_privacy_centre', '/privacy-centre', 'PrivacyCentreChange', 'PrivacyCentreSetting', 'connection.enable', 200),
+  // EX07 backup-copy obligations (0.50.0).
+  list('list_backup_treatments', '/backup-treatments', 'BackupTreatmentList', 'retention.read'),
+  write('create_backup_treatment', '/backup-treatments', 'BackupTreatmentCreate', 'BackupTreatment', 'retention.write'),
+  write('approve_backup_treatment', '/backup-treatments/{id}/approval', undefined, 'BackupTreatment', 'retention.approve', 200),
+  read('backup_coverage', '/backup-coverage', 'BackupCoverage', 'retention.read'),
+  write('record_system_restore', '/system-restores', 'SystemRestoreRecord', 'SystemRestore', 'retention.write'),
+  list('list_erasure_ledger', '/erasure-ledger', 'ErasureLedgerList', 'registry.sensitive.read', 'ErasureLedgerQuery'),
+  write('confirm_reerasure', '/erasure-ledger/{id}/reapplied', 'ReerasureConfirm', 'ErasureLedgerEntry', 'registry.sensitive.write', 200),
   { id: 'intake_consent', method: 'post', path: '/api/v1/intake/consents', authority: 'INTAKE_CLIENT', request: 'IntakeConsentSubmit', response: 'IntakeReceipt', status: 202, idempotency: true, capability: 'intake.submit', maximum_body_bytes: 8192 },
   { id: 'intake_rights_request', method: 'post', path: '/api/v1/intake/rights-requests', authority: 'INTAKE_CLIENT', request: 'IntakeRightsSubmit', response: 'IntakeReceipt', status: 202, idempotency: true, capability: 'intake.submit', maximum_body_bytes: 8192 },
   { id: 'intake_submission', method: 'get', path: '/api/v1/intake/submissions/{id}', authority: 'INTAKE_CLIENT', params: 'IdPath', response: 'IntakeReceipt', status: 200, capability: 'intake.submit' },

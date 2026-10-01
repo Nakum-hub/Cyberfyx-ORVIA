@@ -5,6 +5,7 @@ import { adapterFor, type ConnectorAction } from '../../../../connectors/src/sha
 import { audit, type Context } from '../shared/transaction.ts';
 import { settleExecution } from '../rights/rights.ts';
 import { coveringHolds, runView } from './runs.ts';
+import { recordErasureInBackups } from '../registry/backups.ts';
 import { emit, predicate, recordEvidence, refuse, scope, type OperationsEnv } from './shared.ts';
 
 /**
@@ -42,7 +43,11 @@ async function verifyAction(c: Context, env: OperationsEnv, run: { id: string; p
     [...scope(c), randomUUID(), row.id, result.method, result.verifier, result.expected, result.observed, result.result, result.failure_reason, evidenceId]);
   if (result.result === 'PASS') {
     await setAction(c, row.id, { state: 'verified', verification: 'VERIFIED', last_error_code: null });
-    if (row.action_type === 'ERASE' || row.action_type === 'ANONYMISE') await emit(c, 'erasure_action_verified', 'downstream_action', row.id, { run_id: run.id }, run.id);
+    if (row.action_type === 'ERASE' || row.action_type === 'ANONYMISE') {
+      await emit(c, 'erasure_action_verified', 'downstream_action', row.id, { run_id: run.id }, run.id);
+      // EX07: the live copy is verified erased; the system's backups still hold it until they age out (never reported as erased).
+      await recordErasureInBackups(c, row);
+    }
   } else if (result.result === 'FAIL') {
     await setAction(c, row.id, { state: 'failed', verification: 'FAILED', last_error_code: 'VERIFICATION_FAILED' });
     await emit(c, 'verification_failed', 'downstream_action', row.id, { run_id: run.id, reason: result.failure_reason }, run.id);

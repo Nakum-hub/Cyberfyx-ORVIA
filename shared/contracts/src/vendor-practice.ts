@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { RequirementId, ProvisionId, Severity, RequirementResult } from './audit-primitives.ts';
+import { RegulatoryPackageImport } from './regulatory.ts';
 
 /**
  * Canonical contract of the evidence-based DPDPA audit practice on the vendor's
@@ -21,6 +22,8 @@ const List = (max: number, item = Short) => z.array(item).max(max);
 // ---------------------------------------------------------------- practice level
 export const CriteriaDistribution = z.enum(['TEST_FIXTURE', 'PRODUCTION']);
 export const CriteriaFixtureRecord = z.strictObject({ version: z.string().regex(/^[0-9A-Za-z._-]{1,40}$/) });
+/** Vendor contract 0.5.0: production criteria come only from the official regulatory package signed with the vendor release key. */
+export const CriteriaPackageRecord = RegulatoryPackageImport;
 export const RiskRating = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
 export const ControlEffectiveness = z.enum(['NOT_ASSESSED', 'EFFECTIVE', 'PARTIALLY_EFFECTIVE', 'INEFFECTIVE']);
 const Scale = z.array(z.strictObject({ value: z.number().int().min(1).max(5), label: Text(2, 60), description: Text(5, 400) })).length(5)

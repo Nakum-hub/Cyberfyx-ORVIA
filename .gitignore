@@ -16,3 +16,6 @@ dist/
 !handoffs/codex/artifacts/*.log
 .pnpm-store/
 output/playwright/downloads/
+
+# Personal Claude Code permissions (owner-approved, not shared)
+.claude/settings.local.json

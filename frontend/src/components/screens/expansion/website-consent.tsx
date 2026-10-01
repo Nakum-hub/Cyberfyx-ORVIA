@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useCollection, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, Facts, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
-import { ActionButton, Area, Input, WriteForm, text } from '../privacy-operations/registry-forms.tsx';
+import { ActionButton, Area, Choice, Input, WriteForm, text } from '../privacy-operations/registry-forms.tsx';
 
 const TEMPLATE = {
   categories: [
@@ -134,6 +134,83 @@ function SiteDetail({ id, onChanged }: { id: string; onChanged: () => void }) {
           </>
         )}
       </QueryBoundary>
+      {site && <PolicyDiscoveries siteId={id} origins={site.origins} enabled={site.state === 'ENABLED'} />}
     </Section>
+  );
+}
+
+const FOUND_BY: Record<string, { label: string; tone: 'ok' | 'warn' | 'stop' }> = {
+  DECLARED_LINK: { label: 'declared by the site (rel="privacy-policy")', tone: 'ok' },
+  LINK_TEXT: { label: 'found by its link text (not declared)', tone: 'warn' },
+  NOT_FOUND: { label: 'not found', tone: 'stop' },
+};
+
+/**
+ * Website privacy-policy discovery (migration 0077). The site is asked where its policy is through its own declaration; one
+ * page and one document are read, and a change since the last discovery is flagged for review. Weekly rediscovery is automatic.
+ */
+function PolicyDiscoveries({ siteId, origins, enabled }: { siteId: string; origins: string[]; enabled: boolean }) {
+  const list = usePagedQuery('list_policy_discoveries', { limit: 10, params: { id: siteId } });
+  const [open, setOpen] = useState<string | null>(null);
+  return (
+    <>
+      <h3>Privacy policy on the website</h3>
+      <p className="muted">ORVIA asks the site where its privacy policy is, the way the site declares it: a <code>&lt;link rel=&quot;privacy-policy&quot; href=&quot;…&quot;&gt;</code> in the page head. Only if there is none does it look for a link named &quot;Privacy policy&quot; on the same page. It reads that one document and nothing else, and checks again every week so a changed or missing policy shows up in Operations attention.</p>
+      {enabled && (
+        <WriteForm operation="request_policy_discovery" label="Find the privacy policy" params={{ id: siteId }} onSaved={() => list.refresh()} describe={() => 'Queued; the local worker reads the site shortly'}
+          build={f => ({ origin: text(f, 'origin') })}>
+          <Choice label="Website origin" name="origin" options={origins.map(o => ({ value: o, label: o }))} defaultValue={origins[0] ?? ''} />
+        </WriteForm>
+      )}
+      <QueryBoundary query={list} label="policy discoveries" isEmpty={d => !d.items.length}>
+        {d => (
+          <>
+            {d.items.map(x => (
+              <div key={x.id} className="panel">
+                <p><strong>{x.origin}</strong> — {x.state.toLowerCase()}{x.observed_at ? `, ${formatTime(x.observed_at)}` : ''}{x.trigger === 'SCHEDULE' ? ' (weekly check)' : ''}{x.failure_code ? ` (${x.failure_code.toLowerCase().replaceAll('_', ' ')})` : ''}</p>
+                {x.found_by && (
+                  <Facts items={[
+                    { term: 'How it was found', value: <Badge label={FOUND_BY[x.found_by]!.label} tone={FOUND_BY[x.found_by]!.tone} /> },
+                    { term: 'Policy address', value: x.policy_url ? <a href={x.policy_url} target="_blank" rel="noreferrer noopener">{x.policy_url}</a> : 'None' },
+                    { term: 'Page', value: x.http_status ? `HTTP ${x.http_status}${x.title ? ` · ${x.title}` : ''}${x.language ? ` · language ${x.language}` : ''}` : 'Not read' },
+                    { term: 'Text', value: x.text_length !== null ? `${x.text_length} characters${x.changed_since_previous === true ? ' · changed since the previous discovery' : x.changed_since_previous === false ? ' · unchanged' : ' · first discovery'}` : 'Not kept' },
+                    ...x.terms_url ? [{ term: 'Terms of service', value: x.terms_url }] : [],
+                  ]} />
+                )}
+                {x.findings.length > 0 && <DataTable caption={`Policy findings for ${x.origin}`} rows={x.findings} rowKey={f => f.kind}
+                  columns={[
+                    { key: 's', header: 'Severity', cell: f => <Badge label={f.severity.toLowerCase()} tone={SEVERITY_TONE[f.severity] ?? 'neutral'} /> },
+                    { key: 'k', header: 'Finding', cell: f => f.kind.toLowerCase().replaceAll('_', ' ') },
+                    { key: 'd', header: 'Detail', cell: f => f.detail },
+                  ]} />}
+                {x.text_length !== null && (open === x.id ? <PolicyText id={x.id} onClose={() => setOpen(null)} /> : <button type="button" onClick={() => setOpen(x.id)}>Read the retrieved text</button>)}
+                {x.state === 'COMPLETED' && (x.reviewed_at
+                  ? <p className="cell-sub">Reviewed {formatTime(x.reviewed_at)} by {shortId(x.reviewed_by!)}: {x.review_note}</p>
+                  : <WriteForm operation="review_policy_discovery" label="Record a review" params={{ id: x.id }} onSaved={() => list.refresh()} describe={() => 'Review recorded'} build={f => ({ note: text(f, 'note') })}>
+                      <Input label="Review note" name="note" maxLength={1000} hint="What you checked, for example: compared with our recorded notices and purposes; no change needed." />
+                    </WriteForm>)}
+                {x.limits.length > 0 && <ul className="cell-sub">{x.limits.map(l => <li key={l}>{l}</li>)}</ul>}
+              </div>
+            ))}
+            <Pagination query={list} />
+          </>
+        )}
+      </QueryBoundary>
+    </>
+  );
+}
+
+function PolicyText({ id, onClose }: { id: string; onClose: () => void }) {
+  const q = useQuery('policy_discovery_text', { params: { id } });
+  return (
+    <QueryBoundary query={q} label="policy text" isEmpty={() => false}>
+      {t => (
+        <div>
+          <p className="cell-sub">SHA-256 {t.text_digest}</p>
+          <pre style={{ whiteSpace: 'pre-wrap', maxHeight: 360, overflow: 'auto' }}>{t.text}</pre>
+          <button type="button" onClick={onClose}>Close the text</button>
+        </div>
+      )}
+    </QueryBoundary>
   );
 }

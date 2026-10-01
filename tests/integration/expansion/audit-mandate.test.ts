@@ -14,6 +14,7 @@
 //   Synthetic data only.
 import { createHash, randomUUID } from 'node:crypto';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { allPages } from '../../../shared/testing/src/all-pages.ts';
 import * as C from '../../../shared/contracts/src/audit-channel.ts';
 import { operationsSuite, key, unique } from '../../../shared/testing/src/operations-fixture.ts';
 import { vendorSigningKey } from '../../../scripts/credentials.ts';
@@ -41,8 +42,8 @@ await t.run(async () => {
   const scopeIds = t.scope();
 
   // Earlier runs of this suite leave nothing active behind: their engagements are closed first.
-  const old = await ok(owner.call('/api/v1/admin/audit-engagements?limit=100'), S.schemas.AuditEngagementList);
-  for (const e of old.items.filter(e => e.engagement_reference.startsWith('ENG-M-') && e.state === 'ACTIVE')) await owner.call(`/api/v1/admin/audit-engagements/${e.id}/closure`, { reason: 'Closing a previous test run.' }, key());
+  const old = await allPages(p => owner.call(p), '/api/v1/admin/audit-engagements', v => S.schemas.AuditEngagementList.parse(v));
+  for (const e of old.filter(e => e.engagement_reference.startsWith('ENG-M-') && e.state === 'ACTIVE')) await owner.call(`/api/v1/admin/audit-engagements/${e.id}/closure`, { reason: 'Closing a previous test run.' }, key());
 
   // The worker, exactly as the operations runner builds it.
   const config = runtimeConfig();

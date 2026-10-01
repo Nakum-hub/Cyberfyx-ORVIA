@@ -7,19 +7,19 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "7e3990fd409b15b7c590c237d05093fdd2d084f2f2309ee256d91a301570010f",
+  "test_file_digest": "4b9aa1c5dcc0f892fade6e0f2e8e8a24200213b8ead9b23b0201f23328188058",
   "counts": {
-    "UNIT": 49,
-    "INTEGRATION": 78,
+    "UNIT": 50,
+    "INTEGRATION": 84,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
-    "BROWSER_OR_TRANSPORT": 13,
+    "BROWSER_OR_TRANSPORT": 15,
     "SUPPORT": 9
   },
   "entries": [
     {
       "path": "tests/e2e/ai-governance-local.ts",
-      "sha256": "1acbb5bd4de055662a5bd0dfdbd408d79ba5fab259d2d4d259615120eddd9d89",
+      "sha256": "2a049e4d2e65e218d7e6f57de474fb18a78e5f6146f3bd49c4a0ea5413e08bb7",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -33,13 +33,18 @@
       "kind": "PLAYWRIGHT"
     },
     {
+      "path": "tests/e2e/backups-and-recovery-local.ts",
+      "sha256": "9ce0a7c5c70e3ecc7cf86d10e682e14b63ff45b4997bccfb8603518e8d588293",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
       "path": "tests/e2e/candidate.spec.ts",
       "sha256": "ae2ec4eebb3906acd9cb3fc79c4de2f50f7497f1cc4f2a75d869e279f3d9a5b4",
       "kind": "PLAYWRIGHT"
     },
     {
       "path": "tests/e2e/catalog-discovery-local.ts",
-      "sha256": "2e766b76902342cba0469f291158fc25e5600f2f6156ded37762bcb9c9a1cf29",
+      "sha256": "cf060b9661a27868a441bb262d24ff3edf95a41fdefdbc7179654286091d2191",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -138,6 +143,11 @@
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
+      "path": "tests/e2e/vendor-production-criteria-local.ts",
+      "sha256": "2b73c3aa61856d5315a49e6215ffbee786c1fb7f65929b750c89882d1e31978d",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
       "path": "tests/e2e/workflow.spec.ts",
       "sha256": "b4b60a1f4b54bf922e93985a5a2645eb7de8b894438b44366830b292a9c96286",
       "kind": "PLAYWRIGHT"
@@ -208,6 +218,11 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/discovery/schema-drift.test.ts",
+      "sha256": "d66c033c0216048354c2b9917a6abbc4fe3c1b0c9d1eed08f97c18845e910140",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/enforcement/send.test.ts",
       "sha256": "ad86bdfd2fde72420d2bb18f8b4df034fc0019b5c8995b382633d577edfc1dbf",
       "kind": "INTEGRATION"
@@ -229,7 +244,7 @@
     },
     {
       "path": "tests/integration/expansion/audit-mandate.test.ts",
-      "sha256": "3f25ab776c641464470401a790f58b2e4acac81c8c28494a529f31b35ba29d85",
+      "sha256": "c14e0db917afd46eab9d224f1912957d4310d49ea740f9f6ab9e5618a9bc29b6",
       "kind": "INTEGRATION"
     },
     {
@@ -239,12 +254,12 @@
     },
     {
       "path": "tests/integration/expansion/cmp.test.ts",
-      "sha256": "ae7e8155dcf85e34b32eb3d94317a53f9302cdab6421c00e32c2363c32b5ce57",
+      "sha256": "c2ecba57b8b6482fa1e6560e64593f4ff4f44653421b9f9b57813d71f356fbea",
       "kind": "INTEGRATION"
     },
     {
       "path": "tests/integration/expansion/delivery.test.ts",
-      "sha256": "1f64e8be8d7e5f3174387f198d76c68001fc9ad71f4f8291a853d159884f532b",
+      "sha256": "8065ba1465efca0c3d60337b97f78ef7c77d77473790f753a426162591fc09c4",
       "kind": "INTEGRATION"
     },
     {
@@ -260,6 +275,11 @@
     {
       "path": "tests/integration/expansion/impact.test.ts",
       "sha256": "81249894bff6971b4d6e74c169cfe631402ed65a68a630d19c928304c7950118",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/expansion/policy-discovery.test.ts",
+      "sha256": "1e779a403c23789b1461afd7df56daf0bad959fb7f3fdb3b8c9c17022456c221",
       "kind": "INTEGRATION"
     },
     {
@@ -388,8 +408,18 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/onboarding/owner-recovery.test.ts",
+      "sha256": "17f6088cc5b39be21ee2ee09351d14ea19fc51e7c920666bc02da4c4f9b31a49",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/onboarding/preflight.test.ts",
       "sha256": "4df3616e3a1bc1c135cd33bd8281d6198b77b9ba868fd2859aa05c3725ca6918",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/onboarding/real-principals.test.ts",
+      "sha256": "c3fc6a66bd4d7005810b70c794cf6bc10299915e33fbe2d6a52063bc8bf31a3a",
       "kind": "INTEGRATION"
     },
     {
@@ -400,6 +430,11 @@
     {
       "path": "tests/integration/operations/applicability.test.ts",
       "sha256": "bdc96433f7ec788721d3151bde52c9c277db5cd379a06cb8d632c419ab25de1e",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/operations/backup-obligations.test.ts",
+      "sha256": "0b8940a0671dfa6a36a160bf455b094b4454d4ac12b80efde868b41efbf276d2",
       "kind": "INTEGRATION"
     },
     {
@@ -433,13 +468,18 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/integration/operations/notice-language-drift.test.ts",
+      "sha256": "10054301b06d810f986aa10ff61f0be5a631765ab4398e28d6a3f6daa00226ce",
+      "kind": "INTEGRATION"
+    },
+    {
       "path": "tests/integration/operations/notices.test.ts",
       "sha256": "9e3fe693b6a7e30501b92e485fc436969673a0926c92c7ea88002fef67e4aa50",
       "kind": "INTEGRATION"
     },
     {
       "path": "tests/integration/operations/organisation-intake.test.ts",
-      "sha256": "c4f0bbbfd153e4e0f27cc15c5d90c6f22a30a720453de3a8435d2c20922e3eb9",
+      "sha256": "a15febd0d44f020fae9d205bd44912ad03522a2074d55920b338b7d2332edc87",
       "kind": "INTEGRATION"
     },
     {
@@ -499,7 +539,7 @@
     },
     {
       "path": "tests/integration/rights/portal.test.ts",
-      "sha256": "50a33b9a62df6a40a69d658fffef41818acc182efcba33230be7724028ad1bb7",
+      "sha256": "8859cf8e24c05e997fb52e1b5cdbf12172de508a15c67997de30a9ff7d2af7c0",
       "kind": "INTEGRATION"
     },
     {
@@ -519,7 +559,7 @@
     },
     {
       "path": "tests/integration/vendor/audit-practice.test.ts",
-      "sha256": "dbd4fcc957af83264605e0d56eeaf6eb5d63f5e7ea2ded22a062e2c87eb9a6ab",
+      "sha256": "1b29ab3099ca5a32e5940f93d68a02e8d62054044d76c2ba4a91d55c24cf5f55",
       "kind": "INTEGRATION"
     },
     {
@@ -544,13 +584,23 @@
     },
     {
       "path": "tests/integration/web.test.ts",
-      "sha256": "f091adf2c51e7f9b2abc907f622d7eb9b96ab98b5ebdbcfb2c8c195e5384536a",
+      "sha256": "795398367e34ba542212ce0d1cd394449c01f7cb9c590569f32c2db6c87909e0",
       "kind": "INTEGRATION"
     },
     {
       "path": "tests/integration/workflows/workflow.test.ts",
       "sha256": "696fc22d23f1ad11e75419d9464c07d4b863d597d14794ce0c22033ffcf7daf3",
       "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/policy/admin_test.rego",
+      "sha256": "59cc9661bc8316db398cd4fe76aa46ae7a671d7be2e3b4007441879060f4e6b0",
+      "kind": "POLICY"
+    },
+    {
+      "path": "tests/policy/processing_test.rego",
+      "sha256": "6b1012e2479642c083eeede23dab2f53c893e0507ba3ddea4f48ab1247974670",
+      "kind": "POLICY"
     },
     {
       "path": "tests/security/auth.test.ts",
@@ -699,7 +749,7 @@
     },
     {
       "path": "tests/unit/notice-language.test.ts",
-      "sha256": "5c11c7498d171602b7bcbf1a9ba3e48682a7c7cab167fecede0871a1244b9d08",
+      "sha256": "f387b529729f001f8a9c355fa468448447080aeb97b9a47b8031335eb18a66f9",
       "kind": "UNIT"
     },
     {
@@ -759,7 +809,7 @@
     },
     {
       "path": "tests/unit/retention.test.ts",
-      "sha256": "6e275685cdf8d64a00b010f7427fb4c74fea87f2cd13d86af28c1236393a41d4",
+      "sha256": "4623329eb6fc0be1c7629cfebe2cf0c555f46bc572819680af0f5f078613fe64",
       "kind": "UNIT"
     },
     {
@@ -800,6 +850,11 @@
     {
       "path": "tests/unit/value-classifiers.test.ts",
       "sha256": "9d48c1ab6c189eb53c1a5dacc88061cc0b21273dc1bb8a915495f2145d870bfa",
+      "kind": "UNIT"
+    },
+    {
+      "path": "tests/unit/vendor-audit-key.test.ts",
+      "sha256": "ea5e306818d65ad23fe8bb563d02e87e55ce0a5eaf1eff944d6e201509d55754",
       "kind": "UNIT"
     },
     {

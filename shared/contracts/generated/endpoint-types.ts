@@ -242,6 +242,7 @@ export interface EndpointMap {
   create_notice_version: { request: import('zod').infer<typeof import('../src/index.ts').schemas.RegistryNoticeVersionCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RegistryNotice> };
   publish_notice_version: { request: import('zod').infer<typeof import('../src/index.ts').schemas.NoticePublish>; response: import('zod').infer<typeof import('../src/index.ts').schemas.RegistryNotice> };
   notice_at_time: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeAt> };
+  notice_language_drift: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDriftReport> };
   list_notice_deliveries: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDeliveryList> };
   record_notice_delivery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDeliveryRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.NoticeDelivery> };
   list_consent_records: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ConsentRecordList> };
@@ -273,6 +274,13 @@ export interface EndpointMap {
   handle_intake_submission: { request: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeSubmissionHandle>; response: import('zod').infer<typeof import('../src/index.ts').schemas.IntakeSubmission> };
   privacy_centre_setting: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreSetting> };
   change_privacy_centre: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreChange>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PrivacyCentreSetting> };
+  list_backup_treatments: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatmentList> };
+  create_backup_treatment: { request: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatmentCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatment> };
+  approve_backup_treatment: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupTreatment> };
+  backup_coverage: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.BackupCoverage> };
+  record_system_restore: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestoreRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SystemRestore> };
+  list_erasure_ledger: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureLedgerList> };
+  confirm_reerasure: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ReerasureConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureLedgerEntry> };
   list_erasure_intimations_due: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationDueList> };
   list_erasure_intimations: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationList> };
   record_erasure_intimation: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimationRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ErasureIntimation> };
@@ -404,6 +412,10 @@ export interface EndpointMap {
   cmp_consent_stats: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentStats> };
   list_cmp_scans: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanList> };
   request_cmp_scan: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScan> };
+  list_policy_discoveries: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryList> };
+  request_policy_discovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscovery> };
+  policy_discovery_text: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryText> };
+  review_policy_discovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscovery> };
   record_cmp_consent: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentReceipt> };
   list_preference_topics: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicList> };
   create_preference_topic: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopic> };
@@ -420,6 +432,7 @@ export interface EndpointMap {
   delete_own_login: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LoginDeleteConfirm>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnLoginDeleted> };
   first_run_state: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunState> };
   first_run_complete: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunSetup>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FirstRunCompleted> };
+  owner_recovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.OwnerRecoveryComplete>; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnerRecoveryCompleted> };
   dpdpa_gap_register: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GapRegister> };
   export_dpdpa_gap_register: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.GapRegisterExport> };
   submit_evidence_file: { request: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFileSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.EvidenceFile> };

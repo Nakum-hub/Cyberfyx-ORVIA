@@ -233,6 +233,8 @@ function recordHref(kind: string, id: string) {
     case 'sdf_obligation': return '/workspace/organisation-profile';
     case 'bulk_job': return '/workspace/estate-imports';
     case 'retention_hold': case 'retention_rule': return '/workspace/registry-retention';
+    case 'system': return '/workspace/registry-retention';
+    case 'cmp_site': return '/workspace/website-consent';
     default: return '/workspace/operations-attention';
   }
 }

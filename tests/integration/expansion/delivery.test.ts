@@ -13,6 +13,7 @@ import net from 'node:net';
 import http from 'node:http';
 import { createHmac, randomUUID } from 'node:crypto';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { allPages } from '../../../shared/testing/src/all-pages.ts';
 import { operationsSuite, key, unique } from '../../../shared/testing/src/operations-fixture.ts';
 import { operationsRunner } from '../../../services/worker/src/operations-runner.ts';
 
@@ -183,7 +184,7 @@ await t.run(async () => {
     await once(); await once();
     const alerted = sink.received.filter(r => r.to === 'compliance@customer.example' && r.data.includes(test.name));
     check('an alert the routing covers is delivered once', [alerted.length, alerted[0]?.data.includes('Subject: [ORVIA] ERROR')], [1, true]);
-    const alerts = (await ok(admin.call('/api/v1/admin/grc/compliance-alerts?limit=100'), S.schemas.ComplianceAlertList)).items.filter(a => a.test_id === test.id);
+    const alerts = (await allPages(p => admin.call(p), '/api/v1/admin/grc/compliance-alerts', v => S.schemas.ComplianceAlertList.parse(v))).filter(a => a.test_id === test.id);
     check('the alert shows it was delivered', alerts.map(a => [a.kind, a.delivery_state]), [['ERROR', 'SENT']]);
 
     t.setPhase('disable, isolation and history');

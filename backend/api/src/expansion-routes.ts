@@ -14,6 +14,7 @@ import { team, createMember, setMemberActive, deleteMember, deleteOwnLogin } fro
 import * as A from '../../domain/src/dpdpa-audit/exchange.ts';
 import * as M from '../../domain/src/dpdpa-audit/mandate.ts';
 import { createSite, enableSite, disableSite, siteList, createConfig, decideConfig, configList, consentStats, requestScan, scanList } from '../../domain/src/cmp/cmp.ts';
+import { requestPolicyDiscovery, policyDiscoveryList, policyDiscoveryText, reviewPolicyDiscovery } from '../../domain/src/cmp/policy-discovery.ts';
 
 /**
  * Dispatch for the expanded V1 delivery families. Every route arrives already
@@ -129,6 +130,10 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'cmp_consent_stats': return consentStats(c, id!);
     case 'list_cmp_scans': return scanList(c, id!, page);
     case 'request_cmp_scan': return requestScan(c, id!, input);
+    case 'list_policy_discoveries': return policyDiscoveryList(c, id!, page);
+    case 'request_policy_discovery': return requestPolicyDiscovery(c, id!, input);
+    case 'policy_discovery_text': return policyDiscoveryText(c, id!);
+    case 'review_policy_discovery': return reviewPolicyDiscovery(c, id!, input);
     // DPDPA external audit exchange (revision 1.5 addendum)
     case 'dpdpa_gap_register': return A.gapRegister(c);
     case 'export_dpdpa_gap_register': return A.exportGapRegister(c);

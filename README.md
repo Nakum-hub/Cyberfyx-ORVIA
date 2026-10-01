@@ -126,14 +126,14 @@ A click-by-click walkthrough of both installations is in [docs/demo/DEMO_SCRIPT.
 
 ## Going live
 
-ORVIA deliberately refuses real audit engagements until these steps are done. They are people's actions, not code:
+ORVIA deliberately refuses real audit engagements until these steps are done. They are people's actions, not code. The ordered checklist, with the exact commands and screens, is [docs/GO_LIVE.md](docs/GO_LIVE.md).
 
 | Step | Who |
 |---|---|
 | Fill in part A of [COMPANY_DETAILS.md](docs/audit-practice/templates/COMPANY_DETAILS.md) | Cyberfyx |
 | A director approves the templates; record the two template gates ([steps](docs/audit-practice/templates/README.md)) | Director, super administrator |
 | Sign the production law rule set from the official PDFs; a second person approves it ([steps](docs/regulatory/DPDP_CONFORMANCE.md#how-to-supply-the-official-pdfs)) | Release key holder, approver |
-| Create the production audit signing key | Named key holder |
+| Create the production audit signing key (`scripts/vendor-audit-key.ts`) | Named key holder |
 | Host the vendor service ([runbook](docs/runbooks/VENDOR_HOSTING_READINESS.md)) | Cyberfyx |
 | Switch payments from test to live (Razorpay merchant account) | Cyberfyx |
 | Connectors to each client's real systems (needs that client's sandbox) | Per client |

@@ -16,6 +16,7 @@ import { raiseAlertMessages, claimDue, sendClaim, recordResult } from '../../../
 import { escalationSweep } from '../../../backend/domain/src/assessments/impact.ts';
 import { propagatePendingWithdrawals } from '../../../backend/domain/src/registry/consent.ts';
 import { processIntake } from '../../../backend/domain/src/registry/intake.ts';
+import { backupLedgerSweep } from '../../../backend/domain/src/registry/backups.ts';
 import type { OperationsEnv } from '../../../backend/domain/src/operations/shared.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
 import { channelSweep, type ChannelEnv } from '../../../backend/domain/src/dpdpa-audit/channel.ts';
@@ -42,7 +43,7 @@ import { installationTrustAt } from '../../../scripts/credentials.ts';
  * reviewed messages through the customer's enabled transports, and services
  * approved DPDPA audit mandates over the outbound audit channel (revision 1.6).
  */
-export type RunnerReport = { scope: string; intake_applied: number; intake_needs_staff: number; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; audit_check_ins: number; audit_deliveries_accepted: number; audit_requests_received: number; errors: string[] };
+export type RunnerReport = { scope: string; intake_applied: number; intake_needs_staff: number; backup_ledger_aged: number; backup_ledger_purged: number; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; audit_check_ins: number; audit_deliveries_accepted: number; audit_requests_received: number; errors: string[] };
 const BATCH = { job: 200, evaluate: 200, execute: 50 };
 const MAX_BATCHES_PER_ITEM = 50;
 
@@ -65,7 +66,7 @@ export function operationsRunner() {
     for (const identity of currentEnrollment().identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
-      const report: RunnerReport = { scope: identity.scope.environment_id, intake_applied: 0, intake_needs_staff: 0, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, audit_check_ins: 0, audit_deliveries_accepted: 0, audit_requests_received: 0, errors: [] };
+      const report: RunnerReport = { scope: identity.scope.environment_id, intake_applied: 0, intake_needs_staff: 0, backup_ledger_aged: 0, backup_ledger_purged: 0, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, audit_check_ins: 0, audit_deliveries_accepted: 0, audit_requests_received: 0, errors: [] };
       const scopeValues = [identity.scope.tenant_id, identity.scope.legal_entity_id, identity.scope.environment_id];
       // Submissions from the organisation's own website or app first (revision 1.7): a withdrawal sent that way becomes a
       // recorded withdrawal here, so the propagation step just below picks it up in this same cycle.
@@ -101,6 +102,9 @@ export function operationsRunner() {
       catch (error) { report.errors.push(`assessment finding escalation: ${safeError(error).code}`); }
       try { report.export_chunks_purged = await scoped(c => purgeExpiredExports(c)); }
       catch (error) { report.errors.push(`export purge: ${safeError(error).code}`); }
+      // EX07: erasure-ledger rows past their backup clear date age out; 30 days later they are purged (the ledger's own retention).
+      try { const b = await scoped(c => backupLedgerSweep(c)); report.backup_ledger_aged = b.aged; report.backup_ledger_purged = b.purged; }
+      catch (error) { report.errors.push(`backup ledger: ${safeError(error).code}`); }
       try { report.response_packages_purged = await scoped(c => purgeEndedPackages(c)); }
       catch (error) { report.errors.push(`response package purge: ${safeError(error).code}`); }
       // Customer-controlled delivery (EX09): claim under a lease, send outside the transaction, record the attempt.

@@ -91,7 +91,8 @@ await t.run(async () => {
     await post(choice(true, other));
     await post({ ...choice(false, randomUUID()), gpc: true });
     const stats = await ok(admin.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`), S.schemas.CmpConsentStats);
-    check('statistics use each visitor\'s latest choice', [stats.visitors, stats.records, stats.gpc_visitors, stats.by_category.find(c => c.key === 'analytics')], [3, 4, 1, { key: 'analytics', granted: 1, refused: 2 }]);
+    // Five records: the cookie-carrying choice above is one more record for the first visitor; visitors and latest choices are unchanged.
+    check('statistics use each visitor\'s latest choice', [stats.visitors, stats.records, stats.gpc_visitors, stats.by_category.find(c => c.key === 'analytics')], [3, 5, 1, { key: 'analytics', granted: 1, refused: 2 }]);
     const flood = randomUUID(); const statuses: number[] = [];
     for (let i = 0; i < 21; i++) statuses.push((await post(choice(i % 2 === 0, flood))).status);
     check('one visitor cannot flood the record', [statuses.slice(0, 20).every(s => s === 201), statuses[20]], [true, 503]);

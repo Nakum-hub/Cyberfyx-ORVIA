@@ -1,0 +1,179 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T06:11:28.609Z",
+  "suite": "audit-mandate-browser",
+  "assertions": [
+    {
+      "name": "leadership sees the practice overview from real records",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the client sees the audit address from its trust file",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a second owner approves the mandate in the browser",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker checks in over HTTP and the signed snapshot is accepted",
+      "result": "PASS",
+      "expected": [
+        true,
+        1
+      ],
+      "actual": [
+        true,
+        1
+      ]
+    },
+    {
+      "name": "the client sees what ORVIA sent and that it was accepted",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the lead sees the signed mandate and an intact chain",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the lead reads the evidence entries signed by the client installation",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker receives both requests; the document waits for a client approver",
+      "result": "PASS",
+      "expected": [
+        2,
+        1,
+        1
+      ],
+      "actual": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "the owner sees the document request waiting for them",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the lead sees the sample answered and the document declined with the client's reason",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the sample answer is counts over the auditor's selection",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker collects the signed findings file at check-in and only stages it",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "a person imports the staged findings file in the browser",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the drafted response shows its redaction",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker signs and sends the approved response and the client sees it accepted",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "the auditor sees the client's response on the finding, from the channel, without the contact detail",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        0
+      ],
+      "actual": [
+        true,
+        true,
+        0
+      ]
+    },
+    {
+      "name": "the client's vendor-visibility page lists every delivery ORVIA sent",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "closing the engagement ends the mandate, and the vendor sees it",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "no browser errors and no request left either installation",
+      "result": "PASS",
+      "expected": [
+        [],
+        []
+      ],
+      "actual": [
+        [],
+        []
+      ]
+    }
+  ],
+  "passed": 19,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

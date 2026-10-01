@@ -1,0 +1,36 @@
+{
+  "task_id": "V1-EXPANSION-01",
+  "result": "PASS",
+  "recorded_at": "2026-10-01T05:51:18.926Z",
+  "database": "orvia_assessment_test_5bdaae20ef2749b0a6ce24cf57fc7f74",
+  "fixture_kind": "ISOLATED_SYNTHETIC_ASSESSMENT_RACE",
+  "assertions": [
+    {
+      "name": "competing finding waits on assessment transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "finding rechecks committed completed state",
+      "result": "PASS"
+    },
+    {
+      "name": "completed assessment has no late open finding",
+      "result": "PASS"
+    },
+    {
+      "name": "completion waits for concurrent finding transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "completion refuses newly committed open finding",
+      "result": "PASS"
+    },
+    {
+      "name": "assessment remains open",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Lock/state semantics only; not HTTP, RLS or full release acceptance."
+  ]
+}

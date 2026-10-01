@@ -75,6 +75,7 @@ const routes: Route[] = [
   // Audit practice (task AUDIT-PRACTICE-01)
   R('GET', '/practice', 'engagements.read', (c, _, __, ___, k) => P.practiceState(c, k)),
   R('POST', '/practice/criteria', 'practice.manage', (c, _, i) => P.recordCriteriaFixture(c, i)),
+  R('POST', '/practice/criteria/production', 'practice.manage', (c, _, i, __, k) => P.recordProductionCriteria(c, i, k), { body: 1048576 }),
   R('POST', '/criteria/{id}/approve', 'practice.approve', (c, id) => P.approveCriteria(c, id!)),
   R('POST', '/practice/methodologies', 'practice.manage', (c, _, i) => P.recordMethodology(c, i), { body: 65536 }),
   R('POST', '/methodologies/{id}/approve', 'practice.approve', (c, id) => P.approveMethodology(c, id!)),
@@ -129,7 +130,7 @@ function match(method: string, path: string) {
 let cachedKeys: S.Keys | undefined;
 function keys(r: VendorRuntime): S.Keys {
   return cachedKeys ??= { vault: vaultKeyFrom(readFileSync(resolve(r.config.directory, 'auth', 'vault-key'), 'utf8').trim()),
-    audit: () => vendorSigningKey('audit'), licence: () => vendorSigningKey('licence') };
+    audit: () => vendorSigningKey('audit'), licence: () => vendorSigningKey('licence'), release: () => vendorSigningKey('release') };
 }
 const toCtx = (tx: S.Ctx['tx'], actor: VendorActor, requestId: string): S.Ctx => ({ tx, requestId, actor: { actor_id: actor.actor_id, actor_domain: actor.actor_domain, role: actor.role, organisation_id: actor.organisation_id } });
 

@@ -7,8 +7,10 @@ import { RequirementId, ProvisionId, Severity, RequirementResult, PersonalDataFl
  * a customer installation, where every /api/v1/vendor path is a 404.
  * 0.4.0: the two legal-review activation gates become management template approvals (owner decision 2026-09-30);
  * activations recorded under the old names are still listed and still count.
+ * 0.5.0: POST /practice/criteria/production records production criteria from the signed official regulatory package
+ * (CriteriaPackageRecord); before this only test-fixture criteria could be recorded, so the production-criteria gate could not be met.
  */
-export const VENDOR_AUDIT_CONTRACT_VERSION = '0.4.0' as const;
+export const VENDOR_AUDIT_CONTRACT_VERSION = '0.5.0' as const;
 const Id = z.uuid();
 const Time = z.iso.datetime();
 const Day = z.iso.date();
