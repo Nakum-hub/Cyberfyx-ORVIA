@@ -11,6 +11,7 @@ import { connectDatabase } from '../database/customer/src/index.ts';
 import { HttpFixture } from '../shared/testing/src/http-fixture.ts';
 import { createMarketingScenario } from '../shared/testing/src/scenario.ts';
 import { safeError,writeEvidence } from '../shared/testing/src/evidence.ts';
+import { customerEnvironment } from './credentials.ts';
 import { restoreTarget,activateRestoredTarget,type TargetSnapshot } from '../shared/testing/src/target-recovery.ts';
 import { stalePreviewSender } from '../tests/fault-fixtures/stale-sender.ts';
 import { agentEnrollment,senderEnrollment } from '../backend/auth/src/machine-profile.ts';
@@ -24,7 +25,7 @@ const profile=loadProfile();if(process.argv[2]!==`confirm:${profile.profile}`||p
 const db=connectDatabase(profile).pool;const target=connectDatabase({...profile,database:profile.database+'_targets'}).pool;
 const h=new HttpFixture();const processes:ChildProcess[]=[];const runFile=promisify(execFile);let processOutput='';
 const ownership=await db.connect();let run:ReturnType<typeof S.TestRun.parse>|undefined;let scope:string[]=[];
-function start(file:string){const p=spawn(process.execPath,['--import','tsx',file],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});p.stdout?.on('data',c=>{processOutput+=c;});p.stderr?.on('data',c=>{processOutput+=c;});processes.push(p);return p;}
+function start(file:string){const p=spawn(process.execPath,['--import','tsx',file],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:customerEnvironment({...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()},profile.profile)});p.stdout?.on('data',c=>{processOutput+=c;});p.stderr?.on('data',c=>{processOutput+=c;});processes.push(p);return p;}
 async function stop(p:ChildProcess){if(p.exitCode===null&&p.signalCode===null){const closed=once(p,'close');p.kill();await closed;}}
 async function persist(){const tx=await db.connect();try{await tx.query('BEGIN');for(const value of run!.assertions)await tx.query('INSERT INTO app.test_case_results(tenant_id,legal_entity_id,environment_id,run_id,assertion_id,document) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING',[...scope,run!.id,value.id,value]);await tx.query('UPDATE app.test_runs SET state=$2,document=$3 WHERE id=$1 AND state IN (\'NOT_RUN\',\'RUNNING\')',[run!.id,run!.state,run]);await tx.query("INSERT INTO app.audit_events(id,tenant_id,legal_entity_id,environment_id,actor_id,actor_domain,operation,resource_id,request_id) VALUES($1,$2,$3,$4,$5,'MACHINE',$6,$7,$8)",[randomUUID(),...scope,profile.installation_id,'test.'+run!.state.toLowerCase(),run!.id,randomUUID()]);await tx.query('COMMIT');}catch(error){await tx.query('ROLLBACK');throw error;}finally{tx.release();}}
 async function assertion(id:string,actual:unknown,expected:unknown,artifacts:string[]=[]){

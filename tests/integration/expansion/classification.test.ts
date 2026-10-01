@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX04 value classification and EX12 access exposure, through the HTTP boundary and the worker.
 // Under test: a value-sampling run needs connection authority and an approved
 // target; the worker samples through the read-only observer role and stores
@@ -90,7 +91,7 @@ await t.run(async () => {
     check('grants come from the catalog, including roles other than the observer', run.grants.map(g => g.grantee).includes('orvia_target_agent'), true);
     const exportDetail = await ok(admin.call(`/api/v1/admin/classification-runs/${exportRun.id}`), Run);
     check('a table readable by PUBLIC is a finding, graded by what it holds', exportDetail.findings.filter(f => f.kind === 'PUBLIC_CAN_READ').map(f => [f.severity, f.categories.sort()]), [['MEDIUM', ['EMAIL', 'PHONE_IN']]]);
-    const exposure = (await ok(admin.call('/api/v1/admin/exposure-findings?limit=100'), S.schemas.ExposureSummaryList)).items;
+    const exposure = (await allPageList(p => admin.call(p), '/api/v1/admin/exposure-findings', value => S.schemas.ExposureSummaryList.parse(value))).items;
     check('the exposure list shows each target\'s latest classification', [exposure.some(e => e.target_id === profiles.id && e.sensitive_columns.includes('aadhaar')), exposure.some(e => e.target_id === exports.id)], [true, true]);
     const missingDetail = await ok(admin.call(`/api/v1/admin/classification-runs/${missingRun.id}`), Run);
     check('a relation that does not exist is reported as missing, not as clean', [missingDetail.state, missingDetail.relation_state, missingDetail.columns.length], ['COMPLETED', 'MISSING', 0]);
@@ -117,7 +118,7 @@ await t.run(async () => {
     check('a run whose target was disabled fails explicitly', [disabled.state, disabled.failure_code], ['FAILED', 'TARGET_NOT_APPROVED']);
     check('an auditor reads runs but cannot request or label', [(await auditor.call(`/api/v1/admin/classification-runs/${queued.id}`)).status, (await request(auditor, profiles.id)).status,
       (await auditor.call(`/api/v1/admin/catalog-discovery-targets/${profiles.id}/classification-labels`, { labels: [{ column: 'city', expected: 'NONE', basis: 'Auditor attempt at labelling.' }] }, key())).status], [200, 403, 403]);
-    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/classification-runs/${queued.id}`)).status, (await ok(birch.call('/api/v1/admin/exposure-findings?limit=100'), S.schemas.ExposureSummaryList)).items.some(e => e.target_id === profiles.id)], [404, false]);
+    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/classification-runs/${queued.id}`)).status, (await allPageList(p => birch.call(p), '/api/v1/admin/exposure-findings', value => S.schemas.ExposureSummaryList.parse(value))).items.some(e => e.target_id === profiles.id)], [404, false]);
     const direct = (sql: string, values: unknown[]) => db.query(sql, values).then(() => 'accepted').catch((x: { code?: string }) => x.code ?? 'rejected');
     check('a completed run cannot be rewritten', await direct(`UPDATE app.classification_runs SET columns='[]' WHERE id=$1`, [queued.id]), '23514');
     check('a label cannot be deleted', await direct(`DELETE FROM app.classification_labels WHERE target_id=$1`, [profiles.id]), '23514');

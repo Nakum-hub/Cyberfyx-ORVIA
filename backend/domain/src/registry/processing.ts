@@ -63,7 +63,7 @@ export async function revisePurpose(c: Context, id: string, input: unknown) {
   return purposeView(c, id, impact);
 }
 export async function purposeList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.registry_purposes WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT id FROM app.registry_purposes WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_purposes WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const row of paged.items) items.push(await purposeView(c, row.id));
@@ -97,7 +97,7 @@ export async function createCondition(c: Context, input: unknown) {
   return conditionView(row);
 }
 export async function conditionList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.processing_conditions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.processing_conditions WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.processing_conditions WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(conditionView), next_cursor: paged.next_cursor };
 }
@@ -111,7 +111,7 @@ export async function createSafeguard(c: Context, input: unknown) {
   return R.Safeguard.parse({ ...value, id, recorded_at: iso(row.recorded_at) });
 }
 export async function safeguardList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.security_safeguards WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.security_safeguards WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.security_safeguards WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => R.Safeguard.parse({ id: r.id, kind: r.kind, description: r.description, control_reference: r.control_reference, evidence_state: r.evidence_state, evidence_reference: r.evidence_reference, recorded_at: iso(r.recorded_at) })), next_cursor: paged.next_cursor };
 }
@@ -238,7 +238,9 @@ export async function activityList(c: Context, page: Page, query: unknown) {
   const rows = (await c.tx.query(`SELECT a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3
     AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))
     AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))
-    AND ($7::uuid IS NULL OR a.id>$7) ORDER BY a.id LIMIT $8`, [...scope(c), q.system_id ?? null, q.data_category_id ?? null, at, page.cursor, page.limit + 1])).rows;
+    AND ($7::uuid IS NULL OR (a.recorded_at,a.id) < (SELECT a.recorded_at,a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3
+    AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))
+    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6))) AND a.id=$7)) ORDER BY a.recorded_at DESC,a.id DESC LIMIT $8`, [...scope(c), q.system_id ?? null, q.data_category_id ?? null, at, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const r of paged.items) items.push(await activityView(c, r.id));

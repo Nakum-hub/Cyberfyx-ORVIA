@@ -31,7 +31,7 @@ async function principalCategory(c: Context, id: string) {
   return R.PrincipalCategory.parse({ id: row.id, name: row.name, description: row.description, regulatory_tags: row.regulatory_tags, active: row.active, recorded_at: iso(row.recorded_at) });
 }
 export async function principalCategoryList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.data_principal_categories WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.data_principal_categories WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.data_principal_categories WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => R.PrincipalCategory.parse({ id: r.id, name: r.name, description: r.description, regulatory_tags: r.regulatory_tags, active: r.active, recorded_at: iso(r.recorded_at) })), next_cursor: paged.next_cursor };
 }
@@ -46,7 +46,7 @@ export async function createDataCategory(c: Context, input: unknown) {
   return R.DataCategory.parse({ ...value, id, active: true, recorded_at: new Date().toISOString() });
 }
 export async function dataCategoryList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.personal_data_categories WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.personal_data_categories WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.personal_data_categories WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => R.DataCategory.parse({ id: r.id, name: r.name, description: r.description, legacy_code: r.legacy_code, active: r.active, recorded_at: iso(r.recorded_at) })), next_cursor: paged.next_cursor };
 }
@@ -105,7 +105,10 @@ export async function subjectList(c: Context, page: Page, query: unknown) {
       AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id AND r.category_id=$4))
       AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_references f WHERE f.tenant_id=p.tenant_id AND f.legal_entity_id=p.legal_entity_id AND f.environment_id=p.environment_id AND f.subject_id=p.id AND f.system_id=$5 AND ($6::text IS NULL OR f.target_reference=$6)))
       AND ($9::uuid IS NULL OR p.principal_id=$9)
-      AND ($7::uuid IS NULL OR p.id>$7) ORDER BY p.id LIMIT $8`,
+      AND ($7::uuid IS NULL OR (p.recorded_at,p.id) < (SELECT p.recorded_at,p.id FROM app.data_principals p WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3
+      AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id AND r.category_id=$4))
+      AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_references f WHERE f.tenant_id=p.tenant_id AND f.legal_entity_id=p.legal_entity_id AND f.environment_id=p.environment_id AND f.subject_id=p.id AND f.system_id=$5 AND ($6::text IS NULL OR f.target_reference=$6)))
+      AND ($9::uuid IS NULL OR p.principal_id=$9) AND p.id=$7)) ORDER BY p.recorded_at DESC,p.id DESC LIMIT $8`,
   [...scope(c), q.category_id ?? null, q.system_id ?? null, q.target_reference ?? null, page.cursor, page.limit + 1, q.principal_id ?? null])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => R.SubjectSummary.parse({ ...r, recorded_at: iso(r.recorded_at) })), next_cursor: paged.next_cursor };
@@ -211,7 +214,7 @@ export async function createRepresentative(c: Context, input: unknown) {
   return representativeView(await representative(c, id));
 }
 export async function representativeList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.data_principal_representatives WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.data_principal_representatives WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.data_principal_representatives WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(representativeView), next_cursor: paged.next_cursor };
 }

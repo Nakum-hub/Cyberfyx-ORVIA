@@ -24,7 +24,10 @@ const t = operationsSuite('interface-crawl');
 const { h, check } = t;
 const VENDOR = `http://127.0.0.1:${PROFILES['vendor-a00'].app_port}`;
 const executablePath = process.env.ORVIA_CHROMIUM_PATH ?? (existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined);
-const shots = resolve('output/playwright/crawl'); mkdirSync(shots, { recursive: true });
+const freshShots = process.env.R8_CRAWL_DIR;
+if (freshShots && !/^output\/playwright\/round8\/matrix-[a-z][a-z-]{0,49}\/(chromium|webkit|firefox)$/.test(freshShots)) throw new Error('Invalid fresh Round 8 screenshot directory');
+if (freshShots && existsSync(resolve(freshShots))) throw new Error('Fresh Round 8 screenshot directory already exists');
+const shots = resolve(freshShots ?? 'output/playwright/crawl'); mkdirSync(shots, { recursive: true });
 const journalPath = resolve('.local/profiles/vendor-a00/auth/e2e-users.json');
 type VendorUser = { email: string; password: string; totp?: string };
 const journal = (existsSync(journalPath) ? JSON.parse(readFileSync(journalPath, 'utf8')) : {}) as Record<string, VendorUser | string | undefined>;
@@ -142,16 +145,30 @@ async function vendorSignIn(browser: Browser, user: VendorUser, path = '/vendor/
   await p.page.waitForURL(/\/vendor\/(engagements|upload)/, { timeout: 30000 });
   return p;
 }
+async function stopVendor(child: ChildProcess) {
+  if (!child.pid || child.exitCode !== null || child.signalCode !== null) return;
+  const closed = once(child, 'close');
+  child.kill('SIGTERM');
+  await closed;
+}
 async function startVendor() {
   const command = webProcess({ profile: 'vendor-a00', app_port: PROFILES['vendor-a00'].app_port });
-  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
+  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
   let diagnostics = ''; child.stderr?.on('data', c => { diagnostics += c.toString(); });
-  for (let i = 0; i < 120; i++) {
-    if (child.exitCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`);
-    try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* not ready */ }
-    await new Promise(r => setTimeout(r, 1000));
+  let spawnError: Error | undefined;
+  child.once('error', error => { spawnError = error; });
+  try {
+    for (let i = 0; i < 120; i++) {
+      if (spawnError) throw new Error('Vendor web process failed to start', { cause: spawnError });
+      if (child.exitCode !== null || child.signalCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`);
+      try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* not ready */ }
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    throw new Error('Vendor installation readiness timeout');
+  } catch (error) {
+    await stopVendor(child);
+    throw error;
   }
-  throw new Error('Vendor installation readiness timeout');
 }
 /** The first link on the current page to a detail of the list route, if any. */
 async function detailLink(page: Page, route: string) {
@@ -302,8 +319,8 @@ await t.run(async () => {
   } catch (error) {
     soft('crawl execution completed', (error as Error).message.slice(0, 500), 'no unexpected exception');
   } finally {
-    await browser.close();
-    if (vendorProcess && vendorProcess.exitCode === null) { const closed = once(vendorProcess, 'close'); vendorProcess.kill(); await closed; }
+    try { await browser.close(); }
+    finally { if (vendorProcess) await stopVendor(vendorProcess); }
     const withIssues = visits.filter(v => v.issues.length);
     mkdirSync('handoffs/code/artifacts', { recursive: true });
     writeFileSync(`handoffs/code/artifacts/interface-crawl-${new Date().toISOString().replace(/[:.]/g, '-')}.json`, JSON.stringify({ suite: 'interface-crawl', routes: ALL, viewport_scope: desktopOnly ? 'desktop only, per owner scope update' : 'desktop and phone', visits: visits.length, pages_with_issues: withIssues.length,

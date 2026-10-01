@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // Website privacy-policy discovery (migration 0077, contract 0.51.0) through the HTTP boundary and the worker.
 // Loopback test sites stand in for the organisation's website, another origin and a third-party tracker (synthetic, local).
 // Scenarios: a declared <link rel="privacy-policy"> is followed and its text kept with a digest; a recheck of unchanged text says
@@ -22,10 +23,15 @@ const LONG = 'We collect your name, email address and order history to deliver o
 
 await t.run(async () => {
   const admin = await h.login('admin'); const owner = await h.login('owner'); const auditor = await h.login('auditor'); const birch = await h.login('birch');
+  const servers: http.Server[] = [];
+  let runtimeForCleanup: ReturnType<typeof workflowActivities> | undefined;
+  try {
   let trackerHits = 0; let otherHits = 0;
   const tracker = http.createServer((req, res) => { trackerHits++; res.writeHead(200, { 'content-type': 'application/javascript' }); res.end('void 0;'); });
+  servers.push(tracker);
   const trackerPort = await listen(tracker);
   const other = http.createServer((req, res) => { otherHits++; res.writeHead(200, { 'content-type': 'text/html' }); res.end(`<html><body>${LONG}</body></html>`); });
+  servers.push(other);
   const otherPort = await listen(other);
   // The organisation's site. `mode` decides what the home page declares; every path requested is recorded.
   let mode = 'declared'; let policyText = LONG; const paths: string[] = [];
@@ -45,15 +51,15 @@ await t.run(async () => {
     if (req.url === '/stub') { res.writeHead(200, { 'content-type': 'text/html' }); return res.end('<html><body>Coming soon</body></html>'); }
     res.writeHead(404, { 'content-type': 'text/plain' }); res.end('not found');
   });
+  servers.push(site);
   const origin = `http://127.0.0.1:${await listen(site)}`;
-  const runtime = workflowActivities();
+  const runtime = runtimeForCleanup = workflowActivities();
   const workers = runtime.enrollment.identities.map(x => x.id);
   const D = (id: string) => `/api/v1/admin/cmp-sites/${id}/policy-discoveries`;
   const latest = async (id: string) => (await ok(admin.call(`${D(id)}?limit=1`), S.schemas.PolicyDiscoveryList)).items[0]!;
   const discover = async (id: string) => { await ok(admin.call(D(id), { origin }, key()), S.schemas.PolicyDiscovery); paths.length = 0; await sweepPolicyDiscoveries(runtime.scoped, workers); return latest(id); };
   const kinds = (x: { findings: { kind: string }[] }) => x.findings.map(f => f.kind).sort();
   const attention = async (siteId: string) => (await ok(admin.call('/api/v1/admin/operations/attention'), S.schemas.OperationsAttention)).items.some(i => i.kind === 'WEBSITE_POLICY_REVIEW' && i.entity_id === siteId);
-  try {
     t.setPhase('site');
     const created = await ok(admin.call('/api/v1/admin/cmp-sites', { name: unique('Policy shop'), origins: [origin] }, key()), S.schemas.CmpSite);
     check('a discovery needs an enabled site', (await codes(admin.call(D(created.id), { origin }, key()))).codes, ['site_not_enabled']);
@@ -114,9 +120,9 @@ await t.run(async () => {
 
     t.setPhase('weekly schedule');
     mode = 'declared';
-    const before = (await ok(admin.call(`${D(created.id)}?limit=100`), S.schemas.PolicyDiscoveryList)).items.length;
+    const before = (await allPageList(p => admin.call(p), `${D(created.id)}`, value => S.schemas.PolicyDiscoveryList.parse(value))).items.length;
     await sweepPolicyDiscoveries(runtime.scoped, workers);
-    check('no rediscovery is scheduled within a week of the last', (await ok(admin.call(`${D(created.id)}?limit=100`), S.schemas.PolicyDiscoveryList)).items.length, before);
+    check('no rediscovery is scheduled within a week of the last', (await allPageList(p => admin.call(p), `${D(created.id)}`, value => S.schemas.PolicyDiscoveryList.parse(value))).items.length, before);
     // Other enabled sites in this scope are due too; sweep until this site's weekly discovery has run (bounded).
     let scheduled = await latest(created.id);
     for (let i = 0; i < 40 && !(scheduled.trigger === 'SCHEDULE' && scheduled.state !== 'QUEUED'); i++) { await sweepPolicyDiscoveries(runtime.scoped, workers, () => Date.now() + 8 * 86_400_000); scheduled = await latest(created.id); }
@@ -129,5 +135,8 @@ await t.run(async () => {
     check('a discovery cannot be deleted', await refused('DELETE FROM app.policy_discoveries WHERE id=$1', [first.id]), 'policy_discovery_is_retained');
     await ok(admin.call(`/api/v1/admin/cmp-sites/${created.id}/disable`, {}, key()), S.schemas.CmpSite);
     check('a disabled site takes no new discovery', (await codes(admin.call(D(created.id), { origin }, key()))).codes, ['site_not_enabled']);
-  } finally { await runtime.close(); site.close(); other.close(); tracker.close(); }
+  } finally {
+    try { await runtimeForCleanup?.close(); }
+    finally { await Promise.all(servers.map(server => new Promise<void>(resolve => server.close(() => resolve())))); }
+  }
 });

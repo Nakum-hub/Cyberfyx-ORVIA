@@ -85,7 +85,7 @@ export async function publishNoticeVersion(c: Context, versionId: string, input:
 }
 
 export async function noticeList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_notices WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const row of paged.items) items.push(await noticeView(c, row.id));
@@ -137,7 +137,7 @@ export async function recordDelivery(c: Context, input: unknown) {
   return deliveryView((await c.tx.query(`SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0]);
 }
 export async function deliveryList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.notice_delivery_evidence WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(deliveryView), next_cursor: paged.next_cursor };
 }

@@ -11,6 +11,7 @@ import { sweepCatalogDiscovery } from '../../../services/worker/src/catalog-disc
 import { observerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { sweepAiGovernance } from '../../../services/worker/src/ai-governance-monitor.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 
 const profile=loadProfile();
 if(profile.profile!=='codex-a00')throw new Error('Synthetic codex-a00 profile only');
@@ -54,6 +55,9 @@ try{
   check('missing relation receives separate approval',(await owner.call(`${path}/${missingTarget.id}/approve`,{},key())).status,200);
   phase='worker observation';
   runtime=workflowActivities();
+  // The global sweep is bounded; prioritise only this fixture's two approved jobs.
+  await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() - make_interval(years => 10) WHERE target_id=ANY($1::uuid[])',
+    [[target.id,missingTarget.id]]);
   const processed=await sweepCatalogDiscovery(runtime.scoped,runtime.enrollment.identities.map(x=>x.id),
     observerEnrollment(runtime.config).identities,runtime.observer);
   check('due catalog jobs processed',processed>=2,true);
@@ -127,7 +131,7 @@ try{
   check('exhausted observer creates one durable target gap',failedGaps,
     [{source:'CATALOG_READ_EXHAUSTED',subject_kind:'CATALOG_TARGET',state:'OPEN'}]);
   check('other tenant cannot see exhausted target gap',(await birch.call('/api/v1/admin/gaps?limit=100')).status,200);
-  const otherGaps=await (await birch.call('/api/v1/admin/gaps?limit=100')).json() as {items:{subject_id:string}[]};
+  const otherGaps=await allPageList(p=>birch.call(p),'/api/v1/admin/gaps',value=>S.schemas.GapList.parse(value));
   check('other tenant gap page excludes target',otherGaps.items.some(x=>x.subject_id===failedTarget.id),false);
   phase='schema drift';
   let driftColumnAdded=false;

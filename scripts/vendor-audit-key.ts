@@ -17,6 +17,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { vendorDirectory, vendorKeyPath } from './credentials.ts';
 import { writePrivateJson } from './local-private.ts';
+import { protectAuditKeyLocation } from './audit-key-custody.ts';
 
 export const PRODUCTION_PREFIX = 'orvia-audit-';
 export const DEVELOPMENT_PREFIX = 'orvia-audit-dev-';
@@ -30,8 +31,10 @@ export function generateProductionKey(path = vendorKeyPath('audit'), now = new D
   if (existsSync(path)) {
     const current = JSON.parse(readFileSync(path, 'utf8')) as KeyFile;
     if (isProductionKeyId(current.key_id)) throw new Error(`A production audit key (${current.key_id}) is already in place. It is never overwritten here; rotation is a separate procedure.`);
+    protectAuditKeyLocation(path);
     renameSync(path, resolve(path, '..', `audit.dev-retired-${now.toISOString().replace(/[:.]/g, '-')}.json`));
   }
+  protectAuditKeyLocation(path);
   const pair = generateKeyPairSync('ed25519');
   const keyId = `${PRODUCTION_PREFIX}${now.toISOString().slice(0, 10).replaceAll('-', '')}-${randomBytes(4).toString('hex')}`;
   const pub = pair.publicKey.export({ format: 'der', type: 'spki' }).toString('base64');

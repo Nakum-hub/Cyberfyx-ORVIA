@@ -10,6 +10,7 @@ import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts
 import { writeEvidence,safeError } from '../../../shared/testing/src/evidence.ts';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { customerEnvironment } from '../../../scripts/credentials.ts';
 import { servicePool,machineAuthority } from '../../../backend/auth/src/machine.ts';
 import { agentEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { targetTransaction } from '../../../connectors/src/shared/target-db.ts';
@@ -27,7 +28,7 @@ let runtime: ReturnType<typeof workflowActivities>|undefined;
 let observer: ReturnType<typeof servicePool>|undefined;let agentControl: ReturnType<typeof servicePool>|undefined;let target: ReturnType<typeof servicePool>|undefined;
 function check(name: string,actual: unknown,expected: unknown) {try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed: '+name);}}
 async function rejects(name: string,work:()=>Promise<unknown>) {let denied=false;try{await work();}catch{denied=true;}check(name,denied,true);}
-function start(path: string) {const child=spawn(process.execPath,['--import','tsx',path],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});child.stdout?.on('data',chunk=>{processOutput+=chunk;});child.stderr?.on('data',chunk=>{processOutput+=chunk;});processes.push(child);return child;}
+function start(path: string) {const child=spawn(process.execPath,['--import','tsx',path],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:customerEnvironment({...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()},config.profile)});child.stdout?.on('data',chunk=>{processOutput+=chunk;});child.stderr?.on('data',chunk=>{processOutput+=chunk;});processes.push(child);return child;}
 async function stop(child: ChildProcess) {if(child.exitCode===null&&child.signalCode===null){const closed=once(child,'close');child.kill();await closed;}}
 async function until<T>(read:()=>Promise<T>,ready:(v:T)=>boolean) {for(let i=0;i<120;i++){const value=await read();if(ready(value))return value;await new Promise(resolve=>setTimeout(resolve,500));}throw new Error('Timed out waiting for actual durable state');}
 try {

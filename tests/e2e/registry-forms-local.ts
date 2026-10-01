@@ -1,3 +1,4 @@
+import { allPageList } from '../../shared/testing/src/all-pages.ts';
 // DPDP registry creation journeys, driven through the real workspace in a real
 // browser on the synthetic codex-a00 profile. Each record is created with the
 // screen's own form, its POST response is captured, and the stored record is
@@ -142,7 +143,7 @@ await t.run(async () => {
     await field(f, 'When eligible').selectOption('SUPPRESS');
     await f.getByRole('button', { name: 'Create a retention rule', exact: true }).click();
     await f.getByText('A retention period and where it comes from are recorded together, or neither is.').waitFor();
-    const ruleNamed = async () => (await ok(admin.call('/api/v1/admin/retention-rules?limit=100'), S.schemas.RetentionRuleList)).items.filter(r => r.name === `Forms newsletter retention ${suffix}`).length;
+    const ruleNamed = async () => (await allPageList(p => admin.call(p), '/api/v1/admin/retention-rules', value => S.schemas.RetentionRuleList.parse(value))).items.filter(r => r.name === `Forms newsletter retention ${suffix}`).length;
     check('a period without its source is refused in the browser and nothing is sent', await ruleNamed(), 0);
     await field(f, 'Period comes from').selectOption('CUSTOMER_CONFIGURATION'); await field(f, 'Source reference').fill('Retention schedule RS-7, section 2');
     const rule = await submit(f, /\/retention-rules$/, S.schemas.RetentionRule);

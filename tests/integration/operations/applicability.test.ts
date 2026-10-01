@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: applicability (quality s4 "Applicability").
 // Under test: organisation-level facts that are not recorded leave requirements
 // unresolved rather than assumed; recording the fact resolves them and the change
@@ -37,12 +38,11 @@ await t.run(async () => {
   check('each decision records the fact values it used and a readable trace', [result(recorded, 'DPDP-SDF-DPO')?.inputs['organisation.sdf_status'], (result(recorded, 'DPDP-SDF-DPO')?.trace.length ?? 0) > 0], ['NOT_DESIGNATED', true]);
   const changes = (await db.query(`SELECT payload FROM app.operational_events WHERE event_type='requirement_applicability_changed' AND occurred_at>=$1 AND tenant_id=$2`, [since, t.scope().tenant_id])).rows.map(r => r.payload.requirement_id);
   check('a change of result is emitted as an applicability event', ['DPDP-SDF-DPO', 'DPDP-RETENTION-THIRD-SCHEDULE'].every(id => changes.includes(id)), true);
-  const listed = await ok(auditor.call('/api/v1/admin/regulatory/applicability?limit=100'), S.schemas.ApplicabilityDecisionList);
+  const listed = await allPageList(p => auditor.call(p), '/api/v1/admin/regulatory/applicability', value => S.schemas.ApplicabilityDecisionList.parse(value));
   check('an auditor can read persisted decisions', listed.items.length > 0, true);
   check('a member cannot evaluate applicability', (await member.call('/api/v1/admin/regulatory/applicability', { scope_kind: 'ORGANISATION', scope_id: null, as_of: null }, key())).status, 403);
   check('an auditor cannot evaluate applicability', (await auditor.call('/api/v1/admin/regulatory/applicability', { scope_kind: 'ORGANISATION', scope_id: null, as_of: null }, key())).status, 403);
-  const birchDecisions = await birch.call('/api/v1/admin/regulatory/applicability?limit=100');
-  const birchIds = birchDecisions.status === 200 ? ((await birchDecisions.json()) as { items: { id: string }[] }).items.map(d => d.id) : [];
+  const birchIds = (await allPageList(p=>birch.call(p),'/api/v1/admin/regulatory/applicability',value=>S.schemas.ApplicabilityDecisionList.parse(value))).items.map(d=>d.id);
   check('another tenant never sees these decisions', recorded.decisions.some(d => birchIds.includes(d.id)), false);
   check('an organisation scope carries no id', (await admin.call('/api/v1/admin/regulatory/applicability', { scope_kind: 'ORGANISATION', scope_id: randomUUID(), as_of: null }, key())).status, 400);
 
@@ -64,6 +64,6 @@ await t.run(async () => {
   check('a person past the period under an unresolved condition is unresolved, not eligible', [run.counts.total_discovered, run.counts.eligible, run.counts.unresolved], [1, 0, 1]);
   const state = (await db.query(`SELECT state,unresolved_reason FROM app.retention_states WHERE rule_id=$1 AND subject_id=$2`, [rule.id, subject.id])).rows[0];
   check('the persisted position names the unresolved condition', [state?.state, state?.unresolved_reason], ['UNRESOLVED', 'The processing condition for the activity is unresolved.']);
-  const actions = await ok(admin.call(`/api/v1/admin/workflow-runs/${run.id}/actions?limit=100`), S.schemas.DownstreamActionList);
+  const actions = await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${run.id}/actions`, value => S.schemas.DownstreamActionList.parse(value));
   check('no erasure action is planned', actions.items.length, 0);
 });

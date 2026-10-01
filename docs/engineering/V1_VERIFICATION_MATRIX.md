@@ -228,7 +228,7 @@ At runtime, the publish refusal and the website-policy change review apply the s
 - `e2e-expansion-screens` PASS 69 assertions, 0 failures.
 - `e2e-operations-screens` PASS 30 assertions, 0 failures.
 - `e2e-registry-forms` PASS 16 assertions, 0 failures.
-- `integration-bootstrap` PASS 
+- `integration-bootstrap` PASS
 - `integration-operations-sdf` PASS 22 assertions, 0 failures.
 
 ## Failures in the latest results

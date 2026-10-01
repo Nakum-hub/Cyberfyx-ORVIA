@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: notice history (quality s4 "Notice history").
 // Under test: v1 is published and presented, v2 supersedes it, and the question
 // "which notice applied at time T" resolves to the right version; delivery
@@ -37,7 +38,7 @@ await t.run(async () => {
   check('a presentation of v2 dated before v2 took effect is refused', (await codes(admin.call('/api/v1/admin/notice-delivery-evidence', { notice_version_id: v2.id, subject_id: subject.id, relationship_id: null, population_reference: null, channel: 'EMAIL', presented_at: hoursFromNow(-120), source_system_id: null, source_reference: 'Mail log 45', evidence_reference: null, result: 'DELIVERED' }, key()))).codes, ['version_not_in_effect_at_that_time']);
   check('published notice content cannot be rewritten in place', await db.query(`UPDATE app.registry_notice_versions SET content='Rewritten' WHERE id=$1`, [v1.id]).then(() => 'ACCEPTED').catch(() => 'REJECTED'), 'REJECTED');
   check('delivery evidence is append-only', await db.query(`UPDATE app.notice_delivery_evidence SET result='FAILED' WHERE id=$1`, [delivery.id]).then(() => 'ACCEPTED').catch(() => 'REJECTED'), 'REJECTED');
-  const portal = await ok(alice.call('/api/v1/portal/notices?locale=en&limit=100'), S.schemas.PortalNoticeList);
+  const portal = await allPageList(p => alice.call(p), '/api/v1/portal/notices?locale=en', value => S.schemas.PortalNoticeList.parse(value));
   check('the Privacy Centre shows the current version and not the superseded one', [portal.items.some(n => n.version_id === v2.id), portal.items.some(n => n.version_id === v1.id)], [true, false]);
   check('the Privacy Centre notice carries withdrawal, rights, grievance and Board channels', portal.items.find(n => n.version_id === v2.id)?.channels, channels);
   check('a Data Principal cannot reach the staff notice registry', (await alice.call(`/api/v1/admin/registry-notices/${notice.id}/at?as_of=${encodeURIComponent(hoursFromNow(0))}&locale=en`)).status, 403);

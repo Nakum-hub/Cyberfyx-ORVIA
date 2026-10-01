@@ -55,7 +55,7 @@ export async function attest(c:Context,id:string,input:unknown) {
  await finishWorkflow(c,row.workflow_id);await audit(c,'manual.attest',id);return S.AcceptedOperation.parse({operation_id:randomUUID(),status:'ACCEPTED',accepted_at:at});
 }
 export async function failures(c:Context,page:Page) {
- const rows=await c.tx.query(`SELECT id,workflow_id FROM app.obligations WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+ const rows=await c.tx.query(`SELECT id,workflow_id FROM app.obligations WHERE ${predicate} AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.obligations WHERE ${predicate} AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
  const items=[];for(const row of rows.rows.slice(0,page.limit)){const o=(await readWorkflow(c,row.workflow_id)).obligations.find(o=>o.id===row.id)!;if(!obligationSatisfied(o,new Date()))items.push(o);}
  return {items:items.slice(0,page.limit),next_cursor:rows.rows.length>page.limit?Buffer.from(rows.rows[page.limit-1].id).toString('base64url'):null};
 }
@@ -85,7 +85,7 @@ export async function checkSystem(c:Context,id:string,observer:pg.Pool) {
  return S.System.parse({...row.document,supports_read:readable,supports_restrict:restrict,checked_at:at});
 }
 export async function capabilities(c:Context,page:Page) {
- const rows=await c.tx.query(`SELECT id,connector FROM app.systems WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+ const rows=await c.tx.query(`SELECT id,connector FROM app.systems WHERE ${predicate} AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.systems WHERE ${predicate} AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
  const items=rows.rows.slice(0,page.limit).map(r=>S.CapabilityRecord.parse({code:r.connector+':'+r.id,target_release:'V1',implementation_status:r.connector==='LEGACY_MANUAL'?'NOT_IMPLEMENTED':'IMPLEMENTED',test_status:'NOT_RUN',supported_profile:S.PROFILE,limitations:['Declared adapter implementation; current per-system checks and workflow observations determine effective coverage.','No full-release acceptance is inferred from this catalog.']}));
  return {items,next_cursor:rows.rows.length>page.limit?Buffer.from(rows.rows[page.limit-1].id).toString('base64url'):null};
 }

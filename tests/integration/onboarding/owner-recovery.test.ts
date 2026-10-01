@@ -11,6 +11,7 @@ import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { postgresContainer } from '../../../shared/testing/src/postgres-container.ts';
 import { writeEvidence } from '../../../shared/testing/src/evidence.ts';
 import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
 import { issueSetupCode, newSetupCode } from '../../../scripts/setup-code.ts';
@@ -24,7 +25,7 @@ const check = (name: string, actual: unknown, expected: unknown) => {
 };
 const profile = loadProfile();
 const scratch = `orvia_owner_recovery_${randomUUID().replace(/-/g, '').slice(0, 12)}`;
-const container = `${profile.compose_project}-postgres-1`;
+const container = postgresContainer(profile);
 const exec = (args: string[], input?: Buffer) => { const r = spawnSync('docker', ['exec', '-i', '-e', `PGPASSWORD=${profile.password}`, container, ...args], { input, maxBuffer: 256 * 1024 * 1024 }); if (r.status !== 0) throw new Error(`docker exec failed: ${r.stderr?.toString().slice(0, 300)}`); return r.stdout; };
 const bootstrap = connectDatabase({ ...profile, database: 'postgres' }).pool;
 await bootstrap.query(`CREATE DATABASE ${scratch}`);

@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX05 records of processing and bounded resumable exports, through the real HTTP boundary.
 // Under test: entries derived from registry declarations, bindings, declared
 // locations, recipients, retention and the privacy graph, with a real catalog
@@ -178,7 +179,7 @@ await t.run(async () => {
     stopped = await ok(admin.call(`/api/v1/admin/data-exports/${stopped.id}/stop`, {}, key()), Job);
     check('a stopped export stays stopped', [stopped.state, (await ok(admin.call(`/api/v1/admin/data-exports/${stopped.id}/step`, {}, key()), Job)).state, (await admin.call(`/api/v1/admin/data-exports/${stopped.id}/stop`, {}, key())).status], ['CANCELLED', 'CANCELLED', 409]);
     check('another staff member cannot see, advance or download someone else\'s export', [(await owner.call(`/api/v1/admin/data-exports/${job.id}`)).status, (await owner.call(`/api/v1/admin/data-exports/${job.id}/step`, {}, key())).status,
-      (await owner.call(`/api/v1/admin/data-exports/${job.id}/chunk?sequence=1`)).status, (await ok(owner.call('/api/v1/admin/data-exports?limit=100'), S.schemas.DataExportList)).items.some(x => x.id === job.id)], [404, 404, 404, false]);
+      (await owner.call(`/api/v1/admin/data-exports/${job.id}/chunk?sequence=1`)).status, (await allPageList(p => owner.call(p), '/api/v1/admin/data-exports', value => S.schemas.DataExportList.parse(value))).items.some(x => x.id === job.id)], [404, 404, 404, false]);
     check('another tenant cannot read the entry, version or export', [(await birch.call(`/api/v1/admin/ropa/entries/${activity.id}`)).status, (await birch.call(`/api/v1/admin/ropa/versions/${v2.id}/diff?against=${v1.id}`)).status, (await birch.call(`/api/v1/admin/data-exports/${job.id}`)).status], [404, 404, 404]);
     check('an auditor reads entries but cannot declare or record', [(await auditor.call(`/api/v1/admin/ropa/entries/${activity.id}`)).status, (await auditor.call(`/api/v1/admin/systems/${sysA.id}/locations`, { region: 'IN', hosting_description: 'Auditor attempt', basis: 'Auditors do not declare locations.', valid_from: hoursFromNow(0) }, key())).status,
       (await auditor.call('/api/v1/admin/ropa/versions', { note: 'Auditor attempt at a version.' }, key())).status], [200, 403, 403]);

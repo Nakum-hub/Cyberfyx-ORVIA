@@ -1,0 +1,17 @@
+import { spawn, spawnSync } from 'node:child_process';
+import { appendFileSync, createWriteStream, existsSync, readFileSync } from 'node:fs';
+const [label,...args]=process.argv.slice(2);
+if(!label||!/^[a-z0-9-]+$/.test(label)||!args.length)throw new Error('Give a unique artifact label and Node arguments');
+const log=`handoffs/codex/artifacts/R8-${label}.log`;
+if(existsSync(log))throw new Error('Artifact already exists; use a new label');
+const output=createWriteStream(log);
+const started_at=new Date().toISOString();
+const commit=spawnSync('git',['rev-parse','HEAD'],{encoding:'utf8',windowsHide:true}).stdout.trim();
+const build_at_start=existsSync('frontend/.next/BUILD_ID')?readFileSync('frontend/.next/BUILD_ID','utf8').trim():null;
+const child=spawn(process.execPath,args,{windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,ORVIA_PROFILE:'codex-a00',ORVIA_WORKSPACE_ROOT:process.cwd()}});
+child.stdout.pipe(output,{end:false});child.stderr.pipe(output,{end:false});
+const result=await new Promise((resolve,reject)=>{child.once('error',reject);child.once('close',(exit_code,signal)=>resolve({exit_code,signal}));});
+await new Promise(resolve=>output.end(resolve));
+const evidence={command:[process.execPath,...args],started_at,ended_at:new Date().toISOString(),...result,commit,build_at_start,build:existsSync('frontend/.next/BUILD_ID')?readFileSync('frontend/.next/BUILD_ID','utf8').trim():null,log};
+appendFileSync('handoffs/codex/artifacts/R8-command-ledger.jsonl',JSON.stringify(evidence)+'\n');
+console.log(JSON.stringify(evidence));process.exitCode=result.exit_code??1;

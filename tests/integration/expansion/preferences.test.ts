@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX01 communication preferences through the real HTTP boundary.
 // Under test: staff define topics (channels, optional purpose dependency) and
 // retire them once; a principal records their own choice per topic and channel
@@ -109,7 +110,7 @@ await t.run(async () => {
   check('a principal cannot read staff decision routes', (await alice.call(`/api/v1/admin/preference-decisions?principal_id=${aliceId}&topic_id=${news.id}&channel=EMAIL`)).status, 403);
   check('another tenant cannot read the principal\'s centre', (await birch.call(`/api/v1/admin/preference-centres/${aliceId}`)).status, 404);
   check('another tenant does not see the topic', (await birch.call(`/api/v1/admin/preference-decisions?principal_id=${aliceId}&topic_id=${news.id}&channel=EMAIL`)).status, 404);
-  const topics = await ok(auditor.call('/api/v1/admin/preference-topics?limit=100'), S.schemas.PreferenceTopicList);
+  const topics = await allPageList(p => auditor.call(p), '/api/v1/admin/preference-topics', value => S.schemas.PreferenceTopicList.parse(value));
   check('an auditor can read topics', topics.items.some(x => x.id === news.id), true);
 
   t.setPhase('database');

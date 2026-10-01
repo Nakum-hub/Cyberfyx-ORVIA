@@ -105,7 +105,10 @@ export async function engagementList(c: Context, page: Page, query: unknown) {
     AND ($4::timestamptz IS NULL OR (e.effective_from<=$4 AND (e.effective_to IS NULL OR e.effective_to>$4)))
     AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5
       AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4)))))
-    AND ($6::uuid IS NULL OR e.id>$6) ORDER BY e.id LIMIT $7`, [...scope(c), at, q.activity_id ?? null, page.cursor, page.limit + 1])).rows;
+    AND ($6::uuid IS NULL OR (e.recorded_at,e.id) < (SELECT e.recorded_at,e.id FROM app.processor_engagements e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3
+    AND ($4::timestamptz IS NULL OR (e.effective_from<=$4 AND (e.effective_to IS NULL OR e.effective_to>$4)))
+    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5
+      AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4))))) AND e.id=$6)) ORDER BY e.recorded_at DESC,e.id DESC LIMIT $7`, [...scope(c), at, q.activity_id ?? null, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const row of paged.items) items.push(await engagementView(c, row.id, at));
@@ -140,7 +143,10 @@ export async function sharingList(c: Context, page: Page, query: unknown) {
     AND ($4::uuid IS NULL OR d.activity_id=$4)
     AND ($5::uuid IS NULL OR d.activity_id IN (SELECT l.activity_id FROM app.registry_activity_links l JOIN app.data_principal_relationships r ON r.tenant_id=l.tenant_id AND r.legal_entity_id=l.legal_entity_id AND r.environment_id=l.environment_id AND r.category_id=l.principal_category_id
       WHERE l.tenant_id=d.tenant_id AND l.legal_entity_id=d.legal_entity_id AND l.environment_id=d.environment_id AND l.link_kind='PRINCIPAL_CATEGORY' AND r.subject_id=$5))
-    AND ($6::uuid IS NULL OR d.id>$6) ORDER BY d.id LIMIT $7`, [...scope(c), q.activity_id ?? null, q.subject_id ?? null, page.cursor, page.limit + 1])).rows;
+    AND ($6::uuid IS NULL OR (d.recorded_at,d.id) < (SELECT d.recorded_at,d.id FROM app.data_sharing_links d WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3
+    AND ($4::uuid IS NULL OR d.activity_id=$4)
+    AND ($5::uuid IS NULL OR d.activity_id IN (SELECT l.activity_id FROM app.registry_activity_links l JOIN app.data_principal_relationships r ON r.tenant_id=l.tenant_id AND r.legal_entity_id=l.legal_entity_id AND r.environment_id=l.environment_id AND r.category_id=l.principal_category_id
+      WHERE l.tenant_id=d.tenant_id AND l.legal_entity_id=d.legal_entity_id AND l.environment_id=d.environment_id AND l.link_kind='PRINCIPAL_CATEGORY' AND r.subject_id=$5)) AND d.id=$6)) ORDER BY d.recorded_at DESC,d.id DESC LIMIT $7`, [...scope(c), q.activity_id ?? null, q.subject_id ?? null, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(sharingView), next_cursor: paged.next_cursor };
 }

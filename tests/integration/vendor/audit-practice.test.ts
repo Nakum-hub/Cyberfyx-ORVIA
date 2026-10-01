@@ -37,6 +37,12 @@ try {
   await anon.json(`${V}/setup`, { setup_code: setup, owner: { name: 'Practice Owner', email: owner.email, password: owner.password }, admin: { name: 'Practice Admin', email: admin.email, password: admin.password } });
   const own = await h.login(owner); const adm = await h.login(admin);
   const member = async (name: string, role: string) => { const r = await adm.json(`${V}/team`, { name, email: `${name.toLowerCase().replace(/\W/g, '')}@practice.example`, role });
+    if(r.status!==201) {
+      const publicCode=r.data?.error?.code;
+      const safeCode=['SERVICE_UNAVAILABLE','UNAUTHENTICATED','FORBIDDEN','VALIDATION_ERROR','RATE_LIMITED'].includes(publicCode)?publicCode:'UNKNOWN';
+      throw new Error(`Synthetic VENDOR_TEAM_CREATE rejected (${r.status}, ${safeCode})`);
+    }
+    if(typeof r.data?.member?.email!=='string'||typeof r.data?.member?.user_id!=='string'||typeof r.data?.one_time_password!=='string')throw new Error('Synthetic VENDOR_TEAM_CREATE INVALID_SUCCESS_SHAPE');
     const u = { email: r.data.member.email, password: r.data.one_time_password, domain: 'vendor' as const, id: r.data.member.user_id as string } as { email: string; password: string; totp?: string; domain: 'vendor'; id: string };
     return { u, s: await h.login(u) }; };
   const L = await member('Lead Auditor', 'LEAD_AUDITOR'); const A = await member('Field Auditor', 'AUDITOR');

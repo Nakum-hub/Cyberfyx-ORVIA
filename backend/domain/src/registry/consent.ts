@@ -136,7 +136,7 @@ export async function consentRecordView(c: Context, id: string) {
     withdrawal_run_ids: runs, updated_at: iso(row.updated_at), consent_manager: cm });
 }
 export async function consentRecordList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.consent_records WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT id FROM app.consent_records WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.consent_records WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const row of paged.items) items.push(await consentRecordView(c, row.id));
@@ -177,7 +177,7 @@ async function cmRow(c: Context, id: string) {
   return ((await c.tx.query(`${CM_SELECT} WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND m.id=$4`, [...scope(c), id])).rows[0] ?? null) as CmRow | null;
 }
 export async function consentManagerList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`${CM_SELECT} WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND ($4::uuid IS NULL OR m.id>$4) ORDER BY m.id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as CmRow[];
+  const rows = (await c.tx.query(`${CM_SELECT} WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND ($4::uuid IS NULL OR (m.recorded_at,m.id) < (SELECT recorded_at,id FROM app.consent_managers WHERE ${predicate} AND id=$4)) ORDER BY m.recorded_at DESC,m.id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as CmRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(cmView), next_cursor: paged.next_cursor };
 }

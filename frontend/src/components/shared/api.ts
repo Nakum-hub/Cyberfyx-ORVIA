@@ -5,6 +5,8 @@ import { createClient } from '@orvia/contracts/client';
 import type { EndpointMap } from '@orvia/contracts/generated/endpoint-types';
 import interfaces from '@orvia/contracts/generated/interfaces.json';
 import { describeFailure, type UiFailure } from './errors.ts';
+import { beginRead } from './read-activity.ts';
+import { createQueuedFetch } from './read-queue.ts';
 
 /**
  * One transport for the whole interface: the generated client from
@@ -31,15 +33,7 @@ export const CONTRACT_REVIEW_STATUS = interfaces.review_status;
  * no semantics: each request still carries its own timeout, abort signal and
  * idempotency key, and a cancelled request leaves the queue immediately.
  */
-let gate: Promise<unknown> = Promise.resolve();
-function queued(input: RequestInfo | URL, init?: RequestInit) {
-  const run = gate.then(
-    () => fetch(input, { ...init, signal: init?.signal
-      ? AbortSignal.any([init.signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000) }),
-  );
-  gate = run.then(() => undefined, () => undefined);
-  return run;
-}
+const queued = createQueuedFetch();
 const client = createClient(queued);
 
 export type Operation = keyof EndpointMap;
@@ -133,7 +127,10 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
   const queryKey = JSON.stringify(query ?? null);
   const sourceRef = useRef<string | null>(null);
   const pollRef = useRef(pollWhile);
+  const queuedRead = useRef<(() => void) | null>(null);
   pollRef.current = pollWhile;
+
+  useEffect(() => () => { queuedRead.current?.(); queuedRead.current = null; }, []);
 
   useEffect(() => onIdentityChange(() => {
     setState({ status: 'idle', data: null, failure: null, loadedAt: null });
@@ -141,7 +138,7 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
   }), []);
 
   useEffect(() => {
-    if (!enabled) { setState({ status: 'idle', data: null, failure: null, loadedAt: null }); return; }
+    if (!enabled) { queuedRead.current?.(); queuedRead.current = null; setState({ status: 'idle', data: null, failure: null, loadedAt: null }); return; }
     const controller = new AbortController();
     const requestIdentity = identity;
     const sourceKey = JSON.stringify([identity,operation,paramsKey,queryKey,limit,cursor,allPages]);
@@ -149,6 +146,7 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     sourceRef.current = sourceKey;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let cancelled = false;
+    let finishRead: (() => void) | undefined;
     let backoff = POLL.minimumIntervalMs;
 
     // Rebuilt from the serialised key so an inline object literal from the
@@ -157,6 +155,8 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
     const effectiveQuery = JSON.parse(queryKey) as Record<string, string> | null;
 
     const read = async (isRefresh: boolean) => {
+      const finish = beginRead(); finishRead = finish;
+      queuedRead.current?.(); queuedRead.current = null;
       setState(previous => isRefresh ? { ...previous, status: 'refreshing' } : { status: 'loading', data: null, failure: null, loadedAt: null });
       try {
         let data = await client.call(operation, undefined as EndpointMap[K]['request'],
@@ -169,7 +169,7 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
             if(seen.has(next) || seen.size >= 100) throw new Error('Collection pagination did not complete; no partial list is displayed.');
             seen.add(next);
             const page = await client.call(operation, undefined as EndpointMap[K]['request'],
-              { ...(effectiveParams ? {params:effectiveParams} : {}), limit:100,cursor:next,signal:controller.signal }) as Result & {items:unknown[];next_cursor:string|null};
+              { ...(effectiveParams ? {params:effectiveParams} : {}), ...(effectiveQuery ? {query:effectiveQuery} : {}), limit:100,cursor:next,signal:controller.signal }) as Result & {items:unknown[];next_cursor:string|null};
             items.push(...page.items); next=page.next_cursor;
           }
           data={...collection,items,next_cursor:null};
@@ -190,13 +190,13 @@ export function useQuery<K extends Operation>(operation: K, options: QueryOption
           backoff = Math.min(backoff * 2, POLL.maximumBackoffMs);
           timer = setTimeout(() => void read(true), backoff);
         }
-      }
+      } finally { finish(); }
     };
     void read(sameSource);
-    return () => { cancelled = true; controller.abort(); if (timer) clearTimeout(timer); };
+    return () => { cancelled = true; controller.abort(); finishRead?.(); if (timer) clearTimeout(timer); };
   }, [operation, enabled, paramsKey, queryKey, limit, cursor, allPages, tick]);
 
-  const refresh = useCallback(() => setTick(value => value + 1), []);
+  const refresh = useCallback(() => { queuedRead.current ??= beginRead(); setTick(value => value + 1); }, []);
   const bound=sourceRef.current===JSON.stringify([identity,operation,paramsKey,queryKey,limit,cursor,allPages]);
   return bound ? {...state,refresh} : {status:enabled?'loading':'idle',data:null,failure:null,loadedAt:null,refresh};
 }
