@@ -53,5 +53,20 @@ jobs:
       - name: Check the complete test-file inventory
         run: pnpm exec tsx scripts/qualification-inventory.ts --check
 
+  policy-gate:
+    name: Privacy policy regression gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The OPA image is pinned by digest to the one the installation runs. The gate runs the privacy policy tests, then applies
+      # deliberate defects (withdrawn consent allowed, MFA dropped, approval granted to an administrator, ...) to a temporary copy
+      # and fails unless every defect is caught.
+      - name: Run the privacy policy tests and the deliberate-defect checks
+        run: scripts/policy-gate.sh
+
 # Static engineering checks only. No deployment, provider credentials, customer
-# records, integration acceptance or release approval is supplied by this job.
+# records, integration acceptance or release approval is supplied by these jobs.

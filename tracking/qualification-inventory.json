@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "67faa887155311cbf44184402ea8dc29bc9203a627aa1bd6043a2929140bbff2",
+  "test_file_digest": "528a4a8aec650e3a58e35cebe56e71d5667eda9922c83a65affb7ef2d025f7f7",
   "counts": {
     "UNIT": 50,
-    "INTEGRATION": 82,
+    "INTEGRATION": 83,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
@@ -215,6 +215,11 @@
     {
       "path": "tests/integration/discovery/postgres-catalog.test.ts",
       "sha256": "5ae88a82115611e74d1bf7886913aca13849c34ece6e4d43a2d2137d09f78962",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/discovery/schema-drift.test.ts",
+      "sha256": "17ca1fae055f8fd1c201f31b2753e510f1dac5248d4ac0cd7a70e1c5a4bf03c4",
       "kind": "INTEGRATION"
     },
     {
@@ -583,6 +588,16 @@
       "kind": "INTEGRATION"
     },
     {
+      "path": "tests/policy/admin_test.rego",
+      "sha256": "59cc9661bc8316db398cd4fe76aa46ae7a671d7be2e3b4007441879060f4e6b0",
+      "kind": "POLICY"
+    },
+    {
+      "path": "tests/policy/processing_test.rego",
+      "sha256": "6b1012e2479642c083eeede23dab2f53c893e0507ba3ddea4f48ab1247974670",
+      "kind": "POLICY"
+    },
+    {
       "path": "tests/security/auth.test.ts",
       "sha256": "d7e70ffb256fa842f445dc7d1f2ef13fd42be2d0c57a5d393656cea0e23000c5",
       "kind": "SECURITY"
@@ -729,7 +744,7 @@
     },
     {
       "path": "tests/unit/notice-language.test.ts",
-      "sha256": "5c11c7498d171602b7bcbf1a9ba3e48682a7c7cab167fecede0871a1244b9d08",
+      "sha256": "f387b529729f001f8a9c355fa468448447080aeb97b9a47b8031335eb18a66f9",
       "kind": "UNIT"
     },
     {
