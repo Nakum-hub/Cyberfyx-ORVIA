@@ -31,11 +31,11 @@ try{
   // test environment" when demonstration wording was removed; what is asserted is
   // still that the page says it runs on synthetic data.
   assert.match(await page.text(),/Synthetic test environment/);
-  // This process is started without the profile environment on purpose, so the
-  // business boundary has no database, policy engine or audit sink to reach.
-  // What is worth proving at bootstrap is that it then refuses: a route that
-  // cannot do its work says so rather than answering anyway.
-  assert.equal((await fetch(`http://127.0.0.1:${profile.app_port}/api/v1/admin/overview`)).status,503);
-  writeEvidence('web-integration',{profile:profile.profile,result:'PASS',assertions:['liveness 200 with exact body','landing page 200, nosniff, and labelled synthetic','business endpoint without its dependencies refuses with 503 rather than answering'],limitations:['HTTP bootstrap smoke only, with no profile environment; not UI browser acceptance and not an authenticated API test.']});
+  // The process is started as every real start path starts it (workspace root and profile environment), so the
+  // business boundary can reach its database and policy engine. What is worth proving at bootstrap is that a request
+  // carrying no session is refused as unauthenticated rather than answered.
+  const overview=await fetch(`http://127.0.0.1:${profile.app_port}/api/v1/admin/overview`);
+  assert.deepEqual([overview.status,((await overview.json()) as {error?:{code?:string}}).error?.code],[401,'UNAUTHENTICATED']);
+  writeEvidence('web-integration',{profile:profile.profile,result:'PASS',assertions:['liveness 200 with exact body','landing page 200, nosniff, and labelled synthetic','business endpoint without a session refuses with 401 UNAUTHENTICATED rather than answering'],limitations:['HTTP bootstrap smoke only, with no profile environment; not UI browser acceptance and not an authenticated API test.']});
 }catch(error){console.error(safeError(error));writeEvidence('web-integration',{profile:profile.profile,result:'FAIL',error:safeError(error),server_output:output});process.exitCode=1;}
 finally{if(child.exitCode===null){const closed=once(child,'close');child.kill();await closed;}}
