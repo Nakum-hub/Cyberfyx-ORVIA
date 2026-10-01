@@ -82,7 +82,7 @@ try { await t.run(async () => {
     const loop = spawn(process.execPath, ['--import', 'tsx', 'services/worker/src/operations-runner.ts'], { windowsHide: true, env: customerEnvironment({ ...process.env, ORVIA_WORKSPACE_ROOT: process.cwd() }, h.config.profile), stdio: ['ignore', 'pipe', 'pipe', 'ipc'] });
     let passes = 0; let pending = ''; let failedToStart = false;
     loop.once('error', () => { failedToStart = true; });
-    loop.stdout.on('data', (chunk: Buffer) => {
+    loop.stdout?.on('data', (chunk: Buffer) => {
       pending += chunk.toString(); const lines = pending.split('\n'); pending = lines.pop() ?? '';
       for (const line of lines) {
         try { const value = JSON.parse(line); if (value.at && Array.isArray(value.reports)) passes++; } catch { /* Incomplete/non-report output is not readiness. */ }

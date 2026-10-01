@@ -92,7 +92,7 @@ async function prerequisites(suite, output) {
     if (errors.length) throw new Error(errors.join('; '));
   }
   try {
-    if (['tests/integration/evidence/evidence.test.ts', 'tests/integration/regression/regression.test.ts'].includes(suite)) {
+    if (['tests/integration/evidence/evidence.test.ts', 'tests/integration/regression/regression.test.ts', 'tests/integration/workflows/workflow.test.ts'].includes(suite)) {
       await freePort(57233);
       for (const name of [PRIVATE, LOOPBACK]) {
         const project = docker(['network', 'inspect', '--format', '{{index .Labels "com.docker.compose.project"}}', name], output);
