@@ -108,6 +108,9 @@ export const operationsRoutes: Route[] = [
   write('approve_backup_treatment', '/backup-treatments/{id}/approval', undefined, 'BackupTreatment', 'retention.approve', 200),
   read('backup_coverage', '/backup-coverage', 'BackupCoverage', 'retention.read'),
   write('record_system_restore', '/system-restores', 'SystemRestoreRecord', 'SystemRestore', 'retention.write'),
+  // 0.55.0: restores older than the erasure ledger (migration 0090).
+  list('list_system_restores', '/system-restores', 'SystemRestoreList', 'retention.read', 'SystemRestoreQuery'),
+  write('review_restore_coverage', '/system-restores/{id}/coverage-review', 'RestoreCoverageReview', 'SystemRestore', 'retention.write', 200),
   list('list_erasure_ledger', '/erasure-ledger', 'ErasureLedgerList', 'registry.sensitive.read', 'ErasureLedgerQuery'),
   write('confirm_reerasure', '/erasure-ledger/{id}/reapplied', 'ReerasureConfirm', 'ErasureLedgerEntry', 'registry.sensitive.write', 200),
   { id: 'intake_consent', method: 'post', path: '/api/v1/intake/consents', authority: 'INTAKE_CLIENT', request: 'IntakeConsentSubmit', response: 'IntakeReceipt', status: 202, idempotency: true, capability: 'intake.submit', maximum_body_bytes: 8192 },

@@ -3090,6 +3090,29 @@
       "capability": "retention.write"
     },
     {
+      "id": "list_system_restores",
+      "method": "get",
+      "path": "/api/v1/admin/system-restores",
+      "authority": "STAFF",
+      "response": "SystemRestoreList",
+      "status": 200,
+      "paginated": true,
+      "capability": "retention.read",
+      "query": "SystemRestoreQuery"
+    },
+    {
+      "id": "review_restore_coverage",
+      "method": "post",
+      "path": "/api/v1/admin/system-restores/{id}/coverage-review",
+      "authority": "STAFF",
+      "request": "RestoreCoverageReview",
+      "response": "SystemRestore",
+      "status": 200,
+      "idempotency": true,
+      "capability": "retention.write",
+      "params": "IdPath"
+    },
+    {
       "id": "list_erasure_ledger",
       "method": "get",
       "path": "/api/v1/admin/erasure-ledger",

@@ -299,7 +299,16 @@ export const BackupCoverage = z.strictObject({ systems: z.array(BackupCoverageSy
   /** Systems with verified erasures and no current backup treatment: their backup handling is unknown and stays visibly unverified. */
   unknown_backup_handling: z.number().int().min(0), a_backup_expiry_date_is_not_proof_of_erasure: z.literal(true) });
 export const SystemRestoreRecord = z.strictObject({ system_id: Id, backup_taken_at: Time, restored_at: Time, evidence_reference: z.string().min(3).max(500) });
-export const SystemRestore = z.strictObject({ id: Id, system_id: Id, backup_taken_at: Time, restored_at: Time, evidence_reference: SafeText, recorded_at: Time, marked_for_reerasure: z.number().int().min(0) });
+/**
+ * 0.55.0 (migration 0090): `ledger_coverage` is INCOMPLETE when the backup was taken before erasures the ledger has already
+ * purged; the restore then cannot name everyone it brought back, and `marked_for_reerasure` is not the whole answer until a
+ * person records how the restored data was reviewed by hand (`coverage_review`).
+ */
+export const SystemRestore = z.strictObject({ id: Id, system_id: Id, backup_taken_at: Time, restored_at: Time, evidence_reference: SafeText, recorded_at: Time, marked_for_reerasure: z.number().int().min(0),
+  ledger_coverage: z.enum(['COMPLETE', 'INCOMPLETE']), ledger_purged_through: Time.nullable(),
+  coverage_review: z.strictObject({ evidence_reference: SafeText, reviewed_at: Time }).nullable() });
+export const SystemRestoreQuery = z.strictObject({ coverage: z.enum(['COMPLETE', 'INCOMPLETE']).optional(), unreviewed: z.enum(['true']).optional() });
+export const RestoreCoverageReview = z.strictObject({ evidence_reference: z.string().min(3).max(500) });
 export const ErasureLedgerState = z.enum(['IN_BACKUPS', 'BACKUPS_AGED_OUT', 'REAPPLY_REQUIRED', 'REAPPLIED']);
 export const ErasureLedgerEntry = z.strictObject({ id: Id, subject_id: Id, system_id: Id, erased_at: Time, backups_clear_after: Time, state: ErasureLedgerState,
   restore_id: Id.nullable(), reapplied_at: Time.nullable(), reapplied_evidence: SafeText.nullable() });
@@ -432,6 +441,6 @@ export const registrySchemas = {
   ConnectorBindingList: page(ConnectorBinding),
   IntakeClientCreate, IntakeClient, IntakeClientCreated, IntakeClientRevoke, IntakeSubmission, IntakeSubmissionQuery, IntakeSubmissionHandle, PrivacyCentreSetting, PrivacyCentreChange,
   IntakeConsentSubmit, IntakeRightsSubmit, IntakeReceipt, IntakeClientList: page(IntakeClient), IntakeSubmissionList: page(IntakeSubmission),
-  BackupTreatmentCreate, BackupTreatment, BackupCoverage, SystemRestoreRecord, SystemRestore, ErasureLedgerEntry, ErasureLedgerQuery, ReerasureConfirm,
-  BackupTreatmentList: page(BackupTreatment), ErasureLedgerList: page(ErasureLedgerEntry),
+  BackupTreatmentCreate, BackupTreatment, BackupCoverage, SystemRestoreRecord, SystemRestore, SystemRestoreQuery, RestoreCoverageReview, ErasureLedgerEntry, ErasureLedgerQuery, ReerasureConfirm,
+  BackupTreatmentList: page(BackupTreatment), ErasureLedgerList: page(ErasureLedgerEntry), SystemRestoreList: page(SystemRestore),
 };

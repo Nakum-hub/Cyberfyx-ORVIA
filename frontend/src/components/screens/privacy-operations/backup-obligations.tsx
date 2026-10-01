@@ -76,7 +76,9 @@ export function BackupObligations() {
 
       <h3>A system was restored from a backup</h3>
       <p className="muted">Everyone erased on that system after the backup was taken is marked to be erased again, and appears in Operations attention until someone confirms it.</p>
-      <WriteForm operation="record_system_restore" label="Record a system restore" onSaved={refresh} describe={r => `${r.marked_for_reerasure} person(s) marked to be erased again`}
+      <WriteForm operation="record_system_restore" label="Record a system restore" onSaved={refresh} describe={r => r.ledger_coverage === 'INCOMPLETE'
+        ? `${r.marked_for_reerasure} person(s) marked to be erased again, but the backup is older than the erasure ledger, so others may have come back too: review the restored data by hand below`
+        : `${r.marked_for_reerasure} person(s) marked to be erased again`}
         build={f => ({ system_id: text(f, 'system'), backup_taken_at: localToIso(f, 'taken'), restored_at: localToIso(f, 'restored'), evidence_reference: text(f, 'evidence') })}>
         <Choice label="System" name="system" options={systemOptions} />
         <Input label="The restored backup was taken at" name="taken" type="datetime-local" />
@@ -84,8 +86,43 @@ export function BackupObligations() {
         <Input label="Evidence" name="evidence" maxLength={500} hint="The change or incident record for the restore." />
       </WriteForm>
 
+      <RestoreCoverageList onChanged={refresh} />
       {hasCapability(session, 'registry.sensitive.read') ? <ReerasureList onChanged={refresh} /> : <p className="muted">Who must be erased again is visible only to people with sensitive registry access.</p>}
     </Section>
+  );
+}
+
+/** Restores older than the erasure ledger (migration 0090): ORVIA cannot name everyone they brought back, so a person reviews the restored data by hand. */
+function RestoreCoverageList({ onChanged }: { onChanged: () => void }) {
+  const list = usePagedQuery('list_system_restores', { limit: 50, query: { coverage: 'INCOMPLETE', unreviewed: 'true' } });
+  const review = useMutation('review_restore_coverage', true);
+  const [evidence, setEvidence] = useState<Record<string, string>>({});
+  return (
+    <>
+      <h3>Restores older than the erasure ledger</h3>
+      <p className="muted">The ledger forgets an erasure 30 days after that system&apos;s backups age out. A restore from a backup taken before then can bring back people the ledger no longer names, so ORVIA cannot list them. Review the restored data by hand and record how.</p>
+      <Freshness query={list} />
+      <QueryBoundary query={list} label="restores to review" isEmpty={d => !d.items.length}>
+        {d => (
+          <>
+            <DataTable caption="Restores older than the erasure ledger" rows={d.items} rowKey={r => r.id}
+              columns={[
+                { key: 'system', header: 'System', cell: r => shortId(r.system_id) },
+                { key: 'taken', header: 'Backup taken', cell: r => formatTime(r.backup_taken_at) },
+                { key: 'through', header: 'Ledger forgot erasures up to', cell: r => formatTime(r.ledger_purged_through) },
+                { key: 'marked', header: 'Named and marked', cell: r => r.marked_for_reerasure },
+                { key: 'review', header: '', cell: r => (
+                  <span className="row">
+                    <input aria-label="Manual review evidence" placeholder="How the restored data was reviewed" value={evidence[r.id] ?? ''} maxLength={500} onChange={ev => setEvidence({ ...evidence, [r.id]: ev.target.value })} />
+                    <button type="button" disabled={(evidence[r.id] ?? '').trim().length < 3} onClick={async () => { review.newInteraction(); if (await review.run({ evidence_reference: evidence[r.id]!.trim() }, { params: { id: r.id } })) { list.refresh(); onChanged(); } }}>Record manual review</button>
+                  </span>) },
+              ]} />
+            {review.failure && <FailureState failure={review.failure} />}
+            <Pagination query={list} />
+          </>
+        )}
+      </QueryBoundary>
+    </>
   );
 }
 

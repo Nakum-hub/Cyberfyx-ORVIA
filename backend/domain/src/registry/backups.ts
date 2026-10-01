@@ -107,13 +107,47 @@ export async function recordSystemRestore(c: Context, input: unknown) {
   if (Date.parse(v.backup_taken_at) > Date.parse(v.restored_at)) refuse(400, 'backup_taken_at', 'backup_must_precede_the_restore');
   if (Date.parse(v.restored_at) > Date.now() + 300_000) refuse(400, 'restored_at', 'must_not_be_in_the_future');
   const id = randomUUID();
-  await c.tx.query(`INSERT INTO app.system_restores(tenant_id,legal_entity_id,environment_id,id,system_id,backup_taken_at,restored_at,evidence_reference,recorded_by)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`, [...scope(c), id, v.system_id, v.backup_taken_at, v.restored_at, v.evidence_reference, c.actor.actor_id]);
+  // If the ledger has already purged erasures made after this backup was taken, it cannot name everyone the restore brought back.
+  const through = (await c.tx.query(`SELECT max(purged_through) AS t FROM app.erasure_ledger_purges WHERE ${predicate} AND system_id=$4`, [...scope(c), v.system_id])).rows[0].t as Date | null;
+  const incomplete = !!through && Date.parse(v.backup_taken_at) < through.getTime();
+  await c.tx.query(`INSERT INTO app.system_restores(tenant_id,legal_entity_id,environment_id,id,system_id,backup_taken_at,restored_at,evidence_reference,recorded_by,ledger_purged_through,ledger_coverage)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`, [...scope(c), id, v.system_id, v.backup_taken_at, v.restored_at, v.evidence_reference, c.actor.actor_id, incomplete ? through : null, incomplete ? 'INCOMPLETE' : 'COMPLETE']);
   const marked = Number((await c.tx.query('SELECT app.mark_reerasure_after_restore($1) AS n', [id])).rows[0].n);
   await audit(c, 'system_restore.recorded', id);
-  const r = (await c.tx.query(`SELECT * FROM app.system_restores WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0];
+  return restoreView(c, id, marked);
+}
+async function restoreView(c: Context, id: string, marked: number) {
+  const r = (await c.tx.query(`SELECT s.*, v.reviewed_at, v.evidence_reference AS review_evidence FROM app.system_restores s
+    LEFT JOIN app.restore_coverage_reviews v ON v.tenant_id=s.tenant_id AND v.legal_entity_id=s.legal_entity_id AND v.environment_id=s.environment_id AND v.restore_id=s.id
+    WHERE s.tenant_id=$1 AND s.legal_entity_id=$2 AND s.environment_id=$3 AND s.id=$4`, [...scope(c), id])).rows[0];
+  if (!r) refuse(404, 'id', 'not_found');
   return R.SystemRestore.parse({ id, system_id: r.system_id, backup_taken_at: iso(r.backup_taken_at), restored_at: iso(r.restored_at), evidence_reference: r.evidence_reference,
-    recorded_at: iso(r.recorded_at), marked_for_reerasure: marked });
+    recorded_at: iso(r.recorded_at), marked_for_reerasure: marked, ledger_coverage: r.ledger_coverage, ledger_purged_through: iso(r.ledger_purged_through),
+    coverage_review: r.reviewed_at ? { evidence_reference: r.review_evidence, reviewed_at: iso(r.reviewed_at) } : null });
+}
+/** Recorded restores, newest first; filter to INCOMPLETE ledger coverage and to those not yet reviewed. */
+export async function systemRestoreList(c: Context, page: Page, query: unknown) {
+  const q = R.SystemRestoreQuery.parse(query ?? {});
+  const rows = (await c.tx.query(`SELECT s.id FROM app.system_restores s WHERE s.tenant_id=$1 AND s.legal_entity_id=$2 AND s.environment_id=$3
+      AND ($4::text IS NULL OR s.ledger_coverage=$4)
+      AND (NOT $5 OR NOT EXISTS (SELECT 1 FROM app.restore_coverage_reviews v WHERE v.tenant_id=s.tenant_id AND v.legal_entity_id=s.legal_entity_id AND v.environment_id=s.environment_id AND v.restore_id=s.id))
+      AND ($6::uuid IS NULL OR (s.recorded_at, s.id) < (SELECT k.recorded_at, k.id FROM app.system_restores k WHERE k.tenant_id=$1 AND k.legal_entity_id=$2 AND k.environment_id=$3 AND k.id=$6))
+    ORDER BY s.recorded_at DESC, s.id DESC LIMIT $7`, [...scope(c), q.coverage ?? null, q.unreviewed === 'true', page.cursor, page.limit + 1])).rows;
+  const p = pageOf(rows, page.limit, r => r.id);
+  const items = []; for (const r of p.items) items.push(await restoreView(c, r.id, Number((await c.tx.query('SELECT app.restore_marked_count($1) AS n', [r.id])).rows[0].n)));
+  return { items, next_cursor: p.next_cursor };
+}
+/** A restore older than the ledger was reviewed by hand: record how. Only an INCOMPLETE restore takes one, once (migration 0090). */
+export async function reviewRestoreCoverage(c: Context, id: string, input: unknown) {
+  const v = R.RestoreCoverageReview.parse(input);
+  const r = (await c.tx.query(`SELECT ledger_coverage FROM app.system_restores WHERE ${predicate} AND id=$4 FOR UPDATE`, [...scope(c), id])).rows[0];
+  if (!r) refuse(404, 'id', 'not_found');
+  if (r.ledger_coverage !== 'INCOMPLETE') refuse(409, 'ledger_coverage', 'restore_ledger_coverage_is_complete');
+  if ((await c.tx.query(`SELECT 1 FROM app.restore_coverage_reviews WHERE ${predicate} AND restore_id=$4`, [...scope(c), id])).rowCount) refuse(409, 'coverage_review', 'already_reviewed');
+  await c.tx.query(`INSERT INTO app.restore_coverage_reviews(tenant_id,legal_entity_id,environment_id,restore_id,evidence_reference,reviewed_by) VALUES($1,$2,$3,$4,$5,$6)`,
+    [...scope(c), id, v.evidence_reference, c.actor.actor_id]);
+  await audit(c, 'system_restore.coverage_reviewed', id);
+  return restoreView(c, id, Number((await c.tx.query('SELECT app.restore_marked_count($1) AS n', [id])).rows[0].n));
 }
 
 const ledgerView = (r: Record<string, unknown>) => R.ErasureLedgerEntry.parse({ id: r.id, subject_id: r.subject_id, system_id: r.system_id, erased_at: iso(r.erased_at as Date),
@@ -141,6 +175,12 @@ export async function confirmReerasure(c: Context, id: string, input: unknown) {
 /** Runner: rows past their clear date age out; aged-out rows 30 days past it are purged (the ledger's own retention). */
 export async function backupLedgerSweep(c: Context) {
   const aged = (await c.tx.query(`UPDATE app.erasure_ledger SET state='BACKUPS_AGED_OUT' WHERE ${predicate} AND state='IN_BACKUPS' AND backups_clear_after <= clock_timestamp()`, scope(c))).rowCount ?? 0;
-  const purged = (await c.tx.query(`DELETE FROM app.erasure_ledger WHERE ${predicate} AND state='BACKUPS_AGED_OUT' AND backups_clear_after < clock_timestamp() - interval '30 days'`, scope(c))).rowCount ?? 0;
+  // Each purge records, per system, the latest erasure it removed (migration 0090), so a later restore from an older backup is
+  // known to predate what the ledger can still name.
+  const purged = Number((await c.tx.query(`WITH gone AS (
+      DELETE FROM app.erasure_ledger WHERE ${predicate} AND state='BACKUPS_AGED_OUT' AND backups_clear_after < clock_timestamp() - interval '30 days' RETURNING system_id, erased_at),
+    marks AS (INSERT INTO app.erasure_ledger_purges(tenant_id,legal_entity_id,environment_id,id,system_id,purged_through,purged_rows)
+      SELECT $1,$2,$3,gen_random_uuid(),system_id,max(erased_at),count(*)::int FROM gone GROUP BY system_id RETURNING purged_rows)
+    SELECT coalesce(sum(purged_rows),0)::int AS n FROM marks`, scope(c))).rows[0].n);
   return { aged, purged };
 }

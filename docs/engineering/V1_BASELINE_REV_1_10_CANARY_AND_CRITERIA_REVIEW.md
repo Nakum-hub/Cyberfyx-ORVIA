@@ -70,6 +70,17 @@
   Rows approved before 0017 keep their history and show "no review reference exists".
 - The practice screen opens a review panel showing this evidence. Approval stays disabled until a review reference is entered and the acknowledgement is ticked.
 
-## Still open (not decided here)
+## Defect fixed alongside: a restore older than the erasure ledger is never reported as complete
 
-- **Backup restore after the ledger purge** (Codex round 8, finding 5): restoring a backup older than the retained erasure ledger cannot identify everyone who must be erased again. The finding is in `handoffs/codex/round8-feature-review.md`, finding 5. The proposal file it names, `round8-proposed-backup-history.md`, was not committed. It needs an owner decision on how long the ledger is kept, or on what to show when a restore predates it.
+This was Codex round 8, finding 5. The erasure ledger (0076) forgets an erasure 30 days after that system's backups age out. A restore from a backup taken before an erasure the ledger already forgot brings that person back, but the restore cannot name them. "0 people marked" would therefore read as nothing to do. Reporting it that way is a false all-clear, so it is treated as a defect, not a product question.
+
+**Implementation.** Migration 0090 and contract 0.55.0.
+- Each purge records, per system, the latest erasure time it removed. The record holds a system, a time and a count, and no person.
+- A restore whose backup predates that point:
+  - is still recorded, and the people the ledger can still name are still marked;
+  - is recorded with `ledger_coverage: INCOMPLETE` and the purge point;
+  - appears in Operations attention as `RESTORE_PREDATES_LEDGER` until someone with retention write access records how the restored data was reviewed by hand (`POST /api/v1/admin/system-restores/{id}/coverage-review`).
+- The Backups screen lists these restores.
+- A restore's coverage, its review, and the purge records cannot be rewritten.
+
+**Still the owner's call:** how long the ledger is kept. Keeping it longer means fewer INCOMPLETE restores, at the cost of holding a minimal personal-data row for longer. Today it is kept 30 days past the backups' age-out (0076).

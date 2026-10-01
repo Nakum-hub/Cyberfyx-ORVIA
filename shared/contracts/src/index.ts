@@ -59,7 +59,9 @@ const expansionNames = Object.keys(expansionSchemas);
  *  mark re-erasure, and the protected erasure ledger (sensitive capability). Otherwise additive.
  *  0.55.0 (owner decisions 2026-10-01, revision 1.10): send admission and its preview may return BLOCK with reason
  *  RECIPIENT_MARKETING_HOLD (an active withdrawal canary is never admitted for marketing), and OutboundDeliveryState gains
- *  WITHHELD (a message to a real-person decoy is never transmitted). Otherwise additive. */
+ *  WITHHELD (a message to a real-person decoy is never transmitted). SystemRestore gains ledger_coverage, ledger_purged_through
+ *  and coverage_review, with list_system_restores and review_restore_coverage, so a restore older than the erasure ledger is
+ *  never reported as complete (migration 0090). Otherwise additive. */
 export const CONTRACT_VERSION = '0.55.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
