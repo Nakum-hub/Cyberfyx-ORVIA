@@ -3,7 +3,7 @@
 **Base commit:** `a29436c`, the head when battery 19 started.
 **New commits:** on `claude/upbeat-newton-w4h53x`, through `57f0f53` and this handoff. The merge of the feature worktree, including Codex round 7 (`4738d9a`), is `aeb1c75`.
 **Source master / hash verified:** revision 1.4. SHA-256 `c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b`. Addenda 1.5–1.9 apply.
-**Contract version:** 0.54.0.
+**Contract version:** 0.55.0 (customer), 0.6.0 (vendor).
 **Scope and profile:** synthetic data only.
 - `codex-a00` is the long-lived development profile.
 - The real-principal test also uses a scratch copy of the schema, seeded as a customer (`rehearsal`) installation.
@@ -137,6 +137,39 @@ Every executed result is in the matrix. These are local synthetic results: not c
 - **Owner and Cyberfyx inputs:** `docs/GO_LIVE.md` section D (D1–D7), plus C1 (installation qualification), C3 (live payments), C4 (penetration test), C5 (Codex Phase B) and C6 (release approval).
 - **Seven list queries need insertion timestamps (0085+).** Blocked on Codex round 8 to avoid duplicate numbering.
 - **Downstream suppression takes about 14 s.** That is on the synthetic loopback target with one immediate runner cycle. A named production connector needs its own measurement.
+
+
+## Round 2 (2026-10-01 evening): Codex round 8 merged, owner decisions revision 1.10
+
+**Merged:** `codex/round8` through `d7a10d6`, in merges `f64c98d` and `1f44259`. It brings 0085 (staff list chronology, which was P3), 0086 (pending canary retirement) and 0087 (recorded independent verification recovery), plus its auth, runner and frontend fixes. Conflicts in the test login helper, the regulatory impacts read and the qualification inventory took Codex's side; the inventory was regenerated.
+
+**Codex review findings acted on** (`handoffs/codex/round8-feature-review.md`, `round8-proposed-feature-decisions.md`):
+- Finding 1: pending canary retirement. Codex's 0086 was verified before and after. Before it, the suite failed on the database check (23514) after 7 assertions with 2 failures; after it, 14/14.
+- Findings 2 and 3 (canary after a grant; real-person decoys) and finding 4 (criteria evidence before approval) went to the owner. The decisions are recorded in `docs/engineering/V1_BASELINE_REV_1_10_CANARY_AND_CRITERIA_REVIEW.md` and built:
+  - **A:** migration 0088. An active decoy is never admitted for marketing.
+  - **Real decoys:** migration 0089. A message to a real-person decoy is WITHHELD and the database refuses any delivery attempt.
+  - **C:** vendor migration 0017 and vendor contract 0.6.0. Evidence is shown, and approval names the digest reviewed, a review reference and the open items acknowledged. Recorded criteria content is now immutable.
+- Finding 5: restore after ledger purge. Migration 0090. Treated as a defect: an older restore is recorded INCOMPLETE and stays in attention until a manual review is recorded.
+
+**Defects found by battery 21 and fixed:**
+- Regulatory impact analysis listed at most 50 records per kind, unordered. With 80 open breaches, the run's breach was silently missing. It now itemises up to 1000 in a stable order; beyond that, one UNRESOLVED item.
+- The restore coverage review read the restore `FOR UPDATE`. Forced row security hides that row from a role with no UPDATE policy, so every review returned 404. Found by pass 6 and fixed.
+- Operations attention listed systems needing re-erasure in system-id order under a 50-item limit. They are now listed newest restore first.
+
+| Command | Exit | Result |
+|---|---|---|
+| Battery 21 (every integration, security and browser suite after the round 8 merge, serially; resumed once after the 2-hour limit) | — | 110 passed, 1 failed (regulatory, fixed below); TLS and network-core NOT_RUN |
+| `pnpm run -s contracts:check`, `npx tsc --noEmit`, `lint`, `tracking:check`, `qualification-inventory --check`, `v1-source-inventory --check` | 0 | PASS (contract 0.55.0, 492 route examples) |
+| `pnpm test` | 0 | 392 passed, 0 failed |
+| `pnpm run -s db:migrate` (0088–0090) and `vendor:init confirm:vendor-a00` (vendor 0017) | 0 | applied |
+| Pass 6: 20 targeted suites after the merge (canary ×3, real-principals, backup-obligations, regulatory, delivery, send, withdrawal-timing, audit-practice, notifications, vendor-audit, audit-mandate, dpdpa-audit, runner; browser: vendor production criteria, backups and recovery, audit mandate, expansion screens) | 0 each, after fixes | canary-grant-admission 36/0, real-principals 33/0, backup-obligations 39/0, regulatory 32/0, audit-practice 128/128, production-criteria browser 15/0 |
+| Rerun after the attention ordering change: backups-and-recovery and operations-screens browser journeys | 0 | 12/0, 30/0 |
+
+The first pass-6 run had five failures. Three were test faults: the canary lock probe omitted `retired_at`; the backup suite double-counted marks; the vendor recorder is refused at authorisation (403), not 409. The two vendor browser journeys failed because the long-lived vendor database lacked 0017, which `vendor:init` applies. One was the product defect above (the restore review 404).
+
+**Not run in this round:** the full battery on the final head after pass 6. Pass 6 covers every suite the changes touch.
+
+**Open owner choice:** how long the erasure ledger is kept (today 30 days after a system's backups age out).
 
 ## Next integration action
 

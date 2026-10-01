@@ -1,6 +1,6 @@
 # ORVIA V1 verification matrix
 
-Generated from executed battery summaries (battery 19, post-merge passes 1-5 and the final-candidate battery 20) on the codex-a00 development profile (synthetic data only), source `9979c75`. A suite with no execution in these batteries is shown NOT_RUN. PASS means the suite exited 0 with every assertion passing on this host; it is not release qualification, production qualification or acceptance by Codex.
+Generated from executed battery summaries (battery 19, post-merge passes 1-5, battery 20, battery 21 after the Codex round 8 merge, and post-merge pass 6 for the revision 1.10 decisions; a later result for a suite replaces an earlier one) on the codex-a00 development profile (synthetic data only), source `1b0d744`. A suite with no execution in these batteries is shown NOT_RUN. PASS means the suite exited 0 with every assertion passing on this host; it is not release qualification, production qualification or acceptance by Codex.
 
 
 ## The presentation claims, scenario by scenario
@@ -106,19 +106,27 @@ Each claim names the scenarios that are executed, the suite, and what the claim 
 - **Not claimed:** ORVIA trains, runs and evaluates no model. Its own model functions (M19–M25) are Version 2.
 
 ### 8. P3 canary trap (M11)
-- **Scenarios executed** (`integration-consent-canaries`):
+- **Scenarios executed** (`integration-consent-canaries`, `-canary-grant-admission`, `-canary-retirement`, `integration-onboarding-real-principals`):
   - a decoy customer who never consented is planted in the marketing list and the CRM;
   - one owner registers the decoy and a different person activates it, so self-activation is refused;
   - a decoy holding a granted consent cannot be activated;
   - a send admission to the decoy is BLOCKED, the sender is not told why, and a hit names the sending machine and system;
-  - a message addressed to the decoy is recorded as a hit without being refused, so its author cannot probe for canaries;
+  - **owner decision A (revision 1.10):** even after someone records a consent grant for an active decoy, with every other admission prerequisite in place, marketing admission is BLOCK with the generic reason `RECIPIENT_MARKETING_HOLD`, one decision and one hit are recorded and no send record. The staff preview agrees. Before migration 0088 the same case was observed as ALLOW (battery 21);
+  - a canary transition and an admission check serialise on one lock covering the principal (an admission waits while a transition is uncommitted);
+  - only send admission and its preview may ask for the hold;
+  - a message addressed to the decoy is recorded as a hit without being refused at composition, so its author cannot probe for canaries;
+  - **real-person decoys (revision 1.10):** a real person may be a decoy, but a message to them is WITHHELD by the runner and the database refuses any delivery attempt; only the delivery runner can withhold;
   - an operator recording consent for the decoy leaves a hit;
   - staff record the decoy mailbox receiving a newsletter, with evidence;
   - Operations attention shows the count to administrators who cannot see the canaries;
   - each hit is reviewed once, and hits cannot be edited or deleted;
-  - a retired canary traps nothing;
+  - a pending decoy can be retired without ever being activated (migration 0086);
+  - a retired canary traps nothing, and its record returns to the ordinary consent rules;
   - another tenant sees none of it.
-- **Not claimed:** inside ORVIA a hit is detected automatically. Outside ORVIA (the client's own mailers) a hit is known only when staff report the decoy mailbox receiving something.
+- **Not claimed:**
+  - Inside ORVIA a hit is detected automatically. Outside ORVIA (the client's own mailers) a hit is known only when staff report the decoy mailbox receiving something.
+  - A sender that controls every other prerequisite can infer that a BLOCK came from something it cannot see; the response never names canaries, but perfect indistinguishability is not claimed.
+  - The author of a message to a real-person decoy sees it WITHHELD.
 
 ### 9. NoticeContextDrift
 This is the named CI guard for claim 6 (`tests/unit/notice-context-drift.test.ts`). It decides the drift states without a database on every push, and proves it would catch a regression in the rules.
@@ -132,6 +140,18 @@ At runtime, the publish refusal and the website-policy change review apply the s
   - the protected server command admits them once, with the reference and the operator recorded, audit in every environment, permanent;
   - labels are set by the database;
   - development profiles refuse the command.
+
+### 11. Restores older than the erasure ledger (EX07)
+- **Scenarios executed** (`integration-operations-backup-obligations`, `e2e-backups-and-recovery`):
+  - each ledger purge records the latest erasure it removed for that system, without naming anyone;
+  - a restore from a backup older than purged erasures is recorded with INCOMPLETE ledger coverage and the purge point, and the people the ledger can still name stay marked;
+  - a newer restore keeps COMPLETE coverage;
+  - Operations attention names the INCOMPLETE restore until a manual review is recorded; a complete restore takes no review, a second review is refused, and the review, the coverage and the purge records cannot be rewritten.
+- **Not claimed:** ORVIA cannot name people the ledger has already forgotten; it says so and asks for a manual review. How long the ledger is kept is an open owner choice.
+
+### 12. Regulatory impact analysis does not drop records silently
+- **Scenario executed** (`integration-operations-regulatory`): on a profile holding 80 open breaches, the breach this run opened is among the impact items. Before the fix, at most 50 per kind were listed, unordered, and it was missing (battery 21).
+- **Not claimed:** beyond 1000 records of one kind, the rest are reported as one UNRESOLVED item to review as a group, not itemised.
 
 
 ## Important functions
@@ -152,8 +172,8 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | Classification quality measurement | `integration-expansion-classification` PASS (29 assertions, 0 failures) |
 | Access-exposure findings | `integration-expansion-classification` PASS (29 assertions, 0 failures) |
 | Risk treatment and issue lifecycle | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS |
-| Evidence freshness and scope checks | `integration-vendor-audit-practice` PASS (112/112 passed)<br>`integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-audits` PASS |
-| Audit sampling with an auditor-provided seed | `integration-vendor-audit-practice` PASS (112/112 passed) |
+| Evidence freshness and scope checks | `integration-vendor-audit-practice` PASS (128/128 passed)<br>`integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-audits` PASS |
+| Audit sampling with an auditor-provided seed | `integration-vendor-audit-practice` PASS (128/128 passed) |
 | Signed audit delivery chain | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
 | Mandate suspension, expiry and revocation | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
 | Vendor visibility history | `integration-monitoring-vendor-visibility` PASS (18 assertions, 0 failures)<br>`integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
@@ -168,7 +188,7 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | M01 | Identity and Access Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS<br>`integration-expansion-staff-members` PASS (37 assertions, 0 failures)<br>`integration-expansion-staff-delete` PASS (27 assertions, 0 failures)<br>`e2e-sign-in-hydration` PASS (20 assertions, 0 failures)<br>`e2e-team` PASS (8 assertions, 0 failures)<br>`e2e-delete-login` PASS (14 assertions, 0 failures) |
 | M02 | Tenant Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS<br>`security-fixture-isolation` PASS<br>`integration-consent-consent` PASS |
 | M03 | Privacy Control Graph | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-graph-graph` PASS (46 assertions, 0 failures)<br>`security-graph-source-binding` PASS (2 assertions, 0 failures)<br>`integration-evidence-reports` PASS (24 assertions, 0 failures)<br>`integration-discovery-catalog-flow` PASS (58 assertions, 0 failures)<br>`integration-discovery-schema-drift` PASS (10 assertions, 0 failures) |
-| M04 | Policy Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-enforcement-send` PASS<br>`integration-enforcement-withdrawal-timing` PASS (11 assertions, 0 failures)<br>`integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-consent-consent` PASS |
+| M04 | Policy Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-enforcement-send` PASS<br>`integration-enforcement-withdrawal-timing` PASS (12 assertions, 0 failures)<br>`integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-consent-consent` PASS |
 | M05 | Workflow Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS<br>`integration-operations-runner` PASS (10 assertions, 0 failures) |
 | M06 | Connector Framework | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-discovery-postgres-catalog` PASS (13 assertions, 0 failures) |
 | M07 | Verification Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS |
@@ -179,7 +199,7 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | M12 | Notice Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-notices-languages` PASS (19 assertions, 0 failures)<br>`integration-operations-notices` PASS (15 assertions, 0 failures)<br>`integration-operations-notice-language-drift` PASS (20 assertions, 0 failures)<br>`integration-expansion-policy-discovery` PASS (30 assertions, 0 failures) |
 | M13 | Data Principal Portal | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-rights-portal` PASS (19 assertions, 0 failures)<br>`integration-operations-organisation-intake` PASS (44 assertions, 0 failures)<br>`e2e-preferences` PASS (10 assertions, 0 failures) |
 | M14 | Rights Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-rights-rights` PASS (64 assertions, 0 failures)<br>`integration-rights-portal` PASS (19 assertions, 0 failures)<br>`integration-operations-rights` PASS (26 assertions, 0 failures)<br>`integration-operations-correction` PASS (12 assertions, 0 failures)<br>`integration-operations-erasure-intimation` PASS (15 assertions, 0 failures)<br>`integration-expansion-response-packages` PASS (52 assertions, 0 failures) |
-| M15 | Retention Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-retention-retention` PASS (45 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`integration-operations-backup-obligations` PASS (22 assertions, 0 failures) |
+| M15 | Retention Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-retention-retention` PASS (45 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`integration-operations-backup-obligations` PASS (39 assertions, 0 failures) |
 | M16 | Processor/Vendor Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-processors-processors` PASS (35 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS<br>`integration-operations-processors` PASS (14 assertions, 0 failures)<br>`integration-expansion-third-party` PASS (43 assertions, 0 failures) |
 | M17 | Privacy Incident Explorer | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-incidents-incidents` PASS (42 assertions, 0 failures)<br>`integration-operations-breach` PASS (19 assertions, 0 failures) |
 | M18 | Coverage and Failure Center | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-coverage-coverage` PASS (56 assertions, 0 failures) |
@@ -193,7 +213,7 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | M26 | Billing | V1 | NOT_IMPLEMENTED | Not built in the customer runtime by design: billing, metering and invoicing belong to the ORVIA Account on the vendor website (master §658, §3796; enforced by tests/unit/deployment-boundary.test.ts). Vendor commerce is verified under EX13. |
 | M27 | Licensing | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-licensing-licensing` PASS (33 assertions, 0 failures) |
 | M28 | Entitlements | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-licensing-licensing` PASS (33 assertions, 0 failures) |
-| M29 | Customer Onboarding | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-onboarding-first-run` PASS (23 assertions, 0 failures)<br>`integration-onboarding-first-run-http` PASS (7 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-onboarding-preflight` PASS (20 assertions, 0 failures)<br>`integration-onboarding-imports` PASS (31 assertions, 0 failures)<br>`integration-operations-estate-import` PASS (18 assertions, 0 failures)<br>`integration-onboarding-owner-recovery` PASS (26 assertions, 0 failures)<br>`integration-onboarding-real-principals` PASS (25 assertions, 0 failures) |
+| M29 | Customer Onboarding | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-onboarding-first-run` PASS (23 assertions, 0 failures)<br>`integration-onboarding-first-run-http` PASS (7 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-onboarding-preflight` PASS (20 assertions, 0 failures)<br>`integration-onboarding-imports` PASS (31 assertions, 0 failures)<br>`integration-operations-estate-import` PASS (18 assertions, 0 failures)<br>`integration-onboarding-owner-recovery` PASS (26 assertions, 0 failures)<br>`integration-onboarding-real-principals` PASS (33 assertions, 0 failures) |
 | M30 | Support Bundle System | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-support-support` PASS (57 assertions, 0 failures) |
 | M31 | Updates | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-updates-updates` PASS (54 assertions, 0 failures)<br>`integration-migration-upgrade` PASS (10 assertions, 0 failures) |
 | M32 | Monitoring | V1 | PARTIAL_SANDBOX | `integration-monitoring-monitoring` PASS (31 assertions, 0 failures)<br>`integration-monitoring-restore` PASS (33 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`integration-monitoring-vendor-visibility` PASS (18 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |
@@ -209,7 +229,7 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | EX04 | Discovery classification and source/code flows | BUILT_PENDING_REVIEW | `integration-expansion-classification` PASS (29 assertions, 0 failures)<br>`integration-discovery-catalog-flow` PASS (58 assertions, 0 failures)<br>`integration-discovery-schema-drift` PASS (10 assertions, 0 failures)<br>`e2e-catalog-discovery` PASS |
 | EX05 | Data mapping and RoPA | BUILT_PENDING_REVIEW | `integration-expansion-ropa-exports` PASS (58 assertions, 0 failures) |
 | EX06 | General impact assessments and remediation | BUILT_PENDING_REVIEW | `integration-expansion-impact` PASS (41 assertions, 0 failures) |
-| EX07 | Retention holds deletion and backup obligations | BUILT_PENDING_REVIEW | `integration-operations-backup-obligations` PASS (22 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |
+| EX07 | Retention holds deletion and backup obligations | BUILT_PENDING_REVIEW | `integration-operations-backup-obligations` PASS (39 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |
 | EX08 | Third-party lifecycle | BUILT_PENDING_REVIEW | `integration-expansion-third-party` PASS (43 assertions, 0 failures) |
 | EX09 | Incidents and reviewed notification | BUILT_PENDING_REVIEW | `integration-expansion-delivery` PASS (41 assertions, 0 failures)<br>`integration-operations-breach` PASS (19 assertions, 0 failures) |
 | EX10 | Enterprise GRC and audit | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS<br>`integration-grc-audits` PASS<br>`integration-grc-http` PASS |
@@ -218,18 +238,23 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | EX13 | Vendor commerce UPI and cards | IN_PROGRESS | `integration-commerce-commerce` PASS<br>`integration-commerce-migration-ledger` PASS |
 | EX14 | Enterprise delivery and release qualification | IN_PROGRESS | `integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-migration-upgrade` PASS (10 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`security-tls` NOT_RUN: runs only on the rehearsal (customer) profile, whose single first-run owner forbids seeding the fixture users it needs<br>`security-network-core` NOT_RUN: needs the packaged runtime image orvia-local:prototype from the Windows packaging path (Codex lane); not built in this container<br>`e2e-interface-crawl` PASS (1 assertions, 0 failures) |
 | EX15 | Installation kinds | BUILT_PENDING_REVIEW | `integration-web` PASS<br>`integration-vendor-schema-equivalence` PASS (7/7 passed) |
-| EX16 | Vendor area in the same application | BUILT_PENDING_REVIEW | `integration-vendor-vendor-audit` PASS (74/74 passed)<br>`e2e-vendor-production-criteria` PASS (11 assertions, 0 failures) |
+| EX16 | Vendor area in the same application | BUILT_PENDING_REVIEW | `integration-vendor-vendor-audit` PASS (74/74 passed)<br>`e2e-vendor-production-criteria` PASS (15 assertions, 0 failures) |
 | EX17 | DPDPA audit exchange | BUILT_PENDING_REVIEW | `integration-expansion-dpdpa-audit` PASS (56 assertions, 0 failures)<br>`integration-expansion-audit-indicator-counts` PASS (21/21 passed)<br>`e2e-dpdpa-audit` PASS (23 assertions, 0 failures) |
-| EX18 | Audit mandate and outbound channel | BUILT_PENDING_REVIEW | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures)<br>`e2e-audit-mandate` PASS (19 assertions, 0 failures) |
-| EX19 | DPDPA audit practice | BUILT_PENDING_REVIEW | `integration-vendor-audit-practice` PASS (112/112 passed) |
+| EX18 | Audit mandate and outbound channel | BUILT_PENDING_REVIEW | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures)<br>`e2e-audit-mandate` PASS (20 assertions, 0 failures) |
+| EX19 | DPDPA audit practice | BUILT_PENDING_REVIEW | `integration-vendor-audit-practice` PASS (128/128 passed) |
 
 ## Other suites executed
 
+- `e2e-backups-and-recovery-2` PASS 12 assertions, 0 failures.
 - `e2e-expansion-screens` PASS 69 assertions, 0 failures.
 - `e2e-operations-screens` PASS 30 assertions, 0 failures.
 - `e2e-registry-forms` PASS 16 assertions, 0 failures.
-- `integration-bootstrap` PASS
+- `integration-bootstrap` PASS 
+- `integration-consent-canary-grant-admission` PASS 36 assertions, 0 failures.
+- `integration-consent-canary-retirement` PASS 14 assertions, 0 failures.
+- `integration-operations-runner-progress` PASS 31 assertions, 0 failures.
 - `integration-operations-sdf` PASS 22 assertions, 0 failures.
+- `integration-operations-withdrawal-single-pass` PASS 9 assertions, 0 failures.
 
 ## Failures in the latest results
 
