@@ -83,9 +83,9 @@
   - the 19 families.
 - `docs/GO_LIVE.md`: new section D (D1–D7, owner and Codex inputs); C3 detailed.
 - Tracking:
-  - M26 changed to `PARTIAL_SANDBOX` (EX13 vendor commerce; live payments not active).
   - 2026-10-01 notes on EX01, EX02, EX04, EX07, EX12, EX14 and EX18.
   - No acceptance status was promoted.
+  - M26 Billing stays `NOT_IMPLEMENTED` by design: billing, metering and invoicing belong to the ORVIA Account on the vendor website (master §658, §3796). `tests/unit/deployment-boundary.test.ts` enforces it. An attempt in this round to mark it partial was reverted; vendor commerce is tracked as EX13.
 
 ## Commands actually executed
 

@@ -36,7 +36,7 @@ After A1–A8, each real engagement still needs its own signed engagement letter
 |---|---|---|---|
 | C1 | Qualify the production installation, then the client's server administrator runs `pnpm run principals:admit-real confirm:rehearsal admit "<qualification reference>" "<name and role>"` (one-way; revision 1.9). Until then a request naming a real person cannot be recorded. | Cyberfyx engineering and the client, owner approval | Open: mechanism built (`docs/engineering/V1_BASELINE_REV_1_9_REAL_PRINCIPALS.md`); qualification itself open (`docs/engineering/PRODUCTION_READINESS.md`) |
 | C2 | Host the vendor service | Cyberfyx | Open (`docs/runbooks/VENDOR_HOSTING_READINESS.md`) |
-| C3 | Switch payments to live (Razorpay merchant account): merchant KYC, approved prices and GST treatment, keys placed in `.local/vendor/commerce/razorpay.json` by the operator (never in chat), network allowance, sandbox conformance | Cyberfyx | Open; blocks M26 Billing / EX13 live payments |
+| C3 | Switch payments to live (Razorpay merchant account): merchant KYC, approved prices and GST treatment, keys placed in `.local/vendor/commerce/razorpay.json` by the operator (never in chat), network allowance, sandbox conformance | Cyberfyx | Open; blocks EX13 vendor commerce live payments (billing is the vendor website's concern; M26 is deliberately not built in the customer runtime) |
 | C4 | Independent penetration test and dependency/secret review | Outside testers | Open |
 | C5 | The 34 acceptance scenarios on the frozen candidate | Codex runs them; Claude Code reviews with `scripts/acceptance-review.ts` | In progress (Codex Phase B) |
 | C6 | Release approval | Owner | After C1–C5 |

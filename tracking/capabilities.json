@@ -445,16 +445,13 @@
       "sprint_priority": "OUT_OF_SPRINT",
       "target_depth": "ROADMAP",
       "target_product": "V1",
-      "implementation_status": "PARTIAL_SANDBOX",
+      "implementation_status": "NOT_IMPLEMENTED",
       "test_status": "NOT_RUN",
-      "supported_profile": "CUSTOMER_LOCAL_SYNTHETIC",
+      "supported_profile": "NOT_VERIFIED",
       "edition_entitlement": "MAP_TO_APPROVED_MASTER_NOT_A_DELIVERY_CLAIM",
-      "enabled_state": "ENABLED_SYNTHETIC",
-      "limitation": "Delivered through EX13 vendor commerce on the vendor service installation: orders, checkout attempts, verified provider events (duplicates and out-of-order handled), reviewed licence issuance; commerce suite passed on codex-a00 with injected synthetic provider responses. Live payments are NOT active: Razorpay activation is blocked on merchant KYC, approved prices and GST (GO_LIVE C3). Invoices and subscriptions are not built.",
-      "evidence": [
-        "tests/integration/commerce/commerce.test.ts",
-        "database/vendor/migrations/0001_commerce.sql"
-      ]
+      "enabled_state": "NOT_ENABLED",
+      "limitation": "Out of sprint scope. No billing, metering, invoicing or payment capability exists.",
+      "evidence": []
     },
     {
       "module_id": "M27",

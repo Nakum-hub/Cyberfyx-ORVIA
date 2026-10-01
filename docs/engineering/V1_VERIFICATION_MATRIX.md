@@ -1,6 +1,6 @@
 # ORVIA V1 verification matrix
 
-Generated from executed battery summaries on the codex-a00 development profile (synthetic data only), source `1bcca1a`. A suite with no execution in these batteries is shown NOT_RUN. PASS means the suite exited 0 with every assertion passing on this host; it is not release qualification, production qualification or acceptance by Codex.
+Generated from executed battery summaries on the codex-a00 development profile (synthetic data only), source `50c64fa`. A suite with no execution in these batteries is shown NOT_RUN. PASS means the suite exited 0 with every assertion passing on this host; it is not release qualification, production qualification or acceptance by Codex.
 
 
 ## The presentation claims, scenario by scenario
@@ -190,7 +190,7 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | M23 | AI Risk/Drift Analysis | V2 (deferred) | DEFERRED_V2 | Not built in V1 by rule: no shipped model, hosted model or training |
 | M24 | AI Test Generation | V2 (deferred) | DEFERRED_V2 | Not built in V1 by rule: no shipped model, hosted model or training |
 | M25 | AI Incident Analysis | V2 (deferred) | DEFERRED_V2 | Not built in V1 by rule: no shipped model, hosted model or training |
-| M26 | Billing | V1 | NOT_IMPLEMENTED | `integration-commerce-commerce` PASS<br>`integration-commerce-migration-ledger` PASS |
+| M26 | Billing | V1 | NOT_IMPLEMENTED | Not built in the customer runtime by design: billing, metering and invoicing belong to the ORVIA Account on the vendor website (master §658, §3796; enforced by tests/unit/deployment-boundary.test.ts). Vendor commerce is verified under EX13. |
 | M27 | Licensing | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-licensing-licensing` PASS (33 assertions, 0 failures) |
 | M28 | Entitlements | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-licensing-licensing` PASS (33 assertions, 0 failures) |
 | M29 | Customer Onboarding | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-onboarding-first-run` PASS (23 assertions, 0 failures)<br>`integration-onboarding-first-run-http` PASS (7 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-onboarding-preflight` PASS (20 assertions, 0 failures)<br>`integration-onboarding-imports` PASS (31 assertions, 0 failures)<br>`integration-operations-estate-import` PASS (18 assertions, 0 failures)<br>`integration-onboarding-owner-recovery` PASS (26 assertions, 0 failures)<br>`integration-onboarding-real-principals` PASS (25 assertions, 0 failures) |
