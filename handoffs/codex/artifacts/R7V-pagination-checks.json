@@ -1,0 +1,198 @@
+[
+  {
+    "name": "ai_systems: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "cmp_sites: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "cmp_configs: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "coverage_gaps: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "delivery_transports: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "alert_routings: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "catalog_discovery_targets: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "classification_quality: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "evidence_files: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "audit_engagements: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "data_assets: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "processing_activities: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "graph_relationships: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "grc_audits: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "grc_audit_requests: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "grc_risks: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "obligation_rules: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "incidents: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "system_locations: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "backup_snapshots: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "restore_runs: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "notice_revisions: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "notification_templates: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "connections: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "import_batches: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "personal_data_breaches: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "rights_case_profiles: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "evidence_records: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "operational_events: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "processors: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "assessments: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "assessment_findings: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "applicability_decisions: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "regulatory_packages: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "regulatory_impacts: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "retention_constraints: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "legal_holds: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "retention_outcomes: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "rights_response_packages: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "representation_mandates: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "rights_requests: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "support_cases: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "support_canaries: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "test_runs: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "supplier_links: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "release_manifests: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "installation_versions: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "workflows: PostgreSQL validates scoped cursor query",
+    "result": "PASS"
+  },
+  {
+    "name": "Reverse UUIDs, equal timestamps, two pages, terminal page, foreign-scope cursor",
+    "result": "PASS"
+  }
+]

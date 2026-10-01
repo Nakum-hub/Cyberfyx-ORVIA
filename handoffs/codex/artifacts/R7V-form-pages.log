@@ -1,0 +1,3 @@
+chromium: second-page choices selectable; reveal control stays consumed across a stale refresh
+webkit: second-page choices selectable; reveal control stays consumed across a stale refresh
+firefox: second-page choices selectable; reveal control stays consumed across a stale refresh

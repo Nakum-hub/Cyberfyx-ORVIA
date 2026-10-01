@@ -1,0 +1,26 @@
+R7 chromium audit-mandate-local: suite entry point with passive diagnostic instrumentation
+PASS leadership sees the practice overview from real records
+PASS the client sees the audit address from its trust file
+PASS a second owner approves the mandate in the browser
+PASS the worker checks in over HTTP and the signed snapshot is accepted
+PASS the client sees what ORVIA sent and that it was accepted
+PASS the lead sees the signed mandate and an intact chain
+PASS the lead reads the evidence entries signed by the client installation
+PASS the worker receives both requests; the document waits for a client approver
+PASS the owner sees the document request waiting for them
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('heading', { name: 'Client mandate and evidence' }) to be visible[22m
+
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:198:101)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\audit-mandate-local.ts:95:3) {
+  log: [
+    "  - waiting for getByRole('heading', { name: 'Client mandate and evidence' }) to be visible"
+  ],
+  name: 'TimeoutError'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-audit-mandate-browser-1790833152127-ac94ad73-97ee-4c53-8fcf-2584c8364c3c.json
+
+10 assertions, 1 failures.

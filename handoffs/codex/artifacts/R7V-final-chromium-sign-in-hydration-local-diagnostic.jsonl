@@ -1,0 +1,5 @@
+{"at":"2026-09-30T16:59:33.520Z","engine":"chromium","suite":"sign-in-hydration-local","browser_version":"153.0.8010.12"}
+{"at":"2026-09-30T16:59:40.097Z","page":"http://127.0.0.1:4340/vendor/sign-in","console_url":"http://127.0.0.1:4340/api/v1/vendor/session","console":"Failed to load resource: the server responded with a status of 401 (Unauthorized)"}
+{"at":"2026-09-30T16:59:40.104Z","page":"http://127.0.0.1:4340/vendor/sign-in","issued_at":"2026-09-30T16:59:40.064Z","url":"http://127.0.0.1:4340/api/v1/vendor/session","status":401,"request_id":"1738371d-d610-411d-b2ac-031e6d981e58","error":{"code":"UNAUTHENTICATED"}}
+{"at":"2026-09-30T16:59:41.263Z","page":"http://127.0.0.1:4340/vendor/sign-in?account=client","console_url":"http://127.0.0.1:4340/api/v1/vendor/session","console":"Failed to load resource: the server responded with a status of 401 (Unauthorized)"}
+{"at":"2026-09-30T16:59:41.267Z","page":"http://127.0.0.1:4340/vendor/sign-in?account=client","issued_at":"2026-09-30T16:59:41.225Z","url":"http://127.0.0.1:4340/api/v1/vendor/session","status":401,"request_id":"99603251-f0b3-4b84-8e0b-08a9421a7cb8","error":{"code":"UNAUTHENTICATED"}}

@@ -1,0 +1,6 @@
+{"at":"2026-10-01T04:59:13.239Z","engine":"firefox","suite":"sign-in-hydration-local","browser_version":"155.0"}
+{"at":"2026-10-01T04:59:18.213Z","page":"http://127.0.0.1:4310/workspace/sign-in","issued_at":"2026-10-01T04:59:18.189Z","url":"http://127.0.0.1:4310/api/v1/session","status":401,"request_id":"8a24899a-040f-48a9-a283-aa433879f277","error":{"code":"UNAUTHENTICATED"}}
+{"at":"2026-10-01T04:59:24.197Z","page":"http://127.0.0.1:4340/vendor/sign-in","issued_at":"2026-10-01T04:59:24.197Z","event":"vendor_session_requested","url":"http://127.0.0.1:4340/api/v1/vendor/session"}
+{"at":"2026-10-01T04:59:24.268Z","page":"http://127.0.0.1:4340/vendor/sign-in","issued_at":"2026-10-01T04:59:24.197Z","url":"http://127.0.0.1:4340/api/v1/vendor/session","status":401,"request_id":"f6e528a6-a2e9-414f-8dd6-8f01c7414b69","error":{"code":"UNAUTHENTICATED"}}
+{"at":"2026-10-01T04:59:25.836Z","page":"http://127.0.0.1:4340/vendor/sign-in?account=client","issued_at":"2026-10-01T04:59:25.836Z","event":"vendor_session_requested","url":"http://127.0.0.1:4340/api/v1/vendor/session"}
+{"at":"2026-10-01T04:59:25.881Z","page":"http://127.0.0.1:4340/vendor/sign-in?account=client","issued_at":"2026-10-01T04:59:25.836Z","url":"http://127.0.0.1:4340/api/v1/vendor/session","status":401,"request_id":"4ea5f791-4f4e-46c1-a51f-fc6158cd7b23","error":{"code":"UNAUTHENTICATED"}}

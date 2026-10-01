@@ -1,0 +1,6 @@
+Flag --time has been deprecated, use --timeout instead
+orvia-qualification-20260930-opa
+Flag --time has been deprecated, use --timeout instead
+orvia-qualification-20260930-loopback
+orvia-qualification-20260930-postgres
+Synthetic runtime mode: database. Container limits and volumes unchanged.

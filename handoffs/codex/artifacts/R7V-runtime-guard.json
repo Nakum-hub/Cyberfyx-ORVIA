@@ -1,0 +1,6 @@
+{
+    "command":  "./handoffs/codex/round7-runtime.ps1 -Mode off",
+    "result":  "EXPECTED_REFUSAL",
+    "container_changes":  "none",
+    "reason":  "Acceptance is still running. Finish its process before stopping runtime dependencies."
+}

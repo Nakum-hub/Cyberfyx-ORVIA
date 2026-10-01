@@ -1,0 +1,59 @@
+R7 firefox expansion-screens-local: unchanged suite, passive diagnostic instrumentation
+PASS a template authored in the builder is recorded as a draft with its questions
+PASS an organisation admin sees no publish control
+PASS a super admin who did not author it publishes it from the list
+PASS an answer without required evidence is named as missing on screen
+PASS after saving, the form shows the stored answer rather than clearing it
+PASS with evidence nothing is missing
+PASS submission raises the answer-rule finding
+PASS the screen cannot approve while a finding is unresolved
+PASS a second person accepts the risk with an expiry
+PASS an independent reviewer approves on screen
+PASS a retest is revision 2 with answers carried forward
+PASS the approved revision is still approved until its retest is approved
+PASS an agreement recorded on screen is in force
+PASS the region gap appears on screen
+PASS the link is shown once with its token in the fragment
+PASS the token is removed from the address bar once read
+PASS the supplier saves answers without an account
+PASS staff see the answer labelled as a supplier attestation
+PASS a revoked link is refused on the supplier page
+PASS a control test added on screen has never run
+PASS running it on screen records a passing manual run
+PASS the draft is version 1
+PASS an admin without approval authority sees no publish control
+PASS another person publishes it from the list
+PASS a reader acknowledges it
+PASS the issue is remediated on screen with its evidence
+PASS someone other than the remediator verifies it on screen
+PASS the undeclared location is shown as a gap on screen
+PASS the location is declared on screen
+PASS the location gap is gone
+PASS a version is recorded from the screen
+PASS another person approves it from the list
+PASS the export driven from the screen completed with a manifest
+PASS the browser saved the file and its manifest
+PASS the saved CSV has the header and every counted row
+PASS the package is prepared from the request screen
+PASS the second person redacts the suggested field on screen
+PASS the package is released on screen
+PASS the person collects the copy from the portal
+PASS the collected copy shows the redaction and not the other person
+PASS a sample is requested from the screen and queued for the worker
+PASS the screen shows classified columns
+PASS the screen shows who can read them
+PASS no sampled value appears on screen
+PASS quality is measured from the screen
+PASS the exposure overview lists the relation
+PASS a transport added on screen is pending
+PASS a second person enables it on screen
+FAIL the signing key is shown once on screen, and the control is gone {"expected":[200,1,0],"actual":[200,1,1]}
+Error: Assertion failed: the signing key is shown once on screen, and the control is gone
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\expansion-screens-local.ts:409:7)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\expansion-screens-local.ts:60:1)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790793446148-0a0e0528-b278-4ead-be1d-3b3b2f041c9d.json
+
+50 assertions, 2 failures.

@@ -1,0 +1,66 @@
+{
+    "at":  "2026-09-30T17:31:52.9926328Z",
+    "reason":  "Stopped the diagnostic crawl after confirmed failures at a 10-second content bound, shorter than the application read timeout; logs preserved",
+    "processes":  [
+                      {
+                          "ProcessId":  28416,
+                          "ParentProcessId":  22032,
+                          "Name":  "node.exe"
+                      },
+                      {
+                          "ProcessId":  22176,
+                          "ParentProcessId":  28416,
+                          "Name":  "node.exe"
+                      },
+                      {
+                          "ProcessId":  28388,
+                          "ParentProcessId":  22176,
+                          "Name":  "esbuild.exe"
+                      },
+                      {
+                          "ProcessId":  1828,
+                          "ParentProcessId":  22176,
+                          "Name":  "node.exe"
+                      },
+                      {
+                          "ProcessId":  28176,
+                          "ParentProcessId":  22176,
+                          "Name":  "Playwright.exe"
+                      },
+                      {
+                          "ProcessId":  5204,
+                          "ParentProcessId":  1828,
+                          "Name":  "conhost.exe"
+                      },
+                      {
+                          "ProcessId":  24520,
+                          "ParentProcessId":  28176,
+                          "Name":  "WebKitNetworkProcess.exe"
+                      },
+                      {
+                          "ProcessId":  24256,
+                          "ParentProcessId":  28176,
+                          "Name":  "WebKitWebProcess.exe"
+                      },
+                      {
+                          "ProcessId":  22956,
+                          "ParentProcessId":  28176,
+                          "Name":  "WebKitGPUProcess.exe"
+                      },
+                      {
+                          "ProcessId":  23396,
+                          "ParentProcessId":  24520,
+                          "Name":  "conhost.exe"
+                      },
+                      {
+                          "ProcessId":  26824,
+                          "ParentProcessId":  24256,
+                          "Name":  "conhost.exe"
+                      },
+                      {
+                          "ProcessId":  27904,
+                          "ParentProcessId":  22956,
+                          "Name":  "conhost.exe"
+                      }
+                  ]
+}
