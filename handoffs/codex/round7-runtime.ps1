@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 $names = @('orvia-qualification-20260930-postgres', 'orvia-qualification-20260930-opa', 'orvia-qualification-20260930-loopback')
 if ($Mode -in @('database', 'off')) {
     $active = Get-CimInstance Win32_Process -Filter "Name='node.exe'" | Where-Object {
-        ($_.CommandLine -match 'round7-(matrix|browser|cmp-repro|vendor-session|form-pages)|tests[/\\]e2e') -and ($_.CommandLine -notmatch 'cli\.js test-server')
+        ($_.CommandLine -match 'round[78]-(matrix|browser|cmp-repro|vendor-session|form-pages)|tests[/\\]e2e') -and ($_.CommandLine -notmatch 'cli\.js test-server')
     }
     if ($active) { throw 'Acceptance is still running. Finish its process before stopping runtime dependencies.' }
 }
