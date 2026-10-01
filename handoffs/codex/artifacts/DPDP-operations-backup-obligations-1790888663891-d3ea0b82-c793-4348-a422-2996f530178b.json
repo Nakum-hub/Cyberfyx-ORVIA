@@ -1,0 +1,335 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T21:04:23.892Z",
+  "suite": "backup-obligations",
+  "assertions": [
+    {
+      "name": "a read-only role cannot record a backup treatment",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a recorded treatment waits for approval",
+      "result": "PASS",
+      "expected": "PROPOSED",
+      "actual": "PROPOSED"
+    },
+    {
+      "name": "an administrator without approval rights cannot approve it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a second person approves it and it becomes current",
+      "result": "PASS",
+      "expected": [
+        "CURRENT",
+        true
+      ],
+      "actual": [
+        "CURRENT",
+        true
+      ]
+    },
+    {
+      "name": "the recorder cannot approve their own treatment",
+      "result": "PASS",
+      "expected": [
+        "approver_must_differ_from_recorder"
+      ],
+      "actual": [
+        "approver_must_differ_from_recorder"
+      ]
+    },
+    {
+      "name": "the erasures are verified on both systems",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_VERIFIED",
+        6
+      ],
+      "actual": [
+        "COMPLETED_VERIFIED",
+        6
+      ]
+    },
+    {
+      "name": "only the system with a current treatment gets ledger rows, one per person, ageing out after 35 days",
+      "result": "PASS",
+      "expected": [
+        3,
+        true
+      ],
+      "actual": [
+        3,
+        true
+      ]
+    },
+    {
+      "name": "an administrator who may not read the ledger still sees true counts",
+      "result": "PASS",
+      "expected": [
+        "CURRENT",
+        true,
+        true
+      ],
+      "actual": [
+        "CURRENT",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the system without a treatment is unknown backup handling",
+      "result": "PASS",
+      "expected": [
+        "NONE",
+        true,
+        0,
+        true,
+        true
+      ],
+      "actual": [
+        "NONE",
+        true,
+        0,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "Operations attention names the unknown backup handling, or states that more systems exist than it lists",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the ledger itself needs sensitive access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner reads the ledger",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a restore from a backup taken after the erasures marks nobody",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a restore from a backup older than the erasures marks everyone erased since",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Operations attention shows the re-erasure",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an administrator cannot confirm re-erasure (sensitive)",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner confirms one re-erasure with evidence",
+      "result": "PASS",
+      "expected": [
+        "REAPPLIED",
+        "CRM delete log DL-9 (synthetic)"
+      ],
+      "actual": [
+        "REAPPLIED",
+        "CRM delete log DL-9 (synthetic)"
+      ]
+    },
+    {
+      "name": "confirming it twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a treatment's recorded facts cannot be rewritten",
+      "result": "PASS",
+      "expected": "backup_treatment_transition_refused",
+      "actual": "backup_treatment_transition_refused"
+    },
+    {
+      "name": "a live ledger row cannot be deleted",
+      "result": "PASS",
+      "expected": "erasure_ledger_row_is_retained",
+      "actual": "erasure_ledger_row_is_retained"
+    },
+    {
+      "name": "the runner ages out and purges a row 30 days past its clear date",
+      "result": "PASS",
+      "expected": [
+        true,
+        0
+      ],
+      "actual": [
+        true,
+        0
+      ]
+    },
+    {
+      "name": "rows still within their backups are untouched by the sweep",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the purge records the latest erasure it removed for that system, without naming anyone",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a restore from a backup older than purged erasures is recorded, with INCOMPLETE ledger coverage and the purge point",
+      "result": "PASS",
+      "expected": [
+        "INCOMPLETE",
+        true,
+        null
+      ],
+      "actual": [
+        "INCOMPLETE",
+        true,
+        null
+      ]
+    },
+    {
+      "name": "the person whose re-erasure was confirmed is marked again",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "everyone the ledger can still name is marked for re-erasure",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a restore from a backup taken after the purged erasures keeps COMPLETE coverage",
+      "result": "PASS",
+      "expected": [
+        "COMPLETE",
+        null
+      ],
+      "actual": [
+        "COMPLETE",
+        null
+      ]
+    },
+    {
+      "name": "Operations attention names the restore for a manual review",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the complete restore is not flagged",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the restore list shows it among unreviewed INCOMPLETE restores",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an auditor cannot record the review",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a complete restore takes no review",
+      "result": "PASS",
+      "expected": [
+        409,
+        "restore_ledger_coverage_is_complete"
+      ],
+      "actual": [
+        409,
+        "restore_ledger_coverage_is_complete"
+      ]
+    },
+    {
+      "name": "an unknown restore is 404",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "the manual review is recorded with the restore",
+      "result": "PASS",
+      "expected": [
+        "INCOMPLETE",
+        "Restored tables compared against the erasure audit export by DBA pair (synthetic)."
+      ],
+      "actual": [
+        "INCOMPLETE",
+        "Restored tables compared against the erasure audit export by DBA pair (synthetic)."
+      ]
+    },
+    {
+      "name": "a second review is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "once reviewed, the restore leaves Operations attention",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the review cannot be rewritten",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the coverage of a recorded restore cannot be changed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "purge records cannot be removed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": 39,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
