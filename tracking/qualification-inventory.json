@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "528a4a8aec650e3a58e35cebe56e71d5667eda9922c83a65affb7ef2d025f7f7",
+  "test_file_digest": "d72059fdbec31fd17936371b5c49ffa66d7d4e899ebabc58df43a5dc1d22153d",
   "counts": {
     "UNIT": 50,
-    "INTEGRATION": 83,
+    "INTEGRATION": 84,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
@@ -219,7 +219,7 @@
     },
     {
       "path": "tests/integration/discovery/schema-drift.test.ts",
-      "sha256": "17ca1fae055f8fd1c201f31b2753e510f1dac5248d4ac0cd7a70e1c5a4bf03c4",
+      "sha256": "b363aafd73edfcb98c272784fd28a7f4190150768eee1640e207328d99e1bed8",
       "kind": "INTEGRATION"
     },
     {
@@ -415,6 +415,11 @@
     {
       "path": "tests/integration/onboarding/preflight.test.ts",
       "sha256": "4df3616e3a1bc1c135cd33bd8281d6198b77b9ba868fd2859aa05c3725ca6918",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/onboarding/real-principals.test.ts",
+      "sha256": "802db4931257c9f525e186a642d47b08f690992691f7e38a4fbef355fd30ce25",
       "kind": "INTEGRATION"
     },
     {
