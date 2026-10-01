@@ -1,0 +1,117 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T09:38:15.731Z",
+  "suite": "withdrawal-canaries",
+  "assertions": [
+    {
+      "name": "an administrator without sensitive access cannot see canaries",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot see canaries",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a canary is registered pending",
+      "result": "PASS",
+      "expected": [
+        "PENDING",
+        "decoy.f99f8ed2@aster.example",
+        0
+      ],
+      "actual": [
+        "PENDING",
+        "decoy.f99f8ed2@aster.example",
+        0
+      ]
+    },
+    {
+      "name": "the registrant cannot activate it",
+      "result": "PASS",
+      "expected": [
+        "activator_must_differ_from_creator"
+      ],
+      "actual": [
+        "activator_must_differ_from_creator"
+      ]
+    },
+    {
+      "name": "the same decoy cannot be registered twice",
+      "result": "PASS",
+      "expected": [
+        "already_a_canary"
+      ],
+      "actual": [
+        "already_a_canary"
+      ]
+    },
+    {
+      "name": "a second person activates it",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        true
+      ],
+      "actual": [
+        "ACTIVE",
+        true
+      ]
+    },
+    {
+      "name": "a decoy holding a granted consent cannot be activated",
+      "result": "PASS",
+      "expected": [
+        "a_canary_must_hold_no_granted_consent"
+      ],
+      "actual": [
+        "a_canary_must_hold_no_granted_consent"
+      ]
+    },
+    {
+      "name": "the send is blocked and the sender is not told it hit a canary",
+      "result": "PASS",
+      "expected": [
+        200,
+        "BLOCK",
+        false
+      ],
+      "actual": [
+        200,
+        "BLOCK",
+        false
+      ]
+    },
+    {
+      "name": "a SEND_ADMISSION hit names the sending machine and system",
+      "result": "PASS",
+      "expected": [
+        "MACHINE",
+        "fe8ae558-d9c5-4489-9462-a730ab7bde9f",
+        "b29ad72d-f1c2-49d6-9b02-e8e4984ca32e",
+        true
+      ],
+      "actual": [
+        "MACHINE",
+        "fe8ae558-d9c5-4489-9462-a730ab7bde9f",
+        "b29ad72d-f1c2-49d6-9b02-e8e4984ca32e",
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in the sender markets to the decoy",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "The operation was aborted due to timeout"
+    }
+  ],
+  "passed": 9,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}
