@@ -32,10 +32,12 @@
       "evidence": [
         "handoffs/code/2026-09-26-expansion-takeover.md",
         "handoffs/codex/artifacts/A00-operations-cmp-1790424988482-92dcc1ca-3024-4769-8a88-aab799236c3b.json",
-        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json"
+        "handoffs/codex/artifacts/A00-operations-expansion-screens-browser-1790424964007-ba4244c8-e3f8-4cea-a350-aac000d212d4.json",
+        "docs/engineering/WEBSITE_POLICY_DISCOVERY.md"
       ],
       "limitations": [
-        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. No IAB TCF or per-region rule engine; scanner needs host Chromium (dev dependency)."
+        "Built by Claude Code during the 2026-09-26 takeover; pending Codex review. Integration suite and 69/69 expansion browser journey executed on codex-a00 with synthetic data only. Acceptance stays NOT_RUN: exact-candidate end-to-end, adverse review and release qualification are not done. See the handoff section for honest limits. No IAB TCF or per-region rule engine; scanner needs host Chromium (dev dependency).",
+        "2026-10-01 (Claude): website privacy-policy discovery added (migration 0077, contract 0.51.0): the site's declared <link rel=\"privacy-policy\"> is followed (exact link-text fallback, flagged), one document read on an approved origin, text and digest kept, change/move/missing/unreachable/empty findings, Operations attention until reviewed, weekly rediscovery; third-party requests blocked and Chromium background networking disabled for both website scanners. 30/30 on synthetic loopback sites; no real website read. Acceptance stays NOT_RUN."
       ]
     },
     {

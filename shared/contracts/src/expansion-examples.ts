@@ -65,6 +65,10 @@ const cmpConfig = { id: uuid(1102), site_id: uuid(1100), version: 1, document: c
 const cmpScan = { id: uuid(1103), site_id: uuid(1100), url: 'https://www.customer.example/', state: 'COMPLETED' as const, requested_by: uuid(902), requested_at: at, observed_at: at, config_version: 1,
   results: { sdk_loaded: true, banner_shown: true, before_consent: { hosts: [], cookies: [] }, after_consent: { hosts: ['analytics.example'], cookies: ['_syn_id'] }, after_refusal: { hosts: [], cookies: [] } }, findings: [], failure_code: null, limits: ['Synthetic example.'] };
 
+const policyDiscovery = { id: uuid(1105), site_id: uuid(1100), origin: 'https://www.customer.example', trigger: 'STAFF' as const, state: 'COMPLETED' as const, requested_by: uuid(902), requested_at: at, observed_at: at, failure_code: null,
+  found_by: 'DECLARED_LINK' as const, policy_url: 'https://www.customer.example/privacy', http_status: 200, content_type: 'text/html; charset=utf-8', last_modified: null, title: 'Privacy policy (synthetic)', language: 'en', terms_url: null,
+  text_digest: 'e'.repeat(64), text_length: 4200, previous_discovery_id: null, changed_since_previous: null, findings: [], reviewed_by: null, reviewed_at: null, review_note: null, limits: ['Synthetic example.'] };
+
 export function expansionExample(name: string): unknown {
   switch (name) {
     case 'ImpactQuestion': return question;
@@ -132,6 +136,11 @@ export function expansionExample(name: string): unknown {
     case 'CmpScanRequest': return { url: 'https://www.customer.example/' };
     case 'CmpScan': return cmpScan;
     case 'CmpScanList': return { items: [cmpScan], next_cursor: null };
+    case 'PolicyDiscoveryRequest': return { origin: 'https://www.customer.example' };
+    case 'PolicyDiscovery': return policyDiscovery;
+    case 'PolicyDiscoveryList': return { items: [policyDiscovery], next_cursor: null };
+    case 'PolicyDiscoveryText': return { id: uuid(1105), policy_url: 'https://www.customer.example/privacy', text_digest: 'e'.repeat(64), text: 'Privacy policy (synthetic example text).' };
+    case 'PolicyDiscoveryReview': return { note: 'Reviewed the changed policy against our notices (synthetic).' };
     default: return undefined;
   }
 }

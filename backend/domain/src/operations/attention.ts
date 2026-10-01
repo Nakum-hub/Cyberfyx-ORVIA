@@ -58,6 +58,14 @@ export async function operationsAttention(c: Context) {
     push({ kind: 'BACKUP_HANDLING_UNKNOWN', severity: 'UNRESOLVED', entity_kind: 'system', entity_id: b.system_id, count: b.n,
       detail: `${b.n} verified erasure(s) on this system, but no approved backup treatment: what its backups still hold is unknown.`, due_at: null });
 
+  // Website privacy policies: the latest completed discovery per site that is missing, unreachable, empty or changed and not yet reviewed.
+  for (const d of capped((await c.tx.query(`SELECT DISTINCT ON (d.site_id) d.id, d.site_id, d.results, d.reviewed_at FROM app.policy_discoveries d
+      WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3 AND d.state='COMPLETED' ORDER BY d.site_id, d.observed_at DESC, d.id DESC`, s)).rows
+      .filter(d => !d.reviewed_at && ((d.results?.findings ?? []) as { kind: string; severity: string }[]).some(f => f.severity === 'HIGH' || f.kind === 'POLICY_CHANGED')), 50, 'website policies to review'))
+    push({ kind: 'WEBSITE_POLICY_REVIEW', severity: 'REVIEW_REQUIRED', entity_kind: 'cmp_site', entity_id: d.site_id, count: 1,
+      detail: ((d.results?.findings ?? []) as { kind: string }[]).some(f => f.kind === 'POLICY_CHANGED') ? 'The website privacy policy changed since the last discovery; review it against the notices recorded here.'
+        : 'The website privacy policy is missing, unreachable or empty at the latest discovery.', due_at: null });
+
   for (const r of capped((await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status='DRY_RUN_READY' ORDER BY created_at DESC LIMIT 51`, s)).rows, 50, 'dry runs awaiting approval'))
     push({ kind: 'RUN_AWAITING_APPROVAL', severity: 'REVIEW_REQUIRED', entity_kind: 'workflow_run', entity_id: r.id, count: 1, detail: 'A dry run is ready and waits for a second person to approve or reject it.', due_at: null });
 

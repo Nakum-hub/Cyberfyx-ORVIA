@@ -7,10 +7,10 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "154cfbea82f7836fce7a2ada23917939081a45af394e2c6152d77462991703d8",
+  "test_file_digest": "b92a0220a2eb49c9c32154b1b13ce272da379f6a13ca2bff465fcaa5762fb0aa",
   "counts": {
     "UNIT": 50,
-    "INTEGRATION": 80,
+    "INTEGRATION": 81,
     "SECURITY": 5,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
@@ -270,6 +270,11 @@
     {
       "path": "tests/integration/expansion/impact.test.ts",
       "sha256": "81249894bff6971b4d6e74c169cfe631402ed65a68a630d19c928304c7950118",
+      "kind": "INTEGRATION"
+    },
+    {
+      "path": "tests/integration/expansion/policy-discovery.test.ts",
+      "sha256": "1e779a403c23789b1461afd7df56daf0bad959fb7f3fdb3b8c9c17022456c221",
       "kind": "INTEGRATION"
     },
     {

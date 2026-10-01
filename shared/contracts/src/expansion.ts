@@ -413,6 +413,24 @@ export const CmpScan = z.strictObject({
   failure_code: z.string().max(80).nullable(), limits: z.array(z.string().max(300)).max(5),
 });
 
+// Website privacy-policy discovery (migration 0077): the site's own declaration, one document, change detection.
+export const PolicyDiscoveryRequest = z.strictObject({ origin: z.string().url().max(300) });
+export const PolicyFoundBy = z.enum(['DECLARED_LINK', 'LINK_TEXT', 'NOT_FOUND']);
+export const PolicyDiscoveryFinding = z.strictObject({
+  kind: z.enum(['POLICY_NOT_FOUND', 'POLICY_NOT_DECLARED', 'POLICY_UNREACHABLE', 'POLICY_ON_UNAPPROVED_ORIGIN', 'POLICY_CHANGED', 'POLICY_MOVED', 'POLICY_EMPTY']),
+  severity: z.enum(['HIGH', 'MEDIUM', 'INFO']), detail: z.string().max(300) });
+export const PolicyDiscovery = z.strictObject({
+  id: Id, site_id: Id, origin: z.string().max(300), trigger: z.enum(['STAFF', 'SCHEDULE']), state: z.enum(['QUEUED', 'COMPLETED', 'FAILED']),
+  requested_by: Id, requested_at: Time, observed_at: Time.nullable(), failure_code: z.string().max(80).nullable(),
+  found_by: PolicyFoundBy.nullable(), policy_url: z.string().max(2000).nullable(), http_status: z.number().int().nullable(), content_type: z.string().max(200).nullable(),
+  last_modified: z.string().max(100).nullable(), title: z.string().max(300).nullable(), language: z.string().max(35).nullable(), terms_url: z.string().max(2000).nullable(),
+  text_digest: z.string().length(64).nullable(), text_length: z.number().int().nullable(), previous_discovery_id: Id.nullable(), changed_since_previous: z.boolean().nullable(),
+  findings: z.array(PolicyDiscoveryFinding).max(10), reviewed_by: Id.nullable(), reviewed_at: Time.nullable(), review_note: z.string().max(1000).nullable(),
+  limits: z.array(z.string().max(300)).max(6),
+});
+export const PolicyDiscoveryText = z.strictObject({ id: Id, policy_url: z.string().max(2000).nullable(), text_digest: z.string().length(64).nullable(), text: z.string().max(200000) });
+export const PolicyDiscoveryReview = z.strictObject({ note: z.string().trim().min(3).max(1000) });
+
 // EX01 communication preferences
 export const PreferenceChannel = z.enum(['EMAIL', 'SMS', 'PHONE', 'POST', 'PUSH']);
 export const PreferenceTopicCreate = z.strictObject({ code: z.string().regex(/^[a-z][a-z0-9_]{2,40}$/), name: z.string().min(3).max(120), description: z.string().min(10).max(500),
@@ -469,6 +487,7 @@ export const expansionSchemas = {
   OutboundMessageCreate, OutboundMessageReview, OutboundMessage, OutboundMessageList: page(OutboundMessage),
   CmpConfigDocument, CmpSiteCreate, CmpSite, CmpSiteList: page(CmpSite), CmpConfigCreate, CmpConfig, CmpConfigList: page(CmpConfig), CmpConfigDecision, CmpConsentSubmit, CmpConsentReceipt, CmpConsentStats,
   CmpScanRequest, CmpScan, CmpScanList: page(CmpScan),
+  PolicyDiscoveryRequest, PolicyDiscovery, PolicyDiscoveryList: page(PolicyDiscovery), PolicyDiscoveryText, PolicyDiscoveryReview,
   PreferenceTopicCreate, PreferenceTopic, PreferenceTopicList: page(PreferenceTopic), PreferenceChoice, PreferenceDecision, PreferenceEvent, PreferenceChoiceReceipt, PreferenceCentre, PreferenceDecisionQuery,
   StaffMemberCreate, StaffMember, MemberSeats, StaffTeam, StaffMemberCreated, LoginDeleteConfirm, OwnLoginDeleted, FirstRunState, FirstRunSetup, FirstRunCompleted, OwnerRecoveryComplete, OwnerRecoveryCompleted,
 };

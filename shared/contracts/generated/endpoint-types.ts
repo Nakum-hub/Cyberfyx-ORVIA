@@ -411,6 +411,10 @@ export interface EndpointMap {
   cmp_consent_stats: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentStats> };
   list_cmp_scans: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanList> };
   request_cmp_scan: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScanRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpScan> };
+  list_policy_discoveries: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryList> };
+  request_policy_discovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscovery> };
+  policy_discovery_text: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryText> };
+  review_policy_discovery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscoveryReview>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PolicyDiscovery> };
   record_cmp_consent: { request: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentSubmit>; response: import('zod').infer<typeof import('../src/index.ts').schemas.CmpConsentReceipt> };
   list_preference_topics: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicList> };
   create_preference_topic: { request: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopicCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.PreferenceTopic> };

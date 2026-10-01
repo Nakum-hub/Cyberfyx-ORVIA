@@ -13220,6 +13220,147 @@
       }
     },
     {
+      "operation_id": "list_policy_discoveries",
+      "method": "GET",
+      "path": "/api/v1/admin/cmp-sites/{id}/policy-discoveries",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-000000000451",
+            "site_id": "00000000-0000-4000-8000-00000000044c",
+            "origin": "https://www.customer.example",
+            "trigger": "STAFF",
+            "state": "COMPLETED",
+            "requested_by": "00000000-0000-4000-8000-000000000386",
+            "requested_at": "2026-09-16T10:00:00.000Z",
+            "observed_at": "2026-09-16T10:00:00.000Z",
+            "failure_code": null,
+            "found_by": "DECLARED_LINK",
+            "policy_url": "https://www.customer.example/privacy",
+            "http_status": 200,
+            "content_type": "text/html; charset=utf-8",
+            "last_modified": null,
+            "title": "Privacy policy (synthetic)",
+            "language": "en",
+            "terms_url": null,
+            "text_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "text_length": 4200,
+            "previous_discovery_id": null,
+            "changed_since_previous": null,
+            "findings": [],
+            "reviewed_by": null,
+            "reviewed_at": null,
+            "review_note": null,
+            "limits": [
+              "Synthetic example."
+            ]
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "operation_id": "request_policy_discovery",
+      "method": "POST",
+      "path": "/api/v1/admin/cmp-sites/{id}/policy-discoveries",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "origin": "https://www.customer.example"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000451",
+        "site_id": "00000000-0000-4000-8000-00000000044c",
+        "origin": "https://www.customer.example",
+        "trigger": "STAFF",
+        "state": "COMPLETED",
+        "requested_by": "00000000-0000-4000-8000-000000000386",
+        "requested_at": "2026-09-16T10:00:00.000Z",
+        "observed_at": "2026-09-16T10:00:00.000Z",
+        "failure_code": null,
+        "found_by": "DECLARED_LINK",
+        "policy_url": "https://www.customer.example/privacy",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "last_modified": null,
+        "title": "Privacy policy (synthetic)",
+        "language": "en",
+        "terms_url": null,
+        "text_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "text_length": 4200,
+        "previous_discovery_id": null,
+        "changed_since_previous": null,
+        "findings": [],
+        "reviewed_by": null,
+        "reviewed_at": null,
+        "review_note": null,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
+      "operation_id": "policy_discovery_text",
+      "method": "GET",
+      "path": "/api/v1/admin/policy-discoveries/{id}/text",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000451",
+        "policy_url": "https://www.customer.example/privacy",
+        "text_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "text": "Privacy policy (synthetic example text)."
+      }
+    },
+    {
+      "operation_id": "review_policy_discovery",
+      "method": "POST",
+      "path": "/api/v1/admin/policy-discoveries/{id}/review",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "note": "Reviewed the changed policy against our notices (synthetic)."
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-000000000451",
+        "site_id": "00000000-0000-4000-8000-00000000044c",
+        "origin": "https://www.customer.example",
+        "trigger": "STAFF",
+        "state": "COMPLETED",
+        "requested_by": "00000000-0000-4000-8000-000000000386",
+        "requested_at": "2026-09-16T10:00:00.000Z",
+        "observed_at": "2026-09-16T10:00:00.000Z",
+        "failure_code": null,
+        "found_by": "DECLARED_LINK",
+        "policy_url": "https://www.customer.example/privacy",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "last_modified": null,
+        "title": "Privacy policy (synthetic)",
+        "language": "en",
+        "terms_url": null,
+        "text_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "text_length": 4200,
+        "previous_discovery_id": null,
+        "changed_since_previous": null,
+        "findings": [],
+        "reviewed_by": null,
+        "reviewed_at": null,
+        "review_note": null,
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
       "operation_id": "record_cmp_consent",
       "method": "POST",
       "path": "/api/v1/cmp/{id}/consents",
