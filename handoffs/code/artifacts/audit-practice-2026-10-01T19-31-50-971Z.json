@@ -1,0 +1,456 @@
+{
+  "suite": "audit-practice",
+  "database": "orvia_vendor_test_9bb1241ca0d4435faca93ca3ec68a67d",
+  "passed": 112,
+  "failed": 0,
+  "results": [
+    {
+      "name": "practice: real use is refused until every gate is recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "practice: an auditor cannot record criteria",
+      "result": "PASS"
+    },
+    {
+      "name": "practice: baseline recorded as TEST_FIXTURE criteria with its digest",
+      "result": "PASS"
+    },
+    {
+      "name": "practice: an administrator cannot approve criteria",
+      "result": "PASS"
+    },
+    {
+      "name": "methodology: a matrix whose rating falls as risk rises is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "configure: an unapproved methodology is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "methodology: a reviewer who did not record it approves it",
+      "result": "PASS"
+    },
+    {
+      "name": "configure: a REAL engagement on test-fixture criteria is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: only the super administrator records a gate",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: a former legal-review gate name is refused by the contract",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: the database refuses a new row under a legacy gate name",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: all four gates are missing on a fresh vendor database",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: a development audit key cannot pass the production key gate",
+      "result": "PASS"
+    },
+    {
+      "name": "gates: production criteria gate needs approved production criteria",
+      "result": "PASS"
+    },
+    {
+      "name": "fieldwork before acceptance is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "channel requests before acceptance are refused",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: a commercial owner cannot be the engagement reviewer",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: a statutory SDF claim needs applicability basis and eligibility evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: the statutory SDF audit is not offered (decision D1), even with basis and evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: the database refuses a statutory SDF acceptance too",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: licence independence cannot be declared false",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: an administrator cannot decide it",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: refused while a conflict is open",
+      "result": "PASS"
+    },
+    {
+      "name": "conflict: a safeguard must be stated",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: a person with prior implementation work stays barred from review authority",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: a REAL engagement is refused while activation gates are missing",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: recorded with the decider and rationale",
+      "result": "PASS"
+    },
+    {
+      "name": "acceptance: terms and configuration are fixed once decided",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: engagement file is team-only; an administrator sees acceptance but no fieldwork",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: the acceptance helper answers a team member and not a person outside the team (application role)",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: the conclusion-support helper says nothing to a person outside the team (application role)",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: the application role cannot call the internal review-bar helper",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: no vendor definer function is executable by PUBLIC",
+      "result": "PASS"
+    },
+    {
+      "name": "understanding: contact details are redacted before storage",
+      "result": "PASS"
+    },
+    {
+      "name": "understanding: the preparer cannot review it",
+      "result": "PASS"
+    },
+    {
+      "name": "applicability: an unresolved decision must state its question",
+      "result": "PASS"
+    },
+    {
+      "name": "applicability: provisions must be cited by the requirement",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: a requirement without an applicability decision cannot be scoped",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: unresolved applicability is carried as a stated limitation",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: the lead cannot approve the scope",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: a direct edit of the engagement scope is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: a revision needs a reason and an impact assessment",
+      "result": "PASS"
+    },
+    {
+      "name": "scope: the approved revision becomes the engagement scope, with its change shown",
+      "result": "PASS"
+    },
+    {
+      "name": "risk: ratings come from the approved matrix and residual steps",
+      "result": "PASS"
+    },
+    {
+      "name": "risk: a client-supplied rating is never used; computed HIGH",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: a high residual risk without an operating-effectiveness procedure blocks approval",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: record-level testing is always operating effectiveness",
+      "result": "PASS"
+    },
+    {
+      "name": "fieldwork: a working paper before the programme is approved is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: the author of the programme cannot approve it",
+      "result": "PASS"
+    },
+    {
+      "name": "plan: a procedure added after approval un-approves the programme until re-approved",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence: a management statement cannot be registered as a document",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence: provenance, hash and access are recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence: an assertion is never high-reliability",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: assertions alone cannot support EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: stale evidence cannot support EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: contradictory evidence blocks EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: free text is screened and versioned with a digest",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: an overdue open request is flagged",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: accepting before any response is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: a response links registered evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "requests: lifecycle recorded with every event",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: operating effectiveness needs a tested population",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: passed plus exceptions must equal tested",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: a complete population names its completeness evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: an assertion does not prove completeness",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: a sample from an unverified population cannot support EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: interviews alone are not proof even with a population",
+      "result": "PASS"
+    },
+    {
+      "name": "sampling: aggregates are no substitute for record-level testing",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: a sample with exceptions cannot be EFFECTIVE",
+      "result": "PASS"
+    },
+    {
+      "name": "working paper: evidence not evaluated for this procedure cannot support it",
+      "result": "PASS"
+    },
+    {
+      "name": "review: the preparer cannot review their own paper",
+      "result": "PASS"
+    },
+    {
+      "name": "review: an open review note blocks review",
+      "result": "PASS"
+    },
+    {
+      "name": "review: only the preparer answers a note",
+      "result": "PASS"
+    },
+    {
+      "name": "review: a reviewed working paper version is immutable",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: rests on an adverse working paper for its requirement",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: a recommendation is never a command",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: carries criteria, condition, cause, consequence and severity rationale",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: the legacy event route cannot set retest or closure",
+      "result": "PASS"
+    },
+    {
+      "name": "finding: status cannot be set to RETEST_PASSED without a retest",
+      "result": "PASS"
+    },
+    {
+      "name": "MEETS refused while a statutory finding is open",
+      "result": "PASS"
+    },
+    {
+      "name": "retest: needs a management response first",
+      "result": "PASS"
+    },
+    {
+      "name": "retest: a paper that is not a retest procedure for this finding is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "retest: evidence collected before the finding cannot pass it",
+      "result": "PASS"
+    },
+    {
+      "name": "retest: a reviewer outside the engagement cannot even see the finding",
+      "result": "PASS"
+    },
+    {
+      "name": "retest: RETEST_PASSED only with the retest procedure, fresh evidence and a different reviewer",
+      "result": "PASS"
+    },
+    {
+      "name": "closure: an auditor cannot close as verified remediation",
+      "result": "PASS"
+    },
+    {
+      "name": "closure: verified remediation recorded and final",
+      "result": "PASS"
+    },
+    {
+      "name": "risk acceptance: refused unless the client proposed it",
+      "result": "PASS"
+    },
+    {
+      "name": "risk acceptance: at most one year",
+      "result": "PASS"
+    },
+    {
+      "name": "closure: risk accepted needs an acceptance record",
+      "result": "PASS"
+    },
+    {
+      "name": "risk acceptance: the finding stays on file, closed as risk accepted",
+      "result": "PASS"
+    },
+    {
+      "name": "report: approval refused while a scoped requirement has no conclusion",
+      "result": "PASS"
+    },
+    {
+      "name": "report: approval binds the snapshot digest",
+      "result": "PASS"
+    },
+    {
+      "name": "report: the bound digest cannot be changed",
+      "result": "PASS"
+    },
+    {
+      "name": "report: signing refuses a snapshot changed after approval",
+      "result": "PASS"
+    },
+    {
+      "name": "report: signed document carries the snapshot digest, criteria, coverage and visible marks",
+      "result": "PASS"
+    },
+    {
+      "name": "report: the PDF shows the synthetic, test-fixture and development-key marks and the executive summary",
+      "result": "PASS"
+    },
+    {
+      "name": "report: accepted risk and unobtainable evidence stay visible",
+      "result": "PASS"
+    },
+    {
+      "name": "correction: only a signed report is corrected",
+      "result": "PASS"
+    },
+    {
+      "name": "correction: the corrected report names what it supersedes and the original is superseded",
+      "result": "PASS"
+    },
+    {
+      "name": "hold: an administrator cannot authorise a legal hold",
+      "result": "PASS"
+    },
+    {
+      "name": "hold: retention does not purge an engagement under an active hold",
+      "result": "PASS"
+    },
+    {
+      "name": "hold: once released, retention purges the evidence",
+      "result": "PASS"
+    },
+    {
+      "name": "findings: every finding ends closed with a recorded closure type",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: an auditor cannot record them",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: a TEST_FIXTURE package is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: a package signed with another key is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: a package changed after signing is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: recorded as PRODUCTION with every requirement and a digest",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: the same version cannot be recorded twice",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: recorded unapproved; a REAL engagement cannot use them yet",
+      "result": "PASS"
+    },
+    {
+      "name": "production criteria: once approved, the production-criteria gate can be recorded",
+      "result": "PASS"
+    }
+  ]
+}
