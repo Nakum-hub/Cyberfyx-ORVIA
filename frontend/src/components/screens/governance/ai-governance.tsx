@@ -4,6 +4,7 @@ import { useCollection, useMutation, usePagedQuery, useQuery } from '../../share
 import { hasCapability, type StaffSession } from '../../shared/session-context.tsx';
 import { DataTable, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
+import { AiModelVersions } from './ai-model-versions.tsx';
 
 const KINDS = ['RISK_ASSESSMENT','POLICY','CONTROL','APPROVAL','EVIDENCE','MONITORING','INCIDENT'] as const;
 type Kind = typeof KINDS[number];
@@ -124,5 +125,6 @@ function AiDetail({id,session,onClose,onChanged}:{id:string;session:StaffSession
       {kind==='APPROVAL'?<p>Approval requires a different reviewer from the inventory owner, recorded risk/policy/control, and no open finding. The server checks these conditions.</p>:null}
     </form>:null}
     {mutation.failure?<FailureState failure={mutation.failure} onRetry={mutation.unsettled?()=>void mutation.retry():undefined}/>:null}
+    <AiModelVersions aiSystemId={id} session={session}/>
   </Section>;
 }

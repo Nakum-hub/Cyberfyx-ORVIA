@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.52.0",
+  "contract_version": "0.53.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -4619,6 +4619,140 @@
       "status": 200,
       "idempotency": true,
       "capability": "registry.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_ai_model_versions",
+      "method": "get",
+      "path": "/api/v1/admin/ai-systems/{id}/model-versions",
+      "authority": "STAFF",
+      "response": "AiModelVersionList",
+      "status": 200,
+      "paginated": true,
+      "capability": "ai_governance.read",
+      "params": "IdPath"
+    },
+    {
+      "id": "record_ai_model_version",
+      "method": "post",
+      "path": "/api/v1/admin/ai-systems/{id}/model-versions",
+      "authority": "STAFF",
+      "request": "AiModelVersionCreate",
+      "response": "AiModelVersion",
+      "status": 201,
+      "idempotency": true,
+      "capability": "ai_governance.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "approve_ai_model_version",
+      "method": "post",
+      "path": "/api/v1/admin/ai-model-versions/{id}/approval",
+      "authority": "STAFF",
+      "response": "AiModelVersion",
+      "status": 200,
+      "idempotency": true,
+      "capability": "ai_governance.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "deploy_ai_model_version",
+      "method": "post",
+      "path": "/api/v1/admin/ai-model-versions/{id}/deployment",
+      "authority": "STAFF",
+      "response": "AiModelVersion",
+      "status": 200,
+      "idempotency": true,
+      "capability": "ai_governance.approve",
+      "params": "IdPath"
+    },
+    {
+      "id": "retire_ai_model_version",
+      "method": "post",
+      "path": "/api/v1/admin/ai-model-versions/{id}/retirement",
+      "authority": "STAFF",
+      "response": "AiModelVersion",
+      "status": 200,
+      "idempotency": true,
+      "capability": "ai_governance.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_withdrawal_canaries",
+      "method": "get",
+      "path": "/api/v1/admin/withdrawal-canaries",
+      "authority": "STAFF",
+      "response": "WithdrawalCanaryList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.sensitive.read"
+    },
+    {
+      "id": "create_withdrawal_canary",
+      "method": "post",
+      "path": "/api/v1/admin/withdrawal-canaries",
+      "authority": "STAFF",
+      "request": "WithdrawalCanaryCreate",
+      "response": "WithdrawalCanary",
+      "status": 201,
+      "idempotency": true,
+      "capability": "registry.sensitive.write"
+    },
+    {
+      "id": "activate_withdrawal_canary",
+      "method": "post",
+      "path": "/api/v1/admin/withdrawal-canaries/{id}/activation",
+      "authority": "STAFF",
+      "response": "WithdrawalCanary",
+      "status": 200,
+      "idempotency": true,
+      "capability": "registry.sensitive.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "retire_withdrawal_canary",
+      "method": "post",
+      "path": "/api/v1/admin/withdrawal-canaries/{id}/retirement",
+      "authority": "STAFF",
+      "response": "WithdrawalCanary",
+      "status": 200,
+      "idempotency": true,
+      "capability": "registry.sensitive.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "report_canary_hit",
+      "method": "post",
+      "path": "/api/v1/admin/withdrawal-canaries/{id}/hits",
+      "authority": "STAFF",
+      "request": "CanaryHitReport",
+      "response": "CanaryHit",
+      "status": 201,
+      "idempotency": true,
+      "capability": "registry.sensitive.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "list_canary_hits",
+      "method": "get",
+      "path": "/api/v1/admin/canary-hits",
+      "authority": "STAFF",
+      "response": "CanaryHitList",
+      "status": 200,
+      "paginated": true,
+      "capability": "registry.sensitive.read",
+      "query": "CanaryHitQuery"
+    },
+    {
+      "id": "review_canary_hit",
+      "method": "post",
+      "path": "/api/v1/admin/canary-hits/{id}/review",
+      "authority": "STAFF",
+      "request": "CanaryHitReview",
+      "response": "CanaryHit",
+      "status": 200,
+      "idempotency": true,
+      "capability": "registry.sensitive.write",
       "params": "IdPath"
     },
     {

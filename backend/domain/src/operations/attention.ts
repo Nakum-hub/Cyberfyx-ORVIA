@@ -4,6 +4,7 @@ import { createNotificationTask } from '../notifications/notifications.ts';
 import { iso, packageAt, predicate, scope } from './shared.ts';
 import { pendingWithdrawalCount } from '../registry/consent.ts';
 import { noticeDriftReport } from '../registry/notice-drift.ts';
+import { modelsNeedingRetrainingReview } from '../ai-governance/model-versions.ts';
 
 /**
  * Attention, coverage and notifications (requirements s24; backend Coverage,
@@ -58,6 +59,16 @@ export async function operationsAttention(c: Context) {
     GROUP BY a.system_id ORDER BY count(*) DESC LIMIT 51`, s)).rows, 50, 'systems with unknown backup handling'))
     push({ kind: 'BACKUP_HANDLING_UNKNOWN', severity: 'UNRESOLVED', entity_kind: 'system', entity_id: b.system_id, count: b.n,
       detail: `${b.n} verified erasure(s) on this system, but no approved backup treatment: what its backups still hold is unknown.`, due_at: null });
+
+  // Withdrawal canaries: counted without naming the canaries, so staff without sensitive access see that hits exist.
+  const canaryHits = Number((await c.tx.query('SELECT app.canary_open_hits() AS n')).rows[0].n);
+  if (canaryHits > 0) push({ kind: 'CANARY_TRAP_HIT', severity: 'FAILED', entity_kind: 'canary_hits', entity_id: null, count: canaryHits,
+    detail: `${canaryHits} unreviewed withdrawal-canary hit(s): something tried to contact, or record consent for, a decoy person who never consented. Someone with sensitive access must review each.`, due_at: null });
+
+  // Deployed models whose training purpose saw consent withdrawn after their training data was taken: a retraining decision.
+  for (const m of capped(await modelsNeedingRetrainingReview(c), 50, 'models needing a retraining review'))
+    push({ kind: 'AI_MODEL_RETRAIN_REVIEW', severity: 'REVIEW_REQUIRED', entity_kind: 'ai_system', entity_id: m.ai_system_id, count: m.withdrawals,
+      detail: `${m.withdrawals} person(s) withdrew consent for the training purpose of deployed model version ${m.version_label.slice(0, 60)} after its training data was taken. Decide whether to retrain; ORVIA does not claim the model forgot them.`, due_at: null });
 
   // Eighth Schedule language drift: a notice whose current locales state different purposes or data categories, or a translation
   // whose source has been replaced.

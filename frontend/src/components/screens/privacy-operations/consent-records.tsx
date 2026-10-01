@@ -4,6 +4,7 @@ import { useCollection, useMutation, usePagedQuery, useQuery } from '../../share
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { ActionButton, Choice, Input, WriteForm, nullable, nullableTime, text } from './registry-forms.tsx';
+import { WithdrawalCanaries } from './withdrawal-canaries.tsx';
 
 const STATUS: Record<string, { label: string; tone: 'ok' | 'warn' | 'stop' | 'neutral' | 'unknown' | 'info' }> = {
   UNKNOWN: { label: 'Unknown', tone: 'unknown' }, REQUESTED: { label: 'Requested', tone: 'info' }, PRESENTED: { label: 'Presented', tone: 'info' },
@@ -52,6 +53,7 @@ export function ConsentRecords() {
         <CreateConsentRecord onSaved={r => { list.refresh(); setSelected(r.id); }} />
       </Section>
       <ConsentManagers />
+      <WithdrawalCanaries />
     </>
   );
 }

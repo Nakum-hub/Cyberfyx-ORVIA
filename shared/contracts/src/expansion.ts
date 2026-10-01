@@ -431,6 +431,29 @@ export const PolicyDiscovery = z.strictObject({
 export const PolicyDiscoveryText = z.strictObject({ id: Id, policy_url: z.string().max(2000).nullable(), text_digest: z.string().length(64).nullable(), text: z.string().max(200000) });
 export const PolicyDiscoveryReview = z.strictObject({ note: z.string().trim().min(3).max(1000) });
 
+// Withdrawal canaries (migration 0079): decoy Data Principals whose any contact or consent is a hit.
+export const WithdrawalCanaryCreate = z.strictObject({ label: z.string().trim().min(3).max(120), principal_id: Id, planted_in: z.string().trim().min(3).max(500) });
+export const WithdrawalCanary = z.strictObject({ id: Id, label: z.string().max(120), principal_id: Id, principal_email: z.string().max(254), planted_in: z.string().max(500),
+  state: z.enum(['PENDING', 'ACTIVE', 'RETIRED']), created_by: Id, created_at: Time, activated_by: Id.nullable(), activated_at: Time.nullable(), retired_at: Time.nullable(), open_hits: z.number().int().min(0) });
+export const CanaryHitSource = z.enum(['SEND_ADMISSION', 'OUTBOUND_MESSAGE', 'CONSENT_RECORDED', 'REPORTED_RECEIPT']);
+export const CanaryHitReport = z.strictObject({ detail: z.string().trim().min(3).max(1000), evidence_reference: z.string().trim().min(3).max(500), observed_at: Time, system_id: Id.nullable() });
+export const CanaryHit = z.strictObject({ id: Id, canary_id: Id, canary_label: z.string().max(120), source: CanaryHitSource, actor_id: Id, actor_domain: z.enum(['STAFF', 'PRINCIPAL', 'MACHINE']),
+  system_id: Id.nullable(), detail: z.string().max(1000), evidence_reference: z.string().max(500).nullable(), observed_at: Time, recorded_at: Time,
+  reviewed_by: Id.nullable(), reviewed_at: Time.nullable(), review_note: z.string().max(1000).nullable() });
+export const CanaryHitQuery = z.strictObject({ canary_id: Id.optional(), open: z.enum(['true', 'false']).optional() });
+export const CanaryHitReview = z.strictObject({ note: z.string().trim().min(3).max(1000) });
+
+// Custom-model version governance (migration 0080): the organisation's own model versions, gated; ORVIA runs no model.
+export const AiModelKind = z.enum(['CUSTOM_TRAINED', 'FINE_TUNED', 'THIRD_PARTY_HOSTED', 'RULE_BASED']);
+export const AiModelVersionCreate = z.strictObject({ version_label: z.string().trim().min(1).max(80), model_kind: AiModelKind, training_asset_ids: z.array(Id).max(50),
+  training_purpose_id: Id, training_basis: z.string().trim().min(10).max(1000), training_data_as_of: Time,
+  evaluation_reference: z.string().trim().min(3).max(500), evaluation_summary: z.string().trim().min(10).max(2000), known_limitations: z.string().trim().min(10).max(2000) })
+  .refine(v => v.model_kind === 'RULE_BASED' || v.training_asset_ids.length > 0, { message: 'a trained model names its training data', path: ['training_asset_ids'] });
+export const AiModelVersion = z.strictObject({ id: Id, ai_system_id: Id, version_label: z.string().max(80), model_kind: AiModelKind, training_asset_ids: z.array(Id).max(50),
+  training_purpose_id: Id, training_basis: z.string().max(1000), training_data_as_of: Time, evaluation_reference: z.string().max(500), evaluation_summary: z.string().max(2000), known_limitations: z.string().max(2000),
+  state: z.enum(['DRAFT', 'APPROVED', 'DEPLOYED', 'RETIRED']), recorded_by: Id, recorded_at: Time, approved_by: Id.nullable(), approved_at: Time.nullable(), deployed_by: Id.nullable(), deployed_at: Time.nullable(), retired_at: Time.nullable(),
+  withdrawals_since_training_data: z.number().int().min(0), retraining_review_due: z.boolean(), limits: z.array(z.string().max(300)).max(4) });
+
 // EX01 communication preferences
 export const PreferenceChannel = z.enum(['EMAIL', 'SMS', 'PHONE', 'POST', 'PUSH']);
 export const PreferenceTopicCreate = z.strictObject({ code: z.string().regex(/^[a-z][a-z0-9_]{2,40}$/), name: z.string().min(3).max(120), description: z.string().min(10).max(500),
@@ -488,6 +511,8 @@ export const expansionSchemas = {
   CmpConfigDocument, CmpSiteCreate, CmpSite, CmpSiteList: page(CmpSite), CmpConfigCreate, CmpConfig, CmpConfigList: page(CmpConfig), CmpConfigDecision, CmpConsentSubmit, CmpConsentReceipt, CmpConsentStats,
   CmpScanRequest, CmpScan, CmpScanList: page(CmpScan),
   PolicyDiscoveryRequest, PolicyDiscovery, PolicyDiscoveryList: page(PolicyDiscovery), PolicyDiscoveryText, PolicyDiscoveryReview,
+  AiModelVersionCreate, AiModelVersion, AiModelVersionList: page(AiModelVersion),
+  WithdrawalCanaryCreate, WithdrawalCanary, WithdrawalCanaryList: page(WithdrawalCanary), CanaryHitReport, CanaryHit, CanaryHitList: page(CanaryHit), CanaryHitQuery, CanaryHitReview,
   PreferenceTopicCreate, PreferenceTopic, PreferenceTopicList: page(PreferenceTopic), PreferenceChoice, PreferenceDecision, PreferenceEvent, PreferenceChoiceReceipt, PreferenceCentre, PreferenceDecisionQuery,
   StaffMemberCreate, StaffMember, MemberSeats, StaffTeam, StaffMemberCreated, LoginDeleteConfirm, OwnLoginDeleted, FirstRunState, FirstRunSetup, FirstRunCompleted, OwnerRecoveryComplete, OwnerRecoveryCompleted,
 };

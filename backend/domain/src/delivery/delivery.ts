@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import type { QueryResultRow } from 'pg';
 import * as X from '../../../../shared/contracts/src/expansion.ts';
+import { trapCanary } from '../consent/canaries.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { exists, iso, pageOf, predicate, refuse, scope, type OperationsEnv } from '../operations/shared.ts';
 import { isLoopback, sendSmtp, sendWebhook, validEmail, type SendResult } from './clients.ts';
@@ -153,6 +154,9 @@ export async function composeMessage(c: Context, input: unknown) {
   if (v.source_id) await exists(c, SOURCE_TABLE[v.source_kind]!, v.source_id, 'source_id');
   const row = (await c.tx.query(`INSERT INTO app.outbound_messages(tenant_id,legal_entity_id,environment_id,id,transport_id,source_kind,source_id,recipient,subject,body,content_digest,authored_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
     [...scope(c), randomUUID(), v.transport_id, v.source_kind, v.source_id, v.recipient, v.subject, v.body, sha(JSON.stringify([v.recipient, v.subject, v.body])), c.actor.actor_id])).rows[0];
+  // Withdrawal canary trap (migration 0079): a message addressed to a decoy principal is recorded for review. It is not
+  // refused, so the author cannot learn which addresses are canaries; the decoy mailbox belongs to the organisation.
+  await trapCanary(c, { email: v.recipient }, 'OUTBOUND_MESSAGE', null, `An outbound ${v.source_kind.toLowerCase().replaceAll('_', ' ')} message "${v.subject.slice(0, 120)}" was addressed to a withdrawal canary.`);
   await audit(c, 'outbound_message.compose', row.id);
   return messageView(c, row);
 }
