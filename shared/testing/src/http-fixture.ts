@@ -63,7 +63,7 @@ export class HttpFixture {
   async login(name: string) {
     const user=this.users[name]!;const browser=this.browser();const base=`/api/auth/${user.domain}`;
     if(user.domain==='staff')await this.authWindow();
-    if((await browser.call(base+'/sign-in/email',{email:user.email,password:user.password,rememberMe:false})).status!==200)throw new Error(`Synthetic ${name} login failed`);
+    const signedIn=await browser.call(base+'/sign-in/email',{email:user.email,password:user.password,rememberMe:false});if(signedIn.status!==200)throw new Error(`Synthetic ${name} login failed (HTTP ${signedIn.status})`);
     if(user.domain==='staff'&&user.role!=='AUDITOR') {
       if(!user.totp_uri) {
         const response=await browser.call(base+'/two-factor/enable',{password:user.password,method:'totp'});
