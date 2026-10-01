@@ -36,10 +36,26 @@ After A1–A8, each real engagement still needs its own signed engagement letter
 |---|---|---|---|
 | C1 | Qualify the production installation, then the client's server administrator runs `pnpm run principals:admit-real confirm:rehearsal admit "<qualification reference>" "<name and role>"` (one-way; revision 1.9). Until then a request naming a real person cannot be recorded. | Cyberfyx engineering and the client, owner approval | Open: mechanism built (`docs/engineering/V1_BASELINE_REV_1_9_REAL_PRINCIPALS.md`); qualification itself open (`docs/engineering/PRODUCTION_READINESS.md`) |
 | C2 | Host the vendor service | Cyberfyx | Open (`docs/runbooks/VENDOR_HOSTING_READINESS.md`) |
-| C3 | Switch payments to live (Razorpay merchant account) | Cyberfyx | Open |
+| C3 | Switch payments to live (Razorpay merchant account): merchant KYC, approved prices and GST treatment, keys placed in `.local/vendor/commerce/razorpay.json` by the operator (never in chat), network allowance, sandbox conformance | Cyberfyx | Open; blocks M26 Billing / EX13 live payments |
 | C4 | Independent penetration test and dependency/secret review | Outside testers | Open |
 | C5 | The 34 acceptance scenarios on the frozen candidate | Codex runs them; Claude Code reviews with `scripts/acceptance-review.ts` | In progress (Codex Phase B) |
 | C6 | Release approval | Owner | After C1–C5 |
+
+## D. Decisions and inputs still open (recorded 2026-10-01)
+
+Only the owner or Cyberfyx can settle these. Each is needed before the item it names can be called qualified. None of them can be supplied in chat.
+
+| Step | What | Who | Blocks |
+|---|---|---|---|
+| D1 | Choose the identity provider for staff single sign-on and SCIM provisioning (or confirm V1 ships without them) | Owner | EX14 enterprise identity |
+| D2 | Decide custody of the production release and licence signing keys (who holds them, where, and the ceremony) | Owner, Cyberfyx directors | Signed updates and licences in production (M27, M31) |
+| D3 | Provide or approve hardware for the 1-million-record qualification run | Owner | EX14 capacity claim |
+| D4 | Obtain the text of corrigendum G.S.R. 892(E) and any later amendments to the DPDP Rules: this environment cannot reach the Government hosts | Owner or legal | A6 official law rule set |
+| D5 | Arrange the TLS acceptance run on a rehearsal installation that has fixture users (the clean rehearsal install has one first-run owner and must not be seeded) | Codex, on the Windows rehearsal path | `tests/security/tls.test.ts` (NOT_RUN here) |
+| D6 | Build the packaged runtime image `orvia-local:prototype`, so the egress-denial network test can run against it | Codex, Windows packaging path | `tests/security/network-core.ts` (NOT_RUN here) |
+| D7 | Approve merging the delivery branch into main, once the final regression battery and Codex's review are green | Owner | PR #37 |
+
+The current verification evidence for every module, family, important function and presentation claim is in `docs/engineering/V1_VERIFICATION_MATRIX.md`. It is generated from executed results only.
 
 ## What can start today, in parallel
 
