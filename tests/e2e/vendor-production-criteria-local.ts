@@ -20,6 +20,7 @@ import { webProcess } from '../../scripts/web-process.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
 import { vendorSigningKey } from '../../scripts/credentials.ts';
 import { fixturePackage, signFixture } from '../../shared/testing/src/regulatory-fixture.ts';
+import { waitForPageContent } from '../../shared/testing/src/browser-ready.ts';
 
 const VENDOR = `http://127.0.0.1:${PROFILES['vendor-a00'].app_port}`;
 const t = operationsSuite('vendor-production-criteria-browser');
@@ -45,6 +46,8 @@ async function vendorSignIn(page: Page, user: User) {
   await page.getByLabel(label('Authenticator code')).fill(authenticatorCode(user.totp!));
   await page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
   await page.waitForURL(/\/vendor\/(engagements|upload)/);
+  await waitForPageContent(page);
+  await page.waitForLoadState('networkidle');
   writePrivateJson(journalPath, journal);
 }
 async function stopVendor(child: ChildProcess) {
