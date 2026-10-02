@@ -19341,7 +19341,7 @@ export interface components {
             significant_data_fiduciary: boolean;
             limits: {
                 /** @enum {string} */
-                name: "websites" | "connected_systems" | "member_seats";
+                name: "websites" | "connected_systems" | "member_seats" | "automated_actions_per_month";
                 licensed: number | null;
                 used: number;
             }[];

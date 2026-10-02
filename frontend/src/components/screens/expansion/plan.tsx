@@ -13,7 +13,7 @@ const PLAN_PROMISE: Record<string, string> = {
   CONTROL: 'Stop doing it by hand: automate suppression and erasure and check that each system actually did it.',
   ENTERPRISE: 'Board- and auditor-ready assurance, continuously.',
 };
-const LIMIT_LABEL: Record<string, string> = { websites: 'Websites with the cookie banner', connected_systems: 'Connected systems', member_seats: 'Member logins' };
+const LIMIT_LABEL: Record<string, string> = { websites: 'Websites with the cookie banner', connected_systems: 'Connected systems', member_seats: 'Member logins', automated_actions_per_month: 'Automated actions this month (past the limit they become manual tasks; nothing is dropped)' };
 const TERM_LABEL: Record<string, string> = { MONTHLY: 'Monthly', QUARTERLY: 'Quarterly', ANNUAL: 'Annual', TRIAL: 'Trial', CONTRACT: 'Contract' };
 
 /**

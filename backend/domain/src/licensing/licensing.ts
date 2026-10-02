@@ -244,8 +244,8 @@ export async function planSummary(c: Context) {
   const row = (await c.tx.query('SELECT id, edition, term, trial, lifecycle, valid_to, grace_until, fallback_id, claims FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
   const profile = (await c.tx.query(`SELECT sdf_status FROM app.organisation_profile_versions WHERE ${predicate} ORDER BY version DESC LIMIT 1`, scopeValues(c.actor))).rows[0];
   const sdf = profile?.sdf_status === 'DESIGNATED';
-  const usage = (await c.tx.query('SELECT websites, connected_systems, member_seats FROM app.plan_usage()')).rows[0];
-  const limitsOf = (claims: { licensed_limits?: Record<string, number> } | null) => (['websites', 'connected_systems', 'member_seats'] as const)
+  const usage = (await c.tx.query('SELECT websites, connected_systems, member_seats, automated_actions_per_month FROM app.plan_usage()')).rows[0];
+  const limitsOf = (claims: { licensed_limits?: Record<string, number> } | null) => (['websites', 'connected_systems', 'member_seats', 'automated_actions_per_month'] as const)
     .map(name => ({ name, licensed: typeof claims?.licensed_limits?.[name] === 'number' ? claims.licensed_limits[name]! : null, used: usage[name] as number }));
   if (!row) return S.PlanSummary.parse({ as_of: time(new Date()), licensed: false, edition: null, term: null, trial: false, lifecycle: null, valid_to: null, grace_until: null, falls_back_to: null, usable: [], significant_data_fiduciary: sdf, limits: limitsOf(null) });
   const codes = (await c.tx.query('SELECT app.licence_entitlement_codes($1) AS codes, app.licence_row_edition($2) AS fallback', [row.id, row.fallback_id])).rows[0];

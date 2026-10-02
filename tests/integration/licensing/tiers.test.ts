@@ -14,6 +14,7 @@ import { example } from '../../../shared/contracts/src/examples.ts';
 import { operationsSuite, key } from '../../../shared/testing/src/operations-fixture.ts';
 import { vendorSigningKey } from '../../../scripts/credentials.ts';
 import { requireEntitlement } from '../../../backend/domain/src/licensing/licensing.ts';
+import { automationAllowance } from '../../../backend/domain/src/workflow/workflow.ts';
 
 const t = operationsSuite('licence-tiers');
 const { h, check, ok, codes, db } = t;
@@ -73,7 +74,7 @@ await t.run(async () => {
   const used = (name: string) => before.find(l => l.name === name)!.used;
   await ok(importIt(claims('FOUNDATION', { licensed_limits: { environments: 1, staff_members: 5, member_seats: 3, websites: used('websites'), connected_systems: used('connected_systems') } })), S.schemas.LicenceState, [200, 201]);
   const sized = (await ok(sibling.call('/api/v1/admin/plan'), S.schemas.PlanSummary)).limits;
-  check('the plan reports usage against the licensed limits', sized.filter(l => l.name !== 'member_seats').map(l => l.licensed === l.used), [true, true]);
+  check('the plan reports usage against the licensed limits', sized.filter(l => l.name === 'websites' || l.name === 'connected_systems').map(l => l.licensed === l.used), [true, true]);
   const site = S.routes.find(r => r.id === 'create_cmp_site')!;
   check('a website beyond the plan is refused, naming the limit', (await codes(sibling.call(site.path, example(site.request!), key()))),
     { status: 409, codes: ['plan_limit_reached', 'websites', String(used('websites'))] });
@@ -121,12 +122,12 @@ await t.run(async () => {
 
   // --- the resolver over time, in throwaway scopes (rows are inserted as the vendor-signed import would store them) ----
   t.setPhase('grace and expiry');
-  async function scenario(rows: { edition: string; term: string; from: number; to: number; sequence: number; trial?: boolean }[]) {
+  async function scenario(rows: { edition: string; term: string; from: number; to: number; sequence: number; trial?: boolean; limits?: Record<string, number> }[]) {
     const s = { tenant_id: randomUUID(), legal_entity_id: randomUUID(), environment_id: randomUUID() };
     const ids: string[] = [];
     for (const row of rows) {
       const id = randomUUID(); ids.push(id);
-      const c = claims(row.edition, { term: row.term, trial: row.trial ?? false, valid_from: days(row.from), valid_to: days(row.to), sequence: row.sequence });
+      const c = claims(row.edition, { term: row.term, trial: row.trial ?? false, valid_from: days(row.from), valid_to: days(row.to), sequence: row.sequence, ...(row.limits ? { licensed_limits: { environments: 1, staff_members: 5, member_seats: 3, ...row.limits } } : {}) });
       const sig = signed(c).licence.signature;
       await db.query(`INSERT INTO app.licences(tenant_id,legal_entity_id,environment_id,id,licence_id,installation_id,edition,valid_from,valid_to,signing_key_id,signature,imported_by,claims,term,sequence,trial)
         VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$6,$12,$13,$14,$15)`, [s.tenant_id, s.legal_entity_id, s.environment_id, id, c.licence_id, installation, row.edition, c.valid_from, c.valid_to, vendor.key_id, sig, c, row.term, row.sequence, row.trial ?? false]);
@@ -139,7 +140,7 @@ await t.run(async () => {
       const effective = (await tx.query('SELECT edition, lifecycle, trial, fallback_id FROM app.effective_licence($1,$2,$3)', [s.tenant_id, s.legal_entity_id, s.environment_id])).rows[0];
       const actor = { actor_id: randomUUID(), actor_domain: 'STAFF', scope: s } as unknown as Parameters<typeof requireEntitlement>[0]['actor'];
       const allowed = async (id: string) => requireEntitlement({ tx, actor, requestId: randomUUID() }, S.routes.find(r => r.id === id)!).then(() => 'ALLOWED', (e: { fieldErrors?: { code: string }[] }) => e.fieldErrors?.[0]?.code ?? 'ERROR');
-      const result = { effective, floor: await allowed('create_purposes'), control: await allowed('create_mapping') };
+      const result = { effective, floor: await allowed('create_purposes'), control: await allowed('create_mapping'), automation: (await automationAllowance({ tx, actor, requestId: randomUUID() })).reason };
       await tx.query('ROLLBACK');
       return result;
     } finally { tx.release(); }
@@ -158,6 +159,11 @@ await t.run(async () => {
   check('a downgrade at renewal takes force from its start date', [renewed.effective.edition, renewed.control], ['FOUNDATION', 'entitlement_required']);
   const overlay = await scenario([{ edition: 'FOUNDATION', term: 'ANNUAL', from: -40, to: 300, sequence: 1 }, { edition: 'CONTROL', term: 'TRIAL', trial: true, from: -1, to: 13, sequence: 2 }]);
   check('trial overlay: an open trial is in force over the paid licence and allows its tier', [overlay.effective.edition, overlay.effective.trial, overlay.effective.fallback_id !== null, overlay.control], ['CONTROL', true, true, 'ALLOWED']);
+  t.setPhase('automation quota');
+  check('on Foundation, downstream actions become manual tasks (the withdrawal is still carried out, by a person)', (await scenario([{ edition: 'FOUNDATION', term: 'ANNUAL', from: -1, to: 300, sequence: 1 }])).automation, 'not_in_plan');
+  check('on Control within its monthly quota, actions are automated', (await scenario([{ edition: 'CONTROL', term: 'ANNUAL', from: -1, to: 300, sequence: 1, limits: { automated_actions_per_month: 10000 } }])).automation, 'within_quota');
+  check('past the monthly quota, actions become manual tasks, never dropped', (await scenario([{ edition: 'CONTROL', term: 'ANNUAL', from: -1, to: 300, sequence: 1, limits: { automated_actions_per_month: 0 } }])).automation, 'monthly_quota_reached');
+  check('after expiry, automation stops and actions become manual tasks', (await scenario([{ edition: 'CONTROL', term: 'MONTHLY', from: -40, to: -10, sequence: 1 }])).automation, 'not_in_plan');
   const none = await scenario([]);
   check('with no licence at all, a gated write is refused as unlicensed', none.floor, 'no_licence');
 });

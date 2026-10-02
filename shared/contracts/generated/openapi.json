@@ -172141,7 +172141,8 @@
                   "enum": [
                     "websites",
                     "connected_systems",
-                    "member_seats"
+                    "member_seats",
+                    "automated_actions_per_month"
                   ]
                 },
                 "licensed": {

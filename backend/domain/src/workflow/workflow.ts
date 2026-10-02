@@ -1,3 +1,4 @@
+import { licenceCovers } from '../licensing/licensing.ts';
 import { randomUUID,randomBytes,type KeyObject } from 'node:crypto';
 import type pg from 'pg';
 import * as S from '../../../../shared/contracts/src/index.ts';
@@ -18,11 +19,17 @@ export async function prepareWorkflow(c: Context, id: string, signer: {key:KeyOb
  const event=requireOne((await c.tx.query(`SELECT * FROM app.consent_events WHERE ${predicate} AND id=$4`,[...scope,workflow.event_id])).rows);
  const policy=requireOne((await c.tx.query(`SELECT document FROM app.policy_versions WHERE ${predicate} AND version_id=$4`,[...scope,event.policy_version_id])).rows);
  const planPolicy=S.Policy.parse(policy.document);const actions: string[]=[];
+ // Revision 1.11 automation quota: a downstream action is automated only while the licence in force covers
+ // WORKFLOW_AUTOMATION and the month's automated actions are within the licensed number. Otherwise the obligation becomes a
+ // manual task (attributed attestation): the withdrawal is still carried out, by a person, and nothing is dropped.
+ const automation=await automationAllowance(c);
  for(const systemId of planPolicy.system_ids) {
   const system=requireOne((await c.tx.query(`SELECT connector FROM app.systems WHERE ${predicate} AND id=$4`,[...scope,systemId])).rows);
   const mapping=(await c.tx.query(`SELECT * FROM app.target_mappings WHERE ${predicate} AND principal_id=$4 AND purpose_id=$5 AND system_id=$6`,[...scope,event.principal_id,event.purpose_id,systemId])).rows[0];
-  let actionId: string|null=null;
-  if(mapping&&system.connector!=='LEGACY_MANUAL') {
+  let actionId: string|null=null;let diverted=false;
+  if(mapping&&system.connector!=='LEGACY_MANUAL'&&automation.remaining<=0){diverted=true;await audit(c,`workflow.action_manual.${automation.reason}`,id);}
+  if(mapping&&system.connector!=='LEGACY_MANUAL'&&!diverted) {
+   automation.remaining--;
    actionId=randomUUID();
    const binding=S.PlanBinding.parse({workflow_id:id,action_id:actionId,scope:{...c.actor.scope,principal_reference_id:event.principal_id,system_id:systemId,resource_id:mapping.id,target_subject_reference:mapping.target_subject_reference,purpose_id:event.purpose_id,policy_version_id:event.policy_version_id,consent_epoch:Number(event.epoch),target_generation:Number(mapping.target_generation),operation:system.connector==='SYNTHETIC_CRM'?'CRM_REMOVE_MARKETING_MEMBERSHIP':'SIMULATOR_RESTRICT'},capability:'restrict_exact_synthetic_subject',capability_version:'1.0.0',operation_budget:{maximum_records:1,maximum_attempts:1}});
    const planDigest=digest(binding);const now=new Date();
@@ -32,10 +39,19 @@ export async function prepareWorkflow(c: Context, id: string, signer: {key:KeyOb
    await c.tx.query('INSERT INTO app.agent_commands VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)',[...scope,command.payload.command_id,actionId,event.principal_id,signer.agent_id,command,digest(command),command.payload.issued_at,command.payload.expires_at]);
    actions.push(actionId);
   }
-  await c.tx.query(`INSERT INTO app.obligations(tenant_id,legal_entity_id,environment_id,id,workflow_id,principal_id,action_id,system_id,required,criterion) VALUES($1,$2,$3,$4,$5,$6,$7,$8,true,$9)`,[...scope,randomUUID(),id,event.principal_id,actionId,systemId,actionId||planPolicy.required_observation?'CURRENT_SCOPED_OBSERVATION':'ATTRIBUTED_MANUAL_ATTESTATION']);
+  await c.tx.query(`INSERT INTO app.obligations(tenant_id,legal_entity_id,environment_id,id,workflow_id,principal_id,action_id,system_id,required,criterion) VALUES($1,$2,$3,$4,$5,$6,$7,$8,true,$9)`,[...scope,randomUUID(),id,event.principal_id,actionId,systemId,!diverted&&(actionId||planPolicy.required_observation)?'CURRENT_SCOPED_OBSERVATION':'ATTRIBUTED_MANUAL_ATTESTATION']);
  }
  await c.tx.query(`UPDATE app.workflows SET state='RUNNING',updated_at=now() WHERE ${predicate} AND id=$4`,[...scope,id]);
  await audit(c,'workflow.plan',id);return actions;
+}
+/** How many more downstream actions may be automated now, and why not when none (rev 1.11, addendum section D). */
+export async function automationAllowance(c: Context): Promise<{ remaining: number; reason: 'not_in_plan' | 'monthly_quota_reached' | 'within_quota' }> {
+ if(!(await licenceCovers(c,'WORKFLOW_AUTOMATION')))return {remaining:0,reason:'not_in_plan'};
+ const limit=(await c.tx.query('SELECT claims->\'licensed_limits\'->>\'automated_actions_per_month\' AS n FROM app.effective_licence($1,$2,$3)',scopeValues(c.actor))).rows[0]?.n;
+ if(limit===null||limit===undefined)return {remaining:Number.MAX_SAFE_INTEGER,reason:'within_quota'};
+ const used=Number((await c.tx.query(`SELECT count(*)::int AS n FROM app.agent_commands WHERE ${predicate} AND created_at>=date_trunc('month',clock_timestamp())`,scopeValues(c.actor))).rows[0].n);
+ const remaining=Number(limit)-used;
+ return {remaining,reason:remaining>0?'within_quota':'monthly_quota_reached'};
 }
 export async function actionReceipt(c: Context, id: string) {
  const result=(await c.tx.query(`SELECT receipt FROM app.command_receipts WHERE ${predicate} AND action_id=$4`,[...scopeValues(c.actor),id])).rows[0];

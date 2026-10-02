@@ -18,6 +18,16 @@ export const ROLE_RESTRICTED_FUNCTIONS: Record<string, readonly (typeof RUNTIME_
   // Real-person decoys (revision 1.10, migration 0089): only the delivery runner withholds; nobody may ask who they are.
   'app.withhold_real_decoy_message(uuid)': ['orvia_worker'],
   'app.real_decoy_recipient(uuid,uuid,uuid,text)': [],
+  // Revisions 1.11/1.12: scope-bound licence and plan readers. The dispatcher (app) and the worker's runner checks use the
+  // licence in force; nothing else needs it. Trigger functions are called by the database, never by a role.
+  'app.effective_licence(uuid,uuid,uuid)': ['orvia_app', 'orvia_worker'],
+  'app.licence_names_entitlement(uuid,text)': ['orvia_app', 'orvia_worker'],
+  'app.licence_grace_days(text)': ['orvia_app', 'orvia_worker'],
+  'app.licence_entitlement_codes(uuid)': ['orvia_app'],
+  'app.licence_row_edition(uuid)': ['orvia_app'],
+  'app.plan_usage()': ['orvia_app'],
+  'app.licence_import_guard()': [],
+  'app.file_intake_decided_once()': [],
 };
 
 export async function revokeServerOnly(tx: Pick<PoolClient, 'query'>) {
