@@ -1,0 +1,934 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T11:49:08.243Z",
+  "finding": "W01-A02-F01",
+  "phase": "CORRECTED_RETEST",
+  "profile": "codex-a00",
+  "contract_version": "0.54.0",
+  "build_id": "fNbDrvmLMhoCFiUKQTohf",
+  "assertions": [
+    {
+      "name": "publication/fresh: HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "publication: fresh proof consumed before expiry with one approval and idempotency",
+      "result": "PASS",
+      "expected": {
+        "timely": true,
+        "approvals": 1,
+        "idempotency": 1
+      },
+      "actual": {
+        "timely": true,
+        "approvals": 1,
+        "idempotency": 1
+      }
+    },
+    {
+      "name": "publication: committed replay after expiry status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "publication: committed replay response",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "00bcd7b5-8faa-4104-8eb0-a425bb16c0c7",
+        "notice_version_id": "5fa93c3d-2bcf-4e99-bfa4-b4e01c34ca49",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "e4123a3f-1e78-465d-9700-8083c2b74664"
+        ],
+        "required_observation": true,
+        "id": "04eef4d8-a8c9-469b-ad64-a5d9b0f9af10",
+        "version_id": "661342e5-e9b2-43f4-a794-38df32733398",
+        "digest": "46c8e5d286b18fa1736fa083c3d8ac691d564327b44550e006cc7fcc62a75dfa",
+        "author_id": "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        "status": "PUBLISHED",
+        "published_at": "2026-10-01T11:47:15.697Z"
+      },
+      "actual": {
+        "purpose_id": "00bcd7b5-8faa-4104-8eb0-a425bb16c0c7",
+        "notice_version_id": "5fa93c3d-2bcf-4e99-bfa4-b4e01c34ca49",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "e4123a3f-1e78-465d-9700-8083c2b74664"
+        ],
+        "required_observation": true,
+        "id": "04eef4d8-a8c9-469b-ad64-a5d9b0f9af10",
+        "version_id": "661342e5-e9b2-43f4-a794-38df32733398",
+        "digest": "46c8e5d286b18fa1736fa083c3d8ac691d564327b44550e006cc7fcc62a75dfa",
+        "author_id": "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        "status": "PUBLISHED",
+        "published_at": "2026-10-01T11:47:15.697Z"
+      }
+    },
+    {
+      "name": "publication: replay preserves business rows",
+      "result": "PASS",
+      "expected": "68cc85c1759f8f8df25d11e9bd1352928921b880c0f9db7b9c4d3a5bc2d228e9",
+      "actual": "68cc85c1759f8f8df25d11e9bd1352928921b880c0f9db7b9c4d3a5bc2d228e9"
+    },
+    {
+      "name": "publication: replay still requires authentication",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "publication/expired: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/expired: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/expired: all business rows unchanged",
+      "result": "PASS",
+      "expected": "61253448e8a8b05a0b429b3b49912ec7561e6a4e40f404f83ab331f91fb87e51",
+      "actual": "61253448e8a8b05a0b429b3b49912ec7561e6a4e40f404f83ab331f91fb87e51"
+    },
+    {
+      "name": "publication/expired: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/expired: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publication/publication: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "publication/publication: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/publication: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/publication: all business rows unchanged",
+      "result": "PASS",
+      "expected": "7d2626c6ee0ccd257b688480e7e2ae14826764ddd55439650cd4d9173f47c7a3",
+      "actual": "7d2626c6ee0ccd257b688480e7e2ae14826764ddd55439650cd4d9173f47c7a3"
+    },
+    {
+      "name": "publication/publication: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/publication: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publication/purpose: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "publication/purpose: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/purpose: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/purpose: all business rows unchanged",
+      "result": "PASS",
+      "expected": "88ec18495de5556128c618d109762209c09e850481c33864e0a4fc64d8e6bc57",
+      "actual": "88ec18495de5556128c618d109762209c09e850481c33864e0a4fc64d8e6bc57"
+    },
+    {
+      "name": "publication/purpose: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/purpose: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publication/policy: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "publication/policy: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/policy: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/policy: all business rows unchanged",
+      "result": "PASS",
+      "expected": "3853a934b9b32f3ba046c06d2fc1cff1ce64d2ed28a4c8028ee9ff58edc3cf2b",
+      "actual": "3853a934b9b32f3ba046c06d2fc1cff1ce64d2ed28a4c8028ee9ff58edc3cf2b"
+    },
+    {
+      "name": "publication/policy: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/policy: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publication/proof: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "publication/proof: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/proof: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/proof: all business rows unchanged",
+      "result": "PASS",
+      "expected": "0237ea3132f24bb3583421432a43184c5dfeb3d87268536c12d5c0e332e01ab8",
+      "actual": "0237ea3132f24bb3583421432a43184c5dfeb3d87268536c12d5c0e332e01ab8"
+    },
+    {
+      "name": "publication/proof: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/proof: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publication/idempotency: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "publication/idempotency: HTTP status",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication/idempotency: proof remains unused",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "publication/idempotency: all business rows unchanged",
+      "result": "PASS",
+      "expected": "3414b5d2310cff4dc18c1d3da245443149d8c7a7649e23784fb4eeb85af1f48f",
+      "actual": "3414b5d2310cff4dc18c1d3da245443149d8c7a7649e23784fb4eeb85af1f48f"
+    },
+    {
+      "name": "publication/idempotency: no approval or success idempotency",
+      "result": "PASS",
+      "expected": {
+        "approvals": 0,
+        "idempotency": 0
+      },
+      "actual": {
+        "approvals": 0,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "publication/idempotency: policy remains draft",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "grant/fresh: HTTP status",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "grant: fresh interaction consumed before expiry with one event and idempotency",
+      "result": "PASS",
+      "expected": {
+        "timely": true,
+        "events": 1,
+        "idempotency": 1
+      },
+      "actual": {
+        "timely": true,
+        "events": 1,
+        "idempotency": 1
+      }
+    },
+    {
+      "name": "grant: committed replay after expiry status",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "grant: committed replay response",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "c3363fa2-b233-4c2a-b777-db76415dee31",
+        "event_id": "e11c204f-e102-46cb-b285-afb34c196378",
+        "purpose_id": "00bcd7b5-8faa-4104-8eb0-a425bb16c0c7",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-10-01T11:48:35.364Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      },
+      "actual": {
+        "receipt_id": "c3363fa2-b233-4c2a-b777-db76415dee31",
+        "event_id": "e11c204f-e102-46cb-b285-afb34c196378",
+        "purpose_id": "00bcd7b5-8faa-4104-8eb0-a425bb16c0c7",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-10-01T11:48:35.364Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      }
+    },
+    {
+      "name": "grant: replay preserves business rows",
+      "result": "PASS",
+      "expected": "e10e0ab6d06613e87a82adfd68d173cd06f74493f2cd30cb0a37e970f815bb44",
+      "actual": "e10e0ab6d06613e87a82adfd68d173cd06f74493f2cd30cb0a37e970f815bb44"
+    },
+    {
+      "name": "grant: new key cannot reuse consumed interaction",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant/expired: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant/expired: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "c8177efd269f33083a235d2a1c7f1e93c9fee98c74204277f60447af8a9d3553",
+      "actual": "c8177efd269f33083a235d2a1c7f1e93c9fee98c74204277f60447af8a9d3553"
+    },
+    {
+      "name": "grant/consent-boundary: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "grant/consent-boundary: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant/consent-boundary: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "d4313340843ee49bee944fbca2d2e30384fcea7d2fa86767034e1261c0052b2d",
+      "actual": "d4313340843ee49bee944fbca2d2e30384fcea7d2fa86767034e1261c0052b2d"
+    },
+    {
+      "name": "grant/aggregate: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "grant/aggregate: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant/aggregate: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "5c6edef1aa367bf93774ac788c64a7f4222456cc5f3789d1c4ef3e1686ae6a3c",
+      "actual": "5c6edef1aa367bf93774ac788c64a7f4222456cc5f3789d1c4ef3e1686ae6a3c"
+    },
+    {
+      "name": "grant/interaction: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "grant/interaction: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant/interaction: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "353bcd33dadc2838ff54c95c9cb503669ca6e49d5eb40111a8746d2f87ee3fa4",
+      "actual": "353bcd33dadc2838ff54c95c9cb503669ca6e49d5eb40111a8746d2f87ee3fa4"
+    },
+    {
+      "name": "grant/publication: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "grant/publication: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant/publication: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "56505323423590be55cd1b35e4165ddee76274b3dd92016c23efb115452bd446",
+      "actual": "56505323423590be55cd1b35e4165ddee76274b3dd92016c23efb115452bd446"
+    },
+    {
+      "name": "grant/idempotency: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "grant/idempotency: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant/idempotency: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "5020e4c63940d9640814d1abad8797712140b95699b3299e9feaddb4034491c9",
+      "actual": "5020e4c63940d9640814d1abad8797712140b95699b3299e9feaddb4034491c9"
+    },
+    {
+      "name": "withdraw/fresh: HTTP status",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "withdraw: fresh interaction consumed before expiry with one event and idempotency",
+      "result": "PASS",
+      "expected": {
+        "timely": true,
+        "events": 1,
+        "idempotency": 1
+      },
+      "actual": {
+        "timely": true,
+        "events": 1,
+        "idempotency": 1
+      }
+    },
+    {
+      "name": "withdraw: committed replay after expiry status",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "withdraw: committed replay response",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "635e6cdf-c5c7-4b8f-a774-bad4537ef1b9",
+        "event_id": "58b10bb3-dff1-48d0-a2a1-c1b5f0077d0b",
+        "purpose_id": "00bcd7b5-8faa-4104-8eb0-a425bb16c0c7",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-01T11:48:51.856Z",
+        "workflow_id": "a43b8f40-77b8-440f-8408-566077a01a15",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "635e6cdf-c5c7-4b8f-a774-bad4537ef1b9",
+        "event_id": "58b10bb3-dff1-48d0-a2a1-c1b5f0077d0b",
+        "purpose_id": "00bcd7b5-8faa-4104-8eb0-a425bb16c0c7",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-01T11:48:51.856Z",
+        "workflow_id": "a43b8f40-77b8-440f-8408-566077a01a15",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "withdraw: replay preserves business rows",
+      "result": "PASS",
+      "expected": "816f3cc54582cb6b025977cd56e69a010930b91bac654518a7221eb7fae50b39",
+      "actual": "816f3cc54582cb6b025977cd56e69a010930b91bac654518a7221eb7fae50b39"
+    },
+    {
+      "name": "withdraw: new key cannot reuse consumed interaction",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "withdraw/expired: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "withdraw/expired: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "5bcbc0fe12790138d81ae895020bb3251aeb9d08d94a596dac7de833454ba324",
+      "actual": "5bcbc0fe12790138d81ae895020bb3251aeb9d08d94a596dac7de833454ba324"
+    },
+    {
+      "name": "withdraw/consent-boundary: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "withdraw/consent-boundary: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "withdraw/consent-boundary: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "116888b8264492508ce70880a2770565ae299734ae2604011040dde45886f823",
+      "actual": "116888b8264492508ce70880a2770565ae299734ae2604011040dde45886f823"
+    },
+    {
+      "name": "withdraw/aggregate: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "withdraw/aggregate: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "withdraw/aggregate: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "dd6aaad034c79f780b04dbf703f2797fc4ba543be19f6c5578a707d3359be70b",
+      "actual": "dd6aaad034c79f780b04dbf703f2797fc4ba543be19f6c5578a707d3359be70b"
+    },
+    {
+      "name": "withdraw/interaction: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "withdraw/interaction: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "withdraw/interaction: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "94fac0a1aa96cd51f3bb71d54e78a010e2a69dda754320ac9ff495992cc75f46",
+      "actual": "94fac0a1aa96cd51f3bb71d54e78a010e2a69dda754320ac9ff495992cc75f46"
+    },
+    {
+      "name": "withdraw/publication: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "withdraw/publication: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "withdraw/publication: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "e84abe5c234cc5cd368ecab298eac1210afe796636ff5597aca7d39246f24594",
+      "actual": "e84abe5c234cc5cd368ecab298eac1210afe796636ff5597aca7d39246f24594"
+    },
+    {
+      "name": "withdraw/idempotency: actual transaction and wait began before expiry",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "withdraw/idempotency: HTTP status",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "withdraw/idempotency: aggregate interaction event receipt workflow outbox idempotency unchanged",
+      "result": "PASS",
+      "expected": "835ae14af15f456f1571da0d0c70f9a51711c7b444ad95ea4226af62dc9dc420",
+      "actual": "835ae14af15f456f1571da0d0c70f9a51711c7b444ad95ea4226af62dc9dc420"
+    }
+  ],
+  "waits": [
+    {
+      "name": "publication/publication",
+      "token_id": "1559b679-2db4-40bf-9fbb-eb45ac661391",
+      "xact_start": "2026-10-01T11:48:18.227Z",
+      "expires_at": "2026-10-01T11:48:21.144Z",
+      "observed_at": "2026-10-01T11:48:18.324Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:21.181Z",
+      "expired": true
+    },
+    {
+      "name": "publication/purpose",
+      "token_id": "2773a56e-9304-4285-b812-93a44c5f3af1",
+      "xact_start": "2026-10-01T11:48:21.840Z",
+      "expires_at": "2026-10-01T11:48:24.802Z",
+      "observed_at": "2026-10-01T11:48:21.914Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:24.837Z",
+      "expired": true
+    },
+    {
+      "name": "publication/policy",
+      "token_id": "2f413a4f-1b59-4381-9abd-721287d40897",
+      "xact_start": "2026-10-01T11:48:25.280Z",
+      "expires_at": "2026-10-01T11:48:28.231Z",
+      "observed_at": "2026-10-01T11:48:25.354Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:28.249Z",
+      "expired": true
+    },
+    {
+      "name": "publication/proof",
+      "token_id": "f280d53c-3319-497d-aa9a-2d196d71d523",
+      "xact_start": "2026-10-01T11:48:28.807Z",
+      "expires_at": "2026-10-01T11:48:31.762Z",
+      "observed_at": "2026-10-01T11:48:28.879Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:31.772Z",
+      "expired": true
+    },
+    {
+      "name": "publication/idempotency",
+      "token_id": "ec563351-c219-48bf-b305-6330fdceafee",
+      "xact_start": "2026-10-01T11:48:32.141Z",
+      "expires_at": "2026-10-01T11:48:35.098Z",
+      "observed_at": "2026-10-01T11:48:32.204Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:35.120Z",
+      "expired": true
+    },
+    {
+      "name": "grant/consent-boundary",
+      "token_id": "96e05d92-657d-483f-a2f3-84e041383203",
+      "xact_start": "2026-10-01T11:48:35.915Z",
+      "expires_at": "2026-10-01T11:48:38.871Z",
+      "observed_at": "2026-10-01T11:48:35.988Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:38.898Z",
+      "expired": true
+    },
+    {
+      "name": "grant/aggregate",
+      "token_id": "ceb83d6d-1c27-4509-998c-dc0c1eb35cda",
+      "xact_start": "2026-10-01T11:48:39.112Z",
+      "expires_at": "2026-10-01T11:48:42.081Z",
+      "observed_at": "2026-10-01T11:48:39.201Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:42.101Z",
+      "expired": true
+    },
+    {
+      "name": "grant/interaction",
+      "token_id": "0fdcdc4e-ce43-467e-ab99-f315b673d972",
+      "xact_start": "2026-10-01T11:48:42.270Z",
+      "expires_at": "2026-10-01T11:48:45.246Z",
+      "observed_at": "2026-10-01T11:48:42.371Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:45.287Z",
+      "expired": true
+    },
+    {
+      "name": "grant/publication",
+      "token_id": "69c00a61-8951-4b38-9f39-eee429fe1381",
+      "xact_start": "2026-10-01T11:48:45.464Z",
+      "expires_at": "2026-10-01T11:48:48.430Z",
+      "observed_at": "2026-10-01T11:48:45.540Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:48.437Z",
+      "expired": true
+    },
+    {
+      "name": "grant/idempotency",
+      "token_id": "c1db4b95-6016-4e75-ae35-995f1be56586",
+      "xact_start": "2026-10-01T11:48:48.672Z",
+      "expires_at": "2026-10-01T11:48:51.639Z",
+      "observed_at": "2026-10-01T11:48:48.707Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:51.649Z",
+      "expired": true
+    },
+    {
+      "name": "withdraw/consent-boundary",
+      "token_id": "b646616b-58b3-4f23-9feb-d8ef53114323",
+      "xact_start": "2026-10-01T11:48:52.479Z",
+      "expires_at": "2026-10-01T11:48:55.440Z",
+      "observed_at": "2026-10-01T11:48:52.557Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:55.461Z",
+      "expired": true
+    },
+    {
+      "name": "withdraw/aggregate",
+      "token_id": "6049466f-9e09-44a8-8e26-f860c10ed138",
+      "xact_start": "2026-10-01T11:48:55.651Z",
+      "expires_at": "2026-10-01T11:48:58.625Z",
+      "observed_at": "2026-10-01T11:48:55.692Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:48:58.667Z",
+      "expired": true
+    },
+    {
+      "name": "withdraw/interaction",
+      "token_id": "c0ac79c2-d325-46ed-9b8e-f13bfb66a79d",
+      "xact_start": "2026-10-01T11:48:58.831Z",
+      "expires_at": "2026-10-01T11:49:01.803Z",
+      "observed_at": "2026-10-01T11:48:58.869Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:49:01.817Z",
+      "expired": true
+    },
+    {
+      "name": "withdraw/publication",
+      "token_id": "cb7e6635-a004-4f55-b69e-48fd2aa644d8",
+      "xact_start": "2026-10-01T11:49:01.982Z",
+      "expires_at": "2026-10-01T11:49:04.957Z",
+      "observed_at": "2026-10-01T11:49:02.019Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:49:04.985Z",
+      "expired": true
+    },
+    {
+      "name": "withdraw/idempotency",
+      "token_id": "1c339cba-e1ef-4983-b81b-e09d28eb0bbe",
+      "xact_start": "2026-10-01T11:49:05.223Z",
+      "expires_at": "2026-10-01T11:49:08.149Z",
+      "observed_at": "2026-10-01T11:49:05.320Z",
+      "began_before_expiry": true,
+      "waiting_before_expiry": true,
+      "wait_event_type": "Lock",
+      "released_after": "2026-10-01T11:49:08.156Z",
+      "expired": true
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance."
+  ]
+}

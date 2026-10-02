@@ -1,0 +1,54 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS an origin must be HTTPS or loopback
+PASS a new site is pending with its script path
+PASS an admin without connection authority cannot enable it
+PASS no script is served before a banner is published
+PASS a banner with two strictly necessary categories is refused
+PASS an admin without approval authority cannot publish
+PASS the author cannot publish their own version
+PASS another approver publishes it with its rule source
+PASS the banner script is served by this installation as JavaScript
+PASS configuration text cannot break out of the script
+PASS the script loads nothing from anywhere else
+PASS the approved origin passes the preflight with an exact-origin grant
+PASS another origin is refused without a grant
+PASS a choice from the approved origin is recorded with a receipt
+PASS a choice from another origin is refused
+PASS a choice with no origin is refused
+PASS a choice whose browser attached a cookie is still recorded, and sets no cookie
+PASS a request carrying an Authorization header is refused
+PASS an unknown category is refused
+PASS a missing category is refused
+PASS the strictly necessary category cannot be refused
+PASS an unknown banner version is refused
+PASS withdrawal is a new record
+PASS statistics use each visitor's latest choice
+PASS one visitor cannot flood the record
+PASS the record holds the choice, origin and a pseudonymous visitor only
+PASS a page outside the approved origins cannot be scanned
+PASS the worker carries out queued scans
+PASS the banner loaded and was shown
+PASS on a correctly marked page the tracker waits for consent
+PASS its cookie appears only after consent
+PASS a correctly marked page has no high finding
+PASS a tracker loaded before consent is found
+PASS it is found again after refusal
+PASS a host the banner does not declare is found
+PASS a cookie set before consent is found
+PASS scans do not add visitor records
+PASS the scan states its limits
+PASS an auditor reads but cannot change anything
+PASS another tenant sees nothing
+PASS a consent record cannot be altered
+PASS a consent record cannot be deleted
+PASS a published banner cannot be rewritten
+PASS a site's origins cannot be changed
+PASS a disabled site serves no script and records nothing
+Artifact: handoffs/codex/artifacts/A00-operations-cmp-1790912086892-e22c2aa1-1d9c-4aa2-8b73-2c296463d8b5.json
+
+45 assertions, 0 failures.

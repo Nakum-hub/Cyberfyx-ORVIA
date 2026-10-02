@@ -1,0 +1,22 @@
+{
+    "recorded_at":  "2026-10-01T20:28:31.5214082Z",
+    "commit":  "d7a10d6a1e707f0e1d57378e5d0f58c9b3c02503",
+    "build":  "O3vGd-z4HGBxaLp-Fdqh3",
+    "scope":  "Read-only resource diagnostic during interrupted final-eta",
+    "observed_command":  [
+                             "docker",
+                             "exec",
+                             "orvia-qualification-20260930-loopback",
+                             "cat",
+                             "/proc/meminfo"
+                         ],
+    "observed_error":  "fatal error: out of memory allocating heap arena map",
+    "observed_tool_session":  76739,
+    "command_exit_code":  null,
+    "status":  "ACTUAL_DIAGNOSTIC_FAILURE",
+    "limitations":  [
+                        "The original tool emitted the fatal error but the shell did not return a final exit before interruption.",
+                        "This is Docker CLI startup allocation failure evidence, not proof of the exact WebKit crash cause.",
+                        "No database reset, system setting change or user-program termination was performed by this diagnostic."
+                    ]
+}

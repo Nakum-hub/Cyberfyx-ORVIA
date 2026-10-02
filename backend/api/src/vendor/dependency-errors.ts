@@ -1,5 +1,23 @@
 type VendorFailureStage = 'VENDOR_SESSION_READ' | 'ACCOUNT_SESSION_READ';
 const stages = new WeakMap<object, VendorFailureStage>();
+type PolicyStage = 'VENDOR_POLICY_FETCH' | 'VENDOR_POLICY_HTTP';
+type PolicyMetadata = { failure_stage: PolicyStage; elapsed_ms: number; dependency_status?: number; failure_class?: string };
+const policyFailures = new WeakMap<object, PolicyMetadata>();
+
+/** Mark the existing fail-closed policy refusal without retaining its inputs or body. */
+export function markVendorPolicyFailure(error: object, stage: PolicyStage, elapsed: number, httpStatus?: number, cause?: unknown): never {
+  try {
+    const metadata: PolicyMetadata = { failure_stage: stage, elapsed_ms: Number.isFinite(elapsed) ? Math.max(0, Math.min(300000, Math.round(elapsed))) : 0 };
+    if (typeof httpStatus === 'number' && Number.isInteger(httpStatus) && httpStatus >= 100 && httpStatus <= 599) metadata.dependency_status = httpStatus;
+    policyFailures.set(error, metadata);
+    if (cause && typeof cause === 'object') {
+      const descriptor = Object.getOwnPropertyDescriptor(cause, 'name');
+      const name = descriptor && 'value' in descriptor ? descriptor.value : undefined;
+      metadata.failure_class = ['Error', 'TypeError', 'AbortError', 'TimeoutError'].includes(name) ? name : 'UNCLASSIFIED';
+    }
+  } catch { /* Diagnostics must never replace the existing refusal. */ }
+  throw error;
+}
 const statuses: Readonly<Record<string, number>> = {
   BAD_REQUEST: 400, UNAUTHORIZED: 401, FORBIDDEN: 403, NOT_FOUND: 404,
   CONFLICT: 409, TOO_MANY_REQUESTS: 429, INTERNAL_SERVER_ERROR: 500,
@@ -16,9 +34,11 @@ export function markVendorFailure(error: unknown, stage: VendorFailureStage): ne
 }
 
 /** Own data only: no getters, messages, bodies, headers or credential values. */
-export function vendorFailureMetadata(error: unknown): { dependency_status?: number; failure_stage?: VendorFailureStage } {
+export function vendorFailureMetadata(error: unknown): { dependency_status?: number; failure_stage?: VendorFailureStage | PolicyStage; elapsed_ms?: number; failure_class?: string } {
   try {
     if (error === null || (typeof error !== 'object' && typeof error !== 'function')) return {};
+    const policy = policyFailures.get(error);
+    if (policy) return { ...policy };
     const own = (key: string): unknown => {
       const descriptor = Object.getOwnPropertyDescriptor(error, key);
       return descriptor && 'value' in descriptor ? descriptor.value : undefined;

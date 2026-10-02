@@ -1,0 +1,6 @@
+Error: Synthetic VENDOR_TEAM_CREATE rejected (503, SERVICE_UNAVAILABLE)
+    at member (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\vendor\audit-practice.test.ts:43:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\vendor\audit-practice.test.ts:48:13)
+
+audit-practice: 0/1 passed

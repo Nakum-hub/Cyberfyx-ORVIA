@@ -1,0 +1,18 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+PASS a correction run must name the corrected values
+PASS a correction is not destructive, so it needs no dry-run approval
+PASS the system of record is written before any copy
+PASS the corrected value is held only as a digest on the action
+PASS both automated systems are corrected and verified
+PASS the manual system is reported not supported
+PASS the target now holds the corrected value
+PASS verification compares digests and records no personal value
+PASS the corrected value is purged once its actions are settled
+PASS two configured systems of record leave the source of truth unresolved, and nothing is written
+PASS the run records which category had no single system of record
+PASS the targets are unchanged
+Artifact: handoffs/codex/artifacts/A00-operations-correction-1790912771966-de92a567-0ee2-481a-82c1-17a90280ca6d.json
+
+12 assertions, 0 failures.

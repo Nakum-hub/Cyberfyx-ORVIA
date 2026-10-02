@@ -1,0 +1,16 @@
+R7 chromium audit-mandate-local: suite entry point with passive diagnostic instrumentation
+PASS leadership sees the practice overview from real records
+PASS the client sees the audit address from its trust file
+PASS a second owner approves the mandate in the browser
+Error: Expired authority
+    at scopedTransaction (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\database\customer\src\runtime.ts:21:138)
+    at channelSweep.address (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\audit-mandate-local.ts:103:79)
+    at channelSweep (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\backend\domain\src\dpdpa-audit\channel.ts:112:21)
+    at sweep (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\audit-mandate-local.ts:103:25)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\audit-mandate-local.ts:163:24)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\audit-mandate-local.ts:95:3)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-audit-mandate-browser-1790842603472-17091703-3c20-4b72-b4db-2a8ec7bf1245.json
+
+4 assertions, 1 failures.

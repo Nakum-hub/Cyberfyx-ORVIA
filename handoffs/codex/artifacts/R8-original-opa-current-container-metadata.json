@@ -1,0 +1,15 @@
+﻿{
+    "diagnostic_only":  true,
+    "container":  "orvia-qualification-20260930-opa",
+    "running":  false,
+    "oom_killed":  false,
+    "exit_code":  0,
+    "started_at":  "2026-10-02T04:21:34.342817967Z",
+    "finished_at":  "2026-10-02T04:24:52.728832756Z",
+    "restart_count":  0,
+    "image":  "openpolicyagent/opa@sha256:2de1e6619246955695b982d0bcb6c73bcee22aa34ff96f2455996616ec1d21c1",
+    "image_id":  "sha256:2de1e6619246955695b982d0bcb6c73bcee22aa34ff96f2455996616ec1d21c1",
+    "memory_limit":  134217728,
+    "nano_cpus":  0,
+    "historical_cause_proven":  false
+}

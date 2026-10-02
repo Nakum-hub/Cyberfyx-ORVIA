@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { markVendorFailure, vendorFailureMetadata } from '../../backend/api/src/vendor/dependency-errors.ts';
-import { vendorSafeRoute } from '../../backend/api/src/vendor/authority.ts';
+import { requireVendorCapability, vendorSafeRoute } from '../../backend/api/src/vendor/authority.ts';
 import type { VendorRuntime } from '../../backend/api/src/vendor/runtime.ts';
 const { APIError } = createRequire(new URL('../../backend/auth/package.json', import.meta.url))('better-auth/api');
 const secret = 'SYNTHETIC_PRIVATE_MARKER';
@@ -18,6 +18,78 @@ test('installed APIError exposes only bounded status and exact session stage', (
     const metadata = vendorFailureMetadata(error);
     assert.deepEqual(metadata, { dependency_status: expected, failure_stage: stage });
     assert.equal(JSON.stringify(metadata).includes(secret), false);
+  }
+});
+
+async function policyBoundary(fetcher: typeof fetch) {
+  const savedFetch = globalThis.fetch, savedError = console.error;
+  const lines: string[] = []; const audits: unknown[][] = [];
+  let captured: unknown; let calls = 0;
+  const runtime = { pool: { query: async (_sql: string, values: unknown[]) => {
+    audits.push(values); return { rows: [], rowCount: 1 };
+  } } } as unknown as VendorRuntime;
+  globalThis.fetch = (...args) => { calls++; return fetcher(...args); };
+  console.error = value => { lines.push(String(value)); };
+  try {
+    const response = await vendorSafeRoute(async () => {
+      try {
+        await requireVendorCapability({ opa_port: 58181 } as Parameters<typeof requireVendorCapability>[0],
+          { capabilities: ['vendor.team.manage'], actor_domain: 'VENDOR_STAFF', role: 'VENDOR_ADMIN' } as Parameters<typeof requireVendorCapability>[1], 'vendor.team.manage');
+      } catch (error) { captured = error; throw error; }
+      return Response.json({ allowed: true });
+    }, 'VENDOR', () => runtime);
+    return { response, lines, audits, calls, metadata: vendorFailureMetadata(captured) };
+  } finally { globalThis.fetch = savedFetch; console.error = savedError; }
+}
+
+test('policy HTTP503 keeps refusal and records status without consuming sensitive body', async () => {
+  let bodyReads = 0;
+  const upstream = new Response(secret, { status: 503 });
+  Object.defineProperties(upstream, {
+    json: { get() { bodyReads++; throw new Error(secret); } },
+    clone: { get() { bodyReads++; throw new Error(secret); } },
+  });
+  const result = await policyBoundary(async () => upstream);
+  assert.equal(result.response.status, 503);
+  assert.equal(result.calls, 1); assert.equal(bodyReads, 0);
+  assert.equal(result.metadata.failure_stage, 'VENDOR_POLICY_HTTP');
+  assert.equal(result.metadata.dependency_status, 503);
+  assert.equal(result.lines.length, 1);
+  const log = JSON.parse(result.lines[0]!);
+  assert.equal(log.failure_stage, 'VENDOR_POLICY_HTTP');
+  assert.equal(log.dependency_status, 503);
+  assert.ok(Number.isInteger(log.elapsed_ms) && log.elapsed_ms >= 0);
+  const body = await result.response.json();
+  assert.equal(body.error.code, 'SERVICE_UNAVAILABLE');
+  assert.equal(log.request_id, body.request_id);
+  assert.deepEqual(result.audits, [[body.request_id, 'VENDOR', 503]]);
+  assert.equal(result.lines.join('').includes(secret), false);
+});
+
+test('policy TimeoutError records fixed fetch failure without reading hostile getters', async () => {
+  let getters = 0;
+  const error = Object.defineProperties(new Error(secret), {
+    name: { value: 'TimeoutError' },
+    code: { get() { getters++; throw new Error(secret); } },
+    cause: { get() { getters++; throw new Error(secret); } },
+  });
+  const result = await policyBoundary(async () => { throw error; });
+  assert.equal(result.response.status, 503); assert.equal(result.calls, 1);
+  assert.equal(getters, 0);
+  assert.equal(result.metadata.failure_stage, 'VENDOR_POLICY_FETCH');
+  assert.equal(result.lines.length, 1);
+  const log = JSON.parse(result.lines[0]!);
+  assert.equal(log.failure_stage, 'VENDOR_POLICY_FETCH');
+  assert.equal(log.failure_class, 'TimeoutError');
+  assert.equal(result.lines.join('').includes(secret), false);
+});
+
+test('valid false policy remains403 without dependency log and true remains allowed', async () => {
+  for (const allowed of [false, true]) {
+    const result = await policyBoundary(async () => Response.json({ result: allowed }));
+    assert.equal(result.response.status, allowed ? 200 : 403);
+    assert.equal(result.calls, 1); assert.deepEqual(result.lines, []);
+    assert.deepEqual(result.metadata, {});
   }
 });
 

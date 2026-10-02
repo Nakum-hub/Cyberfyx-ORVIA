@@ -1,0 +1,11 @@
+✔ a generated key is a production key, private only in the file, with a working signature (1107.4493ms)
+✔ a development key is kept beside the new one; a production key is never overwritten (1179.5061ms)
+✔ key generation removes weak directory and explicit development-file grants (2052.3433ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5687.2746

@@ -6,7 +6,7 @@ import { limitedBody } from '../../../auth/src/server.ts';
 import type { RuntimeConfig } from '../../../auth/src/config.ts';
 import { safeError } from '../../../../shared/testing/src/evidence.ts';
 import { vendorRuntime, type VendorRuntime } from './runtime.ts';
-import { markVendorFailure, vendorFailureMetadata } from './dependency-errors.ts';
+import { markVendorFailure, markVendorPolicyFailure, vendorFailureMetadata } from './dependency-errors.ts';
 
 /**
  * Vendor-area authority (revision 1.5 addendum). Two kinds of actor exist on
@@ -58,12 +58,13 @@ export async function vendorActorFor(request: Request, r: VendorRuntime = vendor
 /** Local capability check, then the vendor policy in OPA; an unreachable policy denies. */
 export async function requireVendorCapability(config: RuntimeConfig, actor: VendorActor, capability: string) {
   if (!actor.capabilities.includes(capability)) throw new AccessError(403, 'FORBIDDEN');
+  const started = performance.now();
   let response: Response;
   try { response = await fetch(`http://127.0.0.1:${config.opa_port}/v1/data/orvia/vendor/authorize`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(2000),
     body: JSON.stringify({ input: { actor_domain: actor.actor_domain, role: actor.role, capability, mfa_verified: true } }) }); }
-  catch { throw new AccessError(503, 'SERVICE_UNAVAILABLE'); }
-  if (!response.ok) throw new AccessError(503, 'SERVICE_UNAVAILABLE');
+  catch (error) { markVendorPolicyFailure(new AccessError(503, 'SERVICE_UNAVAILABLE'), 'VENDOR_POLICY_FETCH', performance.now() - started, undefined, error); }
+  if (!response.ok) markVendorPolicyFailure(new AccessError(503, 'SERVICE_UNAVAILABLE'), 'VENDOR_POLICY_HTTP', performance.now() - started, response.status);
   const decision = await response.json().catch(() => null) as { result?: unknown } | null;
   if (typeof decision?.result !== 'boolean') throw new AccessError(503, 'SERVICE_UNAVAILABLE');
   if (!decision.result) throw new AccessError(403, 'FORBIDDEN');
@@ -93,7 +94,10 @@ export async function vendorSafeRoute(work: (requestId: string) => Promise<Respo
     // A request body that fails its canonical schema is the caller's error, not the service's.
     const issues = (caught as { name?: string; issues?: { path: PropertyKey[]; code: string }[] })?.name === 'ZodError' ? (caught as { issues: { path: PropertyKey[]; code: string }[] }).issues : null;
     const error = issues ? new AccessError(400, 'VALIDATION_ERROR', issues.slice(0, 16).map(i => ({ field: i.path.map(String).join('.').slice(0, 120), code: i.code }))) : caught;
-    if (!(error instanceof AccessError)) console.error(JSON.stringify({ request_id: requestId, operation, ...safeError(error), ...vendorFailureMetadata(error) }));
+    const metadata = vendorFailureMetadata(error);
+    if (!(error instanceof AccessError) || (error.status === 503 && (metadata.failure_stage === 'VENDOR_POLICY_FETCH' || metadata.failure_stage === 'VENDOR_POLICY_HTTP'))) {
+      console.error(JSON.stringify({ request_id: requestId, operation, ...safeError(error), ...metadata }));
+    }
     const status = error instanceof AccessError ? error.status : 503;
     const code = error instanceof AccessError && errorCodes.has(error.code) ? error.code : 'SERVICE_UNAVAILABLE';
     response = Response.json({ error: { code, message: code === 'FORBIDDEN' ? 'Access denied.' : 'Request could not be completed.',

@@ -1,0 +1,17 @@
+PASS Pending retirement: fixture is synthetic
+PASS created canary has no activation history
+PASS administrator without sensitive access cannot retire a canary
+PASS read-only auditor cannot retire a canary
+PASS foreign tenant cannot retire this canary
+FAIL pending canary retirement succeeds at the HTTP boundary {"expected":200,"actual":503}
+Error: Assertion failed: pending canary retirement succeeds at the HTTP boundary
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\consent\canary-retirement.test.ts:46:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\consent\canary-retirement.test.ts:10:1)
+Server diagnostics (safe codes only): {"request_id":"ce6a8943-e7f3-4229-8df6-3478c0a8b58f","operation":"BUSINESS","name":"error","code":"23514"}
+
+Artifact: handoffs/codex/artifacts/A00-operations-canary-retirement-1790853416862-9f640b67-4efe-42b1-bdfc-72c8f8a9f306.json
+
+7 assertions, 2 failures.

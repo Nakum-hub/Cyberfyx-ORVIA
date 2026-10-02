@@ -1,0 +1,38 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a package whose claims changed after signing is rejected
+PASS a package signed by an untrusted key is rejected
+PASS a production package with an unhashed source is refused by the contract
+PASS an auditor cannot import a package
+PASS an organisation admin cannot import a package
+PASS an imported package is not yet in force
+PASS a replayed package version is rejected
+PASS the importer cannot approve their own import
+PASS a second super admin approves and the package is in force from its effective date
+PASS a decision is recorded once
+PASS every requirement cites a provision the package carries
+PASS fixture requirements are shown in force from their fixture date
+PASS the source verification is stated as a test fixture, never as a hashed official artifact
+PASS another tenant cannot see this package
+PASS a breach is pinned to the package in force when the organisation became aware
+PASS the 72-hour report deadline runs from awareness under package A
+PASS the diff names the changed and the removed requirement against A
+PASS impact items are created for the changed and removed requirements
+PASS the open breach is named as affected by the changed breach requirement
+PASS an impact item is reviewed once
+PASS an approved package with a future effective date does not govern now
+PASS from its effective date the new package governs
+PASS the historical breach stays pinned to A with its original deadline rule
+PASS an evaluation at a later time uses the package in force then
+PASS a requirement that turns on an unrecorded fact is unresolved, not assumed
+PASS the unrecorded fact is stored as unknown in the decision inputs
+PASS a consent activity is subject to the consent notice requirement
+PASS a consent activity does not rest on a legitimate use
+PASS only regulatory.manage may record an exemption
+PASS an exemption is a new decision that keeps the original
+PASS the original unresolved decision is unchanged
+PASS a decision row cannot be rewritten even by the migrator
+Artifact: handoffs/codex/artifacts/A00-operations-regulatory-1790859282892-ad2c4522-8b4a-488a-97f0-c0431fb7e903.json
+
+32 assertions, 0 failures.

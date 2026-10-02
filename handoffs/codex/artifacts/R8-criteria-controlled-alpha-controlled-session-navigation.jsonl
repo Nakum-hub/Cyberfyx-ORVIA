@@ -1,0 +1,10 @@
+{"at":"2026-10-02T02:59:38.259Z","kind":"REAL_SESSION_HELD","document_path":"/vendor/engagements"}
+{"at":"2026-10-02T02:59:38.260Z","kind":"HARD_NAVIGATION_START","held":true}
+{"at":"2026-10-02T02:59:38.393Z","kind":"PRACTICE_NAVIGATION","held":true}
+{"at":"2026-10-02T02:59:38.396Z","kind":"REAL_SESSION_RELEASED","document_path":"/vendor/practice"}
+{"at":"2026-10-02T02:59:39.365Z","kind":"PRACTICE_NAVIGATION","held":true}
+{"at":"2026-10-02T02:59:49.497Z","kind":"REAL_SESSION_HELD","document_path":"/vendor/engagements"}
+{"at":"2026-10-02T02:59:49.499Z","kind":"HARD_NAVIGATION_START","held":true}
+{"at":"2026-10-02T02:59:49.562Z","kind":"PRACTICE_NAVIGATION","held":true}
+{"at":"2026-10-02T02:59:49.563Z","kind":"REAL_SESSION_RELEASED","document_path":"/vendor/practice"}
+{"at":"2026-10-02T02:59:51.765Z","kind":"PRACTICE_NAVIGATION","held":true}

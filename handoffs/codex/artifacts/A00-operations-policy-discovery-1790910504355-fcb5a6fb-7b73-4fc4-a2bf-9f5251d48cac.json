@@ -1,0 +1,19 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T03:08:24.355Z",
+  "suite": "policy-discovery",
+  "assertions": [
+    {
+      "name": "unexpected failure in site",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Unexpected 503: {\"error\":{\"code\":\"SERVICE_UNAVAILABLE\",\"message\":\"Request could not be completed.\",\"retry\":\"AFTER_DELAY\"},\"request_id\":\"364ce4a1-d197-4c63-9ee4-88aa76803558\"}"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

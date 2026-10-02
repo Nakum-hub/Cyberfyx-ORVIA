@@ -1,0 +1,11 @@
+✔ cancel during the retry delay does not make a second call (3.9952ms)
+✔ an already canceled screen dispatches no read (0.2572ms)
+✔ a genuine temporary read failure still retries once after the existing delay (1505.0234ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2191.7379

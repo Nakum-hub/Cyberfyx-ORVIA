@@ -1,0 +1,29 @@
+R7 webkit operations-screens-local: suite entry point with passive diagnostic instrumentation
+PASS registration is accepted
+PASS a breach registered on screen is pinned with deadlines from the package
+PASS correcting the facts keeps the pinned package and deadlines
+PASS a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)
+PASS a person is registered with a keyed reference and no stored identifier
+PASS a relationship context is recorded with unknown evidence kept unknown
+PASS a representative starts unverified
+PASS the person who recorded a representative cannot verify them
+PASS a different staff member verifies the representative
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('form', { name: 'Record child status' }).getByText('A known status is recorded with the evidence it rests on.') to be visible[22m
+
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:200:86)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:30:1) {
+  log: [
+    "  - waiting for getByRole('form', { name: 'Record child status' }).getByText('A known status is recorded with the evidence it rests on.') to be visible"
+  ],
+  name: 'TimeoutError'
+}
+Server diagnostics (safe codes only): {"dependency":"policy_engine","attempt":1,"elapsed_ms":2110,"error":"TimeoutError"}
+{"dependency":"policy_engine","attempt":2,"elapsed_ms":2006,"error":"TimeoutError"}
+{"round7_diagnostic":true,"request_id":["c548d395-8631-46c3-a3f4-61f1b6276f76"],"status":503,"path":"/api/v1/admin/personal-data-breaches","method":"GET","dependencies":[{"dependency":"OPA","error":"TimeoutError","elapsed_ms":2109},{"dependency":"OPA","error":"TimeoutError","elapsed_ms":2005}],"policy_engine_lines":[{"dependency":"policy_engine","attempt":1,"elapsed_ms":2110,"error":"TimeoutError"},{"dependency":"policy_engine","attempt":2,"elapsed_ms":2006,"error":"TimeoutError"}],"opa_scope":"customer and vendor authorize"}
+
+Artifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790845990091-5211a562-a76d-429d-8ebb-cf9471ec6e38.json
+
+10 assertions, 1 failures.

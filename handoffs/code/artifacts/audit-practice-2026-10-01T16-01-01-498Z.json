@@ -1,0 +1,13 @@
+{
+  "suite": "audit-practice",
+  "database": "orvia_vendor_test_7ca912b3ffc34bb1a5764ab3a4c1bf5b",
+  "passed": 0,
+  "failed": 1,
+  "results": [
+    {
+      "name": "suite",
+      "result": "FAIL",
+      "detail": "TypeError: Cannot read properties of undefined (reading 'email')\n    at member (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\vendor\\audit-practice.test.ts:40:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\vendor\\audit-practice.test.ts:45:13)"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+﻿{
+    "label":  "crawl-measured-webkit",
+    "stopped":  [
+                    {
+                        "name":  "conhost.exe",
+                        "pid":  21336
+                    },
+                    {
+                        "name":  "conhost.exe",
+                        "pid":  28424
+                    },
+                    {
+                        "name":  "conhost.exe",
+                        "pid":  24176
+                    },
+                    {
+                        "name":  "conhost.exe",
+                        "pid":  20000
+                    },
+                    {
+                        "name":  "WebKitNetworkProcess.exe",
+                        "pid":  26236
+                    },
+                    {
+                        "name":  "WebKitWebProcess.exe",
+                        "pid":  25924
+                    },
+                    {
+                        "name":  "WebKitGPUProcess.exe",
+                        "pid":  8248
+                    },
+                    {
+                        "name":  "esbuild.exe",
+                        "pid":  16516
+                    },
+                    {
+                        "name":  "node.exe",
+                        "pid":  27516
+                    },
+                    {
+                        "name":  "Playwright.exe",
+                        "pid":  18472
+                    },
+                    {
+                        "name":  "conhost.exe",
+                        "pid":  27120
+                    },
+                    {
+                        "name":  "node.exe",
+                        "pid":  6412
+                    },
+                    {
+                        "name":  "node.exe",
+                        "pid":  17916
+                    }
+                ],
+    "reason":  "Interrupted diagnostic after reproduction, for minimal-instrumentation control; remaining checks NOT_RUN",
+    "at":  "2026-10-01T09:08:30.7801370Z"
+}

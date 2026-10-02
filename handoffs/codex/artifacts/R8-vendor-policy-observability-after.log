@@ -1,0 +1,15 @@
+✔ installed APIError exposes only bounded status and exact session stage (81.147ms)
+✔ policy HTTP503 keeps refusal and records status without consuming sensitive body (213.008ms)
+✔ policy TimeoutError records fixed fetch failure without reading hostile getters (5.2465ms)
+✔ valid false policy remains403 without dependency log and true remains allowed (7.8786ms)
+✔ only own bounded numeric status or known enum is admitted (4.5472ms)
+✔ getters and hostile descriptor proxies cannot execute or replace the failure (3.8897ms)
+✔ actual vendor boundary retains503 audit/envelope and logs bounded429 stage even with debug enabled (6.6617ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 56772.4159

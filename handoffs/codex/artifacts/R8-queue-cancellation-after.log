@@ -1,0 +1,11 @@
+✔ queued cancellation rejects promptly, never dispatches and cannot overlap active transport (27.1389ms)
+✔ stale abort cannot release a newer active request; transport rejection advances queue (2.1512ms)
+✔ active cancellation keeps later requests gated until transport actually settles (2.8712ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 227.4495

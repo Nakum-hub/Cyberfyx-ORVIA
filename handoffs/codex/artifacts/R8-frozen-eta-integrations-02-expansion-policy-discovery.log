@@ -1,0 +1,15 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Error: Unexpected 503: {"error":{"code":"SERVICE_UNAVAILABLE","message":"Request could not be completed.","retry":"AFTER_DELAY"},"request_id":"364ce4a1-d197-4c63-9ee4-88aa76803558"}
+    at ok (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:35:45)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\expansion\policy-discovery.test.ts:64:21)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\expansion\policy-discovery.test.ts:24:1)
+Server diagnostics (safe codes only): {"dependency":"policy_engine","attempt":1,"elapsed_ms":2017,"error":"TimeoutError"}
+{"dependency":"policy_engine","attempt":2,"elapsed_ms":2017,"error":"TimeoutError"}
+
+Artifact: handoffs/codex/artifacts/A00-operations-policy-discovery-1790910504355-fcb5a6fb-7b73-4fc4-a2bf-9f5251d48cac.json
+
+1 assertions, 1 failures.

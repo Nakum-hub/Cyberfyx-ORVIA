@@ -1,0 +1,27 @@
+{
+  "diagnostic_only": true,
+  "scope": "explicit publication manifest; listed nested files only",
+  "files_checked": 3,
+  "bytes_checked": 44865,
+  "private_header_count": 0,
+  "known_private_material_count": 0,
+  "files": [
+    {
+      "filename": "handoffs/codex/artifacts/R8-criteria-readiness-source-scan.txt",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    },
+    {
+      "filename": "tests/e2e/vendor-production-criteria-local.ts",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    },
+    {
+      "filename": "tracking/qualification-inventory.json",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    }
+  ],
+  "unscanned_files": [],
+  "exit_code": 0
+}

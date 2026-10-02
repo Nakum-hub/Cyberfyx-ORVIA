@@ -1,0 +1,31 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+PASS the development profile refuses the command
+PASS the development profile still records synthetic people only
+PASS before admission the installation reports synthetic people only
+PASS a real email is refused with SQLSTATE 23514 and an email constraint (what organisation intake explains as NEEDS_STAFF)
+PASS a synthetic address is accepted and labelled synthetic
+PASS a synthetic address cannot be labelled real
+PASS the application role can read the state
+PASS the application role cannot admit real people
+PASS the application role cannot write the admission table
+PASS a qualification reference shorter than 8 characters is refused
+PASS nothing was admitted by the refused attempts
+PASS the command admits real people and records the reference and its time
+PASS who ran it is recorded
+PASS the admission is in the audit trail of every environment, attributed to the installation
+PASS a real email is now accepted and labelled real
+PASS a real email cannot be labelled synthetic
+PASS a synthetic address is still labelled synthetic
+PASS a malformed email is still refused
+PASS a real person cannot be relabelled synthetic afterwards
+PASS a repeat is refused and changes nothing
+PASS the admission cannot be rewritten
+PASS the admission cannot be removed
+PASS the scratch database was removed
+PASS HTTP: the admin API refuses a real email before admission, saying why
+PASS HTTP: a synthetic address is created and labelled synthetic by the database
+Artifact: handoffs/codex/artifacts/A00-real-principals-1790873518270-fcb85ed4-fb8c-48db-bd30-7af0a4bf544f.json
+
+25 assertions, 0 failures.

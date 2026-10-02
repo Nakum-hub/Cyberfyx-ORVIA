@@ -1,0 +1,70 @@
+{
+  "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+  "build": "O3vGd-z4HGBxaLp-Fdqh3",
+  "mode": "grc-unexecuted-suite",
+  "fullSuites": [
+    "tests/integration/grc/http.test.ts"
+  ],
+  "affected": [],
+  "required": [
+    "tests/integration/grc/http.test.ts"
+  ],
+  "results": [
+    {
+      "suite": "tests/integration/grc/http.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/grc/http.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-grc-unexecuted-lambda-integrations-01-grc-http.log",
+      "started_at": "2026-10-02T04:26:55.650Z",
+      "ended_at": "2026-10-02T04:27:36.015Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    }
+  ],
+  "qualification": "NOT_ACCEPTED",
+  "original_failed_context": [
+    {
+      "suite": "tests/integration/grc/http.test.ts",
+      "status": "FAIL",
+      "exit_code": null,
+      "prerequisite_refused": true,
+      "cleanup_failed": false,
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-25-grc-http.log"
+    },
+    {
+      "suite": "tests/integration/operations/runner.test.ts",
+      "status": "FAIL",
+      "exit_code": 1,
+      "prerequisite_refused": false,
+      "cleanup_failed": false,
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-38-operations-runner.log"
+    },
+    {
+      "suite": "tests/integration/regression/regression.test.ts",
+      "status": "FAIL",
+      "exit_code": 0,
+      "prerequisite_refused": false,
+      "cleanup_failed": true,
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-40-regression-regression.log"
+    },
+    {
+      "suite": "tests/integration/vendor/audit-practice.test.ts",
+      "status": "FAIL",
+      "exit_code": 1,
+      "prerequisite_refused": false,
+      "cleanup_failed": false,
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-42-vendor-audit-practice.log"
+    }
+  ],
+  "coverage_limits": [
+    "Unit, policy mutation, database-security/initialization rerun, pagination/timestamp controls and serial browser matrix require their separate runners.",
+    "Changed-source transitive integration coverage is broader than git-diff-selected suites; migration-upgrade, backup-drill, vendor-audit/schema-equivalence and remaining security suites require separate qualification decisions.",
+    "Vendor suites use their existing isolated scratch database harness; development signing fixtures are not production qualification."
+  ]
+}

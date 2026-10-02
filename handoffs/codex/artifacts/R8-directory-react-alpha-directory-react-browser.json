@@ -1,0 +1,6 @@
+{
+  "diagnostic_only": true,
+  "results": [],
+  "exit_code": 1,
+  "error_class": "TimeoutError"
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "original": "output/playwright/impact-assessments-codex-a00.png",
+    "archive": "output/playwright/round8/tracked-post-theta/impact-assessments-codex-a00.png",
+    "bytes": 365537,
+    "sha256": "80cb73ee5de9bae6d2a926e1d30460ee4b5874b3d5ac45ccf15169ab23d709af",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/mandate-client-channel.png",
+    "archive": "output/playwright/round8/tracked-post-theta/mandate-client-channel.png",
+    "bytes": 503543,
+    "sha256": "5d929d077dd60e72493178ee092e01bb775e26102468bec12b9d4ad6c4cfb378",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/mandate-client-responses.png",
+    "archive": "output/playwright/round8/tracked-post-theta/mandate-client-responses.png",
+    "bytes": 566644,
+    "sha256": "8a99eb4f42a9c1bd4be4edee4d9f47fba99ca947c4a73525acc631211d572e05",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/mandate-client-visibility.png",
+    "archive": "output/playwright/round8/tracked-post-theta/mandate-client-visibility.png",
+    "bytes": 330955,
+    "sha256": "7e2253796cb6eb15b58bdce71282d85fa56049c426beb4685044426c11516595",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/mandate-vendor-channel.png",
+    "archive": "output/playwright/round8/tracked-post-theta/mandate-vendor-channel.png",
+    "bytes": 250316,
+    "sha256": "2e74f7d903dcd9cb510f4953c20abceac9d3041fefcdf1a168723f98617a4146",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/mandate-vendor-overview.png",
+    "archive": "output/playwright/round8/tracked-post-theta/mandate-vendor-overview.png",
+    "bytes": 81145,
+    "sha256": "4dcfdbe3820b26b036cf8dcaad0be2b443deff95499a18c0ef3cd1e5a4d62a69",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/mandate-vendor-requests.png",
+    "archive": "output/playwright/round8/tracked-post-theta/mandate-vendor-requests.png",
+    "bytes": 216860,
+    "sha256": "080e1659027be6ffb728001715575a67b09e70d4d2049da80bef07427e732b7e",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/mandate-vendor-response.png",
+    "archive": "output/playwright/round8/tracked-post-theta/mandate-vendor-response.png",
+    "bytes": 197373,
+    "sha256": "0e650b5014ac26089970951de0640ea099eca25629a4996dd729d30ab2e3933d",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  },
+  {
+    "original": "output/playwright/operations-evidence-codex-a00.png",
+    "archive": "output/playwright/round8/tracked-post-theta/operations-evidence-codex-a00.png",
+    "bytes": 89951,
+    "sha256": "1034debe466f7908e6d47ec4707c0dd07e755e62b70f28aac42f9131be3e274c",
+    "qualification": false,
+    "last_writer": "not attributed; preserved before restoring initially clean tracked fixture outputs"
+  }
+]

@@ -1,0 +1,87 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T08:11:42.183Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a breach registered on screen is pinned with deadlines from the package",
+      "result": "PASS",
+      "expected": [
+        "20601b96-6164-4b54-9d55-33329e95ec6b",
+        "UNKNOWN",
+        true
+      ],
+      "actual": [
+        "20601b96-6164-4b54-9d55-33329e95ec6b",
+        "UNKNOWN",
+        true
+      ]
+    },
+    {
+      "name": "correcting the facts keeps the pinned package and deadlines",
+      "result": "PASS",
+      "expected": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T06:09:31.783Z"
+        ]
+      ],
+      "actual": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T06:09:31.783Z"
+        ]
+      ]
+    },
+    {
+      "name": "a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)",
+      "result": "PASS",
+      "expected": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ],
+      "actual": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ]
+    },
+    {
+      "name": "a person is registered with a keyed reference and no stored identifier",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in data principal",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Unexpected 503 from http://127.0.0.1:4310/api/v1/admin/data-principal-relationships: {\"error\":{\"code\":\"SERVICE_UNAVAILABLE\",\"message\":\"Request could not be completed.\",\"retry\":\"AFTER_DELAY\"},\"request_id\":\"c282c3b8-0c35-4e8b-a632-3ddd456ebe36\"}"
+    }
+  ],
+  "passed": 5,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

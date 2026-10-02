@@ -1,0 +1,3 @@
+{"at":"2026-10-02T02:59:30.537Z","engine":"webkit","suite":"vendor-production-criteria-local","kind":"BROWSER","version":"26.6"}
+{"at":"2026-10-02T02:59:38.283Z","engine":"webkit","suite":"vendor-production-criteria-local","issued_at":"2026-10-02T02:59:38.258Z","page_path":"/vendor/engagements","kind":"REQUEST_FAILED","path":"/api/v1/vendor/session","failure":"Load request cancelled"}
+{"at":"2026-10-02T02:59:49.511Z","engine":"webkit","suite":"vendor-production-criteria-local","issued_at":"2026-10-02T02:59:49.497Z","page_path":"/vendor/engagements","kind":"REQUEST_FAILED","path":"/api/v1/vendor/session","failure":"Load request cancelled"}

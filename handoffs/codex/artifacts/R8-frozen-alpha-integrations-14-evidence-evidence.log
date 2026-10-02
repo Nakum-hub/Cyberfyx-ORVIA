@@ -1,0 +1,26 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+{
+  phase: 'observe HEALTHY',
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  cause: { name: 'Error', code: 'UNCLASSIFIED' },
+  sites: [
+    '    at until (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\evidence\\evidence.test.ts:24:195)',
+    '    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\evidence\\evidence.test.ts:39:33)'
+  ]
+}
+
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\node_modules\.pnpm\@temporalio+worker@1.24.0_@_1420b6a479cfe26b91e2dc776df2bcde\node_modules\@temporalio\worker\src\connection.ts:249
+        throw new TransportError(err.message);
+              ^
+
+TransportError: tonic::transport::Error(Transport, ConnectError(ConnectError("tcp connect error", 127.0.0.1:57233, Os { code: 10061, kind: ConnectionRefused, message: "No connection could be made because the target machine actively refused it." })))
+    at NativeConnection.connect (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\node_modules\.pnpm\@temporalio+worker@1.24.0_@_1420b6a479cfe26b91e2dc776df2bcde\node_modules\@temporalio\worker\src\connection.ts:249:15)
+    at async createWithdrawalWorker (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\services\worker\src\withdrawal-worker.ts:40:54)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\services\worker\src\main.ts:16:15)
+
+Node.js v24.21.0
+
+Artifact: handoffs/codex/artifacts/A00-evidence-integration-1790856244232-16802b94-43ad-45ae-8790-2d7fd6bf4479.json
