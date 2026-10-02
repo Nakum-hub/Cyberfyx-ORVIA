@@ -14,12 +14,17 @@ export function runtimeConfig() {
   const identity = JSON.parse(readFileSync(resolve(directory, 'config.json'), 'utf8'));
   if (identity.profile !== profile || identity.fixture_id !== 'bootstrap-probe-v1') throw new Error('Profile identity mismatch');
   const installation_id = Id.parse(identity.installation_id);
+  const project = process.env.ORVIA_TEST_COMPOSE_PROJECT;
+  const allowed: Partial<Record<keyof typeof PROFILES, string>> = {
+    'codex-a00': 'orvia-round10-customer', 'vendor-a00': 'orvia-round10-customer', rehearsal: 'orvia-round10-rehearsal',
+  };
+  if (project && project !== allowed[profile]) throw new Error('Unapproved synthetic Compose project override');
   const secret = (file: string) => {
     const value = readFileSync(resolve(directory, 'auth', file), 'utf8').trim();
     if (!/^[a-f0-9]{64}$/.test(value)) throw new Error('Invalid local auth credential');
     return value;
   };
-  return { ...PROFILES[profile], profile, installation_id, directory, secret,
+  return { ...PROFILES[profile], ...(project ? { compose_project: project } : {}), profile, installation_id, directory, secret,
     origin: `${profile==='rehearsal'?'https':'http'}://127.0.0.1:${PROFILES[profile].app_port}` };
 }
 export type RuntimeConfig = ReturnType<typeof runtimeConfig>;
