@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {randomUUID,randomBytes,createHash} from 'node:crypto';
-import {writeFileSync} from 'node:fs';
+import {readFileSync,writeFileSync} from 'node:fs';
 import {createServer} from 'node:http';
 import {once} from 'node:events';
 import {applyMigrations} from '../../../database/customer/src/migrations.ts';
