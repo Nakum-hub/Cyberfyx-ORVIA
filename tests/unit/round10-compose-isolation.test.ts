@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync,mkdirSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
-import {join,resolve} from 'node:path';
+import {join,resolve,sep} from 'node:path';
 import {runtimeConfig} from '../../backend/auth/src/config.ts';
 test('runtime helpers accept only the owned project for their named synthetic profile',()=>{
  const root=mkdtempSync(join(tmpdir(),'orvia-round10-config-'));
+ assert.ok(resolve(root).startsWith(resolve(tmpdir())+sep),'temporary cleanup stays within the named temporary directory');
  const saved={...process.env};
  try {
   for(const profile of ['codex-a00','vendor-a00','rehearsal','ui-b00']) {
@@ -21,8 +22,6 @@ test('runtime helpers accept only the owned project for their named synthetic pr
   }
  }finally{
   for(const key of ['ORVIA_WORKSPACE_ROOT','ORVIA_PROFILE','ORVIA_TEST_COMPOSE_PROJECT'])if(saved[key]===undefined)delete process.env[key];else process.env[key]=saved[key];
-  if(!resolve(root).startsWith(resolve(tmpdir())+requireSeparator()))throw new Error('Unsafe temporary cleanup');
   rmSync(root,{recursive:true,force:true});
  }
 });
-function requireSeparator(){return process.platform==='win32'?'\\':'/';}

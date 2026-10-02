@@ -7,7 +7,6 @@ import { writeEvidence, safeError } from '../../shared/testing/src/evidence.ts';
 const profile = loadProfile();
 if (profile.profile !== 'codex-a00') throw new Error('Synthetic codex-a00 profile only');
 const pool = connectDatabase(profile).pool;
-let roles: string[] = [];
 // Independent expectations: do not derive expected permissions from the code
 // whose blanket grants/revocations this test verifies.
 const expected: Record<string, string[]> = {
@@ -40,7 +39,7 @@ try {
   const tx = await pool.connect();
   try {
     await tx.query('BEGIN READ ONLY');
-    roles=(await tx.query("SELECT rolname FROM pg_roles WHERE starts_with(rolname,'orvia_') AND NOT rolsuper ORDER BY rolname")).rows.map(r=>r.rolname as string);
+    const roles=(await tx.query("SELECT rolname FROM pg_roles WHERE starts_with(rolname,'orvia_') AND NOT rolsuper ORDER BY rolname")).rows.map(r=>r.rolname as string);
     check('all installation runtime roles present',roles.length>=11,true);
     const identity = (await tx.query('SELECT installation_id,profile FROM bootstrap_profile WHERE singleton=1')).rows[0];
     check('installation identity', identity?.installation_id, profile.installation_id);
