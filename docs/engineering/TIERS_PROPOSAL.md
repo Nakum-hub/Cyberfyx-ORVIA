@@ -1,6 +1,6 @@
 # ORVIA tiers and subscriptions: proposal for owner decision
 
-**Status:** PROPOSED. Nothing in this document is built or enforced yet. Prices are left for the owner (`₹ —` throughout).
+**Status:** SUPERSEDED by `docs/engineering/V1_BASELINE_REV_1_11_TIERS_AND_SUBSCRIPTIONS.md` (owner decisions 2026-10-02). Kept as the first draft. Prices are left for the owner (`₹ —` throughout).
 **Date:** 2026-10-02. **Basis:** master Rev 1.4 (M27 Licensing, M28 Entitlements; billing on the vendor website, §658 and §3796), addenda 1.5–1.10, `tracking/capabilities.json`, `tracking/v1-expansion.json`.
 
 ## 1. What exists today and what is missing
