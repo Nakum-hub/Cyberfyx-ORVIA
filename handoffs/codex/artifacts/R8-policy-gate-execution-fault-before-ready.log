@@ -1,0 +1,10 @@
+PASS healthy policies satisfy every privacy test
+PASS defect 'withdrawn consent still allows marketing' is caught (expected regression detection)
+PASS defect 'an unresolved suppression is ignored' is caught (expected regression detection)
+PASS defect 'a restored, quarantined installation may send' is caught (expected regression detection)
+PASS defect 'the default decision allows' is caught (expected regression detection)
+PASS defect 'an expired service condition still sends' is caught (expected regression detection)
+PASS defect 'owner approvals without MFA' is caught (expected regression detection)
+PASS defect 'an administrator may release rights responses' is caught (expected regression detection)
+PASS defect 'an auditor may write' is caught (expected regression detection)
+{"label":"policy-fault-before-ready","fault":true,"gate_exit_code":0,"calls":[{"index":0,"exit_code":0,"execution_fault":false,"semantic_test_failures":0,"errors":0},{"index":1,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":2,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":3,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":4,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":5,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":6,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":7,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":8,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null}],"healthy_control":true,"all_mutants_semantically_detected":false}

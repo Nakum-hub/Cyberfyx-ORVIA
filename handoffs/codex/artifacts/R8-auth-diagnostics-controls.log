@@ -1,0 +1,12 @@
+✔ actual Drizzle wrapper logging preserves SQLSTATE cause without SQL, params or secrets (16.8838ms)
+✔ cause traversal is bounded, rejects unknown names/codes and never invokes a cause getter (3.5168ms)
+✔ failed login retains only HTTP status/public code/request UUID in safe evidence (109.9397ms)
+✔ actual auth handler rethrows original dependency failures and labels library versus audit stages (19.0796ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28917.3883

@@ -1,0 +1,41 @@
+✖ actual Drizzle wrapper logging preserves SQLSTATE cause without SQL, params or secrets (11.2254ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9392.0077
+
+✖ failing tests:
+
+test at tests\unit\auth-diagnostics.test.ts:1:1009
+✖ actual Drizzle wrapper logging preserves SQLSTATE cause without SQL, params or secrets (11.2254ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   {
+  -     code: 'UNCLASSIFIED',
+  -     name: 'Error'
+  -   },
+  -   {
+  -     code: '57014',
+  -     name: 'error'
+  -   }
+  - ]
+  
+      at TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\unit\auth-diagnostics.test.ts:28:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ { name: 'Error', code: 'UNCLASSIFIED' }, { name: 'error', code: '57014' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

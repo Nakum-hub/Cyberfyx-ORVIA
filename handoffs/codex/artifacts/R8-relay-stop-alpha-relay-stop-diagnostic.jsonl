@@ -1,0 +1,6 @@
+{"kind":"DOCKER","operation":"network","elapsed_ms":156,"exit_code":0,"signal":null,"error_class":null}
+{"kind":"DOCKER","operation":"network","elapsed_ms":134,"exit_code":0,"signal":null,"error_class":null}
+{"kind":"DOCKER","operation":"inspect","elapsed_ms":351,"exit_code":0,"signal":null,"error_class":null}
+{"kind":"DOCKER","operation":"inspect","elapsed_ms":279,"exit_code":0,"signal":null,"error_class":null}
+{"kind":"SAFE_FAILURE","error_class":"DIAGNOSTIC_CONTROL_FAILED"}
+{"kind":"SUMMARY","diagnostic_only":true,"results":[],"cleanup_failed":false,"exit_code":1}

@@ -1,0 +1,27 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS an unrecorded SDF status leaves SDF requirements unresolved, never assumed not designated
+PASS an unrecorded Third Schedule class leaves the class-based retention requirement unresolved
+PASS requirements that always apply are applicable regardless of unknown facts
+PASS the summary counts unresolved decisions
+PASS a recorded non-designation makes SDF requirements not applicable
+PASS a recorded class outside the Third Schedule makes the class-based rule not applicable
+PASS each decision records the fact values it used and a readable trace
+PASS a change of result is emitted as an applicability event
+PASS an auditor can read persisted decisions
+PASS a member cannot evaluate applicability
+PASS an auditor cannot evaluate applicability
+PASS another tenant never sees these decisions
+PASS an organisation scope carries no id
+PASS an unresolved condition leaves condition-dependent requirements unresolved
+PASS no processor is assumed when none is recorded
+PASS a person past the period under an unresolved condition is unresolved, not eligible
+PASS the persisted position names the unresolved condition
+PASS no erasure action is planned
+Artifact: handoffs/codex/artifacts/A00-operations-applicability-1790875504100-34487674-0edd-44b2-8aca-85affc756e00.json
+
+18 assertions, 0 failures.

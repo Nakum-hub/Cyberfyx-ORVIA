@@ -1,0 +1,24 @@
+{
+  "diagnostic_only": true,
+  "request_id": 4172,
+  "duration_units": "NOT_ASSUMED",
+  "exit_code": 0,
+  "signal": null,
+  "error_class": null,
+  "events": [
+    {
+      "at": "2026-10-02T04:07:39.327910516Z",
+      "attribution": "REQUEST_4172",
+      "known_fields_present": [],
+      "reasons": [],
+      "classification": "NO_ALLOWLISTED_REASON"
+    },
+    {
+      "at": "2026-10-02T04:07:39.413471434Z",
+      "attribution": "REQUEST_4172",
+      "known_fields_present": [],
+      "reasons": [],
+      "classification": "NO_ALLOWLISTED_REASON"
+    }
+  ]
+}

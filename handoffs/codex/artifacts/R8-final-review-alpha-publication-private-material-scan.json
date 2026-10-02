@@ -1,0 +1,12 @@
+{
+  "diagnostic_only": true,
+  "scope": "explicit publication manifest; listed nested files only",
+  "files_checked": 0,
+  "bytes_checked": 0,
+  "private_header_count": 0,
+  "known_private_material_count": 0,
+  "files": [],
+  "unscanned_files": [],
+  "exit_code": 1,
+  "error_class": "Error"
+}

@@ -1,0 +1,55 @@
+✔ installed APIError exposes only bounded status and exact session stage (25.0434ms)
+✖ policy HTTP503 keeps refusal and records status without consuming sensitive body (94.0328ms)
+✖ policy TimeoutError records fixed fetch failure without reading hostile getters (2.5283ms)
+✔ valid false policy remains403 without dependency log and true remains allowed (5.2011ms)
+✔ only own bounded numeric status or known enum is admitted (0.8075ms)
+✔ getters and hostile descriptor proxies cannot execute or replace the failure (1.847ms)
+✔ actual vendor boundary retains503 audit/envelope and logs bounded429 stage even with debug enabled (5.1397ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35415.5749
+
+✖ failing tests:
+
+test at tests\unit\vendor-dependency-diagnostics.test.ts:1:2051
+✖ policy HTTP503 keeps refusal and records status without consuming sensitive body (94.0328ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'VENDOR_POLICY_HTTP'
+  
+      at TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\unit\vendor-dependency-diagnostics.test.ts:55:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'VENDOR_POLICY_HTTP',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\unit\vendor-dependency-diagnostics.test.ts:1:3110
+✖ policy TimeoutError records fixed fetch failure without reading hostile getters (2.5283ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'VENDOR_POLICY_FETCH'
+  
+      at TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\unit\vendor-dependency-diagnostics.test.ts:79:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'VENDOR_POLICY_FETCH',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

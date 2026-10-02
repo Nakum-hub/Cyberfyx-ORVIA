@@ -1,0 +1,73 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T03:55:23.834Z",
+  "suite": "withdrawal-single-pass",
+  "assertions": [
+    {
+      "name": "auditor cannot record a withdrawal",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "foreign tenant cannot record this withdrawal",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "role and tenant refusals leave the target unrestricted",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "withdrawal creates one owned propagation run",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "fresh withdrawal is already approved by non-destructive planning",
+      "result": "PASS",
+      "expected": "APPROVED",
+      "actual": "APPROVED"
+    },
+    {
+      "name": "before the only pass the target is not yet suppressed",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "standing grant control remains unrestricted",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "one pass independently suppresses the withdrawn target",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the fresh run finishes with independently verified effect",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_VERIFIED",
+        1
+      ],
+      "actual": [
+        "COMPLETED_VERIFIED",
+        1
+      ]
+    }
+  ],
+  "passed": 9,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

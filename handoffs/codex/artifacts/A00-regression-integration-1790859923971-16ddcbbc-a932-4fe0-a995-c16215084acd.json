@@ -1,0 +1,226 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T13:05:23.975Z",
+  "test_ids": [
+    "T23",
+    "T24",
+    "T25"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.54.0",
+  "assertions": [
+    {
+      "name": "anonymous test start denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "principal test start denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor test start denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "delegated admin cannot run privileged faults",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "unenrolled tenant cannot run Aster fixture",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another lane profile denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "arbitrary scenario rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_HEALTHY accepted",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "pending run is durably NOT_RUN",
+      "result": "PASS",
+      "expected": "NOT_RUN",
+      "actual": "NOT_RUN"
+    },
+    {
+      "name": "pending request replay stable",
+      "result": "PASS",
+      "expected": {
+        "id": "45e1540e-7281-4f4e-ae86-2c95d16acae1",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "fNbDrvmLMhoCFiUKQTohf",
+        "contract_version": "0.54.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      },
+      "actual": {
+        "id": "45e1540e-7281-4f4e-ae86-2c95d16acae1",
+        "request": {
+          "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+          "profile": "codex-a00",
+          "fixture_id": "aster-birch-v1"
+        },
+        "state": "NOT_RUN",
+        "build_id": "fNbDrvmLMhoCFiUKQTohf",
+        "contract_version": "0.54.0",
+        "started_at": null,
+        "finished_at": null,
+        "assertions": [],
+        "expected_fault_detection": false
+      }
+    },
+    {
+      "name": "overlapping fixture execution denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "anonymous run history denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "principal run history denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "scoped run history contains queued run",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "scoped run history paging terminates",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "foreign tenant run history excludes queued run",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "foreign tenant cannot read run",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "principal cannot read run",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "protected runner executed real assertions",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "MARKETING_WITHDRAWAL_HEALTHY actual result",
+      "result": "FAIL",
+      "expected": "PASS",
+      "actual": "FAIL"
+    }
+  ],
+  "runs": [
+    {
+      "id": "45e1540e-7281-4f4e-ae86-2c95d16acae1",
+      "request": {
+        "scenario": "MARKETING_WITHDRAWAL_HEALTHY",
+        "profile": "codex-a00",
+        "fixture_id": "aster-birch-v1"
+      },
+      "state": "FAIL",
+      "build_id": "fNbDrvmLMhoCFiUKQTohf",
+      "contract_version": "0.54.0",
+      "started_at": "2026-10-01T13:03:07.036Z",
+      "finished_at": "2026-10-01T13:05:23.168Z",
+      "assertions": [
+        {
+          "id": "fresh_permission_admits",
+          "result": "PASS",
+          "expected": "\"ALLOW\"",
+          "actual": "\"ALLOW\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "durable_workflow_completed",
+          "result": "FAIL",
+          "expected": "\"COMPLETED\"",
+          "actual": "\"ACCEPTED\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_read_restriction",
+          "result": "FAIL",
+          "expected": "true",
+          "actual": "false",
+          "artifact_paths": []
+        },
+        {
+          "id": "independent_observation_method",
+          "result": "FAIL",
+          "expected": "\"SCOPED_READ\"",
+          "actual": "undefined",
+          "artifact_paths": []
+        },
+        {
+          "id": "current_boundary_blocks_withdrawal",
+          "result": "PASS",
+          "expected": "\"BLOCK\"",
+          "actual": "\"BLOCK\"",
+          "artifact_paths": []
+        },
+        {
+          "id": "no_post_withdrawal_send",
+          "result": "PASS",
+          "expected": "0",
+          "actual": "0",
+          "artifact_paths": []
+        }
+      ],
+      "expected_fault_detection": false
+    }
+  ],
+  "result": "FAIL",
+  "limitations": [
+    "Expected broken-control FAIL retained separately; healthy/repaired scenarios must PASS. Target-only recovery, no full control-plane restore or browser acceptance."
+  ]
+}

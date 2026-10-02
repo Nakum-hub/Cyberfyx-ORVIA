@@ -1,0 +1,15 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+Error: Synthetic admin login failed
+    at HttpFixture.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\http-fixture.ts:66:130)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async HttpFixture.h.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:26:88)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\applicability.test.ts:18:55)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\applicability.test.ts:16:1)
+Server diagnostics (safe codes only): {"request_id":"9a5260a6-3cb6-42e2-b508-69cd2dfee793","operation":"AUTH_STAFF","name":"Error","code":"UNCLASSIFIED"}
+
+Artifact: handoffs/codex/artifacts/A00-operations-applicability-1790858661051-e5c7e435-1d69-404f-be29-658b874aadca.json
+
+1 assertions, 1 failures.

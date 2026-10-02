@@ -1,0 +1,2 @@
+{"at":"2026-10-01T20:54:35.898Z","engine":"webkit","suite":"vendor-production-criteria-local","kind":"BROWSER","version":"26.6"}
+{"at":"2026-10-01T20:54:41.362Z","engine":"webkit","suite":"vendor-production-criteria-local","kind":"PAGE_ERROR","page_path":"/vendor/engagements","message":"/127.0.0.1:4340/api/v1/vendor/session due to access control checks."}

@@ -1,0 +1,819 @@
+{
+  "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+  "build": "O3vGd-z4HGBxaLp-Fdqh3",
+  "mode": "all",
+  "fullSuites": [
+    "tests/integration/operations/backup-obligations.test.ts",
+    "tests/integration/expansion/policy-discovery.test.ts",
+    "tests/integration/operations/notice-language-drift.test.ts",
+    "tests/integration/consent/canaries.test.ts",
+    "tests/integration/consent/canary-retirement.test.ts",
+    "tests/integration/onboarding/owner-recovery.test.ts",
+    "tests/integration/onboarding/real-principals.test.ts",
+    "tests/integration/ai-governance/model-versions.test.ts",
+    "tests/integration/consent/canary-grant-admission.test.ts",
+    "tests/integration/consent/consent.test.ts",
+    "tests/integration/consent/expiry.test.ts",
+    "tests/integration/discovery/catalog-flow.test.ts",
+    "tests/integration/discovery/schema-drift.test.ts",
+    "tests/integration/enforcement/withdrawal-timing.test.ts",
+    "tests/integration/evidence/evidence.test.ts",
+    "tests/integration/expansion/audit-mandate.test.ts",
+    "tests/integration/expansion/classification.test.ts",
+    "tests/integration/expansion/cmp.test.ts",
+    "tests/integration/expansion/delivery.test.ts",
+    "tests/integration/expansion/grc-lifecycle.test.ts",
+    "tests/integration/expansion/impact.test.ts",
+    "tests/integration/expansion/preferences.test.ts",
+    "tests/integration/expansion/ropa-exports.test.ts",
+    "tests/integration/expansion/third-party.test.ts",
+    "tests/integration/grc/http.test.ts",
+    "tests/integration/monitoring/restore.test.ts",
+    "tests/integration/notices/languages.test.ts",
+    "tests/integration/onboarding/imports.test.ts",
+    "tests/integration/operations/applicability.test.ts",
+    "tests/integration/operations/consent-withdrawal.test.ts",
+    "tests/integration/operations/correction.test.ts",
+    "tests/integration/operations/notices.test.ts",
+    "tests/integration/operations/organisation-intake.test.ts",
+    "tests/integration/operations/processors.test.ts",
+    "tests/integration/operations/regulatory.test.ts",
+    "tests/integration/operations/rights.test.ts",
+    "tests/integration/operations/runner-progress.test.ts",
+    "tests/integration/operations/runner.test.ts",
+    "tests/integration/operations/withdrawal-single-pass.test.ts",
+    "tests/integration/regression/regression.test.ts",
+    "tests/integration/rights/portal.test.ts",
+    "tests/integration/vendor/audit-practice.test.ts",
+    "tests/integration/web.test.ts",
+    "tests/integration/workflows/workflow.test.ts"
+  ],
+  "affected": [
+    "tests/integration/ai-governance/model-versions.test.ts",
+    "tests/integration/consent/canaries.test.ts",
+    "tests/integration/consent/canary-grant-admission.test.ts",
+    "tests/integration/consent/canary-retirement.test.ts",
+    "tests/integration/consent/consent.test.ts",
+    "tests/integration/consent/expiry.test.ts",
+    "tests/integration/discovery/catalog-flow.test.ts",
+    "tests/integration/discovery/schema-drift.test.ts",
+    "tests/integration/enforcement/withdrawal-timing.test.ts",
+    "tests/integration/evidence/evidence.test.ts",
+    "tests/integration/expansion/audit-mandate.test.ts",
+    "tests/integration/expansion/classification.test.ts",
+    "tests/integration/expansion/cmp.test.ts",
+    "tests/integration/expansion/delivery.test.ts",
+    "tests/integration/expansion/grc-lifecycle.test.ts",
+    "tests/integration/expansion/impact.test.ts",
+    "tests/integration/expansion/policy-discovery.test.ts",
+    "tests/integration/expansion/preferences.test.ts",
+    "tests/integration/expansion/ropa-exports.test.ts",
+    "tests/integration/expansion/third-party.test.ts",
+    "tests/integration/grc/http.test.ts",
+    "tests/integration/monitoring/restore.test.ts",
+    "tests/integration/notices/languages.test.ts",
+    "tests/integration/onboarding/imports.test.ts",
+    "tests/integration/onboarding/owner-recovery.test.ts",
+    "tests/integration/onboarding/real-principals.test.ts",
+    "tests/integration/operations/applicability.test.ts",
+    "tests/integration/operations/backup-obligations.test.ts",
+    "tests/integration/operations/consent-withdrawal.test.ts",
+    "tests/integration/operations/correction.test.ts",
+    "tests/integration/operations/notice-language-drift.test.ts",
+    "tests/integration/operations/notices.test.ts",
+    "tests/integration/operations/organisation-intake.test.ts",
+    "tests/integration/operations/processors.test.ts",
+    "tests/integration/operations/regulatory.test.ts",
+    "tests/integration/operations/rights.test.ts",
+    "tests/integration/operations/runner-progress.test.ts",
+    "tests/integration/operations/runner.test.ts",
+    "tests/integration/operations/withdrawal-single-pass.test.ts",
+    "tests/integration/regression/regression.test.ts",
+    "tests/integration/rights/portal.test.ts",
+    "tests/integration/vendor/audit-practice.test.ts",
+    "tests/integration/web.test.ts",
+    "tests/integration/workflows/workflow.test.ts"
+  ],
+  "required": [
+    "tests/integration/operations/backup-obligations.test.ts",
+    "tests/integration/expansion/policy-discovery.test.ts",
+    "tests/integration/operations/notice-language-drift.test.ts",
+    "tests/integration/consent/canaries.test.ts",
+    "tests/integration/consent/canary-retirement.test.ts",
+    "tests/integration/onboarding/owner-recovery.test.ts",
+    "tests/integration/onboarding/real-principals.test.ts"
+  ],
+  "results": [
+    {
+      "suite": "tests/integration/operations/backup-obligations.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/backup-obligations.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-01-operations-backup-obligations.log",
+      "started_at": "2026-10-02T03:11:36.874Z",
+      "ended_at": "2026-10-02T03:11:54.452Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/policy-discovery.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/policy-discovery.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-02-expansion-policy-discovery.log",
+      "started_at": "2026-10-02T03:11:54.533Z",
+      "ended_at": "2026-10-02T03:13:21.782Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/notice-language-drift.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/notice-language-drift.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-03-operations-notice-language-drift.log",
+      "started_at": "2026-10-02T03:13:21.840Z",
+      "ended_at": "2026-10-02T03:13:32.453Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/consent/canaries.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/canaries.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-04-consent-canaries.log",
+      "started_at": "2026-10-02T03:13:32.506Z",
+      "ended_at": "2026-10-02T03:14:45.996Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/consent/canary-retirement.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/canary-retirement.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-05-consent-canary-retirement.log",
+      "started_at": "2026-10-02T03:14:46.061Z",
+      "ended_at": "2026-10-02T03:15:54.176Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/onboarding/owner-recovery.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/onboarding/owner-recovery.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-06-onboarding-owner-recovery.log",
+      "started_at": "2026-10-02T03:15:54.233Z",
+      "ended_at": "2026-10-02T03:16:18.313Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/onboarding/real-principals.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/onboarding/real-principals.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-07-onboarding-real-principals.log",
+      "started_at": "2026-10-02T03:16:18.367Z",
+      "ended_at": "2026-10-02T03:16:30.388Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/ai-governance/model-versions.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/ai-governance/model-versions.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-08-ai-governance-model-versions.log",
+      "started_at": "2026-10-02T03:16:30.478Z",
+      "ended_at": "2026-10-02T03:17:41.340Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/consent/canary-grant-admission.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/canary-grant-admission.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-09-consent-canary-grant-admission.log",
+      "started_at": "2026-10-02T03:17:41.389Z",
+      "ended_at": "2026-10-02T03:18:53.154Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/consent/consent.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-10-consent-consent.log",
+      "started_at": "2026-10-02T03:18:53.211Z",
+      "ended_at": "2026-10-02T03:19:08.641Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/consent/expiry.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/expiry.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-11-consent-expiry.log",
+      "started_at": "2026-10-02T03:19:08.684Z",
+      "ended_at": "2026-10-02T03:21:53.659Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/discovery/catalog-flow.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/discovery/catalog-flow.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-12-discovery-catalog-flow.log",
+      "started_at": "2026-10-02T03:21:53.700Z",
+      "ended_at": "2026-10-02T03:22:26.034Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/discovery/schema-drift.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/discovery/schema-drift.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-13-discovery-schema-drift.log",
+      "started_at": "2026-10-02T03:22:26.083Z",
+      "ended_at": "2026-10-02T03:23:35.946Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/enforcement/withdrawal-timing.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/enforcement/withdrawal-timing.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-14-enforcement-withdrawal-timing.log",
+      "started_at": "2026-10-02T03:23:35.987Z",
+      "ended_at": "2026-10-02T03:28:20.059Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/evidence/evidence.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/evidence/evidence.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-15-evidence-evidence.log",
+      "started_at": "2026-10-02T03:28:20.109Z",
+      "ended_at": "2026-10-02T03:31:20.177Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/audit-mandate.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/audit-mandate.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-16-expansion-audit-mandate.log",
+      "started_at": "2026-10-02T03:31:20.259Z",
+      "ended_at": "2026-10-02T03:33:16.971Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/classification.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/classification.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-17-expansion-classification.log",
+      "started_at": "2026-10-02T03:33:17.018Z",
+      "ended_at": "2026-10-02T03:33:27.450Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/cmp.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/cmp.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-18-expansion-cmp.log",
+      "started_at": "2026-10-02T03:33:27.495Z",
+      "ended_at": "2026-10-02T03:34:46.982Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/delivery.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/delivery.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-19-expansion-delivery.log",
+      "started_at": "2026-10-02T03:34:47.040Z",
+      "ended_at": "2026-10-02T03:36:52.597Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/grc-lifecycle.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/grc-lifecycle.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-20-expansion-grc-lifecycle.log",
+      "started_at": "2026-10-02T03:36:52.650Z",
+      "ended_at": "2026-10-02T03:37:14.648Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/impact.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/impact.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-21-expansion-impact.log",
+      "started_at": "2026-10-02T03:37:14.698Z",
+      "ended_at": "2026-10-02T03:38:26.625Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/preferences.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/preferences.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-22-expansion-preferences.log",
+      "started_at": "2026-10-02T03:38:26.696Z",
+      "ended_at": "2026-10-02T03:39:36.789Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/ropa-exports.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/ropa-exports.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-23-expansion-ropa-exports.log",
+      "started_at": "2026-10-02T03:39:36.851Z",
+      "ended_at": "2026-10-02T03:39:58.339Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/expansion/third-party.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/third-party.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-24-expansion-third-party.log",
+      "started_at": "2026-10-02T03:39:58.398Z",
+      "ended_at": "2026-10-02T03:40:59.564Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/grc/http.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/grc/http.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-25-grc-http.log",
+      "started_at": "2026-10-02T03:40:59.617Z",
+      "ended_at": "2026-10-02T03:41:02.162Z",
+      "exit_code": null,
+      "signal": null,
+      "prerequisite_error": "Set an independently owned ORVIA_GRC_OPA_PORT",
+      "status": "FAIL",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/monitoring/restore.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/monitoring/restore.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-26-monitoring-restore.log",
+      "started_at": "2026-10-02T03:41:02.210Z",
+      "ended_at": "2026-10-02T03:42:11.964Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/notices/languages.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/notices/languages.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-27-notices-languages.log",
+      "started_at": "2026-10-02T03:42:12.008Z",
+      "ended_at": "2026-10-02T03:43:21.174Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/onboarding/imports.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/onboarding/imports.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-28-onboarding-imports.log",
+      "started_at": "2026-10-02T03:43:21.218Z",
+      "ended_at": "2026-10-02T03:43:30.856Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/applicability.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/applicability.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-29-operations-applicability.log",
+      "started_at": "2026-10-02T03:43:30.925Z",
+      "ended_at": "2026-10-02T03:44:41.399Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/consent-withdrawal.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/consent-withdrawal.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-30-operations-consent-withdrawal.log",
+      "started_at": "2026-10-02T03:44:41.448Z",
+      "ended_at": "2026-10-02T03:46:01.650Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/correction.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/correction.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-31-operations-correction.log",
+      "started_at": "2026-10-02T03:46:01.697Z",
+      "ended_at": "2026-10-02T03:46:12.068Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/notices.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/notices.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-32-operations-notices.log",
+      "started_at": "2026-10-02T03:46:12.135Z",
+      "ended_at": "2026-10-02T03:47:12.650Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/organisation-intake.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/organisation-intake.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-33-operations-organisation-intake.log",
+      "started_at": "2026-10-02T03:47:12.759Z",
+      "ended_at": "2026-10-02T03:48:48.508Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/processors.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/processors.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-34-operations-processors.log",
+      "started_at": "2026-10-02T03:48:48.604Z",
+      "ended_at": "2026-10-02T03:50:04.682Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/regulatory.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/regulatory.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-35-operations-regulatory.log",
+      "started_at": "2026-10-02T03:50:04.769Z",
+      "ended_at": "2026-10-02T03:51:31.811Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/rights.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/rights.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-36-operations-rights.log",
+      "started_at": "2026-10-02T03:51:31.865Z",
+      "ended_at": "2026-10-02T03:53:00.063Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/runner-progress.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/runner-progress.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-37-operations-runner-progress.log",
+      "started_at": "2026-10-02T03:53:00.131Z",
+      "ended_at": "2026-10-02T03:53:35.824Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/runner.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/runner.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-38-operations-runner.log",
+      "started_at": "2026-10-02T03:53:35.884Z",
+      "ended_at": "2026-10-02T03:54:23.557Z",
+      "exit_code": 1,
+      "signal": null,
+      "status": "FAIL",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/operations/withdrawal-single-pass.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/withdrawal-single-pass.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-39-operations-withdrawal-single-pass.log",
+      "started_at": "2026-10-02T03:54:23.670Z",
+      "ended_at": "2026-10-02T03:55:23.972Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/regression/regression.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/regression/regression.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-40-regression-regression.log",
+      "started_at": "2026-10-02T03:55:24.034Z",
+      "ended_at": "2026-10-02T04:05:32.087Z",
+      "exit_code": 0,
+      "signal": null,
+      "cleanup_error": "Dependency command failed: docker stop (exit null)",
+      "status": "FAIL",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/rights/portal.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/rights/portal.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-41-rights-portal.log",
+      "started_at": "2026-10-02T04:05:32.271Z",
+      "ended_at": "2026-10-02T04:06:03.898Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/vendor/audit-practice.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/vendor/audit-practice.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-42-vendor-audit-practice.log",
+      "started_at": "2026-10-02T04:06:03.973Z",
+      "ended_at": "2026-10-02T04:07:42.139Z",
+      "exit_code": 1,
+      "signal": null,
+      "status": "FAIL",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/web.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/web.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-43-web.log",
+      "started_at": "2026-10-02T04:07:42.208Z",
+      "ended_at": "2026-10-02T04:08:43.611Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    },
+    {
+      "suite": "tests/integration/workflows/workflow.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/workflows/workflow.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-iota-integrations-44-workflows-workflow.log",
+      "started_at": "2026-10-02T04:08:43.681Z",
+      "ended_at": "2026-10-02T04:10:52.448Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+      "build": "O3vGd-z4HGBxaLp-Fdqh3"
+    }
+  ],
+  "coverage_limits": [
+    "Unit, policy mutation, database-security/initialization rerun, pagination/timestamp controls and serial browser matrix require their separate runners.",
+    "Changed-source transitive integration coverage is broader than git-diff-selected suites; migration-upgrade, backup-drill, vendor-audit/schema-equivalence and remaining security suites require separate qualification decisions.",
+    "Vendor suites use their existing isolated scratch database harness; development signing fixtures are not production qualification."
+  ]
+}

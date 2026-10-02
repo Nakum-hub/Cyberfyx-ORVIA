@@ -1,0 +1,48 @@
+{
+  "diagnostic_only": true,
+  "manifest": "handoffs/codex/artifacts/R8-final-review-beta-stage-input.txt",
+  "png_paths": 643,
+  "short_files": [
+    {
+      "path": "output/playwright/round8/matrix-final-eta/webkit/customer-owner-desktop-workspace_registry_retention.png",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "valid_png": false
+    }
+  ],
+  "chunk_counts": {
+    "IHDR": 642,
+    "IDAT": 23133,
+    "IEND": 642,
+    "sBIT": 204,
+    "iCCP": 204
+  },
+  "metadata_profiles": [
+    {
+      "kind": "sBIT",
+      "payload_bytes": 4,
+      "payload_sha256": "918bd027f59087bef8e055f9b587b25486d58c606d8658d4ce7b1199274f6744",
+      "count": 204
+    },
+    {
+      "kind": "iCCP",
+      "payload_bytes": 260,
+      "payload_sha256": "de0aeedb87da585b71c24b6d823642529ad5fd0427403f1ca7efa2f0543c6204",
+      "count": 204,
+      "icc": {
+        "decompressed_bytes": 456,
+        "decompressed_sha256": "12afb4d9953adee0607d347daee5b78b18d6b3cab2d572b88970703f5edb37bc",
+        "magic": "acsp",
+        "device_class": "mntr",
+        "data_space": "RGB ",
+        "connection_space": "XYZ ",
+        "description_classification": "UNCLASSIFIED"
+      }
+    }
+  ],
+  "limitations": [
+    "Hashes pin exact observed metadata bytes, not decoded screenshot pixels.",
+    "No generic permission for other ICC profiles, PNG text chunks or binary formats."
+  ],
+  "exit_code": 0
+}

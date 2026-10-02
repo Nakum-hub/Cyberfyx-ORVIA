@@ -1,0 +1,55 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T08:24:46.433Z",
+  "suite": "audit-mandate-browser",
+  "assertions": [
+    {
+      "name": "leadership sees the practice overview from real records",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the client sees the audit address from its trust file",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a second owner approves the mandate in the browser",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker checks in over HTTP and the signed snapshot is accepted",
+      "result": "FAIL",
+      "expected": [
+        true,
+        1
+      ],
+      "actual": [
+        true,
+        2
+      ]
+    },
+    {
+      "name": "unexpected failure in worker sends the first snapshot",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the worker checks in over HTTP and the signed snapshot is accepted"
+    }
+  ],
+  "passed": 3,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

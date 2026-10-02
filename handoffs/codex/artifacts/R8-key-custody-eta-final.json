@@ -1,0 +1,25 @@
+{
+  "label": "eta-final",
+  "fixture": "temporary synthetic signing key; never enrolled or trusted",
+  "returned_fields": [
+    "key_id",
+    "public",
+    "sha256"
+  ],
+  "acl": {
+    "current_user": "S-1-5-21-3750442766-1294555196-3808761169-1001",
+    "rules": [
+      {
+        "sid": "S-1-5-18",
+        "type": "Allow",
+        "inherited": true
+      },
+      {
+        "sid": "S-1-5-21-3750442766-1294555196-3808761169-1001",
+        "type": "Allow",
+        "inherited": true
+      }
+    ]
+  },
+  "unexpected_allow_rules": 0
+}

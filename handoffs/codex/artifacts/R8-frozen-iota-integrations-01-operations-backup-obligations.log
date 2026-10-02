@@ -1,0 +1,28 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+PASS a read-only role cannot record a backup treatment
+PASS a recorded treatment waits for approval
+PASS an administrator without approval rights cannot approve it
+PASS a second person approves it and it becomes current
+PASS the recorder cannot approve their own treatment
+PASS the erasures are verified on both systems
+PASS only the system with a current treatment gets ledger rows, one per person, ageing out after 35 days
+PASS an administrator who may not read the ledger still sees true counts
+PASS the system without a treatment is unknown backup handling
+PASS Operations attention names the unknown backup handling
+PASS the ledger itself needs sensitive access
+PASS the owner reads the ledger
+PASS a restore from a backup taken after the erasures marks nobody
+PASS a restore from a backup older than the erasures marks everyone erased since
+PASS Operations attention shows the re-erasure
+PASS an administrator cannot confirm re-erasure (sensitive)
+PASS the owner confirms one re-erasure with evidence
+PASS confirming it twice is refused
+PASS a treatment's recorded facts cannot be rewritten
+PASS a live ledger row cannot be deleted
+PASS the runner ages out and purges a row 30 days past its clear date
+PASS rows still within their backups are untouched by the sweep
+Artifact: handoffs/codex/artifacts/A00-operations-backup-obligations-1790910709327-1fbd3e5a-2f13-4665-b620-8c771079c5d6.json
+
+22 assertions, 0 failures.

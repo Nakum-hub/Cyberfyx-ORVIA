@@ -1,0 +1,115 @@
+{
+  "diagnostic_only": true,
+  "baseline": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+  "changed_paths": [
+    "backend/api/src/vendor/authority.ts",
+    "backend/api/src/vendor/dependency-errors.ts",
+    "infrastructure/loopback.mjs",
+    "tests/unit/vendor-dependency-diagnostics.test.ts",
+    "tracking/qualification-inventory.json"
+  ],
+  "frontend_source_unchanged": true,
+  "historical_build": "O3vGd-z4HGBxaLp-Fdqh3",
+  "new_build_qualification": false,
+  "candidate_equals_applied_relay": true,
+  "relay_fixed_targets_limits_forwarding_unchanged": true,
+  "source_sha256": [
+    {
+      "path": "backend/api/src/vendor/authority.ts",
+      "sha256": "f9a2d22840fee885fa41c26c56bef2370d08a4e3ea34760385e6173785095092"
+    },
+    {
+      "path": "backend/api/src/vendor/dependency-errors.ts",
+      "sha256": "a8789f3189535eb65ed0d7c5ad919650e075d47fdbe27c696f2c92eaa2122355"
+    },
+    {
+      "path": "infrastructure/loopback.mjs",
+      "sha256": "71d19f82ae08f28cc901b99e33fb358c04d7bf0b1b5914717264df77da639d3e"
+    },
+    {
+      "path": "tests/unit/vendor-dependency-diagnostics.test.ts",
+      "sha256": "f35be68c1c13c830575aa1b5f9e9d11ebfb215a86594247c7174748a19bda367"
+    },
+    {
+      "path": "tracking/qualification-inventory.json",
+      "sha256": "417d2a1a436935a3f95e3d57fef9043358a72abcfec90e0971aedb7f95551fb1"
+    },
+    {
+      "path": "handoffs/codex/round8-relay-graceful-shutdown-candidate.mjs",
+      "sha256": "71d19f82ae08f28cc901b99e33fb358c04d7bf0b1b5914717264df77da639d3e"
+    },
+    {
+      "path": "handoffs/codex/round8-relay-test-fixture.mjs",
+      "sha256": "5ac0b0880e3327728018ae9f1b02d3396c0877fde76ce8cf4b14530e0aa53d0e"
+    },
+    {
+      "path": "handoffs/codex/round8-relay-stop-diagnostic.mjs",
+      "sha256": "574dadec00381a45c2f808ec5eedb1d80200b7bf3378fd7edf622e6eb32d87c6"
+    },
+    {
+      "path": "handoffs/codex/round8-scoped-fixes-correspondence.mjs",
+      "sha256": "7c8929825f687dedc4ff6ba8a5fd00a8cf5dfc4c3ece476ea70714d53d0f8409"
+    }
+  ],
+  "gamma": {
+    "path": "handoffs/codex/artifacts/R8-relay-stop-gamma-relay-stop-diagnostic.jsonl",
+    "sha256": "da49642bb46b242c4f76c93c0ee6e1a69ab710e67f4ae3231463e6767a4c89e6",
+    "exit_code": 0,
+    "results": [
+      {
+        "kind": "CASE",
+        "variant": "baseline",
+        "state": "idle",
+        "marker_forwarded": true,
+        "stop_cli_exit": 0,
+        "stop_cli_signal": null,
+        "stop_elapsed_ms": 20974,
+        "container_exit_code": 137,
+        "running": false,
+        "held_socket_closed": null
+      },
+      {
+        "kind": "CASE",
+        "variant": "baseline",
+        "state": "held",
+        "marker_forwarded": true,
+        "stop_cli_exit": 0,
+        "stop_cli_signal": null,
+        "stop_elapsed_ms": 21478,
+        "container_exit_code": 137,
+        "running": false,
+        "held_socket_closed": true
+      },
+      {
+        "kind": "CASE",
+        "variant": "candidate",
+        "state": "idle",
+        "marker_forwarded": true,
+        "stop_cli_exit": 0,
+        "stop_cli_signal": null,
+        "stop_elapsed_ms": 879,
+        "container_exit_code": 0,
+        "running": false,
+        "held_socket_closed": null
+      },
+      {
+        "kind": "CASE",
+        "variant": "candidate",
+        "state": "held",
+        "marker_forwarded": true,
+        "stop_cli_exit": 0,
+        "stop_cli_signal": null,
+        "stop_elapsed_ms": 4450,
+        "container_exit_code": 0,
+        "running": false,
+        "held_socket_closed": true
+      }
+    ],
+    "cleanup_failed": false
+  },
+  "limitations": [
+    "Source hashes were captured after gamma, not inside its execution; unchanged diagnostic inputs since gamma require the recorded one-writer custody correspondence.",
+    "Backend vendor source changed after the historical build. That build is not new source qualification.",
+    "The constant synthetic TCP marker proves controlled forwarding and shutdown, not application UNKNOWN-state recovery or production traffic qualification."
+  ]
+}

@@ -1,0 +1,20 @@
+R7 webkit operations-screens-local: suite entry point with passive diagnostic instrumentation
+PASS registration is accepted
+PASS a breach registered on screen is pinned with deadlines from the package
+PASS correcting the facts keeps the pinned package and deadlines
+PASS a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)
+PASS a person is registered with a keyed reference and no stored identifier
+Error: Unexpected 503 from http://127.0.0.1:4310/api/v1/admin/data-principal-relationships: {"error":{"code":"SERVICE_UNAVAILABLE","message":"Request could not be completed.","retry":"AFTER_DELAY"},"request_id":"c282c3b8-0c35-4e8b-a632-3ddd456ebe36"}
+    at submit (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:85:60)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:541:9)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:147:28)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:30:1)
+Server diagnostics (safe codes only): {"dependency":"policy_engine","attempt":1,"elapsed_ms":3240,"error":"TimeoutError"}
+{"dependency":"policy_engine","attempt":2,"elapsed_ms":2015,"error":"TimeoutError"}
+{"round7_diagnostic":true,"request_id":["c282c3b8-0c35-4e8b-a632-3ddd456ebe36"],"status":503,"path":"/api/v1/admin/data-principal-relationships","method":"POST","dependencies":[{"dependency":"OPA","error":"TimeoutError","elapsed_ms":3177},{"dependency":"OPA","error":"TimeoutError","elapsed_ms":2015}],"policy_engine_lines":[{"dependency":"policy_engine","attempt":1,"elapsed_ms":3240,"error":"TimeoutError"},{"dependency":"policy_engine","attempt":2,"elapsed_ms":2015,"error":"TimeoutError"}],"opa_scope":"customer and vendor authorize"}
+
+Artifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790842302182-80b544b6-3b64-43ec-9738-153987e3eb72.json
+
+6 assertions, 1 failures.

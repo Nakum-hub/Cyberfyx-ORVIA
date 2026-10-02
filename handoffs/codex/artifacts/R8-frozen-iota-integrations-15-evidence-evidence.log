@@ -1,0 +1,90 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+{"prerequisite_command":["docker","network","inspect","--format","{{index .Labels \"com.docker.compose.project\"}}","orvia-codex-a00_private"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","network","inspect","--format","{{index .Labels \"com.docker.compose.project\"}}","orvia-codex-a00_loopback_access"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{json .Config.Labels}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{.State.Running}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{json .NetworkSettings.Networks}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","start","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","image","inspect","node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","create","--pull=never","--name","orvia-round8-frozen-iota-temporal-loopback","--label","orvia.round8.run=frozen-iota","--network","orvia-codex-a00_private","--publish","127.0.0.1:57233:7233","--read-only","--user","node","--cap-drop","ALL","--security-opt","no-new-privileges=true","--memory","256m","--mount","type=bind,src=C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\infrastructure\\loopback.mjs,dst=/app/loopback.mjs,readonly","node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553","node","/app/loopback.mjs"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","network","connect","orvia-codex-a00_loopback_access","orvia-round8-frozen-iota-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","start","orvia-round8-frozen-iota-temporal-loopback"],"exit_code":0,"signal":null}
+Dependency ready: codex-a00 Temporal namespace
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS HEALTHY: one bounded attempt
+PASS HEALTHY: plan attempt budget
+PASS HEALTHY: actual target effect
+PASS HEALTHY: execution state
+PASS HEALTHY: aggregate truth
+PASS UNAVAILABLE: one bounded attempt
+PASS UNAVAILABLE: plan attempt budget
+PASS UNAVAILABLE: actual target effect
+PASS UNAVAILABLE: execution state
+PASS UNAVAILABLE: aggregate truth
+PASS unavailable read is explicitly unverifiable
+PASS APPLY_THEN_TIMEOUT: one bounded attempt
+PASS APPLY_THEN_TIMEOUT: plan attempt budget
+PASS APPLY_THEN_TIMEOUT: actual target effect
+PASS APPLY_THEN_TIMEOUT: execution state
+PASS APPLY_THEN_TIMEOUT: aggregate truth
+PASS ACK_WITHOUT_EFFECT: one bounded attempt
+PASS ACK_WITHOUT_EFFECT: plan attempt budget
+PASS ACK_WITHOUT_EFFECT: actual target effect
+PASS ACK_WITHOUT_EFFECT: execution state
+PASS ACK_WITHOUT_EFFECT: aggregate truth
+PASS ACK without effect has a separate mismatching read
+PASS uncertain outcome has no fabricated observation
+PASS executor cannot use observer mount
+PASS observer read sees real applied effect
+PASS observer cannot execute restriction
+PASS reconciliation accepted with worker stopped
+PASS reconciliation persisted pending
+PASS reconciliation committed replay stable
+PASS read reconciliation completes observed obligation
+PASS original uncertain attempt remains immutable
+PASS reconciliation never invents recovered ACK
+PASS capability loss becomes effective read=false
+PASS failed capability check immediately invalidates prior completion
+PASS portal immediately reflects failed read capability
+PASS new failed read supersedes prior satisfied read
+PASS permission loss removes current completion
+PASS REST read permission loss also fails closed at admission
+PASS unverifiable REST admission has no send
+PASS unassigned member cannot see workflow
+PASS member sees only exact assigned workflow
+PASS member still cannot see other workflow
+PASS member list equals exact persisted assignments
+PASS manual task read exposes authoritative stored version
+PASS foreign evidence reference denied
+PASS concurrent current-version attestations accept exactly one
+PASS manual identical replay accepted
+PASS manual identical replay preserves original operation
+PASS manual conflicting replay denied
+PASS manual stale version denied on a new request
+PASS declared manual criterion completes administratively
+PASS manual attestation attributed
+PASS manual attestation creates no automated observation
+PASS manual task revision increments once
+PASS old manual attestation is not current after fresh consent
+PASS manual cannot satisfy independent-read criterion
+PASS auditor local export allowed
+PASS export is attachment with no-store
+PASS export integrity digest matches actual document
+PASS export retains unresolved coverage
+PASS export retains exact immutable acceptance
+PASS foreign tenant cannot export
+PASS principal cannot export
+PASS member has no export capability
+PASS export action persisted in audit
+PASS overview workflow counts come from scoped persisted rows
+PASS overview exposes unknown and manual axes
+PASS failure projection includes unmet observation
+PASS filtered failure pagination does not duplicate obligations
+Artifact: handoffs/codex/artifacts/A00-evidence-integration-1790911856558-b91d89f7-3254-4a12-a37e-360313815e26.json
+{"prerequisite_command":["docker","stop","--timeout","20","orvia-round8-frozen-iota-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","rm","orvia-round8-frozen-iota-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","stop","--timeout","20","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}

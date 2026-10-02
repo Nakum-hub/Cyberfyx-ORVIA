@@ -1,0 +1,33 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS an administrator without sensitive access cannot see canaries
+PASS an auditor cannot see canaries
+PASS a canary is registered pending
+PASS the registrant cannot activate it
+PASS the same decoy cannot be registered twice
+PASS a second person activates it
+PASS a decoy holding a granted consent cannot be activated
+PASS the send is blocked and the sender is not told it hit a canary
+PASS a SEND_ADMISSION hit names the sending machine and system
+PASS Operations attention shows the hit to an administrator who cannot see canaries
+PASS the message is not refused, so its author cannot probe for canaries
+PASS an OUTBOUND_MESSAGE hit is recorded, matching the address case-insensitively
+PASS recording consent for the decoy leaves a CONSENT_RECORDED hit naming the operator
+PASS an administrator cannot record a receipt
+PASS staff record the receipt with its evidence
+PASS attention counts every unreviewed hit
+PASS the canary list shows four open hits
+PASS a hit is reviewed with who and what was found
+PASS a hit is reviewed once
+PASS attention drops to the unreviewed hits
+PASS a hit cannot be edited
+PASS a hit cannot be deleted
+PASS a retired canary traps nothing
+PASS another tenant sees none of it
+Artifact: handoffs/codex/artifacts/A00-operations-withdrawal-canaries-1790866833875-5aaa8a0a-32e7-4106-88a4-566e7404a07a.json
+
+24 assertions, 0 failures.

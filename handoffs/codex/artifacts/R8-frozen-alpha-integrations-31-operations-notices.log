@@ -1,0 +1,18 @@
+PASS a new version is a draft until published
+PASS a draft was never presented, so delivery evidence for it is refused
+PASS presentation of v1 is recorded with its source
+PASS a successor cannot take effect before the version it supersedes
+PASS publishing v2 supersedes v1 and closes its period at the same instant
+PASS the moment of the recorded presentation resolves to v1
+PASS now resolves to v2
+PASS before the first version there was no notice, and that is said
+PASS another locale with no version resolves to none rather than borrowing English
+PASS a presentation of v2 dated before v2 took effect is refused
+PASS published notice content cannot be rewritten in place
+PASS delivery evidence is append-only
+PASS the Privacy Centre shows the current version and not the superseded one
+PASS the Privacy Centre notice carries withdrawal, rights, grievance and Board channels
+PASS a Data Principal cannot reach the staff notice registry
+Artifact: handoffs/codex/artifacts/A00-operations-notices-1790858993013-ca11862e-393e-4b6a-bd48-62359b68f24f.json
+
+15 assertions, 0 failures.

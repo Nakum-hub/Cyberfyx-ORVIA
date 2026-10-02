@@ -1,0 +1,18 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 38s remaining; controls unchanged.
+Authentication fixture idle window: 8s remaining; controls unchanged.
+PASS staff processed only a first batch
+PASS the runner reports no errors
+PASS the runner finished the import from its checkpoint
+PASS the run was left evaluating
+PASS the runner completed the evaluation into a dry run
+PASS the runner never approves: the dry run still waits
+PASS nothing was erased before approval
+PASS after approval the runner executes and every erasure is verified
+PASS running again applies nothing twice
+PASS verification was independent of execution
+Artifact: handoffs/codex/artifacts/A00-operations-runner-1790875988756-526b71bf-066d-41cb-a47d-21a0f107bec8.json
+
+10 assertions, 0 failures.

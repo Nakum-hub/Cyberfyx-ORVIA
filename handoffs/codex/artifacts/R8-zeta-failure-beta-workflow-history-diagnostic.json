@@ -1,0 +1,80 @@
+{
+  "diagnostic_only": true,
+  "window": {
+    "from": "2026-10-01T17:46:20.189Z",
+    "to": "2026-10-01T17:49:09.378Z"
+  },
+  "stages": [
+    "PROFILE",
+    "DATABASE_READONLY",
+    "TEMPORAL_READINESS",
+    "TEMPORAL_HISTORY",
+    "COMPLETE"
+  ],
+  "scopes": [
+    {
+      "scope": {
+        "tenant_id": "bc43798e-04af-486f-b293-d533dd44858b",
+        "legal_entity_id": "ccb90e66-b12d-4c16-9fa0-6fbef3f1976b",
+        "environment_id": "7892b10b-c987-4a8a-abec-65e6db0963bb"
+      },
+      "identity_id": "d0642f16-c409-4b36-8ff0-2622928a750e",
+      "identity_active": true,
+      "identity_expires_at": "2026-10-01T18:47:22.597Z",
+      "workflow_count": 1,
+      "workflows": [
+        {
+          "id": "9d654b94-5955-41ad-b9ff-49480cd83079",
+          "state": "ACCEPTED",
+          "accepted_at": "2026-10-01T17:47:28.066Z",
+          "updated_at": "2026-10-01T17:47:28.066Z",
+          "event_id": "162368fa-29fd-47a4-b3c3-65707540277e",
+          "outbox_created_at": "2026-10-01T17:47:28.066Z",
+          "dispatched_at": "2026-10-01T17:47:31.465Z",
+          "action_count": 0,
+          "command_count": 0
+        }
+      ]
+    },
+    {
+      "scope": {
+        "tenant_id": "9e3c16c9-75f1-4a70-bdca-8ad58ae346c2",
+        "legal_entity_id": "b81d23a7-c17d-4fb2-8ae3-7c60842e2206",
+        "environment_id": "1fe08f8d-9b39-4ae0-8cd6-22d3ac9fe53f"
+      },
+      "identity_id": "faba3bb9-f2af-4852-9d9a-c821f8367d33",
+      "identity_active": true,
+      "identity_expires_at": "2026-10-01T18:47:22.597Z",
+      "workflow_count": 0,
+      "workflows": []
+    },
+    {
+      "scope": {
+        "tenant_id": "bc43798e-04af-486f-b293-d533dd44858b",
+        "legal_entity_id": "ccb90e66-b12d-4c16-9fa0-6fbef3f1976b",
+        "environment_id": "cfe6ca63-b49b-4396-9346-96b5849e4d5d"
+      },
+      "identity_id": "223bcecf-99f7-4162-94aa-6ecb3a2a530a",
+      "identity_active": true,
+      "identity_expires_at": "2026-10-01T18:47:22.597Z",
+      "workflow_count": 0,
+      "workflows": []
+    }
+  ],
+  "histories": [
+    {
+      "workflow_id": "9d654b94-5955-41ad-b9ff-49480cd83079",
+      "temporal_id": "orvia:bc43798e-04af-486f-b293-d533dd44858b:7892b10b-c987-4a8a-abec-65e6db0963bb:162368fa-29fd-47a4-b3c3-65707540277e",
+      "event_count": 2,
+      "event_types": {
+        "workflowExecutionStartedEventAttributes": 1,
+        "workflowTaskScheduledEventAttributes": 1
+      },
+      "failures": [],
+      "pages": 1
+    }
+  ],
+  "exit_code": 0,
+  "readiness_attempts": 1,
+  "namespace_ready": true
+}

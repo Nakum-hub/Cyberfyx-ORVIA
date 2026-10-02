@@ -1,0 +1,3 @@
+$ tsc --noEmit
+tests/integration/enforcement/withdrawal-timing.test.ts(85,5): error TS18047: 'loop.stdout' is possibly 'null'.
+[ELIFECYCLE] Command failed with exit code 2.

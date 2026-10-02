@@ -1,0 +1,58 @@
+[
+  {
+    "file": "backend/domain/src/configuration/configuration.ts",
+    "function": "configurationList",
+    "table": "${table}",
+    "timestamp": "inserted_at",
+    "before": "SELECT * FROM app.${table} WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.${table} WHERE ${predicate} AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.${table} WHERE ${predicate} AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/configuration/configuration.ts",
+    "function": "mappingList",
+    "table": "target_mappings",
+    "timestamp": "inserted_at",
+    "before": "SELECT id,principal_id,purpose_id,system_id,target_subject_reference,target_generation FROM app.target_mappings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT id,principal_id,purpose_id,system_id,target_subject_reference,target_generation FROM app.target_mappings WHERE ${predicate} AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.target_mappings WHERE ${predicate} AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/configuration/configuration.ts",
+    "function": "controlMap",
+    "table": "target_mappings",
+    "timestamp": "inserted_at",
+    "before": "SELECT m.purpose_id,m.system_id,m.id resource_id,s.document FROM app.target_mappings m JOIN app.systems s USING(tenant_id,legal_entity_id,environment_id) WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND s.id=m.system_id AND ($4::uuid IS NULL OR m.id>$4) ORDER BY m.id LIMIT $5",
+    "after": "SELECT m.purpose_id,m.system_id,m.id resource_id,s.document FROM app.target_mappings m JOIN app.systems s USING(tenant_id,legal_entity_id,environment_id) WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND s.id=m.system_id AND ($4::uuid IS NULL OR (COALESCE(m.inserted_at,'-infinity'::timestamptz),m.id) < (SELECT COALESCE(m.inserted_at,'-infinity'::timestamptz),m.id FROM app.target_mappings m JOIN app.systems s USING(tenant_id,legal_entity_id,environment_id) WHERE m.tenant_id=$1 AND m.legal_entity_id=$2 AND m.environment_id=$3 AND s.id=m.system_id AND m.id=$4)) ORDER BY COALESCE(m.inserted_at,'-infinity'::timestamptz) DESC,m.id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/evidence/evidence.ts",
+    "function": "failures",
+    "table": "obligations",
+    "timestamp": "inserted_at",
+    "before": "SELECT id,workflow_id FROM app.obligations WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT id,workflow_id FROM app.obligations WHERE ${predicate} AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.obligations WHERE ${predicate} AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/evidence/evidence.ts",
+    "function": "capabilities",
+    "table": "systems",
+    "timestamp": "inserted_at",
+    "before": "SELECT id,connector FROM app.systems WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT id,connector FROM app.systems WHERE ${predicate} AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.systems WHERE ${predicate} AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/updates/updates.ts",
+    "function": "updatePlanList",
+    "table": "update_plans",
+    "timestamp": "inserted_at",
+    "before": "SELECT * FROM app.update_plans WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.update_plans WHERE ${predicate} AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.update_plans WHERE ${predicate} AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/api/src/admin-principals.ts",
+    "function": "rows",
+    "table": "principal_references",
+    "timestamp": "inserted_at",
+    "before": "SELECT id,legal_entity_id,environment_id,display_name,email,synthetic\n    FROM app.principal_references WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND ($4::uuid IS NULL OR id>$4)\n    ORDER BY id LIMIT $5",
+    "after": "SELECT id,legal_entity_id,environment_id,display_name,email,synthetic\n    FROM app.principal_references WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND ($4::uuid IS NULL OR (COALESCE(inserted_at,'-infinity'::timestamptz),id) < (SELECT COALESCE(inserted_at,'-infinity'::timestamptz),id FROM app.principal_references WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND id=$4)) ORDER BY COALESCE(inserted_at,'-infinity'::timestamptz) DESC,id DESC LIMIT $5"
+  }
+]

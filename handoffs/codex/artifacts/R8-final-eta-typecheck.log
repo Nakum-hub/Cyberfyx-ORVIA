@@ -1,0 +1,7 @@
+$ tsc --noEmit
+tests/unit/worker-workflow-bundle.test.ts(49,22): error TS2322: Type '"scripts/../outside.ts"' is not assignable to type '"scripts/build-worker-workflows.ts" | "services/worker/src/withdrawal-workflows.ts" | "services/worker/src/workflow-bundle.ts"'.
+tests/unit/worker-workflow-bundle.test.ts(50,26): error TS2322: Type 'string' is not assignable to type '"scripts/build-worker-workflows.ts" | "services/worker/src/withdrawal-workflows.ts" | "services/worker/src/workflow-bundle.ts"'.
+tests/unit/worker-workflow-bundle.test.ts(51,31): error TS2322: Type '"scripts/node_modules/input.ts"' is not assignable to type '"scripts/build-worker-workflows.ts" | "services/worker/src/withdrawal-workflows.ts" | "services/worker/src/workflow-bundle.ts"'.
+tests/unit/worker-workflow-bundle.test.ts(52,24): error TS2322: Type '"scripts/.local/input.ts"' is not assignable to type '"scripts/build-worker-workflows.ts" | "services/worker/src/withdrawal-workflows.ts" | "services/worker/src/workflow-bundle.ts"'.
+tests/unit/worker-workflow-bundle.test.ts(53,23): error TS2322: Type '"scripts/dist/input.ts"' is not assignable to type '"scripts/build-worker-workflows.ts" | "services/worker/src/withdrawal-workflows.ts" | "services/worker/src/workflow-bundle.ts"'.
+[ELIFECYCLE] Command failed with exit code 2.

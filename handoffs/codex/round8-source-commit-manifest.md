@@ -1,0 +1,802 @@
+﻿# Round 8 exact source/commit manifest
+
+Read-only Git inventory; base 4738d9a, current review source f07cf733bfb22ad958ef4a5b3ba345b90fd43af6. Includes merged Claude ancestry and every committed changed path; excludes untracked reports and runtime outputs.
+
+Commits: 117. Changed paths: 674. Latest source correction changes exactly five paths, 133 insertions / nine deletions. Historical full qualification remains at3caf/O3,40PASS/4FAIL; current review source has targeted diagnostics/relay/static controls only, no new production build or full-matrix acceptance. Original main theta15 and feature-iota6 identities remain preserved. User forbids further full reruns.
+
+## Every commit in range
+
+- df3134bdba37872daa1d8cab2de9f626701fb1fc CMP test: expected record count includes the cookie-carrying choice; battery artifacts
+- db3b33c573378dfd94408a8e61dc8d49c8c3b946 Regenerate qualification inventory for the edited CMP and intake tests
+- f94031824359ec3d9a717fd7cdb5bf5714e8a8ad Merge pull request #36 from Nakum-hub/claude/upbeat-newton-w4h53x
+- face4ccef1f48c14b25c69cb4b842dc4659c941c Go-live blockers: production criteria import and production audit key tool; acceptance map and review checker
+- bb90948f5ab6e4b17e5dc5029842e58b8ac7a44f Customer-held owner recovery by a protected server command (OPEN-07, revision 1.8)
+- 9b3c6398a53790bbbb502a5d6084b0612e3b0e37 EX07: backup-copy obligations, erasure ledger, restore re-erasure
+- 34999367c92c72f3b9307653db1dfef49b3abd66 Browser runs for the Backups panel, owner recovery and production criteria
+- d27954c4bbfc1e98c7a6e80f1ef7ef9267d96786 Website privacy-policy discovery by the site's own declaration
+- ac7e73afe64668a22bb76bc2faa2556bff89d5cc Eighth Schedule language drift guard for DPDP notices
+- 379f222eec3037da1ccba95a6254dfdfba41a57c CI privacy policy regression gate with deliberate-defect checks
+- 9709a141240ba0ce885767981073fc5ff097da4a wip: canary trap, model-version governance, catalog first-read priority
+- 21c936f4a14fbfd939d612f1c60b0d81a33f0e41 wip: operations wake on withdrawal; withdrawal timing test
+- a29436c086d6d255699378ae81a82bcfe3611c20 Test artifacts from the full battery in progress (source ac7e73a)
+- 6c74aa10991bb4096cfc857303385584ec9916b2 wip: force RLS on owner_recovery_codes
+- cde4c0f3524f961b5c62bfe1a68c37490925a59a Real-people admission command, rev 1.9 addendum (email-only identifiers), schema-drift test paging fix
+- 376529977d319cd9ef6300902e33332c53d8f493 Regenerate qualification inventory for the real-principals test
+- 44dff48b58604219b4f2f5547c6c9eb3010718aa Real-principals test: HTTP refusal and database labelling through the admin API
+- 3411803b5a26395f519f531df8137f5ac8a511ca wip: real-principal admission migration 0082, contract 0.54.0 principal labels, admin route and Principals screen
+- 77d374a4073bbea0e3db7d8c6ecc48644cda53fc Regenerate qualification inventory after the real-principals test change
+- dfff472f21343428b45dcb65d962c86efa2fcfbc Test artifacts from the full battery in progress
+- 4f87cdbbd0b4f0f8eee0c128fc732bea964d42dd Test artifacts from the full battery in progress
+- 0cfa1b62a5273847b133af7b5f3813c11176471b Test artifacts from the full battery in progress
+- 70f93c1b4f19dbac42b38ddec0720981a2879a61 Test artifacts from the full battery in progress
+- e81f268243e4847e2f4166f07d7cfcf2abcdc106 Test artifacts from the full battery in progress
+- ad8663914fbcd23e9e74b3f67a4f8d3c776b418d Test artifacts from the full battery in progress
+- 01c5530f5ffdbe39b1725792952a5e1a9e5ac9f7 Security fix: keep owner-recovery issue and real-people admission server-only
+- ef934217be4b47051aba47abe2ec26cc5d8ecafa Test artifacts from the full battery in progress
+- d220283542c0116f904954e47508c622139b711c Test artifacts from the full battery in progress
+- f25de89702eb78324c773f0050d02455ed6fc820 Test artifacts from the full battery in progress
+- f67f07ba701e472d40f097e5c2f1e5473281052f Test artifacts from the full battery in progress
+- 2974b51ae864d29bf7495b5155b5d82319248dca Test artifacts from the full battery in progress
+- 7ef227d73c25b0dfe503b4dfc3403f3231c14adf Test artifacts from the full battery in progress
+- eddec39789d41c3417b6ae1fd178d5a49691bfe2 Test artifacts from the full battery in progress
+- 4b839148e1d7c816339d6095bba9e9228e848b82 Test artifacts from the full battery in progress
+- 87e1170d9ce73cf79cd73a8180eaee7b0f7ddb27 Test artifacts from the full battery in progress
+- 99324e25e097fad9e0c1b42a2a487fe4fba2e13f Test artifacts from the full battery in progress
+- 9ac7f36276cc1b3b556412d98fd095daab9376b3 Test artifacts from the full battery in progress
+- b1622ec5337839147e4a0ca7a5a1e2011e7fc259 Test artifacts from the full battery in progress
+- 36dad9a567b8684cb368b41a5677dfa619feec02 Test artifacts from the full battery in progress
+- 852464a00b7336dc4176d7031dbd6be2facbee27 Tests: page through long lists instead of assuming one page holds the record
+- 2e6f5bf6be2ee2185856d771e3707c960b5660c5 Test artifacts from the full battery in progress
+- 89af3b10edc62c61afdb3bb825ba2238def6288f Web suite: start Next.js with the workspace root, as every real start path does
+- 00c4b3e4da9458605f34f2358e30babeda8827a4 Test artifacts from the full battery in progress
+- 464ffe41da38b470fdd100b0611943307081cfdf Browser journeys: find Chromium on Linux hosts as well as the bundled Windows shell
+- f3b562a17866354654e157260aff40e596abddfd Browser journey screenshots from the full battery in progress
+- 36cb76407a011cd58699bcd0c027581a72821c28 Browser journey evidence from the full battery in progress
+- 87921a635144c1b166747e3249b5035180a763f6 Browser journey evidence from the full battery in progress
+- a4823db791600727ab894924c2dca59b248eb7cf Untrack worktree node_modules symlinks; ignore them
+- e67a33d441049261fd9becd989394e3deae9bcc5 Merge commit '4738d9a' into wt-features
+- 16ae5cc977f616ddf1e53f1e2100eefbc47e3935 Browser journey evidence from the full battery in progress
+- 6fe40eb9c1c07b3068bfbaea10160d90598b9211 Browser journey evidence from the full battery in progress
+- 4fc909c50f76a27d87657aaea89513947c5d73dd Interface crawl screenshots from the full battery in progress
+- e6e5935947792386af196d329461e609909f7d3e Interface crawl evidence from the full battery in progress
+- 9c3d4c4ffaa9f9aba45080c44a7ee86b96365984 Interface crawl evidence from the full battery in progress
+- 0432f3a428989707c3af78fffc0cf63d1e452b54 Merge remote-tracking branch 'origin/claude/upbeat-newton-w4h53x' into codex/round8
+- d532fbffa501ca4821d471650ae08842a09cddac Track queued reads and wait for refreshed browser content
+- 045657650e454beae7f3903e0259123e33d2cedd Guard Round 8 runtime use and pin execution metadata at start
+- 164cab81c284dab0254aa73b54f2513002b22763 Measure policy latency and renew synthetic workers without changing grants
+- c063f7f4b58997af6f99607ba3c13ba27dc1c2f1 Reconcile audit worker evidence within the current engagement
+- 8cf9c5f6f8651378ca1166445856e2f1672be4a0 Trace policy transport and event-loop timing without payloads
+- 4193edbf1d88b248a0b4244b7a9dfd97b0e0917f Full battery 19 evidence (interface crawl and journeys)
+- aeb1c75b5b0da86d2969fe1a405cd98e570fc6c2 Merge feature worktree: canaries, model versions, operations wake, real-principal admission, contract 0.54.0, security fixes, Codex round 7
+- 626547c9c3a8f0d6d112f089fbfb085d031f3101 Contract 0.54.0 generated artifacts; rename canary receipt route to record_canary_receipt
+- 70d94dad1fd7e63f3c3daf62ca2cd5f1c744a25e Post-merge rerun evidence in progress
+- bcec68ddd1487b746c6190e65e8452c5eb7f70a8 Post-merge rerun evidence in progress
+- c06d0b3f1338aecc2416ecf662c8416123cbadaa Post-merge rerun evidence in progress
+- 22dfac6cb89e78a271d4a52111924540be66104e Post-merge rerun evidence in progress
+- 74e2a78fea6d2e105067a6392634ef989ce67a03 Discovery suites make their own target the next one read; timing control reports each decision
+- a07d1b39f2da9f597291c508e7d022780875a0b1 Reject OPA execution errors as privacy regression evidence
+- e8cf1cdde8b7ab7ce50442aa8d3e80552f9f6f7e Settle person detail reads before editing browser forms
+- a5757b20bd222d97753773fd59108b7b7ac1ddeb GRC lifecycle suite makes its scheduled control test the longest due
+- add2081142e739c4b8c32fb8bf3f4e5dcdd21927 GRC HTTP suite: include the Privacy Centre setting its sign-in path reads
+- 7b1e8f5794dbfc563942b146e390f17d4e0d2d17 Post-merge rerun evidence in progress
+- b24b3fb26646f60cef6bf4e5b66ae71d2b7fe1e7 Merge published Claude contract 0.54 and security features for Round 8
+- 12afb8f74a19399a84ea40b21b3b1925cd207f80 Regenerate qualification inventory after the GRC suite fixes
+- 02149563e3f04a8574e2c5c0d6b5deff739cdac4 Post-merge rerun evidence in progress
+- a152171494f70742ba9c3f8dfd7034c1ba509561 Post-merge rerun evidence in progress
+- 0e8d20e822b010f7409418c45e10ef9f47b51a54 NoticeContextDrift: CI guard over the language drift rules, with deliberate-defect checks; drift guard document
+- df295cec3428a675f3bb637e15741f1a8b498dde Post-merge rerun evidence in progress
+- a1c52d91305b395776fd67cf881926a222031aee Post-merge rerun evidence in progress
+- ebde760d8797618c6ef095a11c5019b7b3b2e7c1 Post-merge rerun evidence in progress
+- 7ac2bbb76ed4d6275ade24aecdf72628b8bd61a1 Post-merge rerun evidence in progress
+- 66bca3ec23f0797844306fb7c58d79ea23afb5a1 Post-merge rerun evidence in progress
+- 6e23ddea7a48a06ae32bd84efd6d13433bcf34c4 Post-merge rerun evidence in progress
+- 1e83b39fd64fa0378b168a5783b29a9e62b1f2d1 Post-merge rerun evidence in progress
+- 3fb9427196f860bea049f3ab139485c6e4fc4216 Post-merge rerun evidence in progress
+- 18e1dde3294f02746b5edd055e8967adc6bce0bb Web suite: assert an unauthenticated business request is refused with 401
+- 52e7560ef1d0989c9404a622f329892111916f40 Second rerun pass evidence in progress
+- a1f03f8d3d160bc4b19949ee700c5f687aee154c Schema-drift suite resets its retried job the way the table allows
+- 034ba7ef16b1ca92578aeb0672af8f0f39353e21 Second rerun pass evidence in progress
+- 9508eae2b11a6a6f85e5ceb669b2cf17dbb5e586 Withdrawal timing: independent purposes per cycle; a re-grant during unresolved suppression stays blocked
+- e8728d3e5adff383a97e6225c6053069ad3ff1df Second rerun pass evidence
+- 2706928290247a4dfc220f17d76a1ea0a2f9211a Third rerun pass evidence in progress
+- ba94001fd984e0636839c34c4f166717fe9e64e0 Third rerun pass evidence in progress
+- b9a87231f6c826000f16088e516309a60ba48868 Audit mandate suite: continuous-assurance mandate checks (revision 1.6 section 3)
+- 2ea335fc650417c39b3047e581cb840b8dc4e280 Fourth rerun pass evidence in progress
+- 1bcca1a00905763029c78f311c8ed7ce46f2f872 V1 verification matrix generated from executed results
+- 6932c9e2d86054486a038c0819f3365d615b47fa Matrix: run the three never-run security suites and the policy gate
+- 2813bc5323d50ac7f18bef40291d249b1235c7bf GO_LIVE: section D, decisions and inputs only the owner or Cyberfyx can supply; payments step detailed
+- 57f0f539ab087a38258d93fff88010d2c3c95849 Tracking: M26 Billing reflects EX13 vendor commerce (partial; live payments blocked); 2026-10-01 limitations for EX01, EX02, EX04, EX07, EX12, EX14, EX18
+- 9218840fed8ea1faba5064daa0b7c947b0cb1a7b Handoff: 2026-10-01 verification round (features, security fix, test corrections, executed results, open items)
+- 50c64fa40916fbfb1b74cb15baf591f2fda23164 Battery 20 evidence in progress
+- 618244d46c5c93f38e48808288b31f37f361e95c Revert M26 to NOT_IMPLEMENTED: billing belongs to the vendor website by design
+- 0ed1cae6936c554e923a0c6e51fa5c4fd733a6a8 Battery 20 evidence in progress
+- dc023d5eae333b65e5a611b92f0f7d95d5a3c18c Battery 20 evidence in progress
+- a1215aca2f434480c1a06bcc0ed58c2d772384ac Battery 20 evidence in progress
+- f4c3dcd5b48a78de3ed37ab67a110a48058c690b Complete staff list chronology and harden audit key custody
+- 16f45ef7fba1ba1cf17bf04924b8a2dd6b566b01 Merge remote-tracking branch 'origin/claude/upbeat-newton-w4h53x' into codex/round8
+- 261af33271aec3635b9415e38e7104be5281da71 Fix pending canary retirement and cancel superseded queued reads
+- d137d8e87d1b9ada6ea3ccc8cc4c98a988904046 fix(worker): stop stalled batches and preserve executable admission
+- 3951440cad070881b204b6c2c23be5a11fdeb279 test(qualification): cover workflow prerequisite and pipe readiness
+- fba5783cfbc8603e80ba86f962c1033c2416ff6a fix(frontend): isolate directory subscriber cancellation
+- fd987d9ab861c2c0740ed91727d544b90707c9c3 test(qualification): renew protected enrollment between suites
+- 73604a82cd4c5232195a8abb413d10a109a2888b fix: recover uncertain effects and respect durable auth limits
+- d7a10d6a1e707f0e1d57378e5d0f58c9b3c02503 fix: prebuild verified Temporal workflow bundles
+- 3caf3b7cba1703e42018e6ba43af80ab4206287e test: wait for vendor landing readiness before criteria navigation
+- f07cf733bfb22ad958ef4a5b3ba345b90fd43af6 fix: bound relay shutdown and record vendor policy failures
+
+## Exact changed paths
+
+- M	.github/workflows/source-validation.yml
+- M	.gitignore
+- M	AGENTS.md
+- M	CURRENT_STATE.md
+- M	README.md
+- M	backend/api/src/admin-principals.ts
+- M	backend/api/src/expansion-routes.ts
+- M	backend/api/src/index.ts
+- M	backend/api/src/operations-routes.ts
+- M	backend/api/src/setup.ts
+- M	backend/api/src/vendor/authority.ts
+- A	backend/api/src/vendor/dependency-errors.ts
+- M	backend/api/src/vendor/routes.ts
+- A	backend/auth/src/errors.ts
+- M	backend/auth/src/server.ts
+- A	backend/domain/src/ai-governance/model-versions.ts
+- A	backend/domain/src/cmp/policy-discovery.ts
+- M	backend/domain/src/configuration/configuration.ts
+- A	backend/domain/src/consent/canaries.ts
+- M	backend/domain/src/delivery/delivery.ts
+- M	backend/domain/src/evidence/evidence.ts
+- M	backend/domain/src/operations/attention.ts
+- M	backend/domain/src/operations/executor.ts
+- M	backend/domain/src/operations/runs.ts
+- A	backend/domain/src/registry/backups.ts
+- M	backend/domain/src/registry/connectors.ts
+- M	backend/domain/src/registry/consent.ts
+- M	backend/domain/src/registry/intake.ts
+- A	backend/domain/src/registry/notice-drift.ts
+- M	backend/domain/src/registry/notices.ts
+- M	backend/domain/src/registry/principals.ts
+- M	backend/domain/src/registry/processing.ts
+- M	backend/domain/src/registry/processors.ts
+- M	backend/domain/src/registry/retention.ts
+- M	backend/domain/src/updates/updates.ts
+- M	backend/privacy-control/src/processing.ts
+- M	backend/vendor/audit/practice.ts
+- M	backend/vendor/audit/service.ts
+- A	database/customer/migrations/0074_owner_recovery.sql
+- A	database/customer/migrations/0075_owner_recovery_issue_time.sql
+- A	database/customer/migrations/0076_backup_obligations.sql
+- A	database/customer/migrations/0077_policy_discovery.sql
+- A	database/customer/migrations/0078_notice_translation_basis.sql
+- A	database/customer/migrations/0079_withdrawal_canaries.sql
+- A	database/customer/migrations/0080_ai_model_versions.sql
+- A	database/customer/migrations/0081_operations_wake.sql
+- A	database/customer/migrations/0082_real_principal_admission.sql
+- A	database/customer/migrations/0083_owner_recovery_rls.sql
+- A	database/customer/migrations/0084_server_only_functions.sql
+- A	database/customer/migrations/0085_staff_list_chronology.sql
+- A	database/customer/migrations/0086_canary_retirement.sql
+- A	database/customer/migrations/0087_uncertain_independent_verification.sql
+- A	database/customer/src/server-only.ts
+- A	database/vendor/migrations/0016_production_criteria_two_person.sql
+- A	docs/GO_LIVE.md
+- A	docs/engineering/ACCEPTANCE_MAP.md
+- A	docs/engineering/BACKUP_OBLIGATIONS_AND_CRYPTO_ERASURE.md
+- A	docs/engineering/NOTICE_LANGUAGE_DRIFT.md
+- M	docs/engineering/PRODUCTION_READINESS.md
+- A	docs/engineering/V1_BASELINE_REV_1_8_OWNER_RECOVERY.md
+- A	docs/engineering/V1_BASELINE_REV_1_9_REAL_PRINCIPALS.md
+- A	docs/engineering/V1_VERIFICATION_MATRIX.md
+- A	docs/engineering/WEBSITE_POLICY_DISCOVERY.md
+- M	docs/runbooks/OPERATOR.md
+- A	frontend/src/app/api/v1/setup/owner-recovery/route.ts
+- M	frontend/src/app/vendor/practice/page.tsx
+- A	frontend/src/app/workspace/recover/page.tsx
+- M	frontend/src/app/workspace/sign-in/page.tsx
+- M	frontend/src/components/screens/controls/configuration.tsx
+- M	frontend/src/components/screens/expansion/dpdpa-audit.tsx
+- M	frontend/src/components/screens/expansion/website-consent.tsx
+- M	frontend/src/components/screens/governance/ai-governance.tsx
+- A	frontend/src/components/screens/governance/ai-model-versions.tsx
+- A	frontend/src/components/screens/privacy-operations/backup-obligations.tsx
+- M	frontend/src/components/screens/privacy-operations/breaches-and-attention.tsx
+- M	frontend/src/components/screens/privacy-operations/consent-records.tsx
+- M	frontend/src/components/screens/privacy-operations/registry-operations.tsx
+- M	frontend/src/components/screens/privacy-operations/registry-setup.tsx
+- A	frontend/src/components/screens/privacy-operations/withdrawal-canaries.tsx
+- M	frontend/src/components/shared/api.ts
+- A	frontend/src/components/shared/collection-pages.ts
+- M	frontend/src/components/shared/directory.ts
+- A	frontend/src/components/shared/read-activity.ts
+- A	frontend/src/components/shared/read-queue.ts
+- A	frontend/src/components/shared/read-retry.ts
+- A	handoffs/code/2026-10-01-verification-round.md
+- A	handoffs/code/artifacts/audit-practice-2026-09-30T16-34-55-916Z.json
+- A	handoffs/code/artifacts/audit-practice-2026-09-30T18-20-02-613Z.json
+- A	handoffs/code/artifacts/audit-practice-2026-09-30T18-22-44-373Z.json
+- A	handoffs/code/artifacts/audit-practice-2026-09-30T18-26-45-889Z.json
+- A	handoffs/code/artifacts/audit-practice-2026-10-01T06-05-48-492Z.json
+- A	handoffs/code/artifacts/interface-crawl-2026-09-30T16-56-35-403Z.json
+- A	handoffs/code/artifacts/interface-crawl-2026-10-01T06-34-12-867Z.json
+- A	handoffs/code/artifacts/vendor-audit-2026-09-30T18-28-39-383Z.json
+- A	handoffs/code/artifacts/vendor-audit-2026-10-01T06-06-44-915Z.json
+- A	handoffs/codex/artifacts/A00-first-run-setup-1790794342978-1874cae2-0732-45d9-bc41-69f110188db5.json
+- A	handoffs/codex/artifacts/A00-migration-1790794110656-f79934b8-54f5-4e8c-baa8-53a4962fc815.json
+- A	handoffs/codex/artifacts/A00-migration-1790794190120-109b6907-f862-4315-9547-916a087d4702.json
+- A	handoffs/codex/artifacts/A00-migration-1790795006918-13afe436-7c86-4b07-97ad-fc2a242bcb8e.json
+- A	handoffs/codex/artifacts/A00-migration-1790827026321-319b3f3c-dea6-4424-b4ea-14cd1da485e3.json
+- A	handoffs/codex/artifacts/A00-migration-1790828317603-040e66ee-1eab-4a34-ada9-8c5346edeada.json
+- A	handoffs/codex/artifacts/A00-migration-1790828908088-8a7544ff-26e3-431e-bb7e-dc112b8f6726.json
+- A	handoffs/codex/artifacts/A00-migration-1790831204287-a445535e-9336-4911-aace-8d5abcc86f5b.json
+- A	handoffs/codex/artifacts/A00-migration-1790847253167-24c007a5-db01-4d38-bad9-a3a9aaf0abd7.json
+- A	handoffs/codex/artifacts/A00-migration-1790849147761-ff330c3b-4261-4dbe-9e15-dadbf0ca473e.json
+- A	handoffs/codex/artifacts/A00-migration-1790849616293-81ec9ebf-2a1b-4ed1-a028-0e37773bf8c6.json
+- A	handoffs/codex/artifacts/A00-migration-1790850344849-abbbcd13-b13b-4d59-9037-7508e2a2de0a.json
+- A	handoffs/codex/artifacts/A00-migration-1790850788124-96070dbb-3e8e-40fc-b469-28a958946773.json
+- A	handoffs/codex/artifacts/DPDP-ai-governance-browser-1790834986877-ebea49c2-730d-40fd-bbae-abe3654fee49.json
+- A	handoffs/codex/artifacts/DPDP-ai-governance-browser-1790848910921-f1713e77-52b1-453f-b4fc-37ce54e6a1d1.json
+- A	handoffs/codex/artifacts/DPDP-ai-governance-integration-1790828973624-42b75e39-7a6e-4dd6-a6bd-3dc4371c3339.json
+- A	handoffs/codex/artifacts/DPDP-ai-governance-integration-1790848593388-9bbfa17c-1c61-4fc2-a6f8-57958e365c24.json
+- A	handoffs/codex/artifacts/DPDP-ai-governance-integration-1790850807695-2ca9f683-3915-4ad0-9d1b-deca20e1bd3b.json
+- A	handoffs/codex/artifacts/DPDP-ai-governance-monitor-1790829072533-802a3950-d876-41fd-94fe-96315287742b.json
+- A	handoffs/codex/artifacts/DPDP-ai-governance-monitor-1790850920659-816ba4c7-a64d-406d-898b-cdb760928008.json
+- A	handoffs/codex/artifacts/DPDP-audit-integration-1790829105421-6af098aa-eb6d-4e17-80bf-bcf2c5609961.json
+- A	handoffs/codex/artifacts/DPDP-audit-integration-1790847951863-08f508eb-0dc0-488f-bde2-0e2ba7860e3b.json
+- A	handoffs/codex/artifacts/DPDP-audit-integration-1790850991961-b7fea41c-1bfd-4313-ac18-7a10d3c287f5.json
+- A	handoffs/codex/artifacts/DPDP-audit-retention-integration-1790829192991-b90eded8-f054-40c9-a5cf-6a04d2d03ee2.json
+- A	handoffs/codex/artifacts/DPDP-audit-retention-integration-1790851085098-bbe169f8-da56-4f98-bc76-16488dccaca7.json
+- A	handoffs/codex/artifacts/DPDP-auth-security-1790834897932-43d57456-2314-4fc3-9ad9-d75a0da6fb9c.json
+- A	handoffs/codex/artifacts/DPDP-auth-security-1790848095875-7a963461-b0f5-416a-8a33-df63bbec13fc.json
+- A	handoffs/codex/artifacts/DPDP-backup-drill-1790832134031-a4b82035-8e9f-470e-be0e-880821199dfb.json
+- A	handoffs/codex/artifacts/DPDP-backup-drill-1790849535658-3a701836-2824-4836-84c2-772718c57678.json
+- A	handoffs/codex/artifacts/DPDP-backup-drill-test-1790832134542-35ef81a7-9fcd-4bac-8113-c263197e21c3.json
+- A	handoffs/codex/artifacts/DPDP-backup-drill-test-1790849536272-19b987e7-63c1-4116-9c03-b5bebc6efa06.json
+- A	handoffs/codex/artifacts/DPDP-catalog-discovery-browser-1790835223746-e523dbb1-e7df-4973-b70f-de63f8b2a09a.json
+- A	handoffs/codex/artifacts/DPDP-catalog-discovery-flow-1790829585431-a446ded1-6e44-4910-845b-c42d49949271.json
+- A	handoffs/codex/artifacts/DPDP-catalog-discovery-flow-1790847713760-0d43ab35-2806-43ff-ae21-52a8cff8fd83.json
+- A	handoffs/codex/artifacts/DPDP-catalog-discovery-flow-1790849232584-53f55961-af61-4f96-bb02-9cc963f23585.json
+- A	handoffs/codex/artifacts/DPDP-consent-integration-1790829302049-f887c5d4-5d4b-43b5-9d88-c2c839fba97d.json
+- A	handoffs/codex/artifacts/DPDP-consent-integration-1790851281632-966f41da-9904-4371-9900-8f6cb70fb251.json
+- A	handoffs/codex/artifacts/DPDP-coverage-integration-1790829522004-c1d76340-2c52-41cb-b133-73cb51b3482e.json
+- A	handoffs/codex/artifacts/DPDP-coverage-integration-1790847778538-7a1d8e88-5f7e-44df-923c-6e95ba3c4586.json
+- A	handoffs/codex/artifacts/DPDP-evidence-integration-1790829881334-3c576b94-5d9f-4224-bea2-66e2a919f09a.json
+- A	handoffs/codex/artifacts/DPDP-expiry-integration-1790829494336-21be1da9-a28d-467f-80e9-ef1753d58051.json
+- A	handoffs/codex/artifacts/DPDP-first-run-setup-1790832493431-d951ce99-f874-4947-a2dc-1a1177d7ae60.json
+- A	handoffs/codex/artifacts/DPDP-fixture-isolation-1790850523637-399e2c54-f935-4cad-aedd-df73968f557d.json
+- A	handoffs/codex/artifacts/DPDP-graph-integration-1790831914081-7fa8c4e2-39c7-4aeb-a30d-e3543d062489.json
+- A	handoffs/codex/artifacts/DPDP-graph-source-binding-1790850527221-1f8b1a85-90d4-44e5-b0f2-c2eeccefba63.json
+- A	handoffs/codex/artifacts/DPDP-imports-integration-1790832517978-c395e9b3-39c4-471e-ae4a-43b6686f4427.json
+- A	handoffs/codex/artifacts/DPDP-incidents-integration-1790832006701-e4cf7290-fbaf-4d21-be49-f2c5006897fe.json
+- A	handoffs/codex/artifacts/DPDP-licensing-integration-1790848067473-1d831791-c091-4aa7-8834-b6974ef38c51.json
+- A	handoffs/codex/artifacts/DPDP-migration-upgrade-1790832089042-a1b96aed-6aef-478e-9a7b-34295c317257.json
+- A	handoffs/codex/artifacts/DPDP-monitoring-integration-1790832158964-a1c62b4a-53b4-4793-b0d1-ef4c6685f79f.json
+- A	handoffs/codex/artifacts/DPDP-notice-language-integration-1790832332772-3d37fbde-fc0d-4369-b6ca-a3be22dd00e8.json
+- A	handoffs/codex/artifacts/DPDP-notifications-integration-1790832418237-1bcec620-25d2-4cc1-ab17-d10399c59477.json
+- A	handoffs/codex/artifacts/DPDP-onboarding-integration-1790832443581-4885f50a-91b6-4fa2-a522-f2455f979393.json
+- A	handoffs/codex/artifacts/DPDP-opa-cold-start-1790832589077-32f9cbb5-5dcf-4c97-acec-8f89c298c32b.json
+- A	handoffs/codex/artifacts/DPDP-operations-ai-model-versions-1790847526601-512b5c93-e79e-4fe9-b5d5-ccb2290b522c.json
+- A	handoffs/codex/artifacts/DPDP-operations-ai-model-versions-1790850895533-9c06a240-2862-417b-8079-a1a124fb02f5.json
+- A	handoffs/codex/artifacts/DPDP-operations-applicability-1790832676574-4d1ef8ab-4b24-4c66-a821-87ce330de436.json
+- A	handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790785937794-d5b72553-026e-49dd-8e06-88f300464d2f.json
+- A	handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790830047733-79be4837-1e0e-4f2e-bb48-eac5e5a0db96.json
+- A	handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790848858544-ae8f9161-d324-4b51-85ee-5bed761a4b5c.json
+- A	handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790850387492-ed130d9d-9467-4d5e-9752-b5eb3e862081.json
+- A	handoffs/codex/artifacts/DPDP-operations-audit-mandate-browser-1790835088609-b7ec0cc0-0119-4847-a6d8-1c86d734f64c.json
+- A	handoffs/codex/artifacts/DPDP-operations-backup-obligations-1790795577571-08de6f00-8531-46e8-b552-47ad04001c64.json
+- A	handoffs/codex/artifacts/DPDP-operations-backup-obligations-1790832783992-6a1cffe6-f430-42dd-a6eb-523b9e0ef2cf.json
+- A	handoffs/codex/artifacts/DPDP-operations-backups-and-recovery-browser-1790797175496-16230ead-5f5e-466e-bec6-10cd123cc2e5.json
+- A	handoffs/codex/artifacts/DPDP-operations-backups-and-recovery-browser-1790835165395-ad6a717d-dc38-4cda-a360-5e05d260954e.json
+- A	handoffs/codex/artifacts/DPDP-operations-breach-1790832812084-428eb7b6-354d-413d-b384-af1b94773bef.json
+- A	handoffs/codex/artifacts/DPDP-operations-classification-1790830137313-7f789d90-5d82-47e5-bfbb-53bc3fba9c2c.json
+- A	handoffs/codex/artifacts/DPDP-operations-cmp-1790785497332-18261126-f152-4012-9a34-83ea990cb956.json
+- A	handoffs/codex/artifacts/DPDP-operations-cmp-1790787467525-049b01bd-c718-4707-b3f4-a9ed46548a1d.json
+- A	handoffs/codex/artifacts/DPDP-operations-cmp-1790827823382-9837eb57-1d73-46b5-a076-cc96382b9ac5.json
+- A	handoffs/codex/artifacts/DPDP-operations-cmp-1790830231809-8e5fca29-fb69-4e94-b37e-5817bec0b859.json
+- A	handoffs/codex/artifacts/DPDP-operations-consent-manager-1790832898367-72d14c1e-3385-460d-bbfb-747a43282e92.json
+- A	handoffs/codex/artifacts/DPDP-operations-consent-withdrawal-1790785796782-0171be6e-5747-4174-b96a-2de1aaa47271.json
+- A	handoffs/codex/artifacts/DPDP-operations-consent-withdrawal-1790795913076-1cf1a454-ab32-4b62-8672-4bb3d2fd3d3e.json
+- A	handoffs/codex/artifacts/DPDP-operations-consent-withdrawal-1790833019179-2a05638a-b044-46b7-95cb-ba9edb0fbcb7.json
+- A	handoffs/codex/artifacts/DPDP-operations-consent-withdrawal-1790848255579-2182d8a6-529f-476c-aae1-54dc7385d9fe.json
+- A	handoffs/codex/artifacts/DPDP-operations-correction-1790833045112-eb4cb2d3-4769-4051-97f6-857050197213.json
+- A	handoffs/codex/artifacts/DPDP-operations-delete-login-browser-1790835345175-46841adf-d62a-4abe-a658-aeb715f2a911.json
+- A	handoffs/codex/artifacts/DPDP-operations-delivery-1790830479240-65aa319c-e58a-4112-b4d2-f2228ed85cc0.json
+- A	handoffs/codex/artifacts/DPDP-operations-delivery-1790848568260-7fed0b40-655c-490f-99e5-a48c4ff0b8dc.json
+- A	handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-1790830512181-27857000-37d8-4d0c-881a-b6a36e712bdb.json
+- A	handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790835446901-179def9c-8a9f-4441-9d1e-be7cbf6c0318.json
+- A	handoffs/codex/artifacts/DPDP-operations-erasure-intimation-1790795660596-ea5c3b2f-7ed7-4ab0-a671-0d1580177509.json
+- A	handoffs/codex/artifacts/DPDP-operations-erasure-intimation-1790833133002-c8a65961-998a-4e37-bcc7-bc8ee87bbc58.json
+- A	handoffs/codex/artifacts/DPDP-operations-estate-import-1790785592696-0a3a8f0a-688c-4b68-9f1e-2df56685d354.json
+- A	handoffs/codex/artifacts/DPDP-operations-estate-import-1790828462786-20923545-e90f-4504-9f84-ce441e147b80.json
+- A	handoffs/codex/artifacts/DPDP-operations-estate-import-1790833169707-94f28a26-376e-4bd0-8504-f63c381ea73b.json
+- A	handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790786390110-cd0feffa-07e4-4f3d-a45d-6e0bf4617d10.json
+- A	handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790835522306-8642280b-c398-41ab-99b2-ae0359c196d1.json
+- A	handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790849094326-7351b181-5d71-471c-9e46-d7e067a270e0.json
+- A	handoffs/codex/artifacts/DPDP-operations-first-run-http-1790832468145-ddbbe4eb-97d0-49df-9848-5b5eb8c33446.json
+- A	handoffs/codex/artifacts/DPDP-operations-grc-lifecycle-1790830614899-8f4418b9-7e22-499d-b2b9-5e8a31f270e7.json
+- A	handoffs/codex/artifacts/DPDP-operations-grc-lifecycle-1790847892118-fecc28ba-b716-4338-aa0e-9bb589ebd4b8.json
+- A	handoffs/codex/artifacts/DPDP-operations-grc-lifecycle-1790849472303-a8935819-9514-473e-a9bb-bf832907d6b0.json
+- A	handoffs/codex/artifacts/DPDP-operations-impact-assessments-1790828533889-8d48c2c6-e9db-48a5-b272-d656105c0c2e.json
+- A	handoffs/codex/artifacts/DPDP-operations-impact-assessments-1790830701788-1126ff13-ca23-4002-90e9-9b4aace400f6.json
+- A	handoffs/codex/artifacts/DPDP-operations-interface-crawl-1790787395455-f6cd1339-c63d-49de-bc15-ef6110676a70.json
+- A	handoffs/codex/artifacts/DPDP-operations-interface-crawl-1790836452903-5dcc250a-96d8-4960-8c90-b04649a3fb28.json
+- A	handoffs/codex/artifacts/DPDP-operations-notice-language-drift-1790828356385-0660517f-98da-445e-84c9-0e62af2ff7c8.json
+- A	handoffs/codex/artifacts/DPDP-operations-notice-language-drift-1790833257797-7e89a053-4f8f-4138-8a39-dd8e9af48326.json
+- A	handoffs/codex/artifacts/DPDP-operations-notices-1790828374704-2b795148-e962-4a04-adda-82c03ea2b24a.json
+- A	handoffs/codex/artifacts/DPDP-operations-notices-1790833282552-a16e0043-85f5-4196-b46d-9dd7704bf339.json
+- A	handoffs/codex/artifacts/DPDP-operations-operations-screens-browser-1790786243148-357512bd-f3f2-4856-82f7-2c0e0b869637.json
+- A	handoffs/codex/artifacts/DPDP-operations-operations-screens-browser-1790836601308-d7681a62-9127-4175-abfe-6c4b0577353b.json
+- A	handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790785410945-71382a05-cfb0-443e-a172-b4da5dad690f.json
+- A	handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790828704841-e32b2b06-1721-445b-b6d3-91966ec59de5.json
+- A	handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790833384205-34c195cd-36b9-448b-a50a-2c6baef97b38.json
+- A	handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790848695385-3f942a0f-b09f-4b33-82a2-9e00864e86c5.json
+- A	handoffs/codex/artifacts/DPDP-operations-policy-discovery-1790827749165-5225d224-229e-4416-9f59-576759a162a3.json
+- A	handoffs/codex/artifacts/DPDP-operations-policy-discovery-1790831366156-0ad55cb8-3e61-4530-b551-4deb22260382.json
+- A	handoffs/codex/artifacts/DPDP-operations-preferences-1790831391736-0be4f343-256d-42e9-b8a6-9a64000af533.json
+- A	handoffs/codex/artifacts/DPDP-operations-preferences-browser-1790786446384-3090d475-50c8-4d7d-8c17-436fb7fc16ac.json
+- A	handoffs/codex/artifacts/DPDP-operations-preferences-browser-1790836658915-bd5d77ee-a5ed-4fe2-9ec8-44a3f7438745.json
+- A	handoffs/codex/artifacts/DPDP-operations-processors-1790785617193-314d506b-06c3-4fc4-9b42-7034506cd91c.json
+- A	handoffs/codex/artifacts/DPDP-operations-processors-1790833471173-dc4cf0b7-92e9-4f31-b426-26b2aaae192b.json
+- A	handoffs/codex/artifacts/DPDP-operations-registry-1790833559270-9c838ff3-863b-4ef6-88a9-c6445b303bb8.json
+- A	handoffs/codex/artifacts/DPDP-operations-registry-forms-browser-1790836829512-060032db-ee4b-4158-b68c-b5ae2396f0e6.json
+- A	handoffs/codex/artifacts/DPDP-operations-regulatory-1790833585394-b8da43dd-e285-4def-b91e-3071e0e88520.json
+- A	handoffs/codex/artifacts/DPDP-operations-response-packages-1790831484492-cfb2568e-202f-46b7-8502-26fe1d7d5a16.json
+- A	handoffs/codex/artifacts/DPDP-operations-retention-scale-1790795871346-5e05c81d-b04a-4edf-8370-3a96d5515dce.json
+- A	handoffs/codex/artifacts/DPDP-operations-retention-scale-1790833706354-d0df4e07-8fb9-4043-af7e-6c831ffe4c88.json
+- A	handoffs/codex/artifacts/DPDP-operations-rights-1790785883000-6ba1cbb6-a057-4615-8bfd-a4dfc3e7960b.json
+- A	handoffs/codex/artifacts/DPDP-operations-rights-1790833732291-12707efe-a413-44f0-9fa2-736240c223aa.json
+- A	handoffs/codex/artifacts/DPDP-operations-ropa-exports-1790831580117-b2fa81b8-66f7-48aa-a2af-65e1b83a677a.json
+- A	handoffs/codex/artifacts/DPDP-operations-runner-1790785742008-649707ed-ed9d-48a6-be4a-34d1fbed0f3b.json
+- A	handoffs/codex/artifacts/DPDP-operations-runner-1790795799590-1c6b9592-b01b-4920-a45e-ba4010726e4f.json
+- A	handoffs/codex/artifacts/DPDP-operations-runner-1790833832685-738fc5d2-6d17-4185-a5e0-c2f78397c5b2.json
+- A	handoffs/codex/artifacts/DPDP-operations-schema-drift-1790831261385-61bdaff6-e224-4744-beb3-bfbb245fc562.json
+- A	handoffs/codex/artifacts/DPDP-operations-schema-drift-1790847649848-6f4662da-57fc-4607-b447-f9b915f4163e.json
+- A	handoffs/codex/artifacts/DPDP-operations-schema-drift-1790849167396-e70c36ae-e18d-432b-be91-ccadca46074d.json
+- A	handoffs/codex/artifacts/DPDP-operations-schema-drift-1790849635098-0649e1de-1f0e-4ca1-9c77-af711a0f3a5b.json
+- A	handoffs/codex/artifacts/DPDP-operations-sdf-1790833857276-1220ab59-58fa-4355-90ca-44eed889d151.json
+- A	handoffs/codex/artifacts/DPDP-operations-sign-in-hydration-1790786504999-24ee5a56-97c0-4485-a670-c4e105b60700.json
+- A	handoffs/codex/artifacts/DPDP-operations-sign-in-hydration-1790836888801-74303eca-2f84-4e29-9c54-d70e8143eb2d.json
+- A	handoffs/codex/artifacts/DPDP-operations-staff-delete-1790831670051-eb7a2256-3e9d-4f0b-88c1-df6ce22ea11d.json
+- A	handoffs/codex/artifacts/DPDP-operations-staff-members-1790831757908-b7981a78-cd43-4f20-b8e1-596e3440368a.json
+- A	handoffs/codex/artifacts/DPDP-operations-team-browser-1790836946953-e9374a68-2b78-4001-8af7-410cbe10cc98.json
+- A	handoffs/codex/artifacts/DPDP-operations-third-party-1790828609714-1d3dd2cf-b50c-4fe9-a43c-ab3a3e4ba760.json
+- A	handoffs/codex/artifacts/DPDP-operations-third-party-1790831826962-86edc2b1-3b9f-4f83-95fe-a54b0e923e67.json
+- A	handoffs/codex/artifacts/DPDP-operations-vendor-production-criteria-browser-1790797324384-0c0d43bf-e24a-43ad-970e-f8a56afe8028.json
+- A	handoffs/codex/artifacts/DPDP-operations-vendor-production-criteria-browser-1790837004581-2de41558-55ff-44a1-982c-ada910382cc3.json
+- A	handoffs/codex/artifacts/DPDP-operations-withdrawal-canaries-1790847495730-2d95907e-ca48-4ccb-aa64-645ec409cdb6.json
+- A	handoffs/codex/artifacts/DPDP-operations-withdrawal-canaries-1790849412095-e554b74c-1590-48a3-b316-c8cd47e3be20.json
+- A	handoffs/codex/artifacts/DPDP-operations-withdrawal-canaries-1790850058527-2487f654-ad2c-4ebd-8eb6-2a6b2a52a22a.json
+- A	handoffs/codex/artifacts/DPDP-operations-withdrawal-canaries-1790851189339-f3974c4d-d538-436b-a5c4-6698c99b6fe5.json
+- A	handoffs/codex/artifacts/DPDP-operations-withdrawal-timing-1790847623254-1179a821-e4a6-4e02-9718-c758b233cfeb.json
+- A	handoffs/codex/artifacts/DPDP-operations-withdrawal-timing-1790849324883-951323b0-39ee-4998-9aba-d793875c9e72.json
+- A	handoffs/codex/artifacts/DPDP-operations-withdrawal-timing-1790850019235-061e38b1-64ce-45ac-8702-3c57ef657991.json
+- A	handoffs/codex/artifacts/DPDP-owner-recovery-1790794218877-1f07543e-8a40-43d8-b1cd-c1b4d1b7b49c.json
+- A	handoffs/codex/artifacts/DPDP-owner-recovery-1790794323116-217a340e-aa3b-4107-9acc-c9ed118f7493.json
+- A	handoffs/codex/artifacts/DPDP-owner-recovery-1790832544031-6c656f50-55b5-479f-8e7e-0817deaf63d6.json
+- A	handoffs/codex/artifacts/DPDP-owner-recovery-1790848722029-89415551-17a0-47d3-bb23-10ec36c60de0.json
+- A	handoffs/codex/artifacts/DPDP-portal-rights-integration-1790834407860-10bcdab6-db17-48c5-97e6-7b4532d98b52.json
+- A	handoffs/codex/artifacts/DPDP-portal-rights-integration-1790848746963-ca7e3d06-d043-4abd-b373-7617a7d79d48.json
+- A	handoffs/codex/artifacts/DPDP-postgres-catalog-discovery-1790829606364-66edc2c7-9814-4809-ad54-1729f6d543b5.json
+- A	handoffs/codex/artifacts/DPDP-preflight-integration-1790832567259-ee6fc5a8-ecc7-4451-ae4d-a9df95466c5e.json
+- A	handoffs/codex/artifacts/DPDP-processors-integration-1790833965521-5cde53a4-ddec-4344-856b-b738da663373.json
+- A	handoffs/codex/artifacts/DPDP-real-principals-1790847385852-cfb8cea3-1115-47a9-90f5-a9ed29920fab.json
+- A	handoffs/codex/artifacts/DPDP-recovery-journal-1790834290898-6a34e884-48de-4fa4-8dc0-96e7cf752fa9.json
+- A	handoffs/codex/artifacts/DPDP-regression-integration-1790834298190-a166afa8-48c8-4b09-8ee1-9fe9d61d02d1.json
+- A	handoffs/codex/artifacts/DPDP-regression-run-1790834100776-40980ad0-b510-4afc-8af4-8b657ae99e81.json
+- A	handoffs/codex/artifacts/DPDP-regression-run-1790834163887-8918462d-c911-4d10-80d9-a0f69e0ee4d3.json
+- A	handoffs/codex/artifacts/DPDP-regression-run-1790834227777-0d675415-cce8-473a-93e1-c70129a5643b.json
+- A	handoffs/codex/artifacts/DPDP-regression-run-1790834295905-6f965bac-1e5e-4c81-8009-fc28e7c2e882.json
+- A	handoffs/codex/artifacts/DPDP-reports-integration-1790829968100-e8a04b74-f60b-493d-9577-50be69a43225.json
+- A	handoffs/codex/artifacts/DPDP-restore-integration-1790832245051-27a61e53-94e5-44cc-a85e-7e90f422a2f9.json
+- A	handoffs/codex/artifacts/DPDP-retention-integration-1790834383500-d34c12e4-5f14-4f99-8ccf-1758c0ac8417.json
+- A	handoffs/codex/artifacts/DPDP-rights-integration-1790834497461-2d96dbd7-85b3-4e51-bfde-1c9f89926c84.json
+- A	handoffs/codex/artifacts/DPDP-send-enforcement-1790829696887-52bd43c2-f19f-4f7d-bd03-74776e137855.json
+- A	handoffs/codex/artifacts/DPDP-send-enforcement-1790848160293-51af6a99-f671-4086-94b6-fd29b4918bfd.json
+- A	handoffs/codex/artifacts/DPDP-service-integration-1790829224832-5e1be395-5ec2-4c02-90f6-56f340c5b882.json
+- A	handoffs/codex/artifacts/DPDP-service-integration-1790851114195-5cafa673-f460-4cad-8a4c-2d04ab18e7ce.json
+- A	handoffs/codex/artifacts/DPDP-support-integration-1790834524382-70bacc56-0a98-4472-b9fb-12b5bb8642c6.json
+- A	handoffs/codex/artifacts/DPDP-updates-integration-1790834589534-ecea2070-97b8-43ad-8bdf-4c421d6c7491.json
+- A	handoffs/codex/artifacts/DPDP-vendor-visibility-integration-1790832269452-eaa48fca-0d1a-4b84-b2af-62e89ce1f614.json
+- A	handoffs/codex/artifacts/DPDP-web-integration-1790834827111-6f18a0ba-b2c2-42d0-b95e-2f9b501a52de.json
+- A	handoffs/codex/artifacts/DPDP-web-integration-1790848881280-e1d37275-727c-476a-9f21-b3366e47a27b.json
+- A	handoffs/codex/artifacts/DPDP-web-integration-1790849590790-79e11840-a880-4997-8059-3563f8e48271.json
+- A	handoffs/codex/artifacts/DPDP-workflow-integration-1790834870956-0ee66dc6-f168-4a2d-adbd-5b3a8ff58e72.json
+- A	handoffs/codex/artifacts/V1-COMMERCE-ISSUANCE-01-commerce-c1ec191f-d542-4f46-a03e-ecc3be06aab2.json
+- A	handoffs/codex/artifacts/V1-COMMERCE-ISSUANCE-01-commerce-e9abdd97-84fe-449d-a144-8c682e82a217.json
+- A	handoffs/codex/artifacts/V1-EXPANSION-01-assessment-race-5bdaae20-ef27-49b0-a6ce-24cf57fc7f74.json
+- A	handoffs/codex/artifacts/V1-EXPANSION-02-grc-ef62c4a1-fa77-4d9a-af3b-abbfa5cd2956.json
+- A	handoffs/codex/artifacts/V1-EXPANSION-04-grc-d4318f19-f2d6-464c-8427-0610cf1bdf8a.json
+- A	handoffs/codex/artifacts/V1-EXPANSION-04-http-691a9eae-57e1-4ea1-b8fd-34fb6ecc86cd.json
+- A	handoffs/codex/artifacts/V1-EXPANSION-04-http-f63f066d-86ff-4e22-be89-da6057facc45.json
+- M	handoffs/codex/round7-runtime.ps1
+- A	handoffs/codex/round8-abort-probe.mjs
+- A	handoffs/codex/round8-browser.mjs
+- A	handoffs/codex/round8-child-custody-differential.mjs
+- A	handoffs/codex/round8-child-custody-observer.mjs
+- A	handoffs/codex/round8-command-audit.mjs
+- A	handoffs/codex/round8-composite-pagination.ts
+- A	handoffs/codex/round8-convert-lists.mjs
+- A	handoffs/codex/round8-convert-parsed-test-lists.mjs
+- A	handoffs/codex/round8-convert-test-lists.mjs
+- A	handoffs/codex/round8-convert-timestamp-lists.mjs
+- A	handoffs/codex/round8-database-security.ts
+- A	handoffs/codex/round8-directory-react-browser.mjs
+- A	handoffs/codex/round8-directory-subscriber-diagnostic.mjs
+- A	handoffs/codex/round8-feature-browser.mjs
+- A	handoffs/codex/round8-feature-review.md
+- A	handoffs/codex/round8-integrations.mjs
+- A	handoffs/codex/round8-key-custody.ts
+- A	handoffs/codex/round8-matrix.mjs
+- A	handoffs/codex/round8-migration-state.ts
+- A	handoffs/codex/round8-navigation-probe.mjs
+- A	handoffs/codex/round8-pagination-check.ts
+- A	handoffs/codex/round8-pagination-review.md
+- A	handoffs/codex/round8-policy-gate-driver.mjs
+- A	handoffs/codex/round8-policy-gate.mjs
+- A	handoffs/codex/round8-policy-probe.mjs
+- A	handoffs/codex/round8-policy-trace.mjs
+- A	handoffs/codex/round8-postgres-sampler.ts
+- A	handoffs/codex/round8-postinit0087-metadata.ts
+- A	handoffs/codex/round8-proposed-feature-decisions.md
+- A	handoffs/codex/round8-readiness.ts
+- A	handoffs/codex/round8-renew-worker-fixture.ts
+- A	handoffs/codex/round8-run.mjs
+- A	handoffs/codex/round8-security-timeout-review.md
+- A	handoffs/codex/round8-timestamp-guards.ts
+- M	infrastructure/loopback.mjs
+- M	output/playwright/ai-governance-codex-a00.png
+- M	output/playwright/catalog-discovery-codex-a00.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_ai_governance.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_assessments.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_audit_coverage.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_audit_retention.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_audit_trail.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_capabilities.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_catalog_discovery.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_compliance.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_configuration.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_connections.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_connections_id.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_consent_records.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_contact_preferences.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_control_map.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_coverage.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_data_principals.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_delivery.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_dpdpa_audit.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_estate_imports.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_evidence.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_evidence_id.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_failures.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_findings.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_gaps.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_grc.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_grc_audits.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_impact_assessments.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_imports.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_incidents.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_installed_versions.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_inventory.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_inventory_id.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_message_templates.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_notification_rules.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_notifications.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_operations_attention.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_operations_evidence.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_operations_runs.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_operations_runs_id.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_organisation_intake.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_organisation_profile.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_personal_data_breaches.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_personal_data_breaches_id.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_preflight.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_principals.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_processing_activities.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_processor_engagements.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_processors.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_readiness.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_records_of_processing.png
+- A	output/playwright/crawl/customer-owner-desktop-workspace_recover.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_registry_notices.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_registry_retention.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_registry_setup.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_regulatory.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_regulatory_applicability.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_regulatory_impacts.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_releases.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_reports.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_representation.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_restores.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_retention.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_retention_holds.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_retention_outcomes.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_rights.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_support_canaries.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_support_cases.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_team.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_test_lab.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_test_lab_id.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_third_parties.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_updates.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_vendor_visibility.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_website_consent.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_workflows.png
+- M	output/playwright/crawl/customer-owner-desktop-workspace_workflows_id.png
+- M	output/playwright/crawl/customer-owner-phone-workspace.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_ai_governance.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_assessments.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_audit_coverage.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_audit_retention.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_audit_trail.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_capabilities.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_catalog_discovery.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_compliance.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_configuration.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_connections.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_consent_records.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_contact_preferences.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_control_map.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_coverage.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_data_principals.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_delivery.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_dpdpa_audit.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_estate_imports.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_evidence.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_failures.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_findings.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_gaps.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_grc.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_grc_audits.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_impact_assessments.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_imports.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_incidents.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_installed_versions.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_inventory.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_message_templates.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_notification_rules.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_notifications.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_operations_attention.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_operations_evidence.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_operations_runs.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_organisation_intake.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_organisation_profile.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_personal_data_breaches.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_preflight.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_principals.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_processing_activities.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_processor_engagements.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_processors.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_readiness.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_records_of_processing.png
+- A	output/playwright/crawl/customer-owner-phone-workspace_recover.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_registry_notices.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_registry_retention.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_registry_setup.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_regulatory.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_regulatory_applicability.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_regulatory_impacts.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_releases.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_representation.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_restores.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_retention.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_retention_holds.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_retention_outcomes.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_rights.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_support_canaries.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_support_cases.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_team.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_test_lab.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_third_parties.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_updates.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_vendor_visibility.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_website_consent.png
+- M	output/playwright/crawl/customer-owner-phone-workspace_workflows.png
+- M	output/playwright/crawl/customer-principal-desktop-privacy.png
+- M	output/playwright/crawl/customer-principal-desktop-privacy_notices.png
+- M	output/playwright/crawl/customer-principal-desktop-privacy_preferences.png
+- M	output/playwright/crawl/customer-principal-desktop-privacy_receipts.png
+- M	output/playwright/crawl/customer-principal-desktop-privacy_rights.png
+- M	output/playwright/crawl/customer-signed-out-desktop-workspace_sign_in.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_engagements.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_licences.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_organisations.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_organisations_id.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_payments.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_practice.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_retention.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_support.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_team.png
+- M	output/playwright/crawl/vendor-admin-desktop-vendor_upload.png
+- M	output/playwright/crawl/vendor-admin-tab-Evidence.png
+- M	output/playwright/crawl/vendor-admin-tab-Findings_and_actions.png
+- M	output/playwright/crawl/vendor-admin-tab-Follow_up.png
+- M	output/playwright/crawl/vendor-admin-tab-Overview.png
+- M	output/playwright/crawl/vendor-admin-tab-Plan.png
+- M	output/playwright/crawl/vendor-admin-tab-Report.png
+- M	output/playwright/crawl/vendor-admin-tab-Requests.png
+- M	output/playwright/crawl/vendor-admin-tab-Scope_and_applicability.png
+- M	output/playwright/crawl/vendor-admin-tab-Tests_and_working_papers.png
+- M	output/playwright/crawl/vendor-client-account-desktop-vendor_engagements.png
+- M	output/playwright/crawl/vendor-client-account-desktop-vendor_upload.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_engagements.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_licences.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_organisations.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_payments.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_practice.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_retention.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_support.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_team.png
+- M	output/playwright/crawl/vendor-lead-desktop-vendor_upload.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_engagements.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_engagements_id.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_licences.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_organisations.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_payments.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_practice.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_retention.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_support.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_team.png
+- M	output/playwright/crawl/vendor-lead-phone-vendor_upload.png
+- M	output/playwright/crawl/vendor-lead-tab-Evidence.png
+- M	output/playwright/crawl/vendor-lead-tab-Findings_and_actions.png
+- M	output/playwright/crawl/vendor-lead-tab-Follow_up.png
+- M	output/playwright/crawl/vendor-lead-tab-Overview.png
+- M	output/playwright/crawl/vendor-lead-tab-Plan.png
+- M	output/playwright/crawl/vendor-lead-tab-Report.png
+- M	output/playwright/crawl/vendor-lead-tab-Requests.png
+- M	output/playwright/crawl/vendor-lead-tab-Scope_and_applicability.png
+- M	output/playwright/crawl/vendor-lead-tab-Tests_and_working_papers.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Evidence.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Findings_and_actions.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Follow_up.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Overview.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Plan.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Report.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Requests.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Scope_and_applicability.png
+- M	output/playwright/crawl/vendor-reviewer-tab-Tests_and_working_papers.png
+- M	output/playwright/crawl/vendor-signed-out-desktop-vendor_setup.png
+- M	output/playwright/crawl/vendor-signed-out-desktop-vendor_sign_in.png
+- M	output/playwright/dpdpa-client-imports.png
+- M	output/playwright/dpdpa-client-package.png
+- M	output/playwright/dpdpa-vendor-engagement.png
+- M	output/playwright/impact-assessments-codex-a00.png
+- M	output/playwright/mandate-client-channel.png
+- M	output/playwright/mandate-client-responses.png
+- M	output/playwright/mandate-client-visibility.png
+- M	output/playwright/mandate-vendor-channel.png
+- M	output/playwright/mandate-vendor-overview.png
+- M	output/playwright/mandate-vendor-requests.png
+- M	output/playwright/mandate-vendor-response.png
+- M	output/playwright/operations-evidence-codex-a00.png
+- M	output/playwright/practice-evidence.png
+- M	output/playwright/practice-findings.png
+- M	output/playwright/practice-overview.png
+- M	output/playwright/practice-plan.png
+- M	output/playwright/practice-report.png
+- M	output/playwright/practice-scope.png
+- M	output/playwright/practice-settings.png
+- M	output/playwright/practice-working-papers.png
+- M	output/playwright/registry-activities-codex-a00.png
+- M	output/playwright/registry-setup-codex-a00.png
+- M	package.json
+- A	scripts/acceptance-review.ts
+- M	scripts/app-run.ts
+- A	scripts/audit-key-custody.ts
+- M	scripts/auth-init.ts
+- A	scripts/build-worker-workflows.ts
+- M	scripts/machine-init.ts
+- A	scripts/owner-recovery-code.ts
+- M	scripts/package-candidate.ts
+- A	scripts/policy-gate.sh
+- A	scripts/policy-test-outcome.mjs
+- M	scripts/qualification-inventory.ts
+- A	scripts/real-principals.ts
+- M	scripts/regression-runner.ts
+- M	scripts/start-orvia.ts
+- A	scripts/vendor-audit-key.ts
+- M	scripts/web.ts
+- M	services/worker/src/catalog-discovery.ts
+- M	services/worker/src/cmp-scanner.ts
+- A	services/worker/src/local-browser.ts
+- M	services/worker/src/main.ts
+- M	services/worker/src/operations-runner.ts
+- A	services/worker/src/policy-discovery.ts
+- M	services/worker/src/withdrawal-worker.ts
+- A	services/worker/src/workflow-bundle.ts
+- M	shared/contracts/generated/client-types.d.ts
+- M	shared/contracts/generated/contract-seed.proposed.json
+- M	shared/contracts/generated/endpoint-types.ts
+- M	shared/contracts/generated/examples.json
+- M	shared/contracts/generated/interfaces.json
+- M	shared/contracts/generated/manifest.json
+- M	shared/contracts/generated/openapi.json
+- M	shared/contracts/src/expansion-examples.ts
+- M	shared/contracts/src/expansion-routes.ts
+- M	shared/contracts/src/expansion.ts
+- M	shared/contracts/src/index.ts
+- M	shared/contracts/src/operations-routes.ts
+- M	shared/contracts/src/operations.ts
+- M	shared/contracts/src/registry.ts
+- M	shared/contracts/src/vendor-audit.ts
+- M	shared/contracts/src/vendor-practice.ts
+- A	shared/testing/src/all-pages.ts
+- M	shared/testing/src/auth-window.ts
+- M	shared/testing/src/browser-ready.ts
+- M	shared/testing/src/evidence.ts
+- M	shared/testing/src/http-fixture.ts
+- A	shared/testing/src/postgres-container.ts
+- M	tests/e2e/ai-governance-local.ts
+- M	tests/e2e/audit-mandate-local.ts
+- A	tests/e2e/backups-and-recovery-local.ts
+- M	tests/e2e/catalog-discovery-local.ts
+- M	tests/e2e/interface-crawl-local.ts
+- M	tests/e2e/operations-screens-local.ts
+- M	tests/e2e/registry-forms-local.ts
+- M	tests/e2e/sign-in-hydration-local.ts
+- A	tests/e2e/vendor-production-criteria-local.ts
+- A	tests/integration/ai-governance/model-versions.test.ts
+- A	tests/integration/consent/canaries.test.ts
+- A	tests/integration/consent/canary-grant-admission.test.ts
+- A	tests/integration/consent/canary-retirement.test.ts
+- M	tests/integration/consent/consent.test.ts
+- M	tests/integration/consent/expiry.test.ts
+- M	tests/integration/discovery/catalog-flow.test.ts
+- A	tests/integration/discovery/schema-drift.test.ts
+- A	tests/integration/enforcement/withdrawal-timing.test.ts
+- M	tests/integration/evidence/evidence.test.ts
+- M	tests/integration/expansion/audit-mandate.test.ts
+- M	tests/integration/expansion/classification.test.ts
+- M	tests/integration/expansion/cmp.test.ts
+- M	tests/integration/expansion/delivery.test.ts
+- M	tests/integration/expansion/grc-lifecycle.test.ts
+- M	tests/integration/expansion/impact.test.ts
+- A	tests/integration/expansion/policy-discovery.test.ts
+- M	tests/integration/expansion/preferences.test.ts
+- M	tests/integration/expansion/ropa-exports.test.ts
+- M	tests/integration/expansion/third-party.test.ts
+- M	tests/integration/grc/http.test.ts
+- M	tests/integration/monitoring/restore.test.ts
+- M	tests/integration/notices/languages.test.ts
+- M	tests/integration/onboarding/imports.test.ts
+- A	tests/integration/onboarding/owner-recovery.test.ts
+- A	tests/integration/onboarding/real-principals.test.ts
+- M	tests/integration/operations/applicability.test.ts
+- A	tests/integration/operations/backup-obligations.test.ts
+- M	tests/integration/operations/consent-withdrawal.test.ts
+- M	tests/integration/operations/correction.test.ts
+- A	tests/integration/operations/notice-language-drift.test.ts
+- M	tests/integration/operations/notices.test.ts
+- M	tests/integration/operations/organisation-intake.test.ts
+- M	tests/integration/operations/processors.test.ts
+- M	tests/integration/operations/regulatory.test.ts
+- M	tests/integration/operations/rights.test.ts
+- A	tests/integration/operations/runner-progress.test.ts
+- M	tests/integration/operations/runner.test.ts
+- A	tests/integration/operations/withdrawal-single-pass.test.ts
+- M	tests/integration/regression/regression.test.ts
+- M	tests/integration/rights/portal.test.ts
+- M	tests/integration/vendor/audit-practice.test.ts
+- M	tests/integration/web.test.ts
+- M	tests/integration/workflows/workflow.test.ts
+- A	tests/policy/admin_test.rego
+- A	tests/policy/processing_test.rego
+- A	tests/unit/all-pages.test.ts
+- A	tests/unit/auth-diagnostics.test.ts
+- A	tests/unit/collection-pages.test.ts
+- A	tests/unit/notice-context-drift.test.ts
+- M	tests/unit/notice-language.test.ts
+- A	tests/unit/read-queue.test.ts
+- A	tests/unit/read-retry.test.ts
+- M	tests/unit/retention.test.ts
+- A	tests/unit/vendor-audit-key.test.ts
+- A	tests/unit/vendor-dependency-diagnostics.test.ts
+- A	tests/unit/worker-workflow-bundle.test.ts
+- M	tracking/capabilities.json
+- M	tracking/contract_seed.json
+- M	tracking/qualification-inventory.json
+- M	tracking/v1-expansion.json

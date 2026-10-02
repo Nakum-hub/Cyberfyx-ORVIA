@@ -1,0 +1,21 @@
+R7 webkit operations-screens-local: suite entry point with passive diagnostic instrumentation
+Error: Connection terminated due to connection timeout
+    at C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\node_modules\.pnpm\pg-pool@3.14.0_pg@8.23.0\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async guardAuthWindow (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\auth-window.ts:30:31)
+    at async HttpFixture.authWindow (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\http-fixture.ts:62:22)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:62:7)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:30:1) {
+  [cause]: Error: Connection terminated unexpectedly
+      at Connection.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\node_modules\.pnpm\pg@8.23.0\node_modules\pg\lib\client.js:204:73)
+      at Connection.wrapper (node:events:639:12)
+      at Connection.emit (node:events:514:28)
+      at Socket.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\node_modules\.pnpm\pg@8.23.0\node_modules\pg\lib\connection.js:64:12)
+      at Socket.emit (node:events:514:28)
+      at TCP.<anonymous> (node:net:362:12)
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790841890256-6f2a2bdf-e0a4-4d5a-a89b-406b14e59f90.json
+
+1 assertions, 1 failures.

@@ -1,0 +1,214 @@
+{
+  "diagnostic_only": true,
+  "profile": "codex-a00",
+  "started_at": "2026-10-01T16:43:57.198Z",
+  "checks": [
+    {
+      "name": "own installation and profile",
+      "result": "PASS"
+    },
+    {
+      "name": "exact current220 application tables all enable and force RLS",
+      "result": "PASS"
+    },
+    {
+      "name": "all10 protected function-runtime role controls exist and deny EXECUTE",
+      "result": "PASS"
+    },
+    {
+      "name": "both proof columns nullable xid8 with current full-transaction default",
+      "result": "PASS"
+    },
+    {
+      "name": "exact3 expected functions invoker trigger-return no-args PLpgSQL PUBLIC denied",
+      "result": "PASS"
+    },
+    {
+      "name": "all5 exact expected enabled unconditional row BEFORE INSERT/UPDATE/DELETE trigger bindings",
+      "result": "PASS"
+    }
+  ],
+  "rls": {
+    "tables_checked": 220,
+    "missing_enable_or_force": 0
+  },
+  "protected_function_acl": [
+    {
+      "role": "orvia_app",
+      "function": "app.owner_recovery_issue(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_worker",
+      "function": "app.owner_recovery_issue(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_agent_control",
+      "function": "app.owner_recovery_issue(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_machine_auth",
+      "function": "app.owner_recovery_issue(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_sender",
+      "function": "app.owner_recovery_issue(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_app",
+      "function": "app.admit_real_principals(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_worker",
+      "function": "app.admit_real_principals(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_agent_control",
+      "function": "app.admit_real_principals(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_machine_auth",
+      "function": "app.admit_real_principals(text,text)",
+      "present": true,
+      "permitted": false
+    },
+    {
+      "role": "orvia_sender",
+      "function": "app.admit_real_principals(text,text)",
+      "present": true,
+      "permitted": false
+    }
+  ],
+  "proof_columns": [
+    {
+      "table_name": "action_verifications",
+      "column_name": "verification_transaction",
+      "data_type": "xid8",
+      "not_null": false,
+      "column_default": "pg_current_xact_id()"
+    },
+    {
+      "table_name": "evidence_records",
+      "column_name": "recorded_transaction",
+      "data_type": "xid8",
+      "not_null": false,
+      "column_default": "pg_current_xact_id()"
+    }
+  ],
+  "proof_functions": [
+    {
+      "proname": "downstream_action_guard",
+      "pronargs": 0,
+      "prosecdef": false,
+      "return_type": "trigger",
+      "lanname": "plpgsql",
+      "public_execute": false
+    },
+    {
+      "proname": "stamp_evidence_transaction",
+      "pronargs": 0,
+      "prosecdef": false,
+      "return_type": "trigger",
+      "lanname": "plpgsql",
+      "public_execute": false
+    },
+    {
+      "proname": "stamp_verification_transaction",
+      "pronargs": 0,
+      "prosecdef": false,
+      "return_type": "trigger",
+      "lanname": "plpgsql",
+      "public_execute": false
+    }
+  ],
+  "proof_triggers": [
+    {
+      "table_name": "action_verifications",
+      "tgname": "verification_transaction_stamp",
+      "tgenabled": "O",
+      "tgtype": 7,
+      "trigger_args": 0,
+      "unconditional": true,
+      "ordinary_trigger": true,
+      "proname": "stamp_verification_transaction",
+      "pronargs": 0,
+      "prosecdef": false,
+      "function_schema": "app",
+      "return_type": "trigger"
+    },
+    {
+      "table_name": "action_verifications",
+      "tgname": "verifications_append_only",
+      "tgenabled": "O",
+      "tgtype": 27,
+      "trigger_args": 0,
+      "unconditional": true,
+      "ordinary_trigger": true,
+      "proname": "append_only_history",
+      "pronargs": 0,
+      "prosecdef": false,
+      "function_schema": "app",
+      "return_type": "trigger"
+    },
+    {
+      "table_name": "downstream_actions",
+      "tgname": "action_guard",
+      "tgenabled": "O",
+      "tgtype": 19,
+      "trigger_args": 0,
+      "unconditional": true,
+      "ordinary_trigger": true,
+      "proname": "downstream_action_guard",
+      "pronargs": 0,
+      "prosecdef": false,
+      "function_schema": "app",
+      "return_type": "trigger"
+    },
+    {
+      "table_name": "evidence_records",
+      "tgname": "evidence_append_only",
+      "tgenabled": "O",
+      "tgtype": 27,
+      "trigger_args": 0,
+      "unconditional": true,
+      "ordinary_trigger": true,
+      "proname": "append_only_history",
+      "pronargs": 0,
+      "prosecdef": false,
+      "function_schema": "app",
+      "return_type": "trigger"
+    },
+    {
+      "table_name": "evidence_records",
+      "tgname": "evidence_transaction_stamp",
+      "tgenabled": "O",
+      "tgtype": 7,
+      "trigger_args": 0,
+      "unconditional": true,
+      "ordinary_trigger": true,
+      "proname": "stamp_evidence_transaction",
+      "pronargs": 0,
+      "prosecdef": false,
+      "function_schema": "app",
+      "return_type": "trigger"
+    }
+  ],
+  "exit_code": 0,
+  "result": "PASS",
+  "completed_at": "2026-10-01T16:43:57.346Z"
+}

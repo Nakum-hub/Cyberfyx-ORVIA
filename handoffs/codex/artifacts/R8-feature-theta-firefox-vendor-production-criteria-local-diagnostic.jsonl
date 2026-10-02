@@ -1,0 +1,2 @@
+{"at":"2026-10-01T20:55:17.382Z","engine":"firefox","suite":"vendor-production-criteria-local","kind":"BROWSER","version":"155.0"}
+{"at":"2026-10-01T20:55:26.959Z","engine":"firefox","suite":"vendor-production-criteria-local","issued_at":"2026-10-01T20:55:26.948Z","page_path":"/vendor/engagements","kind":"REQUEST_FAILED","path":"/api/v1/vendor/session","failure":"NS_BINDING_ABORTED"}

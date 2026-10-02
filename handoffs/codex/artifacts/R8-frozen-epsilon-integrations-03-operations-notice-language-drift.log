@@ -1,0 +1,26 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+PASS with one scope everywhere, nothing is out of step; the latest original (Hindi) is the reference
+PASS the twenty languages without a notice are listed, for information
+PASS no attention while the languages agree
+PASS publishing a new scope while other languages are current is refused and names them
+PASS saying no is the same as not saying
+PASS Tamil and Hindi now state a different scope from the English reference
+PASS the report names the purpose Tamil is missing
+PASS Operations attention names the notice and both languages
+PASS what each language currently states is kept as published (what Data Principals see is unchanged by the report)
+PASS catching Tamil up needs no acknowledgement although Hindi is still behind
+PASS attention now counts one language
+PASS an English rewording with the same scope needs no acknowledgement and leaves the Tamil translation behind its source
+PASS a translation published after the original does not make the original look stale
+PASS every language states the same scope again and attention clears
+PASS a translation of a draft is refused
+PASS a translation into the same language is refused
+PASS a translation of another notice is refused
+PASS the database refuses a translation into its own source language
+PASS a read-only role reads the report
+PASS another tenant sees none of this notice
+Artifact: handoffs/codex/artifacts/A00-operations-notice-language-drift-1790866754904-43a55326-9ae9-4cdc-b06b-5a8e5418551b.json
+
+20 assertions, 0 failures.

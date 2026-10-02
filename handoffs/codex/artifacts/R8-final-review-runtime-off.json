@@ -1,0 +1,19 @@
+﻿{
+    "diagnostic_only":  true,
+    "owned_runtime":  [
+                          {
+                              "container":  "orvia-qualification-20260930-postgres",
+                              "running":  false
+                          },
+                          {
+                              "container":  "orvia-qualification-20260930-opa",
+                              "running":  false
+                          },
+                          {
+                              "container":  "orvia-qualification-20260930-loopback",
+                              "running":  false
+                          }
+                      ],
+    "inspection_exit_code":  0,
+    "no_runtime_mutation":  true
+}

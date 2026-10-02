@@ -1,0 +1,35 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the V1 plan marks only bound systems whose adapter erases as automatable
+PASS the case is pinned to the package in effect at receipt; erasure has no statutory period in it
+PASS opening the profile again returns the same pin
+PASS a run for a person other than the requester is refused
+PASS an erasure run stops at a dry run for approval
+PASS the recorded hold blocks erasure on its system and is named
+PASS a manual system is reported not supported
+PASS a system with no reference for this person is blocked, not silently skipped
+PASS the unreachable paper archive is carried into the run
+PASS the preview names the blocking hold and the unsupported target
+PASS nothing executes before approval
+PASS an organisation admin cannot approve an irreversible run
+PASS the creator cannot approve their own run
+PASS an approval must bind the scope that was previewed
+PASS the approval is recorded against the exact scope hash
+PASS the erasable target is erased and verified
+PASS the held target is untouched
+PASS exceptions end the run as completed with exceptions, never as fully verified
+PASS the V1 request receives one factual outcome per system
+PASS the verified outcome cites its evidence record
+PASS the V1 execution dimension states outstanding work
+PASS the request cannot be marked completed while work remains
+PASS closure keeps the execution and the unresolved destination visible
+PASS a grievance is due within the 90-day period of the package in effect at receipt
+PASS the Privacy Centre shows the requester their status history without internal notes
+PASS another person cannot read that history
+Artifact: handoffs/codex/artifacts/A00-operations-rights-1790913179888-dbdffd0d-07f6-46fd-9467-502c8427e709.json
+
+26 assertions, 0 failures.
