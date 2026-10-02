@@ -22,6 +22,11 @@ ALTER TABLE app.licences
 ALTER TABLE app.licences ADD CONSTRAINT licences_trial_term CHECK (trial = (term = 'TRIAL'));
 ALTER TABLE app.licences ADD CONSTRAINT licences_trial_length CHECK (NOT trial OR valid_to - valid_from <= interval '30 days');
 ALTER TABLE app.licences ADD CONSTRAINT licences_trial_tier CHECK (NOT trial OR edition <> 'FOUNDATION');
+-- Several licences can now be active in one scope (a trial over a paid licence, a downgrade waiting for its start date, the
+-- sequenced licences it outranks); app.effective_licence decides which is in force. Unsequenced (pre-1.11) licences keep
+-- the old rule: importing one supersedes the previous one.
+DROP INDEX app.one_active_licence_per_scope;
+CREATE UNIQUE INDEX one_active_unsequenced_licence_per_scope ON app.licences(tenant_id, legal_entity_id, environment_id) WHERE active AND sequence IS NULL;
 
 CREATE FUNCTION app.licence_grace_days(p_term text) RETURNS integer LANGUAGE sql IMMUTABLE SET search_path = pg_catalog AS $$
   SELECT CASE p_term WHEN 'MONTHLY' THEN 7 WHEN 'QUARTERLY' THEN 15 WHEN 'ANNUAL' THEN 30 WHEN 'TRIAL' THEN 0 ELSE 30 END $$;

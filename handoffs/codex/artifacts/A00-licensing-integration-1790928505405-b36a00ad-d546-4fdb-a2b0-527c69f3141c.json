@@ -1,0 +1,86 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T08:08:25.405Z",
+  "profile": "codex-a00",
+  "phase": "import",
+  "assertions": [
+    {
+      "name": "a licence naming AI_COPILOT is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming VENDOR_REMOTE_ACCESS is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming STAFF_DIRECTORY_SYNC is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming PROACTIVE_DIAGNOSTICS is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence from an untrusted signer is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the refusal names the untrusted signer",
+      "result": "PASS",
+      "expected": "untrusted_signer",
+      "actual": "untrusted_signer"
+    },
+    {
+      "name": "the refusal names an invalid signature when claims were altered after signing",
+      "result": "PASS",
+      "expected": "invalid_signature",
+      "actual": "invalid_signature"
+    },
+    {
+      "name": "a licence bound to another installation is refused",
+      "result": "PASS",
+      "expected": "wrong_installation",
+      "actual": "wrong_installation"
+    },
+    {
+      "name": "a licence that is not yet valid is refused",
+      "result": "PASS",
+      "expected": "not_yet_valid",
+      "actual": "not_yet_valid"
+    },
+    {
+      "name": "an expired licence is refused at import",
+      "result": "PASS",
+      "expected": "expired",
+      "actual": "expired"
+    },
+    {
+      "name": "a licence whose window ends before it starts is rejected by the schema",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "importing a licence needs its own authority, not merely read access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "ZodError",
+    "code": "UNCLASSIFIED"
+  }
+}

@@ -6,7 +6,7 @@ export async function createMarketingScenario(harness: HttpFixture, connector: '
  const owner=await harness.login('owner');const author=await harness.login('admin');const alice=await harness.login('alice');
  async function create(path: string,input: unknown) {
   const response=await author.call(path,input,{'idempotency-key':randomUUID()});
-  if(response.status!==201)throw new Error('Synthetic scenario configuration failed');return response.json();
+  if(response.status!==201)throw new Error('Synthetic scenario configuration failed: '+path+' '+response.status+' '+(await response.text()).slice(0,300));return response.json();
  }
  const scope=harness.users.owner!.scope;const selectors={legal_entity_id:scope.legal_entity_id,environment_id:scope.environment_id};
  const purpose=S.Purpose.parse(await create('/api/v1/admin/purposes',{...selectors,code:purposeCode,name:'Synthetic workflow '+randomUUID().slice(0,8),description:'Isolated backend integration fixture; no real message transport.'}));

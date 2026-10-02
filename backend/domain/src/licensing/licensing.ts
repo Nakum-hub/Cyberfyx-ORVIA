@@ -226,7 +226,8 @@ export async function requireEntitlement(c: Context, route: { id: string; method
   const row = (await c.tx.query('SELECT id, lifecycle FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
   const refuse = (why: string): never => { throw new AccessError(403, 'FORBIDDEN', [{ field: 'entitlement', code: why }, { field: 'entitlement_code', code: cls.toLowerCase() }, { field: 'tier', code: S.ENTITLEMENTS[cls].tier.toLowerCase() }]); };
   if (!row) refuse('no_licence');
-  const named = (await c.tx.query(`SELECT 1 FROM app.licence_entitlements WHERE ${predicate} AND licence_row_id=$4 AND code=$5`, [...scopeValues(c.actor), row.id, cls])).rowCount;
+  // Through the scope-bound definer function: the actor need not hold licence.read to be covered by the licence (0101).
+  const named = (await c.tx.query('SELECT app.licence_names_entitlement($1,$2) AS named', [row.id, cls])).rows[0].named;
   if (!named) refuse('entitlement_required');
   if (S.ENTITLEMENTS[cls].tier !== 'FOUNDATION' && row.lifecycle === 'EXPIRED') refuse('licence_expired');
 }
