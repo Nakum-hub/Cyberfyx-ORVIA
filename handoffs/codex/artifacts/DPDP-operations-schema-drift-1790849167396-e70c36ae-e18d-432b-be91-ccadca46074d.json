@@ -1,0 +1,109 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T10:06:07.396Z",
+  "suite": "schema-drift",
+  "assertions": [
+    {
+      "name": "the first read records the three columns and a digest, without values",
+      "result": "PASS",
+      "expected": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ],
+      "actual": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an unchanged re-read keeps the digest and opens no gap",
+      "result": "PASS",
+      "expected": [
+        "1b14dfb89d60778177eb52df3a5889315b4ddec5af70dc1d129c55f870c8f910",
+        0
+      ],
+      "actual": [
+        "1b14dfb89d60778177eb52df3a5889315b4ddec5af70dc1d129c55f870c8f910",
+        0
+      ]
+    },
+    {
+      "name": "the next read records the new column and a new digest",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "one HIGH schema-change gap tells staff to review the mapping",
+      "result": "PASS",
+      "expected": [
+        1,
+        "HIGH",
+        "OPEN",
+        true
+      ],
+      "actual": [
+        1,
+        "HIGH",
+        "OPEN",
+        true
+      ]
+    },
+    {
+      "name": "the gap is visible to staff in the coverage list",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a further unchanged read does not duplicate the gap",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "an observer that can write is refused: no observation is recorded and the job retries",
+      "result": "PASS",
+      "expected": [
+        4,
+        "RETRY",
+        true
+      ],
+      "actual": [
+        4,
+        "RETRY",
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in table dropped",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "new row for relation \"catalog_discovery_jobs\" violates check constraint \"catalog_discovery_jobs_check2\""
+    }
+  ],
+  "passed": 7,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

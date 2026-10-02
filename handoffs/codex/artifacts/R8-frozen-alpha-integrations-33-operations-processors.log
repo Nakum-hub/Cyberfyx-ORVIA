@@ -1,0 +1,17 @@
+PASS a share names exactly one recipient
+PASS the processors serving an activity are queryable
+PASS a recorded engagement makes the processor-contract requirement applicable
+PASS the sharing register answers who received this person's data
+PASS an access request carries the sharing register into its run
+PASS termination opens a disposition task
+PASS termination closes the engagement's links instead of deleting them
+PASS a question about an earlier time still sees the engagement; about now it does not
+PASS a terminated engagement cannot receive new sharing
+PASS termination is recorded once
+PASS no connector pretends to perform a processor's disposition
+PASS a processor statement cannot be recorded as verification
+PASS a processor confirmation is completed-by-target, not verified
+PASS independent audit evidence verifies the disposition and completes the run
+Artifact: handoffs/codex/artifacts/A00-operations-processors-1790859193641-6e3d3bfe-da9c-4eea-b0a4-e0f849e2fe19.json
+
+14 assertions, 0 failures.

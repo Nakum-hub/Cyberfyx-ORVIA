@@ -258,10 +258,11 @@ export function RegistryNotices() {
 
         <WriteForm operation="publish_notice_version" label="Publish a draft version" params={publishId ? { id: publishId } : undefined} onSaved={() => { setPublishId(''); refresh(); }}
           describe={n => `${n.name} updated`}
-          build={f => { if (!publishId) throw new Error('Choose the draft version to publish.'); return { effective_from: time(f, 'from') }; }}>
+          build={f => { if (!publishId) throw new Error('Choose the draft version to publish.'); return { effective_from: time(f, 'from'), acknowledge_locale_drift: f.get('drift') === 'yes' }; }}>
           <Choice label="Draft version" name="version" value={publishId} onChange={setPublishId}
             options={versions.filter(v => v.status === 'DRAFT').map(v => ({ value: v.id, label: `${v.notice_name} v${v.version} (${v.locale})` }))} />
           <Input label="Effective from" name="from" type="datetime-local" defaultValue={localNow()} hint="The version in force for this locale is superseded from this time." />
+          <label className="checkbox"><input type="checkbox" name="drift" value="yes" /> <span>I know this changes the purposes or data categories, and the other languages of this notice will be out of step until they are updated.</span></label>
         </WriteForm>
       </div>
 
@@ -272,10 +273,13 @@ export function RegistryNotices() {
           return { locale: text(f, 'locale') as typeof LOCALES[number], title: text(f, 'title'), content: text(f, 'content'),
             purpose_version_ids: all(f, 'purposes'), data_category_ids: all(f, 'categories'),
             channels: { withdrawal: text(f, 'withdrawal'), rights: text(f, 'rights'), grievance: text(f, 'grievance'), board_complaint: text(f, 'board') },
-            template_reference: nullable(f, 'template'), v1_notice_version_id: null };
+            template_reference: nullable(f, 'template'), v1_notice_version_id: null, translates_version_id: nullable(f, 'translates') };
         }}>
         <Choice label="Notice" name="notice" value={noticeId} onChange={setNoticeId} options={(notices.data?.items ?? []).map(n => ({ value: n.id, label: n.name }))} />
         <Choice label="Language" name="locale" options={LOCALES.map(l => ({ value: l, label: l }))} />
+        <Choice label="Translation of" name="translates" required={false} placeholder="Not a translation (an original)"
+          hint="If this text translates a published version in another language, choose it, so ORVIA can tell you when that version is replaced."
+          options={versions.filter(v => v.notice_id === noticeId && v.status !== 'DRAFT').map(v => ({ value: v.id, label: `${v.locale} v${v.version}${v.status === 'SUPERSEDED' ? ' (replaced)' : ''}` }))} />
         <Input label="Title" name="title" />
         <Area label="Notice text" name="content" maxLength={10000} />
         <Many legend="Purposes covered" name="purposes" options={purposeVersions} />
@@ -286,8 +290,45 @@ export function RegistryNotices() {
         <Area label="How to complain to the Board" name="board" minLength={10} maxLength={500} />
         <Input label="Template reference" name="template" required={false} maxLength={500} />
       </WriteForm>
+      <NoticeLanguageDrift />
       <NoticeHistory />
     </>
   );
 }
 
+
+const DRIFT: Record<string, { label: string; tone: 'ok' | 'warn' | 'stop' | 'neutral' | 'info' }> = {
+  REFERENCE: { label: 'latest statement', tone: 'info' }, IN_STEP: { label: 'in step', tone: 'ok' }, SCOPE_MISMATCH: { label: 'different purposes or data', tone: 'stop' },
+  BEHIND_ITS_SOURCE: { label: 'its source was replaced', tone: 'warn' }, MAY_BE_BEHIND: { label: 'check the wording', tone: 'neutral' },
+};
+
+/**
+ * Eighth Schedule language drift (migration 0078). Every current language of a notice is compared on the purposes and data
+ * categories it lists against the language published most recently, so a Tamil or Hindi notice that still states the old scope
+ * after an English change is shown here and in Operations attention.
+ */
+function NoticeLanguageDrift() {
+  const report = useQuery('notice_language_drift');
+  return (
+    <Section title="Languages in step">
+      <p className="muted">A person may read the notice in English or any Eighth Schedule language. When one language changes the purposes or data it lists, the others must follow, or people reading them are told something different. ORVIA compares every published language of a notice with the one published most recently.</p>
+      <Freshness query={report} />
+      <QueryBoundary query={report} label="language drift" isEmpty={d => !d.notices.length}>
+        {d => (
+          <>
+            {d.notices_out_of_step > 0 ? <NoticeBox tone="warn" title={`${d.notices_out_of_step} notice(s) with languages out of step`}><p>Update the languages marked below so every language states the same purposes and data.</p></NoticeBox> : null}
+            {d.notices.map(n => (
+              <DataTable key={n.notice_id} caption={`Languages of ${n.name}`} rows={n.locales} rowKey={l => l.version_id}
+                columns={[
+                  { key: 'l', header: 'Language', cell: l => <span className="cell-primary">{l.locale}<span className="cell-sub">v{l.version} · published {formatTime(l.published_at)}</span></span> },
+                  { key: 's', header: 'State', cell: l => <Badge label={DRIFT[l.state]!.label} tone={DRIFT[l.state]!.tone} /> },
+                  { key: 'd', header: 'Detail', cell: l => <>{l.detail}{l.missing_purpose_version_ids.length + l.missing_data_category_ids.length > 0 ? <span className="cell-sub">Missing {l.missing_purpose_version_ids.length} purpose(s) and {l.missing_data_category_ids.length} data categor(ies) the {n.reference_locale} notice lists.</span> : null}</> },
+                ]} />
+            ))}
+            <ul className="cell-sub">{d.limits.map(l => <li key={l}>{l}</li>)}</ul>
+          </>
+        )}
+      </QueryBoundary>
+    </Section>
+  );
+}

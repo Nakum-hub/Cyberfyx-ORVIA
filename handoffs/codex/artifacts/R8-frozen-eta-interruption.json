@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-02T03:09:43.909Z",
+  "commit": "3caf3b7cba1703e42018e6ba43af80ab4206287e",
+  "build": "O3vGd-z4HGBxaLp-Fdqh3",
+  "status": "INTERRUPTED",
+  "completed": 2,
+  "completed_pass": 0,
+  "completed_fail": 2,
+  "without_normal_suite_exit": 42,
+  "last_started_without_exit": {
+    "suite": "tests/integration/operations/notice-language-drift.test.ts",
+    "started_at": "2026-10-02T03:08:25.313Z",
+    "log": "handoffs/codex/artifacts/R8-frozen-eta-integrations-03-operations-notice-language-drift.log"
+  },
+  "reason": "Root selected database-only runtime before the battery; required policy engine was stopped. First two suites returned SERVICE_UNAVAILABLE with policy_engine TimeoutError. Owned runner tree was stopped before changing runtime dependencies.",
+  "taskkill": {
+    "verified_process_id": 21128,
+    "verified_parent_id": 27316,
+    "exit_code": 0
+  },
+  "outer_exit_code": 1,
+  "post_interruption_security_metadata_exit": 0,
+  "approval_review": "Starting policy runtime while battery active was rejected; runner stopped first; no bypass or runtime-start performed during it."
+}

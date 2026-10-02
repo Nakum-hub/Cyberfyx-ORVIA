@@ -1,0 +1,86 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T15:04:34.803Z",
+  "diagnostic_only": true,
+  "policy_acceptance": "NOT_ASSERTED_OWNER_DECISION_PENDING",
+  "classification": "OBSERVED_ALLOW_CONTRADICTS_UNCONDITIONAL_BLOCK_COMMENT",
+  "observations": [
+    {
+      "stage": "REGISTRY_GRANT_ONLY",
+      "result": {
+        "attempt_id": "f463ba80-ceaa-41e6-ade0-52577aab3417",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 0,
+        "reason_codes": [
+          "CONDITIONS_NOT_SATISFIED"
+        ]
+      },
+      "counts": {
+        "decisions": 1,
+        "sends": 0,
+        "send_hits": 1,
+        "consent_hits": 1
+      },
+      "admission_model": "No A00 aggregate grant was installed yet; this is not the otherwise-ALLOW adverse case."
+    },
+    {
+      "stage": "ACTIVE_CANARY_WITH_REGISTRY_AND_A00_GRANTS",
+      "result": {
+        "attempt_id": "49bc44c6-bfa5-4ae8-9296-13b3f3d006d6",
+        "decision": "ALLOW",
+        "send_record_id": "217f4b70-e718-4410-afe9-bcf0873b3253",
+        "admitted_at": "2026-10-01T15:04:33.812Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "before": {
+        "decisions": 1,
+        "sends": 0,
+        "send_hits": 1,
+        "consent_hits": 2
+      },
+      "after": {
+        "decisions": 2,
+        "sends": 1,
+        "send_hits": 2,
+        "consent_hits": 2
+      },
+      "delta": {
+        "decisions": 1,
+        "sends": 1,
+        "send_hits": 1,
+        "consent_hits": 0
+      },
+      "gates": {
+        "state": "GRANTED",
+        "matching_notice": true,
+        "no_unresolved_suppression": true
+      },
+      "target": {
+        "generation": 1,
+        "marketing_restricted": false,
+        "quarantined": false
+      },
+      "ordinary_control": {
+        "attempt_id": "7a3321a7-bf60-4581-b3de-0566100c68a1",
+        "decision": "ALLOW",
+        "send_record_id": "85d3b9ef-ce73-479c-8caa-f0c27af12bd2",
+        "admitted_at": "2026-10-01T15:04:32.891Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "classification": "OBSERVED_ALLOW_CONTRADICTS_UNCONDITIONAL_BLOCK_COMMENT",
+      "migration_comment_claim": "SEND_ADMISSION decision is BLOCK",
+      "policy_acceptance": "NOT_ASSERTED_OWNER_DECISION_PENDING"
+    }
+  ],
+  "synthetic_source_fixture": true,
+  "limitation": "Registry HTTP grant and deliberately seeded A00 grant are distinct; no real delivery or production admission was exercised."
+}

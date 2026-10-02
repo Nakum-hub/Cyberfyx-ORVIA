@@ -100,7 +100,7 @@ export async function evaluateApplicability(c: Context, input: unknown) {
 }
 
 export async function applicabilityList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.applicability_decisions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.applicability_decisions WHERE ${predicate} AND ($4::uuid IS NULL OR (evaluated_at,id) < (SELECT evaluated_at,id FROM app.applicability_decisions WHERE ${predicate} AND id=$4)) ORDER BY evaluated_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(decisionView), next_cursor: paged.next_cursor };
 }

@@ -3,6 +3,8 @@ import { audit, type Context } from '../shared/transaction.ts';
 import { createNotificationTask } from '../notifications/notifications.ts';
 import { iso, packageAt, predicate, scope } from './shared.ts';
 import { pendingWithdrawalCount } from '../registry/consent.ts';
+import { noticeDriftReport } from '../registry/notice-drift.ts';
+import { modelsNeedingRetrainingReview } from '../ai-governance/model-versions.ts';
 
 /**
  * Attention, coverage and notifications (requirements s24; backend Coverage,
@@ -45,6 +47,51 @@ export async function operationsAttention(c: Context) {
     const [kind, severity, text] = actionKinds[a.state]!;
     push({ kind, severity, entity_kind: 'workflow_run', entity_id: a.run_id, count: a.n, detail: `${a.n} ${text}.`, due_at: null });
   }
+  // EX07: a system restored from an older backup brought erased people back; re-erasure stays here until confirmed. And a system
+  // with verified erasures but no current backup treatment has unknown backup handling, which stays visibly unverified (master §50).
+  // Newest restore first, so the system most recently restored is never the one cut off by the limit.
+  for (const b of capped((await c.tx.query(`WITH s AS (SELECT system_id, max(recorded_at) AS last_restore FROM app.system_restores WHERE ${predicate} GROUP BY system_id)
+      SELECT s.system_id, k.reapply_required FROM s CROSS JOIN LATERAL app.erasure_ledger_counts(s.system_id) k WHERE k.reapply_required > 0 ORDER BY s.last_restore DESC, s.system_id LIMIT 51`, s)).rows, 50, 'systems needing re-erasure after a restore'))
+    push({ kind: 'REERASURE_AFTER_RESTORE', severity: 'OPEN', entity_kind: 'system', entity_id: b.system_id, count: b.reapply_required,
+      detail: `${b.reapply_required} person(s) erased on this system since the restored backup was taken must be erased again.`, due_at: null });
+  // A restore from a backup older than erasures the ledger already purged cannot name everyone it brought back (migration 0090):
+  // it stays here until someone records how the restored data was reviewed by hand.
+  for (const r of capped((await c.tx.query(`SELECT s.id, s.backup_taken_at, s.ledger_purged_through FROM app.system_restores s WHERE s.tenant_id=$1 AND s.legal_entity_id=$2 AND s.environment_id=$3
+      AND s.ledger_coverage='INCOMPLETE' AND NOT EXISTS (SELECT 1 FROM app.restore_coverage_reviews v WHERE v.tenant_id=s.tenant_id AND v.legal_entity_id=s.legal_entity_id AND v.environment_id=s.environment_id AND v.restore_id=s.id)
+    ORDER BY s.recorded_at DESC LIMIT 51`, s)).rows, 50, 'restores older than the erasure ledger'))
+    push({ kind: 'RESTORE_PREDATES_LEDGER', severity: 'UNRESOLVED', entity_kind: 'system_restore', entity_id: r.id, count: 1,
+      detail: `The restored backup was taken before ${(r.ledger_purged_through as Date).toISOString().slice(0, 10)}, and erasures made before then may no longer be in the erasure ledger (purged, or made before this installation recorded purges), so ORVIA cannot name everyone it brought back. Review the restored data by hand and record how.`, due_at: null });
+  for (const b of capped((await c.tx.query(`SELECT a.system_id, count(*)::int n FROM app.downstream_actions a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3
+      AND a.action_type IN ('ERASE','ANONYMISE') AND a.verification='VERIFIED' AND a.system_id IS NOT NULL
+      AND NOT EXISTS (SELECT 1 FROM app.backup_treatments t WHERE t.tenant_id=a.tenant_id AND t.legal_entity_id=a.legal_entity_id AND t.environment_id=a.environment_id AND t.system_id=a.system_id AND t.status='CURRENT')
+    GROUP BY a.system_id ORDER BY count(*) DESC LIMIT 51`, s)).rows, 50, 'systems with unknown backup handling'))
+    push({ kind: 'BACKUP_HANDLING_UNKNOWN', severity: 'UNRESOLVED', entity_kind: 'system', entity_id: b.system_id, count: b.n,
+      detail: `${b.n} verified erasure(s) on this system, but no approved backup treatment: what its backups still hold is unknown.`, due_at: null });
+
+  // Withdrawal canaries: counted without naming the canaries, so staff without sensitive access see that hits exist.
+  const canaryHits = Number((await c.tx.query('SELECT app.canary_open_hits() AS n')).rows[0].n);
+  if (canaryHits > 0) push({ kind: 'CANARY_TRAP_HIT', severity: 'FAILED', entity_kind: 'canary_hits', entity_id: null, count: canaryHits,
+    detail: `${canaryHits} unreviewed withdrawal-canary hit(s): something tried to contact, or record consent for, a decoy person who never consented. Someone with sensitive access must review each.`, due_at: null });
+
+  // Deployed models whose training purpose saw consent withdrawn after their training data was taken: a retraining decision.
+  for (const m of capped(await modelsNeedingRetrainingReview(c), 50, 'models needing a retraining review'))
+    push({ kind: 'AI_MODEL_RETRAIN_REVIEW', severity: 'REVIEW_REQUIRED', entity_kind: 'ai_system', entity_id: m.ai_system_id, count: m.withdrawals,
+      detail: `${m.withdrawals} person(s) withdrew consent for the training purpose of deployed model version ${m.version_label.slice(0, 60)} after its training data was taken. Decide whether to retrain; ORVIA does not claim the model forgot them.`, due_at: null });
+
+  // Eighth Schedule language drift: a notice whose current locales state different purposes or data categories, or a translation
+  // whose source has been replaced.
+  for (const n of capped((await noticeDriftReport(c)).notices.filter(n => n.out_of_step > 0), 50, 'notices with languages out of step'))
+    push({ kind: 'NOTICE_LANGUAGE_DRIFT', severity: 'REVIEW_REQUIRED', entity_kind: 'registry_notice', entity_id: n.notice_id, count: n.out_of_step,
+      detail: `${n.out_of_step} language version(s) of "${n.name.slice(0, 80)}" are out of step with the ${n.reference_locale} notice: ${n.locales.filter(l => l.state === 'SCOPE_MISMATCH' || l.state === 'BEHIND_ITS_SOURCE').map(l => l.locale).join(', ')}.`, due_at: null });
+
+  // Website privacy policies: the latest completed discovery per site that is missing, unreachable, empty or changed and not yet reviewed.
+  for (const d of capped((await c.tx.query(`SELECT DISTINCT ON (d.site_id) d.id, d.site_id, d.results, d.reviewed_at FROM app.policy_discoveries d
+      WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3 AND d.state='COMPLETED' ORDER BY d.site_id, d.observed_at DESC, d.id DESC`, s)).rows
+      .filter(d => !d.reviewed_at && ((d.results?.findings ?? []) as { kind: string; severity: string }[]).some(f => f.severity === 'HIGH' || f.kind === 'POLICY_CHANGED')), 50, 'website policies to review'))
+    push({ kind: 'WEBSITE_POLICY_REVIEW', severity: 'REVIEW_REQUIRED', entity_kind: 'cmp_site', entity_id: d.site_id, count: 1,
+      detail: ((d.results?.findings ?? []) as { kind: string }[]).some(f => f.kind === 'POLICY_CHANGED') ? 'The website privacy policy changed since the last discovery; review it against the notices recorded here.'
+        : 'The website privacy policy is missing, unreachable or empty at the latest discovery.', due_at: null });
+
   for (const r of capped((await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status='DRY_RUN_READY' ORDER BY created_at DESC LIMIT 51`, s)).rows, 50, 'dry runs awaiting approval'))
     push({ kind: 'RUN_AWAITING_APPROVAL', severity: 'REVIEW_REQUIRED', entity_kind: 'workflow_run', entity_id: r.id, count: 1, detail: 'A dry run is ready and waits for a second person to approve or reject it.', due_at: null });
 

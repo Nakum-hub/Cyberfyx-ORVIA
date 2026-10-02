@@ -1,0 +1,34 @@
+PASS anonymous test start denied
+PASS principal test start denied
+PASS auditor test start denied
+PASS delegated admin cannot run privileged faults
+PASS unenrolled tenant cannot run Aster fixture
+PASS another lane profile denied
+PASS arbitrary scenario rejected
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS anonymous run history denied
+PASS principal run history denied
+PASS scoped run history contains queued run
+PASS scoped run history paging terminates
+PASS foreign tenant run history excludes queued run
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+{
+  phase: 'MARKETING_WITHDRAWAL_HEALTHY',
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  sites: [
+    '    at check (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\regression\\regression.test.ts:17:246)',
+    '    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\regression\\regression.test.ts:42:3)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/A00-regression-integration-1790859923971-16ddcbbc-a932-4fe0-a995-c16215084acd.json

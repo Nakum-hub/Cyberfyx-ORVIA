@@ -322,14 +322,14 @@ export function Principals({session}:{session:StaffSession}) {
 
   return <>
     <PageHead eyebrow="Privacy controls" title="People &amp; targets"
-      lede="The people this organisation holds synthetic records for, and the exact target record each purpose maps to in each system. Creating a directory reference does not create a login account." />
+      lede="The people this organisation holds records for, and the exact target record each purpose maps to in each system. Creating a directory reference does not create a login account." />
     <Section title="People">
       <Freshness query={principals}/>
       <QueryBoundary query={principals} label="principal directory" isEmpty={d=>!d.items.length}>{d=>
         <RecordList label="Principals" items={d.items} render={p=><>
           <div className="row row-between">
             <div><h3 style={{margin:0}}>{p.display_name}</h3><p className="muted" style={{margin:'2px 0 0',fontSize:13}}>{p.email}</p></div>
-            <Badge label="Synthetic record" tone="neutral" meaning="Fictional data created for testing. No real person is represented."/>
+            {p.synthetic?<Badge label="Synthetic record" tone="neutral" meaning="Fictional data created for testing. No real person is represented."/>:<Badge label="Real person" tone="info" meaning="A real Data Principal, recorded after this installation was qualified and admitted real people (revision 1.9)."/>}
           </div>
           <TechnicalDetails items={[{term:'Principal',value:p.id}]}/>
         </>}/>
@@ -337,8 +337,8 @@ export function Principals({session}:{session:StaffSession}) {
       <CreateRecord operation="create_principals" label="Create principal reference" allowed={hasCapability(session,'principals.create')} onSaved={principals.refresh}
         build={f=>({...scope,display_name:value(f,'display_name'),email:value(f,'email')})}>
         <Input label="Display name" name="display_name" maxLength={100}/>
-        <Input label="Synthetic email" name="email" type="email" maxLength={254}/>
-        <p className="muted" style={{fontSize:13}}>Use only reserved aster.example or birch.example addresses.</p>
+        <Input label="Email" name="email" type="email" maxLength={254}/>
+        <p className="muted" style={{fontSize:13}}>Until this installation is qualified and its server administrator admits real people, only the reserved aster.example and birch.example addresses are accepted. People are identified by email only.</p>
       </CreateRecord>
     </Section>
 

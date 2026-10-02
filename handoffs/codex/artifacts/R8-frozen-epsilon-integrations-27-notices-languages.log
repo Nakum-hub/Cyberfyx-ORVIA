@@ -1,0 +1,27 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 59s remaining; controls unchanged.
+Authentication fixture idle window: 29s remaining; controls unchanged.
+PASS a language the Act does not permit for a notice is refused
+PASS an Eighth Schedule language is recorded as the principal’s own choice
+PASS staff cannot set a principal’s language choice
+PASS the purpose has a published English notice, which is what the scenario made
+PASS a language with no notice is served English and reported as unmet, not as met
+PASS the portal carries the language asked for and the language served as two facts
+PASS the notice the principal is shown is the one that exists, and says which language it is in
+PASS a draft translation is not yet an available notice
+PASS the database refuses a notice in a language the Act does not permit
+PASS an editorial change cannot carry a decision about consent, because nothing material changed
+PASS a material change to scope cannot be recorded without deciding what happens to existing grants
+PASS a translation must name the version it translates
+PASS a translation into the language it came from is refused
+PASS the revision counted the grants actually standing, and says the figure was measured
+PASS a version is classified once; a second attempt is a conflict, not an overwrite
+PASS a recorded decision is never edited or withdrawn
+PASS the database refuses a scope change that decided nothing, independently of the application
+PASS the classification is readable against the notice it belongs to
+PASS an auditor may read classifications but may not record one
+Artifact: handoffs/codex/artifacts/A00-notice-language-integration-1790869131428-513c7a2c-8490-440e-8487-0819c1088096.json
+
+19 assertions, 0 failures.

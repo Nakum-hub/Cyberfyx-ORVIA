@@ -1,0 +1,13 @@
+{
+  "suite": "audit-practice",
+  "database": "orvia_vendor_test_ecf5430354274b6c830833623657681b",
+  "passed": 0,
+  "failed": 1,
+  "results": [
+    {
+      "name": "suite",
+      "result": "FAIL",
+      "detail": "Error: Synthetic VENDOR_TEAM_CREATE rejected (503, SERVICE_UNAVAILABLE)\n    at member (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\vendor\\audit-practice.test.ts:43:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\vendor\\audit-practice.test.ts:51:13)"
+    }
+  ]
+}

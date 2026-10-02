@@ -1,0 +1,28 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T04:38:42.004Z",
+  "profile": "codex-a00",
+  "phase": "scenario",
+  "assertions": [
+    {
+      "name": "catalog source approved by separate owner",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "real catalog reader processed the source",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "TypeError",
+    "code": "UNCLASSIFIED"
+  },
+  "detail": "Cannot read properties of undefined (reading 'id')",
+  "diagnostics": ""
+}

@@ -188,7 +188,7 @@ export async function withdrawPackage(c: Context, id: string) {
 export async function packageView(c: Context, id: string) { return view(await packageRow(c, id)); }
 export async function packageList(c: Context, requestId: string, page: Page) {
   await requestRow(c, requestId);
-  const rows = (await c.tx.query(`SELECT * FROM app.rights_response_packages WHERE ${predicate} AND request_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`, [...scope(c), requestId, page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.rights_response_packages WHERE ${predicate} AND request_id=$4 AND ($5::uuid IS NULL OR (prepared_at,id) < (SELECT prepared_at,id FROM app.rights_response_packages WHERE ${predicate} AND request_id=$4 AND id=$5)) ORDER BY prepared_at DESC, id DESC LIMIT $6`, [...scope(c), requestId, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(view), next_cursor: paged.next_cursor };
 }

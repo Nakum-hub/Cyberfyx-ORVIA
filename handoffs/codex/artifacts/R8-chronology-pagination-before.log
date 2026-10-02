@@ -1,0 +1,9 @@
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\handoffs\codex\round8-pagination-check.ts:37
+  const limit=Number(/LIMIT \$(\d+)\s*$/.exec(after)![1]);
+                                                   ^
+
+TypeError: Cannot read properties of null (reading '1')
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\handoffs\codex\round8-pagination-check.ts:37:52)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.21.0

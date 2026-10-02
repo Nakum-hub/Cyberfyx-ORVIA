@@ -21,7 +21,7 @@ import { renderPdf, type PdfLine } from './pdf.ts';
  */
 export type Actor = { actor_id: string; actor_domain: 'VENDOR_STAFF' | 'CLIENT_ACCOUNT' | 'CLIENT_INSTALLATION'; role: string; organisation_id: string | null };
 export type Ctx = { tx: pg.PoolClient; actor: Actor; requestId: string };
-export type Keys = { vault: Buffer; audit: () => AuditKey; licence: () => VendorKey };
+export type Keys = { vault: Buffer; audit: () => AuditKey; licence: () => VendorKey; release: () => { key_id: string; public: string } };
 export const iso = (v: unknown) => v === null || v === undefined ? null : (v as Date).toISOString();
 export const day = (v: unknown) => v === null || v === undefined ? null : typeof v === 'string' ? v.slice(0, 10) : new Date((v as Date).getTime() - (v as Date).getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 export const refuse = (status: number, field: string, code: string): never => { throw new AccessError(status, status === 404 ? 'NOT_FOUND' : status === 403 ? 'FORBIDDEN' : 'VALIDATION_ERROR', [{ field, code }]); };

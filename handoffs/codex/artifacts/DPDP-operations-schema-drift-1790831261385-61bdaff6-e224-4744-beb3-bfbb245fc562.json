@@ -1,0 +1,83 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T05:07:41.385Z",
+  "suite": "schema-drift",
+  "assertions": [
+    {
+      "name": "the first read records the three columns and a digest, without values",
+      "result": "PASS",
+      "expected": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ],
+      "actual": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an unchanged re-read keeps the digest and opens no gap",
+      "result": "PASS",
+      "expected": [
+        "0cc11871dfb9d6d000a5ca748c286358a39bee58173d189884932ff950de34e3",
+        0
+      ],
+      "actual": [
+        "0cc11871dfb9d6d000a5ca748c286358a39bee58173d189884932ff950de34e3",
+        0
+      ]
+    },
+    {
+      "name": "the next read records the new column and a new digest",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "one HIGH schema-change gap tells staff to review the mapping",
+      "result": "PASS",
+      "expected": [
+        1,
+        "HIGH",
+        "OPEN",
+        true
+      ],
+      "actual": [
+        1,
+        "HIGH",
+        "OPEN",
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in a column is added",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Unexpected 400: {\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"Request could not be completed.\",\"retry\":\"NEVER\"},\"request_id\":\"e35d8429-3ba0-43a1-a00b-12cb452690d9\"}"
+    }
+  ],
+  "passed": 4,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

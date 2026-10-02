@@ -102,7 +102,7 @@ export async function breachView(c: Context, id: string) {
       completed_at: iso(t.completed_at), communication_evidence_reference: t.communication_evidence_reference, completion_note: t.completion_note, created_at: iso(t.created_at) })) });
 }
 export async function breachList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT incident_id FROM app.personal_data_breaches WHERE ${predicate} AND ($4::uuid IS NULL OR incident_id>$4) ORDER BY incident_id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT incident_id FROM app.personal_data_breaches WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,incident_id) < (SELECT recorded_at,incident_id FROM app.personal_data_breaches WHERE ${predicate} AND incident_id=$4)) ORDER BY recorded_at DESC, incident_id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.incident_id);
   const items = [];
   for (const row of paged.items) items.push(await breachView(c, row.incident_id));

@@ -1,0 +1,275 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T08:42:26.041Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a breach registered on screen is pinned with deadlines from the package",
+      "result": "PASS",
+      "expected": [
+        "e66420ef-bb52-4923-8a3e-603bba33a1c4",
+        "UNKNOWN",
+        true
+      ],
+      "actual": [
+        "e66420ef-bb52-4923-8a3e-603bba33a1c4",
+        "UNKNOWN",
+        true
+      ]
+    },
+    {
+      "name": "correcting the facts keeps the pinned package and deadlines",
+      "result": "PASS",
+      "expected": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T06:36:50.438Z"
+        ]
+      ],
+      "actual": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T06:36:50.438Z"
+        ]
+      ]
+    },
+    {
+      "name": "a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)",
+      "result": "PASS",
+      "expected": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ],
+      "actual": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ]
+    },
+    {
+      "name": "a person is registered with a keyed reference and no stored identifier",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "a relationship context is recorded with unknown evidence kept unknown",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ],
+      "actual": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ]
+    },
+    {
+      "name": "a representative starts unverified",
+      "result": "PASS",
+      "expected": "UNVERIFIED",
+      "actual": "UNVERIFIED"
+    },
+    {
+      "name": "the person who recorded a representative cannot verify them",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a different staff member verifies the representative",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        true
+      ],
+      "actual": [
+        "VERIFIED",
+        true
+      ]
+    },
+    {
+      "name": "child status is recorded with its guardian",
+      "result": "PASS",
+      "expected": [
+        "CHILD",
+        "36e0ed52-9382-4387-b60b-beba9b6bb2fe",
+        "NOT_ESTABLISHED"
+      ],
+      "actual": [
+        "CHILD",
+        "36e0ed52-9382-4387-b60b-beba9b6bb2fe",
+        "NOT_ESTABLISHED"
+      ]
+    },
+    {
+      "name": "a consent record starts unknown, never granted",
+      "result": "PASS",
+      "expected": "UNKNOWN",
+      "actual": "UNKNOWN"
+    },
+    {
+      "name": "a withdrawal recorded on screen opens exactly one propagation run",
+      "result": "PASS",
+      "expected": [
+        "WITHDRAWN",
+        1
+      ],
+      "actual": [
+        "WITHDRAWN",
+        1
+      ]
+    },
+    {
+      "name": "the run suppresses in the linked system",
+      "result": "PASS",
+      "expected": [
+        "CONSENT_WITHDRAWAL",
+        1
+      ],
+      "actual": [
+        "CONSENT_WITHDRAWAL",
+        1
+      ]
+    },
+    {
+      "name": "termination closes the engagement and requires return or deletion",
+      "result": "PASS",
+      "expected": [
+        "TERMINATED",
+        "PENDING"
+      ],
+      "actual": [
+        "TERMINATED",
+        "PENDING"
+      ]
+    },
+    {
+      "name": "a processor statement is recorded as a confirmation, never as verified",
+      "result": "PASS",
+      "expected": "PROCESSOR_CONFIRMED",
+      "actual": "PROCESSOR_CONFIRMED"
+    },
+    {
+      "name": "a data share names exactly one recipient",
+      "result": "PASS",
+      "expected": [
+        "Synthetic logistics partner",
+        null
+      ],
+      "actual": [
+        "Synthetic logistics partner",
+        null
+      ]
+    },
+    {
+      "name": "a safeguard is recorded with its evidence",
+      "result": "PASS",
+      "expected": [
+        "ENCRYPTION",
+        "Encryption report ER-9"
+      ],
+      "actual": [
+        "ENCRYPTION",
+        "Encryption report ER-9"
+      ]
+    },
+    {
+      "name": "a manual-only binding declares no automated action",
+      "result": "PASS",
+      "expected": [
+        "MANUAL_ONLY",
+        false,
+        false
+      ],
+      "actual": [
+        "MANUAL_ONLY",
+        false,
+        false
+      ]
+    },
+    {
+      "name": "a case profile is pinned to the package in force at receipt",
+      "result": "PASS",
+      "expected": [
+        "252b8ca2-89dc-4c7e-ab6a-bd0d74447918",
+        "TEST_FIXTURE"
+      ],
+      "actual": [
+        "252b8ca2-89dc-4c7e-ab6a-bd0d74447918",
+        "TEST_FIXTURE"
+      ]
+    },
+    {
+      "name": "execution is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "starting execution plans an erasure that waits for a second person",
+      "result": "PASS",
+      "expected": [
+        "RIGHTS_EXECUTION",
+        true
+      ],
+      "actual": [
+        "RIGHTS_EXECUTION",
+        true
+      ]
+    },
+    {
+      "name": "an estate file with an invalid row is refused whole in the browser",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "uploaded rows are applied from the checkpoint",
+      "result": "FAIL",
+      "expected": [
+        2,
+        2,
+        0
+      ],
+      "actual": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "unexpected failure in estate import",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: uploaded rows are applied from the checkpoint"
+    }
+  ],
+  "passed": 22,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

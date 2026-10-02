@@ -1,0 +1,28 @@
+✔ a fresh real filesystem bundle returns the verified code, not a path (58.7254ms)
+✔ worker launch refuses missing manifest (16.1918ms)
+✔ worker launch refuses missing code (17.4955ms)
+✔ worker launch refuses source changed (26.8489ms)
+✔ worker launch refuses lock changed (26.8642ms)
+✔ worker launch refuses SDK mismatch (40.514ms)
+✔ worker launch refuses Node mismatch (28.7308ms)
+✔ worker launch refuses code tampered (19.5911ms)
+✔ worker launch refuses required input omitted (48.0762ms)
+✔ worker launch refuses duplicate input (29.6605ms)
+✔ worker launch refuses unsorted input (33.5875ms)
+✔ worker launch refuses traversal (31.9664ms)
+✔ worker launch refuses absolute path (34.843ms)
+✔ worker launch refuses node_modules input (23.4615ms)
+✔ worker launch refuses local input (23.7083ms)
+✔ worker launch refuses dist input (21.0743ms)
+✔ worker launch refuses unknown manifest field (39.2176ms)
+✔ worker launch refuses oversize manifest (11.8353ms)
+✔ worker launch refuses oversize code (32.8259ms)
+✔ a linked input directory is refused even when it points to matching local content (19.0774ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8330.1714

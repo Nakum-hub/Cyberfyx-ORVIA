@@ -1,0 +1,339 @@
+[
+  {
+    "at": "2026-09-30T17:13:47.359Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:13:47.377Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 401
+  },
+  {
+    "at": "2026-09-30T17:13:47.377Z",
+    "role": "owner",
+    "event": "console",
+    "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "source": "http://127.0.0.1:4310/api/v1/session"
+  },
+  {
+    "at": "2026-09-30T17:13:48.324Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:13:48.406Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:13:49.146Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace"
+  },
+  {
+    "at": "2026-09-30T17:13:49.196Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:13:50.457Z",
+    "role": "owner",
+    "path": "/workspace",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 4177,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:13:50.754Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/coverage"
+  },
+  {
+    "at": "2026-09-30T17:13:50.800Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/coverage",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:13:52.014Z",
+    "role": "owner",
+    "path": "/workspace/coverage",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1960,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:13:52.449Z",
+    "role": "owner",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/data-principals"
+  },
+  {
+    "at": "2026-09-30T17:13:52.495Z",
+    "role": "owner",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/data-principals",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:13:54.073Z",
+    "role": "owner",
+    "path": "/workspace/data-principals",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 5030,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:13:55.819Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:13:55.847Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 401
+  },
+  {
+    "at": "2026-09-30T17:13:55.848Z",
+    "role": "admin",
+    "event": "console",
+    "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "source": "http://127.0.0.1:4310/api/v1/session"
+  },
+  {
+    "at": "2026-09-30T17:13:56.604Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:13:56.646Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:13:56.856Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace"
+  },
+  {
+    "at": "2026-09-30T17:13:56.895Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:13:58.045Z",
+    "role": "admin",
+    "path": "/workspace",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3898,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:13:58.384Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/coverage"
+  },
+  {
+    "at": "2026-09-30T17:13:58.460Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/coverage",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:13:59.611Z",
+    "role": "admin",
+    "path": "/workspace/coverage",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1960,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:13:59.796Z",
+    "role": "admin",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/data-principals"
+  },
+  {
+    "at": "2026-09-30T17:13:59.840Z",
+    "role": "admin",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/data-principals",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:14:01.360Z",
+    "role": "admin",
+    "path": "/workspace/data-principals",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 5030,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:14:01.926Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:14:01.936Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 401
+  },
+  {
+    "at": "2026-09-30T17:14:01.936Z",
+    "role": "auditor",
+    "event": "console",
+    "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "source": "http://127.0.0.1:4310/api/v1/session"
+  },
+  {
+    "at": "2026-09-30T17:14:02.323Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:14:02.381Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:14:02.445Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/sign-in"
+  },
+  {
+    "at": "2026-09-30T17:14:02.492Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/sign-in",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:14:03.158Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace"
+  },
+  {
+    "at": "2026-09-30T17:14:03.205Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:14:04.338Z",
+    "role": "auditor",
+    "path": "/workspace",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 3587,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:14:04.905Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/coverage"
+  },
+  {
+    "at": "2026-09-30T17:14:04.999Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/coverage",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:14:06.251Z",
+    "role": "auditor",
+    "path": "/workspace/coverage",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1960,
+    "loading": false,
+    "loading_text": null
+  },
+  {
+    "at": "2026-09-30T17:14:06.592Z",
+    "role": "auditor",
+    "event": "session-request",
+    "page": "http://127.0.0.1:4310/workspace/data-principals"
+  },
+  {
+    "at": "2026-09-30T17:14:06.634Z",
+    "role": "auditor",
+    "event": "session-response",
+    "page": "http://127.0.0.1:4310/workspace/data-principals",
+    "status": 200
+  },
+  {
+    "at": "2026-09-30T17:14:07.910Z",
+    "role": "auditor",
+    "path": "/workspace/data-principals",
+    "label": "networkidle + 400ms",
+    "visibility": "visible",
+    "focused": true,
+    "ready": "complete",
+    "main_length": 1765,
+    "loading": false,
+    "loading_text": null
+  }
+]

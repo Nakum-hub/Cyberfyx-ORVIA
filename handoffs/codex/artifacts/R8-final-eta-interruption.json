@@ -1,0 +1,141 @@
+{
+    "observed_at":  "2026-10-01T19:49:02.1097207Z",
+    "commit":  "d7a10d6a1e707f0e1d57378e5d0f58c9b3c02503",
+    "build":  "O3vGd-z4HGBxaLp-Fdqh3",
+    "complete":  false,
+    "matrix_status":  "INTERRUPTED_NOT_ACCEPTED",
+    "results":  [
+                    {
+                        "engine":  "chromium",
+                        "suite":  "interface-crawl-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-chromium-interface-crawl-local.log",
+                        "status":  "PASS",
+                        "exit_code":  0,
+                        "reason":  "Exact recorded child exit"
+                    },
+                    {
+                        "engine":  "chromium",
+                        "suite":  "expansion-screens-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-chromium-expansion-screens-local.log",
+                        "status":  "PASS",
+                        "exit_code":  0,
+                        "reason":  "Exact recorded child exit"
+                    },
+                    {
+                        "engine":  "chromium",
+                        "suite":  "audit-mandate-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-chromium-audit-mandate-local.log",
+                        "status":  "PASS",
+                        "exit_code":  0,
+                        "reason":  "Exact recorded child exit"
+                    },
+                    {
+                        "engine":  "chromium",
+                        "suite":  "operations-screens-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-chromium-operations-screens-local.log",
+                        "status":  "PASS",
+                        "exit_code":  0,
+                        "reason":  "Exact recorded child exit"
+                    },
+                    {
+                        "engine":  "chromium",
+                        "suite":  "sign-in-hydration-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-chromium-sign-in-hydration-local.log",
+                        "status":  "PASS",
+                        "exit_code":  0,
+                        "reason":  "Exact recorded child exit"
+                    },
+                    {
+                        "engine":  "webkit",
+                        "suite":  "interface-crawl-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-webkit-interface-crawl-local.log",
+                        "status":  "FAIL",
+                        "exit_code":  1,
+                        "reason":  "Exact recorded child exit"
+                    },
+                    {
+                        "engine":  "webkit",
+                        "suite":  "expansion-screens-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-webkit-expansion-screens-local.log",
+                        "status":  "FAIL",
+                        "exit_code":  1,
+                        "reason":  "Exact recorded child exit"
+                    },
+                    {
+                        "engine":  "webkit",
+                        "suite":  "audit-mandate-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-webkit-audit-mandate-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    },
+                    {
+                        "engine":  "webkit",
+                        "suite":  "operations-screens-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-webkit-operations-screens-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    },
+                    {
+                        "engine":  "webkit",
+                        "suite":  "sign-in-hydration-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-webkit-sign-in-hydration-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    },
+                    {
+                        "engine":  "firefox",
+                        "suite":  "interface-crawl-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-firefox-interface-crawl-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    },
+                    {
+                        "engine":  "firefox",
+                        "suite":  "expansion-screens-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-firefox-expansion-screens-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    },
+                    {
+                        "engine":  "firefox",
+                        "suite":  "audit-mandate-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-firefox-audit-mandate-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    },
+                    {
+                        "engine":  "firefox",
+                        "suite":  "operations-screens-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-firefox-operations-screens-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    },
+                    {
+                        "engine":  "firefox",
+                        "suite":  "sign-in-hydration-local",
+                        "log":  "handoffs/codex/artifacts/R8-final-eta-firefox-sign-in-hydration-local.log",
+                        "status":  "NOT_RUN",
+                        "exit_code":  null,
+                        "reason":  "No normal child completion evidence before interruption; partial assertions do not qualify acceptance"
+                    }
+                ],
+    "feature_status":  "NOT_RUN",
+    "integration_status":  "NOT_RUN",
+    "memory_recovery_observed":  {
+                                     "free_virtual_mb":  12825,
+                                     "free_physical_mb":  508
+                                 },
+    "limitations":  [
+                        "Interrupted cleanup tool may have partially executed; no successful taskkill result was returned.",
+                        "Old acceptance processes absent and old unified sessions unavailable on resumption.",
+                        "Resource exhaustion directly recorded; exact WebKit crash cause not proven.",
+                        "Original failures and incomplete coverage retained; no retry classified as a fix."
+                    ]
+}

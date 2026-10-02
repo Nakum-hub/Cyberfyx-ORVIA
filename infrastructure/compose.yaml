@@ -10,7 +10,12 @@ services:
     secrets: [postgres_password]
     volumes: [postgres_data:/var/lib/postgresql/data]
     networks: [private]
-    mem_limit: 384m
+    # Memory settings sized to the container limit (2026-10-01). On defaults (shared_buffers 128MB, 100 connections, 4MB work
+    # memory at hash multiplier 2, 64MB maintenance) the kernel killed a backend at the old 384m limit during an upgrade and
+    # Postgres then restarted every connection. Application pools open at most 2 connections per role; 60 is ample.
+    command: ['postgres', '-c', 'shared_buffers=64MB', '-c', 'work_mem=2MB', '-c', 'hash_mem_multiplier=1', '-c', 'maintenance_work_mem=32MB',
+      '-c', 'autovacuum_max_workers=2', '-c', 'max_connections=60']
+    mem_limit: 512m
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U orvia_migrator -d "$${POSTGRES_DB}"']
       interval: 5s

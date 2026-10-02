@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: Regulatory Core and regulatory update (quality s4 "Regulatory update").
 // Under test: only a correctly signed package is accepted, a second person
 // approves it, the package in force is decided by approval and effective date,
@@ -60,7 +61,7 @@ await t.run(async () => {
   const importedB = await ok(owner.call('/api/v1/admin/regulatory/packages', signFixture(claimsB, keyId, privateKey), key()), S.schemas.RegulatoryPackage);
   check('the diff names the changed and the removed requirement against A', [importedB.diff.compared_with_version, importedB.diff.changed.map(c => c.requirement_id), importedB.diff.removed.map(c => c.requirement_id)],
     [versionA, ['DPDP-BREACH-BOARD-REPORT'], ['DPDP-CROSS-BORDER']]);
-  const impacts = await ok(owner.call(`/api/v1/admin/regulatory/impacts?package_row_id=${importedB.id}&limit=100`), S.schemas.RegulatoryImpactList);
+  const impacts = await allPageList(p => owner.call(p), `/api/v1/admin/regulatory/impacts?package_row_id=${importedB.id}`, value => S.schemas.RegulatoryImpactList.parse(value));
   check('impact items are created for the changed and removed requirements', ['DPDP-BREACH-BOARD-REPORT', 'DPDP-CROSS-BORDER'].every(id => impacts.items.some(i => i.requirement_id === id)), true);
   check('the open breach is named as affected by the changed breach requirement', impacts.items.some(i => i.requirement_id === 'DPDP-BREACH-BOARD-REPORT' && i.affected_kind === 'BREACH' && i.affected_id === incident.id), true);
   const reviewed = await ok(admin.call(`/api/v1/admin/regulatory/impacts/${impacts.items[0]!.id}/review`, { state: 'ACTIONED', note: 'Reviewed during fixture validation.' }, key()), S.schemas.RegulatoryImpact);

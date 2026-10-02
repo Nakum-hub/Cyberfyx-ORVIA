@@ -7,15 +7,16 @@ import { scopedTransaction } from '../../../database/customer/src/runtime.ts';
 import { predicate, type Context } from '../../../backend/domain/src/shared/transaction.ts';
 import { processJob } from '../../../backend/domain/src/operations/bulk-import.ts';
 import { evaluateRun } from '../../../backend/domain/src/operations/runs.ts';
-import { executeRun } from '../../../backend/domain/src/operations/executor.ts';
+import { executeRun, executionProgress, pendingExecutionRunIds } from '../../../backend/domain/src/operations/executor.ts';
 import { notificationSweep } from '../../../backend/domain/src/operations/attention.ts';
 import { controlTestSweep } from '../../../backend/domain/src/grc/lifecycle.ts';
 import { purgeExpiredExports } from '../../../backend/domain/src/exports/exports.ts';
 import { purgeEndedPackages } from '../../../backend/domain/src/rights/response-packages.ts';
-import { raiseAlertMessages, claimDue, sendClaim, recordResult } from '../../../backend/domain/src/delivery/delivery.ts';
+import { raiseAlertMessages, claimDue, withholdBeforeSend, sendClaim, recordResult } from '../../../backend/domain/src/delivery/delivery.ts';
 import { escalationSweep } from '../../../backend/domain/src/assessments/impact.ts';
 import { propagatePendingWithdrawals } from '../../../backend/domain/src/registry/consent.ts';
 import { processIntake } from '../../../backend/domain/src/registry/intake.ts';
+import { backupLedgerSweep } from '../../../backend/domain/src/registry/backups.ts';
 import type { OperationsEnv } from '../../../backend/domain/src/operations/shared.ts';
 import { safeError } from '../../../shared/testing/src/evidence.ts';
 import { channelSweep, type ChannelEnv } from '../../../backend/domain/src/dpdpa-audit/channel.ts';
@@ -42,7 +43,7 @@ import { installationTrustAt } from '../../../scripts/credentials.ts';
  * reviewed messages through the customer's enabled transports, and services
  * approved DPDPA audit mandates over the outbound audit channel (revision 1.6).
  */
-export type RunnerReport = { scope: string; intake_applied: number; intake_needs_staff: number; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_retrying: number; messages_exhausted: number; audit_check_ins: number; audit_deliveries_accepted: number; audit_requests_received: number; errors: string[] };
+export type RunnerReport = { scope: string; intake_applied: number; intake_needs_staff: number; backup_ledger_aged: number; backup_ledger_purged: number; withdrawals_propagated: number; jobs_processed: number; runs_evaluated: number; runs_executed: number; notifications_created: number; control_tests_run: number; compliance_alerts: number; issues_escalated: number; findings_escalated: number; export_chunks_purged: number; response_packages_purged: number; alert_messages_raised: number; messages_sent: number; messages_withheld: number; messages_retrying: number; messages_exhausted: number; audit_check_ins: number; audit_deliveries_accepted: number; audit_requests_received: number; errors: string[] };
 const BATCH = { job: 200, evaluate: 200, execute: 50 };
 const MAX_BATCHES_PER_ITEM = 50;
 
@@ -65,7 +66,7 @@ export function operationsRunner() {
     for (const identity of currentEnrollment().identities) {
       const actor = machineAuthority(identity);
       const scoped = <T>(work: (c: Context) => Promise<T>) => scopedTransaction(control, actor, tx => work({ tx, actor, requestId: randomUUID() }));
-      const report: RunnerReport = { scope: identity.scope.environment_id, intake_applied: 0, intake_needs_staff: 0, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_retrying: 0, messages_exhausted: 0, audit_check_ins: 0, audit_deliveries_accepted: 0, audit_requests_received: 0, errors: [] };
+      const report: RunnerReport = { scope: identity.scope.environment_id, intake_applied: 0, intake_needs_staff: 0, backup_ledger_aged: 0, backup_ledger_purged: 0, withdrawals_propagated: 0, jobs_processed: 0, runs_evaluated: 0, runs_executed: 0, notifications_created: 0, control_tests_run: 0, compliance_alerts: 0, issues_escalated: 0, findings_escalated: 0, export_chunks_purged: 0, response_packages_purged: 0, alert_messages_raised: 0, messages_sent: 0, messages_withheld: 0, messages_retrying: 0, messages_exhausted: 0, audit_check_ins: 0, audit_deliveries_accepted: 0, audit_requests_received: 0, errors: [] };
       const scopeValues = [identity.scope.tenant_id, identity.scope.legal_entity_id, identity.scope.environment_id];
       // Submissions from the organisation's own website or app first (revision 1.7): a withdrawal sent that way becomes a
       // recorded withdrawal here, so the propagation step just below picks it up in this same cycle.
@@ -79,19 +80,29 @@ export function operationsRunner() {
       const pending = await scoped(async c => ({
         jobs: (await c.tx.query(`SELECT id FROM app.bulk_jobs WHERE ${predicate} AND status='PROCESSING' ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),
         evaluating: (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status='EVALUATING' ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),
-        executable: (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND status IN ('APPROVED','RUNNING') AND rights_request_id IS NULL ORDER BY created_at LIMIT 20`, scopeValues)).rows.map(r => r.id as string),
+        executable: await pendingExecutionRunIds(c, 20),
       }));
-      const drive = async (ids: string[], step: (c: Context, id: string) => Promise<{ status: string }>, done: (status: string) => boolean, count: () => void) => {
+      const drive = async (ids: string[], step: (c: Context, id: string) => Promise<{ status: string }>, done: (status: string) => boolean, count: () => void, progress?: (c: Context, id: string) => Promise<string | null>) => {
         for (const id of ids) {
           try {
-            for (let i = 0; i < MAX_BATCHES_PER_ITEM; i++) { const result = await scoped(c => step(c, id)); if (done(result.status)) break; }
+            for (let i = 0; i < MAX_BATCHES_PER_ITEM; i++) {
+              const batch = await scoped(async c => {
+                const before = progress ? await progress(c, id) : undefined;
+                const result = await step(c, id);
+                const after = progress ? await progress(c, id) : undefined;
+                return { result, progressed: !progress || before !== after };
+              });
+              // A run can stay RUNNING for a manual confirmation or uncertain
+              // target outcome. Preserve that state; do not repeat 50 no-op audits.
+              if (done(batch.result.status) || !batch.progressed) break;
+            }
             count();
           } catch (error) { report.errors.push(`${id}: ${safeError(error).code}`); }
         }
       };
       await drive(pending.jobs, (c, id) => processJob(c, env, id, { limit: BATCH.job }), s => s !== 'PROCESSING', () => report.jobs_processed++);
       await drive(pending.evaluating, (c, id) => evaluateRun(c, id, { limit: BATCH.evaluate }), s => s !== 'EVALUATING', () => report.runs_evaluated++);
-      await drive(pending.executable, (c, id) => executeRun(c, env, id, { limit: BATCH.execute }), s => s !== 'RUNNING', () => report.runs_executed++);
+      await drive(pending.executable, (c, id) => executeRun(c, env, id, { limit: BATCH.execute }), s => s !== 'RUNNING', () => report.runs_executed++, (c, id) => executionProgress(c, id, BATCH.execute));
       try { report.notifications_created = (await scoped(c => notificationSweep(c))).created; }
       catch (error) { report.errors.push(`notification sweep: ${safeError(error).code}`); }
       // Continuous compliance (EX11): due control tests run, drift raises one alert per change, and overdue issues escalate once.
@@ -101,12 +112,18 @@ export function operationsRunner() {
       catch (error) { report.errors.push(`assessment finding escalation: ${safeError(error).code}`); }
       try { report.export_chunks_purged = await scoped(c => purgeExpiredExports(c)); }
       catch (error) { report.errors.push(`export purge: ${safeError(error).code}`); }
+      // EX07: erasure-ledger rows past their backup clear date age out; 30 days later they are purged (the ledger's own retention).
+      try { const b = await scoped(c => backupLedgerSweep(c)); report.backup_ledger_aged = b.aged; report.backup_ledger_purged = b.purged; }
+      catch (error) { report.errors.push(`backup ledger: ${safeError(error).code}`); }
       try { report.response_packages_purged = await scoped(c => purgeEndedPackages(c)); }
       catch (error) { report.errors.push(`response package purge: ${safeError(error).code}`); }
       // Customer-controlled delivery (EX09): claim under a lease, send outside the transaction, record the attempt.
       try {
         report.alert_messages_raised = await scoped(c => raiseAlertMessages(c));
         for (const claim of await scoped(c => claimDue(c))) {
+          // The recipient may have been designated a real-person decoy since the claim committed (revision 1.10): re-check
+          // immediately before transmitting, in its own transaction, and withhold instead of sending.
+          if (await scoped(c => withholdBeforeSend(c, claim))) { report.messages_withheld++; continue; }
           const result = await sendClaim(env, claim);
           const recorded = await scoped(c => recordResult(c, claim, result));
           if (recorded === 'SENT') report.messages_sent++; else if (recorded === 'EXHAUSTED') report.messages_exhausted++; else report.messages_retrying++;
@@ -119,7 +136,14 @@ export function operationsRunner() {
     }
     return reports;
   }
-  return { once, close: () => Promise.all([control.end(), targets.agent.end(), targets.observer.end()]) };
+  /** Wakes the caller when a run becomes executable (migration 0081: NOTIFY orvia_operations). Resolves once listening. */
+  async function listen(onWake: () => void) {
+    const client = await control.connect();
+    client.on('notification', () => onWake());
+    await client.query('LISTEN orvia_operations');
+    return () => { client.release(); };
+  }
+  return { once, listen, close: () => Promise.all([control.end(), targets.agent.end(), targets.observer.end()]) };
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
@@ -132,6 +156,10 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   process.on('SIGINT', stop); process.on('SIGTERM', stop);
   process.on('message', message => { if (message === 'orvia-stop') stop(); });
   const loop = !process.argv.includes('--once');
+  // A withdrawal or newly approved run starts a pass at once instead of waiting out the 30-second loop. A wake that arrives
+  // during a pass is kept, so the next wait returns immediately rather than losing it.
+  let pending = false;
+  const unlisten = loop ? await runner.listen(() => { pending = true; wake(); }) : () => {};
   try {
     do {
       const reports = await runner.once();
@@ -140,9 +168,10 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
       // loop keeps running and reports them in each pass's output instead, so a
       // clean stop is not recorded as a failed child; a thrown error still ends it.
       if (!loop && reports.some(r => r.errors.length)) process.exitCode = 1;
-      if (loop && !stopped) await new Promise<void>(resolve => { const timer = setTimeout(resolve, 30_000); wake = () => { clearTimeout(timer); resolve(); }; });
+      if (loop && !stopped && !pending) await new Promise<void>(resolve => { const timer = setTimeout(resolve, 30_000); wake = () => { clearTimeout(timer); resolve(); }; });
+      pending = false;
     } while (loop && !stopped);
-  } finally { await runner.close(); }
+  } finally { unlisten(); await runner.close(); }
   // An IPC channel keeps the event loop alive after the last pass.
   if (process.connected) process.disconnect();
 }

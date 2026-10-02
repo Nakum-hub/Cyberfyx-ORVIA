@@ -93,7 +93,7 @@ export async function finishWorkflow(c: Context, id: string) {
  await audit(c,'workflow.'+state.toLowerCase(),id);return state;
 }
 export async function workflowList(c: Context, page: Page) {
- const rows=await c.tx.query(`SELECT id FROM app.workflows WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
+ const rows=await c.tx.query(`SELECT id FROM app.workflows WHERE ${predicate} AND ($4::uuid IS NULL OR (accepted_at,id) < (SELECT accepted_at,id FROM app.workflows WHERE ${predicate} AND id=$4)) ORDER BY accepted_at DESC, id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);
  const items=[];for(const row of rows.rows){const workflow=await readWorkflow(c,row.id);items.push(S.WorkflowSummary.parse({id:workflow.id,event_id:workflow.event_id,purpose_id:workflow.purpose_id,state:workflow.state,accepted_at:workflow.accepted_at,updated_at:workflow.updated_at}));}
  return paged(items,page);
 }

@@ -1,0 +1,13 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T20:24:54.095Z",
+  "profile": "codex-a00",
+  "migrations": [
+    "0088_canary_marketing_hold",
+    "0089_real_decoy_withheld",
+    "0090_restore_ledger_coverage"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner"
+}

@@ -1,0 +1,817 @@
+{
+  "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+  "build": "rk9gmU9HKBFctw0E6a-5I",
+  "mode": "all",
+  "fullSuites": [
+    "tests/integration/operations/backup-obligations.test.ts",
+    "tests/integration/expansion/policy-discovery.test.ts",
+    "tests/integration/operations/notice-language-drift.test.ts",
+    "tests/integration/consent/canaries.test.ts",
+    "tests/integration/consent/canary-retirement.test.ts",
+    "tests/integration/onboarding/owner-recovery.test.ts",
+    "tests/integration/onboarding/real-principals.test.ts",
+    "tests/integration/ai-governance/model-versions.test.ts",
+    "tests/integration/consent/canary-grant-admission.test.ts",
+    "tests/integration/consent/consent.test.ts",
+    "tests/integration/consent/expiry.test.ts",
+    "tests/integration/discovery/catalog-flow.test.ts",
+    "tests/integration/discovery/schema-drift.test.ts",
+    "tests/integration/enforcement/withdrawal-timing.test.ts",
+    "tests/integration/evidence/evidence.test.ts",
+    "tests/integration/expansion/audit-mandate.test.ts",
+    "tests/integration/expansion/classification.test.ts",
+    "tests/integration/expansion/cmp.test.ts",
+    "tests/integration/expansion/delivery.test.ts",
+    "tests/integration/expansion/grc-lifecycle.test.ts",
+    "tests/integration/expansion/impact.test.ts",
+    "tests/integration/expansion/preferences.test.ts",
+    "tests/integration/expansion/ropa-exports.test.ts",
+    "tests/integration/expansion/third-party.test.ts",
+    "tests/integration/grc/http.test.ts",
+    "tests/integration/monitoring/restore.test.ts",
+    "tests/integration/notices/languages.test.ts",
+    "tests/integration/onboarding/imports.test.ts",
+    "tests/integration/operations/applicability.test.ts",
+    "tests/integration/operations/consent-withdrawal.test.ts",
+    "tests/integration/operations/correction.test.ts",
+    "tests/integration/operations/notices.test.ts",
+    "tests/integration/operations/organisation-intake.test.ts",
+    "tests/integration/operations/processors.test.ts",
+    "tests/integration/operations/regulatory.test.ts",
+    "tests/integration/operations/rights.test.ts",
+    "tests/integration/operations/runner-progress.test.ts",
+    "tests/integration/operations/runner.test.ts",
+    "tests/integration/operations/withdrawal-single-pass.test.ts",
+    "tests/integration/regression/regression.test.ts",
+    "tests/integration/rights/portal.test.ts",
+    "tests/integration/vendor/audit-practice.test.ts",
+    "tests/integration/web.test.ts",
+    "tests/integration/workflows/workflow.test.ts"
+  ],
+  "affected": [
+    "tests/integration/ai-governance/model-versions.test.ts",
+    "tests/integration/consent/canaries.test.ts",
+    "tests/integration/consent/canary-grant-admission.test.ts",
+    "tests/integration/consent/canary-retirement.test.ts",
+    "tests/integration/consent/consent.test.ts",
+    "tests/integration/consent/expiry.test.ts",
+    "tests/integration/discovery/catalog-flow.test.ts",
+    "tests/integration/discovery/schema-drift.test.ts",
+    "tests/integration/enforcement/withdrawal-timing.test.ts",
+    "tests/integration/evidence/evidence.test.ts",
+    "tests/integration/expansion/audit-mandate.test.ts",
+    "tests/integration/expansion/classification.test.ts",
+    "tests/integration/expansion/cmp.test.ts",
+    "tests/integration/expansion/delivery.test.ts",
+    "tests/integration/expansion/grc-lifecycle.test.ts",
+    "tests/integration/expansion/impact.test.ts",
+    "tests/integration/expansion/policy-discovery.test.ts",
+    "tests/integration/expansion/preferences.test.ts",
+    "tests/integration/expansion/ropa-exports.test.ts",
+    "tests/integration/expansion/third-party.test.ts",
+    "tests/integration/grc/http.test.ts",
+    "tests/integration/monitoring/restore.test.ts",
+    "tests/integration/notices/languages.test.ts",
+    "tests/integration/onboarding/imports.test.ts",
+    "tests/integration/onboarding/owner-recovery.test.ts",
+    "tests/integration/onboarding/real-principals.test.ts",
+    "tests/integration/operations/applicability.test.ts",
+    "tests/integration/operations/backup-obligations.test.ts",
+    "tests/integration/operations/consent-withdrawal.test.ts",
+    "tests/integration/operations/correction.test.ts",
+    "tests/integration/operations/notice-language-drift.test.ts",
+    "tests/integration/operations/notices.test.ts",
+    "tests/integration/operations/organisation-intake.test.ts",
+    "tests/integration/operations/processors.test.ts",
+    "tests/integration/operations/regulatory.test.ts",
+    "tests/integration/operations/rights.test.ts",
+    "tests/integration/operations/runner-progress.test.ts",
+    "tests/integration/operations/runner.test.ts",
+    "tests/integration/operations/withdrawal-single-pass.test.ts",
+    "tests/integration/regression/regression.test.ts",
+    "tests/integration/rights/portal.test.ts",
+    "tests/integration/vendor/audit-practice.test.ts",
+    "tests/integration/web.test.ts",
+    "tests/integration/workflows/workflow.test.ts"
+  ],
+  "required": [
+    "tests/integration/operations/backup-obligations.test.ts",
+    "tests/integration/expansion/policy-discovery.test.ts",
+    "tests/integration/operations/notice-language-drift.test.ts",
+    "tests/integration/consent/canaries.test.ts",
+    "tests/integration/consent/canary-retirement.test.ts",
+    "tests/integration/onboarding/owner-recovery.test.ts",
+    "tests/integration/onboarding/real-principals.test.ts"
+  ],
+  "results": [
+    {
+      "suite": "tests/integration/operations/backup-obligations.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/backup-obligations.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-01-operations-backup-obligations.log",
+      "started_at": "2026-10-01T14:55:51.462Z",
+      "ended_at": "2026-10-01T14:56:59.894Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/policy-discovery.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/policy-discovery.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-02-expansion-policy-discovery.log",
+      "started_at": "2026-10-01T14:56:59.962Z",
+      "ended_at": "2026-10-01T14:59:01.703Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/notice-language-drift.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/notice-language-drift.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-03-operations-notice-language-drift.log",
+      "started_at": "2026-10-01T14:59:01.766Z",
+      "ended_at": "2026-10-01T14:59:15.067Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/consent/canaries.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/canaries.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-04-consent-canaries.log",
+      "started_at": "2026-10-01T14:59:15.147Z",
+      "ended_at": "2026-10-01T15:00:34.046Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/consent/canary-retirement.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/canary-retirement.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-05-consent-canary-retirement.log",
+      "started_at": "2026-10-01T15:00:34.175Z",
+      "ended_at": "2026-10-01T15:01:46.235Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/onboarding/owner-recovery.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/onboarding/owner-recovery.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-06-onboarding-owner-recovery.log",
+      "started_at": "2026-10-01T15:01:46.312Z",
+      "ended_at": "2026-10-01T15:02:45.539Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/onboarding/real-principals.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/onboarding/real-principals.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-07-onboarding-real-principals.log",
+      "started_at": "2026-10-01T15:02:45.595Z",
+      "ended_at": "2026-10-01T15:02:57.510Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/ai-governance/model-versions.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/ai-governance/model-versions.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-08-ai-governance-model-versions.log",
+      "started_at": "2026-10-01T15:02:57.558Z",
+      "ended_at": "2026-10-01T15:03:08.521Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/consent/canary-grant-admission.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/canary-grant-admission.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-09-consent-canary-grant-admission.log",
+      "started_at": "2026-10-01T15:03:08.583Z",
+      "ended_at": "2026-10-01T15:04:34.994Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/consent/consent.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/consent.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-10-consent-consent.log",
+      "started_at": "2026-10-01T15:04:35.851Z",
+      "ended_at": "2026-10-01T15:06:46.732Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/consent/expiry.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/consent/expiry.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-11-consent-expiry.log",
+      "started_at": "2026-10-01T15:06:46.861Z",
+      "ended_at": "2026-10-01T15:09:19.680Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/discovery/catalog-flow.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/discovery/catalog-flow.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-12-discovery-catalog-flow.log",
+      "started_at": "2026-10-01T15:09:19.738Z",
+      "ended_at": "2026-10-01T15:10:43.775Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/discovery/schema-drift.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/discovery/schema-drift.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-13-discovery-schema-drift.log",
+      "started_at": "2026-10-01T15:10:43.843Z",
+      "ended_at": "2026-10-01T15:12:07.710Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/enforcement/withdrawal-timing.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/enforcement/withdrawal-timing.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-14-enforcement-withdrawal-timing.log",
+      "started_at": "2026-10-01T15:12:07.783Z",
+      "ended_at": "2026-10-01T15:17:25.700Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/evidence/evidence.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/evidence/evidence.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-15-evidence-evidence.log",
+      "started_at": "2026-10-01T15:17:25.758Z",
+      "ended_at": "2026-10-01T15:22:50.923Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/audit-mandate.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/audit-mandate.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-16-expansion-audit-mandate.log",
+      "started_at": "2026-10-01T15:22:51.010Z",
+      "ended_at": "2026-10-01T15:24:54.963Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/classification.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/classification.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-17-expansion-classification.log",
+      "started_at": "2026-10-01T15:24:55.041Z",
+      "ended_at": "2026-10-01T15:25:13.594Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/cmp.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/cmp.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-18-expansion-cmp.log",
+      "started_at": "2026-10-01T15:25:13.647Z",
+      "ended_at": "2026-10-01T15:26:33.897Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/delivery.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/delivery.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-19-expansion-delivery.log",
+      "started_at": "2026-10-01T15:26:33.946Z",
+      "ended_at": "2026-10-01T15:29:44.723Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/grc-lifecycle.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/grc-lifecycle.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-20-expansion-grc-lifecycle.log",
+      "started_at": "2026-10-01T15:29:44.928Z",
+      "ended_at": "2026-10-01T15:30:35.402Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/impact.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/impact.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-21-expansion-impact.log",
+      "started_at": "2026-10-01T15:30:35.497Z",
+      "ended_at": "2026-10-01T15:32:11.286Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/preferences.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/preferences.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-22-expansion-preferences.log",
+      "started_at": "2026-10-01T15:32:11.340Z",
+      "ended_at": "2026-10-01T15:33:29.949Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/ropa-exports.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/ropa-exports.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-23-expansion-ropa-exports.log",
+      "started_at": "2026-10-01T15:33:30.044Z",
+      "ended_at": "2026-10-01T15:34:24.121Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/expansion/third-party.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/expansion/third-party.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-24-expansion-third-party.log",
+      "started_at": "2026-10-01T15:34:24.171Z",
+      "ended_at": "2026-10-01T15:36:14.465Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/grc/http.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/grc/http.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-25-grc-http.log",
+      "started_at": "2026-10-01T15:36:14.557Z",
+      "ended_at": "2026-10-01T15:37:06.443Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/monitoring/restore.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/monitoring/restore.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-26-monitoring-restore.log",
+      "started_at": "2026-10-01T15:37:06.592Z",
+      "ended_at": "2026-10-01T15:37:29.683Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/notices/languages.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/notices/languages.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-27-notices-languages.log",
+      "started_at": "2026-10-01T15:37:29.798Z",
+      "ended_at": "2026-10-01T15:38:51.599Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/onboarding/imports.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/onboarding/imports.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-28-onboarding-imports.log",
+      "started_at": "2026-10-01T15:38:51.651Z",
+      "ended_at": "2026-10-01T15:39:03.142Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/applicability.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/applicability.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-29-operations-applicability.log",
+      "started_at": "2026-10-01T15:39:03.197Z",
+      "ended_at": "2026-10-01T15:40:15.927Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/consent-withdrawal.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/consent-withdrawal.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-30-operations-consent-withdrawal.log",
+      "started_at": "2026-10-01T15:40:15.999Z",
+      "ended_at": "2026-10-01T15:41:50.563Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/correction.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/correction.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-31-operations-correction.log",
+      "started_at": "2026-10-01T15:41:50.691Z",
+      "ended_at": "2026-10-01T15:42:31.997Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/notices.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/notices.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-32-operations-notices.log",
+      "started_at": "2026-10-01T15:42:32.064Z",
+      "ended_at": "2026-10-01T15:43:15.231Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/organisation-intake.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/organisation-intake.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-33-operations-organisation-intake.log",
+      "started_at": "2026-10-01T15:43:15.301Z",
+      "ended_at": "2026-10-01T15:43:42.316Z",
+      "exit_code": 1,
+      "signal": null,
+      "status": "FAIL",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/processors.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/processors.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-34-operations-processors.log",
+      "started_at": "2026-10-01T15:43:42.377Z",
+      "ended_at": "2026-10-01T15:43:52.255Z",
+      "exit_code": 1,
+      "signal": null,
+      "status": "FAIL",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/regulatory.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/regulatory.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-35-operations-regulatory.log",
+      "started_at": "2026-10-01T15:43:52.339Z",
+      "ended_at": "2026-10-01T15:45:06.250Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/rights.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/rights.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-36-operations-rights.log",
+      "started_at": "2026-10-01T15:45:06.352Z",
+      "ended_at": "2026-10-01T15:46:39.619Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/runner-progress.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/runner-progress.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-37-operations-runner-progress.log",
+      "started_at": "2026-10-01T15:46:39.882Z",
+      "ended_at": "2026-10-01T15:48:29.104Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/runner.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/runner.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-38-operations-runner.log",
+      "started_at": "2026-10-01T15:48:29.167Z",
+      "ended_at": "2026-10-01T15:48:50.189Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/operations/withdrawal-single-pass.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/operations/withdrawal-single-pass.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-39-operations-withdrawal-single-pass.log",
+      "started_at": "2026-10-01T15:48:50.267Z",
+      "ended_at": "2026-10-01T15:50:25.169Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/regression/regression.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/regression/regression.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-40-regression-regression.log",
+      "started_at": "2026-10-01T15:50:25.229Z",
+      "ended_at": "2026-10-01T15:58:09.995Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/rights/portal.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/rights/portal.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-41-rights-portal.log",
+      "started_at": "2026-10-01T15:58:10.068Z",
+      "ended_at": "2026-10-01T15:58:30.854Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/vendor/audit-practice.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/vendor/audit-practice.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-42-vendor-audit-practice.log",
+      "started_at": "2026-10-01T15:58:30.932Z",
+      "ended_at": "2026-10-01T16:01:02.211Z",
+      "exit_code": 1,
+      "signal": null,
+      "status": "FAIL",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/web.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/web.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-43-web.log",
+      "started_at": "2026-10-01T16:01:02.293Z",
+      "ended_at": "2026-10-01T16:01:16.448Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    },
+    {
+      "suite": "tests/integration/workflows/workflow.test.ts",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "node_modules/tsx/dist/cli.mjs",
+        "tests/integration/workflows/workflow.test.ts"
+      ],
+      "log": "handoffs/codex/artifacts/R8-frozen-epsilon-integrations-44-workflows-workflow.log",
+      "started_at": "2026-10-01T16:01:16.568Z",
+      "ended_at": "2026-10-01T16:02:45.410Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "commit": "fd987d9ab861c2c0740ed91727d544b90707c9c3",
+      "build": "rk9gmU9HKBFctw0E6a-5I"
+    }
+  ],
+  "coverage_limits": [
+    "Unit, policy mutation, database-security/initialization rerun, pagination/timestamp controls and serial browser matrix require their separate runners.",
+    "Changed-source transitive integration coverage is broader than git-diff-selected suites; migration-upgrade, backup-drill, vendor-audit/schema-equivalence and remaining security suites require separate qualification decisions.",
+    "Vendor suites use their existing isolated scratch database harness; development signing fixtures are not production qualification."
+  ]
+}

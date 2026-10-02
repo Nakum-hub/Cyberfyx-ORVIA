@@ -8,6 +8,10 @@ const mode=process.argv[2];
 if(!mode||!['dev','build','start'].includes(mode))throw new Error('Unknown web command');
 const root=fileURLToPath(new URL('../',import.meta.url));
 process.chdir(root);
+if(mode==='build') {
+ const { buildWorkerWorkflows } = await import('./build-worker-workflows.ts');
+ await buildWorkerWorkflows();
+}
 const require=createRequire(new URL('../frontend/package.json',import.meta.url));
 const args=mode==='build'?['build']:[mode,'--hostname','127.0.0.1','--port',String(loadProfile().app_port)];
 if(mode==='dev'&&loadProfile().profile==='rehearsal')throw new Error('Rehearsal requires production build and verified HTTPS start');

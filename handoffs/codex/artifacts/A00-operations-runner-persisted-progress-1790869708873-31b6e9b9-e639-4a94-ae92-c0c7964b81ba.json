@@ -1,0 +1,227 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T15:48:28.874Z",
+  "suite": "runner-persisted-progress",
+  "assertions": [
+    {
+      "name": "auditor cannot terminate the engagement",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "foreign tenant cannot read the disposition run",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "the durable control really contains manual pending work",
+      "result": "PASS",
+      "expected": [
+        [
+          "DISPOSITION_CONFIRMATION",
+          "pending",
+          0
+        ]
+      ],
+      "actual": [
+        [
+          "DISPOSITION_CONFIRMATION",
+          "pending",
+          0
+        ]
+      ]
+    },
+    {
+      "name": "the actual scoped admission matches owned executable or manual-waiting work",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the owned scope reports no background errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "manual-only waiting consumes no background execution audit",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "manual action state, target outcome, verification and attempts remain intact",
+      "result": "PASS",
+      "expected": [
+        {
+          "action_type": "DISPOSITION_CONFIRMATION",
+          "state": "pending",
+          "target_result": "NONE",
+          "verification": "NOT_VERIFIED",
+          "attempts": 0,
+          "last_error_code": null
+        }
+      ],
+      "actual": [
+        {
+          "action_type": "DISPOSITION_CONFIRMATION",
+          "state": "pending",
+          "target_result": "NONE",
+          "verification": "NOT_VERIFIED",
+          "attempts": 0,
+          "last_error_code": null
+        }
+      ]
+    },
+    {
+      "name": "manual waiting is not promoted to successful completion",
+      "result": "PASS",
+      "expected": "RUNNING",
+      "actual": "RUNNING"
+    },
+    {
+      "name": "all synthetic rows import in the declared bounded batch",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        52
+      ],
+      "actual": [
+        "COMPLETED",
+        52
+      ]
+    },
+    {
+      "name": "the genuine run has more actions than one execution batch",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        52
+      ],
+      "actual": [
+        "APPROVED",
+        52
+      ]
+    },
+    {
+      "name": "auditor cannot execute this run",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the actual scoped admission matches owned executable or manual-waiting work",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the owned scope reports no background errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a progressing run continues through both batches",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_VERIFIED",
+        52,
+        2
+      ],
+      "actual": [
+        "COMPLETED_VERIFIED",
+        52,
+        2
+      ]
+    },
+    {
+      "name": "all target records are independently read back suppressed",
+      "result": "PASS",
+      "expected": 52,
+      "actual": 52
+    },
+    {
+      "name": "the actual scoped admission matches owned executable or manual-waiting work",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the owned scope reports no background errors",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "actual durable uncertain result remains inconclusive and unverified",
+      "result": "PASS",
+      "expected": [
+        [
+          "inconclusive",
+          "TIMEOUT_EFFECT_UNKNOWN",
+          "INCONCLUSIVE",
+          1
+        ]
+      ],
+      "actual": [
+        [
+          "inconclusive",
+          "TIMEOUT_EFFECT_UNKNOWN",
+          "INCONCLUSIVE",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "uncertainty is not reported as completed verified",
+      "result": "PASS",
+      "expected": "PARTIALLY_FAILED",
+      "actual": "PARTIALLY_FAILED"
+    },
+    {
+      "name": "target execution is not repeated while verification is unavailable",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "earlier manual waiting still remains pending after all other work",
+      "result": "PASS",
+      "expected": [
+        {
+          "action_type": "DISPOSITION_CONFIRMATION",
+          "state": "pending",
+          "target_result": "NONE",
+          "verification": "NOT_VERIFIED",
+          "attempts": 0,
+          "last_error_code": null
+        }
+      ],
+      "actual": [
+        {
+          "action_type": "DISPOSITION_CONFIRMATION",
+          "state": "pending",
+          "target_result": "NONE",
+          "verification": "NOT_VERIFIED",
+          "attempts": 0,
+          "last_error_code": null
+        }
+      ]
+    }
+  ],
+  "passed": 21,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

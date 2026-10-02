@@ -1,0 +1,119 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T05:54:44.266Z",
+  "suite": "vendor-production-criteria-browser",
+  "assertions": [
+    {
+      "name": "a TEST_FIXTURE package is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the screen says it is not a production package",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a package signed with another key is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the screen says the package is not signed with this vendor's release key",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "no criteria row appears for a refused package",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the signed production package is recorded",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "the row shows Production and waits for a different approver",
+      "result": "PASS",
+      "expected": [
+        true,
+        1,
+        0
+      ],
+      "actual": [
+        true,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "before approving, the reviewer sees the sources with their hashes and the signed package",
+      "result": "PASS",
+      "expected": [
+        true,
+        0,
+        1
+      ],
+      "actual": [
+        true,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "the open verification items of the package are listed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "approval stays disabled until a review reference is given and the items are acknowledged",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a reference alone is not enough: the acknowledgement is required",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the reviewer approves it on the same screen",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the production-criteria gate is still not recorded (real engagements stay refused here)",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "no page errors on the practice screen",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no request left the vendor origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 15,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

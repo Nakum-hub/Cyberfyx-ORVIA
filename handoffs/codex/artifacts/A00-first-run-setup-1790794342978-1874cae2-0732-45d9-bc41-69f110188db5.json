@@ -1,0 +1,100 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-09-30T18:52:22.978Z",
+  "suite": "first-run-setup",
+  "results": [
+    {
+      "name": "a fresh installation has no code issued",
+      "result": "PASS"
+    },
+    {
+      "name": "setup cannot complete without a code",
+      "result": "PASS"
+    },
+    {
+      "name": "an issued code is in the expected form and setup is open",
+      "result": "PASS"
+    },
+    {
+      "name": "only the digest is stored",
+      "result": "PASS"
+    },
+    {
+      "name": "the application role cannot read the code table",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 1 is refused and counted",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 2 is refused and counted",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 3 is refused and counted",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 4 is refused and counted",
+      "result": "PASS"
+    },
+    {
+      "name": "four wrong attempts leave setup open",
+      "result": "PASS"
+    },
+    {
+      "name": "the fifth wrong attempt locks setup",
+      "result": "PASS"
+    },
+    {
+      "name": "even the right code is refused once locked",
+      "result": "PASS"
+    },
+    {
+      "name": "a newly issued code resets the lock",
+      "result": "PASS"
+    },
+    {
+      "name": "an expired code is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "owner and administrator must have different addresses",
+      "result": "PASS"
+    },
+    {
+      "name": "the code is accepted in lower case with spaces",
+      "result": "PASS"
+    },
+    {
+      "name": "one owner and one administrator were created with their chosen password hashes",
+      "result": "PASS"
+    },
+    {
+      "name": "both logins belong to the one new organisation",
+      "result": "PASS"
+    },
+    {
+      "name": "the setup was recorded in the audit trail",
+      "result": "PASS"
+    },
+    {
+      "name": "setup is closed afterwards",
+      "result": "PASS"
+    },
+    {
+      "name": "the used code cannot run setup again",
+      "result": "PASS"
+    },
+    {
+      "name": "no new code can be issued once an owner exists",
+      "result": "PASS"
+    },
+    {
+      "name": "the scratch database was removed",
+      "result": "PASS"
+    }
+  ]
+}

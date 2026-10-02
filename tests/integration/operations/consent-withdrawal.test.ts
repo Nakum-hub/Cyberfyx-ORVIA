@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: consent withdrawal propagation (quality s4 "Consent withdrawal").
 // Under test: a withdrawal becomes a pinned propagation run; a healthy target is
 // independently verified; an unavailable target fails and is retried; a target
@@ -42,7 +43,7 @@ await t.run(async () => {
     const runId = withdrawn.withdrawal_run_ids[0]!;
     const planned = await ok(admin.call(`/api/v1/admin/workflow-runs/${runId}`), S.schemas.WorkflowRun);
     check('the run is pinned to the regulatory package and needs no approval to stop processing', [planned.kind, planned.status, planned.approval_required, planned.package.distribution], ['CONSENT_WITHDRAWAL', 'APPROVED', false, 'TEST_FIXTURE']);
-    const actions = async () => new Map((await ok(admin.call(`/api/v1/admin/workflow-runs/${runId}/actions?limit=100`), S.schemas.DownstreamActionList)).items.map(a => [a.system_id!, a]));
+    const actions = async () => new Map((await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${runId}/actions`, value => S.schemas.DownstreamActionList.parse(value))).items.map(a => [a.system_id!, a]));
     check('a system with no connector binding is reported not supported, never skipped', (await actions()).get(unbound.id)?.state, 'not_supported');
     check('a withdrawal suppresses; it never deletes by itself', [...(await actions()).values()].every(a => a.action_type === 'SUPPRESS'), true);
 
@@ -70,14 +71,14 @@ await t.run(async () => {
     await ok(admin.call(`/api/v1/admin/consent-records/${record.id}/events`, { event: 'GRANTED', occurred_at: hoursFromNow(-0.05), evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'web-form:regranted', notice_version_id: null }, key()), S.schemas.ConsentRecord);
     const again = await ok(admin.call(`/api/v1/admin/consent-records/${record.id}/events`, { event: 'WITHDRAWN', occurred_at: hoursFromNow(-0.01), evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'web-form:withdrawn-again', notice_version_id: null }, key()), S.schemas.ConsentRecord);
     const secondRun = again.withdrawal_run_ids.find(id => id !== runId)!;
-    const crashed = (await ok(admin.call(`/api/v1/admin/workflow-runs/${secondRun}/actions?limit=100`), S.schemas.DownstreamActionList)).items.find(a => a.system_id === healthy.id)!;
+    const crashed = (await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${secondRun}/actions`, value => S.schemas.DownstreamActionList.parse(value))).items.find(a => a.system_id === healthy.id)!;
     const keyRow = (await db.query('SELECT idempotency_key FROM app.downstream_actions WHERE id=$1', [crashed.id])).rows[0].idempotency_key;
     // A worker that applied the effect at the target and died before recording it.
     await target.pool.query(`INSERT INTO subject_operations(idempotency_key,system_id,subject_reference,operation,request_digest,applied,outcome) VALUES($1,$2,$3,'SUPPRESS',$4,true,'COMPLETED')`,
       [keyRow, healthy.id, ref, digest({ action_type: 'SUPPRESS', system_id: healthy.id, target_reference: ref, payload: null })]);
     await db.query(`UPDATE app.downstream_actions SET state='executing',attempts=1 WHERE id=$1`, [crashed.id]);
     await ok(admin.call(`/api/v1/admin/workflow-runs/${secondRun}/execution`, { limit: 50 }, key()), S.schemas.WorkflowRun);
-    const replayed = (await ok(admin.call(`/api/v1/admin/workflow-runs/${secondRun}/actions?limit=100`), S.schemas.DownstreamActionList)).items.find(a => a.id === crashed.id)!;
+    const replayed = (await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${secondRun}/actions`, value => S.schemas.DownstreamActionList.parse(value))).items.find(a => a.id === crashed.id)!;
     const attempts = (await db.query('SELECT replayed FROM app.downstream_action_attempts WHERE action_id=$1 AND target_result<>$2', [crashed.id, 'DISPATCHED'])).rows;
     check('an interrupted dispatch is resumed by replaying the target record, then verified', [replayed.state, attempts.map(a => a.replayed)], ['verified', [true]]);
     check('the target applied that operation exactly once', (await target.operations(healthy.id, ref)).filter(o => o.idempotency_key === keyRow).length, 1);
@@ -150,7 +151,7 @@ await t.run(async () => {
     } finally { await runner.close(); }
     const repaired = await ok(admin.call(`/api/v1/admin/consent-records/${unpropagated.id}`), S.schemas.ConsentRecord);
     check('the legacy withdrawal now has exactly one run, and a second cycle adds none', repaired.withdrawal_run_ids.length, 1);
-    const repairedActions = (await ok(admin.call(`/api/v1/admin/workflow-runs/${repaired.withdrawal_run_ids[0]}/actions?limit=100`), S.schemas.DownstreamActionList)).items;
+    const repairedActions = (await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${repaired.withdrawal_run_ids[0]}/actions`, value => S.schemas.DownstreamActionList.parse(value))).items;
     check('the repaired withdrawal is carried to the target and independently verified', repairedActions.map(a => [a.action_type, a.state]), [['SUPPRESS', 'verified']]);
     const untouched = await ok(admin.call(`/api/v1/admin/consent-records/${regranted.id}`), S.schemas.ConsentRecord);
     check('a withdrawal superseded by a later grant is never propagated', [untouched.current_status, untouched.withdrawal_run_ids.length], ['GRANTED', 0]);

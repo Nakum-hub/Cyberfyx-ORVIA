@@ -1,0 +1,121 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T21:01:45.106Z",
+  "suite": "backup-obligations",
+  "assertions": [
+    {
+      "name": "a read-only role cannot record a backup treatment",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a recorded treatment waits for approval",
+      "result": "PASS",
+      "expected": "PROPOSED",
+      "actual": "PROPOSED"
+    },
+    {
+      "name": "an administrator without approval rights cannot approve it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a second person approves it and it becomes current",
+      "result": "PASS",
+      "expected": [
+        "CURRENT",
+        true
+      ],
+      "actual": [
+        "CURRENT",
+        true
+      ]
+    },
+    {
+      "name": "the recorder cannot approve their own treatment",
+      "result": "PASS",
+      "expected": [
+        "approver_must_differ_from_recorder"
+      ],
+      "actual": [
+        "approver_must_differ_from_recorder"
+      ]
+    },
+    {
+      "name": "the erasures are verified on both systems",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_VERIFIED",
+        6
+      ],
+      "actual": [
+        "COMPLETED_VERIFIED",
+        6
+      ]
+    },
+    {
+      "name": "only the system with a current treatment gets ledger rows, one per person, ageing out after 35 days",
+      "result": "PASS",
+      "expected": [
+        3,
+        true
+      ],
+      "actual": [
+        3,
+        true
+      ]
+    },
+    {
+      "name": "an administrator who may not read the ledger still sees true counts",
+      "result": "PASS",
+      "expected": [
+        "CURRENT",
+        true,
+        true
+      ],
+      "actual": [
+        "CURRENT",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the system without a treatment is unknown backup handling",
+      "result": "PASS",
+      "expected": [
+        "NONE",
+        true,
+        0,
+        true,
+        true
+      ],
+      "actual": [
+        "NONE",
+        true,
+        0,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "Operations attention names the unknown backup handling",
+      "result": "FAIL",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "name": "unexpected failure in coverage and access",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: Operations attention names the unknown backup handling"
+    }
+  ],
+  "passed": 9,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

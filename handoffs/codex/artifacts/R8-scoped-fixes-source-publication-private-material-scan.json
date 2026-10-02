@@ -1,0 +1,42 @@
+{
+  "diagnostic_only": true,
+  "scope": "explicit publication manifest; listed nested files only",
+  "files_checked": 6,
+  "bytes_checked": 59133,
+  "private_header_count": 0,
+  "known_private_material_count": 0,
+  "files": [
+    {
+      "filename": "handoffs/codex/artifacts/R8-scoped-fixes-source-scan.txt",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    },
+    {
+      "filename": "backend/api/src/vendor/authority.ts",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    },
+    {
+      "filename": "backend/api/src/vendor/dependency-errors.ts",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    },
+    {
+      "filename": "tests/unit/vendor-dependency-diagnostics.test.ts",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    },
+    {
+      "filename": "infrastructure/loopback.mjs",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    },
+    {
+      "filename": "tracking/qualification-inventory.json",
+      "private_header_count": 0,
+      "known_private_material_count": 0
+    }
+  ],
+  "unscanned_files": [],
+  "exit_code": 0
+}

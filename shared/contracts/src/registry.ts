@@ -179,17 +179,28 @@ export const RegistryNoticeVersionCreate = z.strictObject({
   locale: Locale, title: z.string().min(1).max(120), content: LongText,
   purpose_version_ids: z.array(Id).min(1).max(20), data_category_ids: z.array(Id).min(1).max(40),
   channels: NoticeChannels, template_reference: SafeText.nullable(), v1_notice_version_id: Id.nullable(),
+  /** The version of another locale of this notice that this one translates; null or absent for an original. */
+  translates_version_id: Id.nullable().optional(),
 });
-export const NoticePublish = z.strictObject({ effective_from: Time });
+/** Publishing a version whose purposes or data categories differ from other current locales needs this set to true. */
+export const NoticePublish = z.strictObject({ effective_from: Time, acknowledge_locale_drift: z.boolean().optional() });
 export const RegistryNoticeVersion = z.strictObject({
   id: Id, notice_id: Id, version: z.number().int().positive(), locale: Locale, title: SafeText, content: LongText, content_digest: Digest,
   purpose_version_ids: z.array(Id).max(20), data_category_ids: z.array(Id).max(40), channels: NoticeChannels,
-  template_reference: SafeText.nullable(), v1_notice_version_id: Id.nullable(),
+  template_reference: SafeText.nullable(), v1_notice_version_id: Id.nullable(), translates_version_id: Id.nullable(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'SUPERSEDED']), effective_from: Time.nullable(), effective_to: Time.nullable(),
   published_at: Time.nullable(), superseded_by: Id.nullable(), recorded_at: Time,
 });
 export type RegistryNoticeVersionValue = z.infer<typeof RegistryNoticeVersion>;
 export const RegistryNotice = z.strictObject({ id: Id, name: SafeText, audience_category_ids: z.array(Id).max(20), versions: z.array(RegistryNoticeVersion).max(100) });
+/** Eighth Schedule language drift: each current locale of a notice against the most recently published one. */
+export const NoticeLocaleState = z.enum(['REFERENCE', 'IN_STEP', 'SCOPE_MISMATCH', 'BEHIND_ITS_SOURCE', 'MAY_BE_BEHIND']);
+export const NoticeLocaleDrift = z.strictObject({ locale: Locale, version_id: Id, version: z.number().int().positive(), published_at: Time, effective_from: Time,
+  translates_version_id: Id.nullable(), state: NoticeLocaleState, missing_purpose_version_ids: z.array(Id).max(20), extra_purpose_version_ids: z.array(Id).max(20),
+  missing_data_category_ids: z.array(Id).max(40), extra_data_category_ids: z.array(Id).max(40), detail: SafeText });
+export const NoticeDrift = z.strictObject({ notice_id: Id, name: SafeText, reference_locale: Locale.nullable(), locales: z.array(NoticeLocaleDrift).max(23), out_of_step: z.number().int().min(0),
+  languages_without_notice: z.array(Locale).max(23) });
+export const NoticeDriftReport = z.strictObject({ notices: z.array(NoticeDrift).max(200), notices_out_of_step: z.number().int().min(0), limits: z.array(SafeText).max(5) });
 export const NoticeAtQuery = z.strictObject({ as_of: Time, locale: Locale });
 export const NoticeAt = z.strictObject({ notice_id: Id, as_of: Time, locale: Locale, version: RegistryNoticeVersion.nullable(), reason: SafeText });
 export const NoticeDeliveryRecord = z.strictObject({
@@ -271,6 +282,38 @@ export const IntakeReceipt = z.strictObject({ submission_id: Id, kind: z.enum(['
   outcome_reason: SafeText.nullable(), consent: z.strictObject({ record_id: Id, current_status: SafeText }).nullable(), rights_request: z.strictObject({ id: Id, state: SafeText }).nullable(),
   /** A receipt records that ORVIA received the submission. It is not proof that anything downstream has changed. */
   receipt_is_not_completion: z.literal(true) });
+
+/**
+ * EX07 backup-copy obligations (contract 0.50.0; master §§50, 52, 91). A backup treatment records, per system, the five facts the
+ * master requires for backups that cannot be selectively edited. The erasure ledger records, for each verified erasure on such a
+ * system, when that person's data will have aged out of its backups. That date is never proof of erasure.
+ */
+export const BackupTreatmentCreate = z.strictObject({ system_id: Id, technical_restriction: z.string().min(10).max(1000), isolation_controls: z.string().min(10).max(1000),
+  retention_days: z.number().int().min(1).max(3650), restore_procedure_reference: z.string().min(3).max(500), legal_treatment: z.string().min(10).max(1000) });
+export const BackupTreatment = z.strictObject({ id: Id, system_id: Id, system_name: SafeText, technical_restriction: LongText, isolation_controls: LongText, retention_days: z.number().int(),
+  restore_procedure_reference: SafeText, legal_treatment: LongText, status: z.enum(['PROPOSED', 'CURRENT', 'SUPERSEDED']), recorded_by: Id, recorded_at: Time,
+  approved_by: Id.nullable(), approved_at: Time.nullable(), superseded_at: Time.nullable() });
+export const BackupCoverageSystem = z.strictObject({ system_id: Id, system_name: SafeText, treatment: z.enum(['NONE', 'PROPOSED', 'CURRENT']), verified_erasures: z.number().int().min(0),
+  in_backups: z.number().int().min(0), reapply_required: z.number().int().min(0), earliest_clear_after: Time.nullable() });
+export const BackupCoverage = z.strictObject({ systems: z.array(BackupCoverageSystem).max(500),
+  /** Systems with verified erasures and no current backup treatment: their backup handling is unknown and stays visibly unverified. */
+  unknown_backup_handling: z.number().int().min(0), a_backup_expiry_date_is_not_proof_of_erasure: z.literal(true) });
+export const SystemRestoreRecord = z.strictObject({ system_id: Id, backup_taken_at: Time, restored_at: Time, evidence_reference: z.string().min(3).max(500) });
+/**
+ * 0.55.0 (migration 0090): `ledger_coverage` is INCOMPLETE when the backup was taken before erasures the ledger has already
+ * purged; the restore then cannot name everyone it brought back, and `marked_for_reerasure` is not the whole answer until a
+ * person records how the restored data was reviewed by hand (`coverage_review`).
+ */
+export const SystemRestore = z.strictObject({ id: Id, system_id: Id, backup_taken_at: Time, restored_at: Time, evidence_reference: SafeText, recorded_at: Time, marked_for_reerasure: z.number().int().min(0),
+  ledger_coverage: z.enum(['COMPLETE', 'INCOMPLETE']), ledger_purged_through: Time.nullable(),
+  coverage_review: z.strictObject({ evidence_reference: SafeText, reviewed_at: Time }).nullable() });
+export const SystemRestoreQuery = z.strictObject({ coverage: z.enum(['COMPLETE', 'INCOMPLETE']).optional(), unreviewed: z.enum(['true']).optional() });
+export const RestoreCoverageReview = z.strictObject({ evidence_reference: z.string().min(3).max(500) });
+export const ErasureLedgerState = z.enum(['IN_BACKUPS', 'BACKUPS_AGED_OUT', 'REAPPLY_REQUIRED', 'REAPPLIED']);
+export const ErasureLedgerEntry = z.strictObject({ id: Id, subject_id: Id, system_id: Id, erased_at: Time, backups_clear_after: Time, state: ErasureLedgerState,
+  restore_id: Id.nullable(), reapplied_at: Time.nullable(), reapplied_evidence: SafeText.nullable() });
+export const ErasureLedgerQuery = z.strictObject({ system_id: Id.optional(), state: ErasureLedgerState.optional() });
+export const ReerasureConfirm = z.strictObject({ evidence_reference: z.string().min(3).max(500) });
 
 export const EngagementLinkInput = z.strictObject({ link_kind: z.enum(['DATA_CATEGORY', 'PRINCIPAL_CATEGORY', 'SYSTEM']), target_id: Id });
 export const EngagementCreate = z.strictObject({
@@ -384,7 +427,7 @@ export const registrySchemas = {
   RepresentativeCreate, RepresentativeVerify, NominationActivate, Representative, ChildStatusRecord, ChildStatusView,
   RegistryPurposeCreate, RegistryPurposeRevise, RegistryPurpose, ConditionCreate, Condition, SafeguardCreate, Safeguard,
   ActivityCreate, ActivityRevise, ActivityLinkCreate, LinkClose, ActivityLink, Activity, ActivityQuery,
-  RegistryNoticeCreate, RegistryNoticeVersionCreate, NoticePublish, RegistryNoticeVersion, RegistryNotice, NoticeAtQuery, NoticeAt, NoticeDeliveryRecord, NoticeDelivery,
+  RegistryNoticeCreate, RegistryNoticeVersionCreate, NoticePublish, RegistryNoticeVersion, RegistryNotice, NoticeLocaleDrift, NoticeDrift, NoticeDriftReport, NoticeAtQuery, NoticeAt, NoticeDeliveryRecord, NoticeDelivery,
   ConsentRecordCreate, ConsentEventRecord, ConsentRecord, ConsentSync,
   EngagementCreate, EngagementTerminate, EngagementDisposition, Engagement, EngagementQuery, SharingLinkCreate, SharingLink, SharingQuery,
   RetentionRuleCreate, RetentionRuleRevise, RetentionRule, RetentionHoldCreate, RetentionHoldRelease, RetentionHold, RetentionHoldQuery,
@@ -398,4 +441,6 @@ export const registrySchemas = {
   ConnectorBindingList: page(ConnectorBinding),
   IntakeClientCreate, IntakeClient, IntakeClientCreated, IntakeClientRevoke, IntakeSubmission, IntakeSubmissionQuery, IntakeSubmissionHandle, PrivacyCentreSetting, PrivacyCentreChange,
   IntakeConsentSubmit, IntakeRightsSubmit, IntakeReceipt, IntakeClientList: page(IntakeClient), IntakeSubmissionList: page(IntakeSubmission),
+  BackupTreatmentCreate, BackupTreatment, BackupCoverage, SystemRestoreRecord, SystemRestore, SystemRestoreQuery, RestoreCoverageReview, ErasureLedgerEntry, ErasureLedgerQuery, ReerasureConfirm,
+  BackupTreatmentList: page(BackupTreatment), ErasureLedgerList: page(ErasureLedgerEntry), SystemRestoreList: page(SystemRestore),
 };

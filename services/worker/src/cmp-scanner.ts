@@ -1,5 +1,5 @@
-import { existsSync } from 'node:fs';
-import { chromium, type BrowserContext } from '@playwright/test';
+import type { BrowserContext } from '@playwright/test';
+import { launchLocalChromium } from './local-browser.ts';
 import { audit, predicate, scopeValues, type Context } from '../../../backend/domain/src/shared/transaction.ts';
 import { scanFindings } from '../../../backend/domain/src/cmp/cmp.ts';
 
@@ -17,7 +17,6 @@ const LIMITS = [
   'Hosts are the network destinations the page contacted; cookies are those visible to the browser after each visit.',
   'The scan ran in a local headless browser from this installation; it is not a certification of the site.',
 ];
-const executablePath = () => process.env.ORVIA_CHROMIUM_PATH ?? (existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined);
 
 async function visit(context: BrowserContext, url: string, action: 'NONE' | 'ACCEPT' | 'REFUSE') {
   const page = await context.newPage();
@@ -47,7 +46,7 @@ export async function sweepCmpScans(scoped: <T>(id: string, work: (c: Context) =
       LEFT JOIN app.cmp_configs cfg ON cfg.tenant_id=s.tenant_id AND cfg.legal_entity_id=s.legal_entity_id AND cfg.environment_id=s.environment_id AND cfg.site_id=s.site_id AND cfg.state='PUBLISHED'
       WHERE s.tenant_id=$1 AND s.legal_entity_id=$2 AND s.environment_id=$3 AND s.state='QUEUED' ORDER BY s.requested_at LIMIT 5`, scopeValues(c.actor))).rows);
     if (!due.length) continue;
-    const browser = await chromium.launch({ headless: true, ...executablePath() ? { executablePath: executablePath() } : {} });
+    const browser = await launchLocalChromium();
     try {
       for (const scan of due) {
         let outcome: { state: 'COMPLETED'; results: unknown; version: number } | { state: 'FAILED' | 'RETRY'; code: string };

@@ -1,0 +1,5 @@
+backend/api/src/vendor/authority.ts
+backend/api/src/vendor/dependency-errors.ts
+tests/unit/vendor-dependency-diagnostics.test.ts
+infrastructure/loopback.mjs
+tracking/qualification-inventory.json

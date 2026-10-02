@@ -1,7 +1,7 @@
 // Isolated codex-a00 browser check; no rehearsal profile or candidate claim.
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium, type Page } from '@playwright/test';
 import { HttpFixture, authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
@@ -13,6 +13,8 @@ import { loadProfile } from '../../shared/testing/src/config.ts';
 const profile=loadProfile();
 if(profile.profile!=='codex-a00')throw new Error('This browser check owns only codex-a00');
 process.env.PLAYWRIGHT_BROWSERS_PATH=resolve('.local/tools/playwright');
+// The bundled Windows headless shell where it exists, otherwise the host's Chromium (ORVIA_CHROMIUM_PATH or the preinstalled one).
+const chromiumPath=()=>process.env.ORVIA_CHROMIUM_PATH??[resolve('.local/tools/playwright/chromium_headless_shell-1243/chrome-headless-shell-win64/chrome-headless-shell.exe'),'/opt/pw-browsers/chromium'].find(p=>existsSync(p));
 const h=new HttpFixture();
 const errors:string[]=[];
 const external:string[]=[];
@@ -42,7 +44,7 @@ try{
   await relation('ASSET_PROCESSED_BY_ACTIVITY',{kind:'DATA_ASSET',id:asset.id},{kind:'PROCESSING_ACTIVITY',id:activity.id});
   await relation('ACTIVITY_SERVES_PURPOSE',{kind:'PROCESSING_ACTIVITY',id:activity.id},{kind:'PURPOSE',id:scenario.purpose.id});
   phase='launch browser';
-  browser=await chromium.launch({headless:true,executablePath:resolve('.local/tools/playwright/chromium_headless_shell-1243/chrome-headless-shell-win64/chrome-headless-shell.exe')});
+  browser=await chromium.launch({headless:true,...(chromiumPath()?{executablePath:chromiumPath()}:{})});
   phase='sign in';
   const context=await browser.newContext({baseURL:h.config.origin,viewport:{width:1440,height:900}});
   const page=await context.newPage();

@@ -1,0 +1,16 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Error: Unexpected 503: {"error":{"code":"SERVICE_UNAVAILABLE","message":"Request could not be completed.","retry":"AFTER_DELAY"},"request_id":"59d6f9fd-aca0-4bd2-a947-51dce21e311d"}
+    at ok (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:35:45)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.ensurePackage (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:51:20)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\backup-obligations.test.ts:25:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\backup-obligations.test.ts:22:1)
+Server diagnostics (safe codes only): {"dependency":"policy_engine","attempt":1,"elapsed_ms":2007,"error":"TimeoutError"}
+{"dependency":"policy_engine","attempt":2,"elapsed_ms":2014,"error":"TimeoutError"}
+
+Artifact: handoffs/codex/artifacts/A00-operations-backup-obligations-1790910460101-1d0cc696-0f34-403f-8938-770e8948d3fd.json
+
+1 assertions, 1 failures.

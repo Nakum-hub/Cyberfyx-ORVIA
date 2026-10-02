@@ -1,0 +1,754 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T03:19:08.560Z",
+  "test_ids": [
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10"
+  ],
+  "contract_version": "0.54.0",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "name": "principal cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor cannot author configuration",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "cross-environment configuration rejected",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "create persisted purpose",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create immutable notice version",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "create scoped system",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "author policy draft",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "draft purpose hidden in own portal",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "unauthorized author publication denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "authorized reviewer cannot approve own version",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "publication requires actual proof",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "wrong digest denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "reauthentication rejects wrong TOTP",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "real MFA creates exact publication proof",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "different reviewer publishes exact version",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "published digest unchanged",
+      "result": "PASS",
+      "expected": "ffc5ef4797995e5c3290cf42e0a2eb84e28e8d66a4d026b1f99262f46592ce7e",
+      "actual": "ffc5ef4797995e5c3290cf42e0a2eb84e28e8d66a4d026b1f99262f46592ce7e"
+    },
+    {
+      "name": "publish retry returns stable published version",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "notice_version_id": "721ab64e-4e15-4f9f-a6df-cd004b0947c0",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "d28413af-f3c3-4c24-a205-45aa2dd43e6e"
+        ],
+        "required_observation": true,
+        "id": "3a114a26-9ac4-4429-9a1c-7a37ee1c6868",
+        "version_id": "9ae021f2-32db-4815-bde8-5edd139281c4",
+        "digest": "ffc5ef4797995e5c3290cf42e0a2eb84e28e8d66a4d026b1f99262f46592ce7e",
+        "author_id": "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        "status": "PUBLISHED",
+        "published_at": "2026-10-02T03:19:01.942Z"
+      },
+      "actual": {
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "notice_version_id": "721ab64e-4e15-4f9f-a6df-cd004b0947c0",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "d28413af-f3c3-4c24-a205-45aa2dd43e6e"
+        ],
+        "required_observation": true,
+        "id": "3a114a26-9ac4-4429-9a1c-7a37ee1c6868",
+        "version_id": "9ae021f2-32db-4815-bde8-5edd139281c4",
+        "digest": "ffc5ef4797995e5c3290cf42e0a2eb84e28e8d66a4d026b1f99262f46592ce7e",
+        "author_id": "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        "status": "PUBLISHED",
+        "published_at": "2026-10-02T03:19:01.942Z"
+      }
+    },
+    {
+      "name": "explicit principal to target mapping",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "control map exposes actual declared edge",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "control map pagination preserves all scoped mappings",
+      "result": "PASS",
+      "expected": [
+        "0427b4b2-1cec-48ac-a8be-5a9d03962212",
+        "060210b7-b235-412b-891b-4bf4471e3f07",
+        "06b64006-fbe2-4dce-af3e-d74a94e93aa1",
+        "077b5026-686d-4287-9260-810d83609109",
+        "083c27d5-fb85-4b6d-a6d3-cb8100e71c91",
+        "084534c4-5fcb-41f3-adf2-be2baf745cf5",
+        "08ea7d7b-752e-4731-92b0-e062bd2567f4",
+        "0a3efcb0-bbb4-40ac-a2e8-c6911e44b5c7",
+        "0a4e8048-8f90-406b-b525-395d8d299d91",
+        "0d3d92f5-2fc7-4cf6-be71-35327bb91119",
+        "0f99d626-ec95-4d51-90aa-1f17a929eb54",
+        "112c999b-91e1-41e5-9ec5-1ac30de78ec6",
+        "11ea311b-0485-41ea-be78-7ba63fa295f7",
+        "12202c7a-ec82-4758-8b36-f8e072001fd9",
+        "12315c99-b125-4c19-afd8-a51799fc7bc3",
+        "13632966-a8bd-4c42-879d-fcd94011ccbd",
+        "14ee0df4-4033-4812-8f6c-fc7fd1f289b5",
+        "1592576d-261c-41b4-a0d4-83fc3cd8eb48",
+        "15d24b75-fa0f-42ab-8f9b-bcbfe3358a53",
+        "16861da6-6a00-4999-8692-d4f10b72a524",
+        "19df7982-c0db-4aca-aa3b-62bea7392211",
+        "1b3c1f97-c374-4a51-b4e3-3a5109b918d4",
+        "1d4d4036-92e5-4199-a032-28708e591adc",
+        "1d6032ad-1f1c-4cbb-8155-a4d851096e62",
+        "21a1c4d3-fd2d-4a36-95ba-e9144ab5673d",
+        "26a20833-197f-4ace-acbe-cbc160d7055a",
+        "2846e97d-ff80-41af-a155-c95024700495",
+        "29b2c254-0670-4e34-bf4b-77757111dd2f",
+        "31a4dabb-bd06-4ea6-88b7-a6371ef88b8c",
+        "35612ca5-9118-401a-9394-f4564697c505",
+        "3795fc3e-85dc-48ac-9edb-6319b84f2eb4",
+        "37b1fc3a-9e3b-49f5-92b7-a30e355d5a23",
+        "3bcffc37-354e-4579-8e2f-da3505be3155",
+        "3fdadcec-51f8-49b6-99ec-921d9fde0cf4",
+        "41e9b67b-673a-4fdc-bbdf-1795d67dbcf1",
+        "420b5de3-8628-4f01-ac40-6bda44c4b15a",
+        "463b8f8c-e2bd-4d41-9374-7a2f5658956c",
+        "4831b7e5-d313-46cc-9bf4-56f62668dc91",
+        "49afc90d-0818-45de-88a1-3947c35011ce",
+        "4b8a3ad0-aca2-4670-a4ea-7f8f0941d4b4",
+        "4e70e5dc-2d7d-4840-868f-e72d68504fad",
+        "5106a736-10d7-416c-8582-2960d63fe1df",
+        "52aaed47-d729-4c5b-af79-79321f836bbb",
+        "53de4387-c2b1-4904-8aea-cd3a50a3159f",
+        "54374d49-e85b-461f-b8de-1ecb83c2bcf9",
+        "54426b2e-6361-4cf2-b008-4a4212683efe",
+        "547c6da9-5fd0-4c50-8542-eb2a4df17146",
+        "549d21c5-3aab-462d-a474-f3a295fbca26",
+        "57d6ebc8-ded6-47d2-93c5-4cc551804d2b",
+        "57f92f5a-438f-4f12-968c-5ca9c8490625",
+        "59003077-c913-4985-9b5b-e9524ba14592",
+        "5b432ac3-1a2c-464f-92e1-6849206be51d",
+        "5b8608f8-130f-4a2d-bf95-c4508632a82a",
+        "5c42b670-cece-4b83-94fd-2f301295f0ba",
+        "5cd319e0-faa7-4910-931d-6548c096b298",
+        "5d97d3ef-5ae1-436b-9a6a-da4e4cecedb8",
+        "5da59294-6b74-453c-b560-167057847ae9",
+        "5e1bc2a3-fc9f-47b2-ad76-1c2db5134c75",
+        "62795a21-df52-4fff-929c-cee177b14b67",
+        "6403fd6d-d364-4ee9-9fe2-433b36c077db",
+        "6467251b-3fe6-432b-9512-0f2bc9fa4420",
+        "6794531b-8b6a-4ece-ba13-12b57887438d",
+        "68d9c5e5-0991-4c5d-838e-4e761fe1a72d",
+        "6a3afac3-2d9b-4008-8a22-14ae5c94bbee",
+        "6d3577e5-c7a5-4160-a240-9490a2718c63",
+        "7090d5f0-c253-4586-8c1b-f036a36e1061",
+        "71a7d4b1-8634-4f0f-b8ff-b369f4e357a2",
+        "730f51e8-e569-4e57-8ac5-d1e40245959e",
+        "73b91e5d-3cd8-47c8-b69d-dbd086bb9cb0",
+        "780e70e3-ae6b-4929-b9d8-eff98644cb11",
+        "7840dc16-bc9e-4d75-8ca1-8be5c94ff9eb",
+        "79f01ab2-a2bf-4a81-b023-af8bf03362a0",
+        "7b1107d0-022b-4c20-9573-70cc96a0f057",
+        "7cc6a215-59b4-40ce-b817-72fea3691152",
+        "7d383c03-9b16-46a0-a916-7fb9bf043110",
+        "7edc0bdf-1c5b-4595-8ce6-cd74eb165517",
+        "81746fd1-ca97-4c4c-85e6-d879dadf392f",
+        "827dbb69-1547-4d67-9c29-c26e97c70e07",
+        "83358429-0c30-46a7-ba66-de7e29c51ae2",
+        "879a430b-561d-4e34-8494-01cf033a20c7",
+        "8eedab27-1708-40b3-b09a-d4f41ed8aea6",
+        "8f41fe19-a030-4da4-8c76-e9fbb6e8f691",
+        "8fdab21a-e1d2-40a7-a7f2-10415d7c9f55",
+        "91c42d58-07fa-4c98-8dc7-19793a831e82",
+        "9352d4e8-5f5a-47b7-8c49-99ceb9680239",
+        "977544d0-0a76-4f42-b306-09c1b93446c7",
+        "989ecfa2-b27d-4486-ace9-9951226c1041",
+        "992fec27-811a-4fa4-b3c4-7425e6b3cfb0",
+        "9b3bb679-cbb7-4545-aa55-95c9f3123d36",
+        "9c73eead-22d5-47ff-bbe9-7779621790c6",
+        "9dd64221-c260-4b8b-bb6d-badabc09e58c",
+        "9e09abbc-1952-4ebe-8d6e-a32291bd305f",
+        "9e1b55b5-c279-4656-a3d2-2858bdb73baa",
+        "9e6b679d-0a61-4a0b-933d-f6236e89d8d2",
+        "9eee865c-832d-4852-83ef-55f87a4a434f",
+        "a0350330-d36a-4435-b3ab-441da325a0aa",
+        "a05caaec-891b-4585-9780-fdbe0e02db65",
+        "a12355b9-4af4-4511-8f57-0d1d3208ff54",
+        "a683cb29-520d-451f-a92c-5729e7fb1856",
+        "a779f312-8490-45f1-88f1-0433189b5432",
+        "a7808b5d-ce5e-4b17-aee0-029962ef8f87",
+        "a82bf999-094a-4a4d-be16-513dff72fee3",
+        "a8524019-c142-4ed7-a35e-f47a8dc167e8",
+        "aa53a670-3697-408a-a93b-cb12f7931e50",
+        "ae1c9059-f11f-4568-9d91-74c989f52253",
+        "ae60aa54-e977-4e25-aa8b-bd0310581402",
+        "b0850618-c37b-4bbe-b23e-ed1a86467b4c",
+        "b08a2931-f3a5-463e-8000-5975b3b41718",
+        "b1f2473f-f96a-42f9-bab7-13bb2b53f40d",
+        "b49dfc4b-29ad-4e65-a92b-18c323a2293a",
+        "b5bf9ba2-3cf2-43cc-8174-5852de9ba292",
+        "b61d7ae0-4f2e-4a47-995d-6b1900de2d29",
+        "b6790209-3028-475c-8b88-6994e36a23b5",
+        "b796f800-c442-4c16-be1b-049bc75053f0",
+        "ba78e04e-3e15-4512-9e65-f40da48293c8",
+        "bb6a2c22-06a5-4c04-b996-c0dc59f9233f",
+        "bbe94761-e434-41d5-af13-6852e5414ea0",
+        "be706206-6cbf-4d83-a465-8fec34042ec4",
+        "bf624e85-e558-4559-a68a-8f324bbb60ec",
+        "c192484d-1852-4871-8fe9-693184028ba9",
+        "cab50aae-5a5e-4be7-8a98-326318eea731",
+        "d1b53223-7e15-4730-9aa3-439cf3cecbe5",
+        "d3d773da-f95f-41a7-8f5c-ccc0a88b2e67",
+        "dd97494b-c7c2-4807-a6c6-3ff07657d729",
+        "df9ac37b-e46e-469e-b7d7-c73e892c86da",
+        "e3529633-9fa7-43dd-aa31-f6a15c84d9cc",
+        "e52b6963-27f9-4f6f-bee2-15a05aaf407d",
+        "e70ed295-1ef7-47fc-90ce-2981541fcf93",
+        "e7570322-188b-4454-9a6b-2f875a068cf1",
+        "e75c5712-95b8-4c69-bea5-40c987987b85",
+        "e8e80a5a-ba89-4b79-910b-6ecd6abb74ac",
+        "ee8048a9-abf0-42b6-9400-222702129e79",
+        "f17c5694-a7eb-4f85-bd9a-5d8c91b252ce",
+        "f2ab2434-9998-4b4c-9797-392ef3a90810",
+        "f44fe9c0-5a53-4e77-b148-64669355af69",
+        "f603f63d-b086-47b2-81f3-0c7e56c4224a",
+        "f6456afb-12f9-4d4c-b7ae-122292f0c56b",
+        "f817a688-1753-48ba-8e28-a3955aced807",
+        "f8c8ab3f-a4bc-4841-a9e3-f4055b632277",
+        "fe487d53-d78b-4211-abbd-d0760520e4e7",
+        "ff072ae3-b545-4995-93f1-c0dfc564755a"
+      ],
+      "actual": [
+        "0427b4b2-1cec-48ac-a8be-5a9d03962212",
+        "060210b7-b235-412b-891b-4bf4471e3f07",
+        "06b64006-fbe2-4dce-af3e-d74a94e93aa1",
+        "077b5026-686d-4287-9260-810d83609109",
+        "083c27d5-fb85-4b6d-a6d3-cb8100e71c91",
+        "084534c4-5fcb-41f3-adf2-be2baf745cf5",
+        "08ea7d7b-752e-4731-92b0-e062bd2567f4",
+        "0a3efcb0-bbb4-40ac-a2e8-c6911e44b5c7",
+        "0a4e8048-8f90-406b-b525-395d8d299d91",
+        "0d3d92f5-2fc7-4cf6-be71-35327bb91119",
+        "0f99d626-ec95-4d51-90aa-1f17a929eb54",
+        "112c999b-91e1-41e5-9ec5-1ac30de78ec6",
+        "11ea311b-0485-41ea-be78-7ba63fa295f7",
+        "12202c7a-ec82-4758-8b36-f8e072001fd9",
+        "12315c99-b125-4c19-afd8-a51799fc7bc3",
+        "13632966-a8bd-4c42-879d-fcd94011ccbd",
+        "14ee0df4-4033-4812-8f6c-fc7fd1f289b5",
+        "1592576d-261c-41b4-a0d4-83fc3cd8eb48",
+        "15d24b75-fa0f-42ab-8f9b-bcbfe3358a53",
+        "16861da6-6a00-4999-8692-d4f10b72a524",
+        "19df7982-c0db-4aca-aa3b-62bea7392211",
+        "1b3c1f97-c374-4a51-b4e3-3a5109b918d4",
+        "1d4d4036-92e5-4199-a032-28708e591adc",
+        "1d6032ad-1f1c-4cbb-8155-a4d851096e62",
+        "21a1c4d3-fd2d-4a36-95ba-e9144ab5673d",
+        "26a20833-197f-4ace-acbe-cbc160d7055a",
+        "2846e97d-ff80-41af-a155-c95024700495",
+        "29b2c254-0670-4e34-bf4b-77757111dd2f",
+        "31a4dabb-bd06-4ea6-88b7-a6371ef88b8c",
+        "35612ca5-9118-401a-9394-f4564697c505",
+        "3795fc3e-85dc-48ac-9edb-6319b84f2eb4",
+        "37b1fc3a-9e3b-49f5-92b7-a30e355d5a23",
+        "3bcffc37-354e-4579-8e2f-da3505be3155",
+        "3fdadcec-51f8-49b6-99ec-921d9fde0cf4",
+        "41e9b67b-673a-4fdc-bbdf-1795d67dbcf1",
+        "420b5de3-8628-4f01-ac40-6bda44c4b15a",
+        "463b8f8c-e2bd-4d41-9374-7a2f5658956c",
+        "4831b7e5-d313-46cc-9bf4-56f62668dc91",
+        "49afc90d-0818-45de-88a1-3947c35011ce",
+        "4b8a3ad0-aca2-4670-a4ea-7f8f0941d4b4",
+        "4e70e5dc-2d7d-4840-868f-e72d68504fad",
+        "5106a736-10d7-416c-8582-2960d63fe1df",
+        "52aaed47-d729-4c5b-af79-79321f836bbb",
+        "53de4387-c2b1-4904-8aea-cd3a50a3159f",
+        "54374d49-e85b-461f-b8de-1ecb83c2bcf9",
+        "54426b2e-6361-4cf2-b008-4a4212683efe",
+        "547c6da9-5fd0-4c50-8542-eb2a4df17146",
+        "549d21c5-3aab-462d-a474-f3a295fbca26",
+        "57d6ebc8-ded6-47d2-93c5-4cc551804d2b",
+        "57f92f5a-438f-4f12-968c-5ca9c8490625",
+        "59003077-c913-4985-9b5b-e9524ba14592",
+        "5b432ac3-1a2c-464f-92e1-6849206be51d",
+        "5b8608f8-130f-4a2d-bf95-c4508632a82a",
+        "5c42b670-cece-4b83-94fd-2f301295f0ba",
+        "5cd319e0-faa7-4910-931d-6548c096b298",
+        "5d97d3ef-5ae1-436b-9a6a-da4e4cecedb8",
+        "5da59294-6b74-453c-b560-167057847ae9",
+        "5e1bc2a3-fc9f-47b2-ad76-1c2db5134c75",
+        "62795a21-df52-4fff-929c-cee177b14b67",
+        "6403fd6d-d364-4ee9-9fe2-433b36c077db",
+        "6467251b-3fe6-432b-9512-0f2bc9fa4420",
+        "6794531b-8b6a-4ece-ba13-12b57887438d",
+        "68d9c5e5-0991-4c5d-838e-4e761fe1a72d",
+        "6a3afac3-2d9b-4008-8a22-14ae5c94bbee",
+        "6d3577e5-c7a5-4160-a240-9490a2718c63",
+        "7090d5f0-c253-4586-8c1b-f036a36e1061",
+        "71a7d4b1-8634-4f0f-b8ff-b369f4e357a2",
+        "730f51e8-e569-4e57-8ac5-d1e40245959e",
+        "73b91e5d-3cd8-47c8-b69d-dbd086bb9cb0",
+        "780e70e3-ae6b-4929-b9d8-eff98644cb11",
+        "7840dc16-bc9e-4d75-8ca1-8be5c94ff9eb",
+        "79f01ab2-a2bf-4a81-b023-af8bf03362a0",
+        "7b1107d0-022b-4c20-9573-70cc96a0f057",
+        "7cc6a215-59b4-40ce-b817-72fea3691152",
+        "7d383c03-9b16-46a0-a916-7fb9bf043110",
+        "7edc0bdf-1c5b-4595-8ce6-cd74eb165517",
+        "81746fd1-ca97-4c4c-85e6-d879dadf392f",
+        "827dbb69-1547-4d67-9c29-c26e97c70e07",
+        "83358429-0c30-46a7-ba66-de7e29c51ae2",
+        "879a430b-561d-4e34-8494-01cf033a20c7",
+        "8eedab27-1708-40b3-b09a-d4f41ed8aea6",
+        "8f41fe19-a030-4da4-8c76-e9fbb6e8f691",
+        "8fdab21a-e1d2-40a7-a7f2-10415d7c9f55",
+        "91c42d58-07fa-4c98-8dc7-19793a831e82",
+        "9352d4e8-5f5a-47b7-8c49-99ceb9680239",
+        "977544d0-0a76-4f42-b306-09c1b93446c7",
+        "989ecfa2-b27d-4486-ace9-9951226c1041",
+        "992fec27-811a-4fa4-b3c4-7425e6b3cfb0",
+        "9b3bb679-cbb7-4545-aa55-95c9f3123d36",
+        "9c73eead-22d5-47ff-bbe9-7779621790c6",
+        "9dd64221-c260-4b8b-bb6d-badabc09e58c",
+        "9e09abbc-1952-4ebe-8d6e-a32291bd305f",
+        "9e1b55b5-c279-4656-a3d2-2858bdb73baa",
+        "9e6b679d-0a61-4a0b-933d-f6236e89d8d2",
+        "9eee865c-832d-4852-83ef-55f87a4a434f",
+        "a0350330-d36a-4435-b3ab-441da325a0aa",
+        "a05caaec-891b-4585-9780-fdbe0e02db65",
+        "a12355b9-4af4-4511-8f57-0d1d3208ff54",
+        "a683cb29-520d-451f-a92c-5729e7fb1856",
+        "a779f312-8490-45f1-88f1-0433189b5432",
+        "a7808b5d-ce5e-4b17-aee0-029962ef8f87",
+        "a82bf999-094a-4a4d-be16-513dff72fee3",
+        "a8524019-c142-4ed7-a35e-f47a8dc167e8",
+        "aa53a670-3697-408a-a93b-cb12f7931e50",
+        "ae1c9059-f11f-4568-9d91-74c989f52253",
+        "ae60aa54-e977-4e25-aa8b-bd0310581402",
+        "b0850618-c37b-4bbe-b23e-ed1a86467b4c",
+        "b08a2931-f3a5-463e-8000-5975b3b41718",
+        "b1f2473f-f96a-42f9-bab7-13bb2b53f40d",
+        "b49dfc4b-29ad-4e65-a92b-18c323a2293a",
+        "b5bf9ba2-3cf2-43cc-8174-5852de9ba292",
+        "b61d7ae0-4f2e-4a47-995d-6b1900de2d29",
+        "b6790209-3028-475c-8b88-6994e36a23b5",
+        "b796f800-c442-4c16-be1b-049bc75053f0",
+        "ba78e04e-3e15-4512-9e65-f40da48293c8",
+        "bb6a2c22-06a5-4c04-b996-c0dc59f9233f",
+        "bbe94761-e434-41d5-af13-6852e5414ea0",
+        "be706206-6cbf-4d83-a465-8fec34042ec4",
+        "bf624e85-e558-4559-a68a-8f324bbb60ec",
+        "c192484d-1852-4871-8fe9-693184028ba9",
+        "cab50aae-5a5e-4be7-8a98-326318eea731",
+        "d1b53223-7e15-4730-9aa3-439cf3cecbe5",
+        "d3d773da-f95f-41a7-8f5c-ccc0a88b2e67",
+        "dd97494b-c7c2-4807-a6c6-3ff07657d729",
+        "df9ac37b-e46e-469e-b7d7-c73e892c86da",
+        "e3529633-9fa7-43dd-aa31-f6a15c84d9cc",
+        "e52b6963-27f9-4f6f-bee2-15a05aaf407d",
+        "e70ed295-1ef7-47fc-90ce-2981541fcf93",
+        "e7570322-188b-4454-9a6b-2f875a068cf1",
+        "e75c5712-95b8-4c69-bea5-40c987987b85",
+        "e8e80a5a-ba89-4b79-910b-6ecd6abb74ac",
+        "ee8048a9-abf0-42b6-9400-222702129e79",
+        "f17c5694-a7eb-4f85-bd9a-5d8c91b252ce",
+        "f2ab2434-9998-4b4c-9797-392ef3a90810",
+        "f44fe9c0-5a53-4e77-b148-64669355af69",
+        "f603f63d-b086-47b2-81f3-0c7e56c4224a",
+        "f6456afb-12f9-4d4c-b7ae-122292f0c56b",
+        "f817a688-1753-48ba-8e28-a3955aced807",
+        "f8c8ab3f-a4bc-4841-a9e3-f4055b632277",
+        "fe487d53-d78b-4211-abbd-d0760520e4e7",
+        "ff072ae3-b545-4995-93f1-c0dfc564755a"
+      ]
+    },
+    {
+      "name": "published notice available to own principal",
+      "result": "PASS",
+      "expected": "721ab64e-4e15-4f9f-a6df-cd004b0947c0",
+      "actual": "721ab64e-4e15-4f9f-a6df-cd004b0947c0"
+    },
+    {
+      "name": "affirmative action mandatory",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "incorrect notice rejected",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "grant accepted after commit",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "first epoch is one",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "withdrawal accepted durably",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "withdrawal increments epoch",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "state event workflow and outbox committed together",
+      "result": "PASS",
+      "expected": {
+        "events": 1,
+        "outbox": 1,
+        "workflows": 1
+      },
+      "actual": {
+        "events": 1,
+        "outbox": 1,
+        "workflows": 1
+      }
+    },
+    {
+      "name": "retry returns identical withdrawal receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "44d6f71b-f97e-4df4-8596-a58c6a41944c",
+        "event_id": "e582b4e1-5922-4368-94ed-5cb845f6803a",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-02T03:19:05.287Z",
+        "workflow_id": "31e4f9f2-efe0-4b7c-a31f-d49b9808a672",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "44d6f71b-f97e-4df4-8596-a58c6a41944c",
+        "event_id": "e582b4e1-5922-4368-94ed-5cb845f6803a",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-02T03:19:05.287Z",
+        "workflow_id": "31e4f9f2-efe0-4b7c-a31f-d49b9808a672",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "same key different request denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "old grant replay returns old immutable receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "dbac4a1e-9279-4bc6-9bee-1a3b8b9809f5",
+        "event_id": "55de21f3-1013-4040-b3aa-7536ab499c11",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-10-02T03:19:05.085Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      },
+      "actual": {
+        "receipt_id": "dbac4a1e-9279-4bc6-9bee-1a3b8b9809f5",
+        "event_id": "55de21f3-1013-4040-b3aa-7536ab499c11",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "GRANTED",
+        "consent_epoch": 1,
+        "accepted_at": "2026-10-02T03:19:05.085Z",
+        "workflow_id": null,
+        "propagation_status": "NOT_REQUIRED"
+      }
+    },
+    {
+      "name": "old grant replay cannot reactivate",
+      "result": "PASS",
+      "expected": "WITHDRAWN",
+      "actual": "WITHDRAWN"
+    },
+    {
+      "name": "old interaction with new key denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "another principal cannot read receipt",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "another tenant cannot read receipt",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "test interruption reached transaction rollback",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "rollback preserves aggregate epoch",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "rollback removes event outbox and idempotency together",
+      "result": "PASS",
+      "expected": {
+        "events": 2,
+        "outbox": 1,
+        "idempotency": 0
+      },
+      "actual": {
+        "events": 2,
+        "outbox": 1,
+        "idempotency": 0
+      }
+    },
+    {
+      "name": "concurrent grant and withdrawal serialize",
+      "result": "PASS",
+      "expected": [
+        202,
+        409
+      ],
+      "actual": [
+        202,
+        409
+      ]
+    },
+    {
+      "name": "race advances one epoch only",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "fresh reconsent requires fresh authorized interaction",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "new interaction advances to epoch four",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "history retains all four committed events",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "old receipt remains unchanged after new consent",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "44d6f71b-f97e-4df4-8596-a58c6a41944c",
+        "event_id": "e582b4e1-5922-4368-94ed-5cb845f6803a",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-02T03:19:05.287Z",
+        "workflow_id": "31e4f9f2-efe0-4b7c-a31f-d49b9808a672",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "44d6f71b-f97e-4df4-8596-a58c6a41944c",
+        "event_id": "e582b4e1-5922-4368-94ed-5cb845f6803a",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-02T03:19:05.287Z",
+        "workflow_id": "31e4f9f2-efe0-4b7c-a31f-d49b9808a672",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "RLS cannot expose another principal with missing query predicates",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "database rejects published version rewriting",
+      "result": "PASS",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "restart preserves original receipt",
+      "result": "PASS",
+      "expected": {
+        "receipt_id": "44d6f71b-f97e-4df4-8596-a58c6a41944c",
+        "event_id": "e582b4e1-5922-4368-94ed-5cb845f6803a",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-02T03:19:05.287Z",
+        "workflow_id": "31e4f9f2-efe0-4b7c-a31f-d49b9808a672",
+        "propagation_status": "ACCEPTED"
+      },
+      "actual": {
+        "receipt_id": "44d6f71b-f97e-4df4-8596-a58c6a41944c",
+        "event_id": "e582b4e1-5922-4368-94ed-5cb845f6803a",
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "consent_status": "WITHDRAWN",
+        "consent_epoch": 2,
+        "accepted_at": "2026-10-02T03:19:05.287Z",
+        "workflow_id": "31e4f9f2-efe0-4b7c-a31f-d49b9808a672",
+        "propagation_status": "ACCEPTED"
+      }
+    },
+    {
+      "name": "restart preserves current epoch",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "restart preserves exact published configuration",
+      "result": "PASS",
+      "expected": {
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "notice_version_id": "721ab64e-4e15-4f9f-a6df-cd004b0947c0",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "d28413af-f3c3-4c24-a205-45aa2dd43e6e"
+        ],
+        "required_observation": true,
+        "id": "3a114a26-9ac4-4429-9a1c-7a37ee1c6868",
+        "version_id": "9ae021f2-32db-4815-bde8-5edd139281c4",
+        "digest": "ffc5ef4797995e5c3290cf42e0a2eb84e28e8d66a4d026b1f99262f46592ce7e",
+        "author_id": "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        "status": "PUBLISHED",
+        "published_at": "2026-10-02T03:19:01.942Z"
+      },
+      "actual": {
+        "purpose_id": "31d8137a-0751-44fd-a6bf-87b57fd98f37",
+        "notice_version_id": "721ab64e-4e15-4f9f-a6df-cd004b0947c0",
+        "condition": "AFFIRMATIVE_MARKETING_CONSENT",
+        "system_ids": [
+          "d28413af-f3c3-4c24-a205-45aa2dd43e6e"
+        ],
+        "required_observation": true,
+        "id": "3a114a26-9ac4-4429-9a1c-7a37ee1c6868",
+        "version_id": "9ae021f2-32db-4815-bde8-5edd139281c4",
+        "digest": "ffc5ef4797995e5c3290cf42e0a2eb84e28e8d66a4d026b1f99262f46592ce7e",
+        "author_id": "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        "status": "PUBLISHED",
+        "published_at": "2026-10-02T03:19:01.942Z"
+      }
+    },
+    {
+      "name": "restart preserves exact notice content",
+      "result": "PASS",
+      "expected": "Optional synthetic marketing. Withdraw in the same portal; no real messages are sent.",
+      "actual": "Optional synthetic marketing. Withdraw in the same portal; no real messages are sent."
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "T10 outbox transaction only; durable worker recovery belongs to A03. Browser acceptance remains Claude Code owned."
+  ]
+}

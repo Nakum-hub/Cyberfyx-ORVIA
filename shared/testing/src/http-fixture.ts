@@ -10,6 +10,7 @@ import { runtimeConfig } from '../../../backend/auth/src/config.ts';
 import type { AuthFixture } from '../../../scripts/auth-bootstrap.ts';
 import { writePrivateJson } from '../../../scripts/local-private.ts';
 import { guardAuthWindow } from './auth-window.ts';
+import { failedAuthResponse } from '../../../backend/auth/src/errors.ts';
 
 export function authenticatorCode(uri: string) {
   const secret=new URL(uri).searchParams.get('secret')!;const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -63,7 +64,8 @@ export class HttpFixture {
   async login(name: string) {
     const user=this.users[name]!;const browser=this.browser();const base=`/api/auth/${user.domain}`;
     if(user.domain==='staff')await this.authWindow();
-    if((await browser.call(base+'/sign-in/email',{email:user.email,password:user.password,rememberMe:false})).status!==200)throw new Error(`Synthetic ${name} login failed`);
+    const signedIn=await browser.call(base+'/sign-in/email',{email:user.email,password:user.password,rememberMe:false});
+    if(signedIn.status!==200)throw await failedAuthResponse(signedIn);
     if(user.domain==='staff'&&user.role!=='AUDITOR') {
       if(!user.totp_uri) {
         const response=await browser.call(base+'/two-factor/enable',{password:user.password,method:'totp'});

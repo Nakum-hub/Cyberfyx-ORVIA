@@ -1,0 +1,15 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T12:16:09.641Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "steps": [
+    "staff MFA sign-in",
+    "approved target and actual column observation shown",
+    "observed metadata dataset linked to inventory through workspace"
+  ],
+  "external_requests": 0,
+  "console_errors": 0,
+  "screenshot": "/home/user/Cyberfyx-ORVIA/output/playwright/catalog-discovery-codex-a00.png"
+}

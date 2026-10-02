@@ -1,0 +1,30 @@
+{
+    "at":  "2026-10-01T19:29:39.5948129Z",
+    "commit":  "d7a10d6a1e707f0e1d57378e5d0f58c9b3c02503",
+    "build":  "O3vGd-z4HGBxaLp-Fdqh3",
+    "fixture":  "final-eta WebKit browser crash",
+    "free_physical_mb":  354,
+    "total_physical_mb":  7916,
+    "free_virtual_mb":  562,
+    "total_virtual_mb":  32492,
+    "events":  [
+                   {
+                       "at":  "2026-10-01T19:27:04.2220405Z",
+                       "event_id":  2004,
+                       "provider":  "Microsoft-Windows-Resource-Exhaustion-Detector",
+                       "low_virtual_memory":  true
+                   },
+                   {
+                       "at":  "2026-10-01T19:22:04.0562981Z",
+                       "event_id":  2004,
+                       "provider":  "Microsoft-Windows-Resource-Exhaustion-Detector",
+                       "low_virtual_memory":  true
+                   }
+               ],
+    "scope":  "Read-only Windows resource evidence; no application-error WebKit event returned",
+    "limitations":  [
+                        "Low virtual memory is directly recorded; these events alone do not prove the exact WebKit crash cause.",
+                        "No programs, settings or runtime resources changed.",
+                        "Browser failure and missing original-role coverage remain FAIL/NOT_RUN."
+                    ]
+}

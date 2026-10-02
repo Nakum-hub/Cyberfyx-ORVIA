@@ -27,7 +27,7 @@ export async function createGrcAudit(c:Context,input:unknown){
   await c.tx.query('INSERT INTO app.grc_audits(tenant_id,legal_entity_id,environment_id,id,document) VALUES($1,$2,$3,$4,$5)',[...scopeValues(c.actor),doc.id,doc]);
   await audit(c,'grc.audit.created',doc.id);return doc;
 }
-export async function grcAuditList(c:Context,page:Page){guard(c,'grc.read');const rows=await c.tx.query(`SELECT document FROM app.grc_audits WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);return paged(rows.rows.map(r=>S.GrcAudit.parse(r.document)),page);}
+export async function grcAuditList(c:Context,page:Page){guard(c,'grc.read');const rows=await c.tx.query(`SELECT document FROM app.grc_audits WHERE ${predicate} AND ($4::uuid IS NULL OR ((document->>'recorded_at')::timestamptz,id) < (SELECT (document->>'recorded_at')::timestamptz,id FROM app.grc_audits WHERE ${predicate} AND id=$4)) ORDER BY (document->>'recorded_at')::timestamptz DESC, id DESC LIMIT $5`,[...scopeValues(c.actor),page.cursor,page.limit+1]);return paged(rows.rows.map(r=>S.GrcAudit.parse(r.document)),page);}
 export async function grcAuditDetail(c:Context,id:string){guard(c,'grc.read');return S.GrcAuditDetail.parse(await engagement(c,id));}
 export async function createGrcAuditRequest(c:Context,id:string,input:unknown){
   guard(c,'grc.write');const value=S.GrcAuditRequestCreate.parse(input),plan=await engagement(c,id,true);
@@ -38,7 +38,7 @@ export async function createGrcAuditRequest(c:Context,id:string,input:unknown){
   await c.tx.query('INSERT INTO app.grc_audit_requests(tenant_id,legal_entity_id,environment_id,id,audit_id,document) VALUES($1,$2,$3,$4,$5,$6)',[...scopeValues(c.actor),doc.id,id,doc]);
   await audit(c,'grc.audit.requested',doc.id);return doc;
 }
-export async function grcAuditRequests(c:Context,id:string,page:Page){guard(c,'grc.read');await engagement(c,id);if(page.cursor)requireOne((await c.tx.query(`SELECT id FROM app.grc_audit_requests WHERE ${predicate} AND audit_id=$4 AND id=$5`,[...scopeValues(c.actor),id,page.cursor])).rows);const rows=await c.tx.query(`SELECT document FROM app.grc_audit_requests WHERE ${predicate} AND audit_id=$4 AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`,[...scopeValues(c.actor),id,page.cursor,page.limit+1]);return paged(rows.rows.map(r=>S.GrcAuditRequest.parse(r.document)),page);}
+export async function grcAuditRequests(c:Context,id:string,page:Page){guard(c,'grc.read');await engagement(c,id);if(page.cursor)requireOne((await c.tx.query(`SELECT id FROM app.grc_audit_requests WHERE ${predicate} AND audit_id=$4 AND id=$5`,[...scopeValues(c.actor),id,page.cursor])).rows);const rows=await c.tx.query(`SELECT document FROM app.grc_audit_requests WHERE ${predicate} AND audit_id=$4 AND ($5::uuid IS NULL OR ((document->>'recorded_at')::timestamptz,id) < (SELECT (document->>'recorded_at')::timestamptz,id FROM app.grc_audit_requests WHERE ${predicate} AND audit_id=$4 AND id=$5)) ORDER BY (document->>'recorded_at')::timestamptz DESC, id DESC LIMIT $6`,[...scopeValues(c.actor),id,page.cursor,page.limit+1]);return paged(rows.rows.map(r=>S.GrcAuditRequest.parse(r.document)),page);}
 async function responseDetail(c:Context,req:ReturnType<typeof S.GrcAuditRequest.parse>){
   const rows=await c.tx.query(`SELECT document FROM app.grc_audit_responses WHERE ${predicate} AND request_id=$4 ORDER BY sequence DESC LIMIT 1`,[...scopeValues(c.actor),req.id]);
   const response=rows.rows.length?S.GrcAuditResponse.parse(rows.rows[0].document):null;

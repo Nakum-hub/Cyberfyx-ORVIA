@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // M12 Notice Management integration suite, FR-M12-03 and FR-M12-04.
 // Under test: a principal's language choice is recorded and never erased by
 // English-first administration, a notice change is classified before it can be
@@ -74,13 +75,8 @@ try {
   // Paged, because this database has accumulated purposes from every previous
   // run and the one this suite made is not necessarily on the first page.
   const ownChoice = async () => {
-    let cursor: string | null = null;
-    do {
-      const page = S.schemas.ConsentList.parse(await (await alice.call(`/api/v1/portal/me/consents?limit=100${cursor ? `&cursor=${cursor}` : ''}`)).json());
-      const found = page.items.find(item => item.purpose_id === purpose);
-      if (found) return found;
-      cursor = page.next_cursor;
-    } while (cursor);
+    const found=(await allPageList(p=>alice.call(p),'/api/v1/portal/me/consents',value=>S.schemas.ConsentList.parse(value))).items.find(item=>item.purpose_id===purpose);
+    if(found)return found;
     throw new Error('The scenario purpose is not visible in the portal');
   };
   const mine = await ownChoice();

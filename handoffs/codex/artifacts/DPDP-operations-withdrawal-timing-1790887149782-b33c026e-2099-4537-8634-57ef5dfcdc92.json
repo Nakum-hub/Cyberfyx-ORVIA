@@ -1,0 +1,223 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T20:39:09.782Z",
+  "suite": "withdrawal-timing",
+  "assertions": [
+    {
+      "name": "every send while consent stood was admitted (the control)",
+      "result": "PASS",
+      "expected": [
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW"
+      ],
+      "actual": [
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW",
+        "ALLOW"
+      ]
+    },
+    {
+      "name": "in 20 of 20 cycles the first send after the withdrawal returned was refused: no window in which an old grant is used",
+      "result": "PASS",
+      "expected": [
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK"
+      ],
+      "actual": [
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK",
+        "BLOCK"
+      ]
+    },
+    {
+      "name": "the post-withdrawal admission decision is measured (p50, p95, max ms) and each took under 5 seconds on this host",
+      "result": "PASS",
+      "expected": [
+        true,
+        {
+          "cycles": 20,
+          "decision_ms_p50": 43,
+          "decision_ms_p95": 51,
+          "decision_ms_max": 55
+        }
+      ],
+      "actual": [
+        true,
+        {
+          "cycles": 20,
+          "decision_ms_p50": 43,
+          "decision_ms_p95": 51,
+          "decision_ms_max": 55
+        }
+      ]
+    },
+    {
+      "name": "a re-grant does not silently restart marketing while the withdrawal's suppression work is unresolved",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "withdrawal 1: the target record is independently read back as suppressed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "withdrawal 2: the target record is independently read back as suppressed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "withdrawal 3: the target record is independently read back as suppressed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "withdrawal 4: the target record is independently read back as suppressed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "withdrawal 5: the target record is independently read back as suppressed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "time from withdrawal to verified suppression is measured with its basis stated",
+      "result": "PASS",
+      "expected": [
+        true,
+        {
+          "withdrawals": 5,
+          "propagation_ms_p50": 991,
+          "propagation_ms_max": 1323,
+          "runner_loop_seconds_when_not_woken": 30,
+          "basis": "Synthetic records adapter on loopback; one runner cycle started immediately after the withdrawal returned. A named production connector needs its own measurement."
+        }
+      ],
+      "actual": [
+        true,
+        {
+          "withdrawals": 5,
+          "propagation_ms_p50": 991,
+          "propagation_ms_max": 1323,
+          "runner_loop_seconds_when_not_woken": 30,
+          "basis": "Synthetic records adapter on loopback; one runner cycle started immediately after the withdrawal returned. A named production connector needs its own measurement."
+        }
+      ]
+    },
+    {
+      "name": "the real supervised runner completed a pass before measuring its notification wake",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the running runner suppressed the target well inside its 30-second loop: it was woken, not waiting",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        {
+          "withdrawal_to_verified_suppression_ms": 174
+        }
+      ],
+      "actual": [
+        true,
+        true,
+        {
+          "withdrawal_to_verified_suppression_ms": 174
+        }
+      ]
+    }
+  ],
+  "passed": 12,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

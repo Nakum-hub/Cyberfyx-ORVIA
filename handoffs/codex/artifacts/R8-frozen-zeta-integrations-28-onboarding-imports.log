@@ -1,0 +1,37 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+PASS an import naming a system this installation has never configured is refused
+PASS a row outside the declared shape is refused rather than partially stored
+PASS and an import that will not say when it is a snapshot of is refused
+PASS rows land in quarantine and nothing is applied yet
+PASS neither row collides with anything in this inventory
+PASS nothing has reached the inventory from quarantine
+PASS the import settles as applied and says when and by whom
+PASS every row names the asset it became
+PASS an imported asset is asserted, unreviewed, and carries no observation at all
+PASS and the batch says so structurally rather than only in its limits
+PASS applying twice is refused rather than silently creating the inventory again
+PASS and the database refuses to move a settled import back to quarantine
+PASS a row that disagrees with an existing asset is reported as a conflict, naming it
+PASS and the undecided count is what stands between quarantine and inventory
+PASS the import will not apply while a conflict is undecided
+PASS a row that collides with nothing cannot be decided to clear the queue
+PASS deciding names who decided it and when, and clears the blocker
+PASS a decision already taken cannot be quietly replaced
+PASS the skipped row became nothing and the clean row became an asset
+PASS so the duplicate was never created
+PASS the third batch is in quarantine with its rows stored
+PASS a purge that will not say why is refused
+PASS purging removes the rows and states its reason
+PASS the rows really are gone from the database
+PASS nothing from the purged batch reached the inventory
+PASS but the record that the import arrived survives, and cannot be deleted
+PASS a purged import cannot then be applied
+PASS every batch is listed with the source the customer named and the moment it describes
+PASS an auditor holding graph.read may review what was imported
+PASS but may not submit one
+PASS and may not apply or purge one
+Artifact: handoffs/codex/artifacts/A00-imports-integration-1790875426986-023cbde2-e7a9-4242-bde6-356fc4cd5b38.json
+
+31 assertions, 0 failures.

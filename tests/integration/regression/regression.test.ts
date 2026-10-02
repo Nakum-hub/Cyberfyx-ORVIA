@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
@@ -26,20 +27,14 @@ try{
   await waitForAuthWindow(db);
   phase=scenario;const input={...request,scenario};const key=randomUUID();const response=await start(owner,input,key);check(scenario+' accepted',response.status,202);const accepted=S.TestRun.parse(await response.json());
   check('pending run is durably NOT_RUN',accepted.state,'NOT_RUN');check('pending request replay stable',await (await start(owner,input,key)).json(),accepted);check('overlapping fixture execution denied',(await start(owner,input)).status,409);
-  const listPath='/api/v1/admin/test-runs?limit=100';
+  const listPath='/api/v1/admin/test-runs';
   check('anonymous run history denied',(await h.browser().call(listPath)).status,401);
   check('principal run history denied',(await alice.call(listPath)).status,403);
-  let cursor:string|null=null;let found=false;let exhausted=false;
-  for(let page=0;page<100;page++){
-   const path=listPath+(cursor?'&cursor='+encodeURIComponent(cursor):'');
-   const listed=S.schemas.TestRunList.parse(await (await auditor.call(path)).json());
-   if(listed.items.some(run=>run.id===accepted.id)){found=true;break;}
-   cursor=listed.next_cursor;
-   if(!cursor){exhausted=true;break;}
-  }
+  const history=await allPageList(p=>auditor.call(p),listPath,value=>S.schemas.TestRunList.parse(value));
+  const found=history.items.some(run=>run.id===accepted.id);
   check('scoped run history contains queued run',found,true);
-  check('scoped run history paging terminates',found||exhausted,true);
-  check('foreign tenant run history excludes queued run',S.schemas.TestRunList.parse(await (await birch.call(listPath)).json()).items.some(run=>run.id===accepted.id),false);
+  check('scoped run history paging terminates',history.next_cursor,null);
+  check('foreign tenant run history excludes queued run',(await allPageList(p=>birch.call(p),listPath,value=>S.schemas.TestRunList.parse(value))).items.some(run=>run.id===accepted.id),false);
   check('foreign tenant cannot read run',(await birch.call('/api/v1/admin/test-runs/'+accepted.id)).status,404);check('principal cannot read run',(await alice.call('/api/v1/admin/test-runs/'+accepted.id)).status,403);
   const executed=await cli(process.execPath,['--import','tsx','scripts/regression-runner.ts',`confirm:${profile.profile}`],{windowsHide:true,timeout:240000,maxBuffer:2*1024*1024});
   check('protected runner executed real assertions',executed.stdout.includes('independent_read_restriction'),true);

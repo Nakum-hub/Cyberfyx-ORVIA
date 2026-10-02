@@ -1,0 +1,61 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T04:35:44.055Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a breach registered on screen is pinned with deadlines from the package",
+      "result": "PASS",
+      "expected": [
+        "baf7e8d8-d09a-495f-b726-ae86b1c48f70",
+        "UNKNOWN",
+        true
+      ],
+      "actual": [
+        "baf7e8d8-d09a-495f-b726-ae86b1c48f70",
+        "UNKNOWN",
+        true
+      ]
+    },
+    {
+      "name": "correcting the facts keeps the pinned package and deadlines",
+      "result": "PASS",
+      "expected": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T02:34:15.834Z"
+        ]
+      ],
+      "actual": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T02:34:15.834Z"
+        ]
+      ]
+    },
+    {
+      "name": "unexpected failure in organisation profile",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('form', { name: 'Record profile version' }).getByText('A designation cites the Government notification that made it.') to be visible\u001b[22m\n"
+    }
+  ],
+  "passed": 3,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

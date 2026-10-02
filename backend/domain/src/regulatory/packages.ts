@@ -53,34 +53,42 @@ const MODULE_IMPACT: Record<string, string> = {
  * it touches is found from recorded registry facts. Where the facts needed to
  * decide are missing, an UNRESOLVED item is created instead of assuming.
  */
+/** Records of one kind itemised per changed requirement; more than this are reported as one UNRESOLVED item, never dropped. */
+const IMPACT_CAP = 1000;
 async function computeImpacts(c: Context, packageRowId: string, requirementId: string, change: 'ADDED' | 'CHANGED' | 'REMOVED', modules: string[]) {
   const items: { kind: string; id: string | null; reason: string }[] = [];
   const s = scope(c);
+  // Never truncate silently: beyond IMPACT_CAP records of one kind, one UNRESOLVED item says the rest were not itemised.
+  const capped = <T,>(rows: T[], what: string): T[] => {
+    if (rows.length <= IMPACT_CAP) return rows;
+    items.push({ kind: 'UNRESOLVED', id: null, reason: `More than ${IMPACT_CAP} ${what} may be affected by ${requirementId}; the first ${IMPACT_CAP} are itemised and the rest must be reviewed as a group.` });
+    return rows.slice(0, IMPACT_CAP);
+  };
   for (const module of modules) {
     const kind = MODULE_IMPACT[module] ?? 'ORGANISATION';
     if (module === 'CONSENT' || module === 'NOTICES' || module === 'CONDITIONS') {
-      const rows = (await c.tx.query(`SELECT a.id FROM app.registry_activities a JOIN app.registry_activity_versions v ON v.tenant_id=a.tenant_id AND v.legal_entity_id=a.legal_entity_id AND v.environment_id=a.environment_id AND v.activity_id=a.id AND v.status='CURRENT'
+      const rows = capped((await c.tx.query(`SELECT a.id FROM app.registry_activities a JOIN app.registry_activity_versions v ON v.tenant_id=a.tenant_id AND v.legal_entity_id=a.legal_entity_id AND v.environment_id=a.environment_id AND v.activity_id=a.id AND v.status='CURRENT'
         LEFT JOIN app.processing_conditions pc ON pc.tenant_id=v.tenant_id AND pc.legal_entity_id=v.legal_entity_id AND pc.environment_id=v.environment_id AND pc.id=v.condition_id
-        WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND a.status='ACTIVE' AND ($4=ANY(v.requirement_ids) OR pc.code='CONSENT' OR pc.id IS NULL OR pc.unresolved) LIMIT 50`, [...s, requirementId])).rows;
+        WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3 AND a.status='ACTIVE' AND ($4=ANY(v.requirement_ids) OR pc.code='CONSENT' OR pc.id IS NULL OR pc.unresolved) ORDER BY 1 LIMIT ${IMPACT_CAP + 1}`, [...s, requirementId])).rows, 'active processing activities');
       for (const row of rows) items.push({ kind: 'ACTIVITY', id: row.id, reason: `Activity processing may be governed by ${requirementId} (${module.toLowerCase()}).` });
-      if (module === 'NOTICES') for (const row of (await c.tx.query(`SELECT id FROM app.registry_notice_versions WHERE ${predicate} AND status='PUBLISHED' LIMIT 50`, s)).rows)
+      if (module === 'NOTICES') for (const row of capped((await c.tx.query(`SELECT id FROM app.registry_notice_versions WHERE ${predicate} AND status='PUBLISHED' ORDER BY 1 LIMIT ${IMPACT_CAP + 1}`, s)).rows, 'published notices'))
         items.push({ kind: 'NOTICE', id: row.id, reason: `Published notice content must be reviewed against ${requirementId}.` });
     } else if (module === 'RETENTION') {
-      for (const row of (await c.tx.query(`SELECT id FROM app.retention_rules WHERE ${predicate} AND status='ACTIVE' AND (requirement_id=$4 OR requirement_id IS NULL) LIMIT 50`, [...s, requirementId])).rows)
+      for (const row of capped((await c.tx.query(`SELECT id FROM app.retention_rules WHERE ${predicate} AND status='ACTIVE' AND (requirement_id=$4 OR requirement_id IS NULL) ORDER BY 1 LIMIT ${IMPACT_CAP + 1}`, [...s, requirementId])).rows, 'active retention rules'))
         items.push({ kind, id: row.id, reason: `Retention rule must be reviewed against ${requirementId}.` });
     } else if (module === 'PROCESSORS') {
-      for (const row of (await c.tx.query(`SELECT id FROM app.processor_engagements WHERE ${predicate} AND status='ACTIVE' LIMIT 50`, s)).rows)
+      for (const row of capped((await c.tx.query(`SELECT id FROM app.processor_engagements WHERE ${predicate} AND status='ACTIVE' ORDER BY 1 LIMIT ${IMPACT_CAP + 1}`, s)).rows, 'active processor engagements'))
         items.push({ kind, id: row.id, reason: `Processor engagement obligations may change under ${requirementId}.` });
     } else if (module === 'BREACH') {
-      for (const row of (await c.tx.query(`SELECT b.incident_id id FROM app.personal_data_breaches b JOIN app.incidents i ON i.tenant_id=b.tenant_id AND i.legal_entity_id=b.legal_entity_id AND i.environment_id=b.environment_id AND i.id=b.incident_id
-        WHERE b.tenant_id=$1 AND b.legal_entity_id=$2 AND b.environment_id=$3 AND i.state<>'CLOSED' LIMIT 50`, s)).rows)
+      for (const row of capped((await c.tx.query(`SELECT b.incident_id id FROM app.personal_data_breaches b JOIN app.incidents i ON i.tenant_id=b.tenant_id AND i.legal_entity_id=b.legal_entity_id AND i.environment_id=b.environment_id AND i.id=b.incident_id
+        WHERE b.tenant_id=$1 AND b.legal_entity_id=$2 AND b.environment_id=$3 AND i.state<>'CLOSED' ORDER BY 1 LIMIT ${IMPACT_CAP + 1}`, s)).rows, 'open breaches'))
         items.push({ kind, id: row.id, reason: `Open breach stays pinned to its original package; review whether ${requirementId} changes future handling.` });
     } else if (module === 'SDF') {
       const profile = (await c.tx.query(`SELECT id,sdf_status FROM app.organisation_profile_versions WHERE ${predicate} ORDER BY version DESC LIMIT 1`, s)).rows[0];
       if (!profile || profile.sdf_status === 'UNKNOWN') items.push({ kind: 'UNRESOLVED', id: null, reason: `SDF status is not recorded, so the effect of ${requirementId} cannot be determined.` });
       else if (profile.sdf_status === 'DESIGNATED') items.push({ kind, id: profile.id, reason: `The organisation is a recorded SDF; ${requirementId} affects its obligations.` });
     } else if (module === 'CHILDREN') {
-      for (const row of (await c.tx.query(`SELECT id,processes_child_data FROM app.registry_activities WHERE ${predicate} AND status='ACTIVE' AND processes_child_data<>'NO' LIMIT 50`, s)).rows)
+      for (const row of capped((await c.tx.query(`SELECT id,processes_child_data FROM app.registry_activities WHERE ${predicate} AND status='ACTIVE' AND processes_child_data<>'NO' ORDER BY 1 LIMIT ${IMPACT_CAP + 1}`, s)).rows, 'activities that may process children\'s data'))
         items.push(row.processes_child_data === 'YES' ? { kind: 'CHILD', id: row.id, reason: `Activity processes children's data; ${requirementId} applies to it.` }
           : { kind: 'UNRESOLVED', id: row.id, reason: `Whether this activity processes children's data is not recorded, so ${requirementId} cannot be decided for it.` });
     } else items.push({ kind, id: null, reason: `${requirementId} affects organisation-wide ${module.toLowerCase()} configuration.` });
@@ -151,7 +159,7 @@ export async function decidePackage(c: Context, id: string, input: unknown) {
 }
 
 export async function packageList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_packages WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as PackageRow[];
+  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_packages WHERE ${predicate} AND ($4::uuid IS NULL OR (imported_at,id) < (SELECT imported_at,id FROM app.regulatory_packages WHERE ${predicate} AND id=$4)) ORDER BY imported_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as PackageRow[];
   const active = await packageAt(c, new Date());
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(r => packageView(r, active?.id ?? null)), next_cursor: paged.next_cursor };
@@ -180,7 +188,7 @@ type ImpactRow = { id: string; package_row_id: string; requirement_id: string; c
 const impactView = (r: ImpactRow) => S.schemas.RegulatoryImpact.parse({ ...only(S.schemas.RegulatoryImpact, r), reviewed_at: iso(r.reviewed_at), created_at: iso(r.created_at) });
 export async function impactList(c: Context, page: Page, query: unknown) {
   const packageRowId = (query as { package_row_id?: string } | undefined)?.package_row_id ?? null;
-  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_impacts WHERE ${predicate} AND ($4::uuid IS NULL OR package_row_id=$4) AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6`,
+  const rows = (await c.tx.query(`SELECT * FROM app.regulatory_impacts WHERE ${predicate} AND ($4::uuid IS NULL OR package_row_id=$4) AND ($5::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.regulatory_impacts WHERE ${predicate} AND ($4::uuid IS NULL OR package_row_id=$4) AND id=$5)) ORDER BY created_at DESC, id DESC LIMIT $6`,
     [...scope(c), packageRowId, page.cursor, page.limit + 1])).rows as ImpactRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(impactView), next_cursor: paged.next_cursor };

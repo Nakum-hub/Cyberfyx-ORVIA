@@ -1,0 +1,87 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T15:07:53.367Z",
+  "suite": "vendor-production-criteria-browser",
+  "assertions": [
+    {
+      "name": "a TEST_FIXTURE package is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the screen says it is not a production package",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a package signed with another key is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the screen says the package is not signed with this vendor's release key",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "no criteria row appears for a refused package",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the signed production package is recorded",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "the row shows Production and waits for a different approver",
+      "result": "PASS",
+      "expected": [
+        true,
+        1,
+        0
+      ],
+      "actual": [
+        true,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "the reviewer approves it on the same screen",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the production-criteria gate is still not recorded (real engagements stay refused here)",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "no page errors on the practice screen",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no request left the vendor origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 11,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

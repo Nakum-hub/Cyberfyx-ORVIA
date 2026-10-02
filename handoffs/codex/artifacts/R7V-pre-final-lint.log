@@ -1,0 +1,7 @@
+node : $ eslint frontend backend database connectors shared services scripts tests --max-warnings 0
+At line:2 char:338
++ ... 'build')) { node $pnpm $check > "handoffs/codex/artifacts/R7V-$check. ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ eslint fronte...-max-warnings 0:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

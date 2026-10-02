@@ -4,6 +4,8 @@ import * as O from '../../../../shared/contracts/src/operations.ts';
 import { digest } from '../../../../shared/contracts/src/crypto.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { emit, exists, iso, pageOf, predicate, refuse, scope, only } from '../operations/shared.ts';
+import { publicationDrift } from './notice-drift.ts';
+import { AccessError } from '../../../authorization/src/index.ts';
 
 /**
  * Notice operations (requirements s11). A version's content is fixed once
@@ -13,10 +15,10 @@ import { emit, exists, iso, pageOf, predicate, refuse, scope, only } from '../op
  */
 
 type VersionRow = { id: string; notice_id: string; version: number; locale: string; title: string; content: string; content_digest: string; purpose_version_ids: string[]; data_category_ids: string[];
-  channels: R.RegistryNoticeVersionValue['channels']; template_reference: string | null; v1_notice_version_id: string | null; status: string; effective_from: Date | null; effective_to: Date | null;
+  channels: R.RegistryNoticeVersionValue['channels']; template_reference: string | null; v1_notice_version_id: string | null; translates_version_id: string | null; status: string; effective_from: Date | null; effective_to: Date | null;
   published_at: Date | null; superseded_by: string | null; recorded_at: Date };
 const versionView = (v: VersionRow) => R.RegistryNoticeVersion.parse({ id: v.id, notice_id: v.notice_id, version: v.version, locale: v.locale, title: v.title, content: v.content, content_digest: v.content_digest,
-  purpose_version_ids: v.purpose_version_ids, data_category_ids: v.data_category_ids, channels: v.channels, template_reference: v.template_reference, v1_notice_version_id: v.v1_notice_version_id,
+  purpose_version_ids: v.purpose_version_ids, data_category_ids: v.data_category_ids, channels: v.channels, template_reference: v.template_reference, v1_notice_version_id: v.v1_notice_version_id, translates_version_id: v.translates_version_id ?? null,
   status: v.status, effective_from: iso(v.effective_from), effective_to: iso(v.effective_to), published_at: iso(v.published_at), superseded_by: v.superseded_by, recorded_at: iso(v.recorded_at) });
 
 async function noticeView(c: Context, id: string) {
@@ -42,11 +44,19 @@ export async function createNoticeVersion(c: Context, id: string, input: unknown
   for (const purpose of value.purpose_version_ids) await exists(c, 'registry_purpose_versions', purpose, 'purpose_version_ids');
   for (const category of value.data_category_ids) await exists(c, 'personal_data_categories', category, 'data_category_ids');
   if (value.v1_notice_version_id && !(await c.tx.query(`SELECT 1 FROM app.notice_versions WHERE ${predicate} AND version_id=$4`, [...scope(c), value.v1_notice_version_id])).rowCount) refuse(404, 'v1_notice_version_id', 'not_found');
+  const translates = value.translates_version_id ?? null;
+  if (translates) {
+    const source = (await c.tx.query(`SELECT notice_id, locale, status FROM app.registry_notice_versions WHERE ${predicate} AND id=$4`, [...scope(c), translates])).rows[0];
+    if (!source) refuse(404, 'translates_version_id', 'not_found');
+    if (source.notice_id !== id) refuse(400, 'translates_version_id', 'translation_source_belongs_to_another_notice');
+    if (source.locale === value.locale) refuse(400, 'translates_version_id', 'translation_shares_the_source_locale');
+    if (source.status === 'DRAFT') refuse(409, 'translates_version_id', 'translate_a_published_version');
+  }
   const next = Number((await c.tx.query(`SELECT COALESCE(max(version),0)+1 n FROM app.registry_notice_versions WHERE ${predicate} AND notice_id=$4 AND locale=$5`, [...scope(c), id, value.locale])).rows[0].n);
   const contentDigest = digest({ locale: value.locale, title: value.title, content: value.content, channels: value.channels, purpose_version_ids: value.purpose_version_ids, data_category_ids: value.data_category_ids });
-  await c.tx.query(`INSERT INTO app.registry_notice_versions(tenant_id,legal_entity_id,environment_id,id,notice_id,version,locale,title,content,content_digest,purpose_version_ids,data_category_ids,channels,template_reference,v1_notice_version_id,status,recorded_by)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,'DRAFT',$16)`,
-  [...scope(c), randomUUID(), id, next, value.locale, value.title, value.content, contentDigest, value.purpose_version_ids, value.data_category_ids, value.channels, value.template_reference, value.v1_notice_version_id, c.actor.actor_id]);
+  await c.tx.query(`INSERT INTO app.registry_notice_versions(tenant_id,legal_entity_id,environment_id,id,notice_id,version,locale,title,content,content_digest,purpose_version_ids,data_category_ids,channels,template_reference,v1_notice_version_id,status,recorded_by,translates_version_id)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,'DRAFT',$16,$17)`,
+  [...scope(c), randomUUID(), id, next, value.locale, value.title, value.content, contentDigest, value.purpose_version_ids, value.data_category_ids, value.channels, value.template_reference, value.v1_notice_version_id, c.actor.actor_id, translates]);
   await audit(c, 'registry_notice.version', id);
   return noticeView(c, id);
 }
@@ -56,6 +66,12 @@ export async function publishNoticeVersion(c: Context, versionId: string, input:
   const row = (await c.tx.query(`SELECT * FROM app.registry_notice_versions WHERE ${predicate} AND id=$4 FOR UPDATE`, [...scope(c), versionId])).rows[0] as VersionRow | undefined;
   if (!row) refuse(404, 'id', 'not_found');
   if (row.status !== 'DRAFT') refuse(409, 'status', 'only_a_draft_is_published');
+  // Eighth Schedule drift guard: publishing a scope other current locales do not share leaves people reading those languages
+  // with a different statement of purposes and data categories. That may be the intended first step of a change, so it is
+  // allowed only when the publisher says so; the drift report and Operations attention then show the locales to update.
+  const drift = await publicationDrift(c, row.notice_id, row.locale, row.purpose_version_ids, row.data_category_ids);
+  const outOfStep = drift.out_of_step;
+  if (drift.changes_statement && outOfStep.length && !value.acknowledge_locale_drift) throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'acknowledge_locale_drift', code: 'other_locales_would_be_out_of_step' }, ...outOfStep.map(l => ({ field: 'out_of_step_locale', code: l }))]);
   const previous = (await c.tx.query(`SELECT * FROM app.registry_notice_versions WHERE ${predicate} AND notice_id=$4 AND locale=$5 AND status='PUBLISHED' FOR UPDATE`, [...scope(c), row.notice_id, row.locale])).rows[0] as VersionRow | undefined;
   if (previous) {
     if (Date.parse(value.effective_from) <= previous.effective_from!.getTime()) refuse(400, 'effective_from', 'must_follow_the_version_it_supersedes');
@@ -63,13 +79,13 @@ export async function publishNoticeVersion(c: Context, versionId: string, input:
   }
   await c.tx.query(`UPDATE app.registry_notice_versions SET status='PUBLISHED',published_at=clock_timestamp(),published_by=$4,effective_from=$5 WHERE ${predicate} AND id=$6`,
     [...scope(c), c.actor.actor_id, value.effective_from, versionId]);
-  await emit(c, 'notice_version_published', 'registry_notice_version', versionId, { notice_id: row.notice_id, locale: row.locale, version: row.version, supersedes: previous?.id ?? null, content_digest: row.content_digest });
+  await emit(c, 'notice_version_published', 'registry_notice_version', versionId, { notice_id: row.notice_id, locale: row.locale, version: row.version, supersedes: previous?.id ?? null, content_digest: row.content_digest, locales_left_out_of_step: outOfStep });
   await audit(c, 'registry_notice.publish', versionId);
   return noticeView(c, row.notice_id);
 }
 
 export async function noticeList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_notices WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
   for (const row of paged.items) items.push(await noticeView(c, row.id));
@@ -121,7 +137,7 @@ export async function recordDelivery(c: Context, input: unknown) {
   return deliveryView((await c.tx.query(`SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0]);
 }
 export async function deliveryList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.notice_delivery_evidence WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(deliveryView), next_cursor: paged.next_cursor };
 }

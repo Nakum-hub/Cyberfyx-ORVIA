@@ -1,0 +1,62 @@
+R7 webkit interface-crawl-local: suite entry point with passive diagnostic instrumentation
+PASS signed out: /workspace/sign-in renders
+PASS signed out: /privacy/sign-in renders
+PASS signed out: /setup renders
+PASS signed out: /supplier renders
+PASS signed out: /privacy renders
+PASS signed out: an unknown page is a 404
+PASS signed out: vendor pages are 404 on a customer installation
+PASS owner: /workspace
+PASS owner: /workspace/ai-governance
+PASS owner: /workspace/assessments
+PASS owner: /workspace/audit-coverage
+PASS owner: /workspace/audit-retention
+PASS owner: /workspace/audit-trail
+PASS owner: /workspace/capabilities
+PASS owner: /workspace/catalog-discovery
+PASS owner: /workspace/compliance
+PASS owner: /workspace/configuration
+FAIL owner: /workspace/connections {"expected":[],"actual":["API 503 GET /api/v1/session"]}
+FAIL owner: /workspace/consent-records {"expected":[],"actual":["page content remained loading for 30 s"]}
+FAIL owner: /workspace/contact-preferences {"expected":[],"actual":["pageerror: /127.0.0.1:4310/api/v1/admin/consent-managers?limit=50 due to access control checks.","pageerror: /127.0.0.1:4310/api/v1/admin/consent-records?limit=25 due to access control checks.","pageerror: /127.0.0.1:4310/api/v1/admin/registry-activities?limit=100 due to access control checks."]}
+PASS owner: /workspace/control-map
+PASS owner: /workspace/coverage
+PASS owner: /workspace/data-principals
+PASS owner: /workspace/delivery
+PASS owner: /workspace/dpdpa-audit
+PASS owner: /workspace/estate-imports
+PASS owner: /workspace/evidence
+PASS owner: /workspace/failures
+PASS owner: /workspace/findings
+PASS owner: /workspace/gaps
+PASS owner: /workspace/grc
+PASS owner: /workspace/grc/audits
+FAIL owner: /workspace/impact-assessments {"expected":[],"actual":["page content remained loading for 30 s","API 503 GET /api/v1/admin/impact-templates"]}
+PASS owner: /workspace/imports
+PASS owner: /workspace/incidents
+PASS owner: /workspace/incidents/[id] (e66420ef)
+PASS owner: /workspace/installed-versions
+PASS owner: /workspace/inventory
+PASS owner: /workspace/inventory/search
+PASS owner: /workspace/message-templates
+PASS owner: /workspace/my-login
+PASS owner: /workspace/notification-rules
+PASS owner: /workspace/notifications
+PASS owner: /workspace/operations-attention
+FAIL owner: /workspace/operations-evidence {"expected":[],"actual":["page content remained loading for 30 s"]}
+PASS owner: /workspace/operations-runs
+FAIL owner: /workspace/operations-runs/[id] (0d5fbd9b) {"expected":[],"actual":["page content remained loading for 30 s"]}
+FAIL owner: /workspace/organisation-intake {"expected":[],"actual":["pageerror: /127.0.0.1:4310/api/v1/admin/workflow-runs/0d5fbd9b-2c89-41f0-8546-65827fc4fe8f due to access control checks."]}
+PASS owner: /workspace/organisation-profile
+FAIL owner: /workspace/personal-data-breaches {"expected":[],"actual":["page content remained loading for 30 s"]}
+FAIL owner: /workspace/personal-data-breaches/[id] (e66420ef) {"expected":[],"actual":["pageerror: /127.0.0.1:4310/api/v1/admin/registry-activities?limit=100 due to access control checks.","pageerror: /127.0.0.1:4310/api/v1/admin/personal-data-categories?limit=100 due to access control checks.","pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.","pageerror: /127.0.0.1:4310/api/v1/admin/processor-engagements?limit=100 due
+PASS owner: /workspace/policy-preview
+PASS owner: /workspace/preflight
+FAIL owner: /workspace/principals {"expected":[],"actual":["page content remained loading for 30 s"]}
+PASS owner: /workspace/processing-activities
+PASS owner: /workspace/processor-engagements
+FAIL owner: /workspace/processors {"expected":[],"actual":["navigation: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4310/workspace/processors\", waiti"]}
+PASS owner: /workspace/readiness
+PASS owner: /workspace/records-of-processing
+PASS owner: /workspace/recover
+FAIL owner: /workspace/registry-notices {"expected":[],"actual":["navigation: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4310/workspace/registry-notices\",","still loading after the network settled"]}

@@ -23,6 +23,7 @@ import { webProcess } from '../../scripts/web-process.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
 import { vendorSigningKey } from '../../scripts/credentials.ts';
 import { runtimeConfig } from '../../backend/auth/src/config.ts';
+import { waitForPageContent } from '../../shared/testing/src/browser-ready.ts';
 import { workerEnrollment } from '../../backend/auth/src/machine-profile.ts';
 import { servicePool, machineAuthority } from '../../backend/auth/src/machine.ts';
 import { scopedTransaction } from '../../database/customer/src/runtime.ts';
@@ -74,14 +75,29 @@ async function vendorSignIn(page: Page, user: User) {
   await page.getByLabel(label('Authenticator code')).fill(authenticatorCode(user.totp!));
   await page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
   await page.waitForURL(/\/vendor\/(engagements|upload)/);
+  await waitForPageContent(page); await page.waitForLoadState('networkidle');
   persist();
+}
+async function stopVendor(child: ChildProcess) {
+  if (!child.pid || child.exitCode !== null || child.signalCode !== null) return;
+  const closed = once(child, 'close');
+  child.kill('SIGTERM');
+  await closed;
 }
 async function startVendor() {
   const command = webProcess({ profile: 'vendor-a00', app_port: PROFILES['vendor-a00'].app_port });
-  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
+  const child: ChildProcess = spawn(process.execPath, command.args, { cwd: command.cwd, windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'], env: { ...command.env, ORVIA_PROFILE: 'vendor-a00', NEXT_TELEMETRY_DISABLED: '1' } });
   let diagnostics = ''; child.stderr?.on('data', c => { diagnostics += c.toString(); });
-  for (let i = 0; i < 120; i++) { if (child.exitCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`); try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* starting */ } await new Promise(r => setTimeout(r, 500)); }
-  throw new Error('Vendor installation readiness timeout');
+  let spawnError: Error | undefined;
+  child.once('error', error => { spawnError = error; });
+  try {
+    for (let i = 0; i < 120; i++) { if (spawnError) throw new Error('Vendor web process failed to start', { cause: spawnError });
+      if (child.exitCode !== null || child.signalCode !== null) throw new Error(`Vendor web process exited: ${diagnostics.slice(-500)}`); try { if ((await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(2000) })).ok) return child; } catch { /* starting */ } await new Promise(r => setTimeout(r, 500)); }
+    throw new Error('Vendor installation readiness timeout');
+  } catch (error) {
+    await stopVendor(child);
+    throw error;
+  }
 }
 const openEngagement = async (page: Page, reference: string) => {
   await page.goto('/workspace/dpdpa-audit'); await page.getByRole('heading', { name: 'DPDPA external audit' }).waitFor();
@@ -158,15 +174,28 @@ try {
       check('a second owner approves the mandate in the browser', true, true);
 
       t.setPhase('worker sends the first snapshot');
+      // The worker services every due mandate in this durable synthetic scope.
+      // Earlier journeys may have active mandates; assert this engagement's
+      // exact outcome and reconcile the report against all newly accepted rows.
+      const accepted = async () => (await db.query(`SELECT count(*)::int total,
+        count(*) FILTER (WHERE d.engagement_id=e.id AND e.engagement_reference=$4 AND d.kind='SNAPSHOT')::int own
+        FROM app.audit_channel_deliveries d JOIN app.audit_engagements e
+          ON e.tenant_id=d.tenant_id AND e.legal_entity_id=d.legal_entity_id AND e.environment_id=d.environment_id AND e.id=d.engagement_id
+        WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3 AND d.state='ACCEPTED'`,
+      [scopeIds.tenant_id, scopeIds.legal_entity_id, scopeIds.environment_id, reference])).rows[0] as {total:number;own:number};
+      const beforeAccepted = await accepted();
+      check('this engagement has no accepted snapshot before its worker cycle', beforeAccepted.own, 0);
       const r1 = await sweep();
-      check('the worker checks in over HTTP and the signed snapshot is accepted', [r1.check_ins >= 1, r1.deliveries_accepted], [true, 1]);
+      const afterAccepted = await accepted();
+      check('the worker checks in over HTTP and the signed snapshot is accepted',
+        [r1.check_ins >= 1, r1.deliveries_accepted, afterAccepted.own], [true, afterAccepted.total - beforeAccepted.total, 1]);
       await openEngagement(admin, reference);
       const sent = admin.getByRole('table', { name: 'Evidence deliveries' });
       check('the client sees what ORVIA sent and that it was accepted', await sent.getByRole('row').filter({ hasText: 'scheduled snapshot' }).filter({ hasText: 'accepted' }).count(), 1);
       await admin.screenshot({ path: resolve(shots, 'mandate-client-channel.png'), fullPage: true });
 
       t.setPhase('vendor sees the evidence');
-      await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Requests/ }).click(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
+      await lead.goto(engagementUrl, { waitUntil: 'domcontentloaded' }); await waitForPageContent(lead); await lead.getByRole('tab', { name: /^Requests/ }).click(); await lead.getByRole('heading', { name: 'Client mandate and evidence' }).waitFor();
       check('the lead sees the signed mandate and an intact chain', [await seen(lead.getByText(/active \(open\)/).first()), await seen(lead.getByText('Intact through delivery 1'))], [true, true]);
       await lead.getByRole('table', { name: 'Deliveries from the client installation' }).getByRole('button', { name: 'View' }).first().click();
       await lead.getByRole('heading', { name: 'Delivery content' }).waitFor();
@@ -234,7 +263,7 @@ try {
       await reviewer.reload(); await openEngagement(reviewer, reference);
       check('the worker signs and sends the approved response and the client sees it accepted', [r4.responses_sent, await seen(reviewer.getByRole('table', { name: 'Management responses' }).getByText('accepted', { exact: true }))], [1, true]);
       await reviewer.screenshot({ path: resolve(shots, 'mandate-client-responses.png'), fullPage: true });
-      await lead.goto(engagementUrl); await lead.getByRole('tab', { name: /^Findings and actions/ }).click();
+      await lead.goto(engagementUrl, { waitUntil: 'domcontentloaded' }); await waitForPageContent(lead); await lead.getByRole('tab', { name: /^Findings and actions/ }).click();
       const vf = lead.getByRole('table', { name: 'Findings' }).getByRole('row').filter({ hasText: 'Notice indicator gap (browser)' });
       check('the auditor sees the client\'s response on the finding, from the channel, without the contact detail', [await seen(vf.getByText(/partially agree/)), await seen(vf.getByText(/channel/)), await vf.getByText(/privacy@aster/).count()], [true, true, 0]);
       await lead.screenshot({ path: resolve(shots, 'mandate-vendor-response.png'), fullPage: true });
@@ -253,8 +282,11 @@ try {
 
       check('no browser errors and no request left either installation', [errors, external], [[], []]);
     } finally {
-      await browser.close(); await workerPool.end();
-      if (vendorProcess.exitCode === null) { const closed = once(vendorProcess, 'close'); vendorProcess.kill(); await closed; }
+      try { await browser.close(); }
+      finally {
+        try { await workerPool.end(); }
+        finally { await stopVendor(vendorProcess); }
+      }
     }
   });
 } finally { writePrivateJson(trustPath, JSON.parse(originalTrust)); }

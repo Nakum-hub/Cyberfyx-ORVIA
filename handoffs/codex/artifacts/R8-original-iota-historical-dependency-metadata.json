@@ -1,0 +1,98 @@
+{
+  "diagnostic_only": true,
+  "duration_units": "NOT_ASSUMED",
+  "calls": [
+    {
+      "case": "AUTH38",
+      "target": "orvia-qualification-20260930-postgres",
+      "since": "2026-10-02T03:53:35Z",
+      "until": "2026-10-02T03:54:24Z",
+      "exit_code": 0,
+      "signal": null,
+      "error_class": null,
+      "elapsed_ms": 168,
+      "events": [],
+      "event_cap_reached": false
+    },
+    {
+      "case": "AUTH38",
+      "target": "orvia-qualification-20260930-loopback",
+      "since": "2026-10-02T03:53:35Z",
+      "until": "2026-10-02T03:54:24Z",
+      "exit_code": 0,
+      "signal": null,
+      "error_class": null,
+      "elapsed_ms": 141,
+      "events": [],
+      "event_cap_reached": false,
+      "classification": "NO_ALLOWLISTED_RELAY_LOG_FIELDS"
+    },
+    {
+      "case": "VENDOR42",
+      "target": "orvia-qualification-20260930-opa",
+      "since": "2026-10-02T04:06:03Z",
+      "until": "2026-10-02T04:07:43Z",
+      "exit_code": 0,
+      "signal": null,
+      "error_class": null,
+      "elapsed_ms": 3070,
+      "events": [
+        {
+          "at": "2026-10-02T04:06:32.061310582Z",
+          "kind": "OPA_VENDOR_POLICY",
+          "req_id": 4170,
+          "phase": "REQUEST_START"
+        },
+        {
+          "at": "2026-10-02T04:06:32.103055272Z",
+          "kind": "OPA_VENDOR_POLICY",
+          "req_id": 4170,
+          "resp_status": 200,
+          "resp_duration": 57.384927,
+          "phase": "RESPONSE"
+        },
+        {
+          "at": "2026-10-02T04:06:32.952533953Z",
+          "kind": "OPA_VENDOR_POLICY",
+          "req_id": 4171,
+          "phase": "REQUEST_START"
+        },
+        {
+          "at": "2026-10-02T04:06:32.955600504Z",
+          "kind": "OPA_VENDOR_POLICY",
+          "req_id": 4171,
+          "resp_status": 200,
+          "resp_duration": 2.747312,
+          "phase": "RESPONSE"
+        },
+        {
+          "at": "2026-10-02T04:07:39.327910516Z",
+          "kind": "OPA_VENDOR_POLICY",
+          "req_id": 4172,
+          "phase": "REQUEST_START"
+        },
+        {
+          "at": "2026-10-02T04:07:39.413471434Z",
+          "kind": "OPA_VENDOR_POLICY",
+          "req_id": 4172,
+          "resp_status": 500,
+          "resp_duration": 128.705529,
+          "phase": "RESPONSE"
+        }
+      ],
+      "event_cap_reached": false
+    },
+    {
+      "case": "VENDOR42",
+      "target": "orvia-qualification-20260930-postgres",
+      "since": "2026-10-02T04:06:03Z",
+      "until": "2026-10-02T04:07:43Z",
+      "exit_code": 0,
+      "signal": null,
+      "error_class": null,
+      "elapsed_ms": 216,
+      "events": [],
+      "event_cap_reached": false
+    }
+  ]
+}

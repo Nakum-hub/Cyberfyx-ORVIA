@@ -1,0 +1,15 @@
+PASS member cannot register a target
+PASS unknown system refused
+PASS target registration succeeds
+PASS registration remains pending
+PASS other tenant cannot see target
+PASS other tenant cannot approve target
+PASS author without enablement permission cannot approve
+PASS separate owner approves
+PASS approval has a durable due job
+PASS job ready and no fabricated observation
+PASS second exact relation can be registered
+PASS missing relation receives separate approval
+PASS due catalog jobs processed
+Artifact: handoffs/codex/artifacts/A00-catalog-discovery-flow-1790855381646-ad2ce425-0eb5-4a47-93c5-4bf00d1d2c22.json
+{ name: 'Error', code: 'UNCLASSIFIED' }

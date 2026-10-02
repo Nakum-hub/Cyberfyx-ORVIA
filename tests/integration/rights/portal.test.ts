@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // Portal self-service rights intake integration suite.
 // Under test: a data principal can exercise their own rights without a member
 // of staff, the request is bound to the session rather than to anything the
@@ -83,8 +84,7 @@ try {
     bobRaised.right_type, 'GRIEVANCE');
   check('and cannot read the first principal’s request even knowing its identifier',
     (await bob.call(`/api/v1/portal/me/rights-requests/${raised.id}`)).status, 404);
-  const alicePage = S.schemas.OwnRightsRequestList.parse(
-    await (await alice.call('/api/v1/portal/me/rights-requests?limit=100')).json());
+  const alicePage = (await allPageList(p => alice.call(p), '/api/v1/portal/me/rights-requests', value => S.schemas.OwnRightsRequestList.parse(value)));
   check('a principal’s own list contains their request and not the other person’s',
     [alicePage.items.some(i => i.id === raised.id), alicePage.items.some(i => i.id === bobRaised.id)], [true, false]);
 
@@ -103,10 +103,9 @@ try {
 
   // --- the same request is the one staff work on ------------------------------------
   phase = 'one record';
-  const asStaff = S.schemas.RightsRequestList.parse(
-    await (await staff.call('/api/v1/admin/rights-requests?limit=100')).json());
-  check('the portal request is the same record staff handle, not a parallel one',
-    asStaff.items.some(i => i.id === raised.id), true);
+  // The staff list is paged (at most 100 per page), and a long-lived profile holds more requests than one page.
+  const seenByStaff=(await allPageList(p=>staff.call(p),'/api/v1/admin/rights-requests',value=>S.schemas.RightsRequestList.parse(value))).items.some(i=>i.id===raised.id);
+  check('the portal request is the same record staff handle, not a parallel one', seenByStaff, true);
   check('raising a request in the portal is recorded in the audit trail',
     Number((await db.query(
       `SELECT count(*)::int AS n FROM app.audit_events WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3

@@ -1,0 +1,283 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T15:04:34.796Z",
+  "suite": "canary-grant-admission-diagnostic",
+  "assertions": [
+    {
+      "name": "Diagnostic decoy: synthetic fixture",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Ordinary control: synthetic fixture",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "agent cannot act as sender",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "foreign sender cannot address this target",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "human staff session cannot admit a send",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor cannot record a canary receipt",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "foreign tenant cannot retire the active decoy",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "registered grant is current in the registry model",
+      "result": "PASS",
+      "expected": "GRANTED",
+      "actual": "GRANTED"
+    },
+    {
+      "name": "registered grant records exactly one consent hit",
+      "result": "PASS",
+      "expected": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      },
+      "actual": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      }
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "registry-only grant does not satisfy the separate A00 admission model",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "ordinary synthetic control satisfies real published-policy and target gates",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    },
+    {
+      "name": "adverse A00 grant triggers a second consent hit",
+      "result": "PASS",
+      "expected": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      },
+      "actual": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      }
+    },
+    {
+      "name": "adverse aggregate has matching grant and no unresolved suppression",
+      "result": "PASS",
+      "expected": {
+        "state": "GRANTED",
+        "matching_notice": true,
+        "no_unresolved_suppression": true
+      },
+      "actual": {
+        "state": "GRANTED",
+        "matching_notice": true,
+        "no_unresolved_suppression": true
+      }
+    },
+    {
+      "name": "independent synthetic target matches generation and has no restriction or quarantine",
+      "result": "PASS",
+      "expected": {
+        "generation": 1,
+        "marketing_restricted": false,
+        "quarantined": false
+      },
+      "actual": {
+        "generation": 1,
+        "marketing_restricted": false,
+        "quarantined": false
+      }
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "diagnostic obtains a determinate result rather than claiming an outage as policy behavior",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "observed decision and durable effects agree, with exactly one trap hit",
+      "result": "PASS",
+      "expected": {
+        "decisions": 1,
+        "sends": 1,
+        "send_hits": 1,
+        "consent_hits": 0
+      },
+      "actual": {
+        "decisions": 1,
+        "sends": 1,
+        "send_hits": 1,
+        "consent_hits": 0
+      }
+    },
+    {
+      "name": "admission result does not explicitly reveal the canary",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "same HTTP idempotency key returns the exact observation",
+      "result": "PASS",
+      "expected": {
+        "attempt_id": "49bc44c6-bfa5-4ae8-9296-13b3f3d006d6",
+        "decision": "ALLOW",
+        "send_record_id": "217f4b70-e718-4410-afe9-bcf0873b3253",
+        "admitted_at": "2026-10-01T15:04:33.812Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "actual": {
+        "attempt_id": "49bc44c6-bfa5-4ae8-9296-13b3f3d006d6",
+        "decision": "ALLOW",
+        "send_record_id": "217f4b70-e718-4410-afe9-bcf0873b3253",
+        "admitted_at": "2026-10-01T15:04:33.812Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      }
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "same attempt under a new HTTP key returns the exact observation",
+      "result": "PASS",
+      "expected": {
+        "attempt_id": "49bc44c6-bfa5-4ae8-9296-13b3f3d006d6",
+        "decision": "ALLOW",
+        "send_record_id": "217f4b70-e718-4410-afe9-bcf0873b3253",
+        "admitted_at": "2026-10-01T15:04:33.812Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "actual": {
+        "attempt_id": "49bc44c6-bfa5-4ae8-9296-13b3f3d006d6",
+        "decision": "ALLOW",
+        "send_record_id": "217f4b70-e718-4410-afe9-bcf0873b3253",
+        "admitted_at": "2026-10-01T15:04:33.812Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      }
+    },
+    {
+      "name": "replays produce no new decision, send or canary hit",
+      "result": "PASS",
+      "expected": {
+        "decisions": 2,
+        "sends": 1,
+        "send_hits": 2,
+        "consent_hits": 2
+      },
+      "actual": {
+        "decisions": 2,
+        "sends": 1,
+        "send_hits": 2,
+        "consent_hits": 2
+      }
+    },
+    {
+      "name": "changed payload under the same HTTP key is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "changed payload for the same attempt under a new key is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "conflicting replays leave durable counts unchanged",
+      "result": "PASS",
+      "expected": {
+        "decisions": 2,
+        "sends": 1,
+        "send_hits": 2,
+        "consent_hits": 2
+      },
+      "actual": {
+        "decisions": 2,
+        "sends": 1,
+        "send_hits": 2,
+        "consent_hits": 2
+      }
+    }
+  ],
+  "passed": 28,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

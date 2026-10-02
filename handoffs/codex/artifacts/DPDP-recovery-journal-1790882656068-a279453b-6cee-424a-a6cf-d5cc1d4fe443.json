@@ -1,0 +1,96 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T19:24:16.068Z",
+  "run_id": "3ea6759e-741a-432d-8cdc-1e3f9c1f4b99",
+  "profile": "codex-a00",
+  "context": {
+    "phase": "WITHDRAWN",
+    "queued": {
+      "run": "3ea6759e-741a-432d-8cdc-1e3f9c1f4b99",
+      "epoch": 1,
+      "attempt": "5e1fa8eb-dd2f-4095-8d6d-4f0b640d4a7b",
+      "decision": "ALLOW",
+      "resource": "d321664c-a837-460d-ae40-de324c8f96ef"
+    },
+    "snapshot": {
+      "generation": 1,
+      "resource_id": "d321664c-a837-460d-ae40-de324c8f96ef",
+      "last_applied_epoch": 0,
+      "marketing_restricted": false
+    },
+    "purpose_id": "c0e2e315-5397-4d75-bf0f-3bbc33b45e27",
+    "receipt_id": "606aa7b0-96e1-4b6c-ae76-36ca2a964f0a",
+    "resource_id": "d321664c-a837-460d-ae40-de324c8f96ef",
+    "workflow_id": "818440af-8e67-4d27-9990-5fb7e8daab18",
+    "restore_state": "RECONCILED_ACTIVE",
+    "recovery_command": {
+      "payload": {
+        "nonce": "4520d487368141d090e987022bc293f7",
+        "binding": {
+          "scope": {
+            "operation": "CRM_REMOVE_MARKETING_MEMBERSHIP",
+            "system_id": "7ac34782-d53b-47c9-acc6-5d7d12a03ba6",
+            "tenant_id": "83f5268d-33b5-485b-ac43-be5efdb5c4c4",
+            "purpose_id": "c0e2e315-5397-4d75-bf0f-3bbc33b45e27",
+            "resource_id": "d321664c-a837-460d-ae40-de324c8f96ef",
+            "consent_epoch": 2,
+            "environment_id": "46037b4f-440c-44f9-8d3b-3427103e6abe",
+            "legal_entity_id": "7089114a-d453-49df-a63b-c14ceabfc17d",
+            "policy_version_id": "e11cd4e2-a6c9-4339-976b-8af6649471de",
+            "target_generation": 2,
+            "principal_reference_id": "6cfd7d96-68ce-4f7d-9066-fc82906dd5c3",
+            "target_subject_reference": "syn_d321664ca837460dae40de324c8f96ef"
+          },
+          "action_id": "f3ac5a2b-d18c-4e70-8d5a-96494ac022ea",
+          "capability": "restrict_exact_synthetic_subject",
+          "workflow_id": "818440af-8e67-4d27-9990-5fb7e8daab18",
+          "operation_budget": {
+            "maximum_records": 1,
+            "maximum_attempts": 1
+          },
+          "capability_version": "1.0.0"
+        },
+        "approval": {
+          "result": "NOT_REQUIRED_BY_POLICY",
+          "rule_id": "SYNTHETIC_NON_DESTRUCTIVE_RESTRICTION",
+          "decided_at": "2026-10-01T19:24:15.948Z",
+          "decision_id": "b2c581c8-d9f8-4232-9195-ec45f6091b79",
+          "policy_version_id": "e11cd4e2-a6c9-4339-976b-8af6649471de",
+          "approved_plan_digest": "4af0a1d047ddcee737171be6e02f8ec28cb191c684c4db58349d4f7a43c2eeb7"
+        },
+        "issued_at": "2026-10-01T19:24:15.948Z",
+        "command_id": "e3172e6d-7e42-49c2-8957-047e3ecdc0ed",
+        "expires_at": "2026-10-01T19:29:15.948Z",
+        "plan_digest": "4af0a1d047ddcee737171be6e02f8ec28cb191c684c4db58349d4f7a43c2eeb7",
+        "scope_digest": "f0ffec4529c639229237f496f5a95f99795a020f497b883f69422753b89cda3a",
+        "schema_version": "0.3.0",
+        "signing_key_id": "c355a46a-b28d-46db-aa78-f7ae7f48d2c8",
+        "approval_digest": "cade5d9100f76f0967ed05bd54d1cbc8666d3cd67a0719f189b272c02247f018",
+        "installation_id": "e2368173-e04a-459c-b7ec-4bb9de8807fe"
+      },
+      "algorithm": "Ed25519",
+      "signature": "AN-EUGYiRdX8twWSoGIB8oOT4c6PPdFUgq1atvVWOCQImObQfRWPGzttSSbaDSDcqG4SF4CTleRvYddIMfJdAA"
+    },
+    "recovery_receipt": {
+      "attempt_id": "79143717-69b5-4daf-97ca-a858c4ef6917",
+      "command_id": "e3172e6d-7e42-49c2-8957-047e3ecdc0ed",
+      "reason_code": "APPLIED",
+      "recorded_at": "2026-10-01T19:24:15.973Z",
+      "command_digest": "1ea0e783b1194bba6e0586207df8392ecd2f7a4449b244a10f67df26dec5eaab",
+      "execution_state": "ACKNOWLEDGED",
+      "target_generation": 2
+    },
+    "restored_generation": 2,
+    "recovery_observation": {
+      "generation": "2",
+      "quarantined": true,
+      "resource_id": "d321664c-a837-460d-ae40-de324c8f96ef",
+      "last_applied_epoch": "2",
+      "marketing_restricted": true
+    }
+  },
+  "limitations": [
+    "Synthetic target-only recovery. Current control-plane ledger was retained."
+  ]
+}

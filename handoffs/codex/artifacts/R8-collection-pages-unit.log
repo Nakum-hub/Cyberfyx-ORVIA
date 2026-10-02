@@ -1,0 +1,10 @@
+✔ collection reaches records beyond page one with opaque cursors (6.8115ms)
+✔ collection rejects a failed later page and repeating cursors (2.9065ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1110.3382

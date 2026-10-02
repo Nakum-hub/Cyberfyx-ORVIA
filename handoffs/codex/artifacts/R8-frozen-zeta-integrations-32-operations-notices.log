@@ -1,0 +1,23 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 38s remaining; controls unchanged.
+Authentication fixture idle window: 8s remaining; controls unchanged.
+PASS a new version is a draft until published
+PASS a draft was never presented, so delivery evidence for it is refused
+PASS presentation of v1 is recorded with its source
+PASS a successor cannot take effect before the version it supersedes
+PASS publishing v2 supersedes v1 and closes its period at the same instant
+PASS the moment of the recorded presentation resolves to v1
+PASS now resolves to v2
+PASS before the first version there was no notice, and that is said
+PASS another locale with no version resolves to none rather than borrowing English
+PASS a presentation of v2 dated before v2 took effect is refused
+PASS published notice content cannot be rewritten in place
+PASS delivery evidence is append-only
+PASS the Privacy Centre shows the current version and not the superseded one
+PASS the Privacy Centre notice carries withdrawal, rights, grievance and Board channels
+PASS a Data Principal cannot reach the staff notice registry
+Artifact: handoffs/codex/artifacts/A00-operations-notices-1790875670030-e5c9ad95-318c-437d-9456-15b117e0e2ff.json
+
+15 assertions, 0 failures.

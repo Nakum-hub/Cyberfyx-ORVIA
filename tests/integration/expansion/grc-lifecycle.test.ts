@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX10 policy lifecycle and issues; EX11 continuous control tests, through the real HTTP boundary.
 // Under test: policy versions published only by someone other than their author,
 // one published version per policy, acknowledgement by readers; issues whose state
@@ -153,6 +154,8 @@ await t.run(async () => {
     const off = await ok(admin.call(`/api/v1/admin/grc/control-tests/${evidence.id}/enabled`, { enabled: false }, key()), Test);
     check('a disabled test says so and cannot be run', [off.standing, (await admin.call(`/api/v1/admin/grc/control-tests/${evidence.id}/runs`, {}, key())).status], ['DISABLED', 409]);
     const scheduled = await create('Row security is forced', 'FORCED_ROW_SECURITY', 0);
+    // The long-lived profile holds many due tests from earlier runs and a pass takes the longest-due first: make this one first.
+    await db.query(`UPDATE app.control_tests SET next_run_at=now() - interval '10 years' WHERE id=$1`, [scheduled.id]);
     const reports = await runner.once();
     const report = reports.find(r => r.scope === s.environment_id)!;
     check('the operations runner ran the due test without compliance errors', [report.control_tests_run >= 1, report.errors.filter(e => e.startsWith('control test') || e.startsWith('assessment finding'))], [true, []]);
@@ -184,7 +187,7 @@ await t.run(async () => {
 
     t.setPhase('isolation and history');
     check('another tenant cannot read the issue, test or policy', [(await birch.call(`/api/v1/admin/grc/issues/${issueId}`)).status, (await birch.call(`/api/v1/admin/grc/control-tests/${binding.id}`)).status,
-      (await birch.call('/api/v1/admin/grc/policies?limit=100')).status === 200 && !(await ok(birch.call('/api/v1/admin/grc/policies?limit=100'), S.schemas.GrcPolicyList)).items.some(p => p.id === v1.id)], [404, 404, true]);
+      (await birch.call('/api/v1/admin/grc/policies?limit=100')).status === 200 && !(await allPageList(p => birch.call(p), '/api/v1/admin/grc/policies', value => S.schemas.GrcPolicyList.parse(value))).items.some(p => p.id === v1.id)], [404, 404, true]);
     const direct = (sql: string, values: unknown[]) => db.query(sql, values).then(() => 'accepted').catch((e: { code?: string }) => e.code ?? 'rejected');
     check('a published policy cannot be rewritten at the database', await direct(`UPDATE app.grc_policies SET body='Rewritten body of the policy text.' WHERE id=$1`, [v2.id]), '23514');
     check('a retired policy cannot be republished at the database', await direct(`UPDATE app.grc_policies SET status='PUBLISHED' WHERE id=$1`, [v1.id]), '23514');

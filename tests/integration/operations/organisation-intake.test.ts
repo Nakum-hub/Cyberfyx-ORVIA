@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // Organisation website/app intake and the optional Privacy Centre (revision 1.7, contract 0.48.0).
 // Under test: the Privacy Centre switch refuses every Data Principal request while off and only a super administrator can
 // change it; an intake key is created once by a super administrator and never shown again; the intake routes refuse a
@@ -49,7 +50,7 @@ await t.run(async () => {
     check('an organisation admin cannot create an intake key', (await admin.call('/api/v1/admin/intake-clients', keyBody, key())).status, 403);
     const created = await ok(owner.call('/api/v1/admin/intake-clients', keyBody, key()), S.schemas.IntakeClientCreated);
     check('the key is returned once, 64 hex characters', /^[a-f0-9]{64}$/.test(created.key), true);
-    const listed = await ok(owner.call('/api/v1/admin/intake-clients?limit=100'), S.schemas.IntakeClientList);
+    const listed = await allPageList(p => owner.call(p), '/api/v1/admin/intake-clients', value => S.schemas.IntakeClientList.parse(value));
     check('the key list never carries the key', JSON.stringify(listed).includes(created.key), false);
     check('the database keeps only its digest', (await db.query('SELECT count(*)::int n FROM app.intake_clients WHERE token_digest=$1', [created.key])).rows[0].n, 0);
     const consentOnly = await ok(owner.call('/api/v1/admin/intake-clients', { ...keyBody, name: `Consent only ${run}`, accepts_rights: false }, key()), S.schemas.IntakeClientCreated);
@@ -80,7 +81,7 @@ await t.run(async () => {
     const stranger = await ok(send('/api/v1/intake/rights-requests', { customer_reference: `new_${run}`, right_type: 'ERASURE', description: 'Please erase my account data (synthetic).', display_name: 'Synthetic Newcomer', email: `newcomer.${run}@aster.example` }, created.key), S.schemas.IntakeReceipt, [202]);
     const realPerson = await ok(send('/api/v1/intake/rights-requests', { customer_reference: `real_${run}`, right_type: 'ACCESS', description: 'A request naming a real address (must not be stored here).', display_name: 'Real Person', email: `person.${run}@example.com` }, created.key), S.schemas.IntakeReceipt, [202]);
     check('another key cannot read this key\'s submission', (await status(granted.submission_id, consentOnly.key)).status, 404);
-    check('staff in another organisation see none of these submissions', (await ok(birch.call('/api/v1/admin/intake-submissions?limit=100'), S.schemas.IntakeSubmissionList)).items.filter(i => i.client_id === created.client.id).length, 0);
+    check('staff in another organisation see none of these submissions', (await allPageList(p => birch.call(p), '/api/v1/admin/intake-submissions', value => S.schemas.IntakeSubmissionList.parse(value))).items.filter(i => i.client_id === created.client.id).length, 0);
 
     t.setPhase('runner applies');
     const reports = await runner.once();
@@ -110,7 +111,7 @@ await t.run(async () => {
     check('no principal was recorded for the real address', (await db.query('SELECT count(*)::int n FROM app.principal_references WHERE email=$1', [`person.${run}@example.com`])).rows[0].n, 0);
 
     t.setPhase('staff handling');
-    const waiting = await ok(admin.call('/api/v1/admin/intake-submissions?status=NEEDS_STAFF&limit=100'), S.schemas.IntakeSubmissionList);
+    const waiting = await allPageList(p => admin.call(p), '/api/v1/admin/intake-submissions?status=NEEDS_STAFF', value => S.schemas.IntakeSubmissionList.parse(value));
     check('staff see both submissions waiting for them', waiting.items.filter(i => [unknownConsent.submission_id, realPerson.submission_id].includes(i.id)).length, 2);
     check('an auditor can read but not mark handled', [(await auditor.call('/api/v1/admin/intake-submissions?limit=5')).status, (await auditor.call(`/api/v1/admin/intake-submissions/${unknownConsent.submission_id}/handled`, { note: 'Auditor must not handle this.' }, key())).status], [200, 403]);
     const handled = await ok(admin.call(`/api/v1/admin/intake-submissions/${unknownConsent.submission_id}/handled`, { note: 'Recorded the person and the withdrawal by hand (synthetic).' }, key()), S.schemas.IntakeSubmission);

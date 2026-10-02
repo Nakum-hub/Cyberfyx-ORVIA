@@ -1,0 +1,2 @@
+{"at":"2026-10-02T02:56:53.761Z","engine":"webkit","suite":"vendor-production-criteria-local","server":{"round7_diagnostic":true,"status":503,"path":"/readyz","method":"GET","dependencies":[{"dependency":"OPA","error":"TimeoutError","elapsed_ms":2009}],"policy_engine_lines":[],"opa_scope":"customer and vendor authorize"}}
+{"at":"2026-10-02T02:57:13.518Z","engine":"webkit","suite":"vendor-production-criteria-local","kind":"BROWSER","version":"26.6"}

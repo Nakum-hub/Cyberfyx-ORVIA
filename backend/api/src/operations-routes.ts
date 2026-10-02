@@ -8,6 +8,7 @@ import { createPrincipalCategory, principalCategoryList, createDataCategory, dat
   createRelationship, endRelationship, createRepresentative, representativeList, verifyRepresentative, activateNomination, recordChildStatus, childStatus } from '../../domain/src/registry/principals.ts';
 import { createPurpose, revisePurpose, purposeList, createCondition, conditionList, createSafeguard, safeguardList, createActivity, reviseActivity, linkActivity, closeLink, activityView, activityList } from '../../domain/src/registry/processing.ts';
 import { createNotice, createNoticeVersion, publishNoticeVersion, noticeList, noticeAt, recordDelivery, deliveryList, portalNotices } from '../../domain/src/registry/notices.ts';
+import { noticeDriftReport } from '../../domain/src/registry/notice-drift.ts';
 import { createConsentRecord, recordConsentEvent, consentRecordView, consentRecordList, syncPortalConsent, consentManagerList, createConsentManager, changeConsentManagerStatus, linkConsentManager, recordConsentManagerWithdrawal } from '../../domain/src/registry/consent.ts';
 import { createEngagement, terminateEngagement, recordDisposition, engagementList, createSharingLink, sharingList } from '../../domain/src/registry/processors.ts';
 import { createRule, reviseRule, ruleList, createHold, releaseHold, holdList, recordIntimation, recordReEngagement, intimationList, intimationsDue } from '../../domain/src/registry/retention.ts';
@@ -20,6 +21,7 @@ import { registerBreach, updateBreach, completeBreachTask, breachView, breachLis
 import { openCaseProfile, caseProfile, caseProfileList } from '../../domain/src/operations/cases.ts';
 import { operationsAttention, operationsCoverage, notificationSweep } from '../../domain/src/operations/attention.ts';
 import { ownRequestHistory } from '../../domain/src/rights/portal.ts';
+import { backupTreatmentList, createBackupTreatment, approveBackupTreatment, backupCoverage, recordSystemRestore, systemRestoreList, reviewRestoreCoverage, erasureLedger, confirmReerasure } from '../../domain/src/registry/backups.ts';
 import { intakeClientList, createIntakeClient, revokeIntakeClient, intakeSubmissionList, handleIntakeSubmission, privacyCentreSetting, changePrivacyCentre } from '../../domain/src/registry/intake.ts';
 
 /**
@@ -79,6 +81,7 @@ export async function operationsRoute(c: Context, route: RouteDefinition, id: st
     case 'create_notice_version': return createNoticeVersion(c, id!, input);
     case 'publish_notice_version': return publishNoticeVersion(c, id!, input);
     case 'notice_at_time': return noticeAt(c, id!, query);
+    case 'notice_language_drift': return noticeDriftReport(c);
     case 'list_notice_deliveries': return deliveryList(c, page);
     case 'record_notice_delivery': return recordDelivery(c, input);
     case 'list_consent_records': return consentRecordList(c, page);
@@ -110,6 +113,15 @@ export async function operationsRoute(c: Context, route: RouteDefinition, id: st
     case 'handle_intake_submission': return handleIntakeSubmission(c, id!, input);
     case 'privacy_centre_setting': return privacyCentreSetting(c);
     case 'change_privacy_centre': return changePrivacyCentre(c, input);
+    case 'list_backup_treatments': return backupTreatmentList(c, page);
+    case 'create_backup_treatment': return createBackupTreatment(c, input);
+    case 'approve_backup_treatment': return approveBackupTreatment(c, id!);
+    case 'backup_coverage': return backupCoverage(c);
+    case 'record_system_restore': return recordSystemRestore(c, input);
+    case 'list_system_restores': return systemRestoreList(c, page, query);
+    case 'review_restore_coverage': return reviewRestoreCoverage(c, id!, input);
+    case 'list_erasure_ledger': return erasureLedger(c, page, query);
+    case 'confirm_reerasure': return confirmReerasure(c, id!, input);
     case 'list_erasure_intimations_due': return intimationsDue(c, page);
     case 'list_erasure_intimations': return intimationList(c, page, query);
     case 'record_erasure_intimation': return recordIntimation(c, input);

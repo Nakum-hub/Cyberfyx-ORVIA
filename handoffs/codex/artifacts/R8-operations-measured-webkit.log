@@ -1,0 +1,46 @@
+R7 webkit operations-screens-local: suite entry point with passive diagnostic instrumentation
+PASS registration is accepted
+PASS a breach registered on screen is pinned with deadlines from the package
+PASS correcting the facts keeps the pinned package and deadlines
+PASS a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)
+PASS a person is registered with a keyed reference and no stored identifier
+PASS a relationship context is recorded with unknown evidence kept unknown
+PASS a representative starts unverified
+PASS the person who recorded a representative cannot verify them
+PASS a different staff member verifies the representative
+PASS child status is recorded with its guardian
+PASS a consent record starts unknown, never granted
+PASS a withdrawal recorded on screen opens exactly one propagation run
+PASS the run suppresses in the linked system
+PASS termination closes the engagement and requires return or deletion
+PASS a processor statement is recorded as a confirmation, never as verified
+PASS a data share names exactly one recipient
+PASS a safeguard is recorded with its evidence
+PASS a manual-only binding declares no automated action
+PASS a case profile is pinned to the package in force at receipt
+PASS execution is accepted
+PASS starting execution plans an erasure that waits for a second person
+PASS an estate file with an invalid row is refused whole in the browser
+FAIL uploaded rows are applied from the checkpoint {"expected":[2,2,0],"actual":[2,0,0]}
+Error: Assertion failed: uploaded rows are applied from the checkpoint
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:289:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\e2e\operations-screens-local.ts:30:1)
+Server diagnostics (safe codes only): authorize","elapsed_ms":12,"loop_utilization":0.12753383267430993,"loop_active_ms":2,"loop_idle_ms":11,"loop_delay_max_ms":340,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:41:55.945Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":27,"loop_utilization":0.07586234978333213,"loop_active_ms":2,"loop_idle_ms":25,"loop_delay_max_ms":340,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:41:56.868Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":5,"loop_utilization":0.17873169058435667,"loop_active_ms":1,"loop_idle_ms":4,"loop_delay_max_ms":340,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:41:57.358Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":42,"loop_utilization":0.017043020562204227,"loop_active_ms":1,"loop_idle_ms":42,"loop_delay_max_ms":32,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:42:01.703Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":705,"loop_utilization":0.006107672707327122,"loop_active_ms":4,"loop_idle_ms":700,"loop_delay_max_ms":99,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:42:03.244Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":37,"loop_utilization":0.023277210150036337,"loop_active_ms":1,"loop_idle_ms":36,"loop_delay_max_ms":99,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:42:06.187Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":17,"loop_utilization":0.0729171657249236,"loop_active_ms":1,"loop_idle_ms":15,"loop_delay_max_ms":161,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:42:06.572Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":18,"loop_utilization":0.12113215651138383,"loop_active_ms":2,"loop_idle_ms":16,"loop_delay_max_ms":161,"status":200}
+{"request_id":"235fe86f-0949-4017-ad47-45df6d8c18d0","operation":"BUSINESS","name":"error","code":"57014"}
+{"round7_diagnostic":true,"request_id":["235fe86f-0949-4017-ad47-45df6d8c18d0"],"status":503,"path":"/api/v1/admin/bulk-jobs/2fed4615-249d-4494-bbab-0861b7aa9f8d/processing","method":"POST","dependencies":[{"dependency":"OPA","status":200,"elapsed_ms":18},{"dependency":"OPA","status":200,"elapsed_ms":19}],"policy_engine_lines":[],"opa_scope":"customer and vendor authorize"}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:42:22.378Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":57,"loop_utilization":1,"loop_active_ms":57,"loop_idle_ms":0,"loop_delay_max_ms":497,"status":200}
+{"round7_diagnostic":true,"round8_policy_timing":true,"pid":27008,"at":"2026-10-01T08:42:22.698Z","path":"/v1/data/orvia/admin/authorize","elapsed_ms":31,"loop_utilization":1,"loop_active_ms":31,"loop_idle_ms":0,"loop_delay_max_ms":497,"status":200}
+
+Artifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790844146039-5c519091-086a-4636-a71f-e1e73a3bb6ac.json
+
+24 assertions, 2 failures.

@@ -1,0 +1,54 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the fixture scope has a published purpose to depend on
+PASS a principal cannot define topics
+PASS an auditor cannot define topics
+PASS a topic is created active with its channels
+PASS a topic code is unique in scope
+PASS duplicate channels are refused
+PASS a topic can depend on a published purpose
+PASS no choice means no contact (there is no default opt-in)
+PASS an opt-in is effective and permits contact on that channel
+PASS the other channel is still not permitted
+PASS a channel the topic does not offer is refused
+PASS a choice dated in the future is refused
+PASS a later opt-out stops contact
+PASS a replayed older opt-in is kept but not effective and does not re-enable contact
+PASS the portal centre shows the current choice and keeps the stale event in history
+PASS a first opt-in keeps the device clock allowance
+PASS R01: an opt-out received after a future-dated opt-in is effective and stops contact
+PASS a future-dated opt-in cannot override an existing opt-out
+PASS on equal device times the opt-out stands
+PASS a genuinely later opt-in restores contact
+PASS concurrent opt-out and an earlier-dated opt-in end opted out, whichever arrives first
+PASS an opt-in to a purpose-dependent topic permits contact while consent is granted
+PASS withdrawn consent stops contact whatever the preference says
+PASS staff see the same decision in the principal's centre
+PASS granting consent again restores the effective opt-in
+PASS a principal cannot retire a topic
+PASS a retired topic stops contact
+PASS a topic is retired once
+PASS no new choice is taken on a retired topic
+PASS a retired topic with history is still shown to the principal
+PASS another principal sees only their own choices
+PASS another principal starts with no choice
+PASS staff cannot record through the portal route
+PASS a principal cannot read staff decision routes
+PASS another tenant cannot read the principal's centre
+PASS another tenant does not see the topic
+PASS an auditor can read topics
+PASS preference events cannot be rewritten
+PASS preference events cannot be deleted
+PASS a topic cannot be edited
+PASS a retired topic cannot be revived
+PASS an unknown channel is refused by the table
+PASS row security hides one principal's events from another
+PASS a principal sees their own events
+PASS a principal cannot insert a choice for someone else
+Artifact: handoffs/codex/artifacts/A00-operations-preferences-1790912376695-d9ceb172-41de-43a1-8d09-3119bcac8923.json
+
+45 assertions, 0 failures.

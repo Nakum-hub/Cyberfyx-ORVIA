@@ -1,0 +1,29 @@
+[
+  {
+    "engine": "chromium",
+    "result": "PASS",
+    "assertions": 6,
+    "second_page_requests": 1,
+    "transport_reads": 4,
+    "reveal_control": "stays consumed after stale refresh and key dismissal",
+    "fixture": "26 synthetic template choices over two intercepted HTTP pages; intercepted reveal with all-zero fixture, no server write"
+  },
+  {
+    "engine": "webkit",
+    "result": "PASS",
+    "assertions": 6,
+    "second_page_requests": 1,
+    "transport_reads": 4,
+    "reveal_control": "stays consumed after stale refresh and key dismissal",
+    "fixture": "26 synthetic template choices over two intercepted HTTP pages; intercepted reveal with all-zero fixture, no server write"
+  },
+  {
+    "engine": "firefox",
+    "result": "PASS",
+    "assertions": 6,
+    "second_page_requests": 1,
+    "transport_reads": 4,
+    "reveal_control": "stays consumed after stale refresh and key dismissal",
+    "fixture": "26 synthetic template choices over two intercepted HTTP pages; intercepted reveal with all-zero fixture, no server write"
+  }
+]

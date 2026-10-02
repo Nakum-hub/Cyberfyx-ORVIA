@@ -1,0 +1,30 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+Authentication fixture idle window: 60s remaining; controls unchanged.
+Authentication fixture idle window: 30s remaining; controls unchanged.
+Authentication fixture idle window: 59s remaining; controls unchanged.
+Authentication fixture idle window: 29s remaining; controls unchanged.
+PASS every send while consent stood was admitted (the control)
+PASS in 20 of 20 cycles the first send after the withdrawal returned was refused: no window in which an old grant is used
+MEASURED processing boundary {"cycles":20,"decision_ms_p50":125,"decision_ms_p95":140,"decision_ms_max":141}
+PASS the post-withdrawal admission decision is measured (p50, p95, max ms) and each took under 5 seconds on this host
+PASS a re-grant does not silently restart marketing while the withdrawal's suppression work is unresolved
+Authentication fixture idle window: 47s remaining; controls unchanged.
+Authentication fixture idle window: 17s remaining; controls unchanged.
+PASS withdrawal 1: the target record is independently read back as suppressed
+PASS withdrawal 2: the target record is independently read back as suppressed
+PASS withdrawal 3: the target record is independently read back as suppressed
+PASS withdrawal 4: the target record is independently read back as suppressed
+PASS withdrawal 5: the target record is independently read back as suppressed
+MEASURED downstream effect {"withdrawals":5,"propagation_ms_p50":2139,"propagation_ms_max":2542,"runner_loop_seconds_when_not_woken":30,"basis":"Synthetic records adapter on loopback; one runner cycle started immediately after the withdrawal returned. A named production connector needs its own measurement."}
+PASS time from withdrawal to verified suppression is measured with its basis stated
+PASS the real supervised runner completed a pass before measuring its notification wake
+MEASURED supervised runner {"withdrawal_to_verified_suppression_ms":445}
+PASS the running runner suppressed the target well inside its 30-second loop: it was woken, not waiting
+Artifact: handoffs/codex/artifacts/A00-operations-withdrawal-timing-1790867845447-6f9dd4f4-39f9-4d1f-9b76-cab871f3a489.json
+
+12 assertions, 0 failures.

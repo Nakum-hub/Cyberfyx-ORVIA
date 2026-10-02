@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: processors and data sharing (quality s4 "Processor/data sharing").
 // Under test: an engagement ties a V1 processor to the activities, categories and
 // systems it touches; the sharing register answers "who received what" for a
@@ -37,7 +38,7 @@ await t.run(async () => {
   t.setPhase('rights scope');
   const subject = await t.principalSubject('alice', [{ system_id: system.id, target_reference: `pr_${randomUUID().slice(0, 10)}` }]);
   await ok(admin.call('/api/v1/admin/data-principal-relationships', { subject_id: subject.id, category_id: setup.category.id, effective_from: hoursFromNow(-24 * 30), effective_to: null, status: 'ACTIVE', source_system_id: null, source_reference: 'Newsletter sign-up', evidence_state: 'EVIDENCE_AVAILABLE', evidence_reference: 'signup:1' }, key()), S.schemas.Relationship);
-  const shared = await ok(admin.call(`/api/v1/admin/data-sharing-links?subject_id=${subject.id}&limit=100`), S.schemas.SharingLinkList);
+  const shared = await allPageList(p => admin.call(p), `/api/v1/admin/data-sharing-links?subject_id=${subject.id}`, value => S.schemas.SharingLinkList.parse(value));
   check('the sharing register answers who received this person\'s data', shared.items.some(x => x.id === share.id && x.engagement_id === engagement.id), true);
   const access = await t.executingRequest('ACCESS', principal, [{ system_id: system.id, action: 'DISCLOSE_COPY' }]);
   const accessRun = await ok(admin.call('/api/v1/admin/workflow-runs/rights', { rights_request_id: access.id, subject_id: subject.id, corrections: [] }, key()), S.schemas.WorkflowRun);

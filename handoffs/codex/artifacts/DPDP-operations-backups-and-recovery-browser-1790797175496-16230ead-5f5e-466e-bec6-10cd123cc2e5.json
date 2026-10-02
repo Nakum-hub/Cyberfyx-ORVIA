@@ -1,0 +1,99 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T19:39:35.498Z",
+  "suite": "backups-and-recovery-browser",
+  "assertions": [
+    {
+      "name": "the form records the treatment",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "the recorder is offered no Approve button for their own treatment",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "without sensitive access, who must be erased again is not shown",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the Approve button sends a POST and it succeeds",
+      "result": "PASS",
+      "expected": [
+        "POST",
+        200
+      ],
+      "actual": [
+        "POST",
+        200
+      ]
+    },
+    {
+      "name": "the stored treatment is current and approved by someone other than the recorder",
+      "result": "PASS",
+      "expected": [
+        1,
+        "CURRENT",
+        true
+      ],
+      "actual": [
+        1,
+        "CURRENT",
+        true
+      ]
+    },
+    {
+      "name": "the form records the restore",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "the sign-in page links to the recovery page",
+      "result": "PASS",
+      "expected": "/workspace/recover",
+      "actual": "/workspace/recover"
+    },
+    {
+      "name": "short and mismatched passwords are refused in the page without a request",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a wrong code for a login that is not the owner is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the refusal does not say whether the email belongs to the owner",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "no page errors on these screens",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no request left the installation origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 12,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

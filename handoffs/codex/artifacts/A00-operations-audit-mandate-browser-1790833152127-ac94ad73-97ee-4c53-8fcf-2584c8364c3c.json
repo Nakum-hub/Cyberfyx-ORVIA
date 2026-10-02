@@ -1,0 +1,99 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T05:39:12.128Z",
+  "suite": "audit-mandate-browser",
+  "assertions": [
+    {
+      "name": "leadership sees the practice overview from real records",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the client sees the audit address from its trust file",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a second owner approves the mandate in the browser",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker checks in over HTTP and the signed snapshot is accepted",
+      "result": "PASS",
+      "expected": [
+        true,
+        1
+      ],
+      "actual": [
+        true,
+        1
+      ]
+    },
+    {
+      "name": "the client sees what ORVIA sent and that it was accepted",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the lead sees the signed mandate and an intact chain",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the lead reads the evidence entries signed by the client installation",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the worker receives both requests; the document waits for a client approver",
+      "result": "PASS",
+      "expected": [
+        2,
+        1,
+        1
+      ],
+      "actual": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "the owner sees the document request waiting for them",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "unexpected failure in auditor requests",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: 'Client mandate and evidence' }) to be visible\u001b[22m\n"
+    }
+  ],
+  "passed": 9,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

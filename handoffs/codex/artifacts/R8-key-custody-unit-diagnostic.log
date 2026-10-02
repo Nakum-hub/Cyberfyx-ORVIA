@@ -1,0 +1,39 @@
+✔ a generated key is a production key, private only in the file, with a working signature (874.0064ms)
+✖ a development key is kept beside the new one; a production key is never overwritten (803.426ms)
+✖ key generation removes weak directory and explicit development-file grants (961.4632ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3337.5177
+
+✖ failing tests:
+
+test at tests\unit\vendor-audit-key.test.ts:34:1
+✖ a development key is kept beside the new one; a production key is never overwritten (803.426ms)
+  Error: Audit key custody permissions could not be established (System.Security.AccessControl.PrivilegeNotHeldException,Microsoft.PowerShell.Commands.Se ); no key is generated
+      at protectAuditKeyLocation (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\scripts\audit-key-custody.ts:34:11)
+      at generateProductionKey (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\scripts\vendor-audit-key.ts:37:3)
+      at TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\unit\vendor-audit-key.test.ts:38:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests\unit\vendor-audit-key.test.ts:44:1
+✖ key generation removes weak directory and explicit development-file grants (961.4632ms)
+  Error: Audit key custody permissions could not be established (System.Security.AccessControl.PrivilegeNotHeldException,Microsoft.PowerShell.Commands.Se ); no key is generated
+      at protectAuditKeyLocation (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\scripts\audit-key-custody.ts:34:11)
+      at generateProductionKey (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\scripts\vendor-audit-key.ts:37:3)
+      at TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\unit\vendor-audit-key.test.ts:51:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

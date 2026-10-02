@@ -196,7 +196,7 @@ function gapDocument(row: Record<string, unknown>) {
 }
 
 export async function gapList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT * FROM app.coverage_gaps WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT * FROM app.coverage_gaps WHERE ${predicate} AND ($4::uuid IS NULL OR (detected_at,id) < (SELECT detected_at,id FROM app.coverage_gaps WHERE ${predicate} AND id=$4)) ORDER BY detected_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(gapDocument), page);
 }
 

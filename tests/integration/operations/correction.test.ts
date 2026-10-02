@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: correction propagation (quality s4 "Correction propagation").
 // Under test: a corrected value is written first to the configured system of
 // record and then to copies, verified by comparing digests rather than values;
@@ -32,7 +33,7 @@ await t.run(async () => {
     check('a correction run must name the corrected values', (await codes(admin.call('/api/v1/admin/workflow-runs/rights', { rights_request_id: request.id, subject_id: subject.id, corrections: [] }, key()))).codes, ['correction_request_names_the_corrected_values']);
     const run = await ok(admin.call('/api/v1/admin/workflow-runs/rights', { rights_request_id: request.id, subject_id: subject.id, corrections: [{ field: 'email', data_category_id: contact.id, value: newValue }] }, key()), S.schemas.WorkflowRun);
     check('a correction is not destructive, so it needs no dry-run approval', [run.kind, run.status], ['CORRECTION', 'APPROVED']);
-    const actions = async () => (await ok(admin.call(`/api/v1/admin/workflow-runs/${run.id}/actions?limit=100`), S.schemas.DownstreamActionList)).items.sort((a, b) => a.ordinal - b.ordinal);
+    const actions = async () => (await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${run.id}/actions`, value => S.schemas.DownstreamActionList.parse(value))).items.sort((a, b) => a.ordinal - b.ordinal);
     const planned = await actions();
     check('the system of record is written before any copy', planned.slice(0, 2).map(a => a.system_id), [record.id, copy.id]);
     check('the corrected value is held only as a digest on the action', planned.slice(0, 2).every(a => a.payload_digest !== null), true);
@@ -53,7 +54,7 @@ await t.run(async () => {
     for (const system of [a, b]) await target.seed(s, system.id, [{ reference: ref, fields: { phone: '000' } }]);
     const conflicted = await t.executingRequest('CORRECTION', principal, [a, b].map(x => ({ system_id: x.id, action: 'CORRECT_RECORD' })));
     const blocked = await ok(admin.call('/api/v1/admin/workflow-runs/rights', { rights_request_id: conflicted.id, subject_id: subject.id, corrections: [{ field: 'phone', data_category_id: phone.id, value: '111' }] }, key()), S.schemas.WorkflowRun);
-    const blockedActions = (await ok(admin.call(`/api/v1/admin/workflow-runs/${blocked.id}/actions?limit=100`), S.schemas.DownstreamActionList)).items;
+    const blockedActions = (await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${blocked.id}/actions`, value => S.schemas.DownstreamActionList.parse(value))).items;
     check('two configured systems of record leave the source of truth unresolved, and nothing is written', blockedActions.map(x => [x.state, x.block_reason]), [['blocked', 'AUTHORITATIVE_SOURCE_UNRESOLVED'], ['blocked', 'AUTHORITATIVE_SOURCE_UNRESOLVED']]);
     check('the run records which category had no single system of record', (blocked.configuration.authoritative_source_unresolved as string[]), [phone.id]);
     await ok(admin.call(`/api/v1/admin/workflow-runs/${blocked.id}/execution`, { limit: 50 }, key()), S.schemas.WorkflowRun);

@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { safeArtifactPath } from './config.ts';
+import { AuthLoginFailure, authLoginMetadata } from '../../../backend/auth/src/errors.ts';
 export function writeEvidence(kind:string, data:Record<string,unknown>){
   if(!/^[a-z-]+$/.test(kind))throw new Error('Invalid evidence kind');
   mkdirSync('handoffs/codex/artifacts',{recursive:true});
@@ -29,6 +30,7 @@ const OPERATOR_GUIDANCE:Record<string,string>={
 };
 // Do not serialize SQL clients, connection settings or raw service errors.
 export function safeError(error:unknown){
+  if(error instanceof AuthLoginFailure)return {name:'AuthLoginFailure',code:'AUTH_LOGIN_FAILED',...authLoginMetadata(error)};
   const code=typeof error==='object'&&error!==null&&'code'in error?String(error.code):'UNCLASSIFIED';
   const resolved=/^[A-Za-z0-9_]{1,50}$/.test(code)?code:'UNCLASSIFIED';
   const guidance=OPERATOR_GUIDANCE[resolved];

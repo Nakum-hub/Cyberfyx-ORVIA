@@ -1,0 +1,15 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T17:46:19.837Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "assertions": [
+    "liveness 200 with exact body",
+    "landing page 200, nosniff, and labelled synthetic",
+    "business endpoint without a session refuses with 401 UNAUTHENTICATED rather than answering"
+  ],
+  "limitations": [
+    "HTTP bootstrap smoke only, with no profile environment; not UI browser acceptance and not an authenticated API test."
+  ]
+}

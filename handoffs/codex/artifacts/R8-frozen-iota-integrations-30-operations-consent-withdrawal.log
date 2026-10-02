@@ -1,0 +1,47 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a consent record starts unknown, not granted
+PASS an admin without the executor capability cannot record consent events
+PASS expiry is refused where no expiry policy is configured
+PASS the withdrawal is appended and creates exactly one propagation run
+PASS the run is pinned to the regulatory package and needs no approval to stop processing
+PASS a system with no connector binding is reported not supported, never skipped
+PASS a withdrawal suppresses; it never deletes by itself
+PASS a member cannot execute propagation
+PASS the healthy target is verified by independent read-back
+PASS the unavailable target failed and stays retryable
+PASS a target that claimed success without acting is caught by verification
+PASS a timeout is an unknown effect, resolved only by reading the target back
+PASS with a retry outstanding the run stays running
+PASS the target really changed only where the effect was applied
+PASS the retried target succeeds on its second attempt
+PASS failed and unsupported work keeps the run open, not completed
+PASS the open exceptions are stated in the run
+PASS re-running a settled run applies nothing twice
+PASS a verified action cannot be edited back to a pending state
+PASS an interrupted dispatch is resumed by replaying the target record, then verified
+PASS the target applied that operation exactly once
+PASS the evidence package carries the trigger, package, actions, verifications and final state
+PASS each verified action in the export carries its verification evidence
+PASS a member cannot export evidence
+PASS exporting evidence is itself audited
+PASS the failed action appears in Attention against its run
+PASS portal choices are mirrored with their receipts as evidence
+PASS a portal withdrawal enters the same propagation workflow
+PASS syncing again mirrors nothing twice
+PASS a withdrawal made before any package took effect is still propagated, exactly once
+PASS the event stays pinned to the package of its own time, which was none
+PASS its run is planned under the package in force now
+PASS a withdrawal without a propagation run is named in Attention, never silent
+PASS the runner creates the missing propagation run
+PASS the legacy withdrawal now has exactly one run, and a second cycle adds none
+PASS the repaired withdrawal is carried to the target and independently verified
+PASS a withdrawal superseded by a later grant is never propagated
+PASS once repaired, no unpropagated withdrawal remains in Attention
+Artifact: handoffs/codex/artifacts/A00-operations-consent-withdrawal-1790912761571-7d599eb2-4f8c-48d1-be82-eb7aa3101369.json
+
+38 assertions, 0 failures.

@@ -1,0 +1,7 @@
+node : $ tsc --noEmit
+At line:2 char:338
++ ... 'build')) { node $pnpm $check > "handoffs/codex/artifacts/R7V-$check. ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ tsc --noEmit:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

@@ -1,0 +1,4 @@
+{"at":"2026-10-01T17:05:31.892Z","observer_pid":13044,"result":"OBSERVER_READY","fixed_target_count":3}
+{"at":"2026-10-01T17:06:56.058Z","observer_pid":13044,"target_kind":"WORKER","environment_explicit":true,"has_vendor_private_key_environment":false,"vendor_private_key_environment_names":[],"result":"SAFE_BEFORE_LAUNCH"}
+{"at":"2026-10-01T17:06:56.069Z","observer_pid":13044,"target_kind":"AGENT","environment_explicit":true,"has_vendor_private_key_environment":false,"vendor_private_key_environment_names":[],"result":"SAFE_BEFORE_LAUNCH"}
+{"at":"2026-10-01T17:08:40.982Z","observer_pid":13044,"target_kind":"WORKER","environment_explicit":true,"has_vendor_private_key_environment":false,"vendor_private_key_environment_names":[],"result":"SAFE_BEFORE_LAUNCH"}
