@@ -1,0 +1,79 @@
+{
+  "recorded_at": "2026-10-02T09:59:45.829Z",
+  "command": [
+    "docker",
+    "stop",
+    "--time",
+    "20",
+    "orvia-qualification-20260930-postgres",
+    "orvia-qualification-20260930-loopback",
+    "orvia-codex-a00-temporal-1",
+    "orvia-codex-a00-postgres-1",
+    "orvia-round9-opa",
+    "orvia-round9-temporal-loopback"
+  ],
+  "exit_code": 0,
+  "before": [
+    {
+      "name": "orvia-qualification-20260930-postgres",
+      "running": true
+    },
+    {
+      "name": "orvia-qualification-20260930-loopback",
+      "running": true
+    },
+    {
+      "name": "orvia-codex-a00-temporal-1",
+      "running": true
+    },
+    {
+      "name": "orvia-codex-a00-postgres-1",
+      "running": true
+    },
+    {
+      "name": "orvia-round9-opa",
+      "running": true
+    },
+    {
+      "name": "orvia-round9-temporal-loopback",
+      "running": true
+    },
+    {
+      "name": "orvia-codex-a00-opa-1",
+      "running": true
+    }
+  ],
+  "after": [
+    {
+      "name": "orvia-qualification-20260930-postgres",
+      "running": false
+    },
+    {
+      "name": "orvia-qualification-20260930-loopback",
+      "running": false
+    },
+    {
+      "name": "orvia-codex-a00-temporal-1",
+      "running": false
+    },
+    {
+      "name": "orvia-codex-a00-postgres-1",
+      "running": false
+    },
+    {
+      "name": "orvia-round9-opa",
+      "running": false
+    },
+    {
+      "name": "orvia-round9-temporal-loopback",
+      "running": false
+    },
+    {
+      "name": "orvia-codex-a00-opa-1",
+      "running": true
+    }
+  ],
+  "volumes_deleted": false,
+  "original_opa_preserved": true,
+  "source": "fcce3e115066f2bceb6aaa70011e318743f6102a"
+}

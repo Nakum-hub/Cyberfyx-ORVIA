@@ -1,4 +1,6 @@
 import { randomUUID } from 'node:crypto';
+import type { QueryResultRow } from 'pg';
+import { pageChildren } from './page-children.ts';
 import * as R from '../../../../shared/contracts/src/registry.ts';
 import * as O from '../../../../shared/contracts/src/operations.ts';
 import { digest } from '../../../../shared/contracts/src/crypto.ts';
@@ -21,10 +23,10 @@ const versionView = (v: VersionRow) => R.RegistryNoticeVersion.parse({ id: v.id,
   purpose_version_ids: v.purpose_version_ids, data_category_ids: v.data_category_ids, channels: v.channels, template_reference: v.template_reference, v1_notice_version_id: v.v1_notice_version_id, translates_version_id: v.translates_version_id ?? null,
   status: v.status, effective_from: iso(v.effective_from), effective_to: iso(v.effective_to), published_at: iso(v.published_at), superseded_by: v.superseded_by, recorded_at: iso(v.recorded_at) });
 
-async function noticeView(c: Context, id: string) {
-  const row = (await c.tx.query(`SELECT * FROM app.registry_notices WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0];
+async function noticeView(c: Context, id: string, prepared?: { row: QueryResultRow; versions: VersionRow[] }) {
+  const row = prepared?.row ?? (await c.tx.query(`SELECT * FROM app.registry_notices WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0];
   if (!row) refuse(404, 'id', 'not_found');
-  const versions = (await c.tx.query(`SELECT * FROM app.registry_notice_versions WHERE ${predicate} AND notice_id=$4 ORDER BY locale,version LIMIT 100`, [...scope(c), id])).rows as VersionRow[];
+  const versions = prepared?.versions ?? (await c.tx.query(`SELECT * FROM app.registry_notice_versions WHERE ${predicate} AND notice_id=$4 ORDER BY locale,version LIMIT 100`, [...scope(c), id])).rows as VersionRow[];
   return R.RegistryNotice.parse({ id: row.id, name: row.name, audience_category_ids: row.audience_category_ids, versions: versions.map(versionView) });
 }
 
@@ -85,10 +87,11 @@ export async function publishNoticeVersion(c: Context, versionId: string, input:
 }
 
 export async function noticeList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_notices WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_notices WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
-  for (const row of paged.items) items.push(await noticeView(c, row.id));
+  const versions = await pageChildren(c, 'notice', paged.items.map(r => r.id)) as VersionRow[];
+  for (const row of paged.items) items.push(await noticeView(c, row.id, { row, versions: versions.filter(v => v.notice_id === row.id) }));
   return { items, next_cursor: paged.next_cursor };
 }
 

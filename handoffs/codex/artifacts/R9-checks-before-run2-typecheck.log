@@ -1,0 +1,6 @@
+$ tsc --noEmit
+backend/domain/src/registry/processing.ts(249,9): error TS7034: Variable 'items' implicitly has type 'any[]' in some locations where its type cannot be determined.
+backend/domain/src/registry/processing.ts(251,29): error TS7005: Variable 'items' implicitly has an 'any[]' type.
+backend/domain/src/registry/processors.ts(116,9): error TS7034: Variable 'items' implicitly has type 'any[]' in some locations where its type cannot be determined.
+backend/domain/src/registry/processors.ts(118,29): error TS7005: Variable 'items' implicitly has an 'any[]' type.
+[ELIFECYCLE] Command failed with exit code 2.

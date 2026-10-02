@@ -1,0 +1,36 @@
+PASS a licence naming AI_COPILOT is refused however it is signed
+PASS a licence naming VENDOR_REMOTE_ACCESS is refused however it is signed
+PASS a licence naming STAFF_DIRECTORY_SYNC is refused however it is signed
+PASS a licence naming PROACTIVE_DIAGNOSTICS is refused however it is signed
+PASS a licence from an untrusted signer is refused
+PASS the refusal names the untrusted signer
+PASS the refusal names an invalid signature when claims were altered after signing
+PASS a licence bound to another installation is refused
+PASS a licence that is not yet valid is refused
+PASS an expired licence is refused at import
+PASS a licence whose window ends before it starts is rejected by the schema
+PASS importing a licence needs its own authority, not merely read access
+PASS an imported licence records exactly what was bought
+PASS an active licence says expiry never withdraws reading or export
+PASS re-importing the same licence is a replay, not a renewal
+PASS the stored licence can be superseded but its terms cannot be edited
+PASS the database refuses to extend a licence validity window
+PASS a licence record is never deleted
+PASS every feature reports exactly five gates
+PASS every gate is named once per feature
+PASS a licensed, released, rolled-out feature the actor may use is usable
+PASS a feature the licence does not name is not usable
+PASS the blocking gate is identified rather than merely reporting a refusal
+PASS a feature held back by rollout is blocked on that gate specifically
+PASS an auditor holding the read capability passes the actor gate
+PASS the licence gate is the same for every actor
+PASS the report states plainly what no licence can enable
+PASS it says these are commitments, not withheld features
+PASS it names the model capabilities explicitly
+PASS it names vendor remote access explicitly
+PASS the report says a licence carries no commands or authority grants
+PASS the report says security and truthful outcomes are not licensed features
+PASS a member without the licence capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-licensing-integration-1790926464857-1efb4198-ce4e-4e4a-ae66-dd644f88ee05.json
+
+33 assertions, 0 failures.

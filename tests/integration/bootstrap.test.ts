@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { postgresContainer } from '../../shared/testing/src/postgres-container.ts';
 import { randomBytes,randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { connectDatabase,bootstrapProbes } from '../../database/customer/src/index.ts';
@@ -30,7 +31,7 @@ try{
   }finally{await first.connection.close();}
   assertions.push({id:'real-temporal-worker-execution',result:'PASS',actual:{workflow_id:`a00-probe-${id}`,run_id:runId}});
   // Only these two named disposable profile services; no volume deletion.
-  const restart=spawnSync('docker',['restart',`${profile.compose_project}-postgres-1`,`${profile.compose_project}-temporal-1`],{encoding:'utf8',windowsHide:true,timeout:60000});
+  const restart=spawnSync('docker',['restart',postgresContainer(profile),`${profile.compose_project}-temporal-1`],{encoding:'utf8',windowsHide:true,timeout:60000});
   assert.equal(restart.status,0,'Profile service restart must succeed');
   let persistence=false;
   for(let attempt=0;attempt<20&&!persistence;attempt++){

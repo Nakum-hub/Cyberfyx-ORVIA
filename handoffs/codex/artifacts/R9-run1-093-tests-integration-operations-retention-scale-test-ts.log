@@ -1,0 +1,22 @@
+Authentication fixture idle window: 49s remaining; controls unchanged.
+Authentication fixture idle window: 19s remaining; controls unchanged.
+PASS the estate imports completely
+PASS a rule with a sourced period is resolved
+PASS evaluation proceeds in bounded, checkpointed batches
+PASS the population separates into eligible, blocked and unresolved
+PASS each person has a persisted retention position
+PASS an unknown status or end date is unresolved with its reason, never assumed
+PASS the dry run waits for approval with its irreversible scope stated
+PASS an interrupted run records exactly the batch it completed
+PASS resuming finishes the run with verified and failed totals
+PASS records missing at the target keep the run open as partially failed
+PASS exactly the verified people were erased at the target
+PASS a held person was not erased
+PASS executing again applies nothing twice
+PASS verified erasures are recorded as erased, failures as failed
+PASS a later run picks up only what is still outstanding
+PASS timings are recorded for the scale fixture
+{"scale":{"subjects":2000,"import_seconds":84.258,"evaluation_seconds":21.131,"execution_seconds":29.092,"actions":380}}
+Artifact: handoffs/codex/artifacts/DPDP-operations-retention-scale-1790927918420-54926479-288d-4850-a46f-da02a91de9f4.json
+
+16 assertions, 0 failures.

@@ -1,0 +1,26 @@
+PASS a fresh installation has no code issued
+PASS setup cannot complete without a code
+PASS an issued code is in the expected form and setup is open
+PASS only the digest is stored
+PASS the application role cannot read the code table
+PASS wrong code 1 is refused and counted
+PASS wrong code 2 is refused and counted
+PASS wrong code 3 is refused and counted
+PASS wrong code 4 is refused and counted
+PASS four wrong attempts leave setup open
+PASS the fifth wrong attempt locks setup
+PASS even the right code is refused once locked
+PASS a newly issued code resets the lock
+PASS an expired code is refused
+PASS owner and administrator must have different addresses
+PASS the code is accepted in lower case with spaces
+PASS one owner and one administrator were created with their chosen password hashes
+PASS both logins belong to the one new organisation
+PASS the setup was recorded in the audit trail
+PASS setup is closed afterwards
+PASS the used code cannot run setup again
+PASS no new code can be issued once an owner exists
+PASS the scratch database was removed
+Artifact: handoffs/codex/artifacts/DPDP-first-run-setup-1790934937011-939b37a1-8f3d-4680-83c5-cd168f7133bf.json
+
+23 assertions, 0 failures.

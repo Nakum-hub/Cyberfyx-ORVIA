@@ -1,4 +1,6 @@
 import { randomUUID } from 'node:crypto';
+import type { QueryResultRow } from 'pg';
+import { pageChildren } from './page-children.ts';
 import * as R from '../../../../shared/contracts/src/registry.ts';
 import { digest } from '../../../../shared/contracts/src/crypto.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
@@ -81,15 +83,16 @@ export async function recordDisposition(c: Context, id: string, input: unknown) 
   return engagementView(c, id);
 }
 
-export async function engagementView(c: Context, id: string, at: Date | null = null) {
+type EngagementPageRecord = { row: QueryResultRow; links: QueryResultRow[]; activities: string[]; run: QueryResultRow | undefined };
+export async function engagementView(c: Context, id: string, at: Date | null = null, prepared?: EngagementPageRecord) {
   const s = scope(c);
-  const row = (await c.tx.query(`SELECT * FROM app.processor_engagements WHERE ${predicate} AND id=$4`, [...s, id])).rows[0];
+  const row = prepared?.row ?? (await c.tx.query(`SELECT * FROM app.processor_engagements WHERE ${predicate} AND id=$4`, [...s, id])).rows[0];
   if (!row) refuse(404, 'id', 'not_found');
-  const links = (await c.tx.query(`SELECT * FROM app.processor_engagement_links WHERE ${predicate} AND engagement_id=$4 ORDER BY valid_from LIMIT 50`, [...s, id])).rows;
+  const links = prepared?.links ?? (await c.tx.query(`SELECT * FROM app.processor_engagement_links WHERE ${predicate} AND engagement_id=$4 ORDER BY valid_from LIMIT 50`, [...s, id])).rows;
   const moment = at ?? new Date();
-  const activities = (await c.tx.query(`SELECT DISTINCT activity_id FROM app.registry_activity_links WHERE ${predicate} AND engagement_id=$4 AND valid_from<=$5 AND (valid_to IS NULL OR valid_to>$5) LIMIT 100`,
+  const activities = prepared?.activities ?? (await c.tx.query(`SELECT DISTINCT activity_id FROM app.registry_activity_links WHERE ${predicate} AND engagement_id=$4 AND valid_from<=$5 AND (valid_to IS NULL OR valid_to>$5) LIMIT 100`,
     [...s, id, at ? moment : new Date(8.64e15)])).rows.map(r => r.activity_id);
-  const run = (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND engagement_id=$4 ORDER BY created_at DESC LIMIT 1`, [...s, id])).rows[0];
+  const run = prepared ? prepared.run : (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND engagement_id=$4 ORDER BY created_at DESC LIMIT 1`, [...s, id])).rows[0];
   return R.Engagement.parse({ id: row.id, processor_id: row.processor_id, service_description: row.service_description, subprocessor_of: row.subprocessor_of,
     effective_from: iso(row.effective_from), effective_to: iso(row.effective_to), status: row.status, contract_evidence_reference: row.contract_evidence_reference,
     safeguard_evidence_reference: row.safeguard_evidence_reference, disposition_state: row.disposition_state, terminated_at: iso(row.terminated_at), termination_reason: row.termination_reason,
@@ -101,7 +104,7 @@ export async function engagementView(c: Context, id: string, at: Date | null = n
 export async function engagementList(c: Context, page: Page, query: unknown) {
   const q = (query ?? {}) as { activity_id?: string; as_of?: string };
   const at = q.as_of ? new Date(q.as_of) : null;
-  const rows = (await c.tx.query(`SELECT e.id FROM app.processor_engagements e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3
+  const rows = (await c.tx.query(`SELECT e.* FROM app.processor_engagements e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3
     AND ($4::timestamptz IS NULL OR (e.effective_from<=$4 AND (e.effective_to IS NULL OR e.effective_to>$4)))
     AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5
       AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4)))))
@@ -110,8 +113,20 @@ export async function engagementList(c: Context, page: Page, query: unknown) {
     AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5
       AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4))))) AND e.id=$6)) ORDER BY e.recorded_at DESC,e.id DESC LIMIT $7`, [...scope(c), at, q.activity_id ?? null, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
-  const items = [];
-  for (const row of paged.items) items.push(await engagementView(c, row.id, at));
+  const items: Awaited<ReturnType<typeof engagementView>>[] = [];
+  const ids = paged.items.map(r => r.id);
+  if (!ids.length) return { items, next_cursor: paged.next_cursor };
+  const links = await pageChildren(c, 'engagementLinks', ids);
+  const runs = await pageChildren(c, 'engagementRuns', ids);
+  const activities = (await c.tx.query(`SELECT engagement_id,activity_id FROM (
+    SELECT engagement_id,activity_id,row_number() OVER (PARTITION BY engagement_id ORDER BY activity_id) AS page_child_rank FROM (
+      SELECT DISTINCT engagement_id,activity_id FROM app.registry_activity_links WHERE ${predicate}
+        AND engagement_id=ANY($4::uuid[]) AND valid_from<=$5 AND (valid_to IS NULL OR valid_to>$5)
+    ) distinct_links
+  ) ranked WHERE page_child_rank<=100 ORDER BY engagement_id,page_child_rank`, [...scope(c), ids, at ?? new Date(8.64e15)])).rows;
+  for (const row of paged.items) items.push(await engagementView(c, row.id, at, { row,
+    links: links.filter(l => l.engagement_id === row.id), activities: activities.filter(a => a.engagement_id === row.id).map(a => a.activity_id as string),
+    run: runs.find(r => r.engagement_id === row.id) }));
   return { items, next_cursor: paged.next_cursor };
 }
 

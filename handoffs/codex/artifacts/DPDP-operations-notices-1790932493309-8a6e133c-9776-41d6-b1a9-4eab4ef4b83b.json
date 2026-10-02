@@ -1,0 +1,308 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T09:14:53.309Z",
+  "suite": "notices",
+  "assertions": [
+    {
+      "name": "a new version is a draft until published",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        null
+      ],
+      "actual": [
+        "DRAFT",
+        null
+      ]
+    },
+    {
+      "name": "a draft was never presented, so delivery evidence for it is refused",
+      "result": "PASS",
+      "expected": [
+        "draft_was_never_presented"
+      ],
+      "actual": [
+        "draft_was_never_presented"
+      ]
+    },
+    {
+      "name": "presentation of v1 is recorded with its source",
+      "result": "PASS",
+      "expected": [
+        "9464c37f-c7e5-493f-b3cb-022c46ae4956",
+        "Mail log entry 44"
+      ],
+      "actual": [
+        "9464c37f-c7e5-493f-b3cb-022c46ae4956",
+        "Mail log entry 44"
+      ]
+    },
+    {
+      "name": "a successor cannot take effect before the version it supersedes",
+      "result": "PASS",
+      "expected": [
+        "must_follow_the_version_it_supersedes"
+      ],
+      "actual": [
+        "must_follow_the_version_it_supersedes"
+      ]
+    },
+    {
+      "name": "batched notice reads preserve both published and superseded version history",
+      "result": "PASS",
+      "expected": [
+        {
+          "id": "733fc087-9385-4a7b-86ad-4ddc9e277ba1",
+          "name": "Service notice 257a650d",
+          "audience_category_ids": [
+            "f097c312-ec0c-4c6f-a230-e582990b6cf8"
+          ],
+          "versions": [
+            {
+              "id": "9464c37f-c7e5-493f-b3cb-022c46ae4956",
+              "notice_id": "733fc087-9385-4a7b-86ad-4ddc9e277ba1",
+              "version": 1,
+              "locale": "en",
+              "title": "Service notice v1",
+              "content": "First synthetic notice text.",
+              "content_digest": "0e0b01bc54290289ffed94a2d8bb0a3effdad8717e7b3c58288d413eef604985",
+              "purpose_version_ids": [
+                "b28abafc-b504-42b6-a858-48316afc9f33"
+              ],
+              "data_category_ids": [
+                "229e2e5f-7881-46a3-b760-d374d4ba774f"
+              ],
+              "channels": {
+                "withdrawal": "Withdraw in the synthetic privacy portal.",
+                "rights": "Exercise rights in the synthetic privacy portal.",
+                "grievance": "Raise a grievance with the synthetic privacy desk.",
+                "board_complaint": "Complain to the Data Protection Board through its published channel."
+              },
+              "template_reference": null,
+              "v1_notice_version_id": null,
+              "translates_version_id": null,
+              "status": "SUPERSEDED",
+              "effective_from": "2026-09-22T09:14:52.282Z",
+              "effective_to": "2026-10-01T09:14:52.643Z",
+              "published_at": "2026-10-02T09:14:52.377Z",
+              "superseded_by": "60fad369-7da3-4813-807e-38a1fbfd1ae5",
+              "recorded_at": "2026-10-02T09:14:52.142Z"
+            },
+            {
+              "id": "60fad369-7da3-4813-807e-38a1fbfd1ae5",
+              "notice_id": "733fc087-9385-4a7b-86ad-4ddc9e277ba1",
+              "version": 2,
+              "locale": "en",
+              "title": "Service notice v2",
+              "content": "Second synthetic notice text with a changed purpose description.",
+              "content_digest": "d3a342351e62af2bf6d5559dd9cd191c4644cd67cafeea8a08885b1bad440d7d",
+              "purpose_version_ids": [
+                "b28abafc-b504-42b6-a858-48316afc9f33"
+              ],
+              "data_category_ids": [
+                "229e2e5f-7881-46a3-b760-d374d4ba774f"
+              ],
+              "channels": {
+                "withdrawal": "Withdraw in the synthetic privacy portal.",
+                "rights": "Exercise rights in the synthetic privacy portal.",
+                "grievance": "Raise a grievance with the synthetic privacy desk.",
+                "board_complaint": "Complain to the Data Protection Board through its published channel."
+              },
+              "template_reference": null,
+              "v1_notice_version_id": null,
+              "translates_version_id": null,
+              "status": "PUBLISHED",
+              "effective_from": "2026-10-01T09:14:52.643Z",
+              "effective_to": null,
+              "published_at": "2026-10-02T09:14:52.709Z",
+              "superseded_by": null,
+              "recorded_at": "2026-10-02T09:14:52.560Z"
+            }
+          ]
+        }
+      ],
+      "actual": [
+        {
+          "id": "733fc087-9385-4a7b-86ad-4ddc9e277ba1",
+          "name": "Service notice 257a650d",
+          "audience_category_ids": [
+            "f097c312-ec0c-4c6f-a230-e582990b6cf8"
+          ],
+          "versions": [
+            {
+              "id": "9464c37f-c7e5-493f-b3cb-022c46ae4956",
+              "notice_id": "733fc087-9385-4a7b-86ad-4ddc9e277ba1",
+              "version": 1,
+              "locale": "en",
+              "title": "Service notice v1",
+              "content": "First synthetic notice text.",
+              "content_digest": "0e0b01bc54290289ffed94a2d8bb0a3effdad8717e7b3c58288d413eef604985",
+              "purpose_version_ids": [
+                "b28abafc-b504-42b6-a858-48316afc9f33"
+              ],
+              "data_category_ids": [
+                "229e2e5f-7881-46a3-b760-d374d4ba774f"
+              ],
+              "channels": {
+                "withdrawal": "Withdraw in the synthetic privacy portal.",
+                "rights": "Exercise rights in the synthetic privacy portal.",
+                "grievance": "Raise a grievance with the synthetic privacy desk.",
+                "board_complaint": "Complain to the Data Protection Board through its published channel."
+              },
+              "template_reference": null,
+              "v1_notice_version_id": null,
+              "translates_version_id": null,
+              "status": "SUPERSEDED",
+              "effective_from": "2026-09-22T09:14:52.282Z",
+              "effective_to": "2026-10-01T09:14:52.643Z",
+              "published_at": "2026-10-02T09:14:52.377Z",
+              "superseded_by": "60fad369-7da3-4813-807e-38a1fbfd1ae5",
+              "recorded_at": "2026-10-02T09:14:52.142Z"
+            },
+            {
+              "id": "60fad369-7da3-4813-807e-38a1fbfd1ae5",
+              "notice_id": "733fc087-9385-4a7b-86ad-4ddc9e277ba1",
+              "version": 2,
+              "locale": "en",
+              "title": "Service notice v2",
+              "content": "Second synthetic notice text with a changed purpose description.",
+              "content_digest": "d3a342351e62af2bf6d5559dd9cd191c4644cd67cafeea8a08885b1bad440d7d",
+              "purpose_version_ids": [
+                "b28abafc-b504-42b6-a858-48316afc9f33"
+              ],
+              "data_category_ids": [
+                "229e2e5f-7881-46a3-b760-d374d4ba774f"
+              ],
+              "channels": {
+                "withdrawal": "Withdraw in the synthetic privacy portal.",
+                "rights": "Exercise rights in the synthetic privacy portal.",
+                "grievance": "Raise a grievance with the synthetic privacy desk.",
+                "board_complaint": "Complain to the Data Protection Board through its published channel."
+              },
+              "template_reference": null,
+              "v1_notice_version_id": null,
+              "translates_version_id": null,
+              "status": "PUBLISHED",
+              "effective_from": "2026-10-01T09:14:52.643Z",
+              "effective_to": null,
+              "published_at": "2026-10-02T09:14:52.709Z",
+              "superseded_by": null,
+              "recorded_at": "2026-10-02T09:14:52.560Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publishing v2 supersedes v1 and closes its period at the same instant",
+      "result": "PASS",
+      "expected": [
+        "SUPERSEDED",
+        "60fad369-7da3-4813-807e-38a1fbfd1ae5",
+        "2026-10-01T09:14:52.643Z",
+        "PUBLISHED",
+        "2026-10-01T09:14:52.643Z"
+      ],
+      "actual": [
+        "SUPERSEDED",
+        "60fad369-7da3-4813-807e-38a1fbfd1ae5",
+        "2026-10-01T09:14:52.643Z",
+        "PUBLISHED",
+        "2026-10-01T09:14:52.643Z"
+      ]
+    },
+    {
+      "name": "the moment of the recorded presentation resolves to v1",
+      "result": "PASS",
+      "expected": "9464c37f-c7e5-493f-b3cb-022c46ae4956",
+      "actual": "9464c37f-c7e5-493f-b3cb-022c46ae4956"
+    },
+    {
+      "name": "now resolves to v2",
+      "result": "PASS",
+      "expected": "60fad369-7da3-4813-807e-38a1fbfd1ae5",
+      "actual": "60fad369-7da3-4813-807e-38a1fbfd1ae5"
+    },
+    {
+      "name": "before the first version there was no notice, and that is said",
+      "result": "PASS",
+      "expected": [
+        null,
+        true
+      ],
+      "actual": [
+        null,
+        true
+      ]
+    },
+    {
+      "name": "another locale with no version resolves to none rather than borrowing English",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "a presentation of v2 dated before v2 took effect is refused",
+      "result": "PASS",
+      "expected": [
+        "version_not_in_effect_at_that_time"
+      ],
+      "actual": [
+        "version_not_in_effect_at_that_time"
+      ]
+    },
+    {
+      "name": "published notice content cannot be rewritten in place",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "delivery evidence is append-only",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "the Privacy Centre shows the current version and not the superseded one",
+      "result": "PASS",
+      "expected": [
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "the Privacy Centre notice carries withdrawal, rights, grievance and Board channels",
+      "result": "PASS",
+      "expected": {
+        "withdrawal": "Withdraw in the synthetic privacy portal.",
+        "rights": "Exercise rights in the synthetic privacy portal.",
+        "grievance": "Raise a grievance with the synthetic privacy desk.",
+        "board_complaint": "Complain to the Data Protection Board through its published channel."
+      },
+      "actual": {
+        "withdrawal": "Withdraw in the synthetic privacy portal.",
+        "rights": "Exercise rights in the synthetic privacy portal.",
+        "grievance": "Raise a grievance with the synthetic privacy desk.",
+        "board_complaint": "Complain to the Data Protection Board through its published channel."
+      }
+    },
+    {
+      "name": "a Data Principal cannot reach the staff notice registry",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "passed": 16,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "39b750e1-729e-4e10-b7c7-bc7e92964f37"
+}

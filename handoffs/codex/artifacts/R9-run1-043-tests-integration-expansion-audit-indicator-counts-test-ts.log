@@ -1,0 +1,22 @@
+PASS legitimate uses
+PASS processor contracts
+PASS accuracy (correction runs)
+PASS erasure when purpose served
+PASS Third Schedule retention
+PASS security safeguards
+PASS contact publication: the latest profile has no contact
+PASS contact publication: the latest profile has a contact (second scope)
+PASS rights means
+PASS right of access
+PASS correction and erasure
+PASS nomination
+PASS children: verifiable consent
+PASS children: no tracking
+PASS SDF: DPO
+PASS SDF: independent auditor (none recorded)
+PASS SDF: algorithmic diligence
+PASS SDF: transfer restriction
+PASS cross-border
+PASS another scope: no safeguards but its own
+PASS another scope: no rights requests but its own
+audit-indicator-counts: 21/21 passed

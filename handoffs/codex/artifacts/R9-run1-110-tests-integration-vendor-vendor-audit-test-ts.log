@@ -1,0 +1,76 @@
+PASS schema: every vendor table forces row-level security
+PASS schema: the migration runner refuses a vendor table without forced row-level security
+PASS setup: no code issued
+PASS setup: wrong code refused and counted
+PASS setup: completes and creates super admin and admin
+PASS setup: closed afterwards
+PASS vendor API refuses a session without MFA
+PASS super admin with MFA reads the team
+PASS unauthenticated vendor API is 401
+PASS admin cannot create another vendor admin
+PASS admin creates audit members
+PASS auditor cannot manage the team
+PASS auditor cannot read the team
+PASS typed DELETE required
+PASS delete login is permanent
+PASS admin cannot delete the super admin
+PASS organisation created
+PASS client vendor-account created
+PASS engagement refuses an unknown requirement
+PASS engagement created with a one-time code
+PASS only the code digest is stored
+PASS lead cannot be the reviewer
+PASS reviewer role must fit
+PASS independence: auditor (not lead) cannot declare
+PASS independence: certification wording refused
+PASS independence declared by lead
+PASS practice: engagement accepted and work programme approved
+PASS vendor staff cannot upload as a client
+PASS client account cannot open the vendor area
+PASS tampered manifest refused
+PASS one changed content byte refused
+PASS expired package refused
+PASS unknown engagement code refused
+PASS another organisation's engagement code refused
+PASS package for a different engagement refused
+PASS clean package accepted
+PASS same package twice refused
+PASS personal data without processing agreement is quarantined
+PASS evidence encrypted at rest
+PASS malware screen refuses the EICAR test file
+PASS admin (not on team) cannot open the inbox
+PASS inbox lists received packages and refusals
+PASS decrypted content matches its hash
+PASS quarantined content cannot be opened
+PASS processing agreement releases quarantine
+PASS access log records views and downloads
+PASS item review recorded
+PASS MEETS refused without reviewed effective work
+PASS MEETS recorded once reviewed effective work supports it
+PASS checklist shows expected vs received and results
+PASS finding raised
+PASS finding must cite provisions of its requirement
+PASS findings file verifies with the trusted audit key
+PASS altered findings file fails verification
+PASS only the lead drafts
+PASS report wording guard
+PASS lead drafts report
+PASS sign before approval refused
+PASS lead cannot approve own report
+PASS auditor cannot approve
+PASS engagement reviewer approves
+PASS signed report verifies and binds its PDF hash
+PASS signed report is immutable
+PASS signed state cannot be reverted
+PASS upload into a closed engagement refused
+PASS nothing purged before the retention period
+PASS retention purge destroys evidence, keeps reports and findings, and is recorded
+PASS installation kind cannot be changed
+PASS configured kind is VENDOR_SERVICE
+PASS staff login and workspace API are 404 on the vendor installation
+PASS orvia_vendor_app cannot read identity tables directly
+PASS every vendor table forces row-level security
+PASS orvia_vendor_app cannot bypass RLS on packages
+PASS upload rate limit applies
+
+vendor-audit: 74/74 passed

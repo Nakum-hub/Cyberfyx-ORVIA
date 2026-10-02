@@ -1,0 +1,23 @@
+Authentication fixture idle window: 51s remaining; controls unchanged.
+Authentication fixture idle window: 21s remaining; controls unchanged.
+PASS a resent chunk with different content for a received ordinal is refused
+PASS an auditor cannot append to an import
+PASS a first batch stops at its limit and checkpoints its cursor
+PASS the job resumes from the checkpoint and finishes with isolated errors
+PASS each failed row names its own error
+PASS replaying failed rows re-attempts only them, and unchanged bad rows fail again
+PASS a legacy consent flag without a timestamp is stored with no time and evidence missing
+PASS notice delivery is recorded only for rows whose source says it happened
+PASS an account that exists is not given a notice presentation it has no record of
+PASS every imported fact carries its source, key, job and mapping version
+PASS an unknown relationship stays unknown, with no invented start date
+PASS raw source identifiers are never stored, only their keyed digest
+PASS importing the same estate again duplicates nobody
+PASS one person carries two relationship contexts under one reference
+PASS the patient context sees only patient processing
+PASS the employee context sees only employment processing
+PASS a merge is an explicit act that can be reversed
+PASS another tenant cannot read this person
+Artifact: handoffs/codex/artifacts/DPDP-operations-estate-import-1790927392737-e623dffa-a714-445d-a765-b2bfbf5692ff.json
+
+18 assertions, 0 failures.

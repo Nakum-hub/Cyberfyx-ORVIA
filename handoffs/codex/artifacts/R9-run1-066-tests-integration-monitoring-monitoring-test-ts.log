@@ -1,0 +1,35 @@
+Authentication fixture idle window: 19s remaining; controls unchanged.
+PASS three readiness kinds are reported, each exactly once
+PASS the report refuses to reduce itself to one status
+PASS liveness is established and says what it does not cover
+PASS dependency readiness is established by having done real work, not by a probe
+PASS business readiness is established once a policy is published and a system can restrict
+PASS the scenario recorded at least one system able to restrict
+PASS liveness and dependency readiness are unchanged when the product cannot act
+PASS business readiness alone reports that no decision could be carried out
+PASS and it names what is blocking rather than merely refusing
+PASS there is still no combined status to mislead a reader
+PASS the verdict returns once the installation can act again
+PASS all seven signals are reported, each exactly once
+PASS every signal says what it counted
+PASS the signal this build cannot produce says so rather than reporting zero
+PASS and it names why, in terms of the product rather than a transient fault
+PASS backup status reports the declared record, and its absence is never a zero
+PASS whichever branch applies, it says what it is and is not evidence of
+PASS the measured signals carry a unit and a value
+PASS the database size is a real figure, not a placeholder
+PASS the storage figure says it is not a per-tenant number
+PASS the queue depth is read from the outbox rather than reported as a constant
+PASS the report is evaluated at read time, not stored
+PASS the readiness report does not contain a data principal
+PASS the readiness report does not contain a staff member
+PASS the readiness report does not contain the tenant
+PASS the readiness report does not contain a purpose
+PASS the readiness report does not contain a system
+PASS and it carries no free-text operational field the schema did not declare
+PASS an auditor holding health.read may read operational readiness
+PASS a member without the capability is refused
+PASS the readiness route is a read and accepts no body
+Artifact: handoffs/codex/artifacts/DPDP-monitoring-integration-1790926530599-8f57562f-ffb2-4b04-b64f-8161ca7a3a68.json
+
+31 assertions, 0 failures.

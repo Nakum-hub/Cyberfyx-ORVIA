@@ -19,6 +19,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { connectDatabase } from '../database/customer/src/index.ts';
 import { loadProfile } from '../shared/testing/src/config.ts';
+import { postgresContainer } from '../shared/testing/src/postgres-container.ts';
 import { writeEvidence } from '../shared/testing/src/evidence.ts';
 
 const TABLES = ['consent_records', 'consent_record_events', 'workflow_runs', 'downstream_actions', 'registry_activities', 'rights_requests', 'audit_events', 'retention_rules', 'grc_issues', 'cmp_consents'];
@@ -46,7 +47,7 @@ function inContainer(container: string, password: string, args: string[], input?
 
 export async function runDrill(profileName?: string) {
   const profile = loadProfile(profileName);
-  const container = `${profile.compose_project}-postgres-1`;
+  const container = postgresContainer(profile);
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   const scratch = `orvia_restore_drill_${randomUUID().replace(/-/g, '').slice(0, 12)}`;
   const directory = resolve(profile.directory, 'backups'); mkdirSync(directory, { recursive: true, mode: 0o700 });

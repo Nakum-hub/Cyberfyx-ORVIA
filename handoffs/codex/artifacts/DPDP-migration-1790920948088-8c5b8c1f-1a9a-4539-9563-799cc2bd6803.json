@@ -1,0 +1,15 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T06:02:28.090Z",
+  "profile": "codex-a00",
+  "migrations": [
+    "0088_canary_marketing_hold",
+    "0089_real_decoy_withheld",
+    "0090_restore_ledger_coverage",
+    "0091_ledger_upgrade_boundary"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner",
+  "run_id": "009430f1-ce3d-4d11-8998-5846674d2e42"
+}

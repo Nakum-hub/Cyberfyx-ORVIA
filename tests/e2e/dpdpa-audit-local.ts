@@ -220,7 +220,12 @@ await t.run(async () => {
     await lead.getByRole('form', { name: 'Record methodology' }).getByLabel(label('Methodology version label')).fill(`RM-${suffix}`);
     await lead.getByRole('form', { name: 'Record methodology' }).getByRole('button', { name: 'Record methodology' }).click(); await done(lead, 'Methodology recorded.');
     await rev.goto('/vendor/practice');
-    await rev.getByRole('table', { name: 'Criteria versions' }).getByRole('row').filter({ hasText: `DPDP-FIXTURE-${suffix}` }).getByRole('button', { name: 'Approve' }).click(); await done(rev, 'Criteria approved.');
+    await rev.getByRole('table', { name: 'Criteria versions' }).getByRole('row').filter({ hasText: `DPDP-FIXTURE-${suffix}` }).getByRole('button', { name: 'Approve' }).click();
+    const criteriaReview = rev.getByRole('form', { name: 'Review criteria evidence' });
+    check('fixture criteria still require an explicit evidence review', await criteriaReview.getByRole('button', { name: 'Approve criteria' }).isDisabled(), true);
+    await criteriaReview.getByLabel('Review reference').fill(`Synthetic review RV-${suffix}: fixture evidence and open items reviewed.`);
+    await criteriaReview.getByLabel('I have reviewed the evidence and the open verification items listed above').check();
+    await criteriaReview.getByRole('button', { name: 'Approve criteria' }).click(); await done(rev, 'Criteria approved.');
     await rev.getByRole('table', { name: 'Methodology versions' }).getByRole('row').filter({ hasText: `RM-${suffix}` }).getByRole('button', { name: 'Approve' }).click(); await done(rev, 'Methodology approved.');
     check('the practice page shows real use refused and the development key marked', [await rev.getByText('Refused until every gate below is recorded').isVisible(), await rev.getByText(/DEVELOPMENT key/).isVisible()], [true, true]);
     await rev.screenshot({ path: resolve(shots, 'practice-settings.png'), fullPage: true });

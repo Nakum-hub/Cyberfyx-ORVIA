@@ -1,0 +1,19 @@
+Authentication fixture idle window: 60s remaining; controls unchanged.
+Authentication fixture idle window: 30s remaining; controls unchanged.
+PASS Delete is disabled before anything is typed
+PASS Delete stays disabled for "delete"
+PASS Delete stays disabled for "Delete"
+PASS Delete stays disabled for "DELETE "
+PASS Delete stays disabled for "DELET"
+PASS Cancel closes the pop-up and deletes nothing
+PASS Delete is enabled only for DELETE
+PASS the request carried the confirmation and succeeded
+PASS the deleted login has no Delete or Reactivate button
+PASS self-deletion also stays disabled for lower case
+PASS after self-deletion the session is gone
+PASS the owner sees no Delete my login button
+PASS no request left the local origin
+PASS no page or console error occurred
+Artifact: handoffs/codex/artifacts/DPDP-operations-delete-login-browser-1790921599478-7bb99f3e-361d-4cd3-8121-2c857d5ae42d.json
+
+14 assertions, 0 failures.

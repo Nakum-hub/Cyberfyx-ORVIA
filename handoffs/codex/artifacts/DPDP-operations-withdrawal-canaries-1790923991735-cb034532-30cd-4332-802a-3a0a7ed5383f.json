@@ -1,0 +1,230 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T06:53:11.735Z",
+  "suite": "withdrawal-canaries",
+  "assertions": [
+    {
+      "name": "an administrator without sensitive access cannot see canaries",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot see canaries",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a canary is registered pending",
+      "result": "PASS",
+      "expected": [
+        "PENDING",
+        "decoy.33acef8c@aster.example",
+        0
+      ],
+      "actual": [
+        "PENDING",
+        "decoy.33acef8c@aster.example",
+        0
+      ]
+    },
+    {
+      "name": "the registrant cannot activate it",
+      "result": "PASS",
+      "expected": [
+        "activator_must_differ_from_creator"
+      ],
+      "actual": [
+        "activator_must_differ_from_creator"
+      ]
+    },
+    {
+      "name": "the same decoy cannot be registered twice",
+      "result": "PASS",
+      "expected": [
+        "already_a_canary"
+      ],
+      "actual": [
+        "already_a_canary"
+      ]
+    },
+    {
+      "name": "a second person activates it",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        true
+      ],
+      "actual": [
+        "ACTIVE",
+        true
+      ]
+    },
+    {
+      "name": "a decoy holding a granted consent cannot be activated",
+      "result": "PASS",
+      "expected": [
+        "a_canary_must_hold_no_granted_consent"
+      ],
+      "actual": [
+        "a_canary_must_hold_no_granted_consent"
+      ]
+    },
+    {
+      "name": "the send is blocked and the sender is not told it hit a canary",
+      "result": "PASS",
+      "expected": [
+        200,
+        "BLOCK",
+        false
+      ],
+      "actual": [
+        200,
+        "BLOCK",
+        false
+      ]
+    },
+    {
+      "name": "a SEND_ADMISSION hit names the sending machine and system",
+      "result": "PASS",
+      "expected": [
+        "MACHINE",
+        "cf9dfb97-5a31-4854-9065-55f11aaa569f",
+        "5c8fc255-40a8-4097-9aee-bb0012b48998",
+        true
+      ],
+      "actual": [
+        "MACHINE",
+        "cf9dfb97-5a31-4854-9065-55f11aaa569f",
+        "5c8fc255-40a8-4097-9aee-bb0012b48998",
+        true
+      ]
+    },
+    {
+      "name": "Operations attention shows the hit to an administrator who cannot see canaries",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the message is not refused, so its author cannot probe for canaries",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "an OUTBOUND_MESSAGE hit is recorded, matching the address case-insensitively",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "recording consent for the decoy leaves a CONSENT_RECORDED hit naming the operator",
+      "result": "PASS",
+      "expected": [
+        "STAFF",
+        "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        true
+      ],
+      "actual": [
+        "STAFF",
+        "40e0c523-7a7b-4bdc-8fa7-0e5292393733",
+        true
+      ]
+    },
+    {
+      "name": "an administrator cannot record a receipt",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "staff record the receipt with its evidence",
+      "result": "PASS",
+      "expected": [
+        "REPORTED_RECEIPT",
+        "Mailbox export MX-12 (synthetic)"
+      ],
+      "actual": [
+        "REPORTED_RECEIPT",
+        "Mailbox export MX-12 (synthetic)"
+      ]
+    },
+    {
+      "name": "attention counts every unreviewed hit",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "the canary list shows four open hits",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "a hit is reviewed with who and what was found",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a hit is reviewed once",
+      "result": "PASS",
+      "expected": [
+        "already_reviewed"
+      ],
+      "actual": [
+        "already_reviewed"
+      ]
+    },
+    {
+      "name": "attention drops to the unreviewed hits",
+      "result": "PASS",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "a hit cannot be edited",
+      "result": "PASS",
+      "expected": "canary_hit_is_reviewed_once_and_never_edited",
+      "actual": "canary_hit_is_reviewed_once_and_never_edited"
+    },
+    {
+      "name": "a hit cannot be deleted",
+      "result": "PASS",
+      "expected": "canary_records_are_retained",
+      "actual": "canary_records_are_retained"
+    },
+    {
+      "name": "a retired canary traps nothing",
+      "result": "PASS",
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "name": "another tenant sees none of it",
+      "result": "PASS",
+      "expected": [
+        false
+      ],
+      "actual": [
+        false
+      ]
+    }
+  ],
+  "passed": 24,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "e0d69cdf-3de0-45e3-bb00-b2c3497d0ed4"
+}

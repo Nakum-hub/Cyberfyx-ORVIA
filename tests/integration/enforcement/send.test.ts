@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { opaContainer } from '../../../shared/testing/src/opa-container.ts';
 import { randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -22,7 +23,7 @@ const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unkno
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed: '+name);}}
 const run=promisify(execFile);
 const setup=async(script:string)=>{try{return await run(process.execPath,['--import','tsx',script,`confirm:${config.profile}`],{windowsHide:true,encoding:'utf8',timeout:180000});}catch(error){throw new Error(`Synthetic setup failed: ${script}`,{cause:error});}};
-const docker=async(command:string)=>{try{return await run('docker',[command,`${config.compose_project}-opa-1`],{windowsHide:true,encoding:'utf8',timeout:120000});}catch(error){throw new Error(`Isolated OPA ${command} failed`,{cause:error});}};
+const docker=async(command:string)=>{try{return await run('docker',[command,opaContainer(config)],{windowsHide:true,encoding:'utf8',timeout:120000});}catch(error){throw new Error(`Isolated OPA ${command} failed`,{cause:error});}};
 const opa=`http://127.0.0.1:${config.opa_port}`;
 async function waitForPolicy(url:string){for(let i=0;i<60;i++){try{
   if((await fetch(opa+'/health')).ok&&(await fetch(url)).ok){

@@ -1,0 +1,60 @@
+PASS a case naming a gap that does not exist is refused rather than opened
+PASS a new case is open and has been submitted nowhere
+PASS a registered canary is returned by its digest and never by its token
+PASS registering the same token twice is refused
+PASS the scan ran against every registered canary and found nothing
+PASS the report names a correlatable reference rather than the installation
+PASS the reference is derived from the installation, so two reports correlate
+PASS the report states the schema revision this installation is actually on
+PASS the report declares the versions this build declares of itself
+PASS the transferred bytes do not contain the installation id
+PASS the transferred bytes do not contain the tenant id
+PASS the transferred bytes do not contain the environment id
+PASS the transferred bytes do not contain a data principal
+PASS the transferred bytes do not contain a staff member
+PASS the transferred bytes do not contain a configured system
+PASS the transferred bytes do not contain a data asset
+PASS the transferred bytes do not contain the coverage gap
+PASS the transferred bytes do not contain the support case
+PASS the report is a fixed vocabulary, not prose
+PASS managing support does not carry the authority to approve a payload for release
+PASS an approval naming a payload this draft never had is refused, not reconciled
+PASS an approval carries no authority to generate anything
+PASS approving the same draft again is refused
+PASS the database refuses an approval that names a payload the draft never had
+PASS an approval is recorded once and never edited
+PASS an approval is never deleted
+PASS the payload an approver previewed cannot be edited afterwards
+PASS a diagnostic draft is never deleted
+PASS the recorded transfer carries exactly the approved payload and claims no transport
+PASS the database refuses a transfer carrying anything other than the approved payload
+PASS a transfer record is append-only
+PASS a second draft supersedes the first, and the case shows both
+PASS the approval that named the old payload cannot transfer the new one
+PASS a superseded draft cannot be approved
+PASS a superseded draft does not become current again
+PASS the newest draft is the one that can still be approved
+PASS there is no column in which a submitted body could be kept
+PASS a submission against a case reference this installation never recorded is refused
+PASS the refusal recorded the size and nothing else
+PASS a vendor closing their case leaves the local control exactly where it was
+PASS the standing says the two are separate facts
+PASS there is no column on a support case in which local verification could be written
+PASS resolving the local gap without evidence is refused
+PASS the local control becomes verified only when its own gap is resolved with evidence
+PASS a closed case generates nothing further
+PASS a report that would be accepted is reported as accepted
+PASS a body that is not JSON is refused and the reason is named
+PASS a body carrying a field the schema does not have is refused and the reason is named
+PASS a body whose values are not the declared vocabulary is refused and the reason is named
+PASS a body larger than the ingress accepts is refused and the reason is named
+PASS no validation ever recorded a body, because there is nowhere to record one
+PASS a case with no linked gap says so, rather than reporting a verified control
+PASS a report matching a registered canary is refused, and the refusal names which
+PASS nothing was stored for the refused generation
+PASS an auditor holding support.read may read a case
+PASS an auditor may not open one
+PASS a member holding neither capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-support-integration-1790928716962-92871fca-ae69-4def-9c7c-391f20ece50a.json
+
+57 assertions, 0 failures.

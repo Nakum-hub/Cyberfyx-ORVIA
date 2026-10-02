@@ -1,0 +1,19 @@
+PASS categories, purpose and condition are created from the set-up screen
+PASS a condition chosen from the package vocabulary is traced, not unresolved
+PASS an unresolved condition is recorded with its reason
+PASS a notice version is drafted, not published
+PASS publishing puts the version in force
+PASS a registered activity with no links states exactly what is missing
+PASS after linking, only the missing retention rule remains
+PASS a period without its source is refused in the browser and nothing is sent
+PASS a rule with a sourced period is resolved
+PASS a hold is placed on what it names and is active
+PASS an engagement is recorded with the links chosen
+PASS the stored activity carries the notice, condition and three current links
+PASS a read-only session sees no creation form
+PASS and the server refuses the write regardless
+PASS no request left the local origin
+PASS no page or console error occurred
+Artifact: handoffs/codex/artifacts/DPDP-operations-registry-forms-browser-1790934305687-512c33f6-cc17-4be4-9173-fcc934972452.json
+
+16 assertions, 0 failures.

@@ -1,0 +1,9 @@
+PASS upgraded and fresh columns match (775/775)
+PASS upgraded and fresh constraints match (475/475)
+PASS upgraded and fresh indexes match (123/123)
+PASS upgraded and fresh policies match (130/130)
+PASS upgraded and fresh triggers match (86/86)
+PASS upgraded and fresh functions match (61/61)
+PASS upgraded and fresh rls match (82/82)
+
+vendor-schema-equivalence: 7/7 passed
