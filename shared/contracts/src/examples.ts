@@ -85,8 +85,8 @@ export function example(name:SchemaName):unknown {
   if(name==='LicenceClaims')return licenceClaims;
   if(name==='SignedLicence')return {algorithm:'Ed25519' as const,claims:licenceClaims,signing_key_id:uuid(97),signature:'A'.repeat(86)};
   if(name==='LicenceImport')return {licence:{algorithm:'Ed25519' as const,claims:licenceClaims,signing_key_id:uuid(97),signature:'A'.repeat(86)}};
-  if(name==='LicenceState')return {licence_id:uuid(95),edition:'CONTROL' as const,entitlements:['PRIVACY_GRAPH' as const],installation_id:uuid(96),valid_from:sampleTime,valid_to:'2027-09-16T10:00:00.000Z',licensed_limits:{environments:3,staff_members:25},imported_at:sampleTime,imported_by:uuid(98),active:true,expired:false,continuity_note:'Expiry restricts new work and never removes recorded evidence or the ability to read and export it.'};
-  if(name==='FeatureAvailability')return {feature:'PRIVACY_GRAPH' as const,usable:false,gates:[
+  if(name==='LicenceState')return {licence_id:uuid(95),edition:'CONTROL' as const,entitlements:['PRIVACY_GRAPH' as const],installation_id:uuid(96),valid_from:sampleTime,valid_to:'2027-09-16T10:00:00.000Z',licensed_limits:{environments:3,staff_members:25},term:'ANNUAL' as const,sequence:2,trial:false,lifecycle:'ACTIVE' as const,grace_until:'2027-10-16T10:00:00.000Z',falls_back_to:null,imported_at:sampleTime,imported_by:uuid(98),active:true,expired:false,continuity_note:'Expiry restricts new work and never removes recorded evidence or the ability to read and export it.'};
+  if(name==='FeatureAvailability')return {feature:'PRIVACY_GRAPH' as const,usable:false,tier:'FOUNDATION' as const,label:'Systems and processing register',value:'Record your systems, purposes and data, and export your record of processing.',gates:[
     {gate:'RELEASE_AVAILABILITY' as const,satisfied:true,reason:'Shipped in this release.'},
     {gate:'DEPLOYMENT_SUPPORT' as const,satisfied:true,reason:'Supported on this deployment profile.'},
     {gate:'CONTROLLED_ROLLOUT' as const,satisfied:true,reason:'Not held back by a rollout control.'},

@@ -18891,8 +18891,14 @@ export interface components {
             /** Format: uuid */
             licence_id: string;
             /** @enum {string} */
-            edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE";
-            entitlements: ("PRIVACY_GRAPH" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "COVERAGE_REPORTING" | "NOTIFICATIONS" | "PRIVACY_TEST_ENGINE")[];
+            edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+            entitlements: ("PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY")[];
+            /** @enum {string} */
+            term?: "MONTHLY" | "QUARTERLY" | "ANNUAL" | "TRIAL" | "CONTRACT";
+            /** @description Increases with every licence issued to this installation. A licence with a lower sequence than the active one is refused (anti-rollback). */
+            sequence?: number;
+            /** @description A trial overlays the paid licence and falls back to it at expiry. */
+            trial?: boolean;
             /**
              * Format: uuid
              * @description The installation this licence is bound to. A licence is not transferable by copying it.
@@ -18909,6 +18915,11 @@ export interface components {
                 staff_members: number;
                 /** @description Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins. */
                 member_seats?: number;
+                legal_entities?: number;
+                websites?: number;
+                connected_systems?: number;
+                /** @description Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped. */
+                automated_actions_per_month?: number;
             };
         };
         SignedLicence: {
@@ -18918,8 +18929,14 @@ export interface components {
                 /** Format: uuid */
                 licence_id: string;
                 /** @enum {string} */
-                edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE";
-                entitlements: ("PRIVACY_GRAPH" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "COVERAGE_REPORTING" | "NOTIFICATIONS" | "PRIVACY_TEST_ENGINE")[];
+                edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+                entitlements: ("PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY")[];
+                /** @enum {string} */
+                term?: "MONTHLY" | "QUARTERLY" | "ANNUAL" | "TRIAL" | "CONTRACT";
+                /** @description Increases with every licence issued to this installation. A licence with a lower sequence than the active one is refused (anti-rollback). */
+                sequence?: number;
+                /** @description A trial overlays the paid licence and falls back to it at expiry. */
+                trial?: boolean;
                 /**
                  * Format: uuid
                  * @description The installation this licence is bound to. A licence is not transferable by copying it.
@@ -18936,6 +18953,11 @@ export interface components {
                     staff_members: number;
                     /** @description Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins. */
                     member_seats?: number;
+                    legal_entities?: number;
+                    websites?: number;
+                    connected_systems?: number;
+                    /** @description Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped. */
+                    automated_actions_per_month?: number;
                 };
             };
             /** Format: uuid */
@@ -18950,8 +18972,14 @@ export interface components {
                     /** Format: uuid */
                     licence_id: string;
                     /** @enum {string} */
-                    edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE";
-                    entitlements: ("PRIVACY_GRAPH" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "COVERAGE_REPORTING" | "NOTIFICATIONS" | "PRIVACY_TEST_ENGINE")[];
+                    edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+                    entitlements: ("PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY")[];
+                    /** @enum {string} */
+                    term?: "MONTHLY" | "QUARTERLY" | "ANNUAL" | "TRIAL" | "CONTRACT";
+                    /** @description Increases with every licence issued to this installation. A licence with a lower sequence than the active one is refused (anti-rollback). */
+                    sequence?: number;
+                    /** @description A trial overlays the paid licence and falls back to it at expiry. */
+                    trial?: boolean;
                     /**
                      * Format: uuid
                      * @description The installation this licence is bound to. A licence is not transferable by copying it.
@@ -18968,6 +18996,11 @@ export interface components {
                         staff_members: number;
                         /** @description Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins. */
                         member_seats?: number;
+                        legal_entities?: number;
+                        websites?: number;
+                        connected_systems?: number;
+                        /** @description Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped. */
+                        automated_actions_per_month?: number;
                     };
                 };
                 /** Format: uuid */
@@ -18979,8 +19012,8 @@ export interface components {
             /** Format: uuid */
             licence_id: string;
             /** @enum {string} */
-            edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE";
-            entitlements: ("PRIVACY_GRAPH" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "COVERAGE_REPORTING" | "NOTIFICATIONS" | "PRIVACY_TEST_ENGINE")[];
+            edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+            entitlements: ("PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY")[];
             /** Format: uuid */
             installation_id: string;
             /** Format: date-time */
@@ -18992,7 +19025,32 @@ export interface components {
                 staff_members: number;
                 /** @description Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins. */
                 member_seats?: number;
+                legal_entities?: number;
+                websites?: number;
+                connected_systems?: number;
+                /** @description Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped. */
+                automated_actions_per_month?: number;
             };
+            /** @enum {string} */
+            term: "MONTHLY" | "QUARTERLY" | "ANNUAL" | "TRIAL" | "CONTRACT";
+            /** @description Null for a licence issued before 1.11. */
+            sequence: number | null;
+            trial: boolean;
+            /**
+             * @description GRACE: past valid_to but within the grace days of its term; everything still works. EXPIRED: new premium work stops; the legal floor, protective controls, reading and export continue.
+             * @enum {string}
+             */
+            lifecycle: "ACTIVE" | "GRACE" | "EXPIRED";
+            /** Format: date-time */
+            grace_until: string;
+            falls_back_to: {
+                /** Format: uuid */
+                licence_id: string;
+                /** @enum {string} */
+                edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+                /** Format: date-time */
+                valid_to: string;
+            } | null;
             /** Format: date-time */
             imported_at: string;
             /** Format: uuid */
@@ -19003,8 +19061,12 @@ export interface components {
         };
         FeatureAvailability: {
             /** @enum {string} */
-            feature: "PRIVACY_GRAPH" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "COVERAGE_REPORTING" | "NOTIFICATIONS" | "PRIVACY_TEST_ENGINE";
+            feature: "PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY";
             usable: boolean;
+            /** @enum {string} */
+            tier: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+            label: string;
+            value: string;
             /** @description All five gates must be satisfied. They are reported individually because knowing which one blocks is the whole point. */
             gates: {
                 /** @enum {string} */
@@ -19021,8 +19083,8 @@ export interface components {
                 /** Format: uuid */
                 licence_id: string;
                 /** @enum {string} */
-                edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE";
-                entitlements: ("PRIVACY_GRAPH" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "COVERAGE_REPORTING" | "NOTIFICATIONS" | "PRIVACY_TEST_ENGINE")[];
+                edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+                entitlements: ("PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY")[];
                 /** Format: uuid */
                 installation_id: string;
                 /** Format: date-time */
@@ -19034,7 +19096,32 @@ export interface components {
                     staff_members: number;
                     /** @description Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins. */
                     member_seats?: number;
+                    legal_entities?: number;
+                    websites?: number;
+                    connected_systems?: number;
+                    /** @description Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped. */
+                    automated_actions_per_month?: number;
                 };
+                /** @enum {string} */
+                term: "MONTHLY" | "QUARTERLY" | "ANNUAL" | "TRIAL" | "CONTRACT";
+                /** @description Null for a licence issued before 1.11. */
+                sequence: number | null;
+                trial: boolean;
+                /**
+                 * @description GRACE: past valid_to but within the grace days of its term; everything still works. EXPIRED: new premium work stops; the legal floor, protective controls, reading and export continue.
+                 * @enum {string}
+                 */
+                lifecycle: "ACTIVE" | "GRACE" | "EXPIRED";
+                /** Format: date-time */
+                grace_until: string;
+                falls_back_to: {
+                    /** Format: uuid */
+                    licence_id: string;
+                    /** @enum {string} */
+                    edition: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+                    /** Format: date-time */
+                    valid_to: string;
+                } | null;
                 /** Format: date-time */
                 imported_at: string;
                 /** Format: uuid */
@@ -19045,8 +19132,12 @@ export interface components {
             } | null;
             features: {
                 /** @enum {string} */
-                feature: "PRIVACY_GRAPH" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "COVERAGE_REPORTING" | "NOTIFICATIONS" | "PRIVACY_TEST_ENGINE";
+                feature: "PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY";
                 usable: boolean;
+                /** @enum {string} */
+                tier: "FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM";
+                label: string;
+                value: string;
                 /** @description All five gates must be satisfied. They are reported individually because knowing which one blocks is the whole point. */
                 gates: {
                     /** @enum {string} */
@@ -46122,6 +46213,12 @@ export interface operations {
                      *         "environments": 3,
                      *         "staff_members": 25
                      *       },
+                     *       "term": "ANNUAL",
+                     *       "sequence": 2,
+                     *       "trial": false,
+                     *       "lifecycle": "ACTIVE",
+                     *       "grace_until": "2027-10-16T10:00:00.000Z",
+                     *       "falls_back_to": null,
                      *       "imported_at": "2026-09-16T10:00:00.000Z",
                      *       "imported_by": "00000000-0000-4000-8000-000000000062",
                      *       "active": true,

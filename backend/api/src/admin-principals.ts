@@ -1,5 +1,6 @@
 import { randomUUID, createHash } from 'node:crypto';
-import { PrincipalCreate, Principal, Pagination, Id, schemas } from '../../../shared/contracts/src/index.ts';
+import { PrincipalCreate, Principal, Pagination, Id, schemas, routes } from '../../../shared/contracts/src/index.ts';
+import { requireEntitlement } from '../../domain/src/licensing/licensing.ts';
 import { authorityFor, requireCapability, AccessError } from '../../authorization/src/index.ts';
 import { scopedTransaction } from '../../../database/customer/src/runtime.ts';
 import { limitedBody } from '../../auth/src/server.ts';
@@ -42,6 +43,8 @@ export const createPrincipal = (request: Request) => safeRoute(async requestId =
     const currentActor = await authorityFor(request,r.staff,r.principal);
     if (JSON.stringify(currentActor.scope) !== JSON.stringify(actor.scope) || currentActor.actor_id !== actor.actor_id ||
       !currentActor.capabilities.includes('principals.create')) throw new AccessError(403,'FORBIDDEN');
+    // Revision 1.11: the tier entitlement, decided in the same transaction as the work.
+    await requireEntitlement({ tx, actor: currentActor, requestId }, routes.find(route => route.id === 'create_principals')!);
     const scope = [actor.scope.tenant_id,actor.scope.legal_entity_id,actor.scope.environment_id,actor.actor_id];
     await tx.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [JSON.stringify([...scope,'principal.create',key])]);
     const old = await tx.query(`SELECT digest,response FROM app.idempotency_records WHERE tenant_id=$1 AND legal_entity_id=$2

@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.55.0",
-    "description": "Contract 0.55.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.57.0",
+    "description": "Contract 0.57.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/api/v1/admin/grc/audit-requests/{id}/responses": {
@@ -26798,6 +26798,12 @@
                     "environments": 3,
                     "staff_members": 25
                   },
+                  "term": "ANNUAL",
+                  "sequence": 2,
+                  "trial": false,
+                  "lifecycle": "ACTIVE",
+                  "grace_until": "2027-10-16T10:00:00.000Z",
+                  "falls_back_to": null,
                   "imported_at": "2026-09-16T10:00:00.000Z",
                   "imported_by": "00000000-0000-4000-8000-000000000062",
                   "active": true,
@@ -168994,26 +169000,66 @@
             "enum": [
               "FOUNDATION",
               "CONTROL",
-              "ENTERPRISE"
+              "ENTERPRISE",
+              "CUSTOM"
             ]
           },
           "entitlements": {
             "minItems": 1,
-            "maxItems": 16,
+            "maxItems": 40,
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
                 "PRIVACY_GRAPH",
+                "CONSENT_MANAGEMENT",
+                "NOTICE_MANAGEMENT",
+                "INTAKE_AND_PORTAL",
                 "RIGHTS_MANAGEMENT",
                 "RETENTION_MANAGEMENT",
                 "PROCESSOR_MANAGEMENT",
                 "INCIDENT_MANAGEMENT",
-                "COVERAGE_REPORTING",
                 "NOTIFICATIONS",
-                "PRIVACY_TEST_ENGINE"
+                "WEBSITE_CONSENT",
+                "SDF_OBLIGATIONS",
+                "REALTIME_ENFORCEMENT",
+                "WORKFLOW_AUTOMATION",
+                "DOWNSTREAM_VERIFICATION",
+                "COVERAGE_REPORTING",
+                "RIGHTS_FULFILMENT",
+                "DISCOVERY_CLASSIFICATION",
+                "ASSESSMENTS",
+                "THIRD_PARTY_LIFECYCLE",
+                "DELIVERY_TRANSPORTS",
+                "RETENTION_ADVANCED",
+                "PRIVACY_TEST_ENGINE",
+                "CONTINUOUS_COMPLIANCE",
+                "GRC_AUDIT",
+                "SECURITY_AI_GOVERNANCE",
+                "AUDIT_EXCHANGE",
+                "SSO_IDENTITY"
               ]
             }
+          },
+          "term": {
+            "type": "string",
+            "enum": [
+              "MONTHLY",
+              "QUARTERLY",
+              "ANNUAL",
+              "TRIAL",
+              "CONTRACT"
+            ]
+          },
+          "sequence": {
+            "description": "Increases with every licence issued to this installation. A licence with a lower sequence than the active one is refused (anti-rollback).",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "trial": {
+            "description": "A trial overlays the paid licence and falls back to it at expiry.",
+            "type": "boolean"
           },
           "installation_id": {
             "type": "string",
@@ -169053,6 +169099,27 @@
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 10000
+              },
+              "legal_entities": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000
+              },
+              "websites": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "connected_systems": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10000
+              },
+              "automated_actions_per_month": {
+                "description": "Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000000
               }
             },
             "required": [
@@ -169094,26 +169161,66 @@
                 "enum": [
                   "FOUNDATION",
                   "CONTROL",
-                  "ENTERPRISE"
+                  "ENTERPRISE",
+                  "CUSTOM"
                 ]
               },
               "entitlements": {
                 "minItems": 1,
-                "maxItems": 16,
+                "maxItems": 40,
                 "type": "array",
                 "items": {
                   "type": "string",
                   "enum": [
                     "PRIVACY_GRAPH",
+                    "CONSENT_MANAGEMENT",
+                    "NOTICE_MANAGEMENT",
+                    "INTAKE_AND_PORTAL",
                     "RIGHTS_MANAGEMENT",
                     "RETENTION_MANAGEMENT",
                     "PROCESSOR_MANAGEMENT",
                     "INCIDENT_MANAGEMENT",
-                    "COVERAGE_REPORTING",
                     "NOTIFICATIONS",
-                    "PRIVACY_TEST_ENGINE"
+                    "WEBSITE_CONSENT",
+                    "SDF_OBLIGATIONS",
+                    "REALTIME_ENFORCEMENT",
+                    "WORKFLOW_AUTOMATION",
+                    "DOWNSTREAM_VERIFICATION",
+                    "COVERAGE_REPORTING",
+                    "RIGHTS_FULFILMENT",
+                    "DISCOVERY_CLASSIFICATION",
+                    "ASSESSMENTS",
+                    "THIRD_PARTY_LIFECYCLE",
+                    "DELIVERY_TRANSPORTS",
+                    "RETENTION_ADVANCED",
+                    "PRIVACY_TEST_ENGINE",
+                    "CONTINUOUS_COMPLIANCE",
+                    "GRC_AUDIT",
+                    "SECURITY_AI_GOVERNANCE",
+                    "AUDIT_EXCHANGE",
+                    "SSO_IDENTITY"
                   ]
                 }
+              },
+              "term": {
+                "type": "string",
+                "enum": [
+                  "MONTHLY",
+                  "QUARTERLY",
+                  "ANNUAL",
+                  "TRIAL",
+                  "CONTRACT"
+                ]
+              },
+              "sequence": {
+                "description": "Increases with every licence issued to this installation. A licence with a lower sequence than the active one is refused (anti-rollback).",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "trial": {
+                "description": "A trial overlays the paid licence and falls back to it at expiry.",
+                "type": "boolean"
               },
               "installation_id": {
                 "type": "string",
@@ -169153,6 +169260,27 @@
                     "type": "integer",
                     "minimum": 0,
                     "maximum": 10000
+                  },
+                  "legal_entities": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000
+                  },
+                  "websites": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "connected_systems": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10000
+                  },
+                  "automated_actions_per_month": {
+                    "description": "Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped.",
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000000
                   }
                 },
                 "required": [
@@ -169215,26 +169343,66 @@
                     "enum": [
                       "FOUNDATION",
                       "CONTROL",
-                      "ENTERPRISE"
+                      "ENTERPRISE",
+                      "CUSTOM"
                     ]
                   },
                   "entitlements": {
                     "minItems": 1,
-                    "maxItems": 16,
+                    "maxItems": 40,
                     "type": "array",
                     "items": {
                       "type": "string",
                       "enum": [
                         "PRIVACY_GRAPH",
+                        "CONSENT_MANAGEMENT",
+                        "NOTICE_MANAGEMENT",
+                        "INTAKE_AND_PORTAL",
                         "RIGHTS_MANAGEMENT",
                         "RETENTION_MANAGEMENT",
                         "PROCESSOR_MANAGEMENT",
                         "INCIDENT_MANAGEMENT",
-                        "COVERAGE_REPORTING",
                         "NOTIFICATIONS",
-                        "PRIVACY_TEST_ENGINE"
+                        "WEBSITE_CONSENT",
+                        "SDF_OBLIGATIONS",
+                        "REALTIME_ENFORCEMENT",
+                        "WORKFLOW_AUTOMATION",
+                        "DOWNSTREAM_VERIFICATION",
+                        "COVERAGE_REPORTING",
+                        "RIGHTS_FULFILMENT",
+                        "DISCOVERY_CLASSIFICATION",
+                        "ASSESSMENTS",
+                        "THIRD_PARTY_LIFECYCLE",
+                        "DELIVERY_TRANSPORTS",
+                        "RETENTION_ADVANCED",
+                        "PRIVACY_TEST_ENGINE",
+                        "CONTINUOUS_COMPLIANCE",
+                        "GRC_AUDIT",
+                        "SECURITY_AI_GOVERNANCE",
+                        "AUDIT_EXCHANGE",
+                        "SSO_IDENTITY"
                       ]
                     }
+                  },
+                  "term": {
+                    "type": "string",
+                    "enum": [
+                      "MONTHLY",
+                      "QUARTERLY",
+                      "ANNUAL",
+                      "TRIAL",
+                      "CONTRACT"
+                    ]
+                  },
+                  "sequence": {
+                    "description": "Increases with every licence issued to this installation. A licence with a lower sequence than the active one is refused (anti-rollback).",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "trial": {
+                    "description": "A trial overlays the paid licence and falls back to it at expiry.",
+                    "type": "boolean"
                   },
                   "installation_id": {
                     "type": "string",
@@ -169274,6 +169442,27 @@
                         "type": "integer",
                         "minimum": 0,
                         "maximum": 10000
+                      },
+                      "legal_entities": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000
+                      },
+                      "websites": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1000
+                      },
+                      "connected_systems": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 10000
+                      },
+                      "automated_actions_per_month": {
+                        "description": "Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped.",
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 100000000
                       }
                     },
                     "required": [
@@ -169332,23 +169521,43 @@
             "enum": [
               "FOUNDATION",
               "CONTROL",
-              "ENTERPRISE"
+              "ENTERPRISE",
+              "CUSTOM"
             ]
           },
           "entitlements": {
-            "maxItems": 16,
+            "maxItems": 40,
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
                 "PRIVACY_GRAPH",
+                "CONSENT_MANAGEMENT",
+                "NOTICE_MANAGEMENT",
+                "INTAKE_AND_PORTAL",
                 "RIGHTS_MANAGEMENT",
                 "RETENTION_MANAGEMENT",
                 "PROCESSOR_MANAGEMENT",
                 "INCIDENT_MANAGEMENT",
-                "COVERAGE_REPORTING",
                 "NOTIFICATIONS",
-                "PRIVACY_TEST_ENGINE"
+                "WEBSITE_CONSENT",
+                "SDF_OBLIGATIONS",
+                "REALTIME_ENFORCEMENT",
+                "WORKFLOW_AUTOMATION",
+                "DOWNSTREAM_VERIFICATION",
+                "COVERAGE_REPORTING",
+                "RIGHTS_FULFILMENT",
+                "DISCOVERY_CLASSIFICATION",
+                "ASSESSMENTS",
+                "THIRD_PARTY_LIFECYCLE",
+                "DELIVERY_TRANSPORTS",
+                "RETENTION_ADVANCED",
+                "PRIVACY_TEST_ENGINE",
+                "CONTINUOUS_COMPLIANCE",
+                "GRC_AUDIT",
+                "SECURITY_AI_GOVERNANCE",
+                "AUDIT_EXCHANGE",
+                "SSO_IDENTITY"
               ]
             }
           },
@@ -169385,6 +169594,27 @@
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 10000
+              },
+              "legal_entities": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000
+              },
+              "websites": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "connected_systems": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10000
+              },
+              "automated_actions_per_month": {
+                "description": "Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000000
               }
             },
             "required": [
@@ -169392,6 +169622,83 @@
               "staff_members"
             ],
             "additionalProperties": false
+          },
+          "term": {
+            "type": "string",
+            "enum": [
+              "MONTHLY",
+              "QUARTERLY",
+              "ANNUAL",
+              "TRIAL",
+              "CONTRACT"
+            ]
+          },
+          "sequence": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Null for a licence issued before 1.11."
+          },
+          "trial": {
+            "type": "boolean"
+          },
+          "lifecycle": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "GRACE",
+              "EXPIRED"
+            ],
+            "description": "GRACE: past valid_to but within the grace days of its term; everything still works. EXPIRED: new premium work stops; the legal floor, protective controls, reading and export continue."
+          },
+          "grace_until": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "falls_back_to": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "licence_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "edition": {
+                    "type": "string",
+                    "enum": [
+                      "FOUNDATION",
+                      "CONTROL",
+                      "ENTERPRISE",
+                      "CUSTOM"
+                    ]
+                  },
+                  "valid_to": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  }
+                },
+                "required": [
+                  "licence_id",
+                  "edition",
+                  "valid_to"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "imported_at": {
             "type": "string",
@@ -169423,6 +169730,12 @@
           "valid_from",
           "valid_to",
           "licensed_limits",
+          "term",
+          "sequence",
+          "trial",
+          "lifecycle",
+          "grace_until",
+          "falls_back_to",
           "imported_at",
           "imported_by",
           "active",
@@ -169438,17 +169751,55 @@
             "type": "string",
             "enum": [
               "PRIVACY_GRAPH",
+              "CONSENT_MANAGEMENT",
+              "NOTICE_MANAGEMENT",
+              "INTAKE_AND_PORTAL",
               "RIGHTS_MANAGEMENT",
               "RETENTION_MANAGEMENT",
               "PROCESSOR_MANAGEMENT",
               "INCIDENT_MANAGEMENT",
-              "COVERAGE_REPORTING",
               "NOTIFICATIONS",
-              "PRIVACY_TEST_ENGINE"
+              "WEBSITE_CONSENT",
+              "SDF_OBLIGATIONS",
+              "REALTIME_ENFORCEMENT",
+              "WORKFLOW_AUTOMATION",
+              "DOWNSTREAM_VERIFICATION",
+              "COVERAGE_REPORTING",
+              "RIGHTS_FULFILMENT",
+              "DISCOVERY_CLASSIFICATION",
+              "ASSESSMENTS",
+              "THIRD_PARTY_LIFECYCLE",
+              "DELIVERY_TRANSPORTS",
+              "RETENTION_ADVANCED",
+              "PRIVACY_TEST_ENGINE",
+              "CONTINUOUS_COMPLIANCE",
+              "GRC_AUDIT",
+              "SECURITY_AI_GOVERNANCE",
+              "AUDIT_EXCHANGE",
+              "SSO_IDENTITY"
             ]
           },
           "usable": {
             "type": "boolean"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "FOUNDATION",
+              "CONTROL",
+              "ENTERPRISE",
+              "CUSTOM"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
           },
           "gates": {
             "minItems": 5,
@@ -169498,6 +169849,9 @@
         "required": [
           "feature",
           "usable",
+          "tier",
+          "label",
+          "value",
           "gates",
           "limits"
         ],
@@ -169526,23 +169880,43 @@
                     "enum": [
                       "FOUNDATION",
                       "CONTROL",
-                      "ENTERPRISE"
+                      "ENTERPRISE",
+                      "CUSTOM"
                     ]
                   },
                   "entitlements": {
-                    "maxItems": 16,
+                    "maxItems": 40,
                     "type": "array",
                     "items": {
                       "type": "string",
                       "enum": [
                         "PRIVACY_GRAPH",
+                        "CONSENT_MANAGEMENT",
+                        "NOTICE_MANAGEMENT",
+                        "INTAKE_AND_PORTAL",
                         "RIGHTS_MANAGEMENT",
                         "RETENTION_MANAGEMENT",
                         "PROCESSOR_MANAGEMENT",
                         "INCIDENT_MANAGEMENT",
-                        "COVERAGE_REPORTING",
                         "NOTIFICATIONS",
-                        "PRIVACY_TEST_ENGINE"
+                        "WEBSITE_CONSENT",
+                        "SDF_OBLIGATIONS",
+                        "REALTIME_ENFORCEMENT",
+                        "WORKFLOW_AUTOMATION",
+                        "DOWNSTREAM_VERIFICATION",
+                        "COVERAGE_REPORTING",
+                        "RIGHTS_FULFILMENT",
+                        "DISCOVERY_CLASSIFICATION",
+                        "ASSESSMENTS",
+                        "THIRD_PARTY_LIFECYCLE",
+                        "DELIVERY_TRANSPORTS",
+                        "RETENTION_ADVANCED",
+                        "PRIVACY_TEST_ENGINE",
+                        "CONTINUOUS_COMPLIANCE",
+                        "GRC_AUDIT",
+                        "SECURITY_AI_GOVERNANCE",
+                        "AUDIT_EXCHANGE",
+                        "SSO_IDENTITY"
                       ]
                     }
                   },
@@ -169579,6 +169953,27 @@
                         "type": "integer",
                         "minimum": 0,
                         "maximum": 10000
+                      },
+                      "legal_entities": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000
+                      },
+                      "websites": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1000
+                      },
+                      "connected_systems": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 10000
+                      },
+                      "automated_actions_per_month": {
+                        "description": "Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped.",
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 100000000
                       }
                     },
                     "required": [
@@ -169586,6 +169981,83 @@
                       "staff_members"
                     ],
                     "additionalProperties": false
+                  },
+                  "term": {
+                    "type": "string",
+                    "enum": [
+                      "MONTHLY",
+                      "QUARTERLY",
+                      "ANNUAL",
+                      "TRIAL",
+                      "CONTRACT"
+                    ]
+                  },
+                  "sequence": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Null for a licence issued before 1.11."
+                  },
+                  "trial": {
+                    "type": "boolean"
+                  },
+                  "lifecycle": {
+                    "type": "string",
+                    "enum": [
+                      "ACTIVE",
+                      "GRACE",
+                      "EXPIRED"
+                    ],
+                    "description": "GRACE: past valid_to but within the grace days of its term; everything still works. EXPIRED: new premium work stops; the legal floor, protective controls, reading and export continue."
+                  },
+                  "grace_until": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "falls_back_to": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "licence_id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "edition": {
+                            "type": "string",
+                            "enum": [
+                              "FOUNDATION",
+                              "CONTROL",
+                              "ENTERPRISE",
+                              "CUSTOM"
+                            ]
+                          },
+                          "valid_to": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                          }
+                        },
+                        "required": [
+                          "licence_id",
+                          "edition",
+                          "valid_to"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
                   },
                   "imported_at": {
                     "type": "string",
@@ -169617,6 +170089,12 @@
                   "valid_from",
                   "valid_to",
                   "licensed_limits",
+                  "term",
+                  "sequence",
+                  "trial",
+                  "lifecycle",
+                  "grace_until",
+                  "falls_back_to",
                   "imported_at",
                   "imported_by",
                   "active",
@@ -169631,7 +170109,7 @@
             ]
           },
           "features": {
-            "maxItems": 16,
+            "maxItems": 40,
             "type": "array",
             "items": {
               "type": "object",
@@ -169640,17 +170118,55 @@
                   "type": "string",
                   "enum": [
                     "PRIVACY_GRAPH",
+                    "CONSENT_MANAGEMENT",
+                    "NOTICE_MANAGEMENT",
+                    "INTAKE_AND_PORTAL",
                     "RIGHTS_MANAGEMENT",
                     "RETENTION_MANAGEMENT",
                     "PROCESSOR_MANAGEMENT",
                     "INCIDENT_MANAGEMENT",
-                    "COVERAGE_REPORTING",
                     "NOTIFICATIONS",
-                    "PRIVACY_TEST_ENGINE"
+                    "WEBSITE_CONSENT",
+                    "SDF_OBLIGATIONS",
+                    "REALTIME_ENFORCEMENT",
+                    "WORKFLOW_AUTOMATION",
+                    "DOWNSTREAM_VERIFICATION",
+                    "COVERAGE_REPORTING",
+                    "RIGHTS_FULFILMENT",
+                    "DISCOVERY_CLASSIFICATION",
+                    "ASSESSMENTS",
+                    "THIRD_PARTY_LIFECYCLE",
+                    "DELIVERY_TRANSPORTS",
+                    "RETENTION_ADVANCED",
+                    "PRIVACY_TEST_ENGINE",
+                    "CONTINUOUS_COMPLIANCE",
+                    "GRC_AUDIT",
+                    "SECURITY_AI_GOVERNANCE",
+                    "AUDIT_EXCHANGE",
+                    "SSO_IDENTITY"
                   ]
                 },
                 "usable": {
                   "type": "boolean"
+                },
+                "tier": {
+                  "type": "string",
+                  "enum": [
+                    "FOUNDATION",
+                    "CONTROL",
+                    "ENTERPRISE",
+                    "CUSTOM"
+                  ]
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
                 },
                 "gates": {
                   "minItems": 5,
@@ -169700,6 +170216,9 @@
               "required": [
                 "feature",
                 "usable",
+                "tier",
+                "label",
+                "value",
                 "gates",
                 "limits"
               ],

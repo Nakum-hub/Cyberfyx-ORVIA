@@ -3350,6 +3350,12 @@
           "environments": 3,
           "staff_members": 25
         },
+        "term": "ANNUAL",
+        "sequence": 2,
+        "trial": false,
+        "lifecycle": "ACTIVE",
+        "grace_until": "2027-10-16T10:00:00.000Z",
+        "falls_back_to": null,
         "imported_at": "2026-09-16T10:00:00.000Z",
         "imported_by": "00000000-0000-4000-8000-000000000062",
         "active": true,

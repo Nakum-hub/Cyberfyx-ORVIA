@@ -17,18 +17,14 @@ import { audit, predicate, scopeValues, type Context } from '../shared/transacti
  * less useful than knowing which gate blocks it.
  */
 
-/** Features this release actually ships. Availability is a fact about the build. */
-const RELEASED: readonly string[] = ['PRIVACY_GRAPH', 'RIGHTS_MANAGEMENT', 'RETENTION_MANAGEMENT', 'PROCESSOR_MANAGEMENT', 'INCIDENT_MANAGEMENT', 'COVERAGE_REPORTING', 'NOTIFICATIONS'];
+/** Features this release actually ships. Availability is a fact about the build. SSO is not delivered yet (GO_LIVE D1). */
+const RELEASED: readonly string[] = S.EntitlementCode.options.filter(code => code !== 'SSO_IDENTITY');
 /** Features the current deployment profile can actually run. */
 const SUPPORTED_ON_PROFILE: readonly string[] = RELEASED;
 /** Features deliberately held back from general use in this profile. */
 const HELD_BACK: readonly string[] = ['PRIVACY_TEST_ENGINE'];
-/** The capability an actor needs before a feature is usable by them. */
-const REQUIRED_CAPABILITY: Record<string, string> = {
-  PRIVACY_GRAPH: 'graph.read', RIGHTS_MANAGEMENT: 'rights.read', RETENTION_MANAGEMENT: 'retention.read',
-  PROCESSOR_MANAGEMENT: 'processor.read', INCIDENT_MANAGEMENT: 'incident.read',
-  COVERAGE_REPORTING: 'coverage.read', NOTIFICATIONS: 'notification.read', PRIVACY_TEST_ENGINE: 'tests.read',
-};
+/** The capability an actor needs before a feature is usable by them (rev 1.11 tier model). */
+const REQUIRED_CAPABILITY: Record<string, string> = Object.fromEntries(S.EntitlementCode.options.map(code => [code, S.ENTITLEMENTS[code].capability]));
 
 const time = (value: Date) => value.toISOString();
 
@@ -65,6 +61,9 @@ export async function importLicence(c: Context, input: unknown, installationId: 
   for (const entitlement of claims.entitlements as string[]) {
     if (S.NEVER_LICENSABLE.includes(entitlement)) reject('FORBIDDEN_CAPABILITY');
   }
+  // Revision 1.11: an edition carries only its own tier's entitlements, so an issuing mistake cannot open a higher tier.
+  const ceiling = S.editionCeiling(claims.edition);
+  if (claims.entitlements.some(code => !ceiling.has(code))) reject('ENTITLEMENT_EXCEEDS_EDITION');
   if (claims.audience !== 'ORVIA_CUSTOMER_INSTALLATION') reject('WRONG_AUDIENCE');
   if (claims.installation_id !== installationId) reject('WRONG_INSTALLATION');
 
@@ -77,19 +76,31 @@ export async function importLicence(c: Context, input: unknown, installationId: 
   if (!valid) reject('INVALID_SIGNATURE');
 
   const now = Date.now();
-  if (Date.parse(claims.valid_from) > now) reject('NOT_YET_VALID');
+  const sequence = claims.sequence ?? null;
+  const term = claims.term ?? 'CONTRACT';
+  const trial = claims.trial ?? false;
+  // A sequenced licence may arrive before it starts (a downgrade or period change effective at renewal): it waits until
+  // valid_from (migration 0100). A licence issued before revision 1.11 still has to be valid on import.
+  if (sequence === null && Date.parse(claims.valid_from) > now) reject('NOT_YET_VALID');
   if (Date.parse(claims.valid_to) <= now) reject('EXPIRED');
 
   // A licence is imported once. Re-importing the same one is a replay, not a renewal.
   const existing = await c.tx.query(`SELECT id FROM app.licences WHERE ${predicate} AND licence_id=$4`, [...scope, claims.licence_id]);
   if (existing.rowCount) reject('REPLAYED');
+  // Anti-rollback and one trial per edition. The database refuses both as well (licence_import_guard); checking here gives the
+  // operator a named reason.
+  const history = (await c.tx.query(`SELECT max(sequence) AS top, bool_or(sequence IS NOT NULL) AS sequenced, bool_or(trial AND edition=$4) AS trial_used
+    FROM app.licences WHERE ${predicate}`, [...scope, claims.edition])).rows[0];
+  if ((sequence === null && history.sequenced) || (sequence !== null && history.top !== null && sequence <= Number(history.top))) reject('STALE_SEQUENCE');
+  if (trial && history.trial_used) reject('TRIAL_ALREADY_USED');
 
   const id = randomUUID();
-  // A newer licence supersedes the previous one; the old row is retained.
-  await c.tx.query(`UPDATE app.licences SET active=false WHERE ${predicate} AND active`, [...scope]);
-  await c.tx.query(`INSERT INTO app.licences(tenant_id,legal_entity_id,environment_id,id,licence_id,installation_id,edition,valid_from,valid_to,signing_key_id,signature,imported_by,claims)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
-  [...scope, id, claims.licence_id, claims.installation_id, claims.edition, claims.valid_from, claims.valid_to, licence.signing_key_id, licence.signature, c.actor.actor_id, claims]);
+  // A licence issued before revision 1.11 supersedes the previous one by deactivating it, as before. Sequenced licences need
+  // no deactivation: the effective licence is the highest sequence in force, and a trial overlays the paid licence.
+  if (sequence === null) await c.tx.query(`UPDATE app.licences SET active=false WHERE ${predicate} AND active`, [...scope]);
+  await c.tx.query(`INSERT INTO app.licences(tenant_id,legal_entity_id,environment_id,id,licence_id,installation_id,edition,valid_from,valid_to,signing_key_id,signature,imported_by,claims,term,sequence,trial)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
+  [...scope, id, claims.licence_id, claims.installation_id, claims.edition, claims.valid_from, claims.valid_to, licence.signing_key_id, licence.signature, c.actor.actor_id, claims, term, sequence, trial]);
   for (const entitlement of claims.entitlements) {
     await c.tx.query('INSERT INTO app.licence_entitlements(tenant_id,legal_entity_id,environment_id,licence_row_id,code) VALUES($1,$2,$3,$4,$5)', [...scope, id, entitlement]);
   }
@@ -99,20 +110,30 @@ export async function importLicence(c: Context, input: unknown, installationId: 
 
 async function readLicenceState(c: Context) {
   const scope = scopeValues(c.actor);
-  const row = (await c.tx.query(`SELECT * FROM app.licences WHERE ${predicate} AND active`, [...scope])).rows[0];
+  // The licence in force (migration 0100): a trial overlay while its window is open, otherwise the paid licence with its grace.
+  const row = (await c.tx.query('SELECT * FROM app.effective_licence($1,$2,$3)', scope)).rows[0];
   if (!row) return null;
+  const meta = (await c.tx.query(`SELECT active, imported_at, imported_by, installation_id FROM app.licences WHERE ${predicate} AND id=$4`, [...scope, row.id])).rows[0];
   const entitlements = await c.tx.query(`SELECT code FROM app.licence_entitlements WHERE ${predicate} AND licence_row_id=$4 ORDER BY code`, [...scope, row.id]);
-  const expired = (row.valid_to as Date).getTime() <= Date.now();
+  const fallback = row.fallback_id ? (await c.tx.query(`SELECT licence_id, edition, valid_to FROM app.licences WHERE ${predicate} AND id=$4`, [...scope, row.fallback_id])).rows[0] : null;
+  const lifecycle = row.lifecycle as 'ACTIVE' | 'GRACE' | 'EXPIRED';
+  const expired = lifecycle === 'EXPIRED';
   return S.LicenceState.parse({
     licence_id: row.licence_id, edition: row.edition, entitlements: entitlements.rows.map(e => e.code),
-    installation_id: row.installation_id, valid_from: time(row.valid_from), valid_to: time(row.valid_to),
+    installation_id: meta.installation_id, valid_from: time(row.valid_from), valid_to: time(row.valid_to),
     licensed_limits: (row.claims as { licensed_limits: unknown }).licensed_limits,
-    imported_at: time(row.imported_at), imported_by: row.imported_by, active: row.active, expired,
+    term: row.term, sequence: row.sequence ?? null, trial: row.trial, lifecycle, grace_until: time(row.grace_until),
+    falls_back_to: fallback ? { licence_id: fallback.licence_id, edition: fallback.edition, valid_to: time(fallback.valid_to) } : null,
+    imported_at: time(meta.imported_at), imported_by: meta.imported_by, active: meta.active, expired,
     // FR-M28-03. Expiry restricts new work. It never removes recorded evidence,
     // and it never takes away the ability to read and export what already exists.
     continuity_note: expired
-      ? 'This licence has expired. New work in licensed features is blocked; recorded evidence, reading and export remain available.'
-      : 'Expiry restricts new work only. Recorded evidence, reading and export are never withdrawn by a licence.',
+      ? 'This licence has expired. New work in licensed features is blocked; your legal duties, protective controls, recorded evidence, reading and export remain available.'
+      : lifecycle === 'GRACE'
+        ? `This licence ended on ${time(row.valid_to).slice(0, 10)}. Everything keeps working until ${time(row.grace_until).slice(0, 10)}; import the renewal before then.`
+        : row.trial
+          ? `This is a trial until ${time(row.valid_to).slice(0, 10)}. It then returns to ${fallback ? `your ${fallback.edition} licence` : 'no licence'}; anything recorded during the trial stays readable.`
+          : 'Expiry restricts new work only. Your legal duties, recorded evidence, reading and export are never withdrawn by a licence.',
   });
 }
 
@@ -124,6 +145,7 @@ async function readLicenceState(c: Context) {
 export async function entitlementReport(c: Context) {
   const licence = await readLicenceState(c);
   const licensed = new Set(licence && !licence.expired ? licence.entitlements : []);
+  // Exported for enforcement (rev 1.11): the same set the report shows is the set the server enforces.
   const features = S.EntitlementCode.options.map(feature => {
     const required = REQUIRED_CAPABILITY[feature]!;
     const gates = [
@@ -134,12 +156,13 @@ export async function entitlementReport(c: Context) {
       { gate: 'CONTROLLED_ROLLOUT' as const, satisfied: !HELD_BACK.includes(feature),
         reason: HELD_BACK.includes(feature) ? 'Deliberately held back from general use in this profile.' : 'Not held back by a rollout control.' },
       { gate: 'LICENCE_ENTITLEMENT' as const, satisfied: licensed.has(feature),
-        reason: !licence ? 'No licence has been imported.' : licence.expired ? 'The active licence has expired.' : licensed.has(feature) ? 'Named by the active licence.' : 'Not named by the active licence.' },
+        reason: !licence ? 'No licence has been imported.' : licence.expired ? 'The active licence has expired.' : licensed.has(feature) ? 'Named by the active licence.' : `Not in your plan. Part of ${S.ENTITLEMENTS[feature].tier}.` },
       { gate: 'ACTOR_AUTHORISATION' as const, satisfied: c.actor.capabilities.includes(required),
         reason: c.actor.capabilities.includes(required) ? `This actor holds ${required}.` : `This actor does not hold ${required}.` },
     ];
     return S.FeatureAvailability.parse({
       feature, usable: gates.every(gate => gate.satisfied), gates,
+      tier: S.ENTITLEMENTS[feature].tier, label: S.ENTITLEMENTS[feature].label, value: S.ENTITLEMENTS[feature].value,
       limits: ['Every gate is evaluated independently. A feature is usable only when all five pass.'],
     });
   });
@@ -186,4 +209,24 @@ export async function entitlementReport(c: Context) {
       'Essential security behaviour and truthful outcome reporting are common to every edition and are not licensed features.',
     ],
   });
+}
+
+/**
+ * Revision 1.11 enforcement. Called by the dispatcher inside the business transaction, after the capability check, for every
+ * route. Reads, platform routes and protective writes pass whatever the licence says. Any other write needs its entitlement:
+ *   * a FOUNDATION entitlement needs a licence that was imported and names it, in any lifecycle state: the legal floor keeps
+ *     working after expiry (an installation that has never been licensed has no plan at all);
+ *   * a higher-tier entitlement needs the licence in force (ACTIVE or GRACE) to name it; after expiry it stops.
+ * A refusal names the entitlement and the lowest tier that includes it, so the interface can say which plan unlocks it.
+ */
+export async function requireEntitlement(c: Context, route: { id: string; method: string; path: string; authority: string }) {
+  const cls = S.classifyRoute(route);
+  if (cls === null) throw new AccessError(403, 'FORBIDDEN', [{ field: 'entitlement', code: 'route_not_classified' }]);
+  if (cls === 'READ' || cls === 'PLATFORM' || cls === 'PROTECTIVE') return;
+  const row = (await c.tx.query('SELECT id, lifecycle FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
+  const refuse = (why: string): never => { throw new AccessError(403, 'FORBIDDEN', [{ field: 'entitlement', code: why }, { field: 'entitlement_code', code: cls.toLowerCase() }, { field: 'tier', code: S.ENTITLEMENTS[cls].tier.toLowerCase() }]); };
+  if (!row) refuse('no_licence');
+  const named = (await c.tx.query(`SELECT 1 FROM app.licence_entitlements WHERE ${predicate} AND licence_row_id=$4 AND code=$5`, [...scopeValues(c.actor), row.id, cls])).rowCount;
+  if (!named) refuse('entitlement_required');
+  if (S.ENTITLEMENTS[cls].tier !== 'FOUNDATION' && row.lifecycle === 'EXPIRED') refuse('licence_expired');
 }
