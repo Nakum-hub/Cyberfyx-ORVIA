@@ -284,5 +284,5 @@ The following suites remain NOT_RUN; they are not skipped assertions or substitu
 - `tests/security/network-core.ts`: Requires separately qualified packaged runtime image and controlled canary; existing NOT_RUN retained.
 - `tests/security/tls.test.ts`: Rehearsal-only TLS suite requires fixture users incompatible with the clean single-owner installation; existing NOT_RUN retained.
 
-The 1,000-item regulatory-impact boundary was not directly asserted by the existing regulatory suite. The owner question about erasure-ledger retention (currently 30 days after backups age out) remains undecided.
+The 1,000-item regulatory-impact boundary was not directly asserted by the existing regulatory suite. Erasure-ledger retention is decided (owner, 2026-10-02): 30 days after backups age out, on every plan; recorded in the revision 1.10 addendum.
 <!-- ROUND9 EVIDENCE END -->
