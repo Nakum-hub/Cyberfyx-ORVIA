@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { opaContainer } from '../../shared/testing/src/opa-container.ts';
 import { createHmac, randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -191,13 +192,13 @@ try {
   check('protected tables force RLS and are not app-owned',tables.rows[0].count,0);
   await databaseDenial('tenant-aware foreign key rejects sibling parent',()=>admin.query('INSERT INTO app.environments VALUES ($1,$2,$3,$4)',[fixture.users.birch!.scope.tenant_id,fixture.users.owner!.scope.legal_entity_id,randomUUID(),'Invalid synthetic reference']),'23503');
   const faultInput=inputFor(fixture.users.owner!);
-  const stopped=spawnSync('docker',['stop',`${config.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});
+  const stopped=spawnSync('docker',['stop',opaContainer(config)],{encoding:'utf8',windowsHide:true});
   check('docker stop named profile OPA exit',stopped.status,0);
   try {
     check('administrative policy outage blocks mutation',(await owner.call('/api/v1/admin/principals',faultInput,{'idempotency-key':randomUUID()})).status,503);
     check('policy outage creates no principal',(await admin.query('SELECT id FROM app.principal_references WHERE email=$1',[faultInput.email])).rowCount,0);
   } finally {
-    const restarted=spawnSync('docker',['start',`${config.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});
+    const restarted=spawnSync('docker',['start',opaContainer(config)],{encoding:'utf8',windowsHide:true});
     check('docker start named profile OPA exit',restarted.status,0);
     let restored=false;
     for(let attempt=0;attempt<30;attempt++) {

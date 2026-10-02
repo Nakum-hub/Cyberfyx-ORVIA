@@ -7,11 +7,11 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "8b579d58c62ab39a5b76a6e9c0a4a48ae9e0b8d689ffe1a6cfe691d771949cd1",
+  "test_file_digest": "f70fe781673765874734ad95e666c1942baa60c07596f05c6b1ab6e92ab10fd5",
   "counts": {
-    "UNIT": 58,
+    "UNIT": 59,
     "INTEGRATION": 91,
-    "SECURITY": 5,
+    "SECURITY": 6,
     "PLAYWRIGHT": 7,
     "BROWSER_OR_TRANSPORT": 15,
     "SUPPORT": 9
@@ -64,7 +64,7 @@
     },
     {
       "path": "tests/e2e/dpdpa-audit-local.ts",
-      "sha256": "ae02db390dec9487e291cf3a5edff565d3b827f4556455a444885b835d5291da",
+      "sha256": "dc5af91fc21e9da1e1ea5f0772b29f7bb8d0a7a4ef54b4076a38beda960bcd44",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -184,7 +184,7 @@
     },
     {
       "path": "tests/integration/bootstrap.test.ts",
-      "sha256": "b554aa8545a7b37e2fdc9bf0d0c84e78a80a05c92964e6ee9df1f57615edbfc7",
+      "sha256": "1f3baa069b8ce21ef952df2ec6031b613e300093b77f78e829a80c03d0426f79",
       "kind": "INTEGRATION"
     },
     {
@@ -199,7 +199,7 @@
     },
     {
       "path": "tests/integration/consent/canaries.test.ts",
-      "sha256": "2cfca7bde450e3dbfbb70aff27f2dc5e565e87101513f926d022310d9e6b33cd",
+      "sha256": "d7d857b972dd670d29b8496f9dfa74666f559e6add9fdb55c012df39e3c5d3cc",
       "kind": "INTEGRATION"
     },
     {
@@ -244,7 +244,7 @@
     },
     {
       "path": "tests/integration/enforcement/send.test.ts",
-      "sha256": "ad86bdfd2fde72420d2bb18f8b4df034fc0019b5c8995b382633d577edfc1dbf",
+      "sha256": "8dffde67c9b93999a0d10c4362507e0b85a28a56636f3e12d6293f4a02e374cb",
       "kind": "INTEGRATION"
     },
     {
@@ -254,7 +254,7 @@
     },
     {
       "path": "tests/integration/evidence/evidence.test.ts",
-      "sha256": "b9d9783eec901e21930d305126fc7c2d391dcf73c2ab20b918eb14b1a8682f3b",
+      "sha256": "f94e8499667ffc5ca353572359524fabc71fb7699468c0f8c54dfa28878b602e",
       "kind": "INTEGRATION"
     },
     {
@@ -399,7 +399,7 @@
     },
     {
       "path": "tests/integration/monitoring/vendor-visibility.test.ts",
-      "sha256": "60e3a9fa36a4200eaa7a02adfb08e3c2c37aebc0492eee3266eb5d7d46d893a0",
+      "sha256": "38783f49db279157f724ec2996436882ddb2f7a062bbaac69902650f87036995",
       "kind": "INTEGRATION"
     },
     {
@@ -409,7 +409,7 @@
     },
     {
       "path": "tests/integration/notifications/notifications.test.ts",
-      "sha256": "9d048d384b638791e54b7a9eaebc0dea75fbe563c85d2ee87d42e2965473ec43",
+      "sha256": "04c1f903364f040d7ed258c3d093d7b93c56bdf49a41a75be41dab669c020631",
       "kind": "INTEGRATION"
     },
     {
@@ -424,7 +424,7 @@
     },
     {
       "path": "tests/integration/onboarding/first-run.test.ts",
-      "sha256": "8cd17199c9f56b4247fdbbc54c03d30c8ed7d542923deec21d73f8afc5405f75",
+      "sha256": "d170211bc0f0aad1d74d02340660d67afb0594b2d8da435e8c78530879bf7a67",
       "kind": "INTEGRATION"
     },
     {
@@ -449,7 +449,7 @@
     },
     {
       "path": "tests/integration/opa/cold-start.test.ts",
-      "sha256": "9c244745822642020d133a5e2b5a0ba2ca09645a5599782cc202bfd8f5db6b52",
+      "sha256": "045bc2688b76bfc20f0c41eee7d3899d896e9b89b8e19c4252f353482403551a",
       "kind": "INTEGRATION"
     },
     {
@@ -499,7 +499,7 @@
     },
     {
       "path": "tests/integration/operations/notices.test.ts",
-      "sha256": "ebbf4ad1d783dba5675431e8e7b57656d9f27a09c641e093067fb522aa26c128",
+      "sha256": "844cf465a6ea402918d924e9977736ecc990d16214862d5702d5c8abd89fcb46",
       "kind": "INTEGRATION"
     },
     {
@@ -509,12 +509,12 @@
     },
     {
       "path": "tests/integration/operations/processors.test.ts",
-      "sha256": "5d2474afbc36036f0e7cbc5e7079c31af2b664c40ee65d72bcf1ff723639b9e6",
+      "sha256": "ca0ae27b29760891fd08f87ff96e5918fd045e1c17b2cca7df4161b1b1a72209",
       "kind": "INTEGRATION"
     },
     {
       "path": "tests/integration/operations/registry.test.ts",
-      "sha256": "707c9168b4417178718b1768e132fe7955d6d892a1cf8dc7cd2132279f8d0097",
+      "sha256": "e0a6c93edfe0699752fe47bb2d0698bc14bae292dc37e2b10fd724ac5c05cb6f",
       "kind": "INTEGRATION"
     },
     {
@@ -639,12 +639,17 @@
     },
     {
       "path": "tests/security/auth.test.ts",
-      "sha256": "d7e70ffb256fa842f445dc7d1f2ef13fd42be2d0c57a5d393656cea0e23000c5",
+      "sha256": "6b819be81202239c61ce45ccd855b8c3223971472ec4cb950c4526dca499095b",
       "kind": "SECURITY"
     },
     {
       "path": "tests/security/fixture-isolation.ts",
       "sha256": "97cc1d373d7670c8d4be9a8ae9c97460b13c0ee5f0c7d5688da17e0991552182",
+      "kind": "SECURITY"
+    },
+    {
+      "path": "tests/security/function-acl.ts",
+      "sha256": "abaef4f3c876cf5789784c35318af1ff1b32b4b86adb97d125ec1cb37aa453af",
       "kind": "SECURITY"
     },
     {
@@ -880,6 +885,11 @@
     {
       "path": "tests/unit/rights.test.ts",
       "sha256": "f86a5ce2ebf16294b2036982b164a547a8ec39100fd37dbc44b98bc26a946526",
+      "kind": "UNIT"
+    },
+    {
+      "path": "tests/unit/runtime-container-selection.test.ts",
+      "sha256": "469969446b7cc61623f2a48efad11b9b5f6e238cc08a1a488190e51250a9c0ee",
       "kind": "UNIT"
     },
     {

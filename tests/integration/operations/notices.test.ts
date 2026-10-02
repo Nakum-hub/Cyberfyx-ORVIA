@@ -28,6 +28,8 @@ await t.run(async () => {
   const v2 = (await ok(version('Service notice v2', 'Second synthetic notice text with a changed purpose description.'), S.schemas.RegistryNotice)).versions.at(-1)!;
   check('a successor cannot take effect before the version it supersedes', (await codes(admin.call(`/api/v1/admin/registry-notice-versions/${v2.id}/publication`, { effective_from: hoursFromNow(-300) }, key()))).codes, ['must_follow_the_version_it_supersedes']);
   const after = await ok(admin.call(`/api/v1/admin/registry-notice-versions/${v2.id}/publication`, { effective_from: hoursFromNow(-24) }, key()), S.schemas.RegistryNotice);
+  const listed = await ok(admin.call('/api/v1/admin/registry-notices?limit=1'), S.schemas.RegistryNoticeList);
+  check('batched notice reads preserve both published and superseded version history', listed.items, [after]);
   const old = after.versions.find(v => v.id === v1.id)!; const current = after.versions.find(v => v.id === v2.id)!;
   check('publishing v2 supersedes v1 and closes its period at the same instant', [old.status, old.superseded_by, old.effective_to, current.status, current.effective_from], ['SUPERSEDED', v2.id, current.effective_from, 'PUBLISHED', current.effective_from]);
   const at = async (hours: number) => ok(admin.call(`/api/v1/admin/registry-notices/${notice.id}/at?as_of=${encodeURIComponent(hoursFromNow(hours))}&locale=en`), S.schemas.NoticeAt);

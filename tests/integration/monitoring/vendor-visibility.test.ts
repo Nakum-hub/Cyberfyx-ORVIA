@@ -50,7 +50,11 @@ try {
   phase = 'baseline';
   const before = await visibility();
   check('vendor service health is an absence with a reason, never a clean bill of health',
-    [before.vendor_service_health.observed, before.vendor_service_health.reason.includes('no vendor service')], [false, true]);
+    [before.vendor_service_health.observed, before.vendor_service_health.reason.toLowerCase().includes('unobserved service is not a healthy one')], [false, true]);
+  check('the explanation accounts for whether an approved audit address is configured',
+    before.vendor_service_health.reason.includes(before.audit_channel.address ? 'audit service named in its trust file' : 'No vendor audit service address is configured'), true);
+  check('the limitations do not deny the approved audit channel',
+    before.limits.some(limit => /there is no automatic channel|there is no vendor service/i.test(limit)), false);
   check('the four statements the requirement is made of are all present',
     [before.no_automatic_telemetry_is_collected, before.no_employee_activity_is_tracked,
       before.the_absence_of_a_model_is_never_an_incident,

@@ -57,6 +57,14 @@ if (run === '1') {
     ['auth-init', ['scripts/auth-init.ts', 'confirm:codex-a00']], ['machine-init', ['scripts/machine-init.ts', 'confirm:codex-a00']],
     ['build', ['scripts/web.ts', 'build']],
   ]) await execute(label, ['--import', 'tsx', ...args], 'prerequisite');
+} else {
+  // Rebuild changed product source once for the targeted pass, and observe the
+  // protected initialization again before the selected installed-ACL control.
+  for (const [label, args] of [
+    ['auth-init', ['scripts/auth-init.ts', 'confirm:codex-a00']],
+    ['machine-init', ['scripts/machine-init.ts', 'confirm:codex-a00']],
+    ['build', ['scripts/web.ts', 'build']],
+  ]) await execute(label, ['--import', 'tsx', ...args], 'prerequisite');
 }
 for (const suite of suites) {
   if (exceptions[suite]) {

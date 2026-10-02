@@ -28,10 +28,10 @@ import { predicate, scopeValues, type Context } from '../shared/transaction.ts';
 
 const LIMITS = [
   'This is what this installation approved and recorded as carried. What the vendor actually holds is not something this product can see, and no field here claims otherwise.',
-  'Every disclosure was approved by a named person against one exact payload digest. There is no automatic channel, so there is nothing that could appear here without somebody having approved it.',
-  'The facts disclosed are closed codes with occurrence counts and the window they were seen in. None of them names, counts or measures a person, and there is no field in which one could.',
+  'Support diagnostic disclosures require approval of the exact payload digest. Audit evidence may leave under an approved package or an active dual-approved audit mandate; the audit channel records those deliveries separately.',
+  'Support diagnostic facts are closed codes with occurrence counts and observation windows, without personal records. Audit packages and mandate deliveries have their own recorded scope and approval requirements.',
   'A support case is not a disclosure. Cases that disclosed nothing are counted separately so an open case is never mistaken for something having been sent.',
-  'Vendor service health is not reported here because there is no vendor service in this deployment to observe. That is an absence, not a clean bill of health.',
+  'Vendor service health is not measured by this installation. An approved audit channel does not establish the health of the vendor service.',
 ];
 
 export async function vendorVisibility(c: Context): Promise<unknown> {
@@ -125,7 +125,7 @@ export async function vendorVisibility(c: Context): Promise<unknown> {
       observed: false,
       reason: address
         ? 'This installation calls exactly one vendor address, the audit service named in its trust file, and only for DPDPA audit mandates your approvers signed; every call and delivery is listed under audit_channel. It does not read the health of the vendor’s service, and an unobserved service is not a healthy one.'
-        : 'There is no vendor service in this deployment. This build runs entirely on the customer’s own infrastructure and contacts nothing, so there is no service of the vendor’s whose health could be read from here. An unobserved service is not a healthy one.',
+        : 'No vendor audit service address is configured. Vendor service health is not observed by this installation. An unobserved service is not a healthy one.',
     },
     disclosures,
     approved_but_not_carried: disclosures.filter(d => d.carried_at === null).length,

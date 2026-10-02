@@ -1,5 +1,6 @@
 import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 import assert from 'node:assert/strict';
+import { opaContainer } from '../../../shared/testing/src/opa-container.ts';
 import { randomUUID } from 'node:crypto';
 import { execFile,spawn,type ChildProcess } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -25,7 +26,7 @@ async function stop(child:ChildProcess){if(child.exitCode===null&&child.signalCo
 async function until<T>(read:()=>Promise<T>,ready:(value:T)=>boolean){for(let i=0;i<160;i++){const value=await read();if(ready(value))return value;await new Promise(r=>setTimeout(r,500));}throw new Error('Durable state timeout');}
 const clients=new Map<string,ReturnType<HttpFixture['browser']>>();const login=h.login.bind(h);h.login=async name=>{let browser=clients.get(name);if(!browser){browser=await login(name);clients.set(name,browser);}return browser;};
 try{
- await run('docker',['restart',`${profile.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});await h.start();
+ await run('docker',['restart',opaContainer(profile)],{encoding:'utf8',windowsHide:true});await h.start();
  const scenarios=[];
  for(const mode of ['HEALTHY','UNAVAILABLE','APPLY_THEN_TIMEOUT','ACK_WITHOUT_EFFECT'] as const){phase='create '+mode;const s=await createMarketingScenario(h,'ORVIA_REST_SIMULATOR');await s.change('grant');scenarios.push({mode,s,workflow:''});}
  const manual=await createMarketingScenario(h,'LEGACY_MANUAL','promotional_marketing',false);await manual.change('grant');

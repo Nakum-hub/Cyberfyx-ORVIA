@@ -32,6 +32,8 @@ await t.run(async () => {
     purpose_version_id: setup.purpose.versions[0]!.id, system_id: null, valid_from: hoursFromNow(-1), evidence_reference: null }, key())).status, 400);
   const byActivity = await ok(admin.call(`/api/v1/admin/processor-engagements?activity_id=${setup.activity.id}`), S.schemas.EngagementList);
   check('the processors serving an activity are queryable', byActivity.items.map(e => e.id), [engagement.id]);
+  check('batched engagement reads preserve its fields, links and activity membership', byActivity.items,
+    [{ ...engagement, activity_ids: [setup.activity.id] }]);
   const evaluation = await ok(admin.call('/api/v1/admin/regulatory/applicability', { scope_kind: 'ACTIVITY', scope_id: setup.activity.id, as_of: null }, key()), S.schemas.ApplicabilityEvaluation);
   check('a recorded engagement makes the processor-contract requirement applicable', evaluation.decisions.find(d => d.requirement_id === 'DPDP-PROCESSOR-CONTRACT')?.result, 'APPLICABLE');
 

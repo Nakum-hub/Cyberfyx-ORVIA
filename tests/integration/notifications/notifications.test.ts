@@ -2,8 +2,9 @@
 // Under test: five delivery facts stay separate and ordered, a channel with no
 // transport cannot be claimed as sent, and escalation never moves a deadline.
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
-import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
+import { randomBytes, randomUUID } from 'node:crypto';
+import { HttpFixture, authenticatorCode } from '../../../shared/testing/src/http-fixture.ts';
+import { hashPassword } from '../../../backend/auth/src/bootstrap-password.ts';
 import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts';
 import { writeEvidence, safeError } from '../../../shared/testing/src/evidence.ts';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
@@ -21,13 +22,65 @@ function check(name: string, actual: unknown, expected: unknown) {
   catch { assertions.push({ name, result: 'FAIL', expected, actual }); console.log('FAIL ' + name, { expected, actual }); throw new Error('Assertion failed: ' + name); }
 }
 const clients = new Map<string, ReturnType<HttpFixture['browser']>>();
-const login = h.login.bind(h);
-h.login = async name => { let browser = clients.get(name); if (!browser) { browser = await login(name); clients.set(name, browser); } return browser; };
+// This suite requires an unavailable EMAIL channel. A long-lived shared tenant
+// can legitimately have an enabled relay, so use new synthetic identities and
+// scope instead of disabling somebody else's records or changing the assertion.
+// Credentials and MFA enrollment remain in memory; the shared journal is untouched.
+h.login = async name => {
+  const cached = clients.get(name); if (cached) return cached;
+  const user = h.users[name]!; const browser = h.browser(); const base = `/api/auth/${user.domain}`;
+  if (user.domain === 'staff') await h.authWindow();
+  const signedIn = await browser.call(`${base}/sign-in/email`, { email: user.email, password: user.password, rememberMe: false });
+  if (signedIn.status !== 200) throw new Error(`Notification fixture sign-in failed (${signedIn.status})`);
+  if (user.domain === 'staff' && user.role !== 'AUDITOR') {
+    if (!user.totp_uri) {
+      const enrolled = await browser.call(`${base}/two-factor/enable`, { password: user.password, method: 'totp' });
+      if (!enrolled.ok) throw new Error(`Notification fixture MFA enrollment failed (${enrolled.status})`);
+      user.totp_uri = (await enrolled.json()).totpURI;
+    }
+    const verified = await browser.call(`${base}/two-factor/verify-totp`, { code: authenticatorCode(user.totp_uri!), trustDevice: false });
+    if (verified.status !== 200) throw new Error(`Notification fixture MFA failed (${verified.status})`);
+  }
+  clients.set(name, browser); return browser;
+};
+async function isolatedNotificationScope() {
+  const scope = { tenant_id: randomUUID(), legal_entity_id: randomUUID(), environment_id: randomUUID() };
+  const s = [scope.tenant_id, scope.legal_entity_id, scope.environment_id];
+  const tx = await db.connect();
+  try {
+    await tx.query('BEGIN');
+    const identity = (await tx.query('SELECT installation_id,profile FROM bootstrap_profile WHERE singleton=1')).rows[0];
+    if (identity?.installation_id !== profile.installation_id || identity.profile !== profile.profile) throw new Error('Synthetic notification database identity mismatch');
+    await tx.query('INSERT INTO app.organisations(id,name) VALUES($1,$2)', [scope.tenant_id, 'Synthetic notification isolation']);
+    await tx.query('INSERT INTO app.legal_entities VALUES($1,$2,$3)', [scope.tenant_id, scope.legal_entity_id, 'Synthetic notification entity']);
+    await tx.query('INSERT INTO app.environments VALUES($1,$2,$3,$4)', [...s, 'Synthetic notification environment']);
+    for (const name of ['owner', 'admin', 'auditor', 'member', 'alice']) {
+      const original = h.users[name]!;
+      const user = { ...original, id: randomUUID(), email: `notifications.${name}.${randomUUID()}@fixture.example`, password: randomBytes(32).toString('hex'),
+        scope, totp_uri: undefined, ...(original.domain === 'principal' ? { principal_id: randomUUID() } : {}) };
+      const schema = user.domain === 'staff' ? 'staff_auth' : 'principal_auth';
+      await tx.query(`INSERT INTO ${schema}."user" (id,name,email,"emailVerified") VALUES($1,$2,$3,true)`, [user.id, `Synthetic notifications ${name}`, user.email]);
+      await tx.query(`INSERT INTO ${schema}.account(id,"accountId","providerId","userId",password) VALUES($1,$2,'credential',$3,$4)`, [randomUUID(), user.id, user.id, await hashPassword(user.password)]);
+      if (user.domain === 'principal') {
+        await tx.query('INSERT INTO app.principal_references VALUES($1,$2,$3,$4,$5,$6,true)', [...s, user.principal_id, 'Synthetic notification principal', user.email]);
+        await tx.query('INSERT INTO principal_auth.authority(user_id,tenant_id,legal_entity_id,environment_id,principal_id) VALUES($1,$2,$3,$4,$5)', [user.id, ...s, user.principal_id]);
+      } else await tx.query('INSERT INTO staff_auth.authority(user_id,tenant_id,legal_entity_id,environment_id,role) VALUES($1,$2,$3,$4,$5)', [user.id, ...s, user.role]);
+      h.users[name] = user;
+    }
+    await tx.query(`INSERT INTO app.privacy_centre_settings(tenant_id,legal_entity_id,environment_id,id,enabled,reason,changed_by)
+      VALUES($1,$2,$3,$4,true,'Synthetic notification fixture scope.',$5)`, [...s, randomUUID(), profile.installation_id]);
+    await tx.query(`INSERT INTO app.audit_events(id,tenant_id,legal_entity_id,environment_id,actor_id,actor_domain,operation,resource_id,request_id)
+      VALUES($1,$2,$3,$4,$5,'MACHINE','protected-bootstrap.notification-fixture',$6,$7)`, [randomUUID(), ...s, profile.installation_id, scope.tenant_id, randomUUID()]);
+    await tx.query('COMMIT');
+  } catch (error) { await tx.query('ROLLBACK'); throw error; }
+  finally { tx.release(); }
+}
 const key = () => ({ 'idempotency-key': randomUUID() });
 const hoursAgo = (n: number) => new Date(Date.now() - n * 3_600_000).toISOString();
 const suffix = () => randomUUID().replaceAll('-', '').slice(0, 8).toUpperCase();
 
 try {
+  await isolatedNotificationScope();
   await h.start();
   phase = 'scenario';
   const scenario = await createMarketingScenario(h, 'SYNTHETIC_CRM');
