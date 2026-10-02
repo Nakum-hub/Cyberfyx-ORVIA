@@ -53,3 +53,19 @@ export async function ensureDevelopmentLicence(pool: Pool, scopes: Scope[]) {
   }
   return issued;
 }
+
+/** For suites that start the application themselves rather than through HttpFixture: the same labelled development
+ *  licence for every fixture scope of the profile in use. A vendor profile has no customer licences and is left alone. */
+export async function ensureFixtureLicences() {
+  const { loadProfile } = await import('./config.ts');
+  const { connectDatabase } = await import('../../../database/customer/src/index.ts');
+  const { readFileSync, existsSync } = await import('node:fs');
+  const { resolve } = await import('node:path');
+  const profile = loadProfile();
+  if (profile.profile === 'vendor-a00') return [];
+  const journal = resolve(profile.directory, 'auth/bootstrap.json');
+  if (!existsSync(journal)) return [];
+  const users = (JSON.parse(readFileSync(journal, 'utf8')) as { users: Record<string, { scope: Scope }> }).users;
+  const { pool } = connectDatabase(profile);
+  try { return await ensureDevelopmentLicence(pool, Object.values(users).map(u => u.scope)); } finally { await pool.end(); }
+}

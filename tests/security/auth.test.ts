@@ -12,6 +12,7 @@ import { authorityFor, requireCapability, AccessError } from '../../backend/auth
 import { runtimePool, scopedTransaction } from '../../database/customer/src/runtime.ts';
 import { connectDatabase } from '../../database/customer/src/index.ts';
 import { loadProfile } from '../../shared/testing/src/config.ts';
+import { ensureFixtureLicences } from '../../shared/testing/src/development-licence.ts';
 import { writeEvidence, safeError } from '../../shared/testing/src/evidence.ts';
 import { Session, schemas } from '../../shared/contracts/src/index.ts';
 import type { AuthFixture, FixtureUser } from '../../scripts/auth-bootstrap.ts';
@@ -34,6 +35,8 @@ function check(name: string, actual: unknown, expected: unknown) {
   catch { assertions.push({ name,result:'FAIL',expected,actual }); throw new Error(`Assertion failed: ${name}`); }
 }
 async function start() {
+  // Rev 1.11: the labelled development licence for every fixture scope, as HttpFixture does.
+  await ensureFixtureLicences();
   child = spawn(process.execPath,command.args, {
     cwd:command.cwd,windowsHide:true,stdio:['ignore','pipe','pipe'],
     env:{...command.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'},
